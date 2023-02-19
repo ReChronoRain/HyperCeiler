@@ -27,6 +27,9 @@ class DisableSafeModelTip : BaseHook() {
                     param.result = ArrayList<Any>()
                 }
             })
+        findAllMethods("com.miui.packageInstaller.InstallProgressActivity") { true }.hookAfter { param ->
+            param.thisObject.javaClass.findField { type == Boolean::class.java }.setBoolean(param.thisObject, false)
+        }
 
         //returnIntConstant(findClassIfExists("p6.a"), "d");
     }
