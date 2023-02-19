@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:title="启用自定义"
+        android:key="prefs_key_home_dock_bg_custom_enable"
+        android:defaultValue="false"/>
+
+    <PreferenceCategory
+        android:key="prefs_key_home_dock_bg_custom_cat">
+
+        <SeekBarPreference
+            android:key="prefs_key_home_dock_bg_height"
+            android:title="高度"
+            android:summary="Dock栏高度"
+            app:maxValue="300"
+            app:format="%d dp"
+            android:defaultValue="150"
+            app:showSeekBarValue="true"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_home_dock_bg_margin_horizontal"
+            android:title="垂直边距"
+            android:summary="Dock栏距离屏幕两侧边距"
+            android:defaultValue="10"
+            app:maxValue="100"
+            app:format="%d dp"
+            app:showSeekBarValue="true"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_home_dock_bg_margin_top"
+            android:title="顶部边距"
+            android:summary="Dock栏距离页面指示器边距"
+            android:defaultValue="25"
+            app:maxValue="100"
+            app:format="%d dp"
+            app:showSeekBarValue="true"/>
+
+
+        <SeekBarPreference
+            android:key="prefs_key_home_dock_bg_margin_bottom"
+            android:title="底部边距"
+            android:summary="Dock栏距离屏幕底部边距"
+            android:defaultValue="15"
+            app:maxValue="100"
+            app:format="%d dp"
+            app:showSeekBarValue="true"/>
+
+
+        <!--<SeekBarPreference
+            android:key="prefs_key_home_dock_icon_margin_bottom"
+            android:title="图标底部边距"
+            android:summary="Dock栏图标距离屏幕底部边距"
+            android:defaultValue="90"
+            app:maxValue="200"
+            app:format="%d dp"
+            app:showSeekBarValue="true"/>-->
+
+        <Preference
+            android:key="prefs_key_home_dock_bg_custom"
+            android:title="背景模糊" />
+
+        <!--<SeekBarPreference
+            android:key="prefs_key_home_dock_icon_bottom_margin"
+            android:title="图标距离底部边距"
+            android:defaultValue="35"
+            app:maxValue="100"
+            app:showSeekBarValue="true"/>-->
+
+        <!--<SeekBarPreference
+            android:key="prefs_key_home_dock_margin_bottom"
+            android:title="页面指示器距离屏幕底部边距"
+            android:defaultValue="60"
+            app:maxValue="100"
+            app:showSeekBarValue="true"/>-->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

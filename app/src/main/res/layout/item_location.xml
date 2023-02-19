@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingStart="@dimen/list_preferred_item_padding_start"
+    android:paddingEnd="@dimen/list_preferred_item_padding_end"
+    android:minHeight="?android:listPreferredItemHeight">
+
+    <TextView
+        android:id="@android:id/title"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="3" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/region_code"
+            android:textSize="13sp"
+            android:textColor="@android:color/secondary_text_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/base_station"
+            android:textSize="13sp"
+            android:textColor="@android:color/secondary_text_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/longitude_latitude"
+            android:textSize="13sp"
+            android:textColor="@android:color/secondary_text_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@android:id/summary"
+            android:textSize="13sp"
+            android:textColor="@android:color/secondary_text_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

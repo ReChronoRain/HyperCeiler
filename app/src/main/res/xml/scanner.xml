@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="解锁扫名片"
+                android:key="prefs_key_scanner_card"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="解锁翻译"
+                android:key="prefs_key_scanner_translation"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="解锁识文字"
+                android:key="prefs_key_scanner_ocr"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="解锁转文档"
+                android:key="prefs_key_scanner_document"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="解锁提取表格"
+                android:key="prefs_key_scanner_excel"
+                android:defaultValue="false"
+                android:dependency="prefs_key_scanner_document"/>
+
+        <SwitchPreference
+                android:title="解锁提取PPT"
+                android:key="prefs_key_scanner_ppt"
+                android:defaultValue="false"
+                android:dependency="prefs_key_scanner_document"/>
+
+        <SwitchPreference
+                android:title="解锁扫文件"
+                android:key="prefs_key_scanner_doc_ppt"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

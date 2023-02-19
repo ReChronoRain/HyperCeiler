@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="magic_px_50">18.179993dp</dimen>
+    <dimen name="magic_px_100">36.75998dp</dimen>
+    <dimen name="magic_seek_bar_bubble_shape_bg_solid_radius">65.44998dp</dimen>
+    <dimen name="magic_bubble_seek_bar_slider_to_fill_gap_highlight">3.5dp</dimen>
+    <dimen name="magic_bubble_seek_bar_slider_to_fill_gap_normal">2.1799927dp</dimen>
+
+    <dimen name="magic_text_size_50">18.179993dp</dimen>
+
+    <dimen name="preference_item_child_padding">25dp</dimen>
+
+    <dimen name="preference_margin_vertical">15dp</dimen>
+    <dimen name="preference_border_padding_inside">5dp</dimen>
+    <dimen name="preference_checkbox_title_text_size">15.272675sp</dimen>
+    <dimen name="preference_checkbox_title_margin_top">7.2726746dp</dimen>
+    <dimen name="preference_checkbox_text_max_width">100dp</dimen>
+    <dimen name="preference_checkbox_title_line_height">20.363586sp</dimen>
+
+    <dimen name="preference_checkbox_desc_text_size">12.090881sp</dimen>
+    <dimen name="preference_checkbox_desc_margin_top">2.9089966dp</dimen>
+    <dimen name="preference_checkbox_desc_line_height">17.454498sp</dimen>
+
+
+    <dimen name="miui_volume_content_width_expanded">337.77dp</dimen>
+    <dimen name="miui_volume_ringer_layout_width_expanded">330dp</dimen>
+    <dimen name="miui_volume_column_width_expanded">60dp</dimen>
+    <dimen name="miui_volume_column_margin_horizontal_expanded">30dp</dimen>
+</resources>

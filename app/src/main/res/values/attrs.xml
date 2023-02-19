@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="rebootIconColor" format="color" />
+
+    <declare-styleable name="MagicBubbleSeekBar">
+        <attr name="empty_color" format="color" />
+        <attr name="fill_color" format="color" />
+        <attr name="slider_color" format="color" />
+        <attr name="max_progress" format="integer" />
+        <attr name="min_progress" format="integer" />
+        <attr name="slider_width" format="dimension" />
+        <attr name="current_progress" format="float" />
+        <attr name="empty_progress_height" format="dimension" />
+        <attr name="empty_progress_width" format="dimension" />
+        <attr name="fill_progress_height" format="dimension" />
+        <attr name="hide_bubble" format="boolean" />
+        <attr name="slider_enlarge_hide" format="boolean" />
+        <attr name="normal_width" format="dimension" />
+        <attr name="visibility_height" format="dimension" />
+        <attr name="visibility_width" format="dimension" />
+        <attr name="bubble_seekbar_distance" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SeekBarPreference">
+        <attr name="android:defaultValue" />
+        <attr name="minValue" format="integer" />
+        <attr name="maxValue" format="integer" />
+        <attr name="stepValue" format="integer" />
+        <attr name="displayDividerValue" format="integer" />
+        <attr name="negativeShift" format="integer" />
+        <attr name="showplus" format="boolean" />
+        <attr name="format" format="string" />
+        <attr name="note" format="string" />
+        <attr name="offtext" format="string" />
+        <attr name="dynamic" format="boolean" />
+        <attr name="child" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="VisualCheckBoxPreference">
+        <attr name="positiveContent" format="reference" />
+        <attr name="positiveTitle" format="string" />
+        <attr name="positiveDescription" format="string" />
+
+        <attr name="negativeContent" format="reference" />
+        <attr name="negativeTitle" format="string" />
+        <attr name="negativeDescription" format="string" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <Preference android:title="位置模拟"
+                    android:enabled="false">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.various.LocationSimulationActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="弹窗"
+                android:key="prefs_key_various_dialog"
+                app:isPreferenceVisible="true">
+
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.various.VariousDialogActivity"/>
+        </Preference>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="显示通知重要程度"
+                android:key="prefs_key_settings_notfication_importance"
+                android:defaultValue="false"/>
+
+
+        <SwitchPreference
+                android:title="禁用Miui自动上传已安装应用列表"
+                android:key="prefs_key_disable_upload_applist"
+                android:defaultValue="false"/>
+
+       
+
+        <SwitchPreference
+                android:title="禁用越界回弹"
+                android:key="prefs_key_various_no_overscroll"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="禁用蓝牙临时关闭"
+                android:key="prefs_key_various_disable_bluetooth_restrict"
+                android:defaultValue="false"/>
+
+        <DropDownPreference
+                android:key="prefs_key_various_collapse_miui_title"
+                android:title="Miui标题"
+                android:summary="调整Miui应用中的顶栏标题"
+                android:defaultValue="0"
+                app:entries="@array/collapse_miui_title"
+                app:entryValues="@array/collapse_miui_title_value"/>
+
+        <EditTextPreference
+                android:title="修改系统更新版本号"
+                android:key="prefs_key_various_updater_miui_version"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

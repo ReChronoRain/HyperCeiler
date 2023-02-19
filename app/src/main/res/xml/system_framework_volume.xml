@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <DropDownPreference
+        android:title="默认调整音量"
+        android:key="prefs_key_system_framework_default_volume_stream"
+        app:entries="@array/default_volume_stream"
+        app:entryValues="@array/default_volume_streame_value"
+        android:defaultValue="0"/>
+
+    <SwitchPreference
+        android:title="音量即时调整"
+        android:key="prefs_key_system_framework_volume_first_press"
+        android:defaultValue="false"/>
+
+    <SwitchPreference
+        android:title="音量独立控制"
+        android:key="prefs_key_system_framework_volume_separate_control"
+        android:defaultValue="false"/>
+
+    <SwitchPreference
+        android:title="通知音量滑块"
+        android:key="prefs_key_system_framework_volume_separate_slider"
+        android:defaultValue="false"
+        android:dependency="prefs_key_system_framework_volume_separate_control"/>
+
+    <SeekBarPreference
+        android:key="prefs_key_system_framework_volume_steps"
+        android:title="音量级数倍增器"
+        android:defaultValue="0"
+        app:minValue="0"
+        app:maxValue="500"
+        app:stepValue="25"
+        app:format="x%s"
+        app:showSeekBarValue="true"
+        app:displayDividerValue="100"
+        app:isPreferenceVisible="false"/>
+</PreferenceScreen>

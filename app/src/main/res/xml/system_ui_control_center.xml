@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="卡片">
+
+        <SeekBarPreference
+            android:key="prefs_key_system_control_center_qs_detail_bg"
+            android:title="卡片背景透明度"
+            android:defaultValue="0"
+            app:maxValue="255"
+            app:format="%d"
+            app:showSeekBarValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="磁贴">
+
+        <SwitchPreference
+            android:title="5G网络开关"
+            android:key="prefs_key_system_control_center_5g_tile"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="移除标题"
+            android:key="prefs_key_system_control_center_qs_tile_label"
+            android:defaultValue="false" />
+
+        <SeekBarPreference
+            android:key="prefs_key_system_control_center_qs_rows"
+            android:title="行数"
+            android:defaultValue="0"
+            app:minValue="4"
+            app:maxValue="6"
+            app:format="%d 行"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:key="prefs_key_system_control_center_qs_columns"
+            android:title="列数"
+            android:defaultValue="0"
+            app:minValue="4"
+            app:maxValue="6"
+            app:format="%d 列"
+            app:showSeekBarValue="true"
+            />
+
+    </PreferenceCategory>
+</PreferenceScreen>

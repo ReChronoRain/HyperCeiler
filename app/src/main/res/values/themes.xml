@@ -1,0 +1,29 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="preferenceTheme">@style/Theme.PreferenceOverlay.Light</item>
+        <item name="rebootIconColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.Dark.DarkActionBar">
+        <item name="preferenceTheme">@style/Theme.PreferenceOverlay.Dark</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="rebootIconColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme.Translucent" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="AppTheme.Translucent.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">false</item>
+    </style>
+
+</resources>

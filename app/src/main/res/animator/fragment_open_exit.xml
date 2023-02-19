@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--第一个退出动画-->
+
+    <translate
+        android:fromXDelta="0%p"
+        android:toXDelta="0%p"
+        android:duration="600"/>
+
+    <alpha
+        android:fromAlpha="1"
+        android:toAlpha="0"
+        android:duration="300"/>
+</set>

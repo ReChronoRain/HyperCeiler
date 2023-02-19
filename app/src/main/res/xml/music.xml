@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="去广告"
+                android:key="prefs_key_music_disable_ad"
+                android:defaultValue="false"/>
+
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

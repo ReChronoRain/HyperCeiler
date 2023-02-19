@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.sevtinge.cemiuiler">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+
+    <application
+            android:name=".Application"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+
+        <activity android:name=".ui.MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS"/>
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+                android:label="@string/app_name"
+                android:name=".ui.HideAppActivity"
+                android:targetActivity=".ui.MainActivity"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity android:label="关于" android:name=".ui.AboutActivity"/>
+
+        <activity android:label="系统框架" android:name=".ui.SystemFrameworkActivity" android:exported="false">
+            <intent-filter>
+                <action android:name="moralnorm.intent.action.SystemFramework"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:label="系统界面" android:name=".ui.SystemUIActivity" android:exported="false">
+            <intent-filter>
+                <action android:name="moralnorm.intent.action.SystemUI"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:label="系统桌面" android:name=".ui.HomeActivity" android:exported="false">
+            <intent-filter>
+                <action android:name="moralnorm.intent.action.Home"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:label="手机管家" android:name=".ui.SecurityCenterActivity" android:exported="false">
+            <intent-filter>
+                <action android:name="moralnorm.intent.action.SecurityCenter"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:label="其他" android:name=".ui.VariousActivity" android:exported="false">
+            <intent-filter>
+                <action android:name="moralnorm.intent.action.Various"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:label="Joyose" android:name=".ui.JoyoseActivity"/>
+
+        <activity android:label="电量与性能" android:name=".ui.PowerKeeperActivity"/>
+
+        <activity android:label="截屏" android:name=".ui.ScreenShotActivity"/>
+
+        <activity android:label="相册编辑" android:name=".ui.MediaEditorActivity"/>
+
+        <activity android:label="音乐" android:name=".ui.MusicActivity"/>
+
+        <activity android:label="相册" android:name=".ui.GalleryActivity"/>
+
+        <activity android:label="时钟" android:name=".ui.ClockActivity"/>
+
+        <activity android:label="浏览器" android:name=".ui.BrowserActivity"/>
+
+        <activity android:label="天气" android:name=".ui.WeatherActivity"/>
+
+        <activity android:label="设置" android:name=".ui.SettingsActivity"/>
+
+        <activity android:label="小爱建议" android:name=".ui.AirecoActivity"/>
+
+        <activity android:label="小爱视觉" android:name=".ui.ScannerActivity"/>
+
+        <activity android:label="小米互传" android:name=".ui.MiShareActivity"/>
+
+        <activity android:label="系统设置" android:name=".ui.SystemSettingsActivity"/>
+
+        <activity android:label="安全模式" android:name=".ui.settings.SafeModeActivity"/>
+
+
+        <activity android:label="小窗" android:name=".ui.systemframework.FreeFormSettings"/>
+        <activity android:label="音量" android:name=".ui.systemframework.VolumeSettings"/>
+        <activity android:label="其他" android:name=".ui.systemframework.OtherSettings"/>
+
+        <activity android:label="锁屏" android:name=".ui.systemui.LockScreenActivity"/>
+        <activity android:label="状态栏" android:name=".ui.systemui.StatusBarActivity"/>
+        <activity android:label="图标管理" android:name=".ui.systemui.statusbar.IconManageActivity"/>
+        <activity android:label="控制中心" android:name=".ui.systemui.ControlCenterActivity"/>
+        <activity android:label="其他" android:name=".ui.systemui.OtherActivity"/>
+        <activity android:label="电池条指示器" android:name=".ui.systemui.statusbar.BatteryIndicatorActivity"/>
+
+        <activity android:label="手势" android:name=".ui.home.HomeGestureActivity"/>
+        <activity android:label="布局" android:name=".ui.home.HomeLayoutActivity"/>
+        <activity android:label="文件夹" android:name=".ui.home.HomeFolderActivity"/>
+        <activity android:label="标题" android:name=".ui.home.HomeTitleActivity"/>
+        <activity android:label="小部件" android:name=".ui.home.HomeWidgetActivity"/>
+        <activity android:label="底栏" android:name=".ui.home.HomeDockActivity"/>
+        <activity android:label="其他" android:name=".ui.home.HomeOtherActivity"/>
+
+        <activity android:label="位置模拟" android:name=".ui.various.LocationSimulationActivity"/>
+        <activity android:label="主题壁纸" android:name=".ui.various.VariousThemeActivity"/>
+        <activity android:label="弹窗" android:name=".ui.various.VariousDialogActivity"/>
+        <activity android:label="智能助理" android:name=".ui.PersonalAssistantActivity"/>
+        <activity android:label="应用包管理组件" android:name=".ui.MiuiPackageInstallerActivity"/>
+
+        <activity android:label="数据库" android:name=".ui.various.LocationDataActivity"/>
+
+        <activity android:label="自定义Hook" android:name=".ui.CustomHookActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:theme="@style/AppTheme.Translucent.NoActionBar"
+                  android:name=".ui.customhook.CustomHookConfigActivity"/>
+
+        <activity android:name=".ui.PickerHomeActivity"/>
+
+        <activity android:name=".ui.common.DebugActivity"/>
+
+        <provider
+                android:name=".provider.SharedPrefsProvider"
+                android:authorities="com.sevtinge.cemiuiler.provider.sharedprefs"
+                android:grantUriPermissions="true"
+                android:exported="true"
+                android:directBootAware="true"/>
+
+        <meta-data android:name="xposedmodule" android:value="true"/>
+        <meta-data android:name="xposedminversion" android:value="82"/>
+        <meta-data android:name="xposeddescription" android:value="@string/xposed_description"/>
+        <meta-data android:name="xposedsharedprefs" android:value="true"/>
+        <meta-data android:name="xposedscope" android:resource="@array/xposed_scope"/>
+
+    </application>
+
+</manifest>

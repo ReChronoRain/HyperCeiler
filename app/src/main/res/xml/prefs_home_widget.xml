@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        android:key="prefs_key_home_widget_show_miui_widget"
+        android:title="显示Miui小部件"
+        android:summary="在安卓小部件页面显示Miui小部件"
+        android:defaultValue="false" />
+
+    <SeekBarPreference
+        android:key="prefs_key_home_widget_corner_radius"
+        android:title="小部件圆角"
+        android:defaultValue="0"
+        app:maxValue="30"
+        app:format="%d dp"
+        app:showSeekBarValue="true" />
+</PreferenceScreen>

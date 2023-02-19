@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="设置">
+        <SwitchPreference
+                android:title="解锁超动态显示"
+                android:key="prefs_key_gallery_enable_hdr_enhanced"
+                android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="功能">
+        <SwitchPreference
+                android:title="解锁生成PDF"
+                android:key="prefs_key_gallery_enable_pdf"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁提取文字"
+                android:key="prefs_key_gallery_enable_ocr"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁提取表格"
+                android:key="prefs_key_gallery_enable_ocr_form"
+                android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="推荐">
+        <SwitchPreference
+                android:title="解锁证件照"
+                android:key="prefs_key_gallery_enable_id_photo"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁照片电影"
+                android:key="prefs_key_gallery_enable_photo_movie"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁视频特效"
+                android:key="prefs_key_gallery_enable_video_post"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁Mi剪辑"
+                android:key="prefs_key_gallery_enable_video_editor"
+                android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="编辑">
+        <SwitchPreference
+                android:title="解锁文字烟花"
+                android:key="prefs_key_gallery_enable_text_yanhua"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁魔法消除"
+                android:key="prefs_key_gallery_enable_remover_2"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁魔法抠图"
+                android:key="prefs_key_gallery_enable_magic_matting"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="解锁魔法换天"
+                android:key="prefs_key_gallery_enable_magic_sky"
+                android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

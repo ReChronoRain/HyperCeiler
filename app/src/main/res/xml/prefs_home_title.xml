@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="文字滚动"
+            android:key="prefs_key_home_title_title_marquee"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_home_title_font_size"
+            android:title="字体大小"
+            android:defaultValue="12"
+            app:maxValue="20"
+            app:format="%d sp"
+            app:showSeekBarValue="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

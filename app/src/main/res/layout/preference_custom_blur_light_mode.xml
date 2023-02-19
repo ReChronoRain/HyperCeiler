@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:contentDescription="下拉状态栏，同时展示快捷开关和系统通知"
+        android:importantForAccessibility="yes"
+        android:src="@drawable/ic_launcher_foreground"/>
+</merge>

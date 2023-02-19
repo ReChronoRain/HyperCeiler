@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <DropDownPreference
+        android:key="prefs_key_various_dialog_gravity"
+        android:title="弹窗位置"
+        android:summary="选择弹窗显示的位置"
+        android:defaultValue="0"
+        app:entries="@array/dialog_gravity"
+        app:entryValues="@array/dialog_gravity_value"/>
+
+    <SeekBarPreference
+        android:title="弹窗垂直边距"
+        android:summary="弹窗距离屏幕两侧距离"
+        android:key="prefs_key_various_dialog_margin_horizontal"
+        android:defaultValue="0"
+        app:maxValue="100"
+        app:showSeekBarValue="true"/>
+
+    <SeekBarPreference
+        android:title="弹窗底部边距"
+        android:summary="弹窗距离屏幕底部距离"
+        android:key="prefs_key_various_dialog_margin_bottom"
+        android:defaultValue="0"
+        app:maxValue="100"
+        app:showSeekBarValue="true"/>
+
+    <PreferenceCategory android:title="模糊">
+
+        <SwitchPreference
+            android:key="prefs_key_various_dialog_window_blur"
+            android:title="窗口模糊"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:title="窗口模糊半径"
+            android:key="prefs_key_various_dialog_window_blur_radius"
+            android:defaultValue="60"
+            app:maxValue="300"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_various_dialog_window_blur"/>
+
+        <Preference
+            android:key="prefs_key_various_dialog_bg_blur"
+            android:title="背景模糊" />
+    </PreferenceCategory>
+</PreferenceScreen>

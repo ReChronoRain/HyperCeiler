@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:key="prefs_key_custom_background_blur">
+
+        <SwitchPreference
+            android:persistent="false"
+            android:title="背景模糊"
+            android:key="prefs_key_custom_background_blur_enabled"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:persistent="false"
+            android:key="prefs_key_custom_background_blur_radius"
+            android:title="模糊半径"
+            android:defaultValue="60"
+            app:maxValue="100"
+            app:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_custom_background_blur_enabled"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <moralnorm.preference.ColorPickerPreference
+            android:persistent="false"
+            android:title="背景颜色"
+            android:key="prefs_key_custom_background_color"
+            android:defaultValue="2113929215"
+            app:showAlphaSlider="true"/>
+
+        <SeekBarPreference
+            android:persistent="false"
+            android:key="prefs_key_custom_background_color_alpha"
+            android:title="背景颜色透明度"
+            android:defaultValue="120"
+            app:maxValue="255"
+            app:format="%d %%"
+            app:showSeekBarValue="true"/>
+
+        <SeekBarPreference
+            android:persistent="false"
+            android:key="prefs_key_custom_background_corner_radius"
+            android:title="背景圆角"
+            android:defaultValue="20"
+            app:maxValue="60"
+            app:format="%d dp"
+            app:showSeekBarValue="true"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

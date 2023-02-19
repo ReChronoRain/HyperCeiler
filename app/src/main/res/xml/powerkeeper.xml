@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+    <SwitchPreference
+            android:title="自定义高刷"
+            android:key="prefs_key_various_custom_refresh_rate"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

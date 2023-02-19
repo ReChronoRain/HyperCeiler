@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:layout="@layout/activity_about"
+            android:key="prefs_key_about_version"
+            android:summary="@string/xposed_description" />
+    <PreferenceCategory android:title="开发者">
+        <Preference
+                android:icon="@drawable/ic_cemiuiler_settings"
+                android:layout="@drawable/ic_cemiuiler_settings"
+                android:title="绀漓 | Sevtinge"
+                android:summary="Hook、App Icon">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/sevtinge" />
+        </Preference>
+        <Preference
+                android:icon="@drawable/ic_cemiuiler_settings"
+                android:layout="@drawable/ic_cemiuiler_settings"
+                android:title="YuKongA"
+                android:summary="Hook、UI Design、App Icon">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/YuKongA" />
+        </Preference>
+        <Preference
+                android:icon="@drawable/ic_cemiuiler_settings"
+                android:layout="@drawable/ic_cemiuiler_settings"
+                android:title="MoralNorm"
+                android:summary="UI Design、Hook">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/MoralNorm" />
+        </Preference>
+        <Preference
+                android:icon="@drawable/ic_cemiuiler_settings"
+                android:layout="@drawable/ic_cemiuiler_settings"
+                android:title="Yife Playte"
+                android:summary="Hook">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/MoralNorm" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="译者">
+        <ValuePreference
+                android:text="简体中文 (zh-CN)"
+                android:title="绀漓 | Sevtinge" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="讨论">
+        <Preference
+                android:title="QQ群"
+                android:key="prefs_key_about_join_qq_group" />
+        <Preference android:title="QQ频道">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XeJKKt6pwY&amp;businessType=9&amp;from=246610&amp;biz=ka" />
+        </Preference>
+        <Preference android:title="Telegram群组">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://t.me/MiuiHome_Xposed" />
+        </Preference>
+        <Preference android:title="Telegram频道">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://t.me/MiuiHome_Xposed_build" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="其他">
+        <Preference
+                android:title="项目地址"
+                >
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/qqlittleice/MiuiHome_R" />
+        </Preference>
+        <Preference
+                android:title="翻译"
+                android:summary="帮助我们翻译应用到您的语言">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://crwd.in/miuihomer" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

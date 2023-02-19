@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <Preference
+            android:key="prefs_key_home_gesture_double_tap"
+            android:title="双击"
+            android:summary="在任意主屏幕空白处双击"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_shake"
+            android:title="摇晃"
+            android:summary="在任意主屏幕摇晃设备"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_left_swipe"
+            android:title="桌面左滑"
+            android:summary="在主屏幕Dock栏向左滑动"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_right_swipe"
+            android:title="桌面右滑"
+            android:summary="在主屏幕Dock栏向右滑动"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_up_swipe"
+            android:title="桌面上滑"
+            android:summary="在任意主屏幕单指上滑"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_down_swipe"
+            android:title="桌面下滑"
+            android:summary="在任意主屏幕单指下滑"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_up_swipe2"
+            android:title="双指上滑"
+            android:summary="在任意主屏幕双指上滑"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_down_swipe2"
+            android:title="双指下滑"
+            android:summary="在任意主屏幕双指下滑"/>
+
+        <!--<Preference
+            android:key="prefs_key_home_gesture_pinch"
+            android:title="双指捏合" />
+
+        <Preference
+            android:key="prefs_key_home_gesture_spread"
+            android:title="双指扩展" />-->
+
+    </PreferenceCategory>
+</PreferenceScreen>

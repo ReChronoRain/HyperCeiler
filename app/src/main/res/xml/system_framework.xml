@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+    <Preference android:title="小窗" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.FreeFormSettings" />
+    </Preference>
+
+    <Preference android:title="音量" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.VolumeSettings" />
+    </Preference>
+
+    <Preference android:title="其他" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.OtherSettings" />
+    </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="核心破解">
+
+        <SwitchPreference
+                android:title="允许降级安装应用"
+                android:summary="允许应用在安装新版本的情况下直接覆盖安装旧版本"
+                android:key="prefs_key_system_framework_core_patch_downgr"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+                android:title="禁用软件包管理器签名验证"
+                android:summary="关闭安装应用时的签名验证，可以安装被篡改的应用"
+                android:key="prefs_key_system_framework_core_patch_auth_creak"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+                android:title="禁用APK签名验证"
+                android:summary="允许直接覆盖安装同包名不同签名的应用"
+                android:key="prefs_key_system_framework_core_patch_digest_creak"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+                android:title="安装时始终使用已装app的签名"
+                android:summary="不是一般的危险，仅在绝对需要时启用"
+                android:key="prefs_key_system_framework_core_patch_use_pre_signature"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+                android:title="增强模式"
+                android:summary="可以解决一些app内部的完整性校验，一般不需要开启"
+                android:key="prefs_key_system_framework_core_patch_enhanced_mode"
+                android:defaultValue="false" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

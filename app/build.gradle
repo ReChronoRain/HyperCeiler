@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.sevtinge.cemiuiler"
+        minSdk 30
+        targetSdk 33
+        versionCode 1001
+        versionName "1.0.0.1"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+/*
+repositories {
+    mavenCentral()
+}*/
+
+dependencies {
+
+    compileOnly files('libs/miui.jar')
+    compileOnly files("libs/miui-framework.jar")
+    //compileOnly files("libs/miui-service.jar")
+
+    compileOnly(roots.XposedApi)
+
+    implementation 'org.luckypray:DexKit:1.1.2'
+    implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
+
+    implementation roots.AndroidXCore
+    implementation roots.AndroidXCollection
+    implementation roots.AndroidXRecyclerview
+    implementation roots.AndroidXFragment
+    implementation roots.AndroidXLifecycle
+    implementation roots.AndroidXVectorDrawable
+    implementation roots.AndroidXVectorDrawableAnimated
+    implementation roots.AndroidXCustomView
+    implementation roots.AndroidXCustomViewPoolingContainer
+
+    implementation files(roots.animation)
+    implementation files(roots.annotation)
+    implementation files(roots.appcompat)
+    implementation files(roots.appcompat_resources)
+    implementation files(roots.blur)
+    implementation files(roots.core)
+    implementation files(roots.haptic)
+    implementation files(roots.internal)
+    implementation files(roots.os)
+    implementation files(roots.preference)
+    implementation files(roots.recyclerview)
+    implementation files(roots.smooth)
+    implementation files(roots.springback)
+    implementation files(roots.stub)
+}

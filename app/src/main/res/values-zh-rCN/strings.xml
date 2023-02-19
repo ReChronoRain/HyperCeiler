@@ -1,0 +1,120 @@
+<resources>
+    <string name="app_name">Cemiuiler</string>
+
+    <string name="home">桌面</string>
+    <string name="security_center">手机管家</string>
+    <string name="various">其他</string>
+
+    <string name="xposed_description">添加Miui硬件不支持功能</string>
+
+
+    <string name="calls">通话</string>
+    <string name="system_volume">系统</string>
+    <string name="notification_volume">通知</string>
+
+    <string name="array_default">默认</string>
+
+    <string name="show_newmods_title">标记新模块</string>
+
+    <string name="home_auto_close_folder_title">自动关闭</string>
+    <string name="home_auto_close_folder_summary">启动后关闭应用的文件夹</string>
+    <string name="home_wallpaper">背景</string>
+    <string name="home_wallpaper_blur">背景模糊</string>
+    <string name="home_enable_blur">启用模糊</string>
+    <string name="home_blur_radius_title">模糊半径</string>
+    <string name="home_folder_shade_title">颜色覆盖</string>
+    <string name="home_folder_shade_summary">增强或减弱背景颜色</string>
+    <string name="home_folder_shade_solid">整个背景</string>
+    <string name="home_folder_shade_gradient">仅中间</string>
+    <string name="home_folder_shade_level_title">色彩强度</string>
+    <string name="home_folder_cols_title">文件夹排列数量</string>
+    <string name="home_folder_width_title">使用整个文件夹的宽度</string>
+    <string name="home_folder_space_title">减少边距</string>
+    <string name="home_folder_blur_title">背景模糊</string>
+    <string name="home_folder_anim_title">回弹动画</string>
+
+
+
+    <string name="security">手机管家</string>
+    <string name="security_app_title">显示更多应用信息</string>
+    <string name="security_app_summary">添加新字段到应用信息页面:\n- 版本代码\n- apk完整目录\n- 数据目录\n- 用户标识符\n- 最低SDK版本\n- 目标SDK版本\n- 链接到商店页面\n- 启动应用</string>
+    <string name="security_app_sort_title">应用管理列表排序</string>
+    <string name="security_app_sort_summary">修改应用管理列表默认排序</string>
+    <string name="security_restrict_app_title">全限制</string>
+    <string name="security_restrict_app_summary">允许配置省电程序并且为系统应用接入Wi-Fi</string>
+    <string name="security_disable_app_title">应用状态控制</string>
+    <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
+    <string name="security_score">禁用体检优化</string>
+    <string name="security_score_summary">锁定100分与禁用优化</string>
+    <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
+    <string name="security_center_newbox_blur">全局侧边栏模糊</string>
+
+    <string name="app_details_playstore">用商店打开</string>
+    <string name="app_details_launch">启动</string>
+    <string name="app_details_nolaunch">应用没有默认可启动的活动</string>
+    <string name="app_details_apk_file">APK目录</string>
+    <string name="app_details_apk_version_code">应用版本号</string>
+    <string name="app_details_data_path">数据目录</string>
+    <string name="app_details_app_uid">用户标识符</string>
+    <string name="app_details_sdk">目标SDK版本</string>
+    <string name="app_details_min_sdk">最低SDK版本</string>
+
+    <string name="disable_app_settings">这是一个坏主意！:)</string>
+    <string name="disable_app_title">确定要禁用该应用吗？</string>
+    <string name="disable_app_text">如果这是一个必要的系统应用，将其禁用可能会造成损坏:)</string>
+    <string name="disable_app_fail">更改应用状态失败</string>
+
+    <string name="app_sort_running">默认排序</string>
+    <string name="app_sort_name">应用名称</string>
+    <string name="app_sort_frequency">使用频率</string>
+    <string name="app_sort_storage">存储占用</string>
+    <string name="app_sort_install">安装时间</string>
+
+
+
+    <string name="array_global_actions_none">无动作</string>
+    <string name="array_global_actions_notif">打开通知中心</string>
+    <string name="array_global_actions_eqs">展开快速设置面板</string>
+    <string name="array_global_actions_lock">锁屏</string>
+    <string name="array_global_actions_sleep">熄屏</string>
+    <string name="array_global_actions_screenshot">截屏</string>
+    <string name="array_global_actions_menu">打开菜单</string>
+    <string name="array_global_actions_recents">打开最近</string>
+    <string name="array_global_actions_volume">打开音量对话框</string>
+    <string name="array_global_actions_volume_up">提高音量</string>
+    <string name="array_global_actions_volume_down">降低音量</string>
+    <string name="array_global_actions_launch">启动应用</string>
+    <string name="array_global_actions_shortcut">启动快捷方式</string>
+    <string name="array_global_actions_activity">启动活动</string>
+    <string name="array_global_actions_toggle">切换功能</string>
+    <string name="array_global_actions_back">切换到上一个应用</string>
+    <string name="array_global_actions_forceclose">强制关闭当前应用</string>
+    <string name="array_global_actions_powermenu">打开电源菜单</string>
+    <string name="array_global_actions_powermenu_short">电源菜单</string>
+    <string name="array_global_actions_clearmemory">清理内存</string>
+    <string name="array_global_actions_invertcolors">颜色反转</string>
+    <string name="array_global_actions_switchkeyboard">切换键盘</string>
+    <string name="array_global_actions_goback">返回</string>
+    <string name="array_global_actions_onehanded_left">单手模式(左)</string>
+    <string name="array_global_actions_onehanded_right">单手模式(右)</string>
+
+    <string name="unlimited">无限制</string>
+
+    <string name="array_align_top">顶部</string>
+    <string name="array_align_bottom">底部</string>
+
+    <string name="array_discrete">分离</string>
+    <string name="array_gradual">缓慢</string>
+    <string name="array_rainbow">彩虹</string>
+
+    <string name="system_control_center_5g_toggle_label">5G网络</string>
+
+    <string name="weather_device_level_title">动画等级</string>
+    <string name="weather_device_level_title_low">低</string>
+    <string name="weather_device_level_title_middle">中</string>
+    <string name="weather_device_level_title_high">高</string>
+
+    <string name="various_install_app_info_version_name">版本名称</string>
+    <string name="various_install_app_info_version_code">版本代码</string>
+    <string name="various_install_app_info_sdk">支持SDK</string>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="手势"
+        android:key="prefs_key_home_gesture">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeGestureActivity"/>
+    </Preference>
+
+    <Preference
+        android:title="布局"
+        android:key="prefs_key_home_layout">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeLayoutActivity"/>
+    </Preference>
+
+    <Preference
+        android:title="文件夹"
+        android:key="prefs_key_home_folder">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeFolderActivity"/>
+    </Preference>
+
+    <Preference
+        android:title="标题"
+        android:key="prefs_key_home_title">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeTitleActivity"/>
+    </Preference>
+
+    <Preference
+        android:title="小部件"
+        android:key="prefs_key_home_widget">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeWidgetActivity"/>
+    </Preference>
+
+    <Preference
+        android:title="底栏"
+        android:key="prefs_key_home_dock">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeDockActivity"/>
+    </Preference>
+
+    <Preference
+        android:title="其他"
+        android:key="prefs_key_home_other">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeOtherActivity"/>
+    </Preference>
+
+</PreferenceScreen>

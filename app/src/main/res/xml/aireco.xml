@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="移除内测限制"
+                android:key="prefs_key_aireco_device_modify"
+                android:defaultValue="false"/>
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

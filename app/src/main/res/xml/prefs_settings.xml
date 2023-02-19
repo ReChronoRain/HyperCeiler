@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="桌面图标"
+            android:key="prefs_key_settings_hide_app_icon"
+            android:defaultValue="true"/>
+
+        <DropDownPreference
+            android:title="设置图标"
+            android:key="prefs_key_settings_icon"
+            app:entries="@array/settings_icon"
+            app:entryValues="@array/settings_icon_value"
+            android:defaultValue="0" />
+
+        <MultiSelectListPreference
+            android:title="重启作用域"
+            android:key="prefs_key_settings_reboot" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="备份与恢复">
+
+        <Preference
+            android:key="prefs_key_back"
+            android:title="备份模块配置"/>
+
+        <Preference
+            android:key="prefs_key_rest"
+            android:title="恢复模块配置"/>
+
+        <Preference
+            android:key="prefs_key_reset"
+            android:title="重置模块配置"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="故障排查">
+
+        <Preference
+            android:title="安全模式"
+            android:key="prefs_key_safe_mode"
+            android:summary="停用模块功能">
+
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.settings.SafeModeActivity" />
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory>
+        <Preference android:title="调试模式">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
+        </Preference>
+    </PreferenceCategory>-->
+</PreferenceScreen>

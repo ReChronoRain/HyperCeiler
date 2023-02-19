@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+
+        <item
+            android:id="@+id/system_framework_share_menu_test"
+            android:title="分享菜单测试"/>
+
+        <item
+            android:id="@+id/system_framework_open_with_menu_test"
+            android:title="打开方式菜单测试"/>
+    </group>
+</menu>

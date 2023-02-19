@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="miui_volume_dialog_large_display_orientation">1</integer>
+</resources>

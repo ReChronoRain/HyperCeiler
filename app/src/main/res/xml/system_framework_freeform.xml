@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="小窗">
+
+        <SwitchPreference
+                android:title="多小窗"
+                android:key="prefs_key_system_framework_freeform_count"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="禁用小窗黑名单"
+                android:key="prefs_key_system_framework_disable_freeform_blacklist"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="记住状态"
+                android:key="prefs_key_system_framework_freeform_sticky"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="气泡通知">
+
+        <SwitchPreference
+                android:title="小窗气泡"
+                android:key="prefs_key_system_framework_freeform_bubble"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

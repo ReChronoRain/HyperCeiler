@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <Preference
+                android:title="Joyose"
+                android:key="prefs_key_joyose">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.JoyoseActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="电量与性能"
+                android:key="prefs_key_powerkeeper">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.PowerKeeperActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="截屏"
+                android:key="prefs_key_screenshot">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ScreenShotActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="浏览器"
+                android:key="prefs_key_browser">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.BrowserActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="天气"
+                android:key="prefs_key_weather">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.WeatherActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="时钟"
+                android:key="prefs_key_clock">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ClockActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="手机管家"
+                android:key="prefs_key_security_center">
+            <intent
+                    android:action="moralnorm.intent.action.SecurityCenter"/>
+        </Preference>
+
+
+
+        <Preference
+                android:title="系统界面"
+                android:key="prefs_key_system_ui">
+            <intent
+                    android:action="moralnorm.intent.action.SystemUI"/>
+        </Preference>
+
+        <Preference
+                android:title="系统框架"
+                android:key="prefs_key_system_framework">
+            <intent
+                    android:action="moralnorm.intent.action.SystemFramework"/>
+        </Preference>
+
+        <Preference
+                android:title="系统设置"
+                android:key="prefs_key_system_settings">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.SystemSettingsActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="系统桌面"
+                android:key="prefs_key_home">
+            <intent
+                    android:action="moralnorm.intent.action.Home"/>
+        </Preference>
+
+        <Preference
+                android:title="相册"
+                android:key="prefs_key_gallery">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.GalleryActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="相册编辑"
+                android:key="prefs_key_mediaeditor">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MediaEditorActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="小爱建议"
+                android:key="prefs_key_aireco">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.AirecoActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="小爱视觉"
+                android:key="prefs_key_scanner">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ScannerActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="小米互传"
+                android:key="prefs_key_mishare">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MiShareActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="音乐"
+                android:key="prefs_key_music">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MusicActivity"/>
+        </Preference>
+
+        <Preference android:title="应用包管理组件">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MiuiPackageInstallerActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="智能助理"
+                android:key="prefs_key_home_personal_assistant">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.PersonalAssistantActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="主题壁纸"
+                android:key="prefs_key_various_theme">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.various.VariousThemeActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="自定义"
+                android:key="prefs_key_custom_hook"
+                android:enabled="false">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.CustomHookActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="其他"
+                android:key="prefs_key_various">
+            <intent
+                    android:action="moralnorm.intent.action.Various"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <Preference
+                android:title="设置"
+                android:key="prefs_key_settings">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.SettingsActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="关于"
+                android:key="prefs_key_about"
+                android:enabled="false" >
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.AboutActivity"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

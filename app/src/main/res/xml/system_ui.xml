@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference android:title="锁屏" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.LockScreenActivity"/>
+    </Preference>
+
+    <Preference android:title="状态栏" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.StatusBarActivity"/>
+    </Preference>
+
+    <Preference android:title="控制中心" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.ControlCenterActivity"/>
+    </Preference>
+
+    <Preference android:title="其他" >
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.OtherActivity"/>
+    </Preference>
+</PreferenceScreen>

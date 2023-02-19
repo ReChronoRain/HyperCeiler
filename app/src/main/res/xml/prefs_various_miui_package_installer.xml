@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_modify"
+            android:title="净化页面"
+            android:defaultValue="false"
+            app:isPreferenceVisible="false" />
+
+
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_safe_mode"
+            android:title="纯净模式"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_disable_ad"
+            android:title="禁用推广"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_install_risk"
+            android:title="禁用风险检测"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_safe_model_tip"
+            android:title="禁用安全守护提示"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:key="prefs_key_miui_package_installer_count_checking"
+                android:title="禁用频繁安装应用检查"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_update_system_app"
+            android:title="允许更新系统应用"
+            android:defaultValue="false"/>
+
+        <EditTextPreference
+            android:title="自定义安装来源"
+            android:key="prefs_key_miui_package_installer_install_source"
+            android:defaultValue="com.android.fileexplorer" />
+
+        <SwitchPreference
+            android:key="prefs_key_miui_package_installer_apk_info"
+            android:title="显示更多安装包信息"
+            android:summary="显示安装中应用的更多相关信息"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

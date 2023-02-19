@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:key="prefs_key_system_ui_status_bar_battery_indicator_enable"
+        android:title="启用"
+        android:defaultValue="false"/>
+
+    <PreferenceCategory android:dependency="prefs_key_system_ui_status_bar_battery_indicator_enable">
+
+        <SwitchPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_centered"
+            android:title="居中"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_rounded"
+            android:title="圆角"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_limitvis"
+            android:title="限制可见性"
+            android:defaultValue="false" />
+
+        <DropDownPreference
+            android:title="垂直对齐"
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_align"
+            app:entries="@array/battery_indicator_align"
+            app:entryValues="@array/battery_indicator_align_value"
+            android:defaultValue="0"/>
+
+        <DropDownPreference
+            android:title="颜色"
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_color"
+            app:entries="@array/battery_indicator_color"
+            app:entryValues="@array/battery_indicator_color_value"
+            android:defaultValue="0"/>
+
+        <ColorPickerPreference
+            android:defaultValue="0xFF00FF00"
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_color_full_power"
+            android:title="满电颜色"
+            app:showColorShades="true"
+            app:showAlphaSlider="true"
+            app:colorShape="circle"/>
+
+        <ColorPickerPreference
+            android:defaultValue="0xFFFF0000"
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_color_low_power"
+            android:title="低电量颜色"
+            app:showColorShades="true"
+            app:showAlphaSlider="true"
+            app:colorShape="circle"/>
+
+        <ColorPickerPreference
+            android:defaultValue="0xFFFFFF00"
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_color_power_saving"
+            android:title="省电模式颜色"
+            app:showColorShades="true"
+            app:showAlphaSlider="true"
+            app:colorShape="circle"/>
+
+        <ColorPickerPreference
+            android:defaultValue="0xFFFFFF00"
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_color_power_charging"
+            android:title="充电颜色"
+            app:showColorShades="true"
+            app:showAlphaSlider="true"
+            app:colorShape="circle"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_height"
+            android:title="高度"
+            android:defaultValue="5"
+            app:maxValue="15"
+            app:showSeekBarValue="true"
+            app:format="%d px"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_padding"
+            android:title="水平边距"
+            android:defaultValue="0"
+            app:maxValue="33"
+            app:showSeekBarValue="true"
+            app:format="%d%%"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_alpha"
+            android:title="透明度"
+            android:defaultValue="0"
+            app:maxValue="100"
+            app:stepValue="5"
+            app:showSeekBarValue="true"
+            app:format="%d%%"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_glow"
+            android:title="发光"
+            android:defaultValue="0"
+            app:maxValue="100"
+            app:showSeekBarValue="true"
+            app:format="%d%%"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_low_level"
+            android:title="低电量水平"
+            android:defaultValue="20"
+            app:maxValue="50"
+            app:stepValue="5"
+            app:showSeekBarValue="true"
+            app:format="%d%%"/>
+
+        <Preference
+            android:key="prefs_key_system_ui_status_bar_battery_indicator_test"
+            android:title="测试"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

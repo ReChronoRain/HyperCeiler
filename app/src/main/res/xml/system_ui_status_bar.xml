@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference android:title="图标管理">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity" />
+    </Preference>
+
+    <PreferenceCategory android:title="时钟">
+
+        <SwitchPreference
+            android:title="显示秒"
+            android:key="prefs_key_system_ui_statusbar_clock_show_second"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+
+
+
+    <!--<PreferenceCategory android:title="状态栏网速">
+
+    </PreferenceCategory>-->
+
+</PreferenceScreen>

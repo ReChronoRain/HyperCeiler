@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:title="屏幕旋转"
+            android:key="prefs_key_system_framework_screen_all_rotations"
+            android:defaultValue="false"/>
+
+
+        <SwitchPreference
+            android:title="允许不受信任的触摸操作"
+            android:key="prefs_key_system_framework_allow_untrusted_touch"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="清理分享菜单"
+                android:key="prefs_key_system_framework_clean_share_menu"
+                android:defaultValue="false"/>
+
+        <Preference
+                android:title="已选应用"
+                android:key="prefs_key_system_framework_clean_share_apps"
+                android:dependency="prefs_key_system_framework_clean_share_menu"/>
+
+        <SwitchPreference
+                android:title="清理打开方式菜单"
+                android:key="prefs_key_system_framework_clean_open_menu"
+                android:defaultValue="false"/>
+
+        <Preference
+                android:title="已选应用"
+                android:key="prefs_key_system_framework_clean_open_apps"
+                android:dependency="prefs_key_system_framework_clean_open_menu"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="允许截图"
+           android:summary="允许对任意应用进行截图和录屏"
+            android:key="prefs_key_system_other_flag_secure"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

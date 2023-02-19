@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="xposed_scope">
+        <item>android</item>
+        <item>com.android.browser</item>
+        <item>com.android.deskclock</item>
+        <item>com.android.fileexplorer</item>
+        <item>com.android.providers.downloads.ui</item>
+        <item>com.android.systemui</item>
+        <item>com.android.settings</item>
+        <item>com.android.thememanager</item>
+        <item>com.android.updater</item>
+        <item>com.miui.cleanmaster</item>
+        <item>com.miui.cloudservice</item>
+        <item>com.miui.gallery</item>
+        <item>com.miui.guardprovider</item>
+        <item>com.miui.home</item>
+        <item>com.miui.mediaeditor</item>
+        <item>com.miui.mishare.connectivity</item>
+        <item>com.miui.notes</item>
+        <item>com.miui.packageinstaller</item>
+        <item>com.miui.personalassistant</item>
+        <item>com.miui.player</item>
+        <item>com.miui.powerkeeper</item>
+        <item>com.miui.rom</item>
+        <item>com.miui.screenshot</item>
+        <item>com.miui.securityadd</item>
+        <item>com.miui.securitycenter</item>
+        <item>com.miui.weather2</item>
+        <item>com.xiaomi.aireco</item>
+        <item>com.xiaomi.joyose</item>
+        <item>com.xiaomi.market</item>
+        <item>com.xiaomi.misettings</item>
+        <item>com.xiaomi.scanner</item>
+    </string-array>
+
+    <string-array name="app_module_support">
+        <item>系统框架</item>
+        <item>系统界面</item>
+        <item>系统桌面</item>
+        <item>手机管家</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="restart_apps_name">
+        <item>Joyose</item>
+        <item>电量与性能</item>
+        <item>设置</item>
+        <item>手机管家</item>
+        <item>系统界面</item>
+        <item>系统桌面</item>
+    </string-array>
+
+    <string-array name="restart_apps_packagename">
+        <item>com.xiaomi.joyose</item>
+        <item>com.miui.powerkeeper</item>
+        <item>com.android.settings</item>
+        <item>com.miui.securitycenter</item>
+        <item>com.android.systemui</item>
+        <item>com.miui.home</item>
+    </string-array>
+
+    <string-array name="miui_core_app_package_name">
+        <item>com.lbe.security.miui</item>
+        <item>com.miui.packageinstaller</item>
+    </string-array>
+
+    <string-array name="default_bubble_apps">
+        <item>com.tencent.mm</item>
+        <item>com.tencent.mobileqq</item>
+        <item>com.alibaba.android.rimet</item>
+        <item>com.tencent.wemeet.app</item>
+        <item>com.tencent.wework</item>
+        <item>com.ss.android.lark</item>
+        <item>com.ss.android.lark.kami</item>
+        <item>nekox.messenger</item>
+        <item>tw.nekomimi.nekogram</item>
+        <item>org.telegram.messenger</item>
+    </string-array>
+
+    <array name="miui_freeform_black_list">
+        <item>ab.cd.xyz</item>
+    </array>
+
+    <string-array name="settings_icon">
+        <item>禁用</item>
+        <item>顶部</item>
+        <item>中间</item>
+        <item>底部</item>
+    </string-array>
+
+    <string-array name="settings_icon_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <array name="miui_volume_timer_segments">
+        <item>@null</item>
+        <item>1800</item>
+        <item>3600</item>
+        <item>7200</item>
+        <item>10800</item>
+        <item>14400</item>
+        <item>18000</item>
+        <item>21600</item>
+        <item>28800</item>
+        <item>36000</item>
+        <item>43200</item>
+    </array>
+
+    <string-array name="default_volume_stream">
+        <item>@string/array_default</item>
+        <item>铃声</item>
+        <item>媒体</item>
+        <item>通知</item>
+    </string-array>
+
+    <string-array name="default_volume_streame_value">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="open_with_test">
+        <item>图片</item>
+        <item>音频</item>
+        <item>视频</item>
+        <item>文档</item>
+        <item>归档</item>
+        <item>全部</item>
+    </string-array>
+
+    <string-array name="charge_animation_entries">
+        <item>@string/array_default</item>
+        <item>禁用</item>
+        <item>光晕</item>
+        <item>流光</item>
+        <item>律动</item>
+        <item>lzdh</item>
+    </string-array>
+
+    <string-array name="charge_animation_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+
+    <string-array name="status_bar_icon_mode">
+        <item>默认</item>
+        <item>始终显示</item>
+        <item>始终隐藏</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mobile_network_type">
+        <item>默认</item>
+        <item>始终显示</item>
+        <item>始终隐藏</item>
+        <item>仅在未连接时隐藏</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mobile_network_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_alarm_clock">
+        <item>默认</item>
+        <item>始终显示</item>
+        <item>始终隐藏</item>
+        <item>仅在响铃前显示</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_alarm_clock_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_bluetooth">
+        <item>默认</item>
+        <item>始终显示</item>
+        <item>始终隐藏</item>
+        <item>仅在未连接时隐藏</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_bluetooth_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="folder_shade">
+        <item>@string/array_default</item>
+        <item>@string/home_folder_shade_solid</item>
+        <item>@string/home_folder_shade_gradient</item>
+    </string-array>
+
+
+    <string-array name="battery_indicator_align">
+        <item>@string/array_align_top</item>
+        <item>@string/array_align_bottom</item>
+    </string-array>
+    <string-array name="battery_indicator_align_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="battery_indicator_color">
+        <item>@string/array_discrete</item>
+        <item>@string/array_gradual</item>
+        <item>@string/array_rainbow</item>
+    </string-array>
+    <string-array name="battery_indicator_color_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+
+    <string-array name="folder_shade_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="home_mode">
+        <item>默认</item>
+        <item>浅色模式</item>
+        <item>深色模式</item>
+    </string-array>
+
+    <string-array name="home_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="seek_points">
+        <item>默认</item>
+        <item>仅在滑动屏幕时显示</item>
+        <item>仅在编辑模式中显示</item>
+    </string-array>
+
+    <string-array name="seek_points_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+
+    <string-array name="app_sort">
+        <item>@string/app_sort_running</item>
+        <item>@string/app_sort_name</item>
+        <item>@string/app_sort_frequency</item>
+        <item>@string/app_sort_storage</item>
+        <item>@string/app_sort_install</item>
+    </string-array>
+
+    <string-array name="app_sort_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="dialog_gravity">
+        <item>@string/array_default</item>
+        <item>居中</item>
+        <item>底部</item>
+    </string-array>
+
+    <string-array name="dialog_gravity_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="collapse_miui_title">
+        <item>@string/array_default</item>
+        <item>折叠</item>
+        <item>扩展</item>
+        <item>始终折叠</item>
+        <item>始终扩展</item>
+    </string-array>
+
+    <string-array name="collapse_miui_title_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+
+    <string-array name="location">
+        <item>默认</item>
+        <item>自定义</item>
+    </string-array>
+
+    <string-array name="location_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="operator_fix">
+        <item>不修复</item>
+        <item>方法一</item>
+        <item>方法二（推荐）</item>
+    </string-array>
+
+    <string-array name="operator_fix_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="weather_device_level">
+        <item>默认</item>
+        <item>@string/weather_device_level_title_low</item>
+        <item>@string/weather_device_level_title_middle</item>
+        <item>@string/weather_device_level_title_high</item>
+    </string-array>
+
+    <string-array name="weather_device_level_value">
+        <item>3</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

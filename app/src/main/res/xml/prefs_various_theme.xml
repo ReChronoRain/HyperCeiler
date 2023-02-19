@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="prefs_key_theme_manager_version_code_modify_cat"
+        app:isPreferenceVisible="false" >
+
+        <SwitchPreference
+            android:title="禁用Miui版本检测"
+            android:key="prefs_key_theme_manager_version_code_modify"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="禁用广告"
+            android:key="prefs_key_various_theme_diable_ads"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="主题破解"
+            android:key="prefs_key_various_theme_crack"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="启用PAD主题"
+            android:key="prefs_key_various_theme_enable_pad_theme"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:title="启用Fold主题"
+            android:key="prefs_key_various_theme_enable_fold_theme"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
