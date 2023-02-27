@@ -29,7 +29,7 @@ public class VariousActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_various;
+            return R.xml.various;
         }
 
         @Override

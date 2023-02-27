@@ -4,7 +4,7 @@
 
     <PreferenceCategory>
 
-        <Preference android:title="位置模拟"
+        <Preference android:title="@string/various_location_simulation_title"
                     android:enabled="false">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
@@ -12,7 +12,7 @@
         </Preference>
 
         <Preference
-                android:title="弹窗"
+                android:title="@string/various_dialog_title"
                 android:key="prefs_key_various_dialog"
                 app:isPreferenceVisible="true">
 
@@ -21,40 +21,32 @@
                     android:targetClass="com.sevtinge.cemiuiler.ui.various.VariousDialogActivity"/>
         </Preference>
 
-
     </PreferenceCategory>
 
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="显示通知重要程度"
+                android:title="@string/settings_notfication_importance"
                 android:key="prefs_key_settings_notfication_importance"
                 android:defaultValue="false"/>
 
-
-        
-
-       
-
         <SwitchPreference
-                android:title="禁用越界回弹"
+                android:title="@string/various_no_overscroll"
                 android:key="prefs_key_various_no_overscroll"
                 android:defaultValue="false"/>
 
         <SwitchPreference
-                android:title="禁用蓝牙临时关闭"
+                android:title="@string/various_disable_bluetooth_restrict"
                 android:key="prefs_key_various_disable_bluetooth_restrict"
                 android:defaultValue="false"/>
 
         <DropDownPreference
                 android:key="prefs_key_various_collapse_miui_title"
-                android:title="MIUI标题"
-                android:summary="调整MIUI应用中的顶栏标题"
+                android:title="@string/various_collapse_miui_title"
+                android:summary="@string/various_collapse_miui_title_desc"
                 android:defaultValue="0"
                 app:entries="@array/collapse_miui_title"
                 app:entryValues="@array/collapse_miui_title_value"/>
-
-        
 
     </PreferenceCategory>
 

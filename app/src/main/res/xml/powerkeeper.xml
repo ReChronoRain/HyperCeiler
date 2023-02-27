@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
     <SwitchPreference
-            android:title="自定义高刷"
+            android:title="@string/powerkeeper_custom_refresh_rate"
             android:key="prefs_key_various_custom_refresh_rate"
             android:defaultValue="false"/>
     </PreferenceCategory>

@@ -37,6 +37,13 @@
         <attr name="child" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="border_overlay" format="boolean" />
+        <attr name="fill_color1" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="VisualCheckBoxPreference">
         <attr name="positiveContent" format="reference" />
         <attr name="positiveTitle" format="string" />

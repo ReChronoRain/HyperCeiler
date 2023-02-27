@@ -6,7 +6,7 @@ import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 
 public abstract class BaseHomeActivity extends BaseAppCompatActivity {
 
-    public final String mAppLabel = "系统桌面";
+    public final String mAppLabel = "@string/home";
     public final String mPackageName = "com.miui.home";
 
     @Override

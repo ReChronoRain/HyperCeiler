@@ -22,7 +22,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
-import android.util.MiuiMultiWindowUtils;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
@@ -31,10 +30,6 @@ import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.R;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForR;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForS;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForSv2;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForT;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -174,9 +169,9 @@ public class Helpers {
     public static void getAllMods(Context context, boolean force) {
         if (force) allModsList.clear();
         else if (allModsList.size() > 0) return;
-        parsePrefXml(context, R.xml.prefs_home);
-        parsePrefXml(context, R.xml.prefs_security_center);
-        parsePrefXml(context, R.xml.prefs_various);
+        parsePrefXml(context, R.xml.home);
+        parsePrefXml(context, R.xml.security_center);
+        parsePrefXml(context, R.xml.various);
     }
 
     private static String getModTitle(Resources res, String title) {
@@ -195,15 +190,15 @@ public class Helpers {
         ModData.ModCat catPrefKey = null;
 
         switch(xmlResId) {
-            case R.xml.prefs_home:
+            case R.xml.home:
                 catResId = R.string.home;
                 catPrefKey = ModData.ModCat.prefs_key_home;
                 break;
-            case R.xml.prefs_security_center:
+            case R.xml.security_center:
                 catResId = R.string.security;
                 catPrefKey = ModData.ModCat.prefs_key_security_center;
                 break;
-            case R.xml.prefs_various:
+            case R.xml.various:
                 catResId = R.string.various;
                 catPrefKey = ModData.ModCat.prefs_key_various;
                 break;

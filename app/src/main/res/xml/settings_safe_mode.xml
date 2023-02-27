@@ -2,22 +2,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
-        android:title="系统界面"
+        android:title="@string/system_ui"
         android:key="prefs_key_system_ui_safe_mode_enable"
         android:defaultValue="false" />
 
     <SwitchPreference
-        android:title="系统桌面"
+        android:title="@string/home"
         android:key="prefs_key_home_safe_mode_enable"
         android:defaultValue="false" />
 
     <SwitchPreference
-        android:title="手机管家"
+        android:title="@string/security_center"
         android:key="prefs_key_security_center_safe_mode_enable"
         android:defaultValue="false" />
 
     <SwitchPreference
-        android:title="其他"
+        android:title="@string/various"
         android:key="prefs_key_other_safe_mode_enable"
         android:defaultValue="false" />
 </PreferenceScreen>

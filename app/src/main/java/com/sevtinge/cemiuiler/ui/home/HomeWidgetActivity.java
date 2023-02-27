@@ -17,7 +17,7 @@ public class HomeWidgetActivity extends BaseHomeActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_home_widget;
+            return R.xml.home_widget;
         }
     }
 }

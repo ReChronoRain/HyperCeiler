@@ -8,7 +8,7 @@
         <moralnorm.preference.RadioButtonPreference
             android:persistent="false"
             android:key="prefs_key_no_action"
-            android:title="无动作"
+            android:title="@string/array_global_actions_none"
             android:layout="@layout/preference_radiobutton_two_state"/>
 
         <moralnorm.preference.RadioButtonPreference
@@ -40,11 +40,11 @@
 
             <moralnorm.preference.RadioButtonPreference
                 android:key="prefs_key_open_app"
-                android:title="启动应用" />
+                android:title="@string/array_global_actions_launch" />
 
             <ValuePreference
                 android:key="prefs_key_open_app_selector"
-                android:title="选择应用"
+                android:title="@string/array_global_actions_launch_choose"
                 android:dependency="prefs_key_open_app" />
 
         </moralnorm.preference.RadioSetPreferenceCategory>

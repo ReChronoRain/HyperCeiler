@@ -3,7 +3,7 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="解锁最小裁切图片限制"
+                android:title="@string/screenshot_unlock_minimum_crop_limit"
                 android:key="prefs_key_screenshot_unlock_minimum_crop_limit"
                 android:defaultValue="false"/>
 

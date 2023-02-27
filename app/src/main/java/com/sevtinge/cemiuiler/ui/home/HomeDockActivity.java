@@ -23,7 +23,7 @@ public class HomeDockActivity extends BaseHomeActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_home_dock;
+            return R.xml.home_dock;
         }
 
         @Override

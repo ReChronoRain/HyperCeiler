@@ -40,20 +40,20 @@
     </string-array>
 
     <string-array name="app_module_support">
-        <item>系统框架</item>
-        <item>系统界面</item>
-        <item>系统桌面</item>
-        <item>手机管家</item>
-        <item>其他</item>
+        <item>@string/system_framework</item>
+        <item>@string/system_ui</item>
+        <item>@string/home</item>
+        <item>@string/security_center</item>
+        <item>@string/various</item>
     </string-array>
 
     <string-array name="restart_apps_name">
-        <item>Joyose</item>
-        <item>电量与性能</item>
-        <item>设置</item>
-        <item>手机管家</item>
-        <item>系统界面</item>
-        <item>系统桌面</item>
+        <item>@string/joyose</item>
+        <item>@string/powerkeeper</item>
+        <item>@string/system_settings</item>
+        <item>@string/security_center</item>
+        <item>@string/system_ui</item>
+        <item>@string/home</item>
     </string-array>
 
     <string-array name="restart_apps_packagename">
@@ -88,10 +88,10 @@
     </array>
 
     <string-array name="settings_icon">
-        <item>禁用</item>
-        <item>顶部</item>
-        <item>中间</item>
-        <item>底部</item>
+        <item>@string/settings_icon_disable</item>
+        <item>@string/settings_icon_top</item>
+        <item>@string/settings_icon_medium</item>
+        <item>@string/settings_icon_down</item>
     </string-array>
 
     <string-array name="settings_icon_value">
@@ -117,9 +117,9 @@
 
     <string-array name="default_volume_stream">
         <item>@string/array_default</item>
-        <item>铃声</item>
-        <item>媒体</item>
-        <item>通知</item>
+        <item>@string/default_volume_stream_ring</item>
+        <item>@string/default_volume_stream_media</item>
+        <item>@string/default_volume_stream_tip</item>
     </string-array>
 
     <string-array name="default_volume_streame_value">
@@ -130,21 +130,21 @@
     </string-array>
 
     <string-array name="open_with_test">
-        <item>图片</item>
-        <item>音频</item>
-        <item>视频</item>
-        <item>文档</item>
-        <item>归档</item>
-        <item>全部</item>
+        <item>@string/open_with_test_picture</item>
+        <item>@string/open_with_test_audio</item>
+        <item>@string/open_with_test_media</item>
+        <item>@string/open_with_test_doc</item>
+        <item>@string/open_with_test_zip</item>
+        <item>@string/open_with_test_all</item>
     </string-array>
 
     <string-array name="charge_animation_entries">
         <item>@string/array_default</item>
-        <item>禁用</item>
-        <item>光晕</item>
-        <item>流光</item>
-        <item>律动</item>
-        <item>lzdh</item>
+        <item>@string/charge_animation_entries_disable</item>
+        <item>@string/charge_animation_entries_aura</item>
+        <item>@string/charge_animation_entries_stream</item>
+        <item>@string/charge_animation_entries_alpha</item>
+        <item>@string/charge_animation_entries_lzdh</item>
     </string-array>
 
     <string-array name="charge_animation_values">
@@ -158,9 +158,9 @@
 
 
     <string-array name="status_bar_icon_mode">
-        <item>默认</item>
-        <item>始终显示</item>
-        <item>始终隐藏</item>
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
     </string-array>
 
     <string-array name="status_bar_icon_mode_value">
@@ -170,10 +170,10 @@
     </string-array>
 
     <string-array name="status_bar_icon_mobile_network_type">
-        <item>默认</item>
-        <item>始终显示</item>
-        <item>始终隐藏</item>
-        <item>仅在未连接时隐藏</item>
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_off_unconnect</item>
     </string-array>
 
     <string-array name="status_bar_icon_mobile_network_type_value">
@@ -184,10 +184,10 @@
     </string-array>
 
     <string-array name="status_bar_icon_alarm_clock">
-        <item>默认</item>
-        <item>始终显示</item>
-        <item>始终隐藏</item>
-        <item>仅在响铃前显示</item>
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_on_beforering</item>
     </string-array>
 
     <string-array name="status_bar_icon_alarm_clock_value">
@@ -198,10 +198,10 @@
     </string-array>
 
     <string-array name="status_bar_icon_bluetooth">
-        <item>默认</item>
-        <item>始终显示</item>
-        <item>始终隐藏</item>
-        <item>仅在未连接时隐藏</item>
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_off_unconnect</item>
     </string-array>
 
     <string-array name="status_bar_icon_bluetooth_value">
@@ -246,9 +246,9 @@
     </string-array>
 
     <string-array name="home_mode">
-        <item>默认</item>
-        <item>浅色模式</item>
-        <item>深色模式</item>
+        <item>@string/array_default</item>
+        <item>@string/home_mode_day</item>
+        <item>@string/home_mode_dark</item>
     </string-array>
 
     <string-array name="home_mode_value">
@@ -258,9 +258,9 @@
     </string-array>
 
     <string-array name="seek_points">
-        <item>默认</item>
-        <item>仅在滑动屏幕时显示</item>
-        <item>仅在编辑模式中显示</item>
+        <item>@string/array_default</item>
+        <item>@string/seek_points_roll</item>
+        <item>@string/seek_points_edit</item>
     </string-array>
 
     <string-array name="seek_points_value">
@@ -288,8 +288,8 @@
 
     <string-array name="dialog_gravity">
         <item>@string/array_default</item>
-        <item>居中</item>
-        <item>底部</item>
+        <item>@string/dialog_gravity_medium</item>
+        <item>@string/dialog_gravity_down</item>
     </string-array>
 
     <string-array name="dialog_gravity_value">
@@ -300,10 +300,10 @@
 
     <string-array name="collapse_miui_title">
         <item>@string/array_default</item>
-        <item>折叠</item>
-        <item>扩展</item>
-        <item>始终折叠</item>
-        <item>始终扩展</item>
+        <item>@string/collapse_miui_title_off</item>
+        <item>@string/collapse_miui_title_on</item>
+        <item>@string/collapse_miui_title_off_always</item>
+        <item>@string/collapse_miui_title_on_always</item>
     </string-array>
 
     <string-array name="collapse_miui_title_value">
@@ -316,8 +316,8 @@
 
 
     <string-array name="location">
-        <item>默认</item>
-        <item>自定义</item>
+        <item>@string/array_default</item>
+        <item>@string/location_custom</item>
     </string-array>
 
     <string-array name="location_value">
@@ -326,9 +326,9 @@
     </string-array>
 
     <string-array name="operator_fix">
-        <item>不修复</item>
-        <item>方法一</item>
-        <item>方法二（推荐）</item>
+        <item>@string/operator_fix_none</item>
+        <item>@string/operator_fix_1</item>
+        <item>@string/operator_fix_2</item>
     </string-array>
 
     <string-array name="operator_fix_value">
@@ -338,7 +338,7 @@
     </string-array>
 
     <string-array name="weather_device_level">
-        <item>默认</item>
+        <item>@string/array_default</item>
         <item>@string/weather_device_level_title_low</item>
         <item>@string/weather_device_level_title_middle</item>
         <item>@string/weather_device_level_title_high</item>

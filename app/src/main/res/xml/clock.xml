@@ -4,7 +4,7 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="启用计时器沙漏动画"
+                android:title="@string/clock_enable_hour_glass"
                 android:key="prefs_key_clock_enable_hour_glass"
                 android:defaultValue="false"/>
 

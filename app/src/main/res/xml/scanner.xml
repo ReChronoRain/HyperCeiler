@@ -4,39 +4,39 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="解锁扫名片"
+                android:title="@string/scanner_card"
                 android:key="prefs_key_scanner_card"
                 android:defaultValue="false"/>
 
         <SwitchPreference
-                android:title="解锁翻译"
+                android:title="@string/scanner_translation"
                 android:key="prefs_key_scanner_translation"
                 android:defaultValue="false"/>
 
         <SwitchPreference
-                android:title="解锁识文字"
+                android:title="@string/scanner_ocr"
                 android:key="prefs_key_scanner_ocr"
                 android:defaultValue="false"/>
 
         <SwitchPreference
-                android:title="解锁转文档"
+                android:title="@string/scanner_document"
                 android:key="prefs_key_scanner_document"
                 android:defaultValue="false"/>
 
         <SwitchPreference
-                android:title="解锁提取表格"
+                android:title="@string/scanner_excel"
                 android:key="prefs_key_scanner_excel"
                 android:defaultValue="false"
                 android:dependency="prefs_key_scanner_document"/>
 
         <SwitchPreference
-                android:title="解锁提取PPT"
+                android:title="@string/scanner_ppt"
                 android:key="prefs_key_scanner_ppt"
                 android:defaultValue="false"
                 android:dependency="prefs_key_scanner_document"/>
 
         <SwitchPreference
-                android:title="解锁扫文件"
+                android:title="@string/scanner_doc_ppt"
                 android:key="prefs_key_scanner_doc_ppt"
                 android:defaultValue="false"/>
 

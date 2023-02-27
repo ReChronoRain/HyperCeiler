@@ -36,7 +36,7 @@ public class VariousDialogActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_various_dialog;
+            return R.xml.various_dialog;
         }
 
         @Override

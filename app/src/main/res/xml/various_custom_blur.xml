@@ -6,14 +6,14 @@
 
         <SwitchPreference
             android:persistent="false"
-            android:title="背景模糊"
+            android:title="@string/custom_blur_enabled"
             android:key="prefs_key_custom_blur_enabled"
             android:defaultValue="false"/>
 
         <SeekBarPreference
             android:persistent="false"
             android:key="prefs_key_various_blur_radius"
-            android:title="模糊半径"
+            android:title="@string/various_blur_radius"
             android:defaultValue="60"
             app:maxValue="100"
             app:format="%d dp"
@@ -27,7 +27,7 @@
         <SeekBarPreference
             android:persistent="false"
             android:key="prefs_key_various_background_corner_radius"
-            android:title="背景圆角"
+            android:title="@string/various_background_corner_radius"
             android:defaultValue="20"
             app:maxValue="60"
             app:format="%d dp"
@@ -36,7 +36,7 @@
         <SeekBarPreference
             android:persistent="false"
             android:key="prefs_key_various_background_alpha"
-            android:title="背景遮罩透明度"
+            android:title="@string/various_background_alpha"
             android:defaultValue="120"
             app:maxValue="255"
             app:format="%d %%"
@@ -44,7 +44,7 @@
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
-            android:title="背景颜色"
+            android:title="@string/various_background_color"
             android:key="prefs_key_various_background_color"
             android:defaultValue="-1"
             app:showAlphaSlider="true"/>

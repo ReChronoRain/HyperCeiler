@@ -5,13 +5,13 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="文字滚动"
+            android:title="@string/home_title_title_marquee"
             android:key="prefs_key_home_title_title_marquee"
             android:defaultValue="false"/>
 
         <SeekBarPreference
             android:key="prefs_key_home_title_font_size"
-            android:title="字体大小"
+            android:title="@string/home_title_font_size"
             android:defaultValue="12"
             app:maxValue="20"
             app:format="%d sp"

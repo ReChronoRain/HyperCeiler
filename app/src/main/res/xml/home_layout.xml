@@ -6,30 +6,30 @@
 
         <DropDownPreference
             android:key="prefs_key_home_other_seek_points"
-            android:title="页面指示器"
+            android:title="@string/home_other_seek_points"
             app:entries="@array/seek_points"
             app:entryValues="@array/seek_points_value"
             android:defaultValue="0" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="主屏幕">
+    <PreferenceCategory android:title="@string/home_layout_home_title">
 
         <SwitchPreference
-            android:title="解锁布局"
-            android:summary="解除主屏幕图标布局大小限制"
+            android:title="@string/home_layout_unlock_grids"
+            android:summary="@string/home_layout_unlock_grids_desc"
             android:key="prefs_key_home_layout_unlock_grids"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:title="解锁布局（无字模式）"
-            android:summary="解除主屏幕图标布局大小限制（无字模式）"
+            android:title="@string/home_layout_unlock_grids_no_words"
+            android:summary="@string/home_layout_unlock_grids_no_words_desc"
             android:key="prefs_key_home_layout_unlock_grids_no_word"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:title="底部边距"
-            android:summary="主屏幕距离屏幕底部边距"
+            android:title="@string/home_layout_workspace_padding_bottom"
+            android:summary="@string/home_layout_workspace_padding_bottom_desc"
             android:key="prefs_key_home_layout_workspace_padding_bottom_enable"
             android:defaultValue="false" />
 
@@ -40,15 +40,15 @@
             app:maxValue="300"
             app:format="%d dp"
             app:showSeekBarValue="true"
-            app:dialogTitle="底部边距"
+            app:dialogTitle="@string/home_layout_workspace_padding_bottom"
             android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="底栏">
+    <PreferenceCategory android:title="@string/home_layout_hotseats_title">
 
         <SwitchPreference
-            android:title="高度"
+            android:title="@string/home_layout_hotseats_height"
             android:key="prefs_key_home_layout_hotseats_height_enable"
             android:defaultValue="false" />
 
@@ -56,15 +56,15 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_height"
             android:defaultValue="80"
-            app:dialogTitle="高度"
+            app:dialogTitle="@string/home_layout_hotseats_height"
             app:maxValue="100"
             app:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_layout_hotseats_height_enable"/>
 
         <SwitchPreference
-            android:title="顶部边距"
-            android:summary="底栏距离页面指示器边距"
+            android:title="@string/home_layout_hotseats_margin_top"
+            android:summary="@string/home_layout_hotseats_margin_top_desc"
             android:key="prefs_key_home_layout_hotseats_margin_top_enable"
             android:defaultValue="false" />
 
@@ -72,15 +72,15 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_top"
             android:defaultValue="20"
-            app:dialogTitle="顶部边距"
+            app:dialogTitle="@string/home_layout_hotseats_margin_top"
             app:maxValue="100"
             app:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_layout_hotseats_margin_top_enable"/>
 
         <SwitchPreference
-            android:title="底部边距"
-            android:summary="底栏距离屏幕底部边距"
+            android:title="@string/home_layout_hotseats_margin_bottom"
+            android:summary="@string/home_layout_hotseats_margin_bottom_desc"
             android:key="prefs_key_home_layout_hotseats_margin_bottom_enable"
             android:defaultValue="false" />
 
@@ -88,7 +88,7 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_bottom"
             android:defaultValue="70"
-            app:dialogTitle="底部边距"
+            app:dialogTitle="@string/home_layout_hotseats_margin_bottom"
             app:maxValue="100"
             app:format="%d dp"
             app:showSeekBarValue="true"
@@ -96,7 +96,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="搜索框">
+    <PreferenceCategory android:title="@string/home_layout_searchbar_title">
 
         <!--<SeekBarPreference
             android:key="prefs_key_home_layout_searchbar_margin_top"
@@ -108,8 +108,8 @@
             app:showSeekBarValue="true"/>-->
 
         <SwitchPreference
-            android:title="底部边距"
-            android:summary="搜索框距离屏幕底部边距"
+            android:title="@string/home_layout_searchbar_margin_bottom"
+            android:summary="@string/home_layout_searchbar_margin_bottom_desc"
             android:key="prefs_key_home_layout_searchbar_margin_bottom_enable"
             android:defaultValue="false" />
 
@@ -117,7 +117,7 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_searchbar_margin_bottom"
             android:defaultValue="30"
-            app:dialogTitle="底部边距"
+            app:dialogTitle="@string/home_layout_searchbar_margin_bottom"
             app:maxValue="100"
             app:format="%d dp"
             app:showSeekBarValue="true"

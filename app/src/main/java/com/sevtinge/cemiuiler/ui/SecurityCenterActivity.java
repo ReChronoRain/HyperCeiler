@@ -37,7 +37,7 @@ public class SecurityCenterActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_security_center;
+            return R.xml.security_center;
         }
 
         @Override

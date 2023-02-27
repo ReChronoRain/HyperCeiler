@@ -252,7 +252,7 @@ public class SeekBarPreference extends Preference {
 	private void updateDisplay(int value) {
 		if (!TextUtils.isEmpty(mFormat)) {
 			mValue.setVisibility(View.VISIBLE);
-			value = (value) * mStepValue;
+			value = (value + mSteppedMinValue) * mStepValue;
 			String text;
 
 			if (value == mDefaultValue && mOffText != null) {

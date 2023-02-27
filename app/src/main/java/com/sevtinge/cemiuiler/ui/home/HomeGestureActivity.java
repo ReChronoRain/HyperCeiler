@@ -20,7 +20,7 @@ public class HomeGestureActivity extends BaseHomeActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_home_gesture;
+            return R.xml.home_gesture;
         }
 
         @Override

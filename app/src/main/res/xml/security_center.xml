@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="应用管理">
+    <PreferenceCategory android:title="@string/security_center_app_title">
 
         <DropDownPreference
             android:key="prefs_key_security_center_app_default_sort"
@@ -32,72 +32,72 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="省电与电池">
+    <PreferenceCategory android:title="@string/security_center_battery_title">
 
         <SwitchPreference
             android:key="prefs_key_security_center_show_battery_temperature"
-            android:title="显示电池温度"
+            android:title="@string/security_center_show_battery_temperature"
             android:defaultValue="false"
             app:isPreferenceVisible="true"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="隐私保护">
+    <PreferenceCategory android:title="@string/security_center_privacy_title">
 
         <SwitchPreference
                 android:key="prefs_key_security_center_ai_clipboard"
-                android:title="剪贴板隐私保护"
+                android:title="@string/security_center_ai_clipboard"
                 android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_blur_location"
-            android:title="模糊定位"
+            android:title="@string/security_center_blur_location"
             android:defaultValue="false" />
 
         <SwitchPreference
                 android:key="prefs_key_security_center_get_number"
-                android:title="管理应用获取手机号并一键登录"
+                android:title="@string/security_center_get_number"
                 android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_applock_pin_scramble"
-            android:title="应用锁乱序PIN"
-            android:summary="随机更改应用锁PIN键盘排序"
+            android:title="@string/security_center_applock_pin_scramble"
+            android:summary="@string/security_center_applock_pin_scramble_desc"
             android:defaultValue="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="前置摄像助手">
+    <PreferenceCategory android:title="@string/security_center_beauty_title">
 
         <SwitchPreference
                 android:key="prefs_key_security_center_beauty_light"
-                android:title="解锁模拟补光灯"
+                android:title="@string/security_center_beauty_light"
                 android:defaultValue="false" />
 
         <SwitchPreference
                 android:key="prefs_key_security_center_beauty_light_auto"
-                android:title="解锁智能调节补光灯亮度"
+                android:title="@string/security_center_beauty_light_auto"
                 android:defaultValue="false"
                 android:dependency="prefs_key_security_center_beauty_light"/>
 
         <SwitchPreference
                 android:key="prefs_key_security_center_beauty_face"
-                android:title="解锁视频通话美颜"
+                android:title="@string/security_center_beauty_face"
                 android:defaultValue="false" />
 
         <SwitchPreference
                 android:key="prefs_key_security_center_beauty_privacy"
-                android:title="解锁隐私拍摄"
+                android:title="@string/security_center_beauty_privacy"
                 android:defaultValue="false" />
 
         <SwitchPreference
                 android:key="prefs_key_security_center_beauty_pc"
-                android:title="解锁人像居中"
+                android:title="@string/security_center_beauty_pc"
                 android:defaultValue="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="其他">
+    <PreferenceCategory android:title="@string/security_center_other_title">
 
         <SwitchPreference
             android:key="prefs_key_security_center_score"
@@ -113,31 +113,31 @@
 
         <SwitchPreference
                 android:key="prefs_key_security_center_disable_root_check"
-                android:title="禁用root检测"
+                android:title="@string/security_center_disable_root_check"
                 android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_remove_macro_black_list"
-            android:title="去除自动连招黑名单"
+            android:title="@string/security_center_remove_macro_black_list"
             android:defaultValue="false"
             app:isPreferenceVisible="true"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="全局侧边栏">
+    <PreferenceCategory android:title="@string/security_center_newbox_title">
 
         <SwitchPreference
-            android:title="启用自定义"
+            android:title="@string/security_center_newbox_custom_enable"
             android:key="prefs_key_security_center_newbox_custom_enable"
             android:defaultValue="false" />
 
         <Preference
-            android:title="背景模糊"
+            android:title="@string/security_center_newbox_bg_custom"
             android:key="prefs_key_security_center_newbox_bg_custom"
             android:dependency="prefs_key_security_center_newbox_custom_enable" />
 
         <SeekBarPreference
-            android:title="水平边距"
+            android:title="@string/security_center_newbox_bg_padding_vertical"
             android:key="prefs_key_security_center_newbox_bg_padding_vertical"
             android:defaultValue="0"
             app:maxValue="30"
@@ -146,7 +146,7 @@
             android:dependency="prefs_key_security_center_newbox_custom_enable"/>
 
         <SeekBarPreference
-            android:title="垂直边距"
+            android:title="@string/security_center_newbox_bg_padding_horizontal"
             android:key="prefs_key_security_center_newbox_bg_padding_horizontal"
             android:defaultValue="0"
             app:maxValue="30"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-            android:title="解锁小米妙享"
+            android:title="@string/milink_unlock_mishare"
             android:key="prefs_key_milink_unlock_mishare"
             android:defaultValue="false"/>
 

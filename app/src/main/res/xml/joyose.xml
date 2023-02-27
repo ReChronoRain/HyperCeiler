@@ -3,7 +3,7 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="禁用云控"
+                android:title="@string/joyose_disable_cloud_control"
                 android:key="prefs_key_various_disable_cloud_control"
                 android:defaultValue="false"/>
 

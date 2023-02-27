@@ -17,7 +17,7 @@ public class HomeActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_home;
+            return R.xml.home;
         }
     }
 }

@@ -3,7 +3,7 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="去广告"
+                android:title="@string/music_disable_ad"
                 android:key="prefs_key_music_disable_ad"
                 android:defaultValue="false"/>
 

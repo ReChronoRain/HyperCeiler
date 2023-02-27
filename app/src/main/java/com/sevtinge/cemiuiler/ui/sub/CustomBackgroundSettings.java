@@ -32,7 +32,7 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
 
     @Override
     public int getContentResId() {
-        return R.xml.custom_background;
+        return R.xml.various_background;
     }
 
     @Override

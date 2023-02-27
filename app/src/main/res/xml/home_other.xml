@@ -5,20 +5,20 @@
 
         <DropDownPreference
             android:key="prefs_key_home_other_home_mode"
-            android:title="桌面模式"
+            android:title="@string/home_other_home_mode"
             app:entries="@array/home_mode"
             app:entryValues="@array/home_mode_value"
             android:defaultValue="0" />
 
         <SwitchPreference
             android:key="prefs_key_home_other_show_clock"
-            android:title="显示时间"
-            android:summary="时钟小部件所在页面始终显示时间"
+            android:title="@string/home_other_show_clock"
+            android:summary="@string/home_other_show_clock_desc"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:title="无限滚动"
-            android:summary="从末页跳到首页，反之亦然"
+            android:title="@string/home_other_infinite_scroll"
+            android:summary="@string/home_other_infinite_scroll_desc"
             android:key="prefs_key_home_other_infinite_scroll"
             android:defaultValue="false"/>
 
@@ -26,39 +26,39 @@
         <SwitchPreference
             android:key="prefs_key_home_other_freeform_shortcut_menu"
             android:defaultValue="false"
-            android:title="小窗模式"
-            android:summary="在快捷菜单中添加小窗菜单"/>
+            android:title="@string/home_other_freeform_shortcut_menu"
+            android:summary="@string/home_other_freeform_shortcut_menu_desc"/>
 
         <SwitchPreference
             android:key="prefs_key_home_other_user_present_animation"
-            android:title="优化解锁动画"
+            android:title="@string/home_other_user_present_animation"
             android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_home_other_perfect_icon"
-            android:title="完美图标优先级"
+            android:title="@string/home_other_perfect_icon"
             android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_home_other_portrait_reverse"
-            android:title="反向竖屏"
+            android:title="@string/home_other_portrait_reverse"
             android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_home_other_shortcut_backgound_blur"
-            android:title="快捷菜单背景模糊"
+            android:title="@string/home_other_shortcut_backgound_blur"
             android:defaultValue="false"
             app:isPreferenceVisible="false"/>
 
         <SeekBarPreference
-            android:title="大图标圆角"
+            android:title="@string/home_large_icon_corner_radius"
             android:key="prefs_key_home_large_icon_corner_radius"
             android:defaultValue="15"
             app:maxValue="90"
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <Preference android:title="桌面快捷方式管理">
+        <Preference android:title="@string/home_other_app_icon_hide">
             <intent
                 android:targetPackage="com.miui.home"
                 android:targetClass="com.miui.home.settings.AllHideAppActivity" />

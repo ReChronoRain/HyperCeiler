@@ -64,114 +64,114 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:label="关于" android:name=".ui.AboutActivity"/>
+        <activity android:label="@string/about" android:name=".ui.AboutActivity"/>
 
-        <activity android:label="系统框架" android:name=".ui.SystemFrameworkActivity" android:exported="false">
+        <activity android:label="@string/system_framework" android:name=".ui.SystemFrameworkActivity" android:exported="false">
             <intent-filter>
                 <action android:name="moralnorm.intent.action.SystemFramework"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <activity android:label="系统界面" android:name=".ui.SystemUIActivity" android:exported="false">
+        <activity android:label="@string/system_ui" android:name=".ui.SystemUIActivity" android:exported="false">
             <intent-filter>
                 <action android:name="moralnorm.intent.action.SystemUI"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <activity android:label="系统桌面" android:name=".ui.HomeActivity" android:exported="false">
+        <activity android:label="@string/home" android:name=".ui.HomeActivity" android:exported="false">
             <intent-filter>
                 <action android:name="moralnorm.intent.action.Home"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <activity android:label="手机管家" android:name=".ui.SecurityCenterActivity" android:exported="false">
+        <activity android:label="@string/security_center" android:name=".ui.SecurityCenterActivity" android:exported="false">
             <intent-filter>
                 <action android:name="moralnorm.intent.action.SecurityCenter"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <activity android:label="其他" android:name=".ui.VariousActivity" android:exported="false">
+        <activity android:label="@string/various" android:name=".ui.VariousActivity" android:exported="false">
             <intent-filter>
                 <action android:name="moralnorm.intent.action.Various"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <activity android:label="Joyose" android:name=".ui.JoyoseActivity"/>
+        <activity android:label="@string/joyose" android:name=".ui.JoyoseActivity"/>
 
-        <activity android:label="电量与性能" android:name=".ui.PowerKeeperActivity"/>
+        <activity android:label="@string/powerkeeper" android:name=".ui.PowerKeeperActivity"/>
 
-        <activity android:label="截屏" android:name=".ui.ScreenShotActivity"/>
+        <activity android:label="@string/screenshot" android:name=".ui.ScreenShotActivity"/>
 
-        <activity android:label="屏幕录制" android:name=".ui.ScreenRecorderActivity"/>
+        <activity android:label="@string/screenrecorder" android:name=".ui.ScreenRecorderActivity"/>
 
-        <activity android:label="相册编辑" android:name=".ui.MediaEditorActivity"/>
+        <activity android:label="@string/mediaeditor" android:name=".ui.MediaEditorActivity"/>
 
-        <activity android:label="音乐" android:name=".ui.MusicActivity"/>
+        <activity android:label="@string/music" android:name=".ui.MusicActivity"/>
 
-        <activity android:label="相册" android:name=".ui.GalleryActivity"/>
+        <activity android:label="@string/gallery" android:name=".ui.GalleryActivity"/>
 
-        <activity android:label="时钟" android:name=".ui.ClockActivity"/>
+        <activity android:label="@string/clock" android:name=".ui.ClockActivity"/>
 
-        <activity android:label="浏览器" android:name=".ui.BrowserActivity"/>
+        <activity android:label="@string/browser" android:name=".ui.BrowserActivity"/>
 
-        <activity android:label="天气" android:name=".ui.WeatherActivity"/>
+        <activity android:label="@string/weather" android:name=".ui.WeatherActivity"/>
 
-        <activity android:label="设置" android:name=".ui.SettingsActivity"/>
+        <activity android:label="@string/settings" android:name=".ui.SettingsActivity"/>
 
-        <activity android:label="小爱建议" android:name=".ui.AirecoActivity"/>
+        <activity android:label="@string/aireco" android:name=".ui.AirecoActivity"/>
 
-        <activity android:label="小爱视觉" android:name=".ui.ScannerActivity"/>
+        <activity android:label="@string/scanner" android:name=".ui.ScannerActivity"/>
 
-        <activity android:label="小米互传" android:name=".ui.MiShareActivity"/>
+        <activity android:label="@string/mishare" android:name=".ui.MiShareActivity"/>
 
-        <activity android:label="MIUI+" android:name=".ui.MirrorActivity"/>
+        <activity android:label="@string/mirror" android:name=".ui.MirrorActivity"/>
 
-        <activity android:label="MIUI安全组件" android:name=".ui.GuardProviderActivity"/>
+        <activity android:label="@string/guard_provider" android:name=".ui.GuardProviderActivity"/>
 
-        <activity android:label="投屏" android:name=".ui.MiLinkActivity"/>
+        <activity android:label="@string/milink" android:name=".ui.MiLinkActivity"/>
 
-        <activity android:label="系统设置" android:name=".ui.SystemSettingsActivity"/>
+        <activity android:label="@string/system_settings" android:name=".ui.SystemSettingsActivity"/>
 
-        <activity android:label="系统更新" android:name=".ui.UpdaterActivity"/>
+        <activity android:label="@string/updater" android:name=".ui.UpdaterActivity"/>
 
-        <activity android:label="权限管理服务" android:name=".ui.LbeActivity"/>
+        <activity android:label="@string/lbe" android:name=".ui.LbeActivity"/>
 
-        <activity android:label="安全模式" android:name=".ui.settings.SafeModeActivity"/>
+        <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>
 
 
-        <activity android:label="小窗" android:name=".ui.systemframework.FreeFormSettings"/>
-        <activity android:label="音量" android:name=".ui.systemframework.VolumeSettings"/>
-        <activity android:label="其他" android:name=".ui.systemframework.OtherSettings"/>
+        <activity android:label="@string/system_framework_free_form_title" android:name=".ui.systemframework.FreeFormSettings"/>
+        <activity android:label="@string/system_framework_volume_title" android:name=".ui.systemframework.VolumeSettings"/>
+        <activity android:label="@string/system_framework_other_title" android:name=".ui.systemframework.OtherSettings"/>
 
-        <activity android:label="锁屏" android:name=".ui.systemui.LockScreenActivity"/>
-        <activity android:label="状态栏" android:name=".ui.systemui.StatusBarActivity"/>
-        <activity android:label="图标管理" android:name=".ui.systemui.statusbar.IconManageActivity"/>
-        <activity android:label="控制中心" android:name=".ui.systemui.ControlCenterActivity"/>
-        <activity android:label="其他" android:name=".ui.systemui.OtherActivity"/>
-        <activity android:label="电池条指示器" android:name=".ui.systemui.statusbar.BatteryIndicatorActivity"/>
+        <activity android:label="@string/system_ui_lockscreen_title" android:name=".ui.systemui.LockScreenActivity"/>
+        <activity android:label="@string/system_ui_statusbar_title" android:name=".ui.systemui.StatusBarActivity"/>
+        <activity android:label="@string/system_ui_statusbar_iconmanage_title" android:name=".ui.systemui.statusbar.IconManageActivity"/>
+        <activity android:label="@string/system_ui_controlcenter_title" android:name=".ui.systemui.ControlCenterActivity"/>
+        <activity android:label="@string/system_ui_other_title" android:name=".ui.systemui.OtherActivity"/>
+        <activity android:label="@string/system_ui_status_bar_battery_indicator_title" android:name=".ui.systemui.statusbar.BatteryIndicatorActivity"/>
 
-        <activity android:label="手势" android:name=".ui.home.HomeGestureActivity"/>
-        <activity android:label="布局" android:name=".ui.home.HomeLayoutActivity"/>
-        <activity android:label="文件夹" android:name=".ui.home.HomeFolderActivity"/>
-        <activity android:label="标题" android:name=".ui.home.HomeTitleActivity"/>
-        <activity android:label="小部件" android:name=".ui.home.HomeWidgetActivity"/>
-        <activity android:label="底栏" android:name=".ui.home.HomeDockActivity"/>
-        <activity android:label="其他" android:name=".ui.home.HomeOtherActivity"/>
+        <activity android:label="@string/home_gesture" android:name=".ui.home.HomeGestureActivity"/>
+        <activity android:label="@string/home_layout" android:name=".ui.home.HomeLayoutActivity"/>
+        <activity android:label="@string/home_folder" android:name=".ui.home.HomeFolderActivity"/>
+        <activity android:label="@string/home_title" android:name=".ui.home.HomeTitleActivity"/>
+        <activity android:label="@string/home_widget" android:name=".ui.home.HomeWidgetActivity"/>
+        <activity android:label="@string/home_dock" android:name=".ui.home.HomeDockActivity"/>
+        <activity android:label="@string/home_other" android:name=".ui.home.HomeOtherActivity"/>
 
-        <activity android:label="位置模拟" android:name=".ui.various.LocationSimulationActivity"/>
-        <activity android:label="主题壁纸" android:name=".ui.various.VariousThemeActivity"/>
-        <activity android:label="弹窗" android:name=".ui.various.VariousDialogActivity"/>
-        <activity android:label="智能助理" android:name=".ui.PersonalAssistantActivity"/>
-        <activity android:label="应用包管理组件" android:name=".ui.MiuiPackageInstallerActivity"/>
+        <activity android:label="@string/various_location_simulation_title" android:name=".ui.various.LocationSimulationActivity"/>
+        <activity android:label="@string/theme_manager" android:name=".ui.various.VariousThemeActivity"/>
+        <activity android:label="@string/various_dialog_title" android:name=".ui.various.VariousDialogActivity"/>
+        <activity android:label="@string/personal_assistant" android:name=".ui.PersonalAssistantActivity"/>
+        <activity android:label="@string/package_installer" android:name=".ui.MiuiPackageInstallerActivity"/>
 
-        <activity android:label="数据库" android:name=".ui.various.LocationDataActivity"/>
+        <activity android:label="@string/location_data_title" android:name=".ui.various.LocationDataActivity"/>
 
-        <activity android:label="自定义Hook" android:name=".ui.CustomHookActivity" android:exported="true">
+        <activity android:label="@string/custom_hook" android:name=".ui.CustomHookActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>

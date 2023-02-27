@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
             android:key="prefs_key_home_widget_all_widget_animation"
-            android:title="小部件动画"
+            android:title="@string/home_widget_all_widget_animation"
             android:defaultValue="false" />
 
     <SwitchPreference
         android:key="prefs_key_home_widget_show_miui_widget"
-        android:title="显示MIUI小部件"
-        android:summary="在安卓小部件页面显示MIUI小部件"
+        android:title="@string/home_widget_show_miui_widget"
+        android:summary="@string/home_widget_show_miui_widget_desc"
         android:defaultValue="false" />
 
     <SeekBarPreference
         android:key="prefs_key_home_widget_corner_radius"
-        android:title="小部件圆角"
+        android:title="@string/home_widget_corner_radius"
         android:defaultValue="0"
         app:maxValue="30"
         app:format="%d dp"

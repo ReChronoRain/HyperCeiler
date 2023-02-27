@@ -2,16 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference android:title="图标管理">
+    <Preference android:title="@string/system_ui_statusbar_iconmanage_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity" />
     </Preference>
 
-    <PreferenceCategory android:title="时钟">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_clock_title"
+                        app:isPreferenceVisible="false">
 
         <SwitchPreference
-            android:title="显示秒"
+            android:title="@string/system_ui_statusbar_clock_show_second"
             android:key="prefs_key_system_ui_statusbar_clock_show_second"
             android:defaultValue="false" />
 

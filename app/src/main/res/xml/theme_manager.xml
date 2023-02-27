@@ -7,7 +7,7 @@
         app:isPreferenceVisible="false" >
 
         <SwitchPreference
-            android:title="禁用MIUI版本检测"
+            android:title="@string/theme_manager_version_code_modify"
             android:key="prefs_key_theme_manager_version_code_modify"
             android:defaultValue="false" />
 
@@ -16,12 +16,12 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="禁用广告"
+            android:title="@string/theme_manager_diable_ads"
             android:key="prefs_key_various_theme_diable_ads"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="主题破解"
+            android:title="@string/theme_manager_crack"
             android:key="prefs_key_various_theme_crack"
             android:defaultValue="false"/>
 
@@ -30,12 +30,12 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="启用Pad主题"
+            android:title="@string/theme_manager_enable_pad_theme"
             android:key="prefs_key_various_theme_enable_pad_theme"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:title="启用Fold主题"
+            android:title="@string/theme_manager_enable_fold_theme"
             android:key="prefs_key_various_theme_enable_fold_theme"
             android:defaultValue="false"/>
 

@@ -22,7 +22,7 @@ public class PersonalAssistantActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.various_personal_assistant;
+            return R.xml.personal_assistant;
         }
 
         @Override

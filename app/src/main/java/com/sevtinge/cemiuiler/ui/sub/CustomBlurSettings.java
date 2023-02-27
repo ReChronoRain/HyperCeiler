@@ -32,7 +32,7 @@ public class CustomBlurSettings extends SubFragment {
 
     @Override
     public int getContentResId() {
-        return R.xml.prefs_custom_blur;
+        return R.xml.various_custom_blur;
     }
 
     @Override

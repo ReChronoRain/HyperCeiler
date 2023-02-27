@@ -5,21 +5,21 @@
     <PreferenceCategory>
 
         <DropDownPreference
-            android:title="充电动画样式"
-            android:summary="选择锁屏充电动画样式"
+            android:title="@string/system_ui_charge_animation_style"
+            android:summary="@string/system_ui_charge_animation_style_desc"
             android:key="prefs_key_system_ui_charge_animation_style"
             app:entries="@array/charge_animation_entries"
             app:entryValues="@array/charge_animation_values"
             android:defaultValue="0"/>
 
         <SwitchPreference
-            android:title="原生充电动画"
+            android:title="@string/system_ui_origin_charge_animation"
             android:key="prefs_key_system_ui_origin_charge_animation"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:title="更多应用通知栏下拉打开小窗"
-            android:summary="可能不支持Mi Push推送的通知"
+            android:title="@string/system_ui_notification_freeform"
+            android:summary="@string/system_ui_notification_freeform_desc"
             android:key="prefs_key_system_ui_notification_freeform"
             android:defaultValue="false"/>
 
@@ -28,13 +28,13 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="自定义主题色"
-            android:summary="自定义主题颜色，而不是从壁纸中提取颜色"
+            android:title="@string/system_ui_monet_overlay_custom"
+            android:summary="@string/system_ui_monet_overlay_custom_desc"
             android:key="prefs_key_system_ui_monet_overlay_custom"
             android:defaultValue="false" />
 
         <ColorPickerPreference
-            android:title="选择主题色"
+            android:title="@string/system_ui_monet_overlay_custom_color"
             android:key="prefs_key_system_ui_monet_overlay_custom_color"
             android:defaultValue="-1"
             app:showAlphaSlider="false"
@@ -46,12 +46,12 @@
         app:isPreferenceVisible="false">
 
         <SwitchPreference
-            android:title="扩展计时器"
+            android:title="@string/system_ui_volume_timer"
             android:key="prefs_key_system_ui_volume_timer"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="快捷开关标签"
+            android:title="@string/system_ui_qs_label"
             android:key="prefs_key_system_ui_qs_label"
             android:defaultValue="false" />
     </PreferenceCategory>

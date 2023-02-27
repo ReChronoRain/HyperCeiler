@@ -5,7 +5,7 @@
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_modify"
-            android:title="净化页面"
+            android:title="@string/miui_package_installer_modify"
             android:defaultValue="false"
             app:isPreferenceVisible="false" />
 
@@ -13,43 +13,43 @@
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_safe_mode"
-            android:title="纯净模式"
+            android:title="@string/miui_package_installer_safe_mode"
             android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_disable_ad"
-            android:title="禁用推广"
+            android:title="@string/miui_package_installer_disable_ad"
             android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_install_risk"
-            android:title="禁用风险检测"
+            android:title="@string/miui_package_installer_install_risk"
             android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_safe_model_tip"
-            android:title="禁用安全守护提示"
+            android:title="@string/miui_package_installer_safe_model_tip"
             android:defaultValue="false"/>
 
         <SwitchPreference
                 android:key="prefs_key_miui_package_installer_count_checking"
-                android:title="禁用频繁安装应用检查"
+                android:title="@string/miui_package_installer_count_checking"
                 android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_update_system_app"
-            android:title="允许更新系统应用"
+            android:title="@string/miui_package_installer_update_system_app"
             android:defaultValue="false"/>
 
         <EditTextPreference
-            android:title="自定义安装来源"
+            android:title="@string/miui_package_installer_install_source"
             android:key="prefs_key_miui_package_installer_install_source"
             android:defaultValue="com.android.fileexplorer" />
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_apk_info"
-            android:title="显示更多安装包信息"
-            android:summary="显示安装中应用的更多相关信息"
+            android:title="@string/miui_package_installer_apk_info"
+            android:summary="@string/miui_package_installer_apk_info_desc"
             android:defaultValue="false"/>
 
     </PreferenceCategory>

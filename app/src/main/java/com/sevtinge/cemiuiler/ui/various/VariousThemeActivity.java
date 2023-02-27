@@ -25,7 +25,7 @@ public class VariousThemeActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_various_theme;
+            return R.xml.theme_manager;
         }
 
         @Override

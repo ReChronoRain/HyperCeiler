@@ -2,17 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="WIFI">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_wifi_title">
 
         <DropDownPreference
-            android:title="WIFI标准"
+            android:title="@string/system_ui_status_bar_icon_wifi_standard"
             android:key="prefs_key_system_ui_status_bar_icon_wifi_standard"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="网络活动指示器"
+            android:title="@string/system_ui_status_bar_icon_wifi_network_indicator"
             android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
@@ -20,10 +20,10 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="蓝牙">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
 
         <DropDownPreference
-            android:title="蓝牙"
+            android:title="@string/system_ui_status_bar_icon_bluetooth"
             android:key="prefs_key_system_ui_status_bar_icon_bluetooth"
             app:entries="@array/status_bar_icon_bluetooth"
             app:entryValues="@array/status_bar_icon_bluetooth_value"
@@ -32,24 +32,24 @@
     </PreferenceCategory>
 
 
-    <PreferenceCategory android:title="移动网络">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_mobile_title">
 
         <DropDownPreference
-            android:title="新HD图标"
+            android:title="@string/system_ui_status_bar_icon_new_hd"
             android:key="prefs_key_system_ui_status_bar_icon_new_hd"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="小HD图标"
+            android:title="@string/system_ui_status_bar_icon_small_hd"
             android:key="prefs_key_system_ui_status_bar_icon_small_hd"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="大HD图标"
+            android:title="@string/system_ui_status_bar_icon_big_hd"
             android:key="prefs_key_system_ui_status_bar_icon_big_hd"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
@@ -57,44 +57,44 @@
 
 
         <DropDownPreference
-            android:title="无SIM卡图标"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_signal_no_card"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_no_card"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="SIM卡一信号图标"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_signal_card_1"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_card_1"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="SIM卡二信号图标"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_signal_card_2"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_card_2"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="网络类型图标"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_type"
             android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type"
             app:entries="@array/status_bar_icon_mobile_network_type"
             app:entryValues="@array/status_bar_icon_mobile_network_type_value"
             android:defaultValue="0"/>
 
         <SwitchPreference
-            android:title="大网络类型图标"
+            android:title="@string/system_ui_status_bar_big_mobile_network_type"
             android:key="prefs_key_system_ui_status_bar_big_mobile_network_type"
             android:defaultValue="false" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="状态图标">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_status_title">
 
 
         <DropDownPreference
-            android:title="闹钟"
+            android:title="@string/system_ui_status_bar_icon_alarm_clock"
             android:key="prefs_key_system_ui_status_bar_icon_alarm_clock"
             app:entries="@array/status_bar_icon_alarm_clock"
             app:entryValues="@array/status_bar_icon_alarm_clock_value"
@@ -102,22 +102,22 @@
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_icon_alarm_clock_n"
-            android:title="仅在闹钟响铃前显示闹钟图标"
+            android:title="@string/system_ui_status_bar_icon_alarm_clock_n"
             android:defaultValue="0"
             app:minValue="0"
             app:maxValue="60"
-            app:format="%d分钟"
+            app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format"
             app:showSeekBarValue="true" />
 
         <DropDownPreference
-            android:title="NFC"
+            android:title="@string/system_ui_status_bar_icon_nfc"
             android:key="prefs_key_system_ui_status_bar_icon_nfc"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="VPN"
+            android:title="@string/system_ui_status_bar_icon_vpn"
             android:key="prefs_key_system_ui_status_bar_icon_vpn"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value"
@@ -125,87 +125,87 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="通知图标">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_notify_title">
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_notification_dots_maximum"
-            android:title="通知点数最大数量"
+            android:title="@string/system_ui_status_bar_notification_dots_maximum"
             android:defaultValue="3"
             app:maxValue="5"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum"
-            android:title="通知图标最大数量"
+            android:title="@string/system_ui_status_bar_notification_icon_maximum"
             android:defaultValue="0"
             app:minValue="0"
             app:maxValue="15"
             app:showSeekBarValue="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="电池">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_battery_title">
 
         <SwitchPreference
-            android:title="电量百分比"
+            android:title="@string/system_ui_status_bar_battery_percent"
             android:key="prefs_key_system_ui_status_bar_battery_percent"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="电量百分比符号"
+            android:title="@string/system_ui_status_bar_battery_percent_mark"
             android:key="prefs_key_system_ui_status_bar_battery_percent_mark"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="充电指示器"
+            android:title="@string/system_ui_status_bar_battery_charging"
             android:key="prefs_key_system_ui_status_bar_battery_charging"
             android:defaultValue="false" />
 
         <Preference
-            android:title="电量条指示器">
+            android:title="@string/system_ui_status_bar_battery_indicator_title">
             <intent
                 android:targetPackage="com.sevtinge.cemiuiler"
                 android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryIndicatorActivity" />
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="图标左侧显示">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_left_title">
 
         <SwitchPreference
-            android:title="WIFI"
+            android:title="@string/system_ui_status_bar_wifi_at_left"
             android:key="prefs_key_system_ui_status_bar_wifi_at_left"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="移动网络"
+            android:title="@string/system_ui_status_bar_mobile_network_at_left"
             android:key="prefs_key_system_ui_status_bar_mobile_network_at_left"
             android:defaultValue="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="图标右侧显示">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_right_title">
 
         <SwitchPreference
-            android:title="网速"
+            android:title="@string/system_ui_status_bar_network_speed_at_right"
             android:key="prefs_key_system_ui_status_bar_network_speed_at_right"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="闹钟"
+            android:title="@string/system_ui_status_bar_alarm_clock_at_right"
             android:key="prefs_key_system_ui_status_bar_alarm_clock_at_right"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="NFC"
+            android:title="@string/system_ui_status_bar_nfc_at_right"
             android:key="prefs_key_system_ui_status_bar_nfc_at_right"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="声音情景"
+            android:title="@string/system_ui_status_bar_volume_at_right"
             android:key="prefs_key_system_ui_status_bar_volume_at_right"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:title="勿扰模式"
+            android:title="@string/system_ui_status_bar_zen_at_right"
             android:key="prefs_key_system_ui_status_bar_zen_at_right"
             android:defaultValue="false" />
 

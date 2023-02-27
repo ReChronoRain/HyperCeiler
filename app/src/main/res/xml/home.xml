@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:title="手势"
+        android:title="@string/home_gesture"
         android:key="prefs_key_home_gesture">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -10,7 +10,7 @@
     </Preference>
 
     <Preference
-        android:title="布局"
+        android:title="@string/home_layout"
         android:key="prefs_key_home_layout">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -18,7 +18,7 @@
     </Preference>
 
     <Preference
-        android:title="文件夹"
+        android:title="@string/home_folder"
         android:key="prefs_key_home_folder">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -26,7 +26,7 @@
     </Preference>
 
     <Preference
-        android:title="标题"
+        android:title="@string/home_title"
         android:key="prefs_key_home_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -34,7 +34,7 @@
     </Preference>
 
     <Preference
-        android:title="小部件"
+        android:title="@string/home_widget"
         android:key="prefs_key_home_widget">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -42,7 +42,7 @@
     </Preference>
 
     <Preference
-        android:title="底栏"
+        android:title="@string/home_dock"
         android:key="prefs_key_home_dock">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -50,7 +50,7 @@
     </Preference>
 
     <Preference
-        android:title="其他"
+        android:title="@string/home_other"
         android:key="prefs_key_home_other">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"

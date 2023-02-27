@@ -3,32 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <DropDownPreference
-        android:title="默认调整音量"
+        android:title="@string/system_framework_default_volume_stream"
         android:key="prefs_key_system_framework_default_volume_stream"
         app:entries="@array/default_volume_stream"
         app:entryValues="@array/default_volume_streame_value"
         android:defaultValue="0"/>
 
     <SwitchPreference
-        android:title="音量即时调整"
+        android:title="@string/system_framework_volume_first_press"
         android:key="prefs_key_system_framework_volume_first_press"
         android:defaultValue="false"/>
 
     <SwitchPreference
-        android:title="音量独立控制"
+        android:title="@string/system_framework_volume_separate_control"
         android:key="prefs_key_system_framework_volume_separate_control"
         android:defaultValue="false"/>
 
     <SwitchPreference
-        android:title="通知音量滑块"
+        android:title="@string/system_framework_volume_separate_slider"
         android:key="prefs_key_system_framework_volume_separate_slider"
         android:defaultValue="false"
         android:dependency="prefs_key_system_framework_volume_separate_control"/>
 
     <SeekBarPreference
             android:key="prefs_key_system_framework_volume_media_steps"
-            android:title="媒体音量阶数"
-            android:summary="可能会导致音量条的滚动卡顿或蓝牙音量异常"
+            android:title="@string/system_framework_volume_media_steps"
+            android:summary="@string/system_framework_volume_media_steps_desc"
             app:maxValue="29"
             app:minValue="15"
             app:format="%s"
@@ -36,7 +36,7 @@
 
     <SeekBarPreference
         android:key="prefs_key_system_framework_volume_steps"
-        android:title="音量级数倍增"
+        android:title="@string/system_framework_volume_steps"
         android:defaultValue="0"
         app:minValue="0"
         app:maxValue="500"

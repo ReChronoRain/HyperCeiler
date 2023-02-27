@@ -17,7 +17,7 @@ public class HomeTitleActivity extends BaseHomeActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_home_title;
+            return R.xml.home_title;
         }
     }
 

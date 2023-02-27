@@ -18,7 +18,7 @@ public class MiuiPackageInstallerActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_various_miui_package_installer;
+            return R.xml.package_installer;
         }
     }
 }

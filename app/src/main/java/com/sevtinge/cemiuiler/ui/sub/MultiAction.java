@@ -35,7 +35,7 @@ public class MultiAction extends SubFragment {
 
     @Override
     public int getContentResId() {
-        return R.xml.prefs_multi_action;
+        return R.xml.home_multi_action;
     }
 
     @Override

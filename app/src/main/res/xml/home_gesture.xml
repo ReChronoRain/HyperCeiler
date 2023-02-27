@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <Preference
+            android:key="prefs_key_home_gesture_double_tap"
+            android:title="@string/home_gesture_double_tap"
+            android:summary="@string/home_gesture_double_tap_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_shake"
+            android:title="@string/home_gesture_shake"
+            android:summary="@string/home_gesture_shake_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_left_swipe"
+            android:title="@string/home_gesture_left_swipe"
+            android:summary="@string/home_gesture_left_swipe_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_right_swipe"
+            android:title="@string/home_gesture_right_swipe"
+            android:summary="@string/home_gesture_right_swipe_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_up_swipe"
+            android:title="@string/home_gesture_up_swipe"
+            android:summary="@string/home_gesture_up_swipe_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_down_swipe"
+            android:title="@string/home_gesture_down_swipe"
+            android:summary="@string/home_gesture_down_swipe_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_up_swipe2"
+            android:title="@string/home_gesture_up_swipe2"
+            android:summary="@string/home_gesture_up_swipe2_desc"/>
+
+        <Preference
+            android:key="prefs_key_home_gesture_down_swipe2"
+            android:title="@string/home_gesture_down_swipe2"
+            android:summary="@string/home_gesture_down_swipe2_desc"/>
+
+        <!--<Preference
+            android:key="prefs_key_home_gesture_pinch"
+            android:title="@string/home_gesture_pinch" />
+
+        <Preference
+            android:key="prefs_key_home_gesture_spread"
+            android:title="@string/home_gesture_spread" />-->
+
+    </PreferenceCategory>
+</PreferenceScreen>

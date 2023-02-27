@@ -5,13 +5,13 @@
 
         <SwitchPreference
             android:key="prefs_key_personal_assistant_widget_crack"
-            android:title="小部件破解"
+            android:title="@string/personal_assistant_widget_crack"
             android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_personal_assistant_fold_widget_enable"
-            android:title="Pad/Fold小组件"
-            android:summary="启用Pad/Fold主题样式的小组件"/>
+            android:title="@string/personal_assistant_fold_widget_enable"
+            android:summary="@string/personal_assistant_fold_widget_enable_desc"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

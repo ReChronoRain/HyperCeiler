@@ -36,7 +36,7 @@ public class HomeFolderActivity extends BaseHomeActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_home_folder;
+            return R.xml.home_folder;
         }
 
 

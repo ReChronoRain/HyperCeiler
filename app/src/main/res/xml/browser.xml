@@ -4,7 +4,7 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="开发者选项"
+                android:title="@string/browser_debug_mode"
                 android:key="prefs_key_browser_debug_mode"
                 android:defaultValue="false"/>
 

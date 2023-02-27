@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="特色功能">
+    <PreferenceCategory android:title="@string/system_settings_lab_title">
 
         <SwitchPreference
-                android:title="网络通话助手"
+                android:title="@string/system_settings_voip_assistant_controller"
                 android:key="prefs_key_system_settings_voip_assistant_controller"
                 android:defaultValue="false"/>
 

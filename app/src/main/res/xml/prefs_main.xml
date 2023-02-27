@@ -5,7 +5,7 @@
     <PreferenceCategory>
 
         <Preference
-                android:title="Joyose"
+                android:title="@string/joyose"
                 android:key="prefs_key_joyose"
                 android:icon="@drawable/ic_joyose_new">
             <intent
@@ -14,7 +14,7 @@
         </Preference>
 
         <Preference
-                android:title="MIUI+"
+                android:title="@string/mirror"
                 android:key="prefs_key_mirror"
                 android:icon="@drawable/ic_miui_plus">
             <intent
@@ -23,7 +23,7 @@
         </Preference>
 
         <Preference
-                android:title="MIUI安全组件"
+                android:title="@string/guard_provider"
                 android:key="prefs_key_guardprovider"
                 android:icon="@drawable/ic_guard_provider_new">
             <intent
@@ -32,7 +32,7 @@
         </Preference>
 
         <Preference
-                android:title="电量与性能"
+                android:title="@string/powerkeeper"
                 android:key="prefs_key_powerkeeper"
                 android:icon="@drawable/ic_powerkeeper">
             <intent
@@ -41,7 +41,7 @@
         </Preference>
 
         <Preference
-                android:title="截屏"
+                android:title="@string/screenshot"
                 android:key="prefs_key_screenshot"
                 android:icon="@drawable/ic_screenshot">
             <intent
@@ -50,7 +50,7 @@
         </Preference>
 
         <Preference
-                android:title="浏览器"
+                android:title="@string/browser"
                 android:key="prefs_key_browser"
                 android:icon="@drawable/ic_browser">
             <intent
@@ -59,7 +59,7 @@
         </Preference>
 
         <Preference
-                android:title="屏幕录制"
+                android:title="@string/screenrecorder"
                 android:key="prefs_key_screenrecorder"
                 android:icon="@drawable/ic_screenrecorder">
             <intent
@@ -68,7 +68,7 @@
         </Preference>
 
         <Preference
-                android:title="权限管理服务"
+                android:title="@string/lbe"
                 android:key="prefs_key_lbe"
                 android:icon="@drawable/ic_lbe">
             <intent
@@ -77,7 +77,7 @@
         </Preference>
 
         <Preference
-                android:title="天气"
+                android:title="@string/weather"
                 android:key="prefs_key_weather"
                 android:icon="@drawable/ic_weather">
             <intent
@@ -86,7 +86,7 @@
         </Preference>
 
         <Preference
-                android:title="投屏"
+                android:title="@string/milink"
                 android:key="prefs_key_milink"
                 android:icon="@drawable/ic_milink">
             <intent
@@ -95,7 +95,7 @@
         </Preference>
 
         <Preference
-                android:title="时钟"
+                android:title="@string/clock"
                 android:key="prefs_key_clock"
                 android:icon="@drawable/ic_clock">
             <intent
@@ -104,7 +104,7 @@
         </Preference>
 
         <Preference
-                android:title="手机管家"
+                android:title="@string/security_center"
                 android:key="prefs_key_security_center"
                 android:icon="@drawable/ic_security_center">
             <intent
@@ -112,7 +112,7 @@
         </Preference>
 
         <Preference
-                android:title="系统更新"
+                android:title="@string/updater"
                 android:key="prefs_key_updater"
                 android:icon="@drawable/ic_updater">
             <intent
@@ -121,7 +121,7 @@
         </Preference>
 
         <Preference
-                android:title="系统界面"
+                android:title="@string/system_ui"
                 android:key="prefs_key_system_ui"
                 android:icon="@drawable/ic_system_ui">
             <intent
@@ -129,7 +129,7 @@
         </Preference>
 
         <Preference
-                android:title="系统框架"
+                android:title="@string/system_framework"
                 android:key="prefs_key_system_framework"
                 android:icon="@drawable/ic_system_framework">
             <intent
@@ -137,7 +137,7 @@
         </Preference>
 
         <Preference
-                android:title="系统设置"
+                android:title="@string/system_settings"
                 android:key="prefs_key_system_settings"
                 android:icon="@drawable/ic_system_settings">
             <intent
@@ -146,7 +146,7 @@
         </Preference>
 
         <Preference
-                android:title="系统桌面"
+                android:title="@string/home"
                 android:key="prefs_key_home"
                 android:icon="@drawable/ic_home">
             <intent
@@ -154,7 +154,7 @@
         </Preference>
 
         <Preference
-                android:title="相册"
+                android:title="@string/gallery"
                 android:key="prefs_key_gallery"
                 android:icon="@drawable/ic_gallery">
             <intent
@@ -163,7 +163,7 @@
         </Preference>
 
         <Preference
-                android:title="相册编辑"
+                android:title="@string/mediaeditor"
                 android:key="prefs_key_mediaeditor"
                 android:icon="@drawable/ic_mediaeditor">
             <intent
@@ -172,7 +172,7 @@
         </Preference>
 
         <Preference
-                android:title="小爱建议"
+                android:title="@string/aireco"
                 android:key="prefs_key_aireco"
                 android:icon="@drawable/ic_suggestion">
             <intent
@@ -181,7 +181,7 @@
         </Preference>
 
         <Preference
-                android:title="小爱视觉"
+                android:title="@string/scanner"
                 android:key="prefs_key_scanner"
                 android:icon="@drawable/ic_scanner">
             <intent
@@ -190,7 +190,7 @@
         </Preference>
 
         <Preference
-                android:title="小米互传"
+                android:title="@string/mishare"
                 android:key="prefs_key_mishare"
                 android:icon="@drawable/ic_mishare">
             <intent
@@ -199,7 +199,7 @@
         </Preference>
 
         <Preference
-                android:title="音乐"
+                android:title="@string/music"
                 android:key="prefs_key_music"
                 android:icon="@drawable/ic_music">
             <intent
@@ -207,7 +207,7 @@
                     android:targetClass="com.sevtinge.cemiuiler.ui.MusicActivity"/>
         </Preference>
 
-        <Preference android:title="应用包管理组件"
+        <Preference android:title="@string/package_installer"
                     android:icon="@drawable/ic_package_installer">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
@@ -215,7 +215,7 @@
         </Preference>
 
         <Preference
-                android:title="智能助理"
+                android:title="@string/personal_assistant"
                 android:key="prefs_key_home_personal_assistant"
                 android:icon="@drawable/ic_personal_assistant">
             <intent
@@ -224,7 +224,7 @@
         </Preference>
 
         <Preference
-                android:title="主题壁纸"
+                android:title="@string/theme_manager"
                 android:key="prefs_key_various_theme"
                 android:icon="@drawable/ic_theme_manager">
             <intent
@@ -233,7 +233,7 @@
         </Preference>
 
         <Preference
-                android:title="自定义"
+                android:title="@string/custom_hook"
                 android:key="prefs_key_custom_hook"
                 android:icon="@drawable/ic_custom"
                 android:enabled="false">
@@ -243,7 +243,7 @@
         </Preference>
 
         <Preference
-                android:title="其他"
+                android:title="@string/various"
                 android:key="prefs_key_various"
                 android:icon="@drawable/ic_various_new">
             <intent
@@ -255,7 +255,7 @@
     <PreferenceCategory>
 
         <Preference
-                android:title="设置"
+                android:title="@string/settings"
                 android:key="prefs_key_settings">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
@@ -263,9 +263,9 @@
         </Preference>
 
         <Preference
-                android:title="关于"
+                android:title="@string/about"
                 android:key="prefs_key_about"
-                android:enabled="false" >
+                 >
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
                     android:targetClass="com.sevtinge.cemiuiler.ui.AboutActivity"/>

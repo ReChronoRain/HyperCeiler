@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
-            android:title="移除OTA验证"
-            android:summary="仅支持VAB设备，该功能具有一定危险性"
+            android:title="@string/updater_fuck_vab"
+            android:summary="@string/updater_fuck_vab_desc"
             android:key="prefs_key_updater_fuck_vab"
             android:defaultValue="false"/>
 
     <EditTextPreference
-            android:title="修改系统更新版本"
+            android:title="@string/updater_miui_version"
             android:key="prefs_key_various_updater_miui_version"/>
 
 </PreferenceScreen>

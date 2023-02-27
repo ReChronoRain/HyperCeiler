@@ -5,45 +5,45 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="桌面图标"
+            android:title="@string/settings_hide_app_icon"
             android:key="prefs_key_settings_hide_app_icon"
             android:defaultValue="true"/>
 
         <DropDownPreference
-            android:title="设置图标"
+            android:title="@string/settings_icon"
             android:key="prefs_key_settings_icon"
             app:entries="@array/settings_icon"
             app:entryValues="@array/settings_icon_value"
             android:defaultValue="0" />
 
         <MultiSelectListPreference
-            android:title="重启作用域"
+            android:title="@string/settings_reboot"
             android:key="prefs_key_settings_reboot" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="备份与恢复">
+    <PreferenceCategory android:title="@string/settings_data_title">
 
         <Preference
             android:key="prefs_key_back"
-            android:title="备份模块配置"/>
+            android:title="@string/settings_back"/>
 
         <Preference
             android:key="prefs_key_rest"
-            android:title="恢复模块配置"/>
+            android:title="@string/settings_rest"/>
 
         <Preference
             android:key="prefs_key_reset"
-            android:title="重置模块配置"/>
+            android:title="@string/settings_reset"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="故障排查">
+    <PreferenceCategory android:title="@string/settings_bug_title">
 
         <Preference
-            android:title="安全模式"
+            android:title="@string/settings_safe_mode"
             android:key="prefs_key_safe_mode"
-            android:summary="停用模块功能">
+            android:summary="@string/settings_safe_mode_desc">
 
             <intent
                 android:targetPackage="com.sevtinge.cemiuiler"
@@ -54,7 +54,7 @@
     </PreferenceCategory>
 
     <!--<PreferenceCategory>
-        <Preference android:title="调试模式">
+        <Preference android:title="@string/settings_debug_title>
             <intent
                 android:targetPackage="com.sevtinge.cemiuiler"
                 android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
