@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="添加Hook"
+        android:text="@string/custom_hook_new"
         android:textSize="20sp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:paddingVertical="10dp">
 
             <TextView
-                android:text="选择模式"
+                android:text="@string/custom_hook_mode"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

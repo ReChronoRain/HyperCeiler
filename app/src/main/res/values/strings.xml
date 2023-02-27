@@ -316,6 +316,8 @@
     <string name="system_framework_clean_open_apps">已选应用</string>
     <string name="system_other_flag_secure">允许截图</string>
     <string name="system_other_flag_secure_desc">允许对任意应用进行截图和录屏</string>
+    <string name="system_framework_share_menu_test">分享菜单测试</string>
+    <string name="system_framework_open_with_menu_test">打开方式菜单测试</string>
 
     <string name="system_framework_default_volume_stream">默认调整音量</string>
     <string name="system_framework_volume_first_press">音量即时调整</string>
@@ -457,6 +459,7 @@
     <string name="various_dialog_window_blur_radius">窗口模糊半径</string>
     <string name="various_dialog_bg_blur">背景模糊</string>
 
+    <string name="location_data_title">数据库</string>
     <string name="various_location_simulation_1_title">任务1</string>
     <string name="various_location_simulation_2_title">任务2</string>
     <string name="various_location_simulation_3_title">任务3</string>
@@ -470,7 +473,11 @@
     <string name="location_simulation_mac">Mac地址</string>
     <string name="location_simulation_wifi">WIFI</string>
     <string name="location_simulation_router_mac">路由器Mac地址</string>
-    <string name="location_data_title">数据库</string>
+    <string name="location_simulation_work_title">标题</string>
+    <string name="location_simulation_work_offset">偏移</string>
+    <string name="location_simulation_work_base_station">基站</string>
+    <string name="location_simulation_work_longitude_latitude">经纬度</string>
+    <string name="location_simulation_work_remarks">备注</string>
 
     <string name="app_details_playstore">用商店打开</string>
     <string name="app_details_launch">启动</string>
@@ -595,5 +602,15 @@
     <string name="operator_fix_none">不修复</string>
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推荐）</string>
+
+    <string name="custom_hook_new">添加Hook</string>
+    <string name="custom_hook_mode">选择模式</string>
+
+    <string name="cemiuiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
+
+    <string name="cemiuiler_restart_quick">快速重启作用域</string>
+
+    <string name="location_add">添加</string>
+    <string name="location_delete">删除</string>
 
 </resources>

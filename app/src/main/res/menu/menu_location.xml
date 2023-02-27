@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/location_add"
-        android:title="添加" />
+        android:title="@string/location_add" />
 
     <item
         android:id="@+id/location_delete"
-        android:title="删除" />
+        android:title="@string/location_delete" />
 </menu>
