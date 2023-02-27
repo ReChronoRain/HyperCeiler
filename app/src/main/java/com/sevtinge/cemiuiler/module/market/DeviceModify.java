@@ -15,7 +15,7 @@ public class DeviceModify extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
                 XposedHelpers.setStaticObjectField(Build.class, "DEVICE", "nuwa");
                 XposedHelpers.setStaticObjectField(Build.class, "MODEL", "2210132C");
-                XposedHelpers.setStaticObjectField(Build.class, "MANUFACTURER", "Xiaomi 13 Pro");
+                XposedHelpers.setStaticObjectField(Build.class, "MANUFACTURER", "Xiaomi");
             }
         });
     }

@@ -79,7 +79,7 @@ public class AppPickerFragment extends Fragment {
                 getActivity().finish();
             } else {
                 CheckBox checkBox = view.findViewById(android.R.id.checkbox);
-                String key = "prefs_key_system_framework_clean_share_apps";
+//                String key = "prefs_key_system_framework_clean_share_apps";
                 selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<String>()));
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);

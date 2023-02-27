@@ -107,6 +107,14 @@ public class Helpers {
         }
     }
 
+    public static Object getStaticObjectFieldSilently(Class <?> clazz, String fieldName) {
+        try {
+            return XposedHelpers.getStaticObjectField(clazz, fieldName);
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
     public static boolean checkStoragePerm(Activity act, int action) {
         if (ActivityCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, action);

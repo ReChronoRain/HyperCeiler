@@ -60,7 +60,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         AppData appInfo = appInfoList.get(position);
-        selectedApps = PrefsUtils.mSharedPreferences.getStringSet("prefs_key_system_framework_clean_share_apps", new LinkedHashSet<String>());
+        selectedApps = PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<String>());
 
         holder.mAppListIcon.setImageDrawable(appInfo.icon);
         holder.mAppName.setText(appInfo.label);

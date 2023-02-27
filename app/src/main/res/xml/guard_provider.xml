@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+            android:title="禁用MIUI自动上传已安装应用列表"
+            android:key="prefs_key_disable_upload_applist"
+            android:defaultValue="false"/>
+
+</PreferenceScreen>

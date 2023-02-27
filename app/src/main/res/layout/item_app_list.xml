@@ -36,8 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:singleLine="true"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@android:id/summary"

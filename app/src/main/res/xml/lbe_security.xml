@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+            android:title="禁用读取剪贴板提示"
+            android:key="prefs_key_lbe_disable_clipboard_tip"
+            android:defaultValue="false"/>
+
+</PreferenceScreen>

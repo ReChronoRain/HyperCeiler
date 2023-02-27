@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
           package="com.sevtinge.cemiuiler">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
+                     tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"
+                     tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+                     tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+                     tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+                     tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"
+                     tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MANAGE_USB"
+                     tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SET_ANIMATION_SCALE"
+                     tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MODIFY_DAY_NIGHT_MODE"
+                     tools:ignore="ProtectedPermissions" />
 
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
-
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
-
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="miui.permission.READ_LOGS" />
+    <uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
+    <uses-permission android:name="com.miui.securitycenter.permission.ACCESS_SECURITY_CENTER_PROVIDER" />
 
     <application
             android:name=".Application"
@@ -18,6 +43,7 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
+            android:requestLegacyExternalStorage="true"
             android:theme="@style/AppTheme">
 
         <activity android:name=".ui.MainActivity" android:exported="true">
@@ -81,6 +107,8 @@
 
         <activity android:label="截屏" android:name=".ui.ScreenShotActivity"/>
 
+        <activity android:label="屏幕录制" android:name=".ui.ScreenRecorderActivity"/>
+
         <activity android:label="相册编辑" android:name=".ui.MediaEditorActivity"/>
 
         <activity android:label="音乐" android:name=".ui.MusicActivity"/>
@@ -101,7 +129,17 @@
 
         <activity android:label="小米互传" android:name=".ui.MiShareActivity"/>
 
+        <activity android:label="MIUI+" android:name=".ui.MirrorActivity"/>
+
+        <activity android:label="MIUI安全组件" android:name=".ui.GuardProviderActivity"/>
+
+        <activity android:label="投屏" android:name=".ui.MiLinkActivity"/>
+
         <activity android:label="系统设置" android:name=".ui.SystemSettingsActivity"/>
+
+        <activity android:label="系统更新" android:name=".ui.UpdaterActivity"/>
+
+        <activity android:label="权限管理服务" android:name=".ui.LbeActivity"/>
 
         <activity android:label="安全模式" android:name=".ui.settings.SafeModeActivity"/>
 

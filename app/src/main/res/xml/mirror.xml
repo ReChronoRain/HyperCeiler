@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="解锁MIUI+"
+                android:key="prefs_key_mirror_unlock_miui_plus"
+                android:defaultValue="false"/>
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

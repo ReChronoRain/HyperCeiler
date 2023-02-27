@@ -26,8 +26,17 @@
         android:dependency="prefs_key_system_framework_volume_separate_control"/>
 
     <SeekBarPreference
+            android:key="prefs_key_system_framework_volume_media_steps"
+            android:title="媒体音量阶数"
+            android:summary="可能会导致音量条的滚动卡顿或蓝牙音量异常"
+            app:maxValue="29"
+            app:minValue="15"
+            app:format="%s"
+            app:showSeekBarValue="true"/>
+
+    <SeekBarPreference
         android:key="prefs_key_system_framework_volume_steps"
-        android:title="音量级数倍增器"
+        android:title="音量级数倍增"
         android:defaultValue="0"
         app:minValue="0"
         app:maxValue="500"

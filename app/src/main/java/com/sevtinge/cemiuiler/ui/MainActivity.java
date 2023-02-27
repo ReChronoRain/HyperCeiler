@@ -71,7 +71,7 @@ public class MainActivity extends BaseMainActivity {
                     for (int i = 0; i < sparseBooleanArray.size(); i++) {
                         if (sparseBooleanArray.get(i)) {
                             switch (i) {
-                                case 5:
+                                case 4:
                                     Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
                                     intent.setPackage("com.android.systemui");
                                     sendBroadcast(intent);

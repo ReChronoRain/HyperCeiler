@@ -21,6 +21,13 @@ public class DisableThemeAd extends BaseHook {
                 param.setResult(false);
             }
         });
+
+        findAndHookMethod("com.android.thememanager.recommend.view.listview.viewholder.PureAdBannerViewHolder", "isAdValid", mAdInfoCls, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(false);
+            }
+        });
     }
 
     public void initZygote() {

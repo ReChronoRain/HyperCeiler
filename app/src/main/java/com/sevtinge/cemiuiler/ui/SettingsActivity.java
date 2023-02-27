@@ -98,7 +98,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
             });
 
             findPreference("prefs_key_back").setOnPreferenceClickListener(preference -> {
-                backupSettings(getActivity());
+                final AppCompatActivity activity = (AppCompatActivity) getActivity();
+                backupSettings(activity);
                 return true;
             });
 
@@ -119,12 +120,12 @@ public class SettingsActivity extends BaseAppCompatActivity {
             });
         }
 
-        public void backupSettings(Activity activity) {
+        public void backupSettings(AppCompatActivity activity) {
             String backupPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath() + Helpers.externalFolder;
             if (!Helpers.preparePathForBackup(activity, backupPath)) return;
             ObjectOutputStream output = null;
             try {
-                output = new ObjectOutputStream(new FileOutputStream(backupPath + Helpers.backupFile + new SimpleDateFormat("_YYYY-MM-dd-HH:mm").format(new java.util.Date())));
+                output = new ObjectOutputStream(new FileOutputStream(backupPath + Helpers.backupFile + new SimpleDateFormat("_YYYY-MM-dd-HH:mm:ss").format(new java.util.Date())));
                 output.writeObject(PrefsUtils.mSharedPreferences.getAll());
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(activity);

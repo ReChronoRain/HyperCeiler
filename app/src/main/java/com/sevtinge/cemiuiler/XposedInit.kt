@@ -16,11 +16,11 @@ class XposedInit : BaseXposedInit() {
     @Throws(Throwable::class)
     override fun initZygote(startupParam: StartupParam) {
         super.initZygote(startupParam)
-        CorePatchForR.initZygote()
+        //CorePatchForR.initZygote()
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes()
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes()
-        if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
+        //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
     }
 
     @Throws(Throwable::class)

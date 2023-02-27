@@ -2,9 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
+            android:key="prefs_key_home_widget_all_widget_animation"
+            android:title="小部件动画"
+            android:defaultValue="false" />
+
+    <SwitchPreference
         android:key="prefs_key_home_widget_show_miui_widget"
-        android:title="显示Miui小部件"
-        android:summary="在安卓小部件页面显示Miui小部件"
+        android:title="显示MIUI小部件"
+        android:summary="在安卓小部件页面显示MIUI小部件"
         android:defaultValue="false" />
 
     <SeekBarPreference

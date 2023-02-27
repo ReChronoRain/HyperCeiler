@@ -63,6 +63,7 @@ public class SeekBarPreference extends Preference {
 			mMinValue = a.getInt(R.styleable.SeekBarPreference_minValue, 0);
 			mMaxValue = a.getInt(R.styleable.SeekBarPreference_maxValue, 10);
 			mStepValue = a.getInt(R.styleable.SeekBarPreference_stepValue, 1);
+			mFormat = a.getString(R.styleable.SeekBarPreference_format);
 			mDefaultValue = a.getInt(R.styleable.SeekBarPreference_android_defaultValue, 0);
 			mNegativeShift = a.getInt(R.styleable.SeekBarPreference_negativeShift, 0);
 			mShowPlus = a.getBoolean(R.styleable.SeekBarPreference_showplus, false);
@@ -251,7 +252,7 @@ public class SeekBarPreference extends Preference {
 	private void updateDisplay(int value) {
 		if (!TextUtils.isEmpty(mFormat)) {
 			mValue.setVisibility(View.VISIBLE);
-			value = (value + mSteppedMinValue) * mStepValue;
+			value = (value) * mStepValue;
 			String text;
 
 			if (value == mDefaultValue && mOffText != null) {

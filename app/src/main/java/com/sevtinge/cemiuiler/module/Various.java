@@ -1,16 +1,11 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.joyose.DisableCloudControl;
 import com.sevtinge.cemiuiler.module.various.*;
-import com.sevtinge.cemiuiler.module.various.DisableUploadAppList;
+import com.sevtinge.cemiuiler.module.guardprovider.DisableUploadAppList;
 
 import java.util.Arrays;
 import java.util.HashSet;
-
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class Various extends BaseModule {
 
@@ -31,7 +26,7 @@ public class Various extends BaseModule {
         initHook(new DialogCustom(), isMiuiDialogCustom());
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
-        initHook(new DisableUploadAppList(), mPrefsMap.getBoolean("disable_upload_applist"));
+
 
     }
 

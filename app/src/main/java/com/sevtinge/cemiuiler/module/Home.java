@@ -65,6 +65,7 @@ public class Home extends BaseModule {
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
 
         //小部件
+        initHook(new AllWidgetAnimation(), mPrefsMap.getBoolean("home_widget_all_widget_animation"));
         initHook(new AlwaysShowMiuiWidget(), mPrefsMap.getBoolean("home_widget_show_miui_widget"));
         initHook(new WidgetCornerRadius(), mPrefsMap.getInt("home_widget_corner_radius", 0) > 0);
 

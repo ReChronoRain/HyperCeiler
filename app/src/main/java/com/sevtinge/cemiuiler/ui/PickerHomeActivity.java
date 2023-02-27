@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.sub.AppPickerFragment;
-import com.sevtinge.cemiuiler.ui.sub.AppPickerFragment2;
 import com.sevtinge.cemiuiler.ui.sub.CustomBackgroundSettings;
 import com.sevtinge.cemiuiler.ui.sub.MultiAction;
 
@@ -47,12 +46,13 @@ public class PickerHomeActivity extends BaseAppCompatActivity {
                 break;
 
             case Apps:
+            case Apps2:
                 mArgFragment = new AppPickerFragment();
                 break;
 
-            case Apps2:
-                mArgFragment = new AppPickerFragment2();
-                break;
+//            case Apps2:
+//                mArgFragment = new AppPickerFragment2();
+//                break;
 
             default:
                 mArgFragment = null;

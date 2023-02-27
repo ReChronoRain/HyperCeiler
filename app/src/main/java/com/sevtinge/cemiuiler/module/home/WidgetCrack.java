@@ -10,7 +10,7 @@ public class WidgetCrack extends BaseHook {
     public void init() {
 
 
-        findAndHookMethod("com.miui.maml.widget.edit.MamlutilKt", "themeManagerSupportPaidWidget", Context.class, new MethodHook() {
+        hookAllMethods("com.miui.maml.widget.edit.MamlutilKt", "themeManagerSupportPaidWidget", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 param.setResult(false);

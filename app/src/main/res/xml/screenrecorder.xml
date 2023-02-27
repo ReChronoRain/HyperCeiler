@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <SwitchPreference
+                android:title="强制启用原生录音支持"
+                android:summary="需要屏幕录制版本支持"
+                android:key="prefs_key_screenrecorder_force_support_playback_capture"
+                android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

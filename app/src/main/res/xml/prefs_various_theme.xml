@@ -7,7 +7,7 @@
         app:isPreferenceVisible="false" >
 
         <SwitchPreference
-            android:title="禁用Miui版本检测"
+            android:title="禁用MIUI版本检测"
             android:key="prefs_key_theme_manager_version_code_modify"
             android:defaultValue="false" />
 
@@ -30,7 +30,7 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="启用PAD主题"
+            android:title="启用Pad主题"
             android:key="prefs_key_various_theme_enable_pad_theme"
             android:defaultValue="false"/>
 

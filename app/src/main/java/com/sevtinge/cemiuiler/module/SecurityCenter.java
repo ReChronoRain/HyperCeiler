@@ -8,6 +8,9 @@ import com.sevtinge.cemiuiler.module.securitycenter.app.AppDisable;
 import com.sevtinge.cemiuiler.module.securitycenter.app.AppRestrict;
 
 import com.sevtinge.cemiuiler.module.securitycenter.beauty.*;
+import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
+import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
+import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class SecurityCenter extends BaseModule {
@@ -26,6 +29,9 @@ public class SecurityCenter extends BaseModule {
 
         //隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
+        initHook(new AiClipboardEnable(), mPrefsMap.getBoolean("security_center_ai_clipboard"));
+        initHook(new BlurLocationEnable(), mPrefsMap.getBoolean("security_center_blur_location"));
+        initHook(new GetNumberEnable(), mPrefsMap.getBoolean("security_center_get_number"));
 
         //前置摄像助手
         initHook(new BeautyLight(), mPrefsMap.getBoolean("security_center_beauty_light"));

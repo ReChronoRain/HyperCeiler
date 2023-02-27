@@ -32,10 +32,7 @@
                 android:defaultValue="false"/>
 
 
-        <SwitchPreference
-                android:title="禁用Miui自动上传已安装应用列表"
-                android:key="prefs_key_disable_upload_applist"
-                android:defaultValue="false"/>
+        
 
        
 
@@ -51,15 +48,13 @@
 
         <DropDownPreference
                 android:key="prefs_key_various_collapse_miui_title"
-                android:title="Miui标题"
-                android:summary="调整Miui应用中的顶栏标题"
+                android:title="MIUI标题"
+                android:summary="调整MIUI应用中的顶栏标题"
                 android:defaultValue="0"
                 app:entries="@array/collapse_miui_title"
                 app:entryValues="@array/collapse_miui_title_value"/>
 
-        <EditTextPreference
-                android:title="修改系统更新版本号"
-                android:key="prefs_key_various_updater_miui_version"/>
+        
 
     </PreferenceCategory>
 

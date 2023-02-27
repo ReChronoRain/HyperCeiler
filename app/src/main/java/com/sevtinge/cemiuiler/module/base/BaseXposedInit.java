@@ -25,9 +25,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<String, Object>();
 
     public SystemFramework mSystemFramework = new SystemFramework();
+    //public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
     public SystemUI mSystemUI = new SystemUI();
     public Home mHome = new Home();
     public ScreenShot mScreenShot = new ScreenShot();
+
+    public ScreenRecorder mScreenRecorder = new ScreenRecorder();
     public SecurityCenter mSecurityCenter = new SecurityCenter();
     public SystemSettings mSystemSettings = new SystemSettings();
     public Settings mSettings = new Settings();
@@ -48,6 +51,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Aireco mAireco = new Aireco();
     public Scanner mScanner = new Scanner();
     public MiShare mMiShare = new MiShare();
+    public MiLink mMiLink = new MiLink();
+    public GuardProvider mGuardProvider= new GuardProvider();
+    public Lbe mLbe= new Lbe();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -99,6 +105,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
         switch (packageName) {
             case "android":
                 mSystemFramework.init(lpparam);
+                //mSystemFrameworkForCorepatch.init(lpparam);
                 break;
 
             case "com.android.systemui":
@@ -154,6 +161,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mScreenShot.init(lpparam);
                 break;
 
+            case "com.miui.screenrecorder":
+                mScreenRecorder.init(lpparam);
+                break;
+
             case "com.miui.mediaeditor":
                 mMediaEditor.init(lpparam);
                 break;
@@ -184,6 +195,18 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.miui.share.connectivity":
                 mMiShare.init(lpparam);
+                break;
+
+            case "com.milink.service":
+                mMiLink.init(lpparam);
+                break;
+
+            case "com.miui.guardprovider":
+                mGuardProvider.init(lpparam);
+                break;
+
+            case "com.lbe.security.miui":
+                mLbe.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:

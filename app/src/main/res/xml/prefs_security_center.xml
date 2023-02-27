@@ -45,14 +45,19 @@
     <PreferenceCategory android:title="隐私保护">
 
         <SwitchPreference
+                android:key="prefs_key_security_center_ai_clipboard"
+                android:title="剪贴板隐私保护"
+                android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_security_center_blur_location"
             android:title="模糊定位"
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:key="prefs_key_security_center_ai_clipboard"
-            android:title="智能剪贴板"
-            android:defaultValue="false" />
+                android:key="prefs_key_security_center_get_number"
+                android:title="管理应用获取手机号并一键登录"
+                android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_applock_pin_scramble"
