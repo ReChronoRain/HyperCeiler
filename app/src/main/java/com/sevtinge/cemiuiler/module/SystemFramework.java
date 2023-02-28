@@ -33,6 +33,7 @@ public class SystemFramework extends BaseModule {
         initHook(new VolumeSeparateControl(), mPrefsMap.getBoolean("system_framework_volume_separate_control"));
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getInt("system_framework_volume_media_steps",15)>15);
+        initHook(new VolumeDisableSafe(),mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
         initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         //主题破解

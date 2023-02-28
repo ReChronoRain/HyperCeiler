@@ -322,6 +322,7 @@
     <string name="system_framework_default_volume_stream">默认调整音量</string>
     <string name="system_framework_volume_first_press">音量即时调整</string>
     <string name="system_framework_volume_separate_control">音量独立控制</string>
+    <string name="system_framework_volume_disable_safe">移除高音量安全限制</string>
     <string name="system_framework_volume_separate_slider">通知音量滑块</string>
     <string name="system_framework_volume_media_steps">媒体音量阶数</string>
     <string name="system_framework_volume_media_steps_desc">可能会导致音量条的滚动卡顿或蓝牙音量异常</string>

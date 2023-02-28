@@ -20,6 +20,11 @@
         android:defaultValue="false"/>
 
     <SwitchPreference
+            android:title="@string/system_framework_volume_disable_safe"
+            android:key="prefs_key_system_framework_volume_disable_safe"
+            android:defaultValue="false"/>
+
+    <SwitchPreference
         android:title="@string/system_framework_volume_separate_slider"
         android:key="prefs_key_system_framework_volume_separate_slider"
         android:defaultValue="false"
