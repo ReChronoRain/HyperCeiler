@@ -76,6 +76,13 @@
                     android:data="https://github.com/sevtinge/Cemiuiler" />
         </Preference>
         <Preference
+                android:title="@string/about_use"
+                android:key="prefs_key_about_use">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.AboutUseActivity"/>
+        </Preference>
+        <Preference
                 android:title="@string/about_crwd"
                 android:summary="@string/about_crwd_desc">
             <intent

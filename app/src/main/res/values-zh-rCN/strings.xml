@@ -7,6 +7,8 @@
 
     <string name="settings">设置</string>
     <string name="about">关于</string>
+    <string name="about_use">引用</string>
+    <string name="about_use_desc">Cemiuiler使用了以下开源项目的部分内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
 
     <string name="home">系统桌面</string>
     <string name="aireco">小爱建议</string>

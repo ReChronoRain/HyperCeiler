@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/about_use_desc">
+        <Preference
+                android:title="Miui Feature"
+                android:summary="MoralNorm">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/moralnorm/miui_feature" />
+        </Preference>
+        <Preference
+                android:title="CustoMIUIzer"
+                android:summary="MonwF">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/MonwF/customiuizer" />
+        </Preference>
+        <Preference
+                android:title="EzXHelper"
+                android:summary="KyuubiRan">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/KyuubiRan/EzXHelper" />
+        </Preference>
+        <Preference
+                android:title="DexKit"
+                android:summary="LuckyPray">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/LuckyPray/DexKit" />
+        </Preference>
+        <Preference
+                android:title="CorePatch"
+                android:summary="LSPosed">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/LSPosed/CorePatch" />
+        </Preference>
+        <Preference
+                android:title="Woobox For MIUI"
+                android:summary="Simplicity-Team">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
+        </Preference>
+        <Preference
+                android:title="Woobox For MIUI"
+                android:summary="hosizoraru">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
+        </Preference>
+        <Preference
+                android:title="MiuiHomeR"
+                android:summary="qqlittleice">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/qqlittleice/MiuiHome_R" />
+        </Preference>
+        <Preference
+                android:title="MIUIQOL"
+                android:summary="chsbuffer">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/chsbuffer/MIUIQOL" />
+        </Preference>
+        <Preference
+                android:title="MaxFreeForm"
+                android:summary="YifePlayte">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/YifePlayte/MaxFreeForm" />
+        </Preference>
+        <Preference
+                android:title="Miui XXL"
+                android:summary="YuKongA">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/YuKongA/Miui_XXL" />
+        </Preference>
+        <Preference
+                android:title="DisableFlagSecure"
+                android:summary="LSPosed">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/LSPosed/DisableFlagSecure" />
+        </Preference>
+        <Preference
+                android:title="HideMiuiClipboardDialog"
+                android:summary="zerorooot">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
+        </Preference>
+        <Preference
+                android:title="AntiAntiDefraud"
+                android:summary="MinaMichita">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>
