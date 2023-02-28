@@ -613,4 +613,22 @@
     <string name="location_add">添加</string>
     <string name="location_delete">删除</string>
 
+    <string name="reset_title">确定要重置吗？</string>
+    <string name="reset_desc">重置模块配置后其所有数据将会被删除！</string>
+    <string name="reset_okay">已重置模块配置</string>
+
+    <string name="backup_success">备份成功</string>
+    <string name="backup_failed">备份失败</string>
+
+    <string name="rest_title">恢复</string>
+    <string name="rest_success">恢复成功</string>
+    <string name="rest_failed">恢复失败</string>
+
+    <string name="backup_ask">您是否要写入备份？</string>
+    <string name="backup_permission">"现在您必须手动启用此选项的权限。</string>
+
+    <string name="rest_ask">您是否要恢复备份？</string>
+    <string name="rest_permission">"现在您必须手动启用此选项的权限。</string>
+
+
 </resources>

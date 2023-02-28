@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.widget.Toast;
+import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 
@@ -110,11 +111,11 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
             findPreference("prefs_key_reset").setOnPreferenceClickListener(preference -> {
                 DialogHelper.showDialog(getActivity(),
-                        "确定要重置吗？",
-                        "重置模块配置后其所有数据将会被删除！",
+                        R.string.reset_title,
+                        R.string.reset_desc,
                         (dialog, which) -> {
                             PrefsUtils.mSharedPreferences.edit().clear().apply();
-                            Toast.makeText(getActivity(), "已重置模块配置", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), R.string.reset_okay, Toast.LENGTH_LONG).show();
                         });
                 return true;
             });
@@ -129,12 +130,12 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 output.writeObject(PrefsUtils.mSharedPreferences.getAll());
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-                alert.setTitle("备份成功");
+                alert.setTitle(R.string.backup_success);
                 alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {});
                 alert.show();
             } catch (Throwable e) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-                alert.setTitle("备份失败");
+                alert.setTitle(R.string.backup_failed);
                 alert.setMessage(e.toString());
                 alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {});
                 alert.show();
@@ -183,8 +184,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 prefEdit.apply();
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(act);
-                alert.setTitle("恢复");
-                alert.setMessage("设置恢复成功！");
+                alert.setTitle(R.string.rest_title);
+                alert.setMessage(R.string.rest_success);
                 alert.setCancelable(false);
                 alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -197,7 +198,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 t.printStackTrace();
                 Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(act);
-                alert.setTitle("恢复失败");
+                alert.setTitle(R.string.rest_failed);
                 alert.setMessage(t.getMessage());
                 alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {}
@@ -225,18 +226,18 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mSettingsFragment.backupSettings(this);
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    Toast.makeText(this, "您是否要写入备份？", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.backup_ask, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "现在您必须手动启用此选项的权限。很好！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.backup_permission, Toast.LENGTH_LONG).show();
                 }
                 break;
             case Helpers.REQUEST_PERMISSIONS_RESTORE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mSettingsFragment.restoreSettings(this);
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    Toast.makeText(this, "您是否要恢复备份？", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.rest_ask, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "现在您必须手动启用此选项的权限。很好！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.rest_permission, Toast.LENGTH_LONG).show();
                 }
                 break;
             default:

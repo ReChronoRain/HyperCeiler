@@ -54,7 +54,7 @@
         <Preference android:title="@string/about_qq_channel">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XeJKKt6pwY&amp;businessType=9&amp;from=246610&amp;biz=ka" />
+                    android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XAId3dB6BS&amp;businessType=9&amp;from=246610&amp;biz=ka" />
         </Preference>
         <Preference android:title="@string/about_tg_group">
             <intent

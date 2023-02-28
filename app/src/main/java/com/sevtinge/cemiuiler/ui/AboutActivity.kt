@@ -40,7 +40,7 @@ class AboutActivity : AppCompatActivity() {
             mVersion.title = "v" + BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE
 
             mQQGroup.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                joinQQGroup("g405srEn4hafy8xSJg1_EFJjxceLvpd7")
+                joinQQGroup("MF68KGcOGYEfMvkV_htdyT6D6C13We_r")//&authKey=du488g%2FRPdQ%2FaUq0IKuDLvK24mEmbpRidqHGE6qqv3wpa1lbUa6Vi7JJ4YxWe7s5&noverify=0&group_code=247909573
                 true
             }
         }
