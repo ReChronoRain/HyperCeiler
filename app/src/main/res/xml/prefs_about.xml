@@ -41,6 +41,13 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/YifePlayte" />
         </Preference>
+        <Preference
+                android:title="@string/about_contributer"
+                android:key="prefs_key_about_contributer">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.AboutContributerActivity"/>
+        </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
         <ValuePreference
@@ -88,6 +95,13 @@
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://crwd.in/cemiuiler" />
+        </Preference>
+        <Preference
+                android:title="@string/about_donation"
+                android:summary="@string/about_donation_desc">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://www.sevtinge.cn/t/donation.html" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

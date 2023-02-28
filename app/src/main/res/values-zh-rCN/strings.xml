@@ -9,6 +9,10 @@
     <string name="about">关于</string>
     <string name="about_use">引用</string>
     <string name="about_use_desc">Cemiuiler使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
+    <string name="about_contributer">贡献者</string>
+    <string name="about_contributer_desc">感谢以下贡献者为Cemiuiler的开发提供了不同程度的帮助（排名顺序不分先后）</string>
+    <string name="about_donation">支持</string>
+    <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
 
     <string name="home">系统桌面</string>
     <string name="aireco">小爱建议</string>

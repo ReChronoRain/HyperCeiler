@@ -172,6 +172,7 @@
         <activity android:label="@string/location_data_title" android:name=".ui.various.LocationDataActivity"/>
 
         <activity android:label="@string/about_use" android:name=".ui.AboutUseActivity"/>
+        <activity android:label="@string/about_contributer" android:name=".ui.AboutContributerActivity"/>
 
         <activity android:label="@string/custom_hook" android:name=".ui.CustomHookActivity" android:exported="true">
             <intent-filter>

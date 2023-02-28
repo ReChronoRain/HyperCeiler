@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/about_contributer_desc">
+        <Preference
+                android:title="hosizoraru">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/hosizoraru" />
+        </Preference>
+        <Preference
+                android:title="林柒柒">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/mu7220" />
+        </Preference>
+        <Preference
+                android:title="黑弩">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/heinu123" />
+        </Preference>
+        <Preference
+                android:title="Qe_xr">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="http://www.coolapk.com/u/2919503" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>
