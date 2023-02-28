@@ -1,11 +1,9 @@
 package com.sevtinge.cemiuiler.utils;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -23,8 +21,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
-
-import androidx.core.app.ActivityCompat;
 
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.R;
@@ -62,8 +58,6 @@ public class Helpers {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     public static final String MIUIZER_NS = "http://schemas.android.com/apk/res-auto";
 
-    public static final String externalFolder = "/Cemiuiler/";
-    public static final String backupFile = "settings_backup";
     public static final int REQUEST_PERMISSIONS_BACKUP = 1;
     public static final int REQUEST_PERMISSIONS_RESTORE = 2;
 
@@ -107,36 +101,6 @@ public class Helpers {
             return XposedHelpers.getStaticObjectField(clazz, fieldName);
         } catch (Throwable t) {
             return null;
-        }
-    }
-
-    public static boolean checkStoragePerm(Activity act, int action) {
-        if (ActivityCompat.checkSelfPermission(act, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, action);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static boolean preparePathForBackup(Activity act, String path) {
-        if (!checkStoragePerm(act, REQUEST_PERMISSIONS_BACKUP)) return false;
-
-        String state = Environment.getExternalStorageState();
-        switch (state) {
-            case Environment.MEDIA_MOUNTED_READ_ONLY:
-                DialogHelper.showDialog(act, "警告！", "您的外部存储是只读的");
-                return false;
-            case Environment.MEDIA_MOUNTED:
-                File file = new File(path);
-                if (!file.exists() && !file.mkdirs()) {
-                    DialogHelper.showDialog(act, "警告！", "创建备份目录失败");
-                    return false;
-                }
-                return true;
-            default:
-                DialogHelper.showDialog(act, "警告！", "无法访问任何合适的存储空间");
-                return false;
         }
     }
 

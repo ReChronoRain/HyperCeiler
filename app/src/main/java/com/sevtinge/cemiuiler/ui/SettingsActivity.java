@@ -3,32 +3,25 @@ package com.sevtinge.cemiuiler.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.widget.Toast;
-import android.content.Context;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.utils.BackupUtils;
 import com.sevtinge.cemiuiler.utils.DialogHelper;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.ShellUtils;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import moralnorm.appcompat.app.AlertDialog;
@@ -62,7 +55,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 PackageManager pm = getActivity().getPackageManager();
                 int mComponentEnabledState;
 
-                if ((Boolean)o) {
+                if ((Boolean) o) {
                     mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
                 } else {
                     mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
@@ -88,13 +81,13 @@ public class SettingsActivity extends BaseAppCompatActivity {
             mReboot.setOnPreferenceChangeListener((preference, o) -> {
                 List<String> mShellPackageName = new ArrayList<>();
                 CharSequence[] extras = mReboot.getEntries();
-                Set<String> options = (Set<String>)o;
-                for (String op : options){
+                Set<String> options = (Set<String>) o;
+                for (String op : options) {
                     int index = mReboot.findIndexOfValue(op);
                     mShellPackageName.add("killall " + extras[index]);
                     Toast.makeText(getActivity(), "killall " + extras[index], Toast.LENGTH_SHORT).show();
                 }
-                ShellUtils.execCommand(mShellPackageName,true);
+                ShellUtils.execCommand(mShellPackageName, true);
                 return false;
             });
 
@@ -110,107 +103,21 @@ public class SettingsActivity extends BaseAppCompatActivity {
             });
 
             findPreference("prefs_key_reset").setOnPreferenceClickListener(preference -> {
-                DialogHelper.showDialog(getActivity(),
-                        R.string.reset_title,
-                        R.string.reset_desc,
-                        (dialog, which) -> {
-                            PrefsUtils.mSharedPreferences.edit().clear().apply();
-                            Toast.makeText(getActivity(), R.string.reset_okay, Toast.LENGTH_LONG).show();
-                        });
+                DialogHelper.showDialog(getActivity(), R.string.reset_title, R.string.reset_desc, (dialog, which) -> {
+                    PrefsUtils.mSharedPreferences.edit().clear().apply();
+                    Toast.makeText(getActivity(), R.string.reset_okay, Toast.LENGTH_LONG).show();
+                });
                 return true;
             });
         }
 
-        public void backupSettings(AppCompatActivity activity) {
-            String backupPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath() + Helpers.externalFolder;
-            if (!Helpers.preparePathForBackup(activity, backupPath)) return;
-            ObjectOutputStream output = null;
-            try {
-                output = new ObjectOutputStream(new FileOutputStream(backupPath + Helpers.backupFile + new SimpleDateFormat("_YYYY-MM-dd-HH:mm:ss").format(new java.util.Date())));
-                output.writeObject(PrefsUtils.mSharedPreferences.getAll());
-
-                AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-                alert.setTitle(R.string.backup_success);
-                alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {});
-                alert.show();
-            } catch (Throwable e) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-                alert.setTitle(R.string.backup_failed);
-                alert.setMessage(e.toString());
-                alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {});
-                alert.show();
-            } finally {
-                try {
-                    if (output != null) {
-                        output.flush();
-                        output.close();
-                    }
-                } catch (Throwable ex) {
-                    ex.printStackTrace();
-                }
-            }
+        public void backupSettings(Activity activity) {
+            BackupUtils.backup(activity);
         }
 
 
-
-        public void restoreSettings(final Activity act) {
-            if (!Helpers.checkStoragePerm(act, Helpers.REQUEST_PERMISSIONS_RESTORE)) return;
-            if (!Helpers.checkStorageReadable(act)) return;
-            ObjectInputStream input = null;
-            try {
-                input = new ObjectInputStream(new FileInputStream(Environment.getExternalStorageDirectory().getAbsolutePath() + Helpers.externalFolder + Helpers.backupFile));
-                Map<String, ?> entries = (Map<String, ?>)input.readObject();
-                if (entries == null || entries.isEmpty()) throw new RuntimeException("Cannot read entries");
-
-                SharedPreferences.Editor prefEdit = PrefsUtils.mSharedPreferences.edit();
-                prefEdit.clear();
-                for (Map.Entry<String, ?> entry: entries.entrySet()) {
-                    Object val = entry.getValue();
-                    String key = entry.getKey();
-
-                    if (val instanceof Boolean)
-                        prefEdit.putBoolean(key, (Boolean)val);
-                    else if (val instanceof Float)
-                        prefEdit.putFloat(key, (Float)val);
-                    else if (val instanceof Integer)
-                        prefEdit.putInt(key, (Integer)val);
-                    else if (val instanceof Long)
-                        prefEdit.putLong(key, (Long)val);
-                    else if (val instanceof String)
-                        prefEdit.putString(key, ((String)val));
-                    else if (val instanceof Set<?>)
-                        prefEdit.putStringSet(key, ((Set<String>)val));
-                }
-                prefEdit.apply();
-
-                AlertDialog.Builder alert = new AlertDialog.Builder(act);
-                alert.setTitle(R.string.rest_title);
-                alert.setMessage(R.string.rest_success);
-                alert.setCancelable(false);
-                alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        act.finish();
-                        act.startActivity(act.getIntent());
-                    }
-                });
-                alert.show();
-            } catch (Throwable t) {
-                t.printStackTrace();
-                Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alert = new AlertDialog.Builder(act);
-                alert.setTitle(R.string.rest_failed);
-                alert.setMessage(t.getMessage());
-                alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {}
-                });
-                alert.show();
-            } finally {
-                try {
-                    if (input != null) input.close();
-                } catch (Throwable ex) {
-                    ex.printStackTrace();
-                }
-            }
+        public void restoreSettings(Activity activity) {
+            BackupUtils.restore(activity);
         }
     }
 
@@ -242,6 +149,44 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        try {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            switch (requestCode) {
+                case BackupUtils.CREATE_DOCUMENT_CODE:
+                    BackupUtils.handleCreateDocument(this, data.getData());
+                    alert.setTitle(R.string.backup_success);
+                    break;
+                case BackupUtils.OPEN_DOCUMENT_CODE:
+                    BackupUtils.handleReadDocument(this, data.getData());
+                    alert.setTitle(R.string.rest_success);
+                    break;
+                default:
+                    return;
+            }
+            alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            });
+            alert.show();
+        } catch (Exception e) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            switch (requestCode) {
+                case BackupUtils.CREATE_DOCUMENT_CODE:
+                    alert.setTitle(R.string.backup_failed);
+                    break;
+                case BackupUtils.OPEN_DOCUMENT_CODE:
+                    alert.setTitle(R.string.rest_failed);
+                    break;
+            }
+            alert.setMessage(e.toString());
+            alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            });
+            alert.show();
         }
     }
 }
