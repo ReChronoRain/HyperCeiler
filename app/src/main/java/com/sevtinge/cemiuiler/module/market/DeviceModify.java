@@ -13,8 +13,8 @@ public class DeviceModify extends BaseHook {
         findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticObjectField(Build.class, "DEVICE", "nuwa");
-                XposedHelpers.setStaticObjectField(Build.class, "MODEL", "2210132C");
+                XposedHelpers.setStaticObjectField(Build.class, "DEVICE", "ishtar");
+                XposedHelpers.setStaticObjectField(Build.class, "MODEL", "2304FPN6DC");
                 XposedHelpers.setStaticObjectField(Build.class, "MANUFACTURER", "Xiaomi");
             }
         });

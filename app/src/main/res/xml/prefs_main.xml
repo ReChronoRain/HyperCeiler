@@ -214,6 +214,13 @@
                     android:targetClass="com.sevtinge.cemiuiler.ui.MiuiPackageInstallerActivity"/>
         </Preference>
 
+        <Preference android:title="@string/market"
+                    android:icon="@drawable/ic_market">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MarketActivity"/>
+        </Preference>
+
         <Preference
                 android:title="@string/personal_assistant"
                 android:key="prefs_key_home_personal_assistant"

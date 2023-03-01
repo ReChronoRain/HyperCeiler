@@ -131,6 +131,8 @@
 
         <activity android:label="@string/mirror" android:name=".ui.MirrorActivity"/>
 
+        <activity android:label="@string/market" android:name=".ui.MarketActivity"/>
+
         <activity android:label="@string/guard_provider" android:name=".ui.GuardProviderActivity"/>
 
         <activity android:label="@string/milink" android:name=".ui.MiLinkActivity"/>

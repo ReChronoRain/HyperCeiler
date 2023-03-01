@@ -9,6 +9,6 @@ public class Market extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(new DeviceModify(), true);
+        initHook(new DeviceModify(), mPrefsMap.getBoolean("market_device_modify"));
     }
 }
