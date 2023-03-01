@@ -10,8 +10,8 @@ android {
         applicationId "com.sevtinge.cemiuiler"
         minSdk 30
         targetSdk 33
-        versionCode 1001
-        versionName "1.0.0.1"
+        versionCode 38
+        versionName "0.9.20230301.3"
 
     }
 
@@ -49,7 +49,6 @@ dependencies {
 
     compileOnly files('libs/miui.jar')
     compileOnly files("libs/miui-framework.jar")
-    //compileOnly files("libs/miui-service.jar")
 
     compileOnly(roots.XposedApi)
 
