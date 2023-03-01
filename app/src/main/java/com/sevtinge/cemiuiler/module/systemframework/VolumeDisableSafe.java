@@ -14,6 +14,6 @@ public class VolumeDisableSafe extends BaseHook {
     }
 
     private void returnIntConstant(Class<?> cls, String methodName) {
-        findAndHookMethod(cls, methodName, XC_MethodReplacement.returnConstant(2147483646));
+        hookAllMethods(cls, methodName, XC_MethodReplacement.returnConstant(2147483646));
     }
 }
