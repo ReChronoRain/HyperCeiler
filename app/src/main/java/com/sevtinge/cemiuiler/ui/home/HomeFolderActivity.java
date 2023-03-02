@@ -8,10 +8,7 @@ import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.home.base.BaseHomeActivity;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreference;
-import moralnorm.preference.SwitchPreference;
+import moralnorm.preference.*;
 
 public class HomeFolderActivity extends BaseHomeActivity {
 

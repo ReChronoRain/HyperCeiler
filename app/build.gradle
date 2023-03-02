@@ -11,7 +11,7 @@ android {
         minSdk 30
         targetSdk 33
         versionCode 38
-        versionName "0.9.20230301.3"
+        versionName "0.9.20230301.2"
 
     }
 

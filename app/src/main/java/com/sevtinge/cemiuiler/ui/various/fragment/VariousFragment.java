@@ -6,11 +6,8 @@ import android.util.Log;
 
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.PreferenceFragmentCompat;
+import moralnorm.preference.*;
 import moralnorm.preference.SeekBarPreference;
-import moralnorm.preference.SwitchPreference;
 
 public class VariousFragment extends PreferenceFragmentCompat {
 

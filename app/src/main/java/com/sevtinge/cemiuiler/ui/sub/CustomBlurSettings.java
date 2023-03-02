@@ -6,10 +6,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.preference.ColorPickerPreference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SeekBarPreference;
-import moralnorm.preference.SwitchPreference;
+import moralnorm.preference.*;
 
 public class CustomBlurSettings extends SubFragment {
 
