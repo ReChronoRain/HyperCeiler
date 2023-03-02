@@ -10,4 +10,6 @@
 
     <color name="miuix_blurdrawable_view_fg_dark">#80000000</color>
     <color name="miuix_blurdrawable_view_fg_light">#ccffffff</color>
+
+    <color name="ic_launcher_background">#FC5B8D</color>
 </resources>
