@@ -1,6 +1,13 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+}
+
+static def getGitRevision() {
+    return "git rev-parse --short HEAD".execute().text.trim()
 }
 
 android {
@@ -11,14 +18,17 @@ android {
         minSdk 30
         targetSdk 33
         versionCode 38
-        versionName "0.9.20230301.2"
-
+        versionName "0.9"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            versionNameSuffix "." + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+        }
+        debug {
+            versionNameSuffix "." + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "-" + getGitRevision()
         }
     }
 
