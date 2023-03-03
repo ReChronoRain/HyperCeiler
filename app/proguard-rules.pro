@@ -2,3 +2,4 @@
 -keep class com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 -keep class moralnorm.**{*;}
 -keep class com.sevtinge.cemiuiler.utils.Helpers{boolean isModuleActive;}
+-keep class * extends com.sevtinge.cemiuiler.module.base.BaseHook
