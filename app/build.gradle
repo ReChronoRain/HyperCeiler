@@ -17,8 +17,8 @@ android {
         applicationId "com.sevtinge.cemiuiler"
         minSdk 30
         targetSdk 33
-        versionCode 41
-        versionName "0.9.41"
+        versionCode 42
+        versionName "0.9.42"
     }
 
     buildTypes {
@@ -26,6 +26,16 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "-" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+        }
+        beta {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            versionNameSuffix "-" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+        }
+        canary {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            versionNameSuffix "-" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "-" + getGitRevision()
         }
         debug {
             versionNameSuffix "-" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "-" + getGitRevision()
