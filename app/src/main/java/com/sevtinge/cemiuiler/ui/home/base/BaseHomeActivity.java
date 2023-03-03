@@ -2,11 +2,12 @@ package com.sevtinge.cemiuiler.ui.home.base;
 
 import android.os.Bundle;
 
+import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 
 public abstract class BaseHomeActivity extends BaseAppCompatActivity {
 
-    public final String mAppLabel = "@string/home";
+    public final String mAppLabel = getString(R.string.home);
     public final String mPackageName = "com.miui.home";
 
     @Override
