@@ -9,4 +9,6 @@
 .cxx
 local.properties
 /app/release
+/app/beta
+/app/canary
 /app/debug
