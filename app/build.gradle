@@ -17,8 +17,8 @@ android {
         applicationId "com.sevtinge.cemiuiler"
         minSdk 30
         targetSdk 33
-        versionCode 38
-        versionName "0.9"
+        versionCode 41
+        versionName "0.9.41"
     }
 
     buildTypes {
