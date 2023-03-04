@@ -32,6 +32,15 @@
         </Preference>
 
         <Preference
+                android:title="@string/incallui"
+                android:key="prefs_key_incallui"
+                android:icon="@drawable/ic_call">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.InCallUiActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/powerkeeper"
                 android:key="prefs_key_powerkeeper"
                 android:icon="@drawable/ic_powerkeeper">

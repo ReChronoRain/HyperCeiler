@@ -21,6 +21,7 @@
     <string name="clock">时钟</string>
     <string name="gallery">相册</string>
     <string name="guard_provider">MIUI安全组件</string>
+    <string name="incallui">电话</string>
     <string name="joyose">Joyose</string>
     <string name="lbe">权限管理服务</string>
     <string name="market">应用商店</string>
@@ -212,6 +213,8 @@
     <string name="home_widget_show_miui_widget">显示MIUI小部件</string>
     <string name="home_widget_show_miui_widget_desc">在安卓小部件页面显示MIUI小部件</string>
     <string name="home_widget_corner_radius">小部件圆角</string>
+
+    <string name="incallui_hide_crbt">隐藏电话彩铃</string>
 
     <string name="joyose_disable_cloud_control">禁用云控</string>
 

@@ -142,6 +142,8 @@
 
         <activity android:label="@string/lbe" android:name=".ui.LbeActivity"/>
 
+        <activity android:label="@string/incallui" android:name=".ui.InCallUiActivity"/>
+
         <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>
 
 

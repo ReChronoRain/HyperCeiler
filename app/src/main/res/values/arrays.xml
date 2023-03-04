@@ -6,6 +6,7 @@
         <item>com.android.browser</item>
         <item>com.android.deskclock</item>
         <item>com.android.fileexplorer</item>
+        <item>com.android.incallui</item>
         <item>com.android.providers.downloads.ui</item>
         <item>com.android.systemui</item>
         <item>com.android.settings</item>

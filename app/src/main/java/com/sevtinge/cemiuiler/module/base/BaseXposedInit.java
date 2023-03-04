@@ -54,6 +54,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public MiLink mMiLink = new MiLink();
     public GuardProvider mGuardProvider= new GuardProvider();
     public Lbe mLbe= new Lbe();
+    public InCallUi mInCallUi= new InCallUi();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -207,6 +208,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.lbe.security.miui":
                 mLbe.init(lpparam);
+                break;
+
+            case "com.android.incallui":
+                mInCallUi.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:
