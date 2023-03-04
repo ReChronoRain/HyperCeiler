@@ -8,7 +8,8 @@ public class DeviceModify extends BaseHook {
 
     @Override
     public void init() {
-        findAndHookConstructor("", new MethodHook() {
+        hookAllMethods("com.xiaomi.aireco.utils.DeviceUtils","getVoiceAssistUserAgent", new MethodHook() {
+        //findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 XposedHelpers.setStaticObjectField(Build.class, "DEVICE", "nuwa");
