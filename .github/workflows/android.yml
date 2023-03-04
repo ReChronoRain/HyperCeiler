@@ -19,7 +19,7 @@ jobs:
       - run: 
           chmod +x ./gradlew
       - run: 
-          ./gradlew assemble
+          ./gradlew clean assembleRelease
       - uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler_Release
