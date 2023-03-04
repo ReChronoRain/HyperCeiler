@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.BatteryIndicator;
+import com.sevtinge.cemiuiler.module.systemui.BluetoothRestrict;
 import com.sevtinge.cemiuiler.module.systemui.MiuiGxzwSize;
 import com.sevtinge.cemiuiler.module.systemui.MonetThemeOverlay;
 import com.sevtinge.cemiuiler.module.systemui.NotificationVolumeSeparateSlider;
@@ -40,6 +41,9 @@ public class SystemUI extends BaseModule {
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style",0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
+
+        //禁用蓝牙临时关闭
+        initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));
 
         //Monet
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));

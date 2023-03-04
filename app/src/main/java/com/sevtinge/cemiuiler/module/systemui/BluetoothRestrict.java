@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.settings;
+package com.sevtinge.cemiuiler.module.systemui;
 
 import android.content.Context;
 
