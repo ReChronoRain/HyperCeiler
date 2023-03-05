@@ -22,6 +22,10 @@
             android:key="prefs_key_home_other_infinite_scroll"
             android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:key="prefs_key_personal_assistant_overlap_mode"
+                android:title="@string/personal_assistant_overlap_mode"
+                android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_home_other_freeform_shortcut_menu"

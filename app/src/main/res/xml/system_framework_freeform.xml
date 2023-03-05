@@ -25,10 +25,7 @@
                 android:title="@string/system_framework_freeform_bubble"
                 android:key="prefs_key_system_framework_freeform_bubble"
                 android:defaultValue="false"/>
-        <SwitchPreference
-                android:title="@string/security_center_remove_conversation_bubble_settings_restriction"
-                android:key="prefs_key_security_center_remove_conversation_bubble_settings_restriction"
-                android:defaultValue="false"/>
+
 
     </PreferenceCategory>
 </PreferenceScreen>

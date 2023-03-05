@@ -97,6 +97,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_framework_bubble_title">
+
+        <SwitchPreference
+                android:title="@string/security_center_remove_conversation_bubble_settings_restriction"
+                android:key="prefs_key_security_center_remove_conversation_bubble_settings_restriction"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/security_center_other_title">
 
         <SwitchPreference

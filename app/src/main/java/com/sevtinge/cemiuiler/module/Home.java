@@ -95,7 +95,7 @@ public class Home extends BaseModule {
         initHook(new MaxFreeFormm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
 
         //Fold2样式负一屏
-        initHook(new OverlapMode(), mPrefsMap.getBoolean("Overlap_Mode"));
+        initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode"));
 
         //Other
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
