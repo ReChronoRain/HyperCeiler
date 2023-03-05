@@ -194,7 +194,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mScanner.init(lpparam);
                 break;
 
-            case "com.miui.share.connectivity":
+            case "com.miui.mishare.connectivity":
                 mMiShare.init(lpparam);
                 break;
 
