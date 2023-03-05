@@ -93,6 +93,7 @@ public class Home extends BaseModule {
 
         //Other
         initHook(new FreeFormCountForHome(), mPrefsMap.getBoolean("system_framework_freeform_count"));
+        initHook(new MaxFreeFormm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
 
         //小部件桌面下载

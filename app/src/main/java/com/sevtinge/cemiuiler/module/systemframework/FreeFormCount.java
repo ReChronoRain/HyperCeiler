@@ -13,7 +13,7 @@ public class FreeFormCount extends BaseHook {
     @Override
     public void init() {
 
-        mMiuiFreeFormActivityStack = findClassIfExists("com.android.server.wm.MiuiFreeFormActivityStack");
+        mMiuiFreeFormActivityStack = findClassIfExists("com.android.server.wm.MiuiFreeFormStackDisplayStrategy");
         mMiuiFreeFormStackDisplayStrategy = findClassIfExists("com.android.server.wm.MiuiFreeFormStackDisplayStrategy");
         mMiuiFreeFormManagerService = findClassIfExists("com.android.server.wm.MiuiFreeFormManagerService");
 
