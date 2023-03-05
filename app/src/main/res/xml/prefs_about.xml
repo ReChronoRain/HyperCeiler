@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-            android:layout="@layout/activity_about"
-            android:key="prefs_key_about_version"
-            android:summary="@string/xposed_description" />
+    <SwitchPreference
+        android:layout="@layout/activity_about"
+        android:key="prefs_key_hidden_function"
+        android:summary="@string/xposed_description" />
+
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
                 android:icon="@drawable/ic_sevtinge"

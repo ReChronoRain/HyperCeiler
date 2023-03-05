@@ -101,7 +101,7 @@ public class Home extends BaseModule {
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
 
         //小部件桌面下载
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("personal_assistant_widget_crack"));
+        initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
     }
 
 

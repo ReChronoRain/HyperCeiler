@@ -14,7 +14,7 @@ public class PersonalAssistant extends BaseModule {
         initHook(new BlurOverlay(), false);
         initHook(new EnableFoldWidget(), mPrefsMap.getBoolean("personal_assistant_fold_widget_enable"));
 
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("personal_assistant_widget_crack"));
+        initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
     }
 
     /*public static void handleLoad(LoadPackageParam lpparam) {

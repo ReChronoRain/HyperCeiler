@@ -22,6 +22,7 @@ public class VariousThemeActivity extends BaseAppCompatActivity {
 
         PreferenceCategory mVersionCodeModifyPreferenceCat;
         SwitchPreference mVersionCodeModifyPreference;
+        SwitchPreference mThemeManagerCrack;
 
         @Override
         public int getContentResId() {
@@ -39,6 +40,11 @@ public class VariousThemeActivity extends BaseAppCompatActivity {
                 mVersionCodeModifyPreferenceCat.setVisible(false);
                 mVersionCodeModifyPreference.setChecked(false);
                 mVersionCodeModifyPreference.setEnabled(false);
+            }
+
+            mThemeManagerCrack = findPreference("prefs_key_various_theme_crack");
+            if (!getSharedPreferences().getBoolean("prefs_key_hidden_function",false)) {
+                mThemeManagerCrack.setVisible(false);
             }
         }
 

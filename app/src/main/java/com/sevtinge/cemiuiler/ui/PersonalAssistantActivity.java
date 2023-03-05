@@ -29,8 +29,8 @@ public class PersonalAssistantActivity extends BaseAppCompatActivity {
         public void initPrefs() {
             mWidgetCrack = findPreference("prefs_key_personal_assistant_widget_crack");
 
-            if (false) {
-                mWidgetCrack.setVisible(BuildConfig.DEBUG);
+            if (!getSharedPreferences().getBoolean("prefs_key_hidden_function",false)) {
+                mWidgetCrack.setVisible(false);
             }
         }
     }

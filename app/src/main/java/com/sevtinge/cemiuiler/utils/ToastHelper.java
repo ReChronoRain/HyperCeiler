@@ -6,12 +6,24 @@ import android.widget.Toast;
 import androidx.annotation.StringRes;
 
 public class ToastHelper {
+    private static Toast mToast;
 
     public static void makeText(Context context, CharSequence text) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+        clearToast();
+        mToast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
     public static void makeText(Context context, @StringRes int resId) {
-        Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
+        clearToast();
+        mToast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
+        mToast.show();
+    }
+
+    public static void clearToast() {
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
+        }
     }
 }

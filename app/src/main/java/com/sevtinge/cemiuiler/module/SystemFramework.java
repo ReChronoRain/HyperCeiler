@@ -37,7 +37,7 @@ public class SystemFramework extends BaseModule {
         initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         //主题破解
-        initHook(new ThemeProvider(), mPrefsMap.getBoolean("various_theme_crack"));
+        initHook(new ThemeProvider(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("various_theme_crack"));
 
         //核心破解
         /*switch (Build.VERSION.SDK_INT) {
