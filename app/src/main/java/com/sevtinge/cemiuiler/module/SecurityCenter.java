@@ -46,6 +46,9 @@ public class SecurityCenter extends BaseModule {
         initHook(new DisableRootCheck(), mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
 
+        //去除气泡通知应用限制
+        initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
+
         //
         initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
 

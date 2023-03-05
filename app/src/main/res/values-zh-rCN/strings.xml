@@ -299,6 +299,7 @@
     <string name="security_score_summary">锁定100分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
     <string name="security_center_newbox_blur">全局侧边栏模糊</string>
+    <string name="security_center_remove_conversation_bubble_settings_restriction">去除气泡通知应用限制</string>
 
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
