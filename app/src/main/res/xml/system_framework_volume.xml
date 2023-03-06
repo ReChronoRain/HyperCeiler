@@ -34,6 +34,7 @@
             android:key="prefs_key_system_framework_volume_media_steps"
             android:title="@string/system_framework_volume_media_steps"
             android:summary="@string/system_framework_volume_media_steps_desc"
+            android:defaultValue="15"
             app:maxValue="29"
             app:minValue="15"
             app:format="%s"
