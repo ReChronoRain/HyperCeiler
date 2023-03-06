@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.Time
 import androidx.fragment.app.Fragment
 import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
@@ -37,34 +38,38 @@ class AboutActivity : AppCompatActivity() {
         }
 
         override fun initPrefs() {
+            val t = Time() // or Time t=new Time("GMT+8"); 加上Time Zone资料
+            t.setToNow() // 取得系统时间。
+            val hour: Int = t.hour // 0-23
+
             val mHiddenFunction = findPreference<Preference>("prefs_key_hidden_function")
             val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
             mHiddenFunction.title = "v" + BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE
 
             var versionClickTime = 0
-            val maxOpenClickTime = 7
-            val maxCloseClickTime = 4
+            val maxOpenClickTime = hour
+            val maxCloseClickTime = 3
             mHiddenFunction.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 it as SwitchPreference
                 it.isChecked = !(it.isChecked)
                 versionClickTime++
                 if (it.isChecked) {
                     if (versionClickTime < maxCloseClickTime) {
-                        ToastHelper.makeText(context, "都启动过了还点？")
+                        //ToastHelper.makeText(context, "都启动过了还点？")
                     } else {
                         it.isChecked = !(it.isChecked)
                         versionClickTime = 0
-                        ToastHelper.makeText(context, "行吧给你关咯")
+                        //ToastHelper.makeText(context, "行吧给你关咯")
                     }
                 } else if (versionClickTime < maxOpenClickTime) {
                     val string = String.format("还需点击%d次", maxOpenClickTime - versionClickTime)
-                    ToastHelper.makeText(context, string)
+                    //ToastHelper.makeText(context, string)
                 } else {
                     it.isChecked = !(it.isChecked)
                     versionClickTime = 0
                     val string = String.format("已启动")
-                    ToastHelper.makeText(context, string)
+                    //ToastHelper.makeText(context, string)
                 }
                 false
             }
