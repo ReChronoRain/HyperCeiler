@@ -41,6 +41,9 @@ class AboutActivity : AppCompatActivity() {
             val t = Time() // or Time t=new Time("GMT+8"); 加上Time Zone资料
             t.setToNow() // 取得系统时间。
             val hour: Int = t.hour // 0-23
+            if (hour == 0) {
+                hour == 24
+            }
 
             val mHiddenFunction = findPreference<Preference>("prefs_key_hidden_function")
             val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
