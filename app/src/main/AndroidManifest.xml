@@ -144,6 +144,8 @@
 
         <activity android:label="@string/incallui" android:name=".ui.InCallUiActivity"/>
 
+        <activity android:label="@string/tsmclient" android:name=".ui.TsmClientActivity"/>
+
         <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>
 
 

@@ -208,6 +208,15 @@
         </Preference>
 
         <Preference
+                android:title="@string/tsmclient"
+                android:key="prefs_key_tsmclient"
+                android:icon="@drawable/ic_tsmclient">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.TsmClientActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/music"
                 android:key="prefs_key_music"
                 android:icon="@drawable/ic_music">

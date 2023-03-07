@@ -55,6 +55,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public GuardProvider mGuardProvider= new GuardProvider();
     public Lbe mLbe= new Lbe();
     public InCallUi mInCallUi= new InCallUi();
+    public TsmClient mTsmClient= new TsmClient();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -212,6 +213,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.android.incallui":
                 mInCallUi.init(lpparam);
+                break;
+
+            case "com.miui.tsmclient":
+                mTsmClient.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:
