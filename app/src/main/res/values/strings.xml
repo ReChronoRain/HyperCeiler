@@ -447,7 +447,7 @@
     <string name="theme_manager_enable_fold_theme">启用Fold主题</string>
 
     <string name="tsmclient_auto_nfc">自动管理NFC</string>
-    <string name="tsmclient_auto_nfc_desc">进入刷卡页面时自动开启NFC，退出时自动关闭</string>
+    <string name="tsmclient_auto_nfc_desc">进入刷卡页面时自动开启NFC，退出时将自动关闭</string>
 
     <string name="updater_fuck_vab">移除OTA验证</string>
     <string name="updater_fuck_vab_desc">仅支持VAB设备，该功能具有一定危险性</string>

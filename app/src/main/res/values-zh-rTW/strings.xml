@@ -562,5 +562,8 @@
     <string name="backup_permission">現在您必須手動啟用此選項的權限。</string>
     <string name="rest_ask">您是否要還原備份？</string>
     <string name="rest_permission">現在您必須手動啟用此選項的權限。</string>
+    <string name="tsmclient">小米智能卡</string>
+    <string name="tsmclient_auto_nfc">自動管理NFC</string>
+    <string name="tsmclient_auto_nfc_desc">進入刷卡頁面時自動開啟NFC，退出時將自動關閉</string>
 
 </resources>
