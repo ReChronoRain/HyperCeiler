@@ -19,6 +19,12 @@ android {
         targetSdk 33
         versionCode 42
         versionName "0.9.42"
+        project.archivesBaseName = "Cemiuiler"
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = project.archivesBaseName + "_" + versionName + "(" + versionCode + ")_" + buildTypes + ".apk"
+            }
+        }
     }
 
     buildTypes {
