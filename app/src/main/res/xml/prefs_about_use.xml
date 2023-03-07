@@ -99,5 +99,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
         </Preference>
+        <Preference
+                android:title="Auto NFC"
+                android:summary="GSWXXN">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/GSWXXN/AutoNFC" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
