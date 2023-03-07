@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.securitycenter;
 
+import android.content.Context;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
@@ -85,6 +86,42 @@ public class RemoveMacroBlackList extends BaseHook {
                 }
             }
             letter = (char) (letter + 1);
+        }
+
+        char letter1 = 'a';
+
+        for (int i = 0; i < 26; i++) {
+            String appVersionName = getPackageVersion(lpparam);
+            if (appVersionName.startsWith("7.4.9")) {
+                m = findClass(letter1 + "6.b");
+            } else {
+                m = findClass("com.miui.gamebooster." + letter1 + ".b");
+            }
+            if (m != null) {
+                int length = m.getDeclaredMethods().length;
+                if (length >= 7 && length <= 11) {
+                    Field[] fields = m.getFields();
+                    if (fields.length == 0 && m.getDeclaredFields().length >= 2) {
+                        if (appVersionName.startsWith("7.4.9")) {
+                            findAndHookMethod(m, "e", Context.class, String.class, new MethodHook() {
+                                @Override
+                                protected void before(MethodHookParam param) throws Throwable {
+                                    param.setResult(true);
+                                }
+                            });
+                        } else {
+                            findAndHookMethod(m, "a", Context.class, String.class, new MethodHook() {
+                                @Override
+                                protected void before(MethodHookParam param) throws Throwable {
+                                    param.setResult(true);
+                                }
+                            });
+                        }
+                    }
+                    continue;
+                }
+            }
+            letter1 = (char) (letter1 + 1);
         }
     }
 
