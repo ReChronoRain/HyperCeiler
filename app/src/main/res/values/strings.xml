@@ -9,9 +9,9 @@
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="about_use">引用</string>
-    <string name="about_use_desc">Cemiuiler使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
+    <string name="about_use_desc">Cemiuiler 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
     <string name="about_contributer">贡献者</string>
-    <string name="about_contributer_desc">感谢以下贡献者为Cemiuiler的开发提供了不同程度的帮助（排名顺序不分先后）</string>
+    <string name="about_contributer_desc">感谢以下贡献者为 Cemiuiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
     <string name="about_donation">支持</string>
     <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
 
@@ -51,10 +51,10 @@
     <string name="about_translator_title">译者</string>
     <string name="about_chat_title">讨论</string>
     <string name="about_other_title">其他</string>
-    <string name="about_qq_group">QQ群</string>
-    <string name="about_qq_channel">QQ频道</string>
-    <string name="about_tg_group">Telegram群组</string>
-    <string name="about_tg_channel">Telegram频道</string>
+    <string name="about_qq_group">QQ 群</string>
+    <string name="about_qq_channel">QQ 频道</string>
+    <string name="about_tg_group">Telegram 群组</string>
+    <string name="about_tg_channel">Telegram 频道</string>
     <string name="about_github">项目地址</string>
     <string name="about_crwd">翻译</string>
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
@@ -75,26 +75,26 @@
 
     <string name="browser_debug_mode">开发者选项</string>
 
-    <string name="clock_enable_hour_glass">启用计时器沙漏动画</string>
+    <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
 
     <string name="gallery_title_settings">设置</string>
     <string name="gallery_title_feature">功能</string>
     <string name="gallery_title_recommend">推荐</string>
     <string name="gallery_title_editor">编辑</string>
     <string name="gallery_enable_hdr_enhanced">解锁超动态显示</string>
-    <string name="gallery_enable_pdf">解锁生成PDF</string>
+    <string name="gallery_enable_pdf">解锁生成 PDF</string>
     <string name="gallery_enable_ocr">解锁提取文字</string>
     <string name="gallery_enable_ocr_form">解锁提取表格</string>
     <string name="gallery_enable_id_photo">解锁证件照</string>
     <string name="gallery_enable_photo_movie">解锁照片电影</string>
     <string name="gallery_enable_video_post">解锁视频特效</string>
-    <string name="gallery_enable_video_editor">解锁Mi剪辑</string>
+    <string name="gallery_enable_video_editor">解锁 Mi 剪辑</string>
     <string name="gallery_enable_text_yanhua">解锁文字烟花</string>
     <string name="gallery_enable_remover_2">解锁魔法消除</string>
     <string name="gallery_enable_magic_matting">解锁魔法抠图</string>
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
 
-    <string name="guard_provider_disable_upload_applist">禁止MIUI自动上传已安装应用列表</string>
+    <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
 
     <string name="home_gesture">手势</string>
     <string name="home_layout">布局</string>
@@ -106,15 +106,15 @@
 
     <string name="home_dock_bg_custom_enable">启用自定义</string>
     <string name="home_dock_bg_height">高度</string>
-    <string name="home_dock_bg_height_desc">Dock栏高度</string>
+    <string name="home_dock_bg_height_desc">Dock 栏高度</string>
     <string name="home_dock_bg_margin_horizontal">垂直边距</string>
-    <string name="home_dock_bg_margin_horizontal_desc">Dock栏距屏幕两侧边距</string>
+    <string name="home_dock_bg_margin_horizontal_desc">Dock 栏距屏幕两侧边距</string>
     <string name="home_dock_bg_margin_top">顶部边距</string>
-    <string name="home_dock_bg_margin_top_desc">Dock栏距页面指示器边距</string>
+    <string name="home_dock_bg_margin_top_desc">Dock 栏距页面指示器边距</string>
     <string name="home_dock_bg_margin_bottom">底部边距</string>
-    <string name="home_dock_bg_margin_bottom_desc">Dock栏距屏幕底部边距</string>
+    <string name="home_dock_bg_margin_bottom_desc">Dock 栏距屏幕底部边距</string>
     <string name="home_dock_icon_margin_bottom">图标底部边距</string>
-    <string name="home_dock_icon_margin_bottom_desc">Dock栏图标距屏幕底部边距</string>
+    <string name="home_dock_icon_margin_bottom_desc">Dock 栏图标距屏幕底部边距</string>
     <string name="home_dock_bg_custom">背景模糊</string>
     <string name="home_dock_icon_bottom_margin">图标距离底部边距</string>
     <string name="home_dock_margin_bottom">页面指示器距屏幕底部边距</string>
@@ -161,9 +161,9 @@
     <string name="home_gesture_shake">摇晃</string>
     <string name="home_gesture_shake_desc">在任意主屏幕摇晃设备</string>
     <string name="home_gesture_left_swipe">左滑</string>
-    <string name="home_gesture_left_swipe_desc">在主屏幕Dock栏向左滑动</string>
+    <string name="home_gesture_left_swipe_desc">在主屏幕 Dock 栏向左滑动</string>
     <string name="home_gesture_right_swipe">右滑</string>
-    <string name="home_gesture_right_swipe_desc">在主屏幕Dock栏向右滑动</string>
+    <string name="home_gesture_right_swipe_desc">在主屏幕 Dock 栏向右滑动</string>
     <string name="home_gesture_up_swipe">上滑</string>
     <string name="home_gesture_up_swipe_desc">在任意主屏幕单指上滑</string>
     <string name="home_gesture_down_swipe">下滑</string>
@@ -211,8 +211,8 @@
     <string name="home_title_font_size">字体大小</string>
 
     <string name="home_widget_all_widget_animation">小部件动画</string>
-    <string name="home_widget_show_miui_widget">显示MIUI小部件</string>
-    <string name="home_widget_show_miui_widget_desc">在安卓小部件页面显示MIUI小部件</string>
+    <string name="home_widget_show_miui_widget">显示 MIUI 小部件</string>
+    <string name="home_widget_show_miui_widget_desc">在安卓小部件页面显示 MIUI 小部件</string>
     <string name="home_widget_corner_radius">小部件圆角</string>
 
 
@@ -224,13 +224,13 @@
     <string name="lbe_disable_clipboard_tip">禁用读取剪贴板提示</string>
 
     <string name="market_device_modify">机型伪装</string>
-    <string name="market_device_modify_desc">伪装设备机型为Xiaomi 13 Ultra</string>
+    <string name="market_device_modify_desc">伪装设备机型为 Xiaomi 13 Ultra</string>
 
     <string name="mediaeditor_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
 
     <string name="milink_unlock_mishare">解锁小米妙享</string>
 
-    <string name="mirror_unlock_miui_plus">解锁MIUI+</string>
+    <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
 
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
 
@@ -248,9 +248,9 @@
     <string name="miui_package_installer_apk_info_desc">显示安装中应用的更多相关信息</string>
 
     <string name="personal_assistant_widget_crack">小部件破解</string>
-    <string name="personal_assistant_fold_widget_enable">Pad/Fold小部件</string>
-    <string name="personal_assistant_fold_widget_enable_desc">启用Pad/Fold样式的小部件</string>
-    <string name="personal_assistant_overlap_mode">负一屏Fold样式</string>
+    <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
+    <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
+    <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>
 
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>
 
@@ -259,7 +259,7 @@
     <string name="scanner_ocr">解锁识文字</string>
     <string name="scanner_document">解锁转文档</string>
     <string name="scanner_excel">解锁提取表格</string>
-    <string name="scanner_ppt">解锁提取PPT</string>
+    <string name="scanner_ppt">解锁提取 PPT</string>
     <string name="scanner_doc_ppt">解锁扫文件</string>
 
     <string name="screenrecorder_force_support_playback_capture">强制启用原生屏幕录制支持</string>
@@ -278,14 +278,14 @@
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
-    <string name="security_center_applock_pin_scramble">应用锁乱序PIN</string>
-    <string name="security_center_applock_pin_scramble_desc">随机更改应用锁PIN键盘顺序</string>
+    <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
+    <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
     <string name="security_center_beauty_light">解锁模拟补光灯</string>
     <string name="security_center_beauty_light_auto">解锁智能调节补光灯亮度</string>
     <string name="security_center_beauty_face">解锁视频通话美颜</string>
     <string name="security_center_beauty_privacy">解锁隐私拍摄</string>
     <string name="security_center_beauty_pc">解锁人像居中</string>
-    <string name="security_center_disable_root_check">禁用root检测</string>
+    <string name="security_center_disable_root_check">禁用 Root 检测</string>
     <string name="security_center_remove_macro_black_list">移除自动连招黑名单</string>
     <string name="security_center_newbox_custom_enable">启用自定义</string>
     <string name="security_center_newbox_bg_custom">背景模糊</string>
@@ -301,7 +301,7 @@
     <string name="security_disable_app_title">应用状态控制</string>
     <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
     <string name="security_score">禁用体检优化</string>
-    <string name="security_score_summary">锁定100分与禁用优化</string>
+    <string name="security_score_summary">锁定 100 分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
     <string name="security_center_newbox_blur">全局侧边栏模糊</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">移除气泡通知应用限制</string>
@@ -314,7 +314,7 @@
     <string name="system_framework_core_patch_downgr_desc">允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
     <string name="system_framework_core_patch_auth_creak">禁用软件包管理器签名验证</string>
     <string name="system_framework_core_patch_auth_creak_desc">关闭安装应用时的签名验证，可以安装被篡改的应用</string>
-    <string name="system_framework_core_patch_digest_creak">禁用APK签名验证</string>
+    <string name="system_framework_core_patch_digest_creak">禁用 APK 签名验证</string>
     <string name="system_framework_core_patch_digest_creak_desc">允许直接覆盖安装同包名不同签名的应用</string>
     <string name="system_framework_core_patch_use_pre_signature">安装时始终使用已安装应用的签名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">该功能极度危险，仅在绝对需要时启用</string>
@@ -359,7 +359,7 @@
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
-    <string name="system_control_center_5g_tile">5G网络开关</string>
+    <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_control_center_qs_tile_label">移除标题</string>
     <string name="system_control_center_qs_rows">行数</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
@@ -367,14 +367,14 @@
     <string name="system_control_center_qs_columns_format">%d 列</string>
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
-    <string name="system_ui_lock_screen_scramble_pin">乱序PIN</string>
-    <string name="system_ui_lock_screen_scramble_pin_desc">随机更改PIN键盘顺序</string>
+    <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
+    <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
 
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
-    <string name="system_ui_notification_freeform_desc">可能不支持Mi Push推送的通知</string>
+    <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
     <string name="system_ui_monet_overlay_custom">自定义主题色</string>
     <string name="system_ui_monet_overlay_custom_desc">自定义主题颜色，而不是从壁纸中提取颜色</string>
     <string name="system_ui_monet_overlay_custom_color">选择主题色</string>
@@ -410,15 +410,15 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
-    <string name="system_ui_status_bar_icon_wifi_standard">WIFI标准</string>
+    <string name="system_ui_status_bar_icon_wifi_standard">WIFI 标准</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">网络活动指示器</string>
     <string name="system_ui_status_bar_icon_bluetooth">蓝牙</string>
     <string name="system_ui_status_bar_icon_new_hd">新HD图标</string>
     <string name="system_ui_status_bar_icon_small_hd">小HD图标</string>
     <string name="system_ui_status_bar_icon_big_hd">大HD图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">无SIM卡图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM卡1信号图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM卡2信号图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">无 SIM 卡图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1信号图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2信号图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">网络类型图标</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大网络类型图标</string>
     <string name="system_ui_status_bar_icon_alarm_clock">闹钟</string>
@@ -440,26 +440,26 @@
     <string name="system_ui_status_bar_volume_at_right">声音情景</string>
     <string name="system_ui_status_bar_zen_at_right">勿扰模式</string>
 
-    <string name="theme_manager_version_code_modify">禁用MIUI版本检测</string>
+    <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
     <string name="theme_manager_crack">主题破解</string>
-    <string name="theme_manager_enable_pad_theme">启用Pad主题</string>
-    <string name="theme_manager_enable_fold_theme">启用Fold主题</string>
+    <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
+    <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
 
-    <string name="tsmclient_auto_nfc">自动管理NFC</string>
-    <string name="tsmclient_auto_nfc_desc">进入刷卡页面时自动开启NFC，退出时将自动关闭</string>
+    <string name="tsmclient_auto_nfc">自动管理 NFC</string>
+    <string name="tsmclient_auto_nfc_desc">进入刷卡页面时自动开启 NFC，退出时将自动关闭</string>
 
-    <string name="updater_fuck_vab">移除OTA验证</string>
-    <string name="updater_fuck_vab_desc">仅支持VAB设备，该功能具有一定危险性</string>
-    <string name="updater_miui_version">针对系统更新修改MIUI版本</string>
+    <string name="updater_fuck_vab">移除 OTA 验证</string>
+    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，该功能具有一定危险性</string>
+    <string name="updater_miui_version">针对系统更新修改 MIUI 版本</string>
 
     <string name="various_location_simulation_title">位置模拟</string>
     <string name="various_dialog_title">弹窗</string>
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
-    <string name="various_collapse_miui_title">MIUI标题</string>
-    <string name="various_collapse_miui_title_desc">调整MIUI应用中的顶栏标题</string>
+    <string name="various_collapse_miui_title">MIUI 标题</string>
+    <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
@@ -494,9 +494,9 @@
     <string name="location_simulation_network">网络</string>
     <string name="location_simulation_operator_fix">运营商伪装修复</string>
     <string name="location_simulation_gps">GPS</string>
-    <string name="location_simulation_mac">Mac地址</string>
+    <string name="location_simulation_mac">Mac 地址</string>
     <string name="location_simulation_wifi">WIFI</string>
-    <string name="location_simulation_router_mac">路由器Mac地址</string>
+    <string name="location_simulation_router_mac">路由器 Mac 地址</string>
     <string name="location_simulation_work_title">标题</string>
     <string name="location_simulation_work_offset">偏移</string>
     <string name="location_simulation_work_base_station">基站</string>
@@ -510,8 +510,8 @@
     <string name="app_details_apk_version_code">应用版本号</string>
     <string name="app_details_data_path">数据目录</string>
     <string name="app_details_app_uid">用户标识符</string>
-    <string name="app_details_sdk">目标SDK版本</string>
-    <string name="app_details_min_sdk">最低SDK版本</string>
+    <string name="app_details_sdk">目标 SDK 版本</string>
+    <string name="app_details_min_sdk">最低 SDK 版本</string>
 
     <string name="disable_app_settings">这是一个坏主意！</string>
     <string name="disable_app_title">确定要禁用该应用吗？</string>

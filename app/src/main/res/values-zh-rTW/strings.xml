@@ -67,7 +67,7 @@
     <string name="settings_safe_mode_desc">停用模組功能</string>
     <string name="aireco_device_modify">移除內測限制</string>
     <string name="browser_debug_mode">開發者選項</string>
-    <string name="clock_enable_hour_glass">啟用計時器沙漏動畫</string>
+    <string name="clock_enable_hour_glass">解鎖計時器沙漏動畫</string>
     <string name="gallery_title_settings">設定</string>
     <string name="gallery_title_feature">功能</string>
     <string name="gallery_title_recommend">推薦</string>
@@ -84,7 +84,7 @@
     <string name="gallery_enable_remover_2">解鎖魔法消除</string>
     <string name="gallery_enable_magic_matting">解鎖魔法摳圖</string>
     <string name="gallery_enable_magic_sky">解鎖魔法換天</string>
-    <string name="guard_provider_disable_upload_applist">禁止 MIUI 自動上傳已安裝的應用程式列表</string>
+    <string name="guard_provider_disable_upload_applist">阻止自動上傳已安裝的應用程式列表</string>
     <string name="home_gesture">手勢</string>
     <string name="home_layout">佈局</string>
     <string name="home_folder">資料夾</string>
@@ -219,7 +219,7 @@
     <string name="personal_assistant_widget_crack">小工具破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小工具</string>
     <string name="personal_assistant_fold_widget_enable_desc">啟用 Pad/Fold 樣式的小工具</string>
-    <string name="personal_assistant_overlap_mode">負一屏Fold樣式</string>
+    <string name="personal_assistant_overlap_mode">負一屏 Fold 樣式</string>
     <string name="powerkeeper_custom_refresh_rate">自訂高螢幕更新率的應用程式</string>
     <string name="scanner_card">解鎖掃名片</string>
     <string name="scanner_translation">解鎖翻譯</string>
@@ -447,7 +447,7 @@
     <string name="app_details_playstore">用商店打開</string>
     <string name="app_details_launch">啟動</string>
     <string name="app_details_nolaunch">應用程式沒有預設可啟動的活動</string>
-    <string name="app_details_apk_file">APK 目錄</string>
+    <string name="app_details_apk_file">APK目錄</string>
     <string name="app_details_apk_version_code">應用程式版本號</string>
     <string name="app_details_data_path">數據目錄</string>
     <string name="app_details_app_uid">用戶標識符</string>
@@ -501,7 +501,7 @@
     <string name="system_control_center_5g_toggle_label">5G 網路</string>
     <string name="various_install_app_info_version_name">版本名稱</string>
     <string name="various_install_app_info_version_code">版本代碼</string>
-    <string name="various_install_app_info_sdk">支援 SDK</string>
+    <string name="various_install_app_info_sdk">支援SDK</string>
     <string name="calls">通話</string>
     <string name="system_volume">系統</string>
     <string name="notification_volume">通知</string>
@@ -544,7 +544,7 @@
     <string name="operator_fix_none">不修復</string>
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推薦）</string>
-    <string name="custom_hook_new">增加 Hook</string>
+    <string name="custom_hook_new">增加Hook</string>
     <string name="custom_hook_mode">選擇模式</string>
     <string name="cemiuiler_notice">下拉狀態欄，同時顯示快捷開關和系統通知</string>
     <string name="cemiuiler_restart_quick">快速重啟作用域</string>
@@ -563,7 +563,7 @@
     <string name="rest_ask">您是否要還原備份？</string>
     <string name="rest_permission">現在您必須手動啟用此選項的權限。</string>
     <string name="tsmclient">小米智能卡</string>
-    <string name="tsmclient_auto_nfc">自動管理NFC</string>
-    <string name="tsmclient_auto_nfc_desc">進入刷卡頁面時自動開啟NFC，退出時將自動關閉</string>
+    <string name="tsmclient_auto_nfc">自動管理 NFC</string>
+    <string name="tsmclient_auto_nfc_desc">進入刷卡頁面時自動開啟 NFC，退出時將自動關閉</string>
 
 </resources>
