@@ -265,6 +265,7 @@
     <string name="screenrecorder_force_support_playback_capture_desc">需要屏幕录制版本支持</string>
 
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
+    <string name="screenshot_unlock_minimum_crop_limit_desc">仅作用于区域截屏</string>
 
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>
