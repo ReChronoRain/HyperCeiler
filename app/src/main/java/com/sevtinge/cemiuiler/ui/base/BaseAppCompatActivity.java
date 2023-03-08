@@ -52,8 +52,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public void showRestartSystemUIDialog() {
         new AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle("重启系统界面")
-                .setMessage("你确定要立即重启系统界面吗？")
+                .setTitle(R.string.restart_systemui)
+                .setMessage(R.string.restart_systemui_desc)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> restartSystemUI())
                 .setNegativeButton(android.R.string.cancel, null)
@@ -67,8 +67,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public void showRestartAppsDialog(String appLabel, String packagename) {
         new AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle("重启" + appLabel)
-                .setMessage("你确定要立即重启" + appLabel + "吗？")
+                .setTitle(R.string.restart_app + appLabel)
+                .setMessage(R.string.restart_app_desc1 + appLabel + R.string.restart_app_desc2)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> setRestartApps(packagename))
                 .setNegativeButton(android.R.string.cancel, null)
@@ -89,8 +89,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         if (!Helpers.isModuleActive) {
             new AlertDialog.Builder(this)
                     .setCancelable(false)
-                    .setTitle("提示")
-                    .setMessage("模块暂未激活")
+                    .setTitle(R.string.tip)
+                    .setMessage(R.string.hook_failed)
                     .setHapticFeedbackEnabled(true)
                     .setPositiveButton(android.R.string.ok ,(dialog, which) -> {
                         finish();
