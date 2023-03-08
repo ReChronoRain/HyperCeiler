@@ -63,6 +63,7 @@ public class Home extends BaseModule {
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
+        initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
 
         //小部件
         initHook(new AllWidgetAnimation(), mPrefsMap.getBoolean("home_widget_all_widget_animation"));
