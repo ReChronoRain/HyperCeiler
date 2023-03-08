@@ -49,6 +49,9 @@ public class SecurityCenter extends BaseModule {
         //去除气泡通知应用限制
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
 
+        //移除打开应用弹窗
+        initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
+
         //
         initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
 

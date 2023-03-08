@@ -131,6 +131,12 @@
             android:defaultValue="false"
             app:isPreferenceVisible="true"/>
 
+        <SwitchPreference
+            android:key="prefs_key_security_center_remove_open_app_confirmation_popup"
+            android:title="@string/security_center_remove_open_app_confirmation_popup"
+            android:summary="@string/security_center_remove_open_app_confirmation_popup_summary"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_newbox_title">
