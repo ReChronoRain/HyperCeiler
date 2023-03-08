@@ -309,6 +309,7 @@
     <string name="system_framework_volume_steps">音量級數倍增</string>
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">網路通話助手</string>
+    <string name="prefs_key_system_settings_develop_speed_mode_desc">在不支持的機型上開啟後不會顯示入口</string>
     <string name="system_ui_lockscreen_title">鎖定螢幕</string>
     <string name="system_ui_statusbar_title">狀態欄</string>
     <string name="system_ui_controlcenter_title">控制中心</string>
@@ -572,5 +573,7 @@
     <string name="restart_app_desc2">嗎？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模組暫未激活</string>
-    <string name="settings_icon_desc">設置模組入口在 MIUI 設置中的位置</string>
+    <string name="settings_icon_desc">設定模組入口在系統設定中的位置</string>
+    <string name="system_settings_develop_title">開發者選項</string>
+    <string name="system_settings_develop_speed_mode">極致模式</string>
 </resources>

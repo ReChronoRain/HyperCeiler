@@ -72,7 +72,7 @@
     <string name="settings_debug_title">调试模式</string>
     <string name="settings_hide_app_icon">桌面图标</string>
     <string name="settings_icon">设置图标</string>
-    <string name="settings_icon_desc">设置模块入口在 MIUI 设置中的位置</string>
+    <string name="settings_icon_desc">设置模块入口在系统设置中的位置</string>
     <string name="settings_reboot">重启作用域</string>
     <string name="settings_back">备份模块配置</string>
     <string name="settings_rest">恢复模块配置</string>
@@ -362,6 +362,7 @@
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_develop_speed_mode">极致模式</string>
 
+    <string name="prefs_key_system_settings_develop_speed_mode_desc">在不支持的机型上开启后不会显示入口</string>
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>
     <string name="system_ui_controlcenter_title">控制中心</string>
