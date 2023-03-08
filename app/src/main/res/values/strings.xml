@@ -228,7 +228,10 @@
 
     <string name="incallui_hide_crbt">隐藏电话彩铃</string>
 
+    <string name="joyose_cloud_control_title">云控</string>
     <string name="joyose_disable_cloud_control">禁用云控</string>
+    <string name="joyose_game_title">游戏空间</string>
+    <string name="joyose_enable_gpu_tuner">性能调度</string>
 
     <string name="lbe_disable_clipboard_tip">禁用读取剪贴板提示</string>
 

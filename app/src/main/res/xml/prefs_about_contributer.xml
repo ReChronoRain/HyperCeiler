@@ -25,5 +25,11 @@
                     android:action="android.intent.action.VIEW"
                     android:data="http://www.coolapk.com/u/2919503" />
         </Preference>
+        <Preference
+                android:title="欧瓯烨">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="http://www.coolapk.com/u/12223114" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
