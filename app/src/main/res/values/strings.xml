@@ -358,6 +358,8 @@
     
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">网络通话助手</string>
+    <string name="system_settings_develop_title">开发者选项</string>
+    <string name="system_settings_develop_speed_mode">极致模式</string>
 
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>

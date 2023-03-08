@@ -8,5 +8,13 @@
                 android:defaultValue="false"/>
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_settings_develop_title">
+
+        <SwitchPreference
+                android:title="@string/system_settings_develop_speed_mode"
+                android:key="prefs_key_system_settings_develop_speed_mode"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
