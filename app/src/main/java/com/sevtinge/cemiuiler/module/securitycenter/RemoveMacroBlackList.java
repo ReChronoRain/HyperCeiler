@@ -14,14 +14,12 @@ import io.luckypray.dexkit.enums.MatchType;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class RemoveMacroBlackList extends BaseHook {
 
     Class<?> m;
+    Class<?> m1;
 
     @Override
     public void init() {
@@ -57,9 +55,9 @@ public class RemoveMacroBlackList extends BaseHook {
         for (int i = 0; i < 26; i++) {
             String appVersionName = getPackageVersion(lpparam);
             if (appVersionName.startsWith("7.4.9")) {
-                m = findClass("q7." + letter + "0");
+                m = findClassIfExists("q7." + letter + "0");
             } else {
-                m = findClass("com.miui.gamebooster.utils." + letter + "0");
+                m = findClassIfExists("com.miui.gamebooster.utils." + letter + "0");
             }
             if (m != null) {
                 int length = m.getDeclaredMethods().length;
@@ -82,7 +80,6 @@ public class RemoveMacroBlackList extends BaseHook {
                             });
                         }
                     }
-                    continue;
                 }
             }
             letter = (char) (letter + 1);
@@ -90,27 +87,27 @@ public class RemoveMacroBlackList extends BaseHook {
 
         char letter1 = 'a';
 
-        for (int i = 0; i < 26; i++) {
+        for (int j = 0; j < 26; j++) {
             String appVersionName = getPackageVersion(lpparam);
             if (appVersionName.startsWith("7.4.9")) {
-                m = findClass(letter1 + "6.b");
+                m1 = findClassIfExists(letter1 + "6.b");
             } else {
-                m = findClass("com.miui.gamebooster." + letter1 + ".b");
+                m1 = findClassIfExists("com.miui.gamebooster." + letter1 + ".b");
             }
-            if (m != null) {
-                int length = m.getDeclaredMethods().length;
-                if (length >= 7 && length <= 11) {
-                    Field[] fields = m.getFields();
-                    if (fields.length == 0 && m.getDeclaredFields().length >= 2) {
+            if (m1 != null) {
+                int length = m1.getDeclaredMethods().length;
+                if (length >= 9 && length <= 11) {
+                    Field[] fields = m1.getFields();
+                    if (fields.length == 0 && m1.getDeclaredFields().length == 1) {
                         if (appVersionName.startsWith("7.4.9")) {
-                            findAndHookMethod(m, "e", Context.class, String.class, new MethodHook() {
+                            findAndHookMethod(m1, "e", Context.class, String.class, new MethodHook() {
                                 @Override
                                 protected void before(MethodHookParam param) throws Throwable {
                                     param.setResult(true);
                                 }
                             });
                         } else {
-                            findAndHookMethod(m, "a", Context.class, String.class, new MethodHook() {
+                            findAndHookMethod(m1, "a", Context.class, String.class, new MethodHook() {
                                 @Override
                                 protected void before(MethodHookParam param) throws Throwable {
                                     param.setResult(true);
@@ -118,7 +115,6 @@ public class RemoveMacroBlackList extends BaseHook {
                             });
                         }
                     }
-                    continue;
                 }
             }
             letter1 = (char) (letter1 + 1);
