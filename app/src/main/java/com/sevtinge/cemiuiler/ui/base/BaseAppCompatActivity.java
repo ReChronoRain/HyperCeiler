@@ -92,9 +92,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                     .setTitle(R.string.tip)
                     .setMessage(R.string.hook_failed)
                     .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok ,(dialog, which) -> {
-                        finish();
-                    })
+                    .setPositiveButton(android.R.string.ok ,(dialog, which) -> finish())
                     .show();
         }
     }

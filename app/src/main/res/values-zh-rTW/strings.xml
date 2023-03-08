@@ -565,5 +565,12 @@
     <string name="tsmclient">小米智能卡</string>
     <string name="tsmclient_auto_nfc">自動管理 NFC</string>
     <string name="tsmclient_auto_nfc_desc">進入刷卡頁面時自動開啟 NFC，退出時將自動關閉</string>
-
+    <string name="restart_systemui">重啟系統界面</string>
+    <string name="restart_systemui_desc">確定要立即重啟系統界面嗎？</string>
+    <string name="restart_app">重啟系統界面</string>
+    <string name="restart_app_desc1">確定要立即重啟</string>
+    <string name="restart_app_desc2">嗎？</string>
+    <string name="tip">提示</string>
+    <string name="hook_failed">模組暫未激活</string>
+    <string name="settings_icon_desc">設置模組入口在 MIUI 設置中的位置</string>
 </resources>

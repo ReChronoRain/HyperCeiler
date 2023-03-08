@@ -72,6 +72,7 @@
     <string name="settings_debug_title">调试模式</string>
     <string name="settings_hide_app_icon">桌面图标</string>
     <string name="settings_icon">设置图标</string>
+    <string name="settings_icon_desc">设置模块入口在 MIUI 设置中的位置</string>
     <string name="settings_reboot">重启作用域</string>
     <string name="settings_back">备份模块配置</string>
     <string name="settings_rest">恢复模块配置</string>
