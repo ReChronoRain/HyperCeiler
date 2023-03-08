@@ -572,5 +572,5 @@
     <string name="restart_app_desc2">嗎？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模組暫未激活</string>
-    <string name="settings_icon_desc">設置模組入口在 MIUI 設置中的位置</string>
+    <string name="settings_icon_desc">設置模組入口在系統設置中的位置</string>
 </resources>
