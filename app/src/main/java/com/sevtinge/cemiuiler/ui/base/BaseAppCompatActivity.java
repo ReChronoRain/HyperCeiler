@@ -67,8 +67,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public void showRestartAppsDialog(String appLabel, String packagename) {
         new AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle(R.string.restart_app + appLabel)
-                .setMessage(R.string.restart_app_desc1 + appLabel + R.string.restart_app_desc2)
+                .setTitle(getResources().getString(R.string.restart_app) + appLabel)
+                .setMessage(getResources().getString(R.string.restart_app_desc1) + appLabel + getResources().getString(R.string.restart_app_desc2))
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> setRestartApps(packagename))
                 .setNegativeButton(android.R.string.cancel, null)
