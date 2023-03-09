@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Cemiuiler</string>
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
-    <string name="language">English</string>
+    <string name="language">繁體中文</string>
     <string name="translator">聖小熊</string>
     <string name="translator_url">https://github.com/a406010503</string>
     <string name="settings">設定</string>
@@ -212,7 +212,7 @@
     <string name="miui_package_installer_install_risk">停用風險檢測</string>
     <string name="miui_package_installer_safe_model_tip">停用安全守護提示</string>
     <string name="miui_package_installer_count_checking">停用頻繁安裝應用程式檢查</string>
-    <string name="miui_package_installer_update_system_app">允許非小米應用商店更新系統應用程式</string>
+    <string name="miui_package_installer_update_system_app">允許非系統應用渠道更新系統應用程式</string>
     <string name="miui_package_installer_install_source">自訂安裝來源</string>
     <string name="miui_package_installer_apk_info">顯示更多安裝包資訊</string>
     <string name="miui_package_installer_apk_info_desc">顯示安裝中應用程式的更多相關資訊</string>
@@ -244,7 +244,7 @@
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
-    <string name="security_center_beauty_light">解鎖模擬補光燈</string>
+    <string name="security_center_beauty_light">解鎖模擬補光燈亮度</string>
     <string name="security_center_beauty_light_auto">解鎖智慧調節補光燈亮度</string>
     <string name="security_center_beauty_face">解鎖視訊通話美肌</string>
     <string name="security_center_beauty_privacy">解鎖隱私拍攝</string>
@@ -370,8 +370,8 @@
     <string name="system_ui_status_bar_icon_small_hd">小 HD 圖示</string>
     <string name="system_ui_status_bar_icon_big_hd">大 HD 圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">無 SIM 卡圖示</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡 1 訊號圖示</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡 2 訊號圖示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1 訊號圖示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">網路類型圖示</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大網路類型圖示</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
@@ -445,7 +445,7 @@
     <string name="location_simulation_work_base_station">基站</string>
     <string name="location_simulation_work_longitude_latitude">經緯度</string>
     <string name="location_simulation_work_remarks">備註</string>
-    <string name="app_details_playstore">用商店打開</string>
+    <string name="app_details_playstore">使用應用程式商店打開</string>
     <string name="app_details_launch">啟動</string>
     <string name="app_details_nolaunch">應用程式沒有預設可啟動的活動</string>
     <string name="app_details_apk_file">APK目錄</string>
@@ -538,9 +538,9 @@
     <string name="dialog_gravity_medium">置中</string>
     <string name="dialog_gravity_down">底部</string>
     <string name="collapse_miui_title_off">折疊</string>
-    <string name="collapse_miui_title_on">擴展</string>
+    <string name="collapse_miui_title_on">展開</string>
     <string name="collapse_miui_title_off_always">總是折疊</string>
-    <string name="collapse_miui_title_on_always">總是擴展</string>
+    <string name="collapse_miui_title_on_always">總是展開</string>
     <string name="location_custom">自定義</string>
     <string name="operator_fix_none">不修復</string>
     <string name="operator_fix_1">方法一</string>
@@ -568,7 +568,7 @@
     <string name="tsmclient_auto_nfc_desc">進入刷卡頁面時自動開啟 NFC，退出時將自動關閉</string>
     <string name="restart_systemui">重啟系統界面</string>
     <string name="restart_systemui_desc">確定要立即重啟系統界面嗎？</string>
-    <string name="restart_app">重啟系統界面</string>
+    <string name="restart_app">重啟</string>
     <string name="restart_app_desc1">確定要立即重啟</string>
     <string name="restart_app_desc2">嗎？</string>
     <string name="tip">提示</string>
@@ -576,4 +576,13 @@
     <string name="settings_icon_desc">設定模組入口在系統設定中的位置</string>
     <string name="system_settings_develop_title">開發者選項</string>
     <string name="system_settings_develop_speed_mode">極致模式</string>
+    <string name="joyose_cloud_control_title">雲控</string>
+    <string name="joyose_game_title">遊戲空間</string>
+    <string name="joyose_enable_gpu_tuner">性能調度</string>
+    <string name="home_dock_unlock_hotseat">解鎖底欄圖示數量限制</string>
+    <string name="security_center_remove_open_app_confirmation_popup">移除打開應用程序彈窗</string>
+    <string name="security_center_remove_open_app_confirmation_popup_summary">移除 \"XXX 想要打開 XXX\" 的彈窗</string>
+    <string name="content_extension">傳送門</string>
+    <string name="content_extension_browser">使用第三方瀏覽器</string>
+    <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜索，需自行選擇默認瀏覽器</string>
 </resources>

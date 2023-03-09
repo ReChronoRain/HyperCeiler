@@ -2,7 +2,7 @@
     <string name="app_name">Cemiuiler</string>
     <string name="xposed_description">Make MIUI Great Again!</string>
 
-    <string name="language">English</string>
+    <string name="language">简体中文</string>
     <string name="translator">绀漓 | Sevtinge</string>
     <string name="translator_url">https://github.com/sevtinge</string>
 
@@ -297,7 +297,7 @@
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
-    <string name="security_center_beauty_light">解锁模拟补光灯</string>
+    <string name="security_center_beauty_light">解锁模拟补光灯亮度</string>
     <string name="security_center_beauty_light_auto">解锁智能调节补光灯亮度</string>
     <string name="security_center_beauty_face">解锁视频通话美颜</string>
     <string name="security_center_beauty_privacy">解锁隐私拍摄</string>
@@ -435,12 +435,12 @@
     <string name="system_ui_status_bar_icon_wifi_standard">WIFI 标准</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">网络活动指示器</string>
     <string name="system_ui_status_bar_icon_bluetooth">蓝牙</string>
-    <string name="system_ui_status_bar_icon_new_hd">新HD图标</string>
-    <string name="system_ui_status_bar_icon_small_hd">小HD图标</string>
-    <string name="system_ui_status_bar_icon_big_hd">大HD图标</string>
+    <string name="system_ui_status_bar_icon_new_hd">新 HD 图标</string>
+    <string name="system_ui_status_bar_icon_small_hd">小 HD 图标</string>
+    <string name="system_ui_status_bar_icon_big_hd">大 HD 图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">无 SIM 卡图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1信号图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2信号图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1 信号图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2 信号图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">网络类型图标</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大网络类型图标</string>
     <string name="system_ui_status_bar_icon_alarm_clock">闹钟</string>
@@ -506,9 +506,9 @@
     <string name="various_dialog_bg_blur">背景模糊</string>
 
     <string name="location_data_title">数据库</string>
-    <string name="various_location_simulation_1_title">任务1</string>
-    <string name="various_location_simulation_2_title">任务2</string>
-    <string name="various_location_simulation_3_title">任务3</string>
+    <string name="various_location_simulation_1_title">任务 1</string>
+    <string name="various_location_simulation_2_title">任务 2</string>
+    <string name="various_location_simulation_3_title">任务 3</string>
     <string name="various_location_simulation_all_title">通用</string>
     <string name="location_simulation_package_name">包名</string>
     <string name="location_simulation_location">位置</string>
@@ -525,7 +525,7 @@
     <string name="location_simulation_work_longitude_latitude">经纬度</string>
     <string name="location_simulation_work_remarks">备注</string>
 
-    <string name="app_details_playstore">用商店打开</string>
+    <string name="app_details_playstore">使用应用商店打开</string>
     <string name="app_details_launch">启动</string>
     <string name="app_details_nolaunch">应用没有默认可启动的活动</string>
     <string name="app_details_apk_file">APK目录</string>
@@ -639,9 +639,9 @@
     <string name="dialog_gravity_down">底部</string>
 
     <string name="collapse_miui_title_off">折叠</string>
-    <string name="collapse_miui_title_on">扩展</string>
+    <string name="collapse_miui_title_on">展开</string>
     <string name="collapse_miui_title_off_always">始终折叠</string>
-    <string name="collapse_miui_title_on_always">始终扩展</string>
+    <string name="collapse_miui_title_on_always">始终展开</string>
 
     <string name="location_custom">自定义</string>
 
