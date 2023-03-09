@@ -248,6 +248,7 @@
     <string name="system_ui_monet_overlay_custom">Customize theme color</string>
     <string name="system_ui_monet_overlay_custom_desc">Customize theme colors instead of pulling colors from system wallpaper</string>
     <string name="system_ui_monet_overlay_custom_color">Choose theme color</string>
+    <string name="system_ui_volume_timer">Extended timer</string>
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_statusbar_iconmanage_title">Icon management</string>
     <string name="system_ui_statusbar_clock_title">Clock</string>
@@ -324,7 +325,7 @@
     <string name="various_background_alpha">Background mask transparency</string>
     <string name="various_background_color">Background color</string>
     <string name="various_dialog_window_blur_title">Blur</string>
-    <string name="various_dialog_gravity">popup window location</string>
+    <string name="various_dialog_gravity">Popup window location</string>
     <string name="various_dialog_margin_horizontal">Popup window to vertical margin</string>
     <string name="various_dialog_margin_horizontal_desc">The distance between the popup window and the sides of the screen</string>
     <string name="various_dialog_margin_bottom">Popup window to bottom margin</string>
@@ -454,7 +455,7 @@
     <string name="custom_hook_new">Add Hook</string>
     <string name="custom_hook_mode">Select Mode</string>
     <string name="cemiuiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="cemiuiler_restart_quick">Quickly restart the target application</string>
+    <string name="cemiuiler_restart_quick">Quickly restart the target app</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
     <string name="reset_title">Are you sure you want to reset?</string>
@@ -481,9 +482,9 @@
     <string name="tsmclient_auto_nfc_desc">NFC is automatically turned on when entering the card swiping page, and it is automatically turned off when exiting</string>
     <string name="restart_systemui">Restart System UI</string>
     <string name="restart_systemui_desc">Are you sure you want to restart the System UI now?</string>
-    <string name="restart_app">Reboot</string>
-    <string name="restart_app_desc1">Are you sure you want to restart now</string>
-    <string name="restart_app_desc2">\?</string>
+    <string name="restart_app">"Reboot "</string>
+    <string name="restart_app_desc1">"Are you sure you want to restart now "</string>
+    <string name="restart_app_desc2">" ?"</string>
     <string name="tip">Tip</string>
     <string name="hook_failed">Module not activated</string>
     <string name="settings_icon_desc">Set the location of the module entry in the system settings</string>
@@ -513,6 +514,7 @@
     <string name="system_other_flag_secure">Allow screenshot</string>
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_framework_share_menu_test">Share menu test</string>
+    <string name="system_framework_open_with_menu_test">Open with menu test</string>
     <string name="system_framework_default_volume_stream">Adjust volume by default</string>
     <string name="system_framework_volume_first_press">Instant volume adjustment</string>
     <string name="system_framework_volume_separate_control">Independent volume control</string>
@@ -583,5 +585,6 @@
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Use third-party browser</string>
     <string name="content_extension_browser_desc">Make Taplus not mandatory to use MIUI browser for search, you need to choose the default browser by yourself</string>
+    <string name="home_other_icon_mono_chrome">Icon background color</string>
 
 </resources>

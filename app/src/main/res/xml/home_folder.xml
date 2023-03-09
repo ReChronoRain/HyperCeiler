@@ -163,7 +163,7 @@
 
         <SeekBarPreference
             android:key="prefs_key_home_folder_vertical_padding"
-            android:title="文件夹水平间距"
+            android:title="@string/home_folder_vertical_padding_title"
             android:defaultValue="0"
             app:minValue="0"
             app:maxValue="100"
