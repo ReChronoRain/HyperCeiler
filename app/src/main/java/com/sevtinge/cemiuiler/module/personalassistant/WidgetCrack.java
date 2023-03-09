@@ -1,40 +1,32 @@
-package com.sevtinge.cemiuiler.module.personalassistant;
+package com.sevtinge.cemiuiler.module.personalassistant
 
-import android.content.Context;
-import com.sevtinge.cemiuiler.module.base.BaseHook;
+import android.content.Context
+import com.sevtinge.cemiuiler.module.base.BaseHook
 
-public class WidgetCrack extends BaseHook {
+class WidgetCrack : BaseHook {
 
-    Class<?> mPickerDetailResponseWrapper;
-    Class<?> mPickerDetailResponse;
-    Class<?> mPickerDetailViewModel;
-    Class<?> mPickerDetailUtil;
-    Class<?> mPickerDetailActionController;
-    Class<?> mPickerDetailDownloadManager;
-
-
-    @Override
-    public void init() {
+    override fun init() {
+        EzXHelperInit.setEzClassLoader(lpparam.classLoader)
         findMethod("com.miui.maml.widget.edit.MamlutilKt") {
-                    name == "themeManagerSupportPaidWidget"
-                }.hookAfter {
-                    it.result = false
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
-                    name == "isCanDirectAddMaMl"
-                }.hookAfter {
-                    it.result = true
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.utils.PickerDetailDownloadManager\$Companion") {
-                    name == "isCanDownload"
-                }.hookBefore {
-                    it.result = true
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.utils.PickerDetailUtil") {
-                    name == "isCanAutoDownloadMaMl"
-                }.hookBefore {
-                    it.result = true
-                }
+            name == "themeManagerSupportPaidWidget"
+        }.hookAfter {
+            it.result = false
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
+            name == "isCanDirectAddMaMl"
+        }.hookAfter {
+            it.result = true
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.utils.PickerDetailDownloadManager\$Companion") {
+            name == "isCanDownload"
+        }.hookBefore {
+            it.result = true
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.utils.PickerDetailUtil") {
+            name == "isCanAutoDownloadMaMl"
+        }.hookBefore {
+            it.result = true
+        }
                 findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse") {
                     name == "isPay"
                 }.hookBefore {
@@ -69,6 +61,6 @@ public class WidgetCrack extends BaseHook {
                     name == "checkIsIndependentProcessWidgetForPosition"
                 }.hookAfter {
                     it.result = true
-                }
+       }
     }
 }
