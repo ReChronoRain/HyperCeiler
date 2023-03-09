@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.home;
 
+import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 public class EnableIconMonoChrome extends BaseHook {
