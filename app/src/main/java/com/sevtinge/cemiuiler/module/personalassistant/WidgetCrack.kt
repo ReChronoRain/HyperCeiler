@@ -1,9 +1,11 @@
 package com.sevtinge.cemiuiler.module.personalassistant
 
 import android.content.Context
+import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
-class WidgetCrack : BaseHook {
+class WidgetCrack : BaseHook() {
 
     override fun init() {
         EzXHelperInit.setEzClassLoader(lpparam.classLoader)
