@@ -51,8 +51,8 @@ public class SecurityCenterActivity extends BaseAppCompatActivity {
             mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
 
             if (permission != PermissionChecker.PERMISSION_GRANTED) {
-                mBlurLocation.setSummary("未获得所需权限");
-                mAiClipboard.setSummary("未获得所需权限");
+                mBlurLocation.setSummary(R.string.security_center_no_permission);
+                mAiClipboard.setSummary(R.string.security_center_no_permission);
                 mBlurLocation.setEnabled(false);
                 mAiClipboard.setEnabled(false);
             } else {
