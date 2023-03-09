@@ -58,6 +58,7 @@ class ThemeCrackNew : BaseHook() {
                         val productId = it.thisObject.getObject(resource.name).invokeMethod("getProductId").toString()
                         File("/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra").createNewFile()
                     }
+                }
         } catch (t: Throwable) {
             Log.ex(t)
         }
