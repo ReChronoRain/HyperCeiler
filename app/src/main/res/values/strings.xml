@@ -88,7 +88,7 @@
     <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
 
     <string name="content_extension_browser">使用第三方浏览器</string>
-    <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索</string>
+    <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
 
     <string name="gallery_title_settings">设置</string>
     <string name="gallery_title_feature">功能</string>
