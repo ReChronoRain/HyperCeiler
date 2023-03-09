@@ -585,5 +585,6 @@
     <string name="content_extension">傳送門</string>
     <string name="content_extension_browser">使用第三方瀏覽器</string>
     <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜索，需自行選擇默認瀏覽器</string>
-    <string name="home_other_icon_mono_chrome">圖標背景色</string>
+    <string name="home_other_icon_mono_chrome">圖示背景色</string>
+    <string name="security_center_no_permission">未取得所需許可權</string>
 </resources>

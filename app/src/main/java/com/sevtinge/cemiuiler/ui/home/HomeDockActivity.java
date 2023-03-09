@@ -44,12 +44,7 @@ public class HomeDockActivity extends BaseHomeActivity {
                 return true;
             });
 
-            mHomeDockCustom.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    return false;
-                }
-            });
+            mHomeDockCustom.setOnPreferenceClickListener(preference -> false);
 
             /*SeekBarPreference mDockHeight = findPreference("prefs_key_home_dock_height");
             mDockHeight.setMax(getActivity().getResources().getDisplayMetrics().heightPixels);*/
