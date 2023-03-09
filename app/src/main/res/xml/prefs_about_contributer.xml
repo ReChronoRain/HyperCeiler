@@ -8,7 +8,7 @@
                     android:data="https://github.com/hosizoraru" />
         </Preference>
         <Preference
-                android:title="林柒柒">
+                android:title="Lin Qiqi">
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/mu7220" />
