@@ -32,6 +32,15 @@
         </Preference>
 
         <Preference
+                android:title="@string/content_extension"
+                android:key="prefs_key_content_extension"
+                android:icon="@drawable/ic_contentextension">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ContentExtensionActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/incallui"
                 android:key="prefs_key_incallui"
                 android:icon="@drawable/ic_call">

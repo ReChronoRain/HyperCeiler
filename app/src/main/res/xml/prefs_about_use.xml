@@ -106,5 +106,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/GSWXXN/AutoNFC" />
         </Preference>
+        <Preference
+                android:title="Portal Hook"
+                android:summary="Haocen2004">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Haocen2004/PortalHook" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

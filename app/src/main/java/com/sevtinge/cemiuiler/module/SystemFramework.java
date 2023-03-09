@@ -1,20 +1,9 @@
 package com.sevtinge.cemiuiler.module;
 
-import android.os.Build;
-
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.home.WidgetCornerRadius;
 import com.sevtinge.cemiuiler.module.systemframework.*;
 import com.sevtinge.cemiuiler.module.systemframework.PackagePermissions;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForR;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForS;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForSv2;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForT;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.ClockShowSecond;
-import com.sevtinge.cemiuiler.module.thememanager.ThemeCrack;
-import com.sevtinge.cemiuiler.utils.LogUtils;
-
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemFramework extends BaseModule {
 

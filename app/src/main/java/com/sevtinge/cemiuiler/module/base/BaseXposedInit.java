@@ -56,6 +56,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Lbe mLbe= new Lbe();
     public InCallUi mInCallUi= new InCallUi();
     public TsmClient mTsmClient= new TsmClient();
+    public ContentExtension mContentExtension=new ContentExtension();
+    public VoiceAssist mVoiceAssist=new VoiceAssist();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -217,6 +219,14 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.miui.tsmclient":
                 mTsmClient.init(lpparam);
+                break;
+
+            case "com.miui.contentextension":
+                mContentExtension.init(lpparam);
+                break;
+
+            case"com.miui.voiceassist":
+                mVoiceAssist.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:
