@@ -472,6 +472,9 @@
 
     <string name="tsmclient_auto_nfc">自动管理 NFC</string>
     <string name="tsmclient_auto_nfc_desc">进入刷卡页面时自动开启 NFC，退出时将自动关闭</string>
+    <string name="tsmclient_nfc_turning_on">正在自动开启 NFC …</string>
+    <string name="tsmclient_nfc_turn_on_manually">手动开启 NFC</string>
+    <string name="tsmclient_nfc_turn_on_failed">自动开启 NFC 失败</string>
 
     <string name="updater_fuck_vab">移除 OTA 验证</string>
     <string name="updater_fuck_vab_desc">仅支持 VAB 设备，该功能具有一定危险性</string>
