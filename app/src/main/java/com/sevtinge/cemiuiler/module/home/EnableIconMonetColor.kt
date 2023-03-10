@@ -6,16 +6,17 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ResourcesHookRegister
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
-class EnableIconMonetColor : BaseHook() {
-    private lateinit var resparam: XC_InitPackageResources.InitPackageResourcesParam
-    override fun init() {
+object EnableIconMonetColor : BaseHook() {
+
+    override fun init() {}
+    fun initResource(resparam: XC_InitPackageResources.InitPackageResourcesParam){
         val monet = "system_accent1_100"
         val monoColorId = Resources.getSystem().getIdentifier(monet, "color", "android")
         var monoColor = Resources.getSystem().getColor(monoColorId)
 //        hasEnable("use_edit_color") {
 //            monoColor = Color.parseColor("your_color")
 //        }
-        getInitPackageResourcesParam().res.setReplacement(
+        resparam.res.setReplacement(
             "com.miui.home",
             "color",
             "monochrome_default",
@@ -29,12 +30,5 @@ class EnableIconMonetColor : BaseHook() {
 //            ColorEntries.toString(),
 //            "Monet"
 //        )
-    }
-
-    protected fun getInitPackageResourcesParam(): XC_InitPackageResources.InitPackageResourcesParam {
-        if (!this::resparam.isInitialized) {
-            throw RuntimeException("resparam should be initialized")
-        }
-        return resparam
     }
 }

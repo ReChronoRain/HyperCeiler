@@ -23,13 +23,18 @@ public class HomeOtherActivity extends BaseHomeActivity {
         }
 
         SwitchPreference mDisableMonoChrome;
+        SwitchPreference mDisableMonetColor;
 
         @Override
         public void initPrefs() {
             mDisableMonoChrome = findPreference("prefs_key_home_other_icon_mono_chrome");
             mDisableMonoChrome.setVisible(SdkVersion.isAndroidT);
-
             mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> {
+                return true;
+            });
+            mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
+            mDisableMonetColor.setVisible(SdkVersion.isAndroidT);
+            mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> {
                 return true;
             });
         }
