@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.tsmclient
 
 import android.content.Context
+import android.content.res.XModuleResources
 import android.nfc.NfcAdapter
 import android.widget.Toast
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
@@ -8,6 +9,7 @@ import com.github.kyuubiran.ezxhelper.init.InitFields
 import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.base.BaseXposedInit.mModulePath
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -47,8 +49,9 @@ object AutoNfc : BaseHook() {
     }
 
     fun initResource(resparam: XC_InitPackageResources.InitPackageResourcesParam) {
-        resparam.res.setReplacement("com.miui.tsmclient", "string", "nfc_off_hint", R.string.tsmclient_nfc_turning_on)
-        resparam.res.setReplacement("com.miui.tsmclient", "string", "immediately_open", R.string.tsmclient_nfc_turn_on_manually)
+        val moduleRes = XModuleResources.createInstance(mModulePath,resparam.res)
+        resparam.res.setReplacement("com.miui.tsmclient", "string", "nfc_off_hint", moduleRes.fwd(R.string.tsmclient_nfc_turning_on))
+        resparam.res.setReplacement("com.miui.tsmclient", "string", "immediately_open", moduleRes.fwd(R.string.tsmclient_nfc_turn_on_manually))
     }
 
     private suspend fun waitNFCEnable(context: Context, nfcAdapter: NfcAdapter) {
