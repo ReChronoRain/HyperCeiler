@@ -6,6 +6,14 @@ import de.robv.android.xposed.XC_MethodHook
 
 class MaxFreeFormm : BaseHook(){
     override fun init() {
+        // CanTaskEnterMiniSmallWindow
+        findAllMethods("com.miui.home.launcher.RecentsAndFSGestureUtils") {
+            name == "canTaskEnterMiniSmallWindow"
+        }.hookReturnConstant(true)
+        // CanTaskEnterSmallWindow
+        findAllMethods("com.miui.home.launcher.RecentsAndFSGestureUtils") {
+            name == "canTaskEnterSmallWindow"
+        }.hookReturnConstant(true)
         // StartSmallWindow
         var hook1: List<XC_MethodHook.Unhook>? = null
         var hook2: List<XC_MethodHook.Unhook>? = null

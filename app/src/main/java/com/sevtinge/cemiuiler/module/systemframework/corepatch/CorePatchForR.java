@@ -8,8 +8,10 @@ import android.content.pm.Signature;
 
 import android.util.Log;
 import com.sevtinge.cemiuiler.BuildConfig;
+import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 
@@ -61,6 +63,9 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                 "checkDowngrade",
                 "android.content.pm.PackageInfoLite",
                 "android.content.pm.PackageInfoLite",
+                new ReturnConstant(prefs, "system_framework_core_patch_downgr", true));
+        
+        hookAllMethods("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader, "isDowngradePermitted",
                 new ReturnConstant(prefs, "system_framework_core_patch_downgr", true));
 
 
