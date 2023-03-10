@@ -49,6 +49,12 @@
                 android:defaultValue="false" />
 
         <SwitchPreference
+                android:key="prefs_key_home_other_icon_monet_color"
+                android:title="@string/home_other_icon_monet_color"
+                android:defaultValue="false"
+                android:dependency="prefs_key_home_other_icon_mono_chrome"/>
+
+        <SwitchPreference
             android:key="prefs_key_home_other_portrait_reverse"
             android:title="@string/home_other_portrait_reverse"
             android:defaultValue="false"/>

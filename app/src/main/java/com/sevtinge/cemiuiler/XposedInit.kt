@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler
 
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
+import com.sevtinge.cemiuiler.module.home.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.CleanShareMenu
 import com.sevtinge.cemiuiler.module.systemframework.ScreenRotation
@@ -39,6 +40,9 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         when (resparam.packageName) {
             "com.miui.tsmclient" -> if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
                 AutoNfc.initResource(resparam)
+            }
+            "com.miui.home" -> if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
+                EnableIconMonetColor.initResource(resparam)
             }
         }
     }

@@ -592,5 +592,6 @@
     <string name="content_extension_browser">Use third-party browser</string>
     <string name="content_extension_browser_desc">Make Taplus not mandatory to use MIUI browser for search, you need to choose the default browser by yourself</string>
     <string name="home_other_icon_mono_chrome">Icon background color</string>
+    <string name="home_other_icon_monet_color">Use monet color</string>
 
 </resources>

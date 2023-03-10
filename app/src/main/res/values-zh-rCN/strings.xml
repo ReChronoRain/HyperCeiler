@@ -217,6 +217,7 @@
     <string name="home_other_user_present_animation">优化解锁动画</string>
     <string name="home_other_perfect_icon">完美图标优先级</string>
     <string name="home_other_icon_mono_chrome">图标背景色</string>
+    <string name="home_other_icon_monet_color">使用莫奈取色</string>
     <string name="home_other_portrait_reverse">反向竖屏</string>
     <string name="home_other_shortcut_backgound_blur">快捷菜单背景模糊</string>
     <string name="home_large_icon_corner_radius">大图标圆角</string>
