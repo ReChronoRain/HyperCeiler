@@ -97,7 +97,14 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_framework_bubble_title">
+    <PreferenceCategory android:title="@string/security_center_bubble_and_freeform_title">
+
+        <SwitchPreference
+                android:title="@string/security_center_unlock_side_hide_freeform"
+                android:summary="@string/security_center_unlock_side_hide_freeform_desc"
+                android:key="prefs_key_security_center_unlock_side_hide_freeform"
+                android:defaultValue="false"
+                app:isPreferenceVisible="false"/>
 
         <SwitchPreference
                 android:title="@string/security_center_remove_conversation_bubble_settings_restriction"

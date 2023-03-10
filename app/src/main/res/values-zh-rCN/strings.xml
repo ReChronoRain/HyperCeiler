@@ -292,6 +292,7 @@
     <string name="security_center_privacy_title">隐私保护</string>
     <string name="security_center_beauty_title">前置摄像助手</string>
     <string name="security_center_other_title">其他</string>
+    <string name="security_center_bubble_and_freeform_title">小窗和气泡通知</string>
     <string name="security_center_newbox_title">全局侧边栏</string>
     <string name="security_center_show_battery_temperature">显示电池温度</string>
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
@@ -327,6 +328,8 @@
     <string name="security_center_remove_open_app_confirmation_popup">移除打开应用弹窗</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">移除 \"XXX 想要打开 XXX\" 的弹窗</string>
     <string name="security_center_no_permission">未取得所需权限</string>
+    <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
+    <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
 
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
@@ -346,9 +349,12 @@
     <string name="system_framework_freeform_title">小窗</string>
     <string name="system_framework_bubble_title">气泡通知</string>
     <string name="system_framework_freeform_count">多小窗</string>
-    <string name="system_framework_disable_freeform_blacklist">禁用小窗黑名单</string>
+    <string name="system_framework_disable_freeform_blacklist">强制允许小窗</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">忽略系统黑名单与软件禁用小窗</string>
     <string name="system_framework_freeform_sticky">记住状态</string>
     <string name="system_framework_freeform_bubble">小窗气泡</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">进入最近任务页面时所有小窗转为迷你小窗</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">实验性功能，具有不稳定性</string>
 
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>

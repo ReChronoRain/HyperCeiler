@@ -502,7 +502,6 @@
     <string name="system_framework_freeform_title">Windows</string>
     <string name="system_framework_bubble_title">Bubble notification</string>
     <string name="system_framework_freeform_count">Multiple windows</string>
-    <string name="system_framework_disable_freeform_blacklist">Disable window blacklist</string>
     <string name="system_framework_freeform_sticky">Remember state</string>
     <string name="system_framework_freeform_bubble">Bubble windows</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
@@ -588,7 +587,15 @@
     <string name="home_other_icon_mono_chrome">Icon background color</string>
     <string name="home_other_icon_monet_color">Use monet color</string>
     <string name="security_center_no_permission">Required permissions not granted</string>
-    <string name="tsmclient_nfc_turning_on">Turning on NFC automatically...</string>
+    <string name="tsmclient_nfc_turning_on">Turning on NFC automatically…</string>
     <string name="tsmclient_nfc_turn_on_manually">Turn on NFC manually</string>
     <string name="tsmclient_nfc_turn_on_failed">Failed to enable NFC automatically</string>
+    <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
+    <string name="security_center_unlock_side_hide_freeform_desc">Unlock the side-hide freeform for lowly-supported but restricted devices. This will also affect the behavior of the widget when the phone cuts to the background</string>
+    <string name="security_center_bubble_and_freeform_title">Bubble and freeform</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">All freeform turn into mini freeform when enter the Recent Missions page</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">Experimental function, with instability</string>
+    <string name="system_framework_disable_freeform_blacklist">Force small windows to be allowed</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">Ignore the system blacklist and software ban windows</string>
+
 </resources>

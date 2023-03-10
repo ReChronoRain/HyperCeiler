@@ -207,6 +207,7 @@
     <string name="security_center_beauty_title">Front camera assistant</string>
     <string name="security_center_other_title">Other</string>
     <string name="security_center_newbox_title">Sidebar</string>
+    <string name="security_center_bubble_and_freeform_title">Bubble and freeform</string>
     <string name="security_center_show_battery_temperature">Show battery temperature</string>
     <string name="security_center_ai_clipboard">Protect clipboard</string>
     <string name="security_center_blur_location">Lower positioning accuracy</string>
@@ -224,6 +225,8 @@
     <string name="security_center_newbox_bg_custom">Background blur</string>
     <string name="security_center_newbox_bg_padding_vertical">Horizontal margin</string>
     <string name="security_center_newbox_bg_padding_horizontal">Vertical margin</string>
+    <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
+    <string name="security_center_unlock_side_hide_freeform_desc">Unlock the side-hide freeform for lowly-supported but restricted devices. This will also affect the behavior of the widget when the phone cuts to the background</string>
     <string name="security">Security</string>
     <string name="system_framework_free_form_title">Small window</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -510,7 +513,8 @@
     <string name="system_framework_freeform_title">Windows</string>
     <string name="system_framework_bubble_title">Bubble notification</string>
     <string name="system_framework_freeform_count">Multiple windows</string>
-    <string name="system_framework_disable_freeform_blacklist">Disable window blacklist</string>
+    <string name="system_framework_disable_freeform_blacklist">Force small windows to be allowed</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">Ignore the system blacklist and software ban windows</string>
     <string name="system_framework_freeform_sticky">Remember state</string>
     <string name="system_framework_freeform_bubble">Bubble windows</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
@@ -593,5 +597,7 @@
     <string name="content_extension_browser_desc">Make Taplus not mandatory to use MIUI browser for search, you need to choose the default browser by yourself</string>
     <string name="home_other_icon_mono_chrome">Icon background color</string>
     <string name="home_other_icon_monet_color">Use monet color</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">All freeform turn into mini freeform when enter the Recent Missions page</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">Experimental function, with instability</string>
 
 </resources>

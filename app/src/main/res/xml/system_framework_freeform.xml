@@ -9,12 +9,19 @@
 
         <SwitchPreference
                 android:title="@string/system_framework_disable_freeform_blacklist"
+                android:summary="@string/system_framework_disable_freeform_blacklist_desc"
                 android:key="prefs_key_system_framework_disable_freeform_blacklist"
                 android:defaultValue="false"/>
 
         <SwitchPreference
                 android:title="@string/system_framework_freeform_sticky"
                 android:key="prefs_key_system_framework_freeform_sticky"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/system_framework_freeform_recents_to_small_freeform"
+                android:summary="@string/system_framework_freeform_recents_to_small_freeform_desc"
+                android:key="prefs_key_system_framework_freeform_recents_to_small_freeform"
                 android:defaultValue="false"/>
 
     </PreferenceCategory>
