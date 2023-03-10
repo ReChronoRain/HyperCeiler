@@ -587,4 +587,8 @@
     <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜索，需自行選擇默認瀏覽器</string>
     <string name="home_other_icon_mono_chrome">圖示背景色</string>
     <string name="security_center_no_permission">未取得所需許可權</string>
+    <string name="home_other_icon_monet_color">使用 Monet 取色</string>
+    <string name="tsmclient_nfc_turning_on">正自動開啟 NFC 中 …</string>
+    <string name="tsmclient_nfc_turn_on_manually">手動開啟 NFC</string>
+    <string name="tsmclient_nfc_turn_on_failed">自動開啟 NFC 失敗</string>
 </resources>
