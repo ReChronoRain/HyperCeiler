@@ -336,7 +336,7 @@
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>
-    <string name="system_framework_corepatch_title">核心破解</string>
+    <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
     <string name="system_framework_core_patch_downgr_desc">允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
     <string name="system_framework_core_patch_auth_creak">禁用软件包管理器签名验证</string>

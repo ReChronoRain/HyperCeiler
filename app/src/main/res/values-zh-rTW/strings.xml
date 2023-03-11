@@ -272,7 +272,7 @@
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>
-    <string name="system_framework_corepatch_title">核心破解</string>
+    <string name="system_framework_corepatch_title">包管理服務</string>
     <string name="system_framework_core_patch_downgr">允許降級安裝應用程式</string>
     <string name="system_framework_core_patch_downgr_desc">允許應用程式在安裝新版本的情況下直接覆蓋安裝舊版本</string>
     <string name="system_framework_core_patch_auth_creak">停用應用程式包管理器簽名校驗</string>
