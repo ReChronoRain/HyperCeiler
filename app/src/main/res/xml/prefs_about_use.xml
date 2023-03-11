@@ -120,5 +120,19 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection" />
     </Preference>
+        <Preference
+                android:title="Disable app link verify"
+                android:summary="Xposed-Modules-Repo">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify" />
+        </Preference>
+        <Preference
+                android:title="NoStorageRestrict"
+                android:summary="Xposed-Modules-Repo">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -21,6 +21,12 @@
                 android:key="prefs_key_system_framework_allow_uninstall"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/system_framework_disable_app_link_verify"
+                android:summary="@string/system_framework_disable_app_link_verify_desc"
+                android:key="prefs_key_system_framework_disable_app_link_verify"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory>

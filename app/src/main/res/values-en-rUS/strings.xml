@@ -603,5 +603,7 @@
     <string name="mms_disable_ad">Disable ADs</string>
     <string name="mms_disable_ad_desc">Remove shortcuts at the bottom of the screen and promotions below SMS content</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
+    <string name="system_framework_disable_app_link_verify">Disable app link verify</string>
+    <string name="system_framework_disable_app_link_verify_desc">Restore to old behaviour when opening links</string>
 
 </resources>

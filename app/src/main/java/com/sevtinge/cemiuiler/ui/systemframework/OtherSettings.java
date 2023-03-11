@@ -16,7 +16,9 @@ import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 
 import moralnorm.appcompat.app.AlertDialog;
+import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
+import moralnorm.preference.SwitchPreference;
 
 public class OtherSettings extends BaseAppCompatActivity {
 
@@ -38,6 +40,8 @@ public class OtherSettings extends BaseAppCompatActivity {
         private Preference mCleanShareApps;
         private Preference mCleanOpenApps;
 
+        SwitchPreference mAppLinkVerify;
+
         @Override
         public int getContentResId() {
             return R.xml.system_framework_other;
@@ -49,6 +53,11 @@ public class OtherSettings extends BaseAppCompatActivity {
             mCleanShareApps.setOnPreferenceClickListener(this);
             mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
             mCleanOpenApps.setOnPreferenceClickListener(this);
+            mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
+            mAppLinkVerify.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
+            mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> {
+                return true;
+            });
         }
 
         @Override

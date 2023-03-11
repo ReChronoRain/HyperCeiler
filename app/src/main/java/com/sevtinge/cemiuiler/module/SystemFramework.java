@@ -56,6 +56,7 @@ public class SystemFramework extends BaseModule {
         initHook(new CleanOpenMenu(), mPrefsMap.getBoolean("system_framework_clean_open_menu"));
         initHook(new AllowUntrustedTouch(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
+        initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
 
         //位置模拟
         initHook(new LocationSimulation(), true);
