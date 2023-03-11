@@ -46,8 +46,10 @@ public class SecurityCenter extends BaseModule {
         initHook(new DisableRootCheck(), mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
 
-        //去除气泡通知应用限制
+        //小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
+        initHook(IsSbnBelongToActiveBubbleApp.INSTANCE,mPrefsMap.getBoolean("security_center_unlock_side_hide_freeform"));
+        initHook(GetBubbleAppString.INSTANCE,mPrefsMap.getBoolean("security_center_unlock_side_hide_freeform"));
 
         //移除打开应用弹窗
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
