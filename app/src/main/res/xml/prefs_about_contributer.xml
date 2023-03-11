@@ -31,5 +31,11 @@
                     android:action="android.intent.action.VIEW"
                     android:data="http://www.coolapk.com/u/12223114" />
         </Preference>
+        <Preference
+                android:title="wushidi">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/wushidia" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

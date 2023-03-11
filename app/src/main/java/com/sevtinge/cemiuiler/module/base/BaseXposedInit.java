@@ -59,6 +59,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public ContentExtension mContentExtension = new ContentExtension();
     public VoiceAssist mVoiceAssist = new VoiceAssist();
     public Mms mMms = new Mms();
+    public ExternalStorage mExternalStorage = new ExternalStorage();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -232,6 +233,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.android.mms":
                 mMms.init(lpparam);
+                break;
+
+            case "com.android.externalstorage":
+                mExternalStorage.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:

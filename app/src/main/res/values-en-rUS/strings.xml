@@ -602,5 +602,6 @@
     <string name="system_framework_allow_uninstall_desc">This feature is dangerous</string>
     <string name="mms_disable_ad">Disable ADs</string>
     <string name="mms_disable_ad_desc">Remove shortcuts at the bottom of the screen and promotions below SMS content</string>
+    <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
 
 </resources>

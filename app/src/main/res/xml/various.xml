@@ -40,6 +40,11 @@
                 android:key="prefs_key_various_disable_bluetooth_restrict"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/various_disable_folder_cantuse"
+                android:key="prefs_key_various_disable_folder_cantuse"
+                android:defaultValue="false"/>
+
         <DropDownPreference
                 android:key="prefs_key_various_collapse_miui_title"
                 android:title="@string/various_collapse_miui_title"

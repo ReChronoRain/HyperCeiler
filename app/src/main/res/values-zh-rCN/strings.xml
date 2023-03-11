@@ -500,6 +500,7 @@
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
     <string name="various_collapse_miui_title">MIUI 标题</string>
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
+    <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
