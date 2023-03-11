@@ -1,8 +1,8 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.systemframework.*;
 import com.sevtinge.cemiuiler.module.systemframework.PackagePermissions;
+import com.sevtinge.cemiuiler.module.systemframework.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.ClockShowSecond;
 
 public class SystemFramework extends BaseModule {

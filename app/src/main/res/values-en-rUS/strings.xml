@@ -597,5 +597,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Experimental function, with instability</string>
     <string name="system_framework_disable_freeform_blacklist">Force small windows to be allowed</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore the system blacklist and software ban windows</string>
+    <string name="system_framework_allow_uninstall">Allow uninstall some preinstall apps</string>
+    <string name="system_framework_allow_uninstall_desc">This feature is dangerous</string>
 
 </resources>

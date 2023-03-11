@@ -17,6 +17,7 @@ public class SystemFrameworkForCorepatch implements IXposedHookLoadPackage, IXpo
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        XposedBridge.log("Cemiuiler: Corepatch handleLoadPackage loaded.");
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
             Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
@@ -41,6 +42,7 @@ public class SystemFrameworkForCorepatch implements IXposedHookLoadPackage, IXpo
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
+        XposedBridge.log("Cemiuiler: Corepatch initZygote loaded.");
         if (startupParam.startsSystemServer) {
             Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
