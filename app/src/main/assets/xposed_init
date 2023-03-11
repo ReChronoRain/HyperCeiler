@@ -1,2 +1,3 @@
 com.sevtinge.cemiuiler.XposedInit
 com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
+com.sevtinge.cemiuiler.module.systemframework.AllowUninstall
