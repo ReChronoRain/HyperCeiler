@@ -113,5 +113,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/Haocen2004/PortalHook" />
         </Preference>
+        <Preference
+            android:title="RemoveMiuiSystemSelfProtection"
+            android:summary="gfbjngjibn">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection" />
+    </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
