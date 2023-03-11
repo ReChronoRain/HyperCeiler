@@ -286,6 +286,11 @@
     <string name="system_framework_freeform_title">小窗</string>
     <string name="system_framework_bubble_title">氣泡通知</string>
     <string name="system_framework_freeform_count">多小窗</string>
+    <string name="security_center_unlock_side_hide_freeform">解鎖貼邊小窗</string>
+    <string name="security_center_unlock_side_hide_freeform_desc">為底層支持但受限制的設備解鎖貼邊小窗，這將同時影響手機切後台時小窗的行為</string>
+    <string name="security_center_bubble_and_freeform_title">小窗和氣泡通知</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">進入最近任務頁面時所有小窗轉為迷你小窗</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">實驗性功能，具有不穩定性</string>
     <string name="system_framework_disable_freeform_blacklist">停用小窗應用程式黑名單</string>
     <string name="system_framework_freeform_sticky">記住狀態</string>
     <string name="system_framework_freeform_bubble">小窗氣泡</string>
@@ -591,4 +596,7 @@
     <string name="tsmclient_nfc_turning_on">正自動開啟 NFC 中 …</string>
     <string name="tsmclient_nfc_turn_on_manually">手動開啟 NFC</string>
     <string name="tsmclient_nfc_turn_on_failed">自動開啟 NFC 失敗</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">忽略系統黑名單與軟件禁用小窗</string>
+    <string name="system_framework_allow_uninstall">允許卸載部分預裝 APP</string>
+    <string name="system_framework_allow_uninstall_desc">該功能具有一定危險性</string>
 </resources>
