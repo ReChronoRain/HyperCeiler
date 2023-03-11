@@ -38,6 +38,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         EzXHelperInit.setLogTag(TAG)
         EzXHelperInit.setToastTag(TAG)
         init(lpparam)
+        SystemFrameworkForCorepatch().handleLoadPackage(lpparam)
     }
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam) {
