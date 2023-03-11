@@ -59,6 +59,15 @@
         </Preference>
 
         <Preference
+                android:title="@string/mms"
+                android:key="prefs_key_mms"
+                android:icon="@drawable/ic_mms">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MmsActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/screenshot"
                 android:key="prefs_key_screenshot"
                 android:icon="@drawable/ic_screenshot">

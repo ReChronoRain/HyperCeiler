@@ -27,6 +27,7 @@
     <string name="mediaeditor">Gallery Editor</string>
     <string name="milink">Cast</string>
     <string name="mirror">MIUI+</string>
+    <string name="mms">Message</string>
     <string name="security_center_remove_open_app_confirmation_popup">Remove open app popup</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">Remove \"Allow XXX to open XXX\" Chain start popup</string>
     <string name="security_center_no_permission">Required permissions not granted</string>
@@ -601,5 +602,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Experimental function, with instability</string>
     <string name="system_framework_allow_uninstall">Allow uninstall some preinstall apps</string>
     <string name="system_framework_allow_uninstall_desc">This feature is dangerous</string>
+    <string name="mms_disable_ad">Disable ADs</string>
+    <string name="mms_disable_ad_desc">Remove shortcuts at the bottom of the screen and promotions below SMS content</string>
 
 </resources>

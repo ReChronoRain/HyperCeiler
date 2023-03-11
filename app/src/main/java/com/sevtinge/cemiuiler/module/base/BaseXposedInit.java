@@ -52,12 +52,13 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Scanner mScanner = new Scanner();
     public MiShare mMiShare = new MiShare();
     public MiLink mMiLink = new MiLink();
-    public GuardProvider mGuardProvider= new GuardProvider();
-    public Lbe mLbe= new Lbe();
-    public InCallUi mInCallUi= new InCallUi();
-    public TsmClient mTsmClient= new TsmClient();
-    public ContentExtension mContentExtension=new ContentExtension();
-    public VoiceAssist mVoiceAssist=new VoiceAssist();
+    public GuardProvider mGuardProvider = new GuardProvider();
+    public Lbe mLbe = new Lbe();
+    public InCallUi mInCallUi = new InCallUi();
+    public TsmClient mTsmClient = new TsmClient();
+    public ContentExtension mContentExtension = new ContentExtension();
+    public VoiceAssist mVoiceAssist = new VoiceAssist();
+    public Mms mMms = new Mms();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -97,7 +98,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
             if (allPrefs == null || allPrefs.size() == 0) {
-                LogUtils.log("[UID " + android.os.Process.myUid() +"] Cannot read module's SharedPreferences, some mods might not work!");
+                LogUtils.log("[UID " + android.os.Process.myUid() + "] Cannot read module's SharedPreferences, some mods might not work!");
             } else {
                 mPrefsMap.putAll(allPrefs);
             }
@@ -225,8 +226,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mContentExtension.init(lpparam);
                 break;
 
-            case"com.miui.voiceassist":
+            case "com.miui.voiceassist":
                 mVoiceAssist.init(lpparam);
+                break;
+
+            case "com.android.mms":
+                mMms.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:

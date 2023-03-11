@@ -27,6 +27,7 @@
     <string name="milink">Cast</string>
     <string name="mirror">MIUI+</string>
     <string name="mishare">Mi Share</string>
+    <string name="mms">Message</string>
     <string name="music">Music</string>
     <string name="package_installer">Package installer</string>
     <string name="personal_assistant">App vault</string>
@@ -599,5 +600,7 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore the system blacklist and software ban windows</string>
     <string name="system_framework_allow_uninstall">Allow uninstall some preinstall apps</string>
     <string name="system_framework_allow_uninstall_desc">This feature is dangerous</string>
+    <string name="mms_disable_ad">Disable ADs</string>
+    <string name="mms_disable_ad_desc">Remove shortcuts at the bottom of the screen and promotions below SMS content</string>
 
 </resources>

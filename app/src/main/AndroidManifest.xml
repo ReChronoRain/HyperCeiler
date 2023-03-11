@@ -148,6 +148,8 @@
 
         <activity android:label="@string/content_extension" android:name=".ui.ContentExtensionActivity"/>
 
+        <activity android:label="@string/mms" android:name=".ui.MmsActivity"/>
+
         <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>
 
 

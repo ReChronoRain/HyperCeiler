@@ -38,6 +38,7 @@
     <string name="milink">投屏</string>
     <string name="mirror">MIUI+</string>
     <string name="mishare">小米互传</string>
+    <string name="mms">短信</string>
     <string name="music">音乐</string>
     <string name="package_installer">应用包管理组件</string>
     <string name="personal_assistant">智能助理</string>
@@ -254,6 +255,9 @@
     <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
 
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
+
+    <string name="mms_disable_ad">禁用推广</string>
+    <string name="mms_disable_ad_desc">移除屏幕下方快捷按钮与短信内容下方推广</string>
 
     <string name="music_disable_ad">移除广告</string>
 
