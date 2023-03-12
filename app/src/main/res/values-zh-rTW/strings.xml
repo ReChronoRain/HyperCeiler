@@ -27,6 +27,7 @@
     <string name="milink">投影</string>
     <string name="mirror">MIUI+</string>
     <string name="mishare">小米互傳</string>
+    <string name="mms">簡訊</string>
     <string name="music">音樂</string>
     <string name="package_installer">應用程式檔案管理元件</string>
     <string name="personal_assistant">智慧助理</string>
@@ -599,4 +600,9 @@
     <string name="system_framework_disable_freeform_blacklist_desc">忽略系統黑名單與軟件禁用小窗</string>
     <string name="system_framework_allow_uninstall">允許卸載部分預裝 APP</string>
     <string name="system_framework_allow_uninstall_desc">該功能具有一定危險性</string>
+    <string name="mms_disable_ad">禁用推廣</string>
+    <string name="mms_disable_ad_desc">移除螢幕下方快捷按鈕與簡訊內容下方推廣</string>
+    <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
+    <string name="system_framework_disable_app_link_verify">禁用應用鏈接驗證</string>
+    <string name="system_framework_disable_app_link_verify_desc">打開鏈接時恢復到舊行為</string>
 </resources>
