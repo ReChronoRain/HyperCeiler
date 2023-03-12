@@ -9,6 +9,11 @@
                 android:defaultValue="false" />
 
         <SwitchPreference
+                android:key="prefs_key_home_recent_modify_animation"
+                android:title="@string/home_recent_modify_animation"
+                android:defaultValue="false" />
+
+        <SwitchPreference
                 android:key="prefs_key_home_recent_hide_status_bar_in_task_view"
                 android:title="@string/home_recent_hide_status_bar_in_task_view"
                 android:defaultValue="false" />
