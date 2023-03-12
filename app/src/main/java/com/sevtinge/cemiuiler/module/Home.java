@@ -144,6 +144,8 @@ public class Home extends BaseModule {
         initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
 
         initHook(AnimDurationRatio.INSTANCE, true);
+
+        initHook(new SetDeviceLevel());
     }
 
 
