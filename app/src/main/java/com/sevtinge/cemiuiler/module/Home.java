@@ -24,10 +24,7 @@ import com.sevtinge.cemiuiler.module.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
-import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
-import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
-import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
-import com.sevtinge.cemiuiler.module.home.other.ShortcutBackgoundBlur;
+import com.sevtinge.cemiuiler.module.home.other.*;
 import com.sevtinge.cemiuiler.module.home.recent.BlurLevel;
 import com.sevtinge.cemiuiler.module.home.recent.DisableRecentViewWallpaperDarken;
 import com.sevtinge.cemiuiler.module.home.recent.HideStatusBarWhenEnterRecent;
@@ -122,6 +119,7 @@ public class Home extends BaseModule {
         initHook(new HomePortraitReverse(), mPrefsMap.getBoolean("home_other_portrait_reverse"));
         initHook(AlwaysBlurWallpaper.INSTANCE, mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper"));
         initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);
+        initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
 
         initHook(new ShowAllHideApp());
 

@@ -67,8 +67,12 @@
         <SwitchPreference
             android:key="prefs_key_home_other_shortcut_background_blur"
             android:title="@string/home_other_shortcut_background_blur"
-            android:defaultValue="false"
-            app:isPreferenceVisible="false"/>
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:key="prefs_key_home_other_shortcut_remove_restrictions"
+                android:title="@string/home_other_shortcut_remove_restrictions"
+                android:defaultValue="false"/>
 
         <SeekBarPreference
                 android:key="prefs_key_home_other_blur_radius"
