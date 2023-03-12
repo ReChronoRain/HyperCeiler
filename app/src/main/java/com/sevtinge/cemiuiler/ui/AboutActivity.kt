@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.ui.base.SubFragment
-import com.sevtinge.cemiuiler.utils.ToastHelper
 import moralnorm.appcompat.app.AppCompatActivity
 import moralnorm.internal.utils.ViewUtils
 import moralnorm.preference.Preference

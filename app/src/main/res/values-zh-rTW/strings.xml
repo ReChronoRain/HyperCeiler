@@ -610,4 +610,7 @@
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_monet_title">主題色</string>
+    <string name="home_drawer">抽屜</string>
+    <string name="home_drawer_all">隱藏應用程式分組中的「全部」</string>
+    <string name="home_drawer_editor">隱藏分類頁面內的「編輯」按鈕</string>
 </resources>
