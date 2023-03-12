@@ -26,6 +26,14 @@
     </Preference>
 
     <Preference
+            android:title="@string/home_drawer"
+            android:key="prefs_key_home_drawer">
+        <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeDrawerActivity"/>
+    </Preference>
+
+    <Preference
         android:title="@string/home_title"
         android:key="prefs_key_home_title">
         <intent

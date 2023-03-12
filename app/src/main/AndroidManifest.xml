@@ -167,6 +167,7 @@
         <activity android:label="@string/home_gesture" android:name=".ui.home.HomeGestureActivity"/>
         <activity android:label="@string/home_layout" android:name=".ui.home.HomeLayoutActivity"/>
         <activity android:label="@string/home_folder" android:name=".ui.home.HomeFolderActivity"/>
+        <activity android:label="@string/home_drawer" android:name=".ui.home.HomeDrawerActivity"/>
         <activity android:label="@string/home_title" android:name=".ui.home.HomeTitleActivity"/>
         <activity android:label="@string/home_widget" android:name=".ui.home.HomeWidgetActivity"/>
         <activity android:label="@string/home_dock" android:name=".ui.home.HomeDockActivity"/>

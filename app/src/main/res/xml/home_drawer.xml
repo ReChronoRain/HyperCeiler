@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="@string/home_drawer_blur"
+                android:summary="@string/home_drawer_blur_desc"
+                android:key="prefs_key_home_drawer_blur"
+                android:defaultValue="false"/>
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

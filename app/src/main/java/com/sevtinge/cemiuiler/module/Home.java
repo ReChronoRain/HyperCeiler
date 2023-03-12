@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.module;
 
+import android.os.Build;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.*;
+import com.sevtinge.cemiuiler.module.home.drawer.AllAppsContainerViewBlur;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIcon;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur1x2;
@@ -59,6 +61,11 @@ public class Home extends BaseModule {
         initHook(new BigFolderIconBlur1x2(), mPrefsMap.getBoolean("home_big_folder_icon_bg_1x2"));
         initHook(new BigFolderIconBlur(), mPrefsMap.getBoolean("home_big_folder_icon_bg"));
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
+
+        //抽屉
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
+        }
 
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));

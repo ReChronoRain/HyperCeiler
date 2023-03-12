@@ -610,5 +610,8 @@
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_another_title">Other</string>
     <string name="system_ui_monet_title">Monet</string>
+    <string name="home_drawer">Drawer</string>
+    <string name="home_drawer_blur">Enable All Apps Container View Blur</string>
+    <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
 
 </resources>

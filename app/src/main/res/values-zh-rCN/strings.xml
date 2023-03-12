@@ -116,6 +116,7 @@
     <string name="home_title">标题</string>
     <string name="home_widget">小部件</string>
     <string name="home_dock">底栏</string>
+    <string name="home_drawer">抽屉</string>
     <string name="home_other">其他</string>
 
     <string name="home_dock_bg_custom_enable">启用自定义</string>
@@ -170,6 +171,9 @@
     <string name="home_folder_space_title">减少边距</string>
     <string name="home_folder_blur_title">背景模糊</string>
     <string name="home_folder_anim_title">回弹动画</string>
+
+    <string name="home_drawer_blur">抽屉模糊</string>
+    <string name="home_drawer_blur_desc">请将应用程序抽屉的背景透明度设置为 100% 以使用此功能</string>
 
     <string name="home_gesture_double_tap">双击</string>
     <string name="home_gesture_double_tap_desc">在任意主屏幕空白处双击</string>
