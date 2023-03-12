@@ -3,13 +3,13 @@ package com.sevtinge.cemiuiler.ui.home;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.home.base.BaseHomeActivity;
 
 import moralnorm.os.SdkVersion;
 import moralnorm.preference.SwitchPreference;
 
-public class HomeDrawerActivity extends BaseAppCompatActivity {
+public class HomeDrawerActivity extends BaseHomeActivity {
 
     @Override
     public Fragment initFragment() {
