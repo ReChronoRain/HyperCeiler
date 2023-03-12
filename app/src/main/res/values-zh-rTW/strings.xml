@@ -597,13 +597,13 @@
     <string name="tsmclient_nfc_turning_on">正自動開啟 NFC 中 …</string>
     <string name="tsmclient_nfc_turn_on_manually">手動開啟 NFC</string>
     <string name="tsmclient_nfc_turn_on_failed">自動開啟 NFC 失敗</string>
-    <string name="system_framework_disable_freeform_blacklist_desc">忽略系統黑名單與軟件禁用小窗</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">忽略系統黑名單與軟件停用小窗</string>
     <string name="system_framework_allow_uninstall">允許卸載部分預裝 APP</string>
     <string name="system_framework_allow_uninstall_desc">該功能具有一定危險性</string>
-    <string name="mms_disable_ad">禁用推廣</string>
+    <string name="mms_disable_ad">停用推廣</string>
     <string name="mms_disable_ad_desc">移除螢幕下方快捷按鈕與簡訊內容下方推廣</string>
     <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
-    <string name="system_framework_disable_app_link_verify">禁用應用鏈接驗證</string>
+    <string name="system_framework_disable_app_link_verify">停用應用鏈接驗證</string>
     <string name="system_framework_disable_app_link_verify_desc">打開鏈接時恢復到舊行為</string>
     <string name="updater_miui_version_desc">僅對系統更新修改，可在一定程度上屏蔽系統更新</string>
     <string name="miui_package_installer_update_system_app_desc">允許任何非系統通路安裝系統應用程序</string>
