@@ -12,8 +12,8 @@
                 android:key="prefs_key_home_title_animation_speed"
                 android:title="@string/home_title_animation_speed"
                 android:defaultValue="150"
-                app:maxValue="10"
-                app:minValue="500"
+                app:maxValue="500"
+                app:minValue="10"
                 app:format="%s / 100 f"
                 app:showSeekBarValue="true"/>
 

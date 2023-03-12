@@ -71,6 +71,15 @@
             app:isPreferenceVisible="false"/>
 
         <SeekBarPreference
+                android:key="prefs_key_home_other_blur_radius"
+                android:title="@string/home_other_blur_radius"
+                android:defaultValue="100"
+                app:maxValue="500"
+                app:minValue="0"
+                app:format="%s / 100 f"
+                app:showSeekBarValue="true"/>
+
+        <SeekBarPreference
             android:title="@string/home_large_icon_corner_radius"
             android:key="prefs_key_home_large_icon_corner_radius"
             android:defaultValue="15"

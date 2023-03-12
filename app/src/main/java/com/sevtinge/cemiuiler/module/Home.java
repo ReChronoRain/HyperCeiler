@@ -24,6 +24,7 @@ import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
+import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
 import com.sevtinge.cemiuiler.module.home.recent.BlurLevel;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
@@ -106,6 +107,7 @@ public class Home extends BaseModule {
         initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
         initHook(new HomePortraitReverse(), mPrefsMap.getBoolean("home_other_portrait_reverse"));
         initHook(AlwaysBlurWallpaper.INSTANCE, mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper"));
+        initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);
 
         initHook(new ShowAllHideApp());
 
