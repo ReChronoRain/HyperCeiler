@@ -61,7 +61,7 @@ public class Home extends BaseModule {
         //文件夹
         initHook(FolderAutoClose.INSTANCE, mPrefsMap.getBoolean("home_folder_auto_close"));
         initHook(new FolderShade(), mPrefsMap.getStringAsInt("home_folder_shade", 1) > 0);
-        initHook(new FolderColumns(), mPrefsMap.getInt("home_folder_columns", 3) > 1);
+        initHook(FolderColumns.INSTANCE, mPrefsMap.getInt("home_folder_columns", 3) != 3 || mPrefsMap.getBoolean("home_folder_width"));
         initHook(new FolderBlur(), mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FolderAnimation(), mPrefsMap.getBoolean("home_folder_animation"));
         initHook(new SmallFolderIconBlur(), mPrefsMap.getBoolean("home_small_folder_icon_bg"));
