@@ -5,6 +5,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.*;
 import com.sevtinge.cemiuiler.module.home.dock.FoldDeviceDock;
 import com.sevtinge.cemiuiler.module.home.dock.HideSeekPoint;
+import com.sevtinge.cemiuiler.module.home.dock.ShowDockIconTitle;
 import com.sevtinge.cemiuiler.module.home.drawer.AllAppsContainerViewBlur;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIcon;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur;
@@ -106,6 +107,7 @@ public class Home extends BaseModule {
         initHook(new SeekPoints(), mPrefsMap.getStringAsInt("home_other_seek_points", 0) > 0);
         initHook(FoldDeviceDock.INSTANCE, mPrefsMap.getBoolean("home_dock_fold"));
         initHook(HideSeekPoint.INSTANCE, mPrefsMap.getBoolean("home_dock_hide_seekpoint"));
+        initHook(ShowDockIconTitle.INSTANCE, mPrefsMap.getBoolean("home_dock_icon_title"));
 
         //其他
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);

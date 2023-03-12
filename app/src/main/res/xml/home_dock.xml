@@ -8,6 +8,11 @@
         android:defaultValue="false" />
 
     <SwitchPreference
+            android:key="prefs_key_home_dock_icon_title"
+            android:title="@string/home_dock_icon_title"
+            android:defaultValue="false" />
+
+    <SwitchPreference
             android:key="prefs_key_home_dock_fold"
             android:title="@string/home_dock_fold"
             android:defaultValue="false" />
