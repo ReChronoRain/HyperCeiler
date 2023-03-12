@@ -640,5 +640,7 @@
     <string name="home_recent_modify_animation">Modify the anim for removing cards</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_dock_icon_title">Show icon title in dock</string>
+    <string name="home_recent_horizontal_task_view_card_size1">Thumbnail size for Horizontally-Vertical</string>
+    <string name="home_recent_horizontal_task_view_card_size2">Thumbnail size for Horizontally-Horizontal</string>
 
 </resources>

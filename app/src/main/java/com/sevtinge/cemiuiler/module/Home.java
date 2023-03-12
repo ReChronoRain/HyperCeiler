@@ -26,10 +26,7 @@ import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.*;
-import com.sevtinge.cemiuiler.module.home.recent.BlurLevel;
-import com.sevtinge.cemiuiler.module.home.recent.DisableRecentViewWallpaperDarken;
-import com.sevtinge.cemiuiler.module.home.recent.HideStatusBarWhenEnterRecent;
-import com.sevtinge.cemiuiler.module.home.recent.RemoveCardAnim;
+import com.sevtinge.cemiuiler.module.home.recent.*;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
@@ -86,6 +83,8 @@ public class Home extends BaseModule {
         initHook(DisableRecentViewWallpaperDarken.INSTANCE, mPrefsMap.getBoolean("home_recent_disable_wallpaper_dimming"));
         initHook(HideStatusBarWhenEnterRecent.INSTANCE, true);
         initHook(RemoveCardAnim.INSTANCE, mPrefsMap.getBoolean("home_recent_modify_animation"));
+        initHook(TaskViewHorizontal.INSTANCE);
+        initHook(TaskViewVertical.INSTANCE);
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

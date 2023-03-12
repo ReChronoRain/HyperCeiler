@@ -34,6 +34,24 @@
             app:format="%s / 100 f"
             app:showSeekBarValue="true"/>
 
+        <SeekBarPreference
+                android:defaultValue="100"
+                android:key="prefs_key_task_view_horizontal1"
+                android:title="@string/home_recent_horizontal_task_view_card_size1"
+                app:format="%d / 100 f"
+                app:maxValue="150"
+                app:minValue="50"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+                android:defaultValue="100"
+                android:key="prefs_key_task_view_horizontal2"
+                android:title="@string/home_recent_horizontal_task_view_card_size2"
+                app:format="%d / 100 f"
+                app:maxValue="150"
+                app:minValue="50"
+                app:showSeekBarValue="true" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
