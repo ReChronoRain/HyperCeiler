@@ -213,7 +213,7 @@
     <string name="miui_package_installer_install_risk">停用風險檢測</string>
     <string name="miui_package_installer_safe_model_tip">停用安全守護提示</string>
     <string name="miui_package_installer_count_checking">停用頻繁安裝應用程式檢查</string>
-    <string name="miui_package_installer_update_system_app">允許非系統應用渠道更新系統應用程式</string>
+    <string name="miui_package_installer_update_system_app">解除系統應用安裝限制</string>
     <string name="miui_package_installer_install_source">自訂安裝來源</string>
     <string name="miui_package_installer_apk_info">顯示更多安裝包資訊</string>
     <string name="miui_package_installer_apk_info_desc">顯示安裝中應用程式的更多相關資訊</string>
@@ -232,7 +232,7 @@
     <string name="screenrecorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>
     <string name="screenrecorder_force_support_playback_capture_desc">需要螢幕錄製版本支援</string>
     <string name="screenshot_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
-    <string name="screenshot_unlock_minimum_crop_limit_desc">僅作用於區域截屏</string>
+    <string name="screenshot_unlock_minimum_crop_limit_desc">僅作用於區域截圖</string>
     <string name="security_center_app_title">應用程式管理</string>
     <string name="security_center_battery_title">省電與電池</string>
     <string name="security_center_privacy_title">隱私保護</string>
@@ -405,7 +405,7 @@
     <string name="theme_manager_enable_fold_theme">啟用 Fold 主題</string>
     <string name="updater_fuck_vab">移除 OTA 驗證</string>
     <string name="updater_fuck_vab_desc">僅支援 VAB 裝置，該功能具有一定危險性</string>
-    <string name="updater_miui_version">針對系統更新修改 MIUI 版本</string>
+    <string name="updater_miui_version">偽裝MIUI版本</string>
     <string name="various_location_simulation_title">位置模擬</string>
     <string name="various_dialog_title">彈窗</string>
     <string name="settings_notfication_importance">顯示通知重要程度</string>
@@ -605,4 +605,6 @@
     <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
     <string name="system_framework_disable_app_link_verify">禁用應用鏈接驗證</string>
     <string name="system_framework_disable_app_link_verify_desc">打開鏈接時恢復到舊行為</string>
+    <string name="updater_miui_version_desc">僅對系統更新修改，可在一定程度上屏蔽系統更新</string>
+    <string name="miui_package_installer_update_system_app_desc">允許任何非系統通路安裝系統應用程序</string>
 </resources>

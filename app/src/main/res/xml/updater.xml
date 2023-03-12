@@ -9,6 +9,7 @@
 
     <EditTextPreference
             android:title="@string/updater_miui_version"
+            android:summary="@string/updater_miui_version_desc"
             android:key="prefs_key_various_updater_miui_version"/>
 
 </PreferenceScreen>

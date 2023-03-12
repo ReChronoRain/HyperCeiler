@@ -39,6 +39,7 @@
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_update_system_app"
             android:title="@string/miui_package_installer_update_system_app"
+            android:summary="@string/miui_package_installer_update_system_app_desc"
             android:defaultValue="false"/>
 
         <EditTextPreference
