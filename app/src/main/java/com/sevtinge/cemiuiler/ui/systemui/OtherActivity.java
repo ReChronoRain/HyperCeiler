@@ -3,13 +3,31 @@ package com.sevtinge.cemiuiler.ui.systemui;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.base.PreferenceFragment;
+import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 
-public class OtherActivity extends BaseSystemUIActivity {
+import moralnorm.os.SdkVersion;
+import moralnorm.preference.PreferenceCategory;
 
+public class OtherActivity extends BaseSystemUIActivity {
     @Override
     public Fragment initFragment() {
-        return new PreferenceFragment(R.xml.system_ui_other);
+        return new SystemUIOtherFragment();
+    }
+
+    public static class SystemUIOtherFragment extends SubFragment {
+
+        PreferenceCategory mMonetOverlay;
+
+        @Override
+        public int getContentResId() {
+            return R.xml.system_ui_other;
+        }
+
+        @Override
+        public void initPrefs() {
+            mMonetOverlay = findPreference("prefs_key_system_ui_monet");
+            mMonetOverlay.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
+        }
     }
 }

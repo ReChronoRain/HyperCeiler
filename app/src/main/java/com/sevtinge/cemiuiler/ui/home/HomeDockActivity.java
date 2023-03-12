@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.home.base.BaseHomeActivity;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
+import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
@@ -21,6 +22,8 @@ public class HomeDockActivity extends BaseHomeActivity {
 
     public static class HomeDockFragment extends SubFragment {
 
+        Preference mHomeBackgroundBlur;
+
         @Override
         public int getContentResId() {
             return R.xml.home_dock;
@@ -32,6 +35,8 @@ public class HomeDockActivity extends BaseHomeActivity {
 
             PreferenceCategory mHomeDockCustomCat = findPreference("prefs_key_home_dock_bg_custom_cat");
             mHomeDockCustomCat.setVisible(PrefsUtils.getSharedBoolPrefs(getActivity(),"prefs_key_home_dock_bg_custom_enable",false));
+            mHomeBackgroundBlur = findPreference("prefs_key_home_dock_bg_custom");
+            mHomeBackgroundBlur.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
 
             mHomeDockCustom.setOnPreferenceChangeListener((preference, o) -> {
 

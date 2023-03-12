@@ -25,7 +25,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory>
+    <PreferenceCategory
+        android:key="prefs_key_system_ui_monet">
 
         <SwitchPreference
             android:title="@string/system_ui_monet_overlay_custom"

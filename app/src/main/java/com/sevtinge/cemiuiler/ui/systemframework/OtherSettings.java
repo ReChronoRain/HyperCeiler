@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui.systemframework;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -55,9 +56,7 @@ public class OtherSettings extends BaseAppCompatActivity {
             mCleanOpenApps.setOnPreferenceClickListener(this);
             mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
             mAppLinkVerify.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
-            mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> {
-                return true;
-            });
+            mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> true);
         }
 
         @Override
@@ -78,6 +77,7 @@ public class OtherSettings extends BaseAppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
