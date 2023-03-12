@@ -73,6 +73,9 @@ repositories {
 
 dependencies {
 
+    compileOnly(project(":hidden-api"))
+    compileOnly("de.robv.android.xposed:api:82")
+
     compileOnly files('libs/miui.jar')
     compileOnly files("libs/miui-framework.jar")
 
@@ -82,6 +85,16 @@ dependencies {
     implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
+
+    implementation "androidx.appcompat:appcompat:1.6.0"
+    implementation "androidx.core:core:1.9.0"
+    implementation "androidx.collection:collection:1.2.0"
+    implementation "androidx.fragment:fragment:1.5.5"
+    implementation "androidx.lifecycle:lifecycle-common:2.5.1"
+    implementation "androidx.vectordrawable:vectordrawable:1.1.0"
+    implementation "androidx.vectordrawable:vectordrawable-animated:1.1.0"
+    implementation "androidx.customview:customview:1.1.0"
+    implementation "androidx.customview:customview-poolingcontainer:1.0.0"
 
     implementation roots.AndroidXCore
     implementation roots.AndroidXCollection
