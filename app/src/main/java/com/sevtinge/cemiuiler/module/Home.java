@@ -24,9 +24,11 @@ import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
+import com.sevtinge.cemiuiler.module.home.recent.BlurLevel;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
+import com.sevtinge.cemiuiler.module.weather.SetDeviceLevel;
 
 public class Home extends BaseModule {
 
@@ -71,6 +73,9 @@ public class Home extends BaseModule {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
         }
+
+        //最近任务
+        initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 5) != 5);
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

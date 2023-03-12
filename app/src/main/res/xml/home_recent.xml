@@ -3,6 +3,13 @@
                   xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
 
+        <DropDownPreference
+                android:key="prefs_key_home_recent_blur_level"
+                android:title="@string/home_recent_blur_level"
+                android:defaultValue="5"
+                app:entries="@array/home_recent_blur"
+                app:entryValues="@array/home_recent_blur_value" />
+
     <SeekBarPreference
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
@@ -11,6 +18,7 @@
             app:minValue="500"
             app:format="%s / 100 f"
             app:showSeekBarValue="true"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
