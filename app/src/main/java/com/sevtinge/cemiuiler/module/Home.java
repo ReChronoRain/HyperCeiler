@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import android.os.Build;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.*;
+import com.sevtinge.cemiuiler.module.home.dock.FoldDeviceDock;
 import com.sevtinge.cemiuiler.module.home.drawer.AllAppsContainerViewBlur;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIcon;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur;
@@ -98,6 +99,7 @@ public class Home extends BaseModule {
         //底栏
         initHook(new DockCustom(), mPrefsMap.getBoolean("home_dock_bg_custom_enable"));
         initHook(new SeekPoints(), mPrefsMap.getStringAsInt("home_other_seek_points", 0) > 0);
+        initHook(FoldDeviceDock.INSTANCE, mPrefsMap.getBoolean("home_dock_fold"));
 
         //其他
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
