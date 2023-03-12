@@ -634,5 +634,6 @@
     <string name="home_drawer_all">Hide \\\"All\\\" in App Drawer</string>
     <string name="home_drawer_editor">Hide \\\"Edit\\\" Button in App Drawer\\\'s Paging</string>
     <string name="home_dock_fold">Fold\'s Dock</string>
+    <string name="home_dock_hide_seekpoint">Hide seekpoint</string>
 
 </resources>
