@@ -29,6 +29,7 @@ import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
 import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
 import com.sevtinge.cemiuiler.module.home.recent.BlurLevel;
 import com.sevtinge.cemiuiler.module.home.recent.DisableRecentViewWallpaperDarken;
+import com.sevtinge.cemiuiler.module.home.recent.HideStatusBarWhenEnterRecent;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
@@ -82,6 +83,7 @@ public class Home extends BaseModule {
         //最近任务
         initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 5) != 5);
         initHook(DisableRecentViewWallpaperDarken.INSTANCE, mPrefsMap.getBoolean("home_recent_disable_wallpaper_dimming"));
+        initHook(HideStatusBarWhenEnterRecent.INSTANCE, true);
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

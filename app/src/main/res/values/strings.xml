@@ -635,5 +635,6 @@
     <string name="home_drawer_editor">Hide \\\"Edit\\\" Button in App Drawer\\\'s Paging</string>
     <string name="home_dock_fold">Fold\'s Dock</string>
     <string name="home_dock_hide_seekpoint">Hide seekpoint</string>
+    <string name="home_recent_hide_status_bar_in_task_view">Hide status bar in task view</string>
 
 </resources>
