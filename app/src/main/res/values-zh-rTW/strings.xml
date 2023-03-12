@@ -405,7 +405,7 @@
     <string name="theme_manager_enable_fold_theme">啟用 Fold 主題</string>
     <string name="updater_fuck_vab">移除 OTA 驗證</string>
     <string name="updater_fuck_vab_desc">僅支援 VAB 裝置，該功能具有一定危險性</string>
-    <string name="updater_miui_version">偽裝MIUI版本</string>
+    <string name="updater_miui_version">偽裝 MIUI 版本</string>
     <string name="various_location_simulation_title">位置模擬</string>
     <string name="various_dialog_title">彈窗</string>
     <string name="settings_notfication_importance">顯示通知重要程度</string>
