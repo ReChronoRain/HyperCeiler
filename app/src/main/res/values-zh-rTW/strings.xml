@@ -290,11 +290,11 @@
     <string name="security_center_unlock_side_hide_freeform">解鎖貼邊小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">為底層支持但受限制的設備解鎖貼邊小窗，這將同時影響手機切後台時小窗的行為</string>
     <string name="security_center_bubble_and_freeform_title">小窗和氣泡通知</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">進入最近任務頁面時所有小窗轉為迷你小窗</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">實驗性功能，具有不穩定性</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">將所有小窗轉為迷你小窗</string>
     <string name="system_framework_disable_freeform_blacklist">停用小窗應用程式黑名單</string>
     <string name="system_framework_freeform_sticky">記住狀態</string>
     <string name="system_framework_freeform_bubble">小窗氣泡</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任務中將所有小窗轉為迷你小窗顯示\n此功能為實驗性功能，具有較高不穩定性</string>
     <string name="system_framework_screen_all_rotations">螢幕旋轉</string>
     <string name="system_framework_allow_untrusted_touch">允許不受信任的觸摸操作</string>
     <string name="system_framework_clean_share_menu">清理分享選單</string>
