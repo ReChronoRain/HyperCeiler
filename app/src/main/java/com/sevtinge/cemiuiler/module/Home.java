@@ -72,6 +72,7 @@ public class Home extends BaseModule {
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
 
         //抽屉
+        initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") && mPrefsMap.getBoolean("home_drawer_editor"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
         }

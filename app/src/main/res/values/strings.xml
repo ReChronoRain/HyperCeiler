@@ -631,5 +631,7 @@
     <string name="home_drawer_blur">Enable All Apps Container View Blur</string>
     <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
     <string name="home_other_blur_radius">Blur Radius</string>
+    <string name="home_drawer_all">Hide \\\"All\\\" in App Drawer</string>
+    <string name="home_drawer_editor">Hide \\\"Edit\\\" Button in App Drawer\\\'s Paging</string>
 
 </resources>
