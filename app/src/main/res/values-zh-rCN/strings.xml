@@ -366,7 +366,7 @@
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
     <string name="system_framework_disable_app_link_verify">禁用应用链接验证</string>
-    <string name="system_framework_disable_app_link_verify_desc">打开链接时恢复到旧行为</string>
+    <string name="system_framework_disable_app_link_verify_desc">打开链接时恢复为直接打开支持的应用，无需在应用设置中勾选支持的链接</string>
     <string name="system_framework_clean_share_menu">清理分享菜单</string>
     <string name="system_framework_clean_share_apps">已选应用</string>
     <string name="system_framework_clean_open_menu">清理打开方式菜单</string>
@@ -493,7 +493,7 @@
     <string name="tsmclient_nfc_turn_on_failed">自动开启 NFC 失败</string>
 
     <string name="updater_fuck_vab">移除 OTA 验证</string>
-    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，该功能具有一定危险性</string>
+    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，其他非 VAB 设备请不要开启！\n功能特点：无需内测权限即可刷入完整内测卡刷包\n\n注意事项：\n- 跨不同版本类型刷入后建议清除数据\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
     <string name="updater_miui_version">伪装 MIUI 版本</string>
     <string name="updater_miui_version_desc">仅对系统更新修改，可在一定程度上屏蔽系统更新</string>
 

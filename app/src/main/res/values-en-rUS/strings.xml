@@ -306,7 +306,7 @@
     <string name="system_ui_status_bar_alarm_clock_at_right">Alarm clock</string>
     <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
-    <string name="updater_fuck_vab_desc">Only supports VAB devices, this function has a high risk</string>
+    <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\nFeatures: You can swipe into the complete internal test card swiping package without internal test permissions\n\nPrecautions:\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
     <string name="updater_miui_version">Fake MIUI version for Updater</string>
     <string name="various_location_simulation_title">Fake location</string>
     <string name="various_dialog_title">Dialog</string>
@@ -604,7 +604,7 @@
     <string name="mms_disable_ad_desc">Remove shortcuts at the bottom of the screen and promotions below SMS content</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
     <string name="system_framework_disable_app_link_verify">Disable app link verify</string>
-    <string name="system_framework_disable_app_link_verify_desc">Restore to old behaviour when opening links</string>
+    <string name="system_framework_disable_app_link_verify_desc">Revert to opening supported apps directly when opening links without enabling supported links in app settings</string>
     <string name="updater_miui_version_desc">Only modify the system update, which can shield the system update to a certain extent</string>
     <string name="miui_package_installer_update_system_app_desc">Allow any non-system channel to install system apps</string>
 
