@@ -33,6 +33,7 @@ import com.sevtinge.cemiuiler.module.home.recent.HideStatusBarWhenEnterRecent;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
+import com.sevtinge.cemiuiler.module.home.widget.HideWidgetTitles;
 import com.sevtinge.cemiuiler.module.weather.SetDeviceLevel;
 
 public class Home extends BaseModule {
@@ -98,6 +99,7 @@ public class Home extends BaseModule {
         initHook(AlwaysShowMiuiWidget.INSTANCE, mPrefsMap.getBoolean("home_widget_show_miui_widget"));
         initHook(AllowMoveAllWidgetToMinus.INSTANCE, mPrefsMap.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
         initHook(new WidgetCornerRadius(), mPrefsMap.getInt("home_widget_corner_radius", 0) > 0);
+        initHook(HideWidgetTitles.INSTANCE, mPrefsMap.getBoolean("home_widget_hide_title"));
 
         //底栏
         initHook(new DockCustom(), mPrefsMap.getBoolean("home_dock_bg_custom_enable"));
