@@ -238,6 +238,7 @@
     <string name="home_recent_simple_blur">简单模糊</string>
     <string name="home_recent_none_blur">无模糊</string>
     <string name="home_recent_none_blur_simple_anim">无模糊（精简动画）</string>
+    <string name="home_recent_disable_wallpaper_dimming">取消壁纸压暗</string>
 
     <string name="home_title_icon_title">图标</string>
     <string name="home_title_title_title">标题</string>

@@ -3,6 +3,11 @@
                   xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
 
+        <SwitchPreference
+                android:key="prefs_key_home_recent_disable_wallpaper_dimming"
+                android:title="@string/home_recent_disable_wallpaper_dimming"
+                android:defaultValue="false" />
+
         <DropDownPreference
                 android:key="prefs_key_home_recent_blur_level"
                 android:title="@string/home_recent_blur_level"

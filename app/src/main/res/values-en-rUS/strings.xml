@@ -176,6 +176,7 @@
     <string name="home_recent_none_blur">None Blur</string>
     <string name="home_recent_none_blur_simple_anim">None Blur (Simple Anim)</string>
     <string name="home_other_blur_radius">Blur Radius</string>
+    <string name="home_recent_disable_wallpaper_dimming">Disable wallpaper dimming</string>
     <string name="lbe_disable_clipboard_tip">Disable read clipboard prompt</string>
     <string name="market_device_modify">Model guise</string>
     <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>
