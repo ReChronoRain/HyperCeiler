@@ -220,6 +220,7 @@
     <string name="home_other_freeform_shortcut_menu">小窗模式</string>
     <string name="home_other_freeform_shortcut_menu_desc">在快捷菜单中添加小窗菜单</string>
     <string name="home_other_user_present_animation">优化解锁动画</string>
+    <string name="home_other_always_blur_launcher_wallpaper">始终模糊桌面壁纸</string>
     <string name="home_other_perfect_icon">完美图标优先级</string>
     <string name="home_other_icon_mono_chrome">图标背景色</string>
     <string name="home_other_icon_monet_color">使用莫奈取色</string>
