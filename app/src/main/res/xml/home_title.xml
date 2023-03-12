@@ -2,6 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/home_title_icon_title">
+
+        <SwitchPreference
+                android:title="@string/home_title_big_icon_corner"
+                android:key="prefs_key_home_title_big_icon_corner"
+                android:defaultValue="false"/>
+
         <SeekBarPreference
                 android:key="prefs_key_home_title_animation_speed"
                 android:title="@string/home_title_animation_speed"
@@ -10,6 +16,7 @@
                 app:minValue="500"
                 app:format="%s / 100 f"
                 app:showSeekBarValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_title_title_title">

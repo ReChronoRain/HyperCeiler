@@ -102,6 +102,7 @@
     <string name="home_other">Other</string>
     <string name="home_title_icon_title">Icon</string>
     <string name="home_title_title_title">Title</string>
+    <string name="home_title_big_icon_corner">Medium icon round corner follow</string>
     <string name="home_dock_bg_custom_enable">Turn on customization</string>
     <string name="home_dock_bg_height">Height</string>
     <string name="home_dock_bg_height_desc">Dock height</string>

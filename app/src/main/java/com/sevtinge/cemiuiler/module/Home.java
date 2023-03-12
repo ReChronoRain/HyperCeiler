@@ -24,6 +24,7 @@ import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
+import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 
@@ -70,6 +71,9 @@ public class Home extends BaseModule {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
         }
+
+        //图标
+        initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
 
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
