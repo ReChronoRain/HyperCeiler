@@ -23,6 +23,7 @@ import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
+import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 
@@ -87,7 +88,7 @@ public class Home extends BaseModule {
 
         //其他
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
-        initHook(new ShowClock(), mPrefsMap.getBoolean("home_other_show_clock"));
+        initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
         initHook(new UserPresentAnimation(), mPrefsMap.getBoolean("home_other_user_present_animation"));
