@@ -22,6 +22,7 @@ import com.sevtinge.cemiuiler.module.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
+import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 
 public class Home extends BaseModule {
 
@@ -75,6 +76,7 @@ public class Home extends BaseModule {
         //小部件
         initHook(new AllWidgetAnimation(), mPrefsMap.getBoolean("home_widget_all_widget_animation"));
         initHook(new AlwaysShowMiuiWidget(), mPrefsMap.getBoolean("home_widget_show_miui_widget"));
+        initHook(AllowMoveAllWidgetToMinus.INSTANCE, mPrefsMap.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
         initHook(new WidgetCornerRadius(), mPrefsMap.getInt("home_widget_corner_radius", 0) > 0);
 
         //底栏

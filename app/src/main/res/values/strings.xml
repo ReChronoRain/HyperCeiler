@@ -575,6 +575,7 @@
     <string name="home_widget_show_miui_widget">Show MIUI widgets</string>
     <string name="home_widget_show_miui_widget_desc">Display MIUI widgets on the Android widget page</string>
     <string name="home_widget_corner_radius">Widget rounded corners</string>
+    <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="incallui_hide_crbt">Hide personalized colorful ring back tone</string>
     <string name="joyose_cloud_control_title">Cloud Control</string>
     <string name="joyose_disable_cloud_control">Disable Cloud control</string>
@@ -615,5 +616,6 @@
     <string name="system_ui_monet_title">Monet</string>
     <string name="home_drawer_blur">Enable All Apps Container View Blur</string>
     <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
+
 
 </resources>

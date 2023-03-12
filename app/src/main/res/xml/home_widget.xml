@@ -12,6 +12,11 @@
         android:summary="@string/home_widget_show_miui_widget_desc"
         android:defaultValue="false" />
 
+    <SwitchPreference
+            android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
+            android:title="@string/home_widget_allow_moved_to_minus_one_screen"
+            android:defaultValue="false" />
+
     <SeekBarPreference
         android:key="prefs_key_home_widget_corner_radius"
         android:title="@string/home_widget_corner_radius"
