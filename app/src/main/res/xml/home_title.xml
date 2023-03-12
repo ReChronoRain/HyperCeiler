@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/home_title_icon_title">
+        <SeekBarPreference
+                android:key="prefs_key_home_title_animation_speed"
+                android:title="@string/home_title_animation_speed"
+                android:defaultValue="150"
+                app:maxValue="10"
+                app:minValue="500"
+                app:format="%s / 100 f"
+                app:showSeekBarValue="true"/>
+    </PreferenceCategory>
 
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/home_title_title_title">
 
         <SwitchPreference
             android:title="@string/home_title_title_marquee"

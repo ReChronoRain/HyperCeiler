@@ -42,6 +42,14 @@
     </Preference>
 
     <Preference
+            android:title="@string/home_recent"
+            android:key="prefs_key_home_recent">
+        <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeRecentActivity"/>
+    </Preference>
+
+    <Preference
         android:title="@string/home_widget"
         android:key="prefs_key_home_widget">
         <intent

@@ -94,11 +94,14 @@
     <string name="home_gesture">Gesture</string>
     <string name="home_layout">Layout</string>
     <string name="home_folder">Folder</string>
-    <string name="home_title">Title</string>
+    <string name="home_title">Icon and Title</string>
+    <string name="home_recent">Recent</string>
     <string name="home_widget">Widget</string>
     <string name="home_dock">Dock</string>
     <string name="home_drawer">Drawer</string>
     <string name="home_other">Other</string>
+    <string name="home_title_icon_title">Icon</string>
+    <string name="home_title_title_title">Title</string>
     <string name="home_dock_bg_custom_enable">Turn on customization</string>
     <string name="home_dock_bg_height">Height</string>
     <string name="home_dock_bg_height_desc">Dock height</string>
@@ -169,6 +172,8 @@
     <string name="home_gesture_spread">Spread with two fingers</string>
     <string name="home_layout_home_title">Home screen</string>
     <string name="home_layout_hotseats_title">Dock</string>
+    <string name="home_recent_animation_speed">Animation speed</string>
+    <string name="home_title_animation_speed">Animation speed</string>
     <string name="lbe_disable_clipboard_tip">Disable read clipboard prompt</string>
     <string name="market_device_modify">Model guise</string>
     <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>

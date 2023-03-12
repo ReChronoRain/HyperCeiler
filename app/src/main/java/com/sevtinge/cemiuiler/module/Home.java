@@ -118,6 +118,8 @@ public class Home extends BaseModule {
 
         //小部件桌面下载
         initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
+
+        initHook(AnimDurationRatio.INSTANCE, true);
     }
 
 

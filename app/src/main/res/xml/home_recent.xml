@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory>
+
+    <SeekBarPreference
+            android:key="prefs_key_home_recent_animation_speed"
+            android:title="@string/home_recent_animation_speed"
+            android:defaultValue="130"
+            app:maxValue="10"
+            app:minValue="500"
+            app:format="%s / 100 f"
+            app:showSeekBarValue="true"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
