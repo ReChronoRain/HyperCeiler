@@ -188,7 +188,7 @@
     <string name="home_other_user_present_animation">最佳化解鎖動畫</string>
     <string name="home_other_perfect_icon">完美圖示優先級</string>
     <string name="home_other_portrait_reverse">反向縱向螢幕</string>
-    <string name="home_other_shortcut_backgound_blur">快捷選單背景模糊</string>
+    <string name="home_other_shortcut_background_blur">快捷選單背景模糊</string>
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_title_title_marquee">文字滾動</string>

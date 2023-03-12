@@ -27,6 +27,7 @@ import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
 import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
+import com.sevtinge.cemiuiler.module.home.other.ShortcutBackgoundBlur;
 import com.sevtinge.cemiuiler.module.home.recent.BlurLevel;
 import com.sevtinge.cemiuiler.module.home.recent.DisableRecentViewWallpaperDarken;
 import com.sevtinge.cemiuiler.module.home.recent.HideStatusBarWhenEnterRecent;
@@ -125,7 +126,7 @@ public class Home extends BaseModule {
         initHook(new ShowAllHideApp());
 
         //实验性功能
-        initHook(new ShortcutBackgoundBlur(), mPrefsMap.getBoolean("home_other_shortcut_backgound_blur"));
+        initHook(ShortcutBackgoundBlur.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
         initHook(new LargeIconCornerRadius(), true);

@@ -571,7 +571,7 @@
     <string name="home_other_user_present_animation">Optimize unlock animation</string>
     <string name="home_other_perfect_icon">Perfect Icon Priority</string>
     <string name="home_other_portrait_reverse">Opposite vertical screen</string>
-    <string name="home_other_shortcut_backgound_blur">Background blur for shortcut menu</string>
+    <string name="home_other_shortcut_background_blur">Background blur for shortcut menu</string>
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Desktop shortcut management</string>
     <string name="home_title_title_marquee">Text scroll</string>

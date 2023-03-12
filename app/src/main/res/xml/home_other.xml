@@ -65,8 +65,8 @@
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:key="prefs_key_home_other_shortcut_backgound_blur"
-            android:title="@string/home_other_shortcut_backgound_blur"
+            android:key="prefs_key_home_other_shortcut_background_blur"
+            android:title="@string/home_other_shortcut_background_blur"
             android:defaultValue="false"
             app:isPreferenceVisible="false"/>
 

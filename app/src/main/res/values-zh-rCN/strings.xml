@@ -231,7 +231,7 @@
     <string name="home_other_icon_mono_chrome">图标背景色</string>
     <string name="home_other_icon_monet_color">使用莫奈取色</string>
     <string name="home_other_portrait_reverse">反向竖屏</string>
-    <string name="home_other_shortcut_backgound_blur">快捷菜单背景模糊</string>
+    <string name="home_other_shortcut_background_blur">快捷菜单背景模糊</string>
     <string name="home_other_blur_radius">模糊半径</string>
     <string name="home_large_icon_corner_radius">大图标圆角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
