@@ -2,58 +2,64 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/system_ui_charge_animation_title">
 
         <DropDownPreference
-            android:title="@string/system_ui_charge_animation_style"
-            android:summary="@string/system_ui_charge_animation_style_desc"
+            android:defaultValue="0"
             android:key="prefs_key_system_ui_charge_animation_style"
+            android:summary="@string/system_ui_charge_animation_style_desc"
+            android:title="@string/system_ui_charge_animation_style"
             app:entries="@array/charge_animation_entries"
-            app:entryValues="@array/charge_animation_values"
-            android:defaultValue="0"/>
+            app:entryValues="@array/charge_animation_values" />
 
         <SwitchPreference
-            android:title="@string/system_ui_origin_charge_animation"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_origin_charge_animation"
-            android:defaultValue="false"/>
-
-        <SwitchPreference
-            android:title="@string/system_ui_notification_freeform"
-            android:summary="@string/system_ui_notification_freeform_desc"
-            android:key="prefs_key_system_ui_notification_freeform"
-            android:defaultValue="false"/>
+            android:title="@string/system_ui_origin_charge_animation" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="prefs_key_system_ui_monet">
+        android:key="prefs_key_system_ui_monet"
+        android:title="@string/system_ui_monet_title">
 
         <SwitchPreference
-            android:title="@string/system_ui_monet_overlay_custom"
-            android:summary="@string/system_ui_monet_overlay_custom_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_monet_overlay_custom"
-            android:defaultValue="false" />
+            android:summary="@string/system_ui_monet_overlay_custom_desc"
+            android:title="@string/system_ui_monet_overlay_custom" />
 
         <ColorPickerPreference
-            android:title="@string/system_ui_monet_overlay_custom_color"
-            android:key="prefs_key_system_ui_monet_overlay_custom_color"
             android:defaultValue="-1"
-            app:showAlphaSlider="false"
-            android:dependency="prefs_key_system_ui_monet_overlay_custom" />
+            android:dependency="prefs_key_system_ui_monet_overlay_custom"
+            android:key="prefs_key_system_ui_monet_overlay_custom_color"
+            android:title="@string/system_ui_monet_overlay_custom_color"
+            app:showAlphaSlider="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:isPreferenceVisible="false">
+        android:title="@string/system_ui_another_title" >
 
         <SwitchPreference
-            android:title="@string/system_ui_volume_timer"
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_notification_freeform"
+            android:summary="@string/system_ui_notification_freeform_desc"
+            android:title="@string/system_ui_notification_freeform" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:isPreferenceVisible="false">
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_volume_timer"
-            android:defaultValue="false" />
+            android:title="@string/system_ui_volume_timer" />
 
         <SwitchPreference
-            android:title="@string/system_ui_qs_label"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_qs_label"
-            android:defaultValue="false" />
+            android:title="@string/system_ui_qs_label" />
     </PreferenceCategory>
 </PreferenceScreen>

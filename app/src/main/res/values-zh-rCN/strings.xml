@@ -410,11 +410,14 @@
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
 
+    <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
+    <string name="system_ui_another_title">其他</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
+    <string name="system_ui_monet_title">主题色</string>
     <string name="system_ui_monet_overlay_custom">自定义主题色</string>
     <string name="system_ui_monet_overlay_custom_desc">自定义主题颜色，而不是从壁纸中提取颜色</string>
     <string name="system_ui_monet_overlay_custom_color">选择主题色</string>

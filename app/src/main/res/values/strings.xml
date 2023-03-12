@@ -609,5 +609,8 @@
     <string name="system_framework_disable_app_link_verify_desc">Revert to opening supported apps directly when opening links without enabling supported links in app settings</string>
     <string name="updater_miui_version_desc">Only modify the system update, which can shield the system update to a certain extent</string>
     <string name="miui_package_installer_update_system_app_desc">Allow any non-system channel to install system apps</string>
+    <string name="system_ui_charge_animation_title">Charge animation</string>
+    <string name="system_ui_another_title">Other</string>
+    <string name="system_ui_monet_title">Monet</string>
 
 </resources>
