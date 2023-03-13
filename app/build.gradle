@@ -18,7 +18,7 @@ android {
         minSdk 30
         targetSdk 33
         versionCode 43
-        versionName "0.9.43"
+        versionName "0.9.44"
         project.archivesBaseName = "Cemiuiler"
         applicationVariants.all { variant ->
             variant.outputs.all {
