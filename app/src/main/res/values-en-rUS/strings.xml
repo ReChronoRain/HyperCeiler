@@ -634,8 +634,8 @@
     <string name="system_ui_another_title">Other</string>
     <string name="system_ui_monet_title">Monet</string>
     <string name="home_drawer">Drawer</string>
-    <string name="home_drawer_all">Hide \\\"All\\\" in App Drawer</string>
-    <string name="home_drawer_editor">Hide \\\"Edit\\\" Button in App Drawer\\\'s Paging</string>
+    <string name="home_drawer_all">Hide \"All\" in App Drawer</string>
+    <string name="home_drawer_editor">Hide \"Edit\" Button in App Drawer\'s Paging</string>
     <string name="home_drawer_blur">Enable All Apps Container View Blur</string>
     <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
