@@ -331,7 +331,7 @@
     <string name="system_ui_status_bar_use_new_hd">Force to use new HD icon</string>
     <string name="system_ui_status_bar_use_new_hd_summary">A recent system version is required, some models may not have been updated</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
-    <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\nFeatures: You can swipe into the complete internal test card swiping package without internal test permissions\n\nPrecautions:\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
+    <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
     <string name="updater_miui_version">Fake MIUI version for Updater</string>
     <string name="various_location_simulation_title">Fake location</string>
     <string name="various_dialog_title">Dialog</string>
@@ -611,9 +611,8 @@
     <string name="content_extension_browser">Use third-party browser</string>
     <string name="content_extension_browser_desc">Make Taplus not mandatory to use MIUI browser for search, you need to choose the default browser by yourself</string>
     <string name="content_extension_double_press">Gesture : 2 fingers</string>
-    <string name="content_extension_double_press_summary">For unsupported old models, there is no need to enable it if it is already supported.</string>
     <string name="content_extension_super_image">Quality of save images : Super resolution</string>
-    <string name="content_extension_super_image_summary">True preservation requires underlying support from the device model, and the module only forces open the switch for you.</string>
+    <string name="content_extension_super_image_summary">True preservation requires underlying support from the device model</string>
     <string name="home_other_icon_mono_chrome">Icon background color</string>
     <string name="home_other_icon_monet_color">Use monet color</string>
     <string name="security_center_no_permission">Required permissions not granted</string>

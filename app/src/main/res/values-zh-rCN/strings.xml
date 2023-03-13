@@ -93,9 +93,8 @@
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
     <string name="content_extension_double_press">开放双指长按</string>
-    <string name="content_extension_double_press_summary">给不支持的老机型使用的，若本身就支持没必要开启</string>
     <string name="content_extension_super_image">开放超分辨率图片</string>
-    <string name="content_extension_super_image_summary">需要机型底层支持才能真正保存，模块只是给你强制开放开关</string>
+    <string name="content_extension_super_image_summary">需要系统底层支持</string>
     <string name="gallery_title_settings">设置</string>
     <string name="gallery_title_feature">功能</string>
     <string name="gallery_title_recommend">推荐</string>
@@ -534,7 +533,7 @@
     <string name="tsmclient_nfc_turn_on_failed">自动开启 NFC 失败</string>
 
     <string name="updater_fuck_vab">移除 OTA 验证</string>
-    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，其他非 VAB 设备请不要开启！\n功能特点：无需内测权限即可刷入完整内测卡刷包\n\n注意事项：\n- 跨不同版本类型刷入后建议清除数据\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
+    <string name="updater_fuck_vab_desc">仅支持 VAB 设备，其他非 VAB 设备请不要开启！\n- 无需内测权限即可刷入完整内测卡刷包\n- 跨不同版本类型刷入后建议清除数据\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
     <string name="updater_miui_version">伪装 MIUI 版本</string>
     <string name="updater_miui_version_desc">仅对系统更新修改，可在一定程度上屏蔽系统更新</string>
 
