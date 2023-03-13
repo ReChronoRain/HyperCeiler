@@ -8,6 +8,22 @@
                 android:key="prefs_key_home_title_big_icon_corner"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:key="prefs_key_home_other_perfect_icon"
+                android:title="@string/home_other_perfect_icon"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+                android:key="prefs_key_home_other_icon_mono_chrome"
+                android:title="@string/home_other_icon_mono_chrome"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+                android:key="prefs_key_home_other_icon_monet_color"
+                android:title="@string/home_other_icon_monet_color"
+                android:defaultValue="false"
+                android:dependency="prefs_key_home_other_icon_mono_chrome"/>
+
         <SeekBarPreference
                 android:key="prefs_key_home_title_animation_speed"
                 android:title="@string/home_title_animation_speed"
@@ -16,6 +32,18 @@
                 app:minValue="10"
                 app:format="%s / 100 f"
                 app:showSeekBarValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_bigicon_title">
+
+        <SeekBarPreference
+                android:title="@string/home_large_icon_corner_radius"
+                android:key="prefs_key_home_large_icon_corner_radius"
+                android:defaultValue="15"
+                app:maxValue="90"
+                app:format="%d dp"
+                app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 

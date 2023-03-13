@@ -25,7 +25,8 @@
     <SwitchPreference
             android:title="@string/home_dock_hide_seekpoint"
             android:key="prefs_key_home_dock_hide_seekpoint"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            app:isPreferenceVisible="false"/>
 
     <PreferenceCategory
         android:key="prefs_key_home_dock_bg_custom_cat">
