@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.module.home.dock.FoldDeviceDock;
 import com.sevtinge.cemiuiler.module.home.dock.HideSeekPoint;
 import com.sevtinge.cemiuiler.module.home.dock.ShowDockIconTitle;
 import com.sevtinge.cemiuiler.module.home.drawer.AllAppsContainerViewBlur;
+import com.sevtinge.cemiuiler.module.home.drawer.AppDrawer;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIcon;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur1x2;

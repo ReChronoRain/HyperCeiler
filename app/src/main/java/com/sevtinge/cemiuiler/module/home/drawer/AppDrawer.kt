@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.home
+package com.sevtinge.cemiuiler.module.home.drawer
 
 import android.view.View
 import com.github.kyuubiran.ezxhelper.utils.findMethod
