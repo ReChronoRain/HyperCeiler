@@ -4,21 +4,21 @@
 
     <Preference android:title="@string/system_ui_statusbar_iconmanage_title">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity" />
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_clock_title"
-                        app:isPreferenceVisible="false">
+
+    <PreferenceCategory
+        android:title="@string/system_ui_statusbar_clock_title"
+        app:isPreferenceVisible="false">
 
         <SwitchPreference
-            android:title="@string/system_ui_statusbar_clock_show_second"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_clock_show_second"
-            android:defaultValue="false" />
+            android:title="@string/system_ui_statusbar_clock_show_second" />
 
     </PreferenceCategory>
-
-
 
 
     <!--<PreferenceCategory android:title="状态栏网速">

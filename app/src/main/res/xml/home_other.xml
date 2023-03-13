@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:key="prefs_key_personal_assistant_overlap_mode"
+            android:title="@string/personal_assistant_overlap_mode"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory>
 
         <DropDownPreference
@@ -11,10 +21,9 @@
             android:defaultValue="0" />
 
         <SwitchPreference
-            android:key="prefs_key_home_other_show_clock"
-            android:title="@string/home_other_show_clock"
-            android:summary="@string/home_other_show_clock_desc"
-            android:defaultValue="false"/>
+            android:key="prefs_key_home_other_user_present_animation"
+            android:title="@string/home_other_user_present_animation"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/home_other_infinite_scroll"
@@ -23,25 +32,36 @@
             android:defaultValue="false"/>
 
         <SwitchPreference
-                android:key="prefs_key_personal_assistant_overlap_mode"
-                android:title="@string/personal_assistant_overlap_mode"
-                android:defaultValue="false"/>
+            android:key="prefs_key_home_other_always_blur_launcher_wallpaper"
+            android:title="@string/home_other_always_blur_launcher_wallpaper"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_home_other_portrait_reverse"
+            android:title="@string/home_other_portrait_reverse"
+            android:defaultValue="false"/>
+
+        <Preference android:title="@string/home_other_app_icon_hide">
+            <intent
+                android:targetPackage="com.miui.home"
+                android:targetClass="com.miui.home.settings.AllHideAppActivity" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:key="prefs_key_home_other_show_clock"
+            android:title="@string/home_other_show_clock"
+            android:summary="@string/home_other_show_clock_desc"
+            android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_home_other_freeform_shortcut_menu"
             android:defaultValue="false"
             android:title="@string/home_other_freeform_shortcut_menu"
             android:summary="@string/home_other_freeform_shortcut_menu_desc"/>
-
-        <SwitchPreference
-            android:key="prefs_key_home_other_user_present_animation"
-            android:title="@string/home_other_user_present_animation"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-                android:key="prefs_key_home_other_always_blur_launcher_wallpaper"
-                android:title="@string/home_other_always_blur_launcher_wallpaper"
-                android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_home_other_perfect_icon"
@@ -58,11 +78,6 @@
                 android:title="@string/home_other_icon_monet_color"
                 android:defaultValue="false"
                 android:dependency="prefs_key_home_other_icon_mono_chrome"/>
-
-        <SwitchPreference
-            android:key="prefs_key_home_other_portrait_reverse"
-            android:title="@string/home_other_portrait_reverse"
-            android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="prefs_key_home_other_shortcut_background_blur"
@@ -90,12 +105,6 @@
             app:maxValue="90"
             app:format="%d dp"
             app:showSeekBarValue="true" />
-
-        <Preference android:title="@string/home_other_app_icon_hide">
-            <intent
-                android:targetPackage="com.miui.home"
-                android:targetClass="com.miui.home.settings.AllHideAppActivity" />
-        </Preference>
 
         <!--<SwitchPreference
             android:key="prefs_key_home_other_fold_dock"
