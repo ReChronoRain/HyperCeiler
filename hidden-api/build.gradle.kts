@@ -7,7 +7,19 @@ android {
     compileSdk = 33
     namespace = "com.android.internal"
     buildTypes {
-        release {
+        getByName("release") {
+            isMinifyEnabled = false
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+        }
+        create("beta") {
+            isMinifyEnabled = false
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+        }
+        create("canary") {
+            isMinifyEnabled = false
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+        }
+        getByName("debug") {
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
