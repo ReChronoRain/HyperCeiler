@@ -8,8 +8,6 @@ import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import com.github.kyuubiran.ezxhelper.init.InitFields
 import com.sevtinge.cemiuiler.utils.PrefsUtils.getSharedPrefs
 import moralnorm.internal.utils.DeviceHelper
@@ -105,9 +103,9 @@ fun setLocale(context: Context, locale: Locale): Context {
     val configuration = context.resources.configuration
     configuration.setLocale(tmpLocale)
     Log.d("AppUtil", "setLocale: ${tmpLocale.toLanguageTag()}")
-    if (atLeastAndroidT()) {
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tmpLocale.toLanguageTag()))
-    }
+    // if (atLeastAndroidT()) {
+    //     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tmpLocale.toLanguageTag()))
+    // }
     return context.createConfigurationContext(configuration)
 }
 
