@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui.base;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -48,6 +49,21 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         }
     }
 
+    public void showRestartSystemDialog() {
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(R.string.soft_reboot)
+                .setMessage(R.string.soft_reboot_desc)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> reBoot())
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    public void reBoot() {
+        //貌似写错了，等修（
+        sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "FastReboot"));
+    }
 
     public void showRestartSystemUIDialog() {
         new AlertDialog.Builder(this)

@@ -17,6 +17,8 @@
 
     <string name="restart_systemui">重启系统界面</string>
     <string name="restart_systemui_desc">确定要立即重启系统界面吗？</string>
+    <string name="soft_reboot">软重启</string>
+    <string name="soft_reboot_desc">确定要立即软重启吗？</string>
     <string name="restart_app">重启</string>
     <string name="restart_app_desc1">确定要立即重启</string>
     <string name="restart_app_desc2">吗？</string>

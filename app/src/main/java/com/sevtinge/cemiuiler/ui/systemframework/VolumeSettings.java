@@ -5,12 +5,12 @@ import android.provider.Settings;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.systemframework.base.BaseSystemFrameWorkActivity;
 
 import moralnorm.preference.DropDownPreference;
 
-public class VolumeSettings extends BaseAppCompatActivity {
+public class VolumeSettings extends BaseSystemFrameWorkActivity {
 
     @Override
     public Fragment initFragment() {

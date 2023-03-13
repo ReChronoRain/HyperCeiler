@@ -13,15 +13,15 @@ import androidx.fragment.app.Fragment;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 import com.sevtinge.cemiuiler.ui.PickerHomeActivity;
-import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.systemframework.base.BaseSystemFrameWorkActivity;
 
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
-public class OtherSettings extends BaseAppCompatActivity {
+public class OtherSettings extends BaseSystemFrameWorkActivity {
 
     public OtherFragment mOtherSettings = new OtherFragment();
 
