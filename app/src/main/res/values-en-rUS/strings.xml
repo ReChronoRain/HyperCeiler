@@ -328,6 +328,8 @@
     <string name="system_ui_status_bar_network_speed_at_right">Internet speed</string>
     <string name="system_ui_status_bar_alarm_clock_at_right">Alarm clock</string>
     <string name="system_ui_status_bar_nfc_at_right">NFC</string>
+    <string name="system_ui_status_bar_use_new_hd">Force to use new HD icon</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">A recent system version is required, some models may not have been updated</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
     <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\nFeatures: You can swipe into the complete internal test card swiping package without internal test permissions\n\nPrecautions:\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
     <string name="updater_miui_version">Fake MIUI version for Updater</string>

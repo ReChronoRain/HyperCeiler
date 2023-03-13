@@ -515,6 +515,8 @@
     <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_volume_at_right">声音情景</string>
     <string name="system_ui_status_bar_zen_at_right">勿扰模式</string>
+    <string name="system_ui_status_bar_use_new_hd">强制使用新 HD 图标</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">需要较新的系统版本，部分机型可能至今未进版</string>
 
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>

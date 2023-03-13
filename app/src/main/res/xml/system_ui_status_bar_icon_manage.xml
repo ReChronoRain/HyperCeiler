@@ -88,6 +88,12 @@
             android:title="@string/system_ui_status_bar_big_mobile_network_type"
             android:key="prefs_key_system_ui_status_bar_big_mobile_network_type"
             android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/system_ui_status_bar_use_new_hd"
+            android:summary="@string/system_ui_status_bar_use_new_hd_summary"
+            android:key="prefs_key_system_ui_status_bar_use_new_hd"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_status_title">

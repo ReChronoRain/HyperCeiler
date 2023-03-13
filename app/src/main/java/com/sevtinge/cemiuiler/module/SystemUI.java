@@ -24,11 +24,13 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarIcon;
 import com.sevtinge.cemiuiler.module.systemui.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.SwitchControlPanel;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarIconPositionAdjust;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.UseNewHD;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiNetworkIndicator;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiStandard;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileNetwork;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.SelectiveHideIconForAlarmClock;
+import moralnorm.os.SdkVersion;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -56,6 +58,7 @@ public class SystemUI extends BaseModule {
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 0) > 0 || mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 0) > 0);
+        initHook(new UseNewHD(), mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
 
         //移动网络图标
         initHook(new MobileNetwork(), true);
