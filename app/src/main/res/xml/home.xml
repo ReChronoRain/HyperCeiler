@@ -2,75 +2,75 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:title="@string/home_gesture"
-        android:key="prefs_key_home_gesture">
+        android:key="prefs_key_home_gesture"
+        android:title="@string/home_gesture">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeGestureActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeGestureActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-        android:title="@string/home_layout"
-        android:key="prefs_key_home_layout">
+        android:key="prefs_key_home_layout"
+        android:title="@string/home_layout">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeLayoutActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeLayoutActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-        android:title="@string/home_folder"
-        android:key="prefs_key_home_folder">
+        android:key="prefs_key_home_folder"
+        android:title="@string/home_folder">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeFolderActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeFolderActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-            android:title="@string/home_drawer"
-            android:key="prefs_key_home_drawer">
+        android:key="prefs_key_home_drawer"
+        android:title="@string/home_drawer">
         <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeDrawerActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeDrawerActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-        android:title="@string/home_title"
-        android:key="prefs_key_home_title">
+        android:key="prefs_key_home_title"
+        android:title="@string/home_title">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeTitleActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeTitleActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-            android:title="@string/home_recent"
-            android:key="prefs_key_home_recent">
+        android:key="prefs_key_home_recent"
+        android:title="@string/home_recent">
         <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeRecentActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeRecentActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-        android:title="@string/home_widget"
-        android:key="prefs_key_home_widget">
+        android:key="prefs_key_home_widget"
+        android:title="@string/home_widget">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeWidgetActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeWidgetActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-        android:title="@string/home_dock"
-        android:key="prefs_key_home_dock">
+        android:key="prefs_key_home_dock"
+        android:title="@string/home_dock">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeDockActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeDockActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-        android:title="@string/home_other"
-        android:key="prefs_key_home_other">
+        android:key="prefs_key_home_other"
+        android:title="@string/home_other">
         <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeOtherActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.home.HomeOtherActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
 </PreferenceScreen>
