@@ -92,7 +92,10 @@
 
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
-
+    <string name="content_extension_double_press">开放双指长按</string>
+    <string name="content_extension_double_press_summary">给不支持的老机型使用的，若本身就支持没必要开启</string>
+    <string name="content_extension_super_image">开放超分辨率图片</string>
+    <string name="content_extension_super_image_summary">需要机型底层支持才能真正保存，模块只是给你强制开放开关</string>
     <string name="gallery_title_settings">设置</string>
     <string name="gallery_title_feature">功能</string>
     <string name="gallery_title_recommend">推荐</string>

@@ -9,6 +9,18 @@
                 android:key="prefs_key_content_extension_browser"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+            android:title="@string/content_extension_double_press"
+            android:summary="@string/content_extension_double_press_summary"
+            android:key="prefs_key_content_extension_double_press"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:title="@string/content_extension_super_image"
+            android:summary="@string/content_extension_super_image_summary"
+            android:key="prefs_key_content_extension_super_image"
+            android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
