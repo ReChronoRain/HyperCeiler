@@ -27,6 +27,11 @@
                 android:key="prefs_key_system_framework_disable_app_link_verify"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/system_framework_other_use_original_animation"
+                android:key="prefs_key_system_framework_other_use_original_animation"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory>

@@ -411,6 +411,7 @@
     <string name="system_other_flag_secure_desc">允许对任意应用进行截图和录屏</string>
     <string name="system_framework_share_menu_test">分享菜单测试</string>
     <string name="system_framework_open_with_menu_test">打开方式菜单测试</string>
+    <string name="system_framework_other_use_original_animation">过渡动画使用原生样式</string>
 
     <string name="system_framework_default_volume_stream">默认调整音量</string>
     <string name="system_framework_volume_first_press">音量即时调整</string>

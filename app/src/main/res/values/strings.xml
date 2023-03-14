@@ -247,6 +247,7 @@
     <string name="system_framework_free_form_title">Small freeform</string>
     <string name="system_framework_volume_title">Volume</string>
     <string name="system_framework_other_title">Other</string>
+    <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="prefs_key_system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
     <string name="system_ui_lockscreen_title">Lock screen</string>
     <string name="system_ui_statusbar_title">Status Bar</string>
