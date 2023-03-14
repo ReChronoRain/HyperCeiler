@@ -28,7 +28,7 @@
     <SeekBarPreference
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
-            android:defaultValue="130"
+            android:defaultValue="100"
             app:maxValue="500"
             app:minValue="10"
             app:format="%s / 100 f"

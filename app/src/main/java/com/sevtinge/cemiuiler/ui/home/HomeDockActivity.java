@@ -29,7 +29,7 @@ public class HomeDockActivity extends BaseHomeActivity {
             return R.xml.home_dock;
         }
 
-        @Override
+        /*@Override
         public void initPrefs() {
             SwitchPreference mHomeDockCustom = findPreference("prefs_key_home_dock_bg_custom_enable");
 
@@ -52,8 +52,8 @@ public class HomeDockActivity extends BaseHomeActivity {
             mHomeDockCustom.setOnPreferenceClickListener(preference -> false);
 
             /*SeekBarPreference mDockHeight = findPreference("prefs_key_home_dock_height");
-            mDockHeight.setMax(getActivity().getResources().getDisplayMetrics().heightPixels);*/
-        }
+            mDockHeight.setMax(getActivity().getResources().getDisplayMetrics().heightPixels);*//*
+        }*/
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {

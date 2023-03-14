@@ -7,8 +7,8 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 object AnimDurationRatio : BaseHook() {
     override fun init() {
 
-        val value1 = mPrefsMap.getInt("home_title_animation_speed", 150).toFloat() / 100f
-        val value2 = mPrefsMap.getInt("home_recent_animation_speed", 130).toFloat() / 100f
+        val value1 = mPrefsMap.getInt("home_title_animation_speed", 100).toFloat() / 100f
+        val value2 = mPrefsMap.getInt("home_recent_animation_speed", 100).toFloat() / 100f
         findMethod("com.miui.home.recents.util.RectFSpringAnim") {
             name == "getModifyResponse"
         }.hookBefore {
