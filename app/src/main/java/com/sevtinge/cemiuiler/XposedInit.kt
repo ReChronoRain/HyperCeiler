@@ -10,6 +10,7 @@ import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForR
 import com.sevtinge.cemiuiler.module.thememanager.ThemeCrack
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 import com.sevtinge.cemiuiler.module.systemframework.AllowUninstall
+import com.sevtinge.cemiuiler.module.systemframework.CleanOpenMenu
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
@@ -27,6 +28,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         if (mPrefsMap.getBoolean("system_framework_allow_uninstall")) AllowUninstall().initZygote(startupParam)
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes()
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes()
+        if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes()
         //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
     }
