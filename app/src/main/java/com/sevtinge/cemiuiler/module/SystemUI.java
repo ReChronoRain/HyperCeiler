@@ -30,9 +30,6 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiStandard;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileNetwork;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import moralnorm.os.SdkVersion;
-
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemUI extends BaseModule {
 

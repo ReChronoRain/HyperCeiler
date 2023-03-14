@@ -8,7 +8,6 @@ import com.sevtinge.cemiuiler.utils.PrefsMap;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -164,9 +163,10 @@ public abstract class BaseHook {
     public void hookAllMethods(String className, String methodName, XC_MethodHook callback) {
         try {
             Class<?> hookClass = findClassIfExists(className);
-            if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0) {
-
+            if (hookClass != null) {
+                XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
             }
+
         } catch (Throwable t) {
             LogUtils.log(t);
         }
@@ -176,7 +176,7 @@ public abstract class BaseHook {
         try {
             if (XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0) {
 
-            };
+            }
         } catch (Throwable t) {
             LogUtils.log(t);
         }

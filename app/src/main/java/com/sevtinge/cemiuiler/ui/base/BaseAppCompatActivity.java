@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.ui.base;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -61,7 +60,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public void reBoot() {
-        //貌似写错了，等修（
         sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "FastReboot"));
     }
 

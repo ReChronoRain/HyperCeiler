@@ -19,7 +19,6 @@ import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class GlobalActions extends BaseHook {
 
@@ -42,10 +41,17 @@ public class GlobalActions extends BaseHook {
                 mFilter.addAction(ACTION_PREFIX + "ScreenCapture");
                 mFilter.addAction(ACTION_PREFIX + "OpenPowerMenu");
                 mFilter.addAction(ACTION_PREFIX + "LaunchIntent");
+                mFilter.addAction(ACTION_PREFIX + "FastReboot");
                 mGlobalContext.registerReceiver(mGlobalReceiver, mFilter);
             }
         });
     }
+
+    public static void proxySystemProperties(String method, String prop, String val, ClassLoader classLoader) {
+        XposedHelpers.callStaticMethod(XposedHelpers.findClassIfExists("android.os.SystemProperties", classLoader),
+                method, prop, val);
+    }
+
 
     private final BroadcastReceiver mGlobalReceiver = new BroadcastReceiver() {
         @Override
@@ -91,6 +97,10 @@ public class GlobalActions extends BaseHook {
                         }
                         break;
 
+                    case ACTION_PREFIX + "FastReboot":
+                        proxySystemProperties("set", "ctl.restart", "surfaceflinger", null);
+                        proxySystemProperties("set", "ctl.restart", "zygote", null);
+                        break;
                 }
             } catch (Throwable t) {
                 LogUtils.log(t);
@@ -117,7 +127,7 @@ public class GlobalActions extends BaseHook {
         XposedHelpers.callMethod(am, "forceStopPackage", packageName);
     }
 
-    private static BroadcastReceiver mRestartReceiver = new BroadcastReceiver() {
+    private static final BroadcastReceiver mRestartReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {

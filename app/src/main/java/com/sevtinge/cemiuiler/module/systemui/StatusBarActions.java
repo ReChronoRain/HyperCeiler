@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -63,6 +64,7 @@ public class StatusBarActions extends BaseHook {
 
 
     private static final BroadcastReceiver mStatusBarReceiver = new BroadcastReceiver() {
+        @SuppressLint("WrongConstant")
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -112,7 +114,7 @@ public class StatusBarActions extends BaseHook {
         });
     }
 
-    private BroadcastReceiver mRestartSystemUIReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mRestartSystemUIReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

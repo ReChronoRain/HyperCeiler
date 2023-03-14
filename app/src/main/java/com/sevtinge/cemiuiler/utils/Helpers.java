@@ -251,7 +251,6 @@ public class Helpers {
 
 
 
-
     public static void log (String line) {
         XposedBridge.log("Cemiuiler: " + line);
     }
@@ -308,7 +307,6 @@ public class Helpers {
         Context moduleContext = getModuleContext(context);
         return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
-
 
     public static ActivityOptions makeFreeformActivityOptions(Context context, String str) {
 
