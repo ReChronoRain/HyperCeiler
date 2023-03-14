@@ -222,6 +222,7 @@
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_recent_horizontal_task_view_card_size1">豎屏平鋪卡片大小</string>
     <string name="home_recent_horizontal_task_view_card_size2">橫屏平鋪卡片大小</string>
+    <string name="home_title_bigicon_title">大圖示</string>
     <string name="lbe_disable_clipboard_tip">停用讀取剪貼簿提示</string>
     <string name="market_device_modify">機型偽裝</string>
     <string name="market_device_modify_desc">偽裝裝置機型為 Xiaomi 13 Ultra</string>
@@ -614,9 +615,14 @@
     <string name="content_extension">傳送門</string>
     <string name="content_extension_browser">使用第三方瀏覽器</string>
     <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜索，需自行選擇默認瀏覽器</string>
+    <string name="content_extension_double_press">開放雙指長按</string>
+    <string name="content_extension_super_image">開放超分辨率圖片</string>
+    <string name="content_extension_super_image_summary">需要係統底層支持</string>
     <string name="home_other_icon_mono_chrome">圖示背景色</string>
     <string name="security_center_no_permission">未取得所需許可權</string>
     <string name="home_other_icon_monet_color">使用 Monet 取色</string>
+    <string name="system_ui_status_bar_use_new_hd">強制使用新 HD 圖示</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">需要較新的系統版本，部分機型可能至今未進版</string>
     <string name="tsmclient_nfc_turning_on">正自動開啟 NFC 中 …</string>
     <string name="tsmclient_nfc_turn_on_manually">手動開啟 NFC</string>
     <string name="tsmclient_nfc_turn_on_failed">自動開啟 NFC 失敗</string>
