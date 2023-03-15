@@ -23,7 +23,7 @@
             android:defaultValue="false"
             app:isPreferenceVisible="false"/>
 
-    <PreferenceCategor>
+    <PreferenceCategory>
 
         <SwitchPreference
                 android:title="@string/home_dock_bg_custom_enable"
@@ -103,6 +103,6 @@
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
 
-    </PreferenceCategor>
+    </PreferenceCategory>
 
 </PreferenceScreen>
