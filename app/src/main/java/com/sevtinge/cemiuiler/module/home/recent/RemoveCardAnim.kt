@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.*
+import de.robv.android.xposed.XposedBridge
 
 object RemoveCardAnim : BaseHook() {
     override fun init() {
@@ -21,7 +22,7 @@ object RemoveCardAnim : BaseHook() {
             "createScaleDismissAnimation", View::class.java, Float::class.java
         ) {
             val view = it.args[0] as View
-            val getScreenHeight = "com.miui.home.launcher.DeviceConfig".findClass().callStaticMethod("getScreenHeight") as Int
+            val getScreenHeight = findClass("com.miui.home.launcher.DeviceConfig").callStaticMethod("getScreenHeight") as Int
             val ofFloat = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.translationY, -getScreenHeight * 1.1484375f)
             ofFloat.duration = 200
             return@replaceMethod ofFloat
