@@ -15,7 +15,7 @@ import com.sevtinge.cemiuiler.utils.hookAfterMethod
 object IconTitleColor : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {
-
+        
         val value = mPrefsMap.getInt("home_title_title_color", -1)
         val launcherClass = "com.miui.home.launcher.Launcher".findClass()
         val shortcutInfoClass = "com.miui.home.launcher.ShortcutInfo".findClass()
