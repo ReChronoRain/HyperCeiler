@@ -29,6 +29,7 @@ import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.*;
 import com.sevtinge.cemiuiler.module.home.recent.*;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
+import com.sevtinge.cemiuiler.module.home.title.IconTitleColor;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.cemiuiler.module.home.widget.HideWidgetTitles;
@@ -93,6 +94,7 @@ public class Home extends BaseModule {
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
+        initHook(IconTitleColor.INSTANCE);
         initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
 
         //小部件

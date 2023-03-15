@@ -260,7 +260,8 @@
     <string name="home_title_bigicon_title">大图标</string>
     <string name="home_title_title_title">标题</string>
     <string name="home_title_title_marquee">文字滚动</string>
-    <string name="home_title_font_size">字体大小</string>
+    <string name="home_title_font_size">文本大小</string>
+    <string name="home_title_title_color">文本颜色</string>
     <string name="home_title_animation_speed">动画速度</string>
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>
 
