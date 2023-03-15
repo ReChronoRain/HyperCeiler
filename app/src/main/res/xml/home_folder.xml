@@ -27,8 +27,6 @@
 
     <PreferenceCategory android:title="@string/home_big_folder_title">
 
-        <PreferenceCategory>
-
             <SwitchPreference
                 android:title="@string/home_big_folder_icon_bg_2x1"
                 android:key="prefs_key_home_big_folder_icon_bg_2x1"
@@ -57,10 +55,6 @@
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg_2x1"/>
 
-        </PreferenceCategory>
-
-        <PreferenceCategory>
-
             <SwitchPreference
                 android:title="@string/home_big_folder_icon_bg_1x2"
                 android:key="prefs_key_home_big_folder_icon_bg_1x2"
@@ -88,9 +82,6 @@
                 app:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg_1x2"/>
-        </PreferenceCategory>
-
-        <PreferenceCategory>
 
             <SwitchPreference
                 android:title="@string/home_big_folder_icon_bg"
@@ -119,8 +110,6 @@
                 app:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg"/>
-
-        </PreferenceCategory>
 
         <SwitchPreference
             android:title="@string/home_big_folder_item_max_count"
