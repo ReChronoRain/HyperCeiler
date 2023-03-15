@@ -54,6 +54,13 @@
             android:key="prefs_key_home_title_title_marquee"
             android:defaultValue="false"/>
 
+        <moralnorm.preference.ColorPickerPreference
+                android:persistent="false"
+                android:title="@string/home_tite_title_color"
+                android:key="prefs_key_home_tite_title_color"
+                android:defaultValue="-1"
+                app:showAlphaSlider="false"/>
+
         <SeekBarPreference
             android:key="prefs_key_home_title_font_size"
             android:title="@string/home_title_font_size"
