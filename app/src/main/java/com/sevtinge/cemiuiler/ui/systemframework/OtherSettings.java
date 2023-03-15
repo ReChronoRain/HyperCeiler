@@ -43,6 +43,8 @@ public class OtherSettings extends BaseAppCompatActivity {
 
         SwitchPreference mAppLinkVerify;
 
+        SwitchPreference mUseOriginalAnim;
+
         @Override
         public int getContentResId() {
             return R.xml.system_framework_other;
@@ -57,6 +59,11 @@ public class OtherSettings extends BaseAppCompatActivity {
             mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
             mAppLinkVerify.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
             mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> true);
+            mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
+            mUseOriginalAnim.setVisible(SdkVersion.isAndroidR||SdkVersion.isAndroidS);
+            mUseOriginalAnim.setOnPreferenceChangeListener((preference, o) -> {
+                return true;
+            });
         }
 
         @Override
