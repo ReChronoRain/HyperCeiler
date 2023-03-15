@@ -13,7 +13,7 @@ import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 object BlurLevel : BaseHook() {
     override fun init() {
 
-        val blurLevel = mPrefsMap.getStringAsInt("home_recent_blur_level", 5)
+        val blurLevel = mPrefsMap.getStringAsInt("home_recent_blur_level", 6)
         if (blurLevel == 4) {
             findMethod("com.miui.home.launcher.common.BlurUtils") {
                 name == "getBlurType"
@@ -23,6 +23,24 @@ object BlurLevel : BaseHook() {
             }.hookReturnConstant(false)
             "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
                 it.result = true
+            }
+        } else if (blurLevel == 5) {
+            val blurClass = "com.miui.home.launcher.common.BlurUtils".findClass()
+            val navStubViewClass = "com.miui.home.recents.NavStubView".findClass()
+            val applicationClass = "com.miui.home.launcher.Application".findClass()
+            navStubViewClass.hookAfterAllMethods("onTouchEvent") {
+                val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
+                blurClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true, 500L)
+            }
+            "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
+                it.result = false
+            }
+            findMethod("com.miui.home.launcher.common.BlurUtils") {
+                name == "getBlurType"
+            }.hookBefore {
+                when (blurLevel) {
+                    5 -> it.result = 2
+                }
             }
         } else {
             "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
@@ -43,15 +61,6 @@ object BlurLevel : BaseHook() {
                 when (blurLevel) {
                     1 -> it.result = true
                 }
-            }
-        }
-        if (blurLevel == 0 && mPrefsMap.getBoolean("complete_blur_fix")) {
-            val blurClass = "com.miui.home.launcher.common.BlurUtils".findClass()
-            val navStubViewClass = "com.miui.home.recents.NavStubView".findClass()
-            val applicationClass = "com.miui.home.launcher.Application".findClass()
-            navStubViewClass.hookAfterAllMethods("onTouchEvent") {
-                val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
-                blurClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true, 500L)
             }
         }
 

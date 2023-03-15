@@ -176,6 +176,7 @@
     <string name="home_recent_animation_speed">Animation speed</string>
     <string name="home_title_animation_speed">Animation speed</string>
     <string name="home_recent_blur_level">Blur level</string>
+    <string name="home_recent_complete_blur_plus">Complete Blur Plus</string>
     <string name="home_recent_complete_blur">Complete Blur</string>
     <string name="home_recent_test_blur">Test Blur</string>
     <string name="home_recent_simple_blur">Simple Blur</string>
