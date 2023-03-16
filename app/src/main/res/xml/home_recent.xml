@@ -62,6 +62,22 @@
                 app:minValue="50"
                 app:showSeekBarValue="true" />
 
+        <SeekBarPreference
+                android:defaultValue="14"
+                android:key="prefs_key_home_recent_text_size"
+                android:title="@string/home_recent_text_size"
+                app:format="%d f"
+                app:maxValue="30"
+                app:minValue="0"
+                app:showSeekBarValue="true" />
+
+        <moralnorm.preference.ColorPickerPreference
+                android:persistent="false"
+                android:title="@string/home_recent_text_color"
+                android:key="prefs_key_home_recent_text_color"
+                android:defaultValue="-1"
+                app:showAlphaSlider="true"/>
+
         <moralnorm.preference.ColorPickerPreference
                 android:persistent="false"
                 android:title="@string/home_recent_freeform_background_color"
