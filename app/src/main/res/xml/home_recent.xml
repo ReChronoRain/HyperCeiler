@@ -72,6 +72,15 @@
                 app:showSeekBarValue="true" />
 
         <SeekBarPreference
+                android:defaultValue="100"
+                android:key="prefs_key_home_recent_vertical_task_view_card_size"
+                android:title="@string/home_recent_vertical_task_view_card_size"
+                app:format="%d / 100 f"
+                app:maxValue="150"
+                app:minValue="50"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
                 android:defaultValue="14"
                 android:key="prefs_key_home_recent_text_size"
                 android:title="@string/home_recent_text_size"

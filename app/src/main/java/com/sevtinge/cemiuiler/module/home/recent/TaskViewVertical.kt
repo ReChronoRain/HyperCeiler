@@ -10,7 +10,7 @@ import com.sevtinge.cemiuiler.utils.replaceMethod
 object TaskViewVertical : BaseHook() {
     override fun init() {
 
-        val value = mPrefsMap.getInt("task_view_vertical", 100).toFloat() / 100
+        val value = mPrefsMap.getInt("home_recent_vertical_task_view_card_size", 100).toFloat() / 100
         if (value == -1f || value == 1f) return
         "com.miui.home.recents.views.TaskStackViewsAlgorithmVertical".replaceMethod(
             "scaleTaskView", RectF::class.java
