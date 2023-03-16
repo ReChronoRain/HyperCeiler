@@ -89,6 +89,7 @@ public class Home extends BaseModule {
         initHook(TaskViewVertical.INSTANCE);
         initHook(HideFreeform.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_freeform"));
         initHook(HideCleanUp.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_clean_up"));
+        initHook(FreeformCardBackgroundColor.INSTANCE);
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

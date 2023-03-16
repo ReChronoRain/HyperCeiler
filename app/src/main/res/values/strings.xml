@@ -187,6 +187,7 @@
     <string name="home_title_title_color">Title color</string>
     <string name="home_recent_hide_freeform">Hide freeform button</string>
     <string name="home_recent_hide_clean_up">Hide clean up button</string>
+    <string name="home_recent_freeform_background_color">Freeform app card background color</string>
     <string name="lbe_disable_clipboard_tip">Disable read clipboard prompt</string>
     <string name="market_device_modify">Model guise</string>
     <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>

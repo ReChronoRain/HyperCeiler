@@ -62,6 +62,13 @@
                 app:minValue="50"
                 app:showSeekBarValue="true" />
 
+        <moralnorm.preference.ColorPickerPreference
+                android:persistent="false"
+                android:title="@string/home_recent_freeform_background_color"
+                android:key="prefs_key_home_recent_freeform_background_color"
+                android:defaultValue="-1"
+                app:showAlphaSlider="true"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
