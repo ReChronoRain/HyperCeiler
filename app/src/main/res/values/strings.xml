@@ -659,6 +659,8 @@
     <string name="home_recent_horizontal_task_view_card_size1">Thumbnail size for Horizontally-Vertical</string>
     <string name="home_recent_horizontal_task_view_card_size2">Thumbnail size for Horizontally-Horizontal</string>
     <string name="home_recent_vertical_task_view_card_size">Thumbnail size for Vertically</string>
+    <string name="home_recent_app_name_distance_task_view_card">App name distance task view card</string>
+    <string name="home_recent_task_view_card_rounded_corners">Task view card rounded corners</string>
     <string name="soft_reboot">Soft reboot</string>
     <string name="soft_reboot_desc">Are you sure you want to soft reboot now?</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>

@@ -96,6 +96,7 @@ public class Home extends BaseModule {
         initHook(CardTextSize.INSTANCE);
         initHook(RecentText.INSTANCE, !Objects.equals(mPrefsMap.getString("home_recent_text", ""), ""));
         initHook(RemoveIcon.INSTANCE, mPrefsMap.getBoolean("home_recent_remove_icon"));
+        initHook(RecentResource.INSTANCE);
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

@@ -340,6 +340,12 @@ fun Class<*>.findField(field: String?): Field = findField(this, field)
 
 fun Class<*>.findFieldOrNull(field: String?): Field? = findFieldIfExists(this, field)
 
+data class ResourcesHookData(val type: String, val afterValue: Any)
+
+class ResourcesHookMap<String, ResourcesHookData> : HashMap<String, ResourcesHookData>() {
+    fun isKeyExist(key: String): Boolean = getOrDefault(key, null) != null
+}
+
 fun <T> T.setIntField(field: String?, value: Int) = apply {
     setIntField(this, field, value)
 }

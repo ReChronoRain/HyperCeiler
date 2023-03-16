@@ -257,6 +257,8 @@
     <string name="home_recent_remove_icon">隐藏图标</string>
     <string name="home_recent_modify_animation">修改划卡动画</string>
     <string name="home_recent_text">无后台时显示的文本</string>
+    <string name="home_recent_app_name_distance_task_view_card">应用名称距卡片</string>
+    <string name="home_recent_task_view_card_rounded_corners">卡片圆角大小</string>
     <string name="home_recent_horizontal_task_view_card_size1">竖屏平铺卡片大小</string>
     <string name="home_recent_horizontal_task_view_card_size2">横屏平铺卡片大小</string>
     <string name="home_recent_vertical_task_view_card_size">瀑布卡片大小</string>

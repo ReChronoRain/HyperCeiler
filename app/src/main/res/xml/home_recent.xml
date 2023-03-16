@@ -44,6 +44,22 @@
                 android:key="prefs_key_home_recent_text"
                 android:title="@string/home_recent_text" />
 
+        <SeekBarPreference
+                android:defaultValue="20"
+                android:key="prefs_key_task_view_corners"
+                android:title="@string/home_recent_task_view_card_rounded_corners"
+                app:format="%d dp"
+                app:maxValue="100"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+                android:defaultValue="40"
+                android:key="prefs_key_task_view_header_height"
+                android:title="@string/home_recent_app_name_distance_task_view_card"
+                app:format="%d dp"
+                app:maxValue="150"
+                app:showSeekBarValue="true" />
+
     <SeekBarPreference
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
