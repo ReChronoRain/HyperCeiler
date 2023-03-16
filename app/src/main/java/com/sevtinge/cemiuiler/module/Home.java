@@ -87,6 +87,7 @@ public class Home extends BaseModule {
         initHook(RemoveCardAnim.INSTANCE, mPrefsMap.getBoolean("home_recent_modify_animation"));
         initHook(TaskViewHorizontal.INSTANCE);
         initHook(TaskViewVertical.INSTANCE);
+        initHook(HideFreeform.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_freeform"));
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
