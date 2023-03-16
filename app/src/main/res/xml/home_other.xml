@@ -41,6 +41,11 @@
             android:title="@string/home_other_portrait_reverse"
             android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:key="prefs_key_home_other_disable_hide_google"
+                android:title="@string/home_other_disable_hide_google"
+                android:defaultValue="false"/>
+
         <Preference android:title="@string/home_other_app_icon_hide">
             <intent
                 android:targetPackage="com.miui.home"
