@@ -653,5 +653,25 @@
     <string name="home_recent_horizontal_task_view_card_size2">Thumbnail size for Horizontally-Horizontal</string>
     <string name="soft_reboot">Soft reboot</string>
     <string name="soft_reboot_desc">Are you sure you want to soft reboot now?</string>
+    <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
+    <string name="system_ui_statusbar_network_speed_indicator_default_title">Default</string>
+    <string name="system_ui_statusbar_network_speed_separate">Hide network speed separator</string>
+    <string name="system_ui_statusbar_network_speed_separate_desc">After it is turned on, the vertical line between the time and the network speed will not be displayed on the water drop screen device</string>
+    <string name="system_ui_statusbar_network_speed_spacing">Network speed interval</string>
+    <string name="system_ui_statusbar_network_speed_update_spacing">Network speed update interval</string>
+    <string name="system_ui_statusbar_network_speed_spacing_desc">Increased horizontal spacing of network speed indicator</string>
+    <string name="system_ui_statusbar_network_speed_size_largest">Largest</string>
+    <string name="system_ui_statusbar_network_speed_size_large">Large</string>
+    <string name="system_ui_statusbar_network_speed_size_default">Default</string>
+    <string name="system_ui_statusbar_network_speed_size_small">Small</string>
+    <string name="system_ui_statusbar_network_speed_hide">Hide slow network speed</string>
+    <string name="system_ui_statusbar_network_speed_indicator_expand_title">Expand</string>
+    <string name="system_ui_statusbar_network_speed_value">Enable extensions</string>
+    <string name="system_ui_statusbar_network_speed_size">Font size</string>
+    <string name="system_ui_statusbar_network_speed_hide_desc">Indicator is no longer shown when network speed is low</string>
+    <string name="system_ui_statusbar_network_speed_visibility">Reduce visibility when inactive</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow">Slow network speed level</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow_desc">Tip: Network speed values below this level are considered slow and a different indicator icon will be displayed</string>
+    <string name="system_ui_statusbar_network_speed_visibility_desc">The indicator is transparent when both the uplink and downlink speeds are 0</string>
 
 </resources>
