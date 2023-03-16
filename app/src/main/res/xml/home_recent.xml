@@ -23,6 +23,11 @@
                 android:title="@string/home_recent_hide_freeform"
                 android:defaultValue="false" />
 
+        <SwitchPreference
+                android:key="prefs_key_home_recent_hide_clean_up"
+                android:title="@string/home_recent_hide_clean_up"
+                android:defaultValue="false" />
+
         <DropDownPreference
                 android:key="prefs_key_home_recent_blur_level"
                 android:title="@string/home_recent_blur_level"
