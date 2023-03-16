@@ -35,6 +35,8 @@ import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.cemiuiler.module.home.widget.HideWidgetTitles;
 import com.sevtinge.cemiuiler.module.weather.SetDeviceLevel;
 
+import java.util.Objects;
+
 public class Home extends BaseModule {
 
     @Override
@@ -92,6 +94,7 @@ public class Home extends BaseModule {
         initHook(FreeformCardBackgroundColor.INSTANCE);
         initHook(CardTextColor.INSTANCE);
         initHook(CardTextSize.INSTANCE);
+        initHook(RecentText.INSTANCE, !Objects.equals(mPrefsMap.getString("home_recent_text", ""), ""));
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

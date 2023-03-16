@@ -35,6 +35,10 @@
                 app:entries="@array/home_recent_blur"
                 app:entryValues="@array/home_recent_blur_value" />
 
+        <EditTextPreference
+                android:key="prefs_key_home_recent_text"
+                android:title="@string/home_recent_text" />
+
     <SeekBarPreference
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
