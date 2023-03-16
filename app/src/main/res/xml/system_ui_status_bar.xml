@@ -8,6 +8,11 @@
             android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
+    <Preference android:title="@string/system_ui_statusbar_network_speed_indicator_title">
+        <intent
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.NetworkSpeedIndicatorActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
+    </Preference>
 
     <PreferenceCategory
         android:title="@string/system_ui_statusbar_clock_title"

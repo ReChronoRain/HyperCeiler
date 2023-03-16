@@ -206,6 +206,7 @@
     <string name="home_title_title_title">標題</string>
     <string name="home_title_big_icon_corner">中等圖示圓角跟隨</string>
     <string name="home_recent_blur_level">模糊等級</string>
+    <string name="home_recent_complete_blur_plus">完整模糊補充（實驗性）</string>
     <string name="home_recent_complete_blur">完整模糊</string>
     <string name="home_recent_test_blur">測試模糊</string>
     <string name="home_recent_simple_blur">簡單模糊</string>
@@ -369,6 +370,16 @@
     <string name="system_ui_statusbar_iconmanage_title">圖示管理</string>
     <string name="system_ui_statusbar_clock_title">時鐘</string>
     <string name="system_ui_statusbar_clock_show_second">顯示秒數</string>
+    <string name="system_ui_statusbar_network_speed_indicator_expand_title">擴展</string>
+    <string name="system_ui_statusbar_network_speed_value">啟用擴展</string>
+    <string name="system_ui_statusbar_network_speed_size">字體大小</string>
+    <string name="system_ui_statusbar_network_speed_size_largest">最大</string>
+    <string name="system_ui_statusbar_network_speed_size_large">大</string>
+    <string name="system_ui_statusbar_network_speed_size_default">標準</string>
+    <string name="system_ui_statusbar_network_speed_size_small">小</string>
+    <string name="system_ui_statusbar_network_speed_hide">隱藏慢速</string>
+    <string name="system_ui_statusbar_network_speed_hide_desc">當網速低時不再顯示指示器</string>
+    <string name="system_ui_statusbar_network_speed_visibility">不活動時降低可見性</string>
     <string name="system_ui_status_bar_battery_indicator_enable">啟用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">置中</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">圓角</string>
@@ -648,4 +659,16 @@
     <string name="home_other_always_blur_launcher_wallpaper">始終模糊桌面壁紙</string>
     <string name="soft_reboot">軟重啟</string>
     <string name="soft_reboot_desc">確定要執行軟重啟嗎？</string>
+    <string name="system_framework_other_use_original_animation">過渡動畫使用原生樣式</string>
+    <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器管理</string>
+    <string name="system_ui_statusbar_network_speed_indicator_default_title">常規</string>
+    <string name="system_ui_statusbar_network_speed_separate">隱藏網速分隔符</string>
+    <string name="system_ui_statusbar_network_speed_separate_desc">開啟後水滴屏設備上不顯示時間與網速間的豎線</string>
+    <string name="system_ui_statusbar_network_speed_spacing">網速間距</string>
+    <string name="system_ui_statusbar_network_speed_update_spacing">網速更新間隔</string>
+    <string name="system_ui_statusbar_network_speed_spacing_desc">增加網速指示器的水平間距</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow_desc">注：網速值低於該水平時被認為慢，並會顯示不同的指示器圖標</string>
+    <string name="system_ui_statusbar_network_speed_visibility_desc">網速上下行速度均為0時指示器透明</string>
+    <string name="home_title_title_color">文本顏色</string>
 </resources>
