@@ -57,7 +57,7 @@ public class Home extends BaseModule {
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
         initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));
         initHook(new HotSeatsMarginBottom(), mPrefsMap.getBoolean("home_layout_hotseats_margin_bottom_enable"));
-        initHook(new SearchBarMarginBottom(), mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0) > 0);
+        initHook(new SearchBarMarginBottom(), (mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0) > 0) && mPrefsMap.getBoolean("home_layout_searchbar_margin_bottom_enable"));
 
 
         //文件夹
