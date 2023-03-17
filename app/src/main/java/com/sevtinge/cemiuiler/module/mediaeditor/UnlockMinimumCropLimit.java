@@ -65,8 +65,8 @@ public class UnlockMinimumCropLimit extends BaseHook {
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
             int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            XposedBridge.log("Cemiuiler: " + String.format("%s (%d", versionName, versionCode));
-            return String.format("%s (%d", versionName, versionCode);
+            XposedBridge.log("Cemiuiler: " + String.format("%s (%d)", versionName, versionCode));
+            return String.format("%s (%d)", versionName, versionCode);
         } catch (Throwable e) {
             XposedBridge.log("Cemiuiler: Unknown Version.");
             XposedBridge.log(e);

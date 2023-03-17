@@ -12,8 +12,8 @@ import java.io.File;
 public class BeautyLight extends BaseHook {
     @Override
     public void init() {
-        String appVersionName = getPackageVersion(lpparam);
-        if (appVersionName.startsWith("7.4.9")) {
+        int appVersionCode = getPackageVersionCode(lpparam);
+        if (appVersionCode >= 40000749) {
             //hookAllMethods("p5.f", "m", XC_MethodReplacement.returnConstant(true));
             hookAllMethods("p5.f", "G", XC_MethodReplacement.returnConstant(true));
         } else {
@@ -27,20 +27,35 @@ public class BeautyLight extends BaseHook {
         });*/
     }
 
-    private static String getPackageVersion(XC_LoadPackage.LoadPackageParam lpparam) {
+    private static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
             Object parser = parserCls.newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            XposedBridge.log("Cemiuiler: " + String.format("%s (%d", versionName, versionCode));
-            return String.format("%s (%d", versionName, versionCode);
+            XposedBridge.log("Cemiuiler: " + lpparam + " versionName is " + versionName);
+            return versionName;
         } catch (Throwable e) {
             XposedBridge.log("Cemiuiler: Unknown Version.");
             XposedBridge.log(e);
             return "null";
+        }
+    }
+
+    private static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
+            XposedBridge.log("Cemiuiler: " + lpparam + " versionCode is " + versionCode);
+            return versionCode;
+        } catch (Throwable e) {
+            XposedBridge.log("Cemiuiler: Unknown Version.");
+            XposedBridge.log(e);
+            return -1;
         }
     }
 }
