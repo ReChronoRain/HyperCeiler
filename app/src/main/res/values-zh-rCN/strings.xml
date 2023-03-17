@@ -321,6 +321,8 @@
     <string name="miui_package_installer_install_source">自定义安装来源</string>
     <string name="miui_package_installer_apk_info">显示更多安装包信息</string>
     <string name="miui_package_installer_apk_info_desc">显示安装中应用的更多相关信息</string>
+    <string name="miui_package_installer_speed_install">快速安装</string>
+    <string name="miui_package_installer_speed_install_desc">安装至运行内存以提升安装速度</string>
 
     <string name="personal_assistant_widget_crack">小部件破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
@@ -691,6 +693,7 @@
     <string name="various_install_app_info_version_name">版本名称</string>
     <string name="various_install_app_info_version_code">版本代码</string>
     <string name="various_install_app_info_sdk">支持SDK</string>
+    <string name="various_install_app_size">应用大小</string>
 
     <string name="calls">通话</string>
     <string name="system_volume">系统</string>

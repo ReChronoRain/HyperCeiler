@@ -33,7 +33,8 @@ public class MiuiPackageInstaller extends BaseModule {
         initHook(new InstallSource(), !TextUtils.isEmpty(mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer")));
 
         //显示更多安装包信息
-        initHook(new DisplayMoreApkInfo(), mPrefsMap.getBoolean("miui_package_installer_apk_info"));
+        //initHook(new DisplayMoreApkInfo(), mPrefsMap.getBoolean("miui_package_installer_apk_info"));
+        initHook(DisplayMoreApkInfoNew.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_apk_info"));
 
         //禁用频繁安装应用检查
         initHook(new DisableCountChecking(), mPrefsMap.getBoolean("miui_package_installer_count_checking"));
