@@ -218,8 +218,8 @@
     <string name="miui_package_installer_install_source">Custom install source</string>
     <string name="miui_package_installer_apk_info">Show more package information</string>
     <string name="miui_package_installer_apk_info_desc">Show more info about the app that\'s being installed</string>
-    <string name="miui_package_installer_speed_install">Speed Install</string>
-    <string name="miui_package_installer_speed_install_desc">Install to running memory to speed up installation</string>
+    <string name="system_framework_other_speed_install">Speed Install</string>
+    <string name="system_framework_other_speed_install_desc">Install to running memory to speed up installation</string>
     <string name="various_install_app_size">Size</string>
     <string name="personal_assistant_widget_crack">Widget patch</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold weight</string>

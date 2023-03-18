@@ -22,6 +22,13 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
+                android:key="prefs_key_system_framework_other_speed_install"
+                android:title="@string/system_framework_other_speed_install"
+                android:summary="@string/system_framework_other_speed_install_desc"
+                android:defaultValue="false"/>
+
+
+        <SwitchPreference
                 android:title="@string/system_framework_disable_app_link_verify"
                 android:summary="@string/system_framework_disable_app_link_verify_desc"
                 android:key="prefs_key_system_framework_disable_app_link_verify"
