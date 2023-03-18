@@ -15,17 +15,16 @@
 ext {
 
     XposedApiVersion = "82"
-
-    AndroidXCoreVersion = "1.7.0"
-    AndroidXCollectionVersion = "1.2.0-alpha01"
-    AndroidXRecyclerviewVersion = "1.2.1"
-    AndroidXFragmentVersion = "1.4.0-alpha04"
-    AndroidXLifecycleVersion = "2.4.0-alpha02"
+    AndroidXCoreVersion = "1.10.0-rc01"
+    AndroidXCollectionVersion = "1.2.0"
+    AndroidXRecyclerviewVersion = "1.3.0"
+    AndroidXFragmentVersion = "1.5.5"
+    AndroidXLifecycleVersion = "2.6.0"
     AndroidXVectorDrawableVersion = "1.1.0"
     AndroidXVectorDrawableAnimatedVersion = "1.1.0"
-    AndroidXCustomViewVersion = "1.0.0"
-    AndroidXCustomViewPoolingContainerVersion = "1.0.0"
-    AndroidXConstraintLayoutVersion = "2.1.0-beta02"
+    AndroidXCustomViewVersion = "1.1.0"
+    AndroidXCustomViewPoolingContainerVersion = '1.0.0'
+    AndroidXConstraintLayoutVersion = "2.1.4"
 
     BuildTypes = "debug"
 
