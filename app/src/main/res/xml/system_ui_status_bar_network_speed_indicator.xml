@@ -4,20 +4,8 @@
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_network_speed_indicator_default_title">
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_network_speed_separate"
-            android:summary="@string/system_ui_statusbar_network_speed_separate_desc"
-            android:title="@string/system_ui_statusbar_network_speed_separate" />
-
-       <SwitchPreference
-           android:defaultValue="false"
-           android:key="prefs_key_system_ui_statusbar_network_speed_spacing"
-           android:summary="@string/system_ui_statusbar_network_speed_spacing_desc"
-           android:title="@string/system_ui_statusbar_network_speed_spacing" />
-
         <SeekBarPreference
-            android:defaultValue="3"
+            android:defaultValue="4"
             android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"
             android:title="@string/system_ui_statusbar_network_speed_update_spacing"
             app:format="%d s"
