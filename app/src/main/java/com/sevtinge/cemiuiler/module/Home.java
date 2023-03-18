@@ -129,7 +129,7 @@ public class Home extends BaseModule {
         initHook(new UserPresentAnimation(), mPrefsMap.getBoolean("home_other_user_present_animation"));
         initHook(new PerfectIcon(), mPrefsMap.getBoolean("home_other_perfect_icon"));
         initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));
-        initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
+        //initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
         initHook(new HomePortraitReverse(), mPrefsMap.getBoolean("home_other_portrait_reverse"));
         initHook(AlwaysBlurWallpaper.INSTANCE, mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper"));
         initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);

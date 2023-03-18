@@ -7,7 +7,10 @@
                 android:key="prefs_key_mediaeditor_unlock_minimum_crop_limit"
                 android:defaultValue="false"/>
 
-
+        <SwitchPreference
+            android:title="@string/mediaeditor_filter_manager"
+            android:key="prefs_key_mediaeditor_filter_manager"
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
 

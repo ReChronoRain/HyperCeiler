@@ -21,6 +21,11 @@
             android:title="@string/settings_reboot"
             android:key="prefs_key_settings_reboot" />
 
+        <SwitchPreference
+            android:title="@string/main_switch"
+            android:key="prefs_key_main_switch"
+            android:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_data_title">

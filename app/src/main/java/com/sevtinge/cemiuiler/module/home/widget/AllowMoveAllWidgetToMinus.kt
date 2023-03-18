@@ -41,4 +41,3 @@ object AllowMoveAllWidgetToMinus : BaseHook() {
     }
 }
 
-

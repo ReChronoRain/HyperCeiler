@@ -65,6 +65,7 @@ android {
             excludes += "/*.bin"
         }
     }
+    namespace 'com.sevtinge.cemiuiler'
 }
 /*
 repositories {
@@ -85,7 +86,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
 
-    implementation roots.AndroidXCore
+    implementation "androidx.core:core:$AndroidXCoreVersion"
     implementation roots.AndroidXCollection
     implementation roots.AndroidXRecyclerview
     implementation roots.AndroidXFragment

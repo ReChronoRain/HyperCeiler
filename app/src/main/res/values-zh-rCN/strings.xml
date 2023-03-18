@@ -15,6 +15,8 @@
     <string name="about_donation">支持</string>
     <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
 
+    <string name="main_switch">Import Voyager to Cemiuiler</string>
+
     <string name="restart_systemui">重启系统界面</string>
     <string name="restart_systemui_desc">确定要立即重启系统界面吗？</string>
     <string name="soft_reboot">软重启</string>
@@ -235,6 +237,8 @@
     <string name="home_other_perfect_icon">完美图标优先级</string>
     <string name="home_other_icon_mono_chrome">图标背景色</string>
     <string name="home_other_icon_monet_color">使用莫奈取色</string>
+    <string name="home_other_use_edit_color">编辑莫奈取色</string>
+    <string name="home_other_your_color">莫奈颜色</string>
     <string name="home_other_portrait_reverse">反向竖屏</string>
     <string name="home_other_shortcut_background_blur">快捷菜单背景模糊</string>
     <string name="home_other_blur_radius">模糊半径</string>
@@ -298,6 +302,7 @@
     <string name="system_framework_allow_uninstall_desc">该功能具有一定危险性</string>
 
     <string name="mediaeditor_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
+    <string name="mediaeditor_filter_manager">解锁大师滤镜</string>
 
     <string name="milink_unlock_mishare">解锁小米妙享</string>
 

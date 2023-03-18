@@ -24,6 +24,20 @@
                 android:defaultValue="false"
                 android:dependency="prefs_key_home_other_icon_mono_chrome"/>
 
+        <SwitchPreference
+            android:key="prefs_key_home_other_use_edit_color"
+            android:title="@string/home_other_use_edit_color"
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_other_icon_mono_chrome"/>
+
+        <moralnorm.preference.ColorPickerPreference
+            android:persistent="false"
+            android:title="@string/home_other_your_color"
+            android:key="prefs_key_home_other_your_color_qwq"
+            android:dependency="prefs_key_home_other_use_edit_color"
+            android:defaultValue="-1"
+            app:showAlphaSlider="false"/>
+
         <SeekBarPreference
                 android:key="prefs_key_home_title_animation_speed"
                 android:title="@string/home_title_animation_speed"

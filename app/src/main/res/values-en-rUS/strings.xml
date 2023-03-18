@@ -13,6 +13,7 @@
     <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of Cemiuiler (in no particular order)</string>
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
+    <string name="main_switch">Import Voyager to Cemiuiler</string>
     <string name="home">System launcher</string>
     <string name="aireco">AI reco</string>
     <string name="browser">Browser</string>
@@ -204,6 +205,7 @@
     <string name="market_device_modify">Model guise</string>
     <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
+    <string name="mediaeditor_filter_manager">Unlock the filter manager</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <string name="mirror_unlock_miui_plus">Unlock MIUI+</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic closing of Mi Share</string>
@@ -641,6 +643,8 @@
     <string name="content_extension_super_image_summary">True preservation requires underlying support from the device model</string>
     <string name="home_other_icon_mono_chrome">Icon background color</string>
     <string name="home_other_icon_monet_color">Use monet color</string>
+    <string name="home_other_use_edit_color">Edit color</string>
+    <string name="home_other_your_color">Your color</string>
     <string name="security_center_no_permission">Required permissions not granted</string>
     <string name="tsmclient_nfc_turning_on">Turning on NFC automatically…</string>
     <string name="tsmclient_nfc_turn_on_manually">Turn on NFC manually</string>
