@@ -379,7 +379,6 @@
     <string name="system_ui_statusbar_network_speed_size_small">小</string>
     <string name="system_ui_statusbar_network_speed_hide">隱藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">當網速低時不再顯示指示器</string>
-    <string name="system_ui_statusbar_network_speed_visibility">不活動時降低可見性</string>
     <string name="system_ui_status_bar_battery_indicator_enable">啟用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">置中</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">圓角</string>
@@ -669,6 +668,5 @@
     <string name="system_ui_statusbar_network_speed_spacing_desc">增加網速指示器的水平間距</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">注：網速值低於該水平時被認為慢，並會顯示不同的指示器圖標</string>
-    <string name="system_ui_statusbar_network_speed_visibility_desc">網速上下行速度均為0時指示器透明</string>
     <string name="home_title_title_color">文本顏色</string>
 </resources>

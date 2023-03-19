@@ -683,9 +683,7 @@
     <string name="system_ui_statusbar_network_speed_value">Enable extensions</string>
     <string name="system_ui_statusbar_network_speed_size">Font size</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Indicator is no longer shown when network speed is low</string>
-    <string name="system_ui_statusbar_network_speed_visibility">Reduce visibility when inactive</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Slow network speed level</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Tip: Network speed values below this level are considered slow and a different indicator icon will be displayed</string>
-    <string name="system_ui_statusbar_network_speed_visibility_desc">The indicator is transparent when both the uplink and downlink speeds are 0</string>
 
 </resources>

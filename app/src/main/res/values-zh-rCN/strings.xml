@@ -498,8 +498,6 @@
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">注：网速值低于该水平时被认为慢，并会显示不同的指示器图标</string>
-    <string name="system_ui_statusbar_network_speed_visibility">不活动时降低可见性</string>
-    <string name="system_ui_statusbar_network_speed_visibility_desc">网速上下行速度均为0时指示器透明</string>
 
     <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>
