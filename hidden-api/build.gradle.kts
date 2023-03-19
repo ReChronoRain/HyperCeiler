@@ -29,7 +29,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.majorVersion
+        jvmTarget = JavaVersion.VERSION_17.majorVersion
     }
 }
 
