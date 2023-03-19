@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="@string/system_ui_statusbar_indicator_default_title">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_system_ui_statusbar_clock_show_second"
+        android:title="@string/system_ui_statusbar_clock_show_second"
+        android:summary="@string/system_ui_statusbar_clock_show_second_desc"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

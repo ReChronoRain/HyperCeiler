@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,7 +30,7 @@ public class ClockShowSecond extends BaseHook {
 
         MethodHook ScheduleHook = new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 initSecondTimer(param.thisObject);
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter timeSetIntent = new IntentFilter();
@@ -49,13 +49,13 @@ public class ClockShowSecond extends BaseHook {
 
         findAndHookMethod(mMiuiClock, "updateTime", new MethodHook(XCallback.PRIORITY_HIGHEST) {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 TextView clock = (TextView)param.thisObject;
                 Context mContext = clock.getContext();
                 String clockName = (String) XposedHelpers.getAdditionalInstanceField(clock, "clockName");
                 Object mMiuiStatusBarClockController = XposedHelpers.getObjectField(clock, "mMiuiStatusBarClockController");
                 Object mCalendar = XposedHelpers.callMethod(mMiuiStatusBarClockController, "getCalendar");
-                String timeFmt = null;
+                String timeFmt;
                 if ("clock".equals(clockName)) {
                     String fmt;
                     int mAmPmStyle = (int) XposedHelpers.getObjectField(clock, "mAmPmStyle");
@@ -71,6 +71,7 @@ public class ClockShowSecond extends BaseHook {
                             fmt = "fmt_time_12hour_minute";
                         }
                     }
+                    @SuppressLint("DiscouragedApi")
                     int fmtResId = mContext.getResources().getIdentifier(fmt, "string", "com.android.systemui");
                     timeFmt = mContext.getString(fmtResId);
                     timeFmt = timeFmt.replaceFirst(":mm", ":mm:ss");
@@ -96,37 +97,30 @@ public class ClockShowSecond extends BaseHook {
 
     private static void initSecondTimer(Object clockController) {
         boolean sbShowSeconds = mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second");
-        boolean finalSbShowSeconds = sbShowSeconds;
         Context mContext = (Context) XposedHelpers.getObjectField(clockController, "mContext");
         Timer scheduleTimer = (Timer) XposedHelpers.getAdditionalInstanceField(clockController, "scheduleTimer");
         if (scheduleTimer != null) {
             scheduleTimer.cancel();
         }
-        if (finalSbShowSeconds) {
+        if (sbShowSeconds) {
             final Handler mClockHandler = new Handler(mContext.getMainLooper());
             long delay = 1000 - SystemClock.elapsedRealtime() % 1000;
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    mClockHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Object mCalendar = XposedHelpers.getObjectField(clockController, "mCalendar");
-                            XposedHelpers.callMethod(mCalendar, "setTimeInMillis", java.lang.System.currentTimeMillis());
-                            XposedHelpers.setObjectField(clockController, "mIs24", DateFormat.is24HourFormat(mContext));
-                            ArrayList<Object> mClockListeners = (ArrayList<Object>) XposedHelpers.getObjectField(clockController, "mClockListeners");
-                            Iterator<Object> it = mClockListeners.iterator();
-                            while (it.hasNext()) {
-                                Object clock = it.next();
-                                String clockName = (String) XposedHelpers.getAdditionalInstanceField(clock, "clockName");
-                                if (clock != null) {
-                                    if ("ccClock".equals(clockName)) {
-                                        XposedHelpers.callMethod(clock, "onTimeChange");
-                                    }
-                                    else if ("clock".equals(clockName) && finalSbShowSeconds) {
-                                        XposedHelpers.callMethod(clock, "onTimeChange");
-                                    }
+                    mClockHandler.post(() -> {
+                        Object mCalendar = XposedHelpers.getObjectField(clockController, "mCalendar");
+                        XposedHelpers.callMethod(mCalendar, "setTimeInMillis", System.currentTimeMillis());
+                        XposedHelpers.setObjectField(clockController, "mIs24", DateFormat.is24HourFormat(mContext));
+                        ArrayList<Object> mClockListeners = (ArrayList<Object>) XposedHelpers.getObjectField(clockController, "mClockListeners");
+                        for (Object clock : mClockListeners) {
+                            String clockName = (String) XposedHelpers.getAdditionalInstanceField(clock, "clockName");
+                            if (clock != null) {
+                                if ("ccClock".equals(clockName)) {
+                                    XposedHelpers.callMethod(clock, "onTimeChange");
+                                } else if ("clock".equals(clockName) && sbShowSeconds) {
+                                    XposedHelpers.callMethod(clock, "onTimeChange");
                                 }
                             }
                         }

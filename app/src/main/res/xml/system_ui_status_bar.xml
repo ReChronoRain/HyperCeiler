@@ -14,18 +14,11 @@
             android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
-    <PreferenceCategory
-        android:title="@string/system_ui_statusbar_clock_title"
-        app:isPreferenceVisible="false">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_clock_show_second"
-            android:title="@string/system_ui_statusbar_clock_show_second" />
-
-    </PreferenceCategory>
-
-
+    <Preference android:title="@string/system_ui_statusbar_clock_title">
+        <intent
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.ClockIndicatorActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
+    </Preference>
     <!--<PreferenceCategory android:title="状态栏网速">
 
     </PreferenceCategory>-->

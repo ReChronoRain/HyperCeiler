@@ -294,9 +294,9 @@
     <string name="system_ui_volume_timer">Extended timer</string>
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_statusbar_iconmanage_title">Icon management</string>
-    <string name="system_ui_statusbar_clock_title">Clock</string>
+    <string name="system_ui_statusbar_clock_title">Clock indicator management</string>
     <string name="system_ui_statusbar_clock_show_second">Show seconds</string>
-    <string name="system_ui_statusbar_network_speed_indicator_expand_title">Expand</string>
+    <string name="system_ui_statusbar_indicator_expand_title">Expand</string>
     <string name="system_ui_statusbar_network_speed_hide">Hide slow network speed</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Indicator is no longer shown when network speed is low</string>
     <string name="system_ui_status_bar_battery_indicator_enable">Activate</string>
@@ -673,9 +673,10 @@
     <string name="soft_reboot_desc">Are you sure you want to soft reboot now?</string>
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
-    <string name="system_ui_statusbar_network_speed_indicator_default_title">Default</string>
+    <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Network speed update interval</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Slow network speed level</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Tip: Network speed values below this level are considered slow and a different indicator icon will be displayed</string>
     <string name="system_ui_statusbar_network_speed_font_size">Network speed font size</string>
+    <string name="system_ui_statusbar_clock_show_second_desc">The status bar shows seconds</string>
 </resources>

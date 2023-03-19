@@ -71,9 +71,10 @@ public class SystemUI extends BaseModule {
         //状态栏网速
         /*initHook(new NetworkSpeedAtRight(), mPrefsMap.getBoolean("system_ui_status_bar_network_speed_at_right"));*/
 
+        //时钟指示器
+        initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         //居右显示
-
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
         boolean isMobileNetworkAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left");
 
