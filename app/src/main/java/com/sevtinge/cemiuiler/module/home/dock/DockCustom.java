@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.home;
+package com.sevtinge.cemiuiler.module.home.dock;
 
 import android.app.Activity;
 import android.content.Context;

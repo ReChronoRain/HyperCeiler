@@ -3,9 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import android.os.Build;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.*;
-import com.sevtinge.cemiuiler.module.home.dock.FoldDeviceDock;
-import com.sevtinge.cemiuiler.module.home.dock.HideSeekPoint;
-import com.sevtinge.cemiuiler.module.home.dock.ShowDockIconTitle;
+import com.sevtinge.cemiuiler.module.home.dock.*;
 import com.sevtinge.cemiuiler.module.home.drawer.AllAppsContainerViewBlur;
 import com.sevtinge.cemiuiler.module.home.drawer.AppDrawer;
 import com.sevtinge.cemiuiler.module.home.folder.BigFolderIcon;
@@ -28,8 +26,8 @@ import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.*;
 import com.sevtinge.cemiuiler.module.home.recent.*;
-import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
-import com.sevtinge.cemiuiler.module.home.title.IconTitleColor;
+import com.sevtinge.cemiuiler.module.home.title.*;
+import com.sevtinge.cemiuiler.module.home.widget.AllWidgetAnimation;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.cemiuiler.module.home.widget.HideWidgetTitles;
@@ -145,7 +143,7 @@ public class Home extends BaseModule {
 
         //多小窗
         initHook(new FreeFormCountForHome(), mPrefsMap.getBoolean("system_framework_freeform_count"));
-        initHook(new MaxFreeFormm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
+        initHook(new MaxFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
 
         //Fold2样式负一屏
         initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode"));

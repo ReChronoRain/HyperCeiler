@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.home;
+package com.sevtinge.cemiuiler.module.home.widget;
 
 import android.content.ComponentName;
 import android.content.Context;

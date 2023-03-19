@@ -4,7 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.github.kyuubiran.ezxhelper.utils.*
 import de.robv.android.xposed.XC_MethodHook
 
-class MaxFreeFormm : BaseHook(){
+class MaxFreeForm : BaseHook(){
     override fun init() {
         // CanTaskEnterMiniSmallWindow
         findAllMethods("com.miui.home.launcher.RecentsAndFSGestureUtils") {

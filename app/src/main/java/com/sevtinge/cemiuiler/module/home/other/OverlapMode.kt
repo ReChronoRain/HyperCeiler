@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.home
+package com.sevtinge.cemiuiler.module.home.other
 
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant

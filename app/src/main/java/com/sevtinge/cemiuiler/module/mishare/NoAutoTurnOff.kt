@@ -14,9 +14,9 @@ class NoAutoTurnOff : BaseHook(){
             }.hookBefore {
                 it.result = null
             }
-            XposedBridge.log("Voyager-Test: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService success!")
+            XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService success!")
         } catch (e: Throwable) {
-            XposedBridge.log("Voyager-Test: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService failed!")
+            XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService failed!")
             XposedBridge.log(e)
         }
     }

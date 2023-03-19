@@ -65,9 +65,10 @@ inline fun Member.hookAfterMethod(crossinline hooker: Hooker) = hookMethod(objec
     override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
 })
 
-inline fun Member.hookBeforeMethod(crossinline hooker: (MethodHookParam) -> Unit) = hookMethod(object : XC_MethodHook() {
-    override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Member.hookBeforeMethod(crossinline hooker: (MethodHookParam) -> Unit) =
+    hookMethod(object : XC_MethodHook() {
+        override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
 inline fun Class<*>.hookBeforeMethod(
     method: String?, vararg args: Any?, crossinline hooker: Hooker
@@ -100,14 +101,16 @@ fun Class<*>.hookAllMethods(methodName: String?, hooker: XC_MethodHook): Set<XC_
     emptySet()
 }
 
-inline fun Class<*>.hookBeforeAllMethods(methodName: String?, crossinline hooker: Hooker) = hookAllMethods(methodName, object : XC_MethodHook() {
-    override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.hookBeforeAllMethods(methodName: String?, crossinline hooker: Hooker) =
+    hookAllMethods(methodName, object : XC_MethodHook() {
+        override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
-inline fun Class<*>.hookAfterAllMethods(methodName: String?, crossinline hooker: Hooker) = hookAllMethods(methodName, object : XC_MethodHook() {
-    override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+inline fun Class<*>.hookAfterAllMethods(methodName: String?, crossinline hooker: Hooker) =
+    hookAllMethods(methodName, object : XC_MethodHook() {
+        override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
 
-})
+    })
 
 inline fun Class<*>.replaceAllMethods(methodName: String?, crossinline replacer: Replacer) =
     hookAllMethods(methodName, object : XC_MethodReplacement() {
@@ -127,17 +130,20 @@ fun Class<*>.hookConstructor(vararg args: Any?) = try {
     null
 }
 
-inline fun Class<*>.hookBeforeConstructor(vararg args: Any?, crossinline hooker: Hooker) = hookConstructor(*args, object : XC_MethodHook() {
-    override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.hookBeforeConstructor(vararg args: Any?, crossinline hooker: Hooker) =
+    hookConstructor(*args, object : XC_MethodHook() {
+        override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
-inline fun Class<*>.hookAfterConstructor(vararg args: Any?, crossinline hooker: Hooker) = hookConstructor(*args, object : XC_MethodHook() {
-    override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.hookAfterConstructor(vararg args: Any?, crossinline hooker: Hooker) =
+    hookConstructor(*args, object : XC_MethodHook() {
+        override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
-inline fun Class<*>.replaceConstructor(vararg args: Any?, crossinline hooker: Hooker) = hookConstructor(*args, object : XC_MethodReplacement() {
-    override fun replaceHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.replaceConstructor(vararg args: Any?, crossinline hooker: Hooker) =
+    hookConstructor(*args, object : XC_MethodReplacement() {
+        override fun replaceHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
 fun Class<*>.hookAllConstructors(hooker: XC_MethodHook): Set<XC_MethodHook.Unhook> = try {
     hookAllConstructors(this, hooker)
@@ -152,17 +158,20 @@ fun Class<*>.hookAllConstructors(hooker: XC_MethodHook): Set<XC_MethodHook.Unhoo
     emptySet()
 }
 
-inline fun Class<*>.hookAfterAllConstructors(crossinline hooker: Hooker) = hookAllConstructors(object : XC_MethodHook() {
-    override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.hookAfterAllConstructors(crossinline hooker: Hooker) =
+    hookAllConstructors(object : XC_MethodHook() {
+        override fun afterHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
-inline fun Class<*>.hookBeforeAllConstructors(crossinline hooker: Hooker) = hookAllConstructors(object : XC_MethodHook() {
-    override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.hookBeforeAllConstructors(crossinline hooker: Hooker) =
+    hookAllConstructors(object : XC_MethodHook() {
+        override fun beforeHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
-inline fun Class<*>.replaceAllConstructors(crossinline hooker: Hooker) = hookAllConstructors(object : XC_MethodReplacement() {
-    override fun replaceHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
-})
+inline fun Class<*>.replaceAllConstructors(crossinline hooker: Hooker) =
+    hookAllConstructors(object : XC_MethodReplacement() {
+        override fun replaceHookedMethod(param: MethodHookParam) = param.callHooker(hooker)
+    })
 
 fun String.hookMethod(
     method: String?, vararg args: Any?
@@ -265,7 +274,8 @@ fun Class<*>.callStaticMethodOrNull(methodName: String?, vararg args: Any?): Any
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> Class<*>.callStaticMethodAs(methodName: String?, vararg args: Any?) = callStaticMethod(this, methodName, *args) as T
+fun <T> Class<*>.callStaticMethodAs(methodName: String?, vararg args: Any?) =
+    callStaticMethod(this, methodName, *args) as T
 
 @Suppress("UNCHECKED_CAST")
 fun <T> Class<*>.callStaticMethodOrNullAs(methodName: String?, vararg args: Any?) = runCatchingOrNull {
@@ -407,7 +417,8 @@ fun Any.getFirstFieldByExactType(type: Class<*>): Any? = javaClass.findFirstFiel
 @Suppress("UNCHECKED_CAST")
 fun <T> Any.getFirstFieldByExactTypeAs(type: Class<*>) = javaClass.findFirstFieldByExactType(type).get(this) as? T
 
-inline fun <reified T : Any> Any.getFirstFieldByExactType() = javaClass.findFirstFieldByExactType(T::class.java).get(this) as? T
+inline fun <reified T : Any> Any.getFirstFieldByExactType() =
+    javaClass.findFirstFieldByExactType(T::class.java).get(this) as? T
 
 fun Any.getFirstFieldByExactTypeOrNull(type: Class<*>?): Any? = runCatchingOrNull {
     javaClass.findFirstFieldByExactTypeOrNull(type)?.get(this)
@@ -428,9 +439,10 @@ inline fun ClassLoader.findDexClassLoader(crossinline delegator: (BaseDexClassLo
 }
 
 inline fun ClassLoader.allClassesList(crossinline delegator: (BaseDexClassLoader) -> BaseDexClassLoader = { x -> x }): List<String> {
-    return findDexClassLoader(delegator)?.getObjectField("pathList")?.getObjectFieldAs<Array<Any>>("dexElements")?.flatMap {
-        it.getObjectField("dexFile")?.callMethodAs<Enumeration<String>>("entries")?.toList().orEmpty()
-    }.orEmpty()
+    return findDexClassLoader(delegator)?.getObjectField("pathList")?.getObjectFieldAs<Array<Any>>("dexElements")
+        ?.flatMap {
+            it.getObjectField("dexFile")?.callMethodAs<Enumeration<String>>("entries")?.toList().orEmpty()
+        }.orEmpty()
 }
 
 val Member.isStatic: Boolean

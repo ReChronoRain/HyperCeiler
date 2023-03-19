@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.home;
+package com.sevtinge.cemiuiler.module.home.title;
 
 import android.content.pm.LauncherActivityInfo;
 

@@ -2,19 +2,16 @@ package com.sevtinge.cemiuiler
 
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
-import com.sevtinge.cemiuiler.module.home.EnableIconMonetColor
+import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.CleanShareMenu
 import com.sevtinge.cemiuiler.module.systemframework.ScreenRotation
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForR
-import com.sevtinge.cemiuiler.module.thememanager.ThemeCrack
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 import com.sevtinge.cemiuiler.module.systemframework.AllowUninstall
 import com.sevtinge.cemiuiler.module.systemframework.CleanOpenMenu
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
-import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
