@@ -532,9 +532,10 @@
     <string name="system_ui_statusbar_network_speed_hide">隐藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
-    <string name="system_ui_statusbar_network_speed_hide_slow_desc">注：网速值低于该水平时被认为慢，并会显示不同的指示器图标</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 B/s 单位</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width">固定宽度防止相邻元素左右防抖</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow_desc">网速值低于该水平时被认为慢，部分指示器图标会显示不同的指示器图标</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 /s 单位</string>
+    <string name="system_ui_statusbar_network_speed_fixedcontent_width">固定宽度</string>
+    <string name="system_ui_statusbar_network_speed_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
 
     <string name="system_ui_statusbar_clock_show_second">显示秒</string>

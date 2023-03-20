@@ -176,8 +176,17 @@ class NetworkSpeed : BaseHook() {
                             txarrow = if (txSpeed < lowLevel) "△" else "▲"
                             rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
                         } else if (icons == 3) {
+                            txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
+                            rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                        } else if (icons == 4) {
                             txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
                             rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                        } else if (icons == 5) {
+                            txarrow = if (txSpeed < lowLevel) "↑" else "↑"
+                            rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
+                        } else if (icons == 6) {
+                            txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
+                            rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
                         }
                         val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
                             mContext,
