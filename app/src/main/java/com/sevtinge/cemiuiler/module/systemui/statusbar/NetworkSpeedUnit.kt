@@ -20,12 +20,12 @@ class NetworkSpeedUnit : BaseHook() {
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
                         var fontSize =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
-                        if (dualRow) {
+                        /*if (dualRow) {
                             if (fontSize > 23 || fontSize == 13) fontSize = 16
                         } else {
                             if (fontSize < 20 && fontSize != 13) fontSize = 27
-                        }
-                        if (dualRow || fontSize != 13) {
+                        }*/
+                        if (dualRow/* || fontSize != 13*/) {
                             meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
                         }
 //                      网速加粗

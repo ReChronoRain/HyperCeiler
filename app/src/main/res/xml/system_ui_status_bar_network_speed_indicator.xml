@@ -61,7 +61,7 @@
             android:defaultValue="13"
             app:format="%s dp"
             app:maxValue="32"
-            app:minValue="13"
+            app:minValue="6"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
