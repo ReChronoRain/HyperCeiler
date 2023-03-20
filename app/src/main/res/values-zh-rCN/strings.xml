@@ -512,9 +512,9 @@
     <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_qs_label">快捷开关标签</string>
 
-    <string name="system_ui_statusbar_iconmanage_title">图标管理</string>
-    <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器管理</string>
-    <string name="system_ui_statusbar_clock_title">时钟指示器管理</string>
+    <string name="system_ui_statusbar_iconmanage_title">图标</string>
+    <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器</string>
+    <string name="system_ui_statusbar_clock_title">时钟指示器</string>
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>

@@ -374,8 +374,8 @@
     <string name="system_ui_monet_overlay_custom_color">選擇主題顏色</string>
     <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_ui_qs_label">快捷開關標籤</string>
-    <string name="system_ui_statusbar_iconmanage_title">圖示管理</string>
-    <string name="system_ui_statusbar_clock_title">時鐘指示器管理</string>
+    <string name="system_ui_statusbar_iconmanage_title">圖示</string>
+    <string name="system_ui_statusbar_clock_title">時鐘指示器</string>
     <string name="system_ui_statusbar_clock_show_second">顯示秒數</string>
     <string name="system_ui_statusbar_indicator_expand_title">擴展</string>
     <string name="system_ui_statusbar_network_speed_hide">隱藏慢速</string>
@@ -665,7 +665,7 @@
     <string name="soft_reboot">軟重啟</string>
     <string name="soft_reboot_desc">確定要執行軟重啟嗎？</string>
     <string name="system_framework_other_use_original_animation">過渡動畫使用原生樣式</string>
-    <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器管理</string>
+    <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器</string>
     <string name="system_ui_statusbar_indicator_default_title">常規</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">網速更新間隔</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
