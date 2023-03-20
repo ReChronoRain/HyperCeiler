@@ -156,6 +156,15 @@
         </Preference>
 
         <Preference
+                android:title="@string/system_ui_plugin"
+                android:key="prefs_key_system_ui_plugin"
+                android:icon="@drawable/ic_system_ui_plugin">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.SystemUIPluginActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/system_framework"
                 android:key="prefs_key_system_framework"
                 android:icon="@drawable/ic_system_framework">

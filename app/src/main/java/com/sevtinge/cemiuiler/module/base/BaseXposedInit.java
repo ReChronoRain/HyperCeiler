@@ -27,6 +27,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public SystemFramework mSystemFramework = new SystemFramework();
     //public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
     public SystemUI mSystemUI = new SystemUI();
+    public SystemUIPlugin mSystemUIPlugin = new SystemUIPlugin();
     public Home mHome = new Home();
     public ScreenShot mScreenShot = new ScreenShot();
 
@@ -237,6 +238,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.android.externalstorage":
                 mExternalStorage.init(lpparam);
+                break;
+
+            case "miui.systemui.plugin":
+                mSystemUIPlugin.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:

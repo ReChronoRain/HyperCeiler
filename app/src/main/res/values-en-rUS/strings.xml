@@ -39,6 +39,7 @@
     <string name="system_framework">System Framework</string>
     <string name="system_settings">Settings</string>
     <string name="system_ui">System UI</string>
+    <string name="system_ui_plugin">System UI Plugin</string>
     <string name="theme_manager">Themes</string>
     <string name="updater">Updater</string>
     <string name="various">Other</string>
@@ -678,4 +679,5 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Tip: Network speed values below this level are considered slow and a different indicator icon will be displayed</string>
     <string name="system_ui_statusbar_network_speed_font_size">Network speed font size</string>
     <string name="system_ui_statusbar_clock_show_second_desc">The status bar shows seconds</string>
+    <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
 </resources>

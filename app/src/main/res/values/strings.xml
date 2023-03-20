@@ -43,6 +43,7 @@
     <string name="system_framework">System Framework</string>
     <string name="system_settings">Settings</string>
     <string name="system_ui">System UI</string>
+    <string name="system_ui_plugin">System UI Plugin</string>
     <string name="theme_manager">Themes</string>
     <string name="updater">Updater</string>
     <string name="various">Other</string>
@@ -687,5 +688,6 @@
     <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
     <string name="system_ui_statusbar_network_speed_lux" translatable="false">%s lux</string>
+    <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
 
 </resources>
