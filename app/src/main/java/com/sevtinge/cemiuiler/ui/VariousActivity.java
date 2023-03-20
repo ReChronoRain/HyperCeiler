@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 import moralnorm.os.SdkVersion;
 import moralnorm.preference.SwitchPreference;
 
@@ -35,8 +37,7 @@ public class VariousActivity extends BaseAppCompatActivity {
         @Override
         public void initPrefs() {
             mDisableBluetoothRestrict = findPreference("prefs_key_various_disable_bluetooth_restrict");
-            mDisableBluetoothRestrict.setVisible(SdkVersion.isAndroidT);
-
+            mDisableBluetoothRestrict.setVisible(SdkHelper.isAndroidTiramisu());
             mDisableBluetoothRestrict.setOnPreferenceChangeListener((preference, o) -> {
                 return true;
             });

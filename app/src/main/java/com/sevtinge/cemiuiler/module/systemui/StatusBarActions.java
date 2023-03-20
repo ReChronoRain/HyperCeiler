@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Process;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 import de.robv.android.xposed.XposedHelpers;
 import moralnorm.os.SdkVersion;
 
@@ -21,7 +23,7 @@ public class StatusBarActions extends BaseHook {
     @Override
     public void init() {
 
-        if (SdkVersion.isAndroidT) {
+        if (SdkHelper.isAndroidTiramisu()) {
             mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.CentralSurfacesImpl");
         } else {
             mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.StatusBar");

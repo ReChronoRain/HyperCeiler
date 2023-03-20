@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module.systemframework;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 
+import android.os.Build;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 import de.robv.android.xposed.XposedHelpers;
 import moralnorm.os.SdkVersion;
 
@@ -24,7 +26,7 @@ public class PackagePermissions extends BaseHook {
         systemPackages.add(Helpers.mAppModulePkg);
 
         // Allow signature level permissions for module
-        String PMSCls = SdkVersion.isAndroidT ? "com.android.server.pm.permission.PermissionManagerServiceImpl" : "com.android.server.pm.permission.PermissionManagerService";
+        String PMSCls = SdkHelper.isAndroidTiramisu() ? "com.android.server.pm.permission.PermissionManagerServiceImpl" : "com.android.server.pm.permission.PermissionManagerService";
 
         // Allow signature level permissions for module
         hookAllMethods(PMSCls, "shouldGrantPermissionBySignature", new MethodHook() {
@@ -46,7 +48,7 @@ public class PackagePermissions extends BaseHook {
 
 
         // Make module appear as system app
-        String ActQueryService = SdkVersion.isAndroidT ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService";
+        String ActQueryService = SdkHelper.isAndroidTiramisu() ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService";
        hookAllMethods(ActQueryService, "queryIntentActivitiesInternal", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")

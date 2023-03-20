@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui.systemui.statusbar;
 
+import android.os.Build;
 import android.widget.SeekBar;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceCategory;
@@ -43,7 +45,7 @@ public class IconManageActivity extends BaseSystemUIActivity {
             mNotificationIconMaximum = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
             
             UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
-            UseNewHD.setVisible(SdkVersion.isAndroidT);
+            UseNewHD.setVisible(SdkHelper.isAndroidTiramisu());
 
             mAlarmClockIconN.setVisible(Integer.parseInt((String) PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

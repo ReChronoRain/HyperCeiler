@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
+import android.os.Build;
 import android.provider.Settings;
 import android.util.SparseIntArray;
 
@@ -7,6 +8,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.Set;
 
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 import de.robv.android.xposed.XposedHelpers;
 import moralnorm.os.SdkVersion;
 
@@ -22,11 +24,11 @@ public class VolumeSeparateControl extends BaseHook {
         findAndHookMethod(mAudioService, "updateStreamVolumeAlias", boolean.class, String.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                int[] mStreamVolumeAlias = (int[]) (SdkVersion.isAndroidT ? XposedHelpers.getStaticObjectField(mAudioService, "mStreamVolumeAlias") : XposedHelpers.getObjectField(param.thisObject, "mStreamVolumeAlias"));
+                int[] mStreamVolumeAlias = (int[]) (SdkHelper.isAndroidTiramisu() ? XposedHelpers.getStaticObjectField(mAudioService, "mStreamVolumeAlias") : XposedHelpers.getObjectField(param.thisObject, "mStreamVolumeAlias"));
                 mStreamVolumeAlias[1] = 1;
                 mStreamVolumeAlias[5] = 5;
 
-                if (SdkVersion.isAndroidT) {
+                if (SdkHelper.isAndroidTiramisu()) {
                     XposedHelpers.setStaticObjectField(mAudioService, "mStreamVolumeAlias", mStreamVolumeAlias);
                 } else {
                     XposedHelpers.setObjectField(param.thisObject, "mStreamVolumeAlias", mStreamVolumeAlias);

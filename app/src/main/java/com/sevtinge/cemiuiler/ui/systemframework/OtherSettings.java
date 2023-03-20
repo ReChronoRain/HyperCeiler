@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ import com.sevtinge.cemiuiler.ui.PickerHomeActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 
+import com.sevtinge.cemiuiler.utils.SdkHelper;
+import de.robv.android.xposed.XposedBridge;
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
@@ -57,13 +60,10 @@ public class OtherSettings extends BaseAppCompatActivity {
             mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
             mCleanOpenApps.setOnPreferenceClickListener(this);
             mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
-            mAppLinkVerify.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
+            mAppLinkVerify.setVisible(!SdkHelper.isAndroidR());
             mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> true);
             mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
-            mUseOriginalAnim.setVisible(SdkVersion.isAndroidR||SdkVersion.isAndroidS);
-            mUseOriginalAnim.setOnPreferenceChangeListener((preference, o) -> {
-                return true;
-            });
+            mUseOriginalAnim.setVisible(!SdkHelper.isAndroidTiramisu());
         }
 
         @Override
@@ -120,7 +120,8 @@ public class OtherSettings extends BaseAppCompatActivity {
                                 startActivity(Intent.createChooser(viewIntent, null));
                             }
                         })
-                        .setNeutralButton(android.R.string.cancel, (dialog, which) -> {})
+                        .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+                        })
                         .show();
                 break;
         }

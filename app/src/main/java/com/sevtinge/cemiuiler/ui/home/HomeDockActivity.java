@@ -36,7 +36,7 @@ public class HomeDockActivity extends BaseHomeActivity {
             PreferenceCategory mHomeDockCustomCat = findPreference("prefs_key_home_dock_bg_custom_cat");
             mHomeDockCustomCat.setVisible(PrefsUtils.getSharedBoolPrefs(getActivity(),"prefs_key_home_dock_bg_custom_enable",false));
             mHomeBackgroundBlur = findPreference("prefs_key_home_dock_bg_custom");
-            mHomeBackgroundBlur.setVisible(SdkVersion.isAndroidT||SdkVersion.isAndroidS);
+            mHomeBackgroundBlur.setVisible(SdkHelper.isAndroidTiramisu()||SdkHelper.isAndroidS());
 
             mHomeDockCustom.setOnPreferenceChangeListener((preference, o) -> {
 
