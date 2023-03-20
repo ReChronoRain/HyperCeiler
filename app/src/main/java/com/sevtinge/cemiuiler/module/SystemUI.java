@@ -13,23 +13,12 @@ import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSTileLabel;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.SmartHome;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ScramblePIN;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.BatteryIcon;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.BigMobileNetworkType;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 import com.sevtinge.cemiuiler.module.systemui.ChargeAnimationStyle;
 import com.sevtinge.cemiuiler.module.systemui.NotificationFreeform;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.ClockShowSecond;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.cemiuiler.module.systemui.OriginChargeAnimation;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarIcon;
 import com.sevtinge.cemiuiler.module.systemui.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.SwitchControlPanel;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarIconPositionAdjust;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.UseNewHD;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiNetworkIndicator;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiStandard;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.BluetoothIcon;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileNetwork;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.SelectiveHideIconForAlarmClock;
 
 public class SystemUI extends BaseModule {
 
@@ -68,8 +57,8 @@ public class SystemUI extends BaseModule {
         initHook(new BatteryIcon(), isHideBatteryIcon);
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
-        //状态栏网速
-        /*initHook(new NetworkSpeedAtRight(), mPrefsMap.getBoolean("system_ui_status_bar_network_speed_at_right"));*/
+        //网速指示器
+        initHook(new NetWorkSpeedExpand());
 
         //时钟指示器
         initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));

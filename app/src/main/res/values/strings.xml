@@ -679,5 +679,13 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Tip: Network speed values below this level are considered slow and a different indicator icon will be displayed</string>
     <string name="system_ui_statusbar_network_speed_font_size">Network speed font size</string>
     <string name="system_ui_statusbar_clock_show_second_desc">The status bar shows seconds</string>
+    <string name="system_ui_statusbar_network_speed_format_d_ms" translatable="false">%d ms</string>
+    <string name="system_ui_statusbar_network_speed_format_d_s" translatable="false">%d s</string>
+    <string name="system_ui_statusbar_network_speed_format_d_m" translatable="false">%d m</string>
+    <string name="system_ui_statusbar_network_speed_format_KBs" translatable="false">%d KB/s</string>
+    <string name="system_ui_statusbar_network_speed_oneKBs" translatable="false">1 KB/s</string>
+    <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
+    <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
+    <string name="system_ui_statusbar_network_speed_lux" translatable="false">%s lux</string>
 
 </resources>
