@@ -54,7 +54,7 @@ public class NetWorkSpeedExpand extends BaseHook {
         return new Pair<Long, Long>(tx, rx);
     }
 
-    //  网速隐藏 B/s 单位
+//  网速隐藏 B/s 单位
     @SuppressLint("DefaultLocale")
     private static String humanReadableByteCount(Context ctx, long bytes) {
         try {
@@ -83,17 +83,16 @@ public class NetWorkSpeedExpand extends BaseHook {
         Class<?> nscCls = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader);
 
 //      网速更新间隔
-
-            Helpers.findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, "postUpdateNetworkSpeedDelay", long.class, new MethodHook() {
-                @Override
-                protected void before(final MethodHookParam param) {
-                    long originInterval = (long) param.args[0];
-                    if (originInterval == 4000L) {
-                        long newInterval = mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 4) * 1000L;
-                        param.args[0] = newInterval;
-                    }
+        Helpers.findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, "postUpdateNetworkSpeedDelay", long.class, new MethodHook() {
+            @Override
+            protected void before(final MethodHookParam param) {
+                long originInterval = (long) param.args[0];
+                if (originInterval == 4000L) {
+                    long newInterval = mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 4) * 1000L;
+                    param.args[0] = newInterval;
                 }
-            });
+            }
+        });
 
 
 //      固定宽度以防相邻元素左右防抖
@@ -240,13 +239,13 @@ public class NetWorkSpeedExpand extends BaseHook {
 //                      水平对齐
                         int align = mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_align", 1);
                         switch (align) {
-                            case 2 :
+                            case 2:
                                 meter.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                                 break;
-                            case 3 :
+                            case 3:
                                 meter.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                 break;
-                            case 4 :
+                            case 4:
                                 meter.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                                 break;
                         }

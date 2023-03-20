@@ -70,6 +70,39 @@
     <string name="about_crwd">翻译</string>
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
 
+    <string name="array_default">默认</string>
+    <string name="array_align_left">左侧</string>
+    <string name="array_align_right">右侧</string>
+    <string name="array_align_center">居中</string>
+    <string name="array_netspeedicons_no">无图标</string>
+
+    <string name="array_global_actions_none">无动作</string>
+    <string name="array_global_actions_notif">打开通知中心</string>
+    <string name="array_global_actions_eqs">展开快速设置面板</string>
+    <string name="array_global_actions_lock">锁屏</string>
+    <string name="array_global_actions_sleep">熄屏</string>
+    <string name="array_global_actions_screenshot">截屏</string>
+    <string name="array_global_actions_menu">打开菜单</string>
+    <string name="array_global_actions_recents">打开最近</string>
+    <string name="array_global_actions_volume">打开音量对话框</string>
+    <string name="array_global_actions_volume_up">提高音量</string>
+    <string name="array_global_actions_volume_down">降低音量</string>
+    <string name="array_global_actions_launch">启动应用</string>
+    <string name="array_global_actions_launch_choose">选择应用</string>
+    <string name="array_global_actions_shortcut">启动快捷方式</string>
+    <string name="array_global_actions_activity">启动活动</string>
+    <string name="array_global_actions_toggle">切换功能</string>
+    <string name="array_global_actions_back">切换到上一个应用</string>
+    <string name="array_global_actions_forceclose">强制关闭当前应用</string>
+    <string name="array_global_actions_powermenu">打开电源菜单</string>
+    <string name="array_global_actions_powermenu_short">电源菜单</string>
+    <string name="array_global_actions_clearmemory">清理内存</string>
+    <string name="array_global_actions_invertcolors">颜色反转</string>
+    <string name="array_global_actions_switchkeyboard">切换键盘</string>
+    <string name="array_global_actions_goback">返回</string>
+    <string name="array_global_actions_onehanded_left">单手模式(左)</string>
+    <string name="array_global_actions_onehanded_right">单手模式(右)</string>
+
     <string name="settings_data_title">备份与恢复</string>
     <string name="settings_bug_title">故障排查</string>
     <string name="settings_debug_title">调试模式</string>
@@ -478,21 +511,33 @@
     <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_qs_label">快捷开关标签</string>
 
-    <string name="system_ui_statusbar_indicator_default_title">常规</string>
-    <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
-
     <string name="system_ui_statusbar_iconmanage_title">图标管理</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器管理</string>
     <string name="system_ui_statusbar_clock_title">时钟指示器管理</string>
-    <string name="system_ui_statusbar_clock_show_second">显示秒</string>
-    <string name="system_ui_statusbar_clock_show_second_desc">状态栏显示秒钟</string>
+
+    <string name="system_ui_statusbar_indicator_default_title">常规</string>
+    <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
+    <string name="system_ui_statusbar_indicator_left_margin">左侧间距</string>
+    <string name="system_ui_statusbar_indicator_right_margin">右侧间距</string>
+    <string name="system_ui_statusbar_indicator_vertical_offset">上下偏移量</string>
+    <string name="system_ui_statusbar_indicator_align">水平对齐</string>
+    <string name="system_ui_statusbar_indicator_bold">加粗</string>
 
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">网速字体大小</string>
+    <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>
+    <string name="system_ui_statusbar_network_speed_detailed">上下行网速双排显示</string>
+    <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
     <string name="system_ui_statusbar_network_speed_hide">隐藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">注：网速值低于该水平时被认为慢，并会显示不同的指示器图标</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 B/s 单位</string>
+    <string name="system_ui_statusbar_network_speed_fixedcontent_width">固定宽度防止相邻元素左右防抖</string>
+    <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
+
+    <string name="system_ui_statusbar_clock_show_second">显示秒</string>
+    <string name="system_ui_statusbar_clock_show_second_desc">状态栏显示秒钟</string>
 
     <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>
@@ -640,33 +685,6 @@
     <string name="app_sort_storage">存储占用</string>
     <string name="app_sort_install">安装时间</string>
 
-    <string name="array_global_actions_none">无动作</string>
-    <string name="array_global_actions_notif">打开通知中心</string>
-    <string name="array_global_actions_eqs">展开快速设置面板</string>
-    <string name="array_global_actions_lock">锁屏</string>
-    <string name="array_global_actions_sleep">熄屏</string>
-    <string name="array_global_actions_screenshot">截屏</string>
-    <string name="array_global_actions_menu">打开菜单</string>
-    <string name="array_global_actions_recents">打开最近</string>
-    <string name="array_global_actions_volume">打开音量对话框</string>
-    <string name="array_global_actions_volume_up">提高音量</string>
-    <string name="array_global_actions_volume_down">降低音量</string>
-    <string name="array_global_actions_launch">启动应用</string>
-    <string name="array_global_actions_launch_choose">选择应用</string>
-    <string name="array_global_actions_shortcut">启动快捷方式</string>
-    <string name="array_global_actions_activity">启动活动</string>
-    <string name="array_global_actions_toggle">切换功能</string>
-    <string name="array_global_actions_back">切换到上一个应用</string>
-    <string name="array_global_actions_forceclose">强制关闭当前应用</string>
-    <string name="array_global_actions_powermenu">打开电源菜单</string>
-    <string name="array_global_actions_powermenu_short">电源菜单</string>
-    <string name="array_global_actions_clearmemory">清理内存</string>
-    <string name="array_global_actions_invertcolors">颜色反转</string>
-    <string name="array_global_actions_switchkeyboard">切换键盘</string>
-    <string name="array_global_actions_goback">返回</string>
-    <string name="array_global_actions_onehanded_left">单手模式(左)</string>
-    <string name="array_global_actions_onehanded_right">单手模式(右)</string>
-
     <string name="unlimited">无限制</string>
 
     <string name="array_align_top">顶部</string>
@@ -691,8 +709,6 @@
     <string name="calls">通话</string>
     <string name="system_volume">系统</string>
     <string name="notification_volume">通知</string>
-
-    <string name="array_default">默认</string>
 
     <string name="show_newmods_title">标记新模块</string>
 
