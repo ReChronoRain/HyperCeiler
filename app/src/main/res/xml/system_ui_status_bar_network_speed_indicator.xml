@@ -31,8 +31,8 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_align"
             android:title="@string/system_ui_statusbar_indicator_align"
             android:defaultValue="1"
-            app:entries="@array/system_ui_status_bar_network_horizontal_align"
-            app:entryValues="@array/system_ui_status_bar_network_horizontal_align_value" />
+            app:entries="@array/system_ui_status_bar_horizontal_align"
+            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
         <SwitchPreference
             android:defaultValue="false"
