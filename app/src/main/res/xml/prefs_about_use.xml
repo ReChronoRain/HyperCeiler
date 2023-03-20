@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/about_use_desc">
+    <PreferenceCategory>
+        <Preference
+                android:summary="@string/about_use_desc"/>
         <Preference
                 android:title="Miui Feature"
                 android:summary="MoralNorm">
