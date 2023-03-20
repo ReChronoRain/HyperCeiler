@@ -691,7 +691,7 @@
     <string name="array_align_left">Left</string>
     <string name="array_align_right">Right</string>
     <string name="array_align_center">Centered</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (/s)</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (*B/s)</string>
     <string name="array_netspeedicons_no">No icons</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
     <string name="system_ui_statusbar_indicator_align">Horizontal alignment</string>

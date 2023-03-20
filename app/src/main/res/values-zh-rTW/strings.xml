@@ -682,7 +682,7 @@
     <string name="array_align_left">左側</string>
     <string name="array_align_right">右側</string>
     <string name="array_align_center">居中</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 /s 單位</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *B/s 單位</string>
     <string name="array_netspeedicons_no">無圖示</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
     <string name="system_ui_statusbar_indicator_align">水平對齊</string>
