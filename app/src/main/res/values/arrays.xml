@@ -377,14 +377,14 @@
         <item>4</item>
     </string-array>
 
-    <string-array name="system_ui_status_bar_network_horizontal_align">
+    <string-array name="system_ui_status_bar_horizontal_align">
         <item>@string/array_default</item>
         <item>@string/array_align_left</item>
         <item>@string/array_align_center</item>
         <item>@string/array_align_right</item>
     </string-array>
 
-    <string-array name="system_ui_status_bar_network_horizontal_align_value">
+    <string-array name="system_ui_status_bar_horizontal_align_value">
         <item>1</item>
         <item>2</item>
         <item>3</item>

@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory
-        android:title="@string/system_ui_statusbar_indicator_default_title">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_system_ui_statusbar_clock_show_second"
-        android:title="@string/system_ui_statusbar_clock_show_second"
-        android:summary="@string/system_ui_statusbar_clock_show_second_desc"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_clock_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_clock_show_second"
+            android:summary="@string/system_ui_statusbar_clock_show_second_desc"
+            android:title="@string/system_ui_statusbar_clock_show_second" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
+
+        <DropDownPreference
+            android:defaultValue="1"
+            android:key="prefs_key_system_ui_statusbar_clock_align"
+            android:title="@string/system_ui_statusbar_indicator_align"
+            app:entries="@array/system_ui_status_bar_horizontal_align"
+            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
+
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:defaultValue="8"
+            android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            app:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 </PreferenceScreen>
