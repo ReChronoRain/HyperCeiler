@@ -687,5 +687,6 @@
     <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
     <string name="system_ui_statusbar_network_speed_lux" translatable="false">%s lux</string>
+    <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU related settings in the bottom middle of [Game Space]</string>
 
 </resources>

@@ -672,4 +672,11 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">注：網速值低於該水平時被認為慢，並會顯示不同的指示器圖標</string>
     <string name="home_title_title_color">文本顏色</string>
     <string name="system_ui_statusbar_clock_show_second_desc">狀態欄顯示秒鐘</string>
+    <string name="mediaeditor_filter_manager">解鎖大師濾鏡</string>
+    <string name="system_framework_other_speed_install">快速安裝</string>
+    <string name="system_framework_other_speed_install_desc">安裝至運行記憶體以提升安裝速度，需要系統底層支持</string>
+    <string name="various_install_app_size">應用程式大小</string>
+    <string name="home_other_use_edit_color">使用自定義顏色</string>
+    <string name="home_other_your_color">編輯顏色</string>
+    <string name="joyose_enable_gpu_tuner_desc">開啟後 [遊戲空間] 的底部中間增加遊戲 GPU 相關設置</string>
 </resources>
