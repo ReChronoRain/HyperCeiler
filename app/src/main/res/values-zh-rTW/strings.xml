@@ -694,4 +694,5 @@
     <string name="home_other_use_edit_color">使用自定義顏色</string>
     <string name="home_other_your_color">編輯顏色</string>
     <string name="joyose_enable_gpu_tuner_desc">開啟後 [遊戲空間] 的底部中間增加遊戲 GPU 相關設置</string>
+    <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
 </resources>

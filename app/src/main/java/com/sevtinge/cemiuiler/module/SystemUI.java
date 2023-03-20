@@ -58,7 +58,9 @@ public class SystemUI extends BaseModule {
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器
-        initHook(new NetWorkSpeedExpand());
+        initHook(new NetworkSpeed());
+        initHook(new NetworkSpeedSpacing());
+        initHook(new NetworkSpeedUnit());
 
         //时钟指示器
         initHook(new ClockShowSecond());
