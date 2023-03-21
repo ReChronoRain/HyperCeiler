@@ -705,7 +705,9 @@
     <string name="camera_features_unlock_cosmetic_mirror">Unlock Pocket mirror</string>
     <string name="camera_features_unlock_doc">Unlock Document mode</string>
     <string name="camera_features_unlock_dualcam">Unlock Dual camera</string>
-    <string name="camera_features_unlock_duration">Unlock Duration</string><string name="camera_features_unlock_idcard">Unlock ID Card mode</string>
+    <string name="camera_features_unlock_duration">Unlock Duration</string>
+    <string name="camera_features_unlock_idcard">Unlock ID Card mode</string>
+    <string name="camera_features_unlock_milive">Unlock Short videos</string>
 
 
 </resources>

@@ -44,6 +44,11 @@
                 android:key="prefs_key_camera_features_unlock_duration"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_milive"
+                android:key="prefs_key_camera_features_unlock_milive"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
