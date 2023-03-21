@@ -27,5 +27,6 @@ public class Camera extends BaseModule {
         initHook(new UnlockFilm(), mPrefsMap.getBoolean("camera_features_unlock_film"));
         initHook(new UnlockFilmDelay(), mPrefsMap.getBoolean("camera_features_unlock_film_delay"));
         initHook(new UnlockFilmDollyZoom(), mPrefsMap.getBoolean("camera_features_unlock_film_dollyzoom"));
+        initHook(new UnlockFilmDream(), mPrefsMap.getBoolean("camera_features_unlock_film_dream"));
     }
 }
