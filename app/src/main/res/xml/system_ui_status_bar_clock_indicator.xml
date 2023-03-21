@@ -8,59 +8,120 @@
             android:key="prefs_key_system_ui_statusbar_clock_bold"
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_clock_show_second"
-            android:summary="@string/system_ui_statusbar_clock_show_second_desc"
-            android:title="@string/system_ui_statusbar_clock_show_second" />
-
-    </PreferenceCategory>
+   </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
 
         <SwitchPreference
+            android:defaultValue="1"
+            android:disableDependentsState="true"
+            android:key="prefs_key_system_ui_statusbar_clock_default"
+            android:title="@string/system_ui_statusbar_clock_default" />
+
+        <SwitchPreference
+            android:defaultValue="0"
+            android:disableDependentsState="true"
+            android:key="prefs_key_system_ui_statusbar_clock_geek"
+            android:title="@string/system_ui_statusbar_clock_geek" />
+
+        <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_clock_diy_status"
-            android:title="@string/system_ui_statusbar_clock_diy_title" />
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_year"
+            android:title="@string/system_ui_statusbar_clock_year" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_month"
+            android:title="@string/system_ui_statusbar_clock_month" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_date"
+            android:title="@string/system_ui_statusbar_clock_date" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_week"
+            android:title="@string/system_ui_statusbar_clock_week" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_hour_cn"
+            android:title="@string/system_ui_statusbar_clock_hour_cn" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_period"
+            android:title="@string/system_ui_statusbar_clock_period" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_second"
+            android:title="@string/system_ui_statusbar_clock_second" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_hide_space"
+            android:title="@string/system_ui_statusbar_clock_hide_space" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_double"
+            android:title="@string/system_ui_statusbar_clock_double" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_double_center"
+            android:title="@string/system_ui_statusbar_clock_double_center" />
+
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_size"
+            android:title="@string/system_ui_statusbar_clock_size"
+            app:format="%s dp"
+            app:maxValue="18"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_clock_geek"
+            android:key="prefs_key_system_ui_statusbar_clock_double_size"
+            android:title="@string/system_ui_statusbar_clock_double_size"
+            app:format="%s dp"
+            app:maxValue="9"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
         <EditTextPreference
-            android:title="@string/system_ui_statusbar_clock_diy"
-            android:summary="@string/system_ui_statusbar_clock_diy_desc"
-            android:maxLines="2"
-            android:dependency="prefs_key_system_ui_statusbar_clock_diy_status"
-            android:key="prefs_key_system_ui_statusbar_clock_diy"/>
+            android:title="@string/system_ui_statusbar_clock_editor"
+            android:key="prefs_key_system_ui_statusbar_clock_editor"
+            android:dependency="prefs_key_system_ui_statusbar_clock_default"/>
 
-        <DropDownPreference
-            android:defaultValue="1"
-            android:key="prefs_key_system_ui_statusbar_clock_align"
-            android:title="@string/system_ui_statusbar_indicator_align"
-            app:entries="@array/system_ui_status_bar_horizontal_align"
-            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_default"
+            android:key="prefs_key_system_ui_statusbar_clock_double_center_geek"
+            android:title="@string/system_ui_statusbar_clock_double_center" />
 
         <SeekBarPreference
             android:defaultValue="0"
-            android:key="prefs_key_system_ui_statusbar_clock_left_margin"
-            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            android:dependency="prefs_key_system_ui_statusbar_clock_default"
+            android:key="prefs_key_system_ui_statusbar_clock_size_geek"
+            android:title="@string/system_ui_statusbar_clock_size"
             app:format="%s dp"
-            app:maxValue="10"
-            app:minValue="0"
-            app:showSeekBarValue="true" />
-
-        <SeekBarPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_statusbar_clock_right_margin"
-            android:title="@string/system_ui_statusbar_indicator_right_margin"
-            app:format="%s dp"
-            app:maxValue="10"
-            app:minValue="0"
-            app:showSeekBarValue="true" />
-
-        <SeekBarPreference
-            android:defaultValue="8"
-            android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
-            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
-            app:format="%s dp"
-            app:maxValue="16"
+            app:maxValue="18"
             app:minValue="0"
             app:showSeekBarValue="true" />
 

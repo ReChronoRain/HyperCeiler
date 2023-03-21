@@ -291,7 +291,6 @@
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_statusbar_iconmanage_title">Icon management</string>
     <string name="system_ui_statusbar_clock_title">Clock indicator management</string>
-    <string name="system_ui_statusbar_clock_show_second">Show seconds</string>
     <string name="system_ui_status_bar_battery_indicator_enable">Activate</string>
     <string name="system_ui_status_bar_battery_indicator_centered">Centered</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">Rounded corners</string>
@@ -696,7 +695,6 @@
     <string name="array_netspeedicons_no">No icons</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
     <string name="system_ui_statusbar_indicator_align">Horizontal alignment</string>
-    <string name="system_ui_statusbar_clock_show_second_desc">The status bar shows seconds</string>
     <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU related settings in the bottom middle of [Game Space]</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms" translatable="false">%d ms</string>
     <string name="system_ui_statusbar_network_speed_format_d_s" translatable="false">%d s</string>
@@ -722,9 +720,6 @@
     <string name="camera_features_unlock_duration">Unlock Duration</string>
     <string name="camera_features_unlock_idcard">Unlock ID Card mode</string>
     <string name="camera_features_unlock_milive">Unlock Short videos</string>
-    <string name="system_ui_statusbar_clock_diy_title">Enable custom formats</string>
-    <string name="system_ui_statusbar_clock_diy">Set format</string>
-    <string name="system_ui_statusbar_clock_diy_desc">Can enter newline，content after 2 lines will be truncated\n        \nyyyy - four-digit year(2023)       \nyy - two-digit year(23)      \nMM - two-digit month(02、12)      \nM - one-digit month(2、12)       \ndd - two-digit day(02、23)       \nd - one-digit day(2、23)       \nE - short week(Sun)\na - AM、PM        \nHH - 24-hour two-digit hour(09、14)        \nH - 24-hour one-digit hour(9、14)        \nhh - 12-hour two-digit hour(09、02)      \nh - 12-hour one-digit hour(9、2)\nmm - two-digit minute(09)\nss - two-digit second(09)</string>
     <string name="camera_features_unlock_moon">Unlock Super-moon mode</string>
     <string name="camera_features_unlock_pano">Unlock Panorama mode</string>
     <string name="camera_features_unlock_pixel">Unlock Pixel mode</string>
@@ -740,4 +735,22 @@
     <string name="camera_features_unlock_film_slowshutter">Unlock Slow shutter</string>
     <string name="camera_features_unlock_film_timebackflow">Unlock Time back-flow</string>
     <string name="camera_features_unlock_film_timefreeze">Unlock Time freeze</string>
+    <string name="array_clock_geek">Geek</string>
+    <string name="system_ui_statusbar_clock_period">Show clock period</string>
+    <string name="system_ui_statusbar_clock_editor">Clock format</string>
+    <string name="system_ui_statusbar_clock_double_size">Double row size (0 means no modification)</string>
+    <string name="system_ui_statusbar_clock_size">Clock size (0 means no modification)</string>
+    <string name="system_ui_statusbar_clock_second">Show seconds</string>
+    <string name="system_ui_statusbar_clock_year">Show year</string>
+    <string name="system_ui_statusbar_clock_month">Show month</string>
+    <string name="system_ui_statusbar_clock_date">Show day</string>
+    <string name="system_ui_statusbar_clock_week">Show week</string>
+    <string name="system_ui_statusbar_clock_hour_cn">Show double hour</string>
+    <string name="system_ui_statusbar_clock_hide_space">Hide space</string>
+    <string name="system_ui_statusbar_clock_double">Show double</string>
+    <string name="system_ui_statusbar_clock_double_center">Double row center alignment</string>
+    <string name="array_clock_close">Close</string>
+    <string name="array_clock_default">Default</string>
+    <string name="system_ui_statusbar_clock_geek">Geek mode</string>
+    <string name="system_ui_statusbar_clock_default">Default mode</string>
 </resources>
