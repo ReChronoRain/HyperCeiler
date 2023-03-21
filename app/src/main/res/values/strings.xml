@@ -717,5 +717,6 @@
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
     <string name="camera_features_unlock_cosmetic_mirror">Unlock Pocket mirror</string>
+    <string name="camera_features_unlock_doc">Unlock Document mode</string>
 
 </resources>
