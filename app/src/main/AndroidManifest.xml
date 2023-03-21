@@ -149,6 +149,8 @@
 
         <activity android:label="@string/mms" android:name=".ui.MmsActivity"/>
 
+        <activity android:label="@string/camera" android:name=".ui.CameraActivity"/>
+
         <activity android:label="@string/system_ui_plugin" android:name=".ui.SystemUIPluginActivity"/>
 
         <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/camera_features_title">
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_aiwatermark"
+                android:key="prefs_key_camera_features_unlock_aiwatermark"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_ambilight"
+                android:key="prefs_key_camera_features_unlock_ambilight"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_clone"
+                android:key="prefs_key_camera_features_unlock_clone"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_cosmetic_mirror"
+                android:key="prefs_key_camera_features_unlock_cosmetic_mirror"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_doc"
+                android:key="prefs_key_camera_features_unlock_doc"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_dualcam"
+                android:key="prefs_key_camera_features_unlock_dualcam"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_duration"
+                android:key="prefs_key_camera_features_unlock_duration"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

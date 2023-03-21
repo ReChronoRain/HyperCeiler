@@ -4,6 +4,7 @@
     <string-array name="xposed_scope">
         <item>android</item>
         <item>com.android.browser</item>
+        <item>com.android.camera</item>
         <item>com.android.deskclock</item>
         <item>com.android.externalstorage</item>
         <item>com.android.fileexplorer</item>
