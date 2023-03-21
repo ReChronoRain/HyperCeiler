@@ -23,5 +23,6 @@ public class Camera extends BaseModule {
         initHook(new UnlockSlow(), mPrefsMap.getBoolean("camera_features_unlock_slow"));
         initHook(new UnlockVideosky(), mPrefsMap.getBoolean("camera_features_unlock_videosky"));
         initHook(new UnlockVlog(), mPrefsMap.getBoolean("camera_features_unlock_vlog"));
+        initHook(new UnlockVlogPro(), mPrefsMap.getBoolean("camera_features_unlock_vlog_pro"));
     }
 }
