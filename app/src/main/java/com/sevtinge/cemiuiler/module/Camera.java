@@ -16,5 +16,6 @@ public class Camera extends BaseModule {
         initHook(new UnlockDuration(), mPrefsMap.getBoolean("camera_features_unlock_duration"));
         initHook(new UnlockIdcard(), mPrefsMap.getBoolean("camera_features_unlock_idcard"));
         initHook(new UnlockMilive(), mPrefsMap.getBoolean("camera_features_unlock_milive"));
+        initHook(new UnlockMoon(), mPrefsMap.getBoolean("camera_features_unlock_moon"));
     }
 }
