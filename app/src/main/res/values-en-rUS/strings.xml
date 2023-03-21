@@ -717,4 +717,5 @@
     <string name="camera_features_unlock_portrait">Unlock Portrait mode</string>
     <string name="camera_features_unlock_slow">Unlock Slow motion</string>
     <string name="camera_features_unlock_videosky">Unlock Video-sky</string>
+    <string name="camera_features_unlock_vlog">Unlock Vlog</string>
 </resources>

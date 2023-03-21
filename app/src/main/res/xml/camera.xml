@@ -81,6 +81,11 @@
                 android:defaultValue="false"
                 app:isPreferenceVisible="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_vlog"
+                android:key="prefs_key_camera_features_unlock_vlog"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
