@@ -11,5 +11,11 @@ public class UnlockVlogPro extends BaseHook {
                 param.setResult(true);
             }
         });
+        findAndHookMethod("com.android.camera.features.mode.more.vlogpro.MoreVlogProModuleEntry", "support", new BaseHook.MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
     }
 }
