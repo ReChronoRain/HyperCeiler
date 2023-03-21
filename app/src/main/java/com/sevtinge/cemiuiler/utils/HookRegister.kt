@@ -10,7 +10,7 @@ abstract class HookRegister {
         lpparam = loadPackageParam
     }
 
-    protected fun getLoadPackageParam(): XC_LoadPackage.LoadPackageParam {
+    private fun getLoadPackageParam(): XC_LoadPackage.LoadPackageParam {
         if (!this::lpparam.isInitialized) {
             throw RuntimeException("lpparam should be initialized")
         }

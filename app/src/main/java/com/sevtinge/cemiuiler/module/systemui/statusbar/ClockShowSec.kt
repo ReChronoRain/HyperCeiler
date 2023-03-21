@@ -17,15 +17,6 @@ import java.util.*
 
 object ClockShowSec : BaseHook() {
 
-    private val miuiClockClassR: Class<*> = XposedHelpers.findClassIfExists(
-        "com.android.systemui.statusbar.policy.MiuiClock",
-        lpparam.classLoader
-    )
-    private val miuiClockClass: Class<*> = XposedHelpers.findClassIfExists(
-    "com.android.systemui.statusbar.policy.MiuiStatusBarClockController",
-    lpparam.classLoader
-    )
-
     private fun getShowSeconds(): Boolean {
         val sbShowSeconds: Boolean = mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second")
         val customFormat: String = mPrefsMap.getString("system_ui_statusbar_clock_diy", "")
@@ -96,27 +87,21 @@ object ClockShowSec : BaseHook() {
             }
         }
 //      状态栏显秒
-        Helpers.hookAllConstructors(
-            miuiClockClass,
-            scheduleHook
-        )
         if (!SdkHelper.isAndroidR()) {
-            Helpers.findAndHookMethod(
-                miuiClockClass,
-                "fireTimeChange",
-                object : MethodHook() {
+            val miuiClockClass: Class<*> = XposedHelpers.findClassIfExists(
+                "com.android.systemui.statusbar.policy.MiuiStatusBarClockController",
+                lpparam.classLoader
+            )
+            Helpers.hookAllConstructors(miuiClockClass, scheduleHook)
+            Helpers.findAndHookMethod(miuiClockClass, "fireTimeChange", object : MethodHook() {
                     @Throws(Throwable::class)
                     override fun before(param: MethodHookParam) {
                         val clockController = param.thisObject
-                        val mClockListeners = XposedHelpers.getObjectField(
-                            clockController,
-                            "mClockListeners"
-                        ) as ArrayList<*>
+                        val mClockListeners = XposedHelpers.getObjectField(clockController, "mClockListeners") as ArrayList<*>
                         val it: Iterator<Any> = mClockListeners.iterator()
                         while (it.hasNext()) {
                             val clock = it.next()
-                            val showSeconds =
-                                XposedHelpers.getAdditionalInstanceField(clock, "showSeconds")
+                            val showSeconds = XposedHelpers.getAdditionalInstanceField(clock, "showSeconds")
                             if (showSeconds == null) {
                                 XposedHelpers.callMethod(clock, "onTimeChange")
                             }
@@ -126,6 +111,10 @@ object ClockShowSec : BaseHook() {
                 }
             )
         } else {
+            val miuiClockClassR: Class<*> = XposedHelpers.findClassIfExists(
+                "com.android.systemui.statusbar.policy.MiuiClock",
+                lpparam.classLoader
+            )
             Helpers.findAndHookMethod(miuiClockClassR, "updateTime", object : MethodHook() {
                 @Throws(Throwable::class)
                 override fun after(param: MethodHookParam) {
