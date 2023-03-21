@@ -737,4 +737,6 @@
     <string name="camera_features_unlock_film_delay">Unlock Long-exp</string>
     <string name="camera_features_unlock_film_dollyzoom">Unlock Dolly zoom</string>
     <string name="camera_features_unlock_film_dream">Unlock Dream</string>
+    <string name="camera_features_unlock_film_slowshutter">Unlock Slow shutter</string>
+    <string name="camera_features_unlock_film_timebackflow">Unlock Time Back-flow</string>
 </resources>
