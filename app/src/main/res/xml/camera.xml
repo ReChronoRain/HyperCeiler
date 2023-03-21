@@ -2,9 +2,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/camera_features_title">
+
         <SwitchPreference
                 android:title="@string/camera_features_unlock_aiwatermark"
                 android:key="prefs_key_camera_features_unlock_aiwatermark"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_ambilight"
+                android:key="prefs_key_camera_features_unlock_ambilight"
                 android:defaultValue="false"/>
 
     </PreferenceCategory>
