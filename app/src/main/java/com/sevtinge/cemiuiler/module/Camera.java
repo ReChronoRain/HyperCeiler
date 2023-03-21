@@ -13,5 +13,6 @@ public class Camera extends BaseModule {
         initHook(new UnlockCosmeticMirror(), mPrefsMap.getBoolean("camera_features_unlock_cosmetic_mirror"));
         initHook(new UnlockDoc(), mPrefsMap.getBoolean("camera_features_unlock_doc"));
         initHook(new UnlockDualcam(), mPrefsMap.getBoolean("camera_features_unlock_dualcam"));
+        initHook(new UnlockDuration(), mPrefsMap.getBoolean("camera_features_unlock_duration"));
     }
 }
