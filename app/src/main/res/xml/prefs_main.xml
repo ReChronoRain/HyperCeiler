@@ -208,6 +208,15 @@
         </Preference>
 
         <Preference
+                android:title="@string/camera"
+                android:key="prefs_key_camera"
+                android:icon="@drawable/ic_camera">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.CameraActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/aireco"
                 android:key="prefs_key_aireco"
                 android:icon="@drawable/ic_suggestion">

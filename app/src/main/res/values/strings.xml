@@ -17,6 +17,7 @@
     <string name="home">System launcher</string>
     <string name="aireco">AI Reco</string>
     <string name="browser">Browser</string>
+    <string name="camera">Camera</string>
     <string name="clock">Clock</string>
     <string name="gallery">Gallery</string>
     <string name="guard_provider">MIUI security components</string>
@@ -711,5 +712,7 @@
     <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_arrows_long1" translatable="false">↑ ↓</string>
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
+    <string name="camera_features_title">Features</string>
+    <string name="camera_features_unlock_aiwatermark">Unlock AI Watermark</string>
 
 </resources>

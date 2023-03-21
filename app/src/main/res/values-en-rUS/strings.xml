@@ -17,6 +17,7 @@
     <string name="aireco">AI reco</string>
     <string name="browser">Browser</string>
     <string name="clock">Clock</string>
+    <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="guard_provider">MIUI security components</string>
     <string name="incallui">Phone</string>
@@ -697,5 +698,7 @@
     <string name="system_ui_statusbar_clock_show_second_desc">The status bar shows seconds</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU related settings in the bottom middle of [Game Space]</string>
+    <string name="camera_features_title">Features</string>
+    <string name="camera_features_unlock_aiwatermark">Unlock AI Watermark</string>
 
 </resources>

@@ -29,6 +29,7 @@
     <string name="aireco">小爱建议</string>
     <string name="browser">浏览器</string>
     <string name="clock">时钟</string>
+    <string name="camera">相机</string>
     <string name="gallery">相册</string>
     <string name="guard_provider">MIUI安全组件</string>
     <string name="incallui">电话</string>
@@ -122,6 +123,9 @@
     <string name="browser_debug_mode">开发者选项</string>
 
     <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
+
+    <string name="camera_features_title">功能</string>
+    <string name="camera_features_unlock_aiwatermark">解锁 AI 水印</string>
 
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
