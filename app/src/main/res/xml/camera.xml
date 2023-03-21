@@ -96,6 +96,12 @@
                 android:key="prefs_key_camera_features_unlock_film"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_film_delay"
+                android:key="prefs_key_camera_features_unlock_film_delay"
+                android:dependency="prefs_key_camera_features_unlock_film"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

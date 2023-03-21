@@ -143,6 +143,7 @@
     <string name="camera_features_unlock_vlog">解锁 Vlog</string>
     <string name="camera_features_unlock_vlog_pro">解锁 Vlog Pro</string>
     <string name="camera_features_unlock_film">解锁电影镜头</string>
+    <string name="camera_features_unlock_film_delay">解锁长曝光延时</string>
 
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
