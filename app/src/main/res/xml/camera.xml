@@ -28,6 +28,11 @@
                 android:key="prefs_key_camera_features_unlock_doc"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_dualcam"
+                android:key="prefs_key_camera_features_unlock_dualcam"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

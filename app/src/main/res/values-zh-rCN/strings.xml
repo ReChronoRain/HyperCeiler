@@ -130,6 +130,7 @@
     <string name="camera_features_unlock_clone">解锁魔法分身</string>
     <string name="camera_features_unlock_cosmetic_mirror">解锁化妆镜</string>
     <string name="camera_features_unlock_doc">解锁文档</string>
+    <string name="camera_features_unlock_dualcam">解锁前后双景</string>
 
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
