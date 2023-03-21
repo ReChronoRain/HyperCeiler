@@ -540,6 +540,9 @@
 
     <string name="system_ui_statusbar_clock_show_second">显示秒</string>
     <string name="system_ui_statusbar_clock_show_second_desc">状态栏显示秒钟</string>
+    <string name="system_ui_statusbar_clock_diy_title">开启自定义格式</string>
+    <string name="system_ui_statusbar_clock_diy">设置格式</string>
+    <string name="system_ui_statusbar_clock_diy_desc">回车换行，超过2行会被截断\n        \nyy/M/d N月e E a aaH:mm I时 → 23/2/23 二月初四 周一 下午 傍晚18:08 酉时\n              \nyyyy - 4位年份 (2023)       \nyy - 2位年份 (23)        \nMM - 补0月份 (02、12)     \nM - 月份 (2、12)       \nN - 农历月份 (正、二)     \ndd - 补0日期 (02、23)     \nd - 日期 (2、23)     \ne - 农历日期 (初十、十九)      \nE - 星期 (周三)      \na - 时段 (上午、下午)     \naa - 精确时段 (傍晚、凌晨等)      \nHH - 24小时制补0小时 (09、14)      \nH - 24小时制小时 (9、14)     \nhh - 12小时制补0小时 (09、02)      \nh - 12小时制小时 (9、2)      \nmm - 补0分钟 (09)       \nss - 补0秒数 (09)       \nI - 时辰 (卯、亥)</string>
 
     <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>

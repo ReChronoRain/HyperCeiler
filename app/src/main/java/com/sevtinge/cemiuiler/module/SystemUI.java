@@ -58,12 +58,12 @@ public class SystemUI extends BaseModule {
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器
-        initHook(new NetworkSpeed());
-        initHook(new NetworkSpeedSpacing());
-        initHook(new NetworkSpeedUnit());
+        initHook(NetworkSpeed.INSTANCE);
+        initHook(NetworkSpeedSpacing.INSTANCE);
+        initHook(NetworkSpeedUnit.INSTANCE);
 
         //时钟指示器
-        initHook(new ClockShowSecond());
+        initHook(ClockShowSec.INSTANCE);
 
         //居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");

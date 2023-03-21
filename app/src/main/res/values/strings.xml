@@ -711,5 +711,7 @@
     <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_arrows_long1" translatable="false">↑ ↓</string>
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
-
+    <string name="system_ui_statusbar_clock_diy_title">Enable custom formats</string>
+    <string name="system_ui_statusbar_clock_diy">Set format</string>
+    <string name="system_ui_statusbar_clock_diy_desc">Can enter newline，content after 2 lines will be truncated\n        \nyyyy - four-digit year(2023)       \nyy - two-digit year(23)      \nMM - two-digit month(02、12)      \nM - one-digit month(2、12)       \ndd - two-digit day(02、23)       \nd - one-digit day(2、23)       \nE - short week(Sun)\na - AM、PM        \nHH - 24-hour two-digit hour(09、14)        \nH - 24-hour one-digit hour(9、14)        \nhh - 12-hour two-digit hour(09、02)      \nh - 12-hour one-digit hour(9、2)\nmm - two-digit minute(09)\nss - two-digit second(09)</string>
 </resources>

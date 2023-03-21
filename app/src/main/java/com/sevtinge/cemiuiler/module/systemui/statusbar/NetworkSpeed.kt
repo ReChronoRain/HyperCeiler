@@ -16,7 +16,7 @@ import java.net.NetworkInterface
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-class NetworkSpeed : BaseHook() {
+object NetworkSpeed : BaseHook() {
     private var measureTime: Long = 0
     private var txBytesTotal: Long = 0
     private var rxBytesTotal: Long = 0
@@ -172,21 +172,27 @@ class NetworkSpeed : BaseHook() {
                                 .toInt()
                         var txarrow = ""
                         var rxarrow = ""
-                        if (icons == 2) {
-                            txarrow = if (txSpeed < lowLevel) "△" else "▲"
-                            rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
-                        } else if (icons == 3) {
-                            txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                            rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
-                        } else if (icons == 4) {
-                            txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                            rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
-                        } else if (icons == 5) {
-                            txarrow = if (txSpeed < lowLevel) "↑" else "↑"
-                            rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                        } else if (icons == 6) {
-                            txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                            rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                        when (icons) {
+                            2 -> {
+                                txarrow = if (txSpeed < lowLevel) "△" else "▲"
+                                rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
+                            }
+                            3 -> {
+                                txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
+                                rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                            }
+                            4 -> {
+                                txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
+                                rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                            }
+                            5 -> {
+                                txarrow = if (txSpeed < lowLevel) "↑" else "↑"
+                                rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
+                            }
+                            6 -> {
+                                txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
+                                rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                            }
                         }
                         val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
                             mContext,

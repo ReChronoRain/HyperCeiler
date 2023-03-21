@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
-class NetworkSpeedUnit : BaseHook() {
+object NetworkSpeedUnit : BaseHook() {
     override fun init() {
         hookAllConstructors(
             "com.android.systemui.statusbar.views.NetworkSpeedView",
@@ -18,7 +18,7 @@ class NetworkSpeedUnit : BaseHook() {
                                 || mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow"))
                     val meter = param.thisObject as TextView
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
-                        var fontSize =
+                        val fontSize =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
                         /*if (dualRow) {
                             if (fontSize > 23 || fontSize == 13) fontSize = 16

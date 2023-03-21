@@ -696,4 +696,7 @@
     <string name="home_other_your_color">編輯顏色</string>
     <string name="joyose_enable_gpu_tuner_desc">開啟後 [遊戲空間] 的底部中間增加遊戲 GPU 相關設置</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
+    <string name="system_ui_statusbar_clock_diy_title">開啟自定義格式</string>
+    <string name="system_ui_statusbar_clock_diy">設定格式</string>
+    <string name="system_ui_statusbar_clock_diy_desc">回車換行，超過2行會被截斷 \n\nyy/M/d N月e E a aaH:mm I時→23/2/23二月初四週一下午傍晚18:08酉時\n\nyyyy - 4比特年份（2023）\nyy - 2比特年份（23）\nMM - 補0月份（02、12）\nM -月份（2、12）\nN - 農曆月份（正、二）\ndd - 補0日期（02、23）\nd - 日期（2、23）\ne - 農曆日期（初十、十九）\nE - 星期（週三）\na - 時段（上午、下午）\naa - 精確時段（傍晚、淩晨等）\nHH - 24小時制補0小時（09、14）\nH - 24小時制小時（9、14）\nhh - 12小時制補0小時（09、02）\nh - 12小時制小時（9、2）\nmm - 補0分鐘（09）\nss - 補0秒數（09）\nI - 時辰（卯、亥）</string>
 </resources>
