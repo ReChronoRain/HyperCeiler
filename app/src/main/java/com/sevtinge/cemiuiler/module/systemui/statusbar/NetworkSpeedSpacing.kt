@@ -3,7 +3,7 @@ package com.sevtinge.cemiuiler.module.systemui.statusbar
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
 
-class NetworkSpeedSpacing : BaseHook() {
+object NetworkSpeedSpacing : BaseHook() {
     override fun init() {
 //      网速更新间隔
         Helpers.findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController",
