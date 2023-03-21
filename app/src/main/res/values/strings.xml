@@ -735,4 +735,5 @@
     <string name="camera_features_unlock_vlog_pro">Unlock Vlog Pro</string>
     <string name="camera_features_unlock_film">Unlock Film camera</string>
     <string name="camera_features_unlock_film_delay">Unlock Long-exp</string>
+    <string name="camera_features_unlock_film_dollyzoom">Unlock Dolly zoom</string>
 </resources>
