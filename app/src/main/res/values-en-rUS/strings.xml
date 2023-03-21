@@ -701,5 +701,6 @@
     <string name="camera_features_title">Features</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
+    <string name="camera_features_unlock_clone">Unlock Clone mode</string>
 
 </resources>

@@ -13,6 +13,11 @@
                 android:key="prefs_key_camera_features_unlock_ambilight"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_clone"
+                android:key="prefs_key_camera_features_unlock_clone"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
