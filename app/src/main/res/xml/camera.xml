@@ -59,6 +59,11 @@
                 android:key="prefs_key_camera_features_unlock_pano"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_pixel"
+                android:key="prefs_key_camera_features_unlock_pixel"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
