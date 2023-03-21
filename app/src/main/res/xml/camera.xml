@@ -69,6 +69,11 @@
                 android:key="prefs_key_camera_features_unlock_portrait"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_features_unlock_slow"
+                android:key="prefs_key_camera_features_unlock_slow"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
