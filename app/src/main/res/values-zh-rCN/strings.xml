@@ -130,6 +130,7 @@
     <string name="camera_features_unlock_clone">解锁魔法分身</string>
     <string name="camera_features_unlock_cosmetic_mirror">解锁化妆镜</string>
     <string name="camera_features_unlock_doc">解锁文档</string>
+    <string name="camera_features_unlock_idcard">解锁身份证拍摄</string>
     <string name="camera_features_unlock_dualcam">解锁前后双景</string>
     <string name="camera_features_unlock_duration">解锁延时摄影</string>
 
