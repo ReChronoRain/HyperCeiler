@@ -737,4 +737,5 @@
     <string name="system_ui_statusbar_clock_editor">Clock format</string>
     <string name="system_ui_statusbar_clock_period">Show clock period</string>
     <string name="array_clock_geek">Geek</string>
+    <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
 </resources>

@@ -52,6 +52,11 @@
                 android:targetClass="com.miui.home.settings.AllHideAppActivity" />
         </Preference>
 
+        <SwitchPreference
+                android:key="prefs_key_home_other_fix_android_r_s"
+                android:title="@string/home_other_fix_android_r_s"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory>

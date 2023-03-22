@@ -751,4 +751,5 @@
     <string name="system_ui_statusbar_clock_double_center">Double row center alignment</string>
     <string name="array_clock_default">Default</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
+    <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
 </resources>

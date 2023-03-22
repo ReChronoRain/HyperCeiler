@@ -134,6 +134,7 @@ public class Home extends BaseModule {
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_other_disable_hide_google"));
         initHook(new ShowAllHideApp());
+        initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
 
         //实验性功能
         initHook(ShortcutBackgoundBlur.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
