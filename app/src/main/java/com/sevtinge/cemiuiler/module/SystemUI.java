@@ -64,6 +64,7 @@ public class SystemUI extends BaseModule {
         initHook(NetworkSpeedUnit.INSTANCE);
 
         //时钟指示器
+        initHook(TimeBold.INSTANCE);
         initHook(TimeCustomization.INSTANCE);
 
         //居右显示
