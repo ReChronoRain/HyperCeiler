@@ -64,7 +64,7 @@ public class SystemUI extends BaseModule {
         initHook(NetworkSpeedUnit.INSTANCE);
 
         //时钟指示器
-        initHook(ClockShowSec.INSTANCE);
+        initHook(TimeCustomization.INSTANCE);
 
         //居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");

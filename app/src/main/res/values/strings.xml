@@ -691,7 +691,7 @@
     <string name="array_align_left">Left</string>
     <string name="array_align_right">Right</string>
     <string name="array_align_center">Centered</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (*B/s)</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (/s)</string>
     <string name="array_netspeedicons_no">No icons</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
     <string name="system_ui_statusbar_indicator_align">Horizontal alignment</string>
@@ -749,8 +749,6 @@
     <string name="system_ui_statusbar_clock_hide_space">Hide space</string>
     <string name="system_ui_statusbar_clock_double">Show double</string>
     <string name="system_ui_statusbar_clock_double_center">Double row center alignment</string>
-    <string name="array_clock_close">Close</string>
     <string name="array_clock_default">Default</string>
-    <string name="system_ui_statusbar_clock_geek">Geek mode</string>
-    <string name="system_ui_statusbar_clock_default">Default mode</string>
+    <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
 </resources>

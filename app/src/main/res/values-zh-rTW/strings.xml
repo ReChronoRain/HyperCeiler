@@ -506,7 +506,6 @@
     <string name="app_sort_frequency">使用頻率</string>
     <string name="app_sort_storage">儲存空間佔用</string>
     <string name="app_sort_install">安裝時間</string>
-    <string name="array_clock_close">關閉</string>
     <string name="array_clock_default">预设</string>
     <string name="array_global_actions_none">無動作</string>
     <string name="array_global_actions_notif">打開通知中心</string>
@@ -710,7 +709,7 @@
     <string name="array_align_left">左側</string>
     <string name="array_align_right">右側</string>
     <string name="array_align_center">居中</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *B/s 單位</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 /s 單位</string>
     <string name="array_netspeedicons_no">無圖示</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
     <string name="system_ui_statusbar_indicator_align">水平對齊</string>
@@ -734,9 +733,8 @@
     <string name="system_ui_statusbar_clock_double_center">雙排居中對齊</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小（0為不修改）</string>
     <string name="system_ui_statusbar_clock_double_size">雙排大小（0為不修改）</string>
+    <string name="system_ui_statusbar_clock_mode">自定義時鐘模式</string>
     <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
     <string name="system_ui_statusbar_clock_period">顯示時段</string>
     <string name="array_clock_geek">極客</string>
-    <string name="system_ui_statusbar_clock_geek">極客模式</string>
-    <string name="system_ui_statusbar_clock_default">預設模式</string>
 </resources>
