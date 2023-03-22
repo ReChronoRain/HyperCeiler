@@ -59,7 +59,7 @@ public class SystemUI extends BaseModule {
 
         //网速指示器
         initHook(NetworkSpeed.INSTANCE);
-        initHook(NetworkSpeedSpacing.INSTANCE);
+//        initHook(NetworkSpeedSpacing.INSTANCE);
         initHook(NetworkSpeedSec.INSTANCE);
         initHook(NetworkSpeedUnit.INSTANCE);
 

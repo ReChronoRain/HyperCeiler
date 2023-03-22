@@ -10,7 +10,6 @@
 
         <DropDownPreference
             android:defaultValue="1"
-            app:isPreferenceVisible="false"
             android:disableDependentsState="true"
             android:key="prefs_key_system_ui_statusbar_clock_mode"
             android:title="@string/system_ui_statusbar_clock_mode"

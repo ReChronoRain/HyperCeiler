@@ -56,11 +56,11 @@ object NetworkSpeed : BaseHook() {
     private fun humanReadableByteCount(ctx: Context, bytes: Long): String {
         return try {
             val modRes = Helpers.getModuleRes(ctx)
-//            val hideSecUnit = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")
-            val unitSuffix = modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
-/*            if (hideSecUnit) {
+            val hideSecUnit = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")
+            var unitSuffix = modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
+            if (hideSecUnit) {
                 unitSuffix = ""
-            }*/
+            }
             var f = bytes / 1024.0f
             var expIndex = 0
             if (f > 999.0f) {
@@ -125,9 +125,11 @@ object NetworkSpeed : BaseHook() {
                     val nw = mConnectivityManager.activeNetwork
                     if (nw != null) {
                         val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
-                        if (capabilities != null && (!(!capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) && !capabilities.hasTransport(
-                              NetworkCapabilities.TRANSPORT_CELLULAR
-                           )))
+                        if (capabilities != null && (!(!capabilities.hasTransport(
+                                NetworkCapabilities.TRANSPORT_WIFI
+                            ) && !capabilities.hasTransport(
+                                NetworkCapabilities.TRANSPORT_CELLULAR
+                            )))
                         ) {
                             isConnected = true
                         }
