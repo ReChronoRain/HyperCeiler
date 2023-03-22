@@ -1,21 +1,28 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.Helpers
 
 
 object NetworkSpeedSpacing : BaseHook() {
-//  网速更新间隔
     override fun init() {
-        findMethod("com.android.systemui.statusbar.policy.NetworkSpeedController") {
-            name == "postUpdateNetworkSpeedDelay" && parameterTypes[0] == Long::class.java
-        }.hookBefore {
-            val originInterval = it.args[0] as Long
-            if (originInterval == 4000L) {
-                val newInterval = mPrefsMap.getInt("status_bar_network_speed_refresh_speed", 4) * 1000L
-                it.args[0] = newInterval
-            }
-        }
+//      网速更新间隔
+        Helpers.findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController",
+            lpparam.classLoader,
+            "postUpdateNetworkSpeedDelay",
+            Long::class.javaPrimitiveType,
+            object : MethodHook() {
+                override fun before(param: MethodHookParam) {
+                    val originInterval = param.args[0] as Long
+                    if (originInterval == 4000L) {
+                        val newInterval = mPrefsMap.getInt(
+                            "system_ui_statusbar_network_speed_update_spacing",
+                            4
+                        ) * 1000L
+                        param.args[0] = newInterval
+                    }
+                }
+            })
+
     }
 }
