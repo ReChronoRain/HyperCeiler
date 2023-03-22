@@ -22,10 +22,11 @@ public abstract class BaseMainActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        initView();
     }
 
-    private void initData() {
+    public void initView() {
+
         mPreferenceChangeListener = (sharedPreferences, s) -> {
             Log.i("prefs", "Changed: " + s);
             requestBackup();
