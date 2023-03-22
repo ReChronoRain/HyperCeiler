@@ -24,8 +24,8 @@ object TimeCustomization : BaseHook(){
     private val isWeek = mPrefsMap.getBoolean("system_ui_statusbar_clock_week")
     private val isHideSpace = mPrefsMap.getBoolean("system_ui_statusbar_clock_hide_space")
     private val isDoubleLine = mPrefsMap.getBoolean("system_ui_statusbar_clock_double")
-    private val isSecond = mPrefsMap.getBoolean("system_ui_statusbar_clocke_second")
-    private val isDoubleHour = mPrefsMap.getBoolean("system_ui_statusbar_clock_double_hour_cn")
+    private val isSecond = mPrefsMap.getBoolean("system_ui_statusbar_clock_second")
+    private val isDoubleHour = mPrefsMap.getBoolean("system_ui_statusbar_clock_hour_cn")
     private val isPeriod = mPrefsMap.getBoolean("system_ui_statusbar_clock_period")
     private val isCenterAlign = mPrefsMap.getBoolean("system_ui_statusbar_clock_double_center")
 
