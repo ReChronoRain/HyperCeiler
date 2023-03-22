@@ -2,22 +2,38 @@ package com.sevtinge.cemiuiler.ui.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.GlobalActions;
+import com.sevtinge.cemiuiler.ui.main.base.BaseMainActivity;
 import com.sevtinge.cemiuiler.utils.Helpers;
 
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
+import moralnorm.appcompat.internal.view.SearchActionMode;
 import moralnorm.internal.utils.ViewUtils;
 
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
+
     ImageView mRestartView;
     OnRestartListener mOnRestartListener;
+
+    ViewGroup mSearchView;
+    TextWatcher mTextWatcher;
+    TextView mSearchInputView;
+    SearchActionMode mSearchActionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +50,15 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                     .commit();
         }
         showXposedDialog();
+        initView();
+    }
 
+    private void initView() {
+        mSearchView = findViewById(R.id.search_view);
+        mSearchInputView = findViewById(android.R.id.input);
+
+        mSearchInputView.setHint("搜索");
+        mSearchView.setVisibility(this instanceof BaseMainActivity ? View.VISIBLE : View.GONE);
     }
 
     public abstract Fragment initFragment();
@@ -117,5 +141,21 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     public interface OnRestartListener {
         void onRestart();
+    }
+
+
+    private void startSearchMode(SearchActionMode.Callback callback) {
+        SearchActionMode startActionMode = (SearchActionMode) startActionMode(callback);
+        if (startActionMode != null) {
+            mSearchActionMode = startActionMode;
+            return;
+        }
+        throw new NullPointerException("null cannot be cast to non-null type SearchActionMode");
+    }
+
+    private void exitSearchMode() {
+        if (mSearchActionMode != null) {
+            mSearchActionMode = null;
+        }
     }
 }
