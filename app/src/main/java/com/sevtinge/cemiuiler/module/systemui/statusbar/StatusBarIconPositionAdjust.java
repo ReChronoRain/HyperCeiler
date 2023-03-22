@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
@@ -41,7 +42,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         mSystemUIApplication = findClassIfExists("com.android.systemui.SystemUIApplication");
         mMiuiDripLeftStatusBarIconControllerImpl = findClassIfExists("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl");
 
-        ArrayList<String> dripLeftIcons = new ArrayList<String>();
+        ArrayList<String> dripLeftIcons = new ArrayList<>();
 
         isWiFiAtLeftEnable = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
         isMobileNetworkAtLeftEnable = mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left");
@@ -100,8 +101,8 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                     if (blockList != null) {
                         rightBlockList = (ArrayList<String>) blockList;
                     } else {
-                        int blockResId = res.getIdentifier("config_drip_right_block_statusBarIcons", "array", lpparam.packageName);
-                        rightBlockList = new ArrayList<String>(Arrays.asList(res.getStringArray(blockResId)));
+                        @SuppressLint("DiscouragedApi") int blockResId = res.getIdentifier("config_drip_right_block_statusBarIcons", "array", lpparam.packageName);
+                        rightBlockList = new ArrayList<>(Arrays.asList(res.getStringArray(blockResId)));
                     }
                     if (isNetworkSpeedAtRightEnable) {
                         rightBlockList.remove("network_speed");
