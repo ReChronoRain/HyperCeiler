@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.settings;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,16 +23,16 @@ public class CemiuilerSettings extends BaseHook {
 
     private int settingsIconResId;
 
-    private Class<?> mMiuiSettings;
     private Class<?> mPreferenceHeader;
 
     @Override
     public void init() {
 
-        mMiuiSettings = findClassIfExists("com.android.settings.MiuiSettings");
+        Class<?> mMiuiSettings = findClassIfExists("com.android.settings.MiuiSettings");
 
         findAndHookMethod(mMiuiSettings, "updateHeaderList", List.class, new MethodHook() {
             @Override
+            @SuppressLint("DiscouragedApi")
             protected void after(MethodHookParam param) throws Throwable {
                 if (param.args[0] == null) return;
 
@@ -54,7 +55,7 @@ public class CemiuilerSettings extends BaseHook {
                 XposedHelpers.setObjectField(header, "title", modRes.getString(R.string.app_name));
 
                 Bundle bundle = new Bundle();
-                ArrayList<UserHandle> users = new ArrayList<UserHandle>();
+                ArrayList<UserHandle> users = new ArrayList<>();
                 users.add((UserHandle)XposedHelpers.newInstance(UserHandle.class, 0));
                 bundle.putParcelableArrayList("header_user", users);
                 XposedHelpers.setObjectField(header, "extras", bundle);
