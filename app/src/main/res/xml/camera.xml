@@ -2,6 +2,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/camera_record_title">
+
+        <SwitchPreference
+                android:title="@string/camera_record_60fps"
+                android:summary="@string/camera_record_60fps_desc"
+                android:key="prefs_key_camera_record_60fps"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_record_120fps"
+                android:summary="@string/camera_record_120fps_desc"
+                android:key="prefs_key_camera_record_120fps"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/camera_features_title">
 
         <SwitchPreference
@@ -130,22 +146,6 @@
                 android:title="@string/camera_features_unlock_film_timefreeze"
                 android:key="prefs_key_camera_features_unlock_film_timefreeze"
                 android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/camera_record_title">
-
-        <SwitchPreference
-                android:title="@string/camera_record_60fps"
-                android:summary="@string/camera_record_60fps_desc"
-                android:key="prefs_key_camera_record_60fps"
-                android:defaultValue="false"/>
-
-        <SwitchPreference
-                android:title="@string/camera_record_120fps"
-                android:summary="@string/camera_record_120fps_desc"
-                android:key="prefs_key_camera_record_120fps"
                 android:defaultValue="false"/>
 
     </PreferenceCategory>
