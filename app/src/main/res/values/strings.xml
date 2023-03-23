@@ -761,6 +761,7 @@
     <string name="camera_record_120fps_desc">Only support when 4K qualities, please make sure that your device was supported</string>
     <string name="camera_record_audio_zoom">Unlock Audio zoom</string>
     <string name="camera_record_hdr">Unlock HDR</string>
+    <string name="camera_record_ai">Unlock AI enhance</string>
     <string name="camera_shot_makeup">Unlock Makeup</string>
     <string name="camera_shot_makeup_desc">Takes effect only when using the front camera</string>
     <string name="camera_portrait_new_beauty">Unlock New beauty</string>

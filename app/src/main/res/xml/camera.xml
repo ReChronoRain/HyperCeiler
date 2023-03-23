@@ -32,6 +32,11 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
+                android:title="@string/camera_record_ai"
+                android:key="prefs_key_camera_record_ai"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
                 android:title="@string/camera_record_audio_zoom"
                 android:key="prefs_key_camera_record_audio_zoom"
                 android:defaultValue="false"/>

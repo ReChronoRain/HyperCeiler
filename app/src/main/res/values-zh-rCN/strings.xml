@@ -163,6 +163,7 @@
     <string name="camera_record_120fps_desc">仅 4K 模式支持, 部分设备硬件不支持</string>
     <string name="camera_record_audio_zoom">解锁音源变焦</string>
     <string name="camera_record_hdr">解锁 HDR</string>
+    <string name="camera_record_ai">解锁 AI 模式</string>
     <string name="camera_portrait_new_beauty">解锁新版美颜</string>
     <string name="camera_portrait_new_beauty_desc">仅在使用前置摄像头时生效</string>
 
