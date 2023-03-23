@@ -46,6 +46,7 @@ public class Camera extends BaseModule {
         initHook(new UnlockAudioZoom(), mPrefsMap.getBoolean("camera_record_audio_zoom"));
 
         //人像
+        initHook(new UnlockCvlens(), mPrefsMap.getBoolean("camera_portrait_cvlens"));
         initHook(new UnlockNewBeauty(), mPrefsMap.getBoolean("camera_portrait_new_beauty"));
 
         //专业

@@ -756,4 +756,6 @@
     <string name="camera_pro_title">Pro</string>
     <string name="camera_pro_raw">Unlock RAW</string>
     <string name="camera_pro_log">Unlock LOG</string>
+    <string name="camera_portrait_cvlens">Unlock Master-lens</string>
+    <string name="camera_portrait_cvlens_desc">Cannot work fine on some device</string>
 </resources>

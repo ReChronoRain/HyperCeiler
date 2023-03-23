@@ -169,6 +169,8 @@
     <string name="camera_record_ai">解锁 AI 模式</string>
     <string name="camera_portrait_new_beauty">解锁新版美颜</string>
     <string name="camera_portrait_new_beauty_desc">仅在使用前置摄像头时生效</string>
+    <string name="camera_portrait_cvlens">解锁大师镜头</string>
+    <string name="camera_portrait_cvlens_desc">部分设备无法正常工作</string>
     <string name="camera_pro_raw">解锁 RAW</string>
     <string name="camera_pro_log">解锁 LOG</string>
 
