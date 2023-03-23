@@ -40,5 +40,8 @@ public class Camera extends BaseModule {
         initHook(new Unlock60Fps(), mPrefsMap.getBoolean("camera_record_60fps"));
         initHook(new Unlock120Fps(), mPrefsMap.getBoolean("camera_record_120fps"));
         initHook(new UnlockAudioZoom(), mPrefsMap.getBoolean("camera_record_audio_zoom"));
+
+        //人像
+        initHook(new UnlockNewBeauty(), mPrefsMap.getBoolean("camera_portrait_new_beauty"));
     }
 }

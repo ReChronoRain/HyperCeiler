@@ -129,6 +129,8 @@
 
     <string name="camera_features_title">功能</string>
     <string name="camera_record_title">录像</string>
+    <string name="camera_shot_title">拍照</string>
+    <string name="camera_portrait_title">人像</string>
     <string name="camera_features_unlock_aiwatermark">解锁 AI 水印</string>
     <string name="camera_features_unlock_ambilight">解锁长曝光</string>
     <string name="camera_features_unlock_clone">解锁魔法分身</string>
@@ -160,6 +162,8 @@
     <string name="camera_record_120fps">解锁 120FPS</string>
     <string name="camera_record_120fps_desc">仅 4K 模式支持, 部分设备硬件不支持</string>
     <string name="camera_record_audio_zoom">解锁音源变焦</string>
+    <string name="camera_portrait_new_beauty">解锁新版美颜</string>
+    <string name="camera_portrait_new_beauty_desc">仅在使用前置摄像头时生效</string>
 
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
