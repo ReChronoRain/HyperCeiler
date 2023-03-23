@@ -155,6 +155,7 @@
     <string name="camera_features_unlock_film_slowshutter">解锁慢快门</string>
     <string name="camera_features_unlock_film_timebackflow">解锁时光倒流</string>
     <string name="camera_features_unlock_film_timefreeze">解锁时间静止</string>
+    <string name="camera_shot_hand_gesture">解锁手势拍照</string>
     <string name="camera_shot_makeup">解锁妆容</string>
     <string name="camera_shot_makeup_desc">仅在使用前置摄像头时生效</string>
     <string name="camera_record_60fps">解锁 60FPS</string>

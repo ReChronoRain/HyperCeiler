@@ -751,4 +751,5 @@
     <string name="camera_portrait_new_beauty_desc">Takes effect only when using the front camera</string>
     <string name="camera_record_hdr">Unlock HDR</string>
     <string name="camera_record_ai">Unlock AI enhance</string>
+    <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
 </resources>
