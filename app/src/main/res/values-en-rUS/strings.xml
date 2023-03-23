@@ -753,4 +753,6 @@
     <string name="camera_record_ai">Unlock AI enhance</string>
     <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
     <string name="camera_shot_color_enhance">Unlock Color enhance</string>
+    <string name="camera_pro_title">Pro</string>
+    <string name="camera_pro_raw">Unlock RAW</string>
 </resources>

@@ -47,5 +47,8 @@ public class Camera extends BaseModule {
 
         //人像
         initHook(new UnlockNewBeauty(), mPrefsMap.getBoolean("camera_portrait_new_beauty"));
+
+        //专业
+        initHook(new UnlockRaw(), mPrefsMap.getBoolean("camera_pro_raw"));
     }
 }
