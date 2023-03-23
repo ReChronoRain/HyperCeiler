@@ -33,6 +33,9 @@ public class Camera extends BaseModule {
         initHook(new UnlockFilmTimeBackflow(), mPrefsMap.getBoolean("camera_features_unlock_film_timebackflow"));
         initHook(new UnlockFilmTimeFreeze(), mPrefsMap.getBoolean("camera_features_unlock_film_timefreeze"));
 
+        //拍照
+        initHook(new UnlockMakeup(), mPrefsMap.getBoolean("camera_shot_makeup"));
+
         //录像
         initHook(new Unlock60Fps(), mPrefsMap.getBoolean("camera_record_60fps"));
         initHook(new Unlock120Fps(), mPrefsMap.getBoolean("camera_record_120fps"));

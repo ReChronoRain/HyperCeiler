@@ -712,6 +712,7 @@
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
     <string name="camera_features_title">Features</string>
     <string name="camera_record_title">Record</string>
+    <string name="camera_shot_title">Shot</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
@@ -758,4 +759,6 @@
     <string name="camera_record_120fps">Unlock 120FPS</string>
     <string name="camera_record_120fps_desc">Only support when 4K qualities, please make sure that your device was supported</string>
     <string name="camera_record_audio_zoom">Unlock Audio zoom</string>
+    <string name="camera_shot_makeup">Unlock Makeup</string>
+    <string name="camera_shot_makeup_desc">Takes effect only when using the front camera</string>
 </resources>
