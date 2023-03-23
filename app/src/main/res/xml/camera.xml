@@ -134,4 +134,20 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/camera_record_title">
+
+        <SwitchPreference
+                android:title="@string/camera_record_60fps"
+                android:summary="@string/camera_record_60fps_desc"
+                android:key="prefs_key_camera_record_60fps"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_record_120fps"
+                android:summary="@string/camera_record_120fps_desc"
+                android:key="prefs_key_camera_record_120fps"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -7,6 +7,7 @@ public class Camera extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        //功能
         initHook(new UnlockAiWatermark(), mPrefsMap.getBoolean("camera_features_unlock_aiwatermark"));
         initHook(new UnlockAmbilight(), mPrefsMap.getBoolean("camera_features_unlock_ambilight"));
         initHook(new UnlockClone(), mPrefsMap.getBoolean("camera_features_unlock_clone"));
@@ -31,5 +32,9 @@ public class Camera extends BaseModule {
         initHook(new UnlockFilmSlowShutter(), mPrefsMap.getBoolean("camera_features_unlock_film_slowshutter"));
         initHook(new UnlockFilmTimeBackflow(), mPrefsMap.getBoolean("camera_features_unlock_film_timebackflow"));
         initHook(new UnlockFilmTimeFreeze(), mPrefsMap.getBoolean("camera_features_unlock_film_timefreeze"));
+
+        //录像
+        initHook(new Unlock60Fps(), mPrefsMap.getBoolean("camera_record_60fps"));
+        initHook(new Unlock120Fps(), mPrefsMap.getBoolean("camera_record_120fps"));
     }
 }
