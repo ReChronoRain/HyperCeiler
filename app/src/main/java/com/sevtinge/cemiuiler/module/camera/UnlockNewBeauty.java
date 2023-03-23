@@ -11,7 +11,7 @@ public class UnlockNewBeauty extends BaseHook {
                 param.setResult(true);
             }
         });
-        findAndHookMethod("com.android.camera2.CameraCapabilitiesUtil", "isSupportPortraitBeautyItem", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilitiesUtil", "isSupportPortraitBeautyItem", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);

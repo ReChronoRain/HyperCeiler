@@ -17,13 +17,13 @@ public class UnlockMakeup extends BaseHook {
                 param.setResult(true);
             }
         });
-        findAndHookMethod("com.android.camera2.CameraCapabilitiesUtil", "isSupportMakeups", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilitiesUtil", "isSupportMakeups", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);
             }
         });
-        findAndHookMethod("com.android.camera2.CameraCapabilitiesUtil", "isSupportMakeups2", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilitiesUtil", "isSupportMakeups2", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);
