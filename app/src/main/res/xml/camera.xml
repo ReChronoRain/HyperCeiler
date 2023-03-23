@@ -10,6 +10,11 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
+                android:title="@string/camera_shot_color_enhance"
+                android:key="prefs_key_camera_shot_color_enhance"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
                 android:title="@string/camera_shot_makeup"
                 android:summary="@string/camera_shot_makeup_desc"
                 android:key="prefs_key_camera_shot_makeup"

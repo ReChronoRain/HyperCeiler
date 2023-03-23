@@ -752,4 +752,5 @@
     <string name="camera_record_hdr">Unlock HDR</string>
     <string name="camera_record_ai">Unlock AI enhance</string>
     <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
+    <string name="camera_shot_color_enhance">Unlock Color enhance</string>
 </resources>

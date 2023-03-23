@@ -35,6 +35,7 @@ public class Camera extends BaseModule {
 
         //拍照
         initHook(new UnlockMakeup(), mPrefsMap.getBoolean("camera_shot_makeup"));
+        initHook(new UnlockColorEnhance(), mPrefsMap.getBoolean("camera_shot_color_enhance"));
         initHook(new UnlockHandGesture(), mPrefsMap.getBoolean("camera_shot_hand_gesture"));
 
         //录像
