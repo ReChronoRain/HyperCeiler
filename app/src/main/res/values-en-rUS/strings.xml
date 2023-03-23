@@ -761,4 +761,6 @@
     <string name="camera_pro_log">Unlock LOG</string>
     <string name="camera_portrait_cvlens">Unlock Master-lens</string>
     <string name="camera_portrait_cvlens_desc">Cannot work fine on some device</string>
+    <string name="system_ui_status_bar_no_netspeed_separator_title">Network speed separator</string>
+    <string name="system_ui_status_bar_no_netspeed_separator_desc">The vertical line between the time and the network speed is not displayed on the device with the water drop screen</string>
 </resources>
