@@ -3,7 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemframework.PackagePermissions;
 import com.sevtinge.cemiuiler.module.systemframework.*;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.ClockShowSecond;
+
 
 public class SystemFramework extends BaseModule {
 
@@ -25,7 +25,7 @@ public class SystemFramework extends BaseModule {
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getInt("system_framework_volume_media_steps",15)>15);
         initHook(new VolumeDisableSafe(),mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
-        initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
+        //initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         //主题破解
         initHook(new ThemeProvider(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("various_theme_crack"));

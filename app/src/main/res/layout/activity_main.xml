@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/search_view"
-        layout="@layout/search_stub" />
-
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"

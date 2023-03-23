@@ -138,6 +138,7 @@
             android:title="@string/system_ui_status_bar_notification_dots_maximum"
             android:defaultValue="3"
             app:maxValue="5"
+            app:format="%s"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
@@ -146,6 +147,7 @@
             android:defaultValue="0"
             app:minValue="0"
             app:maxValue="15"
+            app:format="%s"
             app:showSeekBarValue="true" />
     </PreferenceCategory>
 
