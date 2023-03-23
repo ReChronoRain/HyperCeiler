@@ -752,4 +752,7 @@
     <string name="array_clock_default">Default</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
+    <string name="system_settings_permission_title">Permission</string>
+    <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
+    <string name="prefs_key_system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application [displayed on top of other applications]</string>
 </resources>
