@@ -755,4 +755,5 @@
     <string name="camera_shot_color_enhance">Unlock Color enhance</string>
     <string name="camera_pro_title">Pro</string>
     <string name="camera_pro_raw">Unlock RAW</string>
+    <string name="camera_pro_log">Unlock LOG</string>
 </resources>

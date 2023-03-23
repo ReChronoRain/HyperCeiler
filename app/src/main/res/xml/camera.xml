@@ -70,6 +70,11 @@
                 android:key="prefs_key_camera_pro_raw"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/camera_pro_log"
+                android:key="prefs_key_camera_pro_log"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/camera_features_title">
