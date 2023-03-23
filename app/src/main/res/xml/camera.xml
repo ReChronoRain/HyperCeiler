@@ -2,6 +2,87 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/camera_shot_title">
+
+        <SwitchPreference
+                android:title="@string/camera_shot_hand_gesture"
+                android:key="prefs_key_camera_shot_hand_gesture"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_shot_color_enhance"
+                android:key="prefs_key_camera_shot_color_enhance"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_shot_makeup"
+                android:summary="@string/camera_shot_makeup_desc"
+                android:key="prefs_key_camera_shot_makeup"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/camera_record_title">
+
+        <SwitchPreference
+                android:title="@string/camera_record_60fps"
+                android:summary="@string/camera_record_60fps_desc"
+                android:key="prefs_key_camera_record_60fps"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_record_120fps"
+                android:summary="@string/camera_record_120fps_desc"
+                android:key="prefs_key_camera_record_120fps"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_record_hdr"
+                android:key="prefs_key_camera_record_hdr"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_record_ai"
+                android:key="prefs_key_camera_record_ai"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_record_audio_zoom"
+                android:key="prefs_key_camera_record_audio_zoom"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/camera_portrait_title">
+
+        <SwitchPreference
+                android:title="@string/camera_portrait_cvlens"
+                android:summary="@string/camera_portrait_cvlens_desc"
+                android:key="prefs_key_camera_portrait_cvlens"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_portrait_new_beauty"
+                android:summary="@string/camera_portrait_new_beauty_desc"
+                android:key="prefs_key_camera_portrait_new_beauty"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/camera_pro_title">
+
+        <SwitchPreference
+                android:title="@string/camera_pro_raw"
+                android:key="prefs_key_camera_pro_raw"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/camera_pro_log"
+                android:key="prefs_key_camera_pro_log"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/camera_features_title">
 
         <SwitchPreference

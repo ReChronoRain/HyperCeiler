@@ -128,6 +128,10 @@
     <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
 
     <string name="camera_features_title">功能</string>
+    <string name="camera_record_title">录像</string>
+    <string name="camera_shot_title">拍照</string>
+    <string name="camera_portrait_title">人像</string>
+    <string name="camera_pro_title">专业</string>
     <string name="camera_features_unlock_aiwatermark">解锁 AI 水印</string>
     <string name="camera_features_unlock_ambilight">解锁长曝光</string>
     <string name="camera_features_unlock_clone">解锁魔法分身</string>
@@ -152,6 +156,23 @@
     <string name="camera_features_unlock_film_slowshutter">解锁慢快门</string>
     <string name="camera_features_unlock_film_timebackflow">解锁时光倒流</string>
     <string name="camera_features_unlock_film_timefreeze">解锁时间静止</string>
+    <string name="camera_shot_hand_gesture">解锁手势拍照</string>
+    <string name="camera_shot_color_enhance">解锁艳丽模式</string>
+    <string name="camera_shot_makeup">解锁妆容</string>
+    <string name="camera_shot_makeup_desc">仅在使用前置摄像头时生效</string>
+    <string name="camera_record_60fps">解锁 60FPS</string>
+    <string name="camera_record_60fps_desc">部分画质下不可用，部分设备硬件不支持</string>
+    <string name="camera_record_120fps">解锁 120FPS</string>
+    <string name="camera_record_120fps_desc">仅 4K 模式支持, 部分设备硬件不支持</string>
+    <string name="camera_record_audio_zoom">解锁音源变焦</string>
+    <string name="camera_record_hdr">解锁 HDR</string>
+    <string name="camera_record_ai">解锁 AI 模式</string>
+    <string name="camera_portrait_new_beauty">解锁新版美颜</string>
+    <string name="camera_portrait_new_beauty_desc">仅在使用前置摄像头时生效</string>
+    <string name="camera_portrait_cvlens">解锁大师镜头</string>
+    <string name="camera_portrait_cvlens_desc">部分设备无法正常工作</string>
+    <string name="camera_pro_raw">解锁 RAW</string>
+    <string name="camera_pro_log">解锁 LOG</string>
 
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>

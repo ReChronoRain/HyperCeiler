@@ -711,6 +711,10 @@
     <string name="array_netspeedicons_arrows_long1" translatable="false">↑ ↓</string>
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
     <string name="camera_features_title">Features</string>
+    <string name="camera_record_title">Record</string>
+    <string name="camera_shot_title">Shot</string>
+    <string name="camera_portrait_title">Portrait</string>
+    <string name="camera_pro_title">Pro</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
@@ -752,6 +756,23 @@
     <string name="array_clock_default">Default</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
+    <string name="camera_record_60fps">Unlock 60FPS</string>
+    <string name="camera_record_60fps_desc">Not available in some qualities, please make sure that your device was supported</string>
+    <string name="camera_record_120fps">Unlock 120FPS</string>
+    <string name="camera_record_120fps_desc">Only support when 4K qualities, please make sure that your device was supported</string>
+    <string name="camera_record_audio_zoom">Unlock Audio zoom</string>
+    <string name="camera_record_hdr">Unlock HDR</string>
+    <string name="camera_record_ai">Unlock AI enhance</string>
+    <string name="camera_shot_makeup">Unlock Makeup</string>
+    <string name="camera_shot_makeup_desc">Takes effect only when using the front camera</string>
+    <string name="camera_shot_hand_gesture">Unlock Palm shutter</string>
+    <string name="camera_shot_color_enhance">Unlock Color enhance</string>
+    <string name="camera_portrait_new_beauty">Unlock New beauty</string>
+    <string name="camera_portrait_new_beauty_desc">Takes effect only when using the front camera</string>
+    <string name="camera_portrait_cvlens">Unlock Master-lens</string>
+    <string name="camera_portrait_cvlens_desc">Cannot work fine on some device</string>
+    <string name="camera_pro_raw">Unlock RAW</string>
+    <string name="camera_pro_log">Unlock LOG</string>
     <string name="system_settings_permission_title">Permission</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
     <string name="prefs_key_system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application [displayed on top of other applications]</string>

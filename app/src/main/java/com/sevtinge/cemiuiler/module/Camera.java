@@ -7,6 +7,7 @@ public class Camera extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        //功能
         initHook(new UnlockAiWatermark(), mPrefsMap.getBoolean("camera_features_unlock_aiwatermark"));
         initHook(new UnlockAmbilight(), mPrefsMap.getBoolean("camera_features_unlock_ambilight"));
         initHook(new UnlockClone(), mPrefsMap.getBoolean("camera_features_unlock_clone"));
@@ -31,5 +32,25 @@ public class Camera extends BaseModule {
         initHook(new UnlockFilmSlowShutter(), mPrefsMap.getBoolean("camera_features_unlock_film_slowshutter"));
         initHook(new UnlockFilmTimeBackflow(), mPrefsMap.getBoolean("camera_features_unlock_film_timebackflow"));
         initHook(new UnlockFilmTimeFreeze(), mPrefsMap.getBoolean("camera_features_unlock_film_timefreeze"));
+
+        //拍照
+        initHook(new UnlockMakeup(), mPrefsMap.getBoolean("camera_shot_makeup"));
+        initHook(new UnlockColorEnhance(), mPrefsMap.getBoolean("camera_shot_color_enhance"));
+        initHook(new UnlockHandGesture(), mPrefsMap.getBoolean("camera_shot_hand_gesture"));
+
+        //录像
+        initHook(new Unlock60Fps(), mPrefsMap.getBoolean("camera_record_60fps"));
+        initHook(new Unlock120Fps(), mPrefsMap.getBoolean("camera_record_120fps"));
+        initHook(new UnlockHdr(), mPrefsMap.getBoolean("camera_record_hdr"));
+        initHook(new UnlockAiEnhance(), mPrefsMap.getBoolean("camera_record_ai"));
+        initHook(new UnlockAudioZoom(), mPrefsMap.getBoolean("camera_record_audio_zoom"));
+
+        //人像
+        initHook(new UnlockCvlens(), mPrefsMap.getBoolean("camera_portrait_cvlens"));
+        initHook(new UnlockNewBeauty(), mPrefsMap.getBoolean("camera_portrait_new_beauty"));
+
+        //专业
+        initHook(new UnlockRaw(), mPrefsMap.getBoolean("camera_pro_raw"));
+        initHook(new UnlockLog(), mPrefsMap.getBoolean("camera_pro_log"));
     }
 }
