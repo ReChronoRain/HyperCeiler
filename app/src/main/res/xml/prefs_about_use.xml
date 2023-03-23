@@ -4,6 +4,76 @@
         <Preference
                 android:summary="@string/about_use_desc"/>
         <Preference
+            android:title="AntiAntiDefraud"
+            android:summary="MinaMichita">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
+        </Preference>
+        <Preference
+            android:title="Auto NFC"
+            android:summary="GSWXXN">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/GSWXXN/AutoNFC" />
+        </Preference>
+        <Preference
+            android:title="CorePatch"
+            android:summary="LSPosed">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LSPosed/CorePatch" />
+        </Preference>
+        <Preference
+            android:title="CustoMIUIzer"
+            android:summary="MonwF">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/MonwF/customiuizer" />
+        </Preference>
+        <Preference
+            android:title="DexKit"
+            android:summary="LuckyPray">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LuckyPray/DexKit" />
+        </Preference>
+        <Preference
+            android:title="Disable app link verify"
+            android:summary="Xposed-Modules-Repo">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify" />
+        </Preference>
+        <Preference
+            android:title="DisableFlagSecure"
+            android:summary="LSPosed">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LSPosed/DisableFlagSecure" />
+        </Preference>
+        <Preference
+            android:title="EzXHelper"
+            android:summary="KyuubiRan">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/KyuubiRan/EzXHelper" />
+        </Preference>
+        <Preference
+            android:title="HideMiuiClipboardDialog"
+            android:summary="zerorooot">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
+        </Preference>
+        <Preference
+            android:title="MaxFreeForm"
+            android:summary="YifePlayte">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YifePlayte/MaxFreeForm" />
+        </Preference>
+        <Preference
                 android:title="Miui Feature"
                 android:summary="MoralNorm">
             <intent
@@ -11,32 +81,53 @@
                     android:data="https://github.com/moralnorm/miui_feature" />
         </Preference>
         <Preference
-                android:title="CustoMIUIzer"
-                android:summary="MonwF">
+            android:title="MiuiHomeR"
+            android:summary="qqlittleice">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/MonwF/customiuizer" />
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/qqlittleice/MiuiHome_R" />
         </Preference>
         <Preference
-                android:title="EzXHelper"
-                android:summary="KyuubiRan">
+            android:title="MIUIQOL"
+            android:summary="chsbuffer">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/KyuubiRan/EzXHelper" />
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/chsbuffer/MIUIQOL" />
         </Preference>
         <Preference
-                android:title="DexKit"
-                android:summary="LuckyPray">
+            android:title="Miui XXL"
+            android:summary="YuKongA">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/LuckyPray/DexKit" />
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YuKongA/Miui_XXL" />
         </Preference>
         <Preference
-                android:title="CorePatch"
-                android:summary="LSPosed">
+            android:title="NoStorageRestrict"
+            android:summary="Xposed-Modules-Repo">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/LSPosed/CorePatch" />
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict" />
+        </Preference>
+        <Preference
+            android:title="Portal Hook"
+            android:summary="Haocen2004">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Haocen2004/PortalHook" />
+        </Preference>
+        <Preference
+            android:title="RemoveMiuiSystemSelfProtection"
+            android:summary="gfbjngjibn">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection" />
+        </Preference>
+        <Preference
+            android:title="SettingsDontThroughTheList"
+            android:summary="weixiansen574">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/weixiansen574/settingsdontthroughthelist" />
         </Preference>
         <Preference
                 android:title="Woobox For MIUI"
@@ -51,90 +142,6 @@
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
-        </Preference>
-        <Preference
-                android:title="MiuiHomeR"
-                android:summary="qqlittleice">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/qqlittleice/MiuiHome_R" />
-        </Preference>
-        <Preference
-                android:title="MIUIQOL"
-                android:summary="chsbuffer">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/chsbuffer/MIUIQOL" />
-        </Preference>
-        <Preference
-                android:title="MaxFreeForm"
-                android:summary="YifePlayte">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/YifePlayte/MaxFreeForm" />
-        </Preference>
-        <Preference
-                android:title="Miui XXL"
-                android:summary="YuKongA">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/YuKongA/Miui_XXL" />
-        </Preference>
-        <Preference
-                android:title="DisableFlagSecure"
-                android:summary="LSPosed">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/LSPosed/DisableFlagSecure" />
-        </Preference>
-        <Preference
-                android:title="HideMiuiClipboardDialog"
-                android:summary="zerorooot">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
-        </Preference>
-        <Preference
-                android:title="AntiAntiDefraud"
-                android:summary="MinaMichita">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
-        </Preference>
-        <Preference
-                android:title="Auto NFC"
-                android:summary="GSWXXN">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/GSWXXN/AutoNFC" />
-        </Preference>
-        <Preference
-                android:title="Portal Hook"
-                android:summary="Haocen2004">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/Haocen2004/PortalHook" />
-        </Preference>
-        <Preference
-            android:title="RemoveMiuiSystemSelfProtection"
-            android:summary="gfbjngjibn">
-        <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection" />
-    </Preference>
-        <Preference
-                android:title="Disable app link verify"
-                android:summary="Xposed-Modules-Repo">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify" />
-        </Preference>
-        <Preference
-                android:title="NoStorageRestrict"
-                android:summary="Xposed-Modules-Repo">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
