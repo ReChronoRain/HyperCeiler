@@ -757,4 +757,5 @@
     <string name="camera_record_60fps_desc">Not available in some qualities, please make sure that your device was supported</string>
     <string name="camera_record_120fps">Unlock 120FPS</string>
     <string name="camera_record_120fps_desc">Only support when 4K qualities, please make sure that your device was supported</string>
+    <string name="camera_record_audio_zoom">Unlock Audio zoom</string>
 </resources>
