@@ -29,17 +29,18 @@ object NetworkSpeed : BaseHook() {
         try {
             val list = NetworkInterface.getNetworkInterfaces()
             while (list.hasMoreElements()) {
-                val iface = list.nextElement()
-                if (iface.isUp && !iface.isVirtual && !iface.isLoopback && !iface.isPointToPoint && "" != iface.name) {
+                val itFace = list.nextElement()
+                if (itFace.isUp && !itFace.isVirtual && !itFace.isLoopback && !itFace.isPointToPoint && "" != itFace.name
+                ) {
                     tx += XposedHelpers.callStaticMethod(
                         TrafficStats::class.java,
                         "getTxBytes",
-                        iface.name
+                        itFace.name
                     ) as Long
                     rx += XposedHelpers.callStaticMethod(
                         TrafficStats::class.java,
                         "getRxBytes",
-                        iface.name
+                        itFace.name
                     ) as Long
                 }
             }
@@ -125,11 +126,11 @@ object NetworkSpeed : BaseHook() {
                     val nw = mConnectivityManager.activeNetwork
                     if (nw != null) {
                         val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
-                        if (capabilities != null && (!(!capabilities.hasTransport(
+                        if (capabilities != null && (capabilities.hasTransport(
                                 NetworkCapabilities.TRANSPORT_WIFI
                             ) && !capabilities.hasTransport(
                                 NetworkCapabilities.TRANSPORT_CELLULAR
-                            )))
+                            ))
                         ) {
                             isConnected = true
                         }
