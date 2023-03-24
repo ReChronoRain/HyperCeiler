@@ -223,6 +223,11 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
+                android:title="@string/camera_settings_nevus"
+                android:key="prefs_key_camera_settings_nevus"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
                 android:title="@string/camera_settings_men_makeup"
                 android:key="prefs_key_camera_settings_men_makeup"
                 android:defaultValue="false"/>
