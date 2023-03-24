@@ -738,7 +738,7 @@
     <string name="system_ui_statusbar_clock_period">顯示時段</string>
     <string name="array_clock_geek">極客</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系统桌布黑屏</string>
-    <string name="prefs_key_system_settings_permission_show_app_up_desc">恢復舊版行為，直接跳轉對應應用程式 [顯示在其他應用程式上層] 的權限開關</string>
+    <string name="prefs_key_system_settings_permission_show_app_up_desc">恢復舊版行為，直接跳轉對應應用程式 “顯示在其他應用程式上層” 的權限開關</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
     <string name="camera_record_60fps">解鎖 60FPS</string>
     <string name="camera_record_60fps_desc">部分畫質下不可用，部分設備硬體不支持</string>
