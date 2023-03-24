@@ -394,7 +394,6 @@
     </string-array>
 
     <string-array name="system_ui_status_bar_network_icon">
-        <item>@string/array_default</item>
         <item>@string/array_netspeedicons_no</item>
         <item>@string/array_netspeedicons_arrows</item>
         <item>@string/array_netspeedicons_arrows_small</item>
@@ -404,7 +403,6 @@
     </string-array>
 
     <string-array name="system_ui_status_bar_network_icon_value">
-        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>

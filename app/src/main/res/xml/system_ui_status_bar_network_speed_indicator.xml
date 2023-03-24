@@ -51,7 +51,7 @@
         <DropDownPreference
                 android:key="prefs_key_system_ui_statusbar_network_speed_icon"
                 android:title="@string/system_ui_statusbar_network_speed_icon"
-                android:defaultValue="0"
+                android:defaultValue="2"
                 app:entries="@array/system_ui_status_bar_network_icon"
                 app:entryValues="@array/system_ui_status_bar_network_icon_value"/>
 
