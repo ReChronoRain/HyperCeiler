@@ -55,5 +55,6 @@ public class Camera extends BaseModule {
 
         //设置
         initHook(EnableLabOptions.INSTANCE, mPrefsMap.getBoolean("camera_settings_lab_options"));
+        initHook(new UnlockTrackEyes(), mPrefsMap.getBoolean("camera_settings_track_eyes"));
     }
 }
