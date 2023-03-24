@@ -176,6 +176,7 @@
     <string name="camera_pro_log">解锁 LOG</string>
     <string name="camera_settings_heic">解锁 HEIF 格式</string>
     <string name="camera_settings_track_focus">解锁万物追焦</string>
+    <string name="camera_settings_predictive">解锁运动抓拍</string>
     <string name="camera_settings_nevus">解锁祛痣</string>
     <string name="camera_settings_men_makeup">解锁男性妆容适配</string>
     <string name="camera_settings_lab_options">启用实验室选项</string>
