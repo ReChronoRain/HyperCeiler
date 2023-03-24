@@ -175,6 +175,7 @@
     <string name="camera_pro_raw">解锁 RAW</string>
     <string name="camera_pro_log">解锁 LOG</string>
     <string name="camera_settings_heic">解锁 HEIF 格式</string>
+    <string name="camera_settings_men_makeup">解锁男性妆容适配</string>
     <string name="camera_settings_lab_options">启用实验室选项</string>
     <string name="camera_settings_track_eyes">解锁人眼追焦</string>
 

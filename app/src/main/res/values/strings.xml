@@ -782,4 +782,5 @@
     <string name="camera_settings_lab_options">Enable Lab options</string>
     <string name="camera_settings_track_eyes">Unlock Track eyes</string>
     <string name="camera_settings_heic">Unlock HEIF</string>
+    <string name="camera_settings_men_makeup">Unlock Adjust makeup effects for men</string>
 </resources>
