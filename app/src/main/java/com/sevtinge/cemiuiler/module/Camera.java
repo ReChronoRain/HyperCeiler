@@ -52,5 +52,8 @@ public class Camera extends BaseModule {
         //专业
         initHook(new UnlockRaw(), mPrefsMap.getBoolean("camera_pro_raw"));
         initHook(new UnlockLog(), mPrefsMap.getBoolean("camera_pro_log"));
+
+        //设置
+        initHook(EnableLabOptions.INSTANCE, mPrefsMap.getBoolean("camera_settings_lab_options"));
     }
 }

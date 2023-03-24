@@ -715,6 +715,7 @@
     <string name="camera_shot_title">Shot</string>
     <string name="camera_portrait_title">Portrait</string>
     <string name="camera_pro_title">Pro</string>
+    <string name="camera_settings_title">Settings</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
@@ -778,4 +779,5 @@
     <string name="prefs_key_system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Network speed separator</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">The vertical line between the time and the network speed is not displayed on the device with the water drop screen</string>
+    <string name="camera_settings_lab_options">Enable Lab options</string>
 </resources>
