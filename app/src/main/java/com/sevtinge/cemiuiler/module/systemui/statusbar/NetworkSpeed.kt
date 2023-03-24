@@ -51,7 +51,7 @@ object NetworkSpeed : BaseHook() {
         return Pair(tx, rx)
     }
 
-//  网速计算与隐藏相关
+    //  网速计算与隐藏相关
     @SuppressLint("DefaultLocale")
     private fun humanReadableByteCount(ctx: Context, bytes: Long): String {
         return try {
@@ -154,44 +154,50 @@ object NetworkSpeed : BaseHook() {
                         ) * 1024
 //                      网速图标
                         val icons =
-                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2")
+                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "0")
                                 .toInt()
-                        var txarrow = ""
-                        var rxarrow = ""
-                        when (icons) {
-                            2 -> {
-                                txarrow = if (txSpeed < lowLevel) "△" else "▲"
-                                rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
+                        if (icons != 0) {
+                            var txarrow = ""
+                            var rxarrow = ""
+                            when (icons) {
+                                2 -> {
+                                    txarrow = if (txSpeed < lowLevel) "△" else "▲"
+                                    rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
+                                }
+
+                                3 -> {
+                                    txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
+                                    rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                                }
+
+                                4 -> {
+                                    txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
+                                    rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                                }
+
+                                5 -> {
+                                    txarrow = if (txSpeed < lowLevel) "↑" else "↑"
+                                    rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
+                                }
+
+                                6 -> {
+                                    txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
+                                    rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                                }
                             }
-                            3 -> {
-                                txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                                rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
-                            }
-                            4 -> {
-                                txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                                rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
-                            }
-                            5 -> {
-                                txarrow = if (txSpeed < lowLevel) "↑" else "↑"
-                                rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                            }
-                            6 -> {
-                                txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                                rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
-                            }
-                        }
-                        val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
-                            mContext,
-                            txSpeed
-                        ) + txarrow
-                        val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(
-                            mContext,
-                            rxSpeed
-                        ) + rxarrow
-                        param.args[0] = """
+                            val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
+                                mContext,
+                                txSpeed
+                            ) + txarrow
+                            val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(
+                                mContext,
+                                rxSpeed
+                            ) + rxarrow
+                            param.args[0] = """
                     $tx
                     $rx
                     """.trimIndent()
+                        }
                     }
                 }
             )
