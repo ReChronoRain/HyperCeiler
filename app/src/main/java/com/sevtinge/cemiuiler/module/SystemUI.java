@@ -57,11 +57,13 @@ public class SystemUI extends BaseModule {
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器
-        initHook(NetworkSpeed.INSTANCE);
+        if(mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+            initHook(NetworkSpeed.INSTANCE);
+            initHook(NetworkSpeedUnit.INSTANCE);
+            initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
+        }
         initHook(NetworkSpeedSpacing.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
         initHook(NetworkSpeedSec.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
-        initHook(NetworkSpeedUnit.INSTANCE);
-        initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         //时钟指示器

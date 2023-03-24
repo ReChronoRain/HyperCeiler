@@ -603,6 +603,7 @@
     <string name="system_ui_statusbar_network_speed_fixedcontent_width">固定宽度</string>
     <string name="system_ui_statusbar_network_speed_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
+    <string name="system_ui_statusbar_network_speed_enable_custom">启用自定义</string>
 
     <string name="system_ui_statusbar_clock_mode">自定义时钟模式</string>
     <string name="system_ui_statusbar_clock_editor">时钟格式</string>
