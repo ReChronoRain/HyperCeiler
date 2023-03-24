@@ -58,9 +58,10 @@ public class SystemUI extends BaseModule {
 
         //网速指示器
         initHook(NetworkSpeed.INSTANCE);
-        initHook(NetworkSpeedSpacing.INSTANCE);
-        initHook(NetworkSpeedSec.INSTANCE);
+        initHook(NetworkSpeedSpacing.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_network_speed_update_spacing"));
+        initHook(NetworkSpeedSec.INSTANCE, mPrefsMap.getBoolean("hide_status_bar_network_speed_second"));
         initHook(NetworkSpeedUnit.INSTANCE);
+        initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         //时钟指示器
