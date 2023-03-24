@@ -57,6 +57,7 @@ public class Camera extends BaseModule {
         initHook(new UnlockTrackFeature(), (mPrefsMap.getBoolean("camera_settings_track_eyes") || mPrefsMap.getBoolean("camera_settings_track_focus")));
         initHook(new UnlockHeic(), mPrefsMap.getBoolean("camera_settings_heic"));
         initHook(new UnlockTrackFocus(), mPrefsMap.getBoolean("camera_settings_track_focus"));
+        initHook(new UnlockAiShutter(), mPrefsMap.getBoolean("camera_settings_predictive"));
         initHook(new UnlockCyberFocusVersion2(), mPrefsMap.getBoolean("camera_settings_track_focus"));
         initHook(new UnlockNevus(), mPrefsMap.getBoolean("camera_settings_nevus"));
         initHook(new UnlockMenMakeup(), mPrefsMap.getBoolean("camera_settings_men_makeup"));
