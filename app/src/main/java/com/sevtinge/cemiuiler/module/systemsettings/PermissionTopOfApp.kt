@@ -19,7 +19,7 @@ object PermissionTopOfApp : BaseHook() {
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         //调试是否Hook成功
                         super.beforeHookedMethod(param)
-                        XposedBridge.log("onCreate已执行")
+                        XposedBridge.log("Cemiuiler: PermissionTopOfApp onCreate has been done.")
                     }
 
                     @SuppressLint("PrivateApi")
