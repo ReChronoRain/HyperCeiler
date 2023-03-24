@@ -218,6 +218,11 @@
     <PreferenceCategory android:title="@string/camera_settings_title">
 
         <SwitchPreference
+                android:title="@string/camera_settings_heic"
+                android:key="prefs_key_camera_settings_heic"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
                 android:title="@string/camera_settings_lab_options"
                 android:key="prefs_key_camera_settings_lab_options"
                 android:defaultValue="false"/>
