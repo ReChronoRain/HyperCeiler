@@ -784,4 +784,5 @@
     <string name="camera_settings_heic">Unlock HEIF</string>
     <string name="camera_settings_men_makeup">Unlock Adjust makeup effects for men</string>
     <string name="camera_settings_nevus">Unlock Remove moles</string>
+    <string name="camera_settings_track_focus">Unlock Motion track focus</string>
 </resources>
