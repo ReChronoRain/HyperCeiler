@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
@@ -13,7 +14,7 @@ object PermissionTopOfApp : BaseHook() {
     override fun init() {
         if (lpparam.packageName == "com.android.settings") {
             XposedHelpers.findAndHookMethod("com.android.settings.SettingsActivity", lpparam.classLoader, "onCreate", Bundle::class.java,
-                object : MethodHook() {
+                object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         //调试是否Hook成功
