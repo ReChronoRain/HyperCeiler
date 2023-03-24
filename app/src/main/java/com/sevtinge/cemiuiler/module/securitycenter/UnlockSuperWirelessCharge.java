@@ -36,8 +36,8 @@ public class UnlockSuperWirelessCharge extends BaseHook {
             for (DexMethodDescriptor descriptor : result) {
                 Method SuperWirelessCharge = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: SuperWirelessCharge method is "+ SuperWirelessCharge);
-                if (SuperWirelessCharge.getReturnType() == int.class) {
-                    XposedBridge.hookMethod(SuperWirelessCharge, XC_MethodReplacement.returnConstant(0));
+                if (SuperWirelessCharge.getReturnType() == boolean.class) {
+                    XposedBridge.hookMethod(SuperWirelessCharge, XC_MethodReplacement.returnConstant(true));
                 }
             }
         } catch (Throwable e) {
@@ -58,8 +58,8 @@ public class UnlockSuperWirelessCharge extends BaseHook {
             for (DexMethodDescriptor descriptor : result) {
                 Method SuperWirelessChargeTip = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: SuperWirelessChargeTip method is "+ SuperWirelessChargeTip);
-                if (SuperWirelessChargeTip.getReturnType() == int.class) {
-                    XposedBridge.hookMethod(SuperWirelessChargeTip, XC_MethodReplacement.returnConstant(0));
+                if (SuperWirelessChargeTip.getReturnType() == boolean.class) {
+                    XposedBridge.hookMethod(SuperWirelessChargeTip, XC_MethodReplacement.returnConstant(true));
                 }
             }
         } catch (Throwable e) {
