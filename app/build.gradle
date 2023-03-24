@@ -83,7 +83,7 @@ dependencies {
 
     implementation 'org.luckypray:DexKit:1.1.4'
     implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
-    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.30.0'
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
 
     implementation "androidx.core:core:$AndroidXCoreVersion"
