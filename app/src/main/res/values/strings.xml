@@ -786,4 +786,5 @@
     <string name="camera_settings_nevus">Unlock Remove moles</string>
     <string name="camera_settings_track_focus">Unlock Motion track focus</string>
     <string name="camera_settings_predictive">Unlock Motion capture</string>
+    <string name="security_center_super_wireless_charge">Unlock Super wireless charge</string>
 </resources>

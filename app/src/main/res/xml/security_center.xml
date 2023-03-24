@@ -40,6 +40,11 @@
             android:defaultValue="false"
             app:isPreferenceVisible="true"/>
 
+        <SwitchPreference
+                android:key="prefs_key_security_center_super_wireless_charge"
+                android:title="@string/security_center_super_wireless_charge"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_privacy_title">

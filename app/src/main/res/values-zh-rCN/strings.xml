@@ -482,6 +482,7 @@
     <string name="security_center_no_permission">未取得所需权限</string>
     <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
+    <string name="security_center_super_wireless_charge">解锁极速无线充电模式</string>
 
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>

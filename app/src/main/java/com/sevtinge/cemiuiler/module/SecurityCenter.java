@@ -27,6 +27,7 @@ public class SecurityCenter extends BaseModule {
         //省电与电池
         //initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature"));
+        initHook(new UnlockSuperWirelessCharge(), mPrefsMap.getBoolean("security_center_super_wireless_charge"));
 
         //隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
