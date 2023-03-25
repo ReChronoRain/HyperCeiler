@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.wini.blur
+package com.sevtinge.cemiuiler.module.systemui
 
 import android.animation.ValueAnimator
 import android.graphics.Color
@@ -8,7 +8,6 @@ import android.graphics.drawable.LayerDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
 import com.sevtinge.cemiuiler.utils.HookUtils
 
 import de.robv.android.xposed.XC_MethodHook
@@ -16,6 +15,8 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
+class BlurSystemUI
+/*
 class BlurSystemUI (private val classLoader: ClassLoader, config: ConfigModel) {
     val cornerRadius = config.BlurSystemUI.notification.cornerRadius
     val blurRadius = config.BlurSystemUI.notification.blurRadius
@@ -1342,3 +1343,4 @@ class BlurSystemUI (private val classLoader: ClassLoader, config: ConfigModel) {
     }
 
 }
+*/

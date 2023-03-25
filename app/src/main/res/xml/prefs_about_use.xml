@@ -4,6 +4,13 @@
         <Preference
                 android:summary="@string/about_use_desc"/>
         <Preference
+                android:title="AndroidHiddenApiBypass"
+                android:summary="LSPosed">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/LSPosed/AndroidHiddenApiBypass" />
+        </Preference>
+        <Preference
             android:title="AntiAntiDefraud"
             android:summary="MinaMichita">
             <intent
@@ -130,6 +137,13 @@
                 android:data="https://github.com/weixiansen574/settingsdontthroughthelist" />
         </Preference>
         <Preference
+                android:title="WINI"
+                android:summary="ouhoukyo">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/ouhoukyo/WINI" />
+        </Preference>
+        <Preference
                 android:title="Woobox For MIUI"
                 android:summary="Simplicity-Team">
             <intent
@@ -142,6 +156,13 @@
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
+        </Preference>
+        <Preference
+                android:title="XposedBridge"
+                android:summary="rovo89">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/rovo89/XposedBridge" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

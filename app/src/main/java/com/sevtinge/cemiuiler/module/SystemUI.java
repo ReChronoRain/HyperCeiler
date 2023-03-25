@@ -1,24 +1,11 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.systemui.BatteryIndicator;
-import com.sevtinge.cemiuiler.module.systemui.BluetoothRestrict;
-import com.sevtinge.cemiuiler.module.systemui.MiuiGxzwSize;
-import com.sevtinge.cemiuiler.module.systemui.MonetThemeOverlay;
-import com.sevtinge.cemiuiler.module.systemui.NotificationVolumeSeparateSlider;
-import com.sevtinge.cemiuiler.module.systemui.QSDetailBackGround;
-import com.sevtinge.cemiuiler.module.systemui.StatusBarActions;
-import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSFiveGTile;
-import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGrid;
-import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSTileLabel;
-import com.sevtinge.cemiuiler.module.systemui.controlcenter.SmartHome;
+import com.sevtinge.cemiuiler.module.systemui.*;
+import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
+import com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
-import com.sevtinge.cemiuiler.module.systemui.ChargeAnimationStyle;
-import com.sevtinge.cemiuiler.module.systemui.NotificationFreeform;
-import com.sevtinge.cemiuiler.module.systemui.OriginChargeAnimation;
-import com.sevtinge.cemiuiler.module.systemui.StatusBarLayout;
-import com.sevtinge.cemiuiler.module.systemui.SwitchControlPanel;
 
 public class SystemUI extends BaseModule {
 
@@ -26,7 +13,7 @@ public class SystemUI extends BaseModule {
     public void handleLoadPackage() {
 
         //
-        initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style",0) > 0);
+        initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
 
@@ -57,7 +44,7 @@ public class SystemUI extends BaseModule {
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器
-        if(mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
             initHook(NetworkSpeed.INSTANCE);
             initHook(NetworkSpeedUnit.INSTANCE);
             initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
@@ -88,7 +75,7 @@ public class SystemUI extends BaseModule {
         //实验性功能
         initHook(new SwitchControlPanel(), false);
         initHook(new StatusBarLayout(), false);
-        initHook(new MiuiGxzwSize(),false);
+        initHook(new MiuiGxzwSize(), false);
 
         //控制中心
         initHook(new SmartHome(), false);
@@ -96,6 +83,8 @@ public class SystemUI extends BaseModule {
         initHook(new QSFiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
         initHook(new QSTileLabel(), mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_qs_rows", 4) > 4 || mPrefsMap.getInt("system_control_center_qs_columns", 4) > 4);
+        initHook(HideMiPlayEntry.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_hide_mi_play_entry"));
+        initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
 
         //Actions
         initHook(new StatusBarActions());
@@ -105,6 +94,12 @@ public class SystemUI extends BaseModule {
         initHook(new NotificationVolumeSeparateSlider(), mSeparateVolume);
 
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
+
+        initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
+
+        initHook(AddBlurEffectToLockScreen.INSTANCE);
+
+        initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
 
     }
 

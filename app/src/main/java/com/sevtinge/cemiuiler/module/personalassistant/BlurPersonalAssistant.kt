@@ -1,24 +1,22 @@
-package com.sevtinge.cemiuiler.module.wini.blur
+package com.sevtinge.cemiuiler.module.personalassistant
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.Window
 import androidx.annotation.RequiresApi
-import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
-import com.sevtinge.cemiuiler.utils.ColorUtils
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import kotlin.math.abs
 
-class BlurPersonalAssistant(private val classLoader: ClassLoader, config: ConfigModel) {
-    val blurRadius = config.BlurPersonalAssistant.background.blurRadius
-    val backgroundColor = ColorUtils.hexToColor(config.BlurPersonalAssistant.background.backgroundColor)
+object BlurPersonalAssistant : BaseHook() {
+    val blurRadius = mPrefsMap.getInt("personal_assistant_blurradius",80)
+    val backgroundColor = mPrefsMap.getInt("personal_assistant_color",-1)
 
-    fun addBlurEffectToPersonalAssistant() {
-        val AssistantOverlayWindowClass = HookUtils.getClass(
-            "com.miui.personalassistant.core.overlay.AssistantOverlayWindow",
-            classLoader
+    override fun init() {
+        val AssistantOverlayWindowClass = findClassIfExists(
+            "com.miui.personalassistant.core.overlay.AssistantOverlayWindow"
         ) ?: return
 
         var lastBlurRadius = -1

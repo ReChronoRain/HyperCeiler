@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.wini.hooks
+package com.sevtinge.cemiuiler.module.systemframework
 
 import android.graphics.Canvas
 import com.sevtinge.cemiuiler.utils.HookUtils
@@ -6,7 +6,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 
-class FrameworkHooks :IXposedHookZygoteInit {
+class BackgroundBlurDrawable :IXposedHookZygoteInit {
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
         val classLoader = startupParam.javaClass.classLoader
         val BackgroundBlurDrawableClass = classLoader?.let {

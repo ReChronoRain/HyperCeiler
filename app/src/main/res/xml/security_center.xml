@@ -156,12 +156,14 @@
         <SwitchPreference
             android:title="@string/security_center_newbox_custom_enable"
             android:key="prefs_key_security_center_newbox_custom_enable"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:isPreferenceVisible="false"/>
 
         <Preference
             android:title="@string/security_center_newbox_bg_custom"
             android:key="prefs_key_security_center_newbox_bg_custom"
-            android:dependency="prefs_key_security_center_newbox_custom_enable" />
+            android:dependency="prefs_key_security_center_newbox_custom_enable"
+            app:isPreferenceVisible="false"/>
 
         <SeekBarPreference
             android:title="@string/security_center_newbox_bg_padding_vertical"
@@ -170,7 +172,8 @@
             app:maxValue="30"
             app:format="%d dp"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_security_center_newbox_custom_enable"/>
+            android:dependency="prefs_key_security_center_newbox_custom_enable"
+            app:isPreferenceVisible="false"/>
 
         <SeekBarPreference
             android:title="@string/security_center_newbox_bg_padding_horizontal"
@@ -179,16 +182,17 @@
             app:maxValue="30"
             app:format="%d dp"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_security_center_newbox_custom_enable"/>
+            android:dependency="prefs_key_security_center_newbox_custom_enable"
+            app:isPreferenceVisible="false"/>
 
         <SwitchPreference
-            android:title="@string/security_blur_model"
+            android:title="@string/security_center_blur_model"
             android:key="prefs_key_se_enable"
             android:defaultValue="false" />
 
         <SeekBarPreference
-            android:title="@string/security_blurradius_summary"
-            android:key="prefs_key_security_blurRadius"
+            android:title="@string/security_center_blurradius"
+            android:key="prefs_key_security_center_blurradius"
             android:defaultValue="60"
             app:minValue="30"
             app:maxValue="99"
@@ -198,8 +202,8 @@
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
-            android:title="@string/security_color_summary"
-            android:key="prefs_key_security_color"
+            android:title="@string/security_center_color"
+            android:key="prefs_key_security_center_color"
             android:dependency="prefs_key_se_enable"
             android:defaultValue="-1"
             app:showAlphaSlider="false"/>

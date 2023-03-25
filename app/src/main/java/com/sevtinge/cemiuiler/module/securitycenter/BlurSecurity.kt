@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.wini.blur
+package com.sevtinge.cemiuiler.module.securitycenter
 
 import android.content.Context
 import android.graphics.*
@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ColorUtils
 import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -20,10 +20,9 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
-class BlurSecurity(private val classLoader: ClassLoader, config: ConfigModel) {
-    val blurRadius = config.BlurSecurity.dockBackground.blurRadius
-    val backgroundColor =
-        ColorUtils.hexToColor(config.BlurSecurity.dockBackground.backgroundColor)
+object BlurSecurity : BaseHook() {
+    val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
+    val backgroundColor = mPrefsMap.getInt("security_center_color", -1)
     val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
 
     private var appVersionCode = 40000727
@@ -55,22 +54,20 @@ class BlurSecurity(private val classLoader: ClassLoader, config: ConfigModel) {
             "rv_information"
         )
 
-    fun addBlurEffectToDock() {
-        val TurboLayoutClass = HookUtils.getClass(
-            "com.miui.gamebooster.windowmanager.newbox.TurboLayout",
-            classLoader
+    override fun init() {
+        val TurboLayoutClass = findClassIfExists(
+            "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
         ) ?: return
-        val NewToolBoxTopViewClass = HookUtils.getClass(
-            "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView",
-            classLoader
+        val NewToolBoxTopViewClass = findClassIfExists(
+            "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
         var VideoBoxViewClass =
-            HookUtils.getClass("com.miui.gamebooster.videobox.adapter.i", classLoader)
+            findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
         var VideoBoxViewMethodName = "a"
         if (VideoBoxViewClass == null) {
             // v7.4.9
             appVersionCode = 40000749
-            VideoBoxViewClass = HookUtils.getClass("t7.i", classLoader) ?: return
+            VideoBoxViewClass = findClassIfExists("t7.i") ?: return
             VideoBoxViewMethodName = "i"
         }
 
@@ -225,22 +222,18 @@ class BlurSecurity(private val classLoader: ClassLoader, config: ConfigModel) {
             })
 
         if (shouldInvertColor) {
-            val DetailSettingsLayoutClass = HookUtils.getClass(
-                "com.miui.gamebooster.videobox.view.DetailSettingsLayout",
-                classLoader
+            val DetailSettingsLayoutClass = findClassIfExists(
+                "com.miui.gamebooster.videobox.view.DetailSettingsLayout"
             ) ?: return
-            val SrsLevelSeekBarProClass = HookUtils.getClass(
-                "com.miui.gamebooster.videobox.view.SrsLevelSeekBarPro",
-                classLoader
+            val SrsLevelSeekBarProClass = findClassIfExists(
+                "com.miui.gamebooster.videobox.view.SrsLevelSeekBarPro"
             ) ?: return
-            var SrsLevelSeekBarInnerViewClass = HookUtils.getClass(
-                "com.miui.gamebooster.videobox.view.c",
-                classLoader
+            var SrsLevelSeekBarInnerViewClass = findClassIfExists(
+                "com.miui.gamebooster.videobox.view.c"
             )
             if (SrsLevelSeekBarInnerViewClass == null) {
-                SrsLevelSeekBarInnerViewClass = HookUtils.getClass(
-                    "b8.c",
-                    classLoader
+                SrsLevelSeekBarInnerViewClass = findClassIfExists(
+                    "b8.c"
                 ) ?: return
             }
             val videoBoxWhiteList = arrayOf(
@@ -271,18 +264,17 @@ class BlurSecurity(private val classLoader: ClassLoader, config: ConfigModel) {
             )
 
             var SecondViewClass =
-                HookUtils.getClass("com.miui.gamebooster.windowmanager.newbox.n", classLoader)
+                findClassIfExists("com.miui.gamebooster.windowmanager.newbox.n")
             var SecondViewMethodName = "b"
 
             if (appVersionCode >= 40000749) {
-                SecondViewClass = HookUtils.getClass(
-                    "com.miui.gamebooster.windowmanager.newbox.j",
-                    classLoader
+                SecondViewClass = findClassIfExists(
+                    "com.miui.gamebooster.windowmanager.newbox.j"
                 ) ?: return
                 SecondViewMethodName = "B"
             }
             val AuditionViewClass =
-                HookUtils.getClass("com.miui.gamebooster.customview.AuditionView", classLoader)
+                findClassIfExists("com.miui.gamebooster.customview.AuditionView")
                     ?: return
 
             XposedBridge.hookAllMethods(
@@ -298,7 +290,7 @@ class BlurSecurity(private val classLoader: ClassLoader, config: ConfigModel) {
                         val listView = HookUtils.getValueByField(param.thisObject, "c") as ListView
                         val listViewAdapterClassName = listView.adapter.javaClass.name
                         val listViewAdapterInnerClass =
-                            HookUtils.getClass("$listViewAdapterClassName\$a", classLoader)
+                            findClassIfExists("$listViewAdapterClassName\$a")
                                 ?: return
                         XposedBridge.hookAllMethods(
                             listViewAdapterInnerClass,

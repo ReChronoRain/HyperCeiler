@@ -264,7 +264,7 @@
     <string name="prefs_key_system_settings_develop_speed_mode_desc">在不支援的機型上開啟後不會顯示入口</string>
     <string name="system_ui_lockscreen_title">鎖定螢幕</string>
     <string name="system_ui_statusbar_title">狀態欄</string>
-    <string name="system_ui_controlcenter_title">控制中心</string>
+    <string name="system_ui_controlcenter_title">通知与控制中心</string>
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁貼</string>

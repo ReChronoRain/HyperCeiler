@@ -1,17 +1,15 @@
 package com.sevtinge.cemiuiler
 
+import android.app.Application
+import android.content.Context
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
-import com.sevtinge.cemiuiler.module.systemframework.CleanShareMenu
-import com.sevtinge.cemiuiler.module.systemframework.ScreenRotation
-import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
-import com.sevtinge.cemiuiler.module.systemframework.AllowUninstall
-import com.sevtinge.cemiuiler.module.systemframework.CleanOpenMenu
+import com.sevtinge.cemiuiler.module.systemframework.*
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
-import com.sevtinge.cemiuiler.module.wini.hooks.FrameworkHooks
-import com.sevtinge.cemiuiler.module.wini.hooks.WiniMainHook
+import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
@@ -31,19 +29,21 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes()
         //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
         if (startupParam != null) {
-            FrameworkHooks().initZygote(startupParam)
+            BackgroundBlurDrawable().initZygote(startupParam)
         }
     }
 
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         // Init EzXHelper
-        EzXHelperInit.initHandleLoadPackage(lpparam)
-        EzXHelperInit.setLogTag(TAG)
-        EzXHelperInit.setToastTag(TAG)
-        init(lpparam)
+        Application::class.java.hookBeforeMethod("attach", Context::class.java) {
+            EzXHelperInit.initHandleLoadPackage(lpparam)
+            EzXHelperInit.setLogTag(TAG)
+            EzXHelperInit.setToastTag(TAG)
+            EzXHelperInit.initAppContext(it.args[0] as Context)
+            init(lpparam)
+        }
         SystemFrameworkForCorepatch().handleLoadPackage(lpparam)
-        WiniMainHook().handleLoadPackage(lpparam)
     }
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam) {
@@ -51,6 +51,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
             "com.miui.tsmclient" -> if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
                 AutoNfc.initResource(resparam)
             }
+
             "com.miui.home" -> if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
                 EnableIconMonetColor.initResource(resparam)
             }

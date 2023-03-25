@@ -14,13 +14,13 @@
             android:summary="@string/personal_assistant_fold_widget_enable_desc"/>
 
         <SwitchPreference
-            android:title="@string/personalAssistant_blur_model"
+            android:title="@string/personal_assistant_blur_model"
             android:key="prefs_key_pa_enable"
             android:defaultValue="false" />
 
         <SeekBarPreference
-            android:title="@string/personalAssistant_blurradius_summary"
-            android:key="personalAssistant_blurRadius"
+            android:title="@string/personal_assistant_blurradius"
+            android:key="prefs_key_personal_assistant_blurradius"
             android:defaultValue="80"
             app:minValue="30"
             app:maxValue="99"
@@ -30,11 +30,11 @@
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
-            android:title="@string/personalAssistant_color_summary"
-            android:key="prefs_key_personalAssistant_color"
+            android:title="@string/personal_assistant_color"
+            android:key="prefs_key_personal_assistant_color"
             android:dependency="prefs_key_pa_enable"
             android:defaultValue="-1"
-            app:showAlphaSlider="false"/>
+            app:showAlphaSlider="true"/>
 
 
 

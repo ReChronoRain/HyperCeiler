@@ -58,6 +58,7 @@ public class SecurityCenter extends BaseModule {
 
         //
         initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
+        initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
 
     }
 }

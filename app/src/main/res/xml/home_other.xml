@@ -72,6 +72,17 @@
             android:title="@string/home_other_shortcut_background_blur"
             android:defaultValue="false"/>
 
+        <SeekBarPreference
+                android:title="@string/home_other_shortcut_background_blur_custom"
+                android:key="prefs_key_home_other_shortcut_background_blur_custom"
+                android:defaultValue="255"
+                app:minValue="120"
+                app:maxValue="255"
+                app:format="%s"
+                app:showSeekBarValue="true"
+                android:dependency="prefs_key_home_other_shortcut_background_blur"
+                app:isPreferenceVisible="false"/>
+
         <SwitchPreference
                 android:key="prefs_key_home_other_shortcut_remove_restrictions"
                 android:title="@string/home_other_shortcut_remove_restrictions"
@@ -90,21 +101,6 @@
             android:key="prefs_key_home_other_fold_dock"
             android:title="Fold Dock"
             android:defaultValue="false"/>-->
-
-        <SwitchPreference
-            android:title="@string/blur_when_show_shortcut_menu_summary"
-            android:key="prefs_key_blur_when_show_shortcut_menu"
-            android:defaultValue="false" />
-
-        <SeekBarPreference
-            android:title="@string/shortcutMenuBackgroundAlpha_summary"
-            android:key="shortcutMenuBackgroundAlpha"
-            android:defaultValue="255"
-            app:minValue="120"
-            app:maxValue="255"
-            app:format="%s"
-            app:showSeekBarValue="true"
-            android:dependency="prefs_key_blur_when_show_shortcut_menu"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

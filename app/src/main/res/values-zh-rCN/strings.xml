@@ -336,6 +336,7 @@
     <string name="home_other_shortcut_remove_restrictions">解锁 shortcut 数量限制</string>
     <string name="home_other_disable_hide_google">禁止隐藏 Google 图标</string>
     <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
+    <string name="home_other_shortcut_background_blur_custom">Shortcut菜单背景透明度</string>
 
     <string name="home_recent_animation_speed">动画速度</string>
     <string name="home_recent_blur_level">模糊等级</string>
@@ -369,6 +370,7 @@
     <string name="home_title_title_color">文本颜色</string>
     <string name="home_title_animation_speed">动画速度</string>
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>
+    <string name="home_title_download_animation">下载动画</string>
 
     <string name="home_widget_all_widget_animation">小部件动画</string>
     <string name="home_widget_show_miui_widget">显示 MIUI 小部件</string>
@@ -422,6 +424,10 @@
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
     <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
     <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>
+    <string name="personal_assistant_blur_model">负一屏背景设置</string>
+    <string name="personal_assistant_blurradius">负一屏背景模糊程度</string>
+    <string name="personal_assistant_color">负一屏背景叠加层颜色</string>
+
 
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>
 
@@ -483,6 +489,9 @@
     <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
     <string name="security_center_super_wireless_charge">解锁极速无线充电模式</string>
+    <string name="security_center_blur_model">全局侧边栏背景设置</string>
+    <string name="security_center_blurradius">全局侧边栏背景模糊程度</string>
+    <string name="security_center_color">全局侧边栏背景叠加层颜色</string>
 
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
@@ -547,11 +556,12 @@
 
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>
-    <string name="system_ui_controlcenter_title">控制中心</string>
+    <string name="system_ui_controlcenter_title">通知与控制中心</string>
     <string name="system_ui_other_title">其他</string>
 
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
+    <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
     <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_control_center_qs_tile_label">移除标题</string>
@@ -559,6 +569,13 @@
     <string name="system_control_center_qs_rows_format">%d 行</string>
     <string name="system_control_center_qs_columns">列数</string>
     <string name="system_control_center_qs_columns_format">%d 列</string>
+    <string name="system_ui_control_center_hide_mi_play_entry">隐藏妙播入口</string>
+    <string name="system_ui_control_center_control_detail_background_alpha">面板详情背景透明度</string>
+    <string name="system_ui_control_center_notification_blur_model">通知设置</string>
+    <string name="system_ui_control_center_blur_radius">通知模糊程度（不含下拉通知）</string>
+    <string name="system_ui_control_center_corner_radius">通知模糊区域圆角（默认主题无需调节）</string>
+    <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
+    <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
@@ -872,25 +889,4 @@
     <string name="rest_ask">您是否要恢复备份？</string>
     <string name="rest_permission">"现在您必须手动启用此选项的权限。</string>
 
-    <!--wini-->
-    <string name="scope_wini">Wini</string>
-    <string name="enable">enable</string>
-    <string name="blur_when_show_shortcut_menu">Shortcut 背景模糊</string>
-    <string name="blur_when_show_shortcut_menu_summary">Shortcut 背景模糊</string>
-    <string name="shortcutMenuBackgroundAlpha_summary">Shortcut菜单背景透明度</string>
-    <string name="Quick_Setting_Model">快捷面板</string>
-    <string name="hideMiPlayEntry">隐藏妙播入口</string>
-    <string name="controlDetailBackgroundAlpha_summary">面板详情背景透明度</string>
-    <string name="NotificationBlurModel">通知设置</string>
-    <string name="blurRadius_summary">悬浮and锁屏通知模糊程度(不含下拉通知)</string>
-    <string name="cornerRadius_summary">悬浮and锁屏通知模糊区域圆角(默认主题无需调节)</string>
-    <string name="blurBackgroundAlpha_summary">悬浮and锁屏通知背景透明度</string>
-    <string name="defaultBackgroundAlpha_summary">下拉通知背景透明度</string>
-    <string name="personalAssistant_blur_model">负一屏背景设置</string>
-    <string name="personalAssistant_blurradius_summary">负一屏背景模糊程度</string>
-    <string name="personalAssistant_color_summary">负一屏背景叠加层颜色</string>
-    <string name="security_blur_model">全局侧边栏背景设置</string>
-    <string name="security_blurradius_summary">全局侧边栏背景模糊程度</string>
-    <string name="security_color_summary">全局侧边栏背景叠加层颜色</string>
-    <!--wini-->
 </resources>

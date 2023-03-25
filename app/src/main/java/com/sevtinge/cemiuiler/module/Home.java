@@ -64,7 +64,7 @@ public class Home extends BaseModule {
         initHook(FolderAutoClose.INSTANCE, mPrefsMap.getBoolean("home_folder_auto_close"));
         initHook(new FolderShade(), mPrefsMap.getStringAsInt("home_folder_shade", 1) > 0);
         initHook(FolderColumns.INSTANCE, mPrefsMap.getInt("home_folder_columns", 3) != 3 || mPrefsMap.getBoolean("home_folder_width"));
-        initHook(new FolderBlur(), mPrefsMap.getBoolean("home_folder_blur"));
+        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FolderAnimation(), mPrefsMap.getBoolean("home_folder_animation"));
         initHook(new SmallFolderIconBlur(), mPrefsMap.getBoolean("home_small_folder_icon_bg"));
 
@@ -98,6 +98,7 @@ public class Home extends BaseModule {
 
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
+        initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
 
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));

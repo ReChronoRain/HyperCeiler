@@ -1,5 +1,5 @@
 //val shortcutMenuBackgroundAlpha = getInt("shortcutMenuBackgroundAlpha",255)
-package com.sevtinge.cemiuiler.module.wini.blur
+package com.sevtinge.cemiuiler.module.home.other
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -17,7 +17,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat.animate
-import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
 import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -25,6 +24,9 @@ import de.robv.android.xposed.XposedHelpers
 import kotlin.collections.ArrayList
 import kotlin.math.sqrt
 
+class BlurWhenShowShortcutMenu
+
+/*
 class BlurWhenShowShortcutMenu (private val classLoader: ClassLoader, config: ConfigModel) {
 
     val shortcutMenuBackgroundAlpha = config.BlurWhenShowShortcutMenu.shortcutMenuBackgroundAlpha
@@ -634,3 +636,4 @@ class BlurWhenShowShortcutMenu (private val classLoader: ClassLoader, config: Co
     }
 
 }
+*/

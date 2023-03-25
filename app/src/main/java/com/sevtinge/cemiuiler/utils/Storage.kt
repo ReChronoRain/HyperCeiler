@@ -3,10 +3,12 @@ package com.sevtinge.cemiuiler.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import com.google.gson.Gson
-import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
 
+object Storage
+
+/*
 object Storage {
-    const val DATA_FILENAME = "WINIConfig"
+    const val DATA_FILENAME = "CemiuilerConfig"
     const val CONFIG_JSON = "config"
 
     @SuppressLint("WorldWriteableFiles")
@@ -48,3 +50,4 @@ object Storage {
         saveData(CONFIG_JSON, configString, context)
     }
 }
+*/

@@ -26,7 +26,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public SystemFramework mSystemFramework = new SystemFramework();
     //public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
     public SystemUI mSystemUI = new SystemUI();
-    public SystemUIPlugin mSystemUIPlugin = new SystemUIPlugin();
     public Home mHome = new Home();
     public ScreenShot mScreenShot = new ScreenShot();
 
@@ -61,6 +60,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Mms mMms = new Mms();
     public ExternalStorage mExternalStorage = new ExternalStorage();
     public Camera mCamera = new Camera();
+    public Browser mBrowser = new Browser();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -154,6 +154,11 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.android.thememanager":
                 XposedBridge.log("Cemiuiler: Hook com.android.thememanager");
                 mThemeManager.init(lpparam);
+                break;
+
+            case "com.android.browser":
+                XposedBridge.log("Cemiuiler: Hook com.android.browse");
+                mBrowser.init(lpparam);
                 break;
 
             case "com.android.updater":
@@ -284,11 +289,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.android.camera":
                 XposedBridge.log("Cemiuiler: Hook com.android.camera");
                 mCamera.init(lpparam);
-                break;
-
-            case "miui.systemui.plugin":
-                XposedBridge.log("Cemiuiler: Hook miui.systemui.plugin");
-                mSystemUIPlugin.init(lpparam);
                 break;
 
             case BuildConfig.APPLICATION_ID:

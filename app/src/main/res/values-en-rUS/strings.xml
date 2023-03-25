@@ -773,25 +773,20 @@
     <string name="camera_settings_predictive">Unlock Motion capture</string>
     <string name="security_center_super_wireless_charge">Unlock Super wireless charge</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">Enable custom</string>
-    <!--wini-->
-    <string name="scope_wini">Wini</string>
-    <string name="enable">enable</string>
-    <string name="blur_when_show_shortcut_menu">Shortcut menu blur</string>
-    <string name="blur_when_show_shortcut_menu_summary">Shortcut menu blur</string>
-    <string name="shortcutMenuBackgroundAlpha_summary">Shortcut menu blur value</string>
-    <string name="Quick_Setting_Model">Quick Setting Model</string>
-    <string name="hideMiPlayEntry">Hide MiPlay Entry</string>
-    <string name="controlDetailBackgroundAlpha_summary">Control Detail Background blur value</string>
-    <string name="NotificationBlurModel">Notification Blur Model</string>
-    <string name="blurRadius_summary">Blur Radius</string>
-    <string name="cornerRadius_summary">Corner Radius</string>
-    <string name="blurBackgroundAlpha_summary">Blur Background value</string>
-    <string name="defaultBackgroundAlpha_summary">Default Background value</string>
-    <string name="personalAssistant_blur_model">Personal assistant blur model</string>
-    <string name="personalAssistant_blurradius_summary">Personal assistant blur value</string>
-    <string name="personalAssistant_color_summary">Personal assistant color</string>
-    <string name="security_blur_model">Sidebar blur model</string>
-    <string name="security_blurradius_summary">Sidebar blur value</string>
-    <string name="security_color_summary">Sidebar color</string>
-    <!--wini-->
+    <string name="home_title_download_animation">Download animation</string>
+    <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
+    <string name="system_ui_control_center_hide_mi_play_entry">Hide MiPlay Entry</string>
+    <string name="system_ui_control_center_control_detail_background_alpha">Control Detail Background blur value</string>
+    <string name="system_ui_control_center_notification_blur_model">Notification Blur Model</string>
+    <string name="system_ui_control_center_blur_radius">Blur Radius</string>
+    <string name="system_ui_control_center_corner_radius">Corner Radius</string>
+    <string name="system_ui_control_center_blur_background_alpha">Blur Background value</string>
+    <string name="system_ui_control_center_default_background_alpha">Default Background value</string>
+    <string name="personal_assistant_blur_model">Personal assistant blur model</string>
+    <string name="personal_assistant_blurradius">Personal assistant blur value</string>
+    <string name="personal_assistant_color">Personal assistant color</string>
+    <string name="security_center_blur_model">Sidebar blur model</string>
+    <string name="security_center_blurradius">Sidebar blur value</string>
+    <string name="security_center_color">Sidebar color</string>
+    <string name="system_ui_control_center_notification_blur_title">Notification</string>
 </resources>
