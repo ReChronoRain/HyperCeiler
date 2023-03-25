@@ -25,7 +25,7 @@ class NoAutoTurnOff : BaseHook() {
                     // Lcom/miui/mishare/connectivity/MiShareService$j$g;->a()V 小米互传 2.16.0 定位方法名
                 try {
                     enabledReturnMethod.hookBefore {
-                        it.result = null
+                        it.result = true
                     }
                     XposedBridge.log("Cemiuiler: $enabledReturn")
                     XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService success!")
