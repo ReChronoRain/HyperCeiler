@@ -2,8 +2,6 @@ package com.sevtinge.cemiuiler.module.guardprovider
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.replaceMethod
-import de.robv.android.xposed.IXposedHookLoadPackage
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 import io.luckypray.dexkit.DexKitBridge
 import java.lang.reflect.Method
 
