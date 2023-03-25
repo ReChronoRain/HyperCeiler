@@ -19,6 +19,12 @@ import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.*
+import com.sevtinge.cemiuiler.utils.woobox.callMethod
+import com.sevtinge.cemiuiler.utils.woobox.callStaticMethod
+import com.sevtinge.cemiuiler.utils.woobox.findClass
+import com.sevtinge.cemiuiler.utils.woobox.getObjectField
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterAllMethods
+import com.sevtinge.cemiuiler.utils.woobox.hookBeforeAllMethods
 import de.robv.android.xposed.XposedHelpers
 import kotlin.math.sqrt
 

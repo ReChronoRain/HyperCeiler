@@ -2,10 +2,10 @@ package com.sevtinge.cemiuiler.module.home.recent
 
 import android.graphics.RectF
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.callMethod
-import com.sevtinge.cemiuiler.utils.callStaticMethod
-import com.sevtinge.cemiuiler.utils.findClass
-import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.woobox.callMethod
+import com.sevtinge.cemiuiler.utils.woobox.callStaticMethod
+import com.sevtinge.cemiuiler.utils.woobox.findClass
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
 
 object TaskViewHorizontal : BaseHook() {
     override fun init() {

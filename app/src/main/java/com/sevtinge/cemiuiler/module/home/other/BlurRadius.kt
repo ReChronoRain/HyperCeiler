@@ -2,7 +2,7 @@ package com.sevtinge.cemiuiler.module.home.other
 
 import com.github.kyuubiran.ezxhelper.utils.loadClass
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.hookBeforeAllMethods
+import com.sevtinge.cemiuiler.utils.woobox.hookBeforeAllMethods
 
 object BlurRadius : BaseHook() {
     override fun init() {

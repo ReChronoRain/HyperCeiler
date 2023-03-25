@@ -5,13 +5,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.Time
 import androidx.fragment.app.Fragment
-import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.ui.base.SubFragment
 import moralnorm.appcompat.app.AppCompatActivity
 import moralnorm.internal.utils.ViewUtils
 import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
+import com.sevtinge.cemiuiler.BuildConfig
 
 
 class AboutActivity : AppCompatActivity() {

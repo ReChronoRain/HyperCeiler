@@ -3,8 +3,10 @@ package com.sevtinge.cemiuiler.module.home.recent
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.content.res.Resources
 import com.github.kyuubiran.ezxhelper.init.InitFields.appContext
-import com.github.kyuubiran.ezxhelper.utils.Log
-import com.sevtinge.cemiuiler.utils.*
+import com.sevtinge.cemiuiler.utils.woobox.ResourcesHookData
+import com.sevtinge.cemiuiler.utils.woobox.ResourcesHookMap
+import com.sevtinge.cemiuiler.utils.woobox.dp2px
+import com.sevtinge.cemiuiler.utils.woobox.hookBeforeMethod
 import de.robv.android.xposed.XC_MethodHook
 
 object RecentResource : BaseHook() {

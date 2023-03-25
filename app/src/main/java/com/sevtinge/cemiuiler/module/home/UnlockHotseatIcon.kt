@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module.home
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.hookBeforeMethod
+import com.sevtinge.cemiuiler.utils.woobox.hookBeforeMethod
 
 class UnlockHotseatIcon : BaseHook() {
     override fun init() {

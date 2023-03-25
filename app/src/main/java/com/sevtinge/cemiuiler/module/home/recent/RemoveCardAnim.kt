@@ -4,8 +4,13 @@ import android.animation.ObjectAnimator
 import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.*
-import de.robv.android.xposed.XposedBridge
+import com.sevtinge.cemiuiler.utils.woobox.callMethod
+import com.sevtinge.cemiuiler.utils.woobox.callStaticMethod
+import com.sevtinge.cemiuiler.utils.woobox.findClass
+import com.sevtinge.cemiuiler.utils.woobox.getObjectField
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.woobox.replaceMethod
+import com.sevtinge.cemiuiler.utils.woobox.setObjectField
 
 object RemoveCardAnim : BaseHook() {
     override fun init() {

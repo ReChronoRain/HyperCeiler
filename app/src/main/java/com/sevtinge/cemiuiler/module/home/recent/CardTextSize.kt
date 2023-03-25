@@ -4,9 +4,9 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.findClass
-import com.sevtinge.cemiuiler.utils.getObjectField
-import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.woobox.findClass
+import com.sevtinge.cemiuiler.utils.woobox.getObjectField
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
 
 object CardTextSize : BaseHook() {
     override fun init() {

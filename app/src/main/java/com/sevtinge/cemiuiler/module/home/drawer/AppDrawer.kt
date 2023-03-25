@@ -4,10 +4,10 @@ import android.view.View
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.callMethodAs
-import com.sevtinge.cemiuiler.utils.findClass
-import com.sevtinge.cemiuiler.utils.getObjectFieldAs
-import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.woobox.callMethodAs
+import com.sevtinge.cemiuiler.utils.woobox.findClass
+import com.sevtinge.cemiuiler.utils.woobox.getObjectFieldAs
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
 
 object AppDrawer : BaseHook() {
     override fun init() {

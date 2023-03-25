@@ -21,8 +21,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
-
 import com.sevtinge.cemiuiler.BuildConfig;
+
 import com.sevtinge.cemiuiler.R;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;

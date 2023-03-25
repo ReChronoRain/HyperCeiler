@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemframework.PackagePermissions;
 import com.sevtinge.cemiuiler.module.systemframework.*;
+import com.sevtinge.cemiuiler.module.wini.hooks.WiniMainHook;
 
 
 public class SystemFramework extends BaseModule {

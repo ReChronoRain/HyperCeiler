@@ -3,7 +3,7 @@ package com.sevtinge.cemiuiler.module.home.other
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.woobox.callMethod
 
 object ShortcutItemCount : BaseHook() {
     override fun init() {

@@ -872,4 +872,25 @@
     <string name="rest_ask">您是否要恢复备份？</string>
     <string name="rest_permission">"现在您必须手动启用此选项的权限。</string>
 
+    <!--wini-->
+    <string name="scope_wini">Wini</string>
+    <string name="enable">enable</string>
+    <string name="blur_when_show_shortcut_menu">Shortcut 背景模糊</string>
+    <string name="blur_when_show_shortcut_menu_summary">Shortcut 背景模糊</string>
+    <string name="shortcutMenuBackgroundAlpha_summary">Shortcut菜单背景透明度</string>
+    <string name="Quick_Setting_Model">快捷面板</string>
+    <string name="hideMiPlayEntry">隐藏妙播入口</string>
+    <string name="controlDetailBackgroundAlpha_summary">面板详情背景透明度</string>
+    <string name="NotificationBlurModel">通知设置</string>
+    <string name="blurRadius_summary">悬浮and锁屏通知模糊程度(不含下拉通知)</string>
+    <string name="cornerRadius_summary">悬浮and锁屏通知模糊区域圆角(默认主题无需调节)</string>
+    <string name="blurBackgroundAlpha_summary">悬浮and锁屏通知背景透明度</string>
+    <string name="defaultBackgroundAlpha_summary">下拉通知背景透明度</string>
+    <string name="personalAssistant_blur_model">负一屏背景设置</string>
+    <string name="personalAssistant_blurradius_summary">负一屏背景模糊程度</string>
+    <string name="personalAssistant_color_summary">负一屏背景叠加层颜色</string>
+    <string name="security_blur_model">全局侧边栏背景设置</string>
+    <string name="security_blurradius_summary">全局侧边栏背景模糊程度</string>
+    <string name="security_color_summary">全局侧边栏背景叠加层颜色</string>
+    <!--wini-->
 </resources>

@@ -2,9 +2,8 @@ package com.sevtinge.cemiuiler.utils;
 
 import android.util.Log;
 
-import com.sevtinge.cemiuiler.BuildConfig;
-
 import de.robv.android.xposed.XposedBridge;
+import com.sevtinge.cemiuiler.BuildConfig;
 
 public class LogUtils {
 

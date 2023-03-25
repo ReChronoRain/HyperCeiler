@@ -10,6 +10,8 @@ import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 import com.sevtinge.cemiuiler.module.systemframework.AllowUninstall
 import com.sevtinge.cemiuiler.module.systemframework.CleanOpenMenu
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
+import com.sevtinge.cemiuiler.module.wini.hooks.FrameworkHooks
+import com.sevtinge.cemiuiler.module.wini.hooks.WiniMainHook
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
@@ -28,6 +30,9 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes()
         //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
+        if (startupParam != null) {
+            FrameworkHooks().initZygote(startupParam)
+        }
     }
 
     @Throws(Throwable::class)
@@ -38,6 +43,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         EzXHelperInit.setToastTag(TAG)
         init(lpparam)
         SystemFrameworkForCorepatch().handleLoadPackage(lpparam)
+        WiniMainHook().handleLoadPackage(lpparam)
     }
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam) {

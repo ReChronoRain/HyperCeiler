@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler.module.base;
 
-import android.os.Build;
-import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.*;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
@@ -16,9 +14,8 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-import moralnorm.os.SdkVersion;
+import com.sevtinge.cemiuiler.BuildConfig;
 
 public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 

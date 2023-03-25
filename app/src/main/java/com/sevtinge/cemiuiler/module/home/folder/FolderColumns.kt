@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.GridView
 import com.github.kyuubiran.ezxhelper.utils.loadClass
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.hookAfterAllMethods
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterAllMethods
 import de.robv.android.xposed.XposedHelpers
 
 object FolderColumns : BaseHook() {

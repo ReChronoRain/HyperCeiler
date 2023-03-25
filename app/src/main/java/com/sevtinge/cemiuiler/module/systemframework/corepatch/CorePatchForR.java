@@ -5,15 +5,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import com.sevtinge.cemiuiler.BuildConfig;
 
 import android.util.Log;
-import com.sevtinge.cemiuiler.BuildConfig;
-import com.sevtinge.cemiuiler.XposedInit;
+
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch;
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -23,22 +19,11 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
 
 import de.robv.android.xposed.*;
-import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static com.sevtinge.cemiuiler.utils.Helpers.isAndroidVersionTiramisu;
 
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "conf");

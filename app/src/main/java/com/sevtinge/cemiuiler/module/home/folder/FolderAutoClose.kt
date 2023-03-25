@@ -1,12 +1,10 @@
 package com.sevtinge.cemiuiler.module.home.folder
 
 import android.view.View
-import com.sevtinge.cemiuiler.XposedInit
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.callMethod
-import com.sevtinge.cemiuiler.utils.getBooleanField
-import com.sevtinge.cemiuiler.utils.hookAfterMethod
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.cemiuiler.utils.woobox.callMethod
+import com.sevtinge.cemiuiler.utils.woobox.getBooleanField
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
 
 object FolderAutoClose : BaseHook() {
     override fun init() {

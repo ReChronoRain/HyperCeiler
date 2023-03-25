@@ -1,10 +1,8 @@
 package com.sevtinge.cemiuiler.module.home.title
 
 import android.content.res.Resources
-import android.graphics.Color
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
-import com.sevtinge.cemiuiler.utils.ResourcesHookRegister
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object EnableIconMonetColor : BaseHook() {

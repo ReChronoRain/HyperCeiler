@@ -3,8 +3,8 @@ package com.sevtinge.cemiuiler.module.home.recent
 import android.view.View
 import android.widget.ImageView
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.getObjectField
-import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.woobox.getObjectField
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
 
 object RemoveIcon : BaseHook() {
     override fun init() {

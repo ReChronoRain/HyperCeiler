@@ -3,7 +3,7 @@ package com.sevtinge.cemiuiler.module.home.title
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.woobox.getObjectField
 
 object BigIconCorner : BaseHook() {
     override fun init() {

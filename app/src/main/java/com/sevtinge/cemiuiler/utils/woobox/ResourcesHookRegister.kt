@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils
+package com.sevtinge.cemiuiler.utils.woobox
 
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam

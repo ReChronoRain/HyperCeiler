@@ -1,9 +1,9 @@
 package com.sevtinge.cemiuiler.module.home.recent
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.findClass
-import com.sevtinge.cemiuiler.utils.hookAfterAllConstructors
-import com.sevtinge.cemiuiler.utils.setIntField
+import com.sevtinge.cemiuiler.utils.woobox.findClass
+import com.sevtinge.cemiuiler.utils.woobox.hookAfterAllConstructors
+import com.sevtinge.cemiuiler.utils.woobox.setIntField
 
 object FreeformCardBackgroundColor : BaseHook() {
     override fun init() {
