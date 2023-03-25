@@ -59,6 +59,7 @@ public class SystemFramework extends BaseModule {
         initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
         initHook(new UseOriginalAnimation(), mPrefsMap.getBoolean("system_framework_other_use_original_animation"));
         initHook(new SpeedInstall(), mPrefsMap.getBoolean("system_framework_other_speed_install"));
+        initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
 
         //位置模拟
         initHook(new LocationSimulation(), true);

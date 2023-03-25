@@ -789,4 +789,6 @@
     <string name="security_center_blurradius">Sidebar blur value</string>
     <string name="security_center_color">Sidebar color</string>
     <string name="system_ui_control_center_notification_blur_title">Notification</string>
+    <string name="system_other_delete_on_post_notification_desc">Remove \"This app is displaying on top of other apps on screen\" notification</string>
+    <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
 </resources>

@@ -528,6 +528,8 @@
     <string name="system_framework_clean_open_apps">已选应用</string>
     <string name="system_other_flag_secure">允许截图</string>
     <string name="system_other_flag_secure_desc">允许对任意应用进行截图和录屏</string>
+    <string name="system_other_delete_on_post_notification">移除上层显示通知</string>
+    <string name="system_other_delete_on_post_notification_desc">移除 \"此应用正显示在屏幕上其他应用的上层\" 通知</string>
     <string name="system_framework_share_menu_test">分享菜单测试</string>
     <string name="system_framework_open_with_menu_test">打开方式菜单测试</string>
     <string name="system_framework_other_use_original_animation">过渡动画使用原生样式</string>
