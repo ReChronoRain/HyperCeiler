@@ -13,7 +13,7 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class BlurUtils {
 
-    private Context mContext;
+    private final Context mContext;
     private Object mViewRootImpl;
     private Drawable mBlurDrawable;
 
@@ -75,7 +75,11 @@ public class BlurUtils {
             @Override
             public void onViewAttachedToWindow(View v) {
                 mViewRootImpl = XposedHelpers.callMethod(v,"getViewRootImpl",new Object[0]);
-                mBlurDrawable = createBackgroundDrawable(mViewRootImpl, isBlurEnable, ColorUtils.colorToHexARGB(mColor), mCornerRadius, mBlurRadius);
+                mBlurDrawable = createBackgroundDrawable(mViewRootImpl,
+                        isBlurEnable,
+                        ColorUtils.colorToHexARGB(mColor),
+                        mCornerRadius,
+                        mBlurRadius);
                 v.setBackground(mBlurDrawable);
             }
 

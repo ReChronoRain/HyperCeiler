@@ -1,11 +1,12 @@
 package com.sevtinge.cemiuiler.utils
 
 import android.graphics.Color
+import de.robv.android.xposed.XposedBridge
 import moralnorm.annotation.ColorInt
 
 object ColorUtils {
     // color转换不可靠，加一个默认值
-    val defaultReturnColor = Color.argb(50, 0, 0, 0)
+    private val defaultReturnColor = Color.argb(50, 0, 0, 0)
 
     fun colorToHex(color: Int): String {
         var originalColor = Color.valueOf(defaultReturnColor)
@@ -13,28 +14,29 @@ object ColorUtils {
             originalColor = Color.valueOf(color)
         } catch (e: Throwable) {
             // 颜色转换失败
+            XposedBridge.log(e)
         }
         val alpha = (originalColor.alpha() * 255).toInt()
         val red = (originalColor.red() * 255).toInt()
         val green = (originalColor.green() * 255).toInt()
         val blue = (originalColor.blue() * 255).toInt()
         val alphaHex = if (alpha <= 15) {
-            '0' + alpha.toString()
+            "0$alpha"
         } else {
             alpha.toString(16)
         }
         val redHex = if (red <= 15) {
-            '0' + red.toString()
+            "0$red"
         } else {
             red.toString(16)
         }
         val greenHex = if (green <= 15) {
-            '0' + green.toString()
+            "0$green"
         } else {
             green.toString(16)
         }
         val blueHex = if (blue <= 15) {
-            '0' + blue.toString()
+            "0$blue"
         } else {
             blue.toString(16)
         }
@@ -42,10 +44,10 @@ object ColorUtils {
     }
 
     fun hexToColor(hexString: String): Int {
-        try {
-            return Color.parseColor(hexString)
+        return try {
+            Color.parseColor(hexString)
         } catch (e: Throwable) {
-            return defaultReturnColor
+            defaultReturnColor
         }
     }
 
@@ -66,7 +68,7 @@ object ColorUtils {
      *
      * @return 字符串
      */
-    fun colorToRGBA(color: Int): String? {
+    fun colorToRGBA(color: Int): String {
         val alpha = color ushr 24
         val r = color and 0xff0000 shr 16
         val g = color and 0xff00 shr 8
@@ -81,7 +83,7 @@ object ColorUtils {
      *
      * @return 字符串
      */
-    fun rgbToHex(red: Int, green: Int, blue: Int): String? {
+    fun rgbToHex(red: Int, green: Int, blue: Int): String {
         val hr = Integer.toHexString(red)
         val hg = Integer.toHexString(green)
         val hb = Integer.toHexString(blue)
@@ -94,7 +96,8 @@ object ColorUtils {
      * @param color -1272178
      * @return #AARRGGBB
      */
-    fun colorToHexARGB(@ColorInt color: Int): String? {
+    @JvmStatic
+    fun colorToHexARGB(@ColorInt color: Int): String {
         // 转化为16进制字符串
         var A = Integer.toHexString(Color.alpha(color))
         var R = Integer.toHexString(Color.red(color))
