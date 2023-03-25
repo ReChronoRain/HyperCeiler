@@ -13,8 +13,8 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
-import com.sevtinge.cemiuiler.utils.wini.ColorUtils
-import com.sevtinge.cemiuiler.utils.wini.HookUtils
+import com.sevtinge.cemiuiler.utils.ColorUtils
+import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge

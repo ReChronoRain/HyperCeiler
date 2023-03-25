@@ -4,10 +4,10 @@ import com.github.kyuubiran.ezxhelper.utils.Log
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.checkVersionCode
-import com.sevtinge.cemiuiler.utils.woobox.findClass
-import com.sevtinge.cemiuiler.utils.woobox.hookBeforeMethod
-import com.sevtinge.cemiuiler.utils.woobox.replaceMethod
+import com.sevtinge.cemiuiler.utils.checkVersionCode
+import com.sevtinge.cemiuiler.utils.findClass
+import com.sevtinge.cemiuiler.utils.hookBeforeMethod
+import com.sevtinge.cemiuiler.utils.replaceMethod
 
 object SetDeviceLevel : BaseHook() {
     override fun init() {

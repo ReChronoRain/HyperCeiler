@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module.wini.model
 
-import com.sevtinge.cemiuiler.utils.woobox.XSPUtils.getBoolean
-import com.sevtinge.cemiuiler.utils.woobox.XSPUtils.getInt
+import com.sevtinge.cemiuiler.utils.XSPUtils.getBoolean
+import com.sevtinge.cemiuiler.utils.XSPUtils.getInt
 
 
 // 基础模糊配置

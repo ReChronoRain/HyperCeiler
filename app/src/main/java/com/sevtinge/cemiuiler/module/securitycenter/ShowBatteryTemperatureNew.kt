@@ -20,7 +20,7 @@ import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.github.kyuubiran.ezxhelper.utils.isStatic
 import com.github.kyuubiran.ezxhelper.utils.paramCount
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.findClassOrNull
+import com.sevtinge.cemiuiler.utils.findClassOrNull
 import moralnorm.internal.utils.DisplayUtils.dp2px
 
 object ShowBatteryTemperatureNew : BaseHook() {

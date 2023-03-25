@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils.woobox
+package com.sevtinge.cemiuiler.utils
 
 import com.github.kyuubiran.ezxhelper.utils.Log
 import com.github.kyuubiran.ezxhelper.utils.Log.logexIfThrow

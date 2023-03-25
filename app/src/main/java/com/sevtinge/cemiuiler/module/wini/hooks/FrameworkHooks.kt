@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module.wini.hooks
 
 import android.graphics.Canvas
-import com.sevtinge.cemiuiler.utils.wini.HookUtils
+import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge

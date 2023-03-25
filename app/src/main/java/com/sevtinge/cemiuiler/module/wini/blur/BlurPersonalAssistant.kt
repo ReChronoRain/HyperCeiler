@@ -5,8 +5,8 @@ import android.os.Build
 import android.view.Window
 import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
-import com.sevtinge.cemiuiler.utils.wini.ColorUtils
-import com.sevtinge.cemiuiler.utils.wini.HookUtils
+import com.sevtinge.cemiuiler.utils.ColorUtils
+import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import kotlin.math.abs

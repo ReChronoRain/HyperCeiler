@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.wini.hooks
 
-import com.sevtinge.cemiuiler.utils.wini.HookUtils
+import com.sevtinge.cemiuiler.utils.HookUtils
 
 
 class OtherHooks(private val classLoader: ClassLoader) {

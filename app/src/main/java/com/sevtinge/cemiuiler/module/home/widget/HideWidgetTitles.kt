@@ -6,7 +6,7 @@ import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.github.kyuubiran.ezxhelper.utils.invokeMethodAuto
 import com.github.kyuubiran.ezxhelper.utils.loadClass
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
 import java.util.function.Predicate
 
 object HideWidgetTitles : BaseHook() {

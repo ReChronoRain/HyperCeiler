@@ -9,11 +9,11 @@ import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.findClass
-import com.sevtinge.cemiuiler.utils.woobox.getObjectField
+import com.sevtinge.cemiuiler.utils.findClass
+import com.sevtinge.cemiuiler.utils.getObjectField
 //import com.yuk.miuiHomeR.mPrefsMap
 //import com.yuk.miuiHomeR.utils.ktx.findClass
-import com.sevtinge.cemiuiler.utils.woobox.getCornerRadiusTop
+import com.sevtinge.cemiuiler.utils.getCornerRadiusTop
 //import com.yuk.miuiHomeR.utils.ktx.getObjectField
 import com.zhenxiang.blur.BlurFrameLayout
 import com.zhenxiang.blur.model.CornersRadius

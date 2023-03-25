@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils.woobox
+package com.sevtinge.cemiuiler.utils
 
 import android.annotation.SuppressLint
 import android.content.Context

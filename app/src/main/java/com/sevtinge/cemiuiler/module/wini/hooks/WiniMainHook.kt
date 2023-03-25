@@ -8,8 +8,8 @@ import com.sevtinge.cemiuiler.module.wini.blur.BlurSecurity
 import com.sevtinge.cemiuiler.module.wini.blur.BlurSystemUI
 import com.sevtinge.cemiuiler.module.wini.blur.BlurWhenShowShortcutMenu
 import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
-import com.sevtinge.cemiuiler.utils.wini.HookUtils
-import com.sevtinge.cemiuiler.utils.wini.Storage
+import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.Storage
 import com.sevtinge.cemiuiler.BuildConfig
 
 class WiniMainHook : IXposedHookLoadPackage {

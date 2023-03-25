@@ -18,7 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat.animate
 import com.sevtinge.cemiuiler.module.wini.model.ConfigModel
-import com.sevtinge.cemiuiler.utils.wini.HookUtils
+import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers

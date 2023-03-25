@@ -2,8 +2,8 @@ package com.sevtinge.cemiuiler.module.home.recent
 
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.getObjectField
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
 
 object RecentText : BaseHook() {
     override fun init() {

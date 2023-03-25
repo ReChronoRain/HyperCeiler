@@ -4,8 +4,8 @@ import android.content.Context
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookMethod
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
-import com.sevtinge.cemiuiler.utils.woobox.hookBeforeMethod
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import de.robv.android.xposed.XC_MethodHook
 
 object FoldDeviceDock : BaseHook() {

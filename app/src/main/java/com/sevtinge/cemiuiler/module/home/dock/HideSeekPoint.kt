@@ -3,9 +3,9 @@ package com.sevtinge.cemiuiler.module.home.dock
 import android.view.View
 import android.view.ViewGroup
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.callMethod
-import com.sevtinge.cemiuiler.utils.woobox.getObjectField
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
 
 object HideSeekPoint : BaseHook() {
     override fun init() {

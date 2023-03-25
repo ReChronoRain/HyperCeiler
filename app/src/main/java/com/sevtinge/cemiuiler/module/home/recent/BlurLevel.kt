@@ -5,10 +5,10 @@ import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.callStaticMethod
-import com.sevtinge.cemiuiler.utils.woobox.findClass
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterAllMethods
-import com.sevtinge.cemiuiler.utils.woobox.hookBeforeMethod
+import com.sevtinge.cemiuiler.utils.callStaticMethod
+import com.sevtinge.cemiuiler.utils.findClass
+import com.sevtinge.cemiuiler.utils.hookAfterAllMethods
+import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 
 object BlurLevel : BaseHook() {
     override fun init() {

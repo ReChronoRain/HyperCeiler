@@ -6,7 +6,7 @@ import com.github.kyuubiran.ezxhelper.utils.getObjectOrNull
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.github.kyuubiran.ezxhelper.utils.invokeMethodAuto
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.callMethod
+import com.sevtinge.cemiuiler.utils.callMethod
 
 object AllowMoveAllWidgetToMinus : BaseHook() {
     override fun init() {

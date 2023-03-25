@@ -3,9 +3,9 @@ package com.sevtinge.cemiuiler.module.home.recent
 import android.graphics.RectF
 import com.github.kyuubiran.ezxhelper.init.InitFields.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.callStaticMethod
-import com.sevtinge.cemiuiler.utils.woobox.findClass
-import com.sevtinge.cemiuiler.utils.woobox.replaceMethod
+import com.sevtinge.cemiuiler.utils.callStaticMethod
+import com.sevtinge.cemiuiler.utils.findClass
+import com.sevtinge.cemiuiler.utils.replaceMethod
 
 object TaskViewVertical : BaseHook() {
     override fun init() {

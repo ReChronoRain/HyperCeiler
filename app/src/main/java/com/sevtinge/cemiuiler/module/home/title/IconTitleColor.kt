@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.utils.Log
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.woobox.callMethod
-import com.sevtinge.cemiuiler.utils.woobox.findClass
-import com.sevtinge.cemiuiler.utils.woobox.getObjectField
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.findClass
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
 
 object IconTitleColor : BaseHook() {
     @SuppressLint("DiscouragedApi")

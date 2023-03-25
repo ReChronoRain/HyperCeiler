@@ -15,9 +15,9 @@ import com.github.kyuubiran.ezxhelper.utils.Log
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
-import com.sevtinge.cemiuiler.utils.woobox.callMethod
-import com.sevtinge.cemiuiler.utils.woobox.callMethodOrNull
-import com.sevtinge.cemiuiler.utils.woobox.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.callMethodOrNull
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import moralnorm.internal.utils.DisplayUtils.dp2px

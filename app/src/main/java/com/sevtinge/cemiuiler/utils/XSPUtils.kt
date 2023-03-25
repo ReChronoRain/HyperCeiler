@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils.woobox
+package com.sevtinge.cemiuiler.utils
 
 import com.sevtinge.cemiuiler.BuildConfig
 import de.robv.android.xposed.XSharedPreferences
