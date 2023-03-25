@@ -13,7 +13,7 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class BlurUtils {
 
-    private Context mContext;
+    private final Context mContext;
     private Object mViewRootImpl;
     private Drawable mBlurDrawable;
 

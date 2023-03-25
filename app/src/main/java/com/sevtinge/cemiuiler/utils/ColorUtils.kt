@@ -1,11 +1,12 @@
 package com.sevtinge.cemiuiler.utils
 
 import android.graphics.Color
+import de.robv.android.xposed.XposedBridge
 import moralnorm.annotation.ColorInt
 
 object ColorUtils {
     // color转换不可靠，加一个默认值
-    val defaultReturnColor = Color.argb(50, 0, 0, 0)
+    private val defaultReturnColor = Color.argb(50, 0, 0, 0)
 
     fun colorToHex(color: Int): String {
         var originalColor = Color.valueOf(defaultReturnColor)
@@ -13,28 +14,29 @@ object ColorUtils {
             originalColor = Color.valueOf(color)
         } catch (e: Throwable) {
             // 颜色转换失败
+            XposedBridge.log(e)
         }
         val alpha = (originalColor.alpha() * 255).toInt()
         val red = (originalColor.red() * 255).toInt()
         val green = (originalColor.green() * 255).toInt()
         val blue = (originalColor.blue() * 255).toInt()
         val alphaHex = if (alpha <= 15) {
-            '0' + alpha.toString()
+            "0$alpha"
         } else {
             alpha.toString(16)
         }
         val redHex = if (red <= 15) {
-            '0' + red.toString()
+            "0$red"
         } else {
             red.toString(16)
         }
         val greenHex = if (green <= 15) {
-            '0' + green.toString()
+            "0$green"
         } else {
             green.toString(16)
         }
         val blueHex = if (blue <= 15) {
-            '0' + blue.toString()
+            "0$blue"
         } else {
             blue.toString(16)
         }
@@ -42,10 +44,10 @@ object ColorUtils {
     }
 
     fun hexToColor(hexString: String): Int {
-        try {
-            return Color.parseColor(hexString)
+        return try {
+            Color.parseColor(hexString)
         } catch (e: Throwable) {
-            return defaultReturnColor
+            defaultReturnColor
         }
     }
 
@@ -58,5 +60,5 @@ object ColorUtils {
     fun addAlphaForColor(color: Int, alpha: Int): Int {
         return Color.valueOf(Color.red(color) / 255f,Color.green(color)/ 255f,Color.blue(color)/ 255f,alpha/ 255f).toArgb()
     }
-
+    
 }
