@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreference
             android:title="@string/updater_fuck_vab"
@@ -11,5 +12,11 @@
             android:title="@string/updater_miui_version"
             android:summary="@string/updater_miui_version_desc"
             android:key="prefs_key_various_updater_miui_version"/>
+
+    <EditTextPreference
+            android:title="@string/updater_device"
+            android:summary="@string/updater_device_desc"
+            android:key="prefs_key_updater_device"
+            app:isPreferenceVisible="true"/>
 
 </PreferenceScreen>
