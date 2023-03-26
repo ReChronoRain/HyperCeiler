@@ -206,7 +206,7 @@
             android:key="prefs_key_security_center_color"
             android:dependency="prefs_key_se_enable"
             android:defaultValue="-1"
-            app:showAlphaSlider="false"/>
+            app:showAlphaSlider="true"/>
 
     </PreferenceCategory>
 
