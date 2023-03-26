@@ -31,7 +31,7 @@ class NoAutoTurnOff : BaseHook() {
                 XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService failed!")
                 XposedBridge.log(e)
             }
-
+        }
 //            listOf("MiShareService", "EnabledState").forEach { usingString ->
 //                val resultList = bridge.findMethodUsingString {
 //                    this.usingString = usingString
@@ -45,7 +45,7 @@ class NoAutoTurnOff : BaseHook() {
 //                // Lcom/miui/mishare/connectivity/MiShareService$j$g;->a()V 小米互传 2.16.0 定位方法名
 //
 //            }
-        }
+
 //        try {
 //            findMethod("com.miui.mishare.connectivity.MiShareService\$d\$g") {
 //                name == "b"
