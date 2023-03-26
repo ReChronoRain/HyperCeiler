@@ -10,15 +10,13 @@ object NetworkSpeedSec : BaseHook() {
         findMethod("com.android.systemui.statusbar.views.NetworkSpeedView") {
             name == "setNetworkSpeed" && parameterCount == 1
         }.hookBefore {
-           if (mPrefsMap.getBoolean("hide_status_bar_network_speed_second")) {
-                if (it.args[0] != null) {
-                    val mText = (it.args[0] as String)
-                        .replace("/", "")
-                        .replace("s", "")
-                        .replace("\'", "")
-                        .replace("วิ", "")
-                    it.args[0] = mText
-                }
+            if (it.args[0] != null) {
+                val mText = (it.args[0] as String)
+                    .replace("/", "")
+                    .replace("s", "")
+                    .replace("\'", "")
+                    .replace("วิ", "")
+                it.args[0] = mText
             }
         }
     }
