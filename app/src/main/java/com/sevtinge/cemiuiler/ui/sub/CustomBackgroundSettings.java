@@ -57,6 +57,7 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
         mColor.saveValue(getBackgroundColor());
         setSeekBarPreferenceValue(mColorAlpha, mColorAlphaKey, 120);
         setSeekBarPreferenceValue(mCornerRadius, mCornerRadiusKey, 18);
+        setSeekBarPreferenceValue(mBlurRadius, mBlurRadiusKey, 60);
 
         mBlurRadius.setOnPreferenceChangeListener(this);
         mBlurEnabled.setOnPreferenceChangeListener(this);
@@ -68,7 +69,7 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
 
 
     private boolean isBackgroundBlurEnabled() {
-        return hasKey(mBlurEnabledKey) ? PrefsUtils.getSharedBoolPrefs(getContext(), mBlurEnabledKey,false) : false;
+        return hasKey(mBlurEnabledKey) && PrefsUtils.getSharedBoolPrefs(getContext(), mBlurEnabledKey, false);
     }
 
     private int getBackgroundColor() {
