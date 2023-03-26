@@ -76,9 +76,7 @@ public class Home extends BaseModule {
 
         //抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") && mPrefsMap.getBoolean("home_drawer_editor"));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
-        }
+        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
 
         //最近任务
         initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 6);
