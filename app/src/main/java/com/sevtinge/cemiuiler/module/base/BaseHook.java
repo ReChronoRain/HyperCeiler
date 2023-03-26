@@ -85,7 +85,7 @@ public abstract class BaseHook {
         }
     }
 
-    public static class MethodHook extends XC_MethodHook {
+    public class MethodHook extends XC_MethodHook {
 
         protected void before(MethodHookParam param) throws Throwable {}
         protected void after(MethodHookParam param) throws Throwable {}
@@ -100,7 +100,7 @@ public abstract class BaseHook {
 
 
         @Override
-        public void beforeHookedMethod(MethodHookParam param) throws Throwable {
+        public final void beforeHookedMethod(MethodHookParam param) throws Throwable {
             try {
                 this.before(param);
             } catch (Throwable t) {
@@ -109,7 +109,7 @@ public abstract class BaseHook {
         }
 
         @Override
-        public void afterHookedMethod(MethodHookParam param) throws Throwable {
+        public final void afterHookedMethod(MethodHookParam param) throws Throwable {
             try {
                 this.after(param);
             } catch (Throwable t) {
@@ -174,28 +174,26 @@ public abstract class BaseHook {
 
     public void hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
-            XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
+            if (XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0) {
+
+            }
         } catch (Throwable t) {
             LogUtils.log(t);
         }
     }
 
-    public void hookAllMethodsSilently(String className, String methodName, XC_MethodHook callback) {
+    public boolean hookAllMethodsSilently(String className, String methodName, XC_MethodHook callback) {
         try {
             Class<?> hookClass = findClassIfExists(className);
-            if (hookClass != null) {
-                XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
-            }
-        } catch (Throwable ignored) {
+            return hookClass != null && XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+        } catch (Throwable t) {
+            return false;
         }
     }
 
     public boolean hookAllMethodsSilently(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
-            if (hookClass != null) {
-                XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
-            }
-            return false;
+            return hookClass != null && XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
         } catch (Throwable t) {
             return false;
         }
@@ -204,9 +202,7 @@ public abstract class BaseHook {
     public void hookAllConstructors(String className, MethodHook callback) {
         try {
             Class<?> hookClass = findClassIfExists(className);
-            if (hookClass != null) {
-                XposedBridge.hookAllConstructors(hookClass, callback).size();
-            }
+            if (hookClass == null || XposedBridge.hookAllConstructors(hookClass, callback).size() == 0) ;
         } catch (Throwable t) {
             LogUtils.log(t);
         }
@@ -214,7 +210,7 @@ public abstract class BaseHook {
 
     public void hookAllConstructors(Class<?> hookClass, MethodHook callback) {
         try {
-            XposedBridge.hookAllConstructors(hookClass, callback).size();
+            if (XposedBridge.hookAllConstructors(hookClass, callback).size() == 0) ;
         } catch (Throwable t) {
             LogUtils.log(t);
         }
