@@ -154,8 +154,7 @@ object NetworkSpeed : BaseHook() {
                         ) * 1024
 //                      网速图标
                         val icons =
-                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2")
-                                .toInt()
+                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
                         var txarrow = ""
                         var rxarrow = ""
                         when (icons) {
@@ -180,14 +179,8 @@ object NetworkSpeed : BaseHook() {
                                 rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
                             }
                         }
-                        val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
-                            mContext,
-                            txSpeed
-                        ) + txarrow
-                        val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(
-                            mContext,
-                            rxSpeed
-                        ) + rxarrow
+                        val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(mContext, txSpeed) + txarrow
+                        val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(mContext, rxSpeed) + rxarrow
                         param.args[0] = """
                     $tx
                     $rx

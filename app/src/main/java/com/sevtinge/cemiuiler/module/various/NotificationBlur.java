@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.BlurUtils;
+import com.sevtinge.cemiuiler.utils.LogUtils;
 
 import java.lang.reflect.Field;
 
@@ -31,8 +32,8 @@ public class NotificationBlur extends BaseHook {
                 super.after(param);
                 Field field = mCls.getDeclaredField("mDrawableAlpha");
                 field.setAccessible(true);
-                field.set(param.thisObject, Integer.valueOf(200));
-                XposedHelpers.callMethod(param.thisObject, "setDrawableAlpha", new Object[]{Integer.valueOf(200)});
+                field.set(param.thisObject, 200);
+                XposedHelpers.callMethod(param.thisObject, "setDrawableAlpha", 200);
             }
         });
 
@@ -57,21 +58,17 @@ public class NotificationBlur extends BaseHook {
                 field.setAccessible(true);
                 field.get(param.thisObject);
 
-                Object o = field;
-
                 Field field2 = param.thisObject.getClass().getDeclaredField("mBackgroundNormal");
                 field2.setAccessible(true);
-                field2.get(o);
+                field2.get(field);
 
-
-                Object o2 = field2;
 
                 if (field != null && field2 != null) {
-                    View view = (View) o2;
+                    View view = (View) (Object) field2;
                     if (view.getBackground().getClass().getName().equals("BackgroundBlurDrawable")) {
                         Drawable background = view.getBackground();
-                        XposedHelpers.callMethod(background, "setVisible", new Object[]{false, false});
-                        XposedHelpers.callMethod(o2, "setDrawableAlpha", new Object[]{Integer.valueOf(200 + 30)});
+                        XposedHelpers.callMethod(background, "setVisible", false, false);
+                        XposedHelpers.callMethod(field2, "setDrawableAlpha", 200 + 30);
                     }
                 }
 
@@ -86,7 +83,7 @@ public class NotificationBlur extends BaseHook {
                 int childCount;
                 int i = 0;
                 Object obj = param.args[0];
-                int intValue = ((Integer) obj).intValue();
+                int intValue = (Integer) obj;
                 Object obj2 = param.thisObject;
 
                 Object d;
@@ -106,12 +103,12 @@ public class NotificationBlur extends BaseHook {
                             View childAt = viewGroup.getChildAt(i2);
                             if (childAt != null) {
                                 try {
-                                    Object callMethod = XposedHelpers.callMethod(childAt, "isHeadsUpState", new Object[0]);
+                                    Object callMethod = XposedHelpers.callMethod(childAt, "isHeadsUpState");
                                     if (callMethod != null) {
-                                        boolean booleanValue = ((Boolean) callMethod).booleanValue();
-                                        Object callMethod2 = XposedHelpers.callMethod(childAt, "isPinned", new Object[0]);
+                                        boolean booleanValue = (Boolean) callMethod;
+                                        Object callMethod2 = XposedHelpers.callMethod(childAt, "isPinned");
                                         if (callMethod2 != null) {
-                                            boolean booleanValue2 = ((Boolean) callMethod2).booleanValue();
+                                            boolean booleanValue2 = (Boolean) callMethod2;
                                             if (!booleanValue || !booleanValue2) {
                                                 /*new BlurUtils(childAt);*/
                                                 new BlurUtils(childAt, "default");
@@ -122,7 +119,8 @@ public class NotificationBlur extends BaseHook {
                                     } else {
                                         throw new NullPointerException("null cannot be cast to non-null type kotlin.Boolean");
                                     }
-                                } catch (Throwable unused) {
+                                } catch (Throwable ignored) {
+                                    LogUtils.log(ignored);
                                 }
                             }
                             if (i2 == childCount2) {
@@ -141,19 +139,19 @@ public class NotificationBlur extends BaseHook {
                 super.before(param);
 
                 boolean b;
-                Class aClass = XposedHelpers.findClassIfExists("com.android.keyguard.utils.MiuiKeyguardUtils", lpparam.classLoader);
+                Class<?> aClass = XposedHelpers.findClassIfExists("com.android.keyguard.utils.MiuiKeyguardUtils", lpparam.classLoader);
                 if (aClass == null) {
                     b = true;
                 }
-                Object callStaticMethod = XposedHelpers.callStaticMethod(aClass, "isDefaultLockScreenTheme", new Object[0]);
+                Object callStaticMethod = XposedHelpers.callStaticMethod(aClass, "isDefaultLockScreenTheme");
 
-                b = ((Boolean) callStaticMethod).booleanValue();
+                b = (Boolean) callStaticMethod;
 
                 if (b) {
 
                     int i = 0;
 
-                    float floatValue = ((Float) param.args[0]).floatValue() * 255;
+                    float floatValue = (Float) param.args[0] * 255;
 
                     Object d;
                     Field field = param.thisObject.getClass().getDeclaredField("mNotificationStackScrollLayout");
@@ -170,12 +168,12 @@ public class NotificationBlur extends BaseHook {
                             if (childAt != null) {
                                 if (floatValue >= 0 && floatValue <= 255) {
                                     if (childAt.getClass().getName().equals("ZenModeView")) {
-                                        Object callMethod = XposedHelpers.callMethod(childAt, "getContentView", new Object[0]);
+                                        Object callMethod = XposedHelpers.callMethod(childAt, "getContentView");
                                         if (callMethod != null) {
                                             ViewGroup viewGroup2 = (ViewGroup) callMethod;
                                             Drawable background = viewGroup.getBackground();
-                                            if (background == null ? false : background.getClass().getName().equals("BackgroundBlurDrawable")) {
-                                                XposedHelpers.callMethod(viewGroup.getBackground(), "setAlpha", new Object[]{Integer.valueOf(i)});
+                                            if (background != null && background.getClass().getName().equals("BackgroundBlurDrawable")) {
+                                                XposedHelpers.callMethod(viewGroup.getBackground(), "setAlpha", i);
                                                 return;
                                             }
                                             return;
