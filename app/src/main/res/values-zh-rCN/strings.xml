@@ -583,6 +583,9 @@
     <string name="system_ui_lockscreen_ui_title">界面</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
+    <string name="system_ui_lock_screen_default_theme">仅支持默认主题</string>
+    <string name="system_ui_lock_screen_show_charging_current">充电时显示电流</string>
+    <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_show_second">时钟显示秒数</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
