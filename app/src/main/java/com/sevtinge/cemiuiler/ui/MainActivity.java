@@ -13,6 +13,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.GlobalActions;
 import com.sevtinge.cemiuiler.ui.main.fragment.MainFragment;
 import com.sevtinge.cemiuiler.ui.main.base.BaseMainActivity;
+import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 import com.sevtinge.cemiuiler.view.CustomMultipleChoiceView;
 
 
@@ -35,6 +36,11 @@ public class MainActivity extends BaseMainActivity {
         if (mIntent != null) {
             getAppCompatActionBar().setDisplayHomeAsUpEnabled(mIntent.getBooleanExtra("isDisplayHomeAsUpEnabled", false));
         }
+        /*获取root
+        String apkRoot = "chmod 777 " + getPackageCodePath();
+        ALPermissionManager.RootCommand(apkRoot);
+        */
+
     }
 
     @Override
@@ -44,7 +50,7 @@ public class MainActivity extends BaseMainActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -55,7 +61,6 @@ public class MainActivity extends BaseMainActivity {
 
                 List<String> mAppName = Arrays.asList(getResources().getStringArray(R.array.restart_apps_name));
                 List<String> mAppPackageName = Arrays.asList(getResources().getStringArray(R.array.restart_apps_packagename));
-
 
 
                 AlertDialog dialog = new AlertDialog(this);
