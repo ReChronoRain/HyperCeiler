@@ -19,6 +19,13 @@
                 app:isPreferenceVisible="false"/>
 
         <SwitchPreference
+                android:title="@string/system_ui_lock_screen_hide_smart_screen"
+                android:summary="@string/system_ui_lock_screen_default_theme"
+                android:key="prefs_key_system_ui_lock_screen_hide_smart_screen"
+                android:defaultValue="false"
+                app:isPreferenceVisible="false"/>
+
+        <SwitchPreference
                 android:title="@string/system_ui_lock_screen_show_charging_current"
                 android:summary="@string/system_ui_lock_screen_default_theme"
                 android:key="prefs_key_system_ui_lock_screen_show_charging_current"
