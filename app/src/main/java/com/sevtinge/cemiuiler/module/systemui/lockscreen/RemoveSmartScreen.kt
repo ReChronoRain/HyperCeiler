@@ -10,9 +10,7 @@ object RemoveSmartScreen : BaseHook() {
         findMethod("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer") {
             name == "inflateLeftView"
         }.hookBefore {
-            hasEnable("remove_the_left_side_of_the_lock_screen") {
-                it.result = null
-            }
+            it.result = null
         }
     }
 
