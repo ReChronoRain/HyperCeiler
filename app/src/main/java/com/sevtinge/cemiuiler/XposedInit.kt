@@ -36,13 +36,13 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         // Init EzXHelper
-        Application::class.java.hookBeforeMethod("attach", Context::class.java) {
+
             EzXHelperInit.initHandleLoadPackage(lpparam)
             EzXHelperInit.setLogTag(TAG)
             EzXHelperInit.setToastTag(TAG)
-            EzXHelperInit.initAppContext(it.args[0] as Context)
+
             init(lpparam)
-        }
+
         SystemFrameworkForCorepatch().handleLoadPackage(lpparam)
     }
 
