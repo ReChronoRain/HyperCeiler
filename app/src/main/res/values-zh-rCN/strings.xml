@@ -580,8 +580,10 @@
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
+    <string name="system_ui_lockscreen_ui_title">界面</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
+    <string name="system_ui_lock_screen_show_second">时钟显示秒数</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
