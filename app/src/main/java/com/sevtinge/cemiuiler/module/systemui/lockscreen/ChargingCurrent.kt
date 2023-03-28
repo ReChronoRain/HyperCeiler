@@ -2,32 +2,42 @@ package com.sevtinge.cemiuiler.module.systemui.lockscreen
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.app.AndroidAppHelper
+import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.os.BatteryManager
 import android.widget.TextView
+import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.init.InitFields
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.getObject
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.sevtinge.cemiuiler.R
+import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import java.io.BufferedReader
 import java.io.FileReader
 import kotlin.math.abs
 
-class ChargingCurrent : BaseHook() {
+object ChargingCurrent : BaseHook() {
 
     override fun init() {
-        findMethod("com.android.keyguard.charge.ChargeUtils") {
-            name == "getChargingHintText" && parameterCount == 3
-        }.hookAfter {
-            it.result = "${getCurrent()}\n${it.result}"
-        }
+        Application::class.java.hookBeforeMethod("attach", Context::class.java) {
+            EzXHelperInit.initHandleLoadPackage(lpparam)
+            EzXHelperInit.setLogTag(TAG)
+            EzXHelperInit.setToastTag(TAG)
+            EzXHelperInit.initAppContext(it.args[0] as Context)
 
-        findMethod("com.android.systemui.statusbar.phone.KeyguardBottomAreaView") {
-            name == "onFinishInflate"
-        }.hookAfter {
-            (it.thisObject.getObject("mIndicationText") as TextView).isSingleLine = false
+            findMethod("com.android.keyguard.charge.ChargeUtils") {
+                name == "getChargingHintText" && parameterCount == 3
+            }.hookAfter {
+                it.result = "${getCurrent()}\n${it.result}"
+            }
+
+            findMethod("com.android.systemui.statusbar.phone.KeyguardBottomAreaView") {
+                name == "onFinishInflate"
+            }.hookAfter {
+                (it.thisObject.getObject("mIndicationText") as TextView).isSingleLine = false
+            }
         }
     }
 
