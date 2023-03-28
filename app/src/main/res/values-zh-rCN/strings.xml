@@ -361,6 +361,7 @@
     <string name="home_recent_text_size">卡片文字大小</string>
     <string name="home_recent_text_color">卡片文字颜色</string>
     <string name="home_recent_freeform_background_color">小窗应用卡片背景颜色</string>
+    <string name="home_recent_show_real_memory">显示真实使用内存量</string>
 
     <string name="home_title_icon_title">图标</string>
     <string name="home_title_bigicon_title">大图标</string>
