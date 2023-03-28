@@ -12,6 +12,13 @@
                 app:isPreferenceVisible="false"/>
 
         <SwitchPreference
+                android:title="@string/system_ui_lock_screen_hide_camera"
+                android:summary="@string/system_ui_lock_screen_default_theme"
+                android:key="prefs_key_system_ui_lock_screen_hide_camera"
+                android:defaultValue="false"
+                app:isPreferenceVisible="false"/>
+
+        <SwitchPreference
                 android:title="@string/system_ui_lock_screen_show_charging_current"
                 android:summary="@string/system_ui_lock_screen_default_theme"
                 android:key="prefs_key_system_ui_lock_screen_show_charging_current"

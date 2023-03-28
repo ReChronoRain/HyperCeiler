@@ -585,6 +585,7 @@
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
     <string name="system_ui_lock_screen_default_theme">仅支持默认主题</string>
     <string name="system_ui_lock_screen_show_charging_current">充电时显示电流</string>
+    <string name="system_ui_lock_screen_hide_camera">隐藏相机</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_show_second">时钟显示秒数</string>
 

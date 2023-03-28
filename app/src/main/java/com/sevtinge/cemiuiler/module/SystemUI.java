@@ -3,10 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.*;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
-import com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen;
-import com.sevtinge.cemiuiler.module.systemui.lockscreen.ChargingCurrent;
-import com.sevtinge.cemiuiler.module.systemui.lockscreen.ClockDisplaySeconds;
-import com.sevtinge.cemiuiler.module.systemui.lockscreen.ScramblePIN;
+import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 
 public class SystemUI extends BaseModule {
@@ -98,7 +95,8 @@ public class SystemUI extends BaseModule {
         //锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ClockDisplaySeconds.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_second"));
-        initHook(ChargingCurrent.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_current"));
+        initHook(new ChargingCurrent(), mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_current"));
+        initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
 

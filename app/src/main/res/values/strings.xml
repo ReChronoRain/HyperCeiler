@@ -280,6 +280,7 @@
     <string name="system_ui_lockscreen_ui_title">UI</string>
     <string name="system_ui_lock_screen_show_second">Clock show second</string>
     <string name="system_ui_lock_screen_show_charging_current">Show charging current</string>
+    <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_default_theme">Support default theme only</string>
     <string name="system_ui_lock_screen_scramble_pin">Random PIN</string>
