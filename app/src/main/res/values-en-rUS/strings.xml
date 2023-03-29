@@ -769,6 +769,7 @@
     <string name="camera_record_audio_zoom">Unlock Audio zoom</string>
     <string name="camera_shot_makeup">Unlock Makeup</string>
     <string name="camera_shot_makeup_desc">Takes effect only when using the front camera</string>
+    <string name="camera_shot_title">Shot</string>
     <string name="camera_portrait_title">Portrait</string>
     <string name="camera_portrait_new_beauty">Unlock New beauty</string>
     <string name="camera_portrait_new_beauty_desc">Takes effect only when using the front camera</string>
@@ -811,4 +812,11 @@
     <string name="system_ui_control_center_notification_blur_title">Notification</string>
     <string name="system_other_delete_on_post_notification_desc">Remove \"This app is displaying on top of other apps on screen\" notification</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
+    <string name="array_battery_both">Both</string>
+    <string name="array_battery_temperature">Only temperature</string>
+    <string name="system_ui_statusbar_battery_title">Battery and temperature indicator</string>
+    <string name="system_ui_statusbar_battery_size">Font size</string>
+    <string name="system_ui_statusbar_battery_show">Show contents</string>
+    <string name="system_ui_statusbar_battery_disable">Hide units</string>
+    <string name="array_battery_current">Only current</string>
 </resources>

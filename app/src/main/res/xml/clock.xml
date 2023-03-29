@@ -8,8 +8,5 @@
                 android:key="prefs_key_clock_enable_hour_glass"
                 android:defaultValue="false"/>
 
-
-
     </PreferenceCategory>
-
 </PreferenceScreen>

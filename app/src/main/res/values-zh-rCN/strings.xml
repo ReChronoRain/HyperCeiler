@@ -81,6 +81,10 @@
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
 
+    <string name="array_battery_both">两者</string>
+    <string name="array_battery_temperature">仅温度</string>
+    <string name="array_battery_current">仅电流</string>
+
     <string name="array_global_actions_none">无动作</string>
     <string name="array_global_actions_notif">打开通知中心</string>
     <string name="array_global_actions_eqs">展开快速设置面板</string>
@@ -608,6 +612,7 @@
     <string name="system_ui_statusbar_iconmanage_title">图标</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器</string>
     <string name="system_ui_statusbar_clock_title">时钟指示器</string>
+    <string name="system_ui_statusbar_battery_title">电池和温度指示器</string>
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
@@ -646,6 +651,10 @@
     <string name="system_ui_statusbar_clock_double_center">双排居中对齐</string>
     <string name="system_ui_statusbar_clock_size">时钟大小（0 为不修改）</string>
     <string name="system_ui_statusbar_clock_double_size">双排大小（0 为不修改）</string>
+
+    <string name="system_ui_statusbar_battery_size">字体大小</string>
+    <string name="system_ui_statusbar_battery_show">显示内容</string>
+    <string name="system_ui_statusbar_battery_disable">隐藏单位</string>
 
     <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>
