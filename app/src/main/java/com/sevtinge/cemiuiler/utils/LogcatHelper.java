@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LogcatHelper {
 
@@ -63,13 +64,13 @@ public class LogcatHelper {
         }
     }
 
-    private class LogDumper extends Thread {
+    private static class LogDumper extends Thread {
 
         private Process logcatProc;
         private BufferedReader mReader = null;
         private boolean mRunning = true;
         String cmds = null;
-        private String mPID;
+        private final String mPID;
         private FileOutputStream out = null;
 
         public LogDumper(String pid, String dir) {
