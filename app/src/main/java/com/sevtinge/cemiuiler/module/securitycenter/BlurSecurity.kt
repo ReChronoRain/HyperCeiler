@@ -19,6 +19,8 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.io.File
 
 object BlurSecurity : BaseHook() {
     val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
@@ -187,6 +189,14 @@ object BlurSecurity : BaseHook() {
             videoBoxViewMethodName,
             Context::class.java,
             Boolean::class.java,
+            if (getPackageVersionCode(lpparam) >= 40000754) {
+                Context::class.java
+                Boolean::class.java
+            } else {
+                Context::class.java
+                Boolean::class.java
+                Boolean::class.java
+            },
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
@@ -500,5 +510,21 @@ object BlurSecurity : BaseHook() {
     private fun getId(view: View): String {
         return if (view.id == View.NO_ID) "no-id" else view.resources.getResourceName(view.id)
             .replace("com.miui.securitycenter:id/", "")
+    }
+
+    private fun getPackageVersionCode(lpparam: LoadPackageParam): Int {
+        return try {
+            val parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader)
+            val parser = parserCls.newInstance()
+            val apkPath = File(lpparam.appInfo.sourceDir)
+            val pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0)
+            val versionCode = XposedHelpers.getIntField(pkg, "mVersionCode")
+            XposedBridge.log("Cemiuiler: $lpparam versionCode is $versionCode")
+            versionCode
+        } catch (e: Throwable) {
+            XposedBridge.log("Cemiuiler: Unknown Version.")
+            XposedBridge.log(e)
+            -1
+        }
     }
 }
