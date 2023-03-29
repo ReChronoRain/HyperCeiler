@@ -421,4 +421,30 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="system_ui_status_bar_battery_show">
+        <item>@string/array_battery_both</item>
+        <item>@string/array_battery_temperature</item>
+        <item>@string/array_battery_current</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_battery_show_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_battery_disable">
+        <item>@string/array_default</item>
+        <item>@string/array_battery_both</item>
+        <item>@string/array_battery_temperature</item>
+        <item>@string/array_battery_current</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_battery_disable_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
 </resources>

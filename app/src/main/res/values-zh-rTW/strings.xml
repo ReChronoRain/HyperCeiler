@@ -416,12 +416,17 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">網路類型圖示</string>
+    <string name="system_ui_status_bar_icon_location">位置訊息</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大網路類型圖示</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">僅在鬧鐘響鈴前顯示鬧鐘圖示</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分鐘</string>
+    <string name="system_ui_status_bar_icon_airplane">飛行模式</string>
+    <string name="system_ui_status_bar_icon_headset">耳機</string>
     <string name="system_ui_status_bar_icon_nfc">NFC</string>
     <string name="system_ui_status_bar_icon_vpn">VPN</string>
+    <string name="system_ui_status_bar_icon_volume">音量</string>
+    <string name="system_ui_status_bar_icon_zen">免打擾模式</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知點數最大數量</string>
     <string name="system_ui_status_bar_notification_icon_maximum">通知圖示最大數量</string>
     <string name="system_ui_status_bar_battery_percent">電量百分比</string>
@@ -628,6 +633,11 @@
     <string name="security_center_remove_open_app_confirmation_popup_summary">移除 \"XXX 想要打開 XXX\" 的彈窗</string>
     <string name="content_extension">傳送門</string>
     <string name="camera_features_title">功能</string>
+    <string name="camera_record_title">錄影</string>
+    <string name="camera_shot_title">拍照</string>
+    <string name="camera_portrait_title">人像</string>
+    <string name="camera_pro_title">專業</string>
+    <string name="camera_settings_title">設定</string>
     <string name="camera_features_unlock_aiwatermark">解鎖 AI 浮水印</string>
     <string name="camera_features_unlock_ambilight">解鎖長曝光</string>
     <string name="camera_features_unlock_clone">解鎖魔法分身</string>
@@ -787,4 +797,13 @@
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_other_delete_on_post_notification_desc">移除 \"此應用程式正顯示在屏幕上其他應用的上層\" 通知</string>
     <string name="system_other_delete_on_post_notification">移除上層顯示通知</string>
+    <string name="updater_device">偽裝機型</string>
+    <string name="updater_device_desc">可用於獲取其他機型的 ROM 包，該功能極度危險</string>
+    <string name="array_battery_both">兩者</string>
+    <string name="array_battery_temperature">僅溫度</string>
+    <string name="system_ui_statusbar_battery_title">電池和溫度指示器</string>
+    <string name="system_ui_statusbar_battery_size">字體大小</string>
+    <string name="system_ui_statusbar_battery_show">顯示內容</string>
+    <string name="system_ui_statusbar_battery_disable">隱藏組織</string>
+    <string name="array_battery_current">僅電流</string>
 </resources>

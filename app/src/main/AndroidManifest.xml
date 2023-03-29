@@ -165,6 +165,7 @@
         <activity android:label="@string/system_ui_statusbar_iconmanage_title" android:name=".ui.systemui.statusbar.IconManageActivity"/>
         <activity android:label="@string/system_ui_statusbar_network_speed_indicator_title" android:name=".ui.systemui.statusbar.NetworkSpeedIndicatorActivity"/>
         <activity android:label="@string/system_ui_statusbar_clock_title" android:name=".ui.systemui.statusbar.ClockIndicatorActivity"/>
+        <activity android:label="@string/system_ui_statusbar_battery_title" android:name=".ui.systemui.statusbar.BatteryDetailIndicatorActivity"/>
         <activity android:label="@string/system_ui_controlcenter_title" android:name=".ui.systemui.ControlCenterActivity"/>
         <activity android:label="@string/system_ui_other_title" android:name=".ui.systemui.OtherActivity"/>
         <activity android:label="@string/system_ui_status_bar_battery_indicator_title" android:name=".ui.systemui.statusbar.BatteryIndicatorActivity"/>
