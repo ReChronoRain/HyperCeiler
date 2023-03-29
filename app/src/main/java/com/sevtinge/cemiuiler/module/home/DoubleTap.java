@@ -23,7 +23,7 @@ public class DoubleTap extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 Object mDoubleTapControllerEx = XposedHelpers.getAdditionalInstanceField(param.thisObject, "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx != null) return;
-                mDoubleTapControllerEx = new DoubleTapController((Context)param.args[0], "prefs_key_home_gesture_double_tap");
+                mDoubleTapControllerEx = new DoubleTapController((Context) param.args[0], "prefs_key_home_gesture_double_tap");
                 XposedHelpers.setAdditionalInstanceField(param.thisObject, "mDoubleTapControllerEx", mDoubleTapControllerEx);
             }
         });
@@ -44,9 +44,8 @@ public class DoubleTap extends BaseHook {
     }
 
 
-    public class DoubleTapController {
+    public static class DoubleTapController {
 
-        private final long MAX_DURATION = 500;
         private float mActionDownRawX;
         private float mActionDownRawY;
         private int mClickCount;
@@ -55,7 +54,7 @@ public class DoubleTap extends BaseHook {
         private float mFirstClickRawX;
         private float mFirstClickRawY;
         private long mLastClickTime;
-        private int mTouchSlop;
+        private final int mTouchSlop;
 
         DoubleTapController(Context context, String actionKey) {
             this.mContext = context;
@@ -75,6 +74,7 @@ public class DoubleTap extends BaseHook {
                 float rawX = motionEvent.getRawX();
                 float rawY = motionEvent.getRawY();
                 if (Math.abs(rawX - this.mActionDownRawX) <= ((float) this.mTouchSlop) && Math.abs(rawY - this.mActionDownRawY) <= ((float) this.mTouchSlop)) {
+                    long MAX_DURATION = 500;
                     if (SystemClock.elapsedRealtime() - this.mLastClickTime > MAX_DURATION || rawY - this.mFirstClickRawY > (float)this.mTouchSlop || rawX - this.mFirstClickRawX > (float)this.mTouchSlop) {
                         this.mClickCount = 0;
                     }

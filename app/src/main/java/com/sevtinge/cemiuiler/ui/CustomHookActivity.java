@@ -23,8 +23,6 @@ public class CustomHookActivity extends AppCompatActivity {
     private void initView() {
         mAddConfig = findViewById(R.id.add_config);
 
-        mAddConfig.setOnClickListener(v -> {
-            startActivity(new Intent(this, CustomHookConfigActivity.class));
-        });
+        mAddConfig.setOnClickListener(v -> startActivity(new Intent(this, CustomHookConfigActivity.class)));
     }
 }

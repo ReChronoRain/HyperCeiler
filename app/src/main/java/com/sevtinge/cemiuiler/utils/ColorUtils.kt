@@ -2,7 +2,6 @@ package com.sevtinge.cemiuiler.utils
 
 import android.graphics.Color
 import de.robv.android.xposed.XposedBridge
-import moralnorm.annotation.ColorInt
 
 object ColorUtils {
     // color转换不可靠，加一个默认值

@@ -68,9 +68,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
         holder.mSelecte.setChecked(shouldSelect(appInfo.packageName));
 
         holder.mSelecte.setVisibility(mType != 0 ? View.GONE : View.VISIBLE);
-        holder.itemView.setOnClickListener(v -> {
-            onItemClickListener.onItemClick(v, position, appInfo, holder.mSelecte.isChecked());
-        });
+        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, position, appInfo, holder.mSelecte.isChecked()));
     }
 
 
@@ -87,7 +85,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
         return appInfoList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mAppListIcon;
         private TextView mAppName;

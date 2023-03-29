@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Application;
@@ -145,6 +146,7 @@ public class Helpers {
         return res.getString(titleResId);
     }
 
+    @SuppressLint("NonConstantResourceId")
     private static void parsePrefXml(Context context, int xmlResId) {
         Resources res = context.getResources();
         String lastPrefSub = null;

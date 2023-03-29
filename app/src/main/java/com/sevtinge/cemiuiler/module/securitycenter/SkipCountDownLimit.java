@@ -28,9 +28,9 @@ public class SkipCountDownLimit extends BaseHook {
             }
         });
 
-        for (int i = 0; i < mInnerClasses.length; i++) {
-            if (Handler.class.isAssignableFrom(mInnerClasses[i])) {
-                mHandlerClass = mInnerClasses[i];
+        for (Class<?> mInnerClass : mInnerClasses) {
+            if (Handler.class.isAssignableFrom(mInnerClass)) {
+                mHandlerClass = mInnerClass;
                 break;
             }
         }

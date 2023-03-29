@@ -78,10 +78,8 @@ public class LocationSimulationActivity extends BaseAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.location_simulation_data:
-                startActivity(this, LocationDataActivity.class);
-                break;
+        if (item.getItemId() == R.id.location_simulation_data) {
+            startActivity(this, LocationDataActivity.class);
         }
         return super.onOptionsItemSelected(item);
     }

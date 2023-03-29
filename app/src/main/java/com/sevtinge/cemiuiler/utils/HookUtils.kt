@@ -9,7 +9,7 @@ import de.robv.android.xposed.XposedHelpers
 
 object HookUtils {
     fun log(content: Any?) {
-        XposedBridge.log("Cemiuiler: " + content)
+        XposedBridge.log("Cemiuiler: $content")
     }
 
     fun dip2px(context: Context, dpValue: Float): Float {
@@ -23,7 +23,7 @@ object HookUtils {
             classLoader
         )
         if (result == null) {
-            log("'" + className + "' is NOT found.")
+            log("'$className' is NOT found.")
         }
         return result
     }
@@ -92,7 +92,7 @@ object HookUtils {
             }
             return blurDrawable
         } catch (e: Throwable) {
-            log("Create BlurDrawable Error:" + e)
+            log("Create BlurDrawable Error:$e")
             return null
         }
     }

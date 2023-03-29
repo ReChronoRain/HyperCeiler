@@ -517,11 +517,7 @@ public class BubbleSeekBar extends View {
     }
 
     public void setCurrentProgress(float currentProgress) {
-        float progress = currentProgress;
-        if (currentProgress > (float) mMaxProgress) {
-            progress = (float) mMaxProgress;
-        }
-        mCurrentProgress = progress;
+        mCurrentProgress = Math.min(currentProgress, (float) mMaxProgress);
         postInvalidate();
     }
 
@@ -555,7 +551,7 @@ public class BubbleSeekBar extends View {
         mProgressListener = listener;
     }
 
-    public class Bubble extends PopupWindow {
+    public static class Bubble extends PopupWindow {
 
         public Bubble(View contentView, int width, int height, boolean focusable) {
             super(contentView, width, height, focusable);

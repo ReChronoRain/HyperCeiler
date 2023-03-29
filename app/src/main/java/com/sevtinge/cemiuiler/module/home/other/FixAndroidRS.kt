@@ -9,7 +9,7 @@ object FixAndroidRS : BaseHook() {
         val globalSearchUtilClass = "com.miui.home.launcher.GlobalSearchUtil"
         XposedHelpers.findAndHookMethod(globalSearchUtilClass, lpparam.classLoader,
             "isSupportPullDownSearch", object : XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any? {
+                override fun replaceHookedMethod(param: MethodHookParam?): Any {
                     return false
                 }
             })

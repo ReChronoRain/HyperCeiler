@@ -42,46 +42,46 @@ object BlurSecurity : BaseHook() {
 
     // 不反转颜色的名单ID或类名
     // whiteList 不在列表内子元素也会反色
-    val invertColorWhiteList =
+    private val invertColorWhiteList =
         arrayOf(
             "lv_main",
             "second_view"
         )
 
     // keepList 列表内元素及其子元素不会反色
-    val keepColorList =
+    private val keepColorList =
         arrayOf(
             "rv_information"
         )
 
     override fun init() {
-        val TurboLayoutClass = findClassIfExists(
+        val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
         ) ?: return
-        val NewToolBoxTopViewClass = findClassIfExists(
+        val newToolBoxTopViewClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
-        var VideoBoxViewClass =
+        var videoBoxViewClass =
             findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
-        var VideoBoxViewMethodName = "a"
-        if (VideoBoxViewClass == null) {
+        var videoBoxViewMethodName = "a"
+        if (videoBoxViewClass == null) {
             // v7.4.9
             appVersionCode = 40000749
-            VideoBoxViewClass = findClassIfExists("t7.i") ?: return
-            VideoBoxViewMethodName = "i"
+            videoBoxViewClass = findClassIfExists("t7.i") ?: return
+            videoBoxViewMethodName = "i"
         }
 
-        var NewboxClass: Class<*>? = null
-        TurboLayoutClass.methods.forEach {
+        var newboxClass: Class<*>? = null
+        turboLayoutClass.methods.forEach {
             if (it.name == "getDockLayout") {
-                NewboxClass = it.returnType
+                newboxClass = it.returnType
             }
         }
-        if (NewboxClass == null) {
+        if (newboxClass == null) {
             return
         }
 
-        XposedBridge.hookAllConstructors(NewboxClass, object : XC_MethodHook() {
+        XposedBridge.hookAllConstructors(newboxClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
@@ -92,7 +92,7 @@ object BlurSecurity : BaseHook() {
 
                             if (view.background != null) {
                                 if (HookUtils.isBlurDrawable(view.background)) {
-                                    return;
+                                    return
                                 }
                             }
 
@@ -112,7 +112,7 @@ object BlurSecurity : BaseHook() {
             }
         })
 
-        XposedBridge.hookAllConstructors(NewToolBoxTopViewClass, object : XC_MethodHook() {
+        XposedBridge.hookAllConstructors(newToolBoxTopViewClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
@@ -124,7 +124,7 @@ object BlurSecurity : BaseHook() {
                             val gameContentLayout = viewPaernt.parent as ViewGroup
                             if (gameContentLayout.background != null) {
                                 if (HookUtils.isBlurDrawable(gameContentLayout.background)) {
-                                    return;
+                                    return
                                 }
                             }
 
@@ -183,8 +183,8 @@ object BlurSecurity : BaseHook() {
 
 
         XposedHelpers.findAndHookMethod(
-            VideoBoxViewClass,
-            VideoBoxViewMethodName,
+            videoBoxViewClass,
+            videoBoxViewMethodName,
             Context::class.java,
             Boolean::class.java,
             object : XC_MethodHook() {
@@ -197,7 +197,7 @@ object BlurSecurity : BaseHook() {
                             override fun onViewAttachedToWindow(view: View) {
                                 if (view.background != null) {
                                     if (HookUtils.isBlurDrawable(view.background)) {
-                                        return;
+                                        return
                                     }
                                 }
 
@@ -222,17 +222,17 @@ object BlurSecurity : BaseHook() {
             })
 
         if (shouldInvertColor) {
-            val DetailSettingsLayoutClass = findClassIfExists(
+            val detailSettingsLayoutClass = findClassIfExists(
                 "com.miui.gamebooster.videobox.view.DetailSettingsLayout"
             ) ?: return
-            val SrsLevelSeekBarProClass = findClassIfExists(
+            val srsLevelSeekBarProClass = findClassIfExists(
                 "com.miui.gamebooster.videobox.view.SrsLevelSeekBarPro"
             ) ?: return
-            var SrsLevelSeekBarInnerViewClass = findClassIfExists(
+            var srsLevelSeekBarInnerViewClass = findClassIfExists(
                 "com.miui.gamebooster.videobox.view.c"
             )
-            if (SrsLevelSeekBarInnerViewClass == null) {
-                SrsLevelSeekBarInnerViewClass = findClassIfExists(
+            if (srsLevelSeekBarInnerViewClass == null) {
+                srsLevelSeekBarInnerViewClass = findClassIfExists(
                     "b8.c"
                 ) ?: return
             }
@@ -263,22 +263,22 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            var SecondViewClass =
+            var secondViewClass =
                 findClassIfExists("com.miui.gamebooster.windowmanager.newbox.n")
-            var SecondViewMethodName = "b"
+            var secondViewMethodName = "b"
 
             if (appVersionCode >= 40000749) {
-                SecondViewClass = findClassIfExists(
+                secondViewClass = findClassIfExists(
                     "com.miui.gamebooster.windowmanager.newbox.j"
                 ) ?: return
-                SecondViewMethodName = "B"
+                secondViewMethodName = "B"
             }
-            val AuditionViewClass =
+            val auditionViewClass =
                 findClassIfExists("com.miui.gamebooster.customview.AuditionView")
                     ?: return
 
             XposedBridge.hookAllMethods(
-                DetailSettingsLayoutClass,
+                detailSettingsLayoutClass,
                 "setFunctionType",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
@@ -337,11 +337,11 @@ object BlurSecurity : BaseHook() {
                 })
 
             XposedHelpers.findAndHookMethod(
-                SrsLevelSeekBarProClass,
+                srsLevelSeekBarProClass,
                 if (appVersionCode >= 40000749) "b" else "a", Context::class.java,
                 AttributeSet::class.java, Int::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val bgColorField = SrsLevelSeekBarProClass.getDeclaredField("j")
+                        val bgColorField = srsLevelSeekBarProClass.getDeclaredField("j")
                         bgColorField.isAccessible = true
                         bgColorField.setInt(
                             param.thisObject,
@@ -349,7 +349,7 @@ object BlurSecurity : BaseHook() {
                         )
 
                         val selectTxtColorField =
-                            SrsLevelSeekBarProClass.getDeclaredField("l")
+                            srsLevelSeekBarProClass.getDeclaredField("l")
                         selectTxtColorField.isAccessible = true
                         selectTxtColorField.setInt(
                             param.thisObject,
@@ -357,7 +357,7 @@ object BlurSecurity : BaseHook() {
                         )
 
                         val normalTxtColorField =
-                            SrsLevelSeekBarProClass.getDeclaredField("l")
+                            srsLevelSeekBarProClass.getDeclaredField("l")
                         normalTxtColorField.isAccessible = true
                         normalTxtColorField.setInt(
                             param.thisObject,
@@ -367,10 +367,10 @@ object BlurSecurity : BaseHook() {
                 }
             )
 
-            XposedHelpers.findAndHookMethod(SrsLevelSeekBarInnerViewClass, "a", Context::class.java,
+            XposedHelpers.findAndHookMethod(srsLevelSeekBarInnerViewClass, "a", Context::class.java,
                 AttributeSet::class.java, Int::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val bgColorField = SrsLevelSeekBarInnerViewClass.getDeclaredField("h")
+                        val bgColorField = srsLevelSeekBarInnerViewClass.getDeclaredField("h")
                         bgColorField.isAccessible = true
                         bgColorField.setInt(
                             param.thisObject,
@@ -381,8 +381,8 @@ object BlurSecurity : BaseHook() {
             )
 
             XposedHelpers.findAndHookMethod(
-                SecondViewClass,
-                SecondViewMethodName,
+                secondViewClass,
+                secondViewMethodName,
                 View::class.java,
                 object : XC_MethodHook() {
                     @RequiresApi(Build.VERSION_CODES.S)
@@ -394,7 +394,7 @@ object BlurSecurity : BaseHook() {
 
             // 让图标颜色更深一点
             XposedHelpers.findAndHookMethod(
-                AuditionViewClass,
+                auditionViewClass,
                 if (appVersionCode >= 40000749) "M" else "a",
                 Context::class.java,
                 object : XC_MethodHook() {

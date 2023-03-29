@@ -4,7 +4,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 
 abstract class ResourcesHookRegister {
-    private lateinit var resparam: XC_InitPackageResources.InitPackageResourcesParam
+    private lateinit var resparam: InitPackageResourcesParam
     var isInit: Boolean = false
     abstract fun init()
 

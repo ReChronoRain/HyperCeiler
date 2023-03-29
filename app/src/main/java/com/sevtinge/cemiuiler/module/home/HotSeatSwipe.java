@@ -30,7 +30,7 @@ public class HotSeatSwipe extends BaseHook {
     }
 
 
-    private class SwipeListenerHorizontal extends GestureDetector.SimpleOnGestureListener {
+    private static class SwipeListenerHorizontal extends GestureDetector.SimpleOnGestureListener {
 
         private final int SWIPE_MIN_DISTANCE_HORIZ;
         private final int SWIPE_THRESHOLD_VELOCITY;

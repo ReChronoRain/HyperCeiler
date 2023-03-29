@@ -1,16 +1,12 @@
 package com.sevtinge.cemiuiler.module.thememanager
 
-import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
 import io.luckypray.dexkit.DexKitBridge
 import miui.drm.DrmManager
-import java.lang.reflect.Method
 import java.io.File
+import java.lang.reflect.Method
 
 class ThemeCrackNew : BaseHook() {
     override fun init() {

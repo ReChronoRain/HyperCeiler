@@ -61,7 +61,7 @@ public class ChargeAnimationStyle extends BaseHook {
                             break;
                         }
                     }
-                    param.setResult(Boolean.valueOf(mResult));
+                    param.setResult(mResult);
                 }
             });
 

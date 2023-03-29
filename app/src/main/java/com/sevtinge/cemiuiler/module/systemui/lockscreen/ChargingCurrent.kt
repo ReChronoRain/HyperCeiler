@@ -4,7 +4,6 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.app.AndroidAppHelper
 import android.app.Application
 import android.content.Context
-import android.content.res.Resources
 import android.os.BatteryManager
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
@@ -21,7 +20,7 @@ import kotlin.math.abs
 object ChargingCurrent : BaseHook() {
 
     override fun init() {
-        Application::class.java.hookBeforeMethod("attach", Context::class.java) {
+        Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
             EzXHelperInit.initHandleLoadPackage(lpparam)
             EzXHelperInit.setLogTag(TAG)
             EzXHelperInit.setToastTag(TAG)

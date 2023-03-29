@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.mediaeditor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -57,6 +58,7 @@ public class UnlockMinimumCropLimit extends BaseHook {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private static String getPackageVersion(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);

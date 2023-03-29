@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler
 
-import android.app.Application
-import android.content.Context
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
@@ -9,7 +7,6 @@ import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.*
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
-import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources

@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 
@@ -17,7 +18,7 @@ public class LogcatHelper {
     private static LogcatHelper INSTANCE = null;
     private static String PATH_LOGCAT;
     private LogDumper mLogDumper = null;
-    private int mPId;
+    private final int mPId;
 
     /**
      *
@@ -149,16 +150,16 @@ public class LogcatHelper {
 
     }
 
+    @SuppressLint("SimpleDateFormat")
     public static String getFileName() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd");
-        String date = format.format(new Date(System.currentTimeMillis()));
-        return date;
+        return format.format(new Date(System.currentTimeMillis()));
     }
 
+    @SuppressLint("SimpleDateFormat")
     public static String getDateEN() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = format.format(new Date(System.currentTimeMillis()));
-        return date;
+        return format.format(new Date(System.currentTimeMillis()));
     }
 
 }

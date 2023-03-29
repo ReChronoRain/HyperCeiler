@@ -38,9 +38,7 @@ public class VariousActivity extends BaseAppCompatActivity {
         public void initPrefs() {
             mDisableBluetoothRestrict = findPreference("prefs_key_various_disable_bluetooth_restrict");
             mDisableBluetoothRestrict.setVisible(SdkHelper.isAndroidTiramisu());
-            mDisableBluetoothRestrict.setOnPreferenceChangeListener((preference, o) -> {
-                return true;
-            });
+            mDisableBluetoothRestrict.setOnPreferenceChangeListener((preference, o) -> true);
 
         }
     }

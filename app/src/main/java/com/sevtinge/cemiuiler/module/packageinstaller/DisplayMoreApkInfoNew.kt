@@ -86,7 +86,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     appNameViewParams.setMargins(0, dp2px(mContext, 10f), 0, 0)
                     mAppNameView.layoutParams = appNameViewParams
                     mAppNameView.gravity = Gravity.CENTER
-                    val linearLayout2 = LinearLayout(mContainerView.getContext())
+                    val linearLayout2 = LinearLayout(mContainerView.context)
                     //val linearLayout2 = LinearLayout(mContext)
                     linearLayout2.orientation = LinearLayout.VERTICAL
                     linearLayout2.gravity = Gravity.CENTER
@@ -106,10 +106,10 @@ object DisplayMoreApkInfoNew : BaseHook() {
                         modRes.getDrawable(if (isDarkMode) R.drawable.ic_packageinstaller_background_dark else R.drawable.ic_packageinstaller_background_light)
                     val mAppPackageNameView = TextView(mContext)
                     mContainerView.removeAllViews()
-                    val mAppVersionNameView = TextView(mContainerView.getContext())
-                    val mAppVersionCodeView = TextView(mContainerView.getContext())
-                    val mAppSdkView = TextView(mContainerView.getContext())
-                    val mAppSizeView = TextView(mContainerView.getContext())
+                    val mAppVersionNameView = TextView(mContainerView.context)
+                    val mAppVersionCodeView = TextView(mContainerView.context)
+                    val mAppSdkView = TextView(mContainerView.context)
+                    val mAppSizeView = TextView(mContainerView.context)
                     setTextAppearance(mAppVersionNameView, mAppSizeTv)
                     setTextAppearance(mAppVersionCodeView, mAppSizeTv)
                     setTextAppearance(mAppSdkView, mAppSizeTv)
@@ -143,10 +143,10 @@ object DisplayMoreApkInfoNew : BaseHook() {
                         mAppSdk =
                             mPkgInfo.applicationInfo.minSdkVersion.toString() + "-" + mPkgInfo.applicationInfo.targetSdkVersion
                     }
-                    mAppVersionNameView.setText(modRes.getString(R.string.various_install_app_info_version_name) + ": " + mAppVersionName)
-                    mAppVersionCodeView.setText(modRes.getString(R.string.various_install_app_info_version_code) + ": " + mAppVersionCode)
-                    mAppSdkView.setText(modRes.getString(R.string.various_install_app_info_sdk) + ": " + mAppSdk)
-                    mAppSizeView.setText(modRes.getString(R.string.various_install_app_size) + ": " + mOldAppSize + mNewAppSize)
+                    mAppVersionNameView.text = modRes.getString(R.string.various_install_app_info_version_name) + ": " + mAppVersionName
+                    mAppVersionCodeView.text = modRes.getString(R.string.various_install_app_info_version_code) + ": " + mAppVersionCode
+                    mAppSdkView.text = modRes.getString(R.string.various_install_app_info_sdk) + ": " + mAppSdk
+                    mAppSizeView.text = modRes.getString(R.string.various_install_app_size) + ": " + mOldAppSize + mNewAppSize
                     mAppPackageNameView.text = mPackageName
                     linearLayout2.addView(mAppVersionNameView, 0)
                     linearLayout2.addView(mAppVersionCodeView, 1)

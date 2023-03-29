@@ -32,7 +32,7 @@ class SystemBlurController(
                 updateBlurRadius()
             }
         }
-    var backgroundColour = backgroundColour
+    private var backgroundColour = backgroundColour
         set(value) {
             field = value
             updateBackgroundColour()

@@ -90,9 +90,7 @@ public class AppDisable extends BaseHook {
                             new AlertDialog.Builder(act)
                                     .setTitle(title)
                                     .setMessage(text)
-                                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                                        setAppState(act, mPackageInfo.packageName, item, false);
-                                    })
+                                    .setPositiveButton(android.R.string.ok, (dialog, which) -> setAppState(act, mPackageInfo.packageName, item, false))
                                     .setNegativeButton(android.R.string.cancel, null)
                                     .show();
                         } else {

@@ -42,9 +42,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put("title", data.getTitle());
         contentValues.put("lat", data.getLatitude());
         contentValues.put("lng", data.getLongitude());
-        contentValues.put("offset", Integer.valueOf(data.getOffset()));
-        contentValues.put("lac", Integer.valueOf(data.getBaseStationCode()));
-        contentValues.put("cid", Integer.valueOf(data.getRegionCode()));
+        contentValues.put("offset", data.getOffset());
+        contentValues.put("lac", data.getBaseStationCode());
+        contentValues.put("cid", data.getRegionCode());
         contentValues.put("note", data.getRemarks());
         return a.insert("location", null, contentValues);
     }

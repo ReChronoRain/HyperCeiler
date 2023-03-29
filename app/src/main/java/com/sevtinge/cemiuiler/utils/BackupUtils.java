@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +28,7 @@ public class BackupUtils {
     public static final String BACKUP_FILE_NAME = "Cemiuiler_settings_backup";
 
     public static void backup(Activity activity) {
-        String backupFileName = BACKUP_FILE_NAME + new SimpleDateFormat("_yyyy-MM-dd-HH:mm:ss").format(new java.util.Date());
+        @SuppressLint("SimpleDateFormat") String backupFileName = BACKUP_FILE_NAME + new SimpleDateFormat("_yyyy-MM-dd-HH:mm:ss").format(new java.util.Date());
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");

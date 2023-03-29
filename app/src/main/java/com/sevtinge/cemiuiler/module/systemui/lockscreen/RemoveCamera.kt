@@ -7,7 +7,6 @@ import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.getObject
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
-import com.sevtinge.cemiuiler.utils.hasEnable
 
 object RemoveCamera : BaseHook() {
     override fun init() {

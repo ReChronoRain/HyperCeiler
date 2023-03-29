@@ -55,7 +55,6 @@ public class BlurOverlay extends BaseHook {
                         }
                     });
                 }
-                return;
             }
         });
 
@@ -93,7 +92,6 @@ public class BlurOverlay extends BaseHook {
                 XposedHelpers.setIntField(param.thisObject, "mScreenSize", 5);
                 XposedHelpers.setIntField(param.thisObject, "mCurrentBlurRadius", 100);
                 XposedHelpers.callMethod(param.thisObject, "blurOverlayWindow", mCurrentBlurRadius);
-                return;
             }
         });
 
@@ -106,7 +104,6 @@ public class BlurOverlay extends BaseHook {
                     XposedHelpers.setIntField(param.thisObject, "mCurrentBlurRadius", 100);
                     XposedHelpers.callMethod(param.thisObject, "blurOverlayWindow", mCurrentBlurRadius);
                 }
-                return;
             }
         });
 
@@ -127,7 +124,6 @@ public class BlurOverlay extends BaseHook {
                     }
                     XposedHelpers.callMethod(param.thisObject, "blurOverlayWindow", mCurrentBlurRadius);
                 }
-                return;
             }
         });
     }

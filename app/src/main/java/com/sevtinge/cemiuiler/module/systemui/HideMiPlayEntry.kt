@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 

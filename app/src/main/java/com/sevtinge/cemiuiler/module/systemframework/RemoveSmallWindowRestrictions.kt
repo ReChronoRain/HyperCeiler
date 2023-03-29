@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemframework
 
-import android.content.ContentResolver
 import android.content.Context
 import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook

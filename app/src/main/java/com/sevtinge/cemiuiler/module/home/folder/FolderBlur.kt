@@ -12,7 +12,7 @@ import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 
 object FolderBlur : BaseHook() {
     override fun init() {
-        Application::class.java.hookBeforeMethod("attach", Context::class.java) {
+        Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
             EzXHelperInit.initHandleLoadPackage(lpparam)
             EzXHelperInit.setLogTag(TAG)
             EzXHelperInit.setToastTag(TAG)

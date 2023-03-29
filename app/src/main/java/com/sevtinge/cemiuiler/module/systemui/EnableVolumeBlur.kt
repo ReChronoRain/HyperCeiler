@@ -10,20 +10,20 @@ class EnableVolumeBlur : BaseHook() {
     override fun init() {
         hookClassInPlugin { classLoader ->
             try {
-                val VolumeUtilClass = XposedHelpers.callMethod(
+                val volumeUtilClass = XposedHelpers.callMethod(
                     classLoader,
                     "loadClass",
                     "com.android.systemui.miui.volume.Util"
                 ) ?: return@hookClassInPlugin
-                VolumeUtilClass as Class<*>
-                val allVolumeUtilMethods = VolumeUtilClass.methods
+                volumeUtilClass as Class<*>
+                val allVolumeUtilMethods = volumeUtilClass.methods
                 if (allVolumeUtilMethods.isEmpty()) {
                     return@hookClassInPlugin
                 }
                 allVolumeUtilMethods.forEach { method ->
                     if (method.name == "isSupportBlurS") {
                         XposedBridge.hookAllMethods(
-                            VolumeUtilClass,
+                            volumeUtilClass,
                             "isSupportBlurS",
                             object : XC_MethodHook() {
                                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -47,13 +47,13 @@ class EnableVolumeBlur : BaseHook() {
         }
     }
 
-    fun hookClassInPlugin(afterGetClassLoader: (classLoader: ClassLoader) -> Unit) {
-        val PluginHandlerClass = findClassIfExists(
+    private fun hookClassInPlugin(afterGetClassLoader: (classLoader: ClassLoader) -> Unit) {
+        val pluginHandlerClass = findClassIfExists(
             "com.android.systemui.shared.plugins.PluginInstanceManager\$PluginHandler"
         )
-        if (PluginHandlerClass != null) {
+        if (pluginHandlerClass != null) {
             XposedBridge.hookAllMethods(
-                PluginHandlerClass,
+                pluginHandlerClass,
                 "handleLoadPlugin",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
@@ -80,12 +80,12 @@ class EnableVolumeBlur : BaseHook() {
             return
         }
 
-        val PluginActionManagerClass = findClassIfExists(
+        val pluginActionManagerClass = findClassIfExists(
             "com.android.systemui.shared.plugins.PluginActionManager"
         )
-        if (PluginActionManagerClass != null) {
+        if (pluginActionManagerClass != null) {
             XposedBridge.hookAllMethods(
-                PluginActionManagerClass,
+                pluginActionManagerClass,
                 "loadPluginComponent",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {

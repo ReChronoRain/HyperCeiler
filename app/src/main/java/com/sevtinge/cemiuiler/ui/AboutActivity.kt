@@ -50,7 +50,6 @@ class AboutActivity : AppCompatActivity() {
             mHiddenFunction.title = "v" + BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE
 
             var versionClickTime = 0
-            val maxOpenClickTime = hour
             val maxCloseClickTime = 3
             mHiddenFunction.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 it as SwitchPreference
@@ -64,8 +63,8 @@ class AboutActivity : AppCompatActivity() {
                         versionClickTime = 0
                         //ToastHelper.makeText(context, "行吧给你关咯")
                     }
-                } else if (versionClickTime < maxOpenClickTime) {
-                    val string = String.format("还需点击%d次", maxOpenClickTime - versionClickTime)
+                } else if (versionClickTime < hour) {
+                    val string = String.format("还需点击%d次", hour - versionClickTime)
                     //ToastHelper.makeText(context, string)
                 } else {
                     it.isChecked = !(it.isChecked)

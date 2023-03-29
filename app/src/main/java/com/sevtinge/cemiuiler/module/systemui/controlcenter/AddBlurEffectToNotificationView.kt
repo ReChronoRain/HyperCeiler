@@ -168,12 +168,12 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         "mBackgroundNormal"
                     ) as View
                     if (!mBackgroundNormal.isAttachedToWindow) {
-                        return;
+                        return
                     }
                     if (isHeadsUp) {
                         if (mBackgroundNormal.background != null) {
                             if (HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
-                                return;
+                                return
                             }
                         }
                         mBackgroundNormal.background =

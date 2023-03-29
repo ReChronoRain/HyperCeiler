@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui.various;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
         mCursor = mSQLiteHelper.a.rawQuery("select * from location order by id desc limit 2000", null);
         if (mCursor.moveToFirst()) {
             do {
-                LocationData locationData = new LocationData(String.valueOf(mCursor.getString(0)), Double.valueOf(mCursor.getDouble(1)), Double.valueOf(mCursor.getDouble(2)), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5), mCursor.getString(6), mCursor.getInt(7));
+                LocationData locationData = new LocationData(String.valueOf(mCursor.getString(0)), mCursor.getDouble(1), mCursor.getDouble(2), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5), mCursor.getString(6), mCursor.getInt(7));
                 mLocationDataList.add(locationData);
             } while (mCursor.moveToNext());
         }
@@ -143,6 +144,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
@@ -165,7 +167,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
                         return;
                     }
                     String[] split = n.split(",", 6);
-                    LocationData kVar2 = new LocationData(String.valueOf(split[0]), Double.valueOf(Double.parseDouble(split[1])), Double.valueOf(Double.parseDouble(split[2])), Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]), split[6], 7);
+                    LocationData kVar2 = new LocationData(String.valueOf(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]), split[6], 7);
                     long b2 = mSQLiteHelper.b(kVar2);
                     if (b2 < 0) {
                         ToastHelper.makeText(this, "Can't insert");

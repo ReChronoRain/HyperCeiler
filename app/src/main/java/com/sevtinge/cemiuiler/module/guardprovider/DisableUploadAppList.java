@@ -4,18 +4,13 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 import de.robv.android.xposed.XposedBridge;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class DisableUploadAppList extends BaseHook {
 
@@ -66,7 +61,7 @@ public class DisableUploadAppList extends BaseHook {
             XposedBridge.hookMethod(getAllUnSystemAppsStatus, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    List<Object> list = (List) methodHookParam.args[0];
+                    List list = (List) methodHookParam.args[0];
 
                     String MIUI_VERSION = null;
                     Field[] antiDefraudAppManagerFields = antiDefraudAppManager.getDeclaredFields();
