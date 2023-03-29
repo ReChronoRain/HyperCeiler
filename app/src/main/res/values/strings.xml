@@ -827,13 +827,9 @@
     <string name="updater_device">Fake device for Updater</string>
     <string name="updater_device_desc">This feature is really danger, please do not use it in daily</string>
     <string name="array_battery_both">Both</string>
-    <string name="array_battery_both">B</string>
     <string name="array_battery_temperature">Only temperature</string>
-    <string name="array_battery_temperature">O</string>
     <string name="array_battery_current">Only current</string>
-    <string name="array_battery_current">O</string>
     <string name="system_ui_statusbar_battery_size">Font size</string>
-    <string name="system_ui_statusbar_battery_size">F</string>
     <string name="system_ui_statusbar_battery_show">Show contents</string>
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
     <string name="system_ui_statusbar_battery_title">Battery and temperature indicator</string>
