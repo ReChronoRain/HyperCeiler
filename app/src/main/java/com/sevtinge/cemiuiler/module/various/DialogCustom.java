@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.various;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -50,7 +51,9 @@ public class DialogCustom extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     Window mWindow = (Window) XposedHelpers.getObjectField(param.thisObject, "mWindow");
-                    mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); //android.R.styleable.Window_windowBlurBehindRadius
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); //android.R.styleable.Window_windowBlurBehindRadius
+                    }
                     mWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
                 }
             });
