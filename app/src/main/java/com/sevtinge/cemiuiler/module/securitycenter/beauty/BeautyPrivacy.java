@@ -12,8 +12,15 @@ public class BeautyPrivacy extends BaseHook {
     @Override
     public void init() {
         int appVersionCode = getPackageVersionCode(lpparam);
-        if (appVersionCode >= 40000749) {
+        if (appVersionCode == 40000749 || appVersionCode == 40000750) {
             findAndHookMethod("p5.f", "X", new BaseHook.MethodHook() {
+                @Override
+                protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } else if (appVersionCode == 40000754 || appVersionCode == 40000771) {
+            findAndHookMethod("com.miui.gamebooster.beauty.l", "Q", new BaseHook.MethodHook() {
                 @Override
                 protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                     param.setResult(true);

@@ -33,7 +33,7 @@ public class DisableRootCheck extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("rootCheck"));
             for (DexMethodDescriptor descriptor : result) {
                 Method checkIsRooted = descriptor.getMethodInstance(lpparam.classLoader);
-                if (checkIsRooted.getReturnType() == Boolean.class) {
+                if (checkIsRooted.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(checkIsRooted, XC_MethodReplacement.returnConstant(false));
                 }
             }

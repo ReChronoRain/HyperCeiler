@@ -34,7 +34,7 @@ public class DisableMishareAutoOff extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("MiShareAutoOff"));
             for (DexMethodDescriptor descriptor : result) {
                 Method miShareAutoOff = descriptor.getMethodInstance(lpparam.classLoader);
-                if (miShareAutoOff.getReturnType() == Boolean.class) {
+                if (miShareAutoOff.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(miShareAutoOff, XC_MethodReplacement.returnConstant(null));
                 }
             }

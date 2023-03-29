@@ -38,7 +38,7 @@ public class DisableCloudControl extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("CloudControl"));
             for (DexMethodDescriptor descriptor : result) {
                 cloudControl = descriptor.getMethodInstance(lpparam.classLoader);
-                if (cloudControl.getReturnType() == Boolean.class) {
+                if (cloudControl.getReturnType() == void.class) {
                     hookMethod(cloudControl, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {

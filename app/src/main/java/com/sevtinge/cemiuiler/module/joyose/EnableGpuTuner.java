@@ -36,7 +36,7 @@ public class EnableGpuTuner extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("GpuTuner"));
             for (DexMethodDescriptor descriptor : result) {
                 gpuTuner = descriptor.getMethodInstance(lpparam.classLoader);
-                if (gpuTuner.getReturnType() == Boolean.class) {
+                if (gpuTuner.getReturnType() == boolean.class) {
                     hookMethod(gpuTuner, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
