@@ -45,7 +45,7 @@ public class UnlockGrids extends BaseHook {
         mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_y", 4);
         mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_x_min", 3);
         mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_y_min", 4);
-        mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_x_max", 10);
-        mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_y_max", 10);
+        mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_x_max", 16);
+        mResHook.setObjectReplacement("com.miui.home", "integer", "config_cell_count_y_max", 18);
     }
 }
