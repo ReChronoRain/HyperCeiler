@@ -620,6 +620,8 @@
     <string name="system_ui_statusbar_indicator_right_margin">右侧间距</string>
     <string name="system_ui_statusbar_indicator_vertical_offset">上下偏移量</string>
     <string name="system_ui_statusbar_indicator_align">水平对齐</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">固定宽度</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
 
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
@@ -632,8 +634,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">网速值低于该水平时被认为慢，部分指示器图标会显示不同的指示器图标</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 *B/s 单位</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width">固定宽度</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">启用自定义</string>
 
@@ -652,9 +652,15 @@
     <string name="system_ui_statusbar_clock_size">时钟大小（0 为不修改）</string>
     <string name="system_ui_statusbar_clock_double_size">双排大小（0 为不修改）</string>
 
+    <string name="system_ui_statusbar_battery_all_enable">总开关</string>
     <string name="system_ui_statusbar_battery_size">字体大小</string>
     <string name="system_ui_statusbar_battery_show">显示内容</string>
     <string name="system_ui_statusbar_battery_disable">隐藏单位</string>
+    <string name="system_ui_statusbar_battery_right_show">右侧显示</string>
+    <string name="system_ui_statusbar_battery_electric_current">电流总显示正值</string>
+    <string name="system_ui_statusbar_battery_line_show">单排显示</string>
+    <string name="system_ui_statusbar_battery_opposite">反序</string>
+    <string name="system_ui_statusbar_battery_only_changing_show">仅在充电时显示</string>
 
     <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>

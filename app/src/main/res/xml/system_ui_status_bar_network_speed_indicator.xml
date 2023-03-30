@@ -82,8 +82,8 @@
         <SeekBarPreference
                 android:defaultValue="10"
                 android:key="prefs_key_system_ui_statusbar_network_speed_fixedcontent_width"
-                android:title="@string/system_ui_statusbar_network_speed_fixedcontent_width"
-                android:summary="@string/system_ui_statusbar_network_speed_fixedcontent_width_desc"
+                android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+                android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
                 app:format="%s dp"
                 app:maxValue="120"
                 app:minValue="10"

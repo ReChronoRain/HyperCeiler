@@ -701,8 +701,8 @@
     <string name="system_ui_statusbar_network_speed_detailed">Upload and download speed are displayed in dual rows</string>
     <string name="system_ui_statusbar_indicator_bold">Bold</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">Show incoming and outgoing network speeds separately</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width">Fix content width</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width_desc">To prevent horizontal jitter</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">To prevent horizontal jitter</string>
     <string name="system_ui_statusbar_indicator_left_margin">Left margin</string>
     <string name="system_ui_statusbar_indicator_right_margin">Right margin</string>
     <string name="system_ui_statusbar_indicator_vertical_offset">Up and down offset</string>
@@ -833,4 +833,10 @@
     <string name="system_ui_statusbar_battery_show">Show contents</string>
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
     <string name="system_ui_statusbar_battery_title">Battery and temperature indicator</string>
+    <string name="system_ui_statusbar_battery_all_enable">Main switch</string>
+    <string name="system_ui_statusbar_battery_right_show">Show on the right</string>
+    <string name="system_ui_statusbar_battery_electric_current">The current always shows a positive value</string>
+    <string name="system_ui_statusbar_battery_line_show">Single row display</string>
+    <string name="system_ui_statusbar_battery_opposite">Reverse order</string>
+    <string name="system_ui_statusbar_battery_only_changing_show">Show only when charging</string>
 </resources>

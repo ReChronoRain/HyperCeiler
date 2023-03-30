@@ -225,6 +225,7 @@
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_recent_horizontal_task_view_card_size1">豎屏平鋪卡片大小</string>
     <string name="home_recent_horizontal_task_view_card_size2">橫屏平鋪卡片大小</string>
+    <string name="home_recent_show_real_memory">顯示真實使用記憶體量</string>
     <string name="home_title_bigicon_title">大圖示</string>
     <string name="home_recent_hide_freeform">隱藏小窗按鈕</string>
     <string name="home_recent_hide_clean_up">隱藏清理按鈕</string>
@@ -364,6 +365,13 @@
     <string name="system_control_center_qs_columns">列數</string>
     <string name="system_control_center_qs_columns_format">%d 列</string>
     <string name="system_ui_lockscreen_safe_title">安全</string>
+    <string name="system_ui_lockscreen_ui_title">介面</string>
+    <string name="system_ui_lock_screen_show_second">时鐘顯示秒數</string>
+    <string name="system_ui_lock_screen_show_charging_current">充電時顯示電流</string>
+    <string name="system_ui_lock_screen_hide_camera">隱藏相機</string>
+    <string name="system_ui_lock_screen_hide_smart_screen">隱藏負一屏</string>
+    <string name="system_ui_lock_screen_current">當前電流</string>
+    <string name="system_ui_lock_screen_default_theme">僅支援默認主題</string>
     <string name="system_ui_lock_screen_scramble_pin">亂序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">隨機更改 PIN 鍵盤順序</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
@@ -401,14 +409,19 @@
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wi-Fi</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">藍牙</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">行動網路</string>
+    <string name="system_ui_statusbar_iconmanage_location_title">位置訊息</string>
     <string name="system_ui_statusbar_iconmanage_status_title">狀態圖示</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知圖示</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">電池</string>
     <string name="system_ui_statusbar_iconmanage_left_title">圖示左側顯示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
+    <string name="system_ui_status_bar_icon_wifi">Wi-Fi 圖示</string>
+    <string name="system_ui_status_bar_icon_wifi_slave">輔助 Wi-Fi 圖示</string>
+    <string name="system_ui_status_bar_icon_hotspot">熱點</string>
     <string name="system_ui_status_bar_icon_wifi_standard">Wi-Fi 標準</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">網路活動指示器</string>
     <string name="system_ui_status_bar_icon_bluetooth">藍牙</string>
+    <string name="system_ui_status_bar_icon_bluetooth_battery">藍牙電量</string>
     <string name="system_ui_status_bar_icon_new_hd">新 HD 圖示</string>
     <string name="system_ui_status_bar_icon_small_hd">小 HD 圖示</string>
     <string name="system_ui_status_bar_icon_big_hd">大 HD 圖示</string>
@@ -711,8 +724,8 @@
     <string name="system_ui_statusbar_network_speed_detailed">上下行網速雙排顯示</string>
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">分別顯示傳入和傳出的網絡速度</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width">固定寬度</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width_desc">防止相鄰元素左右抖动</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">固定寬度</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相鄰元素左右抖动</string>
     <string name="system_ui_statusbar_indicator_left_margin">左側間距</string>
     <string name="system_ui_statusbar_indicator_right_margin">右側間距</string>
     <string name="system_ui_statusbar_indicator_vertical_offset">上下偏移量</string>
@@ -806,4 +819,10 @@
     <string name="system_ui_statusbar_battery_show">顯示內容</string>
     <string name="system_ui_statusbar_battery_disable">隱藏組織</string>
     <string name="array_battery_current">僅電流</string>
+    <string name="system_ui_statusbar_battery_all_enable">總開關</string>
+    <string name="system_ui_statusbar_battery_right_show">右側顯示</string>
+    <string name="system_ui_statusbar_battery_electric_current">電流總顯示正值</string>
+    <string name="system_ui_statusbar_battery_line_show">單排顯示</string>
+    <string name="system_ui_statusbar_battery_opposite">反序</string>
+    <string name="system_ui_statusbar_battery_only_changing_show">僅在充電時顯示</string>
 </resources>

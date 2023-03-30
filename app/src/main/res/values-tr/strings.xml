@@ -683,8 +683,8 @@
     <string name="system_ui_statusbar_network_speed_detailed">Yükleme ve indirme hızı çift sıra halinde görüntülenir</string>
     <string name="system_ui_statusbar_indicator_bold">Kalın</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">Gelen ve giden ağ hızlarını ayrı ayrı göster</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width">İçerik genişliğini düzeltin</string>
-    <string name="system_ui_statusbar_network_speed_fixedcontent_width_desc">Yatay titremeyi önlemek için</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">İçerik genişliğini düzeltin</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Yatay titremeyi önlemek için</string>
     <string name="system_ui_statusbar_indicator_left_margin">Sol kenar boşluğu</string>
     <string name="system_ui_statusbar_indicator_right_margin">Sağ kenar boşluğu</string>
     <string name="system_ui_statusbar_indicator_vertical_offset">Yukarı ve aşağı ofset</string>

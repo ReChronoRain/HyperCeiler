@@ -2,7 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_system_ui_statusbar_battery_all_enable"
+        android:title="@string/system_ui_statusbar_battery_all_enable" />
+
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_statusbar_battery_all_enable"
+        android:title="@string/system_ui_statusbar_indicator_default_title">
 
         <SwitchPreference
             android:defaultValue="false"
@@ -19,94 +26,93 @@
             app:showSeekBarValue="true" />
 
         <DropDownPreference
+            android:defaultValue="1"
             android:key="prefs_key_system_ui_statusbar_battery_align"
             android:title="@string/system_ui_statusbar_indicator_align"
-            android:defaultValue="1"
             app:entries="@array/system_ui_status_bar_horizontal_align"
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
-<!--        <SeekBarPreference-->
-<!--            android:defaultValue="0"-->
-<!--            android:key="prefs_key_system_ui_statusbar_clock_size_geek"-->
-<!--            android:title="@string/system_ui_statusbar_clock_size"-->
-<!--            app:format="%s dp"-->
-<!--            app:maxValue="18"-->
-<!--            app:minValue="0"-->
-<!--            app:showSeekBarValue="true" />-->
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
+            android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
+            android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:format="%s dp"
+            app:maxValue="120"
+            app:minValue="10"
+            app:showSeekBarValue="true" />
 
-<!--        <SeekBarPreference-->
-<!--            android:defaultValue="0"-->
-<!--            android:key="prefs_key_system_ui_statusbar_clock_size_geek"-->
-<!--            android:title="@string/system_ui_statusbar_clock_size"-->
-<!--            app:format="%s dp"-->
-<!--            app:maxValue="18"-->
-<!--            app:minValue="0"-->
-<!--            app:showSeekBarValue="true" />-->
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_battery_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
-<!--        <SeekBarPreference-->
-<!--            android:defaultValue="0"-->
-<!--            android:key="prefs_key_system_ui_statusbar_clock_size_geek"-->
-<!--            android:title="@string/system_ui_statusbar_clock_size"-->
-<!--            app:format="%s dp"-->
-<!--            app:maxValue="18"-->
-<!--            app:minValue="0"-->
-<!--            app:showSeekBarValue="true" />-->
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_battery_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
-<!--        <SeekBarPreference-->
-<!--            android:defaultValue="0"-->
-<!--            android:key="prefs_key_system_ui_statusbar_clock_size_geek"-->
-<!--            android:title="@string/system_ui_statusbar_clock_size"-->
-<!--            app:format="%s dp"-->
-<!--            app:maxValue="18"-->
-<!--            app:minValue="0"-->
-<!--            app:showSeekBarValue="true" />-->
+        <SeekBarPreference
+            android:defaultValue="8"
+            android:key="prefs_key_system_ui_statusbar_battery_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            app:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_statusbar_battery_all_enable"
+        android:title="@string/system_ui_statusbar_indicator_expand_title">
 
-    <DropDownPreference
-        android:defaultValue="1"
-        android:key="prefs_key_system_ui_statusbar_battery_show"
-        android:title="@string/system_ui_statusbar_battery_show"
-        app:entries="@array/system_ui_status_bar_battery_show"
-        app:entryValues="@array/system_ui_status_bar_battery_show_value"/>
+        <DropDownPreference
+            android:defaultValue="1"
+            android:key="prefs_key_system_ui_statusbar_battery_show"
+            android:title="@string/system_ui_statusbar_battery_show"
+            app:entries="@array/system_ui_status_bar_battery_show"
+            app:entryValues="@array/system_ui_status_bar_battery_show_value" />
 
-    <DropDownPreference
-        android:defaultValue="1"
-        android:key="prefs_key_system_ui_statusbar_battery_disable"
-        android:title="@string/system_ui_statusbar_battery_disable"
-        app:entries="@array/system_ui_status_bar_battery_disable"
-        app:entryValues="@array/system_ui_status_bar_battery_disable_value"/>
+        <DropDownPreference
+            android:defaultValue="1"
+            android:key="prefs_key_system_ui_statusbar_battery_disable"
+            android:title="@string/system_ui_statusbar_battery_disable"
+            app:entries="@array/system_ui_status_bar_battery_disable"
+            app:entryValues="@array/system_ui_status_bar_battery_disable_value" />
 
-<!--    <SwitchPreference-->
-<!--        android:defaultValue="false"-->
-<!--        android:key="prefs_key_system_ui_statusbar_clock_year"-->
-<!--        android:title="@string/system_ui_statusbar_clock_year" />-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_right_show"
+            android:title="@string/system_ui_statusbar_battery_right_show" />
 
-<!--    <SwitchPreference-->
-<!--        android:defaultValue="false"-->
-<!--        android:key="prefs_key_system_ui_statusbar_clock_year"-->
-<!--        android:title="@string/system_ui_statusbar_clock_year" />-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_electric_current"
+            android:title="@string/system_ui_statusbar_battery_electric_current" />
 
-<!--    <SwitchPreference-->
-<!--        android:defaultValue="false"-->
-<!--        android:key="prefs_key_system_ui_statusbar_clock_year"-->
-<!--        android:title="@string/system_ui_statusbar_clock_year" />-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_line_show"
+            android:title="@string/system_ui_statusbar_battery_line_show" />
 
-<!--    <SwitchPreference-->
-<!--    android:defaultValue="false"-->
-<!--    android:key="prefs_key_system_ui_statusbar_clock_year"-->
-<!--    android:title="@string/system_ui_statusbar_clock_year" />-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_opposite"
+            android:title="@string/system_ui_statusbar_battery_opposite" />
 
-<!--    <SwitchPreference-->
-<!--    android:defaultValue="false"-->
-<!--    android:key="prefs_key_system_ui_statusbar_clock_year"-->
-<!--    android:title="@string/system_ui_statusbar_clock_year" />-->
-
-<!--    <SwitchPreference-->
-<!--        android:defaultValue="false"-->
-<!--        android:key="prefs_key_system_ui_statusbar_clock_year"-->
-<!--        android:title="@string/system_ui_statusbar_clock_year" />-->
-</PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_only_changing_show"
+            android:title="@string/system_ui_statusbar_battery_only_changing_show" />
+    </PreferenceCategory>
 </PreferenceScreen>
