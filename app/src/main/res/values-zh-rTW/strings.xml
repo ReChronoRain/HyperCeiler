@@ -825,4 +825,5 @@
     <string name="system_ui_statusbar_battery_line_show">單排顯示</string>
     <string name="system_ui_statusbar_battery_opposite">反序</string>
     <string name="system_ui_statusbar_battery_only_changing_show">僅在充電時顯示</string>
+    <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
 </resources>

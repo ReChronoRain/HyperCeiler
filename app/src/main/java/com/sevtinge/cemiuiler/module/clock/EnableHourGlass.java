@@ -19,6 +19,9 @@ public class EnableHourGlass extends BaseHook {
                     param.setResult(true);
                 }
             });
+        } else {
+            XposedBridge.log("Cemiuiler: Your clock versionCode is " + appVersionCode);
+            XposedBridge.log("Cemiuiler: Please revert to a supported version yourself");
         }
     }
 

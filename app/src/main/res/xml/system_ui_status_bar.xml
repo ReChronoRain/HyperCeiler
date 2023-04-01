@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Preference android:title="@string/system_ui_statusbar_iconmanage_title">
         <intent
@@ -20,11 +19,12 @@
             android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
-    <Preference android:title="@string/system_ui_statusbar_battery_title">
+    <Preference
+        android:title="@string/system_ui_statusbar_battery_title"
+        android:enabled="false">
         <intent
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler"
-            app:isPreferenceVisible="false"/>
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
     <!--<PreferenceCategory android:title="状态栏网速">
 
