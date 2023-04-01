@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.various;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -20,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class DialogCustom extends BaseHook {
@@ -59,8 +61,8 @@ public class DialogCustom extends BaseHook {
             });
         }
 
+        boolean oldMethodFound = false;
         if (mAlertControllerCls != null) {
-            boolean oldMethodFound = false;
 
             for (Method method : mAlertControllerCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) {
@@ -76,32 +78,50 @@ public class DialogCustom extends BaseHook {
 
         }
 
-        hookAllMethods(mAlertControllerCls,"updateDialogPanel", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
-                mContext = mParentPanel.getContext();
+        if (oldMethodFound) {
+            XposedBridge.log("Cemiuiler: DialogCustom oldMethod found.");
 
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
-
-                if (mDialogGravity != 0) {
-
-                    layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
-
-                    layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM|Gravity.CENTER;
-
-                    layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                    layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                    layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext,mDialogBottomMargin);
+            findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
+                    mContext = mParentPanel.getContext();
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
+                    if (mDialogGravity != 0) {
+                        layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+                        layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
+                        layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                        layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                        layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
+                    }
+                    mParentPanel.setLayoutParams(layoutParams);
+                    new BlurUtils(mParentPanel, "various_dialog_bg_blur");
                 }
+            });
 
-                mParentPanel.setLayoutParams(layoutParams);
-                new BlurUtils(mParentPanel, "various_dialog_bg_blur");
-            }
-        });
+        } else {
+            XposedBridge.log("Cemiuiler: DialogCustom oldMethod not found.");
+            hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
+                    mContext = mParentPanel.getContext();
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
+                    if (mDialogGravity != 0) {
+                        layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+                        layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
+                        layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                        layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                        layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
+                    }
+                    mParentPanel.setLayoutParams(layoutParams);
+                    new BlurUtils(mParentPanel, "various_dialog_bg_blur");
+                }
+            });
+        }
 
         try {
-            findAndHookMethod(mAlertControllerCls,"updateParentPanelMarginByWindowInsets", WindowInsets.class, new MethodHook() {
+            hookAllMethods(mAlertControllerCls, "updateParentPanelMarginByWindowInsets", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
@@ -111,11 +131,11 @@ public class DialogCustom extends BaseHook {
                     if (mDialogGravity != 0) {
                         layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
 
-                        layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM|Gravity.CENTER;
+                        layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
 
-                        layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                        layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                        layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext,mDialogBottomMargin);
+                        layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                        layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                        layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
                     }
                     mParentPanel.setLayoutParams(layoutParams);
 
