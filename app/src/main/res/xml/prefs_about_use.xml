@@ -67,6 +67,13 @@
                 android:data="https://github.com/KyuubiRan/EzXHelper" />
         </Preference>
         <Preference
+                android:title="FixMiuiMediaControlPanel"
+                android:summary="qqlittleice">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/qqlittleice/FixMiuiMediaControlPanel" />
+        </Preference>
+        <Preference
             android:title="HideMiuiClipboardDialog"
             android:summary="zerorooot">
             <intent
