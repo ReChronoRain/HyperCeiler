@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module;
+package com.sevtinge.cemiuiler.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

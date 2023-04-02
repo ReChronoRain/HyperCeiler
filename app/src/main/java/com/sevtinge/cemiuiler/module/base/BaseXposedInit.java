@@ -1,10 +1,8 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import com.sevtinge.cemiuiler.module.*;
-import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
-import com.sevtinge.cemiuiler.utils.PrefsMap;
-import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.module.Settings;
+import com.sevtinge.cemiuiler.utils.*;
 
 import java.io.File;
 import java.util.Map;

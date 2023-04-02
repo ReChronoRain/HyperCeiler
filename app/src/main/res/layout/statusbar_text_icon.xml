@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.systemui.statusbar.views.NetworkSpeedView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:tag="slot_text_icon"
+        android:gravity="end|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:singleLine="false"
+        tools:ignore="MissingClass" />

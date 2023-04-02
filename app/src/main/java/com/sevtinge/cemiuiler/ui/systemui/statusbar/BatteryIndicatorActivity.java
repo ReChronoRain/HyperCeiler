@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
 
-public class BatteryIndicatorActivity extends BaseAppCompatActivity {
+public class BatteryIndicatorActivity extends BaseSystemUIActivity {
 
     @Override
     public Fragment initFragment() {
