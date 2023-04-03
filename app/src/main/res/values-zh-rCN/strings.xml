@@ -72,6 +72,7 @@
     <string name="about_crwd">翻译</string>
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
 
+    <string name="array_close">关闭</string>
     <string name="array_default">默认</string>
     <string name="array_align_left">左侧</string>
     <string name="array_align_right">右侧</string>

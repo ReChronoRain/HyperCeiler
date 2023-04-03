@@ -412,11 +412,13 @@
     </string-array>
 
     <string-array name="system_ui_status_bar_clock_mode">
+        <item>@string/array_close</item>
         <item>@string/array_clock_default</item>
         <item>@string/array_clock_geek</item>
     </string-array>
 
     <string-array name="system_ui_status_bar_clock_mode_value">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>

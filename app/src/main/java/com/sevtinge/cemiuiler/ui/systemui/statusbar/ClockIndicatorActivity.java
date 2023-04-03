@@ -50,8 +50,8 @@ public class ClockIndicatorActivity extends BaseSystemUIActivity {
         }
 
         private void setClockMode(int mode) {
-            mDefault.setVisible(mode != 2);
-            mGeek.setVisible(mode != 1);
+            mDefault.setVisible(mode == 1);
+            mGeek.setVisible(mode == 2);
         }
 
     }
