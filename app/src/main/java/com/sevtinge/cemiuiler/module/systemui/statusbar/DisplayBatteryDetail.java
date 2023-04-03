@@ -142,7 +142,7 @@ public class DisplayBatteryDetail extends BaseHook {
             }
         });
 
-        if (atRight && !mPrefsMap.getBoolean("system_statusbar_dualrows")  /*双排状态栏*/) {
+        if (atRight) {
             Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
