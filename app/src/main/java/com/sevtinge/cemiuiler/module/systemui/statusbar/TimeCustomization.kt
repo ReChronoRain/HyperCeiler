@@ -15,7 +15,7 @@ import java.util.*
 
 object TimeCustomization : BaseHook(){
     //预设模式
-    private val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 1)
+    private val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0)
     private val getClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size", 0)
     private val getClockDoubleSize = mPrefsMap.getInt("system_ui_statusbar_clock_double_size", 0)
     private val isYear = mPrefsMap.getBoolean("system_ui_statusbar_clock_year")
