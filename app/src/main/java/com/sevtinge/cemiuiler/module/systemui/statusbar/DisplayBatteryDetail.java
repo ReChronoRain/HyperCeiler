@@ -175,7 +175,7 @@ public class DisplayBatteryDetail extends BaseHook {
                     }
                 }
             });
-        } else if (!atRight) {
+        } else {
             Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
