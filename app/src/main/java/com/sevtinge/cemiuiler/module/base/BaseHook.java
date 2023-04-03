@@ -47,7 +47,9 @@ public abstract class BaseHook {
         LogUtils.log(TAG + " FailedInfo：" + th);
     }
 
-
+    public void log(String log) {
+        XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+    }
 
 
     public Class<?> findClass(String className) {
@@ -62,7 +64,7 @@ public abstract class BaseHook {
         try {
             return findClass(className);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            LogUtils.log("find " + className +  " is Null", e);
+            LogUtils.log("find " + className + " is Null", e);
             return null;
         }
     }
@@ -80,15 +82,18 @@ public abstract class BaseHook {
         try {
             return findClass(className, classLoader);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            LogUtils.log("find " + className +  " is Null", e);
+            LogUtils.log("find " + className + " is Null", e);
             return null;
         }
     }
 
     public static class MethodHook extends XC_MethodHook {
 
-        protected void before(MethodHookParam param) throws Throwable {}
-        protected void after(MethodHookParam param) throws Throwable {}
+        protected void before(MethodHookParam param) throws Throwable {
+        }
+
+        protected void after(MethodHookParam param) throws Throwable {
+        }
 
         public MethodHook() {
             super();
@@ -117,7 +122,6 @@ public abstract class BaseHook {
             }
         }
     }
-
 
 
     public void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
@@ -221,8 +225,7 @@ public abstract class BaseHook {
     }
 
 
-
-    public Object getStaticObjectFieldSilently(Class <?> clazz, String fieldName) {
+    public Object getStaticObjectFieldSilently(Class<?> clazz, String fieldName) {
         try {
             return XposedHelpers.getStaticObjectField(clazz, fieldName);
         } catch (Throwable t) {
