@@ -12,17 +12,18 @@ public class EnableHourGlass extends BaseHook {
     @Override
     public void init() {
         int appVersionCode = getPackageVersionCode(lpparam);
-        if (appVersionCode <= 130206400) {
             hookAllMethods("com.android.deskclock.util.Util", "isHourGlassEnable", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    param.setResult(true);
+                protected void before(MethodHookParam param) {
+                    try {
+                        param.setResult(true);
+                    } catch(Throwable e) {
+                        XposedBridge.log("Cemiuiler: Your clock versionCode is " + appVersionCode);
+                        XposedBridge.log("Cemiuiler: Please revert to a supported version yourself");
+                        XposedBridge.log(e);
+                    }
                 }
             });
-        } else {
-            XposedBridge.log("Cemiuiler: Your clock versionCode is " + appVersionCode);
-            XposedBridge.log("Cemiuiler: Please revert to a supported version yourself");
-        }
     }
 
     private static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {

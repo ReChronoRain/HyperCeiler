@@ -6,16 +6,16 @@ import de.robv.android.xposed.XposedBridge
 
 object HideMiPlayEntry : BaseHook() {
     override fun init() {
-        val MiPlayPluginManagerClass =
+        val miPlayPluginManagerClass =
             findClassIfExists("com.android.systemui.controlcenter.phone.controls.MiPlayPluginManager")
         XposedBridge.hookAllMethods(
-            MiPlayPluginManagerClass,
+            miPlayPluginManagerClass,
             "supportMiPlayAudio",
             object : XC_MethodReplacement() {
                 override fun replaceHookedMethod(param: MethodHookParam) {
                     param.result = false
                 }
-            })
-
+            }
+        )
     }
 }
