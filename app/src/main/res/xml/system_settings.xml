@@ -17,6 +17,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_settings_app_title">
+        <SwitchPreference
+                android:title="@string/system_settings_app_fast_install_permission"
+                android:key="prefs_key_system_settings_app_fast_install_permission"
+                android:summary="@string/system_settings_app_fast_install_permission_desc"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_settings_develop_title">
         <SwitchPreference
                 android:title="@string/system_settings_develop_speed_mode"

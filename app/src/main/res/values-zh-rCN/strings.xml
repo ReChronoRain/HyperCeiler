@@ -554,6 +554,10 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">网络通话助手</string>
 
+    <string name="system_settings_app_title">应用管理</string>
+    <string name="system_settings_app_fast_install_permission">快速打开安装未知应用</string>
+    <string name="system_settings_app_fast_install_permission_desc">快捷打开 \"安装未知应用\" 管理界面而不是手动选择</string>
+
     <string name="system_settings_permission_title">权限</string>
     <string name="system_settings_permission_show_app_up">上层权限免翻应用列表</string>
     <string name="prefs_key_system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
