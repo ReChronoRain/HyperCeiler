@@ -72,6 +72,12 @@ object BlurSecurity : BaseHook() {
             videoBoxViewClass = findClassIfExists("t7.i") ?: return
             videoBoxViewMethodName = "i"
         }
+        if (videoBoxViewClass == null) {
+            // v7.7.1
+            appVersionCode = 40000771
+            videoBoxViewClass = findClassIfExists("r7.m") ?: return
+            videoBoxViewMethodName = "j"
+        }
 
         var newboxClass: Class<*>? = null
         turboLayoutClass.methods.forEach {
