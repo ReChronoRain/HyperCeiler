@@ -5,6 +5,7 @@
 
         <Preference
                 android:title="@string/joyose"
+                android:summary="com.xiaomi.joyose"
                 android:key="prefs_key_joyose"
                 android:icon="@drawable/ic_joyose_new">
             <intent
@@ -14,6 +15,7 @@
 
         <Preference
                 android:title="@string/mirror"
+                android:summary="com.xiaomi.mirror"
                 android:key="prefs_key_mirror"
                 android:icon="@drawable/ic_miui_plus">
             <intent
@@ -23,6 +25,7 @@
 
         <Preference
                 android:title="@string/guard_provider"
+                android:summary="com.miui.guardprovider"
                 android:key="prefs_key_guardprovider"
                 android:icon="@drawable/ic_guard_provider_new">
             <intent
@@ -32,6 +35,7 @@
 
         <Preference
                 android:title="@string/content_extension"
+                android:summary="com.miui.contentextension"
                 android:key="prefs_key_content_extension"
                 android:icon="@drawable/ic_contentextension">
             <intent
@@ -41,6 +45,7 @@
 
         <Preference
                 android:title="@string/incallui"
+                android:summary="com.android.incallui"
                 android:key="prefs_key_incallui"
                 android:icon="@drawable/ic_call">
             <intent
@@ -50,6 +55,7 @@
 
         <Preference
                 android:title="@string/powerkeeper"
+                android:summary="com.miui.powerkeeper"
                 android:key="prefs_key_powerkeeper"
                 android:icon="@drawable/ic_powerkeeper">
             <intent
@@ -59,6 +65,7 @@
 
         <Preference
                 android:title="@string/mms"
+                android:summary="com.android.mms"
                 android:key="prefs_key_mms"
                 android:icon="@drawable/ic_mms">
             <intent
@@ -68,6 +75,7 @@
 
         <Preference
                 android:title="@string/screenshot"
+                android:summary="com.miui.screenshot"
                 android:key="prefs_key_screenshot"
                 android:icon="@drawable/ic_screenshot">
             <intent
@@ -77,6 +85,7 @@
 
         <Preference
                 android:title="@string/browser"
+                android:summary="com.android.browser"
                 android:key="prefs_key_browser"
                 android:icon="@drawable/ic_browser">
             <intent
@@ -86,6 +95,7 @@
 
         <Preference
                 android:title="@string/screenrecorder"
+                android:summary="com.miui.screenrecorder"
                 android:key="prefs_key_screenrecorder"
                 android:icon="@drawable/ic_screenrecorder">
             <intent
@@ -95,6 +105,7 @@
 
         <Preference
                 android:title="@string/lbe"
+                android:summary="com.lbe.security.miui"
                 android:key="prefs_key_lbe"
                 android:icon="@drawable/ic_lbe">
             <intent
@@ -104,6 +115,7 @@
 
         <Preference
                 android:title="@string/weather"
+                android:summary="com.miui.weather2"
                 android:key="prefs_key_weather"
                 android:icon="@drawable/ic_weather">
             <intent
@@ -113,6 +125,7 @@
 
         <Preference
                 android:title="@string/milink"
+                android:summary="com.milink.service"
                 android:key="prefs_key_milink"
                 android:icon="@drawable/ic_milink">
             <intent
@@ -122,6 +135,7 @@
 
         <Preference
                 android:title="@string/clock"
+                android:summary="com.android.deskclock"
                 android:key="prefs_key_clock"
                 android:icon="@drawable/ic_clock">
             <intent
@@ -131,6 +145,7 @@
 
         <Preference
                 android:title="@string/security_center"
+                android:summary="com.miui.securitycenter"
                 android:key="prefs_key_security_center"
                 android:icon="@drawable/ic_security_center">
             <intent
@@ -139,6 +154,7 @@
 
         <Preference
                 android:title="@string/updater"
+                android:summary="com.android.updater"
                 android:key="prefs_key_updater"
                 android:icon="@drawable/ic_updater">
             <intent
@@ -148,6 +164,7 @@
 
         <Preference
                 android:title="@string/system_ui"
+                android:summary="com.android.systemui"
                 android:key="prefs_key_system_ui"
                 android:icon="@drawable/ic_system_ui">
             <intent
@@ -156,6 +173,7 @@
 
         <Preference
                 android:title="@string/system_ui_plugin"
+                android:summary="miui.systemui.plugin"
                 android:key="prefs_key_system_ui_plugin"
                 android:icon="@drawable/ic_system_ui_plugin">
             <intent
@@ -165,6 +183,7 @@
 
         <Preference
                 android:title="@string/system_framework"
+                android:summary="android"
                 android:key="prefs_key_system_framework"
                 android:icon="@drawable/ic_system_framework">
             <intent
@@ -173,6 +192,7 @@
 
         <Preference
                 android:title="@string/system_settings"
+                android:summary="com.android.settings"
                 android:key="prefs_key_system_settings"
                 android:icon="@drawable/ic_system_settings">
             <intent
@@ -182,6 +202,7 @@
 
         <Preference
                 android:title="@string/home"
+                android:summary="com.miui.home"
                 android:key="prefs_key_home"
                 android:icon="@drawable/ic_home">
             <intent
@@ -190,6 +211,7 @@
 
         <Preference
                 android:title="@string/gallery"
+                android:summary="com.miui.gallery"
                 android:key="prefs_key_gallery"
                 android:icon="@drawable/ic_gallery">
             <intent
@@ -199,6 +221,7 @@
 
         <Preference
                 android:title="@string/mediaeditor"
+                android:summary="com.miui.mediaeditor"
                 android:key="prefs_key_mediaeditor"
                 android:icon="@drawable/ic_mediaeditor">
             <intent
@@ -208,6 +231,7 @@
 
         <Preference
                 android:title="@string/camera"
+                android:summary="com.android.camera"
                 android:key="prefs_key_camera"
                 android:icon="@drawable/ic_camera">
             <intent
@@ -217,6 +241,7 @@
 
         <Preference
                 android:title="@string/aireco"
+                android:summary="com.xiaomi.aireco"
                 android:key="prefs_key_aireco"
                 android:icon="@drawable/ic_suggestion">
             <intent
@@ -226,6 +251,7 @@
 
         <Preference
                 android:title="@string/scanner"
+                android:summary="com.xiaomi.scanner"
                 android:key="prefs_key_scanner"
                 android:icon="@drawable/ic_scanner">
             <intent
@@ -235,6 +261,7 @@
 
         <Preference
                 android:title="@string/mishare"
+                android:summary="com.miui.mishare.connectivity"
                 android:key="prefs_key_mishare"
                 android:icon="@drawable/ic_mishare">
             <intent
@@ -244,6 +271,7 @@
 
         <Preference
                 android:title="@string/tsmclient"
+                android:summary="com.miui.tsmclient"
                 android:key="prefs_key_tsmclient"
                 android:icon="@drawable/ic_tsmclient">
             <intent
@@ -253,6 +281,7 @@
 
         <Preference
                 android:title="@string/music"
+                android:summary="com.miui.player"
                 android:key="prefs_key_music"
                 android:icon="@drawable/ic_music">
             <intent
@@ -261,6 +290,7 @@
         </Preference>
 
         <Preference android:title="@string/package_installer"
+                    android:summary="com.miui.packageinstaller"
                     android:icon="@drawable/ic_package_installer">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
@@ -268,6 +298,7 @@
         </Preference>
 
         <Preference android:title="@string/market"
+                    android:summary="com.xiaomi.market"
                     android:icon="@drawable/ic_market">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
@@ -276,6 +307,7 @@
 
         <Preference
                 android:title="@string/personal_assistant"
+                android:summary="com.miui.personalassistant"
                 android:key="prefs_key_home_personal_assistant"
                 android:icon="@drawable/ic_personal_assistant">
             <intent
@@ -285,6 +317,7 @@
 
         <Preference
                 android:title="@string/theme_manager"
+                android:summary="com.android.thememanager"
                 android:key="prefs_key_various_theme"
                 android:icon="@drawable/ic_theme_manager">
             <intent
