@@ -63,7 +63,7 @@ public class Helpers {
     public static final int REQUEST_PERMISSIONS_RESTORE = 2;
 
 
-    public static LruCache<String, Bitmap> memoryCache = new LruCache<String, Bitmap>((int)(Runtime.getRuntime().maxMemory() / 1024) / 2) {
+    public static LruCache<String, Bitmap> memoryCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / 1024) / 2) {
         @Override
         protected int sizeOf(String key, Bitmap icon) {
             if (icon != null)
@@ -97,7 +97,7 @@ public class Helpers {
         }
     }
 
-    public static Object getStaticObjectFieldSilently(Class <?> clazz, String fieldName) {
+    public static Object getStaticObjectFieldSilently(Class<?> clazz, String fieldName) {
         try {
             return XposedHelpers.getStaticObjectField(clazz, fieldName);
         } catch (Throwable t) {
@@ -126,7 +126,8 @@ public class Helpers {
         try {
             black = context.getResources().getColor(context.getResources().getIdentifier("black", "color", "miui"), context.getTheme());
             white = context.getResources().getColor(context.getResources().getIdentifier("white", "color", "miui"), context.getTheme());
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
         return isDackMode(context) ? black : white;
     }
 
@@ -155,7 +156,7 @@ public class Helpers {
         int catResId = 0;
         ModData.ModCat catPrefKey = null;
 
-        switch(xmlResId) {
+        switch (xmlResId) {
             case R.xml.home:
                 catResId = R.string.home;
                 catPrefKey = ModData.ModCat.prefs_key_home;
@@ -174,39 +175,40 @@ public class Helpers {
             int eventType = xml.getEventType();
             int order = 0;
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && !PreferenceScreen.class.getSimpleName().equals(xml.getName())) try {
-                    if (xml.getName().equals(PreferenceCategory.class.getSimpleName()) || xml.getName().equals(PreferenceCategory.class.getCanonicalName())) {
-                        if (xml.getAttributeValue(ANDROID_NS, "key") != null) {
-                            lastPrefSub = xml.getAttributeValue(ANDROID_NS, "key");
-                            lastPrefSubTitle = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                            lastPrefSubSubTitle = null;
-                            order = 1;
-                        } else {
-                            lastPrefSubSubTitle = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                            order++;
+                if (eventType == XmlPullParser.START_TAG && !PreferenceScreen.class.getSimpleName().equals(xml.getName()))
+                    try {
+                        if (xml.getName().equals(PreferenceCategory.class.getSimpleName()) || xml.getName().equals(PreferenceCategory.class.getCanonicalName())) {
+                            if (xml.getAttributeValue(ANDROID_NS, "key") != null) {
+                                lastPrefSub = xml.getAttributeValue(ANDROID_NS, "key");
+                                lastPrefSubTitle = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
+                                lastPrefSubSubTitle = null;
+                                order = 1;
+                            } else {
+                                lastPrefSubSubTitle = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
+                                order++;
+                            }
+                            eventType = xml.next();
+                            continue;
                         }
-                        eventType = xml.next();
-                        continue;
-                    }
 
-                    ModData modData = new ModData();
-                    boolean isChild = xml.getAttributeBooleanValue(MIUIZER_NS, "child", false);
-                    if (!isChild) {
-                        modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        if (modData.title != null) {
-                            modData.breadcrumbs = res.getString(catResId) + (lastPrefSubTitle == null ? "" : ("/" + lastPrefSubTitle + (lastPrefSubSubTitle == null ? "" : "/" + lastPrefSubSubTitle)));
-                            modData.key = xml.getAttributeValue(ANDROID_NS, "key");
-                            modData.cat = catPrefKey;
-                            modData.sub = lastPrefSub;
-                            modData.order = order;
-                            allModsList.add(modData);
-                            //Log.e("miuizer", modData.key + " = " + modData.order);
+                        ModData modData = new ModData();
+                        boolean isChild = xml.getAttributeBooleanValue(MIUIZER_NS, "child", false);
+                        if (!isChild) {
+                            modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
+                            if (modData.title != null) {
+                                modData.breadcrumbs = res.getString(catResId) + (lastPrefSubTitle == null ? "" : ("/" + lastPrefSubTitle + (lastPrefSubSubTitle == null ? "" : "/" + lastPrefSubSubTitle)));
+                                modData.key = xml.getAttributeValue(ANDROID_NS, "key");
+                                modData.cat = catPrefKey;
+                                modData.sub = lastPrefSub;
+                                modData.order = order;
+                                allModsList.add(modData);
+                                //Log.e("miuizer", modData.key + " = " + modData.order);
+                            }
                         }
+                        order++;
+                    } catch (Throwable t) {
+                        t.printStackTrace();
                     }
-                    order++;
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
                 eventType = xml.next();
             }
         } catch (Throwable t) {
@@ -218,7 +220,7 @@ public class Helpers {
     public static void applyShimmer(TextView title) {
         if (title.getPaint().getShader() != null) return;
         int width = title.getResources().getDisplayMetrics().widthPixels;
-        Shader shimmer = new LinearGradient(0, 0, width, 0, new int[]{ 0xFF5DA5FF, 0xFF9B8AFB, 0xFFD176F2, 0xFFFE88B2, 0xFFD176F2, 0xFF9B8AFB }, new float[]{ 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f }, Shader.TileMode.REPEAT);
+        Shader shimmer = new LinearGradient(0, 0, width, 0, new int[]{0xFF5DA5FF, 0xFF9B8AFB, 0xFFD176F2, 0xFFFE88B2, 0xFFD176F2, 0xFF9B8AFB}, new float[]{0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f}, Shader.TileMode.REPEAT);
         Matrix matrix = new Matrix();
         matrix.setTranslate(0, 0);
         shimmer.setLocalMatrix(matrix);
@@ -229,7 +231,10 @@ public class Helpers {
     /*Permissions权限*/
     public static void fixPermissionsAsync(Context context) {
         AsyncTask.execute(() -> {
-            try { Thread.sleep(500); } catch (Throwable ignore) {}
+            try {
+                Thread.sleep(500);
+            } catch (Throwable ignore) {
+            }
             File pkgFolder = context.getDataDir();
             if (pkgFolder.exists()) {
                 pkgFolder.setExecutable(true, false);
@@ -252,12 +257,11 @@ public class Helpers {
     }
 
 
-
-    public static void log (String line) {
+    public static void log(String line) {
         XposedBridge.log("Cemiuiler: " + line);
     }
 
-    public static void log (Throwable t) {
+    public static void log(Throwable t) {
         XposedBridge.log("Cemiuiler: " + t);
     }
 
@@ -267,7 +271,7 @@ public class Helpers {
 
     private static String getCallerMethod() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        for (StackTraceElement el: stackTrace)
+        for (StackTraceElement el : stackTrace)
             if (el != null && el.getClassName().startsWith(mAppModulePkg + ".module")) return el.getMethodName();
         return stackTrace[4].getMethodName();
     }
@@ -283,15 +287,16 @@ public class Helpers {
     public static Context findContext() {
         Context context = null;
         try {
-            context = (Application)XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
+            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
             if (context == null) {
                 Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
-                if (currentActivityThread != null) context = (Context)XposedHelpers.callMethod(currentActivityThread, "getSystemContext");
+                if (currentActivityThread != null)
+                    context = (Context) XposedHelpers.callMethod(currentActivityThread, "getSystemContext");
             }
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
         return context;
     }
-
 
 
     public static synchronized Context getModuleContext(Context context) throws Throwable {
@@ -391,11 +396,10 @@ public class Helpers {
     }
 
 
-
     public static void hookAllMethods(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
         try {
             Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0);
+            if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0) ;
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -472,7 +476,7 @@ public class Helpers {
 
         LinkedHashSet<String> empty = new LinkedHashSet<String>();
         if (BaseHook.mPrefsMap.containsKey(name))
-            return (Set<String>)BaseHook.mPrefsMap.getObject(name, empty);
+            return (Set<String>) BaseHook.mPrefsMap.getObject(name, empty);
         else
             return empty;
     }
@@ -491,7 +495,7 @@ public class Helpers {
         }
 
         if (BaseHook.mPrefsMap.containsKey(name))
-            return (int)BaseHook.mPrefsMap.getObject(name, defValue);
+            return (int) BaseHook.mPrefsMap.getObject(name, defValue);
         else
             return defValue;
     }
@@ -522,11 +526,11 @@ public class Helpers {
 
     public static boolean isAndroidVersionTiramisu() {
         switch (Build.VERSION.SDK_INT) {
-            case Build.VERSION_CODES.R : // 30
+            case Build.VERSION_CODES.R: // 30
                 return false;
-            case Build.VERSION_CODES.S_V2 : // 32
+            case Build.VERSION_CODES.S_V2: // 32
                 return false;
-            case Build.VERSION_CODES.S : // 31
+            case Build.VERSION_CODES.S: // 31
                 return false;
             case Build.VERSION_CODES.TIRAMISU: // 33
                 return true;
@@ -541,8 +545,11 @@ public class Helpers {
     public static class MethodHook extends XC_MethodHook {
 
 
-        protected void before(MethodHookParam param) throws Throwable {}
-        protected void after(MethodHookParam param) throws Throwable {}
+        protected void before(MethodHookParam param) throws Throwable {
+        }
+
+        protected void after(MethodHookParam param) throws Throwable {
+        }
 
         public MethodHook() {
             super();

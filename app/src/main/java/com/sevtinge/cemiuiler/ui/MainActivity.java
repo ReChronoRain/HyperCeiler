@@ -37,10 +37,9 @@ public class MainActivity extends BaseMainActivity {
         if (mIntent != null) {
             getAppCompatActionBar().setDisplayHomeAsUpEnabled(mIntent.getBooleanExtra("isDisplayHomeAsUpEnabled", false));
         }
-        /*获取root
-        String apkRoot = "chmod 777 " + getPackageCodePath();
-        ALPermissionManager.RootCommand(apkRoot);
-        */
+
+        //ALPermissionManager.RootCommand(getPackageCodePath());
+
 
     }
 

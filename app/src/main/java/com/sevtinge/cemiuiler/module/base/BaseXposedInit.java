@@ -120,6 +120,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.android.systemui":
                 if (isSystemUIModuleEnable()) {
                     XposedBridge.log("Cemiuiler: Hook com.android.systemui");
+                    //ALPermissionManager.RootCommand(android.content.ContextWrapper.getPackageCodePath());
                     mSystemUI.init(lpparam);
                     mVarious.init(lpparam);
                     //mSystemUIPlugin.init(lpparam);
