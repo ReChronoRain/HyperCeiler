@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -14,17 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Properties;
+
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 
 public class DisplayBatteryDetail extends BaseHook {
     private static int statusbarTextIconLayoutResId = 0;
@@ -56,8 +58,8 @@ public class DisplayBatteryDetail extends BaseHook {
             public int iconType;
             public String iconText;
         }
-        boolean showBatteryDetail = MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent");
-        boolean showDeviceTemp = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature");
+        boolean showBatteryDetail = mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent");
+        boolean showDeviceTemp = mPrefsMap.getBoolean("system_statusbar_showdevicetemperature");
         statusbarTextIconLayoutResId = XposedInit.mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon);
         Class <?> ChargeUtilsClass = null;
         if (showBatteryDetail) {
@@ -72,8 +74,8 @@ public class DisplayBatteryDetail extends BaseHook {
 
         Class<?> finalChargeUtilsClass = ChargeUtilsClass;
 
-        boolean batteryAtRight = MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_atright");
-        boolean tempAtRight = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_atright");
+        boolean batteryAtRight = mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent_atright");
+        boolean tempAtRight = mPrefsMap.getBoolean("system_statusbar_showdevicetemperature_atright");
         ArrayList<TextIcon> textIcons = new ArrayList<>();
         if (showBatteryDetail) {
             textIcons.add(new TextIcon(batteryAtRight, 91));
@@ -195,7 +197,7 @@ public class DisplayBatteryDetail extends BaseHook {
                 }
             }
         });
-        Helpers.hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, new MethodHook() {
+        Helpers.hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, new Helpers.MethodHook() {
             Handler mBgHandler;
             @Override
             protected void after(MethodHookParam param) throws Throwable {
@@ -220,7 +222,7 @@ public class DisplayBatteryDetail extends BaseHook {
                             String batteryInfo = "";
                             String deviceInfo = "";
                             boolean showBatteryInfo = showBatteryDetail;
-                            if (showBatteryInfo && MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_incharge") && finalChargeUtilsClass != null) {
+                            if (showBatteryInfo && mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent_incharge") && finalChargeUtilsClass != null) {
                                 Object batteryStatus = Helpers.getStaticObjectFieldSilently(finalChargeUtilsClass, "sBatteryStatus");
                                 if (batteryStatus == null) {
                                     showBatteryInfo = false;
@@ -261,7 +263,7 @@ public class DisplayBatteryDetail extends BaseHook {
                                     String currVal;
                                     int rawCurr = -1 * Math.round(Integer.parseInt(props.getProperty("POWER_SUPPLY_CURRENT_NOW")) / 1000f);
                                     String preferred = "mA";
-                                    if (MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_positive")) {
+                                    if (mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent_positive")) {
                                         rawCurr = Math.abs(rawCurr);
                                     }
                                     if (Math.abs(rawCurr) > 999) {
@@ -270,17 +272,17 @@ public class DisplayBatteryDetail extends BaseHook {
                                     } else {
                                         currVal = "" + rawCurr;
                                     }
-                                    int opt = MainModule.mPrefs.getStringAsInt("system_statusbar_batterytempandcurrent_content", 1);
-                                    int hideUnit = MainModule.mPrefs.getStringAsInt("system_statusbar_batterytempandcurrent_hideunit", 0);
+                                    int opt = mPrefsMap.getStringAsInt("system_statusbar_batterytempandcurrent_content", 1);
+                                    int hideUnit = mPrefsMap.getStringAsInt("system_statusbar_batterytempandcurrent_hideunit", 0);
                                     String powerUnit = (hideUnit == 1 || hideUnit == 2) ? "" : "W";
                                     String currUnit = (hideUnit == 1 || hideUnit == 3) ? "" : preferred;
                                     if (opt == 1) {
                                         float voltVal = Integer.parseInt(props.getProperty("POWER_SUPPLY_VOLTAGE_NOW")) / 1000f / 1000f;
                                         String simpleWatt = String.format(Locale.getDefault(), "%.2f", Math.abs(voltVal * rawCurr) / 1000);
-                                        String splitChar = MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_singlerow")
+                                        String splitChar = mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent_singlerow")
                                                 ? " " : "\n";
                                         batteryInfo = simpleWatt + powerUnit + splitChar + currVal + currUnit;
-                                        if (MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_reverseorder")) {
+                                        if (mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent_reverseorder")) {
                                             batteryInfo = currVal + currUnit + splitChar + simpleWatt + powerUnit;
                                         }
                                     } else if (opt == 2) {
@@ -296,14 +298,14 @@ public class DisplayBatteryDetail extends BaseHook {
                                     int cpuTempVal = Integer.parseInt(cpuProps);
                                     String simpleBatteryTemp = String.format(Locale.getDefault(), "%.1f", batteryTempVal / 10f);
                                     String simpleCpuTemp = String.format(Locale.getDefault(), "%.1f", cpuTempVal / 1000f);
-                                    int opt = MainModule.mPrefs.getStringAsInt("system_statusbar_showdevicetemperature_content", 1);
-                                    boolean hideUnit = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_hideunit");
+                                    int opt = mPrefsMap.getStringAsInt("system_statusbar_showdevicetemperature_content", 1);
+                                    boolean hideUnit = mPrefsMap.getBoolean("system_statusbar_showdevicetemperature_hideunit");
                                     String tempUnit = hideUnit ? "" : "℃";
                                     if (opt == 1) {
-                                        String splitChar = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_singlerow")
+                                        String splitChar = mPrefsMap.getBoolean("system_statusbar_showdevicetemperature_singlerow")
                                                 ? " " : "\n";
                                         deviceInfo = simpleBatteryTemp + tempUnit + splitChar + simpleCpuTemp + tempUnit;
-                                        if (MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_reverseorder")) {
+                                        if (mPrefsMap.getBoolean("system_statusbar_showdevicetemperature_reverseorder")) {
                                             deviceInfo = simpleCpuTemp + tempUnit + splitChar + simpleBatteryTemp + tempUnit;
                                         }
                                     } else if (opt == 2) {
@@ -353,31 +355,31 @@ public class DisplayBatteryDetail extends BaseHook {
         else if (ti.iconType == 92) {
             subKey = "showdevicetemperature";
         }
-        float fontSize = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_fontsize", 16) * 0.5f;
-        int opt = MainModule.mPrefs.getStringAsInt("system_statusbar_" + subKey + "_content", 1);
-        if (opt == 1 && !MainModule.mPrefs.getBoolean("system_statusbar_" + subKey + "_singlerow")) {
+        float fontSize = mPrefsMap.getInt("system_statusbar_" + subKey + "_fontsize", 16) * 0.5f;
+        int opt = mPrefsMap.getStringAsInt("system_statusbar_" + subKey + "_content", 1);
+        if (opt == 1 && !mPrefsMap.getBoolean("system_statusbar_" + subKey + "_singlerow")) {
             batteryView.setSingleLine(false);
             batteryView.setMaxLines(2);
             batteryView.setLineSpacing(0, fontSize > 8.5f ? 0.85f : 0.9f);
         }
         batteryView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
-        if (MainModule.mPrefs.getBoolean("system_statusbar_" + subKey + "_bold")) {
+        if (mPrefsMap.getBoolean("system_statusbar_" + subKey + "_bold")) {
             batteryView.setTypeface(Typeface.DEFAULT_BOLD);
         }
-        int leftMargin = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_leftmargin", 8);
+        int leftMargin = mPrefsMap.getInt("system_statusbar_" + subKey + "_leftmargin", 8);
         leftMargin = (int)TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 leftMargin * 0.5f,
                 res.getDisplayMetrics()
         );
-        int rightMargin = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_rightmargin", 8);
+        int rightMargin = mPrefsMap.getInt("system_statusbar_" + subKey + "_rightmargin", 8);
         rightMargin = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 rightMargin * 0.5f,
                 res.getDisplayMetrics()
         );
         int topMargin = 0;
-        int verticalOffset = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_verticaloffset", 8);
+        int verticalOffset = mPrefsMap.getInt("system_statusbar_" + subKey + "_verticaloffset", 8);
         if (verticalOffset != 8) {
             float marginTop = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
@@ -387,13 +389,13 @@ public class DisplayBatteryDetail extends BaseHook {
             topMargin = (int) marginTop;
         }
         batteryView.setPaddingRelative(leftMargin, topMargin, rightMargin, 0);
-        int fixedWidth = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_fixedcontent_width", 10);
+        int fixedWidth = mPrefsMap.getInt("system_statusbar_" + subKey + "_fixedcontent_width", 10);
         if (fixedWidth > 10) {
             lp.width = (int)(batteryView.getResources().getDisplayMetrics().density * fixedWidth);
         }
         batteryView.setLayoutParams(lp);
 
-        int align = MainModule.mPrefs.getStringAsInt("system_statusbar_" + subKey + "_align", 1);
+        int align = mPrefsMap.getStringAsInt("system_statusbar_" + subKey + "_align", 1);
         if (align == 2) {
             batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         }
