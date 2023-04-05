@@ -7,13 +7,13 @@
         android:pathData="M72,0L198,0A72,72 0,0 1,270 72L270,198A72,72 0,0 1,198 270L72,270A72,72 0,0 1,0 198L0,72A72,72 0,0 1,72 0z" />
     <path
         android:pathData="M60.7,84.99L115.18,59.58A23.19,23.19 110,0 1,146 70.8L171.45,125.36A23.19,23.19 110,0 1,160.23 156.18L105.74,181.59A23.19,23.19 110,0 1,74.92 170.37L49.48,115.8A23.19,23.19 110,0 1,60.7 84.99z"
-        android:fillColor="#fc5b8d" />
+        android:fillColor="@color/ic_launcher_background" />
     <path
         android:pathData="M184.33,110.94a52.8,52.8 0,1 1,-63.62 83.72"
         android:strokeWidth="21"
-        android:strokeColor="#fc5b8d"
+        android:strokeColor="@color/ic_launcher_background"
         android:strokeLineCap="round"/>
     <path
         android:pathData="M187.8,71.54m-13.66,0a13.66,13.66 0,1 1,27.32 0a13.66,13.66 0,1 1,-27.32 0"
-        android:fillColor="#fc5b8d"/>
+        android:fillColor="@color/ic_launcher_background"/>
 </vector>
