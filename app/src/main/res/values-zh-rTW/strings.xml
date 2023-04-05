@@ -828,4 +828,7 @@
     <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
     <string name="array_close">關閉</string>
     <string name="system_ui_status_bar_hide_icon">截圖時隱藏狀態欄</string>
+    <string name="settings_icon_mode">圖示樣式</string>
+    <string name="settings_icon_miui_14">圓角矩形樣式</string>
+    <string name="settings_icon_miui_13">背景鏤空樣式</string>
 </resources>

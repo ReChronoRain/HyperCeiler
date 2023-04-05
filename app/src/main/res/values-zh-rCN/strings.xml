@@ -863,6 +863,10 @@
     <string name="settings_icon_medium">中部</string>
     <string name="settings_icon_down">底部</string>
 
+    <string name="settings_icon_mode">图标样式</string>
+    <string name="settings_icon_miui_14">圆角矩形样式</string>
+    <string name="settings_icon_miui_13">背景镂空样式</string>
+
     <string name="default_volume_stream_ring">铃声</string>
     <string name="default_volume_stream_media">媒体</string>
     <string name="default_volume_stream_tip">通知</string>

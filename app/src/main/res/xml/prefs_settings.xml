@@ -17,6 +17,14 @@
             app:entryValues="@array/settings_icon_value"
             android:defaultValue="0" />
 
+        <DropDownPreference
+            android:title="@string/settings_icon_mode"
+            android:key="prefs_key_settings_icon_mode"
+            android:dependency="prefs_key_settings_icon"
+            app:entries="@array/settings_icon_mode"
+            app:entryValues="@array/settings_icon_mode_value"
+            android:defaultValue="0" />
+
         <MultiSelectListPreference
             android:title="@string/settings_reboot"
             android:key="prefs_key_settings_reboot" />

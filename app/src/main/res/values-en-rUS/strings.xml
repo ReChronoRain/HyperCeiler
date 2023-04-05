@@ -831,4 +831,7 @@
     <string name="system_settings_international_build">International version of settings</string>
     <string name="array_close">Close</string>
     <string name="system_ui_status_bar_hide_icon">Hide the status bar when taking a screenshot</string>
+    <string name="settings_icon_mode">Icon style</string>
+    <string name="settings_icon_miui_14">Rounded rectangle style</string>
+    <string name="settings_icon_miui_13">Background cutout style</string>
 </resources>

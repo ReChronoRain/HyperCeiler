@@ -26,7 +26,9 @@ import java.util.Set;
 
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
+import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.MultiSelectListPreference;
+import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
 public class SettingsActivity extends BaseAppCompatActivity {
@@ -38,18 +40,28 @@ public class SettingsActivity extends BaseAppCompatActivity {
         return mSettingsFragment;
     }
 
-    public static class SettingsFragment extends SubFragment {
+    public static class SettingsFragment extends SubFragment implements Preference.OnPreferenceChangeListener {
 
         private MultiSelectListPreference mReboot;
+        DropDownPreference mIconModePreference;
+        DropDownPreference mIconModeValue;
 
         @Override
         public int getContentResId() {
             return R.xml.prefs_settings;
         }
 
+
         @Override
         public void initPrefs() {
+            int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_settings_icon", "0"));
+            mIconModePreference = findPreference("prefs_key_settings_icon");
+            mIconModeValue = findPreference("prefs_key_settings_icon_mode");
             SwitchPreference mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+
+            setIconMode(mIconMode);
+            mIconModePreference.setOnPreferenceChangeListener(this);
+
             mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
 
                 PackageManager pm = getActivity().getPackageManager();
@@ -109,6 +121,18 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 });
                 return true;
             });
+        }
+
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object o) {
+            if (preference == mIconModePreference) {
+                setIconMode(Integer.parseInt((String)o));
+            }
+            return true;
+        }
+
+        private void setIconMode(int mode) {
+            mIconModeValue.setVisible(mode != 0);
         }
 
         public void backupSettings(Activity activity) {
