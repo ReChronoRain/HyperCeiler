@@ -31,7 +31,7 @@ public class ClockIndicatorActivity extends BaseSystemUIActivity {
 
         @Override
         public void initPrefs() {
-            int mClockMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_statusbar_clock_mode", "1"));
+            int mClockMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_statusbar_clock_mode", "0"));
             mClockModePreference = findPreference("prefs_key_system_ui_statusbar_clock_mode");
             mDefault = findPreference("prefs_key_system_ui_statusbar_clock_default");
             mGeek = findPreference("prefs_key_system_ui_statusbar_clock_geek");
