@@ -8,7 +8,7 @@
               android:layout_height="wrap_content"
               android:paddingVertical="30dp">
     <ImageView
-            android:background="@drawable/ic_cemiuiler_settings"
+            android:background="@drawable/ic_cemiuiler_settings_v140"
             android:layout_width="100dp"
             android:layout_height="100dp" />
     <TextView
