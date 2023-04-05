@@ -832,4 +832,5 @@
     <string name="system_settings_app_fast_install_permission">Fast install permission manage</string>
     <string name="system_settings_app_fast_install_permission_desc">Quickly open the \"Install unknown apps\" authorization screen instead of manually selecting it</string>
     <string name="array_close">Close</string>
+    <string name="system_ui_status_bar_hide_icon">Hide the status bar when taking a screenshot</string>
 </resources>
