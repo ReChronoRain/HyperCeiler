@@ -828,9 +828,7 @@
     <string name="clock_enable_hour_glass_desc">Version 13.65.0 and above are not supported</string>
     <string name="system_ui_controlcenter_fix_media_control_panel">Fix media control panel</string>
     <string name="system_ui_statusbar_battery_update_spacing">Status update interval</string>
-    <string name="system_settings_app_title">App management</string>
-    <string name="system_settings_app_fast_install_permission">Fast install permission manage</string>
-    <string name="system_settings_app_fast_install_permission_desc">Quickly open the \"Install unknown apps\" authorization screen instead of manually selecting it</string>
+    <string name="system_settings_international_build">International version of settings</string>
     <string name="array_close">Close</string>
     <string name="system_ui_status_bar_hide_icon">Hide the status bar when taking a screenshot</string>
 </resources>

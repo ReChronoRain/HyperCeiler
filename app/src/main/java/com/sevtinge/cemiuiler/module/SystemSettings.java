@@ -11,7 +11,7 @@ public class SystemSettings extends BaseModule {
         initHook(new AddMiuiPlusEntry(), mPrefsMap.getBoolean("mirror_unlock_miui_plus"));
         initHook(new EnableSpeedMode(), mPrefsMap.getBoolean("system_settings_develop_speed_mode"));
         initHook(PermissionTopOfApp.INSTANCE, mPrefsMap.getBoolean("system_settings_permission_show_app_up"));
-        initHook(new QuickInstallPermission(), mPrefsMap.getBoolean("system_settings_app_fast_install_permission"));
+        initHook(new QuickInstallPermission(), mPrefsMap.getBoolean("system_settings_international_build"));
     }
 }
 

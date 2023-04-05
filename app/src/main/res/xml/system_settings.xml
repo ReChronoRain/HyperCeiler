@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+        <SwitchPreference
+                android:title="@string/system_settings_international_build"
+                android:key="prefs_key_system_settings_international_build"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+    
     <PreferenceCategory android:title="@string/system_settings_lab_title">
         <SwitchPreference
                 android:title="@string/system_settings_voip_assistant_controller"
@@ -14,15 +23,6 @@
             android:key="prefs_key_system_settings_permission_show_app_up"
             android:summary="@string/prefs_key_system_settings_permission_show_app_up_desc"
             android:defaultValue="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/system_settings_app_title">
-        <SwitchPreference
-                android:title="@string/system_settings_app_fast_install_permission"
-                android:key="prefs_key_system_settings_app_fast_install_permission"
-                android:summary="@string/system_settings_app_fast_install_permission_desc"
-                android:defaultValue="false"/>
 
     </PreferenceCategory>
 
