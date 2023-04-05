@@ -18,141 +18,95 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.io.RandomAccessFile;
 import java.util.Properties;
 
 public class DisplayBatteryDetail extends BaseHook {
     private static int statusbarTextIconLayoutResId = 0;
 
+    static class TextIcon {
+        public boolean atRight;
+        public int iconType;
+        public TextIcon(boolean mAtRight, int mIconType) {
+            atRight = mAtRight;
+            iconType = mIconType;
+        }
+    }
+
+    private static String getSlotNameByType(int mIconType) {
+        String slotName = "";
+        if (mIconType == 91) {
+            slotName = "battery_info";
+        }
+        else if (mIconType == 92) {
+            slotName = "device_temp";
+        }
+        return slotName;
+    }
+
     @Override
     public void init() {
+        class TextIconInfo {
+            public boolean iconShow;
+            public int iconType;
+            public String iconText;
+        }
+        boolean showBatteryDetail = MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent");
+        boolean showDeviceTemp = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature");
         statusbarTextIconLayoutResId = XposedInit.mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon);
-        Class<?> ChargeUtilsClass = findClass("com.android.keyguard.charge.ChargeUtils", lpparam.classLoader);
-        Class<?> DarkIconDispatcherClass = XposedHelpers.findClass("com.android.systemui.plugins.DarkIconDispatcher", lpparam.classLoader);
-        Class<?> Dependency = findClass("com.android.systemui.Dependency", lpparam.classLoader);
-        Class<?> StatusBarIconHolder = XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBarIconHolder", lpparam.classLoader);
+        Class <?> ChargeUtilsClass = null;
+        if (showBatteryDetail) {
+            ChargeUtilsClass = findClass("com.android.keyguard.charge.ChargeUtils", lpparam.classLoader);
+        }
+        Class <?> DarkIconDispatcherClass = XposedHelpers.findClass("com.android.systemui.plugins.DarkIconDispatcher", lpparam.classLoader);
+        Class <?> Dependency = findClass("com.android.systemui.Dependency", lpparam.classLoader);
+        Class <?> StatusBarIconHolder = XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBarIconHolder", lpparam.classLoader);
         boolean atRight = mPrefsMap.getBoolean("system_ui_statusbar_battery_right_show");
 
-        class BatteryInfoMsg {
-            public boolean chargeShow;
-            public String batteryText;
+
+
+        Class<?> finalChargeUtilsClass = ChargeUtilsClass;
+
+        boolean batteryAtRight = MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_atright");
+        boolean tempAtRight = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_atright");
+        ArrayList<TextIcon> textIcons = new ArrayList<>();
+        if (showBatteryDetail) {
+            textIcons.add(new TextIcon(batteryAtRight, 91));
         }
-        hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", new MethodHook() {
-            Handler mBgHandler;
+        if (showDeviceTemp) {
+            textIcons.add(new TextIcon(tempAtRight, 92));
+        }
 
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                Context mContext = (Context) param.args[0];
-                final Handler mHandler = new Handler(Looper.getMainLooper()) {
-                    public void handleMessage(Message message) {
-                        if (message.what == 100021) {
-                            BatteryInfoMsg bi = (BatteryInfoMsg) message.obj;
-                            for (TextView tv : mBatteryDetailViews) {
-                                XposedHelpers.callMethod(tv, "setBlocked", !bi.chargeShow);
-                                XposedHelpers.callMethod(tv, "setNetworkSpeed", bi.batteryText);
-                            }
-                        }
-                    }
-                };
-                mBgHandler = new Handler((Looper) param.args[1]) {
-                    @SuppressLint("DefaultLocale")
-                    public void handleMessage(Message message) {
-                        if (message.what == 200021) {
-                            String batteryInfo = "";
-                            boolean showInfo = true;
-                            //仅在充电时显示
-                            if (mPrefsMap.getBoolean("system_ui_statusbar_battery_only_changing_show") && ChargeUtilsClass != null) {
-                                Object batteryStatus = Helpers.getStaticObjectFieldSilently(ChargeUtilsClass, "sBatteryStatus");
-                                if (batteryStatus == null) {
-                                    showInfo = false;
-                                } else {
-                                    showInfo = (boolean) XposedHelpers.callMethod(batteryStatus, "isCharging");
-                                }
-                            }
-                            if (showInfo) {
-                                Properties props = null;
-                                PowerManager powerMgr = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-                                boolean isScreenOn = powerMgr.isInteractive();
-                                if (isScreenOn) {
-                                    FileInputStream fis = null;
-                                    try {
-                                        fis = new FileInputStream("/sys/class/power_supply/battery/uevent");
-                                        props = new Properties();
-                                        props.load(fis);
-                                    } catch (Throwable ignored) {
-                                    } finally {
-                                        try {
-                                            fis.close();
-                                        } catch (Throwable ign) {
-                                            throw new RuntimeException(ign);
-                                        }
-                                    }
-                                }
-                                if (props != null) {
-                                    int tempVal = Integer.parseInt(props.getProperty("POWER_SUPPLY_TEMP"));
-                                    String currVal;
-                                    int rawCurr = -1 * Math.round(Integer.parseInt(props.getProperty("POWER_SUPPLY_CURRENT_NOW")) / 1000f);
-                                    String preferred = "mA";
-                                    //电流总显示正值
-                                    if (mPrefsMap.getBoolean("system_ui_statusbar_battery_electric_current")) {
-                                        rawCurr = Math.abs(rawCurr);
-                                    }
-                                    if (Math.abs(rawCurr) > 999) {
-                                        currVal = String.format("%.2f", rawCurr / 1000f);
-                                        preferred = "A";
-                                    } else {
-                                        currVal = "" + rawCurr;
-                                    }
-                                    //显示内容
-                                    int opt = mPrefsMap.getStringAsInt("system_ui_statusbar_battery_show", 0);
-                                    String simpleTempVal = tempVal % 10 == 0 ? (tempVal / 10 + "") : (tempVal / 10f + "");
-                                    //隐藏单位
-                                    int hideUnit = mPrefsMap.getStringAsInt("system_ui_statusbar_battery_disable", 1);
-                                    String tempUnit = (hideUnit == 1 || hideUnit == 2) ? "" : "℃";
-                                    String currUnit = (hideUnit == 1 || hideUnit == 3) ? "" : preferred;
-                                    if (opt == 1) {
-                                        //单排显示
-                                        String splitChar = mPrefsMap.getBoolean("system_ui_statusbar_battery_line_show")
-                                                ? " " : "\n";
-                                        batteryInfo = simpleTempVal + tempUnit + splitChar + currVal + currUnit;
-                                        //反序
-                                        if (mPrefsMap.getBoolean("system_ui_statusbar_battery_opposite")) {
-                                            batteryInfo = currVal + currUnit + splitChar + simpleTempVal + tempUnit;
-                                        }
-                                    } else if (opt == 2) {
-                                        batteryInfo = simpleTempVal + tempUnit;
-                                    } else {
-                                        batteryInfo = currVal + currUnit;
-                                    }
-                                }
-                            }
-                            BatteryInfoMsg bi = new BatteryInfoMsg();
-                            bi.chargeShow = showInfo;
-                            bi.batteryText = batteryInfo;
-                            mHandler.obtainMessage(100021, bi).sendToTarget();
-                        }
-                        mBgHandler.removeMessages(200021);
-                        mBgHandler.sendEmptyMessageDelayed(200021, mPrefsMap.getInt("system_ui_statusbar_battery_update_spacing", 2) * 1000L);
-                    }
-                };
-                mBgHandler.sendEmptyMessage(200021);
+        boolean hasRightIcon = false;
+        boolean hasLeftIcon = false;
+        for (TextIcon ti:textIcons) {
+            if (ti.atRight) {
+                hasRightIcon = true;
             }
-        });
-
-        if (atRight) {
+            else {
+                hasLeftIcon = true;
+            }
+        }
+        if (hasRightIcon) {
             Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     Object iconController = XposedHelpers.getObjectField(param.thisObject, "mStatusBarIconController");
-                    int slotIndex = (int) XposedHelpers.callMethod(iconController, "getSlotIndex", "battery_detail");
-                    Object iconHolder = XposedHelpers.callMethod(iconController, "getIcon", slotIndex, 0);
-                    if (iconHolder == null) {
-                        iconHolder = XposedHelpers.newInstance(StatusBarIconHolder);
-                        XposedHelpers.setObjectField(iconHolder, "mType", 91);
-                        XposedHelpers.callMethod(iconController, "setIcon", slotIndex, iconHolder);
+                    for (TextIcon ti:textIcons) {
+                        if (ti.atRight) {
+                            int slotIndex = (int) XposedHelpers.callMethod(iconController, "getSlotIndex", getSlotNameByType(ti.iconType));
+                            Object iconHolder = XposedHelpers.callMethod(iconController, "getIcon", slotIndex, 0);
+                            if (iconHolder == null) {
+                                iconHolder = XposedHelpers.newInstance(StatusBarIconHolder);
+                                XposedHelpers.setObjectField(iconHolder, "mType", ti.iconType);
+                                XposedHelpers.callMethod(iconController, "setIcon", slotIndex, iconHolder);
+                            }
+                        }
                     }
                 }
             });
@@ -163,10 +117,17 @@ public class DisplayBatteryDetail extends BaseHook {
                     if (param.args.length != 4) return;
                     Object iconHolder = param.args[3];
                     int type = (int) XposedHelpers.callMethod(iconHolder, "getType");
-                    if (type == 91) {
+                    if (type == 91 || type == 92) {
                         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) XposedHelpers.callMethod(param.thisObject, "onCreateLayoutParams");
-                        TextView batteryView = createBatteryDetailView(mContext, lp);
+                        TextIcon createIcon = null;
+                        for (TextIcon ti:textIcons) {
+                            if (ti.iconType == type) {
+                                createIcon = ti;
+                                break;
+                            }
+                        }
+                        TextView batteryView = createBatteryDetailView(mContext, lp, createIcon);
                         int i = (int) param.args[0];
                         ViewGroup mGroup = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mGroup");
                         mGroup.addView(batteryView, i);
@@ -175,43 +136,55 @@ public class DisplayBatteryDetail extends BaseHook {
                     }
                 }
             });
-        } else {
+        }
+        if (hasLeftIcon) {
             Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
+                    Object DarkIconDispatcher = XposedHelpers.callStaticMethod(Dependency, "get", DarkIconDispatcherClass);
                     TextView mSplitter = (TextView) XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedSplitter");
                     ViewGroup batteryViewContainer = (ViewGroup) mSplitter.getParent();
                     int bvIndex = batteryViewContainer.indexOfChild(mSplitter);
                     LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mSplitter.getLayoutParams();
-                    TextView batteryView = createBatteryDetailView(mContext, lp);
-                    batteryViewContainer.addView(batteryView, bvIndex + 1);
-                    mBatteryDetailViews.add(batteryView);
-                    Object DarkIconDispatcher = XposedHelpers.callStaticMethod(Dependency, "get", DarkIconDispatcherClass);
-                    XposedHelpers.callMethod(DarkIconDispatcher, "addDarkReceiver", batteryView);
-                    XposedHelpers.setAdditionalInstanceField(param.thisObject, "mBatteryView", batteryView);
+                    for (TextIcon ti:textIcons) {
+                        if (!ti.atRight) {
+                            TextView batteryView = createBatteryDetailView(mContext, lp, ti);
+                            batteryViewContainer.addView(batteryView, bvIndex + 1);
+                            mBatteryDetailViews.add(batteryView);
+                            XposedHelpers.callMethod(DarkIconDispatcher, "addDarkReceiver", batteryView);
+                            XposedHelpers.setAdditionalInstanceField(param.thisObject, getSlotNameByType(ti.iconType), batteryView);
+                        }
+                    }
                 }
             });
             Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "showSystemIconArea", boolean.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    Object bv = XposedHelpers.getAdditionalInstanceField(param.thisObject, "mBatteryView");
-                    if (bv != null) {
-                        XposedHelpers.callMethod(bv, "setVisibilityByController", true);
+                    for (TextIcon ti:textIcons) {
+                        if (!ti.atRight) {
+                            Object bv = XposedHelpers.getAdditionalInstanceField(param.thisObject, getSlotNameByType(ti.iconType));
+                            if (bv != null) {
+                                XposedHelpers.callMethod(bv, "setVisibilityByController", true);
+                            }
+                        }
                     }
                 }
             });
             Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "hideSystemIconArea", boolean.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    Object bv = XposedHelpers.getAdditionalInstanceField(param.thisObject, "mBatteryView");
-                    if (bv != null) {
-                        XposedHelpers.callMethod(bv, "setVisibilityByController", false);
+                    for (TextIcon ti:textIcons) {
+                        if (!ti.atRight) {
+                            Object bv = XposedHelpers.getAdditionalInstanceField(param.thisObject, getSlotNameByType((ti.iconType)));
+                            if (bv != null) {
+                                XposedHelpers.callMethod(bv, "setVisibilityByController", false);
+                            }
+                        }
                     }
                 }
             });
         }
-
         Class<?> NetworkSpeedViewClass = XposedHelpers.findClass("com.android.systemui.statusbar.views.NetworkSpeedView", lpparam.classLoader);
         Helpers.findAndHookMethod(NetworkSpeedViewClass, "getSlot", new MethodHook() {
             @Override
@@ -222,45 +195,189 @@ public class DisplayBatteryDetail extends BaseHook {
                 }
             }
         });
+        Helpers.hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, new MethodHook() {
+            Handler mBgHandler;
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                Context mContext = (Context) param.args[0];
+                final Handler mHandler = new Handler(Looper.getMainLooper()) {
+                    public void handleMessage(Message message) {
+                        if (message.what == 100021) {
+                            TextIconInfo tii = (TextIconInfo) message.obj;
+                            String slotName = getSlotNameByType(tii.iconType);
+                            for (TextView tv : mBatteryDetailViews) {
+                                if (slotName.equals(XposedHelpers.getAdditionalInstanceField(tv, "mCustomSlot"))) {
+                                    XposedHelpers.callMethod(tv, "setBlocked", !tii.iconShow);
+                                    XposedHelpers.callMethod(tv, "setNetworkSpeed", tii.iconText);
+                                }
+                            }
+                        }
+                    }
+                };
+                mBgHandler = new Handler((Looper) param.args[1]) {
+                    public void handleMessage(Message message) {
+                        if (message.what == 200021) {
+                            String batteryInfo = "";
+                            String deviceInfo = "";
+                            boolean showBatteryInfo = showBatteryDetail;
+                            if (showBatteryInfo && MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_incharge") && finalChargeUtilsClass != null) {
+                                Object batteryStatus = Helpers.getStaticObjectFieldSilently(finalChargeUtilsClass, "sBatteryStatus");
+                                if (batteryStatus == null) {
+                                    showBatteryInfo = false;
+                                } else {
+                                    showBatteryInfo = (boolean) XposedHelpers.callMethod(batteryStatus, "isCharging");
+                                }
+                            }
+                            if (showBatteryInfo || showDeviceTemp) {
+                                Properties props = null;
+                                String cpuProps = null;
+                                PowerManager powerMgr = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+                                boolean isScreenOn = powerMgr.isInteractive();
+                                if (isScreenOn) {
+                                    FileInputStream fis = null;
+                                    RandomAccessFile cpuReader = null;
+                                    try {
+                                        fis = new FileInputStream("/sys/class/power_supply/battery/uevent");
+                                        props = new Properties();
+                                        props.load(fis);
+                                        if (showDeviceTemp) {
+                                            cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone0/temp", "r");
+                                            cpuProps = cpuReader.readLine();
+                                        }
+                                    } catch (Throwable ign) {
+                                    } finally {
+                                        try {
+                                            if (fis != null) {
+                                                fis.close();
+                                            }
+                                            if (cpuReader != null) {
+                                                cpuReader.close();
+                                            }
+                                        } catch (Throwable ign) {
+                                        }
+                                    }
+                                }
+                                if (showBatteryInfo && props != null) {
+                                    String currVal;
+                                    int rawCurr = -1 * Math.round(Integer.parseInt(props.getProperty("POWER_SUPPLY_CURRENT_NOW")) / 1000f);
+                                    String preferred = "mA";
+                                    if (MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_positive")) {
+                                        rawCurr = Math.abs(rawCurr);
+                                    }
+                                    if (Math.abs(rawCurr) > 999) {
+                                        currVal = String.format("%.2f", rawCurr / 1000f);
+                                        preferred = "A";
+                                    } else {
+                                        currVal = "" + rawCurr;
+                                    }
+                                    int opt = MainModule.mPrefs.getStringAsInt("system_statusbar_batterytempandcurrent_content", 1);
+                                    int hideUnit = MainModule.mPrefs.getStringAsInt("system_statusbar_batterytempandcurrent_hideunit", 0);
+                                    String powerUnit = (hideUnit == 1 || hideUnit == 2) ? "" : "W";
+                                    String currUnit = (hideUnit == 1 || hideUnit == 3) ? "" : preferred;
+                                    if (opt == 1) {
+                                        float voltVal = Integer.parseInt(props.getProperty("POWER_SUPPLY_VOLTAGE_NOW")) / 1000f / 1000f;
+                                        String simpleWatt = String.format(Locale.getDefault(), "%.2f", Math.abs(voltVal * rawCurr) / 1000);
+                                        String splitChar = MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_singlerow")
+                                                ? " " : "\n";
+                                        batteryInfo = simpleWatt + powerUnit + splitChar + currVal + currUnit;
+                                        if (MainModule.mPrefs.getBoolean("system_statusbar_batterytempandcurrent_reverseorder")) {
+                                            batteryInfo = currVal + currUnit + splitChar + simpleWatt + powerUnit;
+                                        }
+                                    } else if (opt == 2) {
+                                        float voltVal = Integer.parseInt(props.getProperty("POWER_SUPPLY_VOLTAGE_NOW")) / 1000f / 1000f;
+                                        String simpleWatt = String.format(Locale.getDefault(), "%.2f", Math.abs(voltVal * rawCurr) / 1000);
+                                        batteryInfo = simpleWatt + powerUnit;
+                                    } else {
+                                        batteryInfo = currVal + currUnit;
+                                    }
+                                }
+                                if (showDeviceTemp && props != null && cpuProps != null) {
+                                    int batteryTempVal = Integer.parseInt(props.getProperty("POWER_SUPPLY_TEMP"));
+                                    int cpuTempVal = Integer.parseInt(cpuProps);
+                                    String simpleBatteryTemp = String.format(Locale.getDefault(), "%.1f", batteryTempVal / 10f);
+                                    String simpleCpuTemp = String.format(Locale.getDefault(), "%.1f", cpuTempVal / 1000f);
+                                    int opt = MainModule.mPrefs.getStringAsInt("system_statusbar_showdevicetemperature_content", 1);
+                                    boolean hideUnit = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_hideunit");
+                                    String tempUnit = hideUnit ? "" : "℃";
+                                    if (opt == 1) {
+                                        String splitChar = MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_singlerow")
+                                                ? " " : "\n";
+                                        deviceInfo = simpleBatteryTemp + tempUnit + splitChar + simpleCpuTemp + tempUnit;
+                                        if (MainModule.mPrefs.getBoolean("system_statusbar_showdevicetemperature_reverseorder")) {
+                                            deviceInfo = simpleCpuTemp + tempUnit + splitChar + simpleBatteryTemp + tempUnit;
+                                        }
+                                    } else if (opt == 2) {
+                                        deviceInfo = simpleBatteryTemp + tempUnit;
+                                    } else {
+                                        deviceInfo = simpleCpuTemp + tempUnit;
+                                    }
+                                }
+                            }
+                            if (showBatteryDetail) {
+                                TextIconInfo tii = new TextIconInfo();
+                                tii.iconShow = showBatteryInfo;
+                                tii.iconText = batteryInfo;
+                                tii.iconType = 91;
+                                mHandler.obtainMessage(100021, tii).sendToTarget();
+                            }
+                            if (showDeviceTemp) {
+                                TextIconInfo tii = new TextIconInfo();
+                                tii.iconShow = showDeviceTemp;
+                                tii.iconText = deviceInfo;
+                                tii.iconType = 92;
+                                mHandler.obtainMessage(100021, tii).sendToTarget();
+                            }
+                        }
+                        mBgHandler.removeMessages(200021);
+                        mBgHandler.sendEmptyMessageDelayed(200021, 2000);
+                    }
+                };
+                mBgHandler.sendEmptyMessage(200021);
+            }
+        });
     }
 
-    private static TextView createBatteryDetailView(Context mContext, LinearLayout.LayoutParams lp) {
+    private static TextView createBatteryDetailView(Context mContext, LinearLayout.LayoutParams lp, TextIcon ti) {
         TextView batteryView = (TextView) LayoutInflater.from(mContext).inflate(statusbarTextIconLayoutResId, null);
         XposedHelpers.setObjectField(batteryView, "mVisibilityByDisableInfo", 0);
         XposedHelpers.setObjectField(batteryView, "mVisibleByController", true);
         XposedHelpers.setObjectField(batteryView, "mShown", true);
-        XposedHelpers.setAdditionalInstanceField(batteryView, "mCustomSlot", "battery_detail");
+        XposedHelpers.setAdditionalInstanceField(batteryView, "mCustomSlot", getSlotNameByType(ti.iconType));
         Resources res = mContext.getResources();
         int styleId = res.getIdentifier("TextAppearance.StatusBar.Clock", "style", "com.android.systemui");
         batteryView.setTextAppearance(styleId);
-        float fontSize = mPrefsMap.getInt("system_ui_statusbar_battery_size", 13);
-        if (!mPrefsMap.getBoolean("system_ui_statusbar_battery_line_show") || mPrefsMap.getStringAsInt("system_ui_statusbar_battery_show", 1) != 1) {
-            fontSize = (float) (fontSize * 0.5);
+        String subKey = "";
+        if (ti.iconType == 91) {
+            subKey = "batterytempandcurrent";
         }
-        int opt = mPrefsMap.getStringAsInt("system_ui_statusbar_battery_show", 0);
-        if (opt == 1 && !mPrefsMap.getBoolean("system_ui_statusbar_battery_line_show")) {
+        else if (ti.iconType == 92) {
+            subKey = "showdevicetemperature";
+        }
+        float fontSize = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_fontsize", 16) * 0.5f;
+        int opt = MainModule.mPrefs.getStringAsInt("system_statusbar_" + subKey + "_content", 1);
+        if (opt == 1 && !MainModule.mPrefs.getBoolean("system_statusbar_" + subKey + "_singlerow")) {
             batteryView.setSingleLine(false);
             batteryView.setMaxLines(2);
             batteryView.setLineSpacing(0, fontSize > 8.5f ? 0.85f : 0.9f);
         }
         batteryView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
-        if (mPrefsMap.getBoolean("system_ui_statusbar_battery_bold")) {
+        if (MainModule.mPrefs.getBoolean("system_statusbar_" + subKey + "_bold")) {
             batteryView.setTypeface(Typeface.DEFAULT_BOLD);
         }
-        int leftMargin = mPrefsMap.getInt("system_ui_statusbar_battery_left_margin", 8);
-        leftMargin = (int) TypedValue.applyDimension(
+        int leftMargin = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_leftmargin", 8);
+        leftMargin = (int)TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 leftMargin * 0.5f,
                 res.getDisplayMetrics()
         );
-        int rightMargin = mPrefsMap.getInt("system_ui_statusbar_battery_right_margin", 8);
+        int rightMargin = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_rightmargin", 8);
         rightMargin = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 rightMargin * 0.5f,
                 res.getDisplayMetrics()
         );
         int topMargin = 0;
-        int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_battery_vertical_offset", 8);
+        int verticalOffset = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_verticaloffset", 8);
         if (verticalOffset != 8) {
             float marginTop = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
@@ -270,18 +387,20 @@ public class DisplayBatteryDetail extends BaseHook {
             topMargin = (int) marginTop;
         }
         batteryView.setPaddingRelative(leftMargin, topMargin, rightMargin, 0);
-        int fixedWidth = mPrefsMap.getInt("system_ui_statusbar_battery_fixedcontent_width", 10);
+        int fixedWidth = MainModule.mPrefs.getInt("system_statusbar_" + subKey + "_fixedcontent_width", 10);
         if (fixedWidth > 10) {
-            lp.width = (int) (batteryView.getResources().getDisplayMetrics().density * fixedWidth);
+            lp.width = (int)(batteryView.getResources().getDisplayMetrics().density * fixedWidth);
         }
         batteryView.setLayoutParams(lp);
 
-        int align = mPrefsMap.getStringAsInt("system_ui_statusbar_battery_align", 1);
+        int align = MainModule.mPrefs.getStringAsInt("system_statusbar_" + subKey + "_align", 1);
         if (align == 2) {
             batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        } else if (align == 3) {
+        }
+        else if (align == 3) {
             batteryView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        } else if (align == 4) {
+        }
+        else if (align == 4) {
             batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
         return batteryView;
