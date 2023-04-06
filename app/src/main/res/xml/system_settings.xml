@@ -8,7 +8,7 @@
                 android:defaultValue="false"/>
 
     </PreferenceCategory>
-    
+
     <PreferenceCategory android:title="@string/system_settings_lab_title">
         <SwitchPreference
                 android:title="@string/system_settings_voip_assistant_controller"
