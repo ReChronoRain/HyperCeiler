@@ -223,7 +223,7 @@ public class DisplayBatteryDetail extends BaseHook {
                             String batteryInfo = "";
                             String deviceInfo = "";
                             boolean showBatteryInfo = showBatteryDetail;
-                            if (showBatteryInfo && mPrefsMap.getBoolean("system_statusbar_batterytempandcurrent_incharge") && finalChargeUtilsClass != null) {
+                            if (showBatteryInfo && mPrefsMap.getBoolean("system_ui_statusbar_battery_only_changing_show") && finalChargeUtilsClass != null) {
                                 Object batteryStatus = Helpers.getStaticObjectFieldSilently(finalChargeUtilsClass, "sBatteryStatus");
                                 if (batteryStatus == null) {
                                     showBatteryInfo = false;
