@@ -20,7 +20,7 @@
     </Preference>
 
     <Preference
-        android:title="@string/system_ui_statusbar_battery_title">
+        android:title="@string/system_ui_statusbar_device_title">
         <intent
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
             android:targetPackage="com.sevtinge.cemiuiler" />

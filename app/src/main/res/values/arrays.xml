@@ -435,7 +435,7 @@
 
     <string-array name="system_ui_status_bar_battery_show">
         <item>@string/array_battery_both</item>
-        <item>@string/array_battery_temperature</item>
+        <item>@string/array_battery_power</item>
         <item>@string/array_battery_current</item>
     </string-array>
 
@@ -448,7 +448,7 @@
     <string-array name="system_ui_status_bar_battery_disable">
         <item>@string/array_default</item>
         <item>@string/array_battery_both</item>
-        <item>@string/array_battery_temperature</item>
+        <item>@string/array_battery_power</item>
         <item>@string/array_battery_current</item>
     </string-array>
 
@@ -457,6 +457,12 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_device_temp_details">
+        <item>@string/array_battery_both</item>
+        <item>@string/array_battery_temp</item>
+        <item>@string/array_cpu_temp</item>
     </string-array>
 
 </resources>

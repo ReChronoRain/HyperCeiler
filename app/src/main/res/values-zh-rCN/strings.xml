@@ -82,9 +82,11 @@
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
 
-    <string name="array_battery_both">温度、电流</string>
-    <string name="array_battery_temperature">仅温度</string>
+    <string name="array_battery_both">两者</string>
+    <string name="array_battery_power">仅功率</string>
     <string name="array_battery_current">仅电流</string>
+    <string name="array_battery_temp">电池温度</string>
+    <string name="array_cpu_temp">CPU 温度</string>
 
     <string name="array_global_actions_none">无动作</string>
     <string name="array_global_actions_notif">打开通知中心</string>
@@ -617,7 +619,7 @@
     <string name="system_ui_statusbar_iconmanage_title">图标</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器</string>
     <string name="system_ui_statusbar_clock_title">时钟指示器</string>
-    <string name="system_ui_statusbar_battery_title">硬件指示器</string>
+    <string name="system_ui_statusbar_device_title">硬件指示器</string>
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
@@ -658,6 +660,8 @@
     <string name="system_ui_statusbar_clock_double_size">双排大小（0 为不修改）</string>
 
     <string name="system_ui_statusbar_battery_all_enable">启用</string>
+    <string name="system_ui_statusbar_indicator_battery_title">电池相关</string>
+    <string name="system_ui_statusbar_indicator_temperature_title">温度相关</string>
     <string name="system_ui_statusbar_battery_size">字体大小</string>
     <string name="system_ui_statusbar_battery_show">显示内容</string>
     <string name="system_ui_statusbar_battery_disable">隐藏单位</string>
@@ -735,7 +739,7 @@
     <string name="system_ui_status_bar_use_new_hd">强制使用新 HD 图标</string>
     <string name="system_ui_status_bar_use_new_hd_summary">需要较新的系统版本，部分机型可能至今未进版</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">网速分隔符</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">于水滴屏的设备上不显示时间和网速间的竖线</string>
+    <string name="system_ui_status_bar_no_netspeed_separator_desc">于居中摄像头的设备上不显示时间和网速间的竖线</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
 
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>

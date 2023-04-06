@@ -783,7 +783,7 @@
     <string name="camera_portrait_cvlens">Unlock Master-lens</string>
     <string name="camera_portrait_cvlens_desc">Cannot work fine on some device</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Network speed separator</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">The vertical line between the time and the network speed is not displayed on the device with the water drop screen</string>
+    <string name="system_ui_status_bar_no_netspeed_separator_desc">The vertical line between time and internet speed is not displayed on devices with centered camera</string>
     <string name="camera_settings_lab_options">Enable Lab options</string>
     <string name="camera_settings_title">Settings</string>
     <string name="camera_settings_track_eyes">Unlock Track eyes</string>
@@ -813,13 +813,13 @@
     <string name="system_other_delete_on_post_notification_desc">Remove \"This app is displaying on top of other apps on screen\" notification</string>
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
     <string name="array_battery_both">Both</string>
-    <string name="array_battery_temperature">Only temperature</string>
-    <string name="system_ui_statusbar_battery_title">Battery and temperature indicator</string>
+    <string name="array_battery_power">Power only</string>
+    <string name="system_ui_statusbar_indicator_battery_title">Battery related</string>
     <string name="system_ui_statusbar_battery_size">Font size</string>
     <string name="system_ui_statusbar_battery_show">Show contents</string>
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
-    <string name="array_battery_current">Only current</string>
-    <string name="system_ui_statusbar_battery_all_enable">Main switch</string>
+    <string name="array_battery_current">Current only</string>
+    <string name="system_ui_statusbar_battery_all_enable">Enable switch</string>
     <string name="system_ui_statusbar_battery_right_show">Show on the right</string>
     <string name="system_ui_statusbar_battery_electric_current">The current always shows a positive value</string>
     <string name="system_ui_statusbar_battery_line_show">Single row display</string>
@@ -834,4 +834,8 @@
     <string name="settings_icon_mode">Icon style</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>
+    <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
+    <string name="array_cpu_temp">CPU temperature</string>
+    <string name="array_battery_temp">Battery temperature</string>
+    <string name="system_ui_statusbar_device_title">Hardware indicators</string>
 </resources>

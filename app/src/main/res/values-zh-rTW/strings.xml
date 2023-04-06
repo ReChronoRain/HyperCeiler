@@ -409,6 +409,7 @@
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wi-Fi</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">藍牙</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">行動網路</string>
+    <string name="system_ui_statusbar_battery_update_spacing">狀態更新間隔</string>
     <string name="system_ui_statusbar_iconmanage_location_title">位置訊息</string>
     <string name="system_ui_statusbar_iconmanage_status_title">狀態圖示</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知圖示</string>
@@ -782,7 +783,7 @@
     <string name="camera_pro_log">解鎖 LOG</string>
     <string name="system_settings_permission_title">權限</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">網速分隔符號</string>
-    <string name="system_ui_status_bar_no_netspeed_separator_desc">于水滴屏的設備上不顯示時間和網速間的分隔號</string>
+    <string name="system_ui_status_bar_no_netspeed_separator_desc">於居中攝像頭的設備上不顯示時間和網速間的豎線</string>
     <string name="camera_settings_lab_options">啟用實驗室選項</string>
     <string name="camera_settings_track_eyes">解鎖人眼追焦</string>
     <string name="camera_settings_heic">解鎖 HEIF 格式</string>
@@ -813,22 +814,27 @@
     <string name="updater_device">偽裝機型</string>
     <string name="updater_device_desc">可用於獲取其他機型的 ROM 包，該功能極度危險</string>
     <string name="array_battery_both">兩者</string>
-    <string name="array_battery_temperature">僅溫度</string>
-    <string name="system_ui_statusbar_battery_title">電池和溫度指示器</string>
+    <string name="array_battery_power">僅功率</string>
+    <string name="system_ui_statusbar_indicator_battery_title">電池相關</string>
     <string name="system_ui_statusbar_battery_size">字體大小</string>
     <string name="system_ui_statusbar_battery_show">顯示內容</string>
     <string name="system_ui_statusbar_battery_disable">隱藏組織</string>
     <string name="array_battery_current">僅電流</string>
-    <string name="system_ui_statusbar_battery_all_enable">總開關</string>
+    <string name="system_ui_statusbar_battery_all_enable">啟用</string>
     <string name="system_ui_statusbar_battery_right_show">右側顯示</string>
     <string name="system_ui_statusbar_battery_electric_current">電流總顯示正值</string>
     <string name="system_ui_statusbar_battery_line_show">單排顯示</string>
     <string name="system_ui_statusbar_battery_opposite">反序</string>
     <string name="system_ui_statusbar_battery_only_changing_show">僅在充電時顯示</string>
     <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
+    <string name="system_settings_international_build">國際版本設定頁面</string>
     <string name="array_close">關閉</string>
     <string name="system_ui_status_bar_hide_icon">截圖時隱藏狀態欄</string>
     <string name="settings_icon_mode">圖示樣式</string>
     <string name="settings_icon_miui_14">圓角矩形樣式</string>
     <string name="settings_icon_miui_13">背景鏤空樣式</string>
+    <string name="system_ui_statusbar_indicator_temperature_title">溫度相關</string>
+    <string name="array_cpu_temp">CPU 溫度</string>
+    <string name="array_battery_temp">電池溫度</string>
+    <string name="system_ui_statusbar_device_title">硬件指示器</string>
 </resources>
