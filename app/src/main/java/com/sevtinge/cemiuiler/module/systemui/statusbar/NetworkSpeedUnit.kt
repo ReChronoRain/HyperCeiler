@@ -90,7 +90,7 @@ object NetworkSpeedUnit : BaseHook() {
                                 meter.isSingleLine = false
                                 meter.maxLines = 2
                                 if (fontSize > 8.5f) {
-                                    spacing = 0.85f
+                                    spacing = 0.9f
                                 }
                                 meter.setLineSpacing(0f, spacing)
                             }
