@@ -24,4 +24,7 @@
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.OtherActivity"/>
     </Preference>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

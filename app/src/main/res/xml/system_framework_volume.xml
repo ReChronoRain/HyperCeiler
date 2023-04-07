@@ -51,4 +51,7 @@
         app:showSeekBarValue="true"
         app:displayDividerValue="100"
         app:isPreferenceVisible="false"/>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

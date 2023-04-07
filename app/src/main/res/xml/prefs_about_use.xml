@@ -172,4 +172,7 @@
                     android:data="https://github.com/rovo89/XposedBridge" />
         </Preference>
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

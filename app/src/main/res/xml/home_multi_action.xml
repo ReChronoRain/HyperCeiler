@@ -114,4 +114,7 @@
 
 
     </moralnorm.preference.RadioButtonPreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

@@ -73,4 +73,7 @@
             android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

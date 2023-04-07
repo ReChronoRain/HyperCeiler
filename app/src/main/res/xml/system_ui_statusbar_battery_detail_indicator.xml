@@ -254,4 +254,7 @@
                 android:title="@string/system_ui_statusbar_temp_fix_cpu"/>
 
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

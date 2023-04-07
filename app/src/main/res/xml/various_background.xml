@@ -50,4 +50,7 @@
             app:showSeekBarValue="true"/>
 
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

@@ -295,4 +295,7 @@
 
         <PreferenceCategory android:layout="@layout/preference" />
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

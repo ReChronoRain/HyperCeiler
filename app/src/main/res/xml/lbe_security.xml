@@ -5,4 +5,7 @@
             android:key="prefs_key_lbe_disable_clipboard_tip"
             android:defaultValue="false"/>
 
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

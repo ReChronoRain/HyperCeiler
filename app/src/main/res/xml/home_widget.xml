@@ -29,4 +29,7 @@
         app:maxValue="30"
         app:format="%d dp"
         app:showSeekBarValue="true" />
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

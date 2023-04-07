@@ -52,4 +52,7 @@
             android:title="@string/home_gesture_spread" />-->
 
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

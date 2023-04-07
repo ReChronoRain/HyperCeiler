@@ -5,4 +5,7 @@
             android:key="prefs_key_milink_unlock_mishare"
             android:defaultValue="false"/>
 
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

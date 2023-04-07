@@ -14,4 +14,7 @@
 
     </PreferenceCategory>
 
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

@@ -46,4 +46,7 @@
             android:key="prefs_key_various_dialog_bg_blur"
             android:title="@string/various_dialog_bg_blur" />
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

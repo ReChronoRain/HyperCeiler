@@ -112,4 +112,7 @@
                     android:data="https://www.sevtinge.cn/t/donation.html" />
         </Preference>
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

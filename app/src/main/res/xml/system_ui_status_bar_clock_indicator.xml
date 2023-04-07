@@ -115,4 +115,7 @@
                 app:minValue="0"
                 app:showSeekBarValue="true" />
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

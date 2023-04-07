@@ -69,4 +69,7 @@
                 android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
         </Preference>
     </PreferenceCategory>-->
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

@@ -7,4 +7,7 @@
             android:key="prefs_key_mms_disable_ad"
             android:defaultValue="false"/>
 
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

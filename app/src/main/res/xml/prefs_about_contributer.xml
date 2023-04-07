@@ -40,4 +40,7 @@
                     android:data="https://github.com/wushidia"/>
         </Preference>
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>

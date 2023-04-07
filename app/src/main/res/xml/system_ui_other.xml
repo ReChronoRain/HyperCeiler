@@ -62,4 +62,7 @@
             android:key="prefs_key_system_ui_qs_label"
             android:title="@string/system_ui_qs_label" />
     </PreferenceCategory>
+<Preference
+            android:summary=""/>
+
 </PreferenceScreen>
