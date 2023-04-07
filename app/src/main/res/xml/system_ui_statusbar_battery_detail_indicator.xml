@@ -72,7 +72,6 @@
             app:minValue="6"
             app:showSeekBarValue="true"/>
 
-<!--
         <SeekBarPreference
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
@@ -82,7 +81,6 @@
             app:maxValue="10"
             app:minValue="1"
             app:showSeekBarValue="true"/>
--->
 
         <DropDownPreference
             android:defaultValue="1"
@@ -181,7 +179,7 @@
             android:title="@string/system_ui_statusbar_indicator_bold"/>
 
         <SeekBarPreference
-            android:defaultValue="16"
+            android:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_size"
             android:title="@string/system_ui_statusbar_battery_size"
@@ -190,7 +188,6 @@
             app:minValue="6"
             app:showSeekBarValue="true"/>
 
-<!--
         <SeekBarPreference
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
@@ -200,7 +197,6 @@
             app:maxValue="10"
             app:minValue="1"
             app:showSeekBarValue="true"/>
--->
 
         <DropDownPreference
             android:defaultValue="1"

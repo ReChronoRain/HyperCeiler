@@ -219,6 +219,7 @@ public class DisplayBatteryDetail extends BaseHook {
                 mBgHandler = new Handler((Looper) param.args[1]) {
                     @SuppressLint("DefaultLocale")
                     public void handleMessage(@NonNull Message message) {
+                        String subKey = "";
                         if (message.what == 200021) {
                             String batteryInfo = "";
                             String deviceInfo = "";
@@ -321,6 +322,7 @@ public class DisplayBatteryDetail extends BaseHook {
                                 tii.iconShow = showBatteryInfo;
                                 tii.iconText = batteryInfo;
                                 tii.iconType = 91;
+                                subKey = "battery";
                                 mHandler.obtainMessage(100021, tii).sendToTarget();
                             }
                             if (showDeviceTemp) {
@@ -328,11 +330,12 @@ public class DisplayBatteryDetail extends BaseHook {
                                 tii.iconShow = showDeviceTemp;
                                 tii.iconText = deviceInfo;
                                 tii.iconType = 92;
+                                subKey = "temp";
                                 mHandler.obtainMessage(100021, tii).sendToTarget();
                             }
                         }
                         mBgHandler.removeMessages(200021);
-                        mBgHandler.sendEmptyMessageDelayed(200021, 2000);
+                        mBgHandler.sendEmptyMessageDelayed(200021, mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_update_spacing", 2) * 1000L);
                     }
                 };
                 mBgHandler.sendEmptyMessage(200021);
@@ -357,12 +360,15 @@ public class DisplayBatteryDetail extends BaseHook {
         else if (ti.iconType == 92) {
             subKey = "temp";
         }
-        float fontSize = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fontsize", 16) * 0.5f;
+        float fontSize = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fontsize", 13);
         int opt = mPrefsMap.getStringAsInt("system_ui_statusbar_" + subKey + "_content", 1);
+        if (!mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show") || mPrefsMap.getStringAsInt("system_ui_statusbar_battery_show", 1) != 1) {
+            fontSize = (float) (fontSize * 0.5);
+        }
         if (opt == 1 && !mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_singlerow")) {
             batteryView.setSingleLine(false);
             batteryView.setMaxLines(2);
-            batteryView.setLineSpacing(0, fontSize > 8.5f ? 0.85f : 0.9f);
+            batteryView.setLineSpacing(0, fontSize > 8.5f ? 0.85f : 0.85f);
         }
         batteryView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
         if (mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_bold")) {
