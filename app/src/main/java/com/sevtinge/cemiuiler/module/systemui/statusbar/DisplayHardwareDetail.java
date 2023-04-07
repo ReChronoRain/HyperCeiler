@@ -30,7 +30,7 @@ import java.util.Properties;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class DisplayBatteryDetail extends BaseHook {
+public class DisplayHardwareDetail extends BaseHook {
     private static int statusbarTextIconLayoutResId = 0;
 
     static class TextIcon {
@@ -246,6 +246,9 @@ public class DisplayBatteryDetail extends BaseHook {
                                         props.load(fis);
                                         if (showDeviceTemp) {
                                             cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone0/temp", "r");
+                                            if(mPrefsMap.getBoolean("system_ui_statusbar_temp_fix_cpu")){
+                                                cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone39/temp", "r");
+                                            }
                                             cpuProps = cpuReader.readLine();
                                         }
                                     } catch (Throwable ignored) {

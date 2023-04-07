@@ -838,4 +838,5 @@
     <string name="array_cpu_temp">CPU temperature</string>
     <string name="array_battery_temp">Battery temperature</string>
     <string name="system_ui_statusbar_device_title">Hardware indicators</string>
+    <string name="system_ui_statusbar_temp_fix_cpu">Try to fix CPU temperature</string>
 </resources>

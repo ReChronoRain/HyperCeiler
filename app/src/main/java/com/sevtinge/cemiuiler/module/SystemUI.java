@@ -58,7 +58,7 @@ public class SystemUI extends BaseModule {
         initHook(TimeCustomization.INSTANCE);
 
         //电池和温度指示器
-        initHook(new DisplayBatteryDetail());
+        initHook(new DisplayHardwareDetail());
 
         //居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
