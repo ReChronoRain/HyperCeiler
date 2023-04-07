@@ -660,7 +660,7 @@
     <string name="system_ui_statusbar_clock_double_size">双排大小（0 为不修改）</string>
 
     <string name="system_ui_statusbar_battery_all_enable">启用</string>
-    <string name="system_ui_statusbar_indicator_battery_title">电池相关</string>
+    <string name="system_ui_statusbar_indicator_battery_title">功耗相关</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度相关</string>
     <string name="system_ui_statusbar_battery_size">字体大小</string>
     <string name="system_ui_statusbar_battery_show">显示内容</string>
