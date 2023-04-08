@@ -6,6 +6,7 @@ import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.*
+import com.sevtinge.cemiuiler.module.systemui.lockscreen.ChargingCurrent
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
@@ -34,24 +35,25 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         // Init EzXHelper
 
-            EzXHelperInit.initHandleLoadPackage(lpparam)
-            EzXHelperInit.setLogTag(TAG)
-            EzXHelperInit.setToastTag(TAG)
+        EzXHelperInit.initHandleLoadPackage(lpparam)
+        EzXHelperInit.setLogTag(TAG)
+        EzXHelperInit.setToastTag(TAG)
 
-            init(lpparam)
+        init(lpparam)
 
         SystemFrameworkForCorepatch().handleLoadPackage(lpparam)
     }
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam) {
         when (resparam.packageName) {
-            "com.miui.tsmclient" -> if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
-                AutoNfc.initResource(resparam)
-            }
-
-            "com.miui.home" -> if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
-                EnableIconMonetColor.initResource(resparam)
-            }
+            "com.miui.tsmclient" ->
+                if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
+                    AutoNfc.initResource(resparam)
+                }
+            "com.miui.home" ->
+                if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
+                    EnableIconMonetColor.initResource(resparam)
+                }
         }
     }
 }
