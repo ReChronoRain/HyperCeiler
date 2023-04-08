@@ -14,28 +14,28 @@ import de.robv.android.xposed.XposedHelpers
 
 object AddBlurEffectToLockScreen : BaseHook() {
     override fun init() {
-        val MiuiNotificationPanelViewControllerClass = findClassIfExists(
+        val miuiNotificationPanelViewControllerClass = findClassIfExists(
             "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
         ) ?: return
 
-        val KeyguardBottomAreaViewClass = findClassIfExists(
+        val keyguardBottomAreaViewClass = findClassIfExists(
             "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
         ) ?: return
 
-        val KeyguardMoveHelperClass = findClassIfExists(
+        val keyguardMoveHelperClass = findClassIfExists(
             "com.android.keyguard.KeyguardMoveHelper"
         ) ?: return
 
-        val BaseKeyguardMoveHelperClass = findClassIfExists(
+        val baseKeyguardMoveHelperClass = findClassIfExists(
             "com.android.keyguard.BaseKeyguardMoveHelper"
         ) ?: return
 
-        val LockScreenMagazineControllerClass = findClassIfExists(
+        val lockScreenMagazineControllerClass = findClassIfExists(
             "com.android.keyguard.magazine.LockScreenMagazineController"
         ) ?: return
 
         XposedBridge.hookAllMethods(
-            KeyguardBottomAreaViewClass,
+            keyguardBottomAreaViewClass,
             "onAttachedToWindow",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -74,7 +74,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            MiuiNotificationPanelViewControllerClass,
+            miuiNotificationPanelViewControllerClass,
             "setBouncerShowingFraction",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -119,7 +119,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            MiuiNotificationPanelViewControllerClass,
+            miuiNotificationPanelViewControllerClass,
             "updateKeyguardElementAlpha",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -175,7 +175,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            KeyguardMoveHelperClass,
+            keyguardMoveHelperClass,
             "setTranslation",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -277,7 +277,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            BaseKeyguardMoveHelperClass,
+            baseKeyguardMoveHelperClass,
             "doPanelViewAnimation",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -331,16 +331,14 @@ object AddBlurEffectToLockScreen : BaseHook() {
                             targetBlurView.background =
                                 HookUtils.createBlurDrawable(targetBlurView, blurRadius.toInt(), 0)
                         }
-                    } else {
-                        if (!mKeyguardBouncerShowing) {
-                            targetBlurView.background = null
-                        }
+                    } else if (!mKeyguardBouncerShowing) {
+                        targetBlurView.background = null
                     }
                 }
             })
 
         XposedBridge.hookAllMethods(
-            MiuiNotificationPanelViewControllerClass,
+            miuiNotificationPanelViewControllerClass,
             "onBouncerShowingChanged",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -356,7 +354,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     mBouncerFractionAnimator as ValueAnimator
                     if (isBouncerShowing) {
                         val mKeyguardBouncerFractionField =
-                            MiuiNotificationPanelViewControllerClass.getDeclaredField("mKeyguardBouncerFraction")
+                            miuiNotificationPanelViewControllerClass.getDeclaredField("mKeyguardBouncerFraction")
                         mKeyguardBouncerFractionField.isAccessible = true
                         mKeyguardBouncerFractionField.set(param.thisObject, 1f)
                     }
@@ -364,7 +362,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            LockScreenMagazineControllerClass,
+            lockScreenMagazineControllerClass,
             "setViewsAlpha",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -413,7 +411,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            KeyguardBottomAreaViewClass,
+            keyguardBottomAreaViewClass,
             "setDozing",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -456,11 +454,11 @@ object AddBlurEffectToLockScreen : BaseHook() {
     }
 
     fun isDefaultLockScreenTheme(): Boolean {
-        val MiuiKeyguardUtilsClass = findClassIfExists(
+        val miuiKeyguardUtilsClass = findClassIfExists(
             "com.android.keyguard.utils.MiuiKeyguardUtils"
         ) ?: return true
         return XposedHelpers.callStaticMethod(
-            MiuiKeyguardUtilsClass,
+            miuiKeyguardUtilsClass,
             "isDefaultLockScreenTheme"
         ) as Boolean
     }
