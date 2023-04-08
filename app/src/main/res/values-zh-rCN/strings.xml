@@ -671,7 +671,8 @@
     <string name="system_ui_statusbar_battery_opposite">反序</string>
     <string name="system_ui_statusbar_battery_only_changing_show">仅在充电时显示</string>
     <string name="system_ui_statusbar_battery_update_spacing">状态更新间隔</string>
-    <string name="system_ui_statusbar_temp_fix_cpu">尝试修复 CPU 温度异常</string>
+    <string name="system_ui_statusbar_temp_fix_cpu">更改 CPU 温度获取源</string>
+    <string name="system_ui_statusbar_temp_fix_cpu_desc">输入 /sys/devices/virtual/thermal/ 文件夹下 thermal_zone* 文件夹后的数字以指定源</string>
 
     <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>
