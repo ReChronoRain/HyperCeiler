@@ -3,6 +3,8 @@ package com.sevtinge.cemiuiler.module.lbe
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -27,6 +29,7 @@ class DisableClipboardTip : BaseHook() {
             "handleNewRequest",
             permissionRequestClass,
             object : XC_MethodHook() {
+                @RequiresApi(Build.VERSION_CODES.TIRAMISU)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val permissionRequest = param.args[0]
                     val permission: Long =
@@ -52,9 +55,10 @@ class DisableClipboardTip : BaseHook() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun getAppName(context: Context, packageName: String): String {
         val pm: PackageManager = context.applicationContext.packageManager
-        val ai: ApplicationInfo = pm.getApplicationInfo(packageName, 0)
+        val ai: ApplicationInfo =  pm.getApplicationInfo(packageName,  PackageManager.ApplicationInfoFlags.of(0))
         return (pm.getApplicationLabel(ai)) as String
     }
 
