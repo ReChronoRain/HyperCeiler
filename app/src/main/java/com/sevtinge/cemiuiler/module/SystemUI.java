@@ -5,6 +5,7 @@ import com.sevtinge.cemiuiler.module.systemui.*;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 
 public class SystemUI extends BaseModule {
 
@@ -106,10 +107,10 @@ public class SystemUI extends BaseModule {
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
 
-        initHook(AddBlurEffectToLockScreen.INSTANCE);
-
-        initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
-
+        if (!SdkHelper.isAndroidR()) {
+            initHook(AddBlurEffectToLockScreen.INSTANCE);
+            initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
+        }
     }
 
     /*public static void handleLoad(LoadPackageParam lpparam) {
