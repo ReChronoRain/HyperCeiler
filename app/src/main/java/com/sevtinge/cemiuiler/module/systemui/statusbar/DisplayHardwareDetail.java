@@ -23,9 +23,11 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Properties;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -246,8 +248,12 @@ public class DisplayHardwareDetail extends BaseHook {
                                         props.load(fis);
                                         if (showDeviceTemp) {
                                             cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone0/temp", "r");
-                                            if (mPrefsMap.getBoolean("system_ui_statusbar_temp_fix_cpu")) {
-                                                cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone39/temp", "r");
+                                            if (!Objects.equals(mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0"), "")) {
+                                                try {
+                                                    cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + "/temp", "r");
+                                                } catch (FileNotFoundException e) {
+                                                    log("get /sys/devices/virtual/thermal/thermal_zone*/temp (" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + ") failed: " + e);
+                                                }
                                             }
                                             cpuProps = cpuReader.readLine();
                                         }
