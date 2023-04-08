@@ -20,44 +20,44 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
 
     override fun init() {
-        val MiuiExpandableNotificationRowClass = findClassIfExists(
+        val miuiExpandableNotificationRowClass = findClassIfExists(
             "com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow"
         ) ?: return
 
-        val NotificationBackgroundViewClass = findClassIfExists(
+        val notificationBackgroundViewClass = findClassIfExists(
             "com.android.systemui.statusbar.notification.row.NotificationBackgroundView"
         ) ?: return
 
-        val AppMiniWindowRowTouchHelperClass = findClassIfExists(
+        val appMiniWindowRowTouchHelperClass = findClassIfExists(
             "com.android.systemui.statusbar.notification.policy.AppMiniWindowRowTouchHelper"
         ) ?: return
 
-        val MiuiNotificationPanelViewControllerClass = findClassIfExists(
+        val miuiNotificationPanelViewControllerClass = findClassIfExists(
             "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
         ) ?: return
 
-        val NotificationStackScrollLayoutClass = findClassIfExists(
+        val notificationStackScrollLayoutClass = findClassIfExists(
             "com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout"
         ) ?: return
 
-        val LockScreenMagazineControllerClass = findClassIfExists(
+        val lockScreenMagazineControllerClass = findClassIfExists(
             "com.android.keyguard.magazine.LockScreenMagazineController"
         ) ?: return
 
-        val BlurRatioChangedListener = findClassIfExists(
+        val blurRatioChangedListener = findClassIfExists(
             "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
         ) ?: return
 
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
-            NotificationBackgroundViewClass,
+            notificationBackgroundViewClass,
             "setCustomBackground",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val notificationBackgroundView = param.thisObject
                     val mDrawableAlphaField =
-                        NotificationBackgroundViewClass.getDeclaredField("mDrawableAlpha")
+                        notificationBackgroundViewClass.getDeclaredField("mDrawableAlpha")
                     mDrawableAlphaField.isAccessible = true
                     val isHandsUp =
                         XposedHelpers.callMethod(notificationBackgroundView, "headsUp") as Boolean
@@ -81,7 +81,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 背景bounds改动同步到模糊
         XposedBridge.hookAllMethods(
-            NotificationBackgroundViewClass,
+            notificationBackgroundViewClass,
             "draw",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -96,7 +96,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 进入小窗模式的时候把模糊去掉
         XposedBridge.hookAllMethods(
-            AppMiniWindowRowTouchHelperClass,
+            appMiniWindowRowTouchHelperClass,
             "onMiniWindowTrackingStart",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -126,7 +126,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            AppMiniWindowRowTouchHelperClass,
+            appMiniWindowRowTouchHelperClass,
             "onMiniWindowReset",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -157,7 +157,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 悬浮的时候把模糊加上
         XposedBridge.hookAllMethods(
-            MiuiExpandableNotificationRowClass,
+            miuiExpandableNotificationRowClass,
             "setHeadsUp",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -207,7 +207,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 进入不同状态，处理一下模糊
         XposedBridge.hookAllMethods(
-            MiuiNotificationPanelViewControllerClass,
+            miuiNotificationPanelViewControllerClass,
             "onStateChanged",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -280,7 +280,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 通知添加进视图的时候增加模糊
         XposedBridge.hookAllMethods(
-            NotificationStackScrollLayoutClass,
+            notificationStackScrollLayoutClass,
             "onViewAddedInternal",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -322,7 +322,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 锁屏状态透明度修改的时候同步修改模糊透明度
         XposedBridge.hookAllMethods(
-            MiuiNotificationPanelViewControllerClass,
+            miuiNotificationPanelViewControllerClass,
             "updateKeyguardElementAlpha",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -351,7 +351,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            MiuiNotificationPanelViewControllerClass,
+            miuiNotificationPanelViewControllerClass,
             "onBouncerShowingChanged",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -376,7 +376,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         // 锁屏画报 隐藏模糊
         XposedBridge.hookAllMethods(
-            LockScreenMagazineControllerClass,
+            lockScreenMagazineControllerClass,
             "setViewsAlpha",
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
@@ -398,7 +398,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         XposedBridge.hookAllMethods(
-            NotificationStackScrollLayoutClass,
+            notificationStackScrollLayoutClass,
             "setDozing",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -462,7 +462,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
         */
 
-        XposedBridge.hookAllConstructors(MiuiNotificationPanelViewControllerClass,
+        XposedBridge.hookAllConstructors(miuiNotificationPanelViewControllerClass,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val miuiNotificationPanelViewControllerClass = param.thisObject
@@ -472,7 +472,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             "mNotificationStackScroller"
                         ) ?: return
                     mNotificationStackScroller as ViewGroup
-                    XposedBridge.hookAllMethods(BlurRatioChangedListener,
+                    XposedBridge.hookAllMethods(blurRatioChangedListener,
                         "onBlurRadiusChanged",
                         object : XC_MethodHook() {
                             override fun afterHookedMethod(param: MethodHookParam) {
@@ -500,11 +500,11 @@ object AddBlurEffectToNotificationView : BaseHook() {
     }
 
     fun isDefaultLockScreenTheme(): Boolean {
-        val MiuiKeyguardUtilsClass = findClassIfExists(
+        val miuiKeyguardUtilsClass = findClassIfExists(
             "com.android.keyguard.utils.MiuiKeyguardUtils"
         ) ?: return true
         return XposedHelpers.callStaticMethod(
-            MiuiKeyguardUtilsClass,
+            miuiKeyguardUtilsClass,
             "isDefaultLockScreenTheme"
         ) as Boolean
     }
