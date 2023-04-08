@@ -25,7 +25,7 @@ public class CemiuilerSettings extends BaseHook {
 
     private Class<?> mPreferenceHeader;
 
-    private final int mIconModeInt = mPrefsMap.getStringAsInt("prefs_key_settings_icon_mode",0);
+    int mIconModeInt = mPrefsMap.getInt("prefs_key_settings_icon_mode",0);
 
     @Override
     public void init() {
