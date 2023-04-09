@@ -31,7 +31,7 @@ import com.sevtinge.cemiuiler.module.home.widget.AllWidgetAnimation;
 import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.cemiuiler.module.home.widget.HideWidgetTitles;
-import com.sevtinge.cemiuiler.module.weather.SetDeviceLevel;
+import com.sevtinge.cemiuiler.module.home.SetDeviceLevel;
 
 import java.util.Objects;
 
@@ -151,13 +151,9 @@ public class Home extends BaseModule {
 
         //Other
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-
-        //小部件桌面下载
         initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
-
         initHook(AnimDurationRatio.INSTANCE, true);
-
-        initHook(new SetDeviceLevel());
+        initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
     }
 
 

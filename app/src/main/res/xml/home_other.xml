@@ -57,6 +57,11 @@
                 android:title="@string/home_other_fix_android_r_s"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:key="prefs_key_home_other_high_models"
+                android:title="@string/home_other_high_models"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory>
