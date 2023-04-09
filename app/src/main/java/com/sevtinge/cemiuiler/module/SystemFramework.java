@@ -62,7 +62,7 @@ public class SystemFramework extends BaseModule {
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
 
         //位置模拟
-        initHook(new LocationSimulation(), true);
+        initHook(new LocationSimulation(), false);
 
         //Other
         initHook(new PackagePermissions());
@@ -70,16 +70,4 @@ public class SystemFramework extends BaseModule {
         initHook(new AppDisableService());
     }
 
-    /*public static void handleLoad(LoadPackageParam lpparam) {
-        mLoadPackageParam = lpparam;
-
-        initHook(new GlobalActions(), lpparam.processName.equals("android"));
-
-
-        initHook(new FreeformBubbleHook(), mPrefsMap.getBoolean("system_framework_bubble"));
-        initHook(new FirstVolumePressHook(), mPrefsMap.getBoolean("system_framework_first_volume_press"));
-        initHook(new NotificationVolumeServiceHook(), mPrefsMap.getBoolean("system_framework_separate_volume"));
-        initHook(new DefaultVolumeStreamHook(), mPrefsMap.getInt("system_framework_default_volume_stream", 0) > 1);
-        initHook(new AllRotationsHook(), mPrefsMap.getBoolean("system_framework_freeform_count"));
-    }*/
 }
