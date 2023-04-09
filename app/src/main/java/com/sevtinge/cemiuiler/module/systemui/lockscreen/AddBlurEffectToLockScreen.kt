@@ -34,14 +34,15 @@ object AddBlurEffectToLockScreen : BaseHook() {
             "com.android.keyguard.magazine.LockScreenMagazineController"
         ) ?: return
 
-        XposedBridge.hookAllMethods(
+        //to com.sevtinge.cemiuiler.module.systemui.lockscreen.BlurButton
+        /*XposedBridge.hookAllMethods(
             keyguardBottomAreaViewClass,
             "onAttachedToWindow",
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!isDefaultLockScreenTheme()) {
+                    /*if (!isDefaultLockScreenTheme()) {
                         return
-                    }
+                    }*/
                     val mLeftAffordanceView = HookUtils.getValueByField(
                         param.thisObject,
                         "mLeftAffordanceView"
@@ -71,7 +72,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     mLeftAffordanceView.background = leftLayerDrawable
                     mRightAffordanceView.background = rightLayerDrawable
                 }
-            })
+            })*/
 
         XposedBridge.hookAllMethods(
             miuiNotificationPanelViewControllerClass,

@@ -285,6 +285,7 @@
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_default_theme">Support default theme only</string>
+    <string name="system_ui_lock_screen_blur_button">Blur camera and smart screen button</string>
     <string name="system_ui_lock_screen_scramble_pin">Random PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Randomize PIN keypad order</string>
     <string name="system_ui_charge_animation_style">Charging animation style</string>

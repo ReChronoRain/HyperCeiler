@@ -113,6 +113,7 @@ public class SystemUI extends BaseModule {
         if (!SdkHelper.isAndroidR()) {
             initHook(AddBlurEffectToLockScreen.INSTANCE);
             initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
+            initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
         }
     }
 }
