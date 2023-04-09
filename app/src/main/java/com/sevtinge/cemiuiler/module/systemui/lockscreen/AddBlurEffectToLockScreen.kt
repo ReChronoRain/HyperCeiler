@@ -175,7 +175,8 @@ object AddBlurEffectToLockScreen : BaseHook() {
                 }
             })
 
-        XposedBridge.hookAllMethods(
+        //控制中心异常
+        /*XposedBridge.hookAllMethods(
             keyguardMoveHelperClass,
             "setTranslation",
             object : XC_MethodHook() {
@@ -276,7 +277,10 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     }
                 }
             })
+         */
 
+        //锁屏过渡至桌面模糊异常
+        /*
         XposedBridge.hookAllMethods(
             baseKeyguardMoveHelperClass,
             "doPanelViewAnimation",
@@ -337,6 +341,8 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     }
                 }
             })
+
+         */
 
         XposedBridge.hookAllMethods(
             miuiNotificationPanelViewControllerClass,
