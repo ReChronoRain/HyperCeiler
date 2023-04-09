@@ -20,9 +20,4 @@ public class Settings extends BaseModule {
         initHook(new CemiuilerSettings(), mPrefsMap.getStringAsInt("settings_icon", 0) != 0);
     }
 
-    /*public static void handleLoad(LoadPackageParam lpparam) {
-        mLoadPackageParam = lpparam;
-
-        initHook(new NotificationVolumeSettingsHook(), mPrefsMap.getBoolean("system_framework_separate_volume"));
-    }*/
 }

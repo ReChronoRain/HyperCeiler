@@ -20,14 +20,4 @@ public class ThemeManager extends BaseModule {
         initHook(new VersionCodeModify(), mPrefsMap.getBoolean("theme_manager_version_code_modify"));
     }
 
-    /*public static void handleLoad(XC_LoadPackage.LoadPackageParam lpparam) {
-        mLoadPackageParam = lpparam;
-
-
-
-
-
-        initHook(new DisableThemeAd(), mPrefsMap.getBoolean("various_theme_ads"));
-
-    }*/
 }

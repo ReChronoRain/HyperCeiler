@@ -64,20 +64,4 @@ public class Various extends BaseModule {
     ));
 
 
-
-    /*public static void handleLoad(LoadPackageParam lpparam) {
-        mLoadPackageParam = lpparam;
-
-        if (mLoadPackageParam.packageName.equals("com.android.systemui")) {
-            initHook(new NotificationBlur(), mPrefsMap.getBoolean("various_blur_enabled") &&
-                    mPrefsMap.getBoolean("various_blur_notification"));
-        }
-
-        initHook(new MiuiAppNoOverScroll(), mPrefsMap.getBoolean("various_no_overscroll"));
-
-        initHook(new DialogGravity(), mPrefsMap.getStringAsInt("various_dialog_gravity",0) > 0);
-
-        initHook(new DialogBlur(), mPrefsMap.getBoolean("various_blur_enabled") && mPrefsMap.getBoolean("various_dialog_blur"));
-
-    }*/
 }

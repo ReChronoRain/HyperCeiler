@@ -12,9 +12,11 @@ public class SystemUI extends BaseModule {
     @Override
     public void handleLoadPackage() {
 
-        //
+        //充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
+
+        //小窗
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
 
         //禁用蓝牙临时关闭
@@ -113,31 +115,4 @@ public class SystemUI extends BaseModule {
             initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
         }
     }
-
-    /*public static void handleLoad(LoadPackageParam lpparam) {
-        mLoadPackageParam = lpparam;
-
-        initHook(new StatusBarIconHideHook(),true);
-        initHook(new HDIconHideHook(), true);
-        *//*initHook(new GxzwSizeHook(), true);*//*
-        initHook(new NetworkTypeHook(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0) > 0);
-        initHook(new WifiStandardHook(), mPrefsMap.getBoolean("system_ui_status_bar_icon_show_wifi_standard"));
-
-        boolean mSeparateVolume = mPrefsMap.getBoolean("system_framework_separate_volume") && mPrefsMap.getBoolean("system_framework_separate_volume_slider");
-        initHook(new NotificationVolumeDialogHook(), mSeparateVolume);
-        initHook(new VolumeTimerValuesHook(), mPrefsMap.getBoolean("system_ui_volume_timer"));
-        initHook(new ShouldPlayUnmuteSoundHook(), true);
-
-
-        initHook(new ChargeAnimationStyleHook(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style",0) > 0);
-
-        initHook(new ClockCenterHook(), false);
-        initHook(new GlobalActions(), true);
-
-        initHook(new QSLabelsHook(), mPrefsMap.getBoolean("system_ui_qs_label"));
-
-
-        initHook(new MiuiGxzwHook(),false);
-        initHook(new StatusBarLayout(),false);
-    }*/
 }
