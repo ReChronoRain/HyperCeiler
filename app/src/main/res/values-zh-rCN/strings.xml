@@ -418,6 +418,8 @@
 
     <string name="music_disable_ad">移除广告</string>
 
+    <string name="app_version_not_supported">不受支持的版本</string>
+
     <string name="miui_package_installer_modify">净化页面</string>
     <string name="miui_package_installer_safe_mode">纯净模式</string>
     <string name="miui_package_installer_disable_ad">禁用推广</string>

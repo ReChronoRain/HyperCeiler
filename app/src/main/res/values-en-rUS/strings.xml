@@ -814,7 +814,7 @@
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
     <string name="array_battery_both">Both</string>
     <string name="array_battery_power">Power only</string>
-    <string name="system_ui_statusbar_indicator_battery_title">Battery related</string>
+    <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="system_ui_statusbar_battery_size">Font size</string>
     <string name="system_ui_statusbar_battery_show">Show contents</string>
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
@@ -842,4 +842,5 @@
     <string name="system_ui_statusbar_temp_fix_cpu_desc">Enter number of /sys/devices/virtual/thermal/thermal_zone*</string>
     <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
     <string name="system_ui_lock_screen_blur_button">Blur camera and smart screen button</string>
+    <string name="app_version_not_supported">Unsupported version</string>
 </resources>

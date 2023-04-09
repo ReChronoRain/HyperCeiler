@@ -815,7 +815,7 @@
     <string name="updater_device_desc">可用於獲取其他機型的 ROM 包，該功能極度危險</string>
     <string name="array_battery_both">兩者</string>
     <string name="array_battery_power">僅功率</string>
-    <string name="system_ui_statusbar_indicator_battery_title">電池相關</string>
+    <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
     <string name="system_ui_statusbar_battery_size">字體大小</string>
     <string name="system_ui_statusbar_battery_show">顯示內容</string>
     <string name="system_ui_statusbar_battery_disable">隱藏組織</string>
@@ -837,4 +837,5 @@
     <string name="array_cpu_temp">CPU 溫度</string>
     <string name="array_battery_temp">電池溫度</string>
     <string name="system_ui_statusbar_device_title">硬件指示器</string>
+    <string name="app_version_not_supported">不受支援的版本</string>
 </resources>

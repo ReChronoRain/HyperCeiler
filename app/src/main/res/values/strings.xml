@@ -849,11 +849,12 @@
     <string name="settings_icon_miui_13">Background cutout style</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
-    <string name="system_ui_statusbar_indicator_battery_title">Battery related</string>
+    <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="array_cpu_temp">CPU temperature</string>
     <string name="array_battery_temp">Battery temperature</string>
     <string name="system_ui_statusbar_device_title">Hardware indicators</string>
     <string name="system_ui_statusbar_temp_fix_cpu">Fix CPU temperature</string>
     <string name="system_ui_statusbar_temp_fix_cpu_desc">Enter number of /sys/devices/virtual/thermal/thermal_zone*</string>
     <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
+    <string name="app_version_not_supported">Unsupported version</string>
 </resources>
