@@ -20,15 +20,15 @@
         android:defaultValue="false"/>
 
     <SwitchPreference
-            android:title="@string/system_framework_volume_disable_safe"
-            android:key="prefs_key_system_framework_volume_disable_safe"
-            android:defaultValue="false"/>
-
-    <SwitchPreference
         android:title="@string/system_framework_volume_separate_slider"
         android:key="prefs_key_system_framework_volume_separate_slider"
         android:defaultValue="false"
         android:dependency="prefs_key_system_framework_volume_separate_control"/>
+
+    <SwitchPreference
+            android:title="@string/system_framework_volume_disable_safe"
+            android:key="prefs_key_system_framework_volume_disable_safe"
+            android:defaultValue="false"/>
 
     <SeekBarPreference
             android:key="prefs_key_system_framework_volume_media_steps"
