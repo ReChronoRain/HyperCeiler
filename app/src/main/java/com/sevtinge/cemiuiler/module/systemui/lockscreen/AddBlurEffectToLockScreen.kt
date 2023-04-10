@@ -1,9 +1,7 @@
 package com.sevtinge.cemiuiler.module.systemui.lockscreen
 
 import android.animation.ValueAnimator
-import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.sevtinge.cemiuiler.module.base.BaseHook
