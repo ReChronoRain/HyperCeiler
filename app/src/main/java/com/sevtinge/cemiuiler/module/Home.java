@@ -141,6 +141,7 @@ public class Home extends BaseModule {
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
         initHook(new LargeIconCornerRadius(), true);
+        initHook(new FixAnimation(), mPrefsMap.getBoolean("home_title_fix_animation"));
 
         //多小窗
         initHook(new FreeFormCountForHome(), mPrefsMap.getBoolean("system_framework_freeform_count"));

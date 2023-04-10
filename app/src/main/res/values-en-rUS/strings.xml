@@ -843,4 +843,5 @@
     <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
     <string name="system_ui_lock_screen_blur_button">Blur camera and smart screen button</string>
     <string name="app_version_not_supported">Unsupported version</string>
+    <string name="home_title_fix_animation">Optimized interrupt animation</string>
 </resources>
