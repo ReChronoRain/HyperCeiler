@@ -22,9 +22,11 @@
     <dimen name="preference_checkbox_desc_margin_top">2.9089966dp</dimen>
     <dimen name="preference_checkbox_desc_line_height">17.454498sp</dimen>
 
+    <dimen name="miui_volume_content_width_expanded">283.625dp</dimen>
+    <dimen name="miui_volume_ringer_layout_width_expanded">@dimen/miui_volume_content_width_expanded</dimen>
+    <dimen name="miui_volume_column_width_expanded">56dp</dimen>
+    <dimen name="miui_volume_column_margin_horizontal_expanded">19.5dp</dimen>
+    <dimen name="miui_notification_modal_menu_icon_size">26dp</dimen>
+    <dimen name="miui_notification_modal_menu_icon_bg_size">50dp</dimen>
 
-    <dimen name="miui_volume_content_width_expanded">337.77dp</dimen>
-    <dimen name="miui_volume_ringer_layout_width_expanded">330dp</dimen>
-    <dimen name="miui_volume_column_width_expanded">60dp</dimen>
-    <dimen name="miui_volume_column_margin_horizontal_expanded">30dp</dimen>
 </resources>
