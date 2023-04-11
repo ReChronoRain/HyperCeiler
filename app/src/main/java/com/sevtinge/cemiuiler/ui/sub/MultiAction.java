@@ -96,7 +96,7 @@ public class MultiAction extends SubFragment {
                 break;
             case "prefs_key_open_app_selector" :
                 Bundle args = new Bundle();
-                args.putString("title", "选择应用");
+                args.putString("title", getResources().getString(R.string.home_gesture_multi_choose_app));
                 args.putBoolean("app_selector", true);
                 args.putString("app_selector_key", mKey);
 
@@ -158,7 +158,7 @@ public class MultiAction extends SubFragment {
 
     public static String getAppName(Context context, String pkgActName, boolean forcePkg) {
         PackageManager pm = context.getPackageManager();
-        String not_selected = "未选择";
+        String not_selected = getResources().getString(R.string.home_gesture_multi_choose_app_none);
         String[] pkgActArray = pkgActName.split("\\|");
         ApplicationInfo ai;
 

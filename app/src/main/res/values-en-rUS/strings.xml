@@ -465,6 +465,10 @@
     <string name="array_global_actions_goback">Back</string>
     <string name="array_global_actions_onehanded_left">One-Handed Mode (Left)</string>
     <string name="array_global_actions_onehanded_right">One-Handed Mode (Right)</string>
+    <string name="array_global_actions_scrolltotop">Scroll to top</string>
+    <string name="array_global_actions_expandsidebar">Show sidebar</string>
+    <string name="array_global_actions_floatingwindow">Floating window</string>
+    <string name="array_global_actions_pinningwindow">Pinning window</string>
     <string name="unlimited">Unlimited</string>
     <string name="array_align_top">Top</string>
     <string name="array_align_bottom">Bottom</string>
@@ -844,4 +848,8 @@
     <string name="system_ui_lock_screen_blur_button">Blur camera and smart screen button</string>
     <string name="app_version_not_supported">Unsupported version</string>
     <string name="home_title_fix_animation">Optimized interrupt animation</string>
+    <string name="home_gesture_mainscreen_title">Main screen</string>
+    <string name="home_gesture_gesture_title">Full-screen gesture</string>
+    <string name="home_gesture_multi_choose_app">Choose an app</string>
+    <string name="home_gesture_multi_choose_app_none">None</string>
 </resources>

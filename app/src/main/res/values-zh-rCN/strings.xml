@@ -114,6 +114,10 @@
     <string name="array_global_actions_goback">返回</string>
     <string name="array_global_actions_onehanded_left">单手模式(左)</string>
     <string name="array_global_actions_onehanded_right">单手模式(右)</string>
+    <string name="array_global_actions_scrolltotop">回到顶部</string>
+    <string name="array_global_actions_expandsidebar">展开侧边栏</string>
+    <string name="array_global_actions_floatingwindow">迷你小窗</string>
+    <string name="array_global_actions_pinningwindow">窗口贴边</string>
 
     <string name="settings_data_title">备份与恢复</string>
     <string name="settings_bug_title">故障排查</string>
@@ -285,6 +289,8 @@
     <string name="home_folder_blur_title">背景模糊</string>
     <string name="home_folder_anim_title">回弹动画</string>
 
+    <string name="home_gesture_mainscreen_title">主屏幕</string>
+    <string name="home_gesture_gesture_title">全面屏手势</string>
     <string name="home_gesture_double_tap">双击</string>
     <string name="home_gesture_double_tap_desc">在任意主屏幕空白处双击</string>
     <string name="home_gesture_shake">摇晃</string>
@@ -303,6 +309,8 @@
     <string name="home_gesture_down_swipe2_desc">在任意主屏幕双指下滑</string>
     <string name="home_gesture_pinch">双指捏合</string>
     <string name="home_gesture_spread">双指扩展</string>
+    <string name="home_gesture_multi_choose_app">选择应用</string>
+    <string name="home_gesture_multi_choose_app_none">未选择</string>
 
     <string name="home_layout_home_title">主屏幕</string>
     <string name="home_layout_hotseats_title">底栏</string>

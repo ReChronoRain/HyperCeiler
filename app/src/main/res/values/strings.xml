@@ -858,4 +858,12 @@
     <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
     <string name="app_version_not_supported">Unsupported version</string>\
     <string name="home_title_fix_animation">Optimized interrupt animation</string>
+    <string name="home_gesture_mainscreen_title">Main screen</string>
+    <string name="home_gesture_gesture_title">Full-screen gesture</string>
+    <string name="array_global_actions_scrolltotop">Scroll to top</string>
+    <string name="array_global_actions_expandsidebar">Show sidebar</string>
+    <string name="array_global_actions_floatingwindow">Floating window</string>
+    <string name="array_global_actions_pinningwindow">Pinning window</string>
+    <string name="home_gesture_multi_choose_app">Choose an app</string>
+    <string name="home_gesture_multi_choose_app_none">None</string>
 </resources>
