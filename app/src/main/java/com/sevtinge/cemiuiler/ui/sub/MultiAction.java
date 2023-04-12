@@ -158,7 +158,7 @@ public class MultiAction extends SubFragment {
 
     public static String getAppName(Context context, String pkgActName, boolean forcePkg) {
         PackageManager pm = context.getPackageManager();
-        String not_selected = getResources().getString(R.string.home_gesture_multi_choose_app_none);
+        String not_selected = "None";
         String[] pkgActArray = pkgActName.split("\\|");
         ApplicationInfo ai;
 
