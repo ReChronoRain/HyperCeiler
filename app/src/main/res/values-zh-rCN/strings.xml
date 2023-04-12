@@ -574,6 +574,8 @@
     <string name="system_settings_permission_title">权限</string>
     <string name="system_settings_permission_show_app_up">上层权限免翻应用列表</string>
     <string name="prefs_key_system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
+    <string name="system_settings_permission_unknown_origin_app">安装未知应用权限免翻应用列表</string>
+    <string name="system_settings_permission_unknown_origin_app_desc">使用国际版行为，直接跳转对应应用 \"安装未知应用\" 的权限开关</string>
 
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_develop_speed_mode">极致模式</string>

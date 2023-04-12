@@ -24,6 +24,12 @@
             android:summary="@string/prefs_key_system_settings_permission_show_app_up_desc"
             android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/system_settings_permission_unknown_origin_app"
+                android:key="prefs_key_system_settings_permission_unknown_origin_app"
+                android:summary="@string/system_settings_permission_unknown_origin_app_desc"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_develop_title">

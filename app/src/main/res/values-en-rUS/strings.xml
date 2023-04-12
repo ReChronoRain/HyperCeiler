@@ -852,4 +852,6 @@
     <string name="home_gesture_gesture_title">Full-screen gesture</string>
     <string name="home_gesture_multi_choose_app">Choose an app</string>
     <string name="home_gesture_multi_choose_app_none">None</string>
+    <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>
+    <string name="system_settings_permission_unknown_origin_app_desc">Use the international build, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
 </resources>
