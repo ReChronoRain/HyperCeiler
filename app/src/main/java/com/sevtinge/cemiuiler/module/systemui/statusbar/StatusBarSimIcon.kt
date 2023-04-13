@@ -10,7 +10,7 @@ object StatusBarSimIcon : BaseHook() {
             name == "hasCorrectSubs" && parameterTypes[0] == MutableList::class.java
         }.hookBefore {
             val list = it.args[0] as MutableList<*>
-            val size = list.size
+           /* val size = list.size*/
             if (mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_2", 0) == 2) {
                 list.removeAt(1)
             }

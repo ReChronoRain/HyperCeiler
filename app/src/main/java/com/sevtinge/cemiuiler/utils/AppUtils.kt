@@ -2,6 +2,8 @@ package com.sevtinge.cemiuiler.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
@@ -37,13 +39,17 @@ fun getProp(mKey: String, defaultValue: Boolean): Boolean =
     Class.forName("android.os.SystemProperties").getMethod("getBoolean", String::class.java, Boolean::class.javaPrimitiveType)
         .invoke(Class.forName("android.os.SystemProperties"), mKey, defaultValue) as Boolean
 
-fun checkVersionName(): String = InitFields.appContext.packageManager.getPackageInfo(
-    InitFields.appContext.packageName, 0
-).versionName
+fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        InitFields.appContext.packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+    } else {
+        @Suppress("DEPRECATION")
+        InitFields.appContext.packageManager.getPackageInfo(packageName, flags)
+    }
 
-fun isAlpha(): Boolean = InitFields.appContext.packageManager.getPackageInfo(
-    InitFields.appContext.packageName, 0
-).versionName.contains("ALPHA", ignoreCase = true)
+fun checkVersionName(): String = getPackageInfoCompat(InitFields.appContext.packageName).versionName
+
+fun isAlpha(): Boolean = getPackageInfoCompat(InitFields.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
 
 fun isPadDevice(): Boolean = DeviceHelper.isTablet() || DeviceHelper.isFoldDevice()
 
@@ -51,9 +57,7 @@ fun atLeastAndroidS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 fun atLeastAndroidT(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-fun checkVersionCode(): Long = InitFields.appContext.packageManager.getPackageInfo(
-    InitFields.appContext.packageName, 0
-).longVersionCode
+fun checkVersionCode(): Long = getPackageInfoCompat(InitFields.appContext.packageName).longVersionCode
 
 fun checkMiuiVersion(): Float = when (getProp("ro.miui.ui.version.name")) {
     "V140" -> 14f
