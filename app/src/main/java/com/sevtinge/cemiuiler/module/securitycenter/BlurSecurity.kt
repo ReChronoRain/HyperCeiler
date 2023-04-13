@@ -79,17 +79,17 @@ object BlurSecurity : BaseHook() {
             videoBoxViewMethodName = "j"
         }
 
-        var newboxClass: Class<*>? = null
+        var newBoxClass: Class<*>? = null
         turboLayoutClass.methods.forEach {
             if (it.name == "getDockLayout") {
-                newboxClass = it.returnType
+                newBoxClass = it.returnType
             }
         }
-        if (newboxClass == null) {
+        if (newBoxClass == null) {
             return
         }
 
-        XposedBridge.hookAllConstructors(newboxClass, object : XC_MethodHook() {
+        XposedBridge.hookAllConstructors(newBoxClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
