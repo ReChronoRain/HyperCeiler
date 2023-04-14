@@ -23,6 +23,7 @@
             android:dependency="prefs_key_settings_icon"
             app:entries="@array/settings_icon_mode"
             app:entryValues="@array/settings_icon_mode_value"
+            app:isPreferenceVisible="false"
             android:defaultValue="0" />
 
         <MultiSelectListPreference

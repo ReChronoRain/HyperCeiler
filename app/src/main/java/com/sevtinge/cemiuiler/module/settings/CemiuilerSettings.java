@@ -25,10 +25,11 @@ public class CemiuilerSettings extends BaseHook {
 
     private Class<?> mPreferenceHeader;
 
-    int mIconModeInt = mPrefsMap.getInt("prefs_key_settings_icon_mode",0);
+    int mIconModeInt = mPrefsMap.getStringAsInt("prefs_key_settings_icon_mode",0);
 
     @Override
     public void init() {
+        addIconResource();
 
         Class<?> mMiuiSettings = findClassIfExists("com.android.settings.MiuiSettings");
 
@@ -86,8 +87,6 @@ public class CemiuilerSettings extends BaseHook {
                 }
             }
         });
-
-        addIconResource();
     }
 
 
