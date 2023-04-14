@@ -5,8 +5,7 @@
     android:viewportHeight="270">
     <path
         android:pathData="M72,0L198,0A72,72 0,0 1,270 72L270,198A72,72 0,0 1,198 270L72,270A72,72 0,0 1,0 198L0,72A72,72 0,0 1,72 0z"
-        android:fillColor="@color/ic_launcher_background"/>
-<!--    android:fillColor="#fc5b8d"-->
+        android:fillColor="#fc5b8d"/>
     <path
         android:pathData="M60.7,84.99L115.18,59.58A23.19,23.19 110,0 1,146 70.8L171.45,125.36A23.19,23.19 110,0 1,160.23 156.18L105.74,181.59A23.19,23.19 110,0 1,74.92 170.37L49.48,115.8A23.19,23.19 110,0 1,60.7 84.99z"
         android:fillColor="#fff"/>
