@@ -4,83 +4,12 @@
     <PreferenceCategory>
 
         <Preference
-                android:title="@string/joyose"
-                android:summary="com.xiaomi.joyose"
-                android:key="prefs_key_joyose"
-                android:icon="@drawable/ic_joyose_new">
+                android:title="@string/system_framework"
+                android:summary="android"
+                android:key="prefs_key_system_framework"
+                android:icon="@drawable/ic_system_framework">
             <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.JoyoseActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/mirror"
-                android:summary="com.xiaomi.mirror"
-                android:key="prefs_key_mirror"
-                android:icon="@drawable/ic_miui_plus">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.MirrorActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/guard_provider"
-                android:summary="com.miui.guardprovider"
-                android:key="prefs_key_guardprovider"
-                android:icon="@drawable/ic_guard_provider_new">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.GuardProviderActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/content_extension"
-                android:summary="com.miui.contentextension"
-                android:key="prefs_key_content_extension"
-                android:icon="@drawable/ic_contentextension">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.ContentExtensionActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/incallui"
-                android:summary="com.android.incallui"
-                android:key="prefs_key_incallui"
-                android:icon="@drawable/ic_call">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.InCallUiActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/powerkeeper"
-                android:summary="com.miui.powerkeeper"
-                android:key="prefs_key_powerkeeper"
-                android:icon="@drawable/ic_powerkeeper">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.PowerKeeperActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/mms"
-                android:summary="com.android.mms"
-                android:key="prefs_key_mms"
-                android:icon="@drawable/ic_mms">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.MmsActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/screenshot"
-                android:summary="com.miui.screenshot"
-                android:key="prefs_key_screenshot"
-                android:icon="@drawable/ic_screenshot">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.ScreenShotActivity"/>
+                    android:action="moralnorm.intent.action.SystemFramework"/>
         </Preference>
 
         <Preference
@@ -94,43 +23,13 @@
         </Preference>
 
         <Preference
-                android:title="@string/screenrecorder"
-                android:summary="com.miui.screenrecorder"
-                android:key="prefs_key_screenrecorder"
-                android:icon="@drawable/ic_screenrecorder">
+                android:title="@string/camera"
+                android:summary="com.android.camera"
+                android:key="prefs_key_camera"
+                android:icon="@drawable/ic_camera">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.ScreenRecorderActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/lbe"
-                android:summary="com.lbe.security.miui"
-                android:key="prefs_key_lbe"
-                android:icon="@drawable/ic_lbe">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.LbeActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/weather"
-                android:summary="com.miui.weather2"
-                android:key="prefs_key_weather"
-                android:icon="@drawable/ic_weather">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.WeatherActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/milink"
-                android:summary="com.milink.service"
-                android:key="prefs_key_milink"
-                android:icon="@drawable/ic_milink">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.MiLinkActivity"/>
+                    android:targetClass="com.sevtinge.cemiuiler.ui.CameraActivity"/>
         </Preference>
 
         <Preference
@@ -144,22 +43,23 @@
         </Preference>
 
         <Preference
-                android:title="@string/security_center"
-                android:summary="com.miui.securitycenter"
-                android:key="prefs_key_security_center"
-                android:icon="@drawable/ic_security_center">
+                android:title="@string/incallui"
+                android:summary="com.android.incallui"
+                android:key="prefs_key_incallui"
+                android:icon="@drawable/ic_call">
             <intent
-                    android:action="moralnorm.intent.action.SecurityCenter"/>
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.InCallUiActivity"/>
         </Preference>
 
         <Preference
-                android:title="@string/updater"
-                android:summary="com.android.updater"
-                android:key="prefs_key_updater"
-                android:icon="@drawable/ic_updater">
+                android:title="@string/mms"
+                android:summary="com.android.mms"
+                android:key="prefs_key_mms"
+                android:icon="@drawable/ic_mms">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.UpdaterActivity"/>
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MmsActivity"/>
         </Preference>
 
         <Preference
@@ -169,25 +69,6 @@
                 android:icon="@drawable/ic_system_ui">
             <intent
                     android:action="moralnorm.intent.action.SystemUI"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/system_ui_plugin"
-                android:summary="miui.systemui.plugin"
-                android:key="prefs_key_system_ui_plugin"
-                android:icon="@drawable/ic_system_ui_plugin">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.SystemUIPluginActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/system_framework"
-                android:summary="android"
-                android:key="prefs_key_system_framework"
-                android:icon="@drawable/ic_system_framework">
-            <intent
-                    android:action="moralnorm.intent.action.SystemFramework"/>
         </Preference>
 
         <Preference
@@ -201,12 +82,53 @@
         </Preference>
 
         <Preference
-                android:title="@string/home"
-                android:summary="com.miui.home"
-                android:key="prefs_key_home"
-                android:icon="@drawable/ic_home">
+                android:title="@string/theme_manager"
+                android:summary="com.android.thememanager"
+                android:key="prefs_key_various_theme"
+                android:icon="@drawable/ic_theme_manager">
             <intent
-                    android:action="moralnorm.intent.action.Home"/>
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.various.VariousThemeActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/updater"
+                android:summary="com.android.updater"
+                android:key="prefs_key_updater"
+                android:icon="@drawable/ic_updater">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.UpdaterActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/lbe"
+                android:summary="com.lbe.security.miui"
+                android:key="prefs_key_lbe"
+                android:icon="@drawable/ic_lbe">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.LbeActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/milink"
+                android:summary="com.milink.service"
+                android:key="prefs_key_milink"
+                android:icon="@drawable/ic_milink">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MiLinkActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/content_extension"
+                android:summary="com.miui.contentextension"
+                android:key="prefs_key_content_extension"
+                android:icon="@drawable/ic_contentextension">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ContentExtensionActivity"/>
         </Preference>
 
         <Preference
@@ -220,6 +142,25 @@
         </Preference>
 
         <Preference
+                android:title="@string/guard_provider"
+                android:summary="com.miui.guardprovider"
+                android:key="prefs_key_guardprovider"
+                android:icon="@drawable/ic_guard_provider_new">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.GuardProviderActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/home"
+                android:summary="com.miui.home"
+                android:key="prefs_key_home"
+                android:icon="@drawable/ic_home">
+            <intent
+                    android:action="moralnorm.intent.action.Home"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/mediaeditor"
                 android:summary="com.miui.mediaeditor"
                 android:key="prefs_key_mediaeditor"
@@ -227,36 +168,6 @@
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
                     android:targetClass="com.sevtinge.cemiuiler.ui.MediaEditorActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/camera"
-                android:summary="com.android.camera"
-                android:key="prefs_key_camera"
-                android:icon="@drawable/ic_camera">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.CameraActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/aireco"
-                android:summary="com.xiaomi.aireco"
-                android:key="prefs_key_aireco"
-                android:icon="@drawable/ic_suggestion">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.AirecoActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/scanner"
-                android:summary="com.xiaomi.scanner"
-                android:key="prefs_key_scanner"
-                android:icon="@drawable/ic_scanner">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.ScannerActivity"/>
         </Preference>
 
         <Preference
@@ -269,40 +180,12 @@
                     android:targetClass="com.sevtinge.cemiuiler.ui.MiShareActivity"/>
         </Preference>
 
-        <Preference
-                android:title="@string/tsmclient"
-                android:summary="com.miui.tsmclient"
-                android:key="prefs_key_tsmclient"
-                android:icon="@drawable/ic_tsmclient">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.TsmClientActivity"/>
-        </Preference>
-
-        <Preference
-                android:title="@string/music"
-                android:summary="com.miui.player"
-                android:key="prefs_key_music"
-                android:icon="@drawable/ic_music">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.MusicActivity"/>
-        </Preference>
-
         <Preference android:title="@string/package_installer"
                     android:summary="com.miui.packageinstaller"
                     android:icon="@drawable/ic_package_installer">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
                     android:targetClass="com.sevtinge.cemiuiler.ui.MiuiPackageInstallerActivity"/>
-        </Preference>
-
-        <Preference android:title="@string/market"
-                    android:summary="com.xiaomi.market"
-                    android:icon="@drawable/ic_market">
-            <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.MarketActivity"/>
         </Preference>
 
         <Preference
@@ -316,13 +199,130 @@
         </Preference>
 
         <Preference
-                android:title="@string/theme_manager"
-                android:summary="com.android.thememanager"
-                android:key="prefs_key_various_theme"
-                android:icon="@drawable/ic_theme_manager">
+                android:title="@string/music"
+                android:summary="com.miui.player"
+                android:key="prefs_key_music"
+                android:icon="@drawable/ic_music">
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.various.VariousThemeActivity"/>
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MusicActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/powerkeeper"
+                android:summary="com.miui.powerkeeper"
+                android:key="prefs_key_powerkeeper"
+                android:icon="@drawable/ic_powerkeeper">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.PowerKeeperActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/screenrecorder"
+                android:summary="com.miui.screenrecorder"
+                android:key="prefs_key_screenrecorder"
+                android:icon="@drawable/ic_screenrecorder">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ScreenRecorderActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/screenshot"
+                android:summary="com.miui.screenshot"
+                android:key="prefs_key_screenshot"
+                android:icon="@drawable/ic_screenshot">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ScreenShotActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/security_center"
+                android:summary="com.miui.securitycenter"
+                android:key="prefs_key_security_center"
+                android:icon="@drawable/ic_security_center">
+            <intent
+                    android:action="moralnorm.intent.action.SecurityCenter"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/tsmclient"
+                android:summary="com.miui.tsmclient"
+                android:key="prefs_key_tsmclient"
+                android:icon="@drawable/ic_tsmclient">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.TsmClientActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/weather"
+                android:summary="com.miui.weather2"
+                android:key="prefs_key_weather"
+                android:icon="@drawable/ic_weather">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.WeatherActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/aireco"
+                android:summary="com.xiaomi.aireco"
+                android:key="prefs_key_aireco"
+                android:icon="@drawable/ic_suggestion">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.AirecoActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/joyose"
+                android:summary="com.xiaomi.joyose"
+                android:key="prefs_key_joyose"
+                android:icon="@drawable/ic_joyose_new">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.JoyoseActivity"/>
+        </Preference>
+
+        <Preference android:title="@string/market"
+                    android:summary="com.xiaomi.market"
+                    android:icon="@drawable/ic_market">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MarketActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/mirror"
+                android:summary="com.xiaomi.mirror"
+                android:key="prefs_key_mirror"
+                android:icon="@drawable/ic_miui_plus">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MirrorActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/scanner"
+                android:summary="com.xiaomi.scanner"
+                android:key="prefs_key_scanner"
+                android:icon="@drawable/ic_scanner">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.ScannerActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/system_ui_plugin"
+                android:summary="miui.systemui.plugin"
+                android:key="prefs_key_system_ui_plugin"
+                android:icon="@drawable/ic_system_ui_plugin">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.SystemUIPluginActivity"/>
         </Preference>
 
         <Preference
