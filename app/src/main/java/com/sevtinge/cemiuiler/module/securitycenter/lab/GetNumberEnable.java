@@ -7,6 +7,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import java.io.File;
 
+import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
+
 public class GetNumberEnable extends BaseHook {
 
     Class<?> mLab;
@@ -43,35 +45,4 @@ public class GetNumberEnable extends BaseHook {
         //});
     }
 
-    private static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
-        try {
-            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-            Object parser = parserCls.newInstance();
-            File apkPath = new File(lpparam.appInfo.sourceDir);
-            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-            XposedBridge.log("Cemiuiler: " + lpparam + " versionName is " + versionName);
-            return versionName;
-        } catch (Throwable e) {
-            XposedBridge.log("Cemiuiler: Unknown Version.");
-            XposedBridge.log(e);
-            return "null";
-        }
-    }
-
-    private static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {
-        try {
-            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-            Object parser = parserCls.newInstance();
-            File apkPath = new File(lpparam.appInfo.sourceDir);
-            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            XposedBridge.log("Cemiuiler: " + lpparam + " versionCode is " + versionCode);
-            return versionCode;
-        } catch (Throwable e) {
-            XposedBridge.log("Cemiuiler: Unknown Version.");
-            XposedBridge.log(e);
-            return -1;
-        }
-    }
 }
