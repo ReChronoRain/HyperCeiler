@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ColorUtils
+import com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode
 import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
@@ -63,21 +64,21 @@ object BlurSecurity : BaseHook() {
         val newToolBoxTopViewClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
-        var videoBoxViewClass =
-            findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
-        var videoBoxViewMethodName = "a"
-        if (videoBoxViewClass == null) {
-            // v7.4.9
+        var videoBoxViewClass: Class<*>? = null
+        var videoBoxViewMethodName: String? = null
+        if (getPackageVersionCode(lpparam) in 40000749..40000770) {
             appVersionCode = 40000749
             videoBoxViewClass = findClassIfExists("t7.i") ?: return
             videoBoxViewMethodName = "i"
-        }
-        if (videoBoxViewClass == null) {
-            // v7.7.1
+        } else if (getPackageVersionCode(lpparam) in 40000771..40000772) {
             appVersionCode = 40000771
             videoBoxViewClass = findClassIfExists("r7.m") ?: return
             videoBoxViewMethodName = "j"
+        } else {
+            videoBoxViewClass = findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
+            videoBoxViewMethodName = "a"
         }
+
 
         var newBoxClass: Class<*>? = null
         turboLayoutClass.methods.forEach {
@@ -518,19 +519,4 @@ object BlurSecurity : BaseHook() {
             .replace("com.miui.securitycenter:id/", "")
     }
 
-    private fun getPackageVersionCode(lpparam: LoadPackageParam): Int {
-        return try {
-            val parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader)
-            val parser = parserCls.newInstance()
-            val apkPath = File(lpparam.appInfo.sourceDir)
-            val pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0)
-            val versionCode = XposedHelpers.getIntField(pkg, "mVersionCode")
-            XposedBridge.log("Cemiuiler: $lpparam versionCode is $versionCode")
-            versionCode
-        } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: Unknown Version.")
-            XposedBridge.log(e)
-            -1
-        }
-    }
 }
