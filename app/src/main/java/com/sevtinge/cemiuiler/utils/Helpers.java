@@ -28,6 +28,7 @@ import com.sevtinge.cemiuiler.R;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
@@ -575,6 +576,38 @@ public class Helpers {
             } catch (Throwable t) {
                 XposedBridge.log(t);
             }
+        }
+    }
+
+    private static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
+            XposedBridge.log("Cemiuiler: " + lpparam + " versionName is " + versionName);
+            return versionName;
+        } catch (Throwable e) {
+            XposedBridge.log("Cemiuiler: Unknown Version.");
+            XposedBridge.log(e);
+            return "null";
+        }
+    }
+
+    public static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
+            XposedBridge.log("Cemiuiler: " + lpparam + " versionCode is " + versionCode);
+            return versionCode;
+        } catch (Throwable e) {
+            XposedBridge.log("Cemiuiler: Unknown Version.");
+            XposedBridge.log(e);
+            return -1;
         }
     }
 
