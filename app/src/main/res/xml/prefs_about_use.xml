@@ -25,6 +25,13 @@
                 android:data="https://github.com/GSWXXN/AutoNFC" />
         </Preference>
         <Preference
+                android:title="BypassSignCheck"
+                android:summary="Weverses">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Weverses/BypassSignCheck" />
+        </Preference>
+        <Preference
             android:title="CorePatch"
             android:summary="LSPosed">
             <intent
