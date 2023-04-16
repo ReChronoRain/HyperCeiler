@@ -410,6 +410,8 @@
 
     <string name="market_device_modify">机型伪装</string>
     <string name="market_device_modify_desc">伪装设备机型为 Xiaomi 13 Ultra</string>
+    <string name="market_disable_new_icon">禁止使用第三方图标</string>
+    <string name="market_disable_new_icon_desc">使桌面更加整洁</string>
     <string name="system_framework_allow_uninstall">允许卸载部分预装 APP</string>
     <string name="system_framework_allow_uninstall_desc">该功能具有一定危险性</string>
 

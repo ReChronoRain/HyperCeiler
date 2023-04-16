@@ -8,6 +8,12 @@
                 android:key="prefs_key_market_device_modify"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:title="@string/market_disable_new_icon"
+                android:summary="@string/market_disable_new_icon_desc"
+                android:key="prefs_key_market_disable_new_icon"
+                android:defaultValue="false"/>
+
 
     </PreferenceCategory>
 <Preference
