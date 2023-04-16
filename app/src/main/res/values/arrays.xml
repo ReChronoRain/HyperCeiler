@@ -465,4 +465,28 @@
         <item>@string/array_cpu_temp</item>
     </string-array>
 
+    <string-array name="market_device_modify_list">
+        <item>@string/array_default</item>
+        <item>Xiaomi 13 Ultra</item>
+        <item>Xiaomi 13 Pro</item>
+        <item>Xiaomi MIX Fold 2</item>
+        <item>Xiaomi MIX Alpha (Avenger)</item>
+        <item>Xiaomi MIX Alpha (Draco)</item>
+        <item>Xiaomi Pad 6 Pro</item>
+        <item>Redmi K60 Pro</item>
+        <item>Redmi Note 12 Turbo</item>
+    </string-array>
+
+    <string-array name="market_device_modify_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
 </resources>
