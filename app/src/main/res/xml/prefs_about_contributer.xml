@@ -39,6 +39,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/wushidia"/>
         </Preference>
+        <Preference
+                android:title="GSWXXN">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/GSWXXN"/>
+        </Preference>
     </PreferenceCategory>
 <Preference
             android:summary=""/>
