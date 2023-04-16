@@ -327,7 +327,7 @@
     <string name="system_ui_status_bar_big_mobile_network_type">Büyük ağ türü simgesi</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm saati</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Alarm simgesini yalnızca alarm çalmadan önce göster</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d dakika</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d saat</string>
     <string name="system_ui_status_bar_icon_nfc">NFC</string>
     <string name="system_ui_status_bar_icon_vpn">VPN</string>
     <string name="system_ui_status_bar_icon_zen">Zen</string>

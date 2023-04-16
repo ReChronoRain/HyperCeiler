@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class SelectiveHideIconForAlarmClock extends BaseHook {
@@ -31,11 +32,10 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
     @Override
     public void init() {
         mMiuiPhoneStatusBarPolicy = findClassIfExists("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarPolicy");
-
         hookAllConstructors(mMiuiPhoneStatusBarPolicy, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
+                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 XposedHelpers.setAdditionalInstanceField(param.thisObject, "mNextAlarmTime", getNextMIUIAlarmTime(mContext));
                 ContentResolver resolver = mContext.getContentResolver();
                 ContentObserver alarmObserver = new ContentObserver(new Handler()) {
@@ -46,7 +46,6 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
                         updateAlarmVisibility(param.thisObject, lastState);
                     }
                 };
-
                 resolver.registerContentObserver(Settings.System.getUriFor("next_alarm_clock_formatted"), false, alarmObserver);
 
                 IntentFilter filter = new IntentFilter();
@@ -67,7 +66,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarPolicy", "updateAlarm", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                lastState = (boolean)XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
+                lastState = (boolean) XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
                 updateAlarmVisibility(param.thisObject, lastState);
             }
         });
@@ -75,14 +74,14 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         findAndHookMethod(mMiuiPhoneStatusBarPolicy, "onMiuiAlarmChanged", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                lastState = (boolean)XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
+                lastState = (boolean) XposedHelpers.getObjectField(param.thisObject, "mHasAlarm");
                 updateAlarmVisibility(param.thisObject, lastState);
                 param.setResult(null);
             }
         });
     }
 
-    private void updateAlarmVisibility(Object thisObject, boolean state) {
+    private static void updateAlarmVisibility(Object thisObject, boolean state) {
         try {
             Object mIconController = XposedHelpers.getObjectField(thisObject, "mIconController");
             if (!state) {
@@ -90,11 +89,11 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
                 return;
             }
 
-            Context mContext = (Context)XposedHelpers.getObjectField(thisObject, "mContext");
+            Context mContext = (Context) XposedHelpers.getObjectField(thisObject, "mContext");
             long nowTime = java.lang.System.currentTimeMillis();
             long nextTime;
             try {
-                nextTime = (long)XposedHelpers.getAdditionalInstanceField(thisObject, "mNextAlarmTime");
+                nextTime = (long) XposedHelpers.getAdditionalInstanceField(thisObject, "mNextAlarmTime");
             } catch (Throwable t) {
                 nextTime = getNextMIUIAlarmTime(mContext);
             }
@@ -103,20 +102,19 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             long diffMSec = nextTime - nowTime;
             if (diffMSec < 0) diffMSec += 7 * 24 * 60 * 60 * 1000;
             float diffHours = (diffMSec - 59 * 1000) / (1000f * 60f * 60f);
-
             boolean vis = diffHours <= mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0);
-
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
             mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            LogUtils.logXp(TAG, diffHours + "  " + vis);
+            XposedBridge.log("SelectiveHideIconForAlarmClock: Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
-            LogUtils.log(t);
+            XposedBridge.log("SelectiveHideIconForAlarmClock updateAlarmVisibility failed by " + t);
         }
     }
 
 
-    public long getNextMIUIAlarmTime(Context context) {
+    @SuppressWarnings("ConstantConditions")
+    public static long getNextMIUIAlarmTime(Context context) {
         String nextAlarm = Settings.System.getString(context.getContentResolver(), "next_alarm_clock_formatted");
         long nextTime = 0;
         if (!TextUtils.isEmpty(nextAlarm)) try {
@@ -144,12 +142,12 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
             nextTime = cal.getTimeInMillis();
         } catch (Throwable t) {
-            LogUtils.log(t);
+            XposedBridge.log(t);
         }
         return nextTime;
     }
 
-    public long getNextStockAlarmTime(Context context) {
+    public static long getNextStockAlarmTime(Context context) {
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         if (alarmMgr == null) return 0;
         AlarmManager.AlarmClockInfo aci = alarmMgr.getNextAlarmClock();

@@ -165,7 +165,7 @@
             android:title="@string/system_ui_status_bar_icon_alarm_clock_n"
             android:defaultValue="0"
             app:minValue="0"
-            app:maxValue="60"
+            app:maxValue="48"
             app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format"
             app:showSeekBarValue="true" />
 

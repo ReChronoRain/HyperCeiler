@@ -342,7 +342,7 @@
     <string name="system_ui_status_bar_big_mobile_network_type">大網路類型圖示</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">僅在鬧鐘響鈴前顯示鬧鐘圖示</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分鐘</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小時</string>
     <string name="system_ui_status_bar_icon_airplane">飛行模式</string>
     <string name="system_ui_status_bar_icon_headset">耳機</string>
     <string name="system_ui_status_bar_icon_nfc">NFC</string>

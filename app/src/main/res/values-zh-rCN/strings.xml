@@ -735,7 +735,7 @@
     <string name="system_ui_status_bar_icon_location">位置信息</string>
     <string name="system_ui_status_bar_icon_alarm_clock">闹钟</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">仅在闹钟响铃前显示闹钟图标</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分钟</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
     <string name="system_ui_status_bar_icon_nfc">NFC</string>

@@ -343,7 +343,7 @@
     <string name="system_ui_status_bar_big_mobile_network_type">Big Network Type Icon</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm Clock</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Show alarm icon only before alarm goes off</string>
-    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d minutes</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d hours</string>
     <string name="system_ui_status_bar_icon_airplane">Airplane mode</string>
     <string name="system_ui_status_bar_icon_headset">Headset</string>
     <string name="system_ui_status_bar_icon_nfc">NFC</string>
