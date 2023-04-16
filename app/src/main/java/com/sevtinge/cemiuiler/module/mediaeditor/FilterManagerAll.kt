@@ -22,7 +22,7 @@ object FilterManagerAll : BaseHook() {
 //        }
         findMethod("b6.b") {
             name == "g"
-        }.hookBefore { param ->
+        }.hookBefore {
 //            param.thisObject.javaClass.field("DEVICE",true).setBoolean(param.thisObject, true)
             loadClass("android.os.Build").field("DEVICE", true, String::class.java)
                 .set(null, "wayne")
