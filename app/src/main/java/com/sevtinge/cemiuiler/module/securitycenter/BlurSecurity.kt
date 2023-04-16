@@ -20,8 +20,6 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.File
 
 object BlurSecurity : BaseHook() {
     val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
@@ -64,19 +62,23 @@ object BlurSecurity : BaseHook() {
         val newToolBoxTopViewClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
-        var videoBoxViewClass: Class<*>? = null
-        var videoBoxViewMethodName: String? = null
-        if (getPackageVersionCode(lpparam) in 40000749..40000770) {
-            appVersionCode = 40000749
-            videoBoxViewClass = findClassIfExists("t7.i") ?: return
-            videoBoxViewMethodName = "i"
-        } else if (getPackageVersionCode(lpparam) in 40000771..40000772) {
-            appVersionCode = 40000771
-            videoBoxViewClass = findClassIfExists("r7.m") ?: return
-            videoBoxViewMethodName = "j"
-        } else {
-            videoBoxViewClass = findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
-            videoBoxViewMethodName = "a"
+        lateinit var videoBoxViewClass: Class<*>
+        lateinit var videoBoxViewMethodName: String
+        when {
+            getPackageVersionCode(lpparam) == 40000749 && getPackageVersionCode(lpparam) == 40000770 -> {
+                appVersionCode = 40000749
+                videoBoxViewClass = findClassIfExists("t7.i") ?: return
+                videoBoxViewMethodName = "i"
+            }
+            getPackageVersionCode(lpparam) in 40000771..40000772 -> {
+                appVersionCode = 40000771
+                videoBoxViewClass = findClassIfExists("r7.m") ?: return
+                videoBoxViewMethodName = "j"
+            }
+            else -> {
+                videoBoxViewClass = findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
+                videoBoxViewMethodName = "a"
+            }
         }
 
 
