@@ -870,4 +870,8 @@
     <string name="home_gesture_multi_choose_app_none">None</string>
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
+    <string name="app_info">App info</string>
+    <string name="info">Info</string>
+    <string name="floating_window">Freeform</string>
+    <string name="share_center">Mi Smart Hub</string>
 </resources>

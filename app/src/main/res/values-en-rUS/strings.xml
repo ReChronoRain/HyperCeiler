@@ -856,4 +856,8 @@
     <string name="system_settings_permission_unknown_origin_app_desc">Use the international build, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
+    <string name="share_center">Mi Smart Hub</string>
+    <string name="floating_window">Freeform</string>
+    <string name="app_info">App info</string>
+    <string name="info">Info</string>
 </resources>

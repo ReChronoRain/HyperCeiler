@@ -58,7 +58,12 @@
     <string name="updater">系统更新</string>
     <string name="various">其他</string>
     <string name="weather">天气</string>
+    <string name="share_center">小米妙享中心</string>
+    <string name="floating_window">小窗</string>
     <string name="custom_hook">自定义</string>
+
+    <string name="app_info">应用信息</string>
+    <string name="info">信息</string>
 
     <string name="about_developer_title">开发者</string>
     <string name="about_translator_title">译者</string>

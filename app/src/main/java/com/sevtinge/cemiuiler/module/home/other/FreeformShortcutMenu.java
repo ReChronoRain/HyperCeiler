@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.home.other;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,8 +10,10 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,21 +52,21 @@ public class FreeformShortcutMenu extends BaseHook {
             hookAllMethods(mViewDarkModeHelper, "onConfigurationChanged", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedHelpers.callStaticMethod(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems", new Object[0]);
+                    XposedHelpers.callStaticMethod(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems");
                 }
             });
 
             hookAllMethods(mShortcutMenuItem, "getShortTitle", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    if (param.getResult().equals("应用信息")) {
-                        param.setResult("信息");
+                    if (param.getResult().equals(R.string.app_info)) {
+                        param.setResult(R.string.info);
                     }
                 }
             });
 
 
-            findAndHookMethod(mAppDetailsShortcutMenuItem, "lambda$getOnClickListener$0", new Object[]{mAppDetailsShortcutMenuItem, View.class, new MethodHook() {
+            findAndHookMethod(mAppDetailsShortcutMenuItem, "lambda$getOnClickListener$0", mAppDetailsShortcutMenuItem, View.class, new MethodHook() {
 
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
@@ -75,7 +78,7 @@ public class FreeformShortcutMenu extends BaseHook {
                     if (mShortTitle.equals("妙享中心")) {
 
                         param.setResult(null);
-                        XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", new Object[]{context});
+                        XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", context);
 
                     } else if (mShortTitle.equals("小窗")) {
 
@@ -86,14 +89,14 @@ public class FreeformShortcutMenu extends BaseHook {
                         intent.addCategory("android.intent.category.DEFAULT");
                         intent.setComponent(mComponentName);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Object callStaticMethod = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", new Object[]{view.getContext(), mComponentName.getPackageName()});
+                        Object callStaticMethod = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", view.getContext(), mComponentName.getPackageName());
 
                         if (callStaticMethod != null) {
                             view.getContext().startActivity(intent, (Bundle) XposedHelpers.callMethod(callStaticMethod, "toBundle", new Object[0]));
                         }
                     }
                 }
-            }});
+            });
 
 
             hookAllMethods(mActivity, "onCreate", new MethodHook() {
@@ -119,14 +122,15 @@ public class FreeformShortcutMenu extends BaseHook {
             });
 
             hookAllMethods(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems", new MethodHook() {
+                @SuppressLint("DiscouragedApi")
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
 
                     List mAllSystemShortcutMenuItems = (List) XposedHelpers.getStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems");
 
-                    Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem, new Object[0]);
-                    XposedHelpers.callMethod(mSmallWindowInstance, "setShortTitle", new Object[]{"小窗"});
-                    XposedHelpers.callMethod(mSmallWindowInstance, "setIconDrawable", new Object[]{ContextCompat.getDrawable(context, context.getResources().getIdentifier("ic_task_small_window", "drawable", context.getPackageName()))});
+                    Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
+                    XposedHelpers.callMethod(mSmallWindowInstance, "setShortTitle", "小窗");
+                    XposedHelpers.callMethod(mSmallWindowInstance, "setIconDrawable", ContextCompat.getDrawable(context, context.getResources().getIdentifier("ic_task_small_window", "drawable", context.getPackageName())));
 
                     ArrayList sAllSystemShortcutMenuItems = new ArrayList();
                     sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
