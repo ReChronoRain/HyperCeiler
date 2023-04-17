@@ -7,7 +7,7 @@
     <string name="translator_url">https://github.com/a406010503</string>
     <string name="settings">設定</string>
     <string name="about">關於</string>
-    <string name="about_use">引用</string>
+    <string name="about_use">項目引用</string>
     <string name="about_use_desc">Cemiuiler 使用了以下開源項目的部分或全部內容，感謝這些項目的開發者提供的大力支持（排名順序不分先後）</string>
     <string name="about_contributer">貢獻者</string>
     <string name="about_contributer_desc">感謝以下貢獻者為 Cemiuiler 的開發提供了不同程度的幫助（排名順序不分先後）</string>
@@ -50,8 +50,8 @@
     <string name="about_translator_title">翻譯者</string>
     <string name="about_chat_title">討論</string>
     <string name="about_other_title">其他</string>
-    <string name="about_qq_group">QQ 群組</string>
     <string name="about_qq_channel">QQ 頻道</string>
+    <string name="about_qq_group">QQ 群組</string>
     <string name="about_tg_group">Telegram 聊天室</string>
     <string name="about_tg_channel">Telegram 頻道</string>
     <string name="about_github">Github 存放庫</string>
@@ -525,7 +525,7 @@
     <string name="app_sort_frequency">使用頻率</string>
     <string name="app_sort_storage">儲存空間佔用</string>
     <string name="app_sort_install">安裝時間</string>
-    <string name="array_clock_default">预设</string>
+    <string name="array_clock_default">预設</string>
     <string name="array_global_actions_none">無動作</string>
     <string name="array_global_actions_notif">打開通知中心</string>
     <string name="array_global_actions_eqs">展開快速設定頁面</string>
@@ -608,7 +608,7 @@
     <string name="operator_fix_none">不修復</string>
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推薦）</string>
-    <string name="custom_hook_new">增加Hook</string>
+    <string name="custom_hook_new">增加 Hook</string>
     <string name="custom_hook_mode">選擇模式</string>
     <string name="cemiuiler_notice">下拉狀態欄，同時顯示快捷開關和系統通知</string>
     <string name="cemiuiler_restart_quick">快速重啟作用域</string>
@@ -656,19 +656,19 @@
     <string name="camera_features_unlock_ambilight">解鎖長曝光</string>
     <string name="camera_features_unlock_clone">解鎖魔法分身</string>
     <string name="camera_features_unlock_cosmetic_mirror">解鎖化妝鏡</string>
-    <string name="camera_features_unlock_doc">解鎖檔案</string>
+    <string name="camera_features_unlock_doc">解鎖文件</string>
     <string name="camera_features_unlock_idcard">解鎖身份證拍攝</string>
     <string name="camera_features_unlock_dualcam">解鎖前後雙景</string>
     <string name="camera_features_unlock_duration">解鎖延時攝影</string>
-    <string name="camera_features_unlock_milive">解鎖短視頻</string>
+    <string name="camera_features_unlock_milive">解鎖短影片</string>
     <string name="camera_features_unlock_moon">解鎖超級月亮</string>
     <string name="camera_features_unlock_pano">解鎖全景</string>
-    <string name="camera_features_unlock_pixel">解鎖超分辯率模式</string>
+    <string name="camera_features_unlock_pixel">解鎖超解析度模式</string>
     <string name="camera_features_unlock_portrait">解鎖人像</string>
     <string name="camera_features_unlock_slow">解鎖慢動作</string>
     <string name="camera_features_unlock_videosky">解鎖 Video-sky</string>
-    <string name="camera_features_unlock_vlog">解鎖 Vlog</string>
-    <string name="camera_features_unlock_vlog_pro">解鎖 Vlog Pro</string>
+    <string name="camera_features_unlock_vlog">解鎖 VLOG</string>
+    <string name="camera_features_unlock_vlog_pro">解鎖 VLOG Pro</string>
     <string name="camera_features_unlock_film">解鎖電影鏡頭</string>
     <string name="camera_features_unlock_film_delay">解鎖長曝光延時</string>
     <string name="camera_features_unlock_film_dollyzoom">解鎖滑動變焦</string>
@@ -732,7 +732,7 @@
     <string name="system_ui_statusbar_indicator_vertical_offset">上下偏移量</string>
     <string name="array_align_left">左側</string>
     <string name="array_align_right">右側</string>
-    <string name="array_align_center">居中</string>
+    <string name="array_align_center">置中</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 /s 單位</string>
     <string name="array_netspeedicons_no">無圖示</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
@@ -775,10 +775,10 @@
     <string name="camera_shot_makeup_desc">僅在使用前置監視器時生效</string>
     <string name="camera_shot_hand_gesture">解鎖手勢拍照</string>
     <string name="camera_shot_color_enhance">解鎖豔麗模式</string>
-    <string name="camera_portrait_new_beauty">解鎖新版美顏</string>
-    <string name="camera_portrait_new_beauty_desc">僅在使用前置監視器時生效</string>
     <string name="camera_portrait_cvlens">解鎖大師鏡頭</string>
-    <string name="camera_portrait_cvlens_desc">部分設備無法正常工作</string>
+    <string name="camera_portrait_cvlens_desc">部分裝置無法正常工作</string>
+    <string name="camera_portrait_new_beauty">解鎖新版美肌</string>
+    <string name="camera_portrait_new_beauty_desc">僅在使用前置鏡頭時生效</string>
     <string name="camera_pro_raw">解鎖 RAW</string>
     <string name="camera_pro_log">解鎖 LOG</string>
     <string name="system_settings_permission_title">權限</string>
@@ -838,4 +838,12 @@
     <string name="array_battery_temp">電池溫度</string>
     <string name="system_ui_statusbar_device_title">硬件指示器</string>
     <string name="app_version_not_supported">不受支援的版本</string>
+
+<!--    <string name="call_notification_answer_action">接聽</string>
+    <string name="call_notification_answer_video_action">視訊</string>
+    <string name="call_notification_decline_action">拒接</string>
+    <string name="call_notification_hang_up_action">掛斷</string>
+    <string name="call_notification_incoming_text">來電</string>
+    <string name="call_notification_ongoing_text">通話中</string>
+    <string name="call_notification_screening_text">正在過濾來電</string>-->
 </resources>

@@ -62,9 +62,6 @@
     <string name="floating_window">小窗</string>
     <string name="custom_hook">自定义</string>
 
-    <string name="app_info">应用信息</string>
-    <string name="info">信息</string>
-
     <string name="about_developer_title">开发者</string>
     <string name="about_translator_title">译者</string>
     <string name="about_chat_title">讨论</string>
@@ -662,7 +659,7 @@
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">网速值低于该水平时被认为慢，部分指示器图标会显示不同的指示器图标</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 *B/s 单位</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 /s 单位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">启用自定义</string>
 
@@ -938,7 +935,7 @@
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推荐）</string>
 
-    <string name="custom_hook_new">添加Hook</string>
+    <string name="custom_hook_new">添加 Hook</string>
     <string name="custom_hook_mode">选择模式</string>
 
     <string name="cemiuiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>

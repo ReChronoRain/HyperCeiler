@@ -858,6 +858,4 @@
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="floating_window">Freeform</string>
-    <string name="app_info">App info</string>
-    <string name="info">Info</string>
 </resources>
