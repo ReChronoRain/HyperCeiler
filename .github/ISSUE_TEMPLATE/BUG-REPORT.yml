@@ -1,0 +1,77 @@
+name: "🐛 Bug"
+description: 问题报告.
+title: "🐛 [BUG] <问题标题>"
+labels: [
+  "bug"
+]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "问题描述"
+      description: 请输入简洁且明确的问题描述。
+      placeholder: ...的...功能出现...异常
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: "模块日志"
+      description: LSPosed管理器 - 日志 或 软件崩溃日志
+      placeholder: ...
+    validations:
+      required: true
+  - type: textarea
+    id: repord
+    attributes:
+      label: "复现步骤"
+      description: 输入简明的问题复现步骤。
+      value: |
+        1. 前往 '...'
+        2. 点击 '....'
+        
+        ....
+        出现问题  
+      render: bash
+    validations:
+      required: false
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "问题截图"
+      description: 添加问题截图以便我们快速定位.
+      value: |
+        ![图片注释](图片链接)
+      render: Markdown
+    validations:
+      required: false
+  - type: input
+    id: device
+    attributes:
+      label: "机型"
+      description: 填写你的机型.
+      placeholder: 小米
+    validations:
+      required: true
+  - type: dropdown
+    id: miui_version
+    attributes:
+      label: "MIUI版本"
+      description: 你当前正在使用的MIUI版本
+      multiple: true
+      options:
+        - MIUI13 Android 12
+        - MIUI13 Android 13
+        - MIUI14 Android 12
+        - MIUI14 Android 13
+        - 其它
+    validations:
+      required: true
+  - type: input
+    id: cemiuiler_version
+    attributes:
+      label: "Cemiuiler版本号"
+      description: 填写你的Cemiuiler版本.
+      placeholder: x.y.z-YYYYMMDD
+    validations:
+      required: true

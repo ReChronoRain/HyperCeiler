@@ -1,0 +1,31 @@
+name: "🔌 移植"
+description: 新功能需求
+title: "🔌 [移植] <标题>"
+labels: [
+  "enhancement"
+]
+body:
+  - type: input
+    id: repo
+    attributes:
+      label: "仓库地址"
+      description: "提供仓库地址以便我们更快地工作"
+      placeholder: "https://github.com/"
+    validations:
+      required: false
+  - type: textarea
+    id: requirement
+    attributes:
+      label: "移植内容"
+      description: "简单说明需要移植的内容" 
+      placeholder: 移植...软件的...功能
+    validations:
+      required: true
+  - type: textarea
+    id: feature_desc
+    attributes:
+      label: "相关描述&截图"
+      description: 如果可能，请提供相关功能描述及图片
+      placeholder: "![图片描述](图片链接)"
+    validations:
+      required: false

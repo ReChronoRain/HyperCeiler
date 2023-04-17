@@ -1,0 +1,31 @@
+name: "💡 需求"
+description: 新功能需求
+title: "💡 [需求] <标题>"
+labels: [
+  "enhancement"
+]
+body:
+  - type: textarea
+    id: requirement
+    attributes:
+      label: "需求内容"
+      description: "简单说明你的需求" 
+      placeholder: 请添加...
+    validations:
+      required: true
+  - type: textarea
+    id: refs
+    attributes:
+      label: "实现思路&截图"
+      description: 如果可能，请提供实现思路或者相关图片
+      placeholder: "![图片描述](图片链接)"
+    validations:
+      required: false
+  - type: textarea
+    id: basic_example
+    attributes:
+      label: "简单例子"
+      description: 说明该功能的基本示例
+      placeholder: 为...添加...以便...
+    validations:
+      required: true
