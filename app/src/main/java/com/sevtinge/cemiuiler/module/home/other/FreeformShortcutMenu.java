@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.Settings;
 
@@ -59,9 +61,16 @@ public class FreeformShortcutMenu extends BaseHook {
             hookAllMethods(mShortcutMenuItem, "getShortTitle", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    if (param.getResult().equals(R.string.app_info)) {
-                        param.setResult(R.string.info);
+                    if (param.getResult().equals("应用信息")) {
+                        param.setResult("信息");
                     }
+                }
+            });
+
+            hookAllMethods(mActivity, "onCreate", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    context = (Context) param.thisObject;
                 }
             });
 
@@ -71,16 +80,18 @@ public class FreeformShortcutMenu extends BaseHook {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
 
+                    Resources modRes = Helpers.getModuleRes(context);
+
                     Object obj = param.args[0];
                     View view = (View) param.args[1];
                     CharSequence mShortTitle = (CharSequence) XposedHelpers.callMethod(obj, "getShortTitle", new Object[0]);
 
-                    if (mShortTitle.equals("妙享中心")) {
+                    if (mShortTitle.equals(modRes.getString(R.string.share_center))) {
 
                         param.setResult(null);
                         XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", context);
 
-                    } else if (mShortTitle.equals("小窗")) {
+                    } else if (mShortTitle.equals(modRes.getString(R.string.floating_window))) {
 
                         param.setResult(null);
                         Intent intent = new Intent();
@@ -98,13 +109,6 @@ public class FreeformShortcutMenu extends BaseHook {
                 }
             });
 
-
-            hookAllMethods(mActivity, "onCreate", new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    context = (Context) param.thisObject;
-                }
-            });
 
 
             hookAllMethods(mSystemShortcutMenu, "getMaxShortcutItemCount", new MethodHook() {
@@ -126,10 +130,12 @@ public class FreeformShortcutMenu extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
 
+                    Resources modRes = Helpers.getModuleRes(context);
+
                     List mAllSystemShortcutMenuItems = (List) XposedHelpers.getStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems");
 
                     Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
-                    XposedHelpers.callMethod(mSmallWindowInstance, "setShortTitle", "小窗");
+                    XposedHelpers.callMethod(mSmallWindowInstance, "setShortTitle", modRes.getString(R.string.floating_window));
                     XposedHelpers.callMethod(mSmallWindowInstance, "setIconDrawable", ContextCompat.getDrawable(context, context.getResources().getIdentifier("ic_task_small_window", "drawable", context.getPackageName())));
 
                     ArrayList sAllSystemShortcutMenuItems = new ArrayList();
