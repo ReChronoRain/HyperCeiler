@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module;
 
-import android.os.Build;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.*;
 import com.sevtinge.cemiuiler.module.home.dock.*;
@@ -140,7 +139,7 @@ public class Home extends BaseModule {
         initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
 
         //实验性功能
-        initHook(ShortcutBackgoundBlur.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
+        initHook(ShortcutBackgroundBlur.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
         initHook(new LargeIconCornerRadius(), true);

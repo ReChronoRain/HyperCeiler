@@ -28,14 +28,14 @@ import de.robv.android.xposed.XposedHelpers
 import kotlin.math.sqrt
 
 
-object ShortcutBackgoundBlur : BaseHook() {
+object ShortcutBackgroundBlur : BaseHook() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
 
         //if (!mPrefsMap.getBoolean("home_shortcut_blur")) return
 
         // From WINI with MIT
-        val shortcutMenuBackgroundAlpha = mPrefsMap.getInt("home_shortcut_alpha", 200)
+        val shortcutMenuBackgroundAlpha = mPrefsMap.getInt("home_other_shortcut_background_blur_custom", 200)
         val shortcutMenuLayerClass = "com.miui.home.launcher.ShortcutMenuLayer".findClass()
         val shortcutMenuClass = "com.miui.home.launcher.shortcuts.ShortcutMenu".findClass()
         val blurUtilsClass = "com.miui.home.launcher.common.BlurUtils".findClass()

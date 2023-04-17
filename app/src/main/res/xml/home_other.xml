@@ -80,13 +80,12 @@
         <SeekBarPreference
                 android:title="@string/home_other_shortcut_background_blur_custom"
                 android:key="prefs_key_home_other_shortcut_background_blur_custom"
-                android:defaultValue="255"
-                app:minValue="120"
+                android:defaultValue="200"
+                app:minValue="10"
                 app:maxValue="255"
                 app:format="%s"
                 app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_other_shortcut_background_blur"
-                app:isPreferenceVisible="false"/>
+                android:dependency="prefs_key_home_other_shortcut_background_blur"/>
 
         <SwitchPreference
                 android:key="prefs_key_home_other_shortcut_remove_restrictions"
