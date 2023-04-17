@@ -65,7 +65,7 @@ object BlurSecurity : BaseHook() {
         lateinit var videoBoxViewClass: Class<*>
         lateinit var videoBoxViewMethodName: String
         when {
-            getPackageVersionCode(lpparam) == 40000749 && getPackageVersionCode(lpparam) == 40000770 -> {
+            getPackageVersionCode(lpparam) in 40000749..40000750 && getPackageVersionCode(lpparam) == 40000770 -> {
                 appVersionCode = 40000749
                 videoBoxViewClass = findClassIfExists("t7.i") ?: return
                 videoBoxViewMethodName = "i"
