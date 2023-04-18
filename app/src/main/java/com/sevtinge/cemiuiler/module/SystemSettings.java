@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemsettings.*;
+import com.sevtinge.cemiuiler.module.systemsettings.aiimage.*;
 
 public class SystemSettings extends BaseModule {
 
@@ -13,6 +14,10 @@ public class SystemSettings extends BaseModule {
         initHook(PermissionTopOfApp.INSTANCE, mPrefsMap.getBoolean("system_settings_permission_show_app_up"));
         initHook(new QuickInstallPermission(), mPrefsMap.getBoolean("system_settings_permission_unknown_origin_app"));
         initHook(new InternationalBuild(), mPrefsMap.getBoolean("system_settings_international_build"));
+
+        initHook(new UnlockSuperResolution(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_sr"));
+        initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));
+        initHook(new UnlockMemc(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_memc"));
     }
 }
 

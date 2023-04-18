@@ -17,6 +17,24 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_settings_ai_image_title">
+        <SwitchPreference
+                android:title="@string/system_settings_ai_image_unlock_sr"
+                android:key="prefs_key_system_settings_ai_image_unlock_sr"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/system_settings_ai_image_unlock_ai"
+                android:key="prefs_key_system_settings_ai_image_unlock_ai"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/system_settings_ai_image_unlock_memc"
+                android:key="prefs_key_system_settings_ai_image_unlock_memc"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_settings_permission_title">
         <SwitchPreference
             android:title="@string/system_settings_permission_show_app_up"

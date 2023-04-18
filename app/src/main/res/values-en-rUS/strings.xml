@@ -857,4 +857,8 @@
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="floating_window">Freeform</string>
+    <string name="system_settings_ai_image_title">Ai Image Engine</string>
+    <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
+    <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
+    <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
 </resources>
