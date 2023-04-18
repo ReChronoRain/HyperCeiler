@@ -45,6 +45,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/GSWXXN"/>
         </Preference>
+        <Preference
+                android:title="Wansn">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Wansn-w"/>
+        </Preference>
     </PreferenceCategory>
 <Preference
             android:summary=""/>
