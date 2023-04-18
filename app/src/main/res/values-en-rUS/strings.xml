@@ -268,7 +268,7 @@
     <string name="system_framework_free_form_title">Small freeform</string>
     <string name="system_framework_volume_title">Volume</string>
     <string name="system_framework_other_title">Other</string>
-    <string name="prefs_key_system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
+    <string name="system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
     <string name="system_ui_lockscreen_title">Lock screen</string>
     <string name="system_ui_statusbar_title">Status Bar</string>
     <string name="system_ui_controlcenter_title">Control center</string>
@@ -400,7 +400,6 @@
     <string name="various_dialog_margin_bottom_desc">The distance from the popup window to the bottom of the screen</string>
     <string name="various_dialog_window_blur">Window blur</string>
     <string name="various_dialog_window_blur_radius">Window blur radius</string>
-    <string name="various_dialog_bg_blur">Background blur</string>
     <string name="location_data_title">Database</string>
     <string name="various_location_simulation_1_title">Task 1</string>
     <string name="various_location_simulation_2_title">Task 2</string>
@@ -762,7 +761,7 @@
     <string name="system_ui_statusbar_clock_period">Show clock period</string>
     <string name="array_clock_geek">Geek</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
-    <string name="prefs_key_system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
+    <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
     <string name="system_settings_permission_title">Permission</string>
     <string name="camera_record_title">Record</string>

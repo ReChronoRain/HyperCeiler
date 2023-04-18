@@ -45,7 +45,7 @@
     <string name="updater">系統更新</string>
     <string name="various">其他</string>
     <string name="weather">天氣</string>
-    <string name="custom_hook">自定義</string>
+    <string name="custom_hook">個性化</string>
     <string name="about_developer_title">開發者</string>
     <string name="about_translator_title">翻譯者</string>
     <string name="about_chat_title">討論</string>
@@ -71,6 +71,7 @@
     <string name="aireco_device_modify">移除內測限制</string>
     <string name="browser_debug_mode">開發者選項</string>
     <string name="clock_enable_hour_glass">解鎖計時器沙漏動畫</string>
+    <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
     <string name="gallery_title_settings">設定</string>
     <string name="gallery_title_feature">功能</string>
     <string name="gallery_title_recommend">推薦</string>
@@ -82,7 +83,7 @@
     <string name="gallery_enable_id_photo">解鎖證件照</string>
     <string name="gallery_enable_photo_movie">解鎖照片電影</string>
     <string name="gallery_enable_video_post">解鎖影片特效</string>
-    <string name="gallery_enable_video_editor">解鎖 Mi 剪輯</string>
+    <string name="gallery_enable_video_editor">解鎖影片剪輯</string>
     <string name="gallery_enable_text_yanhua">解鎖文字煙花</string>
     <string name="gallery_enable_remover_2">解鎖魔法消除</string>
     <string name="gallery_enable_magic_matting">解鎖魔法摳圖</string>
@@ -92,11 +93,11 @@
     <string name="home_layout">佈局</string>
     <string name="home_folder">資料夾</string>
     <string name="home_recent">最近任務</string>
-    <string name="home_title">標題</string>
+    <string name="home_title">圖示與標題</string>
     <string name="home_widget">小工具</string>
     <string name="home_dock">Dock</string>
     <string name="home_other">其他</string>
-    <string name="home_dock_bg_custom_enable">啟用自定義</string>
+    <string name="home_dock_bg_custom_enable">啟用個性化</string>
     <string name="home_dock_bg_height">高度</string>
     <string name="home_dock_bg_height_desc">Dock 欄高度</string>
     <string name="home_dock_bg_margin_horizontal">垂直邊距</string>
@@ -113,18 +114,18 @@
     <string name="home_small_folder_title">小資料夾</string>
     <string name="home_big_folder_title">大資料夾</string>
     <string name="home_small_folder_icon_bg">圖示背景</string>
-    <string name="home_small_folder_icon_bg_custom">背景自定義</string>
+    <string name="home_small_folder_icon_bg_custom">背景個性化</string>
     <string name="home_small_folder_icon_bg_size">背景大小</string>
-    <string name="home_big_folder_icon_bg_2x1">橫三宮格背景自定義</string>
-    <string name="home_big_folder_icon_bg_2x1_custom">自定義</string>
+    <string name="home_big_folder_icon_bg_2x1">橫三宮格背景個性化</string>
+    <string name="home_big_folder_icon_bg_2x1_custom">個性化</string>
     <string name="home_big_folder_icon_bg_width_2x1">背景寬度</string>
     <string name="home_big_folder_icon_bg_height_2x1">背景高度</string>
-    <string name="home_big_folder_icon_bg_1x2">豎三宮格背景自定義</string>
-    <string name="home_big_folder_icon_bg_1x2_custom">自定義</string>
+    <string name="home_big_folder_icon_bg_1x2">豎三宮格背景個性化</string>
+    <string name="home_big_folder_icon_bg_1x2_custom">個性化</string>
     <string name="home_big_folder_icon_bg_width_1x2">背景寬度</string>
     <string name="home_big_folder_icon_bg_height_1x2">背景高度</string>
-    <string name="home_big_folder_icon_bg">九宮格背景自定義</string>
-    <string name="home_big_folder_icon_bg_custom">自定義</string>
+    <string name="home_big_folder_icon_bg">九宮格背景個性化</string>
+    <string name="home_big_folder_icon_bg_custom">個性化</string>
     <string name="home_big_folder_icon_bg_width">背景寬度</string>
     <string name="home_big_folder_icon_bg_height">背景高度</string>
     <string name="home_big_folder_item_max_count">真·九宮格</string>
@@ -215,13 +216,13 @@
     <string name="home_recent_none_blur">無模糊</string>
     <string name="home_recent_none_blur_simple_anim">無模糊（精簡動畫）</string>
     <string name="home_other_blur_radius">模糊半徑</string>
-    <string name="home_recent_disable_wallpaper_dimming">取消壁紙壓暗</string>
+    <string name="home_recent_disable_wallpaper_dimming">取消桌布壓暗</string>
     <string name="home_dock_fold">Fold 樣式底欄</string>
     <string name="home_dock_hide_seekpoint">移除頁面指示器</string>
     <string name="home_recent_hide_status_bar_in_task_view">隱藏狀態欄</string>
     <string name="home_widget_hide_title">隱藏小工具標題</string>
     <string name="home_recent_modify_animation">修改劃卡動畫</string>
-    <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
+    <string name="home_other_shortcut_remove_restrictions">解鎖 Shortcut 數量限制</string>
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_recent_horizontal_task_view_card_size1">豎屏平鋪卡片大小</string>
     <string name="home_recent_horizontal_task_view_card_size2">橫屏平鋪卡片大小</string>
@@ -229,7 +230,7 @@
     <string name="home_title_bigicon_title">大圖示</string>
     <string name="home_recent_hide_freeform">隱藏小窗按鈕</string>
     <string name="home_recent_hide_clean_up">隱藏清理按鈕</string>
-    <string name="home_recent_freeform_background_color">小窗應用卡片背景顏色</string>
+    <string name="home_recent_freeform_background_color">小窗應用程式卡片背景顏色</string>
     <string name="home_recent_text_size">卡片文字大小</string>
     <string name="home_recent_text_color">卡片文字顏色</string>
     <string name="home_recent_text">無後台時顯示的文本</string>
@@ -255,7 +256,7 @@
     <string name="personal_assistant_widget_crack">小工具破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小工具</string>
     <string name="personal_assistant_fold_widget_enable_desc">啟用 Pad/Fold 樣式的小工具</string>
-    <string name="personal_assistant_overlap_mode">負一屏 Fold 樣式</string>
+    <string name="personal_assistant_overlap_mode">智慧助理 Fold 樣式</string>
     <string name="powerkeeper_custom_refresh_rate">自訂高螢幕更新率的應用程式</string>
     <string name="scanner_card">解鎖掃名片</string>
     <string name="scanner_translation">解鎖翻譯</string>
@@ -287,7 +288,7 @@
     <string name="security_center_beauty_pc">解鎖人像居中</string>
     <string name="security_center_disable_root_check">停用 Root 檢測</string>
     <string name="security_center_remove_macro_black_list">去除自動連招黑名單</string>
-    <string name="security_center_newbox_custom_enable">啟用自定義</string>
+    <string name="security_center_newbox_custom_enable">啟用個性化</string>
     <string name="security_center_newbox_bg_custom">背景模糊</string>
     <string name="security_center_newbox_bg_padding_vertical">水平邊距</string>
     <string name="security_center_newbox_bg_padding_horizontal">垂直邊距</string>
@@ -350,7 +351,7 @@
     <string name="system_framework_volume_steps">音量級數倍增</string>
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">網路通話助手</string>
-    <string name="prefs_key_system_settings_develop_speed_mode_desc">在不支持的機型上開啟後不會顯示入口</string>
+    <string name="system_settings_develop_speed_mode_desc">在不支援的機型上開啟後不會顯示入口</string>
     <string name="system_ui_lockscreen_title">鎖定螢幕</string>
     <string name="system_ui_statusbar_title">狀態欄</string>
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
@@ -369,7 +370,7 @@
     <string name="system_ui_lock_screen_show_second">时鐘顯示秒數</string>
     <string name="system_ui_lock_screen_show_charging_current">充電時顯示電流</string>
     <string name="system_ui_lock_screen_hide_camera">隱藏相機</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">隱藏負一屏</string>
+    <string name="system_ui_lock_screen_hide_smart_screen">隱藏智慧助理</string>
     <string name="system_ui_lock_screen_current">當前電流</string>
     <string name="system_ui_lock_screen_default_theme">僅支援默認主題</string>
     <string name="system_ui_lock_screen_scramble_pin">亂序 PIN</string>
@@ -487,7 +488,6 @@
     <string name="various_dialog_margin_bottom_desc">彈窗距螢幕底部的距離</string>
     <string name="various_dialog_window_blur">窗口模糊</string>
     <string name="various_dialog_window_blur_radius">窗口模糊半徑</string>
-    <string name="various_dialog_bg_blur">背景模糊</string>
     <string name="location_data_title">數據庫</string>
     <string name="various_location_simulation_1_title">任務 1</string>
     <string name="various_location_simulation_2_title">任務 2</string>
@@ -604,7 +604,7 @@
     <string name="collapse_miui_title_on">展開</string>
     <string name="collapse_miui_title_off_always">總是折疊</string>
     <string name="collapse_miui_title_on_always">總是展開</string>
-    <string name="location_custom">自定義</string>
+    <string name="location_custom">個性化</string>
     <string name="operator_fix_none">不修復</string>
     <string name="operator_fix_1">方法一</string>
     <string name="operator_fix_2">方法二（推薦）</string>
@@ -635,7 +635,7 @@
     <string name="restart_app_desc1">確定要立即重啟</string>
     <string name="restart_app_desc2">嗎？</string>
     <string name="tip">提示</string>
-    <string name="hook_failed">模組暫未激活</string>
+    <string name="hook_failed">模組暫未啟用</string>
     <string name="settings_icon_desc">設定模組入口在系統設定中的位置</string>
     <string name="system_settings_develop_title">開發者選項</string>
     <string name="system_settings_develop_speed_mode">極致模式</string>
@@ -677,10 +677,10 @@
     <string name="camera_features_unlock_film_timebackflow">解鎖時光倒流</string>
     <string name="camera_features_unlock_film_timefreeze">解鎖時間靜止</string>
     <string name="content_extension_browser">使用第三方瀏覽器</string>
-    <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜索，需自行選擇默認瀏覽器</string>
+    <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜尋，需自行選擇預設瀏覽器</string>
     <string name="content_extension_double_press">開放雙指長按</string>
-    <string name="content_extension_super_image">開放超分辨率圖片</string>
-    <string name="content_extension_super_image_summary">需要係統底層支持</string>
+    <string name="content_extension_super_image">開放超解析度圖片</string>
+    <string name="content_extension_super_image_summary">需要系統底層支援</string>
     <string name="home_other_icon_mono_chrome">圖示背景色</string>
     <string name="security_center_no_permission">未取得所需許可權</string>
     <string name="home_other_icon_monet_color">使用 Monet 取色</string>
@@ -698,7 +698,7 @@
     <string name="system_framework_disable_app_link_verify">停用應用鏈接驗證</string>
     <string name="system_framework_disable_app_link_verify_desc">打開鏈接時恢復為直接打開支持的應用程式，無需在應用程式設置中勾選支持的鏈接</string>
     <string name="updater_miui_version_desc">僅對系統更新修改，可在一定程度上屏蔽系統更新</string>
-    <string name="miui_package_installer_update_system_app_desc">允許任何非系統通路安裝系統應用程式</string>
+    <string name="miui_package_installer_update_system_app_desc">允許任何非系統管道安裝系統應用程式</string>
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_monet_title">主題色</string>
@@ -707,8 +707,8 @@
     <string name="home_drawer_editor">隱藏分類頁面內的「編輯」按鈕</string>
     <string name="home_drawer_blur">抽屜模糊</string>
     <string name="home_drawer_blur_desc">請將應用程式抽屜的背景透明度設置為 100% 以使用此功能</string>
-    <string name="home_widget_allow_moved_to_minus_one_screen">允許將安卓小部件移動至負一屏</string>
-    <string name="home_other_always_blur_launcher_wallpaper">始終模糊桌面壁紙</string>
+    <string name="home_widget_allow_moved_to_minus_one_screen">允許將 Android 小工具移動至智慧助理</string>
+    <string name="home_other_always_blur_launcher_wallpaper">始終模糊桌布</string>
     <string name="home_recent_vertical_task_view_card_size">瀑布卡片大小</string>
     <string name="home_recent_app_name_distance_task_view_card">應用名稱距卡片</string>
     <string name="home_recent_task_view_card_rounded_corners">卡片圓角大小</string>
@@ -742,9 +742,9 @@
     <string name="system_framework_other_speed_install">快速安裝</string>
     <string name="system_framework_other_speed_install_desc">安裝至運行記憶體以提升安裝速度，需要系統底層支持</string>
     <string name="various_install_app_size">應用程式大小</string>
-    <string name="home_other_use_edit_color">使用自定義顏色</string>
+    <string name="home_other_use_edit_color">使用個性化顏色</string>
     <string name="home_other_your_color">編輯顏色</string>
-    <string name="joyose_enable_gpu_tuner_desc">開啟後 [遊戲空間] 的底部中間增加遊戲 GPU 相關設置</string>
+    <string name="joyose_enable_gpu_tuner_desc">開啟後「遊戲空間」的底部中間增加遊戲 GPU 相關設定</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_statusbar_clock_second">顯示秒數</string>
     <string name="system_ui_statusbar_clock_year">顯示年份</string>
@@ -757,24 +757,24 @@
     <string name="system_ui_statusbar_clock_double_center">雙排居中對齊</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小（0為不修改）</string>
     <string name="system_ui_statusbar_clock_double_size">雙排大小（0為不修改）</string>
-    <string name="system_ui_statusbar_clock_mode">自定義時鐘模式</string>
+    <string name="system_ui_statusbar_clock_mode">個性化時鐘模式</string>
     <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
     <string name="system_ui_statusbar_clock_period">顯示時段</string>
     <string name="array_clock_geek">極客</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系统桌布黑屏</string>
-    <string name="prefs_key_system_settings_permission_show_app_up_desc">恢復舊版行為，直接跳轉對應應用程式 “顯示在其他應用程式上層” 的權限開關</string>
+    <string name="system_settings_permission_show_app_up_desc">還原舊版行為，直接跳轉對應應用程式「顯示在其他應用程式上層」的權限開關</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
-    <string name="camera_record_60fps">解鎖 60FPS</string>
-    <string name="camera_record_60fps_desc">部分畫質下不可用，部分設備硬體不支持</string>
     <string name="camera_record_120fps">解鎖 120FPS</string>
-    <string name="camera_record_120fps_desc">僅 4K 模式支持，部分設備硬體不支持</string>
+    <string name="camera_record_120fps_desc">僅 4K 模式支援，部分裝置硬體不支援</string>
+    <string name="camera_record_60fps">解鎖 60FPS</string>
+    <string name="camera_record_60fps_desc">部分畫質下不可用，部分裝置硬體不支援</string>
     <string name="camera_record_audio_zoom">解鎖音源變焦</string>
     <string name="camera_record_hdr">解鎖 HDR</string>
     <string name="camera_record_ai">解鎖 AI 模式</string>
     <string name="camera_shot_makeup">解鎖妝容</string>
-    <string name="camera_shot_makeup_desc">僅在使用前置監視器時生效</string>
+    <string name="camera_shot_makeup_desc">僅在使用前置鏡頭時生效</string>
     <string name="camera_shot_hand_gesture">解鎖手勢拍照</string>
-    <string name="camera_shot_color_enhance">解鎖豔麗模式</string>
+    <string name="camera_shot_color_enhance">解鎖鮮豔模式</string>
     <string name="camera_portrait_cvlens">解鎖大師鏡頭</string>
     <string name="camera_portrait_cvlens_desc">部分裝置無法正常工作</string>
     <string name="camera_portrait_new_beauty">解鎖新版美肌</string>
@@ -788,11 +788,11 @@
     <string name="camera_settings_track_eyes">解鎖人眼追焦</string>
     <string name="camera_settings_heic">解鎖 HEIF 格式</string>
     <string name="camera_settings_men_makeup">解鎖男性妝容適配</string>
-    <string name="camera_settings_nevus">解鎖祛痣</string>
+    <string name="camera_settings_nevus">解鎖除痣</string>
     <string name="camera_settings_track_focus">解鎖萬物追焦</string>
     <string name="camera_settings_predictive">解鎖運動抓拍</string>
     <string name="security_center_super_wireless_charge">解鎖極速無線充電模式</string>
-    <string name="system_ui_statusbar_network_speed_enable_custom">啟用自定義</string>
+    <string name="system_ui_statusbar_network_speed_enable_custom">啟用個性化</string>
     <string name="home_title_download_animation">下載動畫</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
     <string name="system_ui_control_center_hide_mi_play_entry">隱藏妙播入口</string>
@@ -802,9 +802,9 @@
     <string name="system_ui_control_center_corner_radius">通知模糊區域圓角（默認主題無需調節）</string>
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
-    <string name="personal_assistant_blur_model">負一屏背景設定</string>
-    <string name="personal_assistant_blurradius">負一屏背景模糊程度</string>
-    <string name="personal_assistant_color">負一屏背景疊加層顏色</string>
+    <string name="personal_assistant_blur_model">智慧助理背景設定</string>
+    <string name="personal_assistant_blurradius">智慧助理背景模糊程度</string>
+    <string name="personal_assistant_color">智慧助理背景疊加層顏色</string>
     <string name="security_center_blur_model">全局側邊欄背景設定</string>
     <string name="security_center_blurradius">全局側邊欄背景模糊程度</string>
     <string name="security_center_color">全局側邊欄背景疊加層顏色</string>
@@ -826,7 +826,6 @@
     <string name="system_ui_statusbar_battery_line_show">單排顯示</string>
     <string name="system_ui_statusbar_battery_opposite">反序</string>
     <string name="system_ui_statusbar_battery_only_changing_show">僅在充電時顯示</string>
-    <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
     <string name="system_settings_international_build">國際版本設定頁面</string>
     <string name="array_close">關閉</string>
     <string name="system_ui_status_bar_hide_icon">截圖時隱藏狀態欄</string>
@@ -845,5 +844,39 @@
         <string name="call_notification_hang_up_action">掛斷</string>
         <string name="call_notification_incoming_text">來電</string>
         <string name="call_notification_ongoing_text">通話中</string>
-        <string name="call_notification_screening_text">正在過濾來電</string>-->
+        <string name="call_notification_screening_text">正在過濾來電</string>
+
+         <string name="close_drawer">關閉導覽選單</string>
+        <string name="close_sheet">關閉功能表</string>
+        <string name="collapse_miui_title_off">折疊</string>
+        <string name="collapse_miui_title_off_always">總是折疊</string>
+        <string name="collapse_miui_title_on">展開</string>
+        <string name="collapse_miui_title_on_always">總是展開</string>
+
+         <string name="copy">複製</string>
+         <string name="in_progress">處理中</string>
+
+         <string name="default_error_message">輸入內容無效</string>
+        <string name="default_popup_window_title">彈出式視窗</string>
+
+        <string name="dropdown_menu">下拉式選單</string>
+        <string name="expand_button_title">進階</string>
+
+        <string name="preference_off">已關閉</string>
+        <string name="preference_on">已開啟</string>
+        <string name="navigation_menu">導覽選單</string>
+        <string name="not_selected">未選取</string>
+        <string name="not_set">未設定</string>
+        <string name="indeterminate">部分檢查</string>
+
+        <string name="preference_copied">已將%1$s複製到剪貼簿。</string>
+        <string name="preference_dialog_color_picker_custom">自訂顏色</string>
+        <string name="preference_dialog_color_picker_default_title">選擇顏色</string>
+        <string name="preference_dialog_color_picker_presets">預設顏色</string>
+        <string name="preference_dialog_color_picker_select">確認選擇</string>
+        <string name="preference_dialog_color_picker_transparency">透明度</string>
+        <string name="preference_dialog_seekbar_hint_text">請輸入 %1$d ~ %2$d 之間的數值</string>
+
+        <string name="range_end">範圍終點</string>
+        <string name="range_start">範圍起點</string>-->
 </resources>
