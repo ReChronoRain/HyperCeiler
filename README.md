@@ -19,8 +19,6 @@
 </div>
 
 > Make MIUI Great Again!
-> 
-> ~~事实证明这里空空如也，才不是作者懒得写呢~~
 
 ## 支持的系统应用
 
@@ -42,31 +40,31 @@
 
 **Cemiuiler** 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后)
 
-- [AndroidHiddenApiBypass by LSPosed](https://github.com/LSPosed/AndroidHiddenApiBypass)
-- [AntiAntiDefraud by MinaMichita](https://github.com/MinaMichita/AntiAntiDefraud)
-- [Auto NFC by GSWXXN](https://github.com/GSWXXN/AutoNFC)
-- [BypassSignCheck by Weverses](https://github.com/Weverses/BypassSignCheck)
-- [CorePatch by LSPosed](https://github.com/LSPosed/CorePatch)
-- [CustoMIUIzer by MonwF](https://github.com/MonwF/customiuizer)
-- [DexKit by LuckyPray](https://github.com/LuckyPray/DexKit)
-- [Disable app link verify by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify)
-- [DisableFlagSecure by LSPosed](https://github.com/LSPosed/DisableFlagSecure)
-- [EzXHelper by KyuubiRan](https://github.com/KyuubiRan/EzXHelper)
-- [FixMiuiMediaControlPanel by qqlittleice](https://github.com/qqlittleice/FixMiuiMediaControlPanel)
-- [HideMiuiClipboardDialog by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
-- [MaxFreeForm by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
-- [Miui Feature by MoralNorm](https://github.com/moralnorm/miui_feature)
-- [MiuiHomeR by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
-- [MIUIQOL by chsbuffer](https://github.com/chsbuffer/MIUIQOL)
-- [Miui XXL by YuKongA](https://github.com/YuKongA/Miui_XXL)
-- [NoStorageRestrict by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
-- [Portal Hook by Haocen2004](https://github.com/Haocen2004/PortalHook)
-- [RemoveMiuiSystemSelfProtection by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)
-- [SettingsDontThroughTheList by weixiansen574](https://github.com/weixiansen574/settingsdontthroughthelist)
-- [WINI by ouhoukyo](https://github.com/ouhoukyo/WINI)
-- [Woobox For MIUI by Simplicity-Team](https://github.com/Simplicity-Team/WooBoxForMIUI)
-- [Woobox For MIUI by hosizoraru](https://github.com/hosizoraru/WooBoxForMIUI)
-- [XposedBridge by rovo89](https://github.com/rovo89/XposedBridge)
+- [「AndroidHiddenApiBypass」 by LSPosed](https://github.com/LSPosed/AndroidHiddenApiBypass)
+- [「AntiAntiDefraud」 by MinaMichita](https://github.com/MinaMichita/AntiAntiDefraud)
+- [「Auto NFC」 by GSWXXN](https://github.com/GSWXXN/AutoNFC)
+- [「BypassSignCheck」 by Weverses](https://github.com/Weverses/BypassSignCheck)
+- [「CorePatch」 by LSPosed](https://github.com/LSPosed/CorePatch)
+- [「CustoMIUIzer」 by MonwF](https://github.com/MonwF/customiuizer)
+- [「DexKit」 by LuckyPray](https://github.com/LuckyPray/DexKit)
+- [「Disable app link verify」 by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify)
+- [「DisableFlagSecure」 by LSPosed](https://github.com/LSPosed/DisableFlagSecure)
+- [「EzXHelper」 by KyuubiRan](https://github.com/KyuubiRan/EzXHelper)
+- [「FixMiuiMediaControlPanel」 by qqlittleice](https://github.com/qqlittleice/FixMiuiMediaControlPanel)
+- [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
+- [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
+- [「Miui Feature」 by MoralNorm](https://github.com/moralnorm/miui_feature)
+- [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
+- [「MIUIQOL」 by chsbuffer](https://github.com/chsbuffer/MIUIQOL)
+- [「Miui XXL」 by YuKongA](https://github.com/YuKongA/Miui_XXL)
+- [「NoStorageRestrict」 by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
+- [「Portal Hook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
+- [「RemoveMiuiSystemSelfProtection」 by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)
+- [「SettingsDontThroughTheList」 by weixiansen574](https://github.com/weixiansen574/settingsdontthroughthelist)
+- [「WINI」 by ouhoukyo](https://github.com/ouhoukyo/WINI)
+- [「Woobox For MIUI」 by Simplicity-Team](https://github.com/Simplicity-Team/WooBoxForMIUI)
+- [「Woobox For MIUI」 by hosizoraru](https://github.com/hosizoraru/WooBoxForMIUI)
+- [「XposedBridge」 by rovo89](https://github.com/rovo89/XposedBridge)
 
 
 [qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
