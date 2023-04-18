@@ -10,7 +10,7 @@
 ![LICENSE](https://img.shields.io/github/license/Sevtinge/Cemiuiler?style=flat-square)
 ![REPO_SIZE](https://img.shields.io/github/repo-size/Sevtinge/Cemiuiler?style=flat-square)
 ![COMMIT](https://img.shields.io/github/last-commit/Sevtinge/Cemiuiler?style=flat-square)
-![LANG](https://img.shields.io/badge/language-kotlin-7F52FF?style=flat-square)
+![LANG](https://img.shields.io/badge/language-Java-7F52FF?style=flat-square)
 
 [![badge_qgroup]][qgroup_url]
 [![badge_qguild]][qguild_url]
