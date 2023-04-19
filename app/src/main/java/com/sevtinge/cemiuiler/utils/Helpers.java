@@ -579,7 +579,7 @@ public class Helpers {
         }
     }
 
-    private static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
+    public static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
             Object parser = parserCls.newInstance();

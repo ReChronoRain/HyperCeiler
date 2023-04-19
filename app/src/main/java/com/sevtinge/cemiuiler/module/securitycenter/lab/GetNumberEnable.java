@@ -19,7 +19,7 @@ public class GetNumberEnable extends BaseHook {
         int appVersionCode = getPackageVersionCode(lpparam);
         if (appVersionCode >= 40000749) {
             mLab = findClassIfExists("pa.r");
-        }else{
+        } else {
             mLab = findClassIfExists("com.miui.permcenter.q");
         }
         mStableVer = findClassIfExists("miui.os.Build");
