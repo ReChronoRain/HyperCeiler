@@ -16,7 +16,6 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
@@ -36,6 +35,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -121,6 +122,7 @@ public class Helpers {
         return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
+    @SuppressLint("DiscouragedApi")
     public static int getSystemBackgroundColor(Context context) {
         int black = Color.BLACK;
         int white = Color.WHITE;
@@ -158,18 +160,18 @@ public class Helpers {
         ModData.ModCat catPrefKey = null;
 
         switch (xmlResId) {
-            case R.xml.home:
+            case R.xml.home -> {
                 catResId = R.string.home;
                 catPrefKey = ModData.ModCat.prefs_key_home;
-                break;
-            case R.xml.security_center:
+            }
+            case R.xml.security_center -> {
                 catResId = R.string.security;
                 catPrefKey = ModData.ModCat.prefs_key_security_center;
-                break;
-            case R.xml.various:
+            }
+            case R.xml.various -> {
                 catResId = R.string.other;
                 catPrefKey = ModData.ModCat.prefs_key_various;
-                break;
+            }
         }
 
         try (XmlResourceParser xml = res.getXml(xmlResId)) {
@@ -230,8 +232,10 @@ public class Helpers {
 
 
     /*Permissions权限*/
+    @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
     public static void fixPermissionsAsync(Context context) {
-        AsyncTask.execute(() -> {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
             try {
                 Thread.sleep(500);
             } catch (Throwable ignore) {
