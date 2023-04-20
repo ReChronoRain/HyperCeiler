@@ -82,7 +82,7 @@
                     android:data="https://t.me/sevtinge_mod" />
         </Preference>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/about_other_title">
+    <PreferenceCategory android:title="@string/other">
         <Preference
                 android:title="@string/about_github"
                 >

@@ -40,7 +40,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/system_ui_another_title" >
+        android:title="@string/other" >
 
         <SwitchPreference
             android:defaultValue="false"

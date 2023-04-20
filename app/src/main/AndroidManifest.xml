@@ -92,7 +92,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/various" android:name=".ui.VariousActivity" android:exported="false">
+        <activity android:label="@string/other" android:name=".ui.VariousActivity" android:exported="false">
             <intent-filter>
                 <action android:name="moralnorm.intent.action.Various"/>
                 <category android:name="android.intent.category.DEFAULT"/>

@@ -56,7 +56,7 @@
     <string name="theme_manager">主题壁纸</string>
     <string name="tsmclient">小米智能卡</string>
     <string name="updater">系统更新</string>
-    <string name="various">其他</string>
+    <string name="other">其他</string>
     <string name="weather">天气</string>
     <string name="share_center">小米妙享中心</string>
     <string name="floating_window">小窗</string>
@@ -65,7 +65,6 @@
     <string name="about_developer_title">开发者</string>
     <string name="about_translator_title">译者</string>
     <string name="about_chat_title">讨论</string>
-    <string name="about_other_title">其他</string>
     <string name="about_qq_group">QQ 群</string>
     <string name="about_qq_channel">QQ 频道</string>
     <string name="about_tg_group">Telegram 群组</string>
@@ -228,7 +227,6 @@
     <string name="home_widget">小部件</string>
     <string name="home_drawer">抽屉</string>
     <string name="home_dock">底栏</string>
-    <string name="home_other">其他</string>
 
     <string name="home_drawer_all">移除应用分组中的“全部”</string>
     <string name="home_drawer_editor">移除应用分页内的“编辑”按钮</string>
@@ -476,7 +474,6 @@
     <string name="security_center_battery_title">省电与电池</string>
     <string name="security_center_privacy_title">隐私保护</string>
     <string name="security_center_beauty_title">前置摄像助手</string>
-    <string name="security_center_other_title">其他</string>
     <string name="security_center_bubble_and_freeform_title">小窗和气泡通知</string>
     <string name="security_center_newbox_title">全局侧边栏</string>
     <string name="security_center_show_battery_temperature">显示电池温度</string>
@@ -522,7 +519,6 @@
 
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
-    <string name="system_framework_other_title">其他</string>
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
     <string name="system_framework_core_patch_downgr_desc">允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
@@ -595,7 +591,6 @@
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
-    <string name="system_ui_other_title">其他</string>
 
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
@@ -632,7 +627,6 @@
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
-    <string name="system_ui_another_title">其他</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
     <string name="system_ui_monet_title">主题色</string>
