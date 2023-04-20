@@ -167,7 +167,7 @@ public class Helpers {
                 catPrefKey = ModData.ModCat.prefs_key_security_center;
                 break;
             case R.xml.various:
-                catResId = R.string.various;
+                catResId = R.string.other;
                 catPrefKey = ModData.ModCat.prefs_key_various;
                 break;
         }

@@ -52,7 +52,7 @@
         <item>@string/system_ui</item>
         <item>@string/home</item>
         <item>@string/security_center</item>
-        <item>@string/various</item>
+        <item>@string/other</item>
     </string-array>
 
     <string-array name="restart_apps_name">

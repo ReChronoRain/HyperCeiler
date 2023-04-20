@@ -19,7 +19,7 @@
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.ControlCenterActivity"/>
     </Preference>
 
-    <Preference android:title="@string/system_ui_other_title" >
+    <Preference android:title="@string/other" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.OtherActivity"/>
