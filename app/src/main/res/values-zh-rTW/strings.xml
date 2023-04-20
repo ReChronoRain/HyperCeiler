@@ -44,7 +44,7 @@
     <string name="system_ui_plugin">系統介面組件</string>
     <string name="theme_manager">主題桌布</string>
     <string name="updater">系統更新</string>
-    <string name="other">其他</string>
+    <string name="various">其他</string>
     <string name="weather">天氣</string>
     <string name="custom_hook">個性化</string>
     <string name="about_developer_title">開發者</string>
@@ -832,6 +832,12 @@
     <string name="array_battery_temp">電池溫度</string>
     <string name="system_ui_statusbar_device_title">硬件指示器</string>
     <string name="app_version_not_supported">不受支援的版本</string>
+    <string name="about_other_title">其他</string>
+    <string name="home_other">其他</string>
+    <string name="security_center_other_title">其他</string>
+    <string name="system_framework_other_title">其他</string>
+    <string name="system_ui_other_title">其他</string>
+    <string name="system_ui_another_title">其他</string>
 
 <!--    <string name="call_notification_answer_action">接聽</string>
     <string name="call_notification_answer_video_action">視訊</string>

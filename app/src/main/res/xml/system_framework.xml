@@ -15,7 +15,7 @@
             android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.VolumeSettings" />
     </Preference>
 
-    <Preference android:title="@string/other" >
+        <Preference android:title="@string/system_framework_other_title" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.OtherSettings" />

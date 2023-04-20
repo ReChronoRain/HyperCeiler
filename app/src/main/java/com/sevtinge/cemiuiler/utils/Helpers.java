@@ -160,18 +160,18 @@ public class Helpers {
         ModData.ModCat catPrefKey = null;
 
         switch (xmlResId) {
-            case R.xml.home -> {
+            case R.xml.home:
                 catResId = R.string.home;
                 catPrefKey = ModData.ModCat.prefs_key_home;
-            }
-            case R.xml.security_center -> {
+                break;
+            case R.xml.security_center:
                 catResId = R.string.security;
                 catPrefKey = ModData.ModCat.prefs_key_security_center;
-            }
-            case R.xml.various -> {
-                catResId = R.string.other;
+                break;
+            case R.xml.various:
+                catResId = R.string.various;
                 catPrefKey = ModData.ModCat.prefs_key_various;
-            }
+                break;
         }
 
         try (XmlResourceParser xml = res.getXml(xmlResId)) {

@@ -46,7 +46,7 @@
     <string name="system_ui_plugin">Sistem Arayüzü Eklentisi</string>
     <string name="theme_manager">Temalar</string>
     <string name="updater">Güncelleyici</string>
-    <string name="other">Diğer</string>
+    <string name="various">Diğer</string>
     <string name="weather">Hava durumu</string>
     <string name="custom_hook">Özelleştir</string>
     <string name="about_developer_title">Geliştirici</string>
@@ -781,4 +781,10 @@
     <string name="security_center_color">Kenar çubuğu rengi</string>
     <string name="system_other_delete_on_post_notification">Üst ekran bildirimini kaldırma</string>
     <string name="system_other_delete_on_post_notification_desc">\"Bu uygulama ekrandaki diğer uygulamaların üstünde görüntüleniyor\" bildirimini kaldırın</string>
+    <string name="about_other_title">Diğer.</string>
+    <string name="home_other">Diğer</string>
+    <string name="security_center_other_title">Diğer</string>
+    <string name="system_framework_other_title">Diğer</string>
+    <string name="system_ui_other_title">Diğer</string>
+    <string name="system_ui_another_title">Diğer</string>
 </resources>

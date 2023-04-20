@@ -43,7 +43,7 @@
     <string name="system_ui_plugin">System UI Plugin</string>
     <string name="theme_manager">Themes</string>
     <string name="updater">Updater</string>
-    <string name="other">Other</string>
+    <string name="various">Other</string>
     <string name="weather">Weather</string>
     <string name="custom_hook">Custom</string>
     <string name="about_developer_title">Developer</string>
@@ -856,5 +856,10 @@
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
     <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string><string name="screenrecorder_config">Add more frame rate and bitrate selections</string>
     <string name="screenrecorder_config_desc">Please choose according to the hardware situation</string>
-
+    <string name="about_other_title">Other</string>
+    <string name="home_other">Other</string>
+    <string name="security_center_other_title">Other</string>
+    <string name="system_framework_other_title">Other</string>
+    <string name="system_ui_other_title">Other</string>
+    <string name="system_ui_another_title">Other</string>
 </resources>

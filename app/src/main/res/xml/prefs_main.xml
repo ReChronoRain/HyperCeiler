@@ -336,7 +336,7 @@
         </Preference>
 
         <Preference
-                android:title="@string/other"
+                android:title="@string/various"
                 android:key="prefs_key_various"
                 android:icon="@drawable/ic_various_new">
             <intent

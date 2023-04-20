@@ -118,7 +118,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/other">
+    <PreferenceCategory android:title="@string/security_center_other_title">
 
         <SwitchPreference
             android:key="prefs_key_security_center_score"

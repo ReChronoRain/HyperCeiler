@@ -17,7 +17,7 @@
         android:defaultValue="false" />
 
     <SwitchPreference
-        android:title="@string/other"
+        android:title="@string/various"
         android:key="prefs_key_other_safe_mode_enable"
         android:defaultValue="false" />
 <Preference
