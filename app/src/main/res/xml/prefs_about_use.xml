@@ -158,6 +158,13 @@
                     android:data="https://github.com/ouhoukyo/WINI" />
         </Preference>
         <Preference
+                android:title="WOMMO"
+                android:summary="YifePlayte">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/YifePlayte/WOMMO" />
+        </Preference>
+        <Preference
                 android:title="Woobox For MIUI"
                 android:summary="Simplicity-Team">
             <intent
