@@ -862,4 +862,6 @@
     <string name="system_framework_other_title">Other</string>
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_another_title">Other</string>
+    <string name="screenrecorder_more_volume">Unlock more Volume from</string>
+    <string name="screenrecorder_more_volume_desc">Some version not support</string>
 </resources>

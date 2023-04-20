@@ -9,6 +9,12 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
+                android:title="@string/screenrecorder_more_volume"
+                android:summary="@string/screenrecorder_more_volume_desc"
+                android:key="prefs_key_screenrecorder_more_volume"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
                 android:title="@string/screenrecorder_force_support_playback_capture"
                 android:summary="@string/screenrecorder_force_support_playback_capture_desc"
                 android:key="prefs_key_screenrecorder_force_support_playback_capture"
