@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
+
+        <SwitchPreference
+                android:title="@string/screenrecorder_config"
+                android:summary="@string/screenrecorder_config_desc"
+                android:key="prefs_key_screenrecorder_config"
+                android:defaultValue="false"/>
+
         <SwitchPreference
                 android:title="@string/screenrecorder_force_support_playback_capture"
                 android:summary="@string/screenrecorder_force_support_playback_capture_desc"
                 android:key="prefs_key_screenrecorder_force_support_playback_capture"
                 android:defaultValue="false"/>
+
     </PreferenceCategory>
 <Preference
             android:summary=""/>
