@@ -466,9 +466,9 @@
     <string name="phone_vice_slot_volte_desc">在副卡通话时将会将数据切换至副卡</string>
     <string name="phone_smart_dual_sim">解锁智能双卡切换</string>
     <string name="phone_n1">解锁 N1 频段</string>
-    <string name="phone_n1_desc">Support N1 Band (NR)</string>
+    <string name="phone_n1_desc">支持 N1 频段 (NR)</string>
     <string name="phone_n28">解锁 N28 频段</string>
-    <string name="phone_n28_desc">Support N28 Band (NR)</string>
+    <string name="phone_n28_desc">支持 N28 频段 (NR)</string>
     <string name="phone_n5_n8">解锁 N5/N8 频段</string>
     <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 "enable N5 and N8 Mode"，则开启成功</string>
 
