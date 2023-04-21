@@ -38,7 +38,7 @@ public class MainActivity extends BaseMainActivity {
             getAppCompatActionBar().setDisplayHomeAsUpEnabled(mIntent.getBooleanExtra("isDisplayHomeAsUpEnabled", false));
         }
 
-        //ALPermissionManager.RootCommand(getPackageCodePath());
+        ALPermissionManager.RootCommand(getPackageCodePath());
 
 
     }
