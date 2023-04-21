@@ -23,7 +23,7 @@ object ScreenRecorderConfig : BaseHook() {
                 mScreenRecorderConfigADescriptor.getMethodInstance(lpparam.classLoader)
             //XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
             mScreenRecorderConfigAMethod.hookBefore { param ->
-                param.args[0] = 3600
+                param.args[0] = 1200
                 param.args[1] = 1
                 param.method.declaringClass.declaredFields.firstOrNull { field ->
                     field.also {
@@ -54,7 +54,7 @@ object ScreenRecorderConfig : BaseHook() {
                 mScreenRecorderConfigBDescriptor.getMethodInstance(lpparam.classLoader)
             //XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
             mScreenRecorderConfigBMethod.hookBefore { param ->
-                param.args[0] = 3600
+                param.args[0] = 1200
                 param.args[1] = 1
                 param.method.declaringClass.declaredFields.firstOrNull { field ->
                     field.also {
@@ -67,7 +67,7 @@ object ScreenRecorderConfig : BaseHook() {
                                     }.getOrDefault(false)
                                 }
                     }
-                }?.set(null, intArrayOf(3600, 2400, 1200, 800, 400, 200, 100, 50, 32, 24, 16, 8, 6, 4, 1))
+                }?.set(null, intArrayOf(1200, 800, 400, 200, 100, 50, 32, 24, 16, 8, 6, 4, 1))
             }
         }
     }
