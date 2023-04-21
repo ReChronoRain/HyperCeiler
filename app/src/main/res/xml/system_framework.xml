@@ -15,6 +15,12 @@
             android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.VolumeSettings" />
     </Preference>
 
+        <Preference android:title="@string/system_framework_phone_title" >
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.NetworkSettings" />
+        </Preference>
+
         <Preference android:title="@string/system_framework_other_title" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"

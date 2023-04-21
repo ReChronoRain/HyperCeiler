@@ -123,6 +123,13 @@
                 android:data="https://github.com/YuKongA/Miui_XXL" />
         </Preference>
         <Preference
+                android:title="ModemPro"
+                android:summary="Weverse">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Weverses/ModemPro" />
+        </Preference>
+        <Preference
             android:title="NoStorageRestrict"
             android:summary="Xposed-Modules-Repo">
             <intent

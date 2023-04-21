@@ -10,6 +10,7 @@
         <item>com.android.fileexplorer</item>
         <item>com.android.incallui</item>
         <item>com.android.mms</item>
+        <item>com.android.phone</item>
         <item>com.android.providers.downloads.ui</item>
         <item>com.android.systemui</item>
         <item>com.android.settings</item>
@@ -43,6 +44,7 @@
         <item>com.xiaomi.market</item>
         <item>com.xiaomi.mirror</item>
         <item>com.xiaomi.misettings</item>
+        <item>com.xiaomi.mtb</item>
         <item>com.xiaomi.scanner</item>
         <item>miui.systemui.plugin</item>
     </string-array>

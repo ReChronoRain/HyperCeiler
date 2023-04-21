@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemframework.PackagePermissions;
 import com.sevtinge.cemiuiler.module.systemframework.*;
+import com.sevtinge.cemiuiler.module.systemframework.network.*;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
@@ -70,6 +71,13 @@ public class SystemFramework extends BaseModule {
         if (SdkHelper.isAndroidTiramisu()) {
             initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
         }
+
+        //网络
+        initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
+        initHook(DualSASupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_sa"));
+        initHook(N1Band.INSTANCE, mPrefsMap.getBoolean("phone_n1"));
+        initHook(N5N8Band.INSTANCE, mPrefsMap.getBoolean("phone_n5_n8"));
+        initHook(N28Band.INSTANCE, mPrefsMap.getBoolean("phone_n28"));
 
         //Other
         initHook(new PackagePermissions());

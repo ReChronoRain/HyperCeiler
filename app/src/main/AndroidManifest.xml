@@ -155,9 +155,14 @@
 
         <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>
 
+        <activity android:label="@string/mtb" android:name=".ui.MtbActivity"/>
+
+        <activity android:label="@string/phone" android:name=".ui.PhoneActivity"/>
+
 
         <activity android:label="@string/system_framework_free_form_title" android:name=".ui.systemframework.FreeFormSettings"/>
         <activity android:label="@string/system_framework_volume_title" android:name=".ui.systemframework.VolumeSettings"/>
+        <activity android:label="@string/system_framework_phone_title" android:name=".ui.systemframework.NetworkSettings"/>
         <activity android:label="@string/system_framework_other_title" android:name=".ui.systemframework.OtherSettings"/>
 
         <activity android:label="@string/system_ui_lockscreen_title" android:name=".ui.systemui.LockScreenActivity"/>

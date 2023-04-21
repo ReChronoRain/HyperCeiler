@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+            android:title="@string/mtb_auth"
+            android:summary="@string/mtb_auth_desc"
+            android:key="prefs_key_mtb_auth"
+            android:defaultValue="false"/>
+
+    <Preference
+            android:summary=""/>
+
+</PreferenceScreen>

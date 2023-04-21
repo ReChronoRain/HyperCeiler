@@ -59,6 +59,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public ExternalStorage mExternalStorage = new ExternalStorage();
     public Camera mCamera = new Camera();
     public Browser mBrowser = new Browser();
+    public Mtb mMtb = new Mtb();
+    public Phone mPhone = new Phone();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -310,6 +312,17 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 XposedBridge.log("Cemiuiler: Hook com.android.mms");
                 mMms.init(lpparam);
                 mVarious.init(lpparam);
+                break;
+
+            case "com.android.phone":
+                XposedBridge.log("Cemiuiler: Hook com.android.phone");
+                mPhone.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.xiaomi.mtb":
+                XposedBridge.log("Cemiuiler: Hook com.xiaomi.mtb");
+                mMtb.init(lpparam);
                 break;
 
             case "com.android.externalstorage":

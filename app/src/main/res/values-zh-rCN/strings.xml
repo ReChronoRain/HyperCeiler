@@ -41,9 +41,11 @@
     <string name="mirror">MIUI+</string>
     <string name="mishare">小米互传</string>
     <string name="mms">短信</string>
+    <string name="mtb">鲁班 (MTB)</string>
     <string name="music">音乐</string>
     <string name="package_installer">应用包管理组件</string>
     <string name="personal_assistant">智能助理</string>
+    <string name="phone">电话服务</string>
     <string name="powerkeeper">电量与性能</string>
     <string name="scanner">小爱视觉</string>
     <string name="screenrecorder">屏幕录制</string>
@@ -445,6 +447,9 @@
     <string name="miui_package_installer_apk_info">显示更多安装包信息</string>
     <string name="miui_package_installer_apk_info_desc">显示安装中应用的更多相关信息</string>
 
+    <string name="mtb_auth">绕过鲁班 (MTB) 鉴权</string>
+    <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
+
     <string name="personal_assistant_widget_crack">小部件破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
     <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
@@ -453,6 +458,19 @@
     <string name="personal_assistant_blurradius">负一屏背景模糊程度</string>
     <string name="personal_assistant_color">负一屏背景叠加层颜色</string>
 
+    <string name="phone_double_5g_nr">双卡 5G (SA+NSA)</string>
+    <string name="phone_double_5g_nr_desc">双卡同时使用 5G 网络 (卡 2 仅支持 NSA)</string>
+    <string name="phone_double_5g_sa">双卡 SA (SA+SA)</string>
+    <string name="phone_double_5g_sa_desc">实验性功能。使卡 2 支持 SA</string>
+    <string name="phone_vice_slot_volte">副卡 VoLTE 通话时可联网</string>
+    <string name="phone_vice_slot_volte_desc">在副卡通话时将会将数据切换至副卡</string>
+    <string name="phone_smart_dual_sim">解锁智能双卡切换</string>
+    <string name="phone_n1">解锁 N1 频段</string>
+    <string name="phone_n1_desc">Support N1 Band (NR)</string>
+    <string name="phone_n28">解锁 N28 频段</string>
+    <string name="phone_n28_desc">Support N28 Band (NR)</string>
+    <string name="phone_n5_n8">解锁 N5/N8 频段</string>
+    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 "enable N5 and N8 Mode"，则开启成功</string>
 
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>
 
@@ -525,6 +543,7 @@
     <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>
+    <string name="system_framework_phone_title">网络</string>
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
     <string name="system_framework_core_patch_downgr_desc">允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
@@ -573,6 +592,9 @@
     <string name="system_framework_volume_media_steps">媒体音量阶数</string>
     <string name="system_framework_volume_media_steps_desc">可能会导致音量条的滚动卡顿或蓝牙音量异常</string>
     <string name="system_framework_volume_steps">音量级数倍增</string>
+
+    <string name="system_framework_phone_network_title">网络设置</string>
+    <string name="system_framework_phone_band_title">频段设置</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">网络通话助手</string>

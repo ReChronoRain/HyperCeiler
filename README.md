@@ -57,6 +57,7 @@
 - [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
 - [「MIUIQOL」 by chsbuffer](https://github.com/chsbuffer/MIUIQOL)
 - [「Miui XXL」 by YuKongA](https://github.com/YuKongA/Miui_XXL)
+- [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
 - [「NoStorageRestrict」 by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「Portal Hook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「RemoveMiuiSystemSelfProtection」 by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)

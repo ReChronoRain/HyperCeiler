@@ -49,6 +49,8 @@
     <string name="updater">Updater</string>
     <string name="various">Other</string>
     <string name="weather">Weather</string>
+    <string name="mtb">MTB</string>
+    <string name="phone">Phone Service</string>
     <string name="custom_hook">Custom</string>
     <string name="about_developer_title">Developer</string>
     <string name="about_translator_title">Translator</string>
@@ -879,4 +881,22 @@
     <string name="system_ui_another_title">Other</string>
     <string name="screenrecorder_more_volume">Unlock more Volume from</string>
     <string name="screenrecorder_more_volume_desc">Some version not support</string>
+    <string name="phone_double_5g_nr">Double card use 5G (SA+NSA)</string>
+    <string name="phone_double_5g_nr_desc">Main and secondary SIM-card enable 5G at the same time (The secondary SIM-card only support NSA)</string>
+    <string name="phone_double_5g_sa">Double card use SA (SA+SA)</string>
+    <string name="phone_double_5g_sa_desc">Experimental features. Make the secondary SIM-card support SA</string>
+    <string name="phone_vice_slot_volte">Unlock Vice slot volte</string>
+    <string name="phone_vice_slot_volte_desc">Use mobile data during VoLTE calls on the secondary SIM</string>
+    <string name="phone_smart_dual_sim">Unlock Smart dual SIM</string>
+    <string name="phone_n1">N1 Band</string>
+    <string name="phone_n1_desc">Support N1 Band (NR)</string>
+    <string name="phone_n28">N28 Band</string>
+    <string name="phone_n28_desc">Support N28 Band (NR)</string>
+    <string name="phone_n5_n8">N5/N8 Band</string>
+    <string name="phone_n5_n8_desc">Enter *#*#65686633#*#* on the dial interface to Support N5/N8 Band. If it shows "enable N5 and N8 Mode", the feature will enable successfully.</string>
+    <string name="mtb_auth">Bypass MTB authentication</string>
+    <string name="mtb_auth_desc">This is a high-risk feature, any problems arising from this will be borne by the user, please be careful to back up your baseband. Enter *#*#MODEMTEST#*#* on the dial interface to open the MTB Settings</string>
+    <string name="system_framework_phone_title">Network</string>
+    <string name="system_framework_phone_network_title">Network settings</string>
+    <string name="system_framework_phone_band_title">Band settings</string>
 </resources>

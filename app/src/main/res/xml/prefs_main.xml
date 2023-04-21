@@ -63,6 +63,16 @@
         </Preference>
 
         <Preference
+                android:title="@string/phone"
+                android:summary="com.android.phone"
+                android:key="prefs_key_phone"
+                android:icon="@drawable/ic_phone">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.PhoneActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/system_ui"
                 android:summary="com.android.systemui"
                 android:key="prefs_key_system_ui"
@@ -303,6 +313,16 @@
             <intent
                     android:targetPackage="com.sevtinge.cemiuiler"
                     android:targetClass="com.sevtinge.cemiuiler.ui.MirrorActivity"/>
+        </Preference>
+
+        <Preference
+                android:title="@string/mtb"
+                android:summary="com.xiaomi.mtb"
+                android:key="prefs_key_mtb"
+                android:icon="@drawable/ic_mtb">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MtbActivity"/>
         </Preference>
 
         <Preference
