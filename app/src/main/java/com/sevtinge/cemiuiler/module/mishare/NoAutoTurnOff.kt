@@ -12,18 +12,19 @@ class NoAutoTurnOff : BaseHook() {
     override fun init() {
         System.loadLibrary("dexkit")
         DexKitBridge.create(lpparam.appInfo.sourceDir)?.use { bridge ->
-            bridge.findMethodUsingString {
-                usingString = "EnabledState"
-                usingString = "mishare_enabled"
-            }.map {
-                it.getMethodInstance(InitFields.ezXClassLoader)
-            }.hookBefore {
-                try {
-                    it.result = null
-                    XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService success!")
-                } catch (e: Throwable) {
-                    XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService failed!")
-                    XposedBridge.log(e)
+            bridge.batchFindMethodsUsingStrings {
+                addQuery("qwq", listOf("EnabledState", "mishare_enabled"))
+            }.forEach { (_, classes) ->
+                classes.map {
+                    it.getMethodInstance(InitFields.ezXClassLoader)
+                }.hookBefore {
+                    try {
+                        it.result = null
+                        XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService success!")
+                    } catch (e: Throwable) {
+                        XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService failed!")
+                        XposedBridge.log(e)
+                    }
                 }
             }
         }
