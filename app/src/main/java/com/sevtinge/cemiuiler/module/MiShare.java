@@ -8,8 +8,8 @@ public class MiShare extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        //initHook(new DisableMishareAutoOff(), mPrefsMap.getBoolean("disable_mishare_auto_off"));
-        initHook(new NoAutoTurnOff(), mPrefsMap.getBoolean("disable_mishare_auto_off"));
+        initHook(new DisableMishareAutoOff(), mPrefsMap.getBoolean("disable_mishare_auto_off"));
+        //initHook(new NoAutoTurnOff(), mPrefsMap.getBoolean("disable_mishare_auto_off"));
     }
 }
 
