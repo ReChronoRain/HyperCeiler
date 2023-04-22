@@ -14,7 +14,6 @@ class NoAutoTurnOff : BaseHook() {
         DexKitBridge.create(lpparam.appInfo.sourceDir)?.use { bridge ->
             bridge.findMethodUsingString {
                 usingString = "EnabledState"
-                usingString = "MiShareService"
                 usingString = "mishare_enabled"
             }.map {
                 it.getMethodInstance(InitFields.ezXClassLoader)
