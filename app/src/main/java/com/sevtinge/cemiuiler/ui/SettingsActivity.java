@@ -200,8 +200,12 @@ public class SettingsActivity extends BaseAppCompatActivity {
         } catch (Exception e) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             switch (requestCode) {
-                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(R.string.backup_failed);
-                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(R.string.rest_failed);
+                case BackupUtils.CREATE_DOCUMENT_CODE:
+                    alert.setTitle(R.string.backup_failed);
+                    break;
+                case BackupUtils.OPEN_DOCUMENT_CODE:
+                    alert.setTitle(R.string.rest_failed);
+                    break;
             }
             alert.setMessage(e.toString());
             alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {

@@ -63,12 +63,15 @@ public class ScreenSwipe extends BaseHook {
                             String key = uri.getPathSegments().get(2);
                             if (key.contains("prefs_key_home_gesture_down_swipe"))
                                 switch (type) {
-                                    case "string" ->
-                                            mPrefsMap.put(key, PrefsUtils.getSharedStringPrefs(act, key, ""));
-                                    case "integer" ->
-                                            mPrefsMap.put(key, PrefsUtils.getSharedIntPrefs(act, key, 1));
-                                    case "boolean" ->
-                                            mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(act, key, false));
+                                    case "string":
+                                        mPrefsMap.put(key, PrefsUtils.getSharedStringPrefs(act, key, ""));
+                                        break;
+                                    case "integer":
+                                        mPrefsMap.put(key, PrefsUtils.getSharedIntPrefs(act, key, 1));
+                                        break;
+                                    case "boolean":
+                                        mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(act, key, false));
+                                        break;
                                 }
                         } catch (Throwable t) {
                             LogUtils.log(t);
