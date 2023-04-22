@@ -67,6 +67,7 @@ public class DisplayHardwareDetail extends BaseHook {
     static class TextIcon {
         public boolean atRight;
         public int iconType;
+
         public TextIcon(boolean mAtRight, int mIconType) {
             atRight = mAtRight;
             iconType = mIconType;
@@ -405,6 +406,7 @@ public class DisplayHardwareDetail extends BaseHook {
         if (!mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show") || mPrefsMap.getStringAsInt("system_ui_statusbar_" + subKey + "_show", 1) != 1) {
             fontSize = (float) (fontSize * 0.5);
         }
+        log("fontsize = " + fontSize);
         int align = mPrefsMap.getStringAsInt("system_ui_status_bar_" + subKey + "_align", 1);
         int fixedWidth = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fixedcontent_width", 10);
         int leftMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_left_margin", 8);
@@ -420,13 +422,13 @@ public class DisplayHardwareDetail extends BaseHook {
         batteryView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
         if (isFontBold) batteryView.setTypeface(Typeface.DEFAULT_BOLD);
         switch (align) {
-            case 2 :
+            case 2:
                 batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 break;
-            case 3 :
+            case 3:
                 batteryView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 break;
-            case 4 :
+            case 4:
                 batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 break;
         }

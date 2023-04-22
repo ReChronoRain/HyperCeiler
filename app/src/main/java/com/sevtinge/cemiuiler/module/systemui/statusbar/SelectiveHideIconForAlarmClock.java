@@ -106,9 +106,9 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
             mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            XposedBridge.log("SelectiveHideIconForAlarmClock: Now is " + diffHours + "min remain, show when " + vis + "min remain.");
+            XposedBridge.log("Cemiuiler: SelectiveHideIconForAlarmClock: Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
-            XposedBridge.log("SelectiveHideIconForAlarmClock updateAlarmVisibility failed by " + t);
+            XposedBridge.log("Cemiuiler: SelectiveHideIconForAlarmClock updateAlarmVisibility failed by " + t);
         }
     }
 
