@@ -36,7 +36,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Updater mUpdater = new Updater();
     public Market mMarket = new Market();
     public MediaEditor mMediaEditor = new MediaEditor();
-    public MiuiPackageInstaller mMiuiPackageInstaller = new MiuiPackageInstaller();
+    public PackageInstaller mPackageInstaller = new PackageInstaller();
     public PowerKeeper mPowerKeeper = new PowerKeeper();
     public MiSettings mMiSettings = new MiSettings();
     public Joyose mJoyose = new Joyose();
@@ -184,7 +184,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
             case "com.miui.packageinstaller":
                 XposedBridge.log("Cemiuiler: Hook com.miui.packageinstaller");
-                mMiuiPackageInstaller.init(lpparam);
+                mPackageInstaller.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 

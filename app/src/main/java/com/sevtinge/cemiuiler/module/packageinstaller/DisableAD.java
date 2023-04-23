@@ -14,25 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.sevtinge.cemiuiler.module.packageinstaller.PackageInstallerDexKit.mPackageInstallerResultMethodsMap;
+
 public class DisableAD extends BaseHook {
 
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("EnableAds", List.of("ads_enable"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("EnableAds"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(mPackageInstallerResultMethodsMap.get("EnableAds"));
             for (DexMethodDescriptor descriptor : result) {
                 Method enableAds = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: DisableAD enableAds method is "+ enableAds);
@@ -44,19 +33,8 @@ public class DisableAD extends BaseHook {
             e.printStackTrace();
         }
 
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("AppStoreRecommend", List.of("app_store_recommend"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("AppStoreRecommend"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(mPackageInstallerResultMethodsMap.get("AppStoreRecommend"));
             for (DexMethodDescriptor descriptor : result) {
                 Method appStoreRecommend = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: DisableAD appStoreRecommend method is "+ appStoreRecommend);
@@ -68,19 +46,8 @@ public class DisableAD extends BaseHook {
             e.printStackTrace();
         }
 
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("InstallerOpenSafetyModel", List.of("installerOpenSafetyModel"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("InstallerOpenSafetyModel"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(mPackageInstallerResultMethodsMap.get("InstallerOpenSafetyModel"));
             for (DexMethodDescriptor descriptor : result) {
                 Method installerOpenSafetyModel = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: DisableAD installerOpenSafetyModel method is "+ installerOpenSafetyModel);

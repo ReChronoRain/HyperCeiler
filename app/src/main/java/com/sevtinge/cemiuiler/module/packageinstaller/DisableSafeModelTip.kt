@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.packageinstaller
 
 import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.packageinstaller.PackageInstallerDexKit.mPackageInstallerResultMethodsMap
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import io.luckypray.dexkit.DexKitBridge
@@ -11,29 +12,15 @@ import java.util.*
 
 class DisableSafeModelTip : BaseHook() {
     override fun init() {
-        System.loadLibrary("dexkit")
-        val apkPath = lpparam.appInfo.sourceDir
         try {
-            DexKitBridge.create(apkPath).use { bridge ->
-                if (bridge == null) {
-                    return
-                }
-                val resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                        BatchFindArgs.builder()
-                            .addQuery("DisableSecurityModeFlag", listOf("user_close_security_mode_flag"))
-                            .matchType(MatchType.CONTAINS)
-                            .build()
-                    )
-                val result =
-                    Objects.requireNonNull(resultMap["DisableSecurityModeFlag"])
-                if (result != null) {
-                    for (descriptor in result) {
-                        val disableSecurityModeFlag = descriptor.getMethodInstance(lpparam.classLoader)
-                        XposedBridge.log("Cemiuiler: DisableSafeModelTip disableSecurityModeFlag method is $disableSecurityModeFlag")
-                        if (disableSecurityModeFlag.returnType == Boolean::class.javaPrimitiveType) {
-                            XposedBridge.hookMethod(disableSecurityModeFlag, XC_MethodReplacement.returnConstant(true))
-                        }
+            val result =
+                Objects.requireNonNull(mPackageInstallerResultMethodsMap["DisableSecurityModeFlag"])
+            if (result != null) {
+                for (descriptor in result) {
+                    val disableSecurityModeFlag = descriptor.getMethodInstance(lpparam.classLoader)
+                    XposedBridge.log("Cemiuiler: DisableSafeModelTip disableSecurityModeFlag method is $disableSecurityModeFlag")
+                    if (disableSecurityModeFlag.returnType == Boolean::class.javaPrimitiveType) {
+                        XposedBridge.hookMethod(disableSecurityModeFlag, XC_MethodReplacement.returnConstant(true))
                     }
                 }
             }

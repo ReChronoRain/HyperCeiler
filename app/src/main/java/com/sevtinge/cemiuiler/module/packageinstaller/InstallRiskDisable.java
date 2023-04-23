@@ -16,26 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.sevtinge.cemiuiler.module.packageinstaller.PackageInstallerDexKit.mPackageInstallerResultMethodsMap;
+
 public class InstallRiskDisable extends BaseHook {
 
 
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("SecureVerifyEnable", List.of("secure_verify_enable"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("SecureVerifyEnable"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(mPackageInstallerResultMethodsMap.get("SecureVerifyEnable"));
             for (DexMethodDescriptor descriptor : result) {
                 Method secureVerifyEnable = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: InstallRiskDisable secureVerifyEnable method is "+ secureVerifyEnable);

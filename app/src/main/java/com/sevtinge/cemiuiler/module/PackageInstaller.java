@@ -5,11 +5,11 @@ import android.text.TextUtils;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.packageinstaller.*;
 
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
-public class MiuiPackageInstaller extends BaseModule {
+public class PackageInstaller extends BaseModule {
 
     public void handleLoadPackage() {
+
+        initHook(new PackageInstallerDexKit());
 
         //
         /*initHook(new MiuiPackageInstallModify(), mPrefsMap.getBoolean("miui_package_installer_modify"));*/
