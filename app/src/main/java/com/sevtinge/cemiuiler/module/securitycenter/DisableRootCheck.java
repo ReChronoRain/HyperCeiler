@@ -16,21 +16,8 @@ import java.util.Objects;
 public class DisableRootCheck extends BaseHook {
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("rootCheck", List.of("key_check_item_root"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("rootCheck"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("rootCheck"));
             for (DexMethodDescriptor descriptor : result) {
                 Method checkIsRooted = descriptor.getMethodInstance(lpparam.classLoader);
                 if (checkIsRooted.getReturnType() == boolean.class) {

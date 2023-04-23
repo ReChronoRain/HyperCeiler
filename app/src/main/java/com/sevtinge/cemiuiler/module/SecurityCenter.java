@@ -18,6 +18,8 @@ public class SecurityCenter extends BaseModule {
     @Override
     public void handleLoadPackage() {
 
+        initHook(new SecurityCenterDexKit());
+
         //应用管理
         initHook(new AppDefaultSort(), mPrefsMap.getStringAsInt("security_center_app_default_sort", 0) > 0);
         initHook(new AppRestrict(), mPrefsMap.getBoolean("security_center_app_restrict"));

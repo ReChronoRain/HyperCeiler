@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.securitycenter.beauty;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
@@ -20,21 +21,8 @@ import java.util.Objects;
 public class BeautyLightAuto extends BaseHook {
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("BeautyLightAuto", List.of("taoyao"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("BeautyLightAuto"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("BeautyLightAuto"));
             for (DexMethodDescriptor descriptor : result) {
                 if (!String.valueOf(descriptor).contains("<clinit>")) {
                     Method beautyLightAuto = descriptor.getMethodInstance(lpparam.classLoader);

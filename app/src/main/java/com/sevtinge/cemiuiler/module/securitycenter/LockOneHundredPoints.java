@@ -27,21 +27,8 @@ public class LockOneHundredPoints extends BaseHook {
         mScoreManagerCls = findClassIfExists("com.miui.securityscan.scanner.ScoreManager");
         mMainContentFrameCls = findClassIfExists("com.miui.securityscan.ui.main.MainContentFrame");
 
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("ScoreManager", List.of("getMinusPredictScore------------------------------------------------ "))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("ScoreManager"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("ScoreManager"));
             for (DexMethodDescriptor descriptor : result) {
                 Method lockOneHundredPoints = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: lock 100 points method is "+ lockOneHundredPoints);

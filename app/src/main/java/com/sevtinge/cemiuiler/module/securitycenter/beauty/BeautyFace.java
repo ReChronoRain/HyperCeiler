@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.securitycenter.beauty;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
@@ -19,23 +20,11 @@ import java.util.Objects;
 
 public class BeautyFace extends BaseHook {
     static Method beautyFace;
+
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("BeautyFace", List.of("taoyao", "IN", "persist.vendor.vcb.ability"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("BeautyFace"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("BeautyFace"));
             for (DexMethodDescriptor descriptor : result) {
                 beautyFace = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: beautyFace method is " + beautyFace);

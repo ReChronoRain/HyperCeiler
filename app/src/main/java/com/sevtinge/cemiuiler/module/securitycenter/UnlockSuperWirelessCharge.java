@@ -18,21 +18,8 @@ import java.util.Objects;
 public class UnlockSuperWirelessCharge extends BaseHook {
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("SuperWirelessCharge", List.of("persist.vendor.tx.speed.control"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("SuperWirelessCharge"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("SuperWirelessCharge"));
             for (DexMethodDescriptor descriptor : result) {
                 Method SuperWirelessCharge = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: SuperWirelessCharge method is "+ SuperWirelessCharge);
@@ -42,19 +29,8 @@ public class UnlockSuperWirelessCharge extends BaseHook {
             }
         } catch (Throwable e) {
             e.printStackTrace();
-        } try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("SuperWirelessChargeTip", List.of("key_is_connected_super_wls_tx"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("SuperWirelessChargeTip"));
+        } try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("SuperWirelessChargeTip"));
             for (DexMethodDescriptor descriptor : result) {
                 Method SuperWirelessChargeTip = descriptor.getMethodInstance(lpparam.classLoader);
                 XposedBridge.log("Cemiuiler: SuperWirelessChargeTip method is "+ SuperWirelessChargeTip);
