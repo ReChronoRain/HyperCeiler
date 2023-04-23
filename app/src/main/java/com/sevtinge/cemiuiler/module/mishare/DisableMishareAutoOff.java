@@ -13,25 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.sevtinge.cemiuiler.module.mishare.MiShareDexKit.mMiShareResultMethodsMap;
+
 public class DisableMishareAutoOff extends BaseHook {
 
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("MiShareAutoOff", List.of("MiShareService", "EnabledState"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("MiShareAutoOff"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(mMiShareResultMethodsMap.get("MiShareAutoOff"));
             for (DexMethodDescriptor descriptor : result) {
                 Method miShareAutoOff = descriptor.getMethodInstance(lpparam.classLoader);
                 if (miShareAutoOff.getReturnType() == boolean.class) {

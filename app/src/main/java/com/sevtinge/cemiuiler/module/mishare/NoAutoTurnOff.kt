@@ -3,30 +3,26 @@ package com.sevtinge.cemiuiler.module.mishare
 import com.github.kyuubiran.ezxhelper.init.InitFields
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.mishare.MiShareDexKit.mMiShareResultMethodsMap
+import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
 import de.robv.android.xposed.XposedBridge
 import io.luckypray.dexkit.DexKitBridge
+import java.lang.reflect.Method
 
 class NoAutoTurnOff : BaseHook() {
 
     @Throws(NoSuchMethodException::class)
     override fun init() {
-        System.loadLibrary("dexkit")
-        DexKitBridge.create(lpparam.appInfo.sourceDir)?.use { bridge ->
-            bridge.batchFindMethodsUsingStrings {
-                addQuery("qwq", listOf("EnabledState", "mishare_enabled"))
-            }.forEach { (_, classes) ->
-                classes.map {
-                    it.getMethodInstance(InitFields.ezXClassLoader)
-                }.hookBefore {
-                    try {
-                        it.result = null
-                        XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService success!")
-                    } catch (e: Throwable) {
-                        XposedBridge.log("Cemiuiler: NoAutoTurnOff com.miui.mishare.connectivity.MiShareService failed!")
-                        XposedBridge.log(e)
-                    }
-                }
-            }
+        val mAutoOff2 = mMiShareResultMethodsMap["MiShareAutoOff2"]!!
+        assert(mAutoOff2.isNotEmpty())
+        var mAutoOff2Descriptor = mAutoOff2[0]
+        var mAutoOff2Method: Method = mAutoOff2Descriptor.getMethodInstance(lpparam.classLoader)
+        if (mAutoOff2Method.returnType != ArrayList::class.java) {
+            mAutoOff2Descriptor = mAutoOff2[1]
+            mAutoOff2Method = mAutoOff2Descriptor.getMethodInstance(lpparam.classLoader)
+        }
+        mAutoOff2Method.hookBefore {
+            it.result = null
         }
 //            listOf("MiShareService", "EnabledState").forEach { usingString ->
 //                val resultList = bridge.findMethodUsingString {
