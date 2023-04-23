@@ -472,6 +472,7 @@
         <item>Xiaomi 13 Ultra</item>
         <item>Xiaomi CIVI 3</item>
         <item>Xiaomi MIX Fold 2</item>
+        <item>Xiaomi MIX Fold 3</item>
         <item>Xiaomi MIX Alpha (Avenger)</item>
         <item>Xiaomi MIX Alpha (Draco)</item>
         <item>Xiaomi Pad 6 Pro</item>
@@ -481,14 +482,15 @@
 
     <string-array name="market_device_modify_value">
         <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
+        <item>101</item>
+        <item>153</item>
+        <item>222</item>
+        <item>223</item>
+        <item>190</item>
+        <item>191</item>
+        <item>207</item>
+        <item>306</item>
+        <item>332</item>
     </string-array>
 
 </resources>
