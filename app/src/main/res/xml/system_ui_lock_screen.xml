@@ -23,11 +23,11 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
-                android:title="@string/system_ui_lock_screen_show_charging_current"
+                android:title="@string/system_ui_lock_screen_show_charging_cv"
                 android:summary="@string/system_ui_lock_screen_default_theme"
-                android:key="prefs_key_system_ui_lock_screen_show_charging_current"
+                android:key="prefs_key_system_ui_lock_screen_show_charging_cv"
                 android:defaultValue="false"
-                app:isPreferenceVisible="false" />
+                app:isPreferenceVisible="true" />
 
         <SwitchPreference
                 android:title="@string/system_ui_lock_screen_blur_button"

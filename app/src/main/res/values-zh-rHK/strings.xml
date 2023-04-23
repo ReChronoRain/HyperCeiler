@@ -364,7 +364,7 @@
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">介面</string>
     <string name="system_ui_lock_screen_show_second">时鐘顯示秒數</string>
-    <string name="system_ui_lock_screen_show_charging_current">顯示充電電流</string>
+    <string name="system_ui_lock_screen_show_charging_cv">顯示充電電流</string>
     <string name="system_ui_lock_screen_hide_camera">停用相機</string>
     <string name="system_ui_lock_screen_hide_smart_screen">停用智慧助理</string>
     <string name="system_ui_lock_screen_current">當前電流</string>
