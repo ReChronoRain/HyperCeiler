@@ -90,13 +90,6 @@
     <string name="backup_success">備份成功</string>
     <string name="browser">瀏覽器</string>
     <string name="browser_debug_mode">開發者選項</string>
-    <string name="call_notification_answer_action">接聽</string>
-    <string name="call_notification_answer_video_action">視訊</string>
-    <string name="call_notification_decline_action">拒接</string>
-    <string name="call_notification_hang_up_action">掛斷</string>
-    <string name="call_notification_incoming_text">來電</string>
-    <string name="call_notification_ongoing_text">通話中</string>
-    <string name="call_notification_screening_text">正在過濾來電</string>
     <string name="calls">通話</string>
     <string name="camera">相機</string>
     <string name="camera_features_title">功能</string>
@@ -163,8 +156,6 @@
     <string name="clock">時鐘</string>
     <string name="clock_enable_hour_glass">解鎖計時器沙漏動畫</string>
     <string name="clock_enable_hour_glass_desc">不支援 13.65.0 及以上版本</string>
-    <string name="close_drawer">關閉導覽選單</string>
-    <string name="close_sheet">關閉功能表</string>
     <string name="collapse_miui_title_off">折疊</string>
     <string name="collapse_miui_title_off_always">總是折疊</string>
     <string name="collapse_miui_title_on">展開</string>
@@ -175,7 +166,6 @@
     <string name="content_extension_double_press">開放雙指長按</string>
     <string name="content_extension_super_image">開放超解析度圖片</string>
     <string name="content_extension_super_image_summary">需要系統底層支援</string>
-    <string name="copy">複製</string>
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半徑</string>
     <string name="custom_background_color">背景顏色</string>
@@ -185,8 +175,6 @@
     <string name="custom_hook">自訂</string>
     <string name="custom_hook_mode">選擇模式</string>
     <string name="custom_hook_new">增加Hook</string>
-    <string name="default_error_message">輸入內容無效</string>
-    <string name="default_popup_window_title">彈出式視窗</string>
     <string name="default_volume_stream_media">媒體</string>
     <string name="default_volume_stream_ring">鈴聲</string>
     <string name="default_volume_stream_tip">通知</string>
@@ -196,8 +184,6 @@
     <string name="disable_app_settings">這是一個壞主意！</string>
     <string name="disable_app_text">如果這是一個必要的系統應用程式，將其停用可能會導致裝置損毀</string>
     <string name="disable_app_title">確定要停用該應用程式嗎？</string>
-    <string name="dropdown_menu">下拉式選單</string>
-    <string name="expand_button_title">進階</string>
     <string name="floating_window">小窗</string>
     <string name="gallery">相簿</string>
     <string name="gallery_enable_hdr_enhanced">解鎖超動態顯示</string>
@@ -392,10 +378,8 @@
     <string name="home_widget_show_miui_widget">顯示 MIUI 小工具</string>
     <string name="home_widget_show_miui_widget_desc">在 Android 小工具頁面顯示 MIUI 小工具</string>
     <string name="hook_failed">模組暫未啟用</string>
-    <string name="in_progress">處理中</string>
     <string name="incallui">電話</string>
     <string name="incallui_hide_crbt">隱藏電話彩鈴</string>
-    <string name="indeterminate">部分檢查</string>
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">雲控</string>
     <string name="joyose_disable_cloud_control">停用雲端控制</string>
@@ -456,12 +440,7 @@
     <string name="mtb_auth_desc">這是一個高危險性的功能，由此引發的後果全部由使用者本人承擔，請及時備份基帶。</string>
     <string name="music">音樂</string>
     <string name="music_disable_ad">移除廣告</string>
-    <string name="navigation_menu">導覽選單</string>
-    <string name="not_selected">未選取</string>
-    <string name="not_set">未設定</string>
     <string name="notification_volume">通知</string>
-    <string name="off">已關閉</string>
-    <string name="on">已開啟</string>
     <string name="open_with_test_all">全部</string>
     <string name="open_with_test_audio">聲音</string>
     <string name="open_with_test_doc">文件</string>
@@ -496,17 +475,6 @@
     <string name="phone_vice_slot_volte_desc">在副卡通話時會將數據切換至副卡</string>
     <string name="powerkeeper">電量和性能</string>
     <string name="powerkeeper_custom_refresh_rate">自訂高螢幕更新率的應用程式</string>
-    <string name="preference_copied">已將%1$s複製到剪貼簿。</string>
-    <string name="preference_dialog_color_picker_custom">自訂顏色</string>
-    <string name="preference_dialog_color_picker_default_title">選擇顏色</string>
-    <string name="preference_dialog_color_picker_presets">預設顏色</string>
-    <string name="preference_dialog_color_picker_select">確認選擇</string>
-    <string name="preference_dialog_color_picker_transparency">透明度</string>
-    <string name="preference_dialog_seekbar_hint_text">請輸入%1$d ~ %2$d之間的數值</string>
-    <string name="preference_off">已關閉</string>
-    <string name="preference_on">已開啟</string>
-    <string name="range_end">範圍終點</string>
-    <string name="range_start">範圍起點</string>
     <string name="reset_desc">重設模組設定後其所有數據將會被刪除！</string>
     <string name="reset_okay">已重設模組設定</string>
     <string name="reset_title">確定要重設嗎？</string>
@@ -588,7 +556,6 @@
     <string name="security_score_summary">鎖定 100 分與停用最佳化</string>
     <string name="seek_points_edit">僅在編輯模式中顯示</string>
     <string name="seek_points_roll">僅在滑動螢幕時顯示</string>
-    <string name="selected">已選取</string>
     <string name="settings">設定</string>
     <string name="settings_back">備份模組設定</string>
     <string name="settings_bug_title">疑難排解</string>
@@ -619,8 +586,6 @@
     <string name="status_bar_icon_mode_off_unconnect">僅在未連接時隱藏</string>
     <string name="status_bar_icon_mode_on">總是顯示</string>
     <string name="status_bar_icon_mode_on_beforering">僅在響鈴前顯示</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="summary_collapsed_preference_list">%1$s%2$s</string>
     <string name="system_control_center_5g_tile">5G 網路開關</string>
     <string name="system_control_center_5g_toggle_label">5G 網路</string>
     <string name="system_control_center_qs_columns">列數</string>
@@ -863,8 +828,6 @@
     <string name="system_ui_statusbar_title">狀態欄</string>
     <string name="system_ui_volume_timer">擴展計時器</string>
     <string name="system_volume">系統</string>
-    <string name="tab">Tab 鍵</string>
-    <string name="template_percent">百分之 %1$d。</string>
     <string name="theme_manager">主題桌布</string>
     <string name="theme_manager_crack">主題破解</string>
     <string name="theme_manager_diable_ads">停用廣告</string>
@@ -922,4 +885,57 @@
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
+
+    <!--
+    <string name="call_notification_answer_action">接聽</string>
+    <string name="call_notification_answer_video_action">視訊</string>
+    <string name="call_notification_decline_action">拒接</string>
+    <string name="call_notification_hang_up_action">掛斷</string>
+    <string name="call_notification_incoming_text">來電</string>
+    <string name="call_notification_ongoing_text">通話中</string>
+    <string name="call_notification_screening_text">正在過濾來電</string>
+
+    <string name="close_drawer">關閉導覽選單</string>
+    <string name="close_sheet">關閉功能表</string>
+
+    <string name="tab">Tab 鍵</string>
+    <string name="template_percent">百分之 %1$d。</string>
+
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="summary_collapsed_preference_list">%1$s%2$s</string>
+
+    <string name="selected">已選取</string>
+
+    <string name="preference_copied">已將%1$s複製到剪貼簿。</string>
+    <string name="preference_dialog_color_picker_custom">自訂顏色</string>
+    <string name="preference_dialog_color_picker_default_title">選擇顏色</string>
+    <string name="preference_dialog_color_picker_presets">預設顏色</string>
+    <string name="preference_dialog_color_picker_select">確認選擇</string>
+    <string name="preference_dialog_color_picker_transparency">透明度</string>
+    <string name="preference_dialog_seekbar_hint_text">請輸入%1$d ~ %2$d之間的數值</string>
+    <string name="preference_off">已關閉</string>
+    <string name="preference_on">已開啟</string>
+    <string name="range_end">範圍終點</string>
+    <string name="range_start">範圍起點</string>
+
+    <string name="off">已關閉</string>
+    <string name="on">已開啟</string>
+
+    <string name="navigation_menu">導覽選單</string>
+    <string name="not_selected">未選取</string>
+    <string name="not_set">未設定</string>
+
+    <string name="indeterminate">部分檢查</string>
+
+    <string name="in_progress">處理中</string>
+
+    <string name="default_error_message">輸入內容無效</string>
+    <string name="default_popup_window_title">彈出式視窗</string>
+
+    <string name="dropdown_menu">下拉式選單</string>
+    <string name="expand_button_title">進階</string>
+
+    <string name="copy">複製</string>
+    -->
+
 </resources>
