@@ -30,40 +30,40 @@ class WidgetCrack : BaseHook() {
         }.hookBefore {
             it.result = true
         }
-                findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse") {
-                    name == "isPay"
-                }.hookBefore {
-                    it.result = false
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse") {
-                    name == "isBought"
-                }.hookBefore {
-                    it.result = true
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper") {
-                    name == "isPay"
-                }.hookBefore {
-                    it.result = false
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper") {
-                    name == "isBought"
-                }.hookBefore {
-                    it.result = true
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
-                    name == "shouldCheckMamlBoughtState"
-                }.hookAfter {
-                    it.result = false
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
-                    name == "isTargetPositionMamlPayAndDownloading"
-                }.hookAfter {
-                    it.result = false
-                }
-                findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
-                    name == "checkIsIndependentProcessWidgetForPosition"
-                }.hookAfter {
-                    it.result = true
-       }
+        findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse") {
+            name == "isPay"
+        }.hookBefore {
+            it.result = false
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse") {
+            name == "isBought"
+        }.hookBefore {
+            it.result = true
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper") {
+            name == "isPay"
+        }.hookBefore {
+            it.result = false
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper") {
+            name == "isBought"
+        }.hookBefore {
+            it.result = true
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
+            name == "shouldCheckMamlBoughtState"
+        }.hookAfter {
+            it.result = false
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
+            name == "isTargetPositionMamlPayAndDownloading"
+        }.hookAfter {
+            it.result = false
+        }
+        findMethod("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel") {
+            name == "checkIsIndependentProcessWidgetForPosition"
+        }.hookAfter {
+            it.result = true
+        }
     }
 }
