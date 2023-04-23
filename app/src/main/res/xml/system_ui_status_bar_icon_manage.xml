@@ -201,22 +201,36 @@
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_notify_title">
 
-        <SeekBarPreference
-            android:key="prefs_key_system_ui_status_bar_notification_dots_maximum"
-            android:title="@string/system_ui_status_bar_notification_dots_maximum"
-            android:defaultValue="3"
-            app:maxValue="5"
-            app:format="%s"
-            app:showSeekBarValue="true" />
+        <SwitchPreference
+                android:title="@string/system_ui_status_bar_notification_dots_maximum"
+                android:key="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
+                android:defaultValue="false"/>
 
         <SeekBarPreference
-            android:key="prefs_key_system_ui_status_bar_notification_icon_maximum"
-            android:title="@string/system_ui_status_bar_notification_icon_maximum"
+            android:layout="@layout/preference_seekbar_no_padding"
+            android:key="prefs_key_system_ui_status_bar_notification_dots_maximum"
             android:defaultValue="3"
+            app:dialogTitle="@string/system_ui_status_bar_notification_dots_maximum"
+            app:maxValue="5"
+            app:format="%s"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"/>
+
+        <SwitchPreference
+                android:title="@string/system_ui_status_bar_notification_icon_maximum"
+                android:key="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
+                android:defaultValue="false"/>
+
+        <SeekBarPreference
+                android:layout="@layout/preference_seekbar_no_padding"
+            android:key="prefs_key_system_ui_status_bar_notification_icon_maximum"
+            android:defaultValue="3"
+                app:dialogTitle="@string/system_ui_status_bar_notification_icon_maximum"
             app:minValue="0"
             app:maxValue="15"
             app:format="%s"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"
+                android:dependency="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_battery_title">

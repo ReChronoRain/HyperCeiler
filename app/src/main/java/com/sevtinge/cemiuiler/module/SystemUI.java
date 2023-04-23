@@ -31,7 +31,7 @@ public class SystemUI extends BaseModule {
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
-        initHook(new NotificationIconColumns(), mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 0) > 0 || mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 0) > 0);
+        initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_dots_maximum_enable")|| mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum"));
         initHook(new UseNewHD(), mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
         initHook(StatusBarSimIcon.INSTANCE);
