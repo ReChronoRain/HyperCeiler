@@ -13,25 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.sevtinge.cemiuiler.module.market.MarketDexKit.mMarketResultMethodsMap;
+
 public class NewIcon extends BaseHook {
     static Method isDesktopSupportOperationIcon;
     @Override
     public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
-            if (bridge == null) {
-                return;
-            }
-            Map<String, List<DexMethodDescriptor>> resultMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("DesktopSupportOperationIcon", List.of("com.miui.home", "supportOperationIcon", "AppGlobals.getContext()"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
-
-            List<DexMethodDescriptor> result = Objects.requireNonNull(resultMap.get("DesktopSupportOperationIcon"));
+        try {
+            List<DexMethodDescriptor> result = Objects.requireNonNull(mMarketResultMethodsMap.get("DesktopSupportOperationIcon"));
             for (DexMethodDescriptor descriptor : result) {
                 isDesktopSupportOperationIcon = descriptor.getMethodInstance(lpparam.classLoader);
                 log("isDesktopSupportOperationIcon method is " + isDesktopSupportOperationIcon);
