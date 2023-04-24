@@ -17,7 +17,8 @@ public class MiShareDexKit extends BaseHook {
     public void init() {
         System.loadLibrary("dexkit");
         String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
+        DexKitBridge bridge = DexKitBridge.create(apkPath);
+        try {
             if (bridge == null) {
                 return;
             }
@@ -29,8 +30,9 @@ public class MiShareDexKit extends BaseHook {
                                     .matchType(MatchType.CONTAINS)
                                     .build()
                     );
-        } catch (Throwable e) {
+            } catch (Throwable e) {
             e.printStackTrace();
         }
+        bridge.close();
     }
 }

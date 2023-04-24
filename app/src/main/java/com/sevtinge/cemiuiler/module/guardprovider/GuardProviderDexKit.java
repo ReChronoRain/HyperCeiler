@@ -17,7 +17,8 @@ public class GuardProviderDexKit extends BaseHook {
     public void init() {
         System.loadLibrary("dexkit");
         String apkPath = lpparam.appInfo.sourceDir;
-        try (DexKitBridge bridge = DexKitBridge.create(apkPath)) {
+        DexKitBridge bridge = DexKitBridge.create(apkPath);
+        try {
             if (bridge == null) {
                 return;
             }
@@ -31,5 +32,6 @@ public class GuardProviderDexKit extends BaseHook {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+        bridge.close();
     }
 }
