@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.thememanager;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.DexKitHelper;
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
 import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
@@ -33,6 +32,5 @@ public class ThemeManagerDexKit extends BaseHook {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        DexKitHelper.closeDexKit();
     }
 }
