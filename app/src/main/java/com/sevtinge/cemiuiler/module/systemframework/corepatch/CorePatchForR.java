@@ -38,14 +38,14 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         Log.d(SystemFrameworkForCorepatch.TAG, "UsePreSig=" + prefs.getBoolean("system_framework_core_patch_use_pre_signature", false));
 
         // 允许降级
-        findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,
+        findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,//!
                 "checkDowngrade",
                 "com.android.server.pm.parsing.pkg.AndroidPackage",
                 "android.content.pm.PackageInfoLite",
                 new ReturnConstant(prefs, "system_framework_core_patch_downgr", null));
 
         // exists on flyme 9(Android 11) only
-        findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,
+        findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,//!
                 "checkDowngrade",
                 "android.content.pm.PackageInfoLite",
                 "android.content.pm.PackageInfoLite",
@@ -75,7 +75,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         findAndHookMethod("android.util.apk.ApkSignatureVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
                 new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", 0));
         findAndHookMethod("com.android.apksig.ApkVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", 0));
+                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", 0));//!
 
         // Package " + packageName + " signatures do not match previously installed version; ignoring!"
         // public boolean checkCapability(String sha256String, @CertCapabilities int flags) {
