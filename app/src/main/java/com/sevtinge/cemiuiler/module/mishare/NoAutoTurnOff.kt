@@ -1,12 +1,8 @@
 package com.sevtinge.cemiuiler.module.mishare
 
-import com.github.kyuubiran.ezxhelper.init.InitFields
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.mishare.MiShareDexKit.mMiShareResultMethodsMap
-import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
-import de.robv.android.xposed.XposedBridge
-import io.luckypray.dexkit.DexKitBridge
 import java.lang.reflect.Method
 
 class NoAutoTurnOff : BaseHook() {
