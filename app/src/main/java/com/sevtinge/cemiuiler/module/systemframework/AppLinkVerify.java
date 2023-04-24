@@ -14,15 +14,9 @@ public class AppLinkVerify extends BaseHook {
     @Override
     public void init() {
         try {
-            XposedHelpers.findAndHookMethod(
-                    "com.android.server.pm.verify.domain.DomainVerificationUtils",
-                    lpparam.classLoader,
-                    "isDomainVerificationIntent",
-                    Intent.class,
-                    int.class,
-                    new XC_MethodHook() {
+            hookAllMethods("com.android.server.pm.verify.domain.DomainVerificationUtils", "isDomainVerificationIntent", new MethodHook() {
                         @Override
-                        protected void beforeHookedMethod(MethodHookParam param) {
+                        protected void before(MethodHookParam param) {
                             param.setResult(false);
                         }
                     }
