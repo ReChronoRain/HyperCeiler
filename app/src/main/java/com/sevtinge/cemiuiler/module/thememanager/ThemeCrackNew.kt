@@ -28,7 +28,6 @@ class ThemeCrackNew : BaseHook() {
             }.hookAfter {
                 it.result = false
             }
-            System.loadLibrary("dexkit")
             val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
             assert(drmResult.size == 1)
             val drmResultDescriptor = drmResult.first()
@@ -53,7 +52,6 @@ class ThemeCrackNew : BaseHook() {
                 val fileParent = file.parentFile!!
                 if (!fileParent.exists()) fileParent.mkdirs()
                 file.createNewFile()
-
             }
         } catch (t: Throwable) {
             Log.ex(t)
