@@ -55,6 +55,7 @@
 - [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
 - [「Miui Feature」 by MoralNorm](https://github.com/moralnorm/miui_feature)
 - [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
+- [「MIUI IME Unlock」 by RC1844](https://github.com/RC1844/MIUI_IME_Unlock)
 - [「MIUIQOL」 by chsbuffer](https://github.com/chsbuffer/MIUIQOL)
 - [「Miui XXL」 by YuKongA](https://github.com/YuKongA/Miui_XXL)
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)

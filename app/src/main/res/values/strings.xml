@@ -899,4 +899,5 @@
     <string name="system_framework_phone_title">Network</string>
     <string name="system_framework_phone_network_title">Network settings</string>
     <string name="system_framework_phone_band_title">Band settings</string>
+    <string name="various_unlock_ime">Unlock IME</string>
 </resources>

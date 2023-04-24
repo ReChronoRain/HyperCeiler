@@ -27,6 +27,8 @@ public class Various extends BaseModule {
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
+        initHook(UnlockIme.INSTANCE, mPrefsMap.getBoolean("various_unlock_ime"));
+
 
     }
 

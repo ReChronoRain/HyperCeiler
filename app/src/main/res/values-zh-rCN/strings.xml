@@ -820,6 +820,7 @@
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
+    <string name="various_unlock_ime">解锁输入法全面屏优化</string>
     <string name="various_collapse_miui_title">MIUI 标题</string>
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>

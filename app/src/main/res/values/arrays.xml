@@ -16,6 +16,9 @@
         <item>com.android.settings</item>
         <item>com.android.thememanager</item>
         <item>com.android.updater</item>
+        <item>com.baidu.input_mi</item>
+        <item>com.google.android.inputmethod.latin</item>
+        <item>com.iflytek.inputmethod.miui</item>
         <item>com.lbe.security.miui</item>
         <item>com.milink.service</item>
         <item>com.miui.cleanmaster</item>
@@ -39,6 +42,7 @@
         <item>com.miui.tsmclient</item>
         <item>com.miui.voiceassist</item>
         <item>com.miui.weather2</item>
+        <item>com.sohu.inputmethod.sogou.xiaomi</item>
         <item>com.xiaomi.aireco</item>
         <item>com.xiaomi.joyose</item>
         <item>com.xiaomi.market</item>

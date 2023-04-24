@@ -109,6 +109,13 @@
                 android:data="https://github.com/qqlittleice/MiuiHome_R" />
         </Preference>
         <Preference
+                android:title="MIUI IME Unlock"
+                android:summary="RC1844">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/RC1844/MIUI_IME_Unlock" />
+        </Preference>
+        <Preference
             android:title="MIUIQOL"
             android:summary="chsbuffer">
             <intent

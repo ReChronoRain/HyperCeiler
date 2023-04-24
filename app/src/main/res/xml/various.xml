@@ -36,6 +36,11 @@
                 android:defaultValue="false"/>
 
         <SwitchPreference
+                android:title="@string/various_unlock_ime"
+                android:key="prefs_key_various_unlock_ime"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
                 android:title="@string/various_disable_bluetooth_restrict"
                 android:key="prefs_key_various_disable_bluetooth_restrict"
                 android:defaultValue="false"/>
