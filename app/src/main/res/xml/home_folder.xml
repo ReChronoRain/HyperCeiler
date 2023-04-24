@@ -157,6 +157,46 @@
             android:defaultValue="false" />
 
         <SeekBarPreference
+                android:defaultValue="90"
+                android:dependency="prefs_key_home_folder_animation"
+                android:key="prefs_key_home_folder_anim_1"
+                android:title="@string/home_folder_anim_1"
+                app:format="%d / 100 f"
+                app:maxValue="150"
+                app:minValue="50"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+                android:defaultValue="30"
+                android:dependency="prefs_key_home_folder_animation"
+                android:key="prefs_key_home_folder_anim_2"
+                android:title="@string/home_folder_anim_2"
+                app:format="%d / 100 f"
+                app:maxValue="60"
+                app:minValue="10"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+                android:defaultValue="99"
+                android:dependency="prefs_key_home_folder_animation"
+                android:key="prefs_key_home_folder_anim_3"
+                android:title="@string/home_folder_anim_3"
+                app:format="%d / 100 f"
+                app:maxValue="150"
+                app:minValue="50"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+                android:defaultValue="24"
+                android:dependency="prefs_key_home_folder_animation"
+                android:key="prefs_key_home_folder_anim_4"
+                android:title="@string/home_folder_anim_4"
+                app:format="%d / 100 f"
+                app:maxValue="60"
+                app:minValue="10"
+                app:showSeekBarValue="true" />
+
+        <SeekBarPreference
             android:key="prefs_key_home_folder_columns"
             android:title="@string/home_folder_cols_title"
             android:defaultValue="3"

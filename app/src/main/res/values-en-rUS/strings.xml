@@ -885,4 +885,8 @@
     <string name="mtb">MTB</string>
     <string name="phone">Phone Service</string>
     <string name="various_unlock_ime">Unlock IME</string>
+    <string name="home_folder_anim_1">Open speed 1</string>
+    <string name="home_folder_anim_2">Open speed 2</string>
+    <string name="home_folder_anim_3">Close speed 1</string>
+    <string name="home_folder_anim_4">Close speed 2</string>
 </resources>
