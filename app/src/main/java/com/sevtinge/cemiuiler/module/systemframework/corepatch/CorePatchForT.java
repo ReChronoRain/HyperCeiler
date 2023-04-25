@@ -15,10 +15,18 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
+
 public class CorePatchForT extends CorePatchForSv2 {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
+
+        XposedBridge.log("Cemiuiler: CorePatch Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+        XposedBridge.log("Cemiuiler: CorePatch AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+        XposedBridge.log("Cemiuiler: CorePatch DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+        XposedBridge.log("Cemiuiler: CorePatch UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+        XposedBridge.log("Cemiuiler: CorePatch EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
 
         findAndHookMethod("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader,
                 "checkDowngrade",
@@ -35,7 +43,7 @@ public class CorePatchForT extends CorePatchForSv2 {
                 // Don't handle PERMISSION (grant SIGNATURE permissions to pkgs with this cert)
                 // Or applications will have all privileged permissions
                 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
-                if (((Integer) param.args[1] != 4) && prefs.getBoolean("system_framework_core_patch_digest_creak", true)) {
+                if (((Integer) param.args[1] != 4) && mPrefsMap.getBoolean("system_framework_core_patch_digest_creak")) {
                     param.setResult(true);
                 }
             }
@@ -51,7 +59,7 @@ public class CorePatchForT extends CorePatchForSv2 {
                 // Don't handle PERMISSION (grant SIGNATURE permissions to pkgs with this cert)
                 // Or applications will have all privileged permissions
                 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
-                if (prefs.getBoolean("system_framework_core_patch_auth_creak", true)) {
+                if (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak")) {
                     if ((Integer) param.args[1] != 4) {
                         param.setResult(true);
                     }
@@ -60,7 +68,7 @@ public class CorePatchForT extends CorePatchForSv2 {
         });
 
 
-        if (prefs.getBoolean("system_framework_core_patch_digest_creak", true) && prefs.getBoolean("system_framework_core_patch_use_pre_signature", false)) {
+        if (mPrefsMap.getBoolean("system_framework_core_patch_digest_creak") && mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature")) {
             findAndHookMethod("com.android.server.pm.InstallPackageHelper", loadPackageParam.classLoader, "doesSignatureMatchForPermissions", String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
@@ -77,7 +85,7 @@ public class CorePatchForT extends CorePatchForSv2 {
         findAndHookMethod("com.android.server.pm.ScanPackageUtils", loadPackageParam.classLoader, "assertMinSignatureSchemeIsValid", "com.android.server.pm.parsing.pkg.AndroidPackage", int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (prefs.getBoolean("system_framework_core_patch_auth_creak", true)) {
+                if (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak")) {
                     param.setResult(null);
                 }
             }
@@ -87,7 +95,7 @@ public class CorePatchForT extends CorePatchForSv2 {
             XposedBridge.hookAllConstructors(strictJarVerifier, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (prefs.getBoolean("system_framework_core_patch_auth_creak", true)) {
+                    if (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak")) {
                         XposedHelpers.setBooleanField(param.thisObject, "signatureSchemeRollbackProtectionsEnforced", false);
                     }
                 }
