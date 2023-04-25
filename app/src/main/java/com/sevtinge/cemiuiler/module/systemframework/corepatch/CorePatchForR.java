@@ -45,40 +45,40 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                 "checkDowngrade",
                 "com.android.server.pm.parsing.pkg.AndroidPackage",
                 "android.content.pm.PackageInfoLite",
-                new ReturnConstant(prefs, "system_framework_core_patch_downgr", null));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", null));
 
         // exists on flyme 9(Android 11) only
         findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,//!
                 "checkDowngrade",
                 "android.content.pm.PackageInfoLite",
                 "android.content.pm.PackageInfoLite",
-                new ReturnConstant(prefs, "system_framework_core_patch_downgr", true));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", true));
         
         hookAllMethods("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader, "isDowngradePermitted",
-                new ReturnConstant(prefs, "system_framework_core_patch_downgr", true));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", true));
 
 
         // apk内文件修改后 digest校验会失败
         hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verifyMessageDigest",
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", true));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
         hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verify",
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", true));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
         hookAllMethods("java.security.MessageDigest", loadPackageParam.classLoader, "isEqual",
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", true));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
 
         // Targeting R+ (version " + Build.VERSION_CODES.R + " and above) requires"
         // + " the resources.arsc of installed APKs to be stored uncompressed"
         // + " and aligned on a 4-byte boundary
         // target >=30 的情况下 resources.arsc 必须是未压缩的且4K对齐
         hookAllMethods("android.content.res.AssetManager", loadPackageParam.classLoader, "containsAllocatedTable",
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", false));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", false));
 
         // No signature found in package of version " + minSignatureSchemeVersion
         // + " or newer for package " + apkPath
         findAndHookMethod("android.util.apk.ApkSignatureVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", 0));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
         findAndHookMethod("com.android.apksig.ApkVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
-                new ReturnConstant(prefs, "system_framework_core_patch_auth_creak", 0));//!
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));//!
 
         // Package " + packageName + " signatures do not match previously installed version; ignoring!"
         // public boolean checkCapability(String sha256String, @CertCapabilities int flags) {

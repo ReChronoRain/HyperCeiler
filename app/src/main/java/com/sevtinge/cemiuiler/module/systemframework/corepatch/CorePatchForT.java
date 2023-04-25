@@ -32,7 +32,7 @@ public class CorePatchForT extends CorePatchForSv2 {
                 "checkDowngrade",
                 "com.android.server.pm.parsing.pkg.AndroidPackage",
                 "android.content.pm.PackageInfoLite",
-                new ReturnConstant(prefs, "system_framework_core_patch_downgr", null));
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", null));
 
         Class<?> signingDetails = getSigningDetails(loadPackageParam.classLoader);
         //New package has a different signature
