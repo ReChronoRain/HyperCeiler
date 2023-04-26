@@ -28,6 +28,13 @@ public class BeautyPrivacy extends BaseHook {
                     param.setResult(true);
                 }
             });
+        } else if (appVersionCode == 40000780) {
+            findAndHookMethod("p5.f", "Y", new BaseHook.MethodHook() {
+                @Override
+                protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
         } else {
             findAndHookMethod("com.miui.gamebooster.beauty.i", "M", new BaseHook.MethodHook() {
                 @Override
