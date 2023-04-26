@@ -25,6 +25,13 @@ public class BeautyLight extends BaseHook {
                     param.setResult(true);
                 }
             });
+        } else if (appVersionCode == 40000780) {
+            findAndHookMethod("p5.f", "H", new BaseHook.MethodHook() {
+                @Override
+                protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
         } else {
             findAndHookMethod("com.miui.gamebooster.utils.o", "c", XC_MethodReplacement.returnConstant(true));
         }
