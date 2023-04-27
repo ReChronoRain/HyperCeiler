@@ -302,6 +302,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_other">
+        <SwitchPreference
+            android:title="@string/system_ui_status_bar_swap_wifi_and_mobile_network"
+            android:key="prefs_key_system_ui_status_bar_swap_wifi_and_mobile_network"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/system_ui_status_bar_hide_icon"

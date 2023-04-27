@@ -360,6 +360,7 @@
     <string name="system_ui_status_bar_battery_indicator_title">Battery indicator</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Mobile Network</string>
+    <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Swap Wi-Fi and Mobile Network</string>
     <string name="system_ui_status_bar_network_speed_at_right">Internet speed</string>
     <string name="system_ui_status_bar_alarm_clock_at_right">Alarm clock</string>
     <string name="system_ui_status_bar_nfc_at_right">NFC</string>

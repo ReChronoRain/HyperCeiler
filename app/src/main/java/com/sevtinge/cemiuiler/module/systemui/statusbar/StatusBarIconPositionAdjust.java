@@ -28,6 +28,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
 
     boolean isWiFiAtLeftEnable;
     boolean isMobileNetworkAtLeftEnable;
+    boolean isSwapWiFiAndMobileNetwork;
 
     boolean isNetworkSpeedAtRightEnable;
     boolean isAlarmClockAtRightEnable;
@@ -53,10 +54,12 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         isVolmeAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
         isZenAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
 
+        isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
+
         isMoveLeft = isWiFiAtLeftEnable || isMobileNetworkAtLeftEnable;
         isMoveRight = isNetworkSpeedAtRightEnable || isAlarmClockAtRightEnable || isNFCAtRightEnable || isVolmeAtRightEnable || isZenAtRightEnable;
 
-        if (isWiFiAtLeftEnable && isMobileNetworkAtLeftEnable) {
+        if (isWiFiAtLeftEnable && isMobileNetworkAtLeftEnable && !isSwapWiFiAndMobileNetwork) {
             mSignalIcons = new String[]{"no_sim", "mobile", "demo_mobile", "airplane", "hotspot", "slave_wifi", "wifi", "demo_wifi"};
         } else {
             mSignalIcons = new String[]{"hotspot", "slave_wifi", "wifi", "demo_wifi", "no_sim", "mobile", "demo_mobile", "airplane"};
@@ -134,7 +137,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
             });
         }
 
-        if (isMoveLeft) {
+        if (isMoveLeft || isSwapWiFiAndMobileNetwork) {
             findAndHookConstructor(mStatusBarIconList, String[].class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
@@ -150,7 +153,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                             allStatusIcons.addAll(startIndex + 1, mSignalRelatedIcons);
                         }
                         param.args[0] = allStatusIcons.toArray(new String[0]);
-                    } else if (isMoveLeft) {
+                    } else if (isMoveLeft && !isSwapWiFiAndMobileNetwork) {
                         dripLeftIcons.addAll(allStatusIcons);
                         allStatusIcons.addAll(0, mSignalRelatedIcons);
                         param.args[0] = allStatusIcons.toArray(new String[0]);
