@@ -51,9 +51,15 @@
         <SwitchPreference
                 android:defaultValue="false"
                 android:dependency="prefs_key_system_ui_statusbar_network_speed_fakedualrow"
-                android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
-                android:title="@string/system_ui_statusbar_network_speed_detailed"
+                android:key="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+                android:title="@string/system_ui_statusbar_network_speed_show_up_down"
                 android:summary="@string/system_ui_statusbar_network_speed_detailed_desc"/>
+
+        <SwitchPreference
+                android:defaultValue="false"
+                android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+                android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
+                android:title="@string/system_ui_statusbar_network_speed_detailed"/>
 
         <DropDownPreference
                 android:key="prefs_key_system_ui_statusbar_network_speed_icon"

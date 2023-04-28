@@ -49,9 +49,7 @@ public class SystemUI extends BaseModule {
 
         //网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
-            if(mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed")  || mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                initHook(NetworkSpeed.INSTANCE);
-            }
+            initHook(NetworkSpeed.INSTANCE);
             initHook(NetworkSpeedUnit.INSTANCE);
             initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         }

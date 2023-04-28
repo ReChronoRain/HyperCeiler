@@ -1,11 +1,15 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar
 
+import android.content.res.XModuleResources
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object NetworkSpeedUnit : BaseHook() {
     override fun init() {
@@ -15,7 +19,7 @@ object NetworkSpeedUnit : BaseHook() {
                 override fun after(param: MethodHookParam) {
                     //值和单位双排显示 + 上下行网速双排显示 + 字体大小调整
                     val doubleLine =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed")
+                        (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") && mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down"))
                     val dualRow =
                         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
                     val meter = param.thisObject as TextView

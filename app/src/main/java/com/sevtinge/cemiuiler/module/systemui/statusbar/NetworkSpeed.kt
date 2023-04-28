@@ -17,6 +17,8 @@ import kotlin.math.roundToLong
 
 object NetworkSpeed : BaseHook() {
     private var measureTime: Long = 0
+    private var newTxBytesFixed: Long = 0
+    private var newRxBytesFixed: Long = 0
     private var txBytesTotal: Long = 0
     private var rxBytesTotal: Long = 0
     private var txSpeed: Long = 0
@@ -68,10 +70,11 @@ object NetworkSpeed : BaseHook() {
             }
             val pre =
                 modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
-            (if (f < 100.0f) String.format("%.1f", f) else String.format(
-                "%.0f",
-                f
-            )) + String.format(
+            if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format(
+                    "%s$unitSuffix", pre
+                )
+            } else (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format(
                 "%s$unitSuffix", pre
             )
         } catch (t: Throwable) {
@@ -125,8 +128,8 @@ object NetworkSpeed : BaseHook() {
                         val bytes = getTrafficBytes()
                         val newTxBytes = bytes.first
                         val newRxBytes = bytes.second
-                        var newTxBytesFixed = newTxBytes - txBytesTotal
-                        var newRxBytesFixed = newRxBytes - rxBytesTotal
+                        newTxBytesFixed = newTxBytes - txBytesTotal
+                        newRxBytesFixed = newRxBytes - rxBytesTotal
                         if (newTxBytesFixed < 0 || txBytesTotal == 0L) newTxBytesFixed = 0
                         if (newRxBytesFixed < 0 || rxBytesTotal == 0L) newRxBytesFixed = 0
                         txSpeed = (newTxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
@@ -180,10 +183,29 @@ object NetworkSpeed : BaseHook() {
                         }
                         val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(mContext, txSpeed) + txarrow
                         val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(mContext, rxSpeed) + rxarrow
-                        param.args[0] = """
+                        val ax = humanReadableByteCount(mContext, newTxBytesFixed + newRxBytesFixed)
+                        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down") && !mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                                param.args[0] = "".trimIndent()
+                            } else {
+                                param.args[0] = """
                     $tx
                     $rx
                     """.trimIndent()
+                            }
+                        } else if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                                param.args[0] = "".trimIndent()
+                            } else {
+                                param.args[0] = """
+                    $ax
+                    """.trimIndent()
+                            }
+                        } else {
+                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                                param.args[0] = "".trimIndent()
+                            }
+                        }
                     }
                 }
             )
