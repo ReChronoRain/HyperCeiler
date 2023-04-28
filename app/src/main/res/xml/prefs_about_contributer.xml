@@ -51,6 +51,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/Wansn-w"/>
         </Preference>
+        <Preference
+                android:title="Next Alone">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/NextAlone"/>
+        </Preference>
     </PreferenceCategory>
 <Preference
             android:summary=""/>
