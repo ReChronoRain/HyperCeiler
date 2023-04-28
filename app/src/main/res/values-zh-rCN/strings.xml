@@ -787,7 +787,7 @@
     <string name="system_ui_status_bar_battery_indicator_title">电量指示器</string>
     <string name="system_ui_status_bar_wifi_at_left">WIFI</string>
     <string name="system_ui_status_bar_mobile_network_at_left">移动网络</string>
-    <string name="system_ui_status_bar_swap_wifi_and_mobile_network">交换WiFi与移动网络</string>
+    <string name="system_ui_status_bar_swap_wifi_and_mobile_network">交换 WIFI 与移动网络</string>
     <string name="system_ui_status_bar_network_speed_at_right">网速</string>
     <string name="system_ui_status_bar_alarm_clock_at_right">闹钟</string>
     <string name="system_ui_status_bar_nfc_at_right">NFC</string>
