@@ -25,14 +25,18 @@
 **注: 已添加的作用域**
 
 **系统**
+<br>
 ![badge_system_framework] ![badge_system_layer]
 ![badge_system_layer_component] ![badge_system_service]
 ![badge_miui_launcher] ![badge_system_upgrade]
 ![badge_joyose] ![badge_mi_settings]
 ![badge_mobile_manager] ![badge_permission_manager]
-![badge_battery_and_performance] ![badge_settings] ![badge_file_manager]  ![badge_screen_recorder]
+![badge_battery_and_performance] ![badge_settings]
+![badge_file_manager]  ![badge_screen_recorder]
+![badge_package_installer] ![badge_miui_security] ![badge_miui_beta] 
 <br>
 **APP**
+<br>
 ![badge_messages] ![badge_phone] 
 ![badge_camera] ![badge_screen_mirroring]
 ![badge_notes] ![badge_screenshots]
@@ -40,9 +44,8 @@
 ![badge_clock] ![badge_music]
 ![badge_shareme] ![badge_browser]
  ![badge_download_manager]
-![badge_cleaner] ![badge_smart_assistant] ![badge_themes_and_wallpapers]
-![badge_app_store] ![badge_package_installer]
-![badge_miui_security] ![badge_miui_beta] 
+![badge_cleaner] ![badge_smart_assistant]
+![badge_themes_and_wallpapers] ![badge_app_store]
 ![badge_xiaoai_suggestions] ![badge_xiaoai_vision]
 ![badge_xiaoai_voice] ![badge_mi_drop] 
 ![badge_mi_cloud] ![badge_mi_smart_card]
