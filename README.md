@@ -23,7 +23,7 @@
 ## 支持的应用
 
 **系统**
-<br> <br>
+<br>
 ![badge_system_framework] ![badge_system_layer]
 ![badge_system_layer_component] ![badge_system_service]
 ![badge_miui_launcher] ![badge_system_upgrade]
@@ -34,7 +34,7 @@
 ![badge_package_installer] ![badge_miui_security] ![badge_miui_beta] 
 <br>
 **APP**
-<br> <br>
+<br>
 ![badge_messages] ![badge_phone] 
 ![badge_camera] ![badge_screen_mirroring]
 ![badge_notes] ![badge_screenshots]
