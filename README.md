@@ -20,9 +20,7 @@
 
 > Make MIUI Great Again!
 
-## 支持的系统应用
-
-**注: 已添加的作用域**
+## 支持的应用
 
 **系统**
 <br>
@@ -50,6 +48,8 @@
 ![badge_xiaoai_voice] ![badge_mi_drop] 
 ![badge_mi_cloud] ![badge_mi_smart_card]
 ![badge_mi_gallery_editor] ![badge_com.miui.rom]
+
+> **PS: 以上应用均会自动选择作用域(Lsposed框架下)**
 
 ## 感谢
 
