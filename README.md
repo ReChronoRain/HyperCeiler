@@ -25,6 +25,7 @@
 **注: 已添加的作用域**
 
 ![badge_system_framework] ![badge_system_layer]
+<br>
 ![badge_system_layer_component] ![badge_system_service]
 ![badge_miui_launcher] ![badge_system_upgrade]
 ![badge_joyose] ![badge_mi_settings]
