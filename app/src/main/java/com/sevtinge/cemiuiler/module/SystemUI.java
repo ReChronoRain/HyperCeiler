@@ -49,7 +49,9 @@ public class SystemUI extends BaseModule {
 
         //网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
-            initHook(NetworkSpeed.INSTANCE);
+            if(mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed")  || mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+                initHook(NetworkSpeed.INSTANCE);
+            }
             initHook(NetworkSpeedUnit.INSTANCE);
             initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         }
@@ -74,7 +76,9 @@ public class SystemUI extends BaseModule {
         boolean isVolumeAtRight = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
         boolean isZenAtRight = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
 
-        boolean isStatusBarIconAtRightEnable = isWiFiAtLeft || isMobileNetworkAtLeft || isNetworkSpeedAtRight || isAlarmClockAtRight || isNFCAtRight || isVolumeAtRight || isZenAtRight;
+        boolean isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
+
+        boolean isStatusBarIconAtRightEnable = isWiFiAtLeft || isMobileNetworkAtLeft || isSwapWiFiAndMobileNetwork || isNetworkSpeedAtRight || isAlarmClockAtRight || isNFCAtRight || isVolumeAtRight || isZenAtRight;
 
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 

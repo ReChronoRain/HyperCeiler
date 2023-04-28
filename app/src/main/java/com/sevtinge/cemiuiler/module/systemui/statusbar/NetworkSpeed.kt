@@ -28,17 +28,17 @@ object NetworkSpeed : BaseHook() {
         try {
             val list = NetworkInterface.getNetworkInterfaces()
             while (list.hasMoreElements()) {
-                val iface = list.nextElement()
-                if (iface.isUp && !iface.isVirtual && !iface.isLoopback && !iface.isPointToPoint && "" != iface.name) {
+                val iFace = list.nextElement()
+                if (iFace.isUp && !iFace.isVirtual && !iFace.isLoopback && !iFace.isPointToPoint && "" != iFace.name) {
                     tx += XposedHelpers.callStaticMethod(
                         TrafficStats::class.java,
                         "getTxBytes",
-                        iface.name
+                        iFace.name
                     ) as Long
                     rx += XposedHelpers.callStaticMethod(
                         TrafficStats::class.java,
                         "getRxBytes",
-                        iface.name
+                        iFace.name
                     ) as Long
                 }
             }
@@ -88,7 +88,7 @@ object NetworkSpeed : BaseHook() {
         )
 
         if (nscCls == null) {
-            Helpers.log("DetailedNetSpeedHook", "No NetworkSpeed view or controller")
+            Helpers.log("DetailedNetSpeedHook", "Cemiuiler: No NetworkSpeed view or controller")
         } else {
             Helpers.findAndHookMethod(nscCls, "getTotalByte", object : MethodHook() {
                 override fun after(param: MethodHookParam) {
