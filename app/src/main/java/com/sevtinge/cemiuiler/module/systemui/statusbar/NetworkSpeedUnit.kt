@@ -22,17 +22,23 @@ object NetworkSpeedUnit : BaseHook() {
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
                         val fontSize =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
+                        val fontsizeEnable: Boolean =
+                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
                         /*if (dualRow) {
                             if (fontSize > 23 || fontSize == 13) fontSize = 16
                         } else {
                             if (fontSize < 20 && fontSize != 13) fontSize = 27
                         }*/
-                        try {
-                            if (doubleLine || dualRow) {
-                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
+                        if (fontsizeEnable) {
+                            try {
+                                if (doubleLine || dualRow) {
+                                    meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
+                                } else {
+                                    meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
+                                }
+                            } catch (e: Throwable) {
+                                XposedBridge.log(e)
                             }
-                        } catch (e: Throwable) {
-                            XposedBridge.log(e)
                         }
                         //网速加粗
                         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_bold")) {

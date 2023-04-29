@@ -69,15 +69,22 @@
                 android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
                 android:title="@string/system_ui_statusbar_network_speed_detailed"/>
 
-        <SeekBarPreference
-                android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
+        <SwitchPreference
                 android:title="@string/system_ui_statusbar_network_speed_font_size"
+                android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
+                android:defaultValue="false"
+                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+
+        <SeekBarPreference
+                android:layout="@layout/preference_seekbar_no_padding"
+                android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
+                app:dialogTitle="@string/system_ui_statusbar_network_speed_font_size"
                 android:defaultValue="13"
                 app:format="%s dp"
                 app:maxValue="32"
                 app:minValue="6"
                 app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+                android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"/>
 
         <SwitchPreference
                 android:defaultValue="false"
