@@ -55,19 +55,19 @@
                 android:title="@string/system_ui_statusbar_network_speed_show_up_down"
                 android:summary="@string/system_ui_statusbar_network_speed_detailed_desc"/>
 
+        <DropDownPreference
+                android:key="prefs_key_system_ui_statusbar_network_speed_icon"
+                android:title="@string/system_ui_statusbar_network_speed_icon"
+                android:defaultValue="2"
+                android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+                app:entries="@array/system_ui_status_bar_network_icon"
+                app:entryValues="@array/system_ui_status_bar_network_icon_value"/>
+
         <SwitchPreference
                 android:defaultValue="false"
                 android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
                 android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
                 android:title="@string/system_ui_statusbar_network_speed_detailed"/>
-
-        <DropDownPreference
-                android:key="prefs_key_system_ui_statusbar_network_speed_icon"
-                android:title="@string/system_ui_statusbar_network_speed_icon"
-                android:defaultValue="2"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_detailed"
-                app:entries="@array/system_ui_status_bar_network_icon"
-                app:entryValues="@array/system_ui_status_bar_network_icon_value"/>
 
         <SeekBarPreference
                 android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
