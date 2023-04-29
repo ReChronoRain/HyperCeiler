@@ -1,15 +1,11 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar
 
-import android.content.res.XModuleResources
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object NetworkSpeedUnit : BaseHook() {
     override fun init() {
