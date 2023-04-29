@@ -51,7 +51,7 @@ public class Home extends BaseModule {
 
         //布局
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
-        initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
+        //initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePaddingBottom(), mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable"));
 
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));

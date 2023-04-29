@@ -342,7 +342,23 @@ public class Helpers {
         return makeBasic;
     }
 
+    public static XC_MethodHook.Unhook findAndHookMethodUseUnhook(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
+        try {
+            return XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
+        } catch (Throwable t) {
+            log(getCallerMethod(), "Failed to hook " + methodName + " method in " + className);
+            return null;
+        }
+    }
 
+    public static XC_MethodHook.Unhook findAndHookMethodUseUnhook(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+        try {
+            return XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
+        } catch (Throwable t) {
+            log(getCallerMethod(), "Failed to hook " + methodName + " method in " + clazz.getCanonicalName());
+            return null;
+        }
+    }
 
     public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
         try {

@@ -35,7 +35,8 @@
                 android:title="@string/home_layout_unlock_grids_no_words"
                 android:summary="@string/home_layout_unlock_grids_no_words_desc"
                 android:key="prefs_key_home_layout_unlock_grids_no_word"
-                android:defaultValue="false"/>
+                android:defaultValue="false"
+                app:isPreferenceVisible="false" />
 
         <SwitchPreference
                 android:title="@string/home_layout_workspace_padding_bottom"
