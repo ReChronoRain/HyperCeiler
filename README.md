@@ -1,5 +1,5 @@
 <div align="right">
-<a href="/README.md">CN</a> &nbsp;|&nbsp;
+<a href="/README.md">中文</a> &nbsp;|&nbsp;
 <a href="/README_en-US.md">EN</a>
 </div>
 
@@ -20,21 +20,31 @@
 
 > Make MIUI Great Again!
 
-## 支持的系统应用
+## 支持的应用
 
-**注: 已添加的作用域**
+![badge_system_framework] ![badge_system_layer]
+![badge_system_layer_component] ![badge_system_service]
+![badge_miui_launcher] ![badge_system_upgrade]
+![badge_joyose] ![badge_mi_settings]
+![badge_mobile_manager] ![badge_permission_manager]
+![badge_battery_and_performance] ![badge_settings]
+![badge_file_manager]  ![badge_screen_recorder]
+![badge_package_installer] ![badge_miui_security] ![badge_miui_beta] 
+![badge_messages] ![badge_phone] 
+![badge_camera] ![badge_screen_mirroring]
+![badge_notes] ![badge_screenshots]
+![badge_gallery] ![badge_weather]
+![badge_clock] ![badge_music]
+![badge_shareme] ![badge_browser]
+ ![badge_download_manager]
+![badge_cleaner] ![badge_smart_assistant]
+![badge_themes_and_wallpapers] ![badge_app_store]
+![badge_xiaoai_suggestions] ![badge_xiaoai_vision]
+![badge_xiaoai_voice] ![badge_mi_drop] 
+![badge_mi_cloud] ![badge_mi_smart_card]
+![badge_mi_gallery_editor] ![badge_com.miui.rom]
 
-![badge_system_framework] ![badge_system_layer] ![badge_system_layer_component] 
-![badge_system_service] ![badge_miui_launcher] ![badge_system_upgrade]
-![badge_joyose] ![badge_mi_settings] ![badge_mobile_manager] ![badge_permission_manager]
-![badge_battery_and_performance] ![badge_settings] ![badge_messages] ![badge_phone] 
-![badge_camera] ![badge_screen_mirroring] ![badge_notes] ![badge_screenshots]
-![badge_gallery] ![badge_weather] ![badge_clock] ![badge_music] ![badge_shareme]
-![badge_browser] ![badge_file_manager] ![badge_download_manager] ![badge_cleaner]
-![badge_screen_recorder] ![badge_smart_assistant] ![badge_themes_and_wallpapers]
-![badge_app_store] ![badge_package_installer] ![badge_miui_security] ![badge_miui_beta] 
-![badge_xiaoai_suggestions] ![badge_xiaoai_vision] ![badge_xiaoai_voice] ![badge_mi_drop] 
-![badge_mi_cloud] ![badge_mi_smart_card] ![badge_mi_gallery_editor] ![badge_com.miui.rom]
+> **PS: 以上应用均会自动选择作用域(在LSPosed框架下)**
 
 ## 感谢
 
@@ -71,9 +81,9 @@
 
 
 [qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
-[badge_qgroup]: https://img.shields.io/badge/QQ-点击加群-4DB8FF?style=for-the-badge&logo=tencentqq
+[badge_qgroup]: https://img.shields.io/badge/QQ-群组-4DB8FF?style=for-the-badge&logo=tencentqq
 [qguild_url]: https://t.me/cemiuiler_insider_preview
-[badge_qguild]: https://img.shields.io/badge/QQ-加入频道-4991D3?style=for-the-badge&logo=tencentqq
+[badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
 [telegram_url]: https://t.me/cemiuiler_insider_preview
 [badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler_insider_preview
 
