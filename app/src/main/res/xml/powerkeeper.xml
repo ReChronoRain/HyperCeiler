@@ -10,6 +10,12 @@
                 android:title="@string/powerkeeper_lock_max_fps"
                 android:key="prefs_key_powerkeeper_lock_max_fps"
                 android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/powerkeeper_do_not_kill_apps"
+                android:summary="@string/powerkeeper_do_not_kill_apps_desc"
+                android:key="prefs_key_powerkeeper_do_not_kill_apps"
+                android:defaultValue="false"/>
     </PreferenceCategory>
 
     <Preference

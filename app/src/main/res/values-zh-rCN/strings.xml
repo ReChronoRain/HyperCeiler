@@ -478,6 +478,8 @@
 
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>
     <string name="powerkeeper_lock_max_fps">锁定当前刷新率上限</string>
+    <string name="powerkeeper_do_not_kill_apps">尝试不要杀死后台应用</string>
+    <string name="powerkeeper_do_not_kill_apps_desc">可能使耗电量增加</string>
 
     <string name="scanner_card">解锁扫名片</string>
     <string name="scanner_translation">解锁翻译</string>
