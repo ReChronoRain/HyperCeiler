@@ -92,15 +92,13 @@ public class UnlockGrids extends BaseHook {
 
         Helpers.hookAllMethods("com.miui.home.launcher.DeviceConfig", lpparam.classLoader, "isCellSizeChangedByTheme", new MethodHook() {
             XC_MethodHook.Unhook nowordHook;
-            boolean isHooked = false;
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 nowordHook = Helpers.findAndHookMethodUseUnhook("com.miui.home.launcher.common.Utilities", lpparam.classLoader, "isNoWordModel", XC_MethodReplacement.returnConstant(false));
-                isHooked = true;
             }
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                if (isHooked) nowordHook.unhook();
+                if (nowordHook != null) nowordHook.unhook();
                 nowordHook = null;
             }
         });

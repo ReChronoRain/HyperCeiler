@@ -891,5 +891,8 @@
     <string name="home_folder_anim_3">Close speed 1</string>
     <string name="home_folder_anim_4">Close speed 2</string>
     <string name="system_ui_statusbar_network_speed_show_up_down">Show up and down network speed</string>
+    <string name="powerkeeper_lock_max_fps">Lock max FPS</string>
+    <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
+    <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
 </resources>

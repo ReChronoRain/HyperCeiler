@@ -13,14 +13,21 @@ import androidx.core.content.ContextCompat;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.Settings;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 
 public class FreeformShortcutMenu extends BaseHook {
 
@@ -35,6 +42,8 @@ public class FreeformShortcutMenu extends BaseHook {
     Class<?> mRecentsAndFSGestureUtils;
 
     Context context;
+
+    XC_MethodHook.Unhook mShortCutMenuItemHook;
 
     @Override
     public void init() {
@@ -74,41 +83,85 @@ public class FreeformShortcutMenu extends BaseHook {
                 }
             });
 
+            try {
+                mShortCutMenuItemHook = Helpers.findAndHookMethodUseUnhook(mAppDetailsShortcutMenuItem, "lambda$getOnClickListener$0$SystemShortcutMenuItem$AppDetailShortcutMenuItem", View.class, new MethodHook() {
 
-            findAndHookMethod(mAppDetailsShortcutMenuItem, "lambda$getOnClickListener$0", mAppDetailsShortcutMenuItem, View.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
 
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                        Resources modRes = Helpers.getModuleRes(context);
 
-                    Resources modRes = Helpers.getModuleRes(context);
+                        Object obj = param.args[0];
+                        View view = (View) param.args[1];
+                        CharSequence mShortTitle = (CharSequence) XposedHelpers.callMethod(obj, "getShortTitle", new Object[0]);
 
-                    Object obj = param.args[0];
-                    View view = (View) param.args[1];
-                    CharSequence mShortTitle = (CharSequence) XposedHelpers.callMethod(obj, "getShortTitle", new Object[0]);
+                        if (mShortTitle.equals(modRes.getString(R.string.share_center))) {
 
-                    if (mShortTitle.equals(modRes.getString(R.string.share_center))) {
+                            param.setResult(null);
+                            XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", context);
 
-                        param.setResult(null);
-                        XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", context);
+                        } else if (mShortTitle.equals(modRes.getString(R.string.floating_window))) {
 
-                    } else if (mShortTitle.equals(modRes.getString(R.string.floating_window))) {
+                            param.setResult(null);
+                            Intent intent = new Intent();
+                            ComponentName mComponentName = (ComponentName) XposedHelpers.callMethod(obj, "getComponentName", new Object[0]);
+                            intent.setAction("android.intent.action.MAIN");
+                            intent.addCategory("android.intent.category.DEFAULT");
+                            intent.setComponent(mComponentName);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Object callStaticMethod = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", view.getContext(), mComponentName.getPackageName());
 
-                        param.setResult(null);
-                        Intent intent = new Intent();
-                        ComponentName mComponentName = (ComponentName) XposedHelpers.callMethod(obj, "getComponentName", new Object[0]);
-                        intent.setAction("android.intent.action.MAIN");
-                        intent.addCategory("android.intent.category.DEFAULT");
-                        intent.setComponent(mComponentName);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Object callStaticMethod = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", view.getContext(), mComponentName.getPackageName());
-
-                        if (callStaticMethod != null) {
-                            view.getContext().startActivity(intent, (Bundle) XposedHelpers.callMethod(callStaticMethod, "toBundle", new Object[0]));
+                            if (callStaticMethod != null) {
+                                view.getContext().startActivity(intent, (Bundle) XposedHelpers.callMethod(callStaticMethod, "toBundle", new Object[0]));
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            if (mShortCutMenuItemHook == null) {
+                try {
+                    mShortCutMenuItemHook = Helpers.findAndHookMethodUseUnhook(mAppDetailsShortcutMenuItem, "lambda$getOnClickListener$0", mAppDetailsShortcutMenuItem, View.class, new MethodHook() {
 
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+
+                            Resources modRes = Helpers.getModuleRes(context);
+
+                            Object obj = param.args[0];
+                            View view = (View) param.args[1];
+                            CharSequence mShortTitle = (CharSequence) XposedHelpers.callMethod(obj, "getShortTitle", new Object[0]);
+
+                            if (mShortTitle.equals(modRes.getString(R.string.share_center))) {
+
+                                param.setResult(null);
+                                XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", context);
+
+                            } else if (mShortTitle.equals(modRes.getString(R.string.floating_window))) {
+
+                                param.setResult(null);
+                                Intent intent = new Intent();
+                                ComponentName mComponentName = (ComponentName) XposedHelpers.callMethod(obj, "getComponentName", new Object[0]);
+                                intent.setAction("android.intent.action.MAIN");
+                                intent.addCategory("android.intent.category.DEFAULT");
+                                intent.setComponent(mComponentName);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Object callStaticMethod = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", view.getContext(), mComponentName.getPackageName());
+
+                                if (callStaticMethod != null) {
+                                    view.getContext().startActivity(intent, (Bundle) XposedHelpers.callMethod(callStaticMethod, "toBundle", new Object[0]));
+                                }
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (mShortCutMenuItemHook == null) {
+                log("ShortcutMenuItem method not found.");
+            }
 
 
             hookAllMethods(mSystemShortcutMenu, "getMaxShortcutItemCount", new MethodHook() {
