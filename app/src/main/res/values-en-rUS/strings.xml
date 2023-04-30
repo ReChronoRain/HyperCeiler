@@ -894,4 +894,5 @@
     <string name="powerkeeper_lock_max_fps">Lock max FPS</string>
     <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
+    <string name="system_ui_statusbar_clock_desc">Clock format example</string>
 </resources>

@@ -29,10 +29,12 @@
     <string name="mirror">MIUI+</string>
     <string name="mishare">小米互傳</string>
     <string name="mms">簡訊</string>
+    <string name="mtb">魯班 (MTB)</string>
     <string name="music">音樂</string>
     <string name="system_ui_controlcenter_fix_media_control_panel">修正音樂面板背景圖異常</string>
     <string name="package_installer">應用程式檔案管理元件</string>
     <string name="personal_assistant">智慧助理</string>
+    <string name="phone">電話服務</string>
     <string name="powerkeeper">電量和性能</string>
     <string name="scanner">小愛視覺</string>
     <string name="screenrecorder">螢幕錄製</string>

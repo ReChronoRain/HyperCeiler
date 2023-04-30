@@ -714,6 +714,7 @@
     <string name="system_ui_statusbar_clock_hide_space">隐藏间隔</string>
     <string name="system_ui_statusbar_clock_double">双排显示</string>
     <string name="system_ui_statusbar_clock_double_center">双排居中对齐</string>
+    <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小（0 为不修改）</string>
     <string name="system_ui_statusbar_clock_double_size">双排大小（0 为不修改）</string>
 
