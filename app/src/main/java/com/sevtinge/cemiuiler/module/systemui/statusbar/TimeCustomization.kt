@@ -250,16 +250,10 @@ object TimeCustomization : BaseHook(){
         if (isPeriod) {
             if (isZh) {
                 when (SimpleDateFormat("HH").format(nowTime)) {
-                    "23", "00"  -> {
-                        period = "深夜"
-                    }
-                    "01", "02", "03", "04", "05" -> {
+                    "00", "01", "02", "03", "04", "05" -> {
                         period = "凌晨"
                     }
-                    "06", "07" -> {
-                        period = "清晨"
-                    }
-                    "08", "09", "10", "11" -> {
+                    "06", "07", "08", "09", "10", "11" -> {
                         period = "上午"
                     }
                     "12" -> {
@@ -271,7 +265,7 @@ object TimeCustomization : BaseHook(){
                     "18" -> {
                         period = "傍晚"
                     }
-                    "19", "20", "21", "22" -> {
+                    "19", "20", "21", "22", "23" -> {
                         period = "晚上"
                     }
                 }
