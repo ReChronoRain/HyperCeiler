@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
-    <SwitchPreference
-            android:title="@string/powerkeeper_custom_refresh_rate"
-            android:key="prefs_key_various_custom_refresh_rate"
-            android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="@string/powerkeeper_custom_refresh_rate"
+                android:key="prefs_key_various_custom_refresh_rate"
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/powerkeeper_lock_max_fps"
+                android:key="prefs_key_powerkeeper_lock_max_fps"
+                android:defaultValue="false"/>
     </PreferenceCategory>
 
-<Preference
+    <Preference
             android:summary=""/>
 
 </PreferenceScreen>

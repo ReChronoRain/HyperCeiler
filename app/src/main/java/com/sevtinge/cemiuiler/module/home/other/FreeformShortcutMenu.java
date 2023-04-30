@@ -82,7 +82,7 @@ public class FreeformShortcutMenu extends BaseHook {
                     context = (Context) param.thisObject;
                 }
             });
-            log("000");
+
             try {
                 mShortCutMenuItemHook = Helpers.findAndHookMethodUseUnhook(mAppDetailsShortcutMenuItem, "lambda$getOnClickListener$0$SystemShortcutMenuItem$AppDetailShortcutMenuItem", View.class, new MethodHook() {
 
