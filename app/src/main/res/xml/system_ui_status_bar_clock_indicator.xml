@@ -101,6 +101,13 @@
                 android:key="prefs_key_system_ui_statusbar_clock_editor"
                 android:title="@string/system_ui_statusbar_clock_editor" />
 
+        <Preference
+            android:title="@string/system_ui_statusbar_clock_desc" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://zhuti.designer.xiaomi.com/docs/grammar/#时间日期" />
+        </Preference>
+
             <SwitchPreference
                 android:defaultValue="false"
                 android:key="prefs_key_system_ui_statusbar_clock_double_center_geek"
