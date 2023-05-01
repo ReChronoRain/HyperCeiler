@@ -184,6 +184,9 @@
     <string name="disable_app_settings">這是一個壞主意！</string>
     <string name="disable_app_text">如果這是一個必要的系統應用程式，將其停用可能會導致裝置損毀</string>
     <string name="disable_app_title">確定要停用該應用程式嗎？</string>
+    <string name="file_explorer_can_selectable">資料夾名稱可以選擇操作</string>
+    <string name="file_explorer_is_single_line">資料夾名稱以單行顯示</string>
+    <string name="fileexplorer">檔案管理</string>
     <string name="floating_window">小窗</string>
     <string name="gallery">相簿</string>
     <string name="gallery_enable_hdr_enhanced">解鎖超動態顯示</string>
@@ -349,7 +352,7 @@
     <string name="home_recent_none_blur">無模糊</string>
     <string name="home_recent_none_blur_simple_anim">無模糊（精簡動畫）</string>
     <string name="home_recent_remove_icon">隱藏圖示</string>
-    <string name="home_recent_show_real_memory">Show real memory</string>
+    <string name="home_recent_show_real_memory">顯示真實運行記憶體</string>
     <string name="home_recent_simple_blur">簡單模糊</string>
     <string name="home_recent_task_view_card_rounded_corners">卡片圓角大小</string>
     <string name="home_recent_test_blur">測試模糊</string>
@@ -518,7 +521,7 @@
     <string name="security">手機管家</string>
     <string name="security_app_sort_summary">修改應用程式管理列表預設排序</string>
     <string name="security_app_sort_title">應用程式管理列表排序</string>
-    <string name="security_app_summary">增加新欄位到應用程式資訊頁面:/n- 版本號碼/n- Apk 完整目錄/n- 數據目錄/n- 用戶標識符/n- 最低 SDK 版本/n- 目標 SDK 版本/n- 連結到應用程式商店頁面/n- 啟動應用程式</string>
+    <string name="security_app_summary">增加新欄位到應用程式資訊頁面:\n- 版本號碼\n- Apk 完整目錄\n- 數據目錄\n- 用戶標識符\n- 最低 SDK 版本\n- 目標 SDK 版本\n- 連結到應用程式商店頁面\n- 啟動應用程式</string>
     <string name="security_app_title">顯示更多應用程式資訊</string>
     <string name="security_center">手機管家</string>
     <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
@@ -632,7 +635,7 @@
     <string name="system_framework_freeform_bubble">小窗氣泡</string>
     <string name="system_framework_freeform_count">多小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform">將所有小窗轉為迷你小窗</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任務中將所有小窗轉為迷你小窗顯示n此功能為實驗性功能，具有較高不穩定性</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任務中將所有小窗轉為迷你小窗顯示\n此功能為實驗性功能，具有較高不穩定性</string>
     <string name="system_framework_freeform_sticky">記住狀態</string>
     <string name="system_framework_freeform_title">小窗</string>
     <string name="system_framework_open_with_menu_test">打開方式選單測試</string>
@@ -860,7 +863,7 @@
     <string name="updater_device">偽裝機型</string>
     <string name="updater_device_desc">可用於獲取其他機型的 ROM 包，該功能極度危險</string>
     <string name="updater_fuck_vab">移除 OTA 驗證</string>
-    <string name="updater_fuck_vab_desc">僅支援 VAB 裝置，其他非 VAB 裝置請不要開啟！/n功能特點：無需內測權限即可刷入完整內測卡刷包nn注意事項：/n- 跨不同版本類型刷入後建議清除數據/n- 不支援任何非官方 ROM 使用/n- 此功能有一定危險性，請在了解 Fastboot 操作後再評估是否開啟</string>
+    <string name="updater_fuck_vab_desc">僅支援 VAB 裝置，其他非 VAB 裝置請不要開啟！\n功能特點：無需內測權限即可刷入完整內測卡刷包\n注意事項：\n- 跨不同版本類型刷入後建議清除數據\n- 不支援任何非官方 ROM 使用\n- 此功能有一定危險性，請在了解 Fastboot 操作後再評估是否開啟</string>
     <string name="updater_miui_version">偽裝 MIUI 版本</string>
     <string name="updater_miui_version_desc">僅對系統更新修改，可在一定程度上遮罩系統更新</string>
     <string name="various">其他</string>
@@ -883,7 +886,7 @@
     <string name="various_unlock_ime">解鎖輸入法全螢幕鍵盤最佳化</string>
     <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
     <string name="various_install_app_info_sdk">支援 SDK</string>
-    <string name="various_install_app_info_version_code">版本代碼</string>
+    <string name="various_install_app_info_version_code">版本號碼</string>
     <string name="various_install_app_info_version_name">版本名稱</string>
     <string name="various_install_app_size">應用程式大小</string>
     <string name="various_location_simulation_1_title">任務 1</string>
@@ -897,7 +900,8 @@
     <string name="weather_device_level_title_high">高</string>
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
-<!--    <string name="call_notification_answer_action">接聽</string>
+    <string name="xposed_description">讓 MIUI 再次偉大！</string>
+<!--<string name="call_notification_answer_action">接聽</string>
     <string name="call_notification_answer_video_action">視訊</string>
     <string name="call_notification_decline_action">拒接</string>
     <string name="call_notification_hang_up_action">掛斷</string>
@@ -932,6 +936,4 @@
     <string name="dropdown_menu">下拉式選單</string>
     <string name="expand_button_title">進階</string>
     <string name="copy">複製</string>-->
-    <string name="xposed_description">讓 MIUI 再次偉大！</string>
-    <string name="fileexplorer">檔案管理</string>
 </resources>
