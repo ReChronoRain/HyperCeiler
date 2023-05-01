@@ -190,6 +190,16 @@
                     android:targetClass="com.sevtinge.cemiuiler.ui.MiShareActivity"/>
         </Preference>
 
+        <Preference
+                android:title="@string/miwallpaper"
+                android:summary="com.miui.miwallpaper"
+                android:key="prefs_key_miwallpaper"
+                android:icon="@drawable/ic_miwallpaper">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MiWallpaperActivity"/>
+        </Preference>
+
         <Preference android:title="@string/package_installer"
                     android:summary="com.miui.packageinstaller"
                     android:icon="@drawable/ic_package_installer">

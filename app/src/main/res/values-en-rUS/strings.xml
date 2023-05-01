@@ -895,4 +895,6 @@
     <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
+    <string name="miwallpaper">Wallpaper</string>
+    <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
 </resources>
