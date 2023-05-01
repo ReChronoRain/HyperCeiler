@@ -245,7 +245,7 @@
     <string name="home_dock_bg_custom_enable">启用自定义</string>
     <string name="home_dock_bg_height">高度</string>
     <string name="home_dock_bg_height_desc">Dock 栏高度</string>
-    <string name="home_dock_bg_margin_horizontal">垂直边距</string>
+    <string name="home_dock_bg_margin_horizontal">水平边距</string>
     <string name="home_dock_bg_margin_horizontal_desc">Dock 栏距屏幕两侧边距</string>
     <string name="home_dock_bg_margin_top">顶部边距</string>
     <string name="home_dock_bg_margin_top_desc">Dock 栏距页面指示器边距</string>
