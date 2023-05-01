@@ -68,6 +68,7 @@
 - [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
 - [「MIUI IME Unlock」 by RC1844](https://github.com/RC1844/MIUI_IME_Unlock)
 - [「MIUIQOL」 by chsbuffer](https://github.com/chsbuffer/MIUIQOL)
+- [「Miui XXL」 by Wine-Network](https://github.com/Wine-Network/Miui_XXL)
 - [「Miui XXL」 by YuKongA](https://github.com/YuKongA/Miui_XXL)
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
 - [「NoStorageRestrict」 by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)

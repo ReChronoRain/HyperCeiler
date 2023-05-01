@@ -123,6 +123,13 @@
                 android:data="https://github.com/chsbuffer/MIUIQOL" />
         </Preference>
         <Preference
+                android:title="Miui XXL"
+                android:summary="Wine-Network">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Wine-Network/Miui_XXL" />
+        </Preference>
+        <Preference
             android:title="Miui XXL"
             android:summary="YuKongA">
             <intent
