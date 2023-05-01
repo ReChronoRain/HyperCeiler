@@ -50,7 +50,7 @@ class AboutActivity : AppCompatActivity() {
             val mHiddenFunction = findPreference<Preference>("prefs_key_hidden_function")
             val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
-            mHiddenFunction.title = "v" + BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE
+            mHiddenFunction.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
 
             var versionClickTime = 0
             val maxCloseClickTime = 3
