@@ -2,6 +2,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory>
+
+        <SwitchPreference
+                android:key="prefs_key_system_ui_control_center_show_weather"
+                android:title="@string/system_ui_control_center_show_weather"
+                android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_ui_control_center_notification_blur_title">
 
         <SwitchPreference

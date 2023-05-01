@@ -653,6 +653,7 @@
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_controlcenter_fix_media_control_panel">修复音乐面板背景图异常</string>
+    <string name="system_ui_control_center_show_weather">显示天气</string>
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
