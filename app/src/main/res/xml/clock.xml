@@ -10,7 +10,5 @@
             android:title="@string/clock_enable_hour_glass" />
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
 
 </PreferenceScreen>
