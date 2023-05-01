@@ -43,9 +43,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Various mVarious = new Various();
     public Weather mWeather = new Weather();
     public Clock mClock = new Clock();
-
     public FileExplorer mFileExplorer = new FileExplorer();
-
     public Music mMusic = new Music();
     public Gallery mGallery = new Gallery();
     public Aireco mAireco = new Aireco();
