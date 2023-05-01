@@ -897,7 +897,7 @@
     <string name="weather_device_level_title_high">高</string>
     <string name="weather_device_level_title_low">低</string>
     <string name="weather_device_level_title_middle">中</string>
-    <string name="call_notification_answer_action">接聽</string>
+<!--    <string name="call_notification_answer_action">接聽</string>
     <string name="call_notification_answer_video_action">視訊</string>
     <string name="call_notification_decline_action">拒接</string>
     <string name="call_notification_hang_up_action">掛斷</string>
@@ -931,6 +931,6 @@
     <string name="default_popup_window_title">彈出式視窗</string>
     <string name="dropdown_menu">下拉式選單</string>
     <string name="expand_button_title">進階</string>
-    <string name="copy">複製</string>
+    <string name="copy">複製</string>-->
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
 </resources>
