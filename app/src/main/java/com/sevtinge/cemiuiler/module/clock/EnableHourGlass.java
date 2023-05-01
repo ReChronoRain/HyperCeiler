@@ -2,11 +2,7 @@ package com.sevtinge.cemiuiler.module.clock;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import java.io.File;
-
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
 

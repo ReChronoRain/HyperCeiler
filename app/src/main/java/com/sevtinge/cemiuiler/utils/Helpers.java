@@ -49,6 +49,7 @@ public class Helpers {
 
     private static final String TAG = "Helpers";
 
+    @SuppressLint("StaticFieldLeak")
     public static Context mModuleContext = null;
 
     public static boolean isModuleActive = false;
@@ -336,7 +337,7 @@ public class Helpers {
 
 
         ActivityOptions makeBasic = ActivityOptions.makeBasic();
-        ReflectUtils.callObjectMethod("android.app.ActivityOptions", "setLaunchWindowingMode", new Class[]{int.class}, new Object[]{5});
+        ReflectUtils.callObjectMethod("android.app.ActivityOptions", "setLaunchWindowingMode", new Class[]{int.class}, 5);
         Rect rect = (Rect) ReflectUtils.callObjectMethod("android.util.MiuiMultiWindowUtils", "getFreeformRect", new Class[]{Context.class}, new Object[]{context});
         makeBasic.setLaunchBounds(rect);
         return makeBasic;
@@ -462,12 +463,13 @@ public class Helpers {
     }
 
 
-    public static boolean hookAllMethodsSilently(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
+    public static void hookAllMethodsSilently(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
         try {
             Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            return hookClass != null && XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+            if (hookClass != null) {
+                XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
+            }
         } catch (Throwable t) {
-            return false;
         }
     }
 
