@@ -169,6 +169,7 @@
 
         <activity android:label="@string/phone" android:name=".ui.PhoneActivity"/>
 
+        <activity android:label="@string/fileexplorer" android:name=".ui.FileExplorerActivity"/>
 
         <activity android:label="@string/system_framework_free_form_title" android:name=".ui.systemframework.FreeFormSettings"/>
         <activity android:label="@string/system_framework_volume_title" android:name=".ui.systemframework.VolumeSettings"/>

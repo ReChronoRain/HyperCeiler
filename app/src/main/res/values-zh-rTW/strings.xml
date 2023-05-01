@@ -933,4 +933,5 @@
     <string name="expand_button_title">進階</string>
     <string name="copy">複製</string>-->
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
+    <string name="fileexplorer">檔案管理</string>
 </resources>

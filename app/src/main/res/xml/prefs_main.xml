@@ -43,6 +43,16 @@
         </Preference>
 
         <Preference
+            android:title="@string/fileexplorer"
+            android:summary="com.android.fileexplorer"
+            android:key="prefs_key_fileexplorer"
+            android:icon="@drawable/ic_fileexplorer">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.FileExplorerActivity"/>
+        </Preference>
+
+        <Preference
                 android:title="@string/incallui"
                 android:summary="com.android.incallui"
                 android:key="prefs_key_incallui"
