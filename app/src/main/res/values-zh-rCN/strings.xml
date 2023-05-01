@@ -145,8 +145,8 @@
     <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
     <string name="clock_enable_hour_glass_desc">不支持 13.65.0 及以上版本</string>
 
-    <string name="file_explorer_can_selectable">文件夹名字可以选择操作</string>
-    <string name="file_explorer_is_single_line">文件夹名字以单行显示</string>
+    <string name="file_explorer_can_selectable">文件夹名称可以选择操作</string>
+    <string name="file_explorer_is_single_line">文件夹名称以单行显示</string>
 
     <string name="camera_features_title">功能</string>
     <string name="camera_record_title">录像</string>
