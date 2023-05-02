@@ -100,6 +100,7 @@ dependencies {
     implementation roots.AndroidXCustomView
     implementation roots.AndroidXCustomViewPoolingContainer
 
+    implementation files('libs/stub-debug.aar')
     implementation files(roots.animation)
     implementation files(roots.annotation)
     implementation files(roots.appcompat)
