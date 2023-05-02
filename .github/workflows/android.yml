@@ -6,7 +6,7 @@ on:
     branches: ["main"]
     paths-ignore:
       - "README.md"
-      - "README_EN.md"
+      - "README_en-US.md"
       - "doc/*"
 jobs:
   gradle:
@@ -14,15 +14,55 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           submodules: true
       - uses: actions/setup-java@v3
         with:
           java-version: "19"
           distribution: "temurin"
       - uses: gradle/gradle-build-action@v2
-      - run: 
-          ./gradlew :app:packageRelease
-      - uses: actions/upload-artifact@v3
+        run: |
+          bash ./gradlew assembleRelease
+          bash ./gradlew assembleBeta
+          bash ./gradlew assembleCanary
+          bash ./gradlew assembleDebug
+
+      - name: Sign Release APK
+        if: success()
+        id: sign_release
+        uses: r0adkll/sign-android-release@v1.0.4
         with:
-          name: WooBoxForMIUI_Release
-          path: "app/build/outputs/apk/release/*.apk"
+          releaseDirectory: ./app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: Cemiuiler
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+      - name: Sign Debug APK
+        if: success()
+        id: sign_debug
+        uses: r0adkll/sign-android-release@v1.0.4
+        with:
+          releaseDirectory: ./app/build/outputs/apk/debug
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: Cemiuiler
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cemiuiler release
+          path: ${{ steps.sign_release.outputs.signedReleaseFile }}
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cemiuiler debug
+          path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
+
+      - name: Upload Release Mapping
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cemiuiler mapping
+          path: ./app/build/outputs/mapping/release/mapping.txt
