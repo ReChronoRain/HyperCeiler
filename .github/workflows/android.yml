@@ -37,6 +37,28 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
+      - name: Sign Beta APK
+        if: success()
+        id: sign_beta
+        uses: r0adkll/sign-android-release@v1.0.4
+        with:
+          releaseDirectory: ./app/build/outputs/apk/beta
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+      - name: Sign Canary APK
+        if: success()
+        id: sign_canary
+        uses: r0adkll/sign-android-release@v1.0.4
+        with:
+          releaseDirectory: ./app/build/outputs/apk/canary
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
       - name: Sign Debug APK
         if: success()
         id: sign_debug
@@ -53,6 +75,18 @@ jobs:
         with:
           name: Cemiuiler release
           path: ${{ steps.sign_release.outputs.signedReleaseFile }}
+
+      - name: Upload Beta APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cemiuiler debug
+          path: ${{ steps.sign_beta.outputs.signedReleaseFile }}
+
+      - name: Upload Canary APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cemiuiler debug
+          path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v2
@@ -72,6 +106,8 @@ jobs:
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           RELEASE: ${{ steps.sign_release.outputs.signedReleaseFile }}
+          BETA: ${{ steps.sign_beta.outputs.signedReleaseFile }}
+          CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
           DEBUG: ${{ steps.sign_debug.outputs.signedReleaseFile }}
           COMMIT_MESSAGE: |+
             Github CI
@@ -80,4 +116,4 @@ jobs:
             ```
         run: |
           ESCAPED=`python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))'`
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Frelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fdebug%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F release="@$RELEASE" -F debug="@$DEBUG"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Frelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fdebug%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F release="@$RELEASE" -F beta="@$BETA" -F canary="@$CANARY -F debug="@$DEBUG"
