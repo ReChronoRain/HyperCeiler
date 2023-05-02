@@ -22,9 +22,7 @@ jobs:
           distribution: "temurin"
       - uses: gradle/gradle-build-action@v2
       - run:
-          ./gradlew assembleRelease
-      - run:
-          ./gradlew assembleDebug
+          ./gradlew assemble
 
       - name: Sign Release APK
         if: success()
