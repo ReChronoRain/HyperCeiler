@@ -77,13 +77,13 @@ jobs:
       - name: Upload Beta APK
         uses: actions/upload-artifact@v2
         with:
-          name: Cemiuiler debug
+          name: Cemiuiler beta
           path: ${{ steps.sign_beta.outputs.signedReleaseFile }}
 
       - name: Upload Canary APK
         uses: actions/upload-artifact@v2
         with:
-          name: Cemiuiler debug
+          name: Cemiuiler canary
           path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
 
       - name: Upload Debug APK
