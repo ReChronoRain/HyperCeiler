@@ -23,6 +23,8 @@ jobs:
       - uses: gradle/gradle-build-action@v2
       - run:
           ./gradlew assembleRelease
+      - run:
+          ./gradlew assembleDebug
 
       - name: Sign Release APK
         if: success()
@@ -35,16 +37,17 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
-#      - name: Sign Debug APK
-#        if: success()
-#        id: sign_debug
-#        uses: r0adkll/sign-android-release@v1.0.4
-#        with:
-#          releaseDirectory: ./app/build/outputs/apk/debug
-#          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-#          alias: Cemiuiler
-#          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-#          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+
+      - name: Sign Debug APK
+        if: success()
+        id: sign_debug
+        uses: r0adkll/sign-android-release@v1.0.4
+        with:
+          releaseDirectory: ./app/build/outputs/apk/debug
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: Cemiuiler
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v2
@@ -63,3 +66,19 @@ jobs:
         with:
           name: Cemiuiler mapping
           path: ./app/build/outputs/mapping/release/mapping.txt
+
+      - name: Post to channel
+        if: contains(github.event.head_commit.message, '[skip post]') == false
+        env:
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          RELEASE: ${{ steps.sign_release.outputs.signedReleaseFile }}
+          DEBUG: ${{ steps.sign_debug.outputs.signedReleaseFile }}
+          COMMIT_MESSAGE: |+
+            Github CI
+            ```
+            ${{ github.event.head_commit.message }}
+            ```
+        run: |
+          ESCAPED=`python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))'`
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Frelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fdebug%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F release="@$RELEASE" -F debug="@$DEBUG"
