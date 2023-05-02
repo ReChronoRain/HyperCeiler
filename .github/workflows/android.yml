@@ -55,7 +55,6 @@ jobs:
           name: Cemiuiler release
           path: ${{ steps.sign_release.outputs.signedReleaseFile }}
 
-
       - name: Upload Debug APK
         uses: actions/upload-artifact@v2
         with:
