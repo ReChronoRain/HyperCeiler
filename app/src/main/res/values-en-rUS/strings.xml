@@ -13,6 +13,7 @@
     <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of Cemiuiler (in no particular order)</string>
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
+    <string name="enable">Activate</string>
     <string name="home">System launcher</string>
     <string name="aireco">AI reco</string>
     <string name="browser">Browser</string>
@@ -895,6 +896,4 @@
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
     <string name="file_explorer_is_single_line">File Explorer Is Single Line</string>
-    <string name="system_ui_control_center_show_weather">Show weather</string>
-    <string name="enable">Activate</string>
 </resources>
