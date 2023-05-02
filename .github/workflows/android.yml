@@ -55,11 +55,11 @@ jobs:
           name: Cemiuiler release
           path: ${{ steps.sign_release.outputs.signedReleaseFile }}
 
-#      - name: Upload Debug APK
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: Cemiuiler debug
-#          path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cemiuiler debug
+          path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
 
       - name: Upload Release Mapping
         uses: actions/upload-artifact@v2
