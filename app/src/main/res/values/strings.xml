@@ -910,6 +910,9 @@
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
     <string name="file_explorer_is_single_line">File Explorer Is Single Line</string>
+<<<<<<< HEAD
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="enable">Activate</string>
+=======
+>>>>>>> parent of d2db9ece (新增 系统界面-通知与控制中心-显示天气（不完整）)
 </resources>
