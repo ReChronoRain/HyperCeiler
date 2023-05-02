@@ -21,7 +21,6 @@
 
 > Make MIUI Great Again!
 
-
 ## Supported versions
 MIUI 12.5 ~ 14 for Android 11 ~ 13
 
@@ -30,7 +29,6 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 > At present, Cemiuiler is based on Android13 MIUI14 mobile phone devices for adaptation, the coverage is not very complete, it needs continuous testing and improvement
 >
 > For Android11 devices, we have tried our best to support them. After the release of Android14-based MIUI, new features will no longer actively adapt to Android11
-
 
 ## Supported Applications
 
