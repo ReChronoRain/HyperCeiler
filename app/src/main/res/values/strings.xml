@@ -76,10 +76,9 @@
     <string name="aireco_device_modify">Remove beta restrictions</string>
     <string name="browser_debug_mode">Developer options</string>
     <string name="clock_enable_hour_glass">Unlock the clock hourglass animation</string>
-    <string name="gallery_title_settings">Settings</string>
-    <string name="gallery_title_feature">Function</string>
-    <string name="gallery_title_recommend">Recommend</string>
-    <string name="gallery_title_editor">Editor</string>
+    <string name="feature">Function</string>
+    <string name="recommend">Recommend</string>
+    <string name="editor">Editor</string>
     <string name="gallery_enable_hdr_enhanced">Unlock display high dynamic range</string>
     <string name="gallery_enable_pdf">Unlock generate PDF</string>
     <string name="gallery_enable_ocr">Unlock OCR</string>
@@ -297,7 +296,6 @@
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_statusbar_iconmanage_title">Icon management</string>
     <string name="system_ui_statusbar_clock_title">Clock indicator management</string>
-    <string name="system_ui_status_bar_battery_indicator_enable">Activate</string>
     <string name="system_ui_status_bar_battery_indicator_centered">Centered</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">Rounded corners</string>
     <string name="system_ui_status_bar_battery_indicator_limitvis">Limit visibility</string>
@@ -725,12 +723,10 @@
     <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_arrows_long1" translatable="false">↑ ↓</string>
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
-    <string name="camera_features_title">Features</string>
-    <string name="camera_record_title">Record</string>
-    <string name="camera_shot_title">Shot</string>
-    <string name="camera_portrait_title">Portrait</string>
-    <string name="camera_pro_title">Pro</string>
-    <string name="camera_settings_title">Settings</string>
+    <string name="record">Record</string>
+    <string name="shot">Shot</string>
+    <string name="portrait">Portrait</string>
+    <string name="camera_pro">Pro</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
@@ -831,7 +827,6 @@
     <string name="system_ui_statusbar_battery_size">Font size</string>
     <string name="system_ui_statusbar_battery_show">Show contents</string>
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
-    <string name="system_ui_statusbar_battery_all_enable">Enable switch</string>
     <string name="system_ui_statusbar_battery_right_show">Show on the right</string>
     <string name="system_ui_statusbar_battery_electric_current">The current always shows a positive value</string>
     <string name="system_ui_statusbar_battery_line_show">Single row display</string>
@@ -916,4 +911,5 @@
     <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
     <string name="file_explorer_is_single_line">File Explorer Is Single Line</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>
+    <string name="enable">Activate</string>
 </resources>

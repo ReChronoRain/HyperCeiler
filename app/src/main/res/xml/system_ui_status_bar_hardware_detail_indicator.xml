@@ -8,7 +8,7 @@
         <SwitchPreference
                 android:defaultValue="false"
                 android:key="prefs_key_system_ui_statusbar_battery_enable"
-                android:title="@string/system_ui_statusbar_battery_all_enable"/>
+                android:title="@string/enable"/>
 
         <DropDownPreference
                 android:defaultValue="1"
@@ -138,7 +138,7 @@
         <SwitchPreference
                 android:defaultValue="false"
                 android:key="prefs_key_system_ui_statusbar_temp_enable"
-                android:title="@string/system_ui_statusbar_battery_all_enable"/>
+                android:title="@string/enable"/>
 
         <DropDownPreference
                 android:defaultValue="1"
