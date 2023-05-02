@@ -102,7 +102,7 @@
                 app:showSeekBarValue="true"/>
 
         <SeekBarPreference
-                android:defaultValue="8"
+                android:defaultValue="4"
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_left_margin"
                 android:title="@string/system_ui_statusbar_indicator_left_margin"
@@ -112,7 +112,7 @@
                 app:showSeekBarValue="true"/>
 
         <SeekBarPreference
-                android:defaultValue="8"
+                android:defaultValue="4"
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_right_margin"
                 android:title="@string/system_ui_statusbar_indicator_right_margin"
@@ -225,7 +225,7 @@
                 app:showSeekBarValue="true"/>
 
         <SeekBarPreference
-                android:defaultValue="8"
+                android:defaultValue="4"
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_left_margin"
                 android:title="@string/system_ui_statusbar_indicator_left_margin"
@@ -235,7 +235,7 @@
                 app:showSeekBarValue="true"/>
 
         <SeekBarPreference
-                android:defaultValue="8"
+                android:defaultValue="4"
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_right_margin"
                 android:title="@string/system_ui_statusbar_indicator_right_margin"

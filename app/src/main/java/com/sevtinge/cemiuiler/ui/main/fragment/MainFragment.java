@@ -1,13 +1,11 @@
 package com.sevtinge.cemiuiler.ui.main.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 
 import com.sevtinge.cemiuiler.utils.SdkHelper;
-import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
 
 public class MainFragment extends SubFragment {
@@ -27,6 +25,6 @@ public class MainFragment extends SubFragment {
     @Override
     public void initPrefs() {
         mPowerSetting = findPreference("prefs_key_powerkeeper");
-        mPowerSetting.setVisible(SdkHelper.isAndroidTiramisu());
+        mPowerSetting.setVisible(!SdkHelper.isAndroidR());
     }
 }

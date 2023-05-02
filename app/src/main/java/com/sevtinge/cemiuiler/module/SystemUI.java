@@ -61,7 +61,7 @@ public class SystemUI extends BaseModule {
         initHook(TimeBold.INSTANCE);
         initHook(TimeCustomization.INSTANCE);
 
-        //电池和温度指示器
+        //硬件指示器
         initHook(new DisplayHardwareDetail());
 
         //居右显示
