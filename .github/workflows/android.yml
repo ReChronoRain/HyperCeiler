@@ -21,7 +21,8 @@ jobs:
           java-version: "19"
           distribution: "temurin"
       - uses: gradle/gradle-build-action@v2
-          |
+      - run:
+          bash ./gradlew :app:packageRelease
           bash ./gradlew assembleRelease
           bash ./gradlew assembleBeta
           bash ./gradlew assembleCanary
