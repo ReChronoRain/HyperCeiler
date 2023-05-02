@@ -22,7 +22,7 @@ jobs:
           distribution: "temurin"
       - uses: gradle/gradle-build-action@v2
       - run:
-          ./gradlew assemble
+          ./gradlew assembleRelease
 
       - name: Sign Release APK
         if: success()
@@ -35,16 +35,16 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
-      - name: Sign Debug APK
-        if: success()
-        id: sign_debug
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: Cemiuiler
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+#      - name: Sign Debug APK
+#        if: success()
+#        id: sign_debug
+#        uses: r0adkll/sign-android-release@v1.0.4
+#        with:
+#          releaseDirectory: ./app/build/outputs/apk/debug
+#          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+#          alias: Cemiuiler
+#          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+#          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v2
@@ -52,11 +52,11 @@ jobs:
           name: Cemiuiler release
           path: ${{ steps.sign_release.outputs.signedReleaseFile }}
 
-      - name: Upload Debug APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: Cemiuiler debug
-          path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
+#      - name: Upload Debug APK
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: Cemiuiler debug
+#          path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
 
       - name: Upload Release Mapping
         uses: actions/upload-artifact@v2
