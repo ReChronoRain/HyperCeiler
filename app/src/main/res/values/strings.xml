@@ -914,4 +914,6 @@
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
+    <string name="system_framework_clean_share_apps_desc">The selected app will not appear in the share menu</string>
+    <string name="system_framework_clean_open_apps_desc">The selected app will not appear in the open with menu</string>
 </resources>
