@@ -276,7 +276,7 @@
     <string name="system_ui_lockscreen_safe_title">Security</string>
     <string name="system_ui_lockscreen_ui_title">UI</string>
     <string name="system_ui_lock_screen_show_second">Clock show second</string>
-    <string name="system_ui_lock_screen_show_charging_cv">Show charging current and voltage</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Show charging current, voltage and power</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
     <string name="system_ui_lock_screen_current">Current</string>
