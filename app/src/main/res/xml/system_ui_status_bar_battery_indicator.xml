@@ -117,7 +117,6 @@
             android:title="@string/system_ui_status_bar_battery_indicator_test"/>
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

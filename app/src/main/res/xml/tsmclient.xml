@@ -6,7 +6,6 @@
             android:key="prefs_key_tsmclient_auto_nfc"
             android:defaultValue="false"/>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

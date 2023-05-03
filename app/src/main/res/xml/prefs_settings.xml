@@ -71,7 +71,6 @@
                 android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
         </Preference>
     </PreferenceCategory>-->
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>
