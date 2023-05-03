@@ -549,9 +549,9 @@
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
     <string name="system_framework_core_patch_downgr_desc">Allow downgrade applications</string>
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
-    <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ingnore invalid digest error)</string>
+    <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ignore invalid digest error)</string>
     <string name="system_framework_core_patch_digest_creak">Disable compare signatures</string>
-    <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signnatures</string>
+    <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signatures</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed signatures</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_core_patch_enhanced_mode">Enhanced mode</string>
