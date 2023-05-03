@@ -14,7 +14,8 @@
                 android:title="@string/market_disable_new_icon"
                 android:summary="@string/market_disable_new_icon_desc"
                 android:key="prefs_key_market_disable_new_icon"
-                android:defaultValue="false"/>
+                android:defaultValue="false"
+                app:isPreferenceVisible="false"/>
 
 
     </PreferenceCategory>
