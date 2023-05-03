@@ -4,7 +4,7 @@
 
     <SwitchPreference
         android:key="prefs_key_system_ui_status_bar_battery_indicator_enable"
-        android:title="@string/system_ui_status_bar_battery_indicator_enable"
+        android:title="@string/enable"
         android:defaultValue="false"/>
 
     <PreferenceCategory android:dependency="prefs_key_system_ui_status_bar_battery_indicator_enable">
@@ -76,7 +76,7 @@
             android:defaultValue="5"
             app:maxValue="15"
             app:showSeekBarValue="true"
-            app:format="%d px"/>
+            android:format="%d px"/>
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_padding"
@@ -84,7 +84,7 @@
             android:defaultValue="0"
             app:maxValue="33"
             app:showSeekBarValue="true"
-            app:format="%d%%"/>
+            android:format="%d%%"/>
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_alpha"
@@ -93,7 +93,7 @@
             app:maxValue="100"
             app:stepValue="5"
             app:showSeekBarValue="true"
-            app:format="%d%%"/>
+            android:format="%d%%"/>
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_glow"
@@ -101,7 +101,7 @@
             android:defaultValue="0"
             app:maxValue="100"
             app:showSeekBarValue="true"
-            app:format="%d%%"/>
+            android:format="%d%%"/>
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_low_level"
@@ -110,14 +110,13 @@
             app:maxValue="50"
             app:stepValue="5"
             app:showSeekBarValue="true"
-            app:format="%d%%"/>
+            android:format="%d%%"/>
 
         <Preference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_test"
             android:title="@string/system_ui_status_bar_battery_indicator_test"/>
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

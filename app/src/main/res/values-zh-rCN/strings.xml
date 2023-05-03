@@ -24,6 +24,15 @@
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活</string>
 
+    <string name="feature">功能</string>
+    <string name="recommend">推荐</string>
+    <string name="editor">编辑</string>
+    <string name="record">录像</string>
+    <string name="shot">拍照</string>
+    <string name="portrait">人像</string>
+    <string name="camera_pro">专业</string>
+    <string name="enable">启用</string>
+
     <string name="home">系统桌面</string>
     <string name="content_extension">传送门</string>
     <string name="aireco">小爱建议</string>
@@ -148,12 +157,6 @@
     <string name="file_explorer_can_selectable">文件夹名称可以选择操作</string>
     <string name="file_explorer_is_single_line">文件夹名称以单行显示</string>
 
-    <string name="camera_features_title">功能</string>
-    <string name="camera_record_title">录像</string>
-    <string name="camera_shot_title">拍照</string>
-    <string name="camera_portrait_title">人像</string>
-    <string name="camera_pro_title">专业</string>
-    <string name="camera_settings_title">设置</string>
     <string name="camera_features_unlock_aiwatermark">解锁 AI 水印</string>
     <string name="camera_features_unlock_ambilight">解锁长曝光</string>
     <string name="camera_features_unlock_clone">解锁魔法分身</string>
@@ -208,10 +211,7 @@
     <string name="content_extension_double_press">开放双指长按</string>
     <string name="content_extension_super_image">开放超分辨率图片</string>
     <string name="content_extension_super_image_summary">需要系统底层支持</string>
-    <string name="gallery_title_settings">设置</string>
-    <string name="gallery_title_feature">功能</string>
-    <string name="gallery_title_recommend">推荐</string>
-    <string name="gallery_title_editor">编辑</string>
+
     <string name="gallery_enable_hdr_enhanced">解锁超动态显示</string>
     <string name="gallery_enable_pdf">解锁生成 PDF</string>
     <string name="gallery_enable_ocr">解锁提取文字</string>
@@ -653,7 +653,6 @@
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_controlcenter_fix_media_control_panel">修复音乐面板背景图异常</string>
-    <string name="system_ui_control_center_show_weather">显示天气</string>
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
@@ -726,7 +725,6 @@
     <string name="system_ui_statusbar_clock_size">时钟大小（0 为不修改）</string>
     <string name="system_ui_statusbar_clock_double_size">双排大小（0 为不修改）</string>
 
-    <string name="system_ui_statusbar_battery_all_enable">启用</string>
     <string name="system_ui_statusbar_indicator_battery_title">功耗相关</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度相关</string>
     <string name="system_ui_statusbar_battery_size">字体大小</string>
@@ -741,7 +739,6 @@
     <string name="system_ui_statusbar_temp_fix_cpu">更改 CPU 温度获取源</string>
     <string name="system_ui_statusbar_temp_fix_cpu_desc">输入 /sys/devices/virtual/thermal/ 文件夹下 thermal_zone* 文件夹后的数字以指定源</string>
 
-    <string name="system_ui_status_bar_battery_indicator_enable">启用</string>
     <string name="system_ui_status_bar_battery_indicator_centered">居中</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">圆角</string>
     <string name="system_ui_status_bar_battery_indicator_limitvis">限制可见性</string>

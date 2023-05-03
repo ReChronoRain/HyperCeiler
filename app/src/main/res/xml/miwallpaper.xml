@@ -9,7 +9,6 @@
                 android:title="@string/miwallpaper_unlock_super_wallpaper" />
 
     </PreferenceCategory>
-    <Preference
-            android:summary=""/>
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

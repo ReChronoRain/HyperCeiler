@@ -3,66 +3,65 @@
 
     <PreferenceCategory>
 
-    <Preference android:title="@string/system_framework_free_form_title" >
-        <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.FreeFormSettings" />
-    </Preference>
-
-    <Preference android:title="@string/system_framework_volume_title" >
-        <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.VolumeSettings" />
-    </Preference>
-
-        <Preference android:title="@string/system_framework_phone_title" >
+        <Preference android:title="@string/system_framework_free_form_title">
             <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.NetworkSettings" />
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.FreeFormSettings" />
         </Preference>
 
-        <Preference android:title="@string/system_framework_other_title" >
-        <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.OtherSettings" />
-    </Preference>
+        <Preference android:title="@string/system_framework_volume_title">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.VolumeSettings" />
+        </Preference>
+
+        <Preference android:title="@string/system_framework_phone_title">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.NetworkSettings" />
+        </Preference>
+
+        <Preference android:title="@string/system_framework_other_title">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.OtherSettings" />
+        </Preference>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_corepatch_title">
 
         <SwitchPreference
-                android:title="@string/system_framework_core_patch_downgr"
-                android:summary="@string/system_framework_core_patch_downgr_desc"
-                android:key="prefs_key_system_framework_core_patch_downgr"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_core_patch_downgr"
+            android:summary="@string/system_framework_core_patch_downgr_desc"
+            android:key="prefs_key_system_framework_core_patch_downgr"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_core_patch_auth_creak"
-                android:summary="@string/system_framework_core_patch_auth_creak_desc"
-                android:key="prefs_key_system_framework_core_patch_auth_creak"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_core_patch_auth_creak"
+            android:summary="@string/system_framework_core_patch_auth_creak_desc"
+            android:key="prefs_key_system_framework_core_patch_auth_creak"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_core_patch_digest_creak"
-                android:summary="@string/system_framework_core_patch_digest_creak_desc"
-                android:key="prefs_key_system_framework_core_patch_digest_creak"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_core_patch_digest_creak"
+            android:summary="@string/system_framework_core_patch_digest_creak_desc"
+            android:key="prefs_key_system_framework_core_patch_digest_creak"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_core_patch_use_pre_signature"
-                android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
-                android:key="prefs_key_system_framework_core_patch_use_pre_signature"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_core_patch_use_pre_signature"
+            android:summary="@string/system_framework_core_patch_use_pre_signature_desc"
+            android:key="prefs_key_system_framework_core_patch_use_pre_signature"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_core_patch_enhanced_mode"
-                android:summary="@string/system_framework_core_patch_enhanced_mode_desc"
-                android:key="prefs_key_system_framework_core_patch_enhanced_mode"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_core_patch_enhanced_mode"
+            android:summary="@string/system_framework_core_patch_enhanced_mode_desc"
+            android:key="prefs_key_system_framework_core_patch_enhanced_mode"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>
