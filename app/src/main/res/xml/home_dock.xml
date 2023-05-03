@@ -35,7 +35,7 @@
             android:title="@string/home_dock_bg_height"
             android:summary="@string/home_dock_bg_height_desc"
             app:maxValue="300"
-            app:format="%d dp"
+            android:format="%d dp"
             android:defaultValue="150"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
@@ -46,7 +46,7 @@
             android:summary="@string/home_dock_bg_margin_horizontal_desc"
             android:defaultValue="10"
             app:maxValue="100"
-            app:format="%d dp"
+            android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
@@ -56,7 +56,7 @@
             android:summary="@string/home_dock_bg_margin_top_desc"
             android:defaultValue="25"
             app:maxValue="100"
-            app:format="%d dp"
+            android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
@@ -67,7 +67,7 @@
             android:summary="@string/home_dock_bg_margin_bottom_desc"
             android:defaultValue="15"
             app:maxValue="100"
-            app:format="%d dp"
+            android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
@@ -78,7 +78,7 @@
             android:summary="@string/home_dock_icon_margin_bottom_desc"
             android:defaultValue="90"
             app:maxValue="200"
-            app:format="%d dp"
+            android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
 

@@ -67,7 +67,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_size"
                 android:title="@string/system_ui_statusbar_battery_size"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="32"
                 app:minValue="6"
                 app:showSeekBarValue="true"/>
@@ -77,7 +77,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
                 android:title="@string/system_ui_statusbar_battery_update_spacing"
-                app:format="%d s"
+                android:format="%d s"
                 app:maxValue="10"
                 app:minValue="1"
                 app:showSeekBarValue="true"/>
@@ -96,7 +96,7 @@
                 android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
                 android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
                 android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="120"
                 app:minValue="10"
                 app:showSeekBarValue="true"/>
@@ -106,7 +106,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_left_margin"
                 android:title="@string/system_ui_statusbar_indicator_left_margin"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="10"
                 app:minValue="0"
                 app:showSeekBarValue="true"/>
@@ -116,7 +116,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_right_margin"
                 android:title="@string/system_ui_statusbar_indicator_right_margin"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="10"
                 app:minValue="0"
                 app:showSeekBarValue="true"/>
@@ -126,7 +126,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_battery_enable"
                 android:key="prefs_key_system_ui_statusbar_battery_vertical_offset"
                 android:title="@string/system_ui_statusbar_indicator_vertical_offset"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="16"
                 app:minValue="0"
                 app:showSeekBarValue="true"/>
@@ -190,7 +190,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_size"
                 android:title="@string/system_ui_statusbar_battery_size"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="32"
                 app:minValue="6"
                 app:showSeekBarValue="true"/>
@@ -200,7 +200,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
                 android:title="@string/system_ui_statusbar_battery_update_spacing"
-                app:format="%d s"
+                android:format="%d s"
                 app:maxValue="10"
                 app:minValue="1"
                 app:showSeekBarValue="true"/>
@@ -219,7 +219,7 @@
                 android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
                 android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
                 android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="120"
                 app:minValue="10"
                 app:showSeekBarValue="true"/>
@@ -229,7 +229,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_left_margin"
                 android:title="@string/system_ui_statusbar_indicator_left_margin"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="10"
                 app:minValue="0"
                 app:showSeekBarValue="true"/>
@@ -239,7 +239,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_right_margin"
                 android:title="@string/system_ui_statusbar_indicator_right_margin"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="10"
                 app:minValue="0"
                 app:showSeekBarValue="true"/>
@@ -249,7 +249,7 @@
                 android:dependency="prefs_key_system_ui_statusbar_temp_enable"
                 android:key="prefs_key_system_ui_statusbar_temp_vertical_offset"
                 android:title="@string/system_ui_statusbar_indicator_vertical_offset"
-                app:format="%s dp"
+                android:format="%s dp"
                 app:maxValue="16"
                 app:minValue="0"
                 app:showSeekBarValue="true"/>

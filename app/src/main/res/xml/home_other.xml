@@ -83,7 +83,7 @@
                 android:defaultValue="200"
                 app:minValue="10"
                 app:maxValue="255"
-                app:format="%s"
+                android:format="%s"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_other_shortcut_background_blur"/>
 
@@ -98,7 +98,7 @@
                 android:defaultValue="100"
                 app:maxValue="500"
                 app:minValue="0"
-                app:format="%s / 100 f"
+                android:format="%s / 100 f"
                 app:showSeekBarValue="true"/>
 
         <!--<SwitchPreference

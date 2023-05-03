@@ -24,7 +24,7 @@
             android:defaultValue="80"
             app:minValue="30"
             app:maxValue="99"
-            app:format="%s"
+            android:format="%s"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_pa_enable"/>
 

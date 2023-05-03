@@ -37,7 +37,7 @@
             android:defaultValue="15"
             app:maxValue="29"
             app:minValue="15"
-            app:format="%s"
+            android:format="%s"
             app:showSeekBarValue="true"/>
 
     <SeekBarPreference
@@ -47,7 +47,7 @@
         app:minValue="0"
         app:maxValue="500"
         app:stepValue="25"
-        app:format="x%s"
+        android:format="x%s"
         app:showSeekBarValue="true"
         app:displayDividerValue="100"
         app:isPreferenceVisible="false"/>

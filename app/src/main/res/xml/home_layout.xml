@@ -49,7 +49,7 @@
                 android:key="prefs_key_home_layout_workspace_padding_bottom"
                 android:defaultValue="190"
                 app:maxValue="300"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 app:dialogTitle="@string/home_layout_workspace_padding_bottom"
                 android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable"/>
@@ -69,7 +69,7 @@
                 android:defaultValue="80"
                 app:dialogTitle="@string/home_layout_hotseats_height"
                 app:maxValue="100"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_layout_hotseats_height_enable"/>
 
@@ -85,7 +85,7 @@
                 android:defaultValue="20"
                 app:dialogTitle="@string/home_layout_hotseats_margin_top"
                 app:maxValue="100"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_layout_hotseats_margin_top_enable"/>
 
@@ -101,7 +101,7 @@
                 android:defaultValue="70"
                 app:dialogTitle="@string/home_layout_hotseats_margin_bottom"
                 app:maxValue="100"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_layout_hotseats_margin_bottom_enable"/>
 
@@ -115,7 +115,7 @@
             android:summary="底栏距离屏幕底部边距"
             android:defaultValue="15"
             app:maxValue="100"
-            app:format="%d dp"
+            android:format="%d dp"
             app:showSeekBarValue="true"/>-->
 
         <SwitchPreference
@@ -130,7 +130,7 @@
                 android:defaultValue="30"
                 app:dialogTitle="@string/home_layout_searchbar_margin_bottom"
                 app:maxValue="100"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_layout_searchbar_margin_bottom_enable"/>
 

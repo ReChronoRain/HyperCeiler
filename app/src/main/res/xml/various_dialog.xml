@@ -12,7 +12,7 @@
         android:title="@string/various_dialog_margin_horizontal"
         android:summary="@string/various_dialog_margin_horizontal_desc"
         android:key="prefs_key_various_dialog_margin_horizontal"
-        app:format="%s dp"
+        android:format="%s dp"
         android:defaultValue="0"
         app:maxValue="100"
         app:showSeekBarValue="true"/>
@@ -21,7 +21,7 @@
         android:title="@string/various_dialog_margin_bottom"
         android:summary="@string/various_dialog_margin_bottom_desc"
         android:key="prefs_key_various_dialog_margin_bottom"
-        app:format="%s dp"
+        android:format="%s dp"
         android:defaultValue="0"
         app:maxValue="100"
         app:showSeekBarValue="true"/>
@@ -38,7 +38,7 @@
             android:key="prefs_key_various_dialog_window_blur_radius"
             android:defaultValue="60"
             app:maxValue="300"
-            app:format="%s dp"
+            android:format="%s dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_various_dialog_window_blur"/>
 
