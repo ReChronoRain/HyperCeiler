@@ -2,20 +2,15 @@ package com.sevtinge.cemiuiler.module.systemui.statusbar
 
 import android.graphics.Typeface
 import android.widget.TextView
+import com.github.kyuubiran.ezxhelper.utils.findMethod
+import com.github.kyuubiran.ezxhelper.utils.hookAfter
+import com.github.kyuubiran.ezxhelper.utils.paramCount
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.Helpers
-import de.robv.android.xposed.XposedHelpers
 
 
 object TimeBold : BaseHook() {
-    private fun initClockStyle(mClock: TextView) {
-        if (mPrefsMap.getBoolean("system_statusbar_clock_bold")) {
-            mClock.typeface = Typeface.DEFAULT_BOLD
-        }
-    }
-
     override fun init() {
-        Helpers.findAndHookMethod(
+       /*Helpers.findAndHookMethod(
             "com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView",
             lpparam.classLoader,
             "onAttachedToWindow",
@@ -26,6 +21,12 @@ object TimeBold : BaseHook() {
                     initClockStyle(clock)
                 }
             }
-        )
+        )*/
+        findMethod("com.android.systemui.statusbar.views.MiuiClock") {
+            paramCount == 3
+        }.hookAfter {
+            val textV = it.thisObject as TextView
+            textV.typeface = Typeface.DEFAULT_BOLD
+        }
     }
 }

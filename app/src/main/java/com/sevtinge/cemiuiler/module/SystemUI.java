@@ -58,7 +58,7 @@ public class SystemUI extends BaseModule {
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         //时钟指示器
-        initHook(TimeBold.INSTANCE);
+        initHook(TimeBold.INSTANCE, mPrefsMap.getBoolean("system_statusbar_clock_bold"));
         initHook(TimeCustomization.INSTANCE);
 
         //硬件指示器
