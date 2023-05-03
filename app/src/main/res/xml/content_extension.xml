@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="@string/content_extension_browser"
-                android:summary="@string/content_extension_browser_desc"
-                android:key="prefs_key_content_extension_browser"
-                android:defaultValue="false"/>
+            android:title="@string/content_extension_browser"
+            android:summary="@string/content_extension_browser_desc"
+            android:key="prefs_key_content_extension_browser"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/content_extension_double_press"
             android:key="prefs_key_content_extension_double_press"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/content_extension_super_image"
             android:summary="@string/content_extension_super_image_summary"
             android:key="prefs_key_content_extension_super_image"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <PreferenceCategory android:title="打开方式">
+
+        <DropDownPreference
+            android:title="链接"
+            android:summary="选择一个浏览器打开链接"
+            android:key="prefs_key_content_extension_link_open_mode"
+            android:defaultValue="0"
+            app:entries="@array/link_open_mode"
+            app:entryValues="@array/link_open_mode_value" />
+    </PreferenceCategory>
+
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

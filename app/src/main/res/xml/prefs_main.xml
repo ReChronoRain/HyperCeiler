@@ -88,7 +88,9 @@
             android:summary="com.android.systemui"
             android:key="prefs_key_system_ui"
             android:icon="@drawable/ic_system_ui">
-            <intent android:action="moralnorm.intent.action.SystemUI" />
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.SystemUIActivity" />
         </Preference>
 
         <Preference
