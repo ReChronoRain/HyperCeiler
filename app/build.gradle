@@ -89,7 +89,7 @@ dependencies {
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
     implementation "com.google.code.gson:gson:2.10.1"
 
-    implementation "androidx.core:core:$AndroidXCoreVersion"
+    implementation roots.AndroidXCore
     implementation roots.AndroidXCollection
     implementation roots.AndroidXRecyclerview
     implementation roots.AndroidXFragment
@@ -98,6 +98,7 @@ dependencies {
     implementation roots.AndroidXVectorDrawableAnimated
     implementation roots.AndroidXCustomView
     implementation roots.AndroidXCustomViewPoolingContainer
+    implementation roots.AndroidXConstraintLayout
 
     implementation files(roots.animation)
     implementation files(roots.annotation)
