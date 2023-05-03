@@ -913,4 +913,5 @@
     <string name="enable">Activate</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
+    <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
 </resources>
