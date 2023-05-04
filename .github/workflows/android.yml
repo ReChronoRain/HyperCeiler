@@ -16,6 +16,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
+          cache-read-only: false
       - uses: actions/setup-java@v3
         with:
           java-version: "19"
