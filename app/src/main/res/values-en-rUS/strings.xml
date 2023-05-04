@@ -899,8 +899,13 @@
     <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
     <string name="system_framework_clean_share_apps_desc">The selected app will not appear in the share menu</string>
     <string name="system_framework_clean_open_apps_desc">The selected app will not appear in the open with menu</string>
-    <string name="system_framework_freeform_title_desc">In the above scenario, when you need to jump to other apps, you will use the freeform to open</string>
+    <string name="system_framework_freeform_title_desc">In the following scenarios, when you need to jump to other apps, you will use the freeform to open</string>
     <string name="freeform_notification">Notification floating window</string>
     <string name="system_framework_freeform_content_extension_desc">Only supports links</string>
     <string name="share_app">Share to third-party apps</string>
+    <string name="system_framework_freeform_jump">Open with freeform when jump to another app</string>
+    <string name="content_extension_link_open_mode">How to open link</string>
+    <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
+    <string name="link_open_mode_default">System default</string>
+    <string name="link_open_mode_mi">Xiaomi browser</string>
 </resources>

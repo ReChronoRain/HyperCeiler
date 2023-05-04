@@ -498,8 +498,8 @@
     </string-array>
 
     <string-array name="link_open_mode">
-        <item>系统默认</item>
-        <item>小米浏览器</item>
+        <item>@string/link_open_mode_default</item>
+        <item>@string/link_open_mode_mi</item>
     </string-array>
 
     <string-array name="link_open_mode_value">

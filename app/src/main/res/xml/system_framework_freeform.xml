@@ -37,25 +37,34 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
+
+        <SwitchPreference
+                android:title="@string/system_framework_freeform_jump"
+                android:summary="@string/system_framework_freeform_title_desc"
+                android:key="prefs_key_system_framework_freeform_jump"
+                android:defaultValue="false" />
+
         <SwitchPreference
             android:title="@string/notification_volume"
-            android:key="prefs_key_system_framework_freeform_open_notification" />
+            android:key="prefs_key_system_framework_freeform_open_notification"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
 
         <SwitchPreference
             android:title="@string/freeform_notification"
-            android:key="prefs_key_system_framework_freeform_open_notification_fw" />
+            android:key="prefs_key_system_framework_freeform_open_notification_fw"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
 
         <SwitchPreference
             android:title="@string/content_extension"
             android:summary="@string/system_framework_freeform_content_extension_desc"
-            android:key="prefs_key_system_framework_freeform_content_extension" />
+            android:key="prefs_key_system_framework_freeform_content_extension"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
 
         <SwitchPreference
             android:title="@string/share_app"
-            android:key="prefs_key_system_framework_freeform_app_share" />
+            android:key="prefs_key_system_framework_freeform_app_share"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
 
-        <Preference  android:enabled="false"
-            android:summary="@string/system_framework_freeform_title_desc" />
     </PreferenceCategory>
 
     <Preference android:enabled="false" />

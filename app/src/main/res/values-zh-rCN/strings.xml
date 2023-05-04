@@ -211,6 +211,8 @@
     <string name="content_extension_double_press">开放双指长按</string>
     <string name="content_extension_super_image">开放超分辨率图片</string>
     <string name="content_extension_super_image_summary">需要系统底层支持</string>
+    <string name="content_extension_link_open_mode">链接打开方式</string>
+    <string name="content_extension_link_open_mode_desc">选择一个浏览器以打开链接</string>
 
     <string name="gallery_enable_hdr_enhanced">解锁超动态显示</string>
     <string name="gallery_enable_pdf">解锁生成 PDF</string>
@@ -578,7 +580,8 @@
     <string name="system_framework_freeform_recents_to_small_freeform">将所有小窗转为迷你小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任务中将所有小窗转为迷你小窗显示\n此功能为实验性功能，具有较高不稳定性</string>
 
-    <string name="system_framework_freeform_title_desc">在上述场景中，需要跳转至其他应用时将使用小窗打开</string>
+    <string name="system_framework_freeform_title_desc">在下列场景中，需要跳转至其他应用时将使用小窗打开</string>
+    <string name="system_framework_freeform_jump">跳转应用使用小窗打开</string>
     <string name="system_framework_freeform_content_extension_desc">仅支持链接</string>
 
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
@@ -619,9 +622,9 @@
     <string name="system_settings_international_build">国际版本设置页面</string>
 
     <string name="system_settings_permission_title">权限</string>
-    <string name="system_settings_permission_show_app_up">上层权限免翻应用列表</string>
+    <string name="system_settings_permission_show_app_up">显示在其他应用上层权限直达</string>
     <string name="system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
-    <string name="system_settings_permission_unknown_origin_app">安装未知应用权限免翻应用列表</string>
+    <string name="system_settings_permission_unknown_origin_app">安装未知应用权限直达</string>
     <string name="system_settings_permission_unknown_origin_app_desc">使用国际版行为，直接跳转对应应用 \"安装未知应用\" 的权限开关</string>
 
     <string name="system_settings_develop_title">开发者选项</string>
@@ -983,6 +986,9 @@
     <string name="collapse_miui_title_on">展开</string>
     <string name="collapse_miui_title_off_always">始终折叠</string>
     <string name="collapse_miui_title_on_always">始终展开</string>
+
+    <string name="link_open_mode_default">系统默认</string>
+    <string name="link_open_mode_mi">小米浏览器</string>
 
     <string name="location_custom">自定义</string>
 
