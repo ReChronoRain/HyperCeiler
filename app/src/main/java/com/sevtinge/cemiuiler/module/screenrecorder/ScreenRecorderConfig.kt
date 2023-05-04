@@ -4,7 +4,6 @@ import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.github.kyuubiran.ezxhelper.utils.isFinal
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.screenrecorder.ScreenRecorderDexKit.mScreenRecorderResultMethodsMap
-import io.luckypray.dexkit.DexKitBridge
 import java.lang.reflect.Method
 
 object ScreenRecorderConfig : BaseHook() {

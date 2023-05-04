@@ -15,7 +15,7 @@ import java.io.FileReader
 import java.math.BigDecimal
 import kotlin.math.abs
 
-object ChargingCurrentAndVoltage : BaseHook() {
+object ChargingCVP : BaseHook() {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
@@ -23,7 +23,7 @@ object ChargingCurrentAndVoltage : BaseHook() {
         findMethod("com.android.keyguard.charge.ChargeUtils") {
             name == "getChargingHintText" && parameterCount == 3
         }.hookAfter {
-            it.result = it.result as String + "\n" + getCV()
+            it.result = it.result as String + "\n" + getCVP()
         }
 
         findClassIfExists("com.android.systemui.statusbar.phone.KeyguardIndicationTextView").hookAllConstructorAfter {
@@ -31,7 +31,7 @@ object ChargingCurrentAndVoltage : BaseHook() {
         }
     }
 
-    private fun getCV(): String {
+    private fun getCVP(): String {
         val batteryManager = AndroidAppHelper.currentApplication().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
         val current = abs(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) / 1000)
         val wirelessSupport = File("/sys/class/power_supply/wireless/signal_strength").exists()
@@ -42,7 +42,9 @@ object ChargingCurrentAndVoltage : BaseHook() {
             BigDecimal(wireless.readLine().toDouble() / 1000000.0).setScale(1, BigDecimal.ROUND_HALF_UP).toDouble()
         } else 0.0
         val voltage = if (usbVoltage >= wirelessVoltage) usbVoltage else wirelessVoltage
-        return "$current mA · $voltage V"
+        val powerAll = abs((current * voltage) / 1000f)
+        val power = String.format("%.2f", powerAll)
+        return "$current mA · $voltage V · $power W"
     }
 
 }

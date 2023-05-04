@@ -5,8 +5,6 @@ import android.content.Context;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.DisplayUtils;
 
-import de.robv.android.xposed.XposedHelpers;
-
 public class WorkspacePaddingBottom extends BaseHook {
 
     Context mContext;

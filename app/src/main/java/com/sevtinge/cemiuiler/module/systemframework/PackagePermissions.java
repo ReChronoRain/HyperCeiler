@@ -75,7 +75,6 @@ public class PackagePermissions extends BaseHook {
             }
         });
 
-        //noinspection ResultOfMethodCallIgnored
         findAndHookMethodSilently("android.content.pm.ApplicationInfo", "isSignedWithPlatformKey", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/system_framework_freeform_title">
+    <PreferenceCategory android:title="@string/floating_window">
 
         <SwitchPreference
             android:title="@string/system_framework_freeform_count"
@@ -36,24 +36,26 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="在下列场景中，需要跳转至其他应用时将使用小窗打开">
-
+    <PreferenceCategory android:title="@string/system_ui_other_title">
         <SwitchPreference
-            android:title="通知"
+            android:title="@string/notification_volume"
             android:key="prefs_key_system_framework_freeform_open_notification" />
 
         <SwitchPreference
-            android:title="通知悬浮窗"
+            android:title="@string/freeform_notification"
             android:key="prefs_key_system_framework_freeform_open_notification_fw" />
 
         <SwitchPreference
-            android:title="传送门"
+            android:title="@string/content_extension"
+            android:summary="@string/system_framework_freeform_content_extension_desc"
             android:key="prefs_key_system_framework_freeform_content_extension" />
 
         <SwitchPreference
-            android:title="分享至应用"
+            android:title="@string/share_app"
             android:key="prefs_key_system_framework_freeform_app_share" />
 
+        <Preference  android:enabled="false"
+            android:summary="@string/system_framework_freeform_title_desc" />
     </PreferenceCategory>
 
     <Preference android:enabled="false" />

@@ -16,9 +16,6 @@ import java.util.Set;
 
 public abstract class BaseMainActivity extends BaseAppCompatActivity {
 
-    private FileObserver mFileObserver;
-    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +24,7 @@ public abstract class BaseMainActivity extends BaseAppCompatActivity {
 
     public void initView() {
 
-        mPreferenceChangeListener = (sharedPreferences, s) -> {
+        SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener = (sharedPreferences, s) -> {
             Log.i("prefs", "Changed: " + s);
             requestBackup();
             Object val = sharedPreferences.getAll().get(s);
@@ -41,14 +38,15 @@ public abstract class BaseMainActivity extends BaseAppCompatActivity {
             else if (val instanceof Boolean)
                 path = "boolean/";
             getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + s), null);
-            if (!path.equals("")) getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + s), null);
+            if (!path.equals(""))
+                getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + s), null);
         };
 
         PrefsUtils.mSharedPreferences.registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
         Helpers.fixPermissionsAsync(getApplicationContext());
 
         try {
-            mFileObserver = new FileObserver(PrefsUtils.getSharedPrefsPath(), FileObserver.CLOSE_WRITE) {
+            FileObserver mFileObserver = new FileObserver(PrefsUtils.getSharedPrefsPath(), FileObserver.CLOSE_WRITE) {
                 @Override
                 public void onEvent(int event, String path) {
                     Helpers.fixPermissionsAsync(getApplicationContext());

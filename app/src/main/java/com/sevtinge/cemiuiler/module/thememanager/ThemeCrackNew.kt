@@ -4,7 +4,6 @@ import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.thememanager.ThemeManagerDexKit.mThemeManagerResultMethodsMap
-import io.luckypray.dexkit.DexKitBridge
 import miui.drm.DrmManager
 import java.io.File
 import java.lang.reflect.Method
