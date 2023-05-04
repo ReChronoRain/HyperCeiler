@@ -57,7 +57,7 @@ public class LinkOpenMode extends BaseHook {
 
 
     private void setFreeFormIntent(Context context, String packageName) {
-        if (mPrefsMap.getBoolean("system_framework_freeform_content_extension")) {
+        if (mPrefsMap.getBoolean("system_framework_freeform_jump") && mPrefsMap.getBoolean("system_framework_freeform_content_extension")) {
             Intent mFreeFormIntent = new Intent(ACTION_PREFIX + "SetFreeFormPackage");
             mFreeFormIntent.putExtra("package", packageName);
             context.sendBroadcast(mFreeFormIntent);
