@@ -4,7 +4,6 @@ import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.exec
-import de.robv.android.xposed.XposedBridge
 
 object ViceSlotVolteButton : BaseHook() {
     override fun init() {

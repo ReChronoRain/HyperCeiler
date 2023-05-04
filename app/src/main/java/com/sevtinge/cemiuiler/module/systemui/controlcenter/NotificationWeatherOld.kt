@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.github.kyuubiran.ezxhelper.utils.*
-import com.sevtinge.cemiuiler.utils.XSPUtils
-import com.sevtinge.cemiuiler.utils.hasEnable
 import com.sevtinge.cemiuiler.view.WeatherView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 

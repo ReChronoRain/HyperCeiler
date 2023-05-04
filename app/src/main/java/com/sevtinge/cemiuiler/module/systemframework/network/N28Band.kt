@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.systemframework.network
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XposedBridge
 
 object N28Band : BaseHook() {
     override fun init() {

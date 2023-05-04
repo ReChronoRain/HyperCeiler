@@ -66,7 +66,6 @@ public class VolumeSeparateControl extends BaseHook {
             }
         });
 
-        //noinspection ResultOfMethodCallIgnored
         findAndHookMethodSilently(mAudioService, "shouldZenMuteStream", int.class, new MethodHook() {
             protected void after(MethodHookParam param) throws Throwable {
                 int mStreamType = (int)param.args[0];

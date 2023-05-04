@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.phone
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XposedBridge
 
 object ModemFeature : BaseHook() {
     override fun init() {

@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.kyuubiran.ezxhelper.utils.*
-import com.sevtinge.cemiuiler.utils.XSPUtils
 import com.sevtinge.cemiuiler.view.WeatherView
 import com.sevtinge.cemiuiler.utils.SystemProperties
 import moralnorm.internal.utils.DisplayUtils.dp2px

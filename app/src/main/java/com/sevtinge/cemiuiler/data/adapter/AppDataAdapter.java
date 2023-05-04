@@ -78,7 +78,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
 
     public void setOnItemClickListener(onItemClickListener onItemClick) {
         this.onItemClickListener = onItemClick;
-    };
+    }
 
     @Override
     public int getItemCount() {

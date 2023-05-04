@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler.module.home.widget;
 
-import android.content.ComponentName;
-import android.content.Context;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import de.robv.android.xposed.XC_MethodHook;
 

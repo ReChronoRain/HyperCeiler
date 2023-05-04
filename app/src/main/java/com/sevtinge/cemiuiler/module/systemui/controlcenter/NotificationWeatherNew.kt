@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.utils.*
-import com.sevtinge.cemiuiler.utils.XSPUtils
-import com.sevtinge.cemiuiler.utils.hasEnable
 import com.sevtinge.cemiuiler.view.WeatherData
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
