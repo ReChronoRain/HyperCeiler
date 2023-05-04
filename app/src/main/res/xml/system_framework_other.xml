@@ -49,6 +49,7 @@
 
         <Preference
             android:title="@string/system_framework_clean_share_apps"
+            android:summary="@string/system_framework_clean_share_apps_desc"
             android:key="prefs_key_system_framework_clean_share_apps"
             android:dependency="prefs_key_system_framework_clean_share_menu" />
 
@@ -59,6 +60,7 @@
 
         <Preference
             android:title="@string/system_framework_clean_open_apps"
+            android:summary="@string/system_framework_clean_open_apps_desc"
             android:key="prefs_key_system_framework_clean_open_apps"
             android:dependency="prefs_key_system_framework_clean_open_menu" />
 
