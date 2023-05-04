@@ -56,13 +56,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
                 .setTitle(R.string.soft_reboot)
                 .setMessage(R.string.soft_reboot_desc)
                 .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> reBoot())
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> exec("reboot"))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
-    }
-
-    public void reBoot() {
-        exec("reboot");
     }
 
     public void showRestartSystemUIDialog() {
@@ -83,7 +79,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     public void showRestartAppsDialog(String appLabel, String packagename) {
         new AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle(getResources().getString(R.string.restart_app) + appLabel)
+                .setTitle(getResources().getString(R.string.soft_reboot) + appLabel)
                 .setMessage(getResources().getString(R.string.restart_app_desc1) + appLabel + getResources().getString(R.string.restart_app_desc2))
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> setRestartApps(packagename))

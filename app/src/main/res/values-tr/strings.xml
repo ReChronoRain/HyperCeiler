@@ -516,7 +516,6 @@
     <string name="tsmclient_auto_nfc_desc">Kart kaydırma sayfasına girerken NFC otomatik olarak açılır ve çıkarken otomatik olarak kapanır</string>
     <string name="restart_systemui">Sistem arayüzünü yeniden başlat</string>
     <string name="restart_systemui_desc">Sistem arayüzünü şimdi yeniden başlatmak istediğinizden emin misiniz?</string>
-    <string name="restart_app">"Yeniden başlat"</string>
     <string name="restart_app_desc1">"Şimdi yeniden başlatmak istediğinizden emin misiniz"</string>
     <string name="restart_app_desc2">" ?"</string>
     <string name="tip">Tip</string>

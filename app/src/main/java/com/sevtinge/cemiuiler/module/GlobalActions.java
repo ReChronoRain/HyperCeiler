@@ -41,7 +41,6 @@ public class GlobalActions extends BaseHook {
                 mFilter.addAction(ACTION_PREFIX + "ScreenCapture");
                 mFilter.addAction(ACTION_PREFIX + "OpenPowerMenu");
                 mFilter.addAction(ACTION_PREFIX + "LaunchIntent");
-                mFilter.addAction(ACTION_PREFIX + "FastReboot");
                 mGlobalContext.registerReceiver(mGlobalReceiver, mFilter);
             }
         });
@@ -95,11 +94,6 @@ public class GlobalActions extends BaseHook {
                             else
                                 context.startActivity(launchIntent);
                         }
-                        break;
-
-                    case ACTION_PREFIX + "FastReboot":
-                        proxySystemProperties("set", "ctl.restart", "surfaceflinger", null);
-                        proxySystemProperties("set", "ctl.restart", "zygote", null);
                         break;
                 }
             } catch (Throwable t) {
