@@ -91,7 +91,7 @@ public class OpenAppInFreeForm extends BaseHook {
         String pkgName = intent.getComponent().getPackageName();
         if (fwBlackList.contains(pkgName)) return false;
         boolean openInFw = false;
-        final boolean openFwWhenShare = mPrefsMap.getBoolean("framework_freeform_app_share");
+        final boolean openFwWhenShare = mPrefsMap.getBoolean("system_framework_freeform_app_share");
         if (openFwWhenShare) {
             /*if (mPrefsMap.getStringSet("system_fw_forcein_actionsend_apps").contains(pkgName)) return false;*/
             if ("com.miui.packageinstaller".equals(pkgName) && intent.getComponent().getClassName().contains("com.miui.packageInstaller.NewPackageInstallerActivity")) {
