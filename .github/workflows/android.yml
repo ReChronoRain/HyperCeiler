@@ -20,11 +20,13 @@ jobs:
         with:
           java-version: "19"
           distribution: "temurin"
+          cache: gradle
       - uses: gradle/gradle-build-action@v2
         with:
+          arguments: assemble
           cache-read-only: false
-      - run:
-          ./gradlew assemble
+#      - run:
+#          ./gradlew assemble
 
       - name: Sign Release APK
         if: success()
