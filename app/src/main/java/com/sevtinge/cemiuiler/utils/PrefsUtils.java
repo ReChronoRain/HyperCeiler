@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
@@ -230,7 +231,8 @@ public class PrefsUtils {
             registerObserver();
         }
 
-		public SharedPrefsObserver(Context context, Handler handler, String name, boolean defValue) {
+		@SuppressLint("SuspiciousIndentation")
+        public SharedPrefsObserver(Context context, Handler handler, String name, boolean defValue) {
             super(handler);
             ctx = context;
 			prefType = PrefType.Boolean;

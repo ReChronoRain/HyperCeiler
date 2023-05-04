@@ -257,7 +257,6 @@
     <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Unlock the side-hide freeform for lowly-supported but restricted devices. This will also affect the behavior of the widget when the phone cuts to the background</string>
     <string name="security">Security</string>
-    <string name="system_framework_free_form_title">Small freeform</string>
     <string name="system_framework_volume_title">Volume</string>
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
@@ -276,7 +275,7 @@
     <string name="system_ui_lockscreen_safe_title">Security</string>
     <string name="system_ui_lockscreen_ui_title">UI</string>
     <string name="system_ui_lock_screen_show_second">Clock show second</string>
-    <string name="system_ui_lock_screen_show_charging_cv">Show charging current and voltage</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Show charging current, voltage and power</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
     <string name="system_ui_lock_screen_current">Current</string>
@@ -549,14 +548,13 @@
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
     <string name="system_framework_core_patch_downgr_desc">Allow downgrade applications</string>
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
-    <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ingnore invalid digest error)</string>
+    <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ignore invalid digest error)</string>
     <string name="system_framework_core_patch_digest_creak">Disable compare signatures</string>
-    <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signnatures</string>
+    <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signatures</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed signatures</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_core_patch_enhanced_mode">Enhanced mode</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Pass some validation in the application</string>
-    <string name="system_framework_freeform_title">Freeform</string>
     <string name="system_framework_bubble_title">Bubble notification</string>
     <string name="system_framework_freeform_count">Multiple freeform</string>
     <string name="system_framework_disable_freeform_blacklist">Force small freeform to be allowed</string>
@@ -911,4 +909,13 @@
     <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
     <string name="file_explorer_is_single_line">File Explorer Is Single Line</string>
     <string name="enable">Activate</string>
+    <string name="system_ui_control_center_show_weather">Show weather</string>
+    <string name="system_ui_control_center_show_weather_city">Show city</string>
+    <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
+    <string name="system_framework_clean_share_apps_desc">The selected app will not appear in the share menu</string>
+    <string name="system_framework_clean_open_apps_desc">The selected app will not appear in the open with menu</string>
+    <string name="system_framework_freeform_title_desc">In the above scenario, when you need to jump to other apps, you will use the freeform to open</string>
+    <string name="freeform_notification">Notification floating window</string>
+    <string name="system_framework_freeform_content_extension_desc">Only supports links</string>
+    <string name="share_app">Share to third-party apps</string>
 </resources>

@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.text.format.DateFormat;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

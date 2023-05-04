@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
 import dalvik.system.PathClassLoader;
 import de.robv.android.xposed.*;
 

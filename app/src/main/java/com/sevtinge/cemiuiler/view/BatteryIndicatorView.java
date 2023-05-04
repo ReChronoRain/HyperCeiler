@@ -120,12 +120,9 @@ public class BatteryIndicatorView extends ImageView {
             } else {
                 removeCallbacks(step);
                 mTesting = false;
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateParameters();
-                        update();
-                    }
+                postDelayed(() -> {
+                    updateParameters();
+                    update();
                 }, 1000);
             }
         }
@@ -233,7 +230,7 @@ public class BatteryIndicatorView extends ImageView {
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         lp.gravity = mBottom ? Gravity.BOTTOM : Gravity.TOP;
         setLayoutParams(lp);
-        try { this.setImageAlpha(255 - Math.round(255 * mTransparency / 100f)); } catch (Throwable ignore) {};
+        try { this.setImageAlpha(255 - Math.round(255 * mTransparency / 100f)); } catch (Throwable ignore) {}
         this.setVisibility(mVisibility);
         this.setScaleType(mCentered ? ScaleType.CENTER : ScaleType.MATRIX);
         Matrix matrix = new Matrix();

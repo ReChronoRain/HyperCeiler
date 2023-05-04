@@ -4,7 +4,6 @@ import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import io.luckypray.dexkit.DexKitBridge
 import java.lang.reflect.Method
 
 class RemoveMacroBlackList : BaseHook() {

@@ -72,7 +72,6 @@ public class PackagePermissions {
             }
         });
 
-        //noinspection ResultOfMethodCallIgnored
         Helpers.findAndHookMethodSilently("android.content.pm.ApplicationInfo", lpparam.classLoader, "isSignedWithPlatformKey", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {

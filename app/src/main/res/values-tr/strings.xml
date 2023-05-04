@@ -253,7 +253,6 @@
     <string name="security_center_unlock_side_hide_freeform">Serbest formun yan gizlemesinin kilidini aç</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Düşük destekli ancak kısıtlı cihazlar için yandan gizleme serbest formunun kilidini açın. Bu, telefon arka planı kestiğinde widget\'ın davranışını da etkileyecektir</string>
     <string name="security">Güvenlik</string>
-    <string name="system_framework_free_form_title">Küçük serbest form</string>
     <string name="system_framework_volume_title">Ses</string>
     <string name="system_framework_other_use_original_animation">Geçiş animasyonları yerel stilleri kullanır</string>
     <string name="system_settings_develop_speed_mode_desc">Desteklenmeyen modellerde açıldıktan sonra giriş görüntülenmeyecektir</string>
@@ -534,7 +533,6 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">Bu özellik son derece tehlikelidir ve yalnızca kesinlikle gerekli olduğunda etkinleştirilmelidir</string>
     <string name="system_framework_core_patch_enhanced_mode">Geliştirilmiş mod</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Uygulamada bazı doğrulamaları geçin</string>
-    <string name="system_framework_freeform_title">Serbest Form</string>
     <string name="system_framework_bubble_title">Kabarcık bildirimi</string>
     <string name="system_framework_freeform_count">Çoklu serbest form</string>
     <string name="system_framework_disable_freeform_blacklist">Küçük serbest forma izin verilmesini zorla</string>

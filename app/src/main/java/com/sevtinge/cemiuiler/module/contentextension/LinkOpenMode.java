@@ -44,11 +44,13 @@ public class LinkOpenMode extends BaseHook {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         switch (mode) {
-            case 0 -> setFreeFormIntent(context, getDefaultBrowserApp(context));
-            case 2 -> {
+            case 0 :
+                setFreeFormIntent(context, getDefaultBrowserApp(context));
+                break;
+            case 2 :
                 intent.setPackage("com.android.browser");
                 setFreeFormIntent(context, "com.android.browser");
-            }
+                break;
         }
         context.startActivity(intent);
     }

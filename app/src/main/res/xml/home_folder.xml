@@ -184,6 +184,7 @@
         <SwitchPreference
                 android:key="prefs_key_home_folder_auto_close"
                 android:title="@string/home_auto_close_folder_title"
+                android:summary="@string/home_auto_close_folder_summary"
                 android:defaultValue="false" />
 
         <SwitchPreference

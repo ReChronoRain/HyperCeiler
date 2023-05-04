@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.utils
 
-import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 
 abstract class ResourcesHookRegister {

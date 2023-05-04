@@ -628,13 +628,11 @@
     <string name="system_framework_disable_app_link_verify_desc">打開連結時還原為直接打開支援的應用程式，無需在應用程式設定中勾選支援的連結</string>
     <string name="system_framework_disable_freeform_blacklist">停用小窗應用程式黑名單</string>
     <string name="system_framework_disable_freeform_blacklist_desc">忽略系統黑名單與軟體停用小窗</string>
-    <string name="system_framework_free_form_title">小窗</string>
     <string name="system_framework_freeform_bubble">小窗氣泡</string>
     <string name="system_framework_freeform_count">多小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform">將所有小窗轉為迷你小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任務中將所有小窗轉為迷你小窗顯示\n此功能為實驗性功能，具有較高不穩定性</string>
     <string name="system_framework_freeform_sticky">記住狀態</string>
-    <string name="system_framework_freeform_title">小窗</string>
     <string name="system_framework_open_with_menu_test">打開方式選單測試</string>
     <string name="system_framework_other_speed_install">快速安裝</string>
     <string name="system_framework_other_speed_install_desc">安裝至運行記憶體以提升安裝速度，需要系統底層支援</string>
