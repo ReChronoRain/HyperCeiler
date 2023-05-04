@@ -73,10 +73,9 @@
     <string name="aireco_device_modify">Beta kısıtlamalarını kaldır</string>
     <string name="browser_debug_mode">Geliştirici ayarları</string>
     <string name="clock_enable_hour_glass">Kum saati animasyonunun kilidini aç</string>
-    <string name="gallery_title_settings">Ayarlar</string>
-    <string name="gallery_title_feature">İşlev</string>
-    <string name="gallery_title_recommend">Önerilen</string>
-    <string name="gallery_title_editor">Düzenleyici</string>
+    <string name="feature">İşlev</string>
+    <string name="recommend">Önerilen</string>
+    <string name="editor">Düzenleyici</string>
     <string name="gallery_enable_hdr_enhanced">Ekran yüksek dinamik aralığının kilidini aç</string>
     <string name="gallery_enable_pdf">PDF oluşturmanın kilidini aç</string>
     <string name="gallery_enable_ocr">OCR\'nin kilidini aç</string>
@@ -285,7 +284,6 @@
     <string name="system_ui_qs_label">Hızlı geçiş sekmesi</string>
     <string name="system_ui_statusbar_iconmanage_title">Simge yöneticisi</string>
     <string name="system_ui_statusbar_clock_title">Saat göstergesi yönetimi</string>
-    <string name="system_ui_status_bar_battery_indicator_enable">Etkinleştir</string>
     <string name="system_ui_status_bar_battery_indicator_centered">Merkez</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">Yuvarlatılmış köşeler</string>
     <string name="system_ui_status_bar_battery_indicator_limitvis">Görünürlüğü sınırla</string>
@@ -690,7 +688,6 @@
     <string name="system_ui_statusbar_indicator_align">Yatay hizalama</string>
     <string name="joyose_enable_gpu_tuner_desc">Açtıktan sonra, [Oyun Alanı] \'nın alt ortasına oyun GPU\'su ile ilgili ayarları ekleyin</string>
     <string name="system_ui_plugin_enable_volume_blur">Ses çubuğu bulanıklığını etkinleştir</string>
-    <string name="camera_features_title">Özellikler</string>
     <string name="camera_features_unlock_aiwatermark">AI filigranının kilidini aç</string>
     <string name="camera_features_unlock_ambilight">Uzun pozlamanın kilidini aç</string>
     <string name="camera_features_unlock_clone">Klon modunun kilidini aç</string>
@@ -787,4 +784,5 @@
     <string name="system_framework_other_title">Diğer</string>
     <string name="system_ui_other_title">Diğer</string>
     <string name="system_ui_another_title">Diğer</string>
+    <string name="enable">Etkinleştir</string>
 </resources>

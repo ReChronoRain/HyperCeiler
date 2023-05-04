@@ -51,12 +51,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_14
+        targetCompatibility JavaVersion.VERSION_14
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_14.toString()
     }
 
     packagingOptions {
@@ -88,9 +88,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
     implementation "com.google.code.gson:gson:2.10.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha09"
 
-    implementation "androidx.core:core:$AndroidXCoreVersion"
+    implementation roots.AndroidXCore
     implementation roots.AndroidXCollection
     implementation roots.AndroidXRecyclerview
     implementation roots.AndroidXFragment
@@ -99,6 +98,7 @@ dependencies {
     implementation roots.AndroidXVectorDrawableAnimated
     implementation roots.AndroidXCustomView
     implementation roots.AndroidXCustomViewPoolingContainer
+    implementation roots.AndroidXConstraintLayout
 
     implementation files(roots.animation)
     implementation files(roots.annotation)

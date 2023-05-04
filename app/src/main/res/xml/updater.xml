@@ -19,7 +19,6 @@
             android:key="prefs_key_updater_device"
             app:isPreferenceVisible="true"/>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

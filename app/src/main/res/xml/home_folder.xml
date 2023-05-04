@@ -19,7 +19,7 @@
             android:title="@string/home_small_folder_icon_bg_size"
             android:defaultValue="56"
             app:maxValue="100"
-            app:format="%d dp"
+            android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_small_folder_icon_bg"/>
 
@@ -42,7 +42,7 @@
                 android:key="prefs_key_home_big_folder_icon_bg_width_2x1"
                 android:defaultValue="145"
                 app:maxValue="200"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg_2x1"/>
 
@@ -51,7 +51,7 @@
                 android:key="prefs_key_home_big_folder_icon_bg_height_2x1"
                 android:defaultValue="62"
                 app:maxValue="200"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg_2x1"/>
 
@@ -70,7 +70,7 @@
                 android:key="prefs_key_home_big_folder_icon_bg_width_1x2"
                 android:defaultValue="62"
                 app:maxValue="200"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg_1x2"/>
 
@@ -79,7 +79,7 @@
                 android:key="prefs_key_home_big_folder_icon_bg_height_1x2"
                 android:defaultValue="145"
                 app:maxValue="200"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg_1x2"/>
 
@@ -98,7 +98,7 @@
                 android:key="prefs_key_home_big_folder_icon_bg_width"
                 android:defaultValue="145"
                 app:maxValue="200"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg"/>
 
@@ -107,7 +107,7 @@
                 android:key="prefs_key_home_big_folder_icon_bg_height"
                 android:defaultValue="145"
                 app:maxValue="200"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true"
                 android:dependency="prefs_key_home_big_folder_icon_bg"/>
 
@@ -133,7 +133,7 @@
                 android:title="@string/home_folder_shade_level_title"
                 android:defaultValue="0"
                 app:maxValue="100"
-                app:format="%d %%"
+                android:format="%d %%"
                 app:showSeekBarValue="true"/>
 
         <SwitchPreference
@@ -146,7 +146,7 @@
                 android:dependency="prefs_key_home_folder_animation"
                 android:key="prefs_key_home_folder_anim_1"
                 android:title="@string/home_folder_anim_1"
-                app:format="%d / 100 f"
+                android:format="%d / 100 f"
                 app:maxValue="150"
                 app:minValue="50"
                 app:showSeekBarValue="true" />
@@ -156,7 +156,7 @@
                 android:dependency="prefs_key_home_folder_animation"
                 android:key="prefs_key_home_folder_anim_2"
                 android:title="@string/home_folder_anim_2"
-                app:format="%d / 30 f"
+                android:format="%d / 30 f"
                 app:maxValue="60"
                 app:minValue="10"
                 app:showSeekBarValue="true" />
@@ -166,7 +166,7 @@
                 android:dependency="prefs_key_home_folder_animation"
                 android:key="prefs_key_home_folder_anim_3"
                 android:title="@string/home_folder_anim_3"
-                app:format="%d / 100 f"
+                android:format="%d / 100 f"
                 app:maxValue="150"
                 app:minValue="50"
                 app:showSeekBarValue="true" />
@@ -176,7 +176,7 @@
                 android:dependency="prefs_key_home_folder_animation"
                 android:key="prefs_key_home_folder_anim_4"
                 android:title="@string/home_folder_anim_4"
-                app:format="%d / 30 f"
+                android:format="%d / 30 f"
                 app:maxValue="60"
                 app:minValue="10"
                 app:showSeekBarValue="true" />
@@ -202,7 +202,7 @@
             android:defaultValue="3"
             app:minValue="0"
             app:maxValue="6"
-            app:format="@string/home_folder_cols_format"
+            android:format="@string/home_folder_cols_format"
             app:showSeekBarValue="true"/>
 
         <SeekBarPreference
@@ -211,7 +211,7 @@
             android:defaultValue="0"
             app:minValue="0"
             app:maxValue="100"
-            app:format="%d dp"
+            android:format="%d dp"
 
             app:showSeekBarValue="true"/>
 
@@ -221,7 +221,6 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

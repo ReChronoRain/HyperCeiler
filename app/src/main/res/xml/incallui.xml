@@ -11,7 +11,6 @@
 
     </PreferenceCategory>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

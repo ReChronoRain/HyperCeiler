@@ -58,7 +58,6 @@
                     android:data="https://github.com/NextAlone"/>
         </Preference>
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>
