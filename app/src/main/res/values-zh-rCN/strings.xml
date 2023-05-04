@@ -578,7 +578,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform">将所有小窗转为迷你小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任务中将所有小窗转为迷你小窗显示\n此功能为实验性功能，具有较高不稳定性</string>
 
-    <string name="system_framework_freeform_title_desc">在下列场景中，需要跳转至其他应用时将使用小窗打开</string>
+    <string name="system_framework_freeform_title_desc">在上述场景中，需要跳转至其他应用时将使用小窗打开</string>
     <string name="system_framework_freeform_content_extension_desc">仅支持链接</string>
 
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
