@@ -584,6 +584,10 @@
     <string name="system_framework_freeform_jump">跳转应用使用小窗打开</string>
     <string name="system_framework_freeform_content_extension_desc">仅支持链接</string>
 
+    <string name="personalassistant_minus_one_blur_desc">请不要和wini里面的负一屏模糊一起开启\n联发科设备仅建议在 Android 13 上启用，非 Android 13 的联发科设备动态调整模糊半径时经常黑屏</string>
+    <string name="personalAssistant_blur_radius_summary">负一屏背景模糊程度</string>
+    <string name="personalAssistant_color_summary">负一屏背景叠加层颜色</string>
+
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
     <string name="system_framework_disable_app_link_verify">禁用应用链接验证</string>

@@ -9,6 +9,28 @@
             android:title="@string/personal_assistant_overlap_mode"
             android:defaultValue="false"/>
 
+        <SwitchPreference
+            android:key="prefs_key_personalassistant_minus_one_blur"
+            android:title="@string/custom_blur_enabled"
+            android:summary="@string/personalassistant_minus_one_blur_desc"
+            android:dependency="prefs_key_personal_assistant_overlap_mode"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:key="prefs_key_personalassistant_blur_radius"
+            android:title="@string/personalAssistant_blur_radius_summary"
+            android:dependency="prefs_key_personalassistant_minus_one_blur"
+            android:defaultValue="80"
+            app:maxValue="100"
+            app:minValue="30"
+            app:showSeekBarValue="true"/>
+
+        <EditTextPreference
+            android:defaultValue="#1E000000"
+            android:key="prefs_key_personalAssistant_color_summary"
+            android:dependency="prefs_key_personalassistant_minus_one_blur"
+            android:title="@string/personalAssistant_color_summary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory>
