@@ -14,6 +14,8 @@ import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.internal.utils.ViewUtils;
 
+import static com.sevtinge.cemiuiler.utils.KotlinXposedHelperKt.exec;
+
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     ImageView mRestartView;
@@ -60,7 +62,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public void reBoot() {
-        sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "FastReboot"));
+        exec("reboot");
     }
 
     public void showRestartSystemUIDialog() {

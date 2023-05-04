@@ -588,8 +588,8 @@
     <string name="settings_safe_mode_desc">停用模組功能</string>
     <string name="share_center">小米妙享中心</string>
     <string name="show_newmods_title">標記新模組</string>
-    <string name="soft_reboot">軟重啟</string>
-    <string name="soft_reboot_desc">確定要執行軟重啟嗎？</string>
+    <string name="soft_reboot">重啟</string>
+    <string name="soft_reboot_desc">確定要執行重啟嗎？</string>
     <string name="status_bar_icon_mode_default">預設</string>
     <string name="status_bar_icon_mode_off">總是隱藏</string>
     <string name="status_bar_icon_mode_off_unconnect">僅在未連接時隱藏</string>

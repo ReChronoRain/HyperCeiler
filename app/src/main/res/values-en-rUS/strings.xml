@@ -685,8 +685,8 @@
     <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="home_other_always_blur_launcher_wallpaper">Always blur launcher wallpaper</string>
-    <string name="soft_reboot">Soft reboot</string>
-    <string name="soft_reboot_desc">Are you sure you want to soft reboot now?</string>
+    <string name="soft_reboot">Reboot</string>
+    <string name="soft_reboot_desc">Are you sure you want to reboot now?</string>
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
