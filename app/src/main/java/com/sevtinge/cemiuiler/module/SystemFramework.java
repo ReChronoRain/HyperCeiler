@@ -24,6 +24,7 @@ public class SystemFramework extends BaseModule {
         initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_open_notification") ||
                 mPrefsMap.getBoolean("system_framework_freeform_app_share") ||
                 mPrefsMap.getBoolean("system_framework_freeform_open_notification_fw"));
+        //initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
 
         //音量
         initHook(new VolumeDefaultStream());
