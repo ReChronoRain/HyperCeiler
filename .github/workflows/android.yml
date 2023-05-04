@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: "19"
           distribution: "temurin"
-          cache: gradle
+#          cache: gradle
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: assemble
@@ -73,31 +73,31 @@ jobs:
           keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
 
       - name: Upload Release APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler release
           path: ${{ steps.sign_release.outputs.signedReleaseFile }}
 
       - name: Upload Beta APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler beta
           path: ${{ steps.sign_beta.outputs.signedReleaseFile }}
 
       - name: Upload Canary APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler canary
           path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
 
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler debug
           path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
 
       - name: Upload Release Mapping
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler mapping
           path: ./app/build/outputs/mapping/release/mapping.txt
