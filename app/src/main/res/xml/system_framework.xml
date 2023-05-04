@@ -3,7 +3,7 @@
 
     <PreferenceCategory>
 
-        <Preference android:title="@string/system_framework_free_form_title">
+        <Preference android:title="@string/floating_window">
             <intent
                 android:targetPackage="com.sevtinge.cemiuiler"
                 android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.FreeFormSettings" />
