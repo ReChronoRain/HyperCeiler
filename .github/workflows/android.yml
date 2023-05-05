@@ -1,116 +1,127 @@
-name: Android Ci Release
+name: Android CI
+
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches: [ main ]
     paths-ignore:
       - "README.md"
       - "README_en-US.md"
       - "doc/*"
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - "README.md"
+      - "README_en-US.md"
+      - "doc/*"
+
 jobs:
-  gradle:
+  build:
+    name: Build Cemiuiler ${{ matrix.apk_version }}
     runs-on: ubuntu-latest
+    env:
+      SIGNING_KEY: "${{ secrets.SIGNING_KEY }}"
+      KEY_PASSWORD: "${{ secrets.KEY_STORE_PASSWORD }}"
+      ALIAS: "${{ secrets.ALIAS }}"
+      KEY_STORE_PASSWORD: "${{ secrets.KEY_STORE_PASSWORD }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        apk_version: [ Release, Beta, Canary, Debug ]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          submodules: true
-      - uses: actions/setup-java@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zipalign apksigner
+      - name: Setup JDK19
+        uses: actions/setup-java@v3
         with:
           java-version: "19"
+          java-package: "jdk"
           distribution: "temurin"
-#          cache: gradle
-      - uses: gradle/gradle-build-action@v2
-        with:
-          arguments: assemble
-          cache-read-only: false
-#      - run:
-#          ./gradlew assemble
-
-      - name: Sign Release APK
-        if: success()
-        id: sign_release
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
-
-      - name: Sign Beta APK
-        if: success()
-        id: sign_beta
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/beta
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
-
-      - name: Sign Canary APK
-        if: success()
-        id: sign_canary
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/canary
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
-
-      - name: Sign Debug APK
-        if: success()
-        id: sign_debug
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
-
-      - name: Upload Release APK
+          cache: "gradle"
+      - name: Build with Gradle and align APK
+        run: |
+          ${{ github.workspace }}/gradlew assemble${{ matrix.apk_version }}
+          mkdir -vp ${{ github.workspace }}/unsigned-apk
+          zipalign -v -p 4 "$(find ${{ github.workspace }}/app/build/outputs/apk -name '*.apk')" ${{ github.workspace }}/unsigned-apk/Unsigned-Cemiuiler-${{ matrix.apk_version }}.apk
+          echo "gradle_build_success=true" >> ${GITHUB_ENV}
+      - name: Check key variables
+        shell: bash
+        run: |
+          if [[ -n "${SIGNING_KEY}" && -n "${KEY_STORE_PASSWORD}" && -n "${ALIAS}" && -n "${KEY_PASSWORD}" ]]; then
+            echo "All variables exist, start sign apk."
+            echo "key_variables_check=success" >> ${GITHUB_ENV}
+          else
+            echo "At least one variable does not exist, skip sign apk."
+            echo "key_variables_check=failure" >> ${GITHUB_ENV}
+          fi
+      - name: Sign ${{ matrix.apk_version }} APK
+        if: ${{ env.key_variables_check == 'success' }}
+        run: |
+          mkdir -vp ${{ github.workspace }}/{key,signed-apk}
+          echo "${SIGNING_KEY}" | base64 -d > ${{ github.workspace }}/key/key.jks
+          apksigner sign -verbose --ks ${{ github.workspace }}/key/key.jks --ks-key-alias ${ALIAS} --ks-pass pass:${KEY_STORE_PASSWORD} --key-pass pass:${KEY_PASSWORD} --out ${{ github.workspace }}/signed-apk/Cemiuiler-${{ matrix.apk_version }}.apk ${{ github.workspace }}/unsigned-apk/Unsigned-Cemiuiler-${{ matrix.apk_version }}.apk
+      - name: Upload unsigned ${{ matrix.apk_version }} APK
+        if: ${{ (env.key_variables_check == 'failure' || failure()) && env.gradle_build_success == 'true' }}
         uses: actions/upload-artifact@v3
         with:
-          name: Cemiuiler release
-          path: ${{ steps.sign_release.outputs.signedReleaseFile }}
-
-      - name: Upload Beta APK
+          name: Unsigned-Cemiuiler-${{ matrix.apk_version }}
+          path: ${{ github.workspace }}/unsigned-apk/Unsigned-Cemiuiler-${{ matrix.apk_version }}.apk
+      - name: Upload signed ${{ matrix.apk_version }} APK
+        if: ${{ env.key_variables_check == 'success' && success() }}
         uses: actions/upload-artifact@v3
         with:
-          name: Cemiuiler beta
-          path: ${{ steps.sign_beta.outputs.signedReleaseFile }}
+          name: Cemiuiler-${{ matrix.apk_version }}
+          path: ${{ github.workspace }}/signed-apk/Cemiuiler-${{ matrix.apk_version }}.apk
 
-      - name: Upload Canary APK
-        uses: actions/upload-artifact@v3
+  post_to_channel:
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false }}
+    needs: [ build ]
+    name: Post to channel
+    runs-on: ubuntu-latest
+    env:
+      CHANNEL_ID: "${{ secrets.CHANNEL_ID }}"
+      BOT_TOKEN: "${{ secrets.BOT_TOKEN }}"
+    steps:
+      - name: Check variables
+        shell: bash
+        run: |
+          if [[ -n "${CHANNEL_ID}" && -n "${BOT_TOKEN}" ]]; then
+            echo "All variables exist, will post to channel."
+            echo "post_to_channel_check=success" >> ${GITHUB_ENV}
+          else
+            echo "At least one variable does not exist, skip post to channel."
+            echo "post_to_channel_check=failure" >> ${GITHUB_ENV}
+          fi
+      - name: Create directory
+        if: ${{ env.post_to_channel_check == 'success' }}
+        run: mkdir -vp ${{ github.workspace }}/artifact
+      - name: Restore files
+        if: ${{ env.post_to_channel_check == 'success' }}
+        uses: actions/download-artifact@v3
         with:
-          name: Cemiuiler canary
-          path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-
-      - name: Upload Debug APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: Cemiuiler debug
-          path: ${{ steps.sign_debug.outputs.signedReleaseFile }}
-
-      - name: Upload Release Mapping
-        uses: actions/upload-artifact@v3
-        with:
-          name: Cemiuiler mapping
-          path: ./app/build/outputs/mapping/release/mapping.txt
-
+          path: ${{ github.workspace }}/artifact
+      - name: Check files name
+        if: ${{ env.post_to_channel_check == 'success' }}
+        shell: bash
+        run: |
+          find ${{ github.workspace }}/artifact -name '*.apk'
+          if [[ -z "$(find ${{ github.workspace }}/artifact -name 'Unsigned*.apk')" ]]; then
+            echo 'All file names do not start with "Unsigned", start post to channel.'
+            echo "unsigned_check=success" >> ${GITHUB_ENV}
+          else
+            echo 'At least one file has a file name that starts with "Unsigned", skip post to channel.'
+            echo "unsigned_check=failure" >> ${GITHUB_ENV}
+          fi
       - name: Post to channel
-        if: contains(github.event.head_commit.message, '[skip post]') == false
+        if: ${{ env.post_to_channel_check == 'success' && env.unsigned_check == 'success' }}
         env:
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          RELEASE: ${{ steps.sign_release.outputs.signedReleaseFile }}
-          BETA: ${{ steps.sign_beta.outputs.signedReleaseFile }}
-          CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-          DEBUG: ${{ steps.sign_debug.outputs.signedReleaseFile }}
+          RELEASE: "${{ github.workspace }}/artifact/Cemiuiler-Release/Cemiuiler-Release.apk"
+          BETA: "${{ github.workspace }}/artifact/Cemiuiler-Beta/Cemiuiler-Beta.apk"
+          CANARY: "${{ github.workspace }}/artifact/Cemiuiler-Canary/Cemiuiler-Canary.apk"
+          DEBUG: "${{ github.workspace }}/artifact/Cemiuiler-Debug/Cemiuiler-Debug.apk"
           COMMIT_MESSAGE: |+
             Github CI
             ```
@@ -118,4 +129,4 @@ jobs:
             ```
         run: |
           ESCAPED=`python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))'`
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Frelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fbeta%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fdebug%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F release="@$RELEASE" -F beta="@$BETA" -F canary="@$CANARY" -F debug="@$DEBUG"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Frelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fbeta%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fdebug%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F release="@${RELEASE}" -F beta="@${BETA}" -F canary="@${CANARY}" -F debug="@${DEBUG}"
