@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-            android:title="@string/lbe_disable_clipboard_tip"
+    <PreferenceCategory android:title="@string/clipboard">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_lbe_clipboard_tip_toast"
+            android:title="@string/lbe_clipboard_tip_toast" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_lbe_clipboard_tip_toast"
             android:key="prefs_key_lbe_disable_clipboard_tip"
-            android:defaultValue="false"/>
+            android:title="@string/lbe_disable_clipboard_tip" />
 
-<Preference android:enabled="false" />
-
+    </PreferenceCategory>
+    <Preference android:enabled="false" />
 </PreferenceScreen>

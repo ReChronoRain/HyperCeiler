@@ -5,7 +5,6 @@ import android.app.AndroidAppHelper
 import android.content.Context
 import android.os.BatteryManager
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.utils.Log
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookAfter
 import com.github.kyuubiran.ezxhelper.utils.hookAllConstructorAfter

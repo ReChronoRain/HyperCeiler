@@ -922,4 +922,7 @@
     <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
     <string name="link_open_mode_default">System default</string>
     <string name="link_open_mode_mi">Xiaomi browser</string>
+     <string name="clipboard">Clipboard</string>
+    <string name="lbe_clipboard_tip">Read clipboard</string>
+    <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
 </resources>

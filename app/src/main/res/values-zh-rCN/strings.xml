@@ -420,7 +420,10 @@
     <string name="joyose_enable_gpu_tuner">性能调度</string>
     <string name="joyose_enable_gpu_tuner_desc">开启后 \"游戏空间\" 的底部中间增加游戏 GPU 相关设置</string>
 
-    <string name="lbe_disable_clipboard_tip">禁用读取剪贴板提示</string>
+    <string name="clipboard">剪切板</string>
+    <string name="lbe_disable_clipboard_tip">禁用提示读取剪贴板</string>
+    <string name="lbe_clipboard_tip_toast">使用 Toast 提示读取剪贴板</string>
+    <string name="lbe_clipboard_tip">读取了剪贴板</string>
 
     <string name="market_device_modify">机型伪装</string>
     <string name="market_device_modify_desc">伪装设备机型为 Xiaomi 13 Ultra</string>
