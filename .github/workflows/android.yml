@@ -43,18 +43,19 @@ jobs:
           name: Cemiuiler canary
           path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
 
-      - name: Post to channel
-        if: contains(github.event.head_commit.message, '[skip post]') == false
+      - name: Post to group
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         env:
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           GROUP_ID: ${{ secrets.CANARY_GROUP_ID }}
           MESSAGE_THREAD_ID: ${{ secrets.MESSAGE_THREAD_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-          COMMIT_MESSAGE: |+
-            New Release From Github
-            ```
-            ${{ github.event.head_commit.message }}
-            ```
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          BOT_MESSAGE: |+
+            [New Release From Github](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            [${{ github.event.head_commit.message }}](${{ github.event.head_commit.url }})
         run: |
-          ESCAPED=`python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))'`
+          ESCAPED=`python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["BOT_MESSAGE"])))'`
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&message_thread_id=%{MESSAGE_THREAD_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F canary="@${CANARY}"
