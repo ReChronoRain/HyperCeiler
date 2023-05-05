@@ -894,7 +894,6 @@
     <string name="weather_device_level_title_middle">中</string>
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
     <string name="enable">啟用</string>
-    <string name="personalassistant_minus_one_blur_desc">聯發科設備僅建議在 Android 13 上啟用，非 Android 13 的聯發科設備動態調整模糊半徑時經常黑屏</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>

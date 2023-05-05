@@ -907,7 +907,4 @@
     <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
     <string name="link_open_mode_default">System default</string>
     <string name="link_open_mode_mi">Xiaomi browser</string>
-    <string name="personalassistant_minus_one_blur_desc">Please do not open this with the Personal assistant blur in wini.\\nMediaTek devices are only recommended to be enabled on Android 13, non-Android 13 MediaTek devices often have a black screen when dynamically adjusting the blur radius</string>
-    <string name="personalAssistant_blur_radius_summary">Personal assistant blur value</string>
-    <string name="personalAssistant_color_summary">Personal assistant color</string>
 </resources>
