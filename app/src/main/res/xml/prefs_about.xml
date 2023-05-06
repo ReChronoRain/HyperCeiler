@@ -109,7 +109,7 @@
                 android:summary="@string/about_donation_desc">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://www.sevtinge.cn/t/donation.html" />
+                    android:data="https://www.sevtinge.cc/t/donation.html" />
         </Preference>
     </PreferenceCategory>
 <Preference android:enabled="false" />
