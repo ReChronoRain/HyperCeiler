@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.systemframework.base.BaseSystemFrameWorkActivity;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
+import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class FreeFormSettings extends BaseSystemFrameWorkActivity {
@@ -19,7 +20,7 @@ public class FreeFormSettings extends BaseSystemFrameWorkActivity {
     public static class FreeFormFragment extends SubFragment {
 
         SwitchPreference mMoreFreeForm; //多小窗
-        SwitchPreference mSmallFreeForm; //小窗气泡
+        PreferenceCategory mSmallFreeForm; //小窗气泡
 
         @Override
         public int getContentResId() {
@@ -29,7 +30,7 @@ public class FreeFormSettings extends BaseSystemFrameWorkActivity {
         @Override
         public void initPrefs() {
             mMoreFreeForm = findPreference("prefs_key_system_framework_freeform_count");
-            mSmallFreeForm = findPreference("prefs_key_system_framework_freeform_bubble");
+            mSmallFreeForm = findPreference("prefs_key_system_framework_freeform_bubble_title");
 
             mMoreFreeForm.setVisible(SdkHelper.PROP_MIUI_VERSION_CODE >= 13);
             mSmallFreeForm.setVisible(!SdkHelper.isAndroidR());

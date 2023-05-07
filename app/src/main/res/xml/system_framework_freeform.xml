@@ -26,7 +26,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_framework_bubble_title">
+    <PreferenceCategory
+        android:title="@string/system_framework_bubble_title"
+        android:key="prefs_key_system_framework_freeform_bubble_title" >
 
         <SwitchPreference
             android:title="@string/system_framework_freeform_bubble"

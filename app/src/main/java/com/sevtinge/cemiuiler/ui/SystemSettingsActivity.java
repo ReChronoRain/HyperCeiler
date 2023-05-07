@@ -7,7 +7,7 @@ import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
-import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceCategory;
 
 public class SystemSettingsActivity extends BaseAppCompatActivity {
 
@@ -18,7 +18,7 @@ public class SystemSettingsActivity extends BaseAppCompatActivity {
 
     public static class SystemSettingsFragment extends SubFragment {
 
-        Preference mHighMode; //极致模式
+        PreferenceCategory mHighMode; //极致模式
 
         @Override
         public int getContentResId() {
