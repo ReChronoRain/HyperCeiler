@@ -623,6 +623,12 @@
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
 
     <string name="system_settings_international_build">国际版本设置页面</string>
+    <string name="system_settings_safe_wifi">查看已保存的 WiFi 密码</string>
+    <string name="system_settings_safe_wifi_desc">路径：设置-WLAN-高级设置-管理已保存网络</string>
+
+    <string name="system_settings_wifipassword_btn_title">查看</string>
+    <string name="system_settings_wifi_password_label">密码</string>
+    <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
 
     <string name="system_settings_permission_title">权限</string>
     <string name="system_settings_permission_show_app_up">显示在其他应用上层权限直达</string>

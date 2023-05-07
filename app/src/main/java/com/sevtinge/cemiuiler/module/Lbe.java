@@ -7,7 +7,7 @@ public class Lbe extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        initHook(DisableClipboardTip.INSTANCE, /*mPrefsMap.getBoolean("lbe_disable_clipboard_tip") ||*/
+        initHook(DisableClipboardTip.INSTANCE, mPrefsMap.getBoolean("lbe_disable_clipboard_tip") ||
                 mPrefsMap.getBoolean("lbe_clipboard_tip_toast"));
     }
 }

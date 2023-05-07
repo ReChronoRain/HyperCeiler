@@ -926,4 +926,9 @@
     <string name="lbe_clipboard_tip">Read clipboard</string>
     <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
     <string name="about_offical">Official website of Cemiuiler</string>
+    <string name="system_settings_safe_wifi">View your saved WiFi passwords</string>
+    <string name="system_settings_wifipassword_btn_title">Check</string>
+    <string name="system_settings_wifi_password_label">Password</string>
+    <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
+    <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
 </resources>

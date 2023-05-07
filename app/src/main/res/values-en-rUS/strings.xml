@@ -754,6 +754,7 @@
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
+    <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
     <string name="system_settings_permission_title">Permission</string>
     <string name="record">Record</string>
     <string name="camera_record_60fps">Unlock 60FPS</string>
@@ -911,4 +912,8 @@
     <string name="clipboard">Clipboard</string>
     <string name="lbe_clipboard_tip">Read clipboard</string>
     <string name="about_offical">Official website of Cemiuiler</string>
+    <string name="system_settings_safe_wifi">View your saved WiFi passwords</string>
+    <string name="system_settings_wifipassword_btn_title">Check</string>
+    <string name="system_settings_wifi_password_label">Password</string>
+    <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
 </resources>
