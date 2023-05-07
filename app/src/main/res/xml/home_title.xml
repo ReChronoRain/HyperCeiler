@@ -64,7 +64,7 @@
         <SeekBarPreference
                 android:title="@string/home_large_icon_corner_radius"
                 android:key="prefs_key_home_large_icon_corner_radius"
-                android:defaultValue="15"
+                android:defaultValue="32"
                 app:maxValue="90"
                 android:format="%d dp"
                 app:showSeekBarValue="true" />
