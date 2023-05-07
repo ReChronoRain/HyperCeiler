@@ -25,7 +25,7 @@ import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends BaseMainActivity {
 
-    private MainFragment mMainFrag = new MainFragment();
+    private final MainFragment mMainFrag = new MainFragment();
 
     private Intent mIntent = null;
 
@@ -76,16 +76,12 @@ public class MainActivity extends BaseMainActivity {
                     dialog.dismiss();
                     for (int i = 0; i < sparseBooleanArray.size(); i++) {
                         if (sparseBooleanArray.get(i)) {
-                            switch (i) {
-                                case 4:
-                                    Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
-                                    intent.setPackage("com.android.systemui");
-                                    sendBroadcast(intent);
-                                    break;
-
-                                default:
-                                    restartApp(mAppPackageName.get(i));
-                                    break;
+                            if (i == 4) {
+                                Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
+                                intent.setPackage("com.android.systemui");
+                                sendBroadcast(intent);
+                            } else {
+                                restartApp(mAppPackageName.get(i));
                             }
                         }
                     }
