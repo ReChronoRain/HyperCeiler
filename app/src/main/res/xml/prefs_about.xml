@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
         android:layout="@layout/activity_about"
         android:key="prefs_key_hidden_function"
@@ -98,6 +100,7 @@
                     android:targetClass="com.sevtinge.cemiuiler.ui.AboutUseActivity"/>
         </Preference>
         <Preference
+                app:isPreferenceVisible="false"
                 android:title="@string/about_crwd"
                 android:summary="@string/about_crwd_desc">
             <intent
