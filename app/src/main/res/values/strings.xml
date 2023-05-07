@@ -925,4 +925,5 @@
      <string name="clipboard">Clipboard</string>
     <string name="lbe_clipboard_tip">Read clipboard</string>
     <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
+    <string name="about_offical">Official website of Cemiuiler</string>
 </resources>

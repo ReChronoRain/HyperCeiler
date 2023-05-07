@@ -86,11 +86,16 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_other_title">
         <Preference
-                android:title="@string/about_github"
-                >
+                android:title="@string/about_github" >
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/sevtinge/Cemiuiler" />
+        </Preference>
+        <Preference
+            android:title="@string/about_offical" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://cemiuiler.sevtinge.cc" />
         </Preference>
         <Preference
                 android:title="@string/about_use"
