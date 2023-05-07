@@ -25,11 +25,8 @@
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
             android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
-    <!--<PreferenceCategory android:title="状态栏网速">
 
-    </PreferenceCategory>-->
-
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_ui_other_title">
 
         <SwitchPreference
                 android:title="@string/system_ui_status_bar_double_tap_to_sleep"
