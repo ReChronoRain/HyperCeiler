@@ -11,6 +11,7 @@ import moralnorm.preference.Preference;
 public class MainFragment extends SubFragment {
 
     Preference mPowerSetting;
+    Preference mMTB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,9 @@ public class MainFragment extends SubFragment {
     @Override
     public void initPrefs() {
         mPowerSetting = findPreference("prefs_key_powerkeeper");
+        mMTB = findPreference("prefs_key_mtb");
+
         mPowerSetting.setVisible(!SdkHelper.isAndroidR());
+        mMTB.setVisible(!SdkHelper.isAndroidR());
     }
 }

@@ -50,7 +50,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_settings_develop_title">
+    <PreferenceCategory
+        android:title="@string/system_settings_develop_title"
+        android:key="prefs_key_system_settings_develop_speed">
         <SwitchPreference
                 android:title="@string/system_settings_develop_speed_mode"
                 android:key="prefs_key_system_settings_develop_speed_mode"
