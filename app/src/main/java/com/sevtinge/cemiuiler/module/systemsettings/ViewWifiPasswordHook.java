@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemsettings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
@@ -20,6 +21,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         int dlgTitleId =mResHook.addResource("system_wifi_password_dlgtitle", R.string.system_settings_wifi_password_dlgtitle);
         Helpers.hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", lpparam.classLoader, "onBindViewHolder", new MethodHook() {
             @Override
+            @SuppressLint("DiscouragedApi")
             protected void after(MethodHookParam param) throws Throwable {
                 View view = (View) XposedHelpers.getObjectField(param.thisObject, "mView");
                 int btnId = view.getResources().getIdentifier("btn_delete", "id", "com.android.settings");

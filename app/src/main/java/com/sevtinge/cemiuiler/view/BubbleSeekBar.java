@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -209,6 +210,7 @@ public class BubbleSeekBar extends View {
         setEnabled(false);
     }
 
+    @SuppressLint("CustomViewStyleable")
     public final void initDimensionValues(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MagicBubbleSeekBar);
 
@@ -287,6 +289,7 @@ public class BubbleSeekBar extends View {
     }
 
     @Override
+    @SuppressLint("DrawAllocation")
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float f5 = ((float)mBsbVisibilityHeight - mCurrentFillProgressHeight) / 2.0F;
@@ -349,6 +352,7 @@ public class BubbleSeekBar extends View {
         mOffsetX = (mWidth - mBsbVisibilityWidth) / 2;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent var1) {
         if (!this.isEnabled()) {
             return false;
@@ -408,11 +412,11 @@ public class BubbleSeekBar extends View {
                 var17 = var22.add(var19, var6);
                 var17 = var17.add(var9, 1.0D);
                 Folme.useValue(new Object[]{this.mIdentityHashCode}).cancel();
-                IStateStyle var26 = Folme.useValue(new Object[]{this.mIdentityHashCode});
+                IStateStyle var26 = Folme.useValue(this.mIdentityHashCode);
                 var32 = this.mTransitionListener;
                 var33 = var26.addListener(var32);
                 AnimConfig var28 = this.mShowBubbleConfig;
-                var33.fromTo(var16, var17, new AnimConfig[]{var28});
+                var33.fromTo(var16, var17, var28);
                 this.mTrackingAndNotMove = true;
                 return true;
             } else {
@@ -494,11 +498,11 @@ public class BubbleSeekBar extends View {
                 var6 = (double)this.mBubbleWidthNormal;
                 var22 = var22.add(var12, var6);
                 var22 = var22.add(var13, 0.0D);
-                IStateStyle var27 = Folme.useValue(new Object[]{this.mIdentityHashCode});
+                IStateStyle var27 = Folme.useValue(this.mIdentityHashCode);
                 var32 = this.mTransitionListener;
                 var33 = var27.addListener(var32);
                 AnimConfig var29 = this.mHideBubbleConfig;
-                var33.fromTo(var17, var22, new AnimConfig[]{var29});
+                var33.fromTo(var17, var22, var29);
                 return super.onTouchEvent(var1);
             }
         }

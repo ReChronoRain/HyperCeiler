@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
@@ -35,19 +36,19 @@ public class CustomMultipleChoiceView extends LinearLayout {
         initView();
     }
 
-
+    @SuppressLint("InflateParams")
     private void initView(){
         /* 实例化各个控件 */
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.view_custom_mutiplechoice, null);
-        mListView = (ListView) view.findViewById(android.R.id.list);
-        Button bt_selectall = (Button) view.findViewById(android.R.id.button2);
-        Button bt_ok = (Button) view.findViewById(android.R.id.button1);
-        bt_selectall.setText(curWillCheckAll ? "全选" : "反选");
+        mListView = view.findViewById(android.R.id.list);
+        Button bt_SelectAll = view.findViewById(android.R.id.button2);
+        Button bt_ok = view.findViewById(android.R.id.button1);
+        bt_SelectAll.setText(curWillCheckAll ? "全选" : "反选");
         OnCustomMultipleChoiceCheckedListener onCheckedListener = new OnCustomMultipleChoiceCheckedListener();
 
         // 全选按钮的回调接口
-        bt_selectall.setOnClickListener(onCheckedListener);
+        bt_SelectAll.setOnClickListener(onCheckedListener);
         bt_ok.setOnClickListener(onCheckedListener);
 
         // 绑定listView的监听器

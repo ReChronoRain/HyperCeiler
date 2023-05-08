@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.view;
 
 import android.animation.ArgbEvaluator;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,8 @@ public class BatteryIndicatorView extends ImageView {
     protected boolean mIsBeingCharged;
     protected boolean mIsExtremePowerSave;
     protected boolean mIsPowerSave;
+
+    @SuppressLint("DiscouragedApi")
     protected final int mLowLevelSystem = getResources().getInteger(getResources().getIdentifier("config_lowBatteryWarningLevel", "integer", "android"));
     protected int mPowerLevel;
     protected int mTestPowerLevel;
@@ -239,6 +242,7 @@ public class BatteryIndicatorView extends ImageView {
         this.setImageMatrix(new Matrix());
     }
 
+    @SuppressLint({"InternalInsetResource", "DiscouragedApi"})
     protected void updateDrawable() {
         try {
             int level = this.mTesting ? this.mTestPowerLevel : this.mPowerLevel;
