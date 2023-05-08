@@ -35,11 +35,11 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        log("Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-        log("AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-        log("DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-        log("UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-        log("EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
+        log("CorePatchForR Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+        log("CorePatchForR AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+        log("CorePatchForR DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+        log("CorePatchForR UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+        log("CorePatchForR EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
 
         // 允许降级
         findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,//!
@@ -148,7 +148,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                             if (mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature")) {
                                 PackageManager PM = AndroidAppHelper.currentApplication().getPackageManager();
                                 if (PM == null) {
-                                    log("E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MiUI?");
+                                    log("CorePatchForR E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MiUI?");
                                 } else {
                                     PackageInfo pI;
                                     if (parseErr != null) {

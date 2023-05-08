@@ -15,11 +15,11 @@ public class CorePatchForS extends CorePatchForR {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
 
-        log("Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-        log("AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-        log("DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-        log("UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-        log("EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
+        log("CorePatchForS Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+        log("CorePatchForS AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+        log("CorePatchForS DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+        log("CorePatchForS UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+        log("CorePatchForS EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
 
         if (mPrefsMap.getBoolean("system_framework_core_patch_digest_creak") && mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature")) {
             findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader, "doesSignatureMatchForPermissions", String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {

@@ -23,11 +23,11 @@ public class CorePatchForT extends CorePatchForSv2 {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
 
-        log("Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-        log("AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-        log("DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-        log("UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-        log("EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
+        log("CorePatchForT Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+        log("CorePatchForT AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+        log("CorePatchForT DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+        log("CorePatchForT UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+        log("CorePatchForT EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
 
         findAndHookMethod("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader,
                 "checkDowngrade",
