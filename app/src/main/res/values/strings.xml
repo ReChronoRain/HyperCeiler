@@ -932,4 +932,6 @@
     <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
     <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
     <string name="miwallpaper_unlock_super_wallpaper_desc">After the function switch needs to restart the mobile phone to take effect</string>
+    <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
+    <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
 </resources>
