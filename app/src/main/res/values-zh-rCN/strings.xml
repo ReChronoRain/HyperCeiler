@@ -62,7 +62,7 @@
     <string name="screenshot">截屏</string>
     <string name="security_center">手机管家</string>
     <string name="system_framework">系统框架</string>
-    <string name="system_settings">系统设置</string>
+    <string name="system_settings">设置</string>
     <string name="system_ui">系统界面</string>
     <string name="system_ui_plugin">系统界面组件</string>
     <string name="theme_manager">主题壁纸</string>
@@ -83,7 +83,7 @@
     <string name="about_tg_group">Telegram 群组</string>
     <string name="about_tg_channel">Telegram 频道</string>
     <string name="about_github">项目地址</string>
-    <string name="about_offical">Cemiuiler 官网</string>
+    <string name="about_offical">官网</string>
     <string name="about_crwd">翻译</string>
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
 
@@ -1034,5 +1034,8 @@
 
     <string name="rest_ask">您是否要恢复备份？</string>
     <string name="rest_permission">"现在您必须手动启用此选项的权限。</string>
+
+    <string name="disable_detailed_log">禁用详细日志输出</string>
+    <string name="disable_detailed_log_desc">重启以应用更改</string>
 
 </resources>
