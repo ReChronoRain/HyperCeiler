@@ -921,4 +921,11 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="disable_detailed_log">Disable detailed log</string>
     <string name="disable_detailed_log_desc">Reboot to apply</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Icon styles</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
+    <string name="array_bold">Bold</string>
+    <string name="array_bold">B</string>
+    <string name="array_theme">Follow the subject</string>
+    <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type is displayed separately</string>
 </resources>

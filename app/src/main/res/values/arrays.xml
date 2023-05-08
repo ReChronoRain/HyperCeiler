@@ -507,4 +507,15 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="system_ui_status_bar_network_icon_style">
+        <item>@string/array_default</item>
+        <item>@string/array_bold</item>
+        <item>@string/array_theme</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_network_icon_style_value">
+        <item />
+        <item>thick</item>
+        <item>theme</item>
+    </string-array>
 </resources>

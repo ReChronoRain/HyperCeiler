@@ -94,6 +94,9 @@
     <string name="array_align_center">居中</string>
     <string name="array_netspeedicons_no">无图标</string>
 
+    <string name="array_bold">加粗</string>
+    <string name="array_theme">跟随主题</string>
+
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
 
@@ -777,6 +780,10 @@
     <string name="system_ui_status_bar_battery_indicator_low_level">低电量水平</string>
     <string name="system_ui_status_bar_battery_indicator_test">测试</string>
 
+    <string name="system_ui_statusbar_iconmanage_mobile_network_title">双排信号栏</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">图标样式</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">图标缩放</string>
+
     <string name="system_ui_statusbar_iconmanage_wifi_title">WIFI</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">蓝牙</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">移动网络</string>
@@ -830,6 +837,7 @@
     <string name="system_ui_status_bar_no_netspeed_separator_title">网速分隔符</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">于居中摄像头的设备上不显示时间和网速间的竖线</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
+    <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型单独显示</string>
 
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
 

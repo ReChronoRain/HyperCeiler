@@ -48,8 +48,6 @@ object DisableClipboardTip : BaseHook() {
                         val appName = getAppName(context, packageName)
                         val modRes = Helpers.getModuleRes(context)
 
-                        // 对于 mPrefsMap.getBoolean 的判定是否为 false 不会写，所以禁用剪切板读取提示暂时坏了，QAQ
-                        // 某不知名绀漓前来尝试修理
                         if (!mDisableClipboardTip) {
                             Toast.makeText(context, "$appName ${modRes.getString(R.string.lbe_clipboard_tip)}", Toast.LENGTH_SHORT)
                                 .show()
