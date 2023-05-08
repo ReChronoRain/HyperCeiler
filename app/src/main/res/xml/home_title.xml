@@ -61,9 +61,15 @@
 
     <PreferenceCategory android:title="@string/home_title_bigicon_title">
 
+        <SwitchPreference
+            android:key="prefs_key_home_large_icon_enable"
+            android:title="@string/enable"
+            android:defaultValue="false" />
+
         <SeekBarPreference
                 android:title="@string/home_large_icon_corner_radius"
                 android:key="prefs_key_home_large_icon_corner_radius"
+                android:dependency="prefs_key_home_large_icon_enable"
                 android:defaultValue="32"
                 app:maxValue="90"
                 android:format="%d dp"
