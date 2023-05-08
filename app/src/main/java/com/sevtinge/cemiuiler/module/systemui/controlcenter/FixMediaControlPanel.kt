@@ -21,7 +21,7 @@ object FixMediaControlPanel : BaseHook() {
                     }
                 })
         } catch (t: Throwable) {
-            XposedBridge.log("Cemiuiler: FixMediaControlPanel failed by $t")
+            log("Hook failed by: $t");
         }
     }
 }

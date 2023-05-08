@@ -37,7 +37,7 @@ object NetworkSpeedUnit : BaseHook() {
                                     meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                                 }
                             } catch (e: Throwable) {
-                                XposedBridge.log(e)
+                                log("Hook failed by: $e");
                             }
                         }
                         //网速加粗
@@ -101,7 +101,7 @@ object NetworkSpeedUnit : BaseHook() {
                                 meter.setLineSpacing(0f, spacing)
                             }
                         } catch (e: Throwable) {
-                            XposedBridge.log(e)
+                            log("Hook failed by: $e");
                         }
                     }
                 }

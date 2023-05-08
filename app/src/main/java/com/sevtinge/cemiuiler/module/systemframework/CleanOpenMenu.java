@@ -51,7 +51,7 @@ public class CleanOpenMenu extends BaseHook {
                                     break;
                             }
                         } catch (Throwable t) {
-                            XposedBridge.log(t);
+                            log("Hook failed by: " + t);
                         }
                     }
                 };

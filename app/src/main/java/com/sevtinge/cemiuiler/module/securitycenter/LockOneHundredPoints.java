@@ -31,7 +31,7 @@ public class LockOneHundredPoints extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("ScoreManager"));
             for (DexMethodDescriptor descriptor : result) {
                 Method lockOneHundredPoints = descriptor.getMethodInstance(lpparam.classLoader);
-                XposedBridge.log("Cemiuiler: lock 100 points method is "+ lockOneHundredPoints);
+                log("lock 100 points method is "+ lockOneHundredPoints);
                 if (lockOneHundredPoints.getReturnType() == int.class) {
                     XposedBridge.hookMethod(lockOneHundredPoints, XC_MethodReplacement.returnConstant(0));
                 }

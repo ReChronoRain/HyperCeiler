@@ -27,7 +27,7 @@ public class InstallRiskDisable extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(mPackageInstallerResultMethodsMap.get("SecureVerifyEnable"));
             for (DexMethodDescriptor descriptor : result) {
                 Method secureVerifyEnable = descriptor.getMethodInstance(lpparam.classLoader);
-                XposedBridge.log("Cemiuiler: InstallRiskDisable secureVerifyEnable method is "+ secureVerifyEnable);
+                log("secureVerifyEnable method is "+ secureVerifyEnable);
                 if (secureVerifyEnable.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(secureVerifyEnable, XC_MethodReplacement.returnConstant(false));
                 }

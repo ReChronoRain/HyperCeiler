@@ -14,7 +14,9 @@ public class SystemFramework extends BaseModule {
     @Override
     public void handleLoadPackage() {
 
-        //小窗
+        initHook(new IsDetailLog());
+
+            //小窗
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
         initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));

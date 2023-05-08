@@ -22,7 +22,7 @@ public class AppLinkVerify extends BaseHook {
                     }
             );
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log("Hook failed by: " + t);
         }
     }
 }

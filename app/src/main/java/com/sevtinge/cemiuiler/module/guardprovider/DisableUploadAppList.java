@@ -17,7 +17,7 @@ public class DisableUploadAppList extends BaseHook {
     @Override
     public void init(/*final XC_LoadPackage.LoadPackageParam lpparam*/) {
         if (lpparam.packageName.equals("com.miui.guardprovider")) {
-            XposedBridge.log("Cemiuiler: Start to hook package " + lpparam.packageName);
+            log("Start to hook package " + lpparam.packageName);
 
             // Debug mode flag process
             final Class<?> guardApplication = XposedHelpers.findClass("com.miui.guardprovider.GuardApplication", lpparam.classLoader);
@@ -26,21 +26,21 @@ public class DisableUploadAppList extends BaseHook {
                 for (Field field : guardApplicationFields) {
                     if (field.getName().equals("c")) {
                         XposedHelpers.setStaticBooleanField(guardApplication, "c", true);
-                        XposedBridge.log("Cemiuiler: Info: GuardProvider will work as debug mode!");
+                        log("Info: GuardProvider will work as debug mode!");
                     }
-                    XposedBridge.log("Cemiuiler: Warning: GuardProvider debug mode flag not found!");
+                    log("Warning: GuardProvider debug mode flag not found!");
                 }
             } else {
-                XposedBridge.log("Cemiuiler: Warning: GuardApplication class not found. GuardProvider will not work as debug mode! ");
+                log("Warning: GuardApplication class not found. GuardProvider will not work as debug mode! ");
             }
 
             // Prevent miui from uploading app list
             final Class<?> antiDefraudAppManager = XposedHelpers.findClassIfExists("com.miui.guardprovider.engine.mi.antidefraud.AntiDefraudAppManager", lpparam.classLoader);
             if (antiDefraudAppManager == null) {
-                XposedBridge.log("Cemiuiler: Skip: AntiDefraudAppManager class not found.");
+                log("Skip: AntiDefraudAppManager class not found.");
                 return;
             } else {
-                XposedBridge.log("Cemiuiler: Info: AntiDefraudAppManager class found.");
+                log("Info: AntiDefraudAppManager class found.");
             }
 
             final Method[] methods = antiDefraudAppManager.getDeclaredMethods();
@@ -52,10 +52,10 @@ public class DisableUploadAppList extends BaseHook {
                 }
             }
             if (getAllUnSystemAppsStatus == null) {
-                XposedBridge.log("Cemiuiler: Skip: getAllUnSystemAppsStatus method not found.");
+                log("Skip: getAllUnSystemAppsStatus method not found.");
                 return;
             } else {
-                XposedBridge.log("Cemiuiler: Info: getAllUnSystemAppsStatus method found.");
+                log("Info: getAllUnSystemAppsStatus method found.");
             }
 
             XposedBridge.hookMethod(getAllUnSystemAppsStatus, new XC_MethodHook() {
@@ -71,7 +71,7 @@ public class DisableUploadAppList extends BaseHook {
                         }
                     }
                     if (MIUI_VERSION == null) {
-                        XposedBridge.log("Cemiuiler: Warning: Can't get MIUI_VERSION.");
+                        log("Warning: Can't get MIUI_VERSION.");
                     }
 
                     String uuid = null;
@@ -89,10 +89,10 @@ public class DisableUploadAppList extends BaseHook {
                             getUUID.setAccessible(true);
                             uuid = (String) getUUID.invoke(methodHookParam);
                         } else {
-                            XposedBridge.log("Cemiuiler: Warning: getUUID method not found.");
+                            log("Warning: getUUID method not found.");
                         }
                     } else {
-                        XposedBridge.log("Cemiuiler: Warning: uuidHelper class not found.");
+                        log("Warning: uuidHelper class not found.");
                     }
 
                     JSONObject jSONObject = new JSONObject();
@@ -135,7 +135,7 @@ public class DisableUploadAppList extends BaseHook {
                     }
                     jSONObject.put("content", jSONArray);
 
-                    XposedBridge.log("Cemiuiler: Info: Intercept=" + jSONObject.toString());
+                    log("Info: Intercept=" + jSONObject.toString());
 
                     methodHookParam.setResult(null);
                 }

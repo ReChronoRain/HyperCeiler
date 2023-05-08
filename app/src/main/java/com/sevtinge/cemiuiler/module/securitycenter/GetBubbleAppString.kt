@@ -25,10 +25,8 @@ object GetBubbleAppString : BaseHook() {
                 // XposedBridge.log("MaxFreeFormTest: getBubbleAppString called! Result:$stringBuilder")
                 it.result = stringBuilder.toString()
             }
-            XposedBridge.log("Cemiuiler: Hook getBubbleAppString success!")
         } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: Hook getBubbleAppString failed!")
-            XposedBridge.log(e)
+            log("Hook failed by: $e");
         }
     }
 

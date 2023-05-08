@@ -27,7 +27,7 @@ public class UnlockMinimumCropLimit extends BaseHook {
         returnIntConstant(mCrop, "a");
         XposedBridge.log("Cemiuiler: com.miui.mediaeditor Ver 1.0.x UnlockMinimumCropLimit hook success!");*/
         String appVersionName = getPackageVersionName(lpparam);
-        XposedBridge.log("Cemiuiler: com.miui.mediaeditor app Ver is " + appVersionName);
+        log("com.miui.mediaeditor app Ver is " + appVersionName);
         try {
             mScreenCropView = findClassIfExists("com.miui.gallery.editor.photo.screen.crop.ScreenCropView$h");
             returnIntConstant(mScreenCropView, "e");

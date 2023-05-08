@@ -13,39 +13,40 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
+import static com.sevtinge.cemiuiler.utils.Helpers.log;
 
 public class SystemFrameworkForCorepatch implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     public static final String TAG = "Cemiuiler";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        XposedBridge.log("Cemiuiler: CorePatch handleLoadPackage loading.");
+        log("handleLoadPackage loading.");
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
             Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
-            XposedBridge.log("Cemiuiler: CorePatch Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-            XposedBridge.log("Cemiuiler: CorePatch AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-            XposedBridge.log("Cemiuiler: CorePatch DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-            XposedBridge.log("Cemiuiler: CorePatch UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-            XposedBridge.log("Cemiuiler: CorePatch EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
+            log("Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+            log("AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+            log("DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+            log("UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+            log("EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.TIRAMISU: // 33
                     new CorePatchForT().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForT handleLoadPackage loaded.");
+                    log("CorePatchForT handleLoadPackage loaded.");
                     break;
                 case Build.VERSION_CODES.S_V2: // 32
                     new CorePatchForSv2().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForSv2 handleLoadPackage loaded.");
+                    log("CorePatchForSv2 handleLoadPackage loaded.");
                     break;
                 case Build.VERSION_CODES.S: // 31
                     new CorePatchForS().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForS handleLoadPackage loaded.");
+                    log("CorePatchForS handleLoadPackage loaded.");
                     break;
                 case Build.VERSION_CODES.R: // 30
                     new CorePatchForR().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForR handleLoadPackage loaded.");
+                    log("CorePatchForR handleLoadPackage loaded.");
                     break;
                 default:
-                    XposedBridge.log(TAG + ": Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                    log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
                     break;
             }
         }
@@ -53,28 +54,28 @@ public class SystemFrameworkForCorepatch implements IXposedHookLoadPackage, IXpo
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        XposedBridge.log("Cemiuiler: Corepatch initZygote loading.");
+        log("initZygote loading.");
         if (startupParam.startsSystemServer) {
             Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.TIRAMISU: // 33
                     new CorePatchForT().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForT initZygote loaded.");
+                    log("CorePatchForT initZygote loaded.");
                     break;
                 case Build.VERSION_CODES.S_V2: // 32
                     new CorePatchForSv2().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForSv2 initZygote loaded.");
+                    log("CorePatchForSv2 initZygote loaded.");
                     break;
                 case Build.VERSION_CODES.S: // 31
                     new CorePatchForS().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForS initZygote loaded.");
+                    log("CorePatchForS initZygote loaded.");
                     break;
                 case Build.VERSION_CODES.R: // 30
                     new CorePatchForR().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForR initZygote loaded.");
+                    log("CorePatchForR initZygote loaded.");
                     break;
                 default:
-                    XposedBridge.log(TAG + ": Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                    log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
                     break;
             }
         }

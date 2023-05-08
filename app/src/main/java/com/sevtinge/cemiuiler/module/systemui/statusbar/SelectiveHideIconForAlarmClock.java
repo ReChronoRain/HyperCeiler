@@ -80,7 +80,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         });
     }
 
-    private static void updateAlarmVisibility(Object thisObject, boolean state) {
+    private void updateAlarmVisibility(Object thisObject, boolean state) {
         try {
             Object mIconController = XposedHelpers.getObjectField(thisObject, "mIconController");
             if (!state) {
@@ -105,15 +105,15 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
             mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            XposedBridge.log("Cemiuiler: SelectiveHideIconForAlarmClock: Now is " + diffHours + "min remain, show when " + vis + "min remain.");
+            log("Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
-            XposedBridge.log("Cemiuiler: SelectiveHideIconForAlarmClock updateAlarmVisibility failed by " + t);
+            log("updateAlarmVisibility failed by " + t);
         }
     }
 
 
     @SuppressWarnings("ConstantConditions")
-    public static long getNextMIUIAlarmTime(Context context) {
+    public long getNextMIUIAlarmTime(Context context) {
         String nextAlarm = Settings.System.getString(context.getContentResolver(), "next_alarm_clock_formatted");
         long nextTime = 0;
         if (!TextUtils.isEmpty(nextAlarm)) try {
@@ -141,12 +141,12 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
             nextTime = cal.getTimeInMillis();
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log("Hook failed by: " + t);
         }
         return nextTime;
     }
 
-    public static long getNextStockAlarmTime(Context context) {
+    public long getNextStockAlarmTime(Context context) {
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         if (alarmMgr == null) return 0;
         AlarmManager.AlarmClockInfo aci = alarmMgr.getNextAlarmClock();

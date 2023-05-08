@@ -16,7 +16,7 @@ object DeviceModify : BaseHook() {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
         } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: DeviceModify (Updater) android.os.SystemProperties hook failed by $e")
+            log("(Updater) android.os.SystemProperties hook failed by $e")
         }
         try {
             "miuix.core.util.SystemProperties".hookBeforeMethod(
@@ -25,7 +25,7 @@ object DeviceModify : BaseHook() {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
         } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: DeviceModify (Updater) miuix.core.util.SystemProperties hook failed by $e")
+            log("(Updater) miuix.core.util.SystemProperties hook failed by $e")
         }
         try {
             System.loadLibrary("dexkit")
@@ -41,13 +41,13 @@ object DeviceModify : BaseHook() {
                 val systemPropertiesDescriptor = systemProperties.first()
                 val systemPropertiesMethod: Method =
                     systemPropertiesDescriptor.getMethodInstance(lpparam.classLoader)
-                XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
+                log("(Updater) dexkit method is $systemPropertiesMethod")
                 systemPropertiesMethod.hookBeforeMethod {
                     if (it.args[0] == "ro.product.mod_device") it.result = deviceName
                 }
             }
         } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit hook failed by $e")
+            log("(Updater) dexkit hook failed by $e")
         }
     }
 }

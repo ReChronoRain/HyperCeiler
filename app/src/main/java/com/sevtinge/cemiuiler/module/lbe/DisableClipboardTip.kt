@@ -55,7 +55,7 @@ object DisableClipboardTip : BaseHook() {
                         }
                         hideDialog(lpparam, packageName, param)
 
-                        XposedBridge.log("Cemiuiler: DisableClipboardTip: $packageName -> $appName read clipboard.")
+                        log(" $packageName -> $appName read clipboard.")
                     }
                 }
             })
