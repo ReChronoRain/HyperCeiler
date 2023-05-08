@@ -443,6 +443,7 @@
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
 
     <string name="miwallpaper_unlock_super_wallpaper">解锁超级壁纸</string>
+    <string name="miwallpaper_unlock_super_wallpaper_desc">功能开关后需重启手机方可生效</string>
 
     <string name="mms_disable_ad">禁用推广</string>
     <string name="mms_disable_ad_desc">移除屏幕下方快捷按钮与短信内容下方推广</string>

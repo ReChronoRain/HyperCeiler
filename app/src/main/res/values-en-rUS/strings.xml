@@ -916,4 +916,5 @@
     <string name="system_settings_wifipassword_btn_title">Check</string>
     <string name="system_settings_wifi_password_label">Password</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
+    <string name="miwallpaper_unlock_super_wallpaper_desc">After the function switch needs to restart the mobile phone to take effect</string>
 </resources>
