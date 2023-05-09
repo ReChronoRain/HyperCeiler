@@ -57,6 +57,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/NextAlone"/>
         </Preference>
+        <Preference
+                android:title="nakixii">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/nakixii"/>
+        </Preference>
     </PreferenceCategory>
 <Preference android:enabled="false" />
 

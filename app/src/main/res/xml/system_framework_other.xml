@@ -7,13 +7,6 @@
             android:key="prefs_key_system_framework_screen_all_rotations"
             android:defaultValue="false" />
 
-
-        <SwitchPreference
-            android:title="@string/system_framework_allow_untrusted_touch"
-            android:key="prefs_key_system_framework_allow_untrusted_touch"
-            android:defaultValue="false" />
-
-
         <SwitchPreference
             android:title="@string/system_framework_allow_uninstall"
             android:summary="@string/system_framework_allow_uninstall_desc"
@@ -26,6 +19,11 @@
             android:summary="@string/system_framework_other_speed_install_desc"
             android:defaultValue="false" />
 
+        <SwitchPreference
+                android:title="@string/system_framework_other_disable_cleaner"
+                android:summary="@string/system_framework_other_disable_cleaner_desc"
+                android:key="prefs_key_system_framework_other_disable_cleaner"
+                android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/system_framework_disable_app_link_verify"
@@ -74,6 +72,12 @@
             android:summary="@string/system_other_flag_secure_desc"
             android:key="prefs_key_system_other_flag_secure"
             android:defaultValue="false" />
+
+
+        <SwitchPreference
+                android:title="@string/system_framework_allow_untrusted_touch"
+                android:key="prefs_key_system_framework_allow_untrusted_touch"
+                android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/system_other_delete_on_post_notification"

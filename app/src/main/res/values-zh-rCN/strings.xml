@@ -610,6 +610,8 @@
     <string name="system_framework_other_use_original_animation">过渡动画使用原生样式</string>
     <string name="system_framework_other_speed_install">快速安装</string>
     <string name="system_framework_other_speed_install_desc">安装至运行内存以提升安装速度，需要系统底层支持</string>
+    <string name="system_framework_other_disable_cleaner">禁止杀后台应用</string>
+    <string name="system_framework_other_disable_cleaner_desc">实验性功能，可能导致运行内存占用异常</string>
 
     <string name="system_framework_default_volume_stream">默认调整音量</string>
     <string name="system_framework_volume_first_press">音量即时调整</string>
