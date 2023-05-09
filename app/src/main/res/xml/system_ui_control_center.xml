@@ -92,7 +92,8 @@
         <SwitchPreference
                 android:key="prefs_key_system_ui_control_center_hide_mi_play_entry"
                 android:title="@string/system_ui_control_center_hide_mi_play_entry"
-                android:defaultValue="false"/>
+                android:defaultValue="false"
+                app:isPreferenceVisible="false"/>
 
         <SeekBarPreference
                 android:title="@string/system_ui_control_center_control_detail_background_alpha"
