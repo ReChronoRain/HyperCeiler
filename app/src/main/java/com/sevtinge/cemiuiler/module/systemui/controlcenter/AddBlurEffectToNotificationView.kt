@@ -188,7 +188,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             "setDrawableAlpha",
                             blurBackgroundAlpha
                         )
-                    } else {
+                    } /*else {
                         if (HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
                             mBackgroundNormal.background = null
                         }
@@ -201,7 +201,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         } catch (e: Throwable) {
                             //
                         }
-                    }
+                    }*/
                 }
             })
 
@@ -486,12 +486,12 @@ object AddBlurEffectToNotificationView : BaseHook() {
                                         mNotificationStackScroller.getChildAt(i) ?: continue
                                     if (radius > 30) {
                                         hideBlurEffectForNotificationRow(childAt)
-                                    } else {
+                                    } /*else {
                                         // 锁屏状态显示模糊
                                         if (isOnKeyguard) {
                                             showBlurEffectForNotificationRow(childAt)
                                         }
-                                    }
+                                    }*/
                                 }
                             }
                         })
