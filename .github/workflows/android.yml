@@ -55,7 +55,7 @@ jobs:
           CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
-          git clone https://github.com/Cemiuiler-Development-Team/Cemiuiler.git ${{ github.workspace }}/git_clone -b main
+          git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b main
           cd ${{ github.workspace }}/git_clone
           { echo -e '"Github CI\n```'; git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s"; echo -n -e '\n```"'; } > ${{ github.workspace }}/git_log
           ESCAPED="$(cat ${{ github.workspace }}/git_log | hexdump -v -e '/1 "%02X"' | sed 's/\(..\)/%\1/g')"
