@@ -346,9 +346,9 @@
     <string name="system_ui_status_bar_icon_zen">Zen</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maximum number of notification points</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maximum number of notification icons</string>
-    <string name="system_ui_status_bar_battery_percent">Battery percentage</string>
-    <string name="system_ui_status_bar_battery_percent_mark">Battery percentage sign</string>
-    <string name="system_ui_status_bar_battery_charging">Charging indicator</string>
+    <string name="system_ui_status_bar_battery_percent">Hide battery percentage</string>
+    <string name="system_ui_status_bar_battery_percent_mark">Hide battery percentage sign</string>
+    <string name="system_ui_status_bar_battery_charging">Hide charging indicator</string>
     <string name="system_ui_status_bar_battery_indicator_title">Battery indicator</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Mobile Network</string>
