@@ -9,7 +9,7 @@ object MobileTypeTextCustom : BaseHook() {
         findMethod("com.android.systemui.statusbar.connectivity.MobileSignalController") {
             name == "getMobileTypeName" && parameterTypes[0] == Int::class.java
         }.hookAfter {
-            it.result = mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "5G")
+            it.result = mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
         }
     }
 }
