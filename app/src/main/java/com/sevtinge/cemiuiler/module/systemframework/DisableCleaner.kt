@@ -5,7 +5,7 @@ import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import de.robv.android.xposed.XposedHelpers
 
-class DisableCleaner : BaseHook() {
+object DisableCleaner : BaseHook() {
     override fun init() {
         XposedHelpers.setStaticBooleanField(findClassIfExists("android.os.spc.PressureStateSettings"), "PROCESS_CLEANER_ENABLED", false)
 

@@ -90,7 +90,7 @@ public class SystemFramework extends BaseModule {
         initHook(new PackagePermissions());
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new AppDisableService());
-        initHook(new DisableCleaner(), mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
+        initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
     }
 
 }
