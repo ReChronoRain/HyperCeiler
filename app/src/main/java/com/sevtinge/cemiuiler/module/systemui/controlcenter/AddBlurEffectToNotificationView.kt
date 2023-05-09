@@ -484,7 +484,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                                 for (i in 0..mNotificationStackScroller.childCount) {
                                     val childAt =
                                         mNotificationStackScroller.getChildAt(i) ?: continue
-                                    if (radius > 30) {
+                                    if (radius > 30 && !isOnKeyguard) {
                                         hideBlurEffectForNotificationRow(childAt)
                                     } /*else {
                                         // 锁屏状态显示模糊
