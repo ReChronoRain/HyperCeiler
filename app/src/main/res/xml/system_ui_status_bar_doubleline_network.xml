@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_icon_enable"
+            android:title="@string/enable"/>
+
+    <DropDownPreference
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_style"
+            android:key="prefs_key_system_ui_status_mobile_network_icon_style"
+            app:entries="@array/system_ui_status_bar_network_icon_style"
+            app:entryValues="@array/system_ui_status_bar_network_icon_style_value"
+            android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
+            android:defaultValue="0"/>
+
+    <SeekBarPreference
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_size"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_size"
+            android:defaultValue="10"
+            android:format="%s"
+            app:maxValue="16"
+            app:minValue="6"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"/>
+
+    <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            android:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"/>
+
+    <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            android:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"/>
+
+    <SeekBarPreference
+            android:defaultValue="8"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            android:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"/>
+
+</PreferenceScreen>

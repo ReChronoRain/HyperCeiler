@@ -925,7 +925,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Icon styles</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
     <string name="array_bold">Bold</string>
-    <string name="array_bold">B</string>
     <string name="array_theme">Follow the subject</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type is displayed separately</string>
 </resources>
