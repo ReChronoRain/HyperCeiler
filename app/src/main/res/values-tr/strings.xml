@@ -315,7 +315,6 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Sim kart simgesi yok</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Sim kart 1 sinyal simgesi</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Sim kart 2 sinyal simgesi</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type">Ağ türü simgesi</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Büyük ağ türü simgesi</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm saati</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Alarm simgesini yalnızca alarm çalmadan önce göster</string>

@@ -106,13 +106,6 @@
             android:defaultValue="0"/>
 
         <DropDownPreference
-            android:title="@string/system_ui_status_bar_icon_mobile_network_type"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type"
-            app:entries="@array/status_bar_icon_mobile_network_type"
-            app:entryValues="@array/status_bar_icon_mobile_network_type_value"
-            android:defaultValue="0"/>
-
-        <DropDownPreference
                 android:title="@string/system_ui_status_bar_icon_airplane"
                 android:key="prefs_key_system_ui_status_bar_icon_airplane"
                 app:entries="@array/status_bar_icon_mode"
@@ -125,16 +118,17 @@
             android:defaultValue="false"
             app:isPreferenceVisible="false" />
 
+        <Preference
+                android:title="@string/system_ui_status_bar_mobile_type_single_title">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.MobileNetworkTypeActivity" />
+        </Preference>
+
         <SwitchPreference
             android:title="@string/system_ui_status_bar_use_new_hd"
             android:summary="@string/system_ui_status_bar_use_new_hd_summary"
             android:key="prefs_key_system_ui_status_bar_use_new_hd"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:title="@string/system_ui_status_bar_mobile_type_single_title"
-            android:key="prefs_key_system_ui_status_bar_mobile_type_single"
-            android:enabled="false"
             android:defaultValue="false" />
 
         <Preference

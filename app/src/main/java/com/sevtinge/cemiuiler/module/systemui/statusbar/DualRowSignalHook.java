@@ -22,7 +22,7 @@ public class DualRowSignalHook extends BaseHook {
 
     @Override
     public void init() {
-        boolean mobileTypeSingle = mPrefsMap.getBoolean("system_ui_status_bar_mobile_type_single"); // 移动网络类型单独显示
+        boolean mobileTypeSingle = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"); // 移动网络类型单独显示
         if (!mobileTypeSingle) {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3);
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_left_inout_over_strength", 0);

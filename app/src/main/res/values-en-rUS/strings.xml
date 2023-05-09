@@ -339,7 +339,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">No SIM card icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM card 1 signal icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM card 2 signal icon</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type">Network Type Icon</string>
+    <string name="system_ui_status_bar_icon_mobile_network_type">Display logic</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Big Network Type Icon</string>
     <string name="system_ui_status_bar_icon_location">Location</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm Clock</string>
@@ -926,5 +926,9 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
     <string name="array_bold">Bold</string>
     <string name="array_theme">Follow the subject</string>
-    <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type is displayed separately</string>
+    <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type icon</string>
+    <string name="system_ui_statusbar_mobile_type_font_size">Font size</string>
+    <string name="system_ui_statusbar_mobile_type_bold">Bold</string>
+    <string name="system_ui_status_bar_mobile_type_single">Mobile network type icon display separately</string>
+    <string name="system_ui_status_bar_mobile_type_custom">Custom text</string>
 </resources>

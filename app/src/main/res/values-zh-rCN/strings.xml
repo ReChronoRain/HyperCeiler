@@ -784,6 +784,11 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">图标样式</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">图标缩放</string>
 
+    <string name="system_ui_status_bar_mobile_type_single">移动网络类型图标单独显示</string>
+    <string name="system_ui_status_bar_mobile_type_custom">自定义文本内容</string>
+    <string name="system_ui_statusbar_mobile_type_font_size">字体大小</string>
+    <string name="system_ui_statusbar_mobile_type_bold">加粗</string>
+
     <string name="system_ui_statusbar_iconmanage_wifi_title">WIFI</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">蓝牙</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">移动网络</string>
@@ -806,7 +811,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">无 SIM 卡图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡 1 信号图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡 2 信号图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type">网络类型图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大网络类型图标</string>
     <string name="system_ui_status_bar_icon_location">位置信息</string>
     <string name="system_ui_status_bar_icon_alarm_clock">闹钟</string>
@@ -837,7 +842,7 @@
     <string name="system_ui_status_bar_no_netspeed_separator_title">网速分隔符</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">于居中摄像头的设备上不显示时间和网速间的竖线</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
-    <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型单独显示</string>
+    <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型图标</string>
 
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
 

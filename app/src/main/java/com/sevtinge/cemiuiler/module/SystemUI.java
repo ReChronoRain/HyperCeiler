@@ -7,6 +7,8 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
+import java.util.Objects;
+
 public class SystemUI extends BaseModule {
 
     @Override
@@ -40,6 +42,8 @@ public class SystemUI extends BaseModule {
         initHook(new MobileNetwork(), true);
         initHook(new BigMobileNetworkType(), false);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
+        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "5G"), ""));
+        initHook(new MobileTypeSingleHook(), mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
 
         //电池条指示器
         boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||

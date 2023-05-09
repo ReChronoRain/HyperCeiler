@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <DropDownPreference
+            android:title="@string/system_ui_status_bar_icon_mobile_network_type"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type"
+            app:entries="@array/status_bar_icon_mobile_network_type"
+            app:entryValues="@array/status_bar_icon_mobile_network_type_value"
+            android:defaultValue="0"/>
+
+    <EditTextPreference
+            android:title="@string/system_ui_status_bar_mobile_type_custom"
+            android:key="prefs_key_system_ui_status_bar_mobile_type_custom"/>
+
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_enable"
+            android:title="@string/system_ui_status_bar_mobile_type_single"/>
+
+    <SeekBarPreference
+            android:title="@string/system_ui_statusbar_mobile_type_font_size"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_font_size"
+            android:defaultValue="27"
+            android:format="%s dp"
+            app:maxValue="40"
+            app:minValue="18"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"/>
+
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_bold"
+            android:title="@string/system_ui_statusbar_mobile_type_bold"
+            android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"/>
+
+    <SeekBarPreference
+            android:defaultValue="7"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            android:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"/>
+
+    <SeekBarPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            android:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"/>
+
+    <SeekBarPreference
+            android:defaultValue="8"
+            android:key="prefs_key_system_ui_statusbar_mobile_type_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            android:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"/>
+
+</PreferenceScreen>
