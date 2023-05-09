@@ -804,8 +804,8 @@
     <string name="system_ui_status_bar_icon_small_hd">小 HD 图标</string>
     <string name="system_ui_status_bar_icon_big_hd">大 HD 图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">无 SIM 卡图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1 信号图标</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2 信号图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡 1 信号图标</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡 2 信号图标</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">网络类型图标</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大网络类型图标</string>
     <string name="system_ui_status_bar_icon_location">位置信息</string>

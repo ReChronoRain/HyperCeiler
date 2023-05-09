@@ -742,8 +742,8 @@
     <string name="system_ui_status_bar_icon_headset">耳機</string>
     <string name="system_ui_status_bar_icon_hotspot">熱點</string>
     <string name="system_ui_status_bar_icon_location">位置訊息</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡1 訊號圖示</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡2 訊號圖示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡 1 訊號圖示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡 2 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">無 SIM 卡圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">網路類型圖示</string>
     <string name="system_ui_status_bar_icon_new_hd">新 HD 圖示</string>
