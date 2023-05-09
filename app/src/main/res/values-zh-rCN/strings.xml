@@ -780,7 +780,7 @@
     <string name="system_ui_status_bar_battery_indicator_low_level">低电量水平</string>
     <string name="system_ui_status_bar_battery_indicator_test">测试</string>
 
-    <string name="system_ui_statusbar_iconmanage_mobile_network_title">双排信号栏</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_title">双排移动网络图标</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">图标样式</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">图标缩放</string>
 
