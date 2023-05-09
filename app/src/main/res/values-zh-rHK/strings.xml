@@ -684,8 +684,8 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
     <string name="system_settings_permission_show_app_up_desc">還原舊版行為，直接跳轉對應應用程式「顯示在其他應用程式上層」的權限開關</string>
-    <string name="system_settings_safe_wifi">查看已保存的 WiFi 密碼</string>
-    <string name="system_settings_safe_wifi_desc">路徑：設置-WLAN-高級設置-管理已保存網絡</string>
+    <string name="system_settings_safe_wifi">查看已保存的 WIFI 密碼</string>
+    <string name="system_settings_safe_wifi_desc">解锁管理已保存網絡</string>
     <string name="system_settings_wifipassword_btn_title">查看</string>
     <string name="system_settings_wifi_password_label">密碼</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi 詳情</string>
