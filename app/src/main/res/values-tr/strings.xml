@@ -298,6 +298,7 @@
     <string name="system_ui_status_bar_battery_indicator_glow">Parlama</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">Düşük pil seviyesi</string>
     <string name="system_ui_status_bar_battery_indicator_test">Test</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Simge stilleri</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Yazı Boyutu</string>
     <string name="system_ui_statusbar_mobile_type_bold">Kalın</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wifi</string>
@@ -354,11 +355,14 @@
     <string name="updater_fuck_vab">OTA doğrulamasını kaldır</string>
     <string name="updater_fuck_vab_desc">Yalnızca VAB cihazları desteklenir. Lütfen VAB olmayan diğer cihazları etkinleştirmeyin!\n- Dahili test izinleri olmadan eksiksiz dahili test kartı kaydırma paketine geçebilirsiniz\n- Farklı sürüm türleri arasında geçiş yaptıktan sonra verileri temizlemeniz önerilir\n- Herhangi bir resmi olmayan ROM kullanımını desteklemez\n- Bu işlev tehlikelidir. Lütfen Fastboot\'un çalışmasını anladıktan sonra etkinleştirip etkinleştirmeyeceğinizi değerlendirin</string>
     <string name="updater_miui_version">Güncelleyici için sahte MIUI sürümü</string>
+    <string name="updater_device">Güncelleyici için sahte cihaz</string>
+    <string name="updater_device_desc">Bu özellik gerçekten tehlikeli, lütfen günlük olarak kullanmayın.</string>
     <string name="various_location_simulation_title">Sahte konum</string>
     <string name="various_dialog_title">Diyalog</string>
     <string name="settings_notfication_importance">Bildirim önemini göster</string>
     <string name="various_no_overscroll">Sınır dışı sekmeyi devre dışı bırak</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
+    <string name="various_unlock_ime">IME\'nin kilidini aç</string>
     <string name="various_collapse_miui_title">MIUI başlığı</string>
     <string name="various_collapse_miui_title_desc">MIUI uygulamalarında üst çubuk başlığını ayarlayın</string>
     <string name="custom_background_blur_enabled">Arka plan bulanıklığı</string>
@@ -460,11 +464,16 @@
     <string name="system_volume">Sistem</string>
     <string name="notification_volume">Bildirim</string>
     <string name="array_default">Varsayılan</string>
+    <string name="freeform_notification">Bildirim kayan pencere</string>
+    <string name="share_app">Üçüncü taraf uygulamalarla paylaşın</string>
     <string name="show_newmods_title">Yeni modülü işaretle</string>
     <string name="settings_icon_disable">Devre dışı</string>
     <string name="settings_icon_top">Üst</string>
     <string name="settings_icon_medium">Orta</string>
     <string name="settings_icon_down">Alt</string>
+    <string name="settings_icon_mode">Simge stili</string>
+    <string name="settings_icon_miui_14">Yuvarlatılmış dikdörtgen stili</string>
+    <string name="settings_icon_miui_13">Arka plan kesme stili</string>
     <string name="default_volume_stream_ring">Zil</string>
     <string name="default_volume_stream_media">Medya</string>
     <string name="default_volume_stream_tip">Bildirim</string>
@@ -494,6 +503,8 @@
     <string name="collapse_miui_title_on">Genişlet</string>
     <string name="collapse_miui_title_off_always">Her zaman katlanmış</string>
     <string name="collapse_miui_title_on_always">Her zaman genişlet</string>
+    <string name="link_open_mode_default">Sistem varsayılanı</string>
+    <string name="link_open_mode_mi">Xiaomi tarayıcı</string>
     <string name="location_custom">Özel</string>
     <string name="operator_fix_none">Onarılmamış</string>
     <string name="operator_fix_1">Yöntem 1</string>
@@ -682,7 +693,7 @@
     <string name="system_ui_statusbar_network_speed_fakedualrow">Değer ve birim çift sıra halinde görüntülenir</string>
     <string name="system_ui_statusbar_network_speed_detailed">Yükleme ve indirme hızı çift sıra halinde görüntülenir</string>
     <string name="system_ui_statusbar_indicator_bold">Kalın</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">Gelen ve giden ağ hızlarını ayrı ayrı göster</string>
+    <string name="system_ui_statusbar_network_speed_detailed_desc">Gelen ve giden ağ hızlarını ayrı göster</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">İçerik genişliğini düzeltin</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Yatay titremeyi önlemek için</string>
     <string name="system_ui_statusbar_indicator_left_margin">Sol kenar boşluğu</string>
@@ -796,4 +807,6 @@
     <string name="system_ui_other_title">Diğer</string>
     <string name="system_ui_another_title">Diğer</string>
     <string name="enable">Etkinleştir</string>
+    <string name="disable_detailed_log">Ayrıntılı günlüğü devre dışı bırak</string>
+    <string name="disable_detailed_log_desc">Uygulamak için yeniden başlat</string>
 </resources>

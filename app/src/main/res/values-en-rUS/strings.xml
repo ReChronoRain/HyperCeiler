@@ -916,7 +916,6 @@
     <string name="system_settings_wifipassword_btn_title">Check</string>
     <string name="system_settings_wifi_password_label">Password</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
-    <string name="miwallpaper_unlock_super_wallpaper_desc">After the function switch needs to restart the mobile phone to take effect</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="disable_detailed_log">Disable detailed log</string>

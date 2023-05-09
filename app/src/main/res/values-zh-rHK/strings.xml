@@ -45,6 +45,8 @@
     <string name="array_battery_current">僅電流</string>
     <string name="array_battery_power">僅功率</string>
     <string name="array_battery_temp">電池溫度</string>
+    <string name="array_bold">加粗</string>
+    <string name="array_theme">跟隨主題</string>
     <string name="array_clock_default">預設</string>
     <string name="array_clock_geek">極客</string>
     <string name="array_close">關閉</string>
@@ -187,6 +189,8 @@
     <string name="fileexplorer">檔案管理</string>
     <string name="floating_window">小窗</string>
     <string name="gallery">相簿</string>
+    <string name="content_extension_link_open_mode">鏈接開啟方式</string>
+    <string name="content_extension_link_open_mode_desc">選擇一個瀏覽器以打開鏈接</string>
     <string name="gallery_enable_hdr_enhanced">解鎖超動態顯示</string>
     <string name="gallery_enable_id_photo">解鎖證件照</string>
     <string name="gallery_enable_magic_matting">解鎖魔法摳圖</string>
@@ -392,6 +396,7 @@
     <string name="joyose_game_title">遊戲空間</string>
     <string name="language">繁體中文 (香港)</string>
     <string name="lbe">權限管理服務</string>
+    <string name="clipboard">剪貼簿</string>
     <string name="lbe_disable_clipboard_tip">停用讀取剪貼簿提示</string>
     <string name="location_add">增加</string>
     <string name="link_open_mode_default">系统預設</string>
@@ -414,6 +419,8 @@
     <string name="location_simulation_work_remarks">備註</string>
     <string name="location_simulation_work_title">標題</string>
     <string name="market">應用程式商店</string>
+    <string name="lbe_clipboard_tip_toast">使用 Toast 提示讀取剪貼簿</string>
+    <string name="lbe_clipboard_tip">讀取了剪貼簿</string>
     <string name="market_device_modify">機型偽裝</string>
     <string name="market_device_modify_desc">偽裝裝置機型為 Xiaomi 13 Ultra</string>
     <string name="market_disable_new_icon">禁止使用協力廠商圖示</string>
@@ -588,6 +595,8 @@
     <string name="settings_safe_mode">安全模式</string>
     <string name="settings_safe_mode_desc">停用模組功能</string>
     <string name="share_center">小米妙享中心</string>
+    <string name="freeform_notification">通知懸浮視窗</string>
+    <string name="share_app">分享至第三方應用程式</string>
     <string name="show_newmods_title">標記新模組</string>
     <string name="soft_reboot">重啟</string>
     <string name="soft_reboot_desc">確定要執行重啟嗎？</string>
