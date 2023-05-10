@@ -57,6 +57,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b main
           cd ${{ github.workspace }}/git_clone
-          { echo -e '"Github CI\n```'; git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s"; echo -n -e '\n```"'; } > ${{ github.workspace }}/git_log
-          ESCAPED="$(cat ${{ github.workspace }}/git_log | hexdump -v -e '/1 "%02X"' | sed 's/\(..\)/%\1/g')"
+          { echo -e '"Github CI\n'; git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s"; echo -n '"'; } > ${{ github.workspace }}/git_log
+          ESCAPED="$(cat ${{ github.workspace }}/git_log | gawk '{gsub(/[_*[\]()~`>#+=\|{}.!-]/,"\\\\\\\\&")}1' | sed 's|^[0-9a-z]\+|\_\_&\_\_|' | hexdump -v -e '/1 "%02X"' | sed 's/\(..\)/%\1/g')"
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&message_thread_id=%{MESSAGE_THREAD_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A${ESCAPED}%7D%5D" -F canary="@${CANARY}"
