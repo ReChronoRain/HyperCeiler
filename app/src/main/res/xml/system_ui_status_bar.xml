@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference android:title="@string/system_ui_statusbar_iconmanage_title">
         <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity"
+                android:targetPackage="com.sevtinge.cemiuiler"/>
     </Preference>
 
     <Preference android:title="@string/system_ui_statusbar_network_speed_indicator_title">
         <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.NetworkSpeedIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.NetworkSpeedIndicatorActivity"
+                android:targetPackage="com.sevtinge.cemiuiler"/>
     </Preference>
 
     <Preference android:title="@string/system_ui_statusbar_clock_title">
         <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.ClockIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.ClockIndicatorActivity"
+                android:targetPackage="com.sevtinge.cemiuiler"/>
     </Preference>
 
     <Preference
-        android:title="@string/system_ui_statusbar_device_title"
-        android:key="prefs_key_system_ui_status_bar_device" >
+            android:title="@string/system_ui_statusbar_device_title"
+            android:key="prefs_key_system_ui_status_bar_device">
         <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
+                android:targetPackage="com.sevtinge.cemiuiler"/>
     </Preference>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
@@ -32,10 +32,15 @@
         <SwitchPreference
                 android:title="@string/system_ui_status_bar_double_tap_to_sleep"
                 android:key="prefs_key_system_ui_status_bar_double_tap_to_sleep"
-                android:defaultValue="false" />
+                android:defaultValue="false"/>
+
+        <SwitchPreference
+                android:title="@string/system_ui_status_bar_hide_icon"
+                android:key="prefs_key_system_ui_status_bar_hide_icon"
+                android:defaultValue="false"/>
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false"/>
 
 </PreferenceScreen>

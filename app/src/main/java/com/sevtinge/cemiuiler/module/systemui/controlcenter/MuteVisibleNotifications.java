@@ -9,6 +9,7 @@ import com.sevtinge.cemiuiler.utils.Helpers;
 import de.robv.android.xposed.XposedHelpers;
 
 public class MuteVisibleNotifications extends BaseHook {
+
     @Override
     public void init() {
         Helpers.hookAllMethods("com.android.systemui.statusbar.notification.policy.NotificationAlertController", lpparam.classLoader, "buzzBeepBlink", new MethodHook() {

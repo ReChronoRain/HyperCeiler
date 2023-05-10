@@ -57,6 +57,18 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/NextAlone"/>
         </Preference>
+        <Preference
+                android:title="nakixii">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/nakixii"/>
+        </Preference>
+        <Preference
+                android:title="v5u87">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="http://www.coolapk.com/u/5816741"/>
+        </Preference>
     </PreferenceCategory>
 <Preference android:enabled="false" />
 

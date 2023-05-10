@@ -332,7 +332,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">No SIM card icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM card 1 signal icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM card 2 signal icon</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type">Network Type Icon</string>
+    <string name="system_ui_status_bar_icon_mobile_network_type">Display logic</string>
     <string name="system_ui_status_bar_icon_location">Location</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Big Network Type Icon</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm Clock</string>
@@ -346,9 +346,9 @@
     <string name="system_ui_status_bar_icon_zen">Zen</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maximum number of notification points</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maximum number of notification icons</string>
-    <string name="system_ui_status_bar_battery_percent">Battery percentage</string>
-    <string name="system_ui_status_bar_battery_percent_mark">Battery percentage sign</string>
-    <string name="system_ui_status_bar_battery_charging">Charging indicator</string>
+    <string name="system_ui_status_bar_battery_percent">Hide battery percentage</string>
+    <string name="system_ui_status_bar_battery_percent_mark">Hide battery percentage sign</string>
+    <string name="system_ui_status_bar_battery_charging">Hide charging indicator</string>
     <string name="system_ui_status_bar_battery_indicator_title">Battery indicator</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Mobile Network</string>
@@ -931,9 +931,20 @@
     <string name="system_settings_wifi_password_label">Password</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
     <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
-    <string name="miwallpaper_unlock_super_wallpaper_desc">After the function switch needs to restart the mobile phone to take effect</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="disable_detailed_log">Disable detailed log</string>
     <string name="disable_detailed_log_desc">Reboot to apply</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Icon styles</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
+    <string name="array_bold">Bold</string>
+    <string name="array_theme">Follow the subject</string>
+    <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type icon</string>
+    <string name="system_ui_statusbar_mobile_type_font_size">Font size</string>
+    <string name="system_ui_statusbar_mobile_type_bold">Bold</string>
+    <string name="system_ui_status_bar_mobile_type_single">Mobile network type icon display separately</string>
+    <string name="system_ui_status_bar_mobile_type_custom">Custom text</string>
+    <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
+    <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
 </resources>

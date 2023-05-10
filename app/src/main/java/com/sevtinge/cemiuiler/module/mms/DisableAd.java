@@ -38,11 +38,5 @@ public class DisableAd extends BaseHook {
                 param.setResult(false);
             }
         });
-        findAndHookConstructor("i.k.c.s.h.d", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setBooleanField(param.thisObject, "k", true);
-            }
-        });
     }
 }
