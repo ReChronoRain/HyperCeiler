@@ -23,8 +23,8 @@ jobs:
           cache: gradle
 
       - name: Build with Gradle Canary
-        run: |
-          bash ./gradlew assembleCanary
+        shell: bash
+        run: ./gradlew assembleCanary
 
       - name: Sign Canary APK
         if: success()
@@ -53,11 +53,6 @@ jobs:
           MESSAGE_THREAD_ID: ${{ secrets.MESSAGE_THREAD_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          COMMIT_URL: ${{ github.event.head_commit.url }}
-          BOT_MESSAGE: |+
-            [New Release From Github](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            [${{ github.event.head_commit.message }}](${{ github.event.head_commit.url }})
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
