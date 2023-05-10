@@ -8,11 +8,6 @@ import miui.os.Build;
 public class InternationalBuild extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.settings.SettingsActivity", "onCreate", Bundle.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticBooleanField(Build.class, "IS_INTERNATIONAL_BUILD", true);
-            }
-        });
+        XposedHelpers.setStaticBooleanField(Build.class, "IS_INTERNATIONAL_BUILD", true);
     }
 }
