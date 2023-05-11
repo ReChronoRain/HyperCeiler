@@ -56,7 +56,6 @@ public class Home extends BaseModule {
         initHook(new FolderShade(), mPrefsMap.getStringAsInt("home_folder_shade", 1) > 0);
         initHook(FolderColumns.INSTANCE, mPrefsMap.getInt("home_folder_columns", 3) != 3 ||
                 mPrefsMap.getBoolean("home_folder_width"));
-        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FolderAnimation(), mPrefsMap.getBoolean("home_folder_animation"));
         initHook(new SmallFolderIconBlur(), mPrefsMap.getBoolean("home_small_folder_icon_bg"));
         initHook(FolderVerticalPadding.INSTANCE, mPrefsMap.getInt("home_folder_vertical_padding", 0) != 0);
@@ -130,7 +129,8 @@ public class Home extends BaseModule {
         initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
 
         //实验性功能
-        initHook(ShortcutBackgroundBlur.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
+        initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
+        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
         initHook(new LargeIconCornerRadius(), true);
