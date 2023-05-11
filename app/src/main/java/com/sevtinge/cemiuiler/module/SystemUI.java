@@ -118,6 +118,7 @@ public class SystemUI extends BaseModule {
         initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
+        initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
 

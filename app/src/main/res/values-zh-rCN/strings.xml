@@ -682,6 +682,8 @@
     <string name="system_ui_lockscreen_ui_title">界面</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
+    <string name="system_ui_lock_screen_password_free">开机免输入密码</string>
+    <string name="system_ui_lock_screen_password_free_desc">需要设备未启用加密才会生效</string>
     <string name="system_ui_lock_screen_default_theme">仅支持默认主题</string>
     <string name="system_ui_lock_screen_show_charging_cv">充电时显示电流、电压、功率</string>
     <string name="system_ui_lock_screen_hide_camera">隐藏相机</string>
