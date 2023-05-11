@@ -829,6 +829,7 @@
     <string name="system_ui_status_bar_battery_percent">隐藏电量百分比</string>
     <string name="system_ui_status_bar_battery_percent_mark">隐藏电量百分比符号</string>
     <string name="system_ui_status_bar_battery_charging">隐藏充电指示器</string>
+    <string name="system_ui_status_bar_battery_icon">隐藏电池图标</string>
     <string name="system_ui_status_bar_battery_indicator_title">电量指示器</string>
     <string name="system_ui_status_bar_wifi_at_left">WIFI</string>
     <string name="system_ui_status_bar_mobile_network_at_left">移动网络</string>

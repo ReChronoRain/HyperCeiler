@@ -49,7 +49,7 @@ public class SystemUI extends BaseModule {
         boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
-        initHook(new BatteryIcon(), isHideBatteryIcon);
+        initHook(HideBatteryIcon.INSTANCE);
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器

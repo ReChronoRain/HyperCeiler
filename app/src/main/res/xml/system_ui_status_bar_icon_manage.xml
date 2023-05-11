@@ -255,6 +255,11 @@
             android:key="prefs_key_system_ui_status_bar_battery_charging"
             android:title="@string/system_ui_status_bar_battery_charging" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_battery_icon"
+            android:title="@string/system_ui_status_bar_battery_icon" />
+
         <Preference android:title="@string/system_ui_status_bar_battery_indicator_title">
             <intent
                 android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryIndicatorActivity"
