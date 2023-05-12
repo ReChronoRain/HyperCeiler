@@ -950,4 +950,6 @@
     <string name="system_ui_status_bar_battery_icon">Hide battery icon</string>
     <string name="system_ui_lock_screen_password_free">No need to enter password when booting</string>
     <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
+    <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
+    <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
 </resources>

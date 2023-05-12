@@ -691,6 +691,8 @@
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_show_second">时钟显示秒数</string>
     <string name="system_ui_lock_screen_blur_button">相机和负一屏按钮背景模糊</string>
+    <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
+    <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
