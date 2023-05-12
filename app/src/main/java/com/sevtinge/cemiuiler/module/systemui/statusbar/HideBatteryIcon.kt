@@ -29,7 +29,7 @@ object HideBatteryIcon : BaseHook() {
                 (it.thisObject.getObjectAs<TextView>("mBatteryPercentMarkView")).textSize = 0F
             }
             //隐藏电池百分号
-            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) {
+            if (!mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") || mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) {
                 (it.thisObject.getObjectAs<TextView>("mBatteryPercentMarkView")).textSize = 0F
             }
         }
