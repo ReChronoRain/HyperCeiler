@@ -21,7 +21,7 @@ android {
         versionName "1.0.107"
         project.archivesBaseName = "Cemiuiler"
         applicationVariants.configureEach { variant ->
-            variant.outputs.all {
+            variant.outputs.configureEach {
                 outputFileName = project.archivesBaseName + "_" + versionName + "(" + versionCode + ")_" + variant.buildType.name + ".apk"
             }
         }
@@ -83,7 +83,7 @@ dependencies {
 
     compileOnly(roots.XposedApi)
 
-    implementation 'org.luckypray:DexKit:1.1.6'
+    implementation 'org.luckypray:DexKit:1.1.7'
     implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
