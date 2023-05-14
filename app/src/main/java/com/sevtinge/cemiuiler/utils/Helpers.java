@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
@@ -482,6 +484,104 @@ public class Helpers {
         }
     }
 
+    public static class SharedPrefObserver extends ContentObserver {
+
+        enum PrefType {
+            Any, String, StringSet, Integer, Boolean
+        }
+
+        PrefType prefType;
+        Context ctx;
+        String prefName;
+        String prefDefValueString;
+        int prefDefValueInt;
+        boolean prefDefValueBool;
+
+        public SharedPrefObserver(Context context, android.os.Handler handler) {
+            super(handler);
+            ctx = context;
+            prefType = PrefType.Any;
+            registerObserver();
+        }
+
+        public SharedPrefObserver(Context context, android.os.Handler handler, String name, String defValue) {
+            super(handler);
+            ctx = context;
+            prefName = name;
+            prefType = PrefType.String;
+            prefDefValueString = defValue;
+            registerObserver();
+        }
+
+        public SharedPrefObserver(Context context, android.os.Handler handler, String name) {
+            super(handler);
+            ctx = context;
+            prefName = name;
+            prefType = PrefType.StringSet;
+            registerObserver();
+        }
+
+        public SharedPrefObserver(Context context, android.os.Handler handler, String name, int defValue) {
+            super(handler);
+            ctx = context;
+            prefType = PrefType.Integer;
+            prefName = name;
+            prefDefValueInt = defValue;
+            registerObserver();
+        }
+
+        public SharedPrefObserver(Context context, Handler handler, String name, boolean defValue) {
+            super(handler);
+            ctx = context;
+            prefType = PrefType.Boolean;
+            prefName = name;
+            prefDefValueBool = defValue;
+            registerObserver();
+        }
+
+        void registerObserver() {
+            Uri uri = null;
+            if (prefType == PrefType.String)
+                uri = stringPrefToUri(prefName, prefDefValueString);
+            else if (prefType == PrefType.StringSet)
+                uri = stringSetPrefToUri(prefName);
+            else if (prefType == PrefType.Integer)
+                uri = intPrefToUri(prefName, prefDefValueInt);
+            else if (prefType == PrefType.Boolean)
+                uri = boolPrefToUri(prefName, prefDefValueBool);
+            else if (prefType == PrefType.Any)
+                uri = anyPrefToUri();
+            if (uri != null) ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            if (prefType == PrefType.Any)
+                onChange(uri);
+            else
+                onChange(selfChange);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            if (selfChange) return;
+            if (prefType == PrefType.String)
+                onChange(prefName, prefDefValueString);
+            else if (prefType == PrefType.StringSet)
+                onChange(prefName);
+            else if (prefType == PrefType.Integer)
+                onChange(prefName, prefDefValueInt);
+            else if (prefType == PrefType.Boolean)
+                onChange(prefName, prefDefValueBool);
+        }
+
+        public void onChange(Uri uri) {}
+        public void onChange(String name) {}
+        public void onChange(String name, String defValue) {}
+        public void onChange(String name, int defValue) {}
+        public void onChange(String name, boolean defValue) {}
+    }
+
     @SuppressWarnings("unchecked")
     public static Set<String> getSharedStringSetPref(Context context, String name) {
         Uri uri = stringSetPrefToUri(name);
@@ -519,6 +619,25 @@ public class Helpers {
 
         if (BaseHook.mPrefsMap.containsKey(name))
             return (int) BaseHook.mPrefsMap.getObject(name, defValue);
+        else
+            return defValue;
+    }
+
+    public static boolean getSharedBoolPref(Context context, String name, boolean defValue) {
+        Uri uri = boolPrefToUri(name, defValue);
+        try {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int prefValue = cursor.getInt(0);
+                cursor.close();
+                return prefValue == 1;
+            } else log("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+
+        if (BaseHook.mPrefsMap.containsKey(name))
+            return (boolean) BaseHook.mPrefsMap.getObject(name, false);
         else
             return defValue;
     }
@@ -631,6 +750,34 @@ public class Helpers {
             XposedBridge.log(e);
             return -1;
         }
+    }
+
+    public static float constrain(float amount, float low, float high) {
+        return amount < low ? low : (Math.min(amount, high));
+    }
+
+    public static float norm(float start, float stop, float value) {
+        return (value - start) / (stop - start);
+    }
+
+    private static float sq(float f) {
+        return f * f;
+    }
+
+    public static float lerp(float start, float stop, float amount) {
+        return start + (stop - start) * amount;
+    }
+
+    public static float exp(float f) {
+        return (float)Math.exp(f);
+    }
+    public static final float convertGammaToLinearFloat(float i, int max, float f, float f2) {
+        float norm = norm(0.0f, max, i);
+        float R = 0.4f;
+        float A = 0.2146f;
+        float B = 0.2847f;
+        float C = 0.4719f;
+        return lerp(f, f2, constrain(norm <= R ? sq(norm / R) : exp((norm - C) / A) + B, 0.0f, 12.0f) / 12.0f);
     }
 
 }

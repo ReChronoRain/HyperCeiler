@@ -106,6 +106,46 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_ui_control_center_brightness_title">
+        <SwitchPreference
+            android:title="@string/system_ui_control_center_auto_brightness"
+            android:summary="@string/system_ui_control_center_auto_brightness_desc"
+            android:key="prefs_key_system_control_center_auto_brightness"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:title="@string/system_ui_control_center_min_brightness"
+            android:key="prefs_key_system_control_center_auto_brightness_min"
+            android:dependency="prefs_key_system_control_center_auto_brightness"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:layout="@layout/preference_seekbar_no_padding"
+            android:key="pref_key_system_ui_auto_brightness_min"
+            android:dependency="prefs_key_system_control_center_auto_brightness_min"
+            android:defaultValue="25"
+            app:minValue="0"
+            app:maxValue="98"
+            app:format="%d% %"
+            app:showSeekBarValue="true"/>
+
+        <SwitchPreference
+            android:title="@string/system_ui_control_center_max_brightness"
+            android:key="prefs_key_system_control_center_auto_brightness_max"
+            android:dependency="prefs_key_system_control_center_auto_brightness"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:layout="@layout/preference_seekbar_no_padding"
+            android:key="pref_key_system_ui_auto_brightness_max"
+            android:dependency="prefs_key_system_control_center_auto_brightness_max"
+            android:defaultValue="75"
+            app:minValue="0"
+            app:maxValue="100"
+            app:format="%d% %"
+            app:showSeekBarValue="true"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_ui_controlcenter_magnet_title">
 
         <SwitchPreference

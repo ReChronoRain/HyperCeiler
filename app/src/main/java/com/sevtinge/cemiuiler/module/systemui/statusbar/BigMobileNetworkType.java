@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -41,6 +42,7 @@ public class BigMobileNetworkType extends BaseHook {
 */
     }
 
+    @SuppressLint("DiscouragedApi")
     private void old() {
         findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView","init", new MethodHook() {
             @Override
