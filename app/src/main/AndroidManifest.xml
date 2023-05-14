@@ -187,7 +187,6 @@
         <activity android:label="@string/system_ui_controlcenter_title" android:name=".ui.systemui.ControlCenterActivity"/>
         <activity android:label="@string/system_ui_other_title" android:name=".ui.systemui.OtherActivity"/>
         <activity android:label="@string/system_ui_status_bar_battery_indicator_title" android:name=".ui.systemui.statusbar.BatteryIndicatorActivity"/>
-        <activity android:label="@string/system_ui_navigation_title" android:name=".ui.systemui.NavigationActivity"/>
 
         <activity android:label="@string/home_gesture" android:name=".ui.home.HomeGestureActivity"/>
         <activity android:label="@string/home_layout" android:name=".ui.home.HomeLayoutActivity"/>
