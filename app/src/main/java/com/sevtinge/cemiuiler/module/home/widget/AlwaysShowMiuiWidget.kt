@@ -1,10 +1,7 @@
 package com.sevtinge.cemiuiler.module.home.widget
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
 
 object AlwaysShowMiuiWidget : BaseHook() {
@@ -14,28 +11,24 @@ object AlwaysShowMiuiWidget : BaseHook() {
         var hook1: XC_MethodHook.Unhook? = null
         var hook2: XC_MethodHook.Unhook? = null
         try {
-            loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder().first {
+            findMethod("com.miui.home.launcher.widget.WidgetsVerticalAdapter") {
                 name == "buildAppWidgetsItems"
             }
         } catch (e: Exception) {
-            loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder().first {
+            findMethod("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter") {
                 name == "buildAppWidgetsItems"
             }
-        }.createHook {
+        }.hookMethod {
             before {
-                hook1 = loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").methodFinder().first {
+                hook1 = findMethod("com.miui.home.launcher.widget.MIUIAppWidgetInfo") {
                     name == "initMiuiAttribute" && parameterCount == 1
-                }.createHook {
-                    after {
-                        it.thisObject.setObjectField("isMIUIWidget", false)
-                    }
+                }.hookAfter {
+                    it.thisObject.putObject("isMIUIWidget", false)
                 }
-                hook2 = loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder().first {
+                hook2 = findMethod("com.miui.home.launcher.MIUIWidgetUtil") {
                     name == "isMIUIWidgetSupport"
-                }.createHook {
-                    after {
-                        it.result = false
-                    }
+                }.hookBefore {
+                    it.result = false
                 }
             }
             after {

@@ -1,10 +1,8 @@
 package com.sevtinge.cemiuiler.module.home.dock
 
 import android.content.Context
-import android.graphics.Bitmap
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.utils.findMethod
+import com.github.kyuubiran.ezxhelper.utils.hookMethod
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.hookAfterMethod
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
@@ -17,10 +15,9 @@ object FoldDeviceDock : BaseHook() {
         var hook1: XC_MethodHook.Unhook? = null
         var hook2: XC_MethodHook.Unhook? = null
         var hook3: XC_MethodHook.Unhook? = null
-
-        loadClass("com.miui.home.launcher.hotseats.HotSeats").methodFinder().first {
+        findMethod("com.miui.home.launcher.hotseats.HotSeats") {
             name == "initContent"
-        }.createHook {
+        }.hookMethod {
             before {
                 hook1 = "com.miui.home.launcher.DeviceConfig".hookBeforeMethod(
                     "isFoldDevice"
@@ -34,14 +31,14 @@ object FoldDeviceDock : BaseHook() {
         }
 
         try {
-            loadClass("com.miui.home.launcher.hotseats.HotSeats").methodFinder().first {
+            findMethod("com.miui.home.launcher.hotseats.HotSeats") {
                 name == "updateContent"
             }
         } catch (e: Exception) {
-            loadClass("com.miui.home.launcher.hotseats.HotSeats").methodFinder().first {
+            findMethod("com.miui.home.launcher.hotseats.HotSeats") {
                 name == "updateContentView"
             }
-        }.createHook {
+        }.hookMethod {
             before {
                 hook2 = "com.miui.home.launcher.Application".hookBeforeMethod(
                     "isInFoldLargeScreen"
@@ -55,9 +52,9 @@ object FoldDeviceDock : BaseHook() {
             }
         }
 
-        loadClass("com.miui.home.launcher.hotseats.HotSeats").methodFinder().first {
+        findMethod("com.miui.home.launcher.hotseats.HotSeats") {
             name == "isNeedUpdateItemInfo"
-        }.createHook {
+        }.hookMethod {
             before {
                 hook2 = "com.miui.home.launcher.Application".hookBeforeMethod(
                     "isInFoldLargeScreen"
@@ -70,17 +67,13 @@ object FoldDeviceDock : BaseHook() {
             }
         }
 
-        loadClass("com.miui.home.launcher.hotseats.HotSeatsListRecentsAppProvider\$1").methodFinder().first {
+        findMethod("com.miui.home.launcher.hotseats.HotSeatsListRecentsAppProvider\$1") {
             name == "handleMessage" && parameterCount == 1
-        }.createHook {
+        }.hookMethod {
             before {
-                hook3 = "com.miui.home.launcher.Application".hookBeforeMethod("isInFoldLargeScreen") { hookParam ->
-                    hookParam.result = true
-                }
+                hook3 = "com.miui.home.launcher.Application".hookBeforeMethod("isInFoldLargeScreen") { hookParam -> hookParam.result = true }
             }
-            after {
-                hook3?.unhook()
-            }
+            after { hook3?.unhook() }
         }
 
         "com.miui.home.launcher.DeviceConfig".hookAfterMethod("getHotseatMaxCount") {

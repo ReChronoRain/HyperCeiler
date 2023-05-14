@@ -1,36 +1,23 @@
 package com.sevtinge.cemiuiler.module.home.recent
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.utils.findMethod
+import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object HideStatusBarWhenEnterRecent : BaseHook() {
     override fun init() {
 
         if (mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view")) {
-            loadClass("com.miui.home.launcher.common.DeviceLevelUtils").methodFinder().first {
+            findMethod("com.miui.home.launcher.common.DeviceLevelUtils") {
                 name == "isHideStatusBarWhenEnterRecents"
-            }.createHook {
-                before {
-                    it.result = true
-                }
-            }
-            loadClass("com.miui.home.launcher.DeviceConfig").methodFinder().first {
+            }.hookReturnConstant(true)
+            findMethod("com.miui.home.launcher.DeviceConfig") {
                 name == "keepStatusBarShowingForBetterPerformance"
-            }.createHook {
-                before {
-                    it.result = false
-                }
-            }
+            }.hookReturnConstant(false)
         } else {
-            loadClass("com.miui.home.launcher.common.DeviceLevelUtils").methodFinder().first {
+            findMethod("com.miui.home.launcher.common.DeviceLevelUtils") {
                 name == "isHideStatusBarWhenEnterRecents"
-            }.createHook {
-                before {
-                    it.result = false
-                }
-            }
+            }.hookReturnConstant(false)
         }
 
     }

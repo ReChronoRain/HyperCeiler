@@ -855,13 +855,6 @@
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
     <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型图标</string>
 
-    <string name="system_ui_navigation_title">导航栏</string>
-    <string name="system_ui_navigation_handle_title">手势提示线</string>
-    <string name="system_ui_navigation_handle_custom">自定义手势提示线</string>
-    <string name="system_ui_navigation_handle_custom_height">高度</string>
-    <string name="system_ui_navigation_handle_custom_width">竖屏宽度</string>
-    <string name="system_ui_navigation_handle_custom_width_land">横屏宽度</string>
-
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
 
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>

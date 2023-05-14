@@ -1,9 +1,9 @@
 package com.sevtinge.cemiuiler.module.home.recent
 
 import android.app.Activity
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.utils.findMethod
+import com.github.kyuubiran.ezxhelper.utils.hookBefore
+import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.findClass
@@ -15,25 +15,16 @@ object BlurLevel : BaseHook() {
 
         when (val blurLevel = mPrefsMap.getStringAsInt("home_recent_blur_level", 6)) {
             4 -> {
-                loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {
+                findMethod("com.miui.home.launcher.common.BlurUtils") {
                     name == "getBlurType"
-                }.createHook {
-                    before {
-                        it.result = 0
-                    }
-                }
-                loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {
+                }.hookReturnConstant(0)
+                findMethod("com.miui.home.launcher.common.BlurUtils") {
                     name == "isUseCompleteBlurOnDev"
-                }.createHook {
-                    before {
-                        it.result = false
-                    }
-                }
+                }.hookReturnConstant(false)
                 "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
                     it.result = true
                 }
             }
-
             5 -> {
                 val blurClass = "com.miui.home.launcher.common.BlurUtils".findClass()
                 val navStubViewClass = "com.miui.home.recents.NavStubView".findClass()
@@ -45,39 +36,32 @@ object BlurLevel : BaseHook() {
                 "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
                     it.result = false
                 }
-                loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {
+                findMethod("com.miui.home.launcher.common.BlurUtils") {
                     name == "getBlurType"
-                }.createHook {
-                    before {
-                        when (blurLevel) {
-                            5 -> it.result = 2
-                        }
+                }.hookBefore {
+                    when (blurLevel) {
+                        5 -> it.result = 2
                     }
                 }
             }
-
             else -> {
                 "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
                     it.result = false
                 }
-                loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {
+                findMethod("com.miui.home.launcher.common.BlurUtils") {
                     name == "getBlurType"
-                }.createHook {
-                    before {
-                        when (blurLevel) {
-                            0 -> it.result = 2
-                            2 -> it.result = 1
-                            3 -> it.result = 0
-                        }
+                }.hookBefore {
+                    when (blurLevel) {
+                        0 -> it.result = 2
+                        2 -> it.result = 1
+                        3 -> it.result = 0
                     }
                 }
-                loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {
+                findMethod("com.miui.home.launcher.common.BlurUtils") {
                     name == "isUseCompleteBlurOnDev"
-                }.createHook {
-                    before {
-                        when (blurLevel) {
-                            1 -> it.result = true
-                        }
+                }.hookBefore {
+                    when (blurLevel) {
+                        1 -> it.result = true
                     }
                 }
             }

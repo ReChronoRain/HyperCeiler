@@ -13,12 +13,6 @@
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.StatusBarActivity"/>
     </Preference>
 
-    <Preference android:title="@string/system_ui_navigation_title" >
-        <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.NavigationActivity"/>
-    </Preference>
-
     <Preference android:title="@string/system_ui_controlcenter_title" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
