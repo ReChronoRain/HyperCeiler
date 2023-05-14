@@ -1,9 +1,6 @@
 package com.sevtinge.cemiuiler.module.mtb
 
-import com.github.kyuubiran.ezxhelper.utils.field
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookAfter
-import com.github.kyuubiran.ezxhelper.utils.hookBefore
+import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object BypassAuthentication : BaseHook() {
@@ -21,7 +18,8 @@ object BypassAuthentication : BaseHook() {
             findMethod("com.xiaomi.mtb.activity.ModemTestBoxMainActivity") {
                 name == "updateClass"
             }.hookBefore {
-                it.thisObject.field("mClassNet", true).set(it.thisObject, 0)
+                it.args[0] = 0
+                it.thisObject.putObject("mClassNet", 0)
             }
         } catch (_: Throwable) {
         }
@@ -30,9 +28,10 @@ object BypassAuthentication : BaseHook() {
             findMethod("com.xiaomi.mtb.activity.ModemTestBoxMainActivity") {
                 name == "initClassProduct"
             }.hookAfter {
-                it.thisObject.field("mClassProduct", true).set(it.thisObject, 0)
+                it.thisObject.putObject("mClassProduct", 0)
             }
         } catch (_: Throwable) {
         }
     }
+
 }
