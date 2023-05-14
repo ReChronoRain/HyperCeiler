@@ -2,7 +2,7 @@ package com.sevtinge.cemiuiler.module.home.folder
 
 import android.view.ViewGroup
 import android.widget.GridView
-import com.github.kyuubiran.ezxhelper.utils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.hookAfterAllMethods
 import de.robv.android.xposed.XposedHelpers

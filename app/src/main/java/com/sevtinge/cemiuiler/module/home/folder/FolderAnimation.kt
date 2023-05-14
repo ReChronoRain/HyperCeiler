@@ -1,7 +1,8 @@
 package com.sevtinge.cemiuiler.module.home.folder
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookMethod
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.hookAfterMethod
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
@@ -27,9 +28,9 @@ class FolderAnimation : BaseHook() {
             if (launcherClass != null) {
                 for (field in launcherClass.declaredFields) {
                     if (field.name == "val\$folderInfo") {
-                        findMethod(launcherClass) {
+                        loadClass("com.miui.home.launcher.Launcher$$i").methodFinder().first {
                             name == "run"
-                        }.hookMethod {
+                        }.createHook {
                             before {
                                 hook1 = mSpringAnimator.hookBeforeMethod(
                                     "setDampingResponse", Float::class.javaPrimitiveType, Float::class.javaPrimitiveType

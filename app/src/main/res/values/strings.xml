@@ -952,4 +952,10 @@
     <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
     <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
+    <string name="system_ui_navigation_title">Navigation</string>
+    <string name="system_ui_navigation_handle_title">Handle line</string>
+    <string name="system_ui_navigation_handle_custom">Custom handle line</string>
+    <string name="system_ui_navigation_handle_custom_height">Height</string>
+    <string name="system_ui_navigation_handle_custom_width">Portrait width</string>
+    <string name="system_ui_navigation_handle_custom_width_land">Landscape width</string>
 </resources>
