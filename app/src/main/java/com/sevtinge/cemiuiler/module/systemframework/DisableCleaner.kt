@@ -7,28 +7,30 @@ import de.robv.android.xposed.XposedHelpers
 
 object DisableCleaner : BaseHook() {
     override fun init() {
-        XposedHelpers.setStaticBooleanField(findClassIfExists("android.os.spc.PressureStateSettings"), "PROCESS_CLEANER_ENABLED", false)
-        XposedHelpers.setStaticIntField(findClassIfExists("com.android.server.am.ActivityManagerConstants"), "CUR_TRIM_EMPTY_PROCESSES", Integer.MAX_VALUE)
-
         findMethod("com.android.server.am.ActivityManagerService") {
             name == "checkExcessivePowerUsage"
         }.hookBefore {
             it.result = null
         }
         findMethod("com.android.server.am.OomAdjuster") {
-            name == "shouldKillExcessiveProcesses"
+            name == "updateOomAdjInnerLSP"
         }.hookBefore {
-            it.result = false
+            it.result = null
         }
         findMethod("com.android.server.am.PhantomProcessList") {
             name == "trimPhantomProcessesIfNecessary"
         }.hookBefore {
             it.result = null
         }
-        findMethod("com.android.server.wm.RecentTasks") {
-            name == "isTrimmable"
+        findMethod("com.android.server.am.SystemPressureController") {
+            name == "onSystemReady"
         }.hookBefore {
-            it.result = false
+            it.result = null
+        }
+        findMethod("com.android.server.wm.RecentTasks") {
+            name == "trimInactiveRecentTasks"
+        }.hookBefore {
+            it.result = null
         }
     }
 }
