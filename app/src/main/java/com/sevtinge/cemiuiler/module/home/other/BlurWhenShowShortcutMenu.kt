@@ -3,29 +3,23 @@ package com.sevtinge.cemiuiler.module.home.other
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.graphics.Color
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat.animate
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
-import com.sevtinge.cemiuiler.utils.findClass
 import com.sevtinge.cemiuiler.utils.getObjectField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
-import kotlin.collections.ArrayList
 import kotlin.math.sqrt
 
 object BlurWhenShowShortcutMenu : BaseHook() {
