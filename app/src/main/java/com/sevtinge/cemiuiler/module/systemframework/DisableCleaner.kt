@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.systemframework
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XposedHelpers
 
 object DisableCleaner : BaseHook() {
     override fun init() {
@@ -13,9 +12,14 @@ object DisableCleaner : BaseHook() {
             it.result = null
         }
         findMethod("com.android.server.am.OomAdjuster") {
-            name == "updateOomAdjInnerLSP"
+            name == "shouldKillExcessiveProcesses"
         }.hookBefore {
             it.result = null
+        }
+        findMethod("com.android.server.am.OomAdjuster") {
+            name == "updateAndTrimProcessLSP"
+        }.hookBefore {
+            it.args[2] = 0
         }
         findMethod("com.android.server.am.PhantomProcessList") {
             name == "trimPhantomProcessesIfNecessary"
@@ -23,7 +27,7 @@ object DisableCleaner : BaseHook() {
             it.result = null
         }
         findMethod("com.android.server.am.SystemPressureController") {
-            name == "onSystemReady"
+            name == "nStartPressureMonitor"
         }.hookBefore {
             it.result = null
         }
