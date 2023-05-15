@@ -14,7 +14,7 @@ object DisableCleaner : BaseHook() {
         findMethod("com.android.server.am.OomAdjuster") {
             name == "shouldKillExcessiveProcesses"
         }.hookBefore {
-            it.result = null
+            it.result = false
         }
         findMethod("com.android.server.am.OomAdjuster") {
             name == "updateAndTrimProcessLSP"
