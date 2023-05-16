@@ -427,6 +427,7 @@
     <string name="clipboard">剪切板</string>
     <string name="lbe_disable_clipboard_tip">禁用提示读取剪贴板</string>
     <string name="lbe_clipboard_tip_toast">使用 Toast 提示读取剪贴板</string>
+    <string name="lbe_clipboard_tip_toast_desc">隐藏对话框并允许应用默认读取剪切板</string>
     <string name="lbe_clipboard_tip">读取了剪贴板</string>
 
     <string name="market_device_modify">机型伪装</string>
@@ -653,6 +654,7 @@
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
+    <string name="system_ui_hardware_title">显示相关</string>
     <string name="system_ui_other_title">其他</string>
 
     <string name="system_ui_controlcenter_card_title">卡片</string>

@@ -937,6 +937,7 @@
     <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
     <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
+    <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_navigation_handle_custom">Custom handle line</string>
@@ -948,5 +949,6 @@
     <string name="system_ui_control_center_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
     <string name="system_ui_control_center_min_brightness">Auto Brightness Min</string>
     <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
+    <string name="system_ui_hardware_title">Display related</string>
 
 </resources>

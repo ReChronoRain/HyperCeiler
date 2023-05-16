@@ -934,6 +934,7 @@
     <string name="disable_detailed_log">停用詳細日誌輸出</string>
     <string name="disable_detailed_log_desc">重新啟動裝置以套用更改</string>
     <string name="system_ui_status_bar_battery_icon">隱藏電池圖示</string>
+    <string name="lbe_clipboard_tip_toast_desc">隱藏對話框並允許應用程式默認讀取剪貼簿</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>
