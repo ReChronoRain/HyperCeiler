@@ -196,15 +196,22 @@
                 android:title="Woobox For MIUI"
                 android:summary="hosizoraru">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
         </Preference>
         <Preference
-                android:title="XposedBridge"
-                android:summary="rovo89">
+            android:title="XposedBridge"
+            android:summary="rovo89">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/rovo89/XposedBridge" />
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/rovo89/XposedBridge" />
+        </Preference>
+        <Preference
+            android:title=".xlDownload"
+            android:summary="Kr328">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Kr328/.xlDownload" />
         </Preference>
     </PreferenceCategory>
 <Preference android:enabled="false" />
