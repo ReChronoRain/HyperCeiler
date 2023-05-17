@@ -76,7 +76,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_size"
             android:title="@string/system_ui_statusbar_clock_size"
             android:format="%s dp"
-            app:maxValue="18"
+            app:maxValue="20"
             app:minValue="0"
             app:showSeekBarValue="true" />
 
@@ -85,7 +85,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_double_size"
             android:title="@string/system_ui_statusbar_clock_double_size"
             android:format="%s dp"
-            app:maxValue="9"
+            app:maxValue="14"
             app:minValue="0"
             app:showSeekBarValue="true" />
 
@@ -117,7 +117,7 @@
             android:key="prefs_key_system_ui_statusbar_clock_size_geek"
             android:title="@string/system_ui_statusbar_clock_size"
             android:format="%s dp"
-            app:maxValue="18"
+            app:maxValue="20"
             app:minValue="0"
             app:showSeekBarValue="true" />
     </PreferenceCategory>
