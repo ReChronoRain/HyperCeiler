@@ -17,8 +17,8 @@ android {
         applicationId "com.sevtinge.cemiuiler"
         minSdk 30
         targetSdk 33
-        versionCode 107
-        versionName "1.0.107"
+        versionCode 108
+        versionName "1.0.108"
         project.archivesBaseName = "Cemiuiler"
         applicationVariants.configureEach { variant ->
             variant.outputs.configureEach {
