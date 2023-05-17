@@ -166,6 +166,7 @@
     <string name="content_extension_double_press">開放雙指長按</string>
     <string name="content_extension_super_image">開放超解析度圖片</string>
     <string name="content_extension_super_image_summary">需要系統底層支援</string>
+    <string name="various_download_title">下載管理程式</string>
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半徑</string>
     <string name="custom_background_color">背景顏色</string>

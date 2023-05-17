@@ -888,6 +888,10 @@
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
+    <string name="various_download_title">下载管理程序</string>
+    <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
+    <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
+
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
     <string name="custom_background_color">背景颜色</string>
