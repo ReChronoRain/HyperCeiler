@@ -19,17 +19,16 @@ object HideBatteryIcon : BaseHook() {
             if (mPrefsMap.getBoolean("system_ui_status_bar_battery_icon")) {
                 (it.thisObject.getObjectAs<ImageView>("mBatteryIconView")).visibility = View.GONE
                 if (it.thisObject.getObject("mBatteryStyle") == 1) {
-                    (it.thisObject.getObjectAs<FrameLayout>("mBatteryDigitalView")).visibility = View.GONE
+                    (it.thisObject.getObjectAs<FrameLayout>("mBatteryDigitalView")).visibility =
+                        View.GONE
                 }
             }
-            //隐藏电池内的百分比
-            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
+
+            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) { //隐藏电池百分号
+                (it.thisObject.getObjectAs<TextView>("mBatteryPercentMarkView")).textSize = 0F
+            } else if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) { //隐藏电池内的百分比
                 (it.thisObject.getObjectAs<TextView>("mBatteryPercentView")).textSize = 0F
                 (it.thisObject.getObjectAs<TextView>("mBatteryTextDigitView")).textSize = 0F
-                (it.thisObject.getObjectAs<TextView>("mBatteryPercentMarkView")).textSize = 0F
-            }
-            //隐藏电池百分号
-            if (!mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") || mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) {
                 (it.thisObject.getObjectAs<TextView>("mBatteryPercentMarkView")).textSize = 0F
             }
         }
