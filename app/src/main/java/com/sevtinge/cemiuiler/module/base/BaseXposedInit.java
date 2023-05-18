@@ -63,6 +63,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Mtb mMtb = new Mtb();
     public Phone mPhone = new Phone();
     public MiWallpaper mMiWallpaper = new MiWallpaper();
+    public Downloads mDownloads = new Downloads();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -348,6 +349,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.android.camera":
                 XposedBridge.log("Cemiuiler: Hook com.android.camera");
                 mCamera.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.android.providers.downloads":
+                XposedBridge.log("Cemiuiler: Hook com.android.providers.downloads");
+                mDownloads.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 

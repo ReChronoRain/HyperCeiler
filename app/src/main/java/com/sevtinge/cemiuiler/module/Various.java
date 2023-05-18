@@ -26,9 +26,6 @@ public class Various extends BaseModule {
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
-        //下载管理程序
-        initHook(new FuckXlDownload(), mPrefsMap.getBoolean("various_fuck_xlDownload"));
-
         initHook(UnlockIme.INSTANCE, mPrefsMap.getBoolean("various_unlock_ime"));
 
     }

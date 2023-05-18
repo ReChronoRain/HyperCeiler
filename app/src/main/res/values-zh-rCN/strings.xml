@@ -70,6 +70,7 @@
     <string name="updater">系统更新</string>
     <string name="various">其他</string>
     <string name="weather">天气</string>
+    <string name="downloads">下载管理程序</string>
     <string name="share_center">小米妙享中心</string>
     <string name="floating_window">小窗</string>
     <string name="custom_hook">自定义</string>
@@ -888,7 +889,6 @@
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
-    <string name="various_download_title">下载管理程序</string>
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
 

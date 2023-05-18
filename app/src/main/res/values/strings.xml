@@ -965,7 +965,7 @@
     <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
     <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
     <string name="system_ui_hardware_title">Display related</string>
-    <string name="various_download_title">Download management program</string>
+    <string name="downloads">Download management program</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
 </resources>

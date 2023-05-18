@@ -23,16 +23,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/various_download_title">
-
-        <SwitchPreference
-            android:title="@string/various_fuck_xlDownload"
-            android:summary="@string/various_fuck_xlDownload_desc"
-            android:key="prefs_key_various_fuck_xlDownload"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/system_ui_other_title">
 
         <SwitchPreference

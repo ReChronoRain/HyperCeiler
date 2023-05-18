@@ -84,6 +84,16 @@
         </Preference>
 
         <Preference
+                android:title="@string/downloads"
+                android:summary="com.android.providers.downloads"
+                android:key="prefs_key_downloads"
+                android:icon="@drawable/ic_downloads">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.DownloadsActivity" />
+        </Preference>
+
+        <Preference
             android:title="@string/system_ui"
             android:summary="com.android.systemui"
             android:key="prefs_key_system_ui"

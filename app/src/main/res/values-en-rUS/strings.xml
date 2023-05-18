@@ -377,7 +377,7 @@
     <string name="various_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="various_collapse_miui_title">MIUI Title</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in MIUI apps</string>
-    <string name="various_download_title">Download management program</string>
+    <string name="downloads">Download management program</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
     <string name="custom_background_blur_enabled">Background blur</string>

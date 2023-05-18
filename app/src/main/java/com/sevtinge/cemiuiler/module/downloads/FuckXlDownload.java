@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.various;
+package com.sevtinge.cemiuiler.module.downloads;
 
 import android.os.Environment;
 
@@ -17,22 +17,22 @@ public class FuckXlDownload extends BaseHook {
 
     @Override
     public void init() {
-        log("Cemiuiler: " + TAG + "Injected to process = " + lpparam.packageName);
+        log("Injected to process = " + lpparam.packageName);
 
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) {
             return;
         }
 
-        log("Cemiuiler: " + TAG + "Target path = " + TARGET_PATH);
+        log("Target path = " + TARGET_PATH);
 
         XposedHelpers.findAndHookMethod(File.class, "mkdirs", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                log("Cemiuiler: " + TAG + "path = " + param.thisObject);
+                log("path = " + param.thisObject);
 
                 final boolean isXlDownload = ((File) param.thisObject).getAbsoluteFile().equals(TARGET_PATH);
                 if (isXlDownload) {
-                    log(TAG + "blocked");
+                    log("blocked");
                     param.setThrowable(new FileNotFoundException("blocked"));
                 }
             }
