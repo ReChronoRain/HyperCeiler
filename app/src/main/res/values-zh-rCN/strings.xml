@@ -33,6 +33,7 @@
     <string name="enable">启用</string>
 
     <string name="home">系统桌面</string>
+    <string name="aod">万象息屏</string>
     <string name="content_extension">传送门</string>
     <string name="aireco">小爱建议</string>
     <string name="browser">浏览器</string>
@@ -150,6 +151,8 @@
     <string name="settings_reset">重置模块配置</string>
     <string name="settings_safe_mode">安全模式</string>
     <string name="settings_safe_mode_desc">停用模块功能</string>
+
+    <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>
 
     <string name="aireco_device_modify">移除内测限制</string>
 
