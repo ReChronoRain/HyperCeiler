@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.*;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
+import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
@@ -85,6 +86,9 @@ public class SystemUI extends BaseModule {
         boolean isStatusBarIconAtRightEnable = isWiFiAtLeft || isMobileNetworkAtLeft || isSwapWiFiAndMobileNetwork || isNetworkSpeedAtRight || isAlarmClockAtRight || isNFCAtRight || isVolumeAtRight || isZenAtRight;
 
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
+
+        //手势提示线
+        initHook(new HandleLineCustom(), mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
 
 
         //实验性功能

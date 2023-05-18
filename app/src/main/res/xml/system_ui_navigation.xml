@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/system_ui_navigation_handle_title">
+        <SwitchPreference
+                android:title="@string/system_ui_navigation_handle_custom"
+                android:key="prefs_key_system_ui_navigation_handle_custom"
+                android:defaultValue="false"/>
+
+        <!--navigation_handle_radius-->
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+                android:title="@string/system_ui_navigation_handle_custom_height"
+                app:defaultValueText="@string/array_default"
+                android:key="prefs_key_system_ui_navigation_handle_custom_height"
+                android:defaultValue="185"
+                app:maxValue="500"
+                app:minValue="0"
+                app:displayDividerValue="100"
+                app:format="%s dp"
+                app:stepValue="5"
+                app:showSeekBarValue="true"
+                android:dependency="prefs_key_system_ui_navigation_handle_custom"/>
+
+        <!--navigation_home_handle_width-->
+        <SeekBarPreference
+                android:title="@string/system_ui_navigation_handle_custom_width"
+                android:key="prefs_key_system_ui_navigation_handle_custom_width"
+                android:defaultValue="145"
+                app:maxValue="400"
+                app:minValue="0"
+                android:format="%d dp"
+                app:showSeekBarValue="true"
+                android:dependency="prefs_key_system_ui_navigation_handle_custom"/>
+
+        <!--navigation_home_handle_width land-->
+        <SeekBarPreference
+                android:title="@string/system_ui_navigation_handle_custom_width_land"
+                android:key="prefs_key_system_ui_navigation_handle_custom_width_land"
+                android:defaultValue="254"
+                app:maxValue="600"
+                app:minValue="0"
+                android:format="%d dp"
+                app:showSeekBarValue="true"
+                android:dependency="prefs_key_system_ui_navigation_handle_custom"/>
+
+        <!--navigation_handle_horizontal_margin 30-->
+
+        <!--navigation_handle_sample_horizontal_margin 10-->
+
+    </PreferenceCategory>
+
+    <Preference android:enabled="false" />
+
+</PreferenceScreen>

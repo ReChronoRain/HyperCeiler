@@ -185,6 +185,9 @@
             android:label="@string/system_ui_statusbar_title"
             android:name=".ui.systemui.StatusBarActivity" />
         <activity
+                android:label="@string/system_ui_navigation_title"
+                android:name=".ui.systemui.NavigationActivity" />
+        <activity
             android:label="@string/system_ui_statusbar_iconmanage_title"
             android:name=".ui.systemui.statusbar.IconManageActivity" />
         <activity
