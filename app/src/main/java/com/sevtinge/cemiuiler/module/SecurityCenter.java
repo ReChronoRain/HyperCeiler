@@ -45,7 +45,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new BeautyPc(), mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         //其他
-        initHook(new LockOneHundredPoints());
+        initHook(new LockOneHundredPoints(), mPrefsMap.getBoolean("security_center_score"));
         initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
         initHook(new DisableRootCheck(), mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
