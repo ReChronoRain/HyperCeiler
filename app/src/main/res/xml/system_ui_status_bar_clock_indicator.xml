@@ -63,6 +63,7 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:disableDependentsState="true"
             android:key="prefs_key_system_ui_statusbar_clock_double"
             android:title="@string/system_ui_statusbar_clock_double" />
 
@@ -73,6 +74,7 @@
 
         <SeekBarPreference
             android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_clock_double"
             android:key="prefs_key_system_ui_statusbar_clock_size"
             android:title="@string/system_ui_statusbar_clock_size"
             android:format="%s dp"
