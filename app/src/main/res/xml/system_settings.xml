@@ -4,22 +4,32 @@
     <PreferenceCategory>
         <SwitchPreference
                 android:title="@string/system_settings_international_build"
-                android:key="prefs_key_system_settings_international_build"
-                android:defaultValue="false"/>
+            android:key="prefs_key_system_settings_international_build"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/system_settings_safe_wifi"
             android:summary="@string/system_settings_safe_wifi_desc"
             android:key="prefs_key_system_settings_safe_wifi"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/system_settings_accessibility_title"
+        android:key="prefs_key_system_settings_accessibility_title">
+        <SwitchPreference
+            android:title="@string/system_settings_area_screenshot"
+            android:key="prefs_key_system_settings_area_screenshot"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_lab_title">
         <SwitchPreference
-                android:title="@string/system_settings_voip_assistant_controller"
-                android:key="prefs_key_system_settings_voip_assistant_controller"
-                android:defaultValue="false"/>
+            android:title="@string/system_settings_voip_assistant_controller"
+            android:key="prefs_key_system_settings_voip_assistant_controller"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 

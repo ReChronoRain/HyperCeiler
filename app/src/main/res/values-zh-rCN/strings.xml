@@ -630,11 +630,14 @@
     <string name="system_framework_phone_network_title">网络设置</string>
     <string name="system_framework_phone_band_title">频段设置</string>
 
+    <string name="system_settings_accessibility_title">快捷手势</string>
+    <string name="system_settings_area_screenshot">解锁区域截屏</string>
+
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
 
     <string name="system_settings_international_build">国际版本设置页面</string>
-    
+
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
     <string name="system_settings_safe_wifi_desc">解锁管理已保存网络</string>
     <string name="system_settings_wifipassword_btn_title">查看</string>

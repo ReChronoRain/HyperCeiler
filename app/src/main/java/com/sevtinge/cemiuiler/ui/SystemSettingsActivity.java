@@ -19,6 +19,7 @@ public class SystemSettingsActivity extends BaseAppCompatActivity {
     public static class SystemSettingsFragment extends SubFragment {
 
         PreferenceCategory mHighMode; //极致模式
+        PreferenceCategory mAreaScreenshot; //区域截屏
 
         @Override
         public int getContentResId() {
@@ -28,7 +29,9 @@ public class SystemSettingsActivity extends BaseAppCompatActivity {
         @Override
         public void initPrefs() {
             mHighMode = findPreference("prefs_key_system_settings_develop_speed");
+            mAreaScreenshot = findPreference("prefs_key_system_settings_accessibility_title");
             mHighMode.setVisible(!SdkHelper.isAndroidR());
+            mAreaScreenshot.setVisible(SdkHelper.isAndroidR());
         }
     }
 }

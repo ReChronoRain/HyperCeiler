@@ -955,5 +955,7 @@
     <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
     <string name="system_ui_hardware_title">Display related</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
+    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
+    <string name="system_settings_accessibility_title">Gesture shortcuts</string>
 
 </resources>

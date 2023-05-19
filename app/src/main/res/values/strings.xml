@@ -971,4 +971,6 @@
     <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
     <string name="aod">Always-on display</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
+    <string name="system_settings_accessibility_title">Gesture shortcuts</string>
+    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
 </resources>
