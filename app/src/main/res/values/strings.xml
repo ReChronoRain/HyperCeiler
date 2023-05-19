@@ -751,8 +751,8 @@
     <string name="array_clock_geek">Geek</string>
     <string name="system_ui_statusbar_clock_period">Show clock period</string>
     <string name="system_ui_statusbar_clock_editor">Clock format</string>
-    <string name="system_ui_statusbar_clock_double_size">Double row size (0 means no modification)</string>
-    <string name="system_ui_statusbar_clock_size">Clock size (0 means no modification)</string>
+    <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
+    <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_second">Show seconds</string>
     <string name="system_ui_statusbar_clock_year">Show year</string>
     <string name="system_ui_statusbar_clock_month">Show month</string>

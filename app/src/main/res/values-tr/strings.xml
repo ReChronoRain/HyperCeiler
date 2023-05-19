@@ -737,8 +737,8 @@
     <string name="array_clock_geek">İnek</string>
     <string name="system_ui_statusbar_clock_period">Saat periyodunu göster</string>
     <string name="system_ui_statusbar_clock_editor">Saat biçimi</string>
-    <string name="system_ui_statusbar_clock_double_size">Çift sıra boyutu (0 değişiklik yapılmadığı anlamına gelir)</string>
-    <string name="system_ui_statusbar_clock_size">Saat boyutu (0 hiçbir değişiklik anlamına gelir)</string>
+    <string name="system_ui_statusbar_clock_double_size">Çift sıra saat boyutu</string>
+    <string name="system_ui_statusbar_clock_size">Saat boyutu</string>
     <string name="system_ui_statusbar_clock_second">Saniyeleri göster</string>
     <string name="system_ui_statusbar_clock_year">Yılı göster</string>
     <string name="system_ui_statusbar_clock_month">Ayı göster</string>

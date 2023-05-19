@@ -748,8 +748,8 @@
     <string name="system_ui_statusbar_clock_hide_space">Hide space</string>
     <string name="system_ui_statusbar_clock_double">Show double</string>
     <string name="system_ui_statusbar_clock_double_center">Double row center alignment</string>
-    <string name="system_ui_statusbar_clock_size">Clock size (0 means no modification)</string>
-    <string name="system_ui_statusbar_clock_double_size">Double row size (0 means no modification)</string>
+    <string name="system_ui_statusbar_clock_size">Clock size</string>
+    <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
     <string name="system_ui_statusbar_clock_editor">Clock format</string>
     <string name="system_ui_statusbar_clock_period">Show clock period</string>

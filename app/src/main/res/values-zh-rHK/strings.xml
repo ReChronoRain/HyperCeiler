@@ -811,7 +811,7 @@
     <string name="system_ui_statusbar_clock_double">雙排顯示</string>
     <string name="system_ui_statusbar_clock_double_center">雙排置中對齊</string>
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
-    <string name="system_ui_statusbar_clock_double_size">雙排大小（0為不修改）</string>
+    <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
     <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
     <string name="system_ui_statusbar_clock_hide_space">隱藏間隔</string>
     <string name="system_ui_statusbar_clock_hour_cn">顯示時辰</string>
@@ -819,7 +819,7 @@
     <string name="system_ui_statusbar_clock_month">顯示月份</string>
     <string name="system_ui_statusbar_clock_period">顯示時段</string>
     <string name="system_ui_statusbar_clock_second">顯示秒數</string>
-    <string name="system_ui_statusbar_clock_size">時鐘大小（0為不修改）</string>
+    <string name="system_ui_statusbar_clock_size">時鐘大小</string>
     <string name="system_ui_statusbar_clock_title">時鐘指示器</string>
     <string name="system_ui_statusbar_clock_week">顯示星期</string>
     <string name="system_ui_statusbar_clock_year">顯示年份</string>
