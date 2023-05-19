@@ -3,16 +3,11 @@ package com.sevtinge.cemiuiler.module.systemframework.corepatch;
 import android.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedBridge;
-import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
@@ -75,8 +70,8 @@ public class CorePatchForT extends CorePatchForSv2 {
                 protected void afterHookedMethod(MethodHookParam param) {
                     //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                     if (param.getResult().equals(false)) {
-                        String pPname = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
-                        if (pPname.contentEquals((String) param.args[0])) {
+                        String pName = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
+                        if (pName.contentEquals((String) param.args[0])) {
                             param.setResult(true);
                         }
                     }

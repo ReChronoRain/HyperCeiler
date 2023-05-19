@@ -27,8 +27,8 @@ public class CorePatchForS extends CorePatchForR {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                     if (param.getResult().equals(false)) {
-                        String pPname = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
-                        if (pPname.contentEquals((String) param.args[0])) {
+                        String pName = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
+                        if (pName.contentEquals((String) param.args[0])) {
                             param.setResult(true);
                         }
                     }
