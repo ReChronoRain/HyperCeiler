@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.home.folder
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 
 
 object FolderBlur : BaseHook() {
+    @SuppressLint("SuspiciousIndentation")
     override fun init() {
     //修复文件夹背景模糊与始终模糊壁纸冲突
     if (mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) return
