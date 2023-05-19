@@ -26,6 +26,11 @@ object DisableCleaner : BaseHook() {
         }.hookBefore {
             it.result = null
         }
+        findMethod("com.android.server.am.ProcessMemoryCleaner") {
+            name == "checkBackgroundProcCompact"
+        }.hookBefore {
+            it.result = null
+        }
         findMethod("com.android.server.am.SystemPressureController") {
             name == "nStartPressureMonitor"
         }.hookBefore {
