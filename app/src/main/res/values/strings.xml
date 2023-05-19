@@ -60,6 +60,7 @@
     <string name="about_tg_group">Telegram Group</string>
     <string name="about_tg_channel">Telegram Channel</string>
     <string name="about_github">Source Code</string>
+    <string name="about_github_desc">This project is open source based on the AGPL-3.0 license</string>
     <string name="about_crwd">"Crowdin"</string>
     <string name="about_crwd_desc">Help us translate Cemiuiler into you language</string>
     <string name="settings_data_title">Backup and Restore</string>

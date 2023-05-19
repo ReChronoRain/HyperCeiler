@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:layout="@layout/activity_about"
-        android:key="prefs_key_hidden_function"
-        android:summary="@string/xposed_description" />
+            android:layout="@layout/activity_about"
+            android:key="prefs_key_hidden_function"
+            android:summary="@string/xposed_description"/>
 
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
@@ -15,7 +15,7 @@
                 android:summary="Hook、App Icon">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/sevtinge" />
+                    android:data="https://github.com/sevtinge"/>
         </Preference>
         <Preference
                 android:icon="@drawable/ic_moralnorm"
@@ -24,7 +24,7 @@
                 android:summary="UI Design、Hook">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/MoralNorm" />
+                    android:data="https://github.com/MoralNorm"/>
         </Preference>
         <Preference
                 android:icon="@drawable/ic_yukonga"
@@ -33,7 +33,7 @@
                 android:summary="Hook">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/YuKongA" />
+                    android:data="https://github.com/YuKongA"/>
         </Preference>
         <Preference
                 android:icon="@drawable/ic_yifeplayte"
@@ -42,7 +42,7 @@
                 android:summary="Hook">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/YifePlayte" />
+                    android:data="https://github.com/YifePlayte"/>
         </Preference>
         <Preference
                 android:title="@string/about_contributer"
@@ -58,7 +58,7 @@
                 android:summary="@string/language">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="@string/translator_url" />
+                    android:data="@string/translator_url"/>
         </Preference>
         <!--ValuePreference
                 android:text="@string/language"
@@ -67,35 +67,36 @@
     <PreferenceCategory android:title="@string/about_chat_title">
         <Preference
                 android:title="@string/about_qq_group"
-                android:key="prefs_key_about_join_qq_group" />
+                android:key="prefs_key_about_join_qq_group"/>
         <Preference android:title="@string/about_qq_channel">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XAId3dB6BS&amp;businessType=9&amp;from=246610&amp;biz=ka" />
+                    android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XAId3dB6BS&amp;businessType=9&amp;from=246610&amp;biz=ka"/>
         </Preference>
         <Preference android:title="@string/about_tg_group">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://t.me/sevtinge_nest" />
+                    android:data="https://t.me/sevtinge_nest"/>
         </Preference>
         <Preference android:title="@string/about_tg_channel">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://t.me/sevtinge_mod" />
+                    android:data="https://t.me/sevtinge_mod"/>
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_other_title">
         <Preference
-                android:title="@string/about_github" >
+                android:title="@string/about_github"
+                android:summary="@string/about_github_desc">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/sevtinge/Cemiuiler" />
+                    android:data="https://github.com/sevtinge/Cemiuiler"/>
         </Preference>
         <Preference
-            android:title="@string/about_offical" >
+                android:title="@string/about_offical">
             <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://cemiuiler.sevtinge.cc" />
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://cemiuiler.sevtinge.cc"/>
         </Preference>
         <Preference
                 android:title="@string/about_use"
@@ -110,16 +111,16 @@
                 android:summary="@string/about_crwd_desc">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://crwd.in/cemiuiler" />
+                    android:data="https://crwd.in/cemiuiler"/>
         </Preference>
         <Preference
                 android:title="@string/about_donation"
                 android:summary="@string/about_donation_desc">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://www.sevtinge.cc/t/donation.html" />
+                    android:data="https://www.sevtinge.cc/t/donation.html"/>
         </Preference>
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false"/>
 
 </PreferenceScreen>

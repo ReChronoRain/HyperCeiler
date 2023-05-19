@@ -85,6 +85,7 @@
     <string name="about_tg_group">Telegram 群组</string>
     <string name="about_tg_channel">Telegram 频道</string>
     <string name="about_github">项目地址</string>
+    <string name="about_github_desc">本项目基于 AGPL-3.0 协议开源</string>
     <string name="about_offical">官网</string>
     <string name="about_crwd">翻译</string>
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
