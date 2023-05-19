@@ -64,6 +64,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Phone mPhone = new Phone();
     public MiWallpaper mMiWallpaper = new MiWallpaper();
     public Downloads mDownloads = new Downloads();
+    public Aod mAod = new Aod();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -254,6 +255,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.miui.gallery":
                 XposedBridge.log("Cemiuiler: Hook com.miui.gallery");
                 mGallery.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.miui.aod":
+                XposedBridge.log("Cemiuiler: Hook com.miui.aod");
+                mAod.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 

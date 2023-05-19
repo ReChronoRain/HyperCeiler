@@ -4,9 +4,9 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="@string/aireco_device_modify"
-                android:key="prefs_key_aireco_device_modify"
-                android:defaultValue="false"/>
+            android:title="@string/aod_unlock_always_on_display"
+            android:key="prefs_key_aod_unlock_always_on_display"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 

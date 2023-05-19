@@ -706,14 +706,14 @@
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
     <string name="system_ui_statusbar_indicator_align">Horizontal alignment</string>
     <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU related settings in the bottom middle of [Game Space]</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms" translatable="false">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s" translatable="false">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m" translatable="false">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs" translatable="false">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs" translatable="false">1 KB/s</string>
+    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
+    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
+    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
+    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
+    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
-    <string name="system_ui_statusbar_network_speed_lux" translatable="false">%s lux</string>
+    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="array_netspeedicons_arrows" translatable="false">△▽ (▲▼)</string>
     <string name="array_netspeedicons_arrows_small" translatable="false">▵ ▿ ( ▴ ▾ )</string>
@@ -968,4 +968,6 @@
     <string name="downloads">Download management program</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
+    <string name="aod">Always-on display</string>
+    <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
 </resources>

@@ -154,6 +154,16 @@
         </Preference>
 
         <Preference
+            android:title="@string/aod"
+            android:summary="com.miui.aod"
+            android:key="prefs_key_aod"
+            android:icon="@drawable/ic_aod">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.AodActivity" />
+        </Preference>
+
+        <Preference
             android:title="@string/content_extension"
             android:summary="com.miui.contentextension"
             android:key="prefs_key_content_extension"

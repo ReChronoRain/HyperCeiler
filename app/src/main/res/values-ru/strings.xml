@@ -84,11 +84,6 @@
     <string name="array_global_actions_volume_down">Громкость -</string>
     <string name="array_global_actions_volume_up">Громкость +</string>
     <string name="array_gradual">Градиент</string>
-    <string name="array_netspeedicons_arrows">△▽ (▲▼)</string>
-    <string name="array_netspeedicons_arrows_long1">↑ ↓</string>
-    <string name="array_netspeedicons_arrows_long2">⇧ ⇩</string>
-    <string name="array_netspeedicons_arrows_small">▵ ▿ ( ▴ ▾ )</string>
-    <string name="array_netspeedicons_bullets">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_no">Без значков</string>
     <string name="array_rainbow">Цвета радуги</string>
     <string name="array_theme">Отслеживать тему</string>
@@ -870,7 +865,6 @@
     <string name="system_ui_statusbar_indicator_vertical_offset">Смещение вверх и вниз</string>
     <string name="system_ui_statusbar_mobile_type_bold">Жирный</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Размер шрифта</string>
-    <string name="system_ui_statusbar_network_speed_Bs">Б/с</string>
     <string name="system_ui_statusbar_network_speed_detailed">Скорость загрузки и скачивания отображаются в две строки</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">Показывать скорость загрузки и скачивания отдельно</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">Настроить</string>
@@ -890,7 +884,6 @@
     <string name="system_ui_statusbar_network_speed_oneKBs">1 КБ/с</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (/с)</string>
     <string name="system_ui_statusbar_network_speed_show_up_down">Показывать увеличение и уменьшение скорости сети</string>
-    <string name="system_ui_statusbar_network_speed_speedunits">KMG</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Интервал обновления скорости сети</string>
     <string name="system_ui_statusbar_temp_fix_cpu">Фиксировать температуру процессора</string>
     <string name="system_ui_statusbar_temp_fix_cpu_desc">Введите количество для /sys/devices/virtual/thermal/thermal_zone*</string>

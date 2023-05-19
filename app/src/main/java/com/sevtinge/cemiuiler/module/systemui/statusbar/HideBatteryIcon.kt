@@ -24,7 +24,10 @@ object HideBatteryIcon : BaseHook() {
                 }
             }
 
-            if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) { //隐藏电池百分号
+            if (!mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") || mPrefsMap.getBoolean(
+                    "system_ui_status_bar_battery_percent_mark"
+                )
+            ) { //隐藏电池百分号
                 (it.thisObject.getObjectAs<TextView>("mBatteryPercentMarkView")).textSize = 0F
             } else if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) { //隐藏电池内的百分比
                 (it.thisObject.getObjectAs<TextView>("mBatteryPercentView")).textSize = 0F
