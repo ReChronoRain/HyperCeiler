@@ -872,6 +872,9 @@
     <string name="system_ui_navigation_handle_custom_width">竖屏宽度</string>
     <string name="system_ui_navigation_handle_custom_width_land">横屏宽度</string>
 
+    <string name="system_ui_notification_title">通知</string>
+    <string name="system_ui_other_notification_fix">禁用通知白名单</string>
+
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
 
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>

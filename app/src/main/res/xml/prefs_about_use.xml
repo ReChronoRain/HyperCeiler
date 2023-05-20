@@ -131,10 +131,17 @@
         </Preference>
         <Preference
             android:title="Miui XXL"
-            android:summary="YuKongA | GPL-3.0">
+            android:summary="tehcneko | GPL-3.0">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/YuKongA/Miui_XXL" />
+                android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix" />
+        </Preference>
+        <Preference
+                android:title="MIUI 通知修复"
+                android:summary="YuKongA | GPL-3.0">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/YuKongA/Miui_XXL" />
         </Preference>
         <Preference
                 android:title="ModemPro"

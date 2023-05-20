@@ -861,6 +861,7 @@
     <string name="system_framework_other_title">Other</string>
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_another_title">Other</string>
+    <string name="system_ui_notification_title">Notification</string>
     <string name="screenrecorder_more_volume">Unlock more Volume from</string>
     <string name="screenrecorder_more_volume_desc">Some version not support</string>
     <string name="phone_double_5g_nr">Double card use 5G (SA+NSA)</string>
@@ -958,5 +959,5 @@
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_accessibility_title">Gesture shortcuts</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
-
+    <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
 </resources>

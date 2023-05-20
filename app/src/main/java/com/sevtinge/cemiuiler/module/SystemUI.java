@@ -117,6 +117,7 @@ public class SystemUI extends BaseModule {
         //Other
         boolean mSeparateVolume = mPrefsMap.getBoolean("system_framework_volume_separate_control") && mPrefsMap.getBoolean("system_framework_volume_separate_slider");
         initHook(new NotificationVolumeSeparateSlider(), mSeparateVolume);
+        initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix"));
 
         //锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
