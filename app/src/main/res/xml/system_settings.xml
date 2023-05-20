@@ -15,12 +15,16 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/system_settings_accessibility_title"
-        android:key="prefs_key_system_settings_accessibility_title">
+    <PreferenceCategory android:title="@string/system_settings_accessibility_title">
         <SwitchPreference
             android:title="@string/system_settings_area_screenshot"
             android:key="prefs_key_system_settings_area_screenshot"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/system_settings_knuckle_function"
+            android:summary="@string/system_settings_knuckle_function_desc"
+            android:key="prefs_key_system_settings_knuckle_function"
             android:defaultValue="false" />
 
     </PreferenceCategory>
