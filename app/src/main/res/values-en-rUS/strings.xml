@@ -959,5 +959,8 @@
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_accessibility_title">Gesture shortcuts</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
+    <string name="system_settings_knuckle_function">Unlock knuckle related functions</string>
+    <string name="system_settings_knuckle_function_desc">Only UI unlocking, do not accept function failure feedback</string>
+
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
 </resources>

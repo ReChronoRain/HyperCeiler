@@ -632,6 +632,8 @@
 
     <string name="system_settings_accessibility_title">快捷手势</string>
     <string name="system_settings_area_screenshot">解锁区域截屏</string>
+    <string name="system_settings_knuckle_function">解锁指关节相关功能</string>
+    <string name="system_settings_knuckle_function_desc">仅 UI 解锁，不接受功能失效反馈</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
