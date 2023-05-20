@@ -28,7 +28,7 @@ import java.util.zip.ZipEntry
 
 
 open class CorePatchForR : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteInit {
-    var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "voyager_config")
+    var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "conf")
 
     @Throws(
         IllegalAccessException::class,
