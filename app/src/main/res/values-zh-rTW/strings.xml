@@ -939,6 +939,7 @@
     <string name="aod">萬象息屏</string>
     <string name="system_settings_area_screenshot">解鎖區域截圖</string>
     <string name="system_settings_accessibility_title">快速啟動手勢</string>
+    <string name="various_disable_access_device_logs">關閉訪問設備日誌確認</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>

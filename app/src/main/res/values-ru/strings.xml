@@ -872,6 +872,7 @@
     <string name="system_ui_statusbar_network_speed_font_size">Размер шрифта скорости сети</string>
     <string name="system_ui_statusbar_network_speed_format_KBs">%d КБ/с</string>
     <string name="system_ui_statusbar_network_speed_format_d_m">%d мин</string>
+    <string name="various_disable_access_device_logs">Отключить диалог запроса журнала доступа устройства</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d мс</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d с</string>
     <string name="system_ui_statusbar_network_speed_hide">Скрыть низкую скорость сети</string>

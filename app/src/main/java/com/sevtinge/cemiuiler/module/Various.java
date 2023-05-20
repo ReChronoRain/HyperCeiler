@@ -23,6 +23,7 @@ public class Various extends BaseModule {
 
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());
         initHook(new DialogCustom(), isMiuiDialogCustom());
+        initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
