@@ -27,13 +27,22 @@
                     android:data="https://github.com/MoralNorm"/>
         </Preference>
         <Preference
-                android:icon="@drawable/ic_yukonga"
+                android:icon="@drawable/ic_linqiqi"
                 android:layout="@layout/preference_round_layout"
-                android:title="YuKongA"
+                android:title="Lin Qiqi"
                 android:summary="Hook">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/YuKongA"/>
+                    android:data="https://github.com/mu7220"/>
+        </Preference>
+        <Preference
+                android:icon="@drawable/ic_voyager"
+                android:layout="@layout/preference_round_layout"
+                android:title="Voyager"
+                android:summary="Hook">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/hosizoraru"/>
         </Preference>
         <Preference
                 android:icon="@drawable/ic_yifeplayte"
