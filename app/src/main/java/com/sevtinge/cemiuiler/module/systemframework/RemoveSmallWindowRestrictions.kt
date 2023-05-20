@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.systemframework
 import android.content.Context
 import com.github.kyuubiran.ezxhelper.utils.*
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XposedBridge
 
 object RemoveSmallWindowRestrictions : BaseHook() {
     override fun init() {
@@ -32,7 +31,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     .setBoolean(param.thisObject, true)
             }
         } catch (e: Throwable) {
-            log("Hook retrieveSettings failed by: $e");
+            log("Hook retrieveSettings failed by: $e")
         }
 
         try {
@@ -44,7 +43,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService,true)
             }
         } catch (e: Throwable) {
-            log("Hook updateDevEnableNonResizableMultiWindow failed by: $e");
+            log("Hook updateDevEnableNonResizableMultiWindow failed by: $e")
         }
 
         try {
@@ -56,7 +55,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService,true)
             }
         } catch (e: Throwable) {
-            log("Hook onChange failed by: $e");
+            log("Hook onChange failed by: $e")
         }
 
         try {
@@ -64,7 +63,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "isForceResizeable"
             }.hookReturnConstant(true)
         } catch (e: Throwable) {
-            log("Hook isForceResizeable failed by: $e");
+            log("Hook isForceResizeable failed by: $e")
         }
 
         // Author: LittleTurtle2333
@@ -73,7 +72,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "isResizeable"
             }.hookReturnConstant(true)
         } catch (e: Throwable) {
-            log("Hook isResizeable failed by: $e");
+            log("Hook isResizeable failed by: $e")
         }
 
         try {
@@ -81,7 +80,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "getFreeformBlackList"
             }.hookReturnConstant(mutableListOf<String>())
         } catch (e: Throwable) {
-            log("Hook getFreeformBlackList failed by: $e");
+            log("Hook getFreeformBlackList failed by: $e")
         }
 
         try {
@@ -89,7 +88,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "getFreeformBlackListFromCloud" && parameterTypes[0] == Context::class.java
             }.hookReturnConstant(mutableListOf<String>())
         } catch (e: Throwable) {
-            log("Hook getFreeformBlackListFromCloud failed by: $e");
+            log("Hook getFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
@@ -97,7 +96,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "getStartFromFreeformBlackListFromCloud"
             }.hookReturnConstant(mutableListOf<String>())
         } catch (e: Throwable) {
-            log("Hook getStartFromFreeformBlackListFromCloud failed by: $e");
+            log("Hook getStartFromFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
@@ -105,7 +104,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "supportFreeform"
             }.hookReturnConstant(true)
         } catch (e: Throwable) {
-            log("Hook supportFreeform failed by: $e");
+            log("Hook supportFreeform failed by: $e")
         }
 
     }
