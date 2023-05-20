@@ -63,6 +63,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="http://www.coolapk.com/u/5816741"/>
         </Preference>
+        <Preference
+                android:title="hamjin">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/hamjin"/>
+        </Preference>
     </PreferenceCategory>
 <Preference android:enabled="false" />
 
