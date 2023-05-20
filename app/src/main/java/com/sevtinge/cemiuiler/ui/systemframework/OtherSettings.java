@@ -87,16 +87,13 @@ public class OtherSettings extends BaseAppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.system_framework_share_menu_test:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Cemiuiler is the best!");
-                sendIntent.setType("*/*");
-                startActivity(Intent.createChooser(sendIntent, null));
-                break;
-
-            case R.id.system_framework_open_with_menu_test:
+        if (item.getItemId() == R.id.system_framework_share_menu_test) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Cemiuiler is the best!");
+            sendIntent.setType("*/*");
+            startActivity(Intent.createChooser(sendIntent, null));
+        } else if (item.getItemId() == R.id.system_framework_open_with_menu_test) {
                 Intent viewIntent = new Intent();
                 viewIntent.setAction(Intent.ACTION_VIEW);
                 new AlertDialog.Builder(this)
@@ -123,7 +120,6 @@ public class OtherSettings extends BaseAppCompatActivity {
                         .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
                         })
                         .show();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
