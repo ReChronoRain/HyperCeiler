@@ -30,6 +30,7 @@
                 app:minValue="0"
                 android:format="%d dp"
                 app:showSeekBarValue="true"
+                app:isPreferenceVisible="false"
                 android:dependency="prefs_key_system_ui_navigation_handle_custom"/>
 
         <!--navigation_home_handle_width land-->
@@ -41,6 +42,7 @@
                 app:minValue="0"
                 android:format="%d dp"
                 app:showSeekBarValue="true"
+                app:isPreferenceVisible="false"
                 android:dependency="prefs_key_system_ui_navigation_handle_custom"/>
 
         <!--navigation_handle_horizontal_margin 30-->
