@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -38,7 +39,7 @@ public class VariousActivity extends BaseAppCompatActivity {
             mDisableBluetoothRestrict = findPreference("prefs_key_various_disable_bluetooth_restrict");
             mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
 
-            mDisableBluetoothRestrict.setVisible(SdkHelper.isAndroidTiramisu());
+            mDisableBluetoothRestrict.setVisible(SdkHelper.IS_MIUI_14 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.S);
             mDisableDeviceLog.setVisible(SdkHelper.isAndroidTiramisu());
 
             mDisableBluetoothRestrict.setOnPreferenceChangeListener((preference, o) -> true);
