@@ -15,7 +15,7 @@ object DisableCleaner : BaseHook() {
         findAndHookMethod("com.android.server.am.OomAdjuster", "shouldKillExcessiveProcesses",
             object : MethodHook() {
                 override fun before(param: MethodHookParam?) {
-                    param?.result = null
+                    param?.result = false
                 }
             }
         )
