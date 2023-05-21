@@ -1,16 +1,19 @@
-package com.sevtinge.cemiuiler.module.miinput;
+package com.sevtinge.cemiuiler.module.miinput
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-import android.content.Context;
+import android.content.Context
+import com.sevtinge.cemiuiler.module.base.BaseHook
 
-public class UnlockKnuckleFunction extends BaseHook {
-    @Override
-    public void init() {
-        findAndHookMethod("com.android.settings.MiuiShortcut$System", "hasKnockFeature", Context.class, new MethodHook() {
-            @Override
-            protected void before(final MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
+object UnlockKnuckleFunction : BaseHook() {
+    override fun init() {
+        findAndHookMethod(
+            "com.android.settings.MiuiShortcut\$System",
+            "hasKnockFeature",
+            Context::class.java,
+            object : MethodHook() {
+                @Throws(Throwable::class)
+                override fun before(param: MethodHookParam) {
+                    param.result = true
+                }
+            })
     }
 }

@@ -1,10 +1,11 @@
 package com.sevtinge.cemiuiler.module;
 
+import android.os.Build;
+
 import com.sevtinge.cemiuiler.module.miinput.UnlockKnuckleFunction;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemsettings.*;
 import com.sevtinge.cemiuiler.module.systemsettings.aiimage.*;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
 
 public class SystemSettings extends BaseModule {
 
@@ -23,8 +24,8 @@ public class SystemSettings extends BaseModule {
         initHook(new UnlockMemc(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_memc"));
         initHook(UnLockAreaScreenshot.INSTANCE, mPrefsMap.getBoolean("system_settings_area_screenshot"));
 
-        if (SdkHelper.isAndroidR()) {
-            initHook(new UnlockKnuckleFunction(), mPrefsMap.getBoolean("system_settings_knuckle_function"));
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+            initHook(UnlockKnuckleFunction.INSTANCE, mPrefsMap.getBoolean("system_settings_knuckle_function"));
         }
     }
 }

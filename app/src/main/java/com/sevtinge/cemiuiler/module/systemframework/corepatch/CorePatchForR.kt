@@ -32,7 +32,7 @@ import java.util.zip.ZipEntry
 
 @Suppress("UNCHECKED_CAST")
 open class CorePatchForR : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteInit {
-    var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "conf")
+    var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "cemiuiler_config")
 
     @Throws(
         IllegalAccessException::class,
