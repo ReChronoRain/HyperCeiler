@@ -13,6 +13,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
 import java.math.BigDecimal
+import java.math.RoundingMode
 import kotlin.math.abs
 
 object ChargingCVP : BaseHook() {
@@ -42,13 +43,13 @@ object ChargingCVP : BaseHook() {
         kotlin.runCatching {
             val usb = BufferedReader(FileReader("/sys/class/power_supply/usb/voltage_now"))
             usbVoltage =
-                BigDecimal(usb.readLine().toDouble() / 1000000.0).setScale(1, BigDecimal.ROUND_HALF_UP).toDouble()
+                BigDecimal(usb.readLine().toDouble() / 1000000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
         }
         kotlin.runCatching {
             val wirelessSupport = File("/sys/class/power_supply/wireless/signal_strength").exists()
             val wireless = BufferedReader(FileReader("/sys/class/power_supply/wireless/voltage_now"))
             wirelessVoltage = if (wirelessSupport) {
-                BigDecimal(wireless.readLine().toDouble() / 1000000.0).setScale(1, BigDecimal.ROUND_HALF_UP).toDouble()
+                BigDecimal(wireless.readLine().toDouble() / 1000000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
             } else 0.0
         }
         val voltage = if (usbVoltage >= wirelessVoltage) usbVoltage else wirelessVoltage

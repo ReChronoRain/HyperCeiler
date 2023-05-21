@@ -1,12 +1,16 @@
 package com.sevtinge.cemiuiler.module.systemframework.corepatch
 
 
+import android.annotation.SuppressLint
 import android.app.AndroidAppHelper
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import android.content.pm.SigningInfo
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap
 import com.sevtinge.cemiuiler.utils.Helpers.log
@@ -26,7 +30,7 @@ import java.security.cert.Certificate
 import java.security.cert.X509Certificate
 import java.util.zip.ZipEntry
 
-
+@Suppress("UNCHECKED_CAST")
 open class CorePatchForR : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteInit {
     var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "conf")
 
@@ -198,6 +202,8 @@ open class CorePatchForR : XposedHelper(), IXposedHookLoadPackage, IXposedHookZy
             loadPackageParam.classLoader,
             "verifyV1Signature",
             object : XC_MethodHook() {
+                @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+                @SuppressLint("PackageManagerGetSignatures")
                 @Throws(Throwable::class)
                 public override fun afterHookedMethod(methodHookParam: MethodHookParam) {
                     if (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak")) {
@@ -210,29 +216,30 @@ open class CorePatchForR : XposedHelper(), IXposedHookLoadPackage, IXposedHookZy
                             }
                         }
                         if (throwable != null || parseErr != null) {
-                            var lastSigns: Array<Signature?>? = null
+                            var lastSigns: Array<SigningInfo?>? = null
                             try {
                                 if (mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature")) {
                                     val PM = AndroidAppHelper.currentApplication().packageManager
                                     if (PM == null) {
-                                        XposedBridge.log("E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MiUI?")
+                                        XposedBridge.log("E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MIUI?")
                                     } else {
                                         val pI: PackageInfo?
                                         pI = if (parseErr != null) {
                                             PM.getPackageArchiveInfo(
                                                 (methodHookParam.args[1] as String),
-                                                0
+                                                PackageManager.PackageInfoFlags.of(0)
                                             )
                                         } else {
                                             PM.getPackageArchiveInfo(
                                                 (methodHookParam.args[0] as String),
-                                                0
+                                                PackageManager.PackageInfoFlags.of(0)
                                             )
                                         }
-                                        val instepI = PM.getPackageInfo(
-                                            pI!!.packageName, PackageManager.GET_SIGNATURES
+                                        lastSigns = arrayOf(PM.getPackageInfo(
+                                            pI!!.packageName, PackageManager.PackageInfoFlags.of(
+                                                PackageManager.GET_SIGNING_CERTIFICATES.toLong()
+                                            )).signingInfo
                                         )
-                                        lastSigns = instepI.signatures
                                     }
                                 }
                             } catch (ignored: Throwable) {
@@ -269,7 +276,7 @@ open class CorePatchForR : XposedHelper(), IXposedHookLoadPackage, IXposedHookZy
                                         ASV,
                                         "convertToSignatures",
                                         lastCerts as Any
-                                    ) as Array<Signature?>
+                                    ) as? Array<SigningInfo?>
                                 }
                             } catch (ignored: Throwable) {
                             }

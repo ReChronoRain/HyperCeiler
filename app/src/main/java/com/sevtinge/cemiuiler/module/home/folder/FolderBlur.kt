@@ -43,7 +43,6 @@ object FolderBlur : BaseHook() {
                     val folderInfo = "com.miui.home.launcher.FolderInfo".findClass()
                     val launcherClass = "com.miui.home.launcher.Launcher".findClass()
                     val blurUtilsClass = "com.miui.home.launcher.common.BlurUtils".findClass()
-                    val navStubViewClass = "com.miui.home.recents.NavStubView".findClass()
                     val cancelShortcutMenuReasonClass =
                         "com.miui.home.launcher.shortcuts.CancelShortcutMenuReason".findClass()
 

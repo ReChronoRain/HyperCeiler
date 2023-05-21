@@ -32,7 +32,6 @@ object BlurWhenShowShortcutMenu : BaseHook() {
         val blurUtilsClass: Class<*> = findClassIfExists("com.miui.home.launcher.common.BlurUtils")
         val applicationClass: Class<*> = findClassIfExists("com.miui.home.launcher.Application")
         val utilitiesClass: Class<*> = findClassIfExists("com.miui.home.launcher.common.Utilities")
-        val launcherStateClass: Class<*> = findClassIfExists("com.miui.home.launcher.LauncherState")
         val DragViewClass: Class<*> = findClassIfExists("com.miui.home.launcher.DragView")
 
         val allBluredDrawable: MutableList<Drawable> = ArrayList()
