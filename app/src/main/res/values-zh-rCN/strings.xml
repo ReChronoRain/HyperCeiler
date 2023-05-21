@@ -567,6 +567,10 @@
     <string name="security_center_blurradius">全局侧边栏背景模糊程度</string>
     <string name="security_center_color">全局侧边栏背景叠加层颜色</string>
     <string name="security_center_other_title">其他</string>
+    <string name="security_center_sidebar_line_color">全局侧边栏提示线自定义</string>
+    <string name="security_center_sidebar_line_color_default">默认全局侧边栏提示线颜色</string>
+    <string name="security_center_sidebar_line_color_dark">深色背景下全局侧边栏提示线颜色</string>
+    <string name="security_center_sidebar_line_color_light">浅色背景下全局侧边栏提示线颜色</string>
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>

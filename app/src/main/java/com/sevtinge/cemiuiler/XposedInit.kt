@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
+import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.*
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchMainHook
@@ -57,6 +58,11 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
             "com.miui.home" ->
                 if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
                     EnableIconMonetColor.initResource(resparam)
+                }
+
+            "com.miui.securitycenter" ->
+                if (mPrefsMap.getBoolean("security_center_sidebar_line_color")) {
+                    SidebarLineCustom.initResource(resparam)
                 }
 
             "com.android.systemui" ->

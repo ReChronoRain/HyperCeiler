@@ -986,4 +986,8 @@
     <string name="system_ui_navigation_frame_custom_height">Navigation frame height</string>
     <string name="system_ui_navigation_frame_custom_height_land">Landscape navigation frame height</string>
     <string name="system_ui_navigation_custom">Custom navigation</string>
+    <string name="security_center_sidebar_line_color">Sidebar line color custom</string>
+    <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
+    <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
+    <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
 </resources>
