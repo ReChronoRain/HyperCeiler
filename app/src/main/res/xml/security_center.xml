@@ -156,7 +156,8 @@
         <SwitchPreference
                 android:title="@string/security_center_sidebar_line_color"
                 android:key="prefs_key_security_center_sidebar_line_color"
-                android:defaultValue="false" />
+                android:defaultValue="false"
+                android:enabled="false"/>
 
         <moralnorm.preference.ColorPickerPreference
                 android:persistent="false"
