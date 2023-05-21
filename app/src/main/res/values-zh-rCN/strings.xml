@@ -873,6 +873,14 @@
     <string name="system_ui_navigation_handle_custom_height">高度</string>
     <string name="system_ui_navigation_handle_custom_width">竖屏宽度</string>
     <string name="system_ui_navigation_handle_custom_width_land">横屏宽度</string>
+    <string name="system_ui_navigation_handle_custom_thickness">粗细</string>
+    <string name="system_ui_navigation_handle_custom_color">浅色背景下颜色</string>
+    <string name="system_ui_navigation_handle_custom_color_dark">深色背景下颜色</string>
+    <string name="system_ui_navigation_custom">自定义导航栏</string>
+    <string name="system_ui_navigation_custom_height">竖屏导航栏高度</string>
+    <string name="system_ui_navigation_custom_height_land">横屏导航栏高度</string>
+    <string name="system_ui_navigation_frame_custom_height">竖屏导航栏框架高度</string>
+    <string name="system_ui_navigation_frame_custom_height_land">横屏导航栏框架高度</string>
 
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>

@@ -87,9 +87,9 @@ public class SystemUI extends BaseModule {
 
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
-        //手势提示线
-        initHook(new HandleLineCustom(), mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
-
+        //导航栏
+        initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
+        initHook(new NavigationCustom(), mPrefsMap.getBoolean("system_ui_navigation_custom"));
 
         //实验性功能
         initHook(new SwitchControlPanel(), false);

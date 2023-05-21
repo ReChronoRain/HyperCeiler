@@ -961,6 +961,13 @@
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="system_settings_knuckle_function">Unlock knuckle related functions</string>
     <string name="system_settings_knuckle_function_desc">Only UI unlocking, do not accept function failure feedback</string>
-
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
+    <string name="system_ui_navigation_handle_custom_thickness">Thickness</string>
+    <string name="system_ui_navigation_handle_custom_color">Color when light-mode</string>
+    <string name="system_ui_navigation_handle_custom_color_dark">Color when dark-mode</string>
+    <string name="system_ui_navigation_custom_height">Navigation height</string>
+    <string name="system_ui_navigation_custom_height_land">Landscape navigation height</string>
+    <string name="system_ui_navigation_frame_custom_height">Navigation frame height</string>
+    <string name="system_ui_navigation_frame_custom_height_land">Landscape navigation frame height</string>
+    <string name="system_ui_navigation_custom">Custom navigation</string>
 </resources>

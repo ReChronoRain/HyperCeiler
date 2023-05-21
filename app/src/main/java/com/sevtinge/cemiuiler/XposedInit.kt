@@ -6,6 +6,7 @@ import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.*
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchMainHook
+import com.sevtinge.cemiuiler.module.systemui.navigation.HandleLineCustom
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
@@ -52,10 +53,17 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
                 if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
                     AutoNfc.initResource(resparam)
                 }
+
             "com.miui.home" ->
                 if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
                     EnableIconMonetColor.initResource(resparam)
                 }
+
+            "com.android.systemui" ->
+                if (mPrefsMap.getBoolean("system_ui_navigation_handle_custom")) {
+                    HandleLineCustom.initResource(resparam)
+                }
+
         }
     }
 }
