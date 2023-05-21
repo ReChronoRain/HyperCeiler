@@ -563,7 +563,7 @@
     <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
     <string name="security_center_super_wireless_charge">解锁极速无线充电模式</string>
-    <string name="security_center_blur_model">全局侧边栏背景设置</string>
+    <string name="security_center_blur_model">全局侧边栏背景自定义</string>
     <string name="security_center_blurradius">全局侧边栏背景模糊程度</string>
     <string name="security_center_color">全局侧边栏背景叠加层颜色</string>
     <string name="security_center_other_title">其他</string>
