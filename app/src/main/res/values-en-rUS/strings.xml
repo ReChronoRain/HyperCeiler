@@ -974,4 +974,5 @@
     <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
     <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
+    <string name="security_center_disable_ban">Remove report button</string>
 </resources>

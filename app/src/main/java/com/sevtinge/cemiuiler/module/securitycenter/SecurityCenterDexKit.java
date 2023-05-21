@@ -35,6 +35,7 @@ public class SecurityCenterDexKit extends BaseHook {
                                     .addQuery("SuperWirelessCharge", List.of("persist.vendor.tx.speed.control"))
                                     .addQuery("SuperWirelessChargeTip", List.of("key_is_connected_super_wls_tx"))
                                     .addQuery("Macro2", List.of("pref_gb_unsupport_macro_apps"))
+                                    .addQuery("IsShowReport", List.of("android.intent.action.VIEW", "com.xiaomi.market"))
                                     .matchType(MatchType.CONTAINS)
                                     .build()
                     );

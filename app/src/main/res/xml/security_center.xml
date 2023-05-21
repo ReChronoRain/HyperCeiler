@@ -30,6 +30,11 @@
             android:summary="@string/security_app_summary"
             android:defaultValue="false" />
 
+        <SwitchPreference
+                android:key="prefs_key_security_center_disable_ban"
+                android:title="@string/security_center_disable_ban"
+                android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_battery_title">

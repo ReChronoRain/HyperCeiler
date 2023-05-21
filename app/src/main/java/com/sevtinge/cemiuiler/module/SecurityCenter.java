@@ -25,6 +25,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppRestrict(), mPrefsMap.getBoolean("security_center_app_restrict"));
         initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
+        initHook(new DisableReport(), mPrefsMap.getBoolean("security_center_disable_ban"));
 
         //省电与电池
         //initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
