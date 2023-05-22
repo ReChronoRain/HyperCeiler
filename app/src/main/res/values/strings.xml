@@ -980,7 +980,7 @@
     <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
     <string name="system_ui_notification_title">Notification</string>
     <string name="system_settings_knuckle_function">Unlock knuckle related functions</string>
-    <string name="system_settings_knuckle_function_desc">Only UI unlocking, do not accept function failure feedback</string>
+    <string name="system_settings_knuckle_function_desc">Experimental features\nPlease restart after enabling Settings, Input Settings Scope\nCurrently only unlocks the UI interface</string>
     <string name="system_ui_navigation_custom_height">Navigation height</string>
     <string name="system_ui_navigation_custom_height_land">Landscape navigation height</string>
     <string name="system_ui_navigation_frame_custom_height">Navigation frame height</string>
@@ -992,5 +992,8 @@
     <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
     <string name="security_center_disable_ban">Remove report button</string>
     <string name="system_ui_lock_screen_unlock_notice">Face unlock</string>
-    <string name="system_ui_lock_screen_unlock_notice_desc">After face recognition, it is only used to view hidden notifications</string>
+    <string name="system_ui_lock_screen_unlock_notice_desc">After face recognition, it is only used to view hidden notifications
+When using this feature, please turn on Smart Display lock screen notifications (Settings -> Fingerprint, Face &amp; Password -> Face Unlock)
+If you do not need to use the smart display lock screen notification, please turn off this function</string>
+    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
 </resources>

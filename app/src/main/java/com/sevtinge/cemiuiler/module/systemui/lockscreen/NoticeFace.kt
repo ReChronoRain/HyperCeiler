@@ -7,25 +7,25 @@ import de.robv.android.xposed.XposedHelpers
 
 object NoticeFace : BaseHook() {
     private val mKeyguardUpdateMonitor =
-        XposedHelpers.findClass("com.android.keyguard.KeyguardUpdateMonitor", lpparam.classLoader)
+        findClass("com.android.keyguard.KeyguardUpdateMonitor", lpparam.classLoader)
 
     private val mNotificationEntry =
-        XposedHelpers.findClass("com.android.systemui.statusbar.notification.collection.NotificationEntry", lpparam.classLoader)
+        findClass("com.android.systemui.statusbar.notification.collection.NotificationEntry", lpparam.classLoader)
 
     private val mDependency =
-        XposedHelpers.findClass("com.android.systemui.Dependency", lpparam.classLoader)
+        findClass("com.android.systemui.Dependency", lpparam.classLoader)
 
     private val mNotificationViewHierarchyManager =
-        XposedHelpers.findClass("com.android.systemui.statusbar.NotificationViewHierarchyManager", lpparam.classLoader)
+        findClass("com.android.systemui.statusbar.NotificationViewHierarchyManager", lpparam.classLoader)
 
     private val mMiuiFaceUnlockManager =
-        XposedHelpers.findClass("com.android.keyguard.faceunlock.MiuiFaceUnlockManager", lpparam.classLoader)
+        findClass("com.android.keyguard.faceunlock.MiuiFaceUnlockManager", lpparam.classLoader)
 
     private val mHapticFeedBackImpl =
-        XposedHelpers.findClass("com.miui.systemui.util.HapticFeedBackImpl", lpparam.classLoader)
+        findClass("com.miui.systemui.util.HapticFeedBackImpl", lpparam.classLoader)
 
     private val mKeyguardUpdateMonitorInjector =
-        XposedHelpers.findClass("com.android.keyguard.injector.KeyguardUpdateMonitorInjector", lpparam.classLoader)
+        findClass("com.android.keyguard.injector.KeyguardUpdateMonitorInjector", lpparam.classLoader)
 
     var flag = false
 

@@ -638,7 +638,7 @@
     <string name="system_settings_accessibility_title">快捷手势</string>
     <string name="system_settings_area_screenshot">解锁区域截屏</string>
     <string name="system_settings_knuckle_function">解锁指关节相关功能</string>
-    <string name="system_settings_knuckle_function_desc">实验性功能</string>
+    <string name="system_settings_knuckle_function_desc">实验性功能 \n启用后请重启 设置、输入设置 作用域 \n当前仅解锁 UI 界面</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
@@ -716,7 +716,7 @@
     <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
     <string name="system_ui_lock_screen_unlock_notice">人脸不解锁</string>
-    <string name="system_ui_lock_screen_unlock_notice_desc">人脸识别后仅用于查看隐藏通知</string>
+    <string name="system_ui_lock_screen_unlock_notice_desc">人脸识别后仅用于查看隐藏通知\n使用此功能时请开启 智能显示锁屏通知 (设置 -> 指纹、人脸与密码 -> 人脸解锁)\n如不需要使用 智能显示锁屏通知 请关闭此功能</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
@@ -920,6 +920,7 @@
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
+    <string name="various_unlock_ime_desc">开启后请在 LSPosed 管理器中勾选对应输入法作用域</string>
     <string name="various_collapse_miui_title">MIUI 标题</string>
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
