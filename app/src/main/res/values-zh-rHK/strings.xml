@@ -628,8 +628,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">關閉安裝應用程式時的簽名驗證，可以安裝被竄改的應用程式</string>
     <string name="system_framework_core_patch_digest_creak">停用 APK 簽名校驗</string>
     <string name="system_framework_core_patch_digest_creak_desc">允許直接覆蓋安裝同包名且不同簽名的應用程式</string>
-    <string name="system_framework_core_patch_downgr">允許降級安裝應用程式</string>
-    <string name="system_framework_core_patch_downgr_desc">允許應用程式在安裝新版本的情況下直接覆蓋安裝舊版本</string>
+    <string name="system_framework_core_patch_down_grade">允許降級安裝應用程式</string>
+    <string name="system_framework_core_patch_down_grade_desc">允許應用程式在安裝新版本的情況下直接覆蓋安裝舊版本</string>
     <string name="system_framework_core_patch_enhanced_mode">增強模式</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">可以解決一些應用程式內部的完整性校驗，一般不需要開啟</string>
     <string name="system_framework_core_patch_use_pre_signature">安裝時始終使用已安裝應用程式的簽名</string>
