@@ -640,8 +640,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">Позволяет устанавку приложения после изменения apk (игнорирует ошибку неверной подписи)</string>
     <string name="system_framework_core_patch_digest_creak">Отключить сравнение подписей</string>
     <string name="system_framework_core_patch_digest_creak_desc">Позволяет повторную установку приложения с другими подписями</string>
-    <string name="system_framework_core_patch_downgr">Разрешить понижение версии</string>
-    <string name="system_framework_core_patch_downgr_desc">Позволяет понизить версию приложений</string>
+    <string name="system_framework_core_patch_down_grade">Разрешить понижение версии</string>
+    <string name="system_framework_core_patch_down_grade_desc">Позволяет понизить версию приложений</string>
     <string name="system_framework_core_patch_enhanced_mode">Расширенный режим</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Пройдите проверку в приложении</string>
     <string name="system_framework_core_patch_use_pre_signature">Использовать установленные подписи</string>
