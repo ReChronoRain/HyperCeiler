@@ -85,7 +85,7 @@ dependencies {
 
     compileOnly(roots.XposedApi)
 
-    implementation 'org.luckypray:DexKit:1.1.7'
+    implementation 'org.luckypray:DexKit:1.1.8'
     implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
