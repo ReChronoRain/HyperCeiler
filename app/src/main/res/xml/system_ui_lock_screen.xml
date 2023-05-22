@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
 
         <SwitchPreference
-                android:title="@string/system_ui_lock_screen_show_second"
-                android:summary="@string/system_ui_lock_screen_default_theme"
-                android:key="prefs_key_system_ui_lock_screen_show_second"
-                android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_show_second"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_show_second" />
 
         <SwitchPreference
-                android:title="@string/system_ui_lock_screen_hide_camera"
-                android:summary="@string/system_ui_lock_screen_default_theme"
-                android:key="prefs_key_system_ui_lock_screen_hide_camera"
-                android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_hide_camera"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_hide_camera" />
 
         <SwitchPreference
-                android:title="@string/system_ui_lock_screen_hide_smart_screen"
-                android:summary="@string/system_ui_lock_screen_default_theme"
-                android:key="prefs_key_system_ui_lock_screen_hide_smart_screen"
-                android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_hide_smart_screen"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_hide_smart_screen" />
 
         <SwitchPreference
-                android:title="@string/system_ui_lock_screen_show_charging_cv"
-                android:summary="@string/system_ui_lock_screen_default_theme"
-                android:key="prefs_key_system_ui_lock_screen_show_charging_cv"
-                android:defaultValue="false"
-                app:isPreferenceVisible="true" />
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_show_charging_cv"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_show_charging_cv"
+            app:isPreferenceVisible="true" />
 
         <SwitchPreference
-                android:title="@string/system_ui_lock_screen_blur_button"
-                android:summary="@string/system_ui_lock_screen_default_theme"
-                android:key="prefs_key_system_ui_lock_screen_blur_button"
-                android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_blur_button"
+            android:summary="@string/system_ui_lock_screen_default_theme"
+            android:title="@string/system_ui_lock_screen_blur_button" />
 
 
     </PreferenceCategory>
@@ -41,25 +41,31 @@
     <PreferenceCategory android:title="@string/system_ui_lockscreen_safe_title">
 
         <SwitchPreference
-            android:title="@string/system_ui_lock_screen_scramble_pin"
-            android:summary="@string/system_ui_lock_screen_scramble_pin_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_scramble_pin"
-            android:defaultValue="false" />
+            android:summary="@string/system_ui_lock_screen_scramble_pin_desc"
+            android:title="@string/system_ui_lock_screen_scramble_pin" />
 
         <SwitchPreference
-            android:title="@string/system_ui_lock_screen_password_free"
-            android:summary="@string/system_ui_lock_screen_password_free_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_password_free"
-            android:defaultValue="false" />
+            android:summary="@string/system_ui_lock_screen_password_free_desc"
+            android:title="@string/system_ui_lock_screen_password_free" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
         <SwitchPreference
-            android:title="@string/system_ui_lock_screen_double_lock"
-            android:summary="@string/system_ui_lock_screen_double_lock_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_double_lock"
-            android:defaultValue="false" />
+            android:summary="@string/system_ui_lock_screen_double_lock_desc"
+            android:title="@string/system_ui_lock_screen_double_lock" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_unlock_notice"
+            android:summary="@string/system_ui_lock_screen_unlock_notice_desc"
+            android:title="@string/system_ui_lock_screen_unlock_notice" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 </PreferenceScreen>
