@@ -715,6 +715,8 @@
     <string name="system_ui_lock_screen_blur_button">相机和负一屏按钮背景模糊</string>
     <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
+    <string name="system_ui_lock_screen_unlock_notice">人脸不解锁</string>
+    <string name="system_ui_lock_screen_unlock_notice_desc">人脸识别后仅用于查看隐藏通知</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>

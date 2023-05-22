@@ -991,4 +991,6 @@
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
     <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
     <string name="security_center_disable_ban">Remove report button</string>
+    <string name="system_ui_lock_screen_unlock_notice">Face unlock</string>
+    <string name="system_ui_lock_screen_unlock_notice_desc">After face recognition, it is only used to view hidden notifications</string>
 </resources>
