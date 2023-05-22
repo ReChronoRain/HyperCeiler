@@ -1,36 +1,42 @@
 package com.sevtinge.cemiuiler.view
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.text.TextUtils
-import android.widget.TextView
+import android.widget.Toast
+import com.github.kyuubiran.ezxhelper.utils.*
 
-@SuppressLint("ViewConstructor")
-class WeatherView(context: Context?, private val showCity: Boolean) : TextView(context) {
+@SuppressLint("ViewConstructor", "SetTextI18n")
+class WeatherData(val context: Context?, private val showCity: Boolean) {
 
     private val mContext: Context
-    private val weatherUri = Uri.parse("content://weather/weather")
+    private val WEATHER_URI = Uri.parse("content://weather/weather")
     private val mHandler: Handler
     private val mWeatherObserver: ContentObserver?
     private val mWeatherRunnable: WeatherRunnable
+    var weatherData: String = "\n"
+    var callBacks: () -> Unit = {}
 
     init {
         mHandler =
             object : Handler(Looper.getMainLooper()) {
                 override fun handleMessage(message: Message) {
                     val str = message.obj as String
-                    this@WeatherView.text = if (TextUtils.isEmpty(str)) " " else str
+                    weatherData = if (TextUtils.isEmpty(str)) "\n" else "$str\n"
+                    callBacks()
                 }
             }
         mWeatherObserver = WeatherContentObserver(mHandler)
         mContext = context!!
         mWeatherRunnable = WeatherRunnable()
-        context.contentResolver.registerContentObserver(weatherUri, true, mWeatherObserver)
+        context.contentResolver.registerContentObserver(WEATHER_URI, true, mWeatherObserver)
         updateWeatherInfo()
     }
 
@@ -44,7 +50,7 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
         override fun run() {
             var str = ""
             try {
-                val query = mContext.contentResolver.query(weatherUri, null, null, null, null)
+                val query = mContext.contentResolver.query(WEATHER_URI, null, null, null, null)
                 if (query != null) {
                     if (query.moveToFirst()) {
                         str = if (showCity) {
@@ -70,11 +76,28 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
         mHandler.postDelayed(mWeatherRunnable, 200)
     }
 
-    public override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
+    fun onDetachedFromWindow() {
         if (mWeatherObserver != null) {
             mContext.contentResolver.unregisterContentObserver(mWeatherObserver)
         }
     }
 
+    fun startCalendarApp() {
+        mContext.classLoader.loadClass("com.miui.systemui.util.CommonUtil").invokeStaticMethod("startCalendarApp", args(context), argTypes(Context::class.java))
+    }
+
+    fun startWeatherApp() {
+        try {
+            val intent = Intent().apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                component = ComponentName(
+                    "com.miui.weather2",
+                    "com.miui.weather2.ActivityWeatherMain"
+                )
+            }
+            mContext.startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(context, "启动失败", Toast.LENGTH_LONG).show()
+        }
+    }
 }
