@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
-
+    <PreferenceCategory >
         <SwitchPreference
+            app:isPreferenceVisible="false"
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_clock_bold"
             android:title="@string/system_ui_statusbar_indicator_bold" />
@@ -63,6 +63,7 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:disableDependentsState="true"
             android:key="prefs_key_system_ui_statusbar_clock_double"
             android:title="@string/system_ui_statusbar_clock_double" />
 
@@ -73,10 +74,11 @@
 
         <SeekBarPreference
             android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_clock_double"
             android:key="prefs_key_system_ui_statusbar_clock_size"
             android:title="@string/system_ui_statusbar_clock_size"
-            app:format="%s dp"
-            app:maxValue="18"
+            android:format="%s dp"
+            app:maxValue="20"
             app:minValue="0"
             app:showSeekBarValue="true" />
 
@@ -84,8 +86,8 @@
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_double_size"
             android:title="@string/system_ui_statusbar_clock_double_size"
-            app:format="%s dp"
-            app:maxValue="9"
+            android:format="%s dp"
+            app:maxValue="14"
             app:minValue="0"
             app:showSeekBarValue="true" />
 
@@ -116,8 +118,8 @@
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_size_geek"
             android:title="@string/system_ui_statusbar_clock_size"
-            app:format="%s dp"
-            app:maxValue="18"
+            android:format="%s dp"
+            app:maxValue="20"
             app:minValue="0"
             app:showSeekBarValue="true" />
     </PreferenceCategory>

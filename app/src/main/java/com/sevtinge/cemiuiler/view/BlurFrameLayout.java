@@ -57,7 +57,7 @@ public class BlurFrameLayout {
         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                mViewRootImpl = XposedHelpers.callMethod(v,"getViewRootImpl",new Object[0]);
+                mViewRootImpl = XposedHelpers.callMethod(v,"getViewRootImpl");
                 mBlurDrawable = (Drawable) XposedHelpers.callMethod(mViewRootImpl,"createBackgroundBlurDrawable",new Object[0]);
                 setBackgroundDrawable(mContext, v, isBlurEnable, mBgColor, mBgAlpha, mBgCornerRadius, mBlurRadius);
             }
@@ -89,11 +89,11 @@ public class BlurFrameLayout {
     }
 
     public void setCornerRadius(int cornerRadius) {
-        XposedHelpers.callMethod(mBlurDrawable,"setCornerRadius",new Object[]{cornerRadius});
+        XposedHelpers.callMethod(mBlurDrawable,"setCornerRadius", cornerRadius);
     }
 
     public void setBlurRadius(int blurRadius) {
-        XposedHelpers.callMethod(mBlurDrawable,"setBlurRadius",new Object[]{blurRadius});
+        XposedHelpers.callMethod(mBlurDrawable,"setBlurRadius", blurRadius);
     }
 
     private GradientDrawable createGradientDrawable(Context context, int color, int alpha, int cornerRadius) {

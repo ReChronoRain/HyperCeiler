@@ -2,8 +2,8 @@ package com.sevtinge.cemiuiler.module.home.folder
 
 import android.view.ViewGroup
 import android.widget.GridView
-import com.github.kyuubiran.ezxhelper.utils.loadClass
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.findClass
 import com.sevtinge.cemiuiler.utils.hookAfterAllMethods
 import de.robv.android.xposed.XposedHelpers
 
@@ -12,7 +12,7 @@ object FolderColumns : BaseHook() {
 
         val value = mPrefsMap.getInt("home_folder_columns", 3)
         if (value == 3) return
-        loadClass("com.miui.home.launcher.Folder").hookAfterAllMethods(
+        "com.miui.home.launcher.Folder".findClass().hookAfterAllMethods(
             "bind"
         ) {
             val columns: Int = value

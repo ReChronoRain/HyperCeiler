@@ -17,17 +17,19 @@ android {
         applicationId "com.sevtinge.cemiuiler"
         minSdk 30
         targetSdk 33
-        versionCode 102
-        versionName "1.0.102"
+        versionCode 112
+        versionName "1.0.112"
         project.archivesBaseName = "Cemiuiler"
         applicationVariants.configureEach { variant ->
-            variant.outputs.all {
+            variant.outputs.configureEach {
                 outputFileName = project.archivesBaseName + "_" + versionName + "(" + versionCode + ")_" + variant.buildType.name + ".apk"
             }
         }
     }
-    
 
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildTypes {
         release {
@@ -51,15 +53,15 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_19
-        targetCompatibility JavaVersion.VERSION_19
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_19.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
-    packaging {
+    packagingOptions {
         resources {
             excludes += "/META-INF/**"
             excludes += "/kotlin/**"
@@ -83,13 +85,13 @@ dependencies {
 
     compileOnly(roots.XposedApi)
 
-    implementation 'org.luckypray:DexKit:1.1.4'
+    implementation 'org.luckypray:DexKit:1.1.7'
     implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
     implementation "com.google.code.gson:gson:2.10.1"
 
-    implementation "androidx.core:core:$AndroidXCoreVersion"
+    implementation roots.AndroidXCore
     implementation roots.AndroidXCollection
     implementation roots.AndroidXRecyclerview
     implementation roots.AndroidXFragment
@@ -98,6 +100,7 @@ dependencies {
     implementation roots.AndroidXVectorDrawableAnimated
     implementation roots.AndroidXCustomView
     implementation roots.AndroidXCustomViewPoolingContainer
+    implementation roots.AndroidXConstraintLayout
 
     implementation files(roots.animation)
     implementation files(roots.annotation)

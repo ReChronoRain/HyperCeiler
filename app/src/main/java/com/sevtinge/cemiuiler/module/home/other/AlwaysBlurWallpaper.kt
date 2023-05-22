@@ -16,5 +16,16 @@ object AlwaysBlurWallpaper : BaseHook() {
             it.args[2] = true
         }
 
+        /*findAndHookMethod(
+            "com.miui.home.launcher.common.BlurUtils",
+            "fastBlur",
+            object : MethodHook(4) {
+                override fun before(param: MethodHookParam?) {
+                    if (param != null) {
+                        param.args[0] = value.toFloat() / 100
+                        param.args[2] = true
+                    }
+                }
+        })*/
     }
 }

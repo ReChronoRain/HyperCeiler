@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemsettings;
 
-import android.content.Context;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import de.robv.android.xposed.XC_MethodHook;
 

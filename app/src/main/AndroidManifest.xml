@@ -163,36 +163,104 @@
 
         <activity android:label="@string/system_ui_plugin" android:name=".ui.SystemUIPluginActivity"/>
 
-        <activity android:label="@string/settings_safe_mode" android:name=".ui.settings.SafeModeActivity"/>
+        <activity
+            android:label="@string/settings_safe_mode"
+            android:name=".ui.settings.SafeModeActivity" />
 
-        <activity android:label="@string/mtb" android:name=".ui.MtbActivity"/>
+        <activity
+            android:label="@string/mtb"
+            android:name=".ui.MtbActivity" />
 
-        <activity android:label="@string/phone" android:name=".ui.PhoneActivity"/>
+        <activity
+            android:label="@string/phone"
+            android:name=".ui.PhoneActivity" />
 
-        <activity android:label="@string/fileexplorer" android:name=".ui.FileExplorerActivity"/>
+        <activity
+            android:label="@string/fileexplorer"
+            android:name=".ui.FileExplorerActivity" />
 
-        <activity android:label="@string/system_framework_free_form_title" android:name=".ui.systemframework.FreeFormSettings"/>
-        <activity android:label="@string/system_framework_volume_title" android:name=".ui.systemframework.VolumeSettings"/>
-        <activity android:label="@string/system_framework_phone_title" android:name=".ui.systemframework.NetworkSettings"/>
-        <activity android:label="@string/system_framework_other_title" android:name=".ui.systemframework.OtherSettings"/>
+        <activity
+            android:label="@string/downloads"
+            android:name=".ui.DownloadsActivity" />
 
-        <activity android:label="@string/system_ui_lockscreen_title" android:name=".ui.systemui.LockScreenActivity"/>
-        <activity android:label="@string/system_ui_statusbar_title" android:name=".ui.systemui.StatusBarActivity"/>
-        <activity android:label="@string/system_ui_statusbar_iconmanage_title" android:name=".ui.systemui.statusbar.IconManageActivity"/>
-        <activity android:label="@string/system_ui_statusbar_network_speed_indicator_title" android:name=".ui.systemui.statusbar.NetworkSpeedIndicatorActivity"/>
-        <activity android:label="@string/system_ui_statusbar_clock_title" android:name=".ui.systemui.statusbar.ClockIndicatorActivity"/>
-        <activity android:label="@string/system_ui_statusbar_device_title" android:name=".ui.systemui.statusbar.BatteryDetailIndicatorActivity"/>
-        <activity android:label="@string/system_ui_controlcenter_title" android:name=".ui.systemui.ControlCenterActivity"/>
-        <activity android:label="@string/system_ui_other_title" android:name=".ui.systemui.OtherActivity"/>
-        <activity android:label="@string/system_ui_status_bar_battery_indicator_title" android:name=".ui.systemui.statusbar.BatteryIndicatorActivity"/>
+        <activity
+            android:label="@string/aod"
+            android:name=".ui.AodActivity" />
 
-        <activity android:label="@string/home_gesture" android:name=".ui.home.HomeGestureActivity"/>
-        <activity android:label="@string/home_layout" android:name=".ui.home.HomeLayoutActivity"/>
-        <activity android:label="@string/home_folder" android:name=".ui.home.HomeFolderActivity"/>
-        <activity android:label="@string/home_drawer" android:name=".ui.home.HomeDrawerActivity"/>
-        <activity android:label="@string/home_title" android:name=".ui.home.HomeTitleActivity"/>
-        <activity android:label="@string/home_recent" android:name=".ui.home.HomeRecentActivity"/>
-        <activity android:label="@string/home_widget" android:name=".ui.home.HomeWidgetActivity"/>
+        <activity
+            android:label="@string/floating_window"
+            android:name=".ui.systemframework.FreeFormSettings" />
+        <activity
+            android:label="@string/system_framework_volume_title"
+            android:name=".ui.systemframework.VolumeSettings" />
+        <activity
+            android:label="@string/system_framework_phone_title"
+            android:name=".ui.systemframework.NetworkSettings" />
+        <activity
+            android:label="@string/system_framework_other_title"
+            android:name=".ui.systemframework.OtherSettings" />
+
+        <activity
+            android:label="@string/system_ui_lockscreen_title"
+            android:name=".ui.systemui.LockScreenActivity" />
+        <activity
+            android:label="@string/system_ui_statusbar_title"
+            android:name=".ui.systemui.StatusBarActivity" />
+        <activity
+                android:label="@string/system_ui_navigation_title"
+                android:name=".ui.systemui.NavigationActivity" />
+        <activity
+            android:label="@string/system_ui_statusbar_iconmanage_title"
+            android:name=".ui.systemui.statusbar.IconManageActivity" />
+        <activity
+            android:label="@string/system_ui_statusbar_network_speed_indicator_title"
+            android:name=".ui.systemui.statusbar.NetworkSpeedIndicatorActivity" />
+        <activity
+            android:label="@string/system_ui_statusbar_clock_title"
+            android:name=".ui.systemui.statusbar.ClockIndicatorActivity" />
+        <activity
+            android:label="@string/system_ui_statusbar_device_title"
+            android:name=".ui.systemui.statusbar.BatteryDetailIndicatorActivity" />
+        <activity
+            android:label="@string/system_ui_statusbar_iconmanage_mobile_network_title"
+            android:name=".ui.systemui.statusbar.DoubleLineNetworkActivity" />
+        <activity
+            android:label="@string/system_ui_status_bar_mobile_type_single_title"
+            android:name=".ui.systemui.statusbar.MobileNetworkTypeActivity" />
+        <activity
+            android:label="@string/system_ui_controlcenter_title"
+            android:name=".ui.systemui.ControlCenterActivity" />
+        <activity
+            android:label="@string/system_ui_hardware_title"
+            android:name=".ui.systemui.HardwareActivity" />
+        <activity
+            android:label="@string/system_ui_other_title"
+            android:name=".ui.systemui.OtherActivity" />
+        <activity
+            android:label="@string/system_ui_status_bar_battery_indicator_title"
+            android:name=".ui.systemui.statusbar.BatteryIndicatorActivity" />
+
+        <activity
+            android:label="@string/home_gesture"
+            android:name=".ui.home.HomeGestureActivity" />
+        <activity
+            android:label="@string/home_layout"
+            android:name=".ui.home.HomeLayoutActivity" />
+        <activity
+            android:label="@string/home_folder"
+            android:name=".ui.home.HomeFolderActivity" />
+        <activity
+            android:label="@string/home_drawer"
+            android:name=".ui.home.HomeDrawerActivity" />
+        <activity
+            android:label="@string/home_title"
+            android:name=".ui.home.HomeTitleActivity" />
+        <activity
+            android:label="@string/home_recent"
+            android:name=".ui.home.HomeRecentActivity" />
+        <activity
+            android:label="@string/home_widget"
+            android:name=".ui.home.HomeWidgetActivity" />
         <activity android:label="@string/home_dock" android:name=".ui.home.HomeDockActivity"/>
         <activity android:label="@string/home_other" android:name=".ui.home.HomeOtherActivity"/>
 

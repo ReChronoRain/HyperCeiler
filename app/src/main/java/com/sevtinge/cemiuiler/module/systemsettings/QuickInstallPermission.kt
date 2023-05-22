@@ -1,14 +1,8 @@
 package com.sevtinge.cemiuiler.module.systemsettings
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import com.github.kyuubiran.ezxhelper.utils.Log
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.invokeMethod
-import com.github.kyuubiran.ezxhelper.utils.paramCount
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.setObjectField
 
 class QuickInstallPermission : BaseHook() {

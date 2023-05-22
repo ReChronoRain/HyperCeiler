@@ -31,6 +31,12 @@
             android:title="@string/settings_reboot"
             android:key="prefs_key_settings_reboot" />
 
+        <SwitchPreference
+                android:title="@string/disable_detailed_log"
+                android:summary="@string/disable_detailed_log_desc"
+                android:key="prefs_key_settings_disable_detailed_log"
+                android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_data_title">
@@ -71,7 +77,6 @@
                 android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
         </Preference>
     </PreferenceCategory>-->
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

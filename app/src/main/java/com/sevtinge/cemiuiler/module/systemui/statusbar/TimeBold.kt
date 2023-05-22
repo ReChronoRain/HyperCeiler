@@ -8,12 +8,6 @@ import de.robv.android.xposed.XposedHelpers
 
 
 object TimeBold : BaseHook() {
-    private fun initClockStyle(mClock: TextView) {
-        if (mPrefsMap.getBoolean("system_statusbar_clock_bold")) {
-            mClock.typeface = Typeface.DEFAULT_BOLD
-        }
-    }
-
     override fun init() {
         Helpers.findAndHookMethod(
             "com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView",
@@ -22,8 +16,14 @@ object TimeBold : BaseHook() {
             object : MethodHook() {
                 @Throws(Throwable::class)
                 override fun after(param: MethodHookParam) {
-                    val clock = XposedHelpers.getObjectField(param.thisObject, "mMiuiClock") as TextView
-                    initClockStyle(clock)
+                    val clock =
+                        XposedHelpers.getObjectField(param.thisObject, "mMiuiClock") as TextView
+                    val clockName =
+                        XposedHelpers.getAdditionalInstanceField(clock, "clockName") as String
+                    val statusBarClock = clockName == "clock"
+                    if (!statusBarClock) {
+                        clock.typeface = Typeface.DEFAULT_BOLD
+                    }
                 }
             }
         )

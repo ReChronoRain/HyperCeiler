@@ -25,6 +25,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppRestrict(), mPrefsMap.getBoolean("security_center_app_restrict"));
         initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
+        initHook(new DisableReport(), mPrefsMap.getBoolean("security_center_disable_ban"));
 
         //省电与电池
         //initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
@@ -45,7 +46,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new BeautyPc(), mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         //其他
-        initHook(new LockOneHundredPoints());
+        initHook(new LockOneHundredPoints(), mPrefsMap.getBoolean("security_center_score"));
         initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
         initHook(new DisableRootCheck(), mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
@@ -61,6 +62,7 @@ public class SecurityCenter extends BaseModule {
         //
         initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
         initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
+        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
 
     }
 }

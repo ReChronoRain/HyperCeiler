@@ -35,6 +35,7 @@ public class SecurityCenterDexKit extends BaseHook {
                                     .addQuery("SuperWirelessCharge", List.of("persist.vendor.tx.speed.control"))
                                     .addQuery("SuperWirelessChargeTip", List.of("key_is_connected_super_wls_tx"))
                                     .addQuery("Macro2", List.of("pref_gb_unsupport_macro_apps"))
+                                    .addQuery("IsShowReport", List.of("android.intent.action.VIEW", "com.xiaomi.market"))
                                     .matchType(MatchType.CONTAINS)
                                     .build()
                     );
@@ -43,6 +44,7 @@ public class SecurityCenterDexKit extends BaseHook {
                             BatchFindArgs.builder()
                                     .addQuery("Macro", List.of("pref_gb_unsupport_macro_apps", "gb_game_gunsight", "com.tencent.tmgp.sgame"))
                                     .addQuery("Macro1", List.of("key_macro_toast", "content://com.xiaomi.macro.MacroStatusProvider/game_macro_change"))
+                                    .addQuery("LabUtils", List.of("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable"))
                                     .matchType(MatchType.CONTAINS)
                                     .build()
                     );

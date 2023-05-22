@@ -109,7 +109,6 @@ object TimeCustomization : BaseHook(){
                             val textV = it.thisObject as TextView
                             if (textV.resources.getResourceEntryName(textV.id) == "clock") {
                                 c = it.args[0] as Context
-                                val textV = it.thisObject as TextView
                                 textV.gravity = Gravity.CENTER
                             }
                         } catch (_: Exception) {
@@ -182,7 +181,6 @@ object TimeCustomization : BaseHook(){
                             val textV = it.thisObject as TextView
                             if (textV.resources.getResourceEntryName(textV.id) == "clock") {
                                 c = it.args[0] as Context
-                                val textV = it.thisObject as TextView
                                 textV.gravity = Gravity.CENTER
                             }
                         } catch (_: Exception) {
@@ -330,9 +328,6 @@ object TimeCustomization : BaseHook(){
     }
 
     private fun isZh(context: Context): Boolean {
-        val locale = context.resources.configuration.locale
-        val language = locale.language
-        return language.endsWith("zh")
+        return context.resources.configuration.locales.get(0).language.endsWith("zh")
     }
-
 }

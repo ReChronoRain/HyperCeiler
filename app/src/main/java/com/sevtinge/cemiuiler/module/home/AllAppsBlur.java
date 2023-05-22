@@ -4,9 +4,6 @@ import android.app.Activity;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedHelpers;
-
 public class AllAppsBlur extends BaseHook {
 
     Class<?> mLauncher;

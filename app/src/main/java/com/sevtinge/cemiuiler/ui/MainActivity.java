@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.GlobalActions;
+import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.ui.main.fragment.MainFragment;
 import com.sevtinge.cemiuiler.ui.main.base.BaseMainActivity;
 import com.sevtinge.cemiuiler.utils.ALPermissionManager;
@@ -21,11 +22,14 @@ import com.sevtinge.cemiuiler.view.CustomMultipleChoiceView;
 import java.util.Arrays;
 import java.util.List;
 
+import de.robv.android.xposed.XposedBridge;
 import moralnorm.appcompat.app.AlertDialog;
+
+import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
 
 public class MainActivity extends BaseMainActivity {
 
-    private MainFragment mMainFrag = new MainFragment();
+    private final MainFragment mMainFrag = new MainFragment();
 
     private Intent mIntent = null;
 
@@ -39,6 +43,8 @@ public class MainActivity extends BaseMainActivity {
         }
 
         ALPermissionManager.RootCommand(getPackageCodePath());
+
+        //XposedBridge.log("Cemiuiler: Detail log is " + mPrefsMap.getBoolean("settings_disable_detailed_log") + ".");
 
 
     }
@@ -57,44 +63,38 @@ public class MainActivity extends BaseMainActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.restart_home:
+        if (item.getItemId() == R.id.restart_home) {
+            List<String> mAppName = Arrays.asList(getResources().getStringArray(R.array.restart_apps_name));
+            List<String> mAppPackageName = Arrays.asList(getResources().getStringArray(R.array.restart_apps_packagename));
 
-                List<String> mAppName = Arrays.asList(getResources().getStringArray(R.array.restart_apps_name));
-                List<String> mAppPackageName = Arrays.asList(getResources().getStringArray(R.array.restart_apps_packagename));
+            AlertDialog dialog = new AlertDialog(this);
+            dialog.setTitle(item.getTitle());
 
+            CustomMultipleChoiceView view = new CustomMultipleChoiceView(this);
+            LinearLayout mRoot = new LinearLayout(this);
 
-                AlertDialog dialog = new AlertDialog(this);
-
-                dialog.setTitle(item.getTitle());
-                CustomMultipleChoiceView view = new CustomMultipleChoiceView(this);
-                LinearLayout mRoot = new LinearLayout(this);
-                mRoot.addView(view);
-                view.setData(mAppName, null);
-                view.deselectAll();
-                view.setOnCheckedListener(sparseBooleanArray -> {
-                    dialog.dismiss();
-                    for (int i = 0; i < sparseBooleanArray.size(); i++) {
-                        if (sparseBooleanArray.get(i)) {
-                            switch (i) {
-                                case 4:
-                                    Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
-                                    intent.setPackage("com.android.systemui");
-                                    sendBroadcast(intent);
-                                    break;
-
-                                default:
-                                    restartApp(mAppPackageName.get(i));
-                                    break;
-                            }
+            mRoot.addView(view);
+            view.setData(mAppName, null);
+            view.deselectAll();
+            view.setOnCheckedListener(sparseBooleanArray -> {
+                dialog.dismiss();
+                for (int i = 0; i < sparseBooleanArray.size(); i++) {
+                    if (sparseBooleanArray.get(i)) {
+                        if (i == 4) {
+                            Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
+                            intent.setPackage("com.android.systemui");
+                            sendBroadcast(intent);
+                        } else {
+                            restartApp(mAppPackageName.get(i));
                         }
                     }
-                });
-                dialog.setView(mRoot);
-                dialog.show();
+                }
+            });
+            dialog.setView(mRoot);
+            dialog.show();
 
 
-                /*sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "RestartHome"));*/
+            /*sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "RestartHome"));*/
 
                 /*String[] mAppName = new String[] {"桌面", "设置", "手机管家", "主题壁纸", "智能助理", "系统界面", "全选"};
                 String[] mAppPackageName = new String[] {"com.miui.home",
@@ -141,14 +141,9 @@ public class MainActivity extends BaseMainActivity {
                     }
                 });
                 builder.show();*/
-                break;
-
-            case R.id.settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
+        } else if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

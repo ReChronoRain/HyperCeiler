@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/camera_shot_title">
+    <PreferenceCategory android:title="@string/shot">
 
         <SwitchPreference
                 android:title="@string/camera_shot_hand_gesture"
@@ -22,7 +22,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/camera_record_title">
+    <PreferenceCategory android:title="@string/record">
 
         <SwitchPreference
                 android:title="@string/camera_record_60fps"
@@ -53,7 +53,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/camera_portrait_title">
+    <PreferenceCategory android:title="@string/portrait">
 
         <SwitchPreference
                 android:title="@string/camera_portrait_cvlens"
@@ -69,7 +69,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/camera_pro_title">
+    <PreferenceCategory android:title="@string/camera_pro">
 
         <SwitchPreference
                 android:title="@string/camera_pro_raw"
@@ -83,7 +83,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/camera_features_title">
+    <PreferenceCategory android:title="@string/feature">
 
         <SwitchPreference
                 android:title="@string/camera_features_unlock_aiwatermark"
@@ -215,7 +215,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/camera_settings_title">
+    <PreferenceCategory android:title="@string/settings">
 
         <SwitchPreference
                 android:title="@string/camera_settings_track_focus"
@@ -255,7 +255,6 @@
 
     </PreferenceCategory>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

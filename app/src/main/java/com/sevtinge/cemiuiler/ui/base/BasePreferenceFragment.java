@@ -7,9 +7,10 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.PreferenceFragmentCompat;
 import moralnorm.preference.PreferenceManager;
+import moralnorm.preference.material.MaterialPreferenceFragmentCompat;
 
 
-public class BasePreferenceFragment extends PreferenceFragmentCompat {
+public class BasePreferenceFragment extends MaterialPreferenceFragmentCompat {
 
     public void onCreate(Bundle savedInstanceState, int prefs_default) {
         super.onCreate(savedInstanceState);

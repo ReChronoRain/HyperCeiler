@@ -53,7 +53,7 @@
                 android:defaultValue="20"
                 android:key="prefs_key_task_view_corners"
                 android:title="@string/home_recent_task_view_card_rounded_corners"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:maxValue="100"
                 app:showSeekBarValue="true" />
 
@@ -61,7 +61,7 @@
                 android:defaultValue="40"
                 android:key="prefs_key_task_view_header_height"
                 android:title="@string/home_recent_app_name_distance_task_view_card"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:maxValue="150"
                 app:showSeekBarValue="true" />
 
@@ -71,14 +71,14 @@
             android:defaultValue="100"
             app:maxValue="500"
             app:minValue="10"
-            app:format="%s / 100 f"
+            android:format="%s / 100 f"
             app:showSeekBarValue="true"/>
 
         <SeekBarPreference
                 android:defaultValue="100"
                 android:key="prefs_key_task_view_horizontal1"
                 android:title="@string/home_recent_horizontal_task_view_card_size1"
-                app:format="%d / 100 f"
+                android:format="%d / 100 f"
                 app:maxValue="150"
                 app:minValue="50"
                 app:showSeekBarValue="true" />
@@ -87,7 +87,7 @@
                 android:defaultValue="100"
                 android:key="prefs_key_task_view_horizontal2"
                 android:title="@string/home_recent_horizontal_task_view_card_size2"
-                app:format="%d / 100 f"
+                android:format="%d / 100 f"
                 app:maxValue="150"
                 app:minValue="50"
                 app:showSeekBarValue="true" />
@@ -96,7 +96,7 @@
                 android:defaultValue="100"
                 android:key="prefs_key_home_recent_vertical_task_view_card_size"
                 android:title="@string/home_recent_vertical_task_view_card_size"
-                app:format="%d / 100 f"
+                android:format="%d / 100 f"
                 app:maxValue="150"
                 app:minValue="50"
                 app:showSeekBarValue="true" />
@@ -105,7 +105,7 @@
                 android:defaultValue="14"
                 android:key="prefs_key_home_recent_text_size"
                 android:title="@string/home_recent_text_size"
-                app:format="%d f"
+                android:format="%d f"
                 app:maxValue="30"
                 app:minValue="0"
                 app:showSeekBarValue="true" />
@@ -126,7 +126,6 @@
 
     </PreferenceCategory>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

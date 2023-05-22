@@ -6,10 +6,10 @@
         <SwitchPreference
                 android:defaultValue="false"
                 android:key="prefs_key_miwallpaper_unlock_super_wallpaper"
-                android:title="@string/miwallpaper_unlock_super_wallpaper" />
+                android:title="@string/miwallpaper_unlock_super_wallpaper"
+                android:summary="@string/disable_detailed_log_desc"/>
 
     </PreferenceCategory>
-    <Preference
-            android:summary=""/>
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

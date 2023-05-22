@@ -22,7 +22,7 @@
         <attr name="bubble_seekbar_distance" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="SeekBarPreference">
+    <!--<declare-styleable name="SeekBarPreference">
         <attr name="android:defaultValue" />
         <attr name="minValue" format="integer" />
         <attr name="maxValue" format="integer" />
@@ -35,7 +35,7 @@
         <attr name="offtext" format="string" />
         <attr name="dynamic" format="boolean" />
         <attr name="child" format="boolean" />
-    </declare-styleable>
+    </declare-styleable>-->
 
     <declare-styleable name="CircleImageView">
         <attr name="border_width" format="dimension" />
@@ -52,5 +52,45 @@
         <attr name="negativeContent" format="reference" />
         <attr name="negativeTitle" format="string" />
         <attr name="negativeDescription" format="string" />
+    </declare-styleable>
+
+    <!-- Default style for seekbar preferences. -->
+    <attr name="seekBarPreferenceExStyle" format="reference" />
+
+    <declare-styleable name="SeekBarPreferenceEx">
+        <attr name="note" format="string" />
+        <attr name="format" format="string" />
+        <attr name="minValue" format="integer" />
+        <attr name="maxValue" format="integer" />
+        <attr name="stepValue" format="integer" />
+        <attr name="showPlus" format="boolean" />
+        <attr name="negativeShift" format="integer" />
+
+        <attr name="dialogEnabled" format="boolean" />
+        <attr name="saveDisplayValue" format="boolean" />
+        <attr name="defaultValueText" format="string" />
+        <attr name="displayDividerValue" format="integer" />
+
+        <!-- Flag indicating whether the TextView next to the seekbar that shows the current seekbar
+        value will be displayed. If true, the view is VISIBLE; if false, the view will be GONE.
+        By default, this view is GONE. -->
+        <attr name="showSeekBarValue" format="boolean" />
+
+        <attr name="android:layout" />
+        <attr name="android:format"/>
+        <attr name="android:defaultValue" />
+        <!--Attribute controlling the amount to increment or decrement the seekbar when the user
+        presses the arrow keys-->
+        <attr name="seekBarIncrement" format="integer" />
+        <!-- Attribute indicating whether the slider within this preference can be adjusted, that is
+        pressing left/right keys when this preference is focused will move the slider accordingly
+        (e.g. inline adjustable preferences). False, if the slider within the preference is
+        read-only and cannot be adjusted. By default, the seekbar is adjustable. -->
+        <attr name="adjustable" format="boolean" />
+        <!-- Flag indicating whether the SeekBarPreference should continuously save the Seekbar
+        value while the Seekbar is being dragged. If true, the SeekBarPreference should continuously
+        save the Seekbar value while it is being dragged. If false, the Seekbar value is only saved
+        when released. By default, this boolean is false. -->
+        <attr name="updatesContinuously" format="boolean" />
     </declare-styleable>
 </resources>

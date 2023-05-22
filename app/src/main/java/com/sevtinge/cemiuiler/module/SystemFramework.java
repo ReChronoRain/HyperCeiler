@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemframework.PackagePermissions;
 import com.sevtinge.cemiuiler.module.systemframework.*;
+import com.sevtinge.cemiuiler.module.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.cemiuiler.module.systemframework.network.*;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
@@ -13,13 +14,19 @@ public class SystemFramework extends BaseModule {
     @Override
     public void handleLoadPackage() {
 
-        //小窗
+        initHook(new IsDetailLog());
+
+            //小窗
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
         initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
         initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(new StickyFloatingWindows(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
         initHook(MultiFreeFormSupported.INSTANCE, mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform"));
+        initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_open_notification") ||
+                mPrefsMap.getBoolean("system_framework_freeform_app_share") ||
+                mPrefsMap.getBoolean("system_framework_freeform_open_notification_fw"));
+        //initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
 
         //音量
         initHook(new VolumeDefaultStream());
@@ -83,6 +90,7 @@ public class SystemFramework extends BaseModule {
         initHook(new PackagePermissions());
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new AppDisableService());
+        initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
     }
 
 }

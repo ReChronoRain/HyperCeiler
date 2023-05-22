@@ -11,5 +11,10 @@
     <color name="miuix_blurdrawable_view_fg_dark">#80000000</color>
     <color name="miuix_blurdrawable_view_fg_light">#ccffffff</color>
 
+    <color name="light_mode_icon_color_single_tone">#e6ffffff</color>
+    <color name="light_mode_icon_transparent_color_single_tone">#5cffffff</color>
+    <color name="dark_mode_icon_color_single_tone">#bf000000</color>
+    <color name="dark_mode_icon_transparent_color_single_tone">#4c000000</color>
+
     <color name="ic_launcher_background">#FC5B8D</color>
 </resources>

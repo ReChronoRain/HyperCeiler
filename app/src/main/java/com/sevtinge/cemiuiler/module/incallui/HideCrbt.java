@@ -27,7 +27,7 @@ public class HideCrbt extends BaseHook {
                     Integer.TYPE, Boolean.TYPE, beforeHookedMethod()
             });*/
         } catch (Exception e) {
-            XposedBridge.log("Cemiuiler: HideCrbt method hooked failed! " + e);
+            log("method hooked failed! " + e);
         }
     }
     /*public final void beforeHookedMethod(XC_MethodHook.MethodHookParam methodHookParam) {

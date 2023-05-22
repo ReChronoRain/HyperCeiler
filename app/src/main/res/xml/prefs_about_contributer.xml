@@ -4,16 +4,10 @@
         <Preference
                 android:summary="@string/about_contributer_desc"/>
         <Preference
-                android:title="hosizoraru">
+                android:title="YuKongA">
             <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/hosizoraru"/>
-        </Preference>
-        <Preference
-                android:title="Lin Qiqi">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/mu7220"/>
+                    android:data="https://github.com/YuKongA"/>
         </Preference>
         <Preference
                 android:title="黑弩">
@@ -57,8 +51,25 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/NextAlone"/>
         </Preference>
+        <Preference
+                android:title="nakixii">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/nakixii"/>
+        </Preference>
+        <Preference
+                android:title="v5u87">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="http://www.coolapk.com/u/5816741"/>
+        </Preference>
+        <Preference
+                android:title="hamjin">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/hamjin"/>
+        </Preference>
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.home;
 
-import android.content.Context;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 public class WidgetCrack extends BaseHook {

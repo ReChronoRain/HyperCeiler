@@ -54,23 +54,11 @@ public class IconManageActivity extends BaseSystemUIActivity {
                 return true;
             });
 
-            mNotificationIconMaximum.setOnSeekBarChangeListener(new SeekBarPreference.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    if (seekBar.getProgress() == 16) {
-                        mNotificationIconMaximum.setValue(R.string.unlimited);
-                    }
+            mNotificationIconMaximum.setOnPreferenceChangeListener((preference, o) -> {
+                if ((int)o == 16) {
+                    mNotificationIconMaximum.setValue(R.string.unlimited);
                 }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
+                return true;
             });
         }
     }

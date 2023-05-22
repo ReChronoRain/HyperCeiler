@@ -14,6 +14,15 @@ object BypassSignCheckForT : BaseHook() {
                     param.result = 1
                 }
             }
+            /*findAndHookMethod(
+                "android.util.apk.ApkSignatureVerifier",
+                "getMinimumSignatureSchemeVersionForTargetSdk",
+                object : MethodHook() {
+                    override fun after(param: MethodHookParam?) {
+                        param?.result = 1
+                    }
+                }
+            )*/
         } catch (e: Throwable) {
             log("hook failed by $e")
         }

@@ -5,9 +5,6 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.packageinstaller.PackageInstallerDexKit.mPackageInstallerResultMethodsMap
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
-import io.luckypray.dexkit.DexKitBridge
-import io.luckypray.dexkit.builder.BatchFindArgs
-import io.luckypray.dexkit.enums.MatchType
 import java.util.*
 
 class DisableSafeModelTip : BaseHook() {
@@ -15,13 +12,11 @@ class DisableSafeModelTip : BaseHook() {
         try {
             val result =
                 Objects.requireNonNull(mPackageInstallerResultMethodsMap["DisableSecurityModeFlag"])
-            if (result != null) {
-                for (descriptor in result) {
-                    val disableSecurityModeFlag = descriptor.getMethodInstance(lpparam.classLoader)
-                    XposedBridge.log("Cemiuiler: DisableSafeModelTip disableSecurityModeFlag method is $disableSecurityModeFlag")
-                    if (disableSecurityModeFlag.returnType == Boolean::class.javaPrimitiveType) {
-                        XposedBridge.hookMethod(disableSecurityModeFlag, XC_MethodReplacement.returnConstant(true))
-                    }
+            for (descriptor in result) {
+                val disableSecurityModeFlag = descriptor.getMethodInstance(lpparam.classLoader)
+                log("disableSecurityModeFlag method is $disableSecurityModeFlag")
+                if (disableSecurityModeFlag.returnType == Boolean::class.javaPrimitiveType) {
+                    XposedBridge.hookMethod(disableSecurityModeFlag, XC_MethodReplacement.returnConstant(true))
                 }
             }
         } catch (e: Throwable) {

@@ -40,6 +40,16 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+            android:title="@string/system_ui_notification_title" >
+
+        <SwitchPreference
+                android:defaultValue="false"
+                android:key="prefs_key_system_ui_other_notification_fix"
+                android:title="@string/system_ui_other_notification_fix" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
             android:title="@string/system_ui_another_title" >
 
         <SwitchPreference
@@ -62,7 +72,6 @@
             android:key="prefs_key_system_ui_qs_label"
             android:title="@string/system_ui_qs_label" />
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

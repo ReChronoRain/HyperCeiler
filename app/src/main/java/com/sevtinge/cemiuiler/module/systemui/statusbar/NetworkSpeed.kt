@@ -45,7 +45,7 @@ object NetworkSpeed : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedBridge.log(t)
+            log("Hook failed by: $t");
             tx = TrafficStats.getTotalTxBytes()
             rx = TrafficStats.getTotalRxBytes()
         }

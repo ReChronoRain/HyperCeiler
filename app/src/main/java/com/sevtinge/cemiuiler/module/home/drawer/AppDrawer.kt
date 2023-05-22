@@ -27,6 +27,22 @@ object AppDrawer : BaseHook() {
                     it.result = list
                 }
             }
+
+            /*val hook = object : MethodHook() {
+                override fun after(param: MethodHookParam?) {
+                    val list = param?.result as ArrayList<*>
+                    if (list.size > 1) {
+                        list.removeAt(0)
+                        param.result = list
+                    }
+                }
+            }
+
+            try {
+                findAndHookMethod("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer", "buildSortCategoryList", hook)
+            } catch(_: Exception) {
+                findAndHookMethod("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer", "buildSortCategoryList", hook)
+            }*/
         }
 
         if (mPrefsMap.getBoolean("home_drawer_editor")) {

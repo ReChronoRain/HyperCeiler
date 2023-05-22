@@ -19,7 +19,7 @@ object PermissionTopOfApp : BaseHook() {
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         //调试是否Hook成功
                         super.beforeHookedMethod(param)
-                        XposedBridge.log("Cemiuiler: PermissionTopOfApp onCreate has been done.")
+                        log("onCreate has been done.")
                     }
 
                     @SuppressLint("PrivateApi")
@@ -30,7 +30,7 @@ object PermissionTopOfApp : BaseHook() {
                         val context = thisObject as Context
                         val getIntentMethod = thisObject.javaClass.getMethod("getIntent")
                         val intent = (getIntentMethod.invoke(thisObject) as Intent)
-                        XposedBridge.log("settingsIntent:$intent")
+                        log("settingsIntent: $intent")
                         if (intent.action == "android.settings.action.MANAGE_OVERLAY_PERMISSION") {
                             //intent中的data Uri 示例： package:com.xxx.xxxxxxx ，故去掉前面的package就是应用包名
                             val packageName = intent.data.toString().substring(8)

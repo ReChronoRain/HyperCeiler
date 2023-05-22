@@ -1,41 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/system_framework_freeform_title">
+    <PreferenceCategory android:title="@string/floating_window">
 
         <SwitchPreference
-                android:title="@string/system_framework_freeform_count"
-                android:key="prefs_key_system_framework_freeform_count"
-                android:defaultValue="false"/>
+            android:title="@string/system_framework_freeform_count"
+            android:key="prefs_key_system_framework_freeform_count"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_disable_freeform_blacklist"
-                android:summary="@string/system_framework_disable_freeform_blacklist_desc"
-                android:key="prefs_key_system_framework_disable_freeform_blacklist"
-                android:defaultValue="false"/>
+            android:title="@string/system_framework_disable_freeform_blacklist"
+            android:summary="@string/system_framework_disable_freeform_blacklist_desc"
+            android:key="prefs_key_system_framework_disable_freeform_blacklist"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_freeform_sticky"
-                android:key="prefs_key_system_framework_freeform_sticky"
-                android:defaultValue="false"/>
+            android:title="@string/system_framework_freeform_sticky"
+            android:key="prefs_key_system_framework_freeform_sticky"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_freeform_recents_to_small_freeform"
-                android:summary="@string/system_framework_freeform_recents_to_small_freeform_desc"
-                android:key="prefs_key_system_framework_freeform_recents_to_small_freeform"
-                android:defaultValue="false"/>
+            android:title="@string/system_framework_freeform_recents_to_small_freeform"
+            android:summary="@string/system_framework_freeform_recents_to_small_freeform_desc"
+            android:key="prefs_key_system_framework_freeform_recents_to_small_freeform"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_framework_bubble_title">
+    <PreferenceCategory
+        android:title="@string/system_framework_bubble_title"
+        android:key="prefs_key_system_framework_freeform_bubble_title" >
 
         <SwitchPreference
-                android:title="@string/system_framework_freeform_bubble"
-                android:key="prefs_key_system_framework_freeform_bubble"
-                android:defaultValue="false"/>
+            android:title="@string/system_framework_freeform_bubble"
+            android:key="prefs_key_system_framework_freeform_bubble"
+            android:defaultValue="false" />
 
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+
+    <PreferenceCategory android:title="@string/system_ui_other_title">
+
+        <SwitchPreference
+                android:title="@string/system_framework_freeform_jump"
+                android:summary="@string/system_framework_freeform_title_desc"
+                android:key="prefs_key_system_framework_freeform_jump"
+                android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/notification_volume"
+            android:key="prefs_key_system_framework_freeform_open_notification"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
+
+        <SwitchPreference
+            android:title="@string/freeform_notification"
+            android:key="prefs_key_system_framework_freeform_open_notification_fw"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
+
+        <SwitchPreference
+            android:title="@string/content_extension"
+            android:summary="@string/system_framework_freeform_content_extension_desc"
+            android:key="prefs_key_system_framework_freeform_content_extension"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
+
+        <SwitchPreference
+            android:title="@string/share_app"
+            android:key="prefs_key_system_framework_freeform_app_share"
+            android:dependency="prefs_key_system_framework_freeform_jump"/>
+
+    </PreferenceCategory>
+
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

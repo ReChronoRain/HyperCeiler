@@ -18,6 +18,7 @@ import com.sevtinge.cemiuiler.utils.getCornerRadiusTop
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import com.zhenxiang.blur.BlurFrameLayout
 import com.zhenxiang.blur.model.CornersRadius
+import de.robv.android.xposed.XposedHelpers
 
 @RequiresApi(Build.VERSION_CODES.S)
 object AllAppsContainerViewBlur : BaseHook() {
@@ -45,7 +46,20 @@ object AllAppsContainerViewBlur : BaseHook() {
                     height = FrameLayout.LayoutParams.MATCH_PARENT
                 }
                 appsView.addView(blur, 0)
-                findMethod("com.miui.home.launcher.allapps.BaseAllAppsContainerView".findClass(), true) {
+
+                /*XposedHelpers.findAndHookMethod(
+                    "com.miui.home.launcher.allapps.BaseAllAppsContainerView".findClass(),
+                    "onResume",
+                    object : MethodHook() {
+                        override fun after(param: MethodHookParam?) {
+                            blur.refreshDrawableState()
+                        }
+                })*/
+
+                findMethod(
+                    "com.miui.home.launcher.allapps.BaseAllAppsContainerView".findClass(),
+                    true
+                ) {
                     name == "onResume"
                 }.hookAfter {
                     blur.refreshDrawableState()

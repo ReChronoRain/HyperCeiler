@@ -11,7 +11,7 @@ import de.robv.android.xposed.XposedBridge
 object FilterManagerAll : BaseHook() {
     override fun init() {
 
-        XposedBridge.log("Cemiuiler: Rules Hook success!")
+        log("Rules Hook success!")
         // 1.0.3.2.1
 //        "b6.b".hookBeforeMethod(
 //            getDefaultClassLoader(), "g"

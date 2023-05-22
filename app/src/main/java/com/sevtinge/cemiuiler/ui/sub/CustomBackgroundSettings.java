@@ -10,9 +10,6 @@ import moralnorm.preference.*;
 
 public class CustomBackgroundSettings extends SubFragment implements Preference.OnPreferenceChangeListener {
 
-    private Bundle args;
-    private String mKey = null;
-
     private SeekBarPreference mBlurRadius;
     private SwitchPreference mBlurEnabled;
 
@@ -34,8 +31,8 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
 
     @Override
     public void initPrefs() {
-        args = getActivity().getIntent().getExtras();
-        mKey = args.getString("key");
+        Bundle args = getActivity().getIntent().getExtras();
+        String mKey = args.getString("key");
 
         mBlurRadius = findPreference("prefs_key_custom_background_blur_radius");
         mBlurEnabled = findPreference("prefs_key_custom_background_blur_enabled");
