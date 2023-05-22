@@ -47,6 +47,7 @@
 
         <SwitchPreference
             android:title="@string/various_unlock_ime"
+            android:summary="@string/various_unlock_ime_desc"
             android:key="prefs_key_various_unlock_ime"
             android:defaultValue="false" />
 

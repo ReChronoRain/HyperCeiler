@@ -2,12 +2,12 @@ package com.sevtinge.cemiuiler.module.home.folder
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.view.View
-import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.*
 import android.app.Application
 import android.content.Context
+import android.view.View
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.*
 
 
 object FolderBlur : BaseHook() {
@@ -33,18 +33,46 @@ object FolderBlur : BaseHook() {
                     }
                 }
             } else {
+                var isShouldBlur = false
+                var isFolderShowing = false
+                val launcherClass = findClassIfExists("com.miui.home.launcher.Launcher")
+                val folderClingClass = findClassIfExists("com.miui.home.launcher.FolderCling")
+
+                launcherClass.hookAfterMethod("isFolderShowing") {
+                    isShouldBlur = it.result as Boolean
+                }
+
+                folderClingClass.hookAfterMethod("isOpened") {
+                    isFolderShowing = it.result as Boolean
+                }
+
+                findAndHookMethod(launcherClass, "isShouldBlur", object : MethodHook() {
+                    override fun before(param: MethodHookParam) {
+                        if (isFolderShowing) param.result = true
+                    }
+                })
+
+                findAndHookMethod(
+                    launcherClass,
+                    "isShouldBlur",
+                    Int::class.javaPrimitiveType,
+                    object : MethodHook() {
+                        override fun before(param: MethodHookParam) {
+                            if (isFolderShowing) param.result = true
+                        }
+                    })
                 if (isAlpha() || checkVersionCode() >= 439096421) {
                     "com.miui.home.launcher.common.BlurUtils".hookBeforeMethod("isUserBlurWhenOpenFolder") {
                         it.result = true
                     }
                 } else {
                     //copy from miui_xxl，修复文件夹内移动图标shortcut背景模糊丢失
-                    var isShouldBlur = false
-                    val folderInfo = "com.miui.home.launcher.FolderInfo".findClass()
-                    val launcherClass = "com.miui.home.launcher.Launcher".findClass()
-                    val blurUtilsClass = "com.miui.home.launcher.common.BlurUtils".findClass()
+
+                    val folderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo")
+                    val blurUtilsClass =
+                        findClassIfExists("com.miui.home.launcher.common.BlurUtils")
                     val cancelShortcutMenuReasonClass =
-                        "com.miui.home.launcher.shortcuts.CancelShortcutMenuReason".findClass()
+                        findClassIfExists("com.miui.home.launcher.shortcuts.CancelShortcutMenuReason")
 
                     launcherClass.hookAfterMethod("openFolder", folderInfo, View::class.java) {
                         val mLauncher = it.thisObject as Activity
@@ -55,10 +83,6 @@ object FolderBlur : BaseHook() {
                             mLauncher.window,
                             true
                         )
-                    }
-
-                    launcherClass.hookAfterMethod("isFolderShowing") {
-                        isShouldBlur = it.result as Boolean
                     }
 
                     launcherClass.hookAfterMethod("closeFolder", Boolean::class.java) {

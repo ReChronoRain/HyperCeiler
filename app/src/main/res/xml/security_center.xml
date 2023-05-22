@@ -123,39 +123,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/security_center_other_title">
-
-        <SwitchPreference
-            android:key="prefs_key_security_center_score"
-            android:title="@string/security_score"
-            android:summary="@string/security_score_summary"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:key="prefs_key_security_center_skip_count_down_limit"
-            android:title="@string/security_center_skip_waiting_time"
-            android:defaultValue="false"
-            app:isPreferenceVisible="true"/>
-
-        <SwitchPreference
-                android:key="prefs_key_security_center_disable_root_check"
-                android:title="@string/security_center_disable_root_check"
-                android:defaultValue="false" />
-
-        <SwitchPreference
-            android:key="prefs_key_security_center_remove_macro_black_list"
-            android:title="@string/security_center_remove_macro_black_list"
-            android:defaultValue="false"
-            app:isPreferenceVisible="true"/>
-
-        <SwitchPreference
-            android:key="prefs_key_security_center_remove_open_app_confirmation_popup"
-            android:title="@string/security_center_remove_open_app_confirmation_popup"
-            android:summary="@string/security_center_remove_open_app_confirmation_popup_summary"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/security_center_newbox_title">
 
         <SwitchPreference
@@ -210,9 +177,39 @@
             android:dependency="prefs_key_se_enable"
             android:defaultValue="-1"
             app:showAlphaSlider="true"/>
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/security_center_other_title">
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_score"
+            android:title="@string/security_score"
+            android:summary="@string/security_score_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_skip_count_down_limit"
+            android:title="@string/security_center_skip_waiting_time"
+            android:defaultValue="false"
+            app:isPreferenceVisible="true"/>
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_disable_root_check"
+            android:title="@string/security_center_disable_root_check"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_remove_macro_black_list"
+            android:title="@string/security_center_remove_macro_black_list"
+            android:defaultValue="false"
+            app:isPreferenceVisible="true"/>
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_remove_open_app_confirmation_popup"
+            android:title="@string/security_center_remove_open_app_confirmation_popup"
+            android:summary="@string/security_center_remove_open_app_confirmation_popup_summary"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
 <Preference android:enabled="false" />
-
 </PreferenceScreen>

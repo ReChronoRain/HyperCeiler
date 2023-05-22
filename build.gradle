@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        agp_version = '8.1.0-alpha12'
+        agp_version = '8.2.0-alpha4'
         agp_version1 = '8.0.1'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
