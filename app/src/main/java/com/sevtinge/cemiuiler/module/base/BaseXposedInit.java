@@ -53,6 +53,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public GuardProvider mGuardProvider = new GuardProvider();
     public Lbe mLbe = new Lbe();
     public InCallUi mInCallUi = new InCallUi();
+    public InputSettings mInputSettings = new InputSettings();
     public TsmClient mTsmClient = new TsmClient();
     public ContentExtension mContentExtension = new ContentExtension();
     public VoiceAssist mVoiceAssist = new VoiceAssist();
@@ -63,6 +64,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Mtb mMtb = new Mtb();
     public Phone mPhone = new Phone();
     public MiWallpaper mMiWallpaper = new MiWallpaper();
+    public Downloads mDownloads = new Downloads();
+    public Aod mAod = new Aod();
     //public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -256,6 +259,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
                 break;
 
+            case "com.miui.aod":
+                XposedBridge.log("Cemiuiler: Hook com.miui.aod");
+                mAod.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
             case "com.xiaomi.aireco":
                 XposedBridge.log("Cemiuiler: Hook com.xiaomi.aireco");
                 mAireco.init(lpparam);
@@ -265,6 +274,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.xiaomi.scanner":
                 XposedBridge.log("Cemiuiler: Hook com.xiaomi.scanner");
                 mScanner.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.miui.miinput":
+                XposedBridge.log("Cemiuiler: Hook com.miui.miinput");
+                mInputSettings.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 
@@ -348,6 +363,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.android.camera":
                 XposedBridge.log("Cemiuiler: Hook com.android.camera");
                 mCamera.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.android.providers.downloads":
+                XposedBridge.log("Cemiuiler: Hook com.android.providers.downloads");
+                mDownloads.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
@@ -9,121 +9,136 @@
                 android:title="@string/system_ui_control_center_show_weather"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+                android:key="prefs_key_system_ui_control_center_show_weather_city"
+                android:title="@string/system_ui_control_center_show_weather_city"
+                android:defaultValue="false"
+                android:dependency="prefs_key_system_ui_control_center_show_weather"/>
+
     </PreferenceCategory>
+
 
     <PreferenceCategory android:title="@string/system_ui_control_center_notification_blur_title">
 
         <SwitchPreference
-                android:key="prefs_key_n_enable"
-                android:title="@string/system_ui_control_center_notification_blur_model"
-                android:defaultValue="false"/>
-
-        <SeekBarPreference
-                android:title="@string/system_ui_control_center_blur_radius"
-                android:key="prefs_key_system_ui_control_center_blur_radius"
-                android:defaultValue="60"
-                app:minValue="20"
-                app:maxValue="99"
-                app:format="%s"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_n_enable"/>
-
-        <SeekBarPreference
-                android:title="@string/system_ui_control_center_corner_radius"
-                android:key="prefs_key_system_ui_control_center_corner_radius"
-                android:defaultValue="48"
-                app:minValue="0"
-                app:maxValue="100"
-                app:format="%s"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_n_enable"/>
-
-        <SeekBarPreference
-                android:title="@string/system_ui_control_center_blur_background_alpha"
-                android:key="prefs_key_system_ui_control_center_blur_background_alpha"
-                android:defaultValue="100"
-                app:minValue="100"
-                app:maxValue="240"
-                app:format="%s"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_n_enable"/>
-
-        <SeekBarPreference
-                android:title="@string/system_ui_control_center_default_background_alpha"
-                android:key="prefs_key_system_ui_control_center_default_background_alpha"
-                android:defaultValue="200"
-                app:minValue="120"
-                app:maxValue="250"
-                app:format="%s"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_n_enable"/>
+            android:key="prefs_key_system_ui_control_center_mute_visible_notice"
+            android:title="@string/system_ui_control_center_mute_visible_notice"
+            android:summary="@string/system_ui_control_center_mute_visible_notice_desc"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_system_ui_control_center_fix_media_control_panel"
-                android:title="@string/system_ui_controlcenter_fix_media_control_panel"
-                android:defaultValue="false"/>
+            android:key="prefs_key_n_enable"
+            android:title="@string/system_ui_control_center_notification_blur_model"
+            android:defaultValue="false" />
+
+        <SeekBarPreference
+            android:title="@string/system_ui_control_center_blur_radius"
+            android:key="prefs_key_system_ui_control_center_blur_radius"
+            android:defaultValue="60"
+            android:dependency="prefs_key_n_enable"
+            android:format="%s"
+            app:maxValue="99"
+            app:minValue="20"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:title="@string/system_ui_control_center_corner_radius"
+            android:key="prefs_key_system_ui_control_center_corner_radius"
+            android:defaultValue="48"
+            android:dependency="prefs_key_n_enable"
+            android:format="%s"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:title="@string/system_ui_control_center_blur_background_alpha"
+            android:key="prefs_key_system_ui_control_center_blur_background_alpha"
+            android:defaultValue="100"
+            android:dependency="prefs_key_n_enable"
+            android:format="%s"
+            app:maxValue="240"
+            app:minValue="100"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:title="@string/system_ui_control_center_default_background_alpha"
+            android:key="prefs_key_system_ui_control_center_default_background_alpha"
+            android:defaultValue="200"
+            android:dependency="prefs_key_n_enable"
+            android:format="%s"
+            app:maxValue="250"
+            app:minValue="120"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreference
+            android:key="prefs_key_system_ui_control_center_fix_media_control_panel"
+            android:title="@string/system_ui_controlcenter_fix_media_control_panel"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_card_title">
 
         <SeekBarPreference
-            android:key="prefs_key_system_control_center_qs_detail_bg"
-            android:title="@string/system_control_center_qs_detail_bg"
-            android:defaultValue="0"
-            app:maxValue="255"
-            app:format="%d"
-            app:showSeekBarValue="true" />
 
-    <SwitchPreference
-        android:key="prefs_key_system_ui_control_center_hide_mi_play_entry"
-        android:title="@string/system_ui_control_center_hide_mi_play_entry"
-        android:defaultValue="false"/>
+                android:key="prefs_key_system_control_center_qs_detail_bg"
+                android:title="@string/system_control_center_qs_detail_bg"
+                android:defaultValue="0"
+                app:maxValue="255"
+                app:format="%d"
+                app:showSeekBarValue="true"/>
 
-    <SeekBarPreference
-        android:title="@string/system_ui_control_center_control_detail_background_alpha"
-        android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
-        android:defaultValue="255"
-        app:minValue="120"
-        app:maxValue="255"
-        app:format="%s"
-        app:showSeekBarValue="true" />
+        <SwitchPreference
+                android:key="prefs_key_system_ui_control_center_hide_mi_play_entry"
+                android:title="@string/system_ui_control_center_hide_mi_play_entry"
+                android:defaultValue="false"
+                app:isPreferenceVisible="false"/>
+
+        <SeekBarPreference
+                android:title="@string/system_ui_control_center_control_detail_background_alpha"
+                android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
+                android:defaultValue="255"
+                app:minValue="120"
+                app:maxValue="255"
+                app:format="%s"
+                app:showSeekBarValue="true"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_magnet_title">
 
         <SwitchPreference
-            android:title="@string/system_control_center_5g_tile"
-            android:key="prefs_key_system_control_center_5g_tile"
-            android:defaultValue="false" />
+                android:title="@string/system_control_center_5g_tile"
+                android:key="prefs_key_system_control_center_5g_tile"
+                android:defaultValue="false"/>
 
         <SwitchPreference
-            android:title="@string/system_control_center_qs_tile_label"
-            android:key="prefs_key_system_control_center_qs_tile_label"
-            android:defaultValue="false" />
+                android:title="@string/system_control_center_qs_tile_label"
+                android:key="prefs_key_system_control_center_qs_tile_label"
+                android:defaultValue="false"/>
+
+    <SeekBarPreference
+                android:key="prefs_key_system_control_center_qs_rows"
+                android:title="@string/system_control_center_qs_rows"
+                android:defaultValue="0"
+                app:minValue="4"
+                app:maxValue="6"
+                app:format="@string/system_control_center_qs_rows_format"
+                app:showSeekBarValue="true"/>
 
         <SeekBarPreference
-            android:key="prefs_key_system_control_center_qs_rows"
-            android:title="@string/system_control_center_qs_rows"
-            android:defaultValue="0"
-            app:minValue="4"
-            app:maxValue="6"
-            app:format="@string/system_control_center_qs_rows_format"
-            app:showSeekBarValue="true" />
-
-        <SeekBarPreference
-            android:key="prefs_key_system_control_center_qs_columns"
-            android:title="@string/system_control_center_qs_columns"
-            android:defaultValue="0"
-            app:minValue="4"
-            app:maxValue="6"
-            app:format="@string/system_control_center_qs_columns_format"
-            app:showSeekBarValue="true"
-            />
+                android:key="prefs_key_system_control_center_qs_columns"
+                android:title="@string/system_control_center_qs_columns"
+                android:defaultValue="0"
+                app:minValue="4"
+                app:maxValue="6"
+                app:format="@string/system_control_center_qs_columns_format"
+                app:showSeekBarValue="true"
+        />
 
     </PreferenceCategory>
-<Preference
+    <Preference
             android:summary=""/>
 
 </PreferenceScreen>

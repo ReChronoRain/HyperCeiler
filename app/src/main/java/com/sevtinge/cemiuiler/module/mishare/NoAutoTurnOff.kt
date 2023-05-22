@@ -26,7 +26,7 @@ class NoAutoTurnOff : BaseHook() {
                 }
             }
 
-            else ->  XposedBridge.log("Cemiuiler: Your MiShare version is $version, NoAutoTurnOff doesn't work")
+            else ->  log("Your MiShare version is $version, NoAutoTurnOff doesn't work")
         }
     }
     /*@Throws(NoSuchMethodException::class)

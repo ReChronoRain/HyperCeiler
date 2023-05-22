@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import android.os.Build;
 import android.util.Log;
 
+import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForR;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForS;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchForSv2;
@@ -30,22 +31,22 @@ public class SystemFrameworkForCorepatch implements IXposedHookLoadPackage, IXpo
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.TIRAMISU: // 33
                     new CorePatchForT().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForT handleLoadPackage loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForT handleLoadPackage loaded.");
                     break;
                 case Build.VERSION_CODES.S_V2: // 32
                     new CorePatchForSv2().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForSv2 handleLoadPackage loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForSv2 handleLoadPackage loaded.");
                     break;
                 case Build.VERSION_CODES.S: // 31
                     new CorePatchForS().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForS handleLoadPackage loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForS handleLoadPackage loaded.");
                     break;
                 case Build.VERSION_CODES.R: // 30
                     new CorePatchForR().handleLoadPackage(lpparam);
-                    XposedBridge.log("Cemiuiler: CorePatchForR handleLoadPackage loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForR handleLoadPackage loaded.");
                     break;
                 default:
-                    XposedBridge.log(TAG + ": Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                    XposedBridge.log("Cemiuiler: CorePatch Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
                     break;
             }
         }
@@ -53,28 +54,28 @@ public class SystemFrameworkForCorepatch implements IXposedHookLoadPackage, IXpo
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        XposedBridge.log("Cemiuiler: Corepatch initZygote loading.");
+        XposedBridge.log("Cemiuiler: CorePatch initZygote loading.");
         if (startupParam.startsSystemServer) {
             Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.TIRAMISU: // 33
                     new CorePatchForT().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForT initZygote loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForT initZygote loaded.");
                     break;
                 case Build.VERSION_CODES.S_V2: // 32
                     new CorePatchForSv2().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForSv2 initZygote loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForSv2 initZygote loaded.");
                     break;
                 case Build.VERSION_CODES.S: // 31
                     new CorePatchForS().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForS initZygote loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForS initZygote loaded.");
                     break;
                 case Build.VERSION_CODES.R: // 30
                     new CorePatchForR().initZygote(startupParam);
-                    XposedBridge.log("Cemiuiler: CorePatchForR initZygote loaded.");
+                    XposedBridge.log("Cemiuiler: CorePatch CorePatchForR initZygote loaded.");
                     break;
                 default:
-                    XposedBridge.log(TAG + ": Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                    XposedBridge.log("Cemiuiler: CorePatch Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
                     break;
             }
         }

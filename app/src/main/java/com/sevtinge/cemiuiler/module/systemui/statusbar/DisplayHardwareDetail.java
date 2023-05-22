@@ -18,7 +18,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 
@@ -384,6 +383,7 @@ public class DisplayHardwareDetail extends BaseHook {
         });
     }
 
+    @SuppressLint("DiscouragedApi")
     private TextView createBatteryDetailView(Context mContext, LinearLayout.LayoutParams lp, TextIcon ti) {
         Resources res = mContext.getResources();
         TextView batteryView = (TextView) LayoutInflater.from(mContext).inflate(res.getIdentifier("network_speed", "layout", "com.android.systemui"), (ViewGroup) null);
@@ -409,8 +409,8 @@ public class DisplayHardwareDetail extends BaseHook {
         log("fontsize = " + fontSize);
         int align = mPrefsMap.getStringAsInt("system_ui_status_bar_" + subKey + "_align", 1);
         int fixedWidth = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fixedcontent_width", 10);
-        int leftMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_left_margin", 8);
-        int rightMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_right_margin", 8);
+        int leftMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_left_margin", 4);
+        int rightMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_right_margin", 4);
         int vertical = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_vertical_offset", 8);
         boolean isSingleRow = mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show");
         boolean isFontBold = mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_bold");

@@ -4,6 +4,7 @@
         <item name="preferenceTheme">@style/Theme.PreferenceOverlay.Light</item>
         <item name="rebootIconColor">@color/black</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.Dark.DarkActionBar">
@@ -11,6 +12,7 @@
         <item name="android:forceDarkAllowed">false</item>
         <item name="rebootIconColor">@color/white</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
     </style>
 
     <style name="AppTheme.Translucent" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -26,6 +28,10 @@
     <style name="AppTheme.Translucent.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
+    </style>
+
+    <style name="Preference.SeekBarPreferenceEx" parent="@style/Preference">
+        <item name="android:layout">@layout/preference_seekbar_ex</item>
     </style>
 
 </resources>

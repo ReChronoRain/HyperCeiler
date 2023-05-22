@@ -13,13 +13,8 @@ public class VariousFragment extends PreferenceFragmentCompat {
 
     public String TAG = "VariousFragment";
 
-    private String sub;
-
-    private DropDownPreference mDialogGravity;
     private SeekBarPreference mDialogHorizontalMargin;
     private SeekBarPreference mDialogBottomMargin;
-
-    private SwitchPreference mBlurEnabled;
 
     private PreferenceCategory mBlurEnabledCat;
     private PreferenceCategory mBlurCustomCat;
@@ -29,7 +24,8 @@ public class VariousFragment extends PreferenceFragmentCompat {
         super.onActivityCreated(savedInstanceState);
 
         Bundle args = getArguments();
-        sub = args.getString("sub");
+        assert args != null;
+        String sub = args.getString("sub");
         if (sub == null) return;
 
         Log.d(TAG, "MoralNorm: " + getArguments());
@@ -45,11 +41,11 @@ public class VariousFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
 
-        mDialogGravity = findPreference("prefs_key_various_dialog_gravity");
+        DropDownPreference mDialogGravity = findPreference("prefs_key_various_dialog_gravity");
         mDialogHorizontalMargin = findPreference("prefs_key_various_dialog_horizontal_margin");
         mDialogBottomMargin = findPreference("prefs_key_various_dialog_bottom_margin");
 
-        mBlurEnabled = findPreference("prefs_key_various_blur_enabled");
+        SwitchPreference mBlurEnabled = findPreference("prefs_key_various_blur_enabled");
         mBlurEnabledCat = findPreference("prefs_key_various_blur_enabled_cat");
         mBlurCustomCat = findPreference("prefs_key_various_blur_custom");
 

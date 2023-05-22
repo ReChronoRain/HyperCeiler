@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemframework.corepatch;
 
+import android.annotation.SuppressLint;
 import android.app.AndroidAppHelper;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -8,8 +9,6 @@ import android.content.pm.Signature;
 import com.sevtinge.cemiuiler.BuildConfig;
 
 import android.util.Log;
-
-import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,18 +26,20 @@ import de.robv.android.xposed.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
+import static com.sevtinge.cemiuiler.utils.Helpers.log;
 
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "conf");
 
     @Override
+    @SuppressLint("PackageManagerGetSignatures")
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        XposedBridge.log("Cemiuiler: CorePatch Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-        XposedBridge.log("Cemiuiler: CorePatch AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-        XposedBridge.log("Cemiuiler: CorePatch DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-        XposedBridge.log("Cemiuiler: CorePatch UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-        XposedBridge.log("Cemiuiler: CorePatch EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
+        log("CorePatchForR Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+        log("CorePatchForR AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+        log("CorePatchForR DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+        log("CorePatchForR UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+        log("CorePatchForR EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
 
         // 允许降级
         findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,//!
@@ -142,12 +143,12 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                         }
                     }
                     if (throwable != null || parseErr != null) {
-                        Signature[] lastSigs = null;
+                        Signature[] lastSigns = null;
                         try {
                             if (mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature")) {
                                 PackageManager PM = AndroidAppHelper.currentApplication().getPackageManager();
                                 if (PM == null) {
-                                    XposedBridge.log("E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MiUI?");
+                                    log("CorePatchForR E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MiUI?");
                                 } else {
                                     PackageInfo pI;
                                     if (parseErr != null) {
@@ -155,15 +156,15 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                                     } else {
                                         pI = PM.getPackageArchiveInfo((String) methodHookParam.args[0], 0);
                                     }
-                                    PackageInfo InstpI = PM.getPackageInfo(pI.packageName, PackageManager.GET_SIGNATURES);
-                                    lastSigs = InstpI.signatures;
+                                    PackageInfo InstepI = PM.getPackageInfo(pI.packageName, PackageManager.GET_SIGNATURES);
+                                    lastSigns = InstepI.signatures;
                                 }
                             }
                         } catch (Throwable ignored) {
 
                         }
                         try {
-                            if (lastSigs == null && mPrefsMap.getBoolean("system_framework_core_patch_digest_creak")) {
+                            if (lastSigns == null && mPrefsMap.getBoolean("system_framework_core_patch_digest_creak")) {
                                 final Object origJarFile = constructorExact.newInstance(methodHookParam.args[parseErr == null ? 0 : 1], true, false);
                                 final ZipEntry manifestEntry = (ZipEntry) XposedHelpers.callMethod(origJarFile, "findEntry", "AndroidManifest.xml");
                                 final Certificate[][] lastCerts;
@@ -172,12 +173,12 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                                 } else {
                                     lastCerts = (Certificate[][]) XposedHelpers.callStaticMethod(ASV, "loadCertificates", origJarFile, manifestEntry);
                                 }
-                                lastSigs = (Signature[]) XposedHelpers.callStaticMethod(ASV, "convertToSignatures", (Object) lastCerts);
+                                lastSigns = (Signature[]) XposedHelpers.callStaticMethod(ASV, "convertToSignatures", (Object) lastCerts);
                             }
                         } catch (Throwable ignored) {
                         }
-                        if (lastSigs != null) {
-                            signingDetailsArgs[0] = lastSigs;
+                        if (lastSigns != null) {
+                            signingDetailsArgs[0] = lastSigns;
                         } else {
                             signingDetailsArgs[0] = new Signature[]{new Signature(SIGNATURE)};
                         }
@@ -188,7 +189,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                         if (signingDetailsWithDigests != null) {
                             Constructor<?> signingDetailsWithDigestsConstructorExact = XposedHelpers.findConstructorExact(signingDetailsWithDigests, signingDetails, Map.class);
                             signingDetailsWithDigestsConstructorExact.setAccessible(true);
-                            newInstance = signingDetailsWithDigestsConstructorExact.newInstance(new Object[]{newInstance, null});
+                            newInstance = signingDetailsWithDigestsConstructorExact.newInstance(newInstance, null);
                         }
                         if (throwable != null) {
                             Throwable cause = throwable.getCause();

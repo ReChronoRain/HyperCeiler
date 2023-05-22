@@ -46,7 +46,6 @@ public class MiuiAppNoOverScroll extends BaseHook {
                         XposedHelpers.setBooleanField(param.thisObject, "mSpringBackEnable", false);
                     }
                 });
-                //noinspection ResultOfMethodCallIgnored
                 findAndHookMethodSilently(mRemixRvCls, "setSpringEnabled", boolean.class, hookParam);
             }
         } catch (Exception e) {

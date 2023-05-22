@@ -13,7 +13,7 @@ object EnableLabOptions : BaseHook() {
                 if (it.args[0] == "camera.lab.options") it.result = true
             }
         } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: EnableLabOptions hook failed by $e")
+            log("hook failed by $e")
         }
     }
 }

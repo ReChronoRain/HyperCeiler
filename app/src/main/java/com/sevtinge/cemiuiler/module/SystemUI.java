@@ -4,8 +4,11 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.*;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
+import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
+
+import java.util.Objects;
 
 public class SystemUI extends BaseModule {
 
@@ -39,12 +42,16 @@ public class SystemUI extends BaseModule {
         //移动网络图标
         initHook(new MobileNetwork(), true);
         initHook(new BigMobileNetworkType(), false);
+        initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
+        initHook(new MobileTypeSingleHook(), mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
+        initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
         //电池条指示器
-        boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
+        boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
+                mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
-        initHook(new BatteryIcon(), isHideBatteryIcon);
+        initHook(HideBatteryIcon.INSTANCE, isHideBatteryIcon);
         initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器
@@ -58,10 +65,10 @@ public class SystemUI extends BaseModule {
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         //时钟指示器
-        initHook(TimeBold.INSTANCE);
+        // initHook(TimeBold.INSTANCE, mPrefsMap.getBoolean("system_statusbar_clock_bold"));
         initHook(TimeCustomization.INSTANCE);
 
-        //电池和温度指示器
+        //硬件指示器
         initHook(new DisplayHardwareDetail());
 
         //居右显示
@@ -80,6 +87,9 @@ public class SystemUI extends BaseModule {
 
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
+        //导航栏
+        initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
+        initHook(new NavigationCustom(), mPrefsMap.getBoolean("system_ui_navigation_custom"));
 
         //实验性功能
         initHook(new SwitchControlPanel(), false);
@@ -92,6 +102,8 @@ public class SystemUI extends BaseModule {
         initHook(new QSFiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
         initHook(new QSTileLabel(), mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_qs_rows", 4) > 4 || mPrefsMap.getInt("system_control_center_qs_columns", 4) > 4);
+        initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
+        initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(HideMiPlayEntry.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_hide_mi_play_entry"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
         initHook(FixMediaControlPanel.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_fix_media_control_panel"));
@@ -99,20 +111,22 @@ public class SystemUI extends BaseModule {
         initHook(NotificationWeatherOld.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherNew.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
 
-
         //Actions
         initHook(new StatusBarActions());
 
         //Other
         boolean mSeparateVolume = mPrefsMap.getBoolean("system_framework_volume_separate_control") && mPrefsMap.getBoolean("system_framework_volume_separate_slider");
         initHook(new NotificationVolumeSeparateSlider(), mSeparateVolume);
+        initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix"));
 
         //锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ClockDisplaySeconds.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_second"));
-        initHook(ChargingCurrentAndVoltage.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
+        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
+        initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
+        initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
 
@@ -121,5 +135,7 @@ public class SystemUI extends BaseModule {
             initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
             initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
         }
+
+        initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
     }
 }

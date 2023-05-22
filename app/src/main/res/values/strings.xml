@@ -60,6 +60,7 @@
     <string name="about_tg_group">Telegram Group</string>
     <string name="about_tg_channel">Telegram Channel</string>
     <string name="about_github">Source Code</string>
+    <string name="about_github_desc">This project is open source based on the AGPL-3.0 license</string>
     <string name="about_crwd">"Crowdin"</string>
     <string name="about_crwd_desc">Help us translate Cemiuiler into you language</string>
     <string name="settings_data_title">Backup and Restore</string>
@@ -76,10 +77,9 @@
     <string name="aireco_device_modify">Remove beta restrictions</string>
     <string name="browser_debug_mode">Developer options</string>
     <string name="clock_enable_hour_glass">Unlock the clock hourglass animation</string>
-    <string name="gallery_title_settings">Settings</string>
-    <string name="gallery_title_feature">Function</string>
-    <string name="gallery_title_recommend">Recommend</string>
-    <string name="gallery_title_editor">Editor</string>
+    <string name="feature">Function</string>
+    <string name="recommend">Recommend</string>
+    <string name="editor">Editor</string>
     <string name="gallery_enable_hdr_enhanced">Unlock display high dynamic range</string>
     <string name="gallery_enable_pdf">Unlock generate PDF</string>
     <string name="gallery_enable_ocr">Unlock OCR</string>
@@ -258,7 +258,6 @@
     <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Unlock the side-hide freeform for lowly-supported but restricted devices. This will also affect the behavior of the widget when the phone cuts to the background</string>
     <string name="security">Security</string>
-    <string name="system_framework_free_form_title">Small freeform</string>
     <string name="system_framework_volume_title">Volume</string>
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
@@ -277,7 +276,7 @@
     <string name="system_ui_lockscreen_safe_title">Security</string>
     <string name="system_ui_lockscreen_ui_title">UI</string>
     <string name="system_ui_lock_screen_show_second">Clock show second</string>
-    <string name="system_ui_lock_screen_show_charging_cv">Show charging current and voltage</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Show charging current, voltage and power</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
     <string name="system_ui_lock_screen_current">Current</string>
@@ -297,7 +296,6 @@
     <string name="system_ui_qs_label">Quick switch tab</string>
     <string name="system_ui_statusbar_iconmanage_title">Icon management</string>
     <string name="system_ui_statusbar_clock_title">Clock indicator management</string>
-    <string name="system_ui_status_bar_battery_indicator_enable">Activate</string>
     <string name="system_ui_status_bar_battery_indicator_centered">Centered</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">Rounded corners</string>
     <string name="system_ui_status_bar_battery_indicator_limitvis">Limit visibility</string>
@@ -335,7 +333,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">No SIM card icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM card 1 signal icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM card 2 signal icon</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type">Network Type Icon</string>
+    <string name="system_ui_status_bar_icon_mobile_network_type">Display logic</string>
     <string name="system_ui_status_bar_icon_location">Location</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Big Network Type Icon</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarm Clock</string>
@@ -349,9 +347,9 @@
     <string name="system_ui_status_bar_icon_zen">Zen</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maximum number of notification points</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maximum number of notification icons</string>
-    <string name="system_ui_status_bar_battery_percent">Battery percentage</string>
-    <string name="system_ui_status_bar_battery_percent_mark">Battery percentage sign</string>
-    <string name="system_ui_status_bar_battery_charging">Charging indicator</string>
+    <string name="system_ui_status_bar_battery_percent">Hide battery percentage</string>
+    <string name="system_ui_status_bar_battery_percent_mark">Hide battery percentage sign</string>
+    <string name="system_ui_status_bar_battery_charging">Hide charging indicator</string>
     <string name="system_ui_status_bar_battery_indicator_title">Battery indicator</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Mobile Network</string>
@@ -541,7 +539,6 @@
     <string name="tsmclient_auto_nfc_desc">NFC is automatically turned on when entering the card swiping page, and it is automatically turned off when exiting</string>
     <string name="restart_systemui">Restart System UI</string>
     <string name="restart_systemui_desc">Are you sure you want to restart the System UI now?</string>
-    <string name="restart_app">"Reboot "</string>
     <string name="restart_app_desc1">"Are you sure you want to restart now "</string>
     <string name="restart_app_desc2">" ?"</string>
     <string name="tip">Tip</string>
@@ -551,14 +548,13 @@
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
     <string name="system_framework_core_patch_downgr_desc">Allow downgrade applications</string>
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
-    <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ingnore invalid digest error)</string>
+    <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ignore invalid digest error)</string>
     <string name="system_framework_core_patch_digest_creak">Disable compare signatures</string>
-    <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signnatures</string>
+    <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signatures</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed signatures</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_core_patch_enhanced_mode">Enhanced mode</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Pass some validation in the application</string>
-    <string name="system_framework_freeform_title">Freeform</string>
     <string name="system_framework_bubble_title">Bubble notification</string>
     <string name="system_framework_freeform_count">Multiple freeform</string>
     <string name="system_framework_disable_freeform_blacklist">Force small freeform to be allowed</string>
@@ -683,8 +679,8 @@
     <string name="home_recent_app_name_distance_task_view_card">App name distance task view card</string>
     <string name="home_recent_task_view_card_rounded_corners">Task view card rounded corners</string>
     <string name="home_other_disable_hide_google">Disable hide Google</string>
-    <string name="soft_reboot">Soft reboot</string>
-    <string name="soft_reboot_desc">Are you sure you want to soft reboot now?</string>
+    <string name="soft_reboot">Reboot</string>
+    <string name="soft_reboot_desc">Are you sure you want to reboot now?</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Network speed update interval</string>
@@ -711,26 +707,24 @@
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
     <string name="system_ui_statusbar_indicator_align">Horizontal alignment</string>
     <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU related settings in the bottom middle of [Game Space]</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms" translatable="false">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s" translatable="false">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m" translatable="false">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs" translatable="false">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs" translatable="false">1 KB/s</string>
+    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
+    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
+    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
+    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
+    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
-    <string name="system_ui_statusbar_network_speed_lux" translatable="false">%s lux</string>
+    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="array_netspeedicons_arrows" translatable="false">△▽ (▲▼)</string>
     <string name="array_netspeedicons_arrows_small" translatable="false">▵ ▿ ( ▴ ▾ )</string>
     <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_arrows_long1" translatable="false">↑ ↓</string>
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
-    <string name="camera_features_title">Features</string>
-    <string name="camera_record_title">Record</string>
-    <string name="camera_shot_title">Shot</string>
-    <string name="camera_portrait_title">Portrait</string>
-    <string name="camera_pro_title">Pro</string>
-    <string name="camera_settings_title">Settings</string>
+    <string name="record">Record</string>
+    <string name="shot">Shot</string>
+    <string name="portrait">Portrait</string>
+    <string name="camera_pro">Pro</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
@@ -758,8 +752,8 @@
     <string name="array_clock_geek">Geek</string>
     <string name="system_ui_statusbar_clock_period">Show clock period</string>
     <string name="system_ui_statusbar_clock_editor">Clock format</string>
-    <string name="system_ui_statusbar_clock_double_size">Double row size (0 means no modification)</string>
-    <string name="system_ui_statusbar_clock_size">Clock size (0 means no modification)</string>
+    <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
+    <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_second">Show seconds</string>
     <string name="system_ui_statusbar_clock_year">Show year</string>
     <string name="system_ui_statusbar_clock_month">Show month</string>
@@ -831,7 +825,6 @@
     <string name="system_ui_statusbar_battery_size">Font size</string>
     <string name="system_ui_statusbar_battery_show">Show contents</string>
     <string name="system_ui_statusbar_battery_disable">Hide units</string>
-    <string name="system_ui_statusbar_battery_all_enable">Enable switch</string>
     <string name="system_ui_statusbar_battery_right_show">Show on the right</string>
     <string name="system_ui_statusbar_battery_electric_current">The current always shows a positive value</string>
     <string name="system_ui_statusbar_battery_line_show">Single row display</string>
@@ -915,5 +908,87 @@
     <string name="fileexplorer">File Manager</string>
     <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
     <string name="file_explorer_is_single_line">File Explorer Is Single Line</string>
+    <string name="enable">Activate</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>
+    <string name="system_ui_control_center_show_weather_city">Show city</string>
+    <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
+    <string name="system_framework_clean_share_apps_desc">The selected app will not appear in the share menu</string>
+    <string name="system_framework_clean_open_apps_desc">The selected app will not appear in the open with menu</string>
+    <string name="system_framework_freeform_title_desc">In the following scenarios, when you need to jump to other apps, you will use the freeform to open</string>
+    <string name="freeform_notification">Notification floating window</string>
+    <string name="system_framework_freeform_content_extension_desc">Only supports links</string>
+    <string name="share_app">Share to third-party apps</string>
+    <string name="system_framework_freeform_jump">Open with freeform when jump to another app</string>
+    <string name="content_extension_link_open_mode">How to open link</string>
+    <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
+    <string name="link_open_mode_default">System default</string>
+    <string name="link_open_mode_mi">Xiaomi browser</string>
+     <string name="clipboard">Clipboard</string>
+    <string name="lbe_clipboard_tip">Read clipboard</string>
+    <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
+    <string name="about_offical">Official website</string>
+    <string name="system_settings_safe_wifi">View your saved WiFi passwords</string>
+    <string name="system_settings_wifipassword_btn_title">Check</string>
+    <string name="system_settings_wifi_password_label">Password</string>
+    <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
+    <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
+    <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
+    <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
+    <string name="disable_detailed_log">Disable detailed log</string>
+    <string name="disable_detailed_log_desc">Reboot to apply</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Icon styles</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
+    <string name="array_bold">Bold</string>
+    <string name="array_theme">Follow the subject</string>
+    <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type icon</string>
+    <string name="system_ui_statusbar_mobile_type_font_size">Font size</string>
+    <string name="system_ui_statusbar_mobile_type_bold">Bold</string>
+    <string name="system_ui_status_bar_mobile_type_single">Mobile network type icon display separately</string>
+    <string name="system_ui_status_bar_mobile_type_custom">Custom text</string>
+    <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
+    <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
+    <string name="system_ui_status_bar_battery_icon">Hide battery icon</string>
+    <string name="system_ui_lock_screen_password_free">No need to enter password when booting</string>
+    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
+    <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
+    <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
+    <string name="system_ui_navigation_title">Navigation</string>
+    <string name="system_ui_navigation_handle_title">Handle line</string>
+    <string name="system_ui_navigation_handle_custom">Custom handle line</string>
+    <string name="system_ui_navigation_handle_custom_height">Height</string>
+    <string name="system_ui_navigation_handle_custom_thickness">Thickness</string>
+    <string name="system_ui_navigation_handle_custom_width">Portrait width</string>
+    <string name="system_ui_navigation_handle_custom_width_land">Landscape width</string>
+    <string name="system_ui_navigation_handle_custom_color">Color when light-mode</string>
+    <string name="system_ui_navigation_handle_custom_color_dark">Color when dark-mode</string>
+    <string name="system_ui_control_center_brightness_title">Brightness</string>
+    <string name="system_ui_control_center_auto_brightness">Auto brightness range</string>
+    <string name="system_ui_control_center_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
+    <string name="system_ui_control_center_min_brightness">Auto Brightness Min</string>
+    <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
+    <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
+    <string name="system_ui_hardware_title">Display related</string>
+    <string name="downloads">Download management program</string>
+    <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
+    <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
+    <string name="aod">Always-on display</string>
+    <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
+    <string name="system_settings_accessibility_title">Gesture shortcuts</string>
+    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
+    <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
+    <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
+    <string name="system_ui_notification_title">Notification</string>
+    <string name="system_settings_knuckle_function">Unlock knuckle related functions</string>
+    <string name="system_settings_knuckle_function_desc">Only UI unlocking, do not accept function failure feedback</string>
+    <string name="system_ui_navigation_custom_height">Navigation height</string>
+    <string name="system_ui_navigation_custom_height_land">Landscape navigation height</string>
+    <string name="system_ui_navigation_frame_custom_height">Navigation frame height</string>
+    <string name="system_ui_navigation_frame_custom_height_land">Landscape navigation frame height</string>
+    <string name="system_ui_navigation_custom">Custom navigation</string>
+    <string name="security_center_sidebar_line_color">Sidebar line color custom</string>
+    <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
+    <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
+    <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
+    <string name="security_center_disable_ban">Remove report button</string>
 </resources>

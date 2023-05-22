@@ -18,7 +18,6 @@ import com.sevtinge.cemiuiler.utils.Helpers
 import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.callMethodOrNull
 import com.sevtinge.cemiuiler.utils.hookAfterMethod
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import moralnorm.internal.utils.DisplayUtils.dp2px
 import java.io.File
@@ -38,7 +37,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
         mAppInfoViewObject =
             findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject")//.findClassOrNull()
         if (mAppInfoViewObject != null) {
-            XposedBridge.log("Cemiuiler: DisplayMoreApkInfoNew mAppInfoViewObject is $mAppInfoViewObject")
+            log("mAppInfoViewObject is $mAppInfoViewObject")
             mAppInfoViewObjectViewHolder =
                 findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")//"com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder".findClassOrNull()
             val methods: Array<Method> =
@@ -103,7 +102,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                         it.setMargins(0, dp2px(mContext, 13f), 0, 0)
                     }
                     linearLayout2.background =
-                        modRes.getDrawable(if (isDarkMode) R.drawable.ic_packageinstaller_background_dark else R.drawable.ic_packageinstaller_background_light)
+                        modRes.getDrawable(if (isDarkMode) R.drawable.ic_packageinstaller_background_dark else R.drawable.ic_packageinstaller_background_light, modRes.newTheme())
                     val mAppPackageNameView = TextView(mContext)
                     mContainerView.removeAllViews()
                     val mAppVersionNameView = TextView(mContainerView.context)

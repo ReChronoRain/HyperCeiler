@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.utils.*
-import com.sevtinge.cemiuiler.utils.XSPUtils
-import com.sevtinge.cemiuiler.utils.hasEnable
 import com.sevtinge.cemiuiler.view.WeatherData
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
@@ -18,7 +16,7 @@ object NotificationWeatherNew : BaseHook() {
 
     @SuppressLint("DiscouragedApi", "ClickableViewAccessibility")
     override fun init() {
-        val isDisplayCity = XSPUtils.getBoolean("notification_weather_city", false)
+        val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
         findMethod("com.android.systemui.controlcenter.phone.widget.ControlCenterDateView", findSuper = true) { name == "onDetachedFromWindow" }.hookBefore {
             if ((it.thisObject as TextView).id == clockId && this::weather.isInitialized) {
                 weather.onDetachedFromWindow()
@@ -49,5 +47,7 @@ object NotificationWeatherNew : BaseHook() {
                 }
             }
         }
+
     }
+
 }

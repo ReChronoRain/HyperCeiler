@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
     @Override
     public void init() {
         Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
+            @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 View view = (View) param.args[0];

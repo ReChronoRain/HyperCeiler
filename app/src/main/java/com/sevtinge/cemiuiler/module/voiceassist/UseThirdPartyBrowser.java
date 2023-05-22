@@ -36,7 +36,7 @@ public class UseThirdPartyBrowser extends BaseHook {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        XposedBridge.log("Cemiuiler: com.miui.voiceassist browserActivityWithIntent method is " + browserActivityWithIntent);
+        log("com.miui.voiceassist browserActivityWithIntent method is " + browserActivityWithIntent);
         //Class<?> clazz = XposedHelpers.findClass("e.D.L.pa.Wa", lpparam.classLoader);
         XposedBridge.hookMethod(browserActivityWithIntent, new XC_MethodHook() {
             @Override
@@ -44,11 +44,11 @@ public class UseThirdPartyBrowser extends BaseHook {
                 super.beforeHookedMethod(param);
                 //XposedBridge.log("0)Hook到Activity启动，开始判断");
                 Intent intent = (Intent) param.args[0];
-                XposedBridge.log(intent.toString());
+                log(intent.toString());
                 try {
                     if (intent.getPackage().equals("com.android.browser")) {
-                        XposedBridge.log("Cemiuiler: com.miui.voiceassist get browser intent");
-                        XposedBridge.log("Cemiuiler: com.miui.voiceassist get URL " + intent.getDataString());
+                        log("com.miui.voiceassist get browser intent");
+                        log("com.miui.voiceassist get URL " + intent.getDataString());
                         Uri uri = Uri.parse(intent.getDataString());
                         Intent newIntent = new Intent();
                         newIntent.setAction("android.intent.action.VIEW");
@@ -56,7 +56,7 @@ public class UseThirdPartyBrowser extends BaseHook {
                         param.args[0] = newIntent;
                     }
                 } catch (Exception e) {
-                    XposedBridge.log(e);
+                    log("Hook failed by: " + e);
                 }
             }
         });

@@ -4,8 +4,10 @@ import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
+import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom
 import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
 import com.sevtinge.cemiuiler.module.systemframework.*
+import com.sevtinge.cemiuiler.module.systemui.navigation.HandleLineCustom
 import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
@@ -18,7 +20,6 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
     @Throws(Throwable::class)
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam?) {
         super.initZygote(startupParam)
-        SystemFrameworkForCorepatch().initZygote(startupParam)
         if (mPrefsMap.getBoolean("system_framework_allow_uninstall")) AllowUninstall().initZygote(startupParam)
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes()
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes()
@@ -27,6 +28,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
         if (startupParam != null) {
             BackgroundBlurDrawable().initZygote(startupParam)
+            SystemFrameworkForCorepatch().initZygote(startupParam)
         }
     }
 
@@ -48,10 +50,22 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
                 if (mPrefsMap.getBoolean("tsmclient_auto_nfc")) {
                     AutoNfc.initResource(resparam)
                 }
+
             "com.miui.home" ->
                 if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
                     EnableIconMonetColor.initResource(resparam)
                 }
+
+            "com.miui.securitycenter" ->
+                if (mPrefsMap.getBoolean("security_center_sidebar_line_color")) {
+                    SidebarLineCustom.initResource(resparam)
+                }
+
+            "com.android.systemui" ->
+                if (mPrefsMap.getBoolean("system_ui_navigation_handle_custom")) {
+                    HandleLineCustom.initResource(resparam)
+                }
+
         }
     }
 }

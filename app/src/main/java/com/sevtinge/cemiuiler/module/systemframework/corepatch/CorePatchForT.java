@@ -3,30 +3,26 @@ package com.sevtinge.cemiuiler.module.systemframework.corepatch;
 import android.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedBridge;
-import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
+import static com.sevtinge.cemiuiler.utils.Helpers.log;
 
 public class CorePatchForT extends CorePatchForSv2 {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
 
-        XposedBridge.log("Cemiuiler: CorePatch Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-        XposedBridge.log("Cemiuiler: CorePatch AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-        XposedBridge.log("Cemiuiler: CorePatch DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-        XposedBridge.log("Cemiuiler: CorePatch UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-        XposedBridge.log("Cemiuiler: CorePatch EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
+        log("CorePatchForT Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
+        log("CorePatchForT AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
+        log("CorePatchForT DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
+        log("CorePatchForT UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
+        log("CorePatchForT EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
 
         findAndHookMethod("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader,
                 "checkDowngrade",
@@ -74,8 +70,8 @@ public class CorePatchForT extends CorePatchForSv2 {
                 protected void afterHookedMethod(MethodHookParam param) {
                     //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                     if (param.getResult().equals(false)) {
-                        String pPname = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
-                        if (pPname.contentEquals((String) param.args[0])) {
+                        String pName = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
+                        if (pName.contentEquals((String) param.args[0])) {
                             param.setResult(true);
                         }
                     }

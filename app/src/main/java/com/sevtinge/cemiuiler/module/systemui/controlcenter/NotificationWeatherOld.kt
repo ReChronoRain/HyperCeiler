@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.view.View
@@ -7,16 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.github.kyuubiran.ezxhelper.utils.*
-import com.sevtinge.cemiuiler.utils.XSPUtils
-import com.sevtinge.cemiuiler.utils.hasEnable
 import com.sevtinge.cemiuiler.view.WeatherView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object NotificationWeatherOld : BaseHook() {
 
+    @SuppressLint("DiscouragedApi")
     override fun init() {
         var mWeatherView: TextView? = null
-        val isDisplayCity = XSPUtils.getBoolean("notification_weather_city", false)
+        val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
         findMethod("com.android.systemui.qs.MiuiQSHeaderView") {
             name == "onFinishInflate"
         }.hookAfter {
@@ -65,6 +65,8 @@ object NotificationWeatherOld : BaseHook() {
                 )
                 layoutParams = layoutParam
             }
+
+
             viewGroup.addView(mWeatherView)
             (mWeatherView as WeatherView).setOnClickListener {
                 try {

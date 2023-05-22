@@ -79,7 +79,7 @@ public class DialogCustom extends BaseHook {
         }
 
         if (oldMethodFound) {
-            XposedBridge.log("Cemiuiler: DialogCustom oldMethod found.");
+            log("oldMethod found.");
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                 @Override
@@ -100,7 +100,7 @@ public class DialogCustom extends BaseHook {
             });
 
         } else {
-            XposedBridge.log("Cemiuiler: DialogCustom oldMethod not found.");
+            log("oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {

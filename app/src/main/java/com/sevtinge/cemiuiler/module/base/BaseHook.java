@@ -16,6 +16,8 @@ public abstract class BaseHook {
 
     public String TAG = getClass().getSimpleName();
 
+    public boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
+
     public LoadPackageParam lpparam;
     public ResourcesHook mResHook = XposedInit.mResHook;
     public static PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
@@ -28,7 +30,7 @@ public abstract class BaseHook {
         try {
             setLoadPackageParam(lpparam);
             init();
-            printHookStateLog("Hook Success!");
+            if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) printHookStateLog("Hook Success!");
         } catch (Throwable t) {
             printHookStateLog("Hook Failed!");
             printHookFailedLog(t);
@@ -48,7 +50,9 @@ public abstract class BaseHook {
     }
 
     public void log(String log) {
-        XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+        if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
+            XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+        }
     }
 
 

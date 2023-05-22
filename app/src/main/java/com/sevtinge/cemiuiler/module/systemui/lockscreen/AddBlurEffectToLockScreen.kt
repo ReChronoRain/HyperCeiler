@@ -20,14 +20,6 @@ object AddBlurEffectToLockScreen : BaseHook() {
             "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
         ) ?: return
 
-        val keyguardMoveHelperClass = findClassIfExists(
-            "com.android.keyguard.KeyguardMoveHelper"
-        ) ?: return
-
-        val baseKeyguardMoveHelperClass = findClassIfExists(
-            "com.android.keyguard.BaseKeyguardMoveHelper"
-        ) ?: return
-
         val lockScreenMagazineControllerClass = findClassIfExists(
             "com.android.keyguard.magazine.LockScreenMagazineController"
         ) ?: return

@@ -4,7 +4,7 @@ import com.sevtinge.cemiuiler.BuildConfig
 import de.robv.android.xposed.XSharedPreferences
 
 object XSPUtils {
-    private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "config")
+    private var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "cemiuiler_config")
 
     fun getBoolean(key: String, defValue: Boolean): Boolean {
         if (prefs.hasFileChanged()) {

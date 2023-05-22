@@ -13,15 +13,12 @@ import androidx.core.content.ContextCompat;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.Settings;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;

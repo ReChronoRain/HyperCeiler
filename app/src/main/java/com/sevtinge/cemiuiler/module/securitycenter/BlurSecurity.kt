@@ -65,16 +65,26 @@ object BlurSecurity : BaseHook() {
         lateinit var videoBoxViewClass: Class<*>
         lateinit var videoBoxViewMethodName: String
         when {
-            getPackageVersionCode(lpparam) in 40000749..40000750 || getPackageVersionCode(lpparam) == 40000770 || getPackageVersionCode(lpparam) == 40000780 -> {
+            getPackageVersionCode(lpparam) in 40000749..40000750 || getPackageVersionCode(lpparam) == 40000770 || getPackageVersionCode(
+                lpparam
+            ) == 40000780 -> {
                 appVersionCode = 40000749
                 videoBoxViewClass = findClassIfExists("t7.i") ?: return
                 videoBoxViewMethodName = "i"
             }
-            getPackageVersionCode(lpparam) in 40000771..40000779 -> {
+
+            getPackageVersionCode(lpparam) in 40000771..40000776 -> {
                 appVersionCode = 40000771
                 videoBoxViewClass = findClassIfExists("r7.m") ?: return
                 videoBoxViewMethodName = "j"
             }
+
+            getPackageVersionCode(lpparam) in 40000777..40000779 -> {
+                appVersionCode = 40000771
+                videoBoxViewClass = findClassIfExists("t7.m") ?: return
+                videoBoxViewMethodName = "j"
+            }
+
             else -> {
                 videoBoxViewClass = findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
                 videoBoxViewMethodName = "a"
@@ -192,53 +202,87 @@ object BlurSecurity : BaseHook() {
             }
         })
 
+        if (getPackageVersionCode(lpparam) >= 40000754) {
+            XposedHelpers.findAndHookMethod(
+                videoBoxViewClass,
+                videoBoxViewMethodName,
+                Context::class.java,
+                Boolean::class.java,
+                Boolean::class.java,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
+                        mainContent.addOnAttachStateChangeListener(
+                            object :
+                                View.OnAttachStateChangeListener {
+                                @RequiresApi(Build.VERSION_CODES.S)
+                                override fun onViewAttachedToWindow(view: View) {
+                                    if (view.background != null) {
+                                        if (HookUtils.isBlurDrawable(view.background)) {
+                                            return
+                                        }
+                                    }
 
-        XposedHelpers.findAndHookMethod(
-            videoBoxViewClass,
-            videoBoxViewMethodName,
-            Context::class.java,
-            Boolean::class.java,
-            if (getPackageVersionCode(lpparam) >= 40000754) {
-                Context::class.java
-                Boolean::class.java
-            } else {
-                Context::class.java
-                Boolean::class.java
-                Boolean::class.java
-            },
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
-                    mainContent.addOnAttachStateChangeListener(
-                        object :
-                            View.OnAttachStateChangeListener {
-                            @RequiresApi(Build.VERSION_CODES.S)
-                            override fun onViewAttachedToWindow(view: View) {
-                                if (view.background != null) {
-                                    if (HookUtils.isBlurDrawable(view.background)) {
-                                        return
+                                    view.background =
+                                        HookUtils.createBlurDrawable(
+                                            view,
+                                            blurRadius,
+                                            40,
+                                            backgroundColor
+                                        )
+
+                                    if (shouldInvertColor) {
+                                        invertViewColor(mainContent)
                                     }
                                 }
 
-                                view.background =
-                                    HookUtils.createBlurDrawable(
-                                        view,
-                                        blurRadius,
-                                        40,
-                                        backgroundColor
-                                    )
-
-                                if (shouldInvertColor) {
-                                    invertViewColor(mainContent)
+                                override fun onViewDetachedFromWindow(view: View) {
+                                    view.background = null
                                 }
-                            }
+                            })
+                    }
+                })
+        } else {
 
-                            override fun onViewDetachedFromWindow(view: View) {
-                                view.background = null
-                            }
-                        })
-                }
-            })
+            XposedHelpers.findAndHookMethod(
+                videoBoxViewClass,
+                videoBoxViewMethodName,
+                Context::class.java,
+                Boolean::class.java,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
+                        mainContent.addOnAttachStateChangeListener(
+                            object :
+                                View.OnAttachStateChangeListener {
+                                @RequiresApi(Build.VERSION_CODES.S)
+                                override fun onViewAttachedToWindow(view: View) {
+                                    if (view.background != null) {
+                                        if (HookUtils.isBlurDrawable(view.background)) {
+                                            return
+                                        }
+                                    }
+
+                                    view.background =
+                                        HookUtils.createBlurDrawable(
+                                            view,
+                                            blurRadius,
+                                            40,
+                                            backgroundColor
+                                        )
+
+                                    if (shouldInvertColor) {
+                                        invertViewColor(mainContent)
+                                    }
+                                }
+
+                                override fun onViewDetachedFromWindow(view: View) {
+                                    view.background = null
+                                }
+                            })
+                    }
+                })
+        }
 
         if (shouldInvertColor) {
             val detailSettingsLayoutClass = findClassIfExists(

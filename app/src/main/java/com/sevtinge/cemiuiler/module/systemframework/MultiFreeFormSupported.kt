@@ -24,16 +24,15 @@ object MultiFreeFormSupported : BaseHook() {
                     }
                     it.result = mResult
                 }
-                XposedBridge.log("Cemiuiler: Hook multiFreeFormSupported with recents_to_small_freeform success!")
+                log("Hook with recents_to_small_freeform success!")
             } else {
                 findMethod("android.util.MiuiMultiWindowUtils") {
                     name == "multiFreeFormSupported"
                 }.hookReturnConstant(true)
-                XposedBridge.log("Cemiuiler: Hook multiFreeFormSupported success!")
+                log("Hook success!")
             }
         } catch (e: Throwable) {
-            XposedBridge.log("Cemiuiler: Hook multiFreeFormSupported failed!")
-            XposedBridge.log(e)
+            log("Hook failed by $e")
         }
     }
 

@@ -17,7 +17,7 @@ public class SetDeviceLevel extends BaseHook {
     @Override
     public void init() {
 
-            XposedBridge.log("Cemiuiler: Start to hook package " + lpparam.packageName);
+            log("Start to hook package " + lpparam.packageName);
             mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils");
             returnIntConstant(mUtil, "transDeviceLevel");
 

@@ -10,21 +10,32 @@
     <Preference android:title="@string/system_ui_statusbar_title" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.StatusBarActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.StatusBarActivity" />
+    </Preference>
+
+    <Preference android:title="@string/system_ui_navigation_title" >
+        <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.NavigationActivity"/>
     </Preference>
 
     <Preference android:title="@string/system_ui_controlcenter_title" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.ControlCenterActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.ControlCenterActivity" />
     </Preference>
 
-    <Preference android:title="@string/system_ui_other_title" >
+    <Preference android:title="@string/system_ui_hardware_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.OtherActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.HardwareActivity" />
     </Preference>
-<Preference
-            android:summary=""/>
+
+    <Preference android:title="@string/system_ui_other_title">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.OtherActivity" />
+    </Preference>
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

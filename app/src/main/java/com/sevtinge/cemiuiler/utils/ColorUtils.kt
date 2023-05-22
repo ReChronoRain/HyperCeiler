@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.utils
 
 import android.graphics.Color
+import com.sevtinge.cemiuiler.module.camera.EnableLabOptions.log
 import de.robv.android.xposed.XposedBridge
 
 object ColorUtils {
@@ -13,7 +14,7 @@ object ColorUtils {
             originalColor = Color.valueOf(color)
         } catch (e: Throwable) {
             // 颜色转换失败
-            XposedBridge.log(e)
+            log("Hook failed by: $e");
         }
         val alpha = (originalColor.alpha() * 255).toInt()
         val red = (originalColor.red() * 255).toInt()

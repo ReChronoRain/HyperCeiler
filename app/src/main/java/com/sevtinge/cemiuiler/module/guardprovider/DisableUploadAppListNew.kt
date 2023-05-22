@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.guardprovider
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.guardprovider.GuardProviderDexKit.mGuardProviderResultMethodsMap
 import com.sevtinge.cemiuiler.utils.replaceMethod
-import io.luckypray.dexkit.DexKitBridge
 import java.lang.reflect.Method
 
 class DisableUploadAppListNew : BaseHook() {

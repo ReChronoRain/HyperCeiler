@@ -49,7 +49,7 @@
                 android:defaultValue="100"
                 app:maxValue="500"
                 app:minValue="10"
-                app:format="%s / 100 f"
+                android:format="%s / 100 f"
                 app:showSeekBarValue="true"/>
 
         <SwitchPreference
@@ -61,12 +61,18 @@
 
     <PreferenceCategory android:title="@string/home_title_bigicon_title">
 
+        <SwitchPreference
+            android:key="prefs_key_home_large_icon_enable"
+            android:title="@string/enable"
+            android:defaultValue="false" />
+
         <SeekBarPreference
                 android:title="@string/home_large_icon_corner_radius"
                 android:key="prefs_key_home_large_icon_corner_radius"
-                android:defaultValue="15"
+                android:dependency="prefs_key_home_large_icon_enable"
+                android:defaultValue="32"
                 app:maxValue="90"
-                app:format="%d dp"
+                android:format="%d dp"
                 app:showSeekBarValue="true" />
 
     </PreferenceCategory>
@@ -90,11 +96,10 @@
             android:title="@string/home_title_font_size"
             android:defaultValue="12"
             app:maxValue="20"
-            app:format="%d sp"
+            android:format="%d sp"
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

@@ -22,7 +22,7 @@ public class UnlockSuperWirelessCharge extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("SuperWirelessCharge"));
             for (DexMethodDescriptor descriptor : result) {
                 Method SuperWirelessCharge = descriptor.getMethodInstance(lpparam.classLoader);
-                XposedBridge.log("Cemiuiler: SuperWirelessCharge method is "+ SuperWirelessCharge);
+                log("SuperWirelessCharge method is "+ SuperWirelessCharge);
                 if (SuperWirelessCharge.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(SuperWirelessCharge, XC_MethodReplacement.returnConstant(true));
                 }
@@ -33,7 +33,7 @@ public class UnlockSuperWirelessCharge extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("SuperWirelessChargeTip"));
             for (DexMethodDescriptor descriptor : result) {
                 Method SuperWirelessChargeTip = descriptor.getMethodInstance(lpparam.classLoader);
-                XposedBridge.log("Cemiuiler: SuperWirelessChargeTip method is "+ SuperWirelessChargeTip);
+                log("SuperWirelessChargeTip method is "+ SuperWirelessChargeTip);
                 if (SuperWirelessChargeTip.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(SuperWirelessChargeTip, XC_MethodReplacement.returnConstant(true));
                 }

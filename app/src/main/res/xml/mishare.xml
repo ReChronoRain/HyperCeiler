@@ -6,7 +6,6 @@
             android:key="prefs_key_disable_mishare_auto_off"
             android:defaultValue="false"/>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

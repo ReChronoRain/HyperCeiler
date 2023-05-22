@@ -27,9 +27,8 @@
         android:title="@string/home_widget_corner_radius"
         android:defaultValue="0"
         app:maxValue="30"
-        app:format="%d dp"
+        android:format="%d dp"
         app:showSeekBarValue="true" />
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

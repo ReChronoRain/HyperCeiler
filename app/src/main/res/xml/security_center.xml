@@ -30,6 +30,11 @@
             android:summary="@string/security_app_summary"
             android:defaultValue="false" />
 
+        <SwitchPreference
+                android:key="prefs_key_security_center_disable_ban"
+                android:title="@string/security_center_disable_ban"
+                android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_battery_title">
@@ -154,36 +159,34 @@
     <PreferenceCategory android:title="@string/security_center_newbox_title">
 
         <SwitchPreference
-            android:title="@string/security_center_newbox_custom_enable"
-            android:key="prefs_key_security_center_newbox_custom_enable"
-            android:defaultValue="false"
-            app:isPreferenceVisible="false"/>
+                android:title="@string/security_center_sidebar_line_color"
+                android:key="prefs_key_security_center_sidebar_line_color"
+                android:defaultValue="false"
+                android:enabled="false"/>
 
-        <Preference
-            android:title="@string/security_center_newbox_bg_custom"
-            android:key="prefs_key_security_center_newbox_bg_custom"
-            android:dependency="prefs_key_security_center_newbox_custom_enable"
-            app:isPreferenceVisible="false"/>
+        <moralnorm.preference.ColorPickerPreference
+                android:persistent="false"
+                android:title="@string/security_center_sidebar_line_color_default"
+                android:key="prefs_key_security_center_sidebar_line_color_default"
+                android:defaultValue="-1294740525"
+                app:showAlphaSlider="true"
+                android:dependency="prefs_key_security_center_sidebar_line_color"/>
 
-        <SeekBarPreference
-            android:title="@string/security_center_newbox_bg_padding_vertical"
-            android:key="prefs_key_security_center_newbox_bg_padding_vertical"
-            android:defaultValue="0"
-            app:maxValue="30"
-            app:format="%d dp"
-            app:showSeekBarValue="true"
-            android:dependency="prefs_key_security_center_newbox_custom_enable"
-            app:isPreferenceVisible="false"/>
+        <moralnorm.preference.ColorPickerPreference
+                android:persistent="false"
+                android:title="@string/security_center_sidebar_line_color_dark"
+                android:key="prefs_key_security_center_sidebar_line_color_dark"
+                android:defaultValue="-6842473"
+                app:showAlphaSlider="true"
+                android:dependency="prefs_key_security_center_sidebar_line_color"/>
 
-        <SeekBarPreference
-            android:title="@string/security_center_newbox_bg_padding_horizontal"
-            android:key="prefs_key_security_center_newbox_bg_padding_horizontal"
-            android:defaultValue="0"
-            app:maxValue="30"
-            app:format="%d dp"
-            app:showSeekBarValue="true"
-            android:dependency="prefs_key_security_center_newbox_custom_enable"
-            app:isPreferenceVisible="false"/>
+        <moralnorm.preference.ColorPickerPreference
+                android:persistent="false"
+                android:title="@string/security_center_sidebar_line_color_light"
+                android:key="prefs_key_security_center_sidebar_line_color_light"
+                android:defaultValue="-872415232"
+                app:showAlphaSlider="true"
+                android:dependency="prefs_key_security_center_sidebar_line_color"/>
 
         <SwitchPreference
             android:title="@string/security_center_blur_model"
@@ -196,7 +199,7 @@
             android:defaultValue="60"
             app:minValue="30"
             app:maxValue="99"
-            app:format="%s"
+            android:format="%s"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_se_enable"/>
 
@@ -210,7 +213,6 @@
 
     </PreferenceCategory>
 
-<Preference
-            android:summary=""/>
+<Preference android:enabled="false" />
 
 </PreferenceScreen>

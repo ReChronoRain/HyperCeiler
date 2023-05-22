@@ -27,7 +27,7 @@ public class BeautyFace extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("BeautyFace"));
             for (DexMethodDescriptor descriptor : result) {
                 beautyFace = descriptor.getMethodInstance(lpparam.classLoader);
-                XposedBridge.log("Cemiuiler: beautyFace method is " + beautyFace);
+                log("beautyFace method is " + beautyFace);
                 if (beautyFace.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(beautyFace, XC_MethodReplacement.returnConstant(true));
                 }

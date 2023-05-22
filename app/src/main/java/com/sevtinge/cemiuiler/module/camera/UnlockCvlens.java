@@ -31,9 +31,9 @@ public class UnlockCvlens extends BaseHook {
                     param.setResult(2);
                 }
             });
-            XposedBridge.log("Cemiuiler: UnlockCvLens try to hook CvLensVersion success!");
+            log("try to hook CvLensVersion success!");
         } catch (Exception e) {
-            XposedBridge.log("Cemiuiler: UnlockCvLens try to hook CvLensVersion failed!\n" + e);
+            log("try to hook CvLensVersion failed!\n" + e);
             throw new RuntimeException(e);
         }
     }

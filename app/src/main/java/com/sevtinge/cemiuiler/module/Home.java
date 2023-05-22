@@ -5,17 +5,7 @@ import com.sevtinge.cemiuiler.module.home.*;
 import com.sevtinge.cemiuiler.module.home.dock.*;
 import com.sevtinge.cemiuiler.module.home.drawer.AllAppsContainerViewBlur;
 import com.sevtinge.cemiuiler.module.home.drawer.AppDrawer;
-import com.sevtinge.cemiuiler.module.home.folder.BigFolderIcon;
-import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur;
-import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur1x2;
-import com.sevtinge.cemiuiler.module.home.folder.BigFolderIconBlur2x1;
-import com.sevtinge.cemiuiler.module.home.folder.BigFolderItemMaxCount;
-import com.sevtinge.cemiuiler.module.home.folder.FolderAnimation;
-import com.sevtinge.cemiuiler.module.home.folder.FolderAutoClose;
-import com.sevtinge.cemiuiler.module.home.folder.FolderBlur;
-import com.sevtinge.cemiuiler.module.home.folder.FolderColumns;
-import com.sevtinge.cemiuiler.module.home.folder.FolderShade;
-import com.sevtinge.cemiuiler.module.home.folder.SmallFolderIconBlur;
+import com.sevtinge.cemiuiler.module.home.folder.*;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsHeight;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginTop;
@@ -66,9 +56,9 @@ public class Home extends BaseModule {
         initHook(new FolderShade(), mPrefsMap.getStringAsInt("home_folder_shade", 1) > 0);
         initHook(FolderColumns.INSTANCE, mPrefsMap.getInt("home_folder_columns", 3) != 3 ||
                 mPrefsMap.getBoolean("home_folder_width"));
-        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FolderAnimation(), mPrefsMap.getBoolean("home_folder_animation"));
         initHook(new SmallFolderIconBlur(), mPrefsMap.getBoolean("home_small_folder_icon_bg"));
+        initHook(FolderVerticalPadding.INSTANCE, mPrefsMap.getInt("home_folder_vertical_padding", 0) != 0);
 
         initHook(new BigFolderIcon(), false);
         initHook(new BigFolderIconBlur2x1(), mPrefsMap.getBoolean("home_big_folder_icon_bg_2x1"));
@@ -139,7 +129,8 @@ public class Home extends BaseModule {
         initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
 
         //实验性功能
-        initHook(ShortcutBackgroundBlur.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
+        initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
+        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
         initHook(new LargeIconCornerRadius(), true);
