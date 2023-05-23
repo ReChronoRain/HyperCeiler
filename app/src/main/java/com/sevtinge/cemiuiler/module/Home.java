@@ -91,6 +91,7 @@ public class Home extends BaseModule {
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
+        initHook(new IconScaleHook(), mPrefsMap.getBoolean("home_title_icon_scale"));
 
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));

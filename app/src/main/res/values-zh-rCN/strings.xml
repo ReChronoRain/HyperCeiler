@@ -413,6 +413,7 @@
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>
     <string name="home_title_download_animation">下载动画</string>
     <string name="home_title_fix_animation">优化打断动画</string>
+    <string name="home_title_icon_scale">图标缩放</string>
 
     <string name="home_widget_all_widget_animation">强制所有小部件使用动画</string>
     <string name="home_widget_show_miui_widget">显示 MIUI 小部件</string>
