@@ -36,7 +36,11 @@ object FolderBlur : BaseHook() {
                 var isShouldBlur = false
                 var isFolderShowing = false
                 val launcherClass = findClassIfExists("com.miui.home.launcher.Launcher")
+                val blurUtilsClass = findClassIfExists("com.miui.home.launcher.common.BlurUtils")
                 val folderClingClass = findClassIfExists("com.miui.home.launcher.FolderCling")
+                val folderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo")
+                val folderClass = findClassIfExists("com.miui.home.launcher.Folder")
+                val cancelShortcutMenuReasonClass = findClassIfExists("com.miui.home.launcher.shortcuts.CancelShortcutMenuReason")
 
                 launcherClass.hookAfterMethod("isFolderShowing") {
                     isShouldBlur = it.result as Boolean
@@ -44,6 +48,16 @@ object FolderBlur : BaseHook() {
 
                 folderClingClass.hookAfterMethod("isOpened") {
                     isFolderShowing = it.result as Boolean
+                }
+
+                folderClass.hookAfterMethod("onOpen"){
+                    val mLauncher = it.thisObject as Activity
+                    blurUtilsClass.callStaticMethod(
+                        "fastBlur",
+                        1.0f,
+                        mLauncher.window,
+                        true
+                    )
                 }
 
                 findAndHookMethod(launcherClass, "isShouldBlur", object : MethodHook() {
@@ -61,18 +75,13 @@ object FolderBlur : BaseHook() {
                             if (isFolderShowing) param.result = true
                         }
                     })
+
                 if (isAlpha() || checkVersionCode() >= 439096421) {
                     "com.miui.home.launcher.common.BlurUtils".hookBeforeMethod("isUserBlurWhenOpenFolder") {
                         it.result = true
                     }
                 } else {
                     //copy from miui_xxl，修复文件夹内移动图标shortcut背景模糊丢失
-
-                    val folderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo")
-                    val blurUtilsClass =
-                        findClassIfExists("com.miui.home.launcher.common.BlurUtils")
-                    val cancelShortcutMenuReasonClass =
-                        findClassIfExists("com.miui.home.launcher.shortcuts.CancelShortcutMenuReason")
 
                     launcherClass.hookAfterMethod("openFolder", folderInfo, View::class.java) {
                         val mLauncher = it.thisObject as Activity
