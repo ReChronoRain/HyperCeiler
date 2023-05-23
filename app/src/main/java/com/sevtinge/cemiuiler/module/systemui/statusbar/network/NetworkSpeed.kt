@@ -1,15 +1,15 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.network
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.TrafficStats
+import android.os.Build
 import android.util.Pair
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
 import kotlin.math.pow
@@ -85,10 +85,15 @@ object NetworkSpeed : BaseHook() {
 
     override fun init() {
 //      双排网速相关
-        val nscCls = XposedHelpers.findClassIfExists(
-            "com.android.systemui.statusbar.policy.NetworkSpeedController",
-            lpparam.classLoader
-        )
+        var networkClass = ""
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {  // Android11 可用
+             networkClass = "com.android.systemui.statusbar.NetworkSpeedController"
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {  // Android12+ 可用
+             networkClass = "com.android.systemui.statusbar.policy.NetworkSpeedController"
+        }
+
+        val nscCls =
+            XposedHelpers.findClassIfExists(networkClass, lpparam.classLoader)
 
         if (nscCls == null) {
             Helpers.log("DetailedNetSpeedHook", "Cemiuiler: No NetworkSpeed view or controller")

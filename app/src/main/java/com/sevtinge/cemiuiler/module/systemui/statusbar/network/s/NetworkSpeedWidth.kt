@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.network.s
 
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook

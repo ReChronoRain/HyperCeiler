@@ -1,11 +1,10 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.network
 
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XposedBridge
 
 object NetworkSpeedUnit : BaseHook() {
     override fun init() {
@@ -13,7 +12,7 @@ object NetworkSpeedUnit : BaseHook() {
             "com.android.systemui.statusbar.views.NetworkSpeedView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    //值和单位双排显示 + 上下行网速双排显示 + 字体大小调整
+                    //值和单位双排显示 + 上下行网速双排显示
                     val doubleLine =
                         (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") && mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down"))
                     val dualRow =
@@ -22,14 +21,11 @@ object NetworkSpeedUnit : BaseHook() {
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
                         val fontSize =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
-                        val fontsizeEnable: Boolean =
+                        val fontSizeEnable: Boolean =
                             mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
-                        /*if (dualRow) {
-                            if (fontSize > 23 || fontSize == 13) fontSize = 16
-                        } else {
-                            if (fontSize < 20 && fontSize != 13) fontSize = 27
-                        }*/
-                        if (fontsizeEnable) {
+
+                        //网速字体大小调整
+                        if (fontSizeEnable) {
                             try {
                                 if (doubleLine || dualRow) {
                                     meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
@@ -55,10 +51,8 @@ object NetworkSpeedUnit : BaseHook() {
                             res.displayMetrics
                         ).toInt()
                         //右侧间距
-                        var rightMargin = mPrefsMap.getInt(
-                            "system_ui_statusbar_network_speed_right_margin",
-                            0
-                        )
+                        var rightMargin =
+                            mPrefsMap.getInt("system_ui_statusbar_network_speed_right_margin", 0)
                         rightMargin = TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP,
                             rightMargin * 0.5f,
@@ -66,10 +60,8 @@ object NetworkSpeedUnit : BaseHook() {
                         ).toInt()
                         //上下偏移量
                         var topMargin = 0
-                        val verticalOffset = mPrefsMap.getInt(
-                            "system_ui_statusbar_network_speed_vertical_offset",
-                            8
-                        )
+                        val verticalOffset =
+                            mPrefsMap.getInt("system_ui_statusbar_network_speed_vertical_offset", 8)
                         if (verticalOffset != 8) {
                             val marginTop = TypedValue.applyDimension(
                                 TypedValue.COMPLEX_UNIT_DIP,
@@ -81,11 +73,7 @@ object NetworkSpeedUnit : BaseHook() {
                         meter.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
 
                         //水平对齐
-                        val align = mPrefsMap.getStringAsInt(
-                            "system_ui_statusbar_network_speed_align",
-                            1
-                        )
-                        when (align) {
+                        when (mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_align", 1)) {
                             2 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
                             3 -> meter.textAlignment = View.TEXT_ALIGNMENT_CENTER
                             4 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
