@@ -545,8 +545,8 @@
     <string name="hook_failed">Module not activated</string>
     <string name="settings_icon_desc">Set the location of the module entry in the system settings</string>
     <string name="system_framework_corepatch_title">Package Manager Service</string>
-    <string name="system_framework_core_patch_down_grade">Allow downgrade</string>
-    <string name="system_framework_core_patch_down_grade_desc">Allow downgrade applications</string>
+    <string name="system_framework_core_patch_downgr">Allow downgrade</string>
+    <string name="system_framework_core_patch_downgr_desc">Allow downgrade applications</string>
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
     <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ignore invalid digest error)</string>
     <string name="system_framework_core_patch_digest_creak">Disable compare signatures</string>

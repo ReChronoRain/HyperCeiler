@@ -32,9 +32,9 @@
     <PreferenceCategory android:title="@string/system_framework_corepatch_title">
 
         <SwitchPreference
-            android:title="@string/system_framework_core_patch_down_grade"
-            android:summary="@string/system_framework_core_patch_down_grade_desc"
-            android:key="prefs_key_system_framework_core_patch_down_grade"
+            android:title="@string/system_framework_core_patch_downgr"
+            android:summary="@string/system_framework_core_patch_downgr_desc"
+            android:key="prefs_key_system_framework_core_patch_downgr"
             android:defaultValue="false" />
 
         <SwitchPreference

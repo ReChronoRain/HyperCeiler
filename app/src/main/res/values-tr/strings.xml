@@ -545,8 +545,8 @@
     <string name="hook_failed">Modül aktif değil</string>
     <string name="settings_icon_desc">Sistem ayarlarında modül girişinin konumunu ayarlayın</string>
     <string name="system_framework_corepatch_title">Paket Yöneticisi Hizmeti</string>
-    <string name="system_framework_core_patch_down_grade">Düşürmeye izin ver</string>
-    <string name="system_framework_core_patch_down_grade_desc">Uygulamaların düşürülmesine izin ver</string>
+    <string name="system_framework_core_patch_downgr">Düşürmeye izin ver</string>
+    <string name="system_framework_core_patch_downgr_desc">Uygulamaların düşürülmesine izin ver</string>
     <string name="system_framework_core_patch_auth_creak">Özet doğrulamayı devre dışı bırak</string>
     <string name="system_framework_core_patch_auth_creak_desc">Apk\'deki dosyayı değiştirdikten sonra uygulamaların yüklenmesine izin verir (ingnore geçersiz özet hatası)</string>
     <string name="system_framework_core_patch_digest_creak">İmzaları karşılaştırmayı devre dışı bırak</string>
