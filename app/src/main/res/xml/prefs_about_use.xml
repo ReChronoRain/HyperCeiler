@@ -157,13 +157,6 @@
                     android:data="https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict" />
         </Preference>
         <Preference
-            android:title="Notiface"
-            android:summary="GSWXXN | Apache-2.0">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/GSWXXN/Notiface" />
-        </Preference>
-        <Preference
                 android:title="Portal Hook"
                 android:summary="Haocen2004 | MIT">
             <intent

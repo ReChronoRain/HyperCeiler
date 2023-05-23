@@ -65,6 +65,7 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            app:isPreferenceVisible="false"
             android:key="prefs_key_system_ui_lock_screen_unlock_notice"
             android:summary="@string/system_ui_lock_screen_unlock_notice_desc"
             android:title="@string/system_ui_lock_screen_unlock_notice" />
