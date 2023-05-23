@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch;
+import com.sevtinge.cemiuiler.utils.Helpers;
+import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -31,7 +33,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "conf");
+    XSharedPreferences prefs = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
