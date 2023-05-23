@@ -1,10 +1,10 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.network
 
 import com.github.kyuubiran.ezxhelper.utils.findMethod
 import com.github.kyuubiran.ezxhelper.utils.hookBefore
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
-//隐藏网速单位，仅供 Android12 及以上使用
+//隐藏网速单位
 object NetworkSpeedSec : BaseHook() {
     override fun init() {
         findMethod("com.android.systemui.statusbar.views.NetworkSpeedView") {

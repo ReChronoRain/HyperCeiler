@@ -6,6 +6,12 @@ import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeed;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSec;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSpacing;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedUnit;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
 import java.util.Objects;
@@ -127,7 +133,8 @@ public class SystemUI extends BaseModule {
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
         initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
-        initHook(NoticeFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_notice"));
+        //initHook(NoticeFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_notice"));
+        initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
 

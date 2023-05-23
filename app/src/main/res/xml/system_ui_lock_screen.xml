@@ -35,7 +35,10 @@
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_blur_button" />
 
-
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_force_system_fonts"
+            android:title="@string/system_ui_lock_screen_force_system_fonts" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_safe_title">

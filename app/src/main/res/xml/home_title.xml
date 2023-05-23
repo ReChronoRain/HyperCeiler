@@ -52,6 +52,17 @@
                 android:format="%s / 100 f"
                 app:showSeekBarValue="true"/>
 
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:key="pref_key_home_title_icon_scale"
+            android:title="@string/home_title_icon_scale"
+            android:defaultValue="45"
+            app:minValue="45"
+            app:maxValue="200"
+            app:stepValue="5"
+            app:displayDividerValue="100"
+            app:format="x%s"
+            app:defaultValueText="@string/array_default" />
+
         <SwitchPreference
                 android:key="prefs_key_home_title_fix_animation"
                 android:title="@string/home_title_fix_animation"

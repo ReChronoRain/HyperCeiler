@@ -413,6 +413,7 @@
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>
     <string name="home_title_download_animation">下载动画</string>
     <string name="home_title_fix_animation">优化打断动画</string>
+    <string name="home_title_icon_scale">图标缩放</string>
 
     <string name="home_widget_all_widget_animation">强制所有小部件使用动画</string>
     <string name="home_widget_show_miui_widget">显示 MIUI 小部件</string>
@@ -713,6 +714,7 @@
     <string name="system_ui_lock_screen_current">当前电流</string>
     <string name="system_ui_lock_screen_show_second">时钟显示秒数</string>
     <string name="system_ui_lock_screen_blur_button">相机和负一屏按钮背景模糊</string>
+    <string name="system_ui_lock_screen_force_system_fonts">时钟强制使用系统字体</string>
     <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
     <string name="system_ui_lock_screen_unlock_notice">人脸不解锁</string>

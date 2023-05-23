@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler
 
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
-import com.sevtinge.cemiuiler.module.SystemFrameworkForCorepatch
+import com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
 import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom
@@ -28,7 +28,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
         if (startupParam != null) {
             BackgroundBlurDrawable().initZygote(startupParam)
-            SystemFrameworkForCorepatch().initZygote(startupParam)
+            SystemFrameworkForCorePatch().initZygote(startupParam)
         }
     }
 
@@ -41,7 +41,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
 
         init(lpparam)
 
-        SystemFrameworkForCorepatch().handleLoadPackage(lpparam)
+        SystemFrameworkForCorePatch().handleLoadPackage(lpparam)
     }
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam) {

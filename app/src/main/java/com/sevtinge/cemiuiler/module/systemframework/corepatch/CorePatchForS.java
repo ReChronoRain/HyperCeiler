@@ -14,21 +14,14 @@ public class CorePatchForS extends CorePatchForR {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
-
-        log("CorePatchForS Downgrade=" + mPrefsMap.getBoolean("system_framework_core_patch_downgr"));
-        log("CorePatchForS AuthCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
-        log("CorePatchForS DigestCreak=" + mPrefsMap.getBoolean("system_framework_core_patch_digest_creak"));
-        log("CorePatchForS UsePreSig=" + mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature"));
-        log("CorePatchForS EnhancedMode=" + mPrefsMap.getBoolean("system_framework_core_patch_enhanced_mode"));
-
-        if (mPrefsMap.getBoolean("system_framework_core_patch_digest_creak") && mPrefsMap.getBoolean("system_framework_core_patch_use_pre_signature")) {
+        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
             findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader, "doesSignatureMatchForPermissions", String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                     if (param.getResult().equals(false)) {
-                        String pName = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
-                        if (pName.contentEquals((String) param.args[0])) {
+                        String pPname = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
+                        if (pPname.contentEquals((String) param.args[0])) {
                             param.setResult(true);
                         }
                     }
