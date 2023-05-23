@@ -128,6 +128,7 @@ public class SystemUI extends BaseModule {
         initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         //initHook(NoticeFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_notice"));
+        initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));
 

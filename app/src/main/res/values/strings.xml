@@ -997,4 +997,5 @@ When using this feature, please turn on Smart Display lock screen notifications 
 If you do not need to use the smart display lock screen notification, please turn off this function</string>
     <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
     <string name="home_title_icon_scale">Icons scaling</string>
+    <string name="system_ui_lock_screen_force_system_fonts">Force clock use system fonts</string>
 </resources>
