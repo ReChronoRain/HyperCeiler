@@ -11,7 +11,6 @@ import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginTop;
 import com.sevtinge.cemiuiler.module.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
-import com.sevtinge.cemiuiler.module.home.layout.UnlockGridsNoWord;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
 import com.sevtinge.cemiuiler.module.home.other.*;
 import com.sevtinge.cemiuiler.module.home.recent.*;
@@ -91,7 +90,7 @@ public class Home extends BaseModule {
         //图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
-        initHook(new IconScaleHook(), mPrefsMap.getBoolean("home_title_icon_scale"));
+        initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
         //标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
