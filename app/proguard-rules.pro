@@ -1,5 +1,5 @@
 -keep class com.sevtinge.cemiuiler.XposedInit
--keep class com.sevtinge.cemiuiler.module.systemframework.corepatch.CorePatchMainHook
+-keep class com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch
 -keep class moralnorm.**{*;}
 -keep class com.sevtinge.cemiuiler.utils.Helpers{boolean isModuleActive;}
 -keep class com.sevtinge.cemiuiler.utils.Helpers{int XposedVersion;}
