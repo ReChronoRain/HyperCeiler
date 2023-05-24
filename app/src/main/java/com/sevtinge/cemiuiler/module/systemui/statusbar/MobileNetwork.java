@@ -66,16 +66,12 @@ public class MobileNetwork extends BaseHook {
         if (opt != 0) {
             View view = (View) XposedHelpers.getObjectField(param.thisObject, fieldName);
             switch (opt) {
-                case 1 :
-                    view.setVisibility(View.VISIBLE);
-                    break;
-                case 2 :
-                    view.setVisibility(View.GONE);
-                    break;
-                case 3 :
+                case 1 -> view.setVisibility(View.VISIBLE);
+                case 2 -> view.setVisibility(View.GONE);
+                case 3 -> {
                     view.setVisibility(View.GONE);
                     isMobileConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
-                    break;
+                }
             }
 
             if (isMobileConnected) {
