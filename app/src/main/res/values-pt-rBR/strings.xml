@@ -707,7 +707,7 @@
 	<string name="system_settings_permission_unknown_origin_app">Instalar permissões de aplicações desconhecidas sem procurar na lista de aplicações</string>
 	<string name="system_settings_permission_unknown_origin_app_desc">Use a compilação internacional, pule diretamente para a chave de permissão do aplicativo correspondente \"exibido em cima de outros aplicativos\"</string>
 	<string name="system_settings_safe_wifi">Ver as suas palavras-passe Wi-Fi guardadas</string>
-	<string name="system_settings_safe_wifi_desc">Caminho: Configurações-WLAN - Configurações Avançadas-Gerenciar redes salvas</string>
+	<string name="system_settings_safe_wifi_desc">Desbloquear Gerenciar redes salvas\nCaminho: Configurações-WLAN - Configurações Avançadas-Gerenciar redes salvas</string>
 	<string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
 	<string name="system_settings_wifi_password_dlgtitle">Detalhes do WiFi</string>
 	<string name="system_settings_wifi_password_label">Palavra-passe</string>
@@ -752,8 +752,6 @@
 	<string name="system_ui_lock_screen_scramble_pin_desc">Ordem aleatória do teclado PIN</string>
 	<string name="system_ui_lock_screen_show_charging_cv">Mostrar corrente de carga, tensão e potência</string>
 	<string name="system_ui_lock_screen_show_second">Relógio mostrar segundo</string>
-	<string name="system_ui_lock_screen_unlock_notice">Desbloqueio facial</string>
-	<string name="system_ui_lock_screen_unlock_notice_desc">Após o reconhecimento facial, ele é usado apenas para visualizar notificações ocultas ao usar este recurso, ative as notificações da tela de bloqueio do Smart Display (configurações - > Impressão Digital, rosto e senha - > Desbloqueio facial) Se você não precisar usar a notificação da tela de bloqueio do smart display, desative esta função</string>
 	<string name="system_ui_lockscreen_safe_title">Segurança</string>
 	<string name="system_ui_lockscreen_title">Ecrã de bloqueio</string>
 	<string name="system_ui_lockscreen_ui_title">IU</string>

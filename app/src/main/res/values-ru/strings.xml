@@ -701,7 +701,7 @@
     <string name="system_settings_permission_unknown_origin_app">Установите неизвестные разрешения приложения без поиска в списке приложений</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Работает с глобальной прошивкой, перейдите непосредственно к переключателю разрешений соответствующего приложения, \"Отображать поверх других приложений\"</string>
     <string name="system_settings_safe_wifi">Просмотр сохраненных паролей Wi-Fi</string>
-    <string name="system_settings_safe_wifi_desc">Путь: Настройки - Wi-Fi - Расширенные настройки - Управление сохраненными сетями</string>
+    <string name="system_settings_safe_wifi_desc">Разблокировать управление сохраненными сетями\nПуть: Настройки - Wi-Fi - Расширенные настройки - Управление сохраненными сетями</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
     <string name="system_settings_wifi_password_dlgtitle">Сведения сети Wi-Fi</string>
     <string name="system_settings_wifi_password_label">Пароль</string>

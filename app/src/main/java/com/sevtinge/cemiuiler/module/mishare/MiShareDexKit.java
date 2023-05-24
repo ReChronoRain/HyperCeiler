@@ -26,7 +26,7 @@ public class MiShareDexKit extends BaseHook {
                     bridge.batchFindMethodsUsingStrings(
                             BatchFindArgs.builder()
                                     .addQuery("MiShareAutoOff", List.of("MiShareService", "EnabledState"))
-                                    /*.addQuery("MiShareAutoOff2", List.of("EnabledState", "mishare_enabled"))*/
+                                    .addQuery("qwq", List.of("EnabledState","mishare_enabled"))
                                     .matchType(MatchType.CONTAINS)
                                     .build()
                     );

@@ -580,6 +580,7 @@
     <string name="system_framework_volume_media_steps_desc">Ses çubuğunun kaydırılmasının donmasına veya Bluetooth ses seviyesinin anormal olmasına neden olabilir</string>
     <string name="system_framework_volume_steps">Ses seviyesi çarpanı</string>
     <string name="system_settings_lab_title">Öne çıkan işlevler</string>
+    <string name="system_settings_safe_wifi_desc">Kayıtlı Ağları Yönetin Kilidini Açın\nYol: Ayarlar-WLAN-Gelişmiş Ayarlar-Kayıtlı Ağları Yönetin</string>
     <string name="system_settings_voip_assistant_controller">VoIP asistanı</string>
     <string name="system_settings_develop_title">Geliştirici seçenekleri</string>
     <string name="system_settings_develop_speed_mode">Aşırı mod</string>
