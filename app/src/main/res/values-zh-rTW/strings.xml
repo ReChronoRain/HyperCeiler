@@ -167,6 +167,8 @@
     <string name="content_extension_super_image">開放超解析度圖片</string>
     <string name="content_extension_super_image_summary">需要系統底層支援</string>
     <string name="downloads">下載管理程式</string>
+    <string name="various_fuck_xlDownload">阻止建立 .xlDownload 資料夾</string>
+    <string name="various_fuck_xlDownload_desc">防止下載管理程式在內部儲存的根目錄上生成 .xlDownload 資料夾</string>
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半徑</string>
     <string name="custom_background_color">背景顏色</string>
@@ -398,7 +400,7 @@
     <string name="language">繁體中文 (台灣)</string>
     <string name="lbe">權限管理服務</string>
     <string name="clipboard">剪貼簿</string>
-    <string name="lbe_disable_clipboard_tip">停用讀取剪貼簿提示</string>
+    <string name="lbe_disable_clipboard_tip">隱藏 Toast 提示</string>
     <string name="location_add">增加</string>
     <string name="link_open_mode_default">系统預設</string>
     <string name="link_open_mode_mi">小米瀏覽器</string>
@@ -942,6 +944,8 @@
     <string name="various_disable_access_device_logs">關閉訪問設備日誌確認</string>
     <string name="home_title_icon_scale">圖示縮放</string>
     <string name="system_ui_lock_screen_force_system_fonts">時鐘強制使用系統字體</string>
+    <string name="browser_debug_mode_desc">不支援 17.5.xxxxx 及以上版本</string>
+    <string name="system_ui_statusbar_mobile_type_margin_desc">開啟雙排蜂窩移動網絡後將不可調整</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>

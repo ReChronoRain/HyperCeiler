@@ -87,10 +87,6 @@
 	<string name="array_global_actions_volume_down">Volume Para Baixo</string>
 	<string name="array_global_actions_volume_up">Aumentar O Volume</string>
 	<string name="array_gradual">Lento</string>
-	<string name="array_netspeedicons_arrows">△▽ (▲▼)</string>
-	<string name="array_netspeedicons_arrows_long1">↑ ↓</string>
-	<string name="array_netspeedicons_arrows_long2">⇧ ⇩</string>
-	<string name="array_netspeedicons_arrows_small">▵ ▿ ( ▴ ▾ )</string>
 	<string name="array_netspeedicons_bullets">Branco Shogi peça virou branco Shogi peça (preto Shogi peça virou Preto Shogi peça )</string>
 	<string name="array_netspeedicons_no">Sem ícones</string>
 	<string name="array_rainbow">Arco-íris</string>
@@ -410,7 +406,7 @@
 	<string name="lbe_clipboard_tip">Ler a área de transferência</string>
 	<string name="lbe_clipboard_tip_toast">Leia a área de transferência usando dicas de torradas</string>
 	<string name="lbe_clipboard_tip_toast_desc">Oculte a caixa de diálogo e permita que o aplicativo leia a área de transferência por padrão</string>
-	<string name="lbe_disable_clipboard_tip">Desativar o prompt de leitura da área de transferência</string>
+	<string name="lbe_disable_clipboard_tip">Ocultar prompt de notificação</string>
 	<string name="link_open_mode_default">Defeito do sistema</string>
 	<string name="link_open_mode_mi">Navegador Xiaomi</string>
 	<string name="location_add">Adicionar</string>
@@ -924,7 +920,6 @@
 	<string name="system_ui_statusbar_network_speed_oneKBs">1 KB / s</string>
 	<string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo (/s)de Byte por segundo</string>
 	<string name="system_ui_statusbar_network_speed_show_up_down">Mostrar para cima e para baixo a velocidade da rede</string>
-	<string name="system_ui_statusbar_network_speed_speedunits">KMG</string>
 	<string name="system_ui_statusbar_network_speed_update_spacing">Intervalo de actualização da velocidade da rede</string>
 	<string name="system_ui_statusbar_temp_fix_cpu">Corrigir a temperatura da CPU</string>
 	<string name="system_ui_statusbar_temp_fix_cpu_desc">Introduzir o número de / sys / devices / virtual / thermal / thermal_zone*</string>

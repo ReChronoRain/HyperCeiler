@@ -400,7 +400,7 @@
     <string name="lbe">Разрешения</string>
     <string name="lbe_clipboard_tip">Чтение буфера обмена</string>
     <string name="lbe_clipboard_tip_toast">Использовать подсказки Toast для чтения содержимого буфера обмена</string>
-    <string name="lbe_disable_clipboard_tip">Отключить запрос на чтение буфера обмена</string>
+    <string name="lbe_disable_clipboard_tip">Скрыть подсказки тостов</string>
     <string name="link_open_mode_default">Системный по умолчанию</string>
     <string name="link_open_mode_mi">Mi Браузер</string>
     <string name="location_add">Добавить</string>

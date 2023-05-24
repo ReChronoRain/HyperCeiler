@@ -189,7 +189,7 @@
     <string name="home_recent_text_color">Küçük resim etiketleri metninin rengi</string>
     <string name="home_recent_text">Son görev olmadığında görüntülenen metin</string>
     <string name="home_recent_remove_icon">Simgeyi kaldır</string>
-    <string name="lbe_disable_clipboard_tip">Pano okuma istemini devre dışı bırak</string>
+    <string name="lbe_disable_clipboard_tip">Tost İpuçlarını Gizle</string>
     <string name="market_device_modify">Model kılığında</string>
     <string name="market_device_modify_desc">Gizlenmiş cihaz modeli Xiaomi 13 Ultra\'dır</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Minimum kırpma görüntü sınırının kilidini açın</string>

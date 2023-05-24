@@ -201,7 +201,7 @@
     <string name="home_recent_app_name_distance_task_view_card">App name distance task view card</string>
     <string name="home_recent_task_view_card_rounded_corners">Task view card rounded corners</string>
     <string name="home_other_disable_hide_google">Disable hide Google</string>
-    <string name="lbe_disable_clipboard_tip">Disable read clipboard prompt</string>
+    <string name="lbe_disable_clipboard_tip">Hide Toast Tips</string>
     <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
     <string name="market_device_modify">Model guise</string>
     <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>
@@ -982,4 +982,6 @@ If you do not need to use the smart display lock screen notification, please tur
     <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
     <string name="home_title_icon_scale">Icons scaling</string>
     <string name="system_ui_lock_screen_force_system_fonts">Force clock use system fonts</string>
+    <string name="browser_debug_mode_desc">17.5.xxxxx and above are not supported</string>
+    <string name="system_ui_statusbar_mobile_type_margin_desc">After opening the dual-row mobile network, it will not be adjustable</string>
 </resources>
