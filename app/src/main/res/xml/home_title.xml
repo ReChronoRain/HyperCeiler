@@ -55,6 +55,7 @@
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="pref_key_home_title_icon_scale"
             android:title="@string/home_title_icon_scale"
+            app:isPreferenceVisible="false"
             android:defaultValue="45"
             app:minValue="45"
             app:maxValue="200"
