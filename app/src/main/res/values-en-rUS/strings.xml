@@ -369,7 +369,7 @@
     <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
     <string name="updater_miui_version">Fake MIUI version for Updater</string>
     <string name="updater_device">Fake device for Updater</string>
-    <string name="updater_device_desc">This feature is really danger, please do not use it in daily</string>
+    <string name="updater_device_desc">This feature is really danger, please do not use it in daily\nFill in please enter model code</string>
     <string name="various_location_simulation_title">Fake location</string>
     <string name="various_dialog_title">Dialog</string>
     <string name="settings_notfication_importance">Show notification importance</string>
@@ -757,7 +757,7 @@
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
-    <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
+    <string name="system_settings_safe_wifi_desc">Unlock Manage Saved Networks\nPath: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
     <string name="system_settings_permission_title">Permission</string>
     <string name="record">Record</string>
     <string name="camera_record_60fps">Unlock 60FPS</string>
@@ -938,7 +938,7 @@
     <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
     <string name="system_ui_status_bar_battery_icon">Hide battery icon</string>
     <string name="system_ui_lock_screen_password_free">No need to enter password when booting</string>
-    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
+    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption\nCheck whether the path is encrypted: Settings - Security - More Security Settings - More Security Settings - Encryption and Credentials</string>
     <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
     <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
@@ -954,7 +954,7 @@
     <string name="system_ui_control_center_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
     <string name="system_ui_control_center_min_brightness">Auto Brightness Min</string>
     <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
-    <string name="system_ui_hardware_title">Display related</string>
+    <string name="system_ui_hardware_title">Display</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_accessibility_title">Gesture shortcuts</string>
@@ -975,10 +975,6 @@
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
     <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
     <string name="security_center_disable_ban">Remove report button</string>
-    <string name="system_ui_lock_screen_unlock_notice">Face unlock</string>
-    <string name="system_ui_lock_screen_unlock_notice_desc">After face recognition, it is only used to view hidden notifications
-When using this feature, please turn on Smart Display lock screen notifications (Settings -> Fingerprint, Face &amp; Password -> Face Unlock)
-If you do not need to use the smart display lock screen notification, please turn off this function</string>
     <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
     <string name="home_title_icon_scale">Icons scaling</string>
     <string name="system_ui_lock_screen_force_system_fonts">Force clock use system fonts</string>
