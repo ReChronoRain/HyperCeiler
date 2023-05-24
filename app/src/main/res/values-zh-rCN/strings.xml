@@ -158,6 +158,7 @@
     <string name="aireco_device_modify">移除内测限制</string>
 
     <string name="browser_debug_mode">开发者选项</string>
+    <string name="browser_debug_mode_desc">不支持 17.5.xxxxx 及以上版本</string>
 
     <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>
     <string name="clock_enable_hour_glass_desc">不支持 13.65.0 及以上版本</string>
@@ -431,7 +432,7 @@
     <string name="joyose_enable_gpu_tuner_desc">开启后 \"游戏空间\" 的底部中间增加游戏 GPU 相关设置</string>
 
     <string name="clipboard">剪切板</string>
-    <string name="lbe_disable_clipboard_tip">禁用提示读取剪贴板</string>
+    <string name="lbe_disable_clipboard_tip">隐藏 Toast 提示</string>
     <string name="lbe_clipboard_tip_toast">使用 Toast 提示读取剪贴板</string>
     <string name="lbe_clipboard_tip_toast_desc">隐藏对话框并允许应用默认读取剪切板</string>
     <string name="lbe_clipboard_tip">读取了剪贴板</string>
@@ -751,6 +752,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
 
+    <string name="system_ui_statusbar_mobile_type_margin_desc">开启双排移动网络后将不可调整</string>
+
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">网速字体大小</string>
     <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>
@@ -928,7 +931,7 @@
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
-    <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
+    <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部記憶體的根目录上生成 .xlDownload 文件夹</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
