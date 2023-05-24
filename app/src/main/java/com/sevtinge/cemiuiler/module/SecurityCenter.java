@@ -11,7 +11,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.beauty.*;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 
 public class SecurityCenter extends BaseModule {
 
@@ -60,9 +60,10 @@ public class SecurityCenter extends BaseModule {
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
         //
-        initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
-        initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
-        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
-
+        if (!SdkHelper.isAndroidR()) {
+            initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
+            initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
+            initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
+        }
     }
 }
