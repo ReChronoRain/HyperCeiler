@@ -996,4 +996,15 @@
     <string name="system_ui_lock_screen_force_system_fonts">Force clock use system fonts</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx and above are not supported</string>
     <string name="system_ui_statusbar_mobile_type_margin_desc">After opening the dual-row mobile network, it will not be adjustable</string>
+    <string name="system_ui_control_center_blur_radius_desc">Without dropdown notification</string>
+    <string name="system_ui_control_center_corner_radius_desc">The default theme does not need to be adjusted</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models, there may be high GPU load</string>
+    <string name="system_ui_controlcenter_new_title">New control center</string>
+    <string name="system_ui_controlcenter_old_title">Legacy control center</string>
+    <string name="system_control_center_old_qs_rows_desc">Labels will be hidden for 5 rows in a portrait orientation. Number of rows is limited to 3 with hidden labels in a landscape orientation.</string>
+    <string name="system_control_center_old_qs_columns_desc">Landscape orientation will have one additional column\nIf your ROM has a compact Quick Settings layout option, it will add another column in both orientations</string>
+    <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
+    <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
+    <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
 </resources>
