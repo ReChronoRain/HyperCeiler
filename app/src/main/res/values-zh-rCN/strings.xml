@@ -541,6 +541,7 @@
     <string name="security_center_beauty_pc">解锁人像居中</string>
     <string name="security_center_disable_root_check">禁用 Root 检测</string>
     <string name="security_center_remove_macro_black_list">移除自动连招黑名单</string>
+    <string name="security_center_disable_send_malicious_app_notification">禁止发送 “发现恶意应用” 通知</string>
     <string name="security_center_newbox_custom_enable">启用自定义</string>
     <string name="security_center_newbox_bg_custom">背景模糊</string>
     <string name="security_center_newbox_bg_padding_vertical">水平边距</string>

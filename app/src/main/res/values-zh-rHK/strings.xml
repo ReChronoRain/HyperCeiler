@@ -972,6 +972,13 @@
     <string name="various_unlock_ime_desc">啟用後請在 LSPosed 管理器中勾選對應輸入法作用範圍</string>
     <string name="system_ui_control_center_blur_radius_desc">不含下拉通知</string>
     <string name="system_ui_control_center_corner_radius_desc">預設主題無需調節</string>
+    <string name="system_ui_controlcenter_new_title">新控制中心</string>
+    <string name="system_ui_controlcenter_old_title">經典控制中心</string>
+    <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">橫屏時將會額外增加一列</string>
+    <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
+    <string name="system_control_center_old_qs_columns_desc">豎屏時會額外增加一列\n如果您的ROM具有快速設置緊湊佈局選項，不管是橫屏還是豎屏都會增加其他列</string>
+    <string name="system_control_center_old_qs_rows_desc">豎屏顯示 5 行時會隱藏標籤，橫屏時則限制為 3 行</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>
