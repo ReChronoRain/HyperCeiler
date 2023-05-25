@@ -674,6 +674,13 @@
     <string name="system_ui_hardware_title">显示</string>
     <string name="system_ui_other_title">其他</string>
 
+    <string name="system_ui_controlcenter_new_title">新控制中心</string>
+    <string name="system_ui_controlcenter_old_title">经典控制中心</string>
+    <string name="system_control_center_old_qs_rows_desc">竖屏显示 5 行时会隐藏标签，横屏时则限制为 3 行</string>
+    <string name="system_control_center_old_qs_columns_desc">竖屏时会额外增加一列\n如果您的 ROM 具有快速设置紧凑布局选项，不管是横屏还是竖屏都会增加其他列</string>
+    <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">横屏时将会额外增加一列</string>
+
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
@@ -692,8 +699,10 @@
     <string name="system_ui_control_center_hide_mi_play_entry">隐藏妙播入口</string>
     <string name="system_ui_control_center_control_detail_background_alpha">面板详情背景透明度</string>
     <string name="system_ui_control_center_notification_blur_model">通知设置</string>
-    <string name="system_ui_control_center_blur_radius">通知模糊程度（不含下拉通知）</string>
-    <string name="system_ui_control_center_corner_radius">通知模糊区域圆角（默认主题无需调节）</string>
+    <string name="system_ui_control_center_blur_radius">通知模糊程度</string>
+    <string name="system_ui_control_center_blur_radius_desc">不含下拉通知</string>
+    <string name="system_ui_control_center_corner_radius">通知模糊区域圆角</string>
+    <string name="system_ui_control_center_corner_radius_desc">默认主题无需调节</string>
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_controlcenter_fix_media_control_panel">修复音乐面板背景图异常</string>
@@ -701,6 +710,7 @@
     <string name="system_ui_control_center_show_weather_city">显示地区</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏时静音</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">亮屏时弹出通知不播放提示音</string>
+    <string name="system_ui_control_center_rounded_rect">圆角矩形磁贴</string>
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
@@ -896,6 +906,7 @@
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
 
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">仅供 Android12+ MTK 机型使用，可能存在 GPU 负载较高的情况</string>
 
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
@@ -929,7 +940,7 @@
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
-    <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部記憶體的根目录上生成 .xlDownload 文件夹</string>
+    <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
