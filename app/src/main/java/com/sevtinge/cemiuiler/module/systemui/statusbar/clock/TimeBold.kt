@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.clock
 
 import android.graphics.Typeface
 import android.widget.TextView

@@ -11,11 +11,12 @@ import com.sevtinge.cemiuiler.utils.Helpers;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class AutoBrightness extends BaseHook{
+public class AutoBrightness extends BaseHook {
 
     private static float mMaximumBacklight;
     private static float mMinimumBacklight;
     private static int backlightMaxLevel;
+
     private static float constrainValue(float val) {
         if (val < 0) val = 0;
         if (val > 1) val = 1;
@@ -39,7 +40,7 @@ public class AutoBrightness extends BaseHook{
         Helpers.findAndHookMethod("com.android.server.display.AutomaticBrightnessController", lpparam.classLoader, "clampScreenBrightness", float.class, new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                float val = (float)param.getResult();
+                float val = (float) param.getResult();
                 if (val >= 0) {
                     float res = constrainValue(val);
                     param.setResult(res);
@@ -58,7 +59,7 @@ public class AutoBrightness extends BaseHook{
         Helpers.findAndHookMethod("com.android.server.display.DisplayPowerController", lpparam.classLoader, "clampScreenBrightness", float.class, new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                float val = (float)param.getResult();
+                float val = (float) param.getResult();
                 if (val >= 0) {
                     float res = constrainValue(val);
                     param.setResult(res);
@@ -78,9 +79,10 @@ public class AutoBrightness extends BaseHook{
                 mMinimumBacklight = (minBrightnessLevel - 1) * 1.0f / (backlightMaxLevel - 1);
                 mMaximumBacklight = (maxBrightnessLevel - 1) * 1.0f / (backlightMaxLevel - 1);
             }
+
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
+                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
                 new Helpers.SharedPrefObserver(mContext, mHandler) {
                     @Override
@@ -88,16 +90,13 @@ public class AutoBrightness extends BaseHook{
                         try {
                             String type = uri.getPathSegments().get(1);
                             String key = uri.getPathSegments().get(2);
-                            if (key.contains("pref_key_system_ui_auto_brightness_")) {
-                                switch (type) {
-                                    case "integer":
-                                        int defVal = "pref_key_system_control_center_min_brightness".equals(key) ? 25 : 75;
-                                        mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, defVal));
-                                        break;
-                                    case "boolean":
-                                        mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
-                                        break;
+                            switch (type) {
+                                case "integer" -> {
+                                    int defVal = "pref_key_system_control_center_min_brightness".equals(key) ? 25 : 75;
+                                    mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, defVal));
                                 }
+                                case "boolean" ->
+                                        mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
                             }
                         } catch (Throwable t) {
                             Helpers.log(t);

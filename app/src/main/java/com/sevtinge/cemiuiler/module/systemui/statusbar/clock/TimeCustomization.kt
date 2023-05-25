@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.clock
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -37,14 +37,13 @@ object TimeCustomization : BaseHook(){
 
     private lateinit var nowTime: Date
     private var str = ""
-    private var clockClass = ""
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {  // Android11 可用
-            clockClass = "com.android.systemui.statusbar.policy.MiuiClock"
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {  // Android12+ 可用
-            clockClass = "com.android.systemui.statusbar.views.MiuiClock"
+        val clockClass = when {
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.R ->  "com.android.systemui.statusbar.policy.MiuiClock"
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->  "com.android.systemui.statusbar.views.MiuiClock"
+            else -> ""
         }
 
         when (getMode) {

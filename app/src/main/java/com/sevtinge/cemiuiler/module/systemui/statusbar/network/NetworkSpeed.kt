@@ -85,11 +85,10 @@ object NetworkSpeed : BaseHook() {
 
     override fun init() {
 //      双排网速相关
-        var networkClass = ""
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {  // Android11 可用
-             networkClass = "com.android.systemui.statusbar.NetworkSpeedController"
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {  // Android12+ 可用
-             networkClass = "com.android.systemui.statusbar.policy.NetworkSpeedController"
+        val networkClass = when{
+            Build.VERSION.SDK_INT ==  Build.VERSION_CODES.R ->  "com.android.systemui.statusbar.NetworkSpeedController"
+            Build.VERSION.SDK_INT >=  Build.VERSION_CODES.S ->  "com.android.systemui.statusbar.policy.NetworkSpeedController"
+            else -> null
         }
 
         val nscCls =
