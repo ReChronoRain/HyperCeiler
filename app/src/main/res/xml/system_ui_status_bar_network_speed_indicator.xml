@@ -1,159 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_statusbar_network_speed_sec_unit"
-                android:title="@string/system_ui_statusbar_network_speed_sec_unit"/>
-
-        <SwitchPreference
-                android:title="@string/system_ui_status_bar_no_netspeed_separator_title"
-                android:summary="@string/system_ui_status_bar_no_netspeed_separator_desc"
-                android:key="prefs_key_system_ui_status_bar_no_netspeed_separator"
-                android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
+            android:title="@string/system_ui_statusbar_network_speed_font_size" />
 
         <SeekBarPreference
-                android:defaultValue="3"
-                android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"
-                android:title="@string/system_ui_statusbar_network_speed_update_spacing"
-                android:format="%d s"
-                app:maxValue="10"
-                app:minValue="1"
-                app:showSeekBarValue="true"/>
+            android:defaultValue="13"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
+            android:layout="@layout/preference_seekbar_no_padding"
+            app:dialogTitle="@string/system_ui_statusbar_network_speed_font_size"
+            app:maxValue="32"
+            app:minValue="6"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_sec_unit"
+            android:title="@string/system_ui_statusbar_network_speed_sec_unit" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_no_netspeed_separator"
+            android:summary="@string/system_ui_status_bar_no_netspeed_separator_desc"
+            android:title="@string/system_ui_status_bar_no_netspeed_separator_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide"
+            android:summary="@string/system_ui_statusbar_network_speed_hide_desc"
+            android:title="@string/system_ui_statusbar_network_speed_hide" />
+
+        <SeekBarPreference
+            android:defaultValue="64"
+            android:format="%d KB/s"
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide_slow"
+            android:summary="@string/system_ui_statusbar_network_speed_hide_slow_desc"
+            android:title="@string/system_ui_statusbar_network_speed_hide_slow"
+            app:maxValue="1024"
+            app:minValue="1"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreference
+            android:defaultValue="3"
+            android:format="%d s"
+            android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"
+            android:title="@string/system_ui_statusbar_network_speed_update_spacing"
+            app:maxValue="10"
+            app:minValue="1"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-                android:title="@string/system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:title="@string/system_ui_statusbar_network_speed_enable_custom" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:disableDependentsState="true"
+            android:key="prefs_key_system_ui_statusbar_network_speed_fakedualrow"
+            android:title="@string/system_ui_statusbar_network_speed_fakedualrow" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_fakedualrow"
+            android:key="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+            android:summary="@string/system_ui_statusbar_network_speed_detailed_desc"
+            android:title="@string/system_ui_statusbar_network_speed_show_up_down" />
 
         <DropDownPreference
-                android:key="prefs_key_system_ui_statusbar_network_speed_align"
-                android:title="@string/system_ui_statusbar_indicator_align"
-                android:defaultValue="1"
-                app:entries="@array/system_ui_status_bar_horizontal_align"
-                app:entryValues="@array/system_ui_status_bar_horizontal_align_value"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="2"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+            android:key="prefs_key_system_ui_statusbar_network_speed_icon"
+            android:title="@string/system_ui_statusbar_network_speed_icon"
+            app:entries="@array/system_ui_status_bar_network_icon"
+            app:entryValues="@array/system_ui_status_bar_network_icon_value" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:disableDependentsState="true"
-                android:key="prefs_key_system_ui_statusbar_network_speed_fakedualrow"
-                android:title="@string/system_ui_statusbar_network_speed_fakedualrow"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
-
-        <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_fakedualrow"
-                android:key="prefs_key_system_ui_statusbar_network_speed_show_up_down"
-                android:title="@string/system_ui_statusbar_network_speed_show_up_down"
-                android:summary="@string/system_ui_statusbar_network_speed_detailed_desc"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+            android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
+            android:title="@string/system_ui_statusbar_network_speed_detailed" />
 
         <DropDownPreference
-                android:key="prefs_key_system_ui_statusbar_network_speed_icon"
-                android:title="@string/system_ui_statusbar_network_speed_icon"
-                android:defaultValue="2"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
-                app:entries="@array/system_ui_status_bar_network_icon"
-                app:entryValues="@array/system_ui_status_bar_network_icon_value"/>
-
-        <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
-                android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
-                android:title="@string/system_ui_statusbar_network_speed_detailed"/>
-
-        <SwitchPreference
-                android:title="@string/system_ui_statusbar_network_speed_font_size"
-                android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="1"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:key="prefs_key_system_ui_statusbar_network_speed_align"
+            android:title="@string/system_ui_statusbar_indicator_align"
+            app:entries="@array/system_ui_status_bar_horizontal_align"
+            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
         <SeekBarPreference
-                android:layout="@layout/preference_seekbar_no_padding"
-                android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
-                app:dialogTitle="@string/system_ui_statusbar_network_speed_font_size"
-                android:defaultValue="13"
-                android:format="%s dp"
-                app:maxValue="32"
-                app:minValue="6"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"/>
-
-        <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_statusbar_network_speed_bold"
-                android:title="@string/system_ui_statusbar_indicator_bold"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="10"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_network_speed_fixedcontent_width"
+            android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
+            android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:maxValue="120"
+            app:minValue="10"
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
-                android:defaultValue="10"
-                android:key="prefs_key_system_ui_statusbar_network_speed_fixedcontent_width"
-                android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-                android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
-                android:format="%s dp"
-                app:maxValue="120"
-                app:minValue="10"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_network_speed_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
-                android:defaultValue="0"
-                android:key="prefs_key_system_ui_statusbar_network_speed_left_margin"
-                android:title="@string/system_ui_statusbar_indicator_left_margin"
-                android:format="%s dp"
-                app:maxValue="10"
-                app:minValue="0"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_network_speed_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            app:maxValue="10"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
-                android:defaultValue="0"
-                android:key="prefs_key_system_ui_statusbar_network_speed_right_margin"
-                android:title="@string/system_ui_statusbar_indicator_right_margin"
-                android:format="%s dp"
-                app:maxValue="10"
-                app:minValue="0"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
-
-        <SeekBarPreference
-                android:defaultValue="8"
-                android:key="prefs_key_system_ui_statusbar_network_speed_vertical_offset"
-                android:title="@string/system_ui_statusbar_indicator_vertical_offset"
-                android:format="%s dp"
-                app:maxValue="16"
-                app:minValue="0"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
-
-        <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_statusbar_network_speed_hide"
-                android:summary="@string/system_ui_statusbar_network_speed_hide_desc"
-                android:title="@string/system_ui_statusbar_network_speed_hide"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
-
-
-        <SeekBarPreference
-                android:defaultValue="64"
-                android:key="prefs_key_system_ui_statusbar_network_speed_hide_slow"
-                android:summary="@string/system_ui_statusbar_network_speed_hide_slow_desc"
-                android:title="@string/system_ui_statusbar_network_speed_hide_slow"
-                android:format="%d KB/s"
-                app:maxValue="1024"
-                app:minValue="1"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"/>
+            android:defaultValue="8"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_network_speed_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            app:maxValue="16"
+            app:minValue="0"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>
