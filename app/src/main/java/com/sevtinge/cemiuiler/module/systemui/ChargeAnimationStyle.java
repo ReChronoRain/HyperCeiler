@@ -88,15 +88,9 @@ public class ChargeAnimationStyle extends BaseHook {
                 });*/
         } else {
             switch (value) {
-                case 2 :
-                    mType = 0;
-                    break;
-                case 3 :
-                    mType = 1;
-                    break;
-                case 5 :
-                    mType = 3;
-                    break;
+                case 2 -> mType = 0;
+                case 3 -> mType = 1;
+                case 5 -> mType = 3;
             }
 
             findAndHookMethod(mChargeAnimCls,"getChargeAnimationType", new MethodHook() {
