@@ -21,7 +21,7 @@ object FixMediaControlPanel : BaseHook() {
                     }
                 })
         } catch (t: Throwable) {
-            log("Hook failed by: $t");
+            logE(t)
         }
     }
 }

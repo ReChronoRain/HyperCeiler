@@ -51,7 +51,7 @@ public class CleanOpenMenu extends BaseHook {
                                     break;
                             }
                         } catch (Throwable t) {
-                            log("Hook failed by: " + t);
+                            logE(t);
                         }
                     }
                 };

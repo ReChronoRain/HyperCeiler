@@ -24,7 +24,7 @@ object BypassSignCheckForT : BaseHook() {
                 }
             )*/
         } catch (e: Throwable) {
-            log("hook failed by $e")
+            logE(e)
         }
 
     }
