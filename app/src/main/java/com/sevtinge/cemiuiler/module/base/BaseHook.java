@@ -61,15 +61,15 @@ public abstract class BaseHook {
     }
 
     public void logE(Exception e) {
-        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: \n" + e);
+        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + e);
     }
 
     public void logE(Throwable t) {
-        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: \n" + t);
+        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + t);
     }
 
     public void logE(String tag, Exception e) {
-        XposedBridge.log("Cemiuiler: " + TAG + tag + " hook failed by: \n" + e);
+        XposedBridge.log("Cemiuiler: " + TAG + tag + " hook failed by: " + e);
     }
 
 
