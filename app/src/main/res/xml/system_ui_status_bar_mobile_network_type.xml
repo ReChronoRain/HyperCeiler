@@ -38,6 +38,7 @@
     <SeekBarPreference
             android:defaultValue="7"
             android:key="prefs_key_system_ui_statusbar_mobile_type_left_margin"
+            android:summary="@string/system_ui_statusbar_mobile_type_margin_desc"
             android:title="@string/system_ui_statusbar_indicator_left_margin"
             android:format="%s dp"
             app:maxValue="16"
@@ -48,6 +49,7 @@
     <SeekBarPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_mobile_type_right_margin"
+            android:summary="@string/system_ui_statusbar_mobile_type_margin_desc"
             android:title="@string/system_ui_statusbar_indicator_right_margin"
             android:format="%s dp"
             app:maxValue="10"

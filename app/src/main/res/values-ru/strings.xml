@@ -400,7 +400,7 @@
     <string name="lbe">Разрешения</string>
     <string name="lbe_clipboard_tip">Чтение буфера обмена</string>
     <string name="lbe_clipboard_tip_toast">Использовать подсказки Toast для чтения содержимого буфера обмена</string>
-    <string name="lbe_disable_clipboard_tip">Отключить запрос на чтение буфера обмена</string>
+    <string name="lbe_disable_clipboard_tip">Скрыть подсказки тостов</string>
     <string name="link_open_mode_default">Системный по умолчанию</string>
     <string name="link_open_mode_mi">Mi Браузер</string>
     <string name="location_add">Добавить</string>
@@ -701,7 +701,7 @@
     <string name="system_settings_permission_unknown_origin_app">Установите неизвестные разрешения приложения без поиска в списке приложений</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Работает с глобальной прошивкой, перейдите непосредственно к переключателю разрешений соответствующего приложения, \"Отображать поверх других приложений\"</string>
     <string name="system_settings_safe_wifi">Просмотр сохраненных паролей Wi-Fi</string>
-    <string name="system_settings_safe_wifi_desc">Путь: Настройки - Wi-Fi - Расширенные настройки - Управление сохраненными сетями</string>
+    <string name="system_settings_safe_wifi_desc">Разблокировать управление сохраненными сетями\nПуть: Настройки - Wi-Fi - Расширенные настройки - Управление сохраненными сетями</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
     <string name="system_settings_wifi_password_dlgtitle">Сведения сети Wi-Fi</string>
     <string name="system_settings_wifi_password_label">Пароль</string>
@@ -955,4 +955,11 @@
     <string name="weather_device_level_title_low">Низкий</string>
     <string name="weather_device_level_title_middle">Средний</string>
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
+    <string name="system_ui_controlcenter_new_title">Новый центр управления</string>
+    <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
+    <string name="system_ui_control_center_rounded_rect">Скруглённые прямоугольные плитки</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">В ландшафтной ориентации будет одна дополнительная колонка</string>
+    <string name="system_control_center_old_qs_grid_columns">Число колонок в свёрнутой панели</string>
+    <string name="system_control_center_old_qs_columns_desc">В ландшафтной ориентации будет одна дополнительная колонка\nЕсли в прошивке есть опция компактных Быстрых Настроек, то она добавит ещё одну колонку во всех ориентациях</string>
+    <string name="system_control_center_old_qs_rows_desc">Подписи к переключателям будут скрыты для 5 рядов в портретной ориентации. Число рядов ограничено 3-я в ландшафтной ориентации, подписи также будут скрыты</string>
 </resources>

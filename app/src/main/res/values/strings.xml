@@ -194,7 +194,7 @@
     <string name="home_recent_text_color">Color of thumbnail labels text</string>
     <string name="home_recent_text">Text displayed when no recent task</string>
     <string name="home_recent_remove_icon">Remove icon</string>
-    <string name="lbe_disable_clipboard_tip">Disable read clipboard prompt</string>
+    <string name="lbe_disable_clipboard_tip">Hide Toast Tips</string>
     <string name="market_device_modify">Model guise</string>
     <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
@@ -712,13 +712,13 @@
     <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
     <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
     <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
-    <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
+    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
     <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_plugin_enable_volume_blur">Enable volume bar blur</string>
     <string name="array_netspeedicons_arrows" translatable="false">△▽ (▲▼)</string>
     <string name="array_netspeedicons_arrows_small" translatable="false">▵ ▿ ( ▴ ▾ )</string>
-    <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
+    <string name="array_netspeedicons_bullets">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_arrows_long1" translatable="false">↑ ↓</string>
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
     <string name="record">Record</string>
@@ -818,7 +818,7 @@
     <string name="system_other_delete_on_post_notification">Remove the upper display notification</string>
     <string name="system_other_delete_on_post_notification_desc">Remove \"This app is displaying on top of other apps on screen\" notification</string>
     <string name="updater_device">Fake device for Updater</string>
-    <string name="updater_device_desc">This feature is really danger, please do not use it in daily</string>
+    <string name="updater_device_desc">This feature is really danger, please do not use it in daily\nFill in please enter model code</string>
     <string name="array_battery_both">Both</string>
     <string name="array_battery_power">Power only</string>
     <string name="array_battery_current">Current only</string>
@@ -931,7 +931,7 @@
     <string name="system_settings_wifipassword_btn_title">Check</string>
     <string name="system_settings_wifi_password_label">Password</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
-    <string name="system_settings_safe_wifi_desc">Path: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
+    <string name="system_settings_safe_wifi_desc">Unlock Manage Saved Networks\nPath: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="disable_detailed_log">Disable detailed log</string>
@@ -950,7 +950,7 @@
     <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
     <string name="system_ui_status_bar_battery_icon">Hide battery icon</string>
     <string name="system_ui_lock_screen_password_free">No need to enter password when booting</string>
-    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
+    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption\nCheck whether the path is encrypted: Settings - Security - More Security Settings - More Security Settings - Encryption and Credentials</string>
     <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
     <string name="system_ui_navigation_title">Navigation</string>
@@ -968,7 +968,7 @@
     <string name="system_ui_control_center_min_brightness">Auto Brightness Min</string>
     <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
     <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
-    <string name="system_ui_hardware_title">Display related</string>
+    <string name="system_ui_hardware_title">Display</string>
     <string name="downloads">Download management program</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
@@ -991,11 +991,22 @@
     <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
     <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
     <string name="security_center_disable_ban">Remove report button</string>
-    <string name="system_ui_lock_screen_unlock_notice">Face unlock</string>
-    <string name="system_ui_lock_screen_unlock_notice_desc">After face recognition, it is only used to view hidden notifications
-When using this feature, please turn on Smart Display lock screen notifications (Settings -> Fingerprint, Face &amp; Password -> Face Unlock)
-If you do not need to use the smart display lock screen notification, please turn off this function</string>
     <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
     <string name="home_title_icon_scale">Icons scaling</string>
     <string name="system_ui_lock_screen_force_system_fonts">Force clock use system fonts</string>
+    <string name="browser_debug_mode_desc">17.5.xxxxx and above are not supported</string>
+    <string name="system_ui_statusbar_mobile_type_margin_desc">After opening the dual-row mobile network, it will not be adjustable</string>
+    <string name="system_ui_control_center_blur_radius_desc">Without dropdown notification</string>
+    <string name="system_ui_control_center_corner_radius_desc">The default theme does not need to be adjusted</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models, there may be high GPU load</string>
+    <string name="system_ui_controlcenter_new_title">New control center</string>
+    <string name="system_ui_controlcenter_old_title">Legacy control center</string>
+    <string name="system_control_center_old_qs_rows_desc">Labels will be hidden for 5 rows in a portrait orientation. Number of rows is limited to 3 with hidden labels in a landscape orientation.</string>
+    <string name="system_control_center_old_qs_columns_desc">Landscape orientation will have one additional column\nIf your ROM has a compact Quick Settings layout option, it will add another column in both orientations</string>
+    <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
+    <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
+    <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
+    <string name="gallery_unlock_super_clipboard">Unlock Super clipboard</string>
+    <string name="gallery_unlock_super_clipboard_desc">Allow copy image to clipboard</string>
 </resources>

@@ -6,6 +6,7 @@ import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeed;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSec;
@@ -107,7 +108,7 @@ public class SystemUI extends BaseModule {
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new QSFiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
         initHook(new QSTileLabel(), mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
-        initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_qs_rows", 4) > 4 || mPrefsMap.getInt("system_control_center_qs_columns", 4) > 4);
+        // initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_qs_rows", 4) > 4 || mPrefsMap.getInt("system_control_center_qs_columns", 4) > 4);
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(HideMiPlayEntry.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_hide_mi_play_entry"));
@@ -133,7 +134,6 @@ public class SystemUI extends BaseModule {
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
         initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
-        //initHook(NoticeFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_notice"));
         initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
 
         initHook(new EnableVolumeBlur(), mPrefsMap.getBoolean("system_ui_plugin_enable_volume_blur"));

@@ -45,7 +45,7 @@
             android:title="@string/home_dock_bg_margin_horizontal"
             android:summary="@string/home_dock_bg_margin_horizontal_desc"
             android:defaultValue="10"
-            app:maxValue="100"
+            app:maxValue="160"
             android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />

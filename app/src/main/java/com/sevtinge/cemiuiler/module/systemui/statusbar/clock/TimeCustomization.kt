@@ -1,7 +1,8 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.clock
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.provider.Settings
 import android.util.TypedValue
@@ -39,12 +40,18 @@ object TimeCustomization : BaseHook(){
 
     @SuppressLint("SetTextI18n")
     override fun init() {
+        val clockClass = when {
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.R ->  "com.android.systemui.statusbar.policy.MiuiClock"
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->  "com.android.systemui.statusbar.views.MiuiClock"
+            else -> ""
+        }
+
         when (getMode) {
             //预设模式
             1 -> {
                 var c: Context? = null
 
-                findConstructor("com.android.systemui.statusbar.views.MiuiClock") {
+                findConstructor(clockClass) {
                     paramCount == 3
                 }.hookAfter {
                     try {
@@ -84,7 +91,7 @@ object TimeCustomization : BaseHook(){
                     }
                 }
 
-                findMethod("com.android.systemui.statusbar.views.MiuiClock") {
+                findMethod(clockClass) {
                     name == "updateTime"
                 }.hookAfter {
                     try {
@@ -102,7 +109,7 @@ object TimeCustomization : BaseHook(){
                 }
 
                 if (isCenterAlign) {
-                    findConstructor("com.android.systemui.statusbar.views.MiuiClock") {
+                    findConstructor(clockClass) {
                         paramCount == 3
                     }.hookAfter {
                         try {
@@ -120,7 +127,7 @@ object TimeCustomization : BaseHook(){
             2 -> {
                 var c: Context? = null
 
-                findConstructor("com.android.systemui.statusbar.views.MiuiClock") {
+                findConstructor(clockClass) {
                     paramCount == 3
                 }.hookAfter {
                     try {
@@ -152,7 +159,7 @@ object TimeCustomization : BaseHook(){
                     }
                 }
 
-                findMethod("com.android.systemui.statusbar.views.MiuiClock") {
+                findMethod(clockClass) {
                     name == "updateTime"
                 }.hookBefore {
                     try {
@@ -174,7 +181,7 @@ object TimeCustomization : BaseHook(){
                 }
 
                 if (isGeekCenterAlign) {
-                    findConstructor("com.android.systemui.statusbar.views.MiuiClock") {
+                    findConstructor(clockClass) {
                         paramCount == 3
                     }.hookAfter {
                         try {

@@ -38,6 +38,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_force_system_fonts"
+            android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_force_system_fonts" />
     </PreferenceCategory>
 
@@ -63,11 +64,6 @@
             android:summary="@string/system_ui_lock_screen_double_lock_desc"
             android:title="@string/system_ui_lock_screen_double_lock" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_lock_screen_unlock_notice"
-            android:summary="@string/system_ui_lock_screen_unlock_notice_desc"
-            android:title="@string/system_ui_lock_screen_unlock_notice" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
