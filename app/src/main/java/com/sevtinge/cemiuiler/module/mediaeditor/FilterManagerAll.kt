@@ -31,5 +31,6 @@ object FilterManagerAll : BaseHook() {
                     .set(null, "wayne")
             }
         }
+        DexKit.closeDexKit()
     }
 }
