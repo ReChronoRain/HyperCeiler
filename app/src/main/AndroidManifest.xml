@@ -143,6 +143,8 @@
 
         <activity android:label="@string/milink" android:name=".ui.MiLinkActivity"/>
 
+        <activity android:label="@string/mi_settings" android:name=".ui.MiSettingsActivity"/>
+
         <activity android:label="@string/miwallpaper" android:name=".ui.MiWallpaperActivity"/>
 
         <activity android:label="@string/system_settings" android:name=".ui.SystemSettingsActivity"/>

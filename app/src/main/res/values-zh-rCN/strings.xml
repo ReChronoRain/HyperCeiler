@@ -48,6 +48,7 @@
     <string name="mediaeditor">小米相册-编辑</string>
     <string name="milink">投屏</string>
     <string name="mirror">MIUI+</string>
+    <string name="mi_settings">小米设置</string>
     <string name="mishare">小米互传</string>
     <string name="miwallpaper">壁纸</string>
     <string name="mms">短信</string>
@@ -452,6 +453,8 @@
     <string name="milink_unlock_mishare">解锁小米妙享</string>
 
     <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
+
+    <string name="mi_settings_show_fps">显示更多帧率设置项</string>
 
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
 

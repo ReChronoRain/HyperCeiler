@@ -1009,4 +1009,6 @@
     <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
     <string name="gallery_unlock_super_clipboard">Unlock Super clipboard</string>
     <string name="gallery_unlock_super_clipboard_desc">Allow copy image to clipboard</string>
+    <string name="mi_settings_show_fps">Show more FPS list</string>
+    <string name="mi_settings">Mi Settings</string>
 </resources>

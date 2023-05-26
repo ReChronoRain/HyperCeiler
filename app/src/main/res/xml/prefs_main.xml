@@ -360,6 +360,16 @@
         </Preference>
 
         <Preference
+                android:title="@string/mi_settings"
+                android:summary="com.xiaomi.misettings"
+                android:key="prefs_key_mi_settings"
+                android:icon="@drawable/ic_misettings">
+            <intent
+                    android:targetPackage="com.sevtinge.cemiuiler"
+                    android:targetClass="com.sevtinge.cemiuiler.ui.MiSettingsActivity" />
+        </Preference>
+
+        <Preference
             android:title="@string/mtb"
             android:summary="com.xiaomi.mtb"
             android:key="prefs_key_mtb"
