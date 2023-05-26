@@ -141,7 +141,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
             nextTime = cal.getTimeInMillis();
         } catch (Throwable t) {
-            log("Hook failed by: " + t);
+            logE(t);
         }
         return nextTime;
     }

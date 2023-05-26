@@ -56,7 +56,7 @@ public class UseThirdPartyBrowser extends BaseHook {
                         param.args[0] = newIntent;
                     }
                 } catch (Exception e) {
-                    log("Hook failed by: " + e);
+                    logE(e);
                 }
             }
         });

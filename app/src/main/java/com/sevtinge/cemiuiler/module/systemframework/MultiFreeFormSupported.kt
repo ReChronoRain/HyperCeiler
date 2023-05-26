@@ -32,7 +32,7 @@ object MultiFreeFormSupported : BaseHook() {
                 log("Hook success!")
             }
         } catch (e: Throwable) {
-            log("Hook failed by $e")
+            logE(e)
         }
     }
 
