@@ -12,6 +12,12 @@ public class EnablePhotoMovie extends BaseHook {
                     param.setResult(true);
                 }
             });
+            findAndHookMethod("com.miui.gallery.domain.DeviceFeature", "isDeviceSupportPhotoMovie", new BaseHook.MethodHook() {
+                @Override
+                protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
         }
     }
 
