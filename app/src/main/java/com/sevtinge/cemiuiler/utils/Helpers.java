@@ -748,26 +748,41 @@ public class Helpers {
         }
     }
 
+    public static int constrain(int amount, int low, int high) {
+        return amount < low ? low : (Math.min(amount, high));
+    }
     public static float constrain(float amount, float low, float high) {
         return amount < low ? low : (Math.min(amount, high));
     }
-
-    public static float norm(float start, float stop, float value) {
-        return (value - start) / (stop - start);
-    }
-
-    private static float sq(float f) {
-        return f * f;
-    }
-
     public static float lerp(float start, float stop, float amount) {
         return start + (stop - start) * amount;
     }
+    public static float lerp(int start, int stop, float amount) {
+        return lerp((float) start, (float) stop, amount);
+    }
 
+    public static float lerpInv(float a, float b, float value) {
+        return a != b ? ((value - a) / (b - a)) : 0.0f;
+    }
+
+    public static float saturate(float value) {
+        return constrain(value, 0.0f, 1.0f);
+    }
+
+    public static float lerpInvSat(float a, float b, float value) {
+        return saturate(lerpInv(a, b, value));
+    }
+    public static float norm(float start, float stop, float value) {
+        return (value - start) / (stop - start);
+    }
+    private static float sq(float f) {
+        return f * f;
+    }
     public static float exp(float f) {
         return (float)Math.exp(f);
     }
-    public static final float convertGammaToLinearFloat(float i, int max, float f, float f2) {
+
+    public static float convertGammaToLinearFloat(float i, int max, float f, float f2) {
         float norm = norm(0.0f, max, i);
         float R = 0.4f;
         float A = 0.2146f;
