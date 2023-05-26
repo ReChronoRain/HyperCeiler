@@ -91,6 +91,7 @@ public class SystemFramework extends BaseModule {
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new AppDisableService());
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
+        initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
     }
 
 }

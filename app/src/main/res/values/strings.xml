@@ -1011,4 +1011,5 @@
     <string name="gallery_unlock_super_clipboard_desc">Allow copy image to clipboard</string>
     <string name="mi_settings_show_fps">Show more FPS list</string>
     <string name="mi_settings">Mi Settings</string>
+    <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
 </resources>
