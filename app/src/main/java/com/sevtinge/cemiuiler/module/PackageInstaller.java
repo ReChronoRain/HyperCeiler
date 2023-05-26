@@ -27,7 +27,7 @@ public class PackageInstaller extends BaseModule {
         initHook(new DisableSafeModelTip(), mPrefsMap.getBoolean("miui_package_installer_safe_model_tip"));
 
         //允许更新系统应用
-        initHook(new UpdateSystemApp(), mPrefsMap.getBoolean("miui_package_installer_update_system_app"));
+        initHook(new AllAsSystemApp(), mPrefsMap.getBoolean("miui_package_installer_update_system_app"));
 
         //自定义安装来源
         initHook(new InstallSource(), !TextUtils.isEmpty(mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer")));
