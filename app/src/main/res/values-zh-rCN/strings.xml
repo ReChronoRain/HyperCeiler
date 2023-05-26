@@ -235,6 +235,8 @@
     <string name="gallery_enable_remover_2">解锁魔法消除</string>
     <string name="gallery_enable_magic_matting">解锁魔法抠图</string>
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
+    <string name="gallery_unlock_super_clipboard">解锁超级剪贴板</string>
+    <string name="gallery_unlock_super_clipboard_desc">允许复制图片至剪贴板</string>
 
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
 

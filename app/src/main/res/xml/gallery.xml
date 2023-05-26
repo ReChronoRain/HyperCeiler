@@ -8,6 +8,11 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/feature">
         <SwitchPreference
+                android:title="@string/gallery_unlock_super_clipboard"
+                android:summary="@string/gallery_unlock_super_clipboard_desc"
+                android:key="prefs_key_gallery_unlock_super_clipboard"
+                android:defaultValue="false"/>
+        <SwitchPreference
                 android:title="@string/gallery_enable_pdf"
                 android:key="prefs_key_gallery_enable_pdf"
                 android:defaultValue="false"/>
