@@ -178,6 +178,13 @@
                     android:data="https://github.com/weixiansen574/settingsdontthroughthelist" />
         </Preference>
         <Preference
+                android:title="StarVoyager"
+                android:summary="hosizoraru | GPL-3.0">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/hosizoraru/StarVoyager" />
+        </Preference>
+        <Preference
                 android:title="WINI"
                 android:summary="ouhoukyo | MIT">
             <intent
@@ -193,17 +200,17 @@
         </Preference>
         <Preference
                 android:title="Woobox For MIUI"
-                android:summary="Simplicity-Team | GPL-3.0">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
-        </Preference>
-        <Preference
-                android:title="Woobox For MIUI"
                 android:summary="hosizoraru | GPL-3.0">
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
+        </Preference>
+        <Preference
+                android:title="Woobox For MIUI"
+                android:summary="Simplicity-Team | GPL-3.0">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
         </Preference>
         <Preference
                 android:title="XposedBridge"
