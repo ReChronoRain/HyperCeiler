@@ -470,6 +470,11 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             param.thisObject,
                             "mNotificationStackScroller"
                         ) ?: return
+                    val mNotificationPanelViewController =
+                        HookUtils.getValueByField(
+                            param.thisObject,
+                            "mNotificationPanelViewController"
+                        ) ?: return
                     mNotificationStackScroller as ViewGroup
                     XposedBridge.hookAllMethods(blurRatioChangedListener,
                         "onBlurRadiusChanged",
@@ -477,7 +482,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             override fun afterHookedMethod(param: MethodHookParam) {
                                 val radius = param.args[0] as Int
                                 val isOnKeyguard = XposedHelpers.callMethod(
-                                    param.thisObject,
+                                    mNotificationPanelViewController,
                                     "isOnKeyguard"
                                 ) as Boolean
                                 for (i in 0..mNotificationStackScroller.childCount) {
