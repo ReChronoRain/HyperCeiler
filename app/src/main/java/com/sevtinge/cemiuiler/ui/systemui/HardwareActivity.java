@@ -9,8 +9,6 @@ package com.sevtinge.cemiuiler.ui.systemui;
  import com.sevtinge.cemiuiler.ui.base.SubFragment;
  import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 
- import moralnorm.preference.SeekBarPreference;
-
 public class HardwareActivity extends BaseSystemUIActivity {
      @Override 
      public Fragment initFragment() { 
