@@ -8,7 +8,7 @@ public class EnableVideoPost extends BaseHook {
         public void init() {
             findAndHookMethod("com.miui.mediaeditor.api.MediaEditorApiHelper", "isVideoPostAvailable", new BaseHook.MethodHook() {
                 @Override
-                protected void after(XC_MethodHook.MethodHookParam param) throws Throwable {
+                protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
                     param.setResult(true);
                 }
             });
