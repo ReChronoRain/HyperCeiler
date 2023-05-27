@@ -13,6 +13,11 @@
             app:entryValues="@array/app_sort_value" />
 
         <SwitchPreference
+            android:key="prefs_key_security_center_disable_ban"
+            android:title="@string/security_center_disable_ban"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_security_center_app_restrict"
             android:title="@string/security_restrict_app_title"
             android:summary="@string/security_restrict_app_summary"
@@ -29,11 +34,6 @@
             android:title="@string/security_app_title"
             android:summary="@string/security_app_summary"
             android:defaultValue="false" />
-
-        <SwitchPreference
-                android:key="prefs_key_security_center_disable_ban"
-                android:title="@string/security_center_disable_ban"
-                android:defaultValue="false" />
 
     </PreferenceCategory>
 

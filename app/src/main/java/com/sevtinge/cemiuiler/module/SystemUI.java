@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.*;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.*;
+import com.sevtinge.cemiuiler.module.systemui.hardware.AutoBrightness;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
@@ -110,7 +111,7 @@ public class SystemUI extends BaseModule {
         initHook(new QSTileLabel(), mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         // initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_qs_rows", 4) > 4 || mPrefsMap.getInt("system_control_center_qs_columns", 4) > 4);
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
-        initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
+        //initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(HideMiPlayEntry.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_hide_mi_play_entry"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
         initHook(FixMediaControlPanel.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_fix_media_control_panel"));
