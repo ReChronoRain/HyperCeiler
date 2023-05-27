@@ -131,7 +131,9 @@ public class SystemUI extends BaseModule {
         //锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ClockDisplaySeconds.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_second"));
-        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
+        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv") ||
+                mPrefsMap.getBoolean("system_ui_show_charging_c_more") ||
+                mPrefsMap.getBoolean("system_ui_show_charging_v_more"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
         initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));

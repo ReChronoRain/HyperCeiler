@@ -280,7 +280,7 @@
     <string name="system_ui_lockscreen_safe_title">Security</string>
     <string name="system_ui_lockscreen_ui_title">UI</string>
     <string name="system_ui_lock_screen_show_second">Clock show second</string>
-    <string name="system_ui_lock_screen_show_charging_cv">Show charging current, voltage and power</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Show charging information at the bottom of the lock screen</string>
     <string name="system_ui_lock_screen_current">Current</string>
     <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
@@ -996,4 +996,7 @@
     <string name="mi_settings_show_fps">Show more FPS list</string>
     <string name="mi_settings">Mi Settings</string>
     <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
+    <string name="system_ui_lock_screen_show_charging_c_more">Show detailed current</string>
+    <string name="system_ui_lock_screen_show_charging_v_more">Show detailed voltage</string>
+    <string name="system_ui_show_charging_title">Charging display settings</string>
 </resources>

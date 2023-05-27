@@ -842,7 +842,7 @@
     <string name="system_ui_lock_screen_password_free">Không cần nhập mật khẩu khi khởi động lại</string>
     <string name="system_ui_lock_screen_password_free_desc">Nó sẽ chỉ có hiệu lực nếu thiết bị không được kích hoạt mã hóa</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>
-    <string name="system_ui_lock_screen_show_charging_cv">Hiển thị dòng sạc, điện áp, công suất</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Hiển thị thông tin sạc ở dưới cùng của màn hình khóa</string>
     <string name="system_ui_control_center_show_weather">Hiển thị thời tiết</string>
     <string name="system_ui_control_center_show_weather_city">Hiện thị thành phố</string>
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình đang bật</string>

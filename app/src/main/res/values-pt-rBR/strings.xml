@@ -750,7 +750,7 @@
 	<string name="system_ui_lock_screen_password_free_desc">Ele só terá efeito se o dispositivo não estiver habilitado para criptografia</string>
 	<string name="system_ui_lock_screen_scramble_pin">Pin Aleatório</string>
 	<string name="system_ui_lock_screen_scramble_pin_desc">Ordem aleatória do teclado PIN</string>
-	<string name="system_ui_lock_screen_show_charging_cv">Mostrar corrente de carga, tensão e potência</string>
+	<string name="system_ui_lock_screen_show_charging_cv">Mostrar informações de carregamento na parte inferior da tela de bloqueio</string>
 	<string name="system_ui_lock_screen_show_second">Relógio mostrar segundo</string>
 	<string name="system_ui_lockscreen_safe_title">Segurança</string>
 	<string name="system_ui_lockscreen_title">Ecrã de bloqueio</string>

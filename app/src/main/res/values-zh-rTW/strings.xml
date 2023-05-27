@@ -721,7 +721,7 @@
     <string name="system_ui_lock_screen_hide_smart_screen">停用資訊助理</string>
     <string name="system_ui_lock_screen_scramble_pin">亂序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">隨機更改 PIN 鍵盤順序</string>
-    <string name="system_ui_lock_screen_show_charging_cv">顯示充電電流</string>
+    <string name="system_ui_lock_screen_show_charging_cv">鎖屏底部顯示充電資訊</string>
     <string name="system_ui_lock_screen_show_second">時鐘顯示秒數</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>

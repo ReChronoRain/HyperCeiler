@@ -721,12 +721,15 @@
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
+    <string name="system_ui_show_charging_title">充电展示设置</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
     <string name="system_ui_lock_screen_password_free">开机免输入密码</string>
     <string name="system_ui_lock_screen_password_free_desc">需要设备未启用加密才会生效\n查看是否加密路径：设置-安全-更多安全设置-更多安全设置-加密与凭据</string>
     <string name="system_ui_lock_screen_default_theme">仅支持默认主题</string>
-    <string name="system_ui_lock_screen_show_charging_cv">充电时显示电流、电压、功率</string>
+    <string name="system_ui_lock_screen_show_charging_cv">锁屏底部显示充电信息</string>
+    <string name="system_ui_lock_screen_show_charging_c_more">显示详细电流</string>
+    <string name="system_ui_lock_screen_show_charging_v_more">显示详细电压</string>
     <string name="system_ui_lock_screen_hide_camera">隐藏相机</string>
     <string name="system_ui_lock_screen_hide_smart_screen">隐藏负一屏</string>
     <string name="system_ui_lock_screen_current">当前电流</string>
