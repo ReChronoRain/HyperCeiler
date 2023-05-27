@@ -7,6 +7,14 @@
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.LockScreenActivity"/>
     </Preference>
 
+    <Preference
+        android:title="@string/system_ui_hardware_title"
+        android:enabled="false">
+        <intent
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.HardwareActivity" />
+    </Preference>
+
     <Preference android:title="@string/system_ui_statusbar_title" >
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
@@ -23,14 +31,6 @@
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.ControlCenterActivity" />
-    </Preference>
-
-    <Preference
-        android:title="@string/system_ui_hardware_title"
-        android:enabled="false">
-        <intent
-            android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.HardwareActivity" />
     </Preference>
 
     <Preference android:title="@string/system_ui_other_title">
