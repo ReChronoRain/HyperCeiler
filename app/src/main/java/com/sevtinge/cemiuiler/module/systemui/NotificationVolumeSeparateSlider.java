@@ -7,7 +7,6 @@ import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.SystemUIHook;
 
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.os.SdkVersion;
 
 public class NotificationVolumeSeparateSlider extends SystemUIHook {
 

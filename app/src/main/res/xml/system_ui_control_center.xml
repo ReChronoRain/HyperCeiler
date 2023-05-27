@@ -127,7 +127,7 @@
             android:defaultValue="false"/>
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:key="prefs_key_system_control_center_qs_rows"
+            android:key="prefs_key_system_control_center_cc_rows"
             android:title="@string/system_control_center_qs_rows"
             app:defaultValueText="@string/array_default"
             android:defaultValue="4"
@@ -138,7 +138,7 @@
             app:showSeekBarValue="true"/>
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:key="prefs_key_system_control_center_qs_columns"
+            android:key="prefs_key_system_control_center_cc_columns"
             android:title="@string/system_control_center_qs_columns"
             app:defaultValueText="@string/array_default"
             android:defaultValue="4"
