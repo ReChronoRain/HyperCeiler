@@ -14,8 +14,7 @@
 
 [![badge_qgroup]][qgroup_url]
 [![badge_qguild]][qguild_url]
-[![badge_telegram_release]][telegram_release_url]
-[![badge_telegram_beta]][telegram_beta_url]
+[![badge_telegram]][telegram_url]
 
 </div>
 
@@ -87,10 +86,11 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 - [「Portal Hook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
 - [「RemoveMiuiSystemSelfProtection」 by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)
 - [「SettingsDontThroughTheList」 by weixiansen574](https://github.com/weixiansen574/settingsdontthroughthelist)
+- [「StarVoyager」 by hosizoraru](https://github.com/hosizoraru/StarVoyager)
 - [「WINI」 by ouhoukyo](https://github.com/ouhoukyo/WINI)
 - [「WOMMO」 by YifePlayte](https://github.com/YifePlayte/WOMMO)
-- [「Woobox For MIUI」 by Simplicity-Team](https://github.com/Simplicity-Team/WooBoxForMIUI)
 - [「Woobox For MIUI」 by hosizoraru](https://github.com/hosizoraru/WooBoxForMIUI)
+- [「Woobox For MIUI」 by Simplicity-Team](https://github.com/Simplicity-Team/WooBoxForMIUI)
 - [「XposedBridge」 by rovo89](https://github.com/rovo89/XposedBridge)
 - [「.xlDownload」 by Kr328](https://github.com/Kr328/.xlDownload)
 
@@ -99,10 +99,8 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 [badge_qgroup]: https://img.shields.io/badge/QQ-群组-4DB8FF?style=for-the-badge&logo=tencentqq
 [qguild_url]: https://pd.qq.com/s/35ooe0ssj
 [badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
-[telegram_release_url]: https://t.me/cemiuiler_chat
-[telegram_beta_url]: https://t.me/cemiuiler_beta_feedback
-[badge_telegram_release]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler_chat
-[badge_telegram_beta]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler_beta_feedback
+[telegram_url]: https://t.me/cemiuiler_chatfree
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler_beta_feedback
 
 [badge_system_framework]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6-3DDC84?style=for-the-badge&logo=android&logoColor=white
 [badge_system_layer]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E7%95%8C%E9%9D%A2-3DDC84?style=for-the-badge&logo=android&logoColor=white
