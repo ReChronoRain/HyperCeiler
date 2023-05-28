@@ -29,6 +29,18 @@
             android:title="@string/system_ui_lock_screen_show_charging_cv" />
 
         <SwitchPreference
+                android:defaultValue="false"
+                android:key="prefs_key_system_ui_show_charging_c_more"
+                android:title="@string/system_ui_lock_screen_show_charging_c_more"
+                android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"/>
+
+        <SwitchPreference
+                android:defaultValue="false"
+                android:key="prefs_key_system_ui_show_charging_v_more"
+                android:title="@string/system_ui_lock_screen_show_charging_v_more"
+                android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"/>
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_blur_button"
             android:summary="@string/system_ui_lock_screen_default_theme"
@@ -39,21 +51,6 @@
             android:key="prefs_key_system_ui_lock_screen_force_system_fonts"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_force_system_fonts" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/system_ui_show_charging_title"
-        android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_show_charging_c_more"
-            android:title="@string/system_ui_lock_screen_show_charging_c_more" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_show_charging_v_more"
-            android:title="@string/system_ui_lock_screen_show_charging_v_more" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_safe_title">
