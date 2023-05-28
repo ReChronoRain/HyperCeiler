@@ -993,4 +993,5 @@
 	<string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
 	<string name="system_control_center_old_qs_columns_desc">A orientação de paisagem terá uma coluna adicional\nSe a sua ROM tiver uma opção compacta de layout de Configurações rápidas, ela adicionará outra coluna em ambas as orientações</string>
 	<string name="system_control_center_old_qs_rows_desc">Os rótulos ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com rótulos ocultos na orientação paisagem</string>
+    <string name="search">procurar</string>
 </resources>

@@ -18,7 +18,7 @@ class AboutActivity : AppCompatActivity() {
     override fun onCreate(bundle: Bundle?) {
         setTheme(if (ViewUtils.isNightMode(this)) R.style.AppTheme_Dark else R.style.AppTheme)
         super.onCreate(bundle)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_base)
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, initFragment())
             .commit()
     }
@@ -38,14 +38,10 @@ class AboutActivity : AppCompatActivity() {
 
         override fun initPrefs() {
             val c = Calendar.getInstance()
-            /*val t = Time() // or Time t=new Time("GMT+8"); 加上Time Zone资料
-            t.setToNow() // 取得系统时间。
-            val hour: Int = t.hour // 0-23*/
             val hours: Int = when(val hour = c.get(Calendar.HOUR_OF_DAY)) {
                 0 -> 24
                 else -> hour
             }
-           /* if (hour == 0) hour == 24*/
 
             val mHiddenFunction = findPreference<Preference>("prefs_key_hidden_function")
             val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")

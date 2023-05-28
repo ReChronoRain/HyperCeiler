@@ -998,6 +998,7 @@
     <string name="mi_settings_show_fps">顯示更多幀數設定選項</string>
     <string name="mi_settings">小米設定</string>
     <string name="system_framework_disable_72h_verify">禁用每 72 小時驗證鎖定螢幕密碼</string>
+    <string name="search">搜索</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>

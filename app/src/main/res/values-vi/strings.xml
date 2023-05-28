@@ -937,4 +937,5 @@
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
     <string name="security_center_disable_send_malicious_app_notification">Tắt thông báo \"Tìm thấy ứng dụng độc hại\"</string>
     <string name="mtb">MTB</string>
+    <string name="search">Tìm kiếm</string>
 </resources>
