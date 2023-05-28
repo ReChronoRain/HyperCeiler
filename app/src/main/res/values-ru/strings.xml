@@ -734,7 +734,7 @@
     <string name="system_ui_lock_screen_hide_smart_screen">Скрыть умный экран</string>
     <string name="system_ui_lock_screen_scramble_pin">Случайный PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Случайный порядок ввода PIN с клавиатуры</string>
-    <string name="system_ui_lock_screen_show_charging_cv">Отображение зарядного тока, напряжения и мощности</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Показывать информацию о зарядке внизу экрана блокировки</string>
     <string name="system_ui_lock_screen_show_second">Показывать секунды на часах</string>
     <string name="system_ui_lockscreen_safe_title">Безопасность</string>
     <string name="system_ui_lockscreen_title">Экран блокировки</string>

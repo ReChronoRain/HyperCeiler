@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.systemui.controlcenter;
+package com.sevtinge.cemiuiler.module.systemui.hardware;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

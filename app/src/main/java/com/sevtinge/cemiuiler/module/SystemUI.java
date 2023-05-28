@@ -8,11 +8,7 @@ import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.plugin.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeed;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSec;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSpacing;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedUnit;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
@@ -108,15 +104,21 @@ public class SystemUI extends BaseModule {
         initHook(new SmartHome(), false);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new QSFiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
-        initHook(new QSTileLabel(), mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
-        // initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_qs_rows", 4) > 4 || mPrefsMap.getInt("system_control_center_qs_columns", 4) > 4);
+        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 || mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
-        initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
+        //initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
         initHook(FixMediaControlPanel.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_fix_media_control_panel"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherOld.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherNew.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
+        initHook(new CCGrid(),  mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
+                mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
+                mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
+                mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
+        initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
+                mPrefsMap.getInt("system_control_center_old_qs_columns", 2) > 2);
+        initHook(new QQSGrid(), mPrefsMap.getInt("system_control_center_old_qs_grid_columns", 2) > 2);
 
         //Actions
         initHook(new StatusBarActions());
@@ -129,7 +131,9 @@ public class SystemUI extends BaseModule {
         //锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ClockDisplaySeconds.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_second"));
-        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
+        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv") ||
+                mPrefsMap.getBoolean("system_ui_show_charging_c_more") ||
+                mPrefsMap.getBoolean("system_ui_show_charging_v_more"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
         initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));

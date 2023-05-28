@@ -43,11 +43,22 @@ object ChargingCVP : BaseHook() {
             val voltageNow =
                 BufferedReader(FileReader("/sys/class/power_supply/battery/voltage_now"))
             voltage =
-                BigDecimal(voltageNow.readLine().toDouble() / 1000000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
+                BigDecimal(voltageNow.readLine().toDouble() / 1000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
         }
-        val powerAll = abs((current * voltage) / 1000f)
+        val powerAll = abs((current * voltage) / 1000f / 1000f)
         val power = String.format("%.2f", powerAll)
-        return "$current mA · $voltage V · $power W"
+
+        // 电流/电压展示逻辑设置
+        val mCurrent = when(mPrefsMap.getBoolean("system_ui_show_charging_c_more")) {
+            true -> "$current mA"
+            else -> "${String.format("%.1f", abs(current / 1000f))} A"
+        }
+        val mVoltage = when(mPrefsMap.getBoolean("system_ui_show_charging_v_more")) {
+            true -> "${voltage.toInt()} mV"
+            else -> "${String.format("%.1f", abs(voltage / 1000f))} V"
+        }
+
+        return "$mCurrent · $mVoltage · $power W"
     }
 
 }
