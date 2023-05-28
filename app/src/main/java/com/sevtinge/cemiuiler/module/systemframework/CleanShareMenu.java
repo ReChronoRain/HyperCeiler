@@ -76,7 +76,7 @@ public class CleanShareMenu extends BaseHook {
                     }
                     param.setResult(resolved);
                 } catch (Throwable t) {
-                    if (!(t instanceof BadParcelableException)) log("Hook failed by: " + t);
+                    if (!(t instanceof BadParcelableException)) logE(t);
                 }
             }
         };

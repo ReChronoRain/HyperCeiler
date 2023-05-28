@@ -812,6 +812,7 @@
     <string name="disable_detailed_log_desc">Uygulamak için yeniden başlat</string>
     <string name="various_disable_access_device_logs">Erişim cihazı günlükleri isteği iletişim kutusunu kapat</string>
     <string name="home_title_icon_scale">Simgeleri ölçekle</string>
+    <string name="system_ui_lock_screen_show_charging_cv">Kilit ekranının alt kısmında şarj bilgilerini göster</string>
     <string name="system_ui_lock_screen_force_system_fonts">Saati sistem yazı tiplerini kullanmaya zorla</string>
     <string name="system_ui_controlcenter_new_title">Yeni kontrol merkezi</string>
     <string name="system_ui_controlcenter_old_title">Eski kontrol merkezi</string>

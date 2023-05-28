@@ -14,6 +14,10 @@ public class SdkHelper {
     public static final boolean IS_MIUI_13;
     public static final boolean IS_MIUI_14;
     public static final int PROP_MIUI_VERSION_CODE;
+
+    public static boolean isAndroidMoreVersion(int version){
+        return (Build.VERSION.SDK_INT >= version);
+    }
     
     public static boolean isAndroidR(){
         return (Build.VERSION.SDK_INT == Build.VERSION_CODES.R);

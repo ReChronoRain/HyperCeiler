@@ -30,7 +30,8 @@ public abstract class BaseHook {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) printHookStateLog("Hook Success!");
+            if (!mPrefsMap.getBoolean("settings_disable_detailed_log"))
+                printHookStateLog("Hook Success!");
         } catch (Throwable t) {
             printHookStateLog("Hook Failed!");
             printHookFailedLog(t);
@@ -53,6 +54,22 @@ public abstract class BaseHook {
         if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
             XposedBridge.log("Cemiuiler: " + TAG + " " + log);
         }
+    }
+
+    public void logI(String log) {
+        XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+    }
+
+    public void logE(Exception e) {
+        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + e);
+    }
+
+    public void logE(Throwable t) {
+        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + t);
+    }
+
+    public void logE(String tag, Exception e) {
+        XposedBridge.log("Cemiuiler: " + TAG + tag + " hook failed by: " + e);
     }
 
 

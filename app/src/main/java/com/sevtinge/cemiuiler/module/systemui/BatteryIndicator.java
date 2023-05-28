@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
@@ -13,6 +14,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class BatteryIndicator extends BaseHook {
 
     @Override
+    @SuppressLint("DiscouragedApi")
     public void init() {
         hookAllMethods("com.android.systemui.statusbar.phone.StatusBar", "makeStatusBarView", new MethodHook() {
             @Override

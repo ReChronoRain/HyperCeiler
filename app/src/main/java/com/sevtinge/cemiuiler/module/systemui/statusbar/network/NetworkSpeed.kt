@@ -45,7 +45,7 @@ object NetworkSpeed : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            log("Hook failed by: $t");
+            logE(t)
             tx = TrafficStats.getTotalTxBytes()
             rx = TrafficStats.getTotalRxBytes()
         }

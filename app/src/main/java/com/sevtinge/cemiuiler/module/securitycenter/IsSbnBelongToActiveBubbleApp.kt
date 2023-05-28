@@ -12,7 +12,7 @@ object IsSbnBelongToActiveBubbleApp : BaseHook() {
                 name == "isSbnBelongToActiveBubbleApp"
             }.hookReturnConstant(true)
         } catch (e: Throwable) {
-            log("Hook failed by: $e");
+            logE(e)
         }
     }
 
