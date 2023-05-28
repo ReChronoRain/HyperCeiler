@@ -706,7 +706,7 @@
     <string name="system_ui_control_center_control_detail_background_alpha">面板詳情背景透明度</string>
     <string name="system_ui_control_center_corner_radius">通知模糊區域圓角</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">隱藏妙播入口</string>
+    <string name="system_ui_control_center_hide_mi_play_entry">妙播入口</string>
     <string name="system_ui_control_center_notification_blur_model">通知設定</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>

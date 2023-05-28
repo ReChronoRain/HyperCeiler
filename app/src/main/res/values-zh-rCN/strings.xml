@@ -703,7 +703,9 @@
     <string name="system_control_center_qs_rows_format">%d 行</string>
     <string name="system_control_center_qs_columns">列数</string>
     <string name="system_control_center_qs_columns_format">%d 列</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">隐藏妙播入口</string>
+    <string name="system_ui_control_center_hide_mi_play_entry">小米妙播</string>
+    <string name="system_ui_control_center_hide_mi_smart_hub_entry">小米妙享</string>
+    <string name="system_ui_control_center_hide_device_ctrl_entry">智能生活</string>
     <string name="system_ui_control_center_control_detail_background_alpha">面板详情背景透明度</string>
     <string name="system_ui_control_center_notification_blur_model">通知设置</string>
     <string name="system_ui_control_center_blur_radius">通知模糊程度</string>

@@ -90,12 +90,6 @@
                 app:format="%d"
                 app:showSeekBarValue="true"/>
 
-        <SwitchPreference
-                android:key="prefs_key_system_ui_control_center_hide_mi_play_entry"
-                android:title="@string/system_ui_control_center_hide_mi_play_entry"
-                android:defaultValue="false"
-                app:isPreferenceVisible="false"/>
-
         <SeekBarPreference
                 android:title="@string/system_ui_control_center_control_detail_background_alpha"
                 android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
@@ -104,6 +98,27 @@
                 app:maxValue="255"
                 app:format="%s"
                 app:showSeekBarValue="true"/>
+
+        <DropDownPreference
+                android:defaultValue="0"
+                android:key="prefs_key_system_ui_control_center_mi_play_entry"
+                android:title="@string/system_ui_control_center_hide_mi_play_entry"
+                app:entries="@array/status_bar_icon_mode"
+                app:entryValues="@array/status_bar_icon_mode_value" />
+
+        <DropDownPreference
+                android:defaultValue="0"
+                android:key="prefs_key_system_ui_control_center_mi_smart_hub_entry"
+                android:title="@string/system_ui_control_center_hide_mi_smart_hub_entry"
+                app:entries="@array/status_bar_icon_mode"
+                app:entryValues="@array/status_bar_icon_mode_value" />
+
+        <DropDownPreference
+                android:defaultValue="0"
+                android:key="prefs_key_system_ui_control_center_device_ctrl_entry"
+                android:title="@string/system_ui_control_center_hide_device_ctrl_entry"
+                app:entries="@array/status_bar_icon_mode"
+                app:entryValues="@array/status_bar_icon_mode_value" />
 
     </PreferenceCategory>
 
