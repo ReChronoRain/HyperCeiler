@@ -1016,5 +1016,4 @@
     <string name="system_ui_control_center_hide_device_ctrl_entry">Device control entry</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Show detailed current</string>
     <string name="system_ui_lock_screen_show_charging_v_more">Show detailed voltage</string>
-    <string name="system_ui_show_charging_title">Charging display settings</string>
 </resources>

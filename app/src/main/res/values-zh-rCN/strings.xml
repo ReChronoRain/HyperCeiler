@@ -723,7 +723,6 @@
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
-    <string name="system_ui_show_charging_title">充电展示设置</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
     <string name="system_ui_lock_screen_password_free">开机免输入密码</string>
