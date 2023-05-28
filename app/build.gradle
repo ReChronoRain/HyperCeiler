@@ -61,14 +61,6 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/**"
-            excludes += "/kotlin/**"
-            excludes += "/*.txt"
-            excludes += "/*.bin"
-        }
-    }
     namespace 'com.sevtinge.cemiuiler'
 }
 /*
