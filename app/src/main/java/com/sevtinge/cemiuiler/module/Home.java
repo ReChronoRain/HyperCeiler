@@ -133,8 +133,10 @@ public class Home extends BaseModule {
         initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
-        initHook(new LargeIconCornerRadius(), true);
         initHook(new FixAnimation(), mPrefsMap.getBoolean("home_title_fix_animation"));
+        if (mPrefsMap.getBoolean("home_large_icon_enable")) {
+            initHook(new LargeIconCornerRadius(), true);
+        }
 
         //多小窗
         initHook(new FreeFormCountForHome(), mPrefsMap.getBoolean("system_framework_freeform_count"));
