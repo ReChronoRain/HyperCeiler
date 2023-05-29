@@ -112,6 +112,7 @@ public class SystemUI extends BaseModule {
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherOld.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherNew.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
+        initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
         initHook(new CCGrid(),  mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
                 mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
                 mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||

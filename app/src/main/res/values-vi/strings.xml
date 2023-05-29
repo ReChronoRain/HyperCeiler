@@ -938,4 +938,5 @@
     <string name="security_center_disable_send_malicious_app_notification">Tắt thông báo \"Tìm thấy ứng dụng độc hại\"</string>
     <string name="mtb">MTB</string>
     <string name="search">Tìm kiếm</string>
+    <string name="system_ui_control_center_compact_notice">Thu gọn thông báo</string>
 </resources>

@@ -27,6 +27,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_system_ui_control_center_compact_notice"
+            android:title="@string/system_ui_control_center_compact_notice"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_notification_blur_model"
             android:defaultValue="false" />
@@ -73,14 +78,14 @@
             app:minValue="120"
             app:showSeekBarValue="true" />
 
-        <SwitchPreference
-            android:key="prefs_key_system_ui_control_center_fix_media_control_panel"
-            android:title="@string/system_ui_controlcenter_fix_media_control_panel"
-            android:defaultValue="false" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_card_title">
+
+        <SwitchPreference
+            android:key="prefs_key_system_ui_control_center_fix_media_control_panel"
+            android:title="@string/system_ui_control_center_fix_media_control_panel"
+            android:defaultValue="false" />
 
         <SeekBarPreference
                 android:key="prefs_key_system_control_center_qs_detail_bg"

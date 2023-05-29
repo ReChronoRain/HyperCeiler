@@ -735,7 +735,7 @@
 	<string name="system_ui_control_center_show_weather">Mostrar tempo</string>
 	<string name="system_ui_control_center_show_weather_city">Mostrar cidade</string>
 	<string name="system_ui_controlcenter_card_title">Cartão</string>
-	<string name="system_ui_controlcenter_fix_media_control_panel">Painel de controlo dos suportes de correcção</string>
+	<string name="system_ui_control_center_fix_media_control_panel">Painel de controlo dos suportes de correcção</string>
 	<string name="system_ui_controlcenter_magnet_title">Magnet</string>
 	<string name="system_ui_controlcenter_title">Centro de controlo</string>
 	<string name="system_ui_hardware_title">Exposição relacionada</string>
@@ -994,4 +994,5 @@
 	<string name="system_control_center_old_qs_columns_desc">A orientação de paisagem terá uma coluna adicional\nSe a sua ROM tiver uma opção compacta de layout de Configurações rápidas, ela adicionará outra coluna em ambas as orientações</string>
 	<string name="system_control_center_old_qs_rows_desc">Os rótulos ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com rótulos ocultos na orientação paisagem</string>
     <string name="search">procurar</string>
+    <string name="system_ui_control_center_compact_notice">Notificações compactas</string>
 </resources>
