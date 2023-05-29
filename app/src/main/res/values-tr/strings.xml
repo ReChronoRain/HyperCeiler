@@ -487,7 +487,6 @@
     <string name="charge_animation_entries_aura">Aura</string>
     <string name="charge_animation_entries_stream">Streamer</string>
     <string name="charge_animation_entries_alpha">Ritim</string>
-    <string name="charge_animation_entries_lzdh">lzdh</string>
     <string name="status_bar_icon_mode_default">Varsayılan</string>
     <string name="status_bar_icon_mode_on">Her zaman göster</string>
     <string name="status_bar_icon_mode_off">Her zaman gizli</string>

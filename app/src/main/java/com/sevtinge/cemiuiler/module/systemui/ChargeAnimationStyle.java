@@ -7,7 +7,6 @@ import com.sevtinge.cemiuiler.utils.LogUtils;
 
 import java.util.Set;
 
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class ChargeAnimationStyle extends BaseHook {
@@ -45,7 +44,7 @@ public class ChargeAnimationStyle extends BaseHook {
                 protected void after(MethodHookParam param) throws Throwable {
                     StackTraceElement[] stackElement = new Throwable().getStackTrace();
                     boolean mResult = false;
-                    Set classTrue = new ArraySet(new String[]{"com.android.keyguard.charge.ChargeUtils",
+                    Set<String> classTrue = new ArraySet<>(new String[]{"com.android.keyguard.charge.ChargeUtils",
                             "com.android.keyguard.charge.container.MiuiChargeContainerView"});
                     int i = 0;
                     int length = stackElement.length;
@@ -90,7 +89,6 @@ public class ChargeAnimationStyle extends BaseHook {
             switch (value) {
                 case 2 -> mType = 0;
                 case 3 -> mType = 1;
-                case 5 -> mType = 3;
             }
 
             findAndHookMethod(mChargeAnimCls,"getChargeAnimationType", new MethodHook() {

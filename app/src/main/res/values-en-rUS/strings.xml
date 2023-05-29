@@ -502,7 +502,6 @@
     <string name="charge_animation_entries_aura">Aura</string>
     <string name="charge_animation_entries_stream">Streamer</string>
     <string name="charge_animation_entries_alpha">Rhythm</string>
-    <string name="charge_animation_entries_lzdh">lzdh</string>
     <string name="status_bar_icon_mode_default">Default</string>
     <string name="status_bar_icon_mode_on">Always show</string>
     <string name="status_bar_icon_mode_off">Always hidden</string>

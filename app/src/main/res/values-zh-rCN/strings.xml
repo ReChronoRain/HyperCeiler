@@ -1073,7 +1073,6 @@
     <string name="charge_animation_entries_aura">光韵</string>
     <string name="charge_animation_entries_stream">流光</string>
     <string name="charge_animation_entries_alpha">律动</string>
-    <string name="charge_animation_entries_lzdh">lzdh</string>
 
     <string name="status_bar_icon_mode_default">默认</string>
     <string name="status_bar_icon_mode_on">始终显示</string>

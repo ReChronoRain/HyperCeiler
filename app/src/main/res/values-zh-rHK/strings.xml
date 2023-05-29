@@ -151,7 +151,6 @@
     <string name="charge_animation_entries_alpha">律動</string>
     <string name="charge_animation_entries_aura">光暈</string>
     <string name="charge_animation_entries_disable">停用</string>
-    <string name="charge_animation_entries_lzdh">lzdh</string>
     <string name="charge_animation_entries_stream">流光</string>
     <string name="clock">時鐘</string>
     <string name="clock_enable_hour_glass">解鎖計時器沙漏動畫</string>

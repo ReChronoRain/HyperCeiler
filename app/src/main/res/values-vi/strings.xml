@@ -179,7 +179,6 @@
     <string name="charge_animation_entries_alpha">Rhythm</string>
     <string name="charge_animation_entries_aura">Aura</string>
     <string name="charge_animation_entries_disable">Vô hiệu hóa</string>
-    <string name="charge_animation_entries_lzdh">lzdh</string>
     <string name="charge_animation_entries_stream">Streamer</string>
     <string name="clock">Đồng hồ</string>
     <string name="clock_enable_hour_glass">Mở khóa hoạt ảnh đồng hồ hẹn giờ</string>

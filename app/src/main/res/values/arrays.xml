@@ -171,7 +171,6 @@
         <item>@string/charge_animation_entries_aura</item>
         <item>@string/charge_animation_entries_stream</item>
         <item>@string/charge_animation_entries_alpha</item>
-        <item>@string/charge_animation_entries_lzdh</item>
     </string-array>
 
     <string-array name="charge_animation_values">
@@ -180,7 +179,6 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
-        <item>5</item>
     </string-array>
 
 

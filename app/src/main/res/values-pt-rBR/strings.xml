@@ -153,8 +153,7 @@
 	<string name="charge_animation_entries_alpha">Ritmo</string>
 	<string name="charge_animation_entries_aura">Aura</string>
 	<string name="charge_animation_entries_disable">Desactivar</string>
-	<string name="charge_animation_entries_lzdh">lzdh</string>
-	<string name="charge_animation_entries_stream">Streamer</string>
+    <string name="charge_animation_entries_stream">Streamer</string>
 	<string name="clipboard">Área de transferência</string>
 	<string name="clock">Relógio</string>
 	<string name="clock_enable_hour_glass">Desbloquear o Relógio Ampulheta animação</string>
