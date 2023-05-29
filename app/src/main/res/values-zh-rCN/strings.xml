@@ -111,6 +111,8 @@
     <string name="array_battery_temp">电池温度</string>
     <string name="array_cpu_temp">CPU 温度</string>
 
+    <string name="sunshine_mode">阳光模式</string>
+
     <string name="array_global_actions_none">无动作</string>
     <string name="array_global_actions_notif">打开通知中心</string>
     <string name="array_global_actions_eqs">展开快速设置面板</string>

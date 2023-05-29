@@ -298,6 +298,17 @@
                 android:exported="false"
                 android:directBootAware="true"/>
 
+        <service
+            android:name=".titles.HighBrightnessMode"
+            android:exported="true"
+            android:icon="@drawable/baseline_wb_sunny_24"
+            android:label="@string/sunshine_mode"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <meta-data android:name="xposedmodule" android:value="true"/>
         <meta-data android:name="xposedminversion" android:value="82"/>
         <meta-data android:name="xposeddescription" android:value="@string/xposed_description"/>
