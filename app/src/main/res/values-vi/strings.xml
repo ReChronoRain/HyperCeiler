@@ -939,4 +939,5 @@
     <string name="mtb">MTB</string>
     <string name="search">Tìm kiếm</string>
     <string name="system_ui_control_center_compact_notice">Thu gọn thông báo</string>
+    <string name="system_ui_control_center_compact_notice_desc">Giảm khoảng cách thông báo dọc</string>
 </resources>
