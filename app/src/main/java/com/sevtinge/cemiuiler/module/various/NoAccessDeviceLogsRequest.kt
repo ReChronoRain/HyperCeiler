@@ -1,14 +1,15 @@
 package com.sevtinge.cemiuiler.module.various
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.findClass
+import com.sevtinge.cemiuiler.utils.Helpers
 import de.robv.android.xposed.XposedHelpers
 
 
 object NoAccessDeviceLogsRequest : BaseHook() {
     override fun init() {
-        hookAllMethods(
-            "com.android.server.logcat.LogcatManagerService".findClass(),
+        Helpers.hookAllMethods(
+            "com.android.server.logcat.LogcatManagerService",
+            lpparam.classLoader,
             "onLogAccessRequested",
             object : MethodHook() {
                 override fun before(param: MethodHookParam) {
