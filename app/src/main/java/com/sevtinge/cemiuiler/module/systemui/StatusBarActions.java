@@ -5,15 +5,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Binder;
-import android.os.Build;
+import android.os.Handler;
 import android.os.Process;
+import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
+import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
+
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.os.SdkVersion;
 
 public class StatusBarActions extends BaseHook {
 
@@ -73,6 +77,23 @@ public class StatusBarActions extends BaseHook {
             if (action == null) return;
 
             switch (action) {
+                case ACTION_PREFIX + "ClearMemory":
+                    Intent clearIntent = new Intent("com.android.systemui.taskmanager.Clear");
+                    clearIntent.putExtra("show_toast", true);
+                    //clearIntent.putExtra("clean_type", -1);
+                    context.sendBroadcast(clearIntent);
+                    break;
+
+                case ACTION_PREFIX + "OpenRecents":
+                    Intent recentIntent = new Intent("SYSTEM_ACTION_RECENTS");
+                    recentIntent.setPackage("com.android.systemui");
+                    context.sendBroadcast(recentIntent);
+                    break;
+
+                case ACTION_PREFIX + "OpenVolumeDialog":
+                    OpenVolumeDialogs(context);
+                    break;
+
                 case ACTION_PREFIX + "OpenNotificationCenter":
                     try {
                         Object mNotificationPanel = XposedHelpers.getObjectField(mStatusBar, "mNotificationPanel");
@@ -100,6 +121,52 @@ public class StatusBarActions extends BaseHook {
             }
         }
     };
+
+    public static void OpenVolumeDialogs(Context context) {
+        try {
+            Object mVolumeComponent = XposedHelpers.getObjectField(mStatusBar, "mVolumeComponent");
+            Object mVolumeDialogPlugin = XposedHelpers.getObjectField(mVolumeComponent, "mDialog");
+            Object miuiVolumeDialog = XposedHelpers.getObjectField(mVolumeDialogPlugin, "mVolumeDialogImpl");
+            if (miuiVolumeDialog == null) {
+                Helpers.log("OpenVolumeDialog", "MIUI volume dialog is NULL!");
+                return;
+            }
+
+            Handler mHandler = (Handler)XposedHelpers.getObjectField(miuiVolumeDialog, "mHandler");
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    boolean mShowing = XposedHelpers.getBooleanField(miuiVolumeDialog, "mShowing");
+                    boolean mExpanded = XposedHelpers.getBooleanField(miuiVolumeDialog, "mExpanded");
+
+                    AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+                    boolean isInCall = am.getMode() == AudioManager.MODE_IN_CALL || am.getMode() == AudioManager.MODE_IN_COMMUNICATION;
+                    if (mShowing) {
+                        if (mExpanded || isInCall)
+                            XposedHelpers.callMethod(miuiVolumeDialog, "dismissH", 1);
+                        else {
+                            Object mDialogView = XposedHelpers.getObjectField(miuiVolumeDialog, "mDialogView");
+                            View mExpandButton = (View)XposedHelpers.getObjectField(mDialogView, "mExpandButton");
+                            View.OnClickListener mClickExpand = (View.OnClickListener)XposedHelpers.getObjectField(mDialogView, "expandListener");
+                            mClickExpand.onClick(mExpandButton);
+                        }
+                    } else {
+                        Object mController = XposedHelpers.getObjectField(mVolumeDialogPlugin, "mController");
+                        if (isInCall) {
+                            XposedHelpers.callMethod(mController, "setActiveStream", 0);
+                            XposedHelpers.setBooleanField(miuiVolumeDialog, "mNeedReInit", true);
+                        } else if (am.isMusicActive()) {
+                            XposedHelpers.callMethod(mController, "setActiveStream", 3);
+                            XposedHelpers.setBooleanField(miuiVolumeDialog, "mNeedReInit", true);
+                        }
+                        XposedHelpers.callMethod(miuiVolumeDialog, "showH", 1);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+    }
 
     public void setupRestartSystemUIAction() {
         if (mStatusBarClass == null) return;

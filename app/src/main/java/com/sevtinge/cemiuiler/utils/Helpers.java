@@ -218,6 +218,11 @@ public class Helpers {
         }
     }
 
+    public static Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
+        return XposedHelpers.callStaticMethod(XposedHelpers.findClassIfExists("android.os.SystemProperties", classLoader),
+                method, prop, val);
+    }
+
 
     public static void applyShimmer(TextView title) {
         if (title.getPaint().getShader() != null) return;

@@ -55,13 +55,13 @@
     <string name="array_discrete">分離</string>
     <string name="array_global_actions_activity">啟動活動</string>
     <string name="array_global_actions_back">切換上一個應用程式</string>
-    <string name="array_global_actions_clearmemory">清理記憶體</string>
+    <string name="array_global_actions_clear_memory">清理記憶體</string>
     <string name="array_global_actions_eqs">展開快速設定頁面</string>
     <string name="array_global_actions_expandsidebar">展開側邊欄</string>
     <string name="array_global_actions_floatingwindow">迷你小窗</string>
     <string name="array_global_actions_forceclose">強制關閉當前應用程式</string>
     <string name="array_global_actions_goback">返回</string>
-    <string name="array_global_actions_invertcolors">顏色反轉</string>
+    <string name="array_global_actions_invert_colors">顏色反轉</string>
     <string name="array_global_actions_launch">啟動應用程式</string>
     <string name="array_global_actions_launch_choose">選擇應用程式</string>
     <string name="array_global_actions_lock">鎖定螢幕</string>
@@ -73,7 +73,7 @@
     <string name="array_global_actions_pinningwindow">窗口貼邊</string>
     <string name="array_global_actions_powermenu">打開電源擴展選單</string>
     <string name="array_global_actions_powermenu_short">電源選單</string>
-    <string name="array_global_actions_recents">打開最近</string>
+    <string name="array_global_actions_recents">打開最近任務</string>
     <string name="array_global_actions_screenshot">截圖</string>
     <string name="array_global_actions_scrolltotop">回到頂部</string>
     <string name="array_global_actions_shortcut">啟動快捷方式</string>

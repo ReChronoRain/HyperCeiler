@@ -58,13 +58,13 @@
     <string name="array_discrete">Раздельно</string>
     <string name="array_global_actions_activity">Запустить компонент</string>
     <string name="array_global_actions_back">Предыдущее приложение</string>
-    <string name="array_global_actions_clearmemory">Очистить память</string>
+    <string name="array_global_actions_clear_memory">Очистить память</string>
     <string name="array_global_actions_eqs">Открыть панель Быстрых Настроек</string>
     <string name="array_global_actions_expandsidebar">Показать боковую панель</string>
     <string name="array_global_actions_floatingwindow">Плавающее окно</string>
     <string name="array_global_actions_forceclose">Принудительно закрыть текущее приложение</string>
     <string name="array_global_actions_goback">Назад</string>
-    <string name="array_global_actions_invertcolors">Ин​вер​ти​ро​вать цвета</string>
+    <string name="array_global_actions_invert_colors">Ин​вер​ти​ро​вать цвета</string>
     <string name="array_global_actions_launch">Запустить приложение</string>
     <string name="array_global_actions_launch_choose">Выбор приложения</string>
     <string name="array_global_actions_lock">За​бло​ки​ро​вать устройство</string>

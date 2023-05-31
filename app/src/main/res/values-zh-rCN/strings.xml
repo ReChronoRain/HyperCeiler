@@ -120,7 +120,7 @@
     <string name="array_global_actions_sleep">熄屏</string>
     <string name="array_global_actions_screenshot">截屏</string>
     <string name="array_global_actions_menu">打开菜单</string>
-    <string name="array_global_actions_recents">打开最近</string>
+    <string name="array_global_actions_recents">打开最近任务</string>
     <string name="array_global_actions_volume">打开音量对话框</string>
     <string name="array_global_actions_volume_up">提高音量</string>
     <string name="array_global_actions_volume_down">降低音量</string>
@@ -133,8 +133,8 @@
     <string name="array_global_actions_forceclose">强制关闭当前应用</string>
     <string name="array_global_actions_powermenu">打开电源菜单</string>
     <string name="array_global_actions_powermenu_short">电源菜单</string>
-    <string name="array_global_actions_clearmemory">清理内存</string>
-    <string name="array_global_actions_invertcolors">颜色反转</string>
+    <string name="array_global_actions_clear_memory">清理内存</string>
+    <string name="array_global_actions_invert_colors">颜色反转</string>
     <string name="array_global_actions_switchkeyboard">切换键盘</string>
     <string name="array_global_actions_goback">返回</string>
     <string name="array_global_actions_onehanded_left">单手模式(左)</string>

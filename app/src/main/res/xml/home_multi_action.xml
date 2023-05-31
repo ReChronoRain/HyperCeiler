@@ -32,6 +32,26 @@
             android:layout="@layout/preference_radiobutton_two_state"/>
 
         <moralnorm.preference.RadioButtonPreference
+            android:key="prefs_key_clear_memory"
+            android:title="@string/array_global_actions_clear_memory"
+            android:layout="@layout/preference_radiobutton_two_state"/>
+
+        <moralnorm.preference.RadioButtonPreference
+            android:key="prefs_key_invert_colors"
+            android:title="@string/array_global_actions_invert_colors"
+            android:layout="@layout/preference_radiobutton_two_state"/>
+
+        <moralnorm.preference.RadioButtonPreference
+            android:key="prefs_key_screen_recents"
+            android:title="@string/array_global_actions_recents"
+            android:layout="@layout/preference_radiobutton_two_state"/>
+
+        <moralnorm.preference.RadioButtonPreference
+            android:key="prefs_key_volume_dialog"
+            android:title="@string/array_global_actions_volume"
+            android:layout="@layout/preference_radiobutton_two_state"/>
+
+        <moralnorm.preference.RadioButtonPreference
             android:key="prefs_key_open_powermenu"
             android:title="@string/array_global_actions_powermenu"
             android:layout="@layout/preference_radiobutton_two_state"/>
@@ -114,4 +134,5 @@
 
 
     </moralnorm.preference.RadioButtonPreferenceCategory>
+    <Preference android:enabled="false" />
 </PreferenceScreen>

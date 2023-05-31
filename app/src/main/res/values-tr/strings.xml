@@ -440,8 +440,8 @@
     <string name="array_global_actions_forceclose">Geçerli uygulamayı kapatmaya zorla</string>
     <string name="array_global_actions_powermenu">Güç menüsünü açın</string>
     <string name="array_global_actions_powermenu_short">Güç menüsü</string>
-    <string name="array_global_actions_clearmemory">Belleği temizle</string>
-    <string name="array_global_actions_invertcolors">Renk inversiyonu</string>
+    <string name="array_global_actions_clear_memory">Belleği temizle</string>
+    <string name="array_global_actions_invert_colors">Renk inversiyonu</string>
     <string name="array_global_actions_switchkeyboard">Klavyeyi Değiştir</string>
     <string name="array_global_actions_goback">Geri</string>
     <string name="array_global_actions_onehanded_left">Tek Elle Kullanım Modu (Solda)</string>

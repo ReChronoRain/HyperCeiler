@@ -58,13 +58,13 @@
 	<string name="array_discrete">Separado</string>
 	<string name="array_global_actions_activity">Actividade de lançamento</string>
 	<string name="array_global_actions_back">Mudar para a aplicação anterior</string>
-	<string name="array_global_actions_clearmemory">Limpar memória</string>
+	<string name="array_global_actions_clear_memory">Limpar memória</string>
 	<string name="array_global_actions_eqs">Expandir o painel Definições rápidas</string>
 	<string name="array_global_actions_expandsidebar">Mostrar barra lateral</string>
 	<string name="array_global_actions_floatingwindow">Janela flutuante</string>
 	<string name="array_global_actions_forceclose">Forçar o encerramento da aplicação actual</string>
 	<string name="array_global_actions_goback">Voltar</string>
-	<string name="array_global_actions_invertcolors">Inversão de cor</string>
+	<string name="array_global_actions_invert_colors">Inversão de cor</string>
 	<string name="array_global_actions_launch">Iniciar aplicação</string>
 	<string name="array_global_actions_launch_choose">Seleccionar aplicação</string>
 	<string name="array_global_actions_lock">Ecrã de bloqueio</string>

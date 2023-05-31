@@ -456,8 +456,8 @@
     <string name="array_global_actions_forceclose">Force close current app</string>
     <string name="array_global_actions_powermenu">Open the power menu</string>
     <string name="array_global_actions_powermenu_short">Power menu</string>
-    <string name="array_global_actions_clearmemory">Clear memory</string>
-    <string name="array_global_actions_invertcolors">Color inversion</string>
+    <string name="array_global_actions_clear_memory">Clear memory</string>
+    <string name="array_global_actions_invert_colors">Color inversion</string>
     <string name="array_global_actions_switchkeyboard">Switch Keyboard</string>
     <string name="array_global_actions_goback">Back</string>
     <string name="array_global_actions_onehanded_left">One-Handed Mode (Left)</string>
