@@ -223,10 +223,9 @@
     <string name="scanner_excel">Tarama tablosunun kilidini aç</string>
     <string name="scanner_ppt">Tarama ppt\'sinin kilidini aç</string>
     <string name="scanner_doc_ppt">Tarama dosyalarının kilidini aç</string>
-    <string name="screenrecorder_force_support_playback_capture">ASOP ekran kayıt desteğini etkinleştirmeye zorla</string>
-    <string name="screenrecorder_force_support_playback_capture_desc">Ekran kayıt sürümü desteği gerektirir</string>
+    <string name="screen_recorder_force_support_playback_capture">ASOP ekran kayıt desteğini etkinleştirmeye zorla</string>
+    <string name="screen_recorder_force_support_playback_capture_desc">Ekran kayıt sürümü desteği gerektirir</string>
     <string name="screenshot_unlock_minimum_crop_limit">Minimum kırpma görüntü sınırının kilidini açın</string>
-    <string name="screenshot_unlock_minimum_crop_limit_desc">Sadece alan ekran görüntülerinde çalışır</string>
     <string name="security_center_app_title">Uygulama yönetimi</string>
     <string name="security_center_battery_title">Pil Tasarrufu ve Pil</string>
     <string name="security_center_privacy_title">Gizlilik koruması</string>

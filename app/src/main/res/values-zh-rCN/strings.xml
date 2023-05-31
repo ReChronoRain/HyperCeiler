@@ -520,15 +520,18 @@
     <string name="scanner_ppt">解锁提取 PPT</string>
     <string name="scanner_doc_ppt">解锁扫文件</string>
 
-    <string name="screenrecorder_force_support_playback_capture">强制启用原生屏幕录制支持</string>
-    <string name="screenrecorder_force_support_playback_capture_desc">需要屏幕录制版本支持</string>
-    <string name="screenrecorder_config">添加更多帧率与码率选项</string>
-    <string name="screenrecorder_config_desc">请根据硬件情况酌情选择</string>
-    <string name="screenrecorder_more_volume">解锁更多声音来源选项</string>
-    <string name="screenrecorder_more_volume_desc">仅支持部分版本</string>
+    <string name="save_to_screen_title">规范保存位置</string>
+
+    <string name="screen_recorder_force_support_playback_capture">强制启用原生屏幕录制支持</string>
+    <string name="screen_recorder_force_support_playback_capture_desc">需要屏幕录制版本支持</string>
+    <string name="screen_recorder_config">添加更多帧率与码率选项</string>
+    <string name="screen_recorder_config_desc">请根据硬件情况酌情选择</string>
+    <string name="screen_recorder_more_volume">解锁更多声音来源选项</string>
+    <string name="screen_recorder_more_volume_desc">仅支持部分版本</string>
+    <string name="screen_recorder_save_to_movies_desc">规范录制视频保存位置到 Movies/ScreenRecorder</string>
 
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
-    <string name="screenshot_unlock_minimum_crop_limit_desc">仅作用于区域截屏</string>
+    <string name="screenshot_save_to_pictures_desc">规范截图保存位置到 /Pictures/Screenshots</string>
 
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>

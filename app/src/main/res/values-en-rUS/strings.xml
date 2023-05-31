@@ -236,10 +236,9 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
-    <string name="screenrecorder_force_support_playback_capture">Force enable ASOP screen recording support</string>
-    <string name="screenrecorder_force_support_playback_capture_desc">Requires screen recording version support</string>
+    <string name="screen_recorder_force_support_playback_capture">Force enable ASOP screen recording support</string>
+    <string name="screen_recorder_force_support_playback_capture_desc">Requires screen recording version support</string>
     <string name="screenshot_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
-    <string name="screenshot_unlock_minimum_crop_limit_desc">Only works on area screenshots</string>
     <string name="security_center_app_title">App management</string>
     <string name="security_center_battery_title">Battery Saver and Battery</string>
     <string name="security_center_privacy_title">Privacy protection</string>
@@ -852,8 +851,8 @@
     <string name="system_settings_ai_image_title">Ai Image Engine</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
-    <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string><string name="screenrecorder_config">Add more frame rate and bitrate selections</string>
-    <string name="screenrecorder_config_desc">Please choose according to the hardware situation</string>
+    <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string><string name="screen_recorder_config">Add more frame rate and bitrate selections</string>
+    <string name="screen_recorder_config_desc">Please choose according to the hardware situation</string>
     <string name="about_other_title">Other</string>
     <string name="home_other">Other</string>
     <string name="security_center_other_title">Other</string>
@@ -861,8 +860,8 @@
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_another_title">Other</string>
     <string name="system_ui_notification_title">Notification</string>
-    <string name="screenrecorder_more_volume">Unlock more Volume from</string>
-    <string name="screenrecorder_more_volume_desc">Some version not support</string>
+    <string name="screen_recorder_more_volume">Unlock more Volume from</string>
+    <string name="screen_recorder_more_volume_desc">Some version not support</string>
     <string name="phone_double_5g_nr">Double card use 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">Main and secondary SIM-card enable 5G at the same time (The secondary SIM-card only support NSA)</string>
     <string name="phone_double_5g_sa">Double card use SA (SA+SA)</string>
@@ -1002,4 +1001,7 @@
     <string name="search">Search</string>
     <string name="system_ui_control_center_compact_notice">Compact notifications</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\\\' vertical paddings</string>
+    <string name="save_to_screen_title">Specification save location</string>
+    <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
+    <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
 </resources>

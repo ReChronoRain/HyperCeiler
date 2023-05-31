@@ -8,8 +8,12 @@
                 android:key="prefs_key_screenshot_unlock_minimum_crop_limit"
                 android:defaultValue="false"/>
 
+        <SwitchPreference
+            android:title="@string/save_to_screen_title"
+            android:summary="@string/screenshot_save_to_pictures_desc"
+            android:key="prefs_key_screenshot_save_to_pictures"
+            android:defaultValue="false"/>
+
     </PreferenceCategory>
-
 <Preference android:enabled="false" />
-
 </PreferenceScreen>
