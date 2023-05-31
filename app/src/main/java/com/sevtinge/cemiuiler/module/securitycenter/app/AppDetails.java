@@ -116,29 +116,30 @@ public class AppDetails extends BaseHook {
                                     String key = (String)XposedHelpers.callMethod(param1.args[0], "getKey");
                                     String title = (String)XposedHelpers.callMethod(param1.args[0], "getTitle");
                                     switch (key) {
-                                        case "apk_filename":
-                                            ((ClipboardManager)act.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(title, mLastPackageInfo.applicationInfo.sourceDir));
+                                        case "apk_filename" -> {
+                                            ((ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(title, mLastPackageInfo.applicationInfo.sourceDir));
                                             Toast.makeText(act, act.getResources().getIdentifier("app_manager_copy_pkg_to_clip", "string", act.getPackageName()), Toast.LENGTH_SHORT).show();
                                             param1.setResult(true);
-                                            break;
-                                        case "data_path":
-                                            ((ClipboardManager)act.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(title, mLastPackageInfo.applicationInfo.dataDir));
+                                        }
+                                        case "data_path" -> {
+                                            ((ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(title, mLastPackageInfo.applicationInfo.dataDir));
                                             Toast.makeText(act, act.getResources().getIdentifier("app_manager_copy_pkg_to_clip", "string", act.getPackageName()), Toast.LENGTH_SHORT).show();
                                             param1.setResult(true);
-                                            break;
-                                        case "open_in_market":
+                                        }
+                                        case "open_in_market" -> {
                                             try {
                                                 Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mLastPackageInfo.packageName));
                                                 launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                                                 act.startActivity(launchIntent);
-                                            } catch (android.content.ActivityNotFoundException anfe) {
+                                            } catch (
+                                                    android.content.ActivityNotFoundException anfe) {
                                                 Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + mLastPackageInfo.packageName));
                                                 launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                                                 act.startActivity(launchIntent);
                                             }
                                             param1.setResult(true);
-                                            break;
-                                        case "open_in_app":
+                                        }
+                                        case "open_in_app" -> {
                                             Intent launchIntent = act.getPackageManager().getLaunchIntentForPackage(mLastPackageInfo.packageName);
                                             if (launchIntent == null) {
                                                 Toast.makeText(act, modRes.getString(R.string.app_details_nolaunch), Toast.LENGTH_SHORT).show();
@@ -146,25 +147,25 @@ public class AppDetails extends BaseHook {
                                                 int user = 0;
                                                 try {
                                                     int uid = act.getIntent().getIntExtra("am_app_uid", -1);
-                                                    user = (int)XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
+                                                    user = (int) XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
                                                 } catch (Throwable t) {
                                                     LogUtils.log(t);
                                                 }
 
-                                                    launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                                                    if (user != 0) {
-                                                        try {
-                                                            XposedHelpers.callMethod(act, "startActivityAsUser", launchIntent, XposedHelpers.newInstance(UserHandle.class, user));
-                                                        } catch (Throwable t) {
-                                                            LogUtils.log(t);
-                                                        }
-                                                    } else {
-                                                        act.startActivity(launchIntent);
+                                                launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                                                if (user != 0) {
+                                                    try {
+                                                        XposedHelpers.callMethod(act, "startActivityAsUser", launchIntent, XposedHelpers.newInstance(UserHandle.class, user));
+                                                    } catch (Throwable t) {
+                                                        LogUtils.log(t);
                                                     }
+                                                } else {
+                                                    act.startActivity(launchIntent);
                                                 }
-                                                param.setResult(true);
-                                                break;
+                                            }
+                                            param.setResult(true);
                                         }
+                                    }
                                     }
                                 });
                             }
