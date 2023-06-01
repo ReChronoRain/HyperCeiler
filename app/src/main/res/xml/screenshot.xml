@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
-
         <SwitchPreference
                 android:title="@string/screenshot_unlock_minimum_crop_limit"
                 android:key="prefs_key_screenshot_unlock_minimum_crop_limit"
@@ -12,6 +12,36 @@
             android:summary="@string/screenshot_save_to_pictures_desc"
             android:key="prefs_key_screenshot_save_to_pictures"
             android:defaultValue="false"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
+        <DropDownPreference
+            android:defaultValue="2"
+            android:key="prefs_key_screenshot_format"
+            android:title="@string/screenshot_format_title"
+            app:entries="@array/screenshot_format"
+            app:entryValues="@array/screenshot_format_value" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:key="prefs_key_screenshot_quality"
+            android:title="@string/screenshot_quality_title"
+            app:defaultValueText="@string/array_default"
+            android:defaultValue="100"
+            app:minValue="10"
+            app:maxValue="100"
+            app:stepValue="1"
+            app:format="%d%%"
+            app:showSeekBarValue="true"/>
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:key="pref_key_screenshot_float_time"
+            android:title="@string/screenshot_float_time_title"
+            app:defaultValueText="@string/array_default"
+            android:defaultValue="0"
+            app:minValue="0"
+            app:maxValue="60"
+            app:stepValue="5"
+            app:format="%d s" />
 
     </PreferenceCategory>
 <Preference android:enabled="false" />

@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.utils;
 
+import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -276,6 +278,25 @@ public class Helpers {
 
     public static void log(String mod, String line) {
         XposedBridge.log("Cemiuiler: " + mod + " " + line);
+    }
+
+    public static String getSharedStringPref(Context context, String name, String defValue) {
+        Uri uri = stringPrefToUri(name, defValue);
+        try {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                String prefValue = cursor.getString(0);
+                cursor.close();
+                return prefValue;
+            } else log("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+
+        if (mPrefsMap.containsKey(name))
+            return (String)mPrefsMap.getObject(name, defValue);
+        else
+            return defValue;
     }
 
     private static String getCallerMethod() {
@@ -583,7 +604,6 @@ public class Helpers {
         public void onChange(String name, boolean defValue) {}
     }
 
-    @SuppressWarnings("unchecked")
     public static Set<String> getSharedStringSetPref(Context context, String name) {
         Uri uri = stringSetPrefToUri(name);
         try {
@@ -599,8 +619,8 @@ public class Helpers {
         }
 
         LinkedHashSet<String> empty = new LinkedHashSet<String>();
-        if (BaseHook.mPrefsMap.containsKey(name))
-            return (Set<String>) BaseHook.mPrefsMap.getObject(name, empty);
+        if (mPrefsMap.containsKey(name))
+            return (Set<String>) mPrefsMap.getObject(name, empty);
         else
             return empty;
     }
@@ -618,8 +638,8 @@ public class Helpers {
             XposedBridge.log(t);
         }
 
-        if (BaseHook.mPrefsMap.containsKey(name))
-            return (int) BaseHook.mPrefsMap.getObject(name, defValue);
+        if (mPrefsMap.containsKey(name))
+            return (int) mPrefsMap.getObject(name, defValue);
         else
             return defValue;
     }
@@ -637,8 +657,8 @@ public class Helpers {
             XposedBridge.log(t);
         }
 
-        if (BaseHook.mPrefsMap.containsKey(name))
-            return (boolean) BaseHook.mPrefsMap.getObject(name, false);
+        if (mPrefsMap.containsKey(name))
+            return (boolean) mPrefsMap.getObject(name, false);
         else
             return defValue;
     }

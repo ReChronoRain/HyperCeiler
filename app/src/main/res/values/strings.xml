@@ -1021,4 +1021,8 @@
     <string name="save_to_screen_title">Specification save location</string>
     <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
+    <string name="screenshot_format_title">Save format</string>
+    <string name="screenshot_float_time_title">Floating window display time</string>
+    <string name="screenshot_float_time_desc">Delay before a floating window with newly created screenshot disappears</string>
+    <string name="screenshot_quality_title">Save quality</string>
 </resources>

@@ -822,4 +822,6 @@
     <string name="search">aramak</string>
     <string name="system_ui_control_center_compact_notice">Kompakt bildirimler</string>
     <string name="system_ui_control_center_compact_notice_desc">Bildirimlerin dikey dolgularını azalt</string>
+    <string name="screenshot_float_time_title">Kayan ekran görüntüsü görüntüleme süresi</string>
+    <string name="screenshot_float_time_desc">Yeni oluşturulan ekran görüntüsüne sahip kayan bir pencerenin kaybolmasından önceki gecikme</string>
 </resources>
