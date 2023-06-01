@@ -1019,4 +1019,5 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="clipboard">Clipboard</string>
     <string name="system_ui_notification_title">Thông báo</string>
     <string name="search">Tìm kiếm</string>
+    <string name="home_widget_resizable">Xóa giới hạn kích thước tiện ích</string>
 </resources>

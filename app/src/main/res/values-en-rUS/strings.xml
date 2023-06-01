@@ -1004,4 +1004,5 @@
     <string name="save_to_screen_title">Specification save location</string>
     <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
+    <string name="home_widget_resizable">Remove any widget size limitations</string>
 </resources>

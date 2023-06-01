@@ -18,6 +18,11 @@
             android:defaultValue="false" />
 
     <SwitchPreference
+        android:key="prefs_key_home_widget_resizable"
+        android:title="@string/home_widget_resizable"
+        android:defaultValue="false" />
+
+    <SwitchPreference
             android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
             android:title="@string/home_widget_allow_moved_to_minus_one_screen"
             android:defaultValue="false" />

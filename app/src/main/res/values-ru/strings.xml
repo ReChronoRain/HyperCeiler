@@ -87,10 +87,6 @@
     <string name="array_global_actions_volume_down">Громкость -</string>
     <string name="array_global_actions_volume_up">Громкость +</string>
     <string name="array_gradual">Градиент</string>
-    <string name="array_netspeedicons_arrows">△▽ (▲▼)</string>
-    <string name="array_netspeedicons_arrows_long1">↑ ↓</string>
-    <string name="array_netspeedicons_arrows_long2">⇧ ⇩</string>
-    <string name="array_netspeedicons_arrows_small">▵ ▿ ( ▴ ▾ )</string>
     <string name="array_netspeedicons_bullets">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_no">Без значков</string>
     <string name="array_rainbow">Цвета радуги</string>
@@ -957,7 +953,6 @@
     <string name="system_ui_statusbar_network_speed_oneKBs">1 КБ/с</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (/с)</string>
     <string name="system_ui_statusbar_network_speed_show_up_down">Показывать увеличение и уменьшение скорости сети</string>
-    <string name="system_ui_statusbar_network_speed_speedunits">KMG</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Интервал обновления скорости сети</string>
     <string name="system_ui_statusbar_temp_fix_cpu">Фиксировать температуру процессора</string>
     <string name="system_ui_statusbar_temp_fix_cpu_desc">Введите количество для /sys/devices/virtual/thermal/thermal_zone*</string>
@@ -1031,4 +1026,5 @@
     <string name="weather_device_level_title_low">Низкий</string>
     <string name="weather_device_level_title_middle">Средний</string>
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
+    <string name="home_widget_resizable">Убирает все ограничения на размер виджетов</string>
 </resources>

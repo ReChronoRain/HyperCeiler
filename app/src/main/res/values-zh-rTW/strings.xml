@@ -1001,6 +1001,7 @@
     <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
     <string name="system_ui_lock_screen_show_charging_c_more">顯示詳細電流</string>
     <string name="system_ui_lock_screen_show_charging_v_more">顯示詳細電壓</string>
+    <string name="home_widget_resizable">解除小工具大小的限制</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>

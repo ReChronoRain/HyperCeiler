@@ -822,4 +822,5 @@
     <string name="search">aramak</string>
     <string name="system_ui_control_center_compact_notice">Kompakt bildirimler</string>
     <string name="system_ui_control_center_compact_notice_desc">Bildirimlerin dikey dolgularını azalt</string>
+    <string name="home_widget_resizable">Widget boyut sınırlamalarını kaldırın</string>
 </resources>
