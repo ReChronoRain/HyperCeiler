@@ -111,8 +111,6 @@
     <string name="array_battery_temp">电池温度</string>
     <string name="array_cpu_temp">CPU 温度</string>
 
-    <string name="sunshine_mode">阳光模式</string>
-
     <string name="array_global_actions_none">无动作</string>
     <string name="array_global_actions_notif">打开通知中心</string>
     <string name="array_global_actions_eqs">展开快速设置面板</string>
@@ -1039,6 +1037,7 @@
     <string name="weather_device_level_title_high">高</string>
 
     <string name="system_control_center_5g_toggle_label">5G网络</string>
+    <string name="system_control_center_sunshine_mode">阳光模式</string>
 
     <string name="various_install_app_info_version_name">版本名称</string>
     <string name="various_install_app_info_version_code">版本代码</string>
