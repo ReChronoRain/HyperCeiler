@@ -7,10 +7,13 @@ import android.content.IntentFilter
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.sevtinge.cemiuiler.utils.exec
+import java.io.File
 
 class HighBrightnessMode : TileService() {
     private var isActive = false
     private var originalBrightness: String? = null
+    private var maxFile: String? = null
+    private var file: String? = null
     private val screenStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == Intent.ACTION_SCREEN_OFF) {
@@ -44,11 +47,19 @@ class HighBrightnessMode : TileService() {
             isActive = false
         } else {
             // 开启最高亮度模式
+            if (File("/sys/class/mi_display/disp-DSI-0/brightness_clone").exists()) {
+                maxFile = "/sys/class/mi_display/disp-DSI-0/max_brightness_clone"
+                file = "/sys/class/mi_display/disp-DSI-0/brightness_clone"
+            } else {
+                maxFile =  "/sys/class/backlight/panel0-backlight/max_brightness"
+                file = "/sys/class/backlight/panel0-backlight/brightness"
+            }
+
             originalBrightness =
-                exec("cat /sys/class/mi_display/disp-DSI-0/brightness_clone").trim()
+                exec("cat $file").trim()
             val maxBrightness =
-                exec("cat /sys/class/mi_display/disp-DSI-0/max_brightness_clone").trim()
-            exec("echo $maxBrightness > /sys/class/mi_display/disp-DSI-0/brightness_clone")
+                exec("cat $maxFile").trim()
+            exec("echo $maxBrightness > $file")
             qsTile.state = Tile.STATE_ACTIVE
             isActive = true
         }
