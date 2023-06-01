@@ -43,10 +43,12 @@ public class CleanOpenMenu extends BaseHook {
                             if (!key.contains("pref_key_system_framework_clean_open_apps")) return;
 
                             switch (type) {
-                                case "stringset" ->
-                                        mPrefsMap.put(key, Helpers.getSharedStringSetPref(mContext, key));
-                                case "integer" ->
-                                        mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
+                                case "stringset":
+                                    mPrefsMap.put(key, Helpers.getSharedStringSetPref(mContext, key));
+                                    break;
+                                case "integer":
+                                    mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
+                                    break;
                             }
                         } catch (Throwable t) {
                             logE(t);

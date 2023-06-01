@@ -904,8 +904,6 @@
 	<string name="system_ui_statusbar_network_speed_font_size">Velocidade da rede Tamanho da fonte</string>
 	<string name="system_ui_statusbar_network_speed_format_KBs">%d KB / s</string>
 	<string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="screenshot_float_time_title">Tempo de exibição flutuante da captura de tela</string>
-	<string name="screenshot_float_time_desc">Atraso antes que uma janela flutuante com captura de tela recém-criada desapareça</string>
 	<string name="system_ui_statusbar_network_speed_format_d_ms">%d em</string>
 	<string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
 	<string name="system_ui_statusbar_network_speed_hide">Ocultar velocidade de rede lenta</string>
