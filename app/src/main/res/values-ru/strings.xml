@@ -393,6 +393,7 @@
     <string name="home_widget_allow_moved_to_minus_one_screen">Разрешить перемещение классического виджета на Боковую панель</string>
     <string name="home_widget_corner_radius">Виджет с закругленными углами</string>
     <string name="home_widget_hide_title">Скрыть название виджета</string>
+    <string name="home_widget_resizable">Убирает все ограничения на размер виджетов</string>
     <string name="home_widget_show_miui_widget">Отобразить виджеты MIUI</string>
     <string name="home_widget_show_miui_widget_desc">Отобразить виджеты MIUI на странице виджетов Android</string>
     <string name="hook_failed">Модуль не активирован</string>
@@ -520,6 +521,7 @@
     <string name="restart_app_desc2">\?</string>
     <string name="restart_systemui">Перезагрузить System UI</string>
     <string name="restart_systemui_desc">Перезагрузить System UI?</string>
+    <string name="save_to_screen_title">Место сохранения</string>
     <string name="scanner">Сканер</string>
     <string name="scanner_card">Сканировать ID-карты</string>
     <string name="scanner_doc_ppt">Сканировать файлы</string>
@@ -528,15 +530,18 @@
     <string name="scanner_ocr">Распознавание текста</string>
     <string name="scanner_ppt">Сканировать презентации</string>
     <string name="scanner_translation">Переводчик</string>
-    <string name="screenrecorder">Запись экрана</string>
     <string name="screen_recorder_config">Дополнительные параметры частоты кадров и битрейта</string>
     <string name="screen_recorder_config_desc">Выбирайте в соответствии с требованиями к оборудованию</string>
     <string name="screen_recorder_force_support_playback_capture">Принудительно включить поддержку записи экрана ASOP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Требуется поддержка версии для записи с экрана</string>
     <string name="screen_recorder_more_volume">Разблокировать максимальную громкость</string>
     <string name="screen_recorder_more_volume_desc">Некоторые версии не поддерживаются</string>
+    <string name="screen_recorder_save_to_movies_desc">Место сохранения записываемого видео в Movies/Screen Recorder</string>
+    <string name="screenrecorder">Запись экрана</string>
     <string name="screenshot">Скриншот</string>
+    <string name="screenshot_save_to_pictures_desc">Место сохранения скриншота в /Pictures/Screenshots</string>
     <string name="screenshot_unlock_minimum_crop_limit">Разблокировать ограничение на мин.обрезку изображения</string>
+    <string name="search">Поиск</string>
     <string name="security">Безопасность</string>
     <string name="security_app_sort_summary">Изменить сортировку списка управления приложениями по умолчанию</string>
     <string name="security_app_sort_title">Сортировка списка управления приложениями</string>
@@ -646,6 +651,7 @@
     <string name="system_control_center_qs_rows">Строки</string>
     <string name="system_control_center_qs_rows_format">Линий: %d</string>
     <string name="system_control_center_qs_tile_label">Удалить название</string>
+    <string name="system_control_center_sunshine_mode">Солнечный режим</string>
     <string name="system_framework">Системный фреймворк</string>
     <string name="system_framework_allow_uninstall">Разрешить удаление некоторых предустановленных приложений</string>
     <string name="system_framework_allow_uninstall_desc">Эта функция представляет опасность</string>
@@ -746,6 +752,8 @@
     <string name="system_ui_control_center_blur_radius">Степень размытия</string>
     <string name="system_ui_control_center_blur_radius_desc">Без раскрывающегося уведомления</string>
     <string name="system_ui_control_center_brightness_title">Яркость</string>
+    <string name="system_ui_control_center_compact_notice">Компактные уведомления</string>
+    <string name="system_ui_control_center_compact_notice_desc">Уменьшить вертикальные отступы уведомлений</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Значение размытия фона элемента управления</string>
     <string name="system_ui_control_center_corner_radius">Радиус угла</string>
     <string name="system_ui_control_center_corner_radius_desc">Тема по умолчанию не нуждается в настройке</string>
@@ -1026,5 +1034,4 @@
     <string name="weather_device_level_title_low">Низкий</string>
     <string name="weather_device_level_title_middle">Средний</string>
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
-    <string name="home_widget_resizable">Убирает все ограничения на размер виджетов</string>
 </resources>
