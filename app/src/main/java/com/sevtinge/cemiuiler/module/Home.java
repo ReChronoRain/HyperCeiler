@@ -105,7 +105,7 @@ public class Home extends BaseModule {
         initHook(AllowMoveAllWidgetToMinus.INSTANCE, mPrefsMap.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
         initHook(new WidgetCornerRadius(), mPrefsMap.getInt("home_widget_corner_radius", 0) > 0);
         initHook(HideWidgetTitles.INSTANCE, mPrefsMap.getBoolean("home_widget_hide_title"));
-        initHook(ResizableWidgets.INSTANCE, mPrefsMap.getBoolean("prefs_key_home_widget_resizable"));
+        initHook(ResizableWidgets.INSTANCE, mPrefsMap.getBoolean("home_widget_resizable"));
 
         //底栏
         initHook(new DockCustom(), mPrefsMap.getBoolean("home_dock_bg_custom_enable"));
