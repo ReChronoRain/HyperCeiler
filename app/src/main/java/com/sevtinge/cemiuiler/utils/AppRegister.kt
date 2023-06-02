@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.utils
 
-import com.github.kyuubiran.ezxhelper.utils.Log
-import com.github.kyuubiran.ezxhelper.utils.Log.logexIfThrow
+import com.github.kyuubiran.ezxhelper.Log
+import com.github.kyuubiran.ezxhelper.LogExtensions.logexIfThrow
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_InitPackageResources

@@ -1,21 +1,26 @@
 package com.sevtinge.cemiuiler.module.systemui.lockscreen
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookBefore
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object NoPasswordHook : BaseHook() {
     override fun init() {
-        findMethod("com.android.internal.widget.LockPatternUtils\$StrongAuthTracker") {
+        loadClass("com.android.internal.widget.LockPatternUtils\$StrongAuthTracker").methodFinder().first {
             name == "isBiometricAllowedForUser"
-        }.hookBefore {
-            it.result = true
+        }.createHook {
+            before {
+                it.result = true
+            }
         }
 
-        findMethod("com.android.internal.widget.LockPatternUtils") {
+        loadClass("com.android.internal.widget.LockPatternUtils").methodFinder().first {
             name == "isBiometricAllowedForUser"
-        }.hookBefore {
-            it.result = true
+        }.createHook {
+            before {
+                it.result = true
+            }
         }
     }
 

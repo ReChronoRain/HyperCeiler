@@ -43,7 +43,7 @@ android {
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
         }
         canary {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
         }
@@ -53,12 +53,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_19
+        targetCompatibility JavaVersion.VERSION_19
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = JavaVersion.VERSION_19.toString()
     }
 
     namespace 'com.sevtinge.cemiuiler'
@@ -78,7 +78,7 @@ dependencies {
     compileOnly(roots.XposedApi)
 
     implementation 'org.luckypray:DexKit:1.1.8'
-    implementation 'com.github.kyuubiran:EzXHelper:1.0.3'
+    implementation 'com.github.kyuubiran:EzXHelper:2.0.5'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
     implementation "com.google.code.gson:gson:2.10.1"

@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.utils.Log
+import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers

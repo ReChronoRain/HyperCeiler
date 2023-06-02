@@ -1,31 +1,31 @@
 package com.sevtinge.cemiuiler.module.home.other
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XC_MethodReplacement
 
 object AlwaysShowStatusClock : BaseHook() {
     override fun init() {
 
         //if (!mPrefsMap.getBoolean("home_show_status_clock")) return
+        val mWorkspaceClass = loadClass("com.miui.home.launcher.Workspace")
         try {
-            findMethod("com.miui.home.launcher.Workspace") {
-                name == "isScreenHasClockGadget" && parameterCount == 1
+            mWorkspaceClass.methodFinder().first {
+                name == "isScreenHasClockGadget"
             }
-
-            /*findAndHookMethod("com.miui.home.launcher.Workspace", "isScreenHasClockGadget", 1) */
         } catch (e: Exception) {
-            findMethod("com.miui.home.launcher.Workspace") {
-                name == "isScreenHasClockWidget" && parameterCount == 1
+            mWorkspaceClass.methodFinder().first {
+                name == "isScreenHasClockWidget"
             }
-
-            /*findAndHookMethod("com.miui.home.launcher.Workspace", "isScreenHasClockWidget", 1)*/
-        }.hookReturnConstant(false)
-        /*object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam?): Any {
-                return false
+        } catch (e: Exception) {
+            mWorkspaceClass.methodFinder().first {
+                name == "isClockWidget"
             }
-        }*/
+        }.createHook {
+            before {
+                it.result = false
+            }
+        }
     }
 }

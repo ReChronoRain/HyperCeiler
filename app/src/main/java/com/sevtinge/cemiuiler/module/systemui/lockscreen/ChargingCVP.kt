@@ -5,9 +5,11 @@ import android.app.AndroidAppHelper
 import android.content.Context
 import android.os.BatteryManager
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookAfter
-import com.github.kyuubiran.ezxhelper.utils.hookAllConstructorAfter
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import java.io.BufferedReader
 import java.io.FileReader
@@ -20,16 +22,22 @@ object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
 
-        findMethod("com.android.keyguard.charge.ChargeUtils") {
-            name == "getChargingHintText" && parameterCount == 3
-        }.hookAfter {
-            if (it.result != null) {
-                it.result = it.result as String + "\n" + getCVP()
+        loadClass("com.android.keyguard.charge.ChargeUtils")
+            .methodFinder()
+            .filterByName("getChargingHintText")
+            .filterByParamCount(3)
+            .first().createHook {
+            after {
+                if (it.result != null) {
+                    it.result = it.result as String + "\n" + getCVP()
+                }
             }
         }
 
-        findClassIfExists("com.android.systemui.statusbar.phone.KeyguardIndicationTextView").hookAllConstructorAfter {
-            (it.thisObject as TextView).isSingleLine = false
+        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks  {
+            after {
+                (it.thisObject as TextView).isSingleLine = false
+            }
         }
     }
 

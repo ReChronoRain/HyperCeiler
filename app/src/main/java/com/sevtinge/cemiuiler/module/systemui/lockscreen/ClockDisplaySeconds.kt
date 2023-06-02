@@ -8,7 +8,12 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.utils.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
+import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 import de.robv.android.xposed.XC_MethodHook
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
@@ -18,46 +23,56 @@ object ClockDisplaySeconds : BaseHook() {
     private var nowTime: Date = Calendar.getInstance().time
 
     override fun init()  {
-        findConstructor("com.miui.clock.MiuiBaseClock") {
+        loadClass("com.miui.clock.MiuiBaseClock").constructorFinder().first {
             paramCount == 2
-        }.hookAfter {
-            try {
-                val viewGroup = it.thisObject as LinearLayout
-                val d: Method = viewGroup.javaClass.getDeclaredMethod("updateTime")
-                val r = Runnable {
-                    d.isAccessible = true
-                    d.invoke(viewGroup)
-                }
-
-                class T : TimerTask() {
-                    override fun run() {
-                        Handler(viewGroup.context.mainLooper).post(r)
+        }.createHook {
+            after {
+                try {
+                    val viewGroup = it.thisObject as LinearLayout
+                    val d: Method = viewGroup.javaClass.getDeclaredMethod("updateTime")
+                    val r = Runnable {
+                        d.isAccessible = true
+                        d.invoke(viewGroup)
                     }
+
+                    class T : TimerTask() {
+                        override fun run() {
+                            Handler(viewGroup.context.mainLooper).post(r)
+                        }
+                    }
+                    Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
+                } catch (_: Exception) {
                 }
-                Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
-            } catch (_: Exception) {
             }
         }
 
-        findMethod("com.miui.clock.MiuiLeftTopClock") {
+        loadClass("com.miui.clock.MiuiLeftTopClock").methodFinder().first {
             name == "updateTime"
-        }.hookAfter { updateTime(it, false) }
+        }.createHook {
+            after { updateTime(it, false) }
+        }
 
-        findMethod("com.miui.clock.MiuiCenterHorizontalClock") {
+        loadClass("com.miui.clock.MiuiCenterHorizontalClock").methodFinder().first {
             name == "updateTime"
-        }.hookAfter { updateTime(it, false) }
+        }.createHook {
+            after { updateTime(it, false) }
+        }
 
-        findMethod("com.miui.clock.MiuiLeftTopLargeClock") {
+        loadClass("com.miui.clock.MiuiLeftTopLargeClock").methodFinder().first {
             name == "updateTime"
-        }.hookAfter { updateTime(it, false) }
+        }.createHook {
+            after { updateTime(it, false) }
+        }
 
-        findMethod("com.miui.clock.MiuiVerticalClock") {
+        loadClass("com.miui.clock.MiuiVerticalClock").methodFinder().first {
             name == "updateTime"
-        }.hookAfter { updateTime(it, true) }
+        }.createHook {
+            after { updateTime(it, true) }
+        }
     }
 
     private fun updateTime(it: XC_MethodHook.MethodHookParam, isVertical: Boolean) {
-        val textV = it.thisObject.getObjectAs<TextView>("mTimeText")
+        val textV = it.thisObject.getObjectFieldAs<TextView>("mTimeText")
         val c: Context = textV.context
 
         Log.d("lock_screen_clock_display_seconds", "updateTime: ${it.thisObject.javaClass.simpleName}")

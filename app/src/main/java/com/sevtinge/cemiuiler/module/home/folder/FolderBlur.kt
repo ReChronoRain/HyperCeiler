@@ -5,7 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.view.View
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.*
 
@@ -17,10 +17,10 @@ object FolderBlur : BaseHook() {
         if (mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) return
 
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
-            EzXHelperInit.initHandleLoadPackage(lpparam)
-            EzXHelperInit.setLogTag(TAG)
-            EzXHelperInit.setToastTag(TAG)
-            EzXHelperInit.initAppContext(it.args[0] as Context)
+            EzXHelper.initHandleLoadPackage(lpparam)
+            EzXHelper.setLogTag(TAG)
+            EzXHelper.setToastTag(TAG)
+            EzXHelper.initAppContext(it.args[0] as Context)
 
 
             if (mPrefsMap.getStringAsInt(

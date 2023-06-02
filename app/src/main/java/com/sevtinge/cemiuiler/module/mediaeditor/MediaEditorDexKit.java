@@ -27,7 +27,7 @@ public class MediaEditorDexKit extends BaseHook {
                     bridge.batchFindMethodsUsingStrings(
                             BatchFindArgs.builder()
                                     .addQuery("FilterManager", List.of("wayne"))
-                                    .matchType(MatchType.CONTAINS)
+                                    .matchType(MatchType.FULL)
                                     .build()
                     );
         } catch (Throwable e) {

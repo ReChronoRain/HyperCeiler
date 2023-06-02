@@ -11,7 +11,9 @@ import android.os.Looper
 import android.os.Message
 import android.text.TextUtils
 import android.widget.Toast
-import com.github.kyuubiran.ezxhelper.utils.*
+import com.sevtinge.cemiuiler.utils.api.argTypes
+import com.sevtinge.cemiuiler.utils.api.args
+import com.sevtinge.cemiuiler.utils.callStaticMethod
 
 @SuppressLint("ViewConstructor", "SetTextI18n")
 class WeatherData(val context: Context?, private val showCity: Boolean) {
@@ -83,7 +85,7 @@ class WeatherData(val context: Context?, private val showCity: Boolean) {
     }
 
     fun startCalendarApp() {
-        mContext.classLoader.loadClass("com.miui.systemui.util.CommonUtil").invokeStaticMethod("startCalendarApp", args(context), argTypes(Context::class.java))
+        mContext.classLoader.loadClass("com.miui.systemui.util.CommonUtil").callStaticMethod("startCalendarApp", args(context), argTypes(Context::class.java))
     }
 
     fun startWeatherApp() {

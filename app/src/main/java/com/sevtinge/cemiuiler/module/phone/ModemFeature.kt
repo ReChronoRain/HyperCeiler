@@ -1,35 +1,42 @@
 package com.sevtinge.cemiuiler.module.phone
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookAfter
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object ModemFeature : BaseHook() {
     override fun init() {
         try {
-            findMethod("com.android.phone.FiveGManagerBase") {
+            loadClass("com.android.phone.FiveGManagerBase").methodFinder().first {
                 name == "getModemFeatureMode"
-            }.hookAfter {
-                it.args[0] = -1
-                it.result = true
+            }.createHook {
+                after {
+                    it.args[0] = -1
+                    it.result = true
+                }
             }
         } catch (_: Throwable) {
         }
 
         try {
-            findMethod("com.android.phone.MiuiPhoneUtils") {
+            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "isModemFeatureSupported"
-            }.hookAfter {
-                it.args[0] = -1
+            }.createHook {
+                after {
+                    it.args[0] = -1
+                }
             }
         } catch (_: Throwable) {
         }
 
         try {
-            findMethod("com.android.phone.MiuiPhoneUtils") {
+            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "getModemFeatureFromDb"
-            }.hookAfter {
-                it.args[0] = -1
+            }.createHook {
+                after {
+                    it.args[0] = -1
+                }
             }
         } catch (_: Throwable) {
         }

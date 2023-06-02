@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler
 
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
@@ -35,9 +35,9 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         // Init EzXHelper
-        EzXHelperInit.initHandleLoadPackage(lpparam)
-        EzXHelperInit.setLogTag(TAG)
-        EzXHelperInit.setToastTag(TAG)
+        EzXHelper.initHandleLoadPackage(lpparam)
+        EzXHelper.setLogTag(TAG)
+        EzXHelper.setToastTag(TAG)
 
         init(lpparam)
 

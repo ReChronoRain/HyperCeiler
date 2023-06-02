@@ -14,7 +14,7 @@ object ResizableWidgets : BaseHook() {
             object : MethodHook() {
                 @Throws(Throwable::class)
                 override fun after(param: MethodHookParam) {
-                    val widgetInfo = param.result as AppWidgetProviderInfo ?: return
+                    val widgetInfo = param.result as AppWidgetProviderInfo
                     widgetInfo.resizeMode =
                         AppWidgetProviderInfo.RESIZE_VERTICAL or AppWidgetProviderInfo.RESIZE_HORIZONTAL
                     widgetInfo.minHeight = 0

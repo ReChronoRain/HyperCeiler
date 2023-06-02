@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.res.XModuleResources
 import android.nfc.NfcAdapter
 import android.widget.Toast
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
-import com.github.kyuubiran.ezxhelper.init.InitFields
-import com.github.kyuubiran.ezxhelper.utils.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit.mModulePath
+import com.sevtinge.cemiuiler.utils.callMethod
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -18,32 +21,34 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 object AutoNfc : BaseHook() {
     override fun init() {
-        findMethod("com.miui.tsmclient.ui.quick.DoubleClickActivity") {
+        loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder().first {
             name == "onCreate"
-        }.hookAfter { param ->
-            if (!InitFields.isAppContextInited)
-                EzXHelperInit.initAppContext()
-            NfcAdapter.getDefaultAdapter(InitFields.appContext).let { nfcAdapter ->
-                if (nfcAdapter.isEnabled) return@hookAfter
-                HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
-                MainScope().launch {
-                    waitNFCEnable(InitFields.appContext, nfcAdapter)
-                    param.thisObject.javaClass.findAllFields {
-                        type == Boolean::class.java
-                    }.last().setBoolean(param.thisObject, false)
-                    val ctaHelperClazz = findClass("com.miui.tsmclient.entity.CTAHelper")
-                    param.thisObject.javaClass.findField {
-                        type == ctaHelperClazz
-                    }.get(param.thisObject)!!.invokeMethod("check")
+        }.createHook {
+            after { param ->
+                if (!EzXHelper.isHostPackageNameInited)
+                NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
+                    if (nfcAdapter.isEnabled) return@after
+                    HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
+                    MainScope().launch {
+                        waitNFCEnable(EzXHelper.appContext, nfcAdapter)
+                        param.thisObject.javaClass.fieldFinder().filter {
+                            type == Boolean::class.java
+                        }.last().setBoolean(param.thisObject, false)
+                        val ctaHelperClazz = findClass("com.miui.tsmclient.entity.CTAHelper")
+                        param.thisObject.javaClass.fieldFinder().first {
+                            type == ctaHelperClazz
+                        }.get(param.thisObject)!!.callMethod("check")
+                    }
                 }
             }
         }
-        findMethod("com.miui.tsmclient.ui.quick.DoubleClickActivity") {
+        loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder().first {
             name == "onDestroy"
-        }.hookBefore {
-            if (!InitFields.isAppContextInited) EzXHelperInit.initAppContext()
-            NfcAdapter.getDefaultAdapter(InitFields.appContext).let { nfcAdapter ->
-                HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "disable")
+        }.createHook {
+            before {
+                NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
+                    HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "disable")
+                }
             }
         }
     }

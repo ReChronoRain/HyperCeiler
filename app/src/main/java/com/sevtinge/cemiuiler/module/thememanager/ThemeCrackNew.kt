@@ -1,32 +1,43 @@
 package com.sevtinge.cemiuiler.module.thememanager
 
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
-import com.github.kyuubiran.ezxhelper.utils.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.Log
+import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.thememanager.ThemeManagerDexKit.mThemeManagerResultMethodsMap
+import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.setObjectField
 import miui.drm.DrmManager
 import java.io.File
-import java.lang.reflect.Method
 
 class ThemeCrackNew : BaseHook() {
     override fun init() {
-        EzXHelperInit.setEzClassLoader(lpparam.classLoader)
         try {
-            findAllMethods("com.android.thememanager.detail.theme.model.OnlineResourceDetail") {
+            loadClass("com.android.thememanager.detail.theme.model.OnlineResourceDetail").methodFinder().filter {
                 name == "toResource"
-            }.hookAfter {
-                it.thisObject.putObject("bought", true)
+            }.toList().createHooks {
+                after {
+                    it.thisObject.setObjectField("bought", true)
+                }
             }
-            findAllMethods("com.android.thememanager.basemodule.views.DiscountPriceView") {
+            loadClass("com.android.thememanager.basemodule.views.DiscountPriceView").methodFinder().filter {
                 parameterCount == 2 && parameterTypes[0] == Int::class.javaPrimitiveType && parameterTypes[1] == Int::class.javaPrimitiveType
-            }.hookBefore {
-                it.args[0] = 0
-                it.args[1] = 0
+            }.toList().createHooks {
+                before {
+                    it.args[0] = 0
+                    it.args[1] = 0
+                }
             }
-            findMethod("com.miui.maml.widget.edit.MamlutilKt") {
+            loadClass("com.miui.maml.widget.edit.MamlutilKt").methodFinder().first {
                 name == "themeManagerSupportPaidWidget"
-            }.hookAfter {
-                it.result = false
+            }.createHook {
+                after {
+                    it.result = false
+                }
             }
             val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
             for (descriptor in drmResult) {
@@ -34,8 +45,10 @@ class ThemeCrackNew : BaseHook() {
                     //val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
                     val drmResultMethod = descriptor.getMethodInstance(lpparam.classLoader)
                     log("DrmResult method is $drmResultMethod")
-                    drmResultMethod.hookAfter {
-                        it.result = DrmManager.DrmResult.DRM_SUCCESS
+                    drmResultMethod.createHook {
+                        after {
+                            it.result = DrmManager.DrmResult.DRM_SUCCESS
+                        }
                     }
                 } catch (_: Throwable) {
                 }
@@ -55,21 +68,29 @@ class ThemeCrackNew : BaseHook() {
                     //val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
                     val largeIconMethod = descriptor.getMethodInstance(lpparam.classLoader)
                     log("largeIcon method is $largeIconMethod")
-                    largeIconMethod.hookBefore {
-                        val resource = findField(it.thisObject.javaClass) {
-                            type == loadClass(
-                                "com.android.thememanager.basemodule.resource.model.Resource",
-                                lpparam.classLoader
-                            )
+                    largeIconMethod.createHook {
+                        before {
+                            largeIconMethod.createHook {
+                                before {
+                                    val resource = (it.thisObject.javaClass).fieldFinder().first {
+                                        type == loadClass(
+                                            "com.android.thememanager.basemodule.resource.model.Resource",
+                                            lpparam.classLoader
+                                        )
+                                    }
+
+                                    val productId = it.thisObject.getObjectField(resource.name)
+                                        ?.callMethod("getProductId")
+                                        .toString()
+                                    val strPath =
+                                        "/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra"
+                                    val file = File(strPath)
+                                    val fileParent = file.parentFile!!
+                                    if (!fileParent.exists()) fileParent.mkdirs()
+                                    file.createNewFile()
+                                }
+                            }
                         }
-                        val productId =
-                            it.thisObject.getObject(resource.name).invokeMethod("getProductId").toString()
-                        val strPath =
-                            "/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra"
-                        val file = File(strPath)
-                        val fileParent = file.parentFile!!
-                        if (!fileParent.exists()) fileParent.mkdirs()
-                        file.createNewFile()
                     }
                 } catch (_: Throwable) {
                 }

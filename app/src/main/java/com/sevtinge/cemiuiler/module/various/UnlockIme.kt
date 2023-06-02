@@ -2,27 +2,25 @@ package com.sevtinge.cemiuiler.module.various
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.view.inputmethod.InputMethodManager
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
-import com.github.kyuubiran.ezxhelper.utils.Log
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.getObjectAs
-import com.github.kyuubiran.ezxhelper.utils.getStaticObject
-import com.github.kyuubiran.ezxhelper.utils.hookAfter
-import com.github.kyuubiran.ezxhelper.utils.hookReplace
-import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
-import com.github.kyuubiran.ezxhelper.utils.invokeStaticMethodAuto
-import com.github.kyuubiran.ezxhelper.utils.loadClassOrNull
-import com.github.kyuubiran.ezxhelper.utils.putStaticObject
-import com.github.kyuubiran.ezxhelper.utils.sameAs
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.Log
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.utils.PropertyUtils
+import com.sevtinge.cemiuiler.utils.callStaticMethod
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.getObjectFieldAs
+import com.sevtinge.cemiuiler.utils.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object UnlockIme : BaseHook() {
 
     override fun init() {
         if (PropertyUtils["ro.miui.support_miui_ime_bottom", "0"] != "1") return
-        EzXHelperInit.initHandleLoadPackage(lpparam)
-        EzXHelperInit.setLogTag(TAG)
+        EzXHelper.initHandleLoadPackage(lpparam)
+        EzXHelper.setLogTag(TAG)
         Log.i("miuiime is supported")
         startHook(lpparam)
     }
@@ -47,14 +45,16 @@ object UnlockIme : BaseHook() {
                 hookIsXiaoAiEnable(it)
 
                 //将导航栏颜色赋值给输入法优化的底图
-                findMethod("com.android.internal.policy.PhoneWindow") {
-                    name == "setNavigationBarColor" && parameterTypes.sameAs(Int::class.java)
-                }.hookAfter { param ->
-                    val color = -0x1 - param.args[0] as Int
-                    it.invokeStaticMethodAuto(
-                        "customizeBottomViewColor",
-                        true, param.args[0], color or -0x1000000, color or 0x66000000
-                    )
+                loadClass("com.android.internal.policy.PhoneWindow").methodFinder().first {
+                    name == "setNavigationBarColor" /* && parameterTypes.sameAs(Int::class.java) */
+                }.createHook {
+                    after { param ->
+                        val color = -0x1 - param.args[0] as Int
+                        it.callStaticMethod(
+                            "customizeBottomViewColor",
+                            true, param.args[0], color or -0x1000000, color or 0x66000000
+                        )
+                    }
                 }
             } ?: Log.e("Failed:Class not found: InputMethodServiceInjector")
         }
@@ -65,28 +65,32 @@ object UnlockIme : BaseHook() {
         )
 
         //获取常用语的ClassLoader
-        findMethod("android.inputmethodservice.InputMethodModuleManager") {
-            name == "loadDex" && parameterTypes.sameAs(ClassLoader::class.java, String::class.java)
-        }.hookAfter { param ->
-            hookDeleteNotSupportIme(
-                "com.miui.inputmethod.InputMethodBottomManager\$MiuiSwitchInputMethodListener",
-                param.args[0] as ClassLoader
-            )
-            loadClassOrNull(
-                "com.miui.inputmethod.InputMethodBottomManager",
-                param.args[0] as ClassLoader
-            )?.also {
-                if (isNonCustomize) {
-                    hookSIsImeSupport(it)
-                    hookIsXiaoAiEnable(it)
-                }
+        loadClass("android.inputmethodservice.InputMethodModuleManager").methodFinder().first {
+            name == "loadDex" /* && parameterTypes.sameAs(ClassLoader::class.java, String::class.java) */
+        }.createHook {
+            after { param ->
+                hookDeleteNotSupportIme(
+                    "com.miui.inputmethod.InputMethodBottomManager\$MiuiSwitchInputMethodListener",
+                    param.args[0] as ClassLoader
+                )
+                loadClassOrNull(
+                    "com.miui.inputmethod.InputMethodBottomManager",
+                    param.args[0] as ClassLoader
+                )?.also {
+                    if (isNonCustomize) {
+                        hookSIsImeSupport(it)
+                        hookIsXiaoAiEnable(it)
+                    }
 
-                //针对A11的修复切换输入法列表
-                it.getMethod("getSupportIme").hookReplace { _ ->
-                    it.getStaticObject("sBottomViewHelper")
-                        .getObjectAs<InputMethodManager>("mImm").enabledInputMethodList
-                }
-            } ?: Log.e("Failed:Class not found: com.miui.inputmethod.InputMethodBottomManager")
+                    //针对A11的修复切换输入法列表
+                    it.getMethod("getSupportIme").createHook {
+                        replace { _ ->
+                            it.getObjectField("sBottomViewHelper")
+                                ?.getObjectFieldAs<InputMethodManager>("mImm")?.enabledInputMethodList
+                        }
+                    }
+                } ?: Log.e("Failed:Class not found: com.miui.inputmethod.InputMethodBottomManager")
+            }
         }
 
         Log.i("Hook MIUI IME Done!")
@@ -99,7 +103,7 @@ object UnlockIme : BaseHook() {
      */
     private fun hookSIsImeSupport(clazz: Class<*>) {
         kotlin.runCatching {
-            clazz.putStaticObject("sIsImeSupport", 1)
+            clazz.setObjectField("sIsImeSupport", 1)
             Log.i("Success:Hook field sIsImeSupport")
         }.onFailure {
             Log.i("Failed:Hook field sIsImeSupport ")
@@ -114,7 +118,9 @@ object UnlockIme : BaseHook() {
      */
     private fun hookIsXiaoAiEnable(clazz: Class<*>) {
         kotlin.runCatching {
-            clazz.getMethod("isXiaoAiEnable").hookReturnConstant(false)
+            clazz.getMethod("isXiaoAiEnable").createHook {
+                returnConstant(false)
+            }
         }.onFailure {
             Log.i("Failed:Hook method isXiaoAiEnable")
             Log.i(it)
@@ -128,8 +134,8 @@ object UnlockIme : BaseHook() {
      */
     private fun hookDeleteNotSupportIme(className: String, classLoader: ClassLoader) {
         kotlin.runCatching {
-            findMethod(className, classLoader) { name == "deleteNotSupportIme" }
-                .hookReturnConstant(null)
+            loadClass(className, classLoader).methodFinder().first { name == "deleteNotSupportIme" }
+                .createHook {  returnConstant(null) }
         }.onFailure {
             Log.i("Failed:Hook method deleteNotSupportIme")
             Log.i(it)
