@@ -13,67 +13,68 @@ import android.view.View;
 
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
 public class FolderShade extends BaseHook {
-
-    private Class<?> mWallpaperUtilsCls = null;
+    private static Class<?> wallpaperUtilsCls = null;
     private boolean isLight = false;
 
     @Override
     public void init() {
-        mWallpaperUtilsCls = XposedHelpers.findClassIfExists("com.miui.home.launcher.WallpaperUtils", lpparam.classLoader);
+        wallpaperUtilsCls = XposedHelpers.findClassIfExists("com.miui.home.launcher.WallpaperUtils", lpparam.classLoader);
 
         MethodHook hook = new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) throws Throwable {
                 View folder = (View)param.thisObject;
                 new Thread() {
                     @Override
                     public void run() {
                         try {
                             Context context = folder.getContext();
-                            int opt = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_home_folder_shade", "0"));
-                            int level = PrefsUtils.getSharedIntPrefs(context, "prefs_key_home_folder_shade_level", 40);
-
-                            if (mWallpaperUtilsCls != null) {
-                                try {
-                                    isLight = (boolean) XposedHelpers.callStaticMethod(mWallpaperUtilsCls, "hasAppliedLightWallpaper");
-                                } catch (Throwable tr) {
-                                    LogUtils.log(tr);
-                                }
-                            }
-
-                            Drawable bkg;
+                            int opt = mPrefsMap.getStringAsInt("home_folder_shade", 0);
+                            int level = mPrefsMap.getInt("home_folder_shade_level", 40);
+                            final Drawable bkg;
                             if (opt == 1) {
-                                int bgcolor = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
-                                bkg = new ColorDrawable(bgcolor);
+                                PaintDrawable pd = new PaintDrawable();
+                                pd.setShape(new RectShape());
+                                pd.setShaderFactory(new ShapeDrawable.ShaderFactory() {
+                                    @Override
+                                    public Shader resize(int width, int height) {
+                                        boolean isLight = false;
+                                        if (wallpaperUtilsCls != null) try { isLight = (boolean)XposedHelpers.callStaticMethod(wallpaperUtilsCls, "hasAppliedLightWallpaper"); } catch (Throwable ignore) {}
+                                        int bgcolor = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
+                                        return new LinearGradient(0, 0, 0, height,
+                                                new int[]{ bgcolor, bgcolor, bgcolor, bgcolor },
+                                                new float[]{ 0.0f, 0.25f, 0.65f, 1.0f },
+                                                Shader.TileMode.CLAMP
+                                        );
+                                    }
+                                });
+                                bkg = pd;
                             } else if (opt == 2) {
                                 PaintDrawable pd = new PaintDrawable();
                                 pd.setShape(new RectShape());
                                 pd.setShaderFactory(new ShapeDrawable.ShaderFactory() {
                                     @Override
                                     public Shader resize(int width, int height) {
+                                        boolean isLight = false;
+                                        if (wallpaperUtilsCls != null) try { isLight = (boolean)XposedHelpers.callStaticMethod(wallpaperUtilsCls, "hasAppliedLightWallpaper"); } catch (Throwable ignore) {}
                                         int bgcolor1 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 / 6f * level / 100f) * 0x1000000);
                                         int bgcolor2 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
-                                        return new LinearGradient(
-                                                0,
-                                                0,
-                                                0,
-                                                height,
-                                                new int[]{bgcolor1, bgcolor2, bgcolor2, bgcolor1},
-                                                new float[]{0.0f, 0.25f, 0.65f, 1.0f},
+                                        return new LinearGradient(0, 0, 0, height,
+                                                new int[]{ bgcolor1, bgcolor2, bgcolor2, bgcolor1 },
+                                                new float[]{ 0.0f, 0.25f, 0.65f, 1.0f },
                                                 Shader.TileMode.CLAMP
                                         );
                                     }
                                 });
                                 bkg = pd;
-                            } else {
-                                bkg = null;
-                            }
+                            } else bkg = null;
                             new Handler(context.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -83,7 +84,7 @@ public class FolderShade extends BaseHook {
                                 }
                             });
                         } catch (Throwable t) {
-                            LogUtils.log(t);
+                            logE(t);
                         }
                     }
                 }.start();
@@ -96,11 +97,13 @@ public class FolderShade extends BaseHook {
 
         findAndHookMethod("com.miui.home.launcher.Folder", "setBackgroundAlpha", float.class, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) throws Throwable {
                 int opt = mPrefsMap.getStringAsInt("home_folder_shade", 0);
+                if (opt == 1) return;
                 Object mLauncher = XposedHelpers.getObjectField(param.thisObject, "mLauncher");
+                if (mLauncher == null) return;
                 View folderCling = (View)XposedHelpers.callMethod(mLauncher, "getFolderCling");
-                if (opt == 1 || mLauncher == null || folderCling == null) return;
+                if (folderCling == null) return;
                 Drawable bkg = folderCling.getBackground();
                 if (bkg != null) bkg.setAlpha(Math.round((float)param.args[0] * 255));
             }
