@@ -46,7 +46,7 @@ object TimeCustomization : BaseHook(){
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        val clockClass = when {
+        val mClockClass = when {
             Build.VERSION.SDK_INT == Build.VERSION_CODES.R ->  loadClass("com.android.systemui.statusbar.policy.MiuiClock")
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->  loadClass("com.android.systemui.statusbar.views.MiuiClock")
             else -> null
@@ -56,7 +56,7 @@ object TimeCustomization : BaseHook(){
             //预设模式
             1 -> {
                 var c: Context? = null
-                clockClass?.constructorFinder()?.first {
+                mClockClass?.constructorFinder()?.first {
                     paramCount == 3
                 }?.createHook {
                     after {
@@ -98,7 +98,7 @@ object TimeCustomization : BaseHook(){
                     }
                 }
 
-                clockClass?.methodFinder()?.first {
+                mClockClass?.methodFinder()?.first {
                     name == "updateTime"
                 }?.createHook {
                     after {
@@ -118,7 +118,7 @@ object TimeCustomization : BaseHook(){
                 }
 
                 if (isCenterAlign) {
-                   clockClass?.constructorFinder()?.first {
+                   mClockClass?.constructorFinder()?.first {
                         paramCount == 3
                    }?.createHook {
                        after {
@@ -138,7 +138,7 @@ object TimeCustomization : BaseHook(){
             2 -> {
                 var c: Context? = null
 
-                clockClass?.constructorFinder()?.first {
+                mClockClass?.constructorFinder()?.first {
                     paramCount == 3
                 }?.createHook {
                     after {
@@ -172,7 +172,7 @@ object TimeCustomization : BaseHook(){
                     }
                 }
 
-                clockClass?.methodFinder()?.first {
+                mClockClass?.methodFinder()?.first {
                     name == "updateTime"
                 }?.createHook {
                     before {
@@ -196,7 +196,7 @@ object TimeCustomization : BaseHook(){
                 }
 
                 if (isGeekCenterAlign) {
-                    clockClass?.constructorFinder()?.first {
+                    mClockClass?.constructorFinder()?.first {
                         paramCount == 3
                     }?.createHook {
                         after {

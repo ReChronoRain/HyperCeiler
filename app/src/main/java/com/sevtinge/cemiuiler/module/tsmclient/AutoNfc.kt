@@ -28,6 +28,7 @@ object AutoNfc : BaseHook() {
         }.createHook {
             after { param ->
                 if (!EzXHelper.isHostPackageNameInited)
+                    EzXHelper.initAppContext()
                 NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
                     if (nfcAdapter.isEnabled) return@after
                     HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
@@ -63,10 +64,7 @@ object AutoNfc : BaseHook() {
 
     private suspend fun waitNFCEnable(context: Context, nfcAdapter: NfcAdapter) {
         repeat(15) {
-            if (!nfcAdapter.isEnabled) delay(300)
-            else {
-                return@repeat
-            }
+            if (!nfcAdapter.isEnabled) delay(300) else return@repeat
             if (it == 14)
                 Toast.makeText(context, R.string.tsmclient_nfc_turn_on_failed, Toast.LENGTH_SHORT).show()
         }
