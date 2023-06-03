@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.plugin.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
@@ -69,7 +70,7 @@ public class SystemUI extends BaseModule {
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         //时钟指示器
-        // initHook(TimeBold.INSTANCE, mPrefsMap.getBoolean("system_statusbar_clock_bold"));
+       initHook(TimeStyle.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_clock_bold"));
         initHook(TimeCustomization.INSTANCE);
 
         //硬件指示器
