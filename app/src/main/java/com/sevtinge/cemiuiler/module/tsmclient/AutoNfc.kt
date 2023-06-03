@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.tsmclient
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.XModuleResources
 import android.nfc.NfcAdapter
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 object AutoNfc : BaseHook() {
+    @SuppressLint("SuspiciousIndentation")
     override fun init() {
         loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder().first {
             name == "onCreate"
