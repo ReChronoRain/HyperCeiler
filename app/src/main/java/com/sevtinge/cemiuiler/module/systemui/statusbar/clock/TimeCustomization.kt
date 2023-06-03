@@ -38,7 +38,7 @@ object TimeCustomization : BaseHook(){
 
     //极客模式
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
-    private val getGeekFormat = mPrefsMap.getString("system_ui_status_bar_clock_editor", "HH:mm:ss")
+    private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
     private val isGeekCenterAlign = mPrefsMap.getBoolean("system_ui_statusbar_clock_center_geek")
 
     private lateinit var nowTime: Date
