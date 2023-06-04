@@ -746,12 +746,12 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
-    <string name="system_ui_control_center_auto_brightness">Phạm vi cho độ sáng tự động</string>
-    <string name="system_ui_control_center_auto_brightness_desc">Xác định giá trị tối thiểu và tối đa cho độ sáng tự động</string>
+    <string name="system_ui_display_auto_brightness">Phạm vi cho độ sáng tự động</string>
+    <string name="system_ui_display_auto_brightness_desc">Xác định giá trị tối thiểu và tối đa cho độ sáng tự động</string>
     <string name="system_ui_control_center_blur_background_alpha">Giá trị làm mờ nền</string>
     <string name="system_ui_control_center_blur_radius">Làm mờ nền thông báo nổi</string>
     <string name="system_ui_control_center_blur_radius_desc">Không có thông báo thả xuống</string>
-    <string name="system_ui_control_center_brightness_title">Độ sáng</string>
+    <string name="system_ui_display_brightness_title">Độ sáng</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Kiểm soát chi tiết giá trị mờ của nền</string>
     <string name="system_ui_control_center_corner_radius">Làm làm mờ các góc thông báo</string>
     <string name="system_ui_control_center_corner_radius_desc">Theme mặc định không cần chỉnh</string>
@@ -759,8 +759,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_control_center_hide_device_ctrl_entry">Lối vào Nhà thông minh</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Lối tắt Mi Smart Play</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Lối tắt Mi smart hub</string>
-    <string name="system_ui_control_center_max_brightness">Độ sáng tự động tối đa</string>
-    <string name="system_ui_control_center_min_brightness">Độ sáng tự động tối thiểu</string>
+    <string name="system_ui_display_max_brightness">Độ sáng tự động tối đa</string>
+    <string name="system_ui_display_min_brightness">Độ sáng tự động tối thiểu</string>
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình đang bật</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo bật lên không phát âm thanh thông báo</string>
     <string name="system_ui_control_center_notification_blur_model">Thiết lập thông báo</string>

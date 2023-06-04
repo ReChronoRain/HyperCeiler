@@ -234,7 +234,7 @@
             android:name=".ui.systemui.ControlCenterActivity" />
         <activity
             android:label="@string/system_ui_display_title"
-            android:name=".ui.systemui.HardwareActivity" />
+            android:name=".ui.systemui.DisplayActivity" />
         <activity
             android:label="@string/system_ui_other_title"
             android:name=".ui.systemui.OtherActivity" />

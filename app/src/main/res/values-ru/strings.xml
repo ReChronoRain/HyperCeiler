@@ -746,12 +746,12 @@
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>
     <string name="system_ui_charge_animation_style_desc">Выберите стиль анимации зарядки на экране блокировки</string>
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
-    <string name="system_ui_control_center_auto_brightness">Автоматический диапазон яркости</string>
-    <string name="system_ui_control_center_auto_brightness_desc">Определение минимальных и максимальных значений для автояркости</string>
+    <string name="system_ui_display_auto_brightness">Автоматический диапазон яркости</string>
+    <string name="system_ui_display_auto_brightness_desc">Определение минимальных и максимальных значений для автояркости</string>
     <string name="system_ui_control_center_blur_background_alpha">Значение размытия фона</string>
     <string name="system_ui_control_center_blur_radius">Степень размытия</string>
     <string name="system_ui_control_center_blur_radius_desc">Без раскрывающегося уведомления</string>
-    <string name="system_ui_control_center_brightness_title">Яркость</string>
+    <string name="system_ui_display_brightness_title">Яркость</string>
     <string name="system_ui_control_center_compact_notice">Компактные уведомления</string>
     <string name="system_ui_control_center_compact_notice_desc">Уменьшить вертикальные отступы уведомлений</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Значение размытия фона элемента управления</string>
@@ -761,8 +761,8 @@
     <string name="system_ui_control_center_hide_device_ctrl_entry">Элемент управления устройством</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Элемент Mi Play</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Элемент Mi smart hub</string>
-    <string name="system_ui_control_center_max_brightness">Максимальная автояркость</string>
-    <string name="system_ui_control_center_min_brightness">Минимальная автояркость</string>
+    <string name="system_ui_display_max_brightness">Максимальная автояркость</string>
+    <string name="system_ui_display_min_brightness">Минимальная автояркость</string>
     <string name="system_ui_control_center_mute_visible_notice">Без звука при включенном экране</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Когда экран включен, всплывающее уведомление отображается без звукового сопровождения</string>
     <string name="system_ui_control_center_notification_blur_model">Настройка размытия уведомлений</string>

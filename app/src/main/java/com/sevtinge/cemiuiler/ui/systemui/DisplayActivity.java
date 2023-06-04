@@ -9,20 +9,20 @@ package com.sevtinge.cemiuiler.ui.systemui;
  import com.sevtinge.cemiuiler.ui.base.SubFragment;
  import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 
-public class HardwareActivity extends BaseSystemUIActivity {
+public class DisplayActivity extends BaseSystemUIActivity {
      @Override 
      public Fragment initFragment() { 
-         return new SystemUIHardwareFragment(); 
+         return new SystemUIDisplayFragment();
      } 
   
-     public static class SystemUIHardwareFragment extends SubFragment {
+     public static class SystemUIDisplayFragment extends SubFragment {
 
          SeekBarPreferenceEx minBrightness;
          SeekBarPreferenceEx maxBrightness;
 
          @Override 
          public int getContentResId() { 
-             return R.xml.system_ui_hardware; 
+             return R.xml.system_ui_display;
          }
 
          @Override
