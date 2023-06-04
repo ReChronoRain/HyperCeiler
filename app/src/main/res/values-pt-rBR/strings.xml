@@ -736,7 +736,7 @@
 	<string name="system_ui_control_center_fix_media_control_panel">Painel de controlo dos suportes de correcção</string>
 	<string name="system_ui_controlcenter_magnet_title">Magnet</string>
 	<string name="system_ui_controlcenter_title">Centro de controlo</string>
-	<string name="system_ui_hardware_title">Exposição relacionada</string>
+	<string name="system_ui_display_title">Exposição relacionada</string>
 	<string name="system_ui_lock_screen_blur_button">Desfocar a câmara e o botão do ecrã inteligente</string>
 	<string name="system_ui_lock_screen_current">Corrente</string>
 	<string name="system_ui_lock_screen_default_theme">Apoiar tema padrão só</string>
@@ -802,7 +802,10 @@
 	<string name="system_ui_status_bar_battery_percent">Ocultar percentagem da bateria</string>
 	<string name="system_ui_status_bar_battery_percent_mark">Ocultar o sinal de percentagem da bateria</string>
 	<string name="system_ui_status_bar_big_mobile_network_type">Ícone De Tipo De Rede Grande</string>
-	<string name="system_ui_status_bar_double_tap_to_sleep">Toque duas vezes para dormir</string>
+	<string name="system_ui_statusbar_height_title">Altura da barra de status</string>
+	<string name="system_ui_statusbar_icon_size_title">Tamanho dos ícones da barra de status</string>
+	<string name="system_ui_statusbar_no_lock_top_margin_title">Desativar barra de status com protetor de teclado</string>
+    <string name="system_ui_status_bar_double_tap_to_sleep">Toque duas vezes para dormir</string>
 	<string name="system_ui_status_bar_hide_icon">Ocultar a barra de status ao fazer uma captura de tela</string>
 	<string name="system_ui_status_bar_icon_airplane">Modo avião</string>
 	<string name="system_ui_status_bar_icon_alarm_clock">Despertador</string>

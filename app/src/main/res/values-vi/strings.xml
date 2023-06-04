@@ -773,7 +773,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển truyền thống</string>
     <string name="system_ui_controlcenter_title">Trung tâm điều khiển</string>
-    <string name="system_ui_hardware_title">Hiển thị</string>
+    <string name="system_ui_display_title">Hiển thị</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>
     <string name="system_ui_lock_screen_current">Hiện tại</string>
     <string name="system_ui_lock_screen_default_theme">Chỉ hỗ trợ chủ đề mặc định</string>
@@ -833,6 +833,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_battery_percent">Phần trăm pin</string>
     <string name="system_ui_status_bar_battery_percent_mark">Tỷ lệ phần trăm pin</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
+    <string name="system_ui_statusbar_height_title">Chiều cao thanh trạng thái</string>
+    <string name="system_ui_statusbar_icon_size_title">Kích thước biểu tượng thanh trạng thái</string>
+    <string name="system_ui_statusbar_no_lock_top_margin_title">Bỏ đặt thanh trạng thái bằng Keyguard</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Nhấn đúp để ngủ</string>
     <string name="system_ui_status_bar_hide_icon">Ẩn thanh trạng thái khi chụp ảnh màn hình</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>

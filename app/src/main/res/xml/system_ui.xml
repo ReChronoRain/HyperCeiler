@@ -8,7 +8,7 @@
     </Preference>
 
     <Preference
-        android:title="@string/system_ui_hardware_title"
+        android:title="@string/system_ui_display_title"
         android:enabled="false">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"

@@ -833,6 +833,11 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">通知圖示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
     <string name="system_ui_statusbar_iconmanage_status_title">狀態圖示</string>
+    <string name="system_ui_statusbar_height_title">狀態欄高度</string>
+    <string name="system_ui_statusbar_icon_size_title">圖示大小</string>
+    <string name="system_ui_statusbar_top_margin_title">上邊距調整</string>
+    <string name="system_ui_statusbar_no_lock_top_margin_title">不修改鎖屏狀態欄</string>
+    <string name="system_ui_statusbar_horizontal_spacing_title">水平間距調整</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">雙擊狀態欄鎖屏</string>
     <string name="system_ui_statusbar_iconmanage_title">圖示</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">雙排蜂窩移動網絡圖示</string>
@@ -961,7 +966,7 @@
     <string name="security_center_disable_ban">移除舉報鍵</string>
     <string name="system_settings_knuckle_function">解鎖指關節相關功能</string>
     <string name="system_settings_knuckle_function_desc">實驗性功能 \n啟用後請重啟 設定、輸入設定 作用範圍 \n目前僅解鎖 UI 介面</string>
-    <string name="system_ui_hardware_title">顯示</string>
+    <string name="system_ui_display_title">顯示</string>
     <string name="system_ui_control_center_brightness_title">亮度</string>
     <string name="system_ui_control_center_auto_brightness">自動亮度範圍</string>
     <string name="system_ui_control_center_auto_brightness_desc">自訂自動亮度的最小值和最大值</string>

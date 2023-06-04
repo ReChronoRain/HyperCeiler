@@ -233,7 +233,7 @@
             android:label="@string/system_ui_controlcenter_title"
             android:name=".ui.systemui.ControlCenterActivity" />
         <activity
-            android:label="@string/system_ui_hardware_title"
+            android:label="@string/system_ui_display_title"
             android:name=".ui.systemui.HardwareActivity" />
         <activity
             android:label="@string/system_ui_other_title"
