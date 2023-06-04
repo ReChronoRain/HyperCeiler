@@ -1,260 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-            android:title="@string/system_ui_statusbar_indicator_battery_title">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_battery_title">
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_statusbar_battery_enable"
-                android:title="@string/enable"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_enable"
+            android:title="@string/enable" />
 
         <DropDownPreference
-                android:defaultValue="1"
-                android:key="prefs_key_system_ui_statusbar_battery_show"
-                android:title="@string/system_ui_statusbar_battery_show"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                app:entries="@array/system_ui_status_bar_battery_show"
-                app:entryValues="@array/system_ui_status_bar_battery_show_value"/>
+            android:defaultValue="1"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_show"
+            android:title="@string/system_ui_statusbar_battery_show"
+            app:entries="@array/system_ui_status_bar_battery_show"
+            app:entryValues="@array/system_ui_status_bar_battery_show_value" />
 
         <DropDownPreference
-                android:defaultValue="0"
-                android:key="prefs_key_system_ui_statusbar_battery_disable"
-                android:title="@string/system_ui_statusbar_battery_disable"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                app:entries="@array/system_ui_status_bar_battery_disable"
-                app:entryValues="@array/system_ui_status_bar_battery_disable_value"/>
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_disable"
+            android:title="@string/system_ui_statusbar_battery_disable"
+            app:entries="@array/system_ui_status_bar_battery_disable"
+            app:entryValues="@array/system_ui_status_bar_battery_disable_value" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_right_show"
-                android:title="@string/system_ui_statusbar_battery_right_show"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_right_show"
+            android:title="@string/system_ui_statusbar_battery_right_show" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_electric_current"
-                android:title="@string/system_ui_statusbar_battery_electric_current"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_electric_current"
+            android:title="@string/system_ui_statusbar_battery_electric_current" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_line_show"
-                android:title="@string/system_ui_statusbar_battery_line_show"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_line_show"
+            android:title="@string/system_ui_statusbar_battery_line_show" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_opposite"
-                android:title="@string/system_ui_statusbar_battery_opposite"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_opposite"
+            android:title="@string/system_ui_statusbar_battery_opposite" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_only_changing_show"
-                android:title="@string/system_ui_statusbar_battery_only_changing_show"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_only_changing_show"
+            android:title="@string/system_ui_statusbar_battery_only_changing_show" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_bold"
-                android:title="@string/system_ui_statusbar_indicator_bold"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="13"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_size"
+            android:title="@string/system_ui_statusbar_battery_size"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="40"
+            app:minValue="8"
+            app:stepValue="1" />
 
         <SeekBarPreference
-                android:defaultValue="13"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_size"
-                android:title="@string/system_ui_statusbar_battery_size"
-                android:format="%s dp"
-                app:maxValue="32"
-                app:minValue="6"
-                app:showSeekBarValue="true"/>
-
-        <SeekBarPreference
-                android:defaultValue="2"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
-                android:title="@string/system_ui_statusbar_battery_update_spacing"
-                android:format="%d s"
-                app:maxValue="10"
-                app:minValue="1"
-                app:showSeekBarValue="true"/>
+            android:defaultValue="2"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:format="%d s"
+            android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
+            android:title="@string/system_ui_statusbar_battery_update_spacing"
+            app:maxValue="10"
+            app:minValue="1"
+            app:showSeekBarValue="true" />
 
         <DropDownPreference
-                android:defaultValue="1"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_align"
-                android:title="@string/system_ui_statusbar_indicator_align"
-                app:entries="@array/system_ui_status_bar_horizontal_align"
-                app:entryValues="@array/system_ui_status_bar_horizontal_align_value"/>
+            android:defaultValue="1"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_align"
+            android:title="@string/system_ui_statusbar_indicator_align"
+            app:entries="@array/system_ui_status_bar_horizontal_align"
+            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
         <SeekBarPreference
-                android:defaultValue="10"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
-                android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
-                android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-                android:format="%s dp"
-                app:maxValue="120"
-                app:minValue="10"
-                app:showSeekBarValue="true"/>
+            android:defaultValue="10"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
+            android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
+            android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:maxValue="120"
+            app:minValue="10"
+            app:showSeekBarValue="true" />
 
-        <SeekBarPreference
-                android:defaultValue="4"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_left_margin"
-                android:title="@string/system_ui_statusbar_indicator_left_margin"
-                android:format="%s dp"
-                app:maxValue="10"
-                app:minValue="0"
-                app:showSeekBarValue="true"/>
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="4"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
 
-        <SeekBarPreference
-                android:defaultValue="4"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_right_margin"
-                android:title="@string/system_ui_statusbar_indicator_right_margin"
-                android:format="%s dp"
-                app:maxValue="10"
-                app:minValue="0"
-                app:showSeekBarValue="true"/>
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="4"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
 
-        <SeekBarPreference
-                android:defaultValue="8"
-                android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-                android:key="prefs_key_system_ui_statusbar_battery_vertical_offset"
-                android:title="@string/system_ui_statusbar_indicator_vertical_offset"
-                android:format="%s dp"
-                app:maxValue="16"
-                app:minValue="0"
-                app:showSeekBarValue="true"/>
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="8"
+            android:dependency="prefs_key_system_ui_statusbar_battery_enable"
+            android:key="prefs_key_system_ui_statusbar_battery_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:negativeShift="8"
+            app:stepValue="1" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-            android:title="@string/system_ui_statusbar_indicator_temperature_title">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_temperature_title">
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_statusbar_temp_enable"
-                android:title="@string/enable"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_temp_enable"
+            android:title="@string/enable" />
 
         <DropDownPreference
-                android:defaultValue="1"
-                android:key="prefs_key_system_ui_statusbar_temp_show"
-                android:title="@string/system_ui_statusbar_battery_show"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                app:entries="@array/system_ui_status_bar_device_temp_details"
-                app:entryValues="@array/system_ui_status_bar_battery_show_value"/>
+            android:defaultValue="1"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_show"
+            android:title="@string/system_ui_statusbar_battery_show"
+            app:entries="@array/system_ui_status_bar_device_temp_details"
+            app:entryValues="@array/system_ui_status_bar_battery_show_value" />
 
         <EditTextPreference
-                android:key="prefs_key_system_ui_statusbar_temp_fix_cpu_get"
-                android:title="@string/system_ui_statusbar_temp_fix_cpu"
-                android:summary="@string/system_ui_statusbar_temp_fix_cpu_desc"
-                android:defaultValue="0"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"/>
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_fix_cpu_get"
+            android:summary="@string/system_ui_statusbar_temp_fix_cpu_desc"
+            android:title="@string/system_ui_statusbar_temp_fix_cpu" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_disable"
-                android:title="@string/system_ui_statusbar_battery_disable"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_disable"
+            android:title="@string/system_ui_statusbar_battery_disable" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_right_show"
-                android:title="@string/system_ui_statusbar_battery_right_show"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_right_show"
+            android:title="@string/system_ui_statusbar_battery_right_show" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_line_show"
-                android:title="@string/system_ui_statusbar_battery_line_show"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_line_show"
+            android:title="@string/system_ui_statusbar_battery_line_show" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_opposite"
-                android:title="@string/system_ui_statusbar_battery_opposite"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_opposite"
+            android:title="@string/system_ui_statusbar_battery_opposite" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_bold"
-                android:title="@string/system_ui_statusbar_indicator_bold"/>
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="13"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_size"
+            android:title="@string/system_ui_statusbar_battery_size"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="40"
+            app:minValue="8"
+            app:stepValue="1" />
 
         <SeekBarPreference
-                android:defaultValue="13"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_size"
-                android:title="@string/system_ui_statusbar_battery_size"
-                android:format="%s dp"
-                app:maxValue="32"
-                app:minValue="6"
-                app:showSeekBarValue="true"/>
-
-        <SeekBarPreference
-                android:defaultValue="2"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
-                android:title="@string/system_ui_statusbar_battery_update_spacing"
-                android:format="%d s"
-                app:maxValue="10"
-                app:minValue="1"
-                app:showSeekBarValue="true"/>
+            android:defaultValue="2"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:format="%d s"
+            android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
+            android:title="@string/system_ui_statusbar_battery_update_spacing"
+            app:maxValue="10"
+            app:minValue="1"
+            app:showSeekBarValue="true" />
 
         <DropDownPreference
-                android:defaultValue="1"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_align"
-                android:title="@string/system_ui_statusbar_indicator_align"
-                app:entries="@array/system_ui_status_bar_horizontal_align"
-                app:entryValues="@array/system_ui_status_bar_horizontal_align_value"/>
+            android:defaultValue="1"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_align"
+            android:title="@string/system_ui_statusbar_indicator_align"
+            app:entries="@array/system_ui_status_bar_horizontal_align"
+            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
         <SeekBarPreference
-                android:defaultValue="10"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
-                android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
-                android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
-                android:format="%s dp"
-                app:maxValue="120"
-                app:minValue="10"
-                app:showSeekBarValue="true"/>
+            android:defaultValue="10"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:format="%s dp"
+            android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
+            android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
+            android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:maxValue="120"
+            app:minValue="10"
+            app:showSeekBarValue="true" />
 
-        <SeekBarPreference
-                android:defaultValue="4"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_left_margin"
-                android:title="@string/system_ui_statusbar_indicator_left_margin"
-                android:format="%s dp"
-                app:maxValue="10"
-                app:minValue="0"
-                app:showSeekBarValue="true"/>
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="4"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_left_margin"
+            android:title="@string/system_ui_statusbar_indicator_left_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
 
-        <SeekBarPreference
-                android:defaultValue="4"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_right_margin"
-                android:title="@string/system_ui_statusbar_indicator_right_margin"
-                android:format="%s dp"
-                app:maxValue="10"
-                app:minValue="0"
-                app:showSeekBarValue="true"/>
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="4"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_right_margin"
+            android:title="@string/system_ui_statusbar_indicator_right_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
 
-        <SeekBarPreference
-                android:defaultValue="8"
-                android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-                android:key="prefs_key_system_ui_statusbar_temp_vertical_offset"
-                android:title="@string/system_ui_statusbar_indicator_vertical_offset"
-                android:format="%s dp"
-                app:maxValue="16"
-                app:minValue="0"
-                app:showSeekBarValue="true"/>
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="8"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:negativeShift="8"
+            app:stepValue="1" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>
