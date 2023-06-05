@@ -14,6 +14,18 @@
             app:entries="@array/system_ui_status_bar_clock_mode"
             app:entryValues="@array/system_ui_status_bar_clock_mode_value" />
 
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="16"
+            android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
+            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            app:maxValue="32"
+            app:minValue="0"
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:negativeShift="16"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

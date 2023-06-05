@@ -1,9 +1,13 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar.clock
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.graphics.Typeface
 import android.os.Build
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
@@ -24,12 +28,14 @@ object TimeStyle : BaseHook() {
         val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0)
         val isAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode", 0)
         val isGeekAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0)
+        val verticalOffset = mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 16)
 
         mClockClass?.constructorFinder()?.first {
             paramCount == 3
         }?.createHook {
             after {
                 val textV = it.thisObject as TextView
+                val res: Resources = textV.resources
 
                 // 时钟加粗
                 if (clockBold) {
@@ -58,7 +64,12 @@ object TimeStyle : BaseHook() {
                     }
                 }
 
-                // 时钟边距调整（暂时是饼）
+                // 时钟边距调整
+                if (verticalOffset != 16) {
+                    val marginTop =
+                        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (verticalOffset - 16) * 0.5f, res.displayMetrics)
+                    textV.translationY = marginTop
+                }
             }
         }
     }
