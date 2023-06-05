@@ -749,7 +749,6 @@
     <string name="system_ui_statusbar_clock_hour_cn">Çift saati göster</string>
     <string name="system_ui_statusbar_clock_hide_space">Alanı gizle</string>
     <string name="system_ui_statusbar_clock_double">Çifte göster</string>
-    <string name="system_ui_statusbar_clock_double_center">Çift sıralı merkez hizalama</string>
     <string name="array_clock_default">Varsayılan</string>
     <string name="system_ui_statusbar_clock_mode">Özel saat modu</string>
     <string name="home_other_fix_android_r_s">Masaüstünün kararmasına neden olan bir uyumluluk sorununu düzeltin</string>

@@ -903,7 +903,6 @@
     <string name="system_ui_statusbar_clock_date">Показывать дату</string>
     <string name="system_ui_statusbar_clock_desc">Пример формата часов</string>
     <string name="system_ui_statusbar_clock_double">Показать в две строки</string>
-    <string name="system_ui_statusbar_clock_double_center">Выравнивание по центру двух строк</string>
     <string name="system_ui_statusbar_clock_double_size">Размер двойной строки</string>
     <string name="system_ui_statusbar_clock_editor">Формат часов</string>
     <string name="system_ui_statusbar_clock_hide_space">Скрыть пространство</string>

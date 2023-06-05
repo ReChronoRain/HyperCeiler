@@ -859,8 +859,7 @@
 	<string name="system_ui_statusbar_clock_date">Dia do espectáculo</string>
 	<string name="system_ui_statusbar_clock_desc">Exemplo do formato do relógio</string>
 	<string name="system_ui_statusbar_clock_double">Mostrar duplo</string>
-	<string name="system_ui_statusbar_clock_double_center">Alinhamento central de duas carreiras</string>
-	<string name="system_ui_statusbar_clock_double_size">Tamanho dobro do pulso de disparo da fileira</string>
+    <string name="system_ui_statusbar_clock_double_size">Tamanho dobro do pulso de disparo da fileira</string>
 	<string name="system_ui_statusbar_clock_editor">Formato do relógio</string>
 	<string name="system_ui_statusbar_clock_hide_space">Esconder espaço</string>
 	<string name="system_ui_statusbar_clock_hour_cn">Mostrar hora dupla</string>

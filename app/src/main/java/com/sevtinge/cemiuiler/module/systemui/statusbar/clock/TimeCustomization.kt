@@ -34,12 +34,11 @@ object TimeCustomization : BaseHook(){
     private val isSecond = mPrefsMap.getBoolean("system_ui_statusbar_clock_second")
     private val isDoubleHour = mPrefsMap.getBoolean("system_ui_statusbar_clock_hour_cn")
     private val isPeriod = mPrefsMap.getBoolean("system_ui_statusbar_clock_period")
-    private val isCenterAlign = mPrefsMap.getBoolean("system_ui_statusbar_clock_double_center")
 
     //极客模式
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
     private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
-    private val isGeekCenterAlign = mPrefsMap.getBoolean("system_ui_statusbar_clock_center_geek")
+
 
     private lateinit var nowTime: Date
     private var str = ""
@@ -116,23 +115,6 @@ object TimeCustomization : BaseHook(){
                         }
                     }
                 }
-
-                if (isCenterAlign) {
-                   mClockClass?.constructorFinder()?.first {
-                        paramCount == 3
-                   }?.createHook {
-                       after {
-                           try {
-                               val textV = it.thisObject as TextView
-                               if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                                   c = it.args[0] as Context
-                                   textV.gravity = Gravity.CENTER
-                               }
-                           } catch (_: Exception) {
-                           }
-                       }
-                   }
-                }
             }
             //极客模式
             2 -> {
@@ -179,8 +161,10 @@ object TimeCustomization : BaseHook(){
                         try {
                             val textV = it.thisObject as TextView
                             if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                                val mMiuiStatusBarClockController = textV.getObjectField("mMiuiStatusBarClockController")
-                                val mCalendar = mMiuiStatusBarClockController?.callMethod("getCalendar")
+                                val mMiuiStatusBarClockController =
+                                    textV.getObjectField("mMiuiStatusBarClockController")
+                                val mCalendar =
+                                    mMiuiStatusBarClockController?.callMethod("getCalendar")
                                 mCalendar?.callMethod(
                                     "setTimeInMillis", System.currentTimeMillis()
                                 )
@@ -191,23 +175,6 @@ object TimeCustomization : BaseHook(){
                                 it.result = null
                             }
                         } catch (_: Exception) {
-                        }
-                    }
-                }
-
-                if (isGeekCenterAlign) {
-                    mClockClass?.constructorFinder()?.first {
-                        paramCount == 3
-                    }?.createHook {
-                        after {
-                            try {
-                                val textV = it.thisObject as TextView
-                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                                    c = it.args[0] as Context
-                                    textV.gravity = Gravity.CENTER
-                                }
-                            } catch (_: Exception) {
-                            }
                         }
                     }
                 }

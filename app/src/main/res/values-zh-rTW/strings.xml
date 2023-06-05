@@ -810,7 +810,6 @@
     <string name="system_ui_statusbar_battery_update_spacing">狀態更新間隔</string>
     <string name="system_ui_statusbar_clock_date">顯示日期</string>
     <string name="system_ui_statusbar_clock_double">雙排顯示</string>
-    <string name="system_ui_statusbar_clock_double_center">雙排置中對齊</string>
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
     <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
@@ -1007,6 +1006,7 @@
     <string name="system_ui_lock_screen_show_charging_c_more">顯示詳細電流</string>
     <string name="system_ui_lock_screen_show_charging_v_more">顯示詳細電壓</string>
     <string name="home_widget_resizable">解除小工具大小的限制</string>
+    <string name="system_ui_statusbar_clock_double_mode_title">雙排對齊方式</string>
     <!--<string name="call_notification_answer_action">接聽</string>
         <string name="call_notification_answer_video_action">視訊</string>
         <string name="call_notification_decline_action">拒接</string>

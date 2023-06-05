@@ -890,7 +890,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_statusbar_clock_date">Hiện ngày</string>
     <string name="system_ui_statusbar_clock_desc">Ví dụ về định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_double">Màn hình kép</string>
-    <string name="system_ui_statusbar_clock_double_center">Căn giữa hàng kép</string>
     <string name="system_ui_statusbar_clock_double_size">Kích thước hàng đôi (0 là giá trị gốc)</string>
     <string name="system_ui_statusbar_clock_editor">Định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_hide_space">Ẩn khoảng cách</string>
