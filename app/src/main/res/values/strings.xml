@@ -1030,4 +1030,11 @@
     <string name="system_ui_display_toast_times_title">Display duration adjustment</string>
     <string name="system_ui_display_toast_times_desc">Modify the display duration of Toast, the display duration is always greater than 1 second</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Double row alignment</string>
+    <string name="system_ui_statusbar_layout_mode_title">Layout mode</string>
+    <string name="array_clock_center">Clock center</string>
+    <string name="array_clock_right">Clock right</string>
+    <string name="array_clock_center_and_icon_left">Clock center &amp; Icon left</string>
+    <string name="system_ui_statusbar_layout_title">Layout</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_title">Compatibility mode</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Forcibly enable the full screen layout for all special-shaped screens</string>
 </resources>

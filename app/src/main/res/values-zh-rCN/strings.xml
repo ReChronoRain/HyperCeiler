@@ -101,6 +101,9 @@
 
     <string name="array_bold">加粗</string>
     <string name="array_theme">跟随主题</string>
+    <string name="array_clock_center">时钟居中</string>
+    <string name="array_clock_right">时钟居右</string>
+    <string name="array_clock_center_and_icon_left">时钟居中+图标居左</string>
 
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
@@ -765,7 +768,10 @@
     <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_qs_label">快捷开关标签</string>
 
-
+    <string name="system_ui_statusbar_layout_title">布局</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_title">兼容模式</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_desc">对所有异形屏强制开启完整屏布局</string>
+    <string name="system_ui_statusbar_layout_mode_title">布局模式</string>
     <string name="system_ui_statusbar_height_title">状态栏高度</string>
     <string name="system_ui_statusbar_icon_size_title">图标大小</string>
     <string name="system_ui_statusbar_top_margin_title">顶部边距调整</string>

@@ -28,6 +28,21 @@
                 android:targetPackage="com.sevtinge.cemiuiler"/>
     </Preference>
 
+    <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_system_ui_statusbar_layout_compatibility_mode"
+            android:title="@string/system_ui_statusbar_layout_compatibility_mode_title"
+            android:summary="@string/system_ui_statusbar_layout_compatibility_mode_desc"/>
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_layout_mode"
+            android:title="@string/system_ui_statusbar_layout_mode_title"
+            app:entries="@array/system_ui_status_bar_layout_mode"
+            app:entryValues="@array/system_ui_status_bar_layout_mode_value" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_ui_display_title">
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:enabled="false"
@@ -53,6 +68,7 @@
 
         <SwitchPreference
             android:enabled="false"
+            android:defaultValue="false"
             android:key="pref_key_system_ui_statusbar_top_margin"
             android:title="@string/system_ui_statusbar_top_margin_title" />
 
@@ -67,12 +83,14 @@
             app:format="%s dp" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="pref_key_system_ui_statusbar_no_lock_top_margin"
             android:dependency="pref_key_system_ui_statusbar_top_margin"
             android:title="@string/system_ui_statusbar_no_lock_top_margin_title" />
 
         <SwitchPreference
             android:enabled="false"
+            android:defaultValue="false"
             android:key="pref_key_system_ui_statusbar_horizontal_spacing"
             android:title="@string/system_ui_statusbar_horizontal_spacing_title" />
 

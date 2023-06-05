@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.plugin.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.*;
@@ -98,7 +99,8 @@ public class SystemUI extends BaseModule {
 
         //实验性功能
         initHook(new SwitchControlPanel(), false);
-        initHook(new StatusBarLayout(), false);
+        initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
+                mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
         initHook(new MiuiGxzwSize(), false);
 
         //控制中心
