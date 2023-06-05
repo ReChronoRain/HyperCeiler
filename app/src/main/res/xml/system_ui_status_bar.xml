@@ -52,11 +52,11 @@
             app:format="%s dp" />
 
         <SwitchPreference
+            android:enabled="false"
             android:key="pref_key_system_ui_statusbar_top_margin"
             android:title="@string/system_ui_statusbar_top_margin_title" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:enabled="false"
             android:key="pref_key_system_ui_statusbar_top_margin_val"
             android:defaultValue="1"
             android:layout="@layout/preference_seekbar_no_padding"
