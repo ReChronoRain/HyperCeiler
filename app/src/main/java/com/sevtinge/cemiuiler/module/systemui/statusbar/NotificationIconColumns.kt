@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.setObjectField
 
+
 object NotificationIconColumns : BaseHook() {
     override fun init() {
         val maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3)
@@ -21,11 +22,11 @@ object NotificationIconColumns : BaseHook() {
                 if (it.args[0] as Boolean) {
                     it.thisObject.setObjectField("MAX_DOTS", maxDotsNum)
                     it.thisObject.setObjectField("MAX_STATIC_ICONS", maxIconsNum)
-                    it.thisObject.setObjectField("MAX_VISIBLE_ICONS_ON_LOCK", maxIconsNum)
+                    it.thisObject.setObjectField("MAX_ICONS_ON_LOCKSCREEN", maxIconsNum)
                 } else {
                     it.thisObject.setObjectField("MAX_DOTS", 0)
                     it.thisObject.setObjectField("MAX_STATIC_ICONS", 0)
-                    it.thisObject.setObjectField("MAX_VISIBLE_ICONS_ON_LOCK", 0)
+                    it.thisObject.setObjectField("MAX_ICONS_ON_LOCKSCREEN", 0)
                 }
                 it.thisObject.callMethod("updateState")
             }
