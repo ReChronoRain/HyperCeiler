@@ -97,10 +97,12 @@ public class SystemUI extends BaseModule {
         initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
         initHook(new NavigationCustom(), mPrefsMap.getBoolean("system_ui_navigation_custom"));
 
-        //实验性功能
-        initHook(new SwitchControlPanel(), false);
+        //状态栏布局
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
                 mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
+
+        //实验性功能
+        initHook(new SwitchControlPanel(), false);
         initHook(new MiuiGxzwSize(), false);
 
         //控制中心

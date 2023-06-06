@@ -321,16 +321,6 @@
         </Preference>
 
         <Preference
-            android:title="@string/aireco"
-            android:summary="com.xiaomi.aireco"
-            android:key="prefs_key_aireco"
-            android:icon="@drawable/ic_suggestion">
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.AirecoActivity" />
-        </Preference>
-
-        <Preference
             android:title="@string/aiasst"
             android:summary="com.xiaomi.aiasst.vision"
             android:key="prefs_key_aiasst"
@@ -338,6 +328,16 @@
             <intent
                 android:targetPackage="com.sevtinge.cemiuiler"
                 android:targetClass="com.sevtinge.cemiuiler.ui.AiAsstActivity" />
+        </Preference>
+
+        <Preference
+            android:title="@string/aireco"
+            android:summary="com.xiaomi.aireco"
+            android:key="prefs_key_aireco"
+            android:icon="@drawable/ic_suggestion">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.AirecoActivity" />
         </Preference>
 
         <Preference

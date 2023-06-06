@@ -103,7 +103,7 @@
     <string name="array_theme">跟随主题</string>
     <string name="array_clock_center">时钟居中</string>
     <string name="array_clock_right">时钟居右</string>
-    <string name="array_clock_center_and_icon_left">时钟居中+图标居左</string>
+    <string name="array_clock_center_and_icon_left">时钟居中 + 图标居左</string>
 
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
@@ -976,6 +976,10 @@
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
 
+    <string name="aiasst">小爱翻译</string>
+    <string name="aiasst_ai_captions">强制启用实时字幕</string>
+    <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
+
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
     <string name="custom_background_color">背景颜色</string>
@@ -1151,7 +1155,4 @@
 
     <string name="disable_detailed_log">禁用详细日志输出</string>
     <string name="disable_detailed_log_desc">重启以应用更改</string>
-    <string name="aiasst">小爱翻译</string>
-    <string name="aiasst_ai_captions">强制启用 AI 字幕</string>
-    <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
 </resources>
