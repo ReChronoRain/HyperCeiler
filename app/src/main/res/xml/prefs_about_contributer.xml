@@ -69,6 +69,12 @@
                     android:action="android.intent.action.VIEW"
                     android:data="https://github.com/hamjin"/>
         </Preference>
+        <Preference
+            android:title="Naomi">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Henvy-Mango"/>
+        </Preference>
     </PreferenceCategory>
 <Preference android:enabled="false" />
 
