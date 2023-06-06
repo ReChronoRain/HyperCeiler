@@ -1022,4 +1022,5 @@
     <string name="array_clock_center_and_icon_left">Clock center &amp; Icon left</string>
     <string name="aiasst_ai_captions">Force enabled AI captions</string>
     <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
+    <string name="system_ui_status_bar_battery_size_title">Battery percentage text size</string>
 </resources>

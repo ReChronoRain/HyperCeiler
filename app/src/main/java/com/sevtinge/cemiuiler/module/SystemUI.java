@@ -7,8 +7,6 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.plugin.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarHeighten;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarIconSize;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
@@ -60,6 +58,7 @@ public class SystemUI extends BaseModule {
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
         initHook(HideBatteryIcon.INSTANCE, isHideBatteryIcon);
+        initHook(BatterySize.INSTANCE);
         // initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         //网速指示器

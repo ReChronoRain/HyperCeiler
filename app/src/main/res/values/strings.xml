@@ -1040,4 +1040,5 @@
     <string name="aiasst">AI Translate</string>
     <string name="aiasst_ai_captions">Force enabled AI captions</string>
     <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
+    <string name="system_ui_status_bar_battery_size_title">Battery percentage text size</string>
 </resources>
