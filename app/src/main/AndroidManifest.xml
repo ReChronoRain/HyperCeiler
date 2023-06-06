@@ -131,6 +131,8 @@
 
         <activity android:label="@string/aireco" android:name=".ui.AirecoActivity"/>
 
+        <activity android:label="@string/aiasst" android:name=".ui.AiAsstActivity"/>
+
         <activity android:label="@string/scanner" android:name=".ui.ScannerActivity"/>
 
         <activity android:label="@string/mishare" android:name=".ui.MiShareActivity"/>

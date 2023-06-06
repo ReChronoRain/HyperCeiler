@@ -331,6 +331,16 @@
         </Preference>
 
         <Preference
+            android:title="@string/aiasst"
+            android:summary="com.xiaomi.aiasst.vision"
+            android:key="prefs_key_aiasst"
+            android:icon="@drawable/ic_aiasst">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.AiAsstActivity" />
+        </Preference>
+
+        <Preference
             android:title="@string/joyose"
             android:summary="com.xiaomi.joyose"
             android:key="prefs_key_joyose"

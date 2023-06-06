@@ -1037,4 +1037,7 @@
     <string name="system_ui_statusbar_layout_title">Layout</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Compatibility mode</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Forcibly enable the full screen layout for all special-shaped screens</string>
+    <string name="aiasst">AI Translate</string>
+    <string name="aiasst_ai_captions">Force enabled AI captions</string>
+    <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
 </resources>

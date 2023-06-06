@@ -1151,5 +1151,7 @@
 
     <string name="disable_detailed_log">禁用详细日志输出</string>
     <string name="disable_detailed_log_desc">重启以应用更改</string>
-
+    <string name="aiasst">小爱翻译</string>
+    <string name="aiasst_ai_captions">强制启用 AI 字幕</string>
+    <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
 </resources>

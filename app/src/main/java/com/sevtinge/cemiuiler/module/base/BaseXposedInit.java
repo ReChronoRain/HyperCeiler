@@ -1,19 +1,64 @@
 package com.sevtinge.cemiuiler.module.base;
 
-import com.sevtinge.cemiuiler.module.*;
+import com.sevtinge.cemiuiler.BuildConfig;
+import com.sevtinge.cemiuiler.module.AiAsst;
+import com.sevtinge.cemiuiler.module.Aireco;
+import com.sevtinge.cemiuiler.module.Aod;
+import com.sevtinge.cemiuiler.module.Browser;
+import com.sevtinge.cemiuiler.module.Camera;
+import com.sevtinge.cemiuiler.module.Clock;
+import com.sevtinge.cemiuiler.module.ContentExtension;
+import com.sevtinge.cemiuiler.module.Downloads;
+import com.sevtinge.cemiuiler.module.ExternalStorage;
+import com.sevtinge.cemiuiler.module.FileExplorer;
+import com.sevtinge.cemiuiler.module.Gallery;
+import com.sevtinge.cemiuiler.module.GuardProvider;
+import com.sevtinge.cemiuiler.module.Home;
+import com.sevtinge.cemiuiler.module.InCallUi;
+import com.sevtinge.cemiuiler.module.InputSettings;
+import com.sevtinge.cemiuiler.module.Joyose;
+import com.sevtinge.cemiuiler.module.Lbe;
+import com.sevtinge.cemiuiler.module.Market;
+import com.sevtinge.cemiuiler.module.MediaEditor;
+import com.sevtinge.cemiuiler.module.MiLink;
+import com.sevtinge.cemiuiler.module.MiSettings;
+import com.sevtinge.cemiuiler.module.MiShare;
+import com.sevtinge.cemiuiler.module.MiWallpaper;
+import com.sevtinge.cemiuiler.module.Mms;
+import com.sevtinge.cemiuiler.module.Mtb;
+import com.sevtinge.cemiuiler.module.Music;
+import com.sevtinge.cemiuiler.module.PackageInstaller;
+import com.sevtinge.cemiuiler.module.PersonalAssistant;
+import com.sevtinge.cemiuiler.module.Phone;
+import com.sevtinge.cemiuiler.module.PowerKeeper;
+import com.sevtinge.cemiuiler.module.Scanner;
+import com.sevtinge.cemiuiler.module.ScreenRecorder;
+import com.sevtinge.cemiuiler.module.ScreenShot;
+import com.sevtinge.cemiuiler.module.SecurityCenter;
 import com.sevtinge.cemiuiler.module.Settings;
-import com.sevtinge.cemiuiler.utils.*;
-
-import java.io.File;
-import java.util.Map;
-
+import com.sevtinge.cemiuiler.module.SystemFramework;
+import com.sevtinge.cemiuiler.module.SystemSettings;
+import com.sevtinge.cemiuiler.module.SystemUI;
+import com.sevtinge.cemiuiler.module.ThemeManager;
+import com.sevtinge.cemiuiler.module.TsmClient;
+import com.sevtinge.cemiuiler.module.Updater;
+import com.sevtinge.cemiuiler.module.Various;
+import com.sevtinge.cemiuiler.module.VoiceAssist;
+import com.sevtinge.cemiuiler.module.Weather;
+import com.sevtinge.cemiuiler.utils.Helpers;
+import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.PrefsMap;
+import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.ResourcesHook;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-import com.sevtinge.cemiuiler.BuildConfig;
+
+import java.io.File;
+import java.util.Map;
 
 public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
@@ -47,6 +92,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Music mMusic = new Music();
     public Gallery mGallery = new Gallery();
     public Aireco mAireco = new Aireco();
+    public AiAsst mAiAsst = new AiAsst();
     public Scanner mScanner = new Scanner();
     public MiShare mMiShare = new MiShare();
     public MiLink mMiLink = new MiLink();
@@ -268,6 +314,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.xiaomi.aireco":
                 XposedBridge.log("Cemiuiler: Hook com.xiaomi.aireco");
                 mAireco.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.xiaomi.aiasst.vision":
+                XposedBridge.log("Cemiuiler: Hook com.xiaomi.aiasst.vision");
+                mAiAsst.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 
