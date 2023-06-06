@@ -59,10 +59,11 @@
             android:enabled="false"
             android:key="pref_key_system_ui_statusbar_icon_size"
             android:title="@string/system_ui_statusbar_icon_size_title"
-            android:defaultValue="6"
+            android:defaultValue="12"
             app:defaultValueText="@string/array_default"
-            app:minValue="6"
-            app:maxValue="18"
+            app:displayDividerValue="2"
+            app:minValue="12"
+            app:maxValue="40"
             app:stepValue="1"
             app:format="%s dp" />
 
