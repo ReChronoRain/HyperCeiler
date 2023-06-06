@@ -7,7 +7,9 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.*;
 import com.sevtinge.cemiuiler.module.systemui.navigation.*;
 import com.sevtinge.cemiuiler.module.systemui.plugin.*;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.*;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarLayout;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarHeighten;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarIconSize;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.*;
@@ -52,7 +54,7 @@ public class SystemUI extends BaseModule {
         initHook(new MobileTypeSingleHook(), mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
-        //电池条指示器
+        //电池相关
         boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
                 mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
@@ -75,7 +77,8 @@ public class SystemUI extends BaseModule {
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
         //硬件指示器
-        initHook(new DisplayHardwareDetail());
+        initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
+                mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
 
         //居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");
@@ -100,6 +103,8 @@ public class SystemUI extends BaseModule {
         //状态栏布局
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
                 mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
+        initHook(StatusBarHeighten.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_height", 19) != 19);
+        initHook(StatusBarIconSize.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_icon_size", 12) != 12);
 
         //实验性功能
         initHook(new SwitchControlPanel(), false);

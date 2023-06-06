@@ -5,9 +5,7 @@ import android.content.res.Resources
 import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
@@ -28,7 +26,7 @@ object TimeStyle : BaseHook() {
         val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0)
         val isAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode", 0)
         val isGeekAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0)
-        val verticalOffset = mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 16)
+        val verticalOffset = mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12)
 
         mClockClass?.constructorFinder()?.first {
             paramCount == 3
