@@ -29,7 +29,7 @@ public class CorePatchForT extends CorePatchForSv2 {
                 // Don't handle PERMISSION (grant SIGNATURE permissions to pkgs with this cert)
                 // Or applications will have all privileged permissions
                 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
-                if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
+                if (((Integer) param.args[1] != 4) && prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
                     param.setResult(true);
                 }
             }
@@ -53,14 +53,15 @@ public class CorePatchForT extends CorePatchForSv2 {
             }
         });
 
-        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
+
+        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
             findAndHookMethod("com.android.server.pm.InstallPackageHelper", loadPackageParam.classLoader, "doesSignatureMatchForPermissions", String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     // If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                     if (param.getResult().equals(false)) {
-                        String pPname = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
-                        if (pPname.contentEquals((String) param.args[0])) {
+                        String pName = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
+                        if (pName.contentEquals((String) param.args[0])) {
                             param.setResult(true);
                         }
                     }
