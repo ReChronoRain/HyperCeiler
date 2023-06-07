@@ -2,10 +2,19 @@ package com.sevtinge.cemiuiler.module;
 
 import android.os.Build;
 
-import com.sevtinge.cemiuiler.module.miinput.UnlockKnuckleFunction;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.systemsettings.*;
-import com.sevtinge.cemiuiler.module.systemsettings.aiimage.*;
+import com.sevtinge.cemiuiler.module.miinput.UnlockKnuckleFunction;
+import com.sevtinge.cemiuiler.module.systemsettings.AddMiuiPlusEntry;
+import com.sevtinge.cemiuiler.module.systemsettings.EnableSpeedMode;
+import com.sevtinge.cemiuiler.module.systemsettings.InternationalBuild;
+import com.sevtinge.cemiuiler.module.systemsettings.PermissionTopOfApp;
+import com.sevtinge.cemiuiler.module.systemsettings.QuickInstallPermission;
+import com.sevtinge.cemiuiler.module.systemsettings.UnLockAreaScreenshot;
+import com.sevtinge.cemiuiler.module.systemsettings.ViewWifiPasswordHook;
+import com.sevtinge.cemiuiler.module.systemsettings.VoipAssistantController;
+import com.sevtinge.cemiuiler.module.systemsettings.aiimage.UnlockAi;
+import com.sevtinge.cemiuiler.module.systemsettings.aiimage.UnlockMemc;
+import com.sevtinge.cemiuiler.module.systemsettings.aiimage.UnlockSuperResolution;
 
 public class SystemSettings extends BaseModule {
 

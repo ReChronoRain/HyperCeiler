@@ -56,9 +56,17 @@ class WeatherData(val context: Context?, private val showCity: Boolean) {
                 if (query != null) {
                     if (query.moveToFirst()) {
                         str = if (showCity) {
-                            query.getString(query.getColumnIndexOrThrow("city_name")) + " " + query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
+                            query.getString(query.getColumnIndexOrThrow("city_name")) + " " + query.getString(
+                                query.getColumnIndexOrThrow(
+                                    "description"
+                                )
+                            ) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
                         } else {
-                            query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
+                            query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(
+                                query.getColumnIndexOrThrow(
+                                    "temperature"
+                                )
+                            )
                         }
                     }
                     query.close()
@@ -85,7 +93,8 @@ class WeatherData(val context: Context?, private val showCity: Boolean) {
     }
 
     fun startCalendarApp() {
-        mContext.classLoader.loadClass("com.miui.systemui.util.CommonUtil").callStaticMethod("startCalendarApp", args(context), argTypes(Context::class.java))
+        mContext.classLoader.loadClass("com.miui.systemui.util.CommonUtil")
+            .callStaticMethod("startCalendarApp", args(context), argTypes(Context::class.java))
     }
 
     fun startWeatherApp() {

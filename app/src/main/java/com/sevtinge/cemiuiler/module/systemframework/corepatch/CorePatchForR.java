@@ -45,33 +45,33 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
 
         // 允许降级
         findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,
-                "checkDowngrade",
-                "com.android.server.pm.parsing.pkg.AndroidPackage",
-                "android.content.pm.PackageInfoLite",
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", null));
+            "checkDowngrade",
+            "com.android.server.pm.parsing.pkg.AndroidPackage",
+            "android.content.pm.PackageInfoLite",
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", null));
 
 
         // apk内文件修改后 digest校验会失败
         hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verifyMessageDigest",
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
         hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verify",
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
         hookAllMethods("java.security.MessageDigest", loadPackageParam.classLoader, "isEqual",
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", true));
 
         // Targeting R+ (version " + Build.VERSION_CODES.R + " and above) requires"
         // + " the resources.arsc of installed APKs to be stored uncompressed"
         // + " and aligned on a 4-byte boundary
         // target >=30 的情况下 resources.arsc 必须是未压缩的且4K对齐
         hookAllMethods("android.content.res.AssetManager", loadPackageParam.classLoader, "containsAllocatedTable",
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", false));
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", false));
 
         // No signature found in package of version " + minSignatureSchemeVersion
         // + " or newer for package " + apkPath
         findAndHookMethod("android.util.apk.ApkSignatureVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
         findAndHookMethod("com.android.apksig.ApkVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
-                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
+            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
 
         // Package " + packageName + " signatures do not match previously installed version; ignoring!"
         // public boolean checkCapability(String sha256String, @CertCapabilities int flags) {
@@ -118,7 +118,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                         Object info = infos[0];
                         List<X509Certificate> verifiedSignerCertChain = (List<X509Certificate>) XposedHelpers.callMethod(info, "getCertificateChain", block);
                         param.setResult(verifiedSignerCertChain.toArray(
-                                new X509Certificate[0]));
+                            new X509Certificate[0]));
                     }
                 }
             }
@@ -176,7 +176,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                         }
                         Object newInstance = findConstructorExact.newInstance(signingDetailsArgs);
 
-                        //修复 java.lang.ClassCastException: Cannot cast android.content.pm.PackageParser$SigningDetails to android.util.apk.ApkSignatureVerifier$SigningDetailsWithDigests
+                        // 修复 java.lang.ClassCastException: Cannot cast android.content.pm.PackageParser$SigningDetails to android.util.apk.ApkSignatureVerifier$SigningDetailsWithDigests
                         Class<?> signingDetailsWithDigests = XposedHelpers.findClassIfExists("android.util.apk.ApkSignatureVerifier.SigningDetailsWithDigests", loadPackageParam.classLoader);
                         if (signingDetailsWithDigests != null) {
                             Constructor<?> signingDetailsWithDigestsConstructorExact = XposedHelpers.findConstructorExact(signingDetailsWithDigests, signingDetails, Map.class);
@@ -207,8 +207,8 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         });
 
 
-        //New package has a different signature
-        //处理覆盖安装但签名不一致
+        // New package has a different signature
+        // 处理覆盖安装但签名不一致
         hookAllMethods(signingDetails, "checkCapability", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
@@ -228,7 +228,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                 if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
                     ApplicationInfo info = (ApplicationInfo) param.thisObject;
                     if ((info.flags & ApplicationInfo.FLAG_SYSTEM) != 0
-                            || (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
+                        || (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
                         param.setResult(true);
                     }
                 }

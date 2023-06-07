@@ -12,7 +12,7 @@ import de.robv.android.xposed.XC_MethodHook
 object FoldDeviceDock : BaseHook() {
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_fold_dock")) return
+        // if (!mPrefsMap.getBoolean("home_fold_dock")) return
         var hook1: XC_MethodHook.Unhook? = null
         var hook2: XC_MethodHook.Unhook? = null
         var hook3: XC_MethodHook.Unhook? = null
@@ -44,7 +44,7 @@ object FoldDeviceDock : BaseHook() {
         }.createHook {
             before {
                 hook2 = "com.miui.home.launcher.Application".hookBeforeMethod(
-                  "isInFoldLargeScreen"
+                    "isInFoldLargeScreen"
                 ) { hookParam ->
                     hookParam.result = true
                 }

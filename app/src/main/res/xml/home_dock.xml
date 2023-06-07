@@ -8,27 +8,27 @@
         android:defaultValue="false" />
 
     <SwitchPreference
-            android:key="prefs_key_home_dock_icon_title"
-            android:title="@string/home_dock_icon_title"
-            android:defaultValue="false" />
+        android:key="prefs_key_home_dock_icon_title"
+        android:title="@string/home_dock_icon_title"
+        android:defaultValue="false" />
 
     <SwitchPreference
-            android:key="prefs_key_home_dock_fold"
-            android:title="@string/home_dock_fold"
-            android:defaultValue="false" />
+        android:key="prefs_key_home_dock_fold"
+        android:title="@string/home_dock_fold"
+        android:defaultValue="false" />
 
     <SwitchPreference
-            android:title="@string/home_dock_hide_seekpoint"
-            android:key="prefs_key_home_dock_hide_seekpoint"
-            android:defaultValue="false"
-            app:isPreferenceVisible="false"/>
+        android:title="@string/home_dock_hide_seekpoint"
+        android:key="prefs_key_home_dock_hide_seekpoint"
+        android:defaultValue="false"
+        app:isPreferenceVisible="false" />
 
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="@string/home_dock_bg_custom_enable"
-                android:key="prefs_key_home_dock_bg_custom_enable"
-                android:defaultValue="false"/>
+            android:title="@string/home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_bg_custom_enable"
+            android:defaultValue="false" />
 
         <SeekBarPreference
             android:key="prefs_key_home_dock_bg_height"
@@ -105,6 +105,6 @@
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

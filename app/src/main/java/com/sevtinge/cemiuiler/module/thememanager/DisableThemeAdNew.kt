@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.thememanager
 
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.view.View
 import android.widget.FrameLayout
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
@@ -9,6 +8,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import miui.drm.DrmManager
 
 class DisableThemeAdNew : BaseHook() {

@@ -10,10 +10,10 @@ import android.widget.Toast
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.cemiuiler.view.WeatherView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.setObjectField
+import com.sevtinge.cemiuiler.view.WeatherView
 
 object NotificationWeatherOld : BaseHook() {
 
@@ -90,7 +90,7 @@ object NotificationWeatherOld : BaseHook() {
             }
         }
 
-        //解决横屏重叠
+        // 解决横屏重叠
         loadClass("com.android.systemui.qs.MiuiQSHeaderView").methodFinder().first {
             name == "updateLayout"
         }.createHook {

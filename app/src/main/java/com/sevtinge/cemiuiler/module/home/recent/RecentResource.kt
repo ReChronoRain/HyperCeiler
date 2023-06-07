@@ -2,10 +2,10 @@ package com.sevtinge.cemiuiler.module.home.recent
 
 import android.app.Application
 import android.content.Context
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.content.res.Resources
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ResourcesHookData
 import com.sevtinge.cemiuiler.utils.ResourcesHookMap
 import com.sevtinge.cemiuiler.utils.dp2px

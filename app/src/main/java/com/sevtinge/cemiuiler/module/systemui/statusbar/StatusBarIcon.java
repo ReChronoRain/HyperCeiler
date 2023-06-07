@@ -37,28 +37,28 @@ public class StatusBarIcon extends BaseHook {
         int headset = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_headset", 0);
 
         return switch (slotName) {
-            case "vpn" ->//vpn
-                    isEnable(vpn) ? vpn : 0;
-            case "alarm_clock" ->//闹钟
-                    isEnable(alarmClock) ? alarmClock : 0;
-            case "nfc" ->//nfc
-                    isEnable(nfc) ? nfc : 0;
-            case "zen" ->//勿扰模式
-                    isEnable(zen) ? zen : 0;
-            case "volume" ->//声音
-                    isEnable(volume) ? volume : 0;
-            case "wifi" ->//wifi
-                    isEnable(wifi) ? wifi : 0;
-            case "wifi_slave" ->//辅助wifi
-                    isEnable(wifi_slave) ? wifi_slave : 0;
-            case "airplane" ->//飞行模式
-                    isEnable(airplane) ? airplane : 0;
-            case "location" ->//位置信息
-                    isEnable(location) ? location : 0;
-            case "hotspot" ->//热点
-                    isEnable(hotspot) ? hotspot : 0;
-            case "headset" ->//耳机
-                    isEnable(headset) ? headset : 0;
+            case "vpn" ->// vpn
+                isEnable(vpn) ? vpn : 0;
+            case "alarm_clock" ->// 闹钟
+                isEnable(alarmClock) ? alarmClock : 0;
+            case "nfc" ->// nfc
+                isEnable(nfc) ? nfc : 0;
+            case "zen" ->// 勿扰模式
+                isEnable(zen) ? zen : 0;
+            case "volume" ->// 声音
+                isEnable(volume) ? volume : 0;
+            case "wifi" ->// wifi
+                isEnable(wifi) ? wifi : 0;
+            case "wifi_slave" ->// 辅助wifi
+                isEnable(wifi_slave) ? wifi_slave : 0;
+            case "airplane" ->// 飞行模式
+                isEnable(airplane) ? airplane : 0;
+            case "location" ->// 位置信息
+                isEnable(location) ? location : 0;
+            case "hotspot" ->// 热点
+                isEnable(hotspot) ? hotspot : 0;
+            case "headset" ->// 耳机
+                isEnable(headset) ? headset : 0;
             default -> 0;
         };
     }

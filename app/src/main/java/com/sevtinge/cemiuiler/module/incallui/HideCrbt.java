@@ -1,8 +1,6 @@
 package com.sevtinge.cemiuiler.module.incallui;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.*;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HideCrbt extends BaseHook {
     Class<?> loadClass;

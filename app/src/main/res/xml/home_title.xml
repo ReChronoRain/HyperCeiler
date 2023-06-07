@@ -4,36 +4,36 @@
     <PreferenceCategory android:title="@string/home_title_icon_title">
 
         <SwitchPreference
-                android:title="@string/home_title_big_icon_corner"
-                android:key="prefs_key_home_title_big_icon_corner"
-                android:defaultValue="false"/>
+            android:title="@string/home_title_big_icon_corner"
+            android:key="prefs_key_home_title_big_icon_corner"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_home_other_perfect_icon"
-                android:title="@string/home_other_perfect_icon"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_other_perfect_icon"
+            android:title="@string/home_other_perfect_icon"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_home_title_download_animation"
-                android:title="@string/home_title_download_animation"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_title_download_animation"
+            android:title="@string/home_title_download_animation"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_home_other_icon_mono_chrome"
-                android:title="@string/home_other_icon_mono_chrome"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_other_icon_mono_chrome"
+            android:title="@string/home_other_icon_mono_chrome"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_home_other_icon_monet_color"
-                android:title="@string/home_other_icon_monet_color"
-                android:defaultValue="false"
-                android:dependency="prefs_key_home_other_icon_mono_chrome"/>
+            android:key="prefs_key_home_other_icon_monet_color"
+            android:title="@string/home_other_icon_monet_color"
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_other_icon_mono_chrome" />
 
         <SwitchPreference
             android:key="prefs_key_home_other_use_edit_color"
             android:title="@string/home_other_use_edit_color"
             android:defaultValue="false"
-            android:dependency="prefs_key_home_other_icon_mono_chrome"/>
+            android:dependency="prefs_key_home_other_icon_mono_chrome" />
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
@@ -41,16 +41,16 @@
             android:key="prefs_key_home_other_your_color_qwq"
             android:dependency="prefs_key_home_other_use_edit_color"
             android:defaultValue="-1"
-            app:showAlphaSlider="false"/>
+            app:showAlphaSlider="false" />
 
         <SeekBarPreference
-                android:key="prefs_key_home_title_animation_speed"
-                android:title="@string/home_title_animation_speed"
-                android:defaultValue="100"
-                app:maxValue="500"
-                app:minValue="10"
-                android:format="%s / 100 f"
-                app:showSeekBarValue="true"/>
+            android:key="prefs_key_home_title_animation_speed"
+            android:title="@string/home_title_animation_speed"
+            android:defaultValue="100"
+            app:maxValue="500"
+            app:minValue="10"
+            android:format="%s / 100 f"
+            app:showSeekBarValue="true" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="pref_key_home_title_icon_scale"
@@ -65,9 +65,9 @@
             app:defaultValueText="@string/array_default" />
 
         <SwitchPreference
-                android:key="prefs_key_home_title_fix_animation"
-                android:title="@string/home_title_fix_animation"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_title_fix_animation"
+            android:title="@string/home_title_fix_animation"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
@@ -79,13 +79,13 @@
             android:defaultValue="false" />
 
         <SeekBarPreference
-                android:title="@string/home_large_icon_corner_radius"
-                android:key="prefs_key_home_large_icon_corner_radius"
-                android:dependency="prefs_key_home_large_icon_enable"
-                android:defaultValue="32"
-                app:maxValue="90"
-                android:format="%d dp"
-                app:showSeekBarValue="true" />
+            android:title="@string/home_large_icon_corner_radius"
+            android:key="prefs_key_home_large_icon_corner_radius"
+            android:dependency="prefs_key_home_large_icon_enable"
+            android:defaultValue="32"
+            app:maxValue="90"
+            android:format="%d dp"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 
@@ -94,14 +94,14 @@
         <SwitchPreference
             android:title="@string/home_title_title_marquee"
             android:key="prefs_key_home_title_title_marquee"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <moralnorm.preference.ColorPickerPreference
-                android:persistent="false"
-                android:title="@string/home_title_title_color"
-                android:key="prefs_key_home_title_title_color"
-                android:defaultValue="-1"
-                app:showAlphaSlider="false"/>
+            android:persistent="false"
+            android:title="@string/home_title_title_color"
+            android:key="prefs_key_home_title_title_color"
+            android:defaultValue="-1"
+            app:showAlphaSlider="false" />
 
         <SeekBarPreference
             android:key="prefs_key_home_title_font_size"
@@ -112,6 +112,6 @@
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

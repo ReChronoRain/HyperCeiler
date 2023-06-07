@@ -7,7 +7,7 @@ import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedWidth : BaseHook() {
     override fun init() {
-        //固定宽度以防相邻元素左右防抖
+        // 固定宽度以防相邻元素左右防抖
         if (mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10) {
             Helpers.hookAllMethods(
                 "com.android.systemui.statusbar.views.NetworkSpeedView",

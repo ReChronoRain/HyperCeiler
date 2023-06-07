@@ -4,17 +4,14 @@ import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
-import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
-import io.luckypray.dexkit.DexKitBridge;
-import io.luckypray.dexkit.builder.BatchFindArgs;
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
-import io.luckypray.dexkit.enums.MatchType;
 
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+
+import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
+import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 
 public class LockOneHundredPoints extends BaseHook {
 
@@ -31,7 +28,7 @@ public class LockOneHundredPoints extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("ScoreManager"));
             for (DexMethodDescriptor descriptor : result) {
                 Method lockOneHundredPoints = descriptor.getMethodInstance(lpparam.classLoader);
-                log("lock 100 points method is "+ lockOneHundredPoints);
+                log("lock 100 points method is " + lockOneHundredPoints);
                 if (lockOneHundredPoints.getReturnType() == int.class) {
                     XposedBridge.hookMethod(lockOneHundredPoints, XC_MethodReplacement.returnConstant(0));
                 }
@@ -50,7 +47,8 @@ public class LockOneHundredPoints extends BaseHook {
         findAndHookMethod(mMainContentFrameCls, "onClick", View.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                if(PrefsUtils.mSharedPreferences.getBoolean("prefs_key_security_center_score", false)) param.setResult(null);
+                if (PrefsUtils.mSharedPreferences.getBoolean("prefs_key_security_center_score", false))
+                    param.setResult(null);
             }
         });
     }

@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.market.*;
+import com.sevtinge.cemiuiler.module.market.DeviceModify;
+import com.sevtinge.cemiuiler.module.market.MarketDexKit;
+import com.sevtinge.cemiuiler.module.market.NewIcon;
 
 public class Market extends BaseModule {
 

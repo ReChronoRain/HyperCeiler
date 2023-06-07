@@ -6,7 +6,6 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 
-
 import moralnorm.os.SystemProperties;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
@@ -43,7 +42,7 @@ public class VariousThemeActivity extends BaseAppCompatActivity {
             }
 
             mThemeManagerCrack = findPreference("prefs_key_various_theme_crack");
-            if (!getSharedPreferences().getBoolean("prefs_key_hidden_function",false)) {
+            if (!getSharedPreferences().getBoolean("prefs_key_hidden_function", false)) {
                 mThemeManagerCrack.setVisible(false);
             }
         }

@@ -29,10 +29,10 @@ public class ClockCenterHook extends BaseHook {
 
         mStatusBarView = findClassIfExists("com.android.systemui.statusbar.phone.CollapsedStatusBarFragment");
 
-        Helpers.findAndHookMethod(mStatusBarView,"onViewCreated", View.class, Bundle.class, new MethodHook() {
+        Helpers.findAndHookMethod(mStatusBarView, "onViewCreated", View.class, Bundle.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                ViewGroup miuiPhoneStatusBarView = (ViewGroup) XposedHelpers.getObjectField(param.thisObject,"mStatusBar");
+                ViewGroup miuiPhoneStatusBarView = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mStatusBar");
                 Context context = miuiPhoneStatusBarView.getContext();
                 Resources res = miuiPhoneStatusBarView.getResources();
 
@@ -42,56 +42,55 @@ public class ClockCenterHook extends BaseHook {
                 int systemIconAreaId = res.getIdentifier("system_icon_area", "id", "com.android.systemui");
                 int clockId = res.getIdentifier("clock", "id", "com.android.systemui");
                 int phoneStatusBarLeftContainerId =
-                        res.getIdentifier(
-                                "phone_status_bar_left_container",
-                                "id",
-                                "com.android.systemui"
-                        );
+                    res.getIdentifier(
+                        "phone_status_bar_left_container",
+                        "id",
+                        "com.android.systemui"
+                    );
 
                 int fullscreenNotificationIconAreaId =
-                        res.getIdentifier(
-                                "fullscreen_notification_icon_area",
-                                "id",
-                                "com.android.systemui"
-                        );
+                    res.getIdentifier(
+                        "fullscreen_notification_icon_area",
+                        "id",
+                        "com.android.systemui"
+                    );
                 int statusIconsId =
-                        res.getIdentifier(
-                                "statusIcons",
-                                "id",
-                                "com.android.systemui"
-                        );
+                    res.getIdentifier(
+                        "statusIcons",
+                        "id",
+                        "com.android.systemui"
+                    );
                 int systemIconsId =
-                        res.getIdentifier(
-                                "system_icons",
-                                "id",
-                                "com.android.systemui"
-                        );
+                    res.getIdentifier(
+                        "system_icons",
+                        "id",
+                        "com.android.systemui"
+                    );
                 int batteryId =
-                        res.getIdentifier(
-                                "battery",
-                                "id",
-                                "com.android.systemui"
-                        );
+                    res.getIdentifier(
+                        "battery",
+                        "id",
+                        "com.android.systemui"
+                    );
 
                 statusBar = miuiPhoneStatusBarView.findViewById(statusBarId);
                 ViewGroup statusBarContents = miuiPhoneStatusBarView.findViewById(statusBarContentsId);
 
 
-
                 TextView clock = miuiPhoneStatusBarView.findViewById(clockId);
                 ViewGroup phoneStatusBarLeftContainer =
-                        miuiPhoneStatusBarView.findViewById(phoneStatusBarLeftContainerId);
+                    miuiPhoneStatusBarView.findViewById(phoneStatusBarLeftContainerId);
 
                 ViewGroup fullscreenNotificationIconArea =
-                        miuiPhoneStatusBarView.findViewById(fullscreenNotificationIconAreaId);
+                    miuiPhoneStatusBarView.findViewById(fullscreenNotificationIconAreaId);
                 ViewGroup systemIconArea =
-                        miuiPhoneStatusBarView.findViewById(systemIconAreaId);
+                    miuiPhoneStatusBarView.findViewById(systemIconAreaId);
                 ViewGroup statusIcons =
-                        miuiPhoneStatusBarView.findViewById(statusIconsId);
+                    miuiPhoneStatusBarView.findViewById(statusIconsId);
                 ViewGroup systemIcons =
-                        miuiPhoneStatusBarView.findViewById(systemIconsId);
+                    miuiPhoneStatusBarView.findViewById(systemIconsId);
                 ViewGroup battery =
-                        miuiPhoneStatusBarView.findViewById(batteryId);
+                    miuiPhoneStatusBarView.findViewById(batteryId);
 
                 ((ViewGroup) clock.getParent()).removeView(clock);
                 ((ViewGroup) phoneStatusBarLeftContainer).removeView(phoneStatusBarLeftContainer);
@@ -101,7 +100,7 @@ public class ClockCenterHook extends BaseHook {
                 ((ViewGroup) systemIcons.getParent()).removeView(systemIcons);
                 ((ViewGroup) battery.getParent()).removeView(battery);
                 ((ViewGroup) fullscreenNotificationIconArea.getParent()).removeView(
-                        fullscreenNotificationIconArea
+                    fullscreenNotificationIconArea
                 );
 
                 FrameLayout mConstraintLayout = new FrameLayout(context);
@@ -120,22 +119,22 @@ public class ClockCenterHook extends BaseHook {
 
                 fullscreenNotificationIconArea.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
-                //增加一个左对齐布局
+                // 增加一个左对齐布局
                 mLeftLayout = new LinearLayout(context);
-                LinearLayout.LayoutParams leftLp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1.0f);
+                LinearLayout.LayoutParams leftLp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
                 mLeftLayout.setLayoutParams(leftLp);
                 mLeftLayout.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 
-                //增加一个居中布局
+                // 增加一个居中布局
                 mCenterLayout = new LinearLayout(context);
-                LinearLayout.LayoutParams centerLp = new  LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
+                LinearLayout.LayoutParams centerLp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
                 );
                 mCenterLayout.setLayoutParams(centerLp);
                 mCenterLayout.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
 
-                //增加一个右布局
+                // 增加一个右布局
                 mRightLayout = new LinearLayout(context);
                 LinearLayout.LayoutParams rightLp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
                 mRightLayout.setLayoutParams(rightLp);

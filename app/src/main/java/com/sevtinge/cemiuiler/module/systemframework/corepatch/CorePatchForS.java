@@ -3,12 +3,8 @@ package com.sevtinge.cemiuiler.module.systemframework.corepatch;
 import java.lang.reflect.InvocationTargetException;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
-import static com.sevtinge.cemiuiler.utils.Helpers.log;
 
 public class CorePatchForS extends CorePatchForR {
     @Override
@@ -18,7 +14,7 @@ public class CorePatchForS extends CorePatchForR {
             findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader, "doesSignatureMatchForPermissions", String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
+                    // If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                     if (param.getResult().equals(false)) {
                         String pPname = (String) XposedHelpers.callMethod(param.args[1], "getPackageName");
                         if (pPname.contentEquals((String) param.args[0])) {

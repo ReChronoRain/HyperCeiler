@@ -3,17 +3,17 @@ package com.sevtinge.cemiuiler.module.home.recent
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
-import android.widget.TextView
-import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.getObjectField
 import android.text.format.Formatter
+import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.getObjectField
 
 @SuppressLint("StaticFieldLeak")
-object RealMemory : BaseHook(){
+object RealMemory : BaseHook() {
     var context: Context? = null
 
     @SuppressLint("DiscouragedApi")

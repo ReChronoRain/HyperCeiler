@@ -17,7 +17,7 @@ public abstract class SubFragment extends BasePreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         mContentResId = getContentResId();
         if (mContentResId != 0) {
-            super.onCreate(savedInstanceState,mContentResId);
+            super.onCreate(savedInstanceState, mContentResId);
             addPreferencesFromResource(mContentResId);
         } else {
             super.onCreate(savedInstanceState);
@@ -28,7 +28,8 @@ public abstract class SubFragment extends BasePreferenceFragment {
     public abstract int getContentResId();
 
 
-    public void initPrefs() {}
+    public void initPrefs() {
+    }
 
     public void openMultiAction(Preference preference, Bundle args, PickerHomeActivity.Actions actions) {
         Intent intent = new Intent(getContext(), PickerHomeActivity.class);
@@ -47,7 +48,6 @@ public abstract class SubFragment extends BasePreferenceFragment {
         intent.putExtras(args);
         startActivity(intent);
     }
-
 
 
     public SharedPreferences getSharedPreferences() {

@@ -13,14 +13,14 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.*
 import de.robv.android.xposed.XposedHelpers.*
 import de.robv.android.xposed.callbacks.XC_LayoutInflated
-import java.lang.reflect.Field
-import java.lang.reflect.Member
-import java.lang.reflect.Modifier
-import java.util.Enumeration
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.lang.reflect.Field
+import java.lang.reflect.Member
+import java.lang.reflect.Modifier
+import java.util.Enumeration
 
 typealias MethodHookParam = MethodHookParam
 typealias Replacer = (MethodHookParam) -> Any?

@@ -11,8 +11,8 @@ import de.robv.android.xposed.XposedHelpers
 import kotlin.math.abs
 
 object BlurPersonalAssistant : BaseHook() {
-    val blurRadius = mPrefsMap.getInt("personal_assistant_blurradius",80)
-    val backgroundColor = mPrefsMap.getInt("personal_assistant_color",-1)
+    val blurRadius = mPrefsMap.getInt("personal_assistant_blurradius", 80)
+    val backgroundColor = mPrefsMap.getInt("personal_assistant_color", -1)
 
     override fun init() {
         val AssistantOverlayWindowClass = findClassIfExists(

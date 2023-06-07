@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.module.miwallpaper;
 
 import android.content.Context;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XposedHelpers;
 
 public class UnlockSuperWallpaper extends BaseHook {

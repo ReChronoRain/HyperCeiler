@@ -70,12 +70,12 @@ public class SecurityCenterActivity extends BaseAppCompatActivity {
             mAiClipboard.setChecked(mAiClipboardEnable);
 
             mBlurLocation.setOnPreferenceChangeListener((preference, o) -> {
-                Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", (Boolean)o ? 1 : 0);
+                Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", (Boolean) o ? 1 : 0);
                 return true;
             });
 
             mAiClipboard.setOnPreferenceChangeListener((preference, o) -> {
-                Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean)o ? 1 : 0);
+                Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean) o ? 1 : 0);
                 return true;
             });
 

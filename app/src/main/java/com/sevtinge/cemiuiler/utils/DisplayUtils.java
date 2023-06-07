@@ -16,22 +16,23 @@ public class DisplayUtils {
 
     public static void getAndroidScreenProperty(Context context) {
         mDisplayMetrics = new DisplayMetrics();
-        ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(mDisplayMetrics);
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(mDisplayMetrics);
         mWidthPixels = mDisplayMetrics.widthPixels;
         mHeightPixels = mDisplayMetrics.heightPixels;
         mDensity = mDisplayMetrics.density;
         mDensityDpi = mDisplayMetrics.densityDpi;
         float f = mDensity;
-        mWidthDps = (int)((float)mWidthPixels / f);
-        mHeightDps = (int)((float)mHeightPixels / f);
+        mWidthDps = (int) ((float) mWidthPixels / f);
+        mHeightDps = (int) ((float) mHeightPixels / f);
     }
 
-    public static int dip2px(Context context, float dipValue){
+    public static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(dipValue * scale + 0.5f);
+        return (int) (dipValue * scale + 0.5f);
     }
-    public static int px2dip(Context context, float pxValue){
+
+    public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(pxValue / scale + 0.5f);
+        return (int) (pxValue / scale + 0.5f);
     }
 }

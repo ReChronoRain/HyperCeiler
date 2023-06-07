@@ -76,28 +76,17 @@ public class MultiAction extends SubFragment {
 
     public void updateControls(String actionKey, String key) {
         switch (actionKey) {
-            case "prefs_key_no_action" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 0).apply();
-            case "prefs_key_open_notification_center" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 1).apply();
-            case "prefs_key_clear_memory" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 2).apply();
-            case "prefs_key_invert_colors" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 3).apply();
-            case "prefs_key_screen_lock" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 4).apply();
-            case "prefs_key_screen_sleep" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 5).apply();
-            case "prefs_key_screen_capture" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 6).apply();
-            case "prefs_key_screen_recents" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 7).apply();
-            case "prefs_key_volume_dialog" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 8).apply();
-            case "prefs_key_open_powermenu" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 12).apply();
-            case "prefs_key_open_app" ->
-                    PrefsUtils.mSharedPreferences.edit().putInt(key, 13).apply();
+            case "prefs_key_no_action" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 0).apply();
+            case "prefs_key_open_notification_center" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 1).apply();
+            case "prefs_key_clear_memory" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 2).apply();
+            case "prefs_key_invert_colors" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 3).apply();
+            case "prefs_key_screen_lock" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 4).apply();
+            case "prefs_key_screen_sleep" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 5).apply();
+            case "prefs_key_screen_capture" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 6).apply();
+            case "prefs_key_screen_recents" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 7).apply();
+            case "prefs_key_volume_dialog" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 8).apply();
+            case "prefs_key_open_powermenu" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 12).apply();
+            case "prefs_key_open_app" -> PrefsUtils.mSharedPreferences.edit().putInt(key, 13).apply();
             case "prefs_key_open_app_selector" -> {
                 Bundle args = new Bundle();
                 args.putString("title", getResources().getString(R.string.home_gesture_multi_choose_app));
@@ -130,6 +119,7 @@ public class MultiAction extends SubFragment {
             }
         }
     }
+
     String a;
 
     public void updateAppTitle(String title) {

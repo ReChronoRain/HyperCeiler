@@ -12,7 +12,7 @@ object NetworkSpeedUnit : BaseHook() {
             "com.android.systemui.statusbar.views.NetworkSpeedView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    //值和单位双排显示 + 上下行网速双排显示
+                    // 值和单位双排显示 + 上下行网速双排显示
                     val doubleLine =
                         (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") && mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down"))
                     val dualRow =
@@ -24,7 +24,7 @@ object NetworkSpeedUnit : BaseHook() {
                         val fontSizeEnable: Boolean =
                             mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
 
-                        //网速字体大小调整
+                        // 网速字体大小调整
                         if (fontSizeEnable) {
                             try {
                                 if (doubleLine || dualRow) {
@@ -36,13 +36,13 @@ object NetworkSpeedUnit : BaseHook() {
                                 logE(e)
                             }
                         }
-                        //网速加粗
+                        // 网速加粗
                         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_bold")) {
                             meter.typeface = Typeface.DEFAULT_BOLD
                         }
                         val res = meter.resources
 
-                        //左侧间距
+                        // 左侧间距
                         var leftMargin =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_left_margin", 0)
                         leftMargin = TypedValue.applyDimension(
@@ -50,7 +50,7 @@ object NetworkSpeedUnit : BaseHook() {
                             leftMargin * 0.5f,
                             res.displayMetrics
                         ).toInt()
-                        //右侧间距
+                        // 右侧间距
                         var rightMargin =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_right_margin", 0)
                         rightMargin = TypedValue.applyDimension(
@@ -58,7 +58,7 @@ object NetworkSpeedUnit : BaseHook() {
                             rightMargin * 0.5f,
                             res.displayMetrics
                         ).toInt()
-                        //上下偏移量
+                        // 上下偏移量
                         var topMargin = 0
                         val verticalOffset =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_vertical_offset", 8)
@@ -72,7 +72,7 @@ object NetworkSpeedUnit : BaseHook() {
                         }
                         meter.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
 
-                        //水平对齐
+                        // 水平对齐
                         when (mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_align", 1)) {
                             2 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
                             3 -> meter.textAlignment = View.TEXT_ALIGNMENT_CENTER

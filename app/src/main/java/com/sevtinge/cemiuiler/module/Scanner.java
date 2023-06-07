@@ -1,7 +1,10 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.scanner.*;
+import com.sevtinge.cemiuiler.module.scanner.EnableCard;
+import com.sevtinge.cemiuiler.module.scanner.EnableDocPpt;
+import com.sevtinge.cemiuiler.module.scanner.EnableOcr;
+import com.sevtinge.cemiuiler.module.scanner.EnableTranslation;
 import com.sevtinge.cemiuiler.module.scanner.document.EnableDocument;
 import com.sevtinge.cemiuiler.module.scanner.document.EnableExcel;
 import com.sevtinge.cemiuiler.module.scanner.document.EnablePpt;

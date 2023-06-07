@@ -4,28 +4,28 @@
 
     <Preference android:title="@string/system_ui_statusbar_iconmanage_title">
         <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity"
-                android:targetPackage="com.sevtinge.cemiuiler"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference android:title="@string/system_ui_statusbar_network_speed_indicator_title">
         <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.NetworkSpeedIndicatorActivity"
-                android:targetPackage="com.sevtinge.cemiuiler"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.NetworkSpeedIndicatorActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference android:title="@string/system_ui_statusbar_clock_title">
         <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.ClockIndicatorActivity"
-                android:targetPackage="com.sevtinge.cemiuiler"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.ClockIndicatorActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <Preference
-            android:title="@string/system_ui_statusbar_device_title"
-            android:key="prefs_key_system_ui_status_bar_device">
+        android:title="@string/system_ui_statusbar_device_title"
+        android:key="prefs_key_system_ui_status_bar_device">
         <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
-                android:targetPackage="com.sevtinge.cemiuiler"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
+            android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
@@ -33,7 +33,7 @@
             android:defaultValue="false"
             android:key="pref_key_system_ui_statusbar_layout_compatibility_mode"
             android:title="@string/system_ui_statusbar_layout_compatibility_mode_title"
-            android:summary="@string/system_ui_statusbar_layout_compatibility_mode_desc"/>
+            android:summary="@string/system_ui_statusbar_layout_compatibility_mode_desc" />
 
         <DropDownPreference
             android:defaultValue="0"
@@ -119,17 +119,17 @@
     <PreferenceCategory android:title="@string/system_ui_other_title">
 
         <SwitchPreference
-                android:title="@string/system_ui_status_bar_double_tap_to_sleep"
-                android:key="prefs_key_system_ui_status_bar_double_tap_to_sleep"
-                android:defaultValue="false"/>
+            android:title="@string/system_ui_status_bar_double_tap_to_sleep"
+            android:key="prefs_key_system_ui_status_bar_double_tap_to_sleep"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_ui_status_bar_hide_icon"
-                android:key="prefs_key_system_ui_status_bar_hide_icon"
-                android:defaultValue="false"/>
+            android:title="@string/system_ui_status_bar_hide_icon"
+            android:key="prefs_key_system_ui_status_bar_hide_icon"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-    <Preference android:enabled="false"/>
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

@@ -1,7 +1,13 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.phone.*;
+import com.sevtinge.cemiuiler.module.phone.DualNrSupport;
+import com.sevtinge.cemiuiler.module.phone.DualSaSupport;
+import com.sevtinge.cemiuiler.module.phone.ModemFeature;
+import com.sevtinge.cemiuiler.module.phone.N1BandPhone;
+import com.sevtinge.cemiuiler.module.phone.N28BandPhone;
+import com.sevtinge.cemiuiler.module.phone.N5N8BandPhone;
+import com.sevtinge.cemiuiler.module.phone.ViceSlotVolteButton;
 
 public class Phone extends BaseModule {
     @Override

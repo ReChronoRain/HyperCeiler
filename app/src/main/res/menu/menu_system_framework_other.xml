@@ -4,10 +4,10 @@
 
         <item
             android:id="@+id/system_framework_share_menu_test"
-            android:title="@string/system_framework_share_menu_test"/>
+            android:title="@string/system_framework_share_menu_test" />
 
         <item
             android:id="@+id/system_framework_open_with_menu_test"
-            android:title="@string/system_framework_open_with_menu_test"/>
+            android:title="@string/system_framework_open_with_menu_test" />
     </group>
 </menu>

@@ -1,12 +1,12 @@
 package com.sevtinge.cemiuiler.module.screenrecorder
 
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
-import com.sevtinge.cemiuiler.module.base.BaseHook
 
 class ForceSupportPlaybackCapture : BaseHook() {
     override fun init() {
-        //if (!xPrefs.getBoolean("force_support_playbackcapture", true)) return
+        // if (!xPrefs.getBoolean("force_support_playbackcapture", true)) return
 
         XposedHelpers.findAndHookMethod("android.os.SystemProperties",
             lpparam.classLoader,

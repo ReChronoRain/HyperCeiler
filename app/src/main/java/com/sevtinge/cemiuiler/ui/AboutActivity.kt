@@ -4,13 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.ui.base.SubFragment
 import moralnorm.appcompat.app.AppCompatActivity
 import moralnorm.internal.utils.ViewUtils
 import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
-import com.sevtinge.cemiuiler.BuildConfig
 import java.util.Calendar
 
 
@@ -38,7 +38,7 @@ class AboutActivity : AppCompatActivity() {
 
         override fun initPrefs() {
             val c = Calendar.getInstance()
-            val hours: Int = when(val hour = c.get(Calendar.HOUR_OF_DAY)) {
+            val hours: Int = when (val hour = c.get(Calendar.HOUR_OF_DAY)) {
                 0 -> 24
                 else -> hour
             }
@@ -56,20 +56,20 @@ class AboutActivity : AppCompatActivity() {
                 versionClickTime++
                 if (it.isChecked) {
                     if (versionClickTime < maxCloseClickTime) {
-                        //ToastHelper.makeText(context, "都启动过了还点？")
+                        // ToastHelper.makeText(context, "都启动过了还点？")
                     } else {
                         it.isChecked = !(it.isChecked)
                         versionClickTime = 0
-                        //ToastHelper.makeText(context, "行吧给你关咯")
+                        // ToastHelper.makeText(context, "行吧给你关咯")
                     }
                 } else if (versionClickTime < hours) {
-                    //val string = String.format("还需点击%d次", hour - versionClickTime)
-                    //ToastHelper.makeText(context, string)
+                    // val string = String.format("还需点击%d次", hour - versionClickTime)
+                    // ToastHelper.makeText(context, string)
                 } else {
                     it.isChecked = !(it.isChecked)
                     versionClickTime = 0
                     // val string = String.format("已启动")
-                    //ToastHelper.makeText(context, string)
+                    // ToastHelper.makeText(context, string)
                 }
                 false
             }
@@ -89,7 +89,7 @@ class AboutActivity : AppCompatActivity() {
         private fun String.joinQQGroup(): Boolean {
             val intent = Intent()
             intent.data =
-                Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D${this}") //https://jq.qq.com/?_wv=1027&k=EsyE1RhL
+                Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D${this}") // https://jq.qq.com/?_wv=1027&k=EsyE1RhL
             // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             return try {
                 startActivity(intent)

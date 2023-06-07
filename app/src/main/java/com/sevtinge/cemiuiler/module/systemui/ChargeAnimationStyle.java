@@ -23,7 +23,7 @@ public class ChargeAnimationStyle extends BaseHook {
         mChargeAnimCls = findClassIfExists("com.android.keyguard.charge.ChargeUtils");
         mWaveViewCls = findClassIfExists("com.android.keyguard.charge.wave.WaveView");
 
-        mChargeAnimationType = mPrefsMap.getStringAsInt("system_ui_charge_animation_style",0);
+        mChargeAnimationType = mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0);
 
         setChargeAnimationType(mChargeAnimationType);
     }
@@ -31,7 +31,7 @@ public class ChargeAnimationStyle extends BaseHook {
     public void setChargeAnimationType(int value) {
 
         if (value == 1) {
-            findAndHookMethod(mChargeAnimCls,"isChargeAnimationDisabled", new MethodHook() {
+            findAndHookMethod(mChargeAnimCls, "isChargeAnimationDisabled", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     param.setResult(true);
@@ -45,7 +45,7 @@ public class ChargeAnimationStyle extends BaseHook {
                     StackTraceElement[] stackElement = new Throwable().getStackTrace();
                     boolean mResult = false;
                     Set<String> classTrue = new ArraySet<>(new String[]{"com.android.keyguard.charge.ChargeUtils",
-                            "com.android.keyguard.charge.container.MiuiChargeContainerView"});
+                        "com.android.keyguard.charge.container.MiuiChargeContainerView"});
                     int i = 0;
                     int length = stackElement.length;
 
@@ -91,7 +91,7 @@ public class ChargeAnimationStyle extends BaseHook {
                 case 3 -> mType = 1;
             }
 
-            findAndHookMethod(mChargeAnimCls,"getChargeAnimationType", new MethodHook() {
+            findAndHookMethod(mChargeAnimCls, "getChargeAnimationType", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
                     param.setResult(mType);

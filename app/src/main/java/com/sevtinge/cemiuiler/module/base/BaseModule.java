@@ -17,7 +17,8 @@ public abstract class BaseModule implements IXposedHook {
     }
 
     @Override
-    public void initZygote() {}
+    public void initZygote() {
+    }
 
     public void initHook(BaseHook baseHook) {
         initHook(baseHook, true);

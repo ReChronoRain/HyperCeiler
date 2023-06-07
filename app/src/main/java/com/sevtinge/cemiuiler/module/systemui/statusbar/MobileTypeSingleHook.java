@@ -7,7 +7,9 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XposedHelpers;
 
 public class MobileTypeSingleHook extends BaseHook {
@@ -46,26 +48,26 @@ public class MobileTypeSingleHook extends BaseHook {
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) mMobileTypeSingle.getLayoutParams();
                 int leftMargin = mPrefsMap.getInt("system_ui_statusbar_indicator_left_margin", 7);
                 float marginLeft = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        leftMargin * 0.5f,
-                        res.getDisplayMetrics()
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    leftMargin * 0.5f,
+                    res.getDisplayMetrics()
                 );
                 mlp.leftMargin = (int) marginLeft;
                 int rightMargin = mPrefsMap.getInt("system_ui_statusbar_indicator_right_margin", 0);
                 if (rightMargin > 0) {
                     float marginRight = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            rightMargin * 0.5f,
-                            res.getDisplayMetrics()
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        rightMargin * 0.5f,
+                        res.getDisplayMetrics()
                     );
                     mlp.rightMargin = (int) marginRight;
                 }
                 int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_type_vertical_offset", 8);
                 if (verticalOffset != 8) {
                     float marginTop = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            (verticalOffset - 8) * 0.5f,
-                            res.getDisplayMetrics()
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        (verticalOffset - 8) * 0.5f,
+                        res.getDisplayMetrics()
                     );
                     mlp.topMargin = (int) marginTop;
                 }

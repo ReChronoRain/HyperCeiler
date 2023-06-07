@@ -6,7 +6,7 @@
         android:title="@string/various_dialog_gravity"
         android:defaultValue="0"
         app:entries="@array/dialog_gravity"
-        app:entryValues="@array/dialog_gravity_value"/>
+        app:entryValues="@array/dialog_gravity_value" />
 
     <SeekBarPreference
         android:title="@string/various_dialog_margin_horizontal"
@@ -15,7 +15,7 @@
         android:format="%s dp"
         android:defaultValue="0"
         app:maxValue="100"
-        app:showSeekBarValue="true"/>
+        app:showSeekBarValue="true" />
 
     <SeekBarPreference
         android:title="@string/various_dialog_margin_bottom"
@@ -24,14 +24,14 @@
         android:format="%s dp"
         android:defaultValue="0"
         app:maxValue="100"
-        app:showSeekBarValue="true"/>
+        app:showSeekBarValue="true" />
 
     <PreferenceCategory android:title="@string/various_dialog_window_blur_title">
 
         <SwitchPreference
             android:key="prefs_key_various_dialog_window_blur"
             android:title="@string/various_dialog_window_blur"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SeekBarPreference
             android:title="@string/various_dialog_window_blur_radius"
@@ -40,12 +40,12 @@
             app:maxValue="300"
             android:format="%s dp"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_various_dialog_window_blur"/>
+            android:dependency="prefs_key_various_dialog_window_blur" />
 
         <Preference
             android:key="prefs_key_various_dialog_bg_blur"
             android:title="@string/custom_background_blur_enabled" />
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

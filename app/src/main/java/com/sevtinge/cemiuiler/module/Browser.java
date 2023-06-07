@@ -1,7 +1,8 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.browser.*;
+import com.sevtinge.cemiuiler.module.browser.BrowserDexKit;
+import com.sevtinge.cemiuiler.module.browser.DebugMode;
 
 public class Browser extends BaseModule {
 

@@ -24,7 +24,7 @@ object DisableHideGoogle : BaseHook() {
 
                     skippedItem.removeIf {
                         it.packageName == "com.google.android.googlequicksearchbox"
-                                || it.packageName == "com.google.android.gms"
+                            || it.packageName == "com.google.android.gms"
                     }
                 }
             }

@@ -13,10 +13,10 @@ public class TitleMarquee extends BaseHook {
     public void init() {
         Class<?> mItemIcon = findClassIfExists("com.miui.home.launcher.ItemIcon");
 
-        findAndHookMethod(mItemIcon,"onFinishInflate", new MethodHook() {
+        findAndHookMethod(mItemIcon, "onFinishInflate", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                TextView mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject,"mTitle");
+                TextView mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitle");
 
                 mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 mTitle.setHorizontalFadingEdgeEnabled(true);

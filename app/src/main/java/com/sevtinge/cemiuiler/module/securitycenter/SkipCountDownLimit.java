@@ -21,7 +21,7 @@ public class SkipCountDownLimit extends BaseHook {
         mInnerClasses = mInterceptBaseFragmentCls.getDeclaredClasses();
 
 
-        findAndHookMethod("android.widget.TextView","setEnabled", boolean.class, new MethodHook() {
+        findAndHookMethod("android.widget.TextView", "setEnabled", boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.args[0] = true;

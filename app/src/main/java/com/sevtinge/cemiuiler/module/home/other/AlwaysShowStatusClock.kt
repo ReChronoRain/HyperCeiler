@@ -8,7 +8,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 object AlwaysShowStatusClock : BaseHook() {
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_show_status_clock")) return
+        // if (!mPrefsMap.getBoolean("home_show_status_clock")) return
         val mWorkspaceClass = loadClass("com.miui.home.launcher.Workspace")
         try {
             mWorkspaceClass.methodFinder().first {

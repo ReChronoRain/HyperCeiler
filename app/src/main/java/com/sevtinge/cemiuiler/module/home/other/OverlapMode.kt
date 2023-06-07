@@ -12,7 +12,7 @@ class OverlapMode : BaseHook() {
             .first {
                 name == "inOverlapMode"
             }.createHook {
-            returnConstant(true)
-        }
+                returnConstant(true)
+            }
     }
 }

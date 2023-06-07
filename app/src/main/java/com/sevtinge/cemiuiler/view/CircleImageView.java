@@ -18,7 +18,6 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-
 import com.sevtinge.cemiuiler.R;
 
 import moralnorm.annotation.ColorInt;

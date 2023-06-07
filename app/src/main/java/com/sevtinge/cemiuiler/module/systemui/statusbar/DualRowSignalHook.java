@@ -36,6 +36,7 @@ public class DualRowSignalHook extends BaseHook {
 
         Helpers.findAndHookMethod("com.android.systemui.SystemUIApplication", lpparam.classLoader, "onCreate", new MethodHook() {
             private boolean isHooked = false;
+
             @Override
             @SuppressLint("DiscouragedApi")
             protected void after(MethodHookParam param) throws Throwable {
@@ -46,7 +47,7 @@ public class DualRowSignalHook extends BaseHook {
                     for (int slot = 1; slot <= 2; slot++) {
                         for (int lvl = 0; lvl <= 5; lvl++) {
                             for (String colorMode : colorModeList) {
-                                if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint") ) {
+                                if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint")) {
                                     String dualIconResName = "statusbar_signal_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "") + (!selectedIconStyle.equals("") ? ("_" + selectedIconStyle) : "");
                                     int iconResId = modRes.getIdentifier(dualIconResName, "drawable", Helpers.mAppModulePkg);
                                     dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
@@ -64,6 +65,7 @@ public class DualRowSignalHook extends BaseHook {
         String ControllerImplName = moveSignalLeft ? "MiuiDripLeftStatusBarIconControllerImpl" : "StatusBarIconControllerImpl";
         Helpers.hookAllMethods("com.android.systemui.statusbar.phone." + ControllerImplName, lpparam.classLoader, "setMobileIcons", new MethodHook() {
             private boolean isHooked = false;
+
             @Override
             @SuppressLint("DiscouragedApi")
             protected void before(MethodHookParam param) throws Throwable {
@@ -92,13 +94,12 @@ public class DualRowSignalHook extends BaseHook {
                     int level;
                     if (subDataConnected) {
                         level = subLevel * 10 + mainLevel;
-                        String[] syncFields = { "showName", "activityIn", "activityOut" };
+                        String[] syncFields = {"showName", "activityIn", "activityOut"};
                         for (String field : syncFields) {
                             XposedHelpers.setObjectField(mainIconState, field, XposedHelpers.getObjectField(subIconState, field));
                         }
                         XposedHelpers.setObjectField(mainIconState, "dataConnected", true);
-                    }
-                    else {
+                    } else {
                         level = mainLevel * 10 + subLevel;
                     }
                     XposedHelpers.setObjectField(mainIconState, "strengthId", level);
@@ -116,8 +117,7 @@ public class DualRowSignalHook extends BaseHook {
                 int level = (int) XposedHelpers.getObjectField(mobileIconState, "strengthId");
                 if (!visible || airplane || level == 0 || level > 100) {
                     XposedHelpers.setAdditionalInstanceField(param.thisObject, "subStrengthId", -1);
-                }
-                else {
+                } else {
                     XposedHelpers.setAdditionalInstanceField(param.thisObject, "subStrengthId", level % 10);
                     XposedHelpers.setObjectField(mobileIconState, "fiveGDrawableId", 0);
                 }
@@ -154,8 +154,7 @@ public class DualRowSignalHook extends BaseHook {
                 String colorMode = "";
                 if (mUseTint && !selectedIconStyle.equals("theme")) {
                     colorMode = "_tint";
-                }
-                else if (!mLight) {
+                } else if (!mLight) {
                     colorMode = "_dark";
                 }
                 String iconStyle = "";
@@ -173,7 +172,7 @@ public class DualRowSignalHook extends BaseHook {
         Helpers.findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyDarknessInternal", resetImageDrawable);
         int rightMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 0);
         int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 0);
-        int iconScale = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10); //图标缩放
+        int iconScale = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10); // 图标缩放
         int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8);
         if (rightMargin > 0 || leftMargin > 0 || iconScale != 10 || verticalOffset != 8) {
             Helpers.findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "init", new MethodHook() {
@@ -183,22 +182,22 @@ public class DualRowSignalHook extends BaseHook {
                     Context mContext = mobileView.getContext();
                     Resources res = mContext.getResources();
                     int rightSpacing = (int) TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            rightMargin * 0.5f,
-                            res.getDisplayMetrics()
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        rightMargin * 0.5f,
+                        res.getDisplayMetrics()
                     );
                     int leftSpacing = (int) TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            leftMargin * 0.5f,
-                            res.getDisplayMetrics()
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        leftMargin * 0.5f,
+                        res.getDisplayMetrics()
                     );
                     mobileView.setPadding(leftSpacing, 0, rightSpacing, 0);
                     View mMobile = (View) XposedHelpers.getObjectField(param.thisObject, "mMobile");
                     if (verticalOffset != 8) {
                         float marginTop = TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                (verticalOffset - 8) * 0.5f,
-                                res.getDisplayMetrics()
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            (verticalOffset - 8) * 0.5f,
+                            res.getDisplayMetrics()
                         );
                         FrameLayout mobileIcon = (FrameLayout) mMobile.getParent();
                         mobileIcon.setTranslationY(marginTop);
@@ -207,9 +206,9 @@ public class DualRowSignalHook extends BaseHook {
                         View mSmallRoaming = (View) XposedHelpers.getObjectField(param.thisObject, "mSmallRoaming");
                         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mMobile.getLayoutParams();
                         int mIconHeight = (int) TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                20 * iconScale / 10f,
-                                res.getDisplayMetrics()
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            20 * iconScale / 10f,
+                            res.getDisplayMetrics()
                         );
                         if (layoutParams == null) {
                             layoutParams = new FrameLayout.LayoutParams(-2, mIconHeight);

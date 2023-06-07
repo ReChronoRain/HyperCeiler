@@ -9,7 +9,7 @@ import com.sevtinge.cemiuiler.utils.setObjectField
 object DisableRecentViewWallpaperDarken : BaseHook() {
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_disable_darken")) return
+        // if (!mPrefsMap.getBoolean("home_disable_darken")) return
         loadClass("com.miui.home.recents.DimLayer").methodFinder().first {
             name == "dim" && parameterCount == 3
         }.createHook {

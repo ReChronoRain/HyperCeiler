@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter
 
 import android.annotation.SuppressLint
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.content.ComponentName
 import android.content.Intent
 import android.view.View
@@ -13,10 +12,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.cemiuiler.view.WeatherView
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.SystemProperties
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.setObjectField
+import com.sevtinge.cemiuiler.view.WeatherView
 import moralnorm.internal.utils.DisplayUtils.dp2px
 
 
@@ -37,7 +37,7 @@ object NotificationWeather : BaseHook() {
                 if (SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 &&
                     !SystemProperties[context, "ro.build.version.incremental"].endsWith("XM")
                 ) {
-                    //获取原组件
+                    // 获取原组件
                     val bigTimeId =
                         context.resources.getIdentifier("big_time", "id", context.packageName)
                     val bigTime: TextView = viewGroup.findViewById(bigTimeId)
@@ -46,7 +46,7 @@ object NotificationWeather : BaseHook() {
                         context.resources.getIdentifier("date_time", "id", context.packageName)
                     val dateTime: TextView = viewGroup.findViewById(dateTimeId)
 
-                    //创建新布局
+                    // 创建新布局
                     val mConstraintLayoutLp = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -66,16 +66,16 @@ object NotificationWeather : BaseHook() {
                     (bigTime.parent as ViewGroup).addView(mConstraintLayout, 0)
 
 
-                    //从原布局中删除组件
+                    // 从原布局中删除组件
                     (bigTime.parent as ViewGroup).removeView(bigTime)
                     (dateTime.parent as ViewGroup).removeView(dateTime)
 
 
-                    //添加组件至新布局
+                    // 添加组件至新布局
                     mConstraintLayout!!.addView(bigTime)
                     mConstraintLayout!!.addView(dateTime)
 
-                    //组件属性
+                    // 组件属性
 
                     val dateTimeLp = ConstraintLayout.LayoutParams(
                         ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -95,7 +95,7 @@ object NotificationWeather : BaseHook() {
                     dateTime.layoutParams = dateTimeLp
 
 
-                    //创建天气组件
+                    // 创建天气组件
                     mWeatherView = WeatherView(context, isDisplayCity).apply {
                         setTextAppearance(
                             context.resources.getIdentifier(
@@ -187,7 +187,9 @@ object NotificationWeather : BaseHook() {
                 val context = viewGroup.context
                 val mOrientation = viewGroup.getObjectField("mOrientation") as Int
                 // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
-                if (SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 && !SystemProperties[context, "ro.build.version.incremental"].endsWith("DEV") &&
+                if (SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 && !SystemProperties[context, "ro.build.version.incremental"].endsWith(
+                        "DEV"
+                    ) &&
                     !SystemProperties[context, "ro.build.version.incremental"].endsWith("XM")
                 ) {
                     if (mOrientation == 1) {

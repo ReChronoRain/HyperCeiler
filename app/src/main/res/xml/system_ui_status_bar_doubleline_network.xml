@@ -62,6 +62,6 @@
         app:maxValue="16"
         app:minValue="0"
         app:stepValue="1"
-        app:negativeShift="8"/>
+        app:negativeShift="8" />
 
 </PreferenceScreen>

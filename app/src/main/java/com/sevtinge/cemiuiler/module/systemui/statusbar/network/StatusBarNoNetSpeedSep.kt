@@ -10,9 +10,10 @@ import de.robv.android.xposed.XposedHelpers
 
 object StatusBarNoNetSpeedSep : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.views.NetworkSpeedSplitter", lpparam.classLoader).methodFinder().first {
-            name == "updateVisibility"
-        }.createHook {
+        loadClass("com.android.systemui.statusbar.views.NetworkSpeedSplitter", lpparam.classLoader).methodFinder()
+            .first {
+                name == "updateVisibility"
+            }.createHook {
             before {
                 XposedHelpers.setObjectField(it.thisObject, "mNetworkSpeedVisibility", View.GONE)
             }

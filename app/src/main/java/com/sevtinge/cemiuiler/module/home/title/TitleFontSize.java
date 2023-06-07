@@ -14,7 +14,7 @@ public class TitleFontSize extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 TextView mTitle = (TextView) param.args[1];
                 if (mTitle != null && mTitle.getId() == mTitle.getResources().getIdentifier("icon_title", "id", "com.miui.home")) {
-                    mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPrefsMap.getInt("home_title_font_size",12));
+                    mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPrefsMap.getInt("home_title_font_size", 12));
                 }
             }
         });

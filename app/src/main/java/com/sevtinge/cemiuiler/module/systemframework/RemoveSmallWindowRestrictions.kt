@@ -33,7 +33,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 after { param ->
                     val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
                     val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
-                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService,true)
+                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
                 }
             }
         } catch (e: Throwable) {
@@ -45,9 +45,9 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "onChange"
             }.toList().createHooks {
                 after { param ->
-                   val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
-                   val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
-                   mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService,true)
+                    val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
+                    val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
+                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
                 }
             }
         } catch (e: Throwable) {

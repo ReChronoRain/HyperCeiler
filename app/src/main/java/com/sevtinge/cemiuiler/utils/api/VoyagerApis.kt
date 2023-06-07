@@ -207,9 +207,9 @@ fun hookPluginClassLoader(onGetClassLoader: (appInfo: ApplicationInfo, classLoad
     val classLoaderClass = loadClass("com.android.systemui.shared.plugins.PluginInstance\$Factory")
     classLoaderClass.methodFinder().first {
         name == "getClassLoader"
-                && parameterCount == 2
-                && parameterTypes[0] == ApplicationInfo::class.java
-                && parameterTypes[1] == ClassLoader::class.java
+            && parameterCount == 2
+            && parameterTypes[0] == ApplicationInfo::class.java
+            && parameterTypes[1] == ClassLoader::class.java
     }.createHook {
         after { getClassLoader ->
             val appInfo = getClassLoader.args[0] as ApplicationInfo

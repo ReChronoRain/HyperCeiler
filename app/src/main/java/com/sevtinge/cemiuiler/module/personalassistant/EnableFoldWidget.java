@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class EnableFoldWidget extends BaseHook {
@@ -25,7 +24,7 @@ public class EnableFoldWidget extends BaseHook {
         findAndHookMethod(c, "a", Context.class, String.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticObjectField(m2,"a", "fold");
+                XposedHelpers.setStaticObjectField(m2, "a", "fold");
             }
         });
 

@@ -31,7 +31,7 @@ object CompactNotificationsHook : BaseHook() {
                     if (param.args.size > 3) return
                     val res = param.result ?: return
                     val mView = XposedHelpers.getObjectField(res, "mView") as View
-                    //if (mView.getId() != mView.getResources().getIdentifier("status_bar_latest_event_content", "id", "android")) return;
+                    // if (mView.getId() != mView.getResources().getIdentifier("status_bar_latest_event_content", "id", "android")) return;
                     val container = mView.findViewById<FrameLayout>(
                         mView.resources.getIdentifier("actions_container", "id", "android")
                     ) ?: return

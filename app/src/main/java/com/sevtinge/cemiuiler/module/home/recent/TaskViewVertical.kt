@@ -18,7 +18,8 @@ object TaskViewVertical : BaseHook() {
             "com.miui.home.recents.util.Utilities".findClass().callStaticMethod(
                 "scaleRectAboutCenter",
                 it.args[0],
-                value * "com.miui.home.recents.util.Utilities".findClass().callStaticMethod("getTaskViewScale", appContext) as Float
+                value * "com.miui.home.recents.util.Utilities".findClass()
+                    .callStaticMethod("getTaskViewScale", appContext) as Float
             )
         }
 

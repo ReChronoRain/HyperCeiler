@@ -8,8 +8,8 @@ import java.util.Arrays;
 public class AppDisableService extends BaseHook {
 
     public ArrayList<String> mMiuiCoreApps = new ArrayList<>(Arrays.asList(
-            "com.lbe.security.miui",
-            "com.miui.securitycenter"
+        "com.lbe.security.miui",
+        "com.miui.securitycenter"
     ));
 
     @Override

@@ -41,8 +41,8 @@ class FolderAnimation : BaseHook() {
                                         before {
                                             hook1 = mSpringAnimator.methodFinder().first {
                                                 name == "setDampingResponse"
-                                                        && parameterTypes[0] == Float::class.javaPrimitiveType
-                                                        && parameterTypes[1] == Float::class.javaPrimitiveType
+                                                    && parameterTypes[0] == Float::class.javaPrimitiveType
+                                                    && parameterTypes[1] == Float::class.javaPrimitiveType
                                             }.createHook {
                                                 before {
                                                     it.args[0] = value1

@@ -17,7 +17,7 @@ public class DisableReport extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("IsShowReport"));
             for (DexMethodDescriptor descriptor : result) {
                 Method isShowReport = descriptor.getMethodInstance(lpparam.classLoader);
-                log("isShowReport method is "+ isShowReport);
+                log("isShowReport method is " + isShowReport);
                 if (isShowReport.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(isShowReport, XC_MethodReplacement.returnConstant(false));
                 }

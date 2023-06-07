@@ -9,8 +9,8 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 class DoublePress : BaseHook() {
     override fun init() {
         loadClass("com.miui.contentextension.utils.ContentCatcherUtil").methodFinder().first {
-            name ==  "isCatcherSupportDoublePress" &&
-                    parameterTypes[0] == Context::class.java
+            name == "isCatcherSupportDoublePress" &&
+                parameterTypes[0] == Context::class.java
         }.createHook {
             returnConstant(true)
         }

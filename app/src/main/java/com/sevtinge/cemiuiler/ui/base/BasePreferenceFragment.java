@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.preference.PreferenceFragmentCompat;
 import moralnorm.preference.PreferenceManager;
 import moralnorm.preference.material.MaterialPreferenceFragmentCompat;
 

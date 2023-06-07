@@ -12,20 +12,15 @@ import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.GlobalActions;
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.ui.main.fragment.MainFragment;
 import com.sevtinge.cemiuiler.ui.main.base.BaseMainActivity;
+import com.sevtinge.cemiuiler.ui.main.fragment.MainFragment;
 import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 import com.sevtinge.cemiuiler.view.CustomMultipleChoiceView;
-
 
 import java.util.Arrays;
 import java.util.List;
 
-import de.robv.android.xposed.XposedBridge;
 import moralnorm.appcompat.app.AlertDialog;
-
-import static com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap;
 
 public class MainActivity extends BaseMainActivity {
 
@@ -44,7 +39,7 @@ public class MainActivity extends BaseMainActivity {
 
         ALPermissionManager.RootCommand(getPackageCodePath());
 
-        //XposedBridge.log("Cemiuiler: Detail log is " + mPrefsMap.getBoolean("settings_disable_detailed_log") + ".");
+        // XposedBridge.log("Cemiuiler: Detail log is " + mPrefsMap.getBoolean("settings_disable_detailed_log") + ".");
 
 
     }

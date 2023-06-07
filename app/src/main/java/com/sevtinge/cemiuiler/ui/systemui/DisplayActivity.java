@@ -1,49 +1,51 @@
-package com.sevtinge.cemiuiler.ui.systemui; 
+package com.sevtinge.cemiuiler.ui.systemui;
 
- import android.widget.SeekBar;
+import android.widget.SeekBar;
 
- import androidx.fragment.app.Fragment;
-  
- import com.sevtinge.cemiuiler.R;
- import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
- import com.sevtinge.cemiuiler.ui.base.SubFragment;
- import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
+import androidx.fragment.app.Fragment;
+
+import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
+import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 
 public class DisplayActivity extends BaseSystemUIActivity {
-     @Override 
-     public Fragment initFragment() { 
-         return new SystemUIDisplayFragment();
-     } 
-  
-     public static class SystemUIDisplayFragment extends SubFragment {
+    @Override
+    public Fragment initFragment() {
+        return new SystemUIDisplayFragment();
+    }
 
-         SeekBarPreferenceEx minBrightness;
-         SeekBarPreferenceEx maxBrightness;
+    public static class SystemUIDisplayFragment extends SubFragment {
 
-         @Override 
-         public int getContentResId() { 
-             return R.xml.system_ui_display;
-         }
+        SeekBarPreferenceEx minBrightness;
+        SeekBarPreferenceEx maxBrightness;
 
-         @Override
-         public void initPrefs() {
-             maxBrightness = findPreference("pref_key_system_ui_auto_brightness_max");
-             minBrightness = findPreference("pref_key_system_ui_auto_brightness_min");
-             assert minBrightness != null;
-             minBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                 @Override
-                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                     if (!fromUser) return;
-                     if (maxBrightness.getValue() <= progress) maxBrightness.setValue(progress + 1);
-                     maxBrightness.setMinValue(progress + 1);
-                 }
+        @Override
+        public int getContentResId() {
+            return R.xml.system_ui_display;
+        }
 
-                 @Override
-                 public void onStartTrackingTouch(SeekBar seekBar) {}
+        @Override
+        public void initPrefs() {
+            maxBrightness = findPreference("pref_key_system_ui_auto_brightness_max");
+            minBrightness = findPreference("pref_key_system_ui_auto_brightness_min");
+            assert minBrightness != null;
+            minBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (!fromUser) return;
+                    if (maxBrightness.getValue() <= progress) maxBrightness.setValue(progress + 1);
+                    maxBrightness.setMinValue(progress + 1);
+                }
 
-                 @Override
-                 public void onStopTrackingTouch(SeekBar seekBar) {}
-             });
-         }
-     } 
- }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+            });
+        }
+    }
+}

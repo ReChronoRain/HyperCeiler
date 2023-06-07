@@ -8,13 +8,13 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 object BypassSignCheckForT : BaseHook() {
     override fun init() {
         try {
-           loadClass("android.util.apk.ApkSignatureVerifier").methodFinder().first {
+            loadClass("android.util.apk.ApkSignatureVerifier").methodFinder().first {
                 name == "getMinimumSignatureSchemeVersionForTargetSdk"
-           }.createHook {
+            }.createHook {
                 after { param ->
                     param.result = 1
                 }
-           }
+            }
         } catch (e: Throwable) {
             logE(e)
         }

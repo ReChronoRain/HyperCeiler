@@ -19,8 +19,8 @@ public class FreeFormSettings extends BaseSystemFrameWorkActivity {
 
     public static class FreeFormFragment extends SubFragment {
 
-        SwitchPreference mMoreFreeForm; //多小窗
-        PreferenceCategory mSmallFreeForm; //小窗气泡
+        SwitchPreference mMoreFreeForm; // 多小窗
+        PreferenceCategory mSmallFreeForm; // 小窗气泡
 
         @Override
         public int getContentResId() {

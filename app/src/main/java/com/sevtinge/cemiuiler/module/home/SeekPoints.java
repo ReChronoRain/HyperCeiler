@@ -19,28 +19,28 @@ public class SeekPoints extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.ScreenView", "updateSeekPoints", int.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                showSeekBar((View)param.thisObject);
+                showSeekBar((View) param.thisObject);
             }
         });
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "addView", View.class, int.class, ViewGroup.LayoutParams.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                showSeekBar((View)param.thisObject);
+                showSeekBar((View) param.thisObject);
             }
         });
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "removeScreen", int.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                showSeekBar((View)param.thisObject);
+                showSeekBar((View) param.thisObject);
             }
         });
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "removeScreensInLayout", int.class, int.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                showSeekBar((View)param.thisObject);
+                showSeekBar((View) param.thisObject);
             }
         });
     }
@@ -48,18 +48,18 @@ public class SeekPoints extends BaseHook {
     private void showSeekBar(View workspace) {
         if (!"Workspace".equals(workspace.getClass().getSimpleName())) return;
         boolean isInEditingMode = (boolean) XposedHelpers.callMethod(workspace, "isInNormalEditingMode");
-        View mScreenSeekBar = (View)XposedHelpers.getObjectField(workspace, "mScreenSeekBar");
+        View mScreenSeekBar = (View) XposedHelpers.getObjectField(workspace, "mScreenSeekBar");
         if (mScreenSeekBar == null) {
             LogUtils.log("HideSeekPointsHook Cannot find seekbar");
             return;
         }
         Context mContext = workspace.getContext();
-        Handler mHandler = (Handler)XposedHelpers.getAdditionalInstanceField(workspace, "mHandlerEx");
+        Handler mHandler = (Handler) XposedHelpers.getAdditionalInstanceField(workspace, "mHandlerEx");
         if (mHandler == null) {
             mHandler = new Handler(mContext.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
-                    View seekBar = (View)msg.obj;
+                    View seekBar = (View) msg.obj;
                     if (seekBar != null)
                         seekBar.animate().alpha(0.0f).setDuration(600).withEndAction(new Runnable() {
                             @Override
@@ -77,7 +77,7 @@ public class SeekPoints extends BaseHook {
         }
         if (mHandler.hasMessages(666)) mHandler.removeMessages(666);
         mScreenSeekBar.animate().cancel();
-        if (!isInEditingMode && XposedInit.mPrefsMap.getStringAsInt("home_other_seek_points",0) == 2) {
+        if (!isInEditingMode && XposedInit.mPrefsMap.getStringAsInt("home_other_seek_points", 0) == 2) {
             mScreenSeekBar.setAlpha(0.0f);
             mScreenSeekBar.setVisibility(View.GONE);
             return;

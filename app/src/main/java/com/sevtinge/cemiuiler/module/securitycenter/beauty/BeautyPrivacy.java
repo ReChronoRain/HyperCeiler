@@ -1,14 +1,10 @@
 package com.sevtinge.cemiuiler.module.securitycenter.beauty;
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import java.io.File;
-
 import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
+
+import com.sevtinge.cemiuiler.module.base.BaseHook;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 public class BeautyPrivacy extends BaseHook {
     @Override

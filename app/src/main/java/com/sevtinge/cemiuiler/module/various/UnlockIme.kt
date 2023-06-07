@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.various
 
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.view.inputmethod.InputMethodManager
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
@@ -8,6 +7,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.PropertyUtils
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.getObjectField
@@ -33,7 +33,7 @@ object UnlockIme : BaseHook() {
     )
 
     private fun startHook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        //检查是否为小米定制输入法
+        // 检查是否为小米定制输入法
         val isNonCustomize = !miuiImeList.contains(lpparam.packageName)
         if (isNonCustomize) {
             val sInputMethodServiceInjector =
@@ -44,7 +44,7 @@ object UnlockIme : BaseHook() {
                 hookSIsImeSupport(it)
                 hookIsXiaoAiEnable(it)
 
-                //将导航栏颜色赋值给输入法优化的底图
+                // 将导航栏颜色赋值给输入法优化的底图
                 loadClass("com.android.internal.policy.PhoneWindow").methodFinder().first {
                     name == "setNavigationBarColor" /* && parameterTypes.sameAs(Int::class.java) */
                 }.createHook {
@@ -64,7 +64,7 @@ object UnlockIme : BaseHook() {
             lpparam.classLoader
         )
 
-        //获取常用语的ClassLoader
+        // 获取常用语的ClassLoader
         loadClass("android.inputmethodservice.InputMethodModuleManager").methodFinder().first {
             name == "loadDex" /* && parameterTypes.sameAs(ClassLoader::class.java, String::class.java) */
         }.createHook {
@@ -82,7 +82,7 @@ object UnlockIme : BaseHook() {
                         hookIsXiaoAiEnable(it)
                     }
 
-                    //针对A11的修复切换输入法列表
+                    // 针对A11的修复切换输入法列表
                     it.getMethod("getSupportIme").createHook {
                         replace { _ ->
                             it.getObjectField("sBottomViewHelper")
@@ -135,7 +135,7 @@ object UnlockIme : BaseHook() {
     private fun hookDeleteNotSupportIme(className: String, classLoader: ClassLoader) {
         kotlin.runCatching {
             loadClass(className, classLoader).methodFinder().first { name == "deleteNotSupportIme" }
-                .createHook {  returnConstant(null) }
+                .createHook { returnConstant(null) }
         }.onFailure {
             Log.i("Failed:Hook method deleteNotSupportIme")
             Log.i(it)

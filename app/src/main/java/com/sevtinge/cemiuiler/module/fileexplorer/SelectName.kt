@@ -12,12 +12,12 @@ object SelectName : BaseHook() {
         loadClass("com.android.fileexplorer.view.FileListItem").methodFinder().first {
             name == "onFinishInflate"
         }.createHook {
-           after {
-               (it.thisObject.getObjectField("mFileNameTextView") as TextView).apply {
-                   setTextIsSelectable(mPrefsMap.getBoolean("file_explorer_can_selectable"))
-                   isSingleLine = mPrefsMap.getBoolean("file_explorer_is_single_line")
-               }
-           }
+            after {
+                (it.thisObject.getObjectField("mFileNameTextView") as TextView).apply {
+                    setTextIsSelectable(mPrefsMap.getBoolean("file_explorer_can_selectable"))
+                    isSingleLine = mPrefsMap.getBoolean("file_explorer_is_single_line")
+                }
+            }
         }
     }
 }

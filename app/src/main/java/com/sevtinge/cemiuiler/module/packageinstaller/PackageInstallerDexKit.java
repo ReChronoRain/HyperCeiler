@@ -1,13 +1,14 @@
 package com.sevtinge.cemiuiler.module.packageinstaller;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
+import java.util.List;
+import java.util.Map;
+
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
 import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 import io.luckypray.dexkit.enums.MatchType;
-
-import java.util.List;
-import java.util.Map;
 
 public class PackageInstallerDexKit extends BaseHook {
 
@@ -23,16 +24,16 @@ public class PackageInstallerDexKit extends BaseHook {
                 return;
             }
             mPackageInstallerResultMethodsMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("SecureVerifyEnable", List.of("secure_verify_enable"))
-                                    .addQuery("DisableSecurityModeFlag", List.of("user_close_security_mode_flag"))
-                                    .addQuery("InstallerOpenSafetyModel", List.of("installerOpenSafetyModel"))
-                                    .addQuery("AppStoreRecommend", List.of("app_store_recommend"))
-                                    .addQuery("EnableAds", List.of("ads_enable"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
+                bridge.batchFindMethodsUsingStrings(
+                    BatchFindArgs.builder()
+                        .addQuery("SecureVerifyEnable", List.of("secure_verify_enable"))
+                        .addQuery("DisableSecurityModeFlag", List.of("user_close_security_mode_flag"))
+                        .addQuery("InstallerOpenSafetyModel", List.of("installerOpenSafetyModel"))
+                        .addQuery("AppStoreRecommend", List.of("app_store_recommend"))
+                        .addQuery("EnableAds", List.of("ads_enable"))
+                        .matchType(MatchType.CONTAINS)
+                        .build()
+                );
         } catch (Throwable e) {
             e.printStackTrace();
         }

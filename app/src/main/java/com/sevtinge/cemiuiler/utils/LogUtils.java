@@ -2,8 +2,9 @@ package com.sevtinge.cemiuiler.utils;
 
 import android.util.Log;
 
-import de.robv.android.xposed.XposedBridge;
 import com.sevtinge.cemiuiler.BuildConfig;
+
+import de.robv.android.xposed.XposedBridge;
 
 public class LogUtils {
 
@@ -11,17 +12,17 @@ public class LogUtils {
     public static final String mStartWith = "Cemiuiler: ";
     public static boolean isDebugVersion = BuildConfig.DEBUG;
 
-    public static void log (String message) {
+    public static void log(String message) {
         String mLog = mStartWith + message;
         XposedBridge.log(mLog);
     }
 
-    public static void log (Throwable tr) {
-        String mErro = mStartWith + "Erro: [" + tr.getMessage() +  "]";
+    public static void log(Throwable tr) {
+        String mErro = mStartWith + "Erro: [" + tr.getMessage() + "]";
         XposedBridge.log(mErro);
     }
 
-    public static void log (String message, Throwable tr) {
+    public static void log(String message, Throwable tr) {
         log(message);
         log(tr);
     }

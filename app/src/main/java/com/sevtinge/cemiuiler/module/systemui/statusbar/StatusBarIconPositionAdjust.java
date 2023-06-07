@@ -206,8 +206,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                             Object mDripNetworkSpeedView = XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedView");
                             XposedHelpers.callMethod(mDripNetworkSpeedView, "setBlocked", true);
                         }
-                    }
-                    else {
+                    } else {
                         boolean dualRows = false;
                         if (isMoveLeft && !dualRows) {
                             View mDripStatusBarLeftStatusIconArea = (View) XposedHelpers.getObjectField(param.thisObject, "mDripStatusBarLeftStatusIconArea");

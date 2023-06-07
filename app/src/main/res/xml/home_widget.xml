@@ -2,9 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-            android:key="prefs_key_home_widget_all_widget_animation"
-            android:title="@string/home_widget_all_widget_animation"
-            android:defaultValue="false" />
+        android:key="prefs_key_home_widget_all_widget_animation"
+        android:title="@string/home_widget_all_widget_animation"
+        android:defaultValue="false" />
 
     <SwitchPreference
         android:key="prefs_key_home_widget_show_miui_widget"
@@ -13,9 +13,9 @@
         android:defaultValue="false" />
 
     <SwitchPreference
-            android:key="prefs_key_home_widget_hide_title"
-            android:title="@string/home_widget_hide_title"
-            android:defaultValue="false" />
+        android:key="prefs_key_home_widget_hide_title"
+        android:title="@string/home_widget_hide_title"
+        android:defaultValue="false" />
 
     <SwitchPreference
         android:key="prefs_key_home_widget_resizable"
@@ -23,9 +23,9 @@
         android:defaultValue="false" />
 
     <SwitchPreference
-            android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
-            android:title="@string/home_widget_allow_moved_to_minus_one_screen"
-            android:defaultValue="false" />
+        android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
+        android:title="@string/home_widget_allow_moved_to_minus_one_screen"
+        android:defaultValue="false" />
 
     <SeekBarPreference
         android:key="prefs_key_home_widget_corner_radius"
@@ -34,6 +34,6 @@
         app:maxValue="30"
         android:format="%d dp"
         app:showSeekBarValue="true" />
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

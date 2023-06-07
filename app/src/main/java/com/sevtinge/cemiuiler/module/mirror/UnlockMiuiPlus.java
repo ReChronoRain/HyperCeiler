@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.module.mirror;
 
 import android.content.Context;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 public class UnlockMiuiPlus extends BaseHook {

@@ -29,7 +29,7 @@ object ShortcutBackgroundBlur : BaseHook() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_shortcut_blur")) return
+        // if (!mPrefsMap.getBoolean("home_shortcut_blur")) return
 
         // From WINI with MIT
         val shortcutMenuBackgroundAlpha = mPrefsMap.getInt("home_other_shortcut_background_blur_custom", 200)

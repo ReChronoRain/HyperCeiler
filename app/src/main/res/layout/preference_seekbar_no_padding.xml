@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2016 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,8 +14,7 @@
 -->
 
 <!-- Layout used by SeekBarPreference for the seekbar widget style. -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:clipChildren="false"
     android:gravity="center_vertical"
     android:orientation="horizontal"
@@ -25,7 +23,7 @@
     android:layout_height="wrap_content"
     android:background="?preferenceItemBackground">
 
-    <include layout="@layout/image_frame"/>
+    <include layout="@layout/image_frame" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -63,7 +61,7 @@
                     android:layout_alignStart="@android:id/title"
                     android:layout_alignLeft="@android:id/title"
                     android:layout_marginTop="@dimen/preference_summary_margin_top"
-                    android:textAppearance="@style/TextAppearance.Preference.Secondary"/>
+                    android:textAppearance="@style/TextAppearance.Preference.Secondary" />
 
             </RelativeLayout>
 
@@ -74,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_edit"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 

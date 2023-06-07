@@ -6,8 +6,6 @@ import com.sevtinge.cemiuiler.module.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.cemiuiler.module.personalassistant.EnableFoldWidget;
 import com.sevtinge.cemiuiler.module.personalassistant.WidgetCrack;
 
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
 public class PersonalAssistant extends BaseModule {
 
     @Override

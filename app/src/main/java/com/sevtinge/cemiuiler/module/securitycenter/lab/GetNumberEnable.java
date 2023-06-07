@@ -3,17 +3,12 @@ package com.sevtinge.cemiuiler.module.securitycenter.lab;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import io.luckypray.dexkit.descriptor.member.DexClassDescriptor;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
+import io.luckypray.dexkit.descriptor.member.DexClassDescriptor;
 
 public class GetNumberEnable extends BaseHook {
 
@@ -36,7 +31,7 @@ public class GetNumberEnable extends BaseHook {
                             try {
                                 Map<String, Integer> featMap = (Map<String, Integer>) fm;
                                 featMap.put("mi_lab_operator_get_number_enable", 0);
-                                //featMap.put("mi_lab_blur_location_enable", 0);
+                                // featMap.put("mi_lab_blur_location_enable", 0);
                             } catch (Throwable ignore) {
                             }
                         }
@@ -53,7 +48,7 @@ public class GetNumberEnable extends BaseHook {
                 param.setResult(false);
             }
         });*/
-        //findAndHookMethod(mStableVer, "IS_STABLE_VERSION", new MethodHook() {
+        // findAndHookMethod(mStableVer, "IS_STABLE_VERSION", new MethodHook() {
         //    @Override
         //    protected void before(MethodHookParam param) throws Throwable {
         //        param.setResult(true);

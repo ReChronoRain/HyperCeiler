@@ -7,7 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-public class MonetThemeOverlay  extends BaseHook {
+public class MonetThemeOverlay extends BaseHook {
 
     Class<?> THEME_CLASS_AOSP;
     Context mContext;

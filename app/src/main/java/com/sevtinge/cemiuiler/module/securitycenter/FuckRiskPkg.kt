@@ -28,7 +28,11 @@ object FuckRiskPkg : BaseHook() {
                 }
             }
         } else {
-            log("Your Security Version is $appVersionName (The version suffix is ${appVersionName.split(".").last()}), and does not meet the usage requirements")
+            log(
+                "Your Security Version is $appVersionName (The version suffix is ${
+                    appVersionName.split(".").last()
+                }), and does not meet the usage requirements"
+            )
         }
     }
 }

@@ -10,7 +10,7 @@ import com.sevtinge.cemiuiler.utils.hookAfterMethod
 object HideSeekPoint : BaseHook() {
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_hide_seek_point")) return
+        // if (!mPrefsMap.getBoolean("home_hide_seek_point")) return
         "com.miui.home.launcher.ScreenView".hookAfterMethod(
             "updateSeekPoints", Int::class.javaPrimitiveType
         ) {

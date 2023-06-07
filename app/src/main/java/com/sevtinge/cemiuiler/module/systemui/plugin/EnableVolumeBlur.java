@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemui.plugin;
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 

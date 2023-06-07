@@ -12,7 +12,7 @@ public class EnableFoldTheme extends BaseHook {
         findAndHookMethod("com.android.thememanager.ThemeApplication", "onCreate", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticObjectField(findClassIfExists("android.os.Build"),"DEVICE", "zizhan");
+                XposedHelpers.setStaticObjectField(findClassIfExists("android.os.Build"), "DEVICE", "zizhan");
             }
         });
 

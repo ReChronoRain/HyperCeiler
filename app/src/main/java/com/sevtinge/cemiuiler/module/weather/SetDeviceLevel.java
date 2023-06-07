@@ -2,14 +2,12 @@ package com.sevtinge.cemiuiler.module.weather;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
-import de.robv.android.xposed.XC_MethodHook;
+
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
 public class SetDeviceLevel extends BaseHook {
     Class<?> mUtil;
@@ -17,9 +15,9 @@ public class SetDeviceLevel extends BaseHook {
     @Override
     public void init() {
 
-            log("Start to hook package " + lpparam.packageName);
-            mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils");
-            returnIntConstant(mUtil, "transDeviceLevel");
+        log("Start to hook package " + lpparam.packageName);
+        mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils");
+        returnIntConstant(mUtil, "transDeviceLevel");
 
     }
 

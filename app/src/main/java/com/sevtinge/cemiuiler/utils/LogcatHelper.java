@@ -21,10 +21,8 @@ public class LogcatHelper {
     private final int mPId;
 
     /**
-     *
      * 初始化目录
-     *
-     * */
+     */
     public void init(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             // 优先保存到SD卡中
@@ -116,7 +114,7 @@ public class LogcatHelper {
                     }
                     if (out != null && line.contains(mPID)) {
                         out.write((getDateEN() + "  " + line + "\n")
-                                .getBytes());
+                            .getBytes());
                     }
                 }
 

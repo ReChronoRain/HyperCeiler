@@ -17,7 +17,7 @@ object AlwaysShowMiuiWidget : BaseHook() {
             }
         } catch (e: Exception) {
             loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder().first {
-                    name == "buildAppWidgetsItems"
+                name == "buildAppWidgetsItems"
             }
         }.createHook {
             before {

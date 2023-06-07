@@ -2,9 +2,6 @@ package com.sevtinge.cemiuiler.module.systemui;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedHelpers;
-
 public class MiuiGxzwSize extends BaseHook {
 
     @Override

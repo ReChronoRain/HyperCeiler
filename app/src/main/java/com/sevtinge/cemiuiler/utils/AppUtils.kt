@@ -31,17 +31,22 @@ fun isDarkMode(): Boolean =
 @SuppressLint("PrivateApi")
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 fun getProp(mKey: String): String =
-    Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(Class.forName("android.os.SystemProperties"), mKey)
+    Class.forName("android.os.SystemProperties").getMethod("get", String::class.java)
+        .invoke(Class.forName("android.os.SystemProperties"), mKey)
         .toString()
 
 @SuppressLint("PrivateApi")
 fun getProp(mKey: String, defaultValue: Boolean): Boolean =
-    Class.forName("android.os.SystemProperties").getMethod("getBoolean", String::class.java, Boolean::class.javaPrimitiveType)
+    Class.forName("android.os.SystemProperties")
+        .getMethod("getBoolean", String::class.java, Boolean::class.javaPrimitiveType)
         .invoke(Class.forName("android.os.SystemProperties"), mKey, defaultValue) as Boolean
 
 fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        EzXHelper.appContext.packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+        EzXHelper.appContext.packageManager.getPackageInfo(
+            packageName,
+            PackageManager.PackageInfoFlags.of(flags.toLong())
+        )
     } else {
         @Suppress("DEPRECATION")
         EzXHelper.appContext.packageManager.getPackageInfo(packageName, flags)
@@ -49,7 +54,8 @@ fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
 
 fun checkVersionName(): String = getPackageInfoCompat(EzXHelper.appContext.packageName).versionName
 
-fun isAlpha(): Boolean = getPackageInfoCompat(EzXHelper.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
+fun isAlpha(): Boolean =
+    getPackageInfoCompat(EzXHelper.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
 
 fun isPadDevice(): Boolean = DeviceHelper.isTablet() || DeviceHelper.isFoldDevice()
 

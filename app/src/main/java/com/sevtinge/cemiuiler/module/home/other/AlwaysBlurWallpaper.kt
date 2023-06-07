@@ -8,7 +8,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 object AlwaysBlurWallpaper : BaseHook() {
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_blur_wallpaper")) return
+        // if (!mPrefsMap.getBoolean("home_blur_wallpaper")) return
         val value = mPrefsMap.getInt("home_blur_radius", 100)
 
         loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {

@@ -2,5 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/location_simulation_data"
-        android:title="@string/location_data_title"/>
+        android:title="@string/location_data_title" />
 </menu>

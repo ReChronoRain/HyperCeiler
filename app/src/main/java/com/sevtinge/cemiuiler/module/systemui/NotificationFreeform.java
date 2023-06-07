@@ -11,7 +11,7 @@ public class NotificationFreeform extends BaseHook {
 
         mNotificationCls = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager");
 
-        findAndHookMethod(mNotificationCls,"canSlide",String.class, new MethodHook() {
+        findAndHookMethod(mNotificationCls, "canSlide", String.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 param.setResult(true);

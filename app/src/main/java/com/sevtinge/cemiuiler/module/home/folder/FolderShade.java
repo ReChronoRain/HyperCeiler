@@ -30,7 +30,7 @@ public class FolderShade extends BaseHook {
         MethodHook hook = new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
-                View folder = (View)param.thisObject;
+                View folder = (View) param.thisObject;
                 new Thread(() -> {
                     try {
                         Context context = folder.getContext();
@@ -58,13 +58,13 @@ public class FolderShade extends BaseHook {
                                     int bgcolor1 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 / 6f * level / 100f) * 0x1000000);
                                     int bgcolor2 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
                                     return new LinearGradient(
-                                            0,
-                                            0,
-                                            0,
-                                            height,
-                                            new int[]{bgcolor1, bgcolor2, bgcolor2, bgcolor1},
-                                            new float[]{0.0f, 0.25f, 0.65f, 1.0f},
-                                            Shader.TileMode.CLAMP
+                                        0,
+                                        0,
+                                        0,
+                                        height,
+                                        new int[]{bgcolor1, bgcolor2, bgcolor2, bgcolor1},
+                                        new float[]{0.0f, 0.25f, 0.65f, 1.0f},
+                                        Shader.TileMode.CLAMP
                                     );
                                 }
                             });
@@ -93,10 +93,10 @@ public class FolderShade extends BaseHook {
             protected void after(MethodHookParam param) {
                 int opt = mPrefsMap.getStringAsInt("home_folder_shade", 0);
                 Object mLauncher = XposedHelpers.getObjectField(param.thisObject, "mLauncher");
-                View folderCling = (View)XposedHelpers.callMethod(mLauncher, "getFolderCling");
+                View folderCling = (View) XposedHelpers.callMethod(mLauncher, "getFolderCling");
                 if (opt == 1 || mLauncher == null || folderCling == null) return;
                 Drawable bkg = folderCling.getBackground();
-                if (bkg != null) bkg.setAlpha(Math.round((float)param.args[0] * 255));
+                if (bkg != null) bkg.setAlpha(Math.round((float) param.args[0] * 255));
             }
         });
     }

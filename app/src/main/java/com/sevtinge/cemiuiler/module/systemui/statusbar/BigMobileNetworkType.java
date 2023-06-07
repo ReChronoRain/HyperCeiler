@@ -44,43 +44,43 @@ public class BigMobileNetworkType extends BaseHook {
 
     @SuppressLint("DiscouragedApi")
     private void old() {
-        findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView","init", new MethodHook() {
+        findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", "init", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 ViewGroup mStatusBarMobileView = (ViewGroup) param.thisObject;
                 Context mContext = mStatusBarMobileView.getContext();
                 Resources mRes = mContext.getResources();
 
-                //获取组件
-                //mMobileLeftContainer
+                // 获取组件
+                // mMobileLeftContainer
                 int mobileContainerLeftId = mRes.getIdentifier("mobile_container_left", "id", "com.android.systemui");
-                //mMobileType
+                // mMobileType
                 int mobileTypeId = mRes.getIdentifier("mobile_type", "id", "com.android.systemui");
-                //mLeftInOut
+                // mLeftInOut
                 int mobileLeftMobileInoutId = mRes.getIdentifier(
-                        "mobile_left_mobile_inout",
-                        "id",
-                        "com.android.systemui");
+                    "mobile_left_mobile_inout",
+                    "id",
+                    "com.android.systemui");
 
                 ViewGroup mobileContainerLeft = mStatusBarMobileView.findViewById(mobileContainerLeftId);
                 TextView mobileType = mStatusBarMobileView.findViewById(mobileTypeId);
                 ImageView mobileLeftMobileInout = mStatusBarMobileView.findViewById(mobileLeftMobileInoutId);
 
-                //获取插入位置
-                //mMobileRightContainer
+                // 获取插入位置
+                // mMobileRightContainer
                 int mobileContainerRightId = mRes.getIdentifier(
-                        "mobile_container_right",
-                        "id",
-                        "com.android.systemui"
+                    "mobile_container_right",
+                    "id",
+                    "com.android.systemui"
                 );
                 ViewGroup mobileContainerRight = mStatusBarMobileView.findViewById(mobileContainerRightId);
                 ViewGroup rightParentLayout = (ViewGroup) mobileContainerRight.getParent();
                 int mobileContainerRightIndex = rightParentLayout.indexOfChild(mobileContainerRight);
 
-                //创建新布局
+                // 创建新布局
                 LinearLayout.LayoutParams newLinearLayoutLP = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
                 );
 
                 LinearLayout newLinearlayout = new LinearLayout(mContext);
@@ -89,20 +89,20 @@ public class BigMobileNetworkType extends BaseHook {
                 newLinearlayout.setPadding(0, 0, 0, 0);
 
 
-                XposedHelpers.setObjectField(param.thisObject,"mMobileLeftContainer", newLinearlayout);
+                XposedHelpers.setObjectField(param.thisObject, "mMobileLeftContainer", newLinearlayout);
                 rightParentLayout.addView(newLinearlayout, mobileContainerRightIndex);
 
-                //将组件插入新的布局
+                // 将组件插入新的布局
                 ((ViewGroup) mobileType.getParent()).removeView(mobileType);
                 ((ViewGroup) mobileLeftMobileInout.getParent()).removeView(mobileLeftMobileInout);
                 ((ViewGroup) mobileContainerLeft.getParent()).removeView(mobileContainerLeft);
 
 
-                //类型
+                // 类型
                 newLinearlayout.addView(mobileType);
-                LinearLayout.LayoutParams mobileTypeLp = new  LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams mobileTypeLp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
                 );
 
                 mobileTypeLp.gravity = Gravity.CENTER_VERTICAL;
@@ -116,15 +116,15 @@ public class BigMobileNetworkType extends BaseHook {
                 mobileType.setLayoutParams(mobileTypeLp);
 
 
-                //箭头
+                // 箭头
                 newLinearlayout.addView(mobileLeftMobileInout);
-                LinearLayout.LayoutParams mobileLeftMobileInoutLp = new  LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
+                LinearLayout.LayoutParams mobileLeftMobileInoutLp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
                 );
                 mobileLeftMobileInout.setLayoutParams(mobileLeftMobileInoutLp);
 
-                //屏蔽更新布局
+                // 屏蔽更新布局
                 findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", "updateMobileTypeLayout", String.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {

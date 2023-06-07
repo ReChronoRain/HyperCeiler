@@ -53,7 +53,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                     }
 
                     Method[] methods = XposedHelpers.findMethodsByExactParameters(mPreferenceGroupCls, void.class, mPreferenceCls);
-                    for (Method method: methods) {
+                    for (Method method : methods) {
                         if (Modifier.isPublic(method.getModifiers())) {
                             addPreference = method.getName();
                             break;

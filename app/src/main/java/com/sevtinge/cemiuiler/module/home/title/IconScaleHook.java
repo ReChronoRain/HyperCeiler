@@ -21,7 +21,7 @@ public class IconScaleHook extends BaseHook {
             protected void after(final MethodHookParam param) throws Throwable {
                 ViewGroup mIconContainer = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mIconContainer");
                 if (mIconContainer == null || mIconContainer.getChildAt(0) == null) return;
-                float multx = (float)Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
+                float multx = (float) Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
                 mIconContainer.getChildAt(0).setScaleX(multx);
                 mIconContainer.getChildAt(0).setScaleY(multx);
             }
@@ -30,9 +30,9 @@ public class IconScaleHook extends BaseHook {
         Helpers.findAndHookMethod("com.miui.home.launcher.ItemIcon", lpparam.classLoader, "onFinishInflate", new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                float multx = (float)Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
+                float multx = (float) Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
 
-                ViewGroup mIconContainer = (ViewGroup)XposedHelpers.getObjectField(param.thisObject, "mIconContainer");
+                ViewGroup mIconContainer = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mIconContainer");
                 if (mIconContainer != null && mIconContainer.getChildAt(0) != null) {
                     mIconContainer.getChildAt(0).setScaleX(multx);
                     mIconContainer.getChildAt(0).setScaleY(multx);
@@ -41,14 +41,16 @@ public class IconScaleHook extends BaseHook {
                 }
 
                 if (multx > 1) {
-                    final TextView mMessage = (TextView)XposedHelpers.getObjectField(param.thisObject, "mMessage");
+                    final TextView mMessage = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMessage");
                     if (mMessage != null)
                         mMessage.addTextChangedListener(new TextWatcher() {
                             @Override
-                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
 
                             @Override
-                            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            }
 
                             @Override
                             @SuppressLint("DiscouragedApi")
@@ -64,16 +66,16 @@ public class IconScaleHook extends BaseHook {
                 XposedHelpers.setAdditionalInstanceField(param.thisObject, "mMessageAnimationOrig", XposedHelpers.getObjectField(param.thisObject, "mMessageAnimation"));
                 XposedHelpers.setObjectField(param.thisObject, "mMessageAnimation", (Runnable) () -> {
                     try {
-                        Runnable mMessageAnimationOrig = (Runnable)XposedHelpers.getAdditionalInstanceField(param.thisObject, "mMessageAnimationOrig");
+                        Runnable mMessageAnimationOrig = (Runnable) XposedHelpers.getAdditionalInstanceField(param.thisObject, "mMessageAnimationOrig");
                         mMessageAnimationOrig.run();
                         boolean mIsShowMessageAnimation = XposedHelpers.getBooleanField(param.thisObject, "mIsShowMessageAnimation");
                         if (mIsShowMessageAnimation) {
-                            View mMessage = (View)XposedHelpers.getObjectField(param.thisObject, "mMessage");
+                            View mMessage = (View) XposedHelpers.getObjectField(param.thisObject, "mMessage");
                             mMessage.animate().cancel();
                             mMessage.animate().scaleX(multx).scaleY(multx).setStartDelay(0).start();
                         }
                     } catch (Throwable t) {
-                       log(String.valueOf(t));
+                        log(String.valueOf(t));
                     }
                 });
 
@@ -90,8 +92,8 @@ public class IconScaleHook extends BaseHook {
         Helpers.findAndHookMethod("com.miui.home.launcher.ItemIcon", lpparam.classLoader, "getIconLocation", new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                float multx = (float)Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
-                Rect rect = (Rect)param.getResult();
+                float multx = (float) Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
+                Rect rect = (Rect) param.getResult();
                 if (rect == null) return;
                 rect.right = rect.left + Math.round(rect.width() * multx);
                 rect.bottom = rect.top + Math.round(rect.height() * multx);
@@ -102,9 +104,9 @@ public class IconScaleHook extends BaseHook {
         Helpers.findAndHookMethodSilently("com.miui.home.launcher.gadget.ClearButton", lpparam.classLoader, "onCreate", new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                ViewGroup mIconContainer = (ViewGroup)XposedHelpers.getObjectField(param.thisObject, "mIconContainer");
+                ViewGroup mIconContainer = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mIconContainer");
                 if (mIconContainer == null || mIconContainer.getChildAt(0) == null) return;
-                float multi = (float)Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
+                float multi = (float) Math.sqrt(mPrefsMap.getInt("home_title_icon_scale", 100) / 100f);
                 mIconContainer.getChildAt(0).setScaleX(multi);
                 mIconContainer.getChildAt(0).setScaleY(multi);
             }

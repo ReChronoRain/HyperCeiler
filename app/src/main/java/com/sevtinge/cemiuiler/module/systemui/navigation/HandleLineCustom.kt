@@ -49,11 +49,11 @@ object HandleLineCustom : BaseHook() {
         } catch (Exception e) {
             log(String.valueOf(e));
         }*/
-        //写法2
-        //mResHook.setDensityReplacement("com.android.systemui", "dimen_land", "navigation_home_handle_width", mNavigationHomeHandleWidthLand);
+        // 写法2
+        // mResHook.setDensityReplacement("com.android.systemui", "dimen_land", "navigation_home_handle_width", mNavigationHomeHandleWidthLand);
 
-        //mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_horizontal_margin",  3);
-        //mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_sample_horizontal_margin",  3);
+        // mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_horizontal_margin",  3);
+        // mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_sample_horizontal_margin",  3);
     }
 
     fun initResource(resParam: InitPackageResourcesParam) {

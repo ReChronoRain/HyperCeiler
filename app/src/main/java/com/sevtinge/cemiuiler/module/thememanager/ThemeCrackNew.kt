@@ -42,7 +42,7 @@ class ThemeCrackNew : BaseHook() {
             val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
             for (descriptor in drmResult) {
                 try {
-                    //val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
+                    // val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
                     val drmResultMethod = descriptor.getMethodInstance(lpparam.classLoader)
                     log("DrmResult method is $drmResultMethod")
                     drmResultMethod.createHook {
@@ -65,7 +65,7 @@ class ThemeCrackNew : BaseHook() {
             val largeIcon = mThemeManagerResultMethodsMap["LargeIcon"]!!
             for (descriptor in largeIcon) {
                 try {
-                    //val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
+                    // val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
                     val largeIconMethod = descriptor.getMethodInstance(lpparam.classLoader)
                     log("largeIcon method is $largeIconMethod")
                     largeIconMethod.createHook {

@@ -101,10 +101,10 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
                 String remarks = mRemarks.getText().toString();
 
                 if (TextUtils.isEmpty(title) ||
-                        TextUtils.isEmpty(offset) ||
-                        TextUtils.isEmpty(baseStation) ||
-                        TextUtils.isEmpty(longitudeAndLatitude) ||
-                        TextUtils.isEmpty(remarks)) {
+                    TextUtils.isEmpty(offset) ||
+                    TextUtils.isEmpty(baseStation) ||
+                    TextUtils.isEmpty(longitudeAndLatitude) ||
+                    TextUtils.isEmpty(remarks)) {
 
                     ToastHelper.makeText(this, "格式错误");
                 } else {
@@ -113,13 +113,13 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
                     String[] split2 = longitudeAndLatitude.split(",", 2);
 
                     LocationData mData = new LocationData(title,
-                            Double.parseDouble(split2[0]),
-                            Double.parseDouble(split2[1]),
-                            Integer.parseInt(offset),
-                            Integer.parseInt(split[0]),
-                            Integer.parseInt(split[1]),
-                            remarks,
-                            1);
+                        Double.parseDouble(split2[0]),
+                        Double.parseDouble(split2[1]),
+                        Integer.parseInt(offset),
+                        Integer.parseInt(split[0]),
+                        Integer.parseInt(split[1]),
+                        remarks,
+                        1);
 
                     /*mData.setTitle(title);
                     mData.setLongitude(Double.parseDouble(split2[0]));

@@ -1,16 +1,16 @@
 package com.sevtinge.cemiuiler.module.securitycenter
 
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.ArrayMap
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.getObjectField
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
-class RemoveConversationBubbleSettingsRestriction : BaseHook(){
+class RemoveConversationBubbleSettingsRestriction : BaseHook() {
     @SuppressLint("PrivateApi")
     override fun init() {
         loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder().first {

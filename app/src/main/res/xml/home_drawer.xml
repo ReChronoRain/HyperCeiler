@@ -6,21 +6,21 @@
         <SwitchPreference
             android:title="@string/home_drawer_all"
             android:key="prefs_key_home_drawer_all"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/home_drawer_editor"
             android:key="prefs_key_home_drawer_editor"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/home_drawer_blur"
             android:summary="@string/home_drawer_blur_desc"
             android:key="prefs_key_home_drawer_blur"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

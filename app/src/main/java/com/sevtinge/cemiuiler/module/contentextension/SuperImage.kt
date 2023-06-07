@@ -16,7 +16,7 @@ class SuperImage : BaseHook() {
 
         loadClass("com.miui.contentextension.utils.SuperImageUtils").methodFinder().first {
             name == "isBitmapSupportSuperImage" &&
-                    parameterTypes[0] == Bitmap::class.java
+                parameterTypes[0] == Bitmap::class.java
         }.createHook {
             returnConstant(true)
         }

@@ -14,10 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import java.lang.reflect.Method;
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import moralnorm.internal.utils.DisplayUtils;
 
@@ -33,7 +33,7 @@ public class ShowBatteryTemperature extends BaseHook {
 
         Method[] methods = mBatteryFragment.getDeclaredMethods();
         for (Method method : methods) {
-            if (method.getReturnType() == String.class && method.getParameterCount() == 1 ) {
+            if (method.getReturnType() == String.class && method.getParameterCount() == 1) {
                 hookMethod(method, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {
@@ -86,7 +86,7 @@ public class ShowBatteryTemperature extends BaseHook {
 
     private void applyTemperatureStyle(Context context, TextView tv, boolean isDarkMode) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(DisplayUtils.dp2px(context, 3), 0,0, 0);
+        lp.setMargins(DisplayUtils.dp2px(context, 3), 0, 0, 0);
         tv.setLayoutParams(lp);
         tv.setText("℃");
         tv.setTextColor(Color.parseColor(isDarkMode ? "#e6e6e6" : "#333333"));

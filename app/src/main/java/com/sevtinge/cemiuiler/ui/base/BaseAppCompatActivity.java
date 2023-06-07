@@ -1,12 +1,10 @@
 package com.sevtinge.cemiuiler.ui.base;
 
+import static com.sevtinge.cemiuiler.utils.KotlinXposedHelperKt.exec;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,8 +21,6 @@ import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.appcompat.internal.view.SearchActionMode;
 import moralnorm.internal.utils.ViewUtils;
-
-import static com.sevtinge.cemiuiler.utils.KotlinXposedHelperKt.exec;
 
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
@@ -44,11 +40,11 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setActionBarEndViewEnable(false);
-        if (initFragment() != null ) {
+        if (initFragment() != null) {
             getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, initFragment())
-                    .commit();
+                .beginTransaction()
+                .replace(R.id.fragment_container, initFragment())
+                .commit();
         }
         showXposedDialog();
         initView();
@@ -75,24 +71,24 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     public void showRestartSystemDialog() {
         new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.soft_reboot)
-                .setMessage(R.string.soft_reboot_desc)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> exec("reboot"))
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+            .setCancelable(false)
+            .setTitle(R.string.soft_reboot)
+            .setMessage(R.string.soft_reboot_desc)
+            .setHapticFeedbackEnabled(true)
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> exec("reboot"))
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
     }
 
     public void showRestartSystemUIDialog() {
         new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.restart_systemui)
-                .setMessage(R.string.restart_systemui_desc)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> restartSystemUI())
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+            .setCancelable(false)
+            .setTitle(R.string.restart_systemui)
+            .setMessage(R.string.restart_systemui_desc)
+            .setHapticFeedbackEnabled(true)
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> restartSystemUI())
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
     }
 
     public void restartSystemUI() {
@@ -101,13 +97,13 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     public void showRestartAppsDialog(String appLabel, String packagename) {
         new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(getResources().getString(R.string.soft_reboot) + appLabel)
-                .setMessage(getResources().getString(R.string.restart_app_desc1) + appLabel + getResources().getString(R.string.restart_app_desc2))
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> setRestartApps(packagename))
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+            .setCancelable(false)
+            .setTitle(getResources().getString(R.string.soft_reboot) + appLabel)
+            .setMessage(getResources().getString(R.string.restart_app_desc1) + appLabel + getResources().getString(R.string.restart_app_desc2))
+            .setHapticFeedbackEnabled(true)
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> setRestartApps(packagename))
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
     }
 
     public void setRestartApps(String packagename) {
@@ -116,19 +112,19 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         sendBroadcast(intent);
     }
 
-    public void startActivity(AppCompatActivity activity,Class<?> cls) {
-        startActivity(new Intent(activity,cls));
+    public void startActivity(AppCompatActivity activity, Class<?> cls) {
+        startActivity(new Intent(activity, cls));
     }
 
     public void showXposedDialog() {
         if (!Helpers.isModuleActive) {
             new AlertDialog.Builder(this)
-                    .setCancelable(false)
-                    .setTitle(R.string.tip)
-                    .setMessage(R.string.hook_failed)
-                    .setHapticFeedbackEnabled(true)
-                    .setPositiveButton(android.R.string.ok ,(dialog, which) -> finish())
-                    .show();
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(R.string.hook_failed)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                .show();
         }
     }
 

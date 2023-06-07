@@ -766,7 +766,7 @@
     <string name="camera_portrait_new_beauty">Yeni güzelliğin kilidini aç</string>
     <string name="camera_portrait_new_beauty_desc">Yalnızca ön kamerayı kullanırken etkili olur</string>
     <string name="camera_portrait_cvlens">Ana lensin kilidini aç</string>
-    <string name="camera_portrait_cvlens_desc">Bazı cihazlarda iyi çalışmayabilir </string>
+    <string name="camera_portrait_cvlens_desc">Bazı cihazlarda iyi çalışmayabilir</string>
     <string name="camera_pro_raw">RAW\'ın kilidini aç</string>
     <string name="camera_pro_log">Günlüğün kilidini aç</string>
     <string name="system_settings_permission_title">İzin</string>

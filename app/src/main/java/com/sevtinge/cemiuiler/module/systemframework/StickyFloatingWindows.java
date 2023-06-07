@@ -35,17 +35,17 @@ public class StickyFloatingWindows extends BaseHook {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 if (param.args.length != 8) return;
-                Intent intent = (Intent)param.args[5];
+                Intent intent = (Intent) param.args[5];
                 if (intent == null || intent.getComponent() == null) return;
-                ActivityOptions options = (ActivityOptions)param.getResult();
+                ActivityOptions options = (ActivityOptions) param.getResult();
                 int windowingMode = options == null ? -1 : (int) XposedHelpers.callMethod(options, "getLaunchWindowingMode");
                 String pkgName = intent.getComponent().getPackageName();
                 if (fwBlackList.contains(pkgName)) return;
                 Context mContext;
                 try {
-                    mContext = (Context)XposedHelpers.getObjectField(param.args[0], "mContext");
+                    mContext = (Context) XposedHelpers.getObjectField(param.args[0], "mContext");
                 } catch (Throwable ignore) {
-                    mContext = (Context)XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.args[0], "mService"), "mContext");
+                    mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.args[0], "mService"), "mContext");
                 }
                 if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
                     try {
@@ -58,8 +58,7 @@ public class StickyFloatingWindows extends BaseHook {
                     } catch (Throwable t) {
                         LogUtils.log(TAG, t);
                     }
-                }
-                else if (windowingMode == 5 && !fwApps.containsKey(pkgName)) {
+                } else if (windowingMode == 5 && !fwApps.containsKey(pkgName)) {
                     fwApps.put(pkgName, new Pair<Float, Rect>(0f, null));
                     storeFwAppsInSetting(mContext);
                 }
@@ -70,25 +69,26 @@ public class StickyFloatingWindows extends BaseHook {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 Object safeOptions = param.args[3];
-                ActivityOptions options = (ActivityOptions)XposedHelpers.callMethod(safeOptions, "getOptions", param.thisObject);
-                int windowingMode = options == null ? -1 : (int)XposedHelpers.callMethod(options, "getLaunchWindowingMode");
-                String pkgName = getTaskPackageName(param.thisObject, (int)param.args[2], options);
+                ActivityOptions options = (ActivityOptions) XposedHelpers.callMethod(safeOptions, "getOptions", param.thisObject);
+                int windowingMode = options == null ? -1 : (int) XposedHelpers.callMethod(options, "getLaunchWindowingMode");
+                String pkgName = getTaskPackageName(param.thisObject, (int) param.args[2], options);
                 if (fwBlackList.contains(pkgName)) return;
                 if (windowingMode == 5 && pkgName != null) {
                     fwApps.put(pkgName, new Pair<Float, Rect>(0f, null));
-                    Context mContext = (Context)XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
+                    Context mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
                     storeFwAppsInSetting(mContext);
                 }
             }
+
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Object safeOptions = param.args[3];
-                ActivityOptions options = (ActivityOptions)XposedHelpers.callMethod(safeOptions, "getOptions", param.thisObject);
-                int windowingMode = options == null ? -1 : (int)XposedHelpers.callMethod(options, "getLaunchWindowingMode");
-                String pkgName = getTaskPackageName(param.thisObject, (int)param.args[2], options);
+                ActivityOptions options = (ActivityOptions) XposedHelpers.callMethod(safeOptions, "getOptions", param.thisObject);
+                int windowingMode = options == null ? -1 : (int) XposedHelpers.callMethod(options, "getLaunchWindowingMode");
+                String pkgName = getTaskPackageName(param.thisObject, (int) param.args[2], options);
                 if (fwBlackList.contains(pkgName)) return;
                 if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
-                    Context mContext = (Context)XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
+                    Context mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
                     options = patchActivityOptions(mContext, options, pkgName, MiuiMultiWindowUtils);
                     XposedHelpers.setObjectField(safeOptions, "mOriginalOptions", options);
                     param.args[3] = safeOptions;
@@ -115,7 +115,7 @@ public class StickyFloatingWindows extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 if (param.args.length != 3) return;
-                String pkgName = (String)XposedHelpers.callMethod(param.args[1], "getStackPackageName");
+                String pkgName = (String) XposedHelpers.callMethod(param.args[1], "getStackPackageName");
                 Object skipClear = XposedHelpers.getAdditionalInstanceField(param.thisObject, "skipFreeFormStateClear");
                 boolean skipFreeFormStateClear = false;
                 if (skipClear != null) {
@@ -124,10 +124,9 @@ public class StickyFloatingWindows extends BaseHook {
                 if (!skipFreeFormStateClear) {
                     if (fwBlackList.contains(pkgName)) return;
                     if (fwApps.remove(pkgName) != null) {
-                        storeFwAppsInSetting((Context)XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext"));
+                        storeFwAppsInSetting((Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext"));
                     }
-                }
-                else {
+                } else {
                     XposedHelpers.setAdditionalInstanceField(param.thisObject, "skipFreeFormStateClear", false);
                 }
             }
@@ -143,7 +142,7 @@ public class StickyFloatingWindows extends BaseHook {
                 if (fwBlackList.contains(pkgName)) return;
                 if (!fwApps.containsKey(pkgName)) {
                     fwApps.put(pkgName, new Pair<Float, Rect>(0f, null));
-                    Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                     storeFwAppsInSetting(mContext);
                 }
             }
@@ -152,7 +151,7 @@ public class StickyFloatingWindows extends BaseHook {
         findAndHookMethod("com.android.server.wm.ActivityTaskManagerService", "onSystemReady", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
+                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 restoreFwAppsInSetting(mContext);
                 Class<?> MiuiMultiWindowAdapter = findClass("android.util.MiuiMultiWindowAdapter", lpparam.classLoader);
                 List<String> blackList = (List<String>) XposedHelpers.getStaticObjectField(MiuiMultiWindowAdapter, "FREEFORM_BLACK_LIST");
@@ -172,7 +171,7 @@ public class StickyFloatingWindows extends BaseHook {
         hookAllMethods("com.android.server.wm.ActivityTaskManagerService", "resizeTask", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                String pkgName = getTaskPackageName(param.thisObject, (int)param.args[0]);
+                String pkgName = getTaskPackageName(param.thisObject, (int) param.args[0]);
                 if (pkgName != null) {
                     Object skipClear = XposedHelpers.getAdditionalInstanceField(param.thisObject, "skipFreeFormStateClear");
                     boolean skipFreeFormStateClear = false;
@@ -181,15 +180,14 @@ public class StickyFloatingWindows extends BaseHook {
                     }
                     if (skipFreeFormStateClear) {
                         XposedHelpers.setAdditionalInstanceField(param.thisObject, "skipFreeFormStateClear", false);
-                    }
-                    else {
+                    } else {
                         if (fwBlackList.contains(pkgName)) return;
                         Object mMiuiFreeFormManagerService = XposedHelpers.getObjectField(param.thisObject, "mMiuiFreeFormManagerService");
                         Object miuiFreeFormActivityStack = XposedHelpers.callMethod(mMiuiFreeFormManagerService, "getMiuiFreeFormActivityStack", param.args[0]);
                         if (fwApps.containsKey(pkgName)) {
-                            Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                             float sScale = (float) XposedHelpers.callMethod(miuiFreeFormActivityStack, "getFreeFormScale");
-                            fwApps.put(pkgName, new Pair<Float, Rect>(sScale, new Rect((Rect)param.args[1])));
+                            fwApps.put(pkgName, new Pair<Float, Rect>(sScale, new Rect((Rect) param.args[1])));
                             storeFwAppsInSetting(mContext);
                         }
                     }
@@ -197,7 +195,6 @@ public class StickyFloatingWindows extends BaseHook {
             }
         });
     }
-
 
 
     public static String getTaskPackageName(Object thisObject, int taskId) {
@@ -212,16 +209,16 @@ public class StickyFloatingWindows extends BaseHook {
         Object mRootWindowContainer = XposedHelpers.getObjectField(thisObject, "mRootWindowContainer");
         if (mRootWindowContainer == null) return null;
         Object task = withOptions ?
-                XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 2, options, true) :
-                XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 0);
+            XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 2, options, true) :
+            XposedHelpers.callMethod(mRootWindowContainer, "anyTaskForId", taskId, 0);
         if (task == null) return null;
-        Intent intent = (Intent)XposedHelpers.getObjectField(task, "intent");
+        Intent intent = (Intent) XposedHelpers.getObjectField(task, "intent");
         return intent == null ? null : intent.getComponent().getPackageName();
     }
 
     public static String serializeFwApps() {
         StringBuilder data = new StringBuilder();
-        for (Map.Entry<String, Pair<Float, Rect>> entry: fwApps.entrySet()) {
+        for (Map.Entry<String, Pair<Float, Rect>> entry : fwApps.entrySet()) {
             Pair<Float, Rect> val = entry.getValue();
             data.append(entry.getKey());
             data.append(":");
@@ -237,7 +234,7 @@ public class StickyFloatingWindows extends BaseHook {
         fwApps.clear();
         if (data == null || "".equals(data)) return;
         String[] dataArr = data.split("\\|");
-        for (String appData: dataArr) {
+        for (String appData : dataArr) {
             if ("".equals(appData)) continue;
             String[] appDataArr = appData.split(":");
             fwApps.put(appDataArr[0], new Pair<Float, Rect>(Float.parseFloat(appDataArr[1]), "-".equals(appDataArr[2]) ? null : Rect.unflattenFromString(appDataArr[2])));
@@ -251,6 +248,7 @@ public class StickyFloatingWindows extends BaseHook {
     public static void restoreFwAppsInSetting(Context context) {
         unserializeFwApps(Settings.Global.getString(context.getContentResolver(), Helpers.mAppModulePkg + ".fw.apps"));
     }
+
     private static ActivityOptions patchActivityOptions(Context mContext, ActivityOptions options, String pkgName, Class<?> MiuiMultiWindowUtils) {
         if (options == null) options = ActivityOptions.makeBasic();
         XposedHelpers.callMethod(options, "setLaunchWindowingMode", 5);
@@ -261,7 +259,7 @@ public class StickyFloatingWindows extends BaseHook {
         Pair<Float, Rect> values = fwApps.get(pkgName);
         if (values == null || values.first == 0f || values.second == null) {
             scale = 0.7f;
-            rect = (Rect)XposedHelpers.callStaticMethod(MiuiMultiWindowUtils, "getFreeformRect", mContext);
+            rect = (Rect) XposedHelpers.callStaticMethod(MiuiMultiWindowUtils, "getFreeformRect", mContext);
         } else {
             scale = values.first;
             rect = values.second;

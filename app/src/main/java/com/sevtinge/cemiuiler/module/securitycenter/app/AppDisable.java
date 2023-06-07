@@ -38,11 +38,11 @@ public class AppDisable extends BaseHook {
                 dis.setIcon(act.getResources().getIdentifier("action_button_stop_svg", "drawable", lpparam.packageName));
                 dis.setEnabled(true);
                 dis.setShowAsAction(1);
-                //XposedHelpers.setAdditionalInstanceField(param.thisObject, "mDisableButton", dis);
+                // XposedHelpers.setAdditionalInstanceField(param.thisObject, "mDisableButton", dis);
 
                 PackageManager pm = act.getPackageManager();
                 Field piField = XposedHelpers.findFirstFieldByExactType(act.getClass(), PackageInfo.class);
-                PackageInfo mPackageInfo = (PackageInfo)piField.get(act);
+                PackageInfo mPackageInfo = (PackageInfo) piField.get(act);
                 ApplicationInfo appInfo = pm.getApplicationInfo(mPackageInfo.packageName, PackageManager.GET_META_DATA);
                 boolean isSystem = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
                 boolean isUpdatedSystem = (appInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
@@ -88,11 +88,11 @@ public class AppDisable extends BaseHook {
                             String title = modRes.getString(R.string.disable_app_title);
                             String text = modRes.getString(R.string.disable_app_text);
                             new AlertDialog.Builder(act)
-                                    .setTitle(title)
-                                    .setMessage(text)
-                                    .setPositiveButton(android.R.string.ok, (dialog, which) -> setAppState(act, mPackageInfo.packageName, item, false))
-                                    .setNegativeButton(android.R.string.cancel, null)
-                                    .show();
+                                .setTitle(title)
+                                .setMessage(text)
+                                .setPositiveButton(android.R.string.ok, (dialog, which) -> setAppState(act, mPackageInfo.packageName, item, false))
+                                .setNegativeButton(android.R.string.cancel, null)
+                                .show();
                         } else {
                             setAppState(act, mPackageInfo.packageName, item, false);
                         }

@@ -7,7 +7,6 @@ import android.graphics.drawable.LayerDrawable
 import android.view.View
 import android.widget.ImageView
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.HookUtils
 import com.sevtinge.cemiuiler.utils.HookUtils.createBlurDrawable
 import com.sevtinge.cemiuiler.utils.HookUtils.getValueByField
 import de.robv.android.xposed.XC_MethodHook
@@ -22,7 +21,7 @@ object BlurButton : BaseHook() {
         var mRightAffordanceView: WeakReference<ImageView>? = null
         var keyguardBottomAreaView: WeakReference<View>? = null
 
-        //from com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen
+        // from com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen
 
         val keyguardBottomAreaViewClass = findClassIfExists(
             "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"

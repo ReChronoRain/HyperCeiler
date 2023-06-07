@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.home.widget;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 public class AllWidgetAnimation extends BaseHook {

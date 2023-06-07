@@ -32,6 +32,7 @@ object BlurLevel : BaseHook() {
                     it.result = true
                 }
             }
+
             5 -> {
                 val blurClass = "com.miui.home.launcher.common.BlurUtils".findClass()
                 val navStubViewClass = "com.miui.home.recents.NavStubView".findClass()
@@ -54,6 +55,7 @@ object BlurLevel : BaseHook() {
                     }
                 }
             }
+
             else -> {
                 "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
                     it.result = false

@@ -42,7 +42,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
                 hookAllConstructors(mRemixRvCls, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
-                        ((View)param.thisObject).setOverScrollMode(View.OVER_SCROLL_NEVER);
+                        ((View) param.thisObject).setOverScrollMode(View.OVER_SCROLL_NEVER);
                         XposedHelpers.setBooleanField(param.thisObject, "mSpringBackEnable", false);
                     }
                 });

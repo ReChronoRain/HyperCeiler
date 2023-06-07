@@ -4,20 +4,20 @@
     android:width="36.359989dp"
     android:viewportWidth="100.0"
     android:viewportHeight="84.0">
-  <path
-      android:fillColor="@color/ic_small_window_color"
-      android:pathData="M28,26m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0" />
-  <path
-      android:fillColor="@color/ic_small_window_color2"
-      android:pathData="M78,32m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
-  <path
+    <path
+        android:fillColor="@color/ic_small_window_color"
+        android:pathData="M28,26m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0" />
+    <path
+        android:fillColor="@color/ic_small_window_color2"
+        android:pathData="M78,32m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
+    <path
 
-      android:fillColor="@color/ic_small_window_color3"
-      android:pathData="M78,32m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
-  <path
-      android:fillColor="@color/ic_small_window_color4"
-      android:pathData="M52.5,65.5m-13.5,0a13.5,13.5 0,1 1,27 0a13.5,13.5 0,1 1,-27 0" />
-  <path
-      android:fillColor="@color/ic_small_window_color5"
-      android:pathData="M52.5,65.5m-13.5,0a13.5,13.5 0,1 1,27 0a13.5,13.5 0,1 1,-27 0" />
+        android:fillColor="@color/ic_small_window_color3"
+        android:pathData="M78,32m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
+    <path
+        android:fillColor="@color/ic_small_window_color4"
+        android:pathData="M52.5,65.5m-13.5,0a13.5,13.5 0,1 1,27 0a13.5,13.5 0,1 1,-27 0" />
+    <path
+        android:fillColor="@color/ic_small_window_color5"
+        android:pathData="M52.5,65.5m-13.5,0a13.5,13.5 0,1 1,27 0a13.5,13.5 0,1 1,-27 0" />
 </vector>

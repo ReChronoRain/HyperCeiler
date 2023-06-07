@@ -9,9 +9,9 @@ import com.sevtinge.cemiuiler.utils.getObjectField
 
 object BigIconCorner : BaseHook() {
     override fun init() {
-        val maMlHostViewClass =  loadClass( "com.miui.home.launcher.maml.MaMlHostView")
+        val maMlHostViewClass = loadClass("com.miui.home.launcher.maml.MaMlHostView")
 
-        //if (!mPrefsMap.getBoolean("big_icon_corner")) return
+        // if (!mPrefsMap.getBoolean("big_icon_corner")) return
         loadClass("com.miui.home.launcher.bigicon.BigIconUtil").methodFinder().filter {
             name == "getCroppedFromCorner" && parameterCount == 4
         }.toList().createHooks {
@@ -22,12 +22,12 @@ object BigIconCorner : BaseHook() {
         }
 
         maMlHostViewClass.methodFinder().first {
-           name == "getCornerRadius"
-       }.createHook {
-           before {
-               it.result = it.thisObject.getObjectField("mEnforcedCornerRadius") as Float
-           }
-       }
+            name == "getCornerRadius"
+        }.createHook {
+            before {
+                it.result = it.thisObject.getObjectField("mEnforcedCornerRadius") as Float
+            }
+        }
 
         maMlHostViewClass.methodFinder().first {
             name == "computeRoundedCornerRadius" && parameterCount == 1

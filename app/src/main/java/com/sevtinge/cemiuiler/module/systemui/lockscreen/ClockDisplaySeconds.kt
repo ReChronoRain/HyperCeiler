@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemui.lockscreen
 
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
@@ -13,6 +12,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 import de.robv.android.xposed.XC_MethodHook
 import java.lang.reflect.Method
@@ -22,7 +22,7 @@ import java.util.*
 object ClockDisplaySeconds : BaseHook() {
     private var nowTime: Date = Calendar.getInstance().time
 
-    override fun init()  {
+    override fun init() {
         loadClass("com.miui.clock.MiuiBaseClock").constructorFinder().first {
             paramCount == 2
         }.createHook {
@@ -88,9 +88,9 @@ object ClockDisplaySeconds : BaseHook() {
     @SuppressLint("SimpleDateFormat")
     private fun getTime(is24: Boolean, isVertical: Boolean): String {
         var timePattern = ""
-        timePattern += if (isVertical) { //垂直
+        timePattern += if (isVertical) { // 垂直
             if (is24) "HH\nmm\nss" else "hh\nmm\nss"
-        } else { //水平
+        } else { // 水平
             if (is24) "HH:mm:ss" else "h:mm:ss"
         }
         timePattern = SimpleDateFormat(timePattern).format(nowTime)

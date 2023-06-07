@@ -28,8 +28,8 @@ public class MiuiPackageInstallModify extends BaseHook {
         });
 
         // 隐藏开启纯净模式提示
-        //SafeModeTipViewObject safeModeTipViewObject = new SafeModeTipViewObject(h10, pureModeElderTipViewObject.f5884m, null, null, 12, null);
-        //safeModeTipViewObject.a();  a方法里的调用
+        // SafeModeTipViewObject safeModeTipViewObject = new SafeModeTipViewObject(h10, pureModeElderTipViewObject.f5884m, null, null, 12, null);
+        // safeModeTipViewObject.a();  a方法里的调用
         findAndHookMethod("com.miui.packageInstaller.ui.listcomponets.g0", "a", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {

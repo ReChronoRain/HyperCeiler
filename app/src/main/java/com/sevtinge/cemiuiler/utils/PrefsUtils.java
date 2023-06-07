@@ -47,25 +47,27 @@ public class PrefsUtils {
         if (mPrefsPathCurrent == null) try {
             Field mFile = mSharedPreferences.getClass().getDeclaredField("mFile");
             mFile.setAccessible(true);
-            mPrefsPathCurrent = ((File)mFile.get(mSharedPreferences)).getParentFile().getAbsolutePath();
+            mPrefsPathCurrent = ((File) mFile.get(mSharedPreferences)).getParentFile().getAbsolutePath();
             return mPrefsPathCurrent;
         } catch (Throwable t) {
             System.out.print("Test" + t);
             return mPrefsPath;
-        } else return mPrefsPathCurrent;
+        }
+        else return mPrefsPathCurrent;
     }
 
     public static String getSharedPrefsFile() {
         if (mPrefsFileCurrent == null) try {
             Field fFile = mSharedPreferences.getClass().getDeclaredField("mFile");
             fFile.setAccessible(true);
-            mPrefsFileCurrent = ((File)fFile.get(mSharedPreferences)).getAbsolutePath();
+            mPrefsFileCurrent = ((File) fFile.get(mSharedPreferences)).getAbsolutePath();
             System.out.println("Test: mPrefsFileCurrent");
             return mPrefsFileCurrent;
         } catch (Throwable t) {
             System.out.println("Test: mPrefsFile" + t);
             return mPrefsFile;
-        } else
+        }
+        else
             System.out.println("Test: mPrefsFileCurrent2");
         return mPrefsFileCurrent;
     }
@@ -94,7 +96,7 @@ public class PrefsUtils {
         }
 
         if (XposedInit.mPrefsMap.containsKey(name))
-            return (String)XposedInit.mPrefsMap.getObject(name, defValue);
+            return (String) XposedInit.mPrefsMap.getObject(name, defValue);
         else return defValue;
     }
 
@@ -114,7 +116,7 @@ public class PrefsUtils {
 
         LinkedHashSet<String> empty = new LinkedHashSet<String>();
         if (XposedInit.mPrefsMap.containsKey(name))
-            return (Set<String>)XposedInit.mPrefsMap.getObject(name, empty);
+            return (Set<String>) XposedInit.mPrefsMap.getObject(name, empty);
         else
             return empty;
     }
@@ -134,7 +136,7 @@ public class PrefsUtils {
         }
 
         if (XposedInit.mPrefsMap.containsKey(name))
-            return (int)XposedInit.mPrefsMap.getObject(name, defValue);
+            return (int) XposedInit.mPrefsMap.getObject(name, defValue);
         else return defValue;
     }
 
@@ -153,7 +155,7 @@ public class PrefsUtils {
         }
 
         if (XposedInit.mPrefsMap.containsKey(name))
-            return (boolean)XposedInit.mPrefsMap.getObject(name, false);
+            return (boolean) XposedInit.mPrefsMap.getObject(name, false);
         else
             return defValue;
     }
@@ -182,7 +184,6 @@ public class PrefsUtils {
     public static Uri anyPrefsToUri() {
         return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/");
     }
-
 
 
     public static class SharedPrefsObserver extends ContentObserver {
@@ -231,15 +232,15 @@ public class PrefsUtils {
             registerObserver();
         }
 
-		@SuppressLint("SuspiciousIndentation")
+        @SuppressLint("SuspiciousIndentation")
         public SharedPrefsObserver(Context context, Handler handler, String name, boolean defValue) {
             super(handler);
             ctx = context;
-			prefType = PrefType.Boolean;
+            prefType = PrefType.Boolean;
             mPrefsName = name;
             mPrefsDefValueBool = defValue;
-			registerObserver();
-		}
+            registerObserver();
+        }
 
         void registerObserver() {
             Uri uri = null;
@@ -249,7 +250,7 @@ public class PrefsUtils {
                 uri = stringSetPrefsToUri(mPrefsName);
             else if (prefType == PrefType.Integer)
                 uri = intPrefsToUri(mPrefsName, mPrefsDefValueInt);
-			else if (prefType == PrefType.Boolean)
+            else if (prefType == PrefType.Boolean)
                 uri = boolPrefsToUri(mPrefsName, mPrefsDefValueBool);
             else if (prefType == PrefType.Any)
                 uri = anyPrefsToUri();
@@ -274,13 +275,22 @@ public class PrefsUtils {
             else if (prefType == PrefType.Integer)
                 onChange(mPrefsName, mPrefsDefValueInt);
             else if (prefType == PrefType.Boolean)
-				onChange(mPrefsName, mPrefsDefValueBool);
+                onChange(mPrefsName, mPrefsDefValueBool);
         }
 
-        public void onChange(Uri uri) {}
-        public void onChange(String name) {}
-        public void onChange(String name, String defValue) {}
-        public void onChange(String name, int defValue) {}
-        public void onChange(String name, boolean defValue) {}
+        public void onChange(Uri uri) {
+        }
+
+        public void onChange(String name) {
+        }
+
+        public void onChange(String name, String defValue) {
+        }
+
+        public void onChange(String name, int defValue) {
+        }
+
+        public void onChange(String name, boolean defValue) {
+        }
     }
 }

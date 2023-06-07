@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.systemsettings.aiimage;
 
-import android.content.Context;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 public class UnlockMemc extends BaseHook {

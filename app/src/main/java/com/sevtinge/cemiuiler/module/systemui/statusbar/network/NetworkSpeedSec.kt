@@ -5,7 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
-//隐藏网速单位
+// 隐藏网速单位
 object NetworkSpeedSec : BaseHook() {
     override fun init() {
         loadClass("com.android.systemui.statusbar.views.NetworkSpeedView").methodFinder().first {

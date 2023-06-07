@@ -3,8 +3,6 @@ package com.sevtinge.cemiuiler.module.systemui;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 
-import de.robv.android.xposed.XposedHelpers;
-
 public class OriginChargeAnimation extends BaseHook {
 
     Class<?> mOriginChargeAnimCls;

@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Handler
 import android.provider.Settings
 import android.util.TypedValue
-import android.view.Gravity
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
@@ -20,8 +19,8 @@ import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 import java.util.*
 
-object TimeCustomization : BaseHook(){
-    //预设模式
+object TimeCustomization : BaseHook() {
+    // 预设模式
     private val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0)
     private val getClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size", 0)
     private val getClockDoubleSize = mPrefsMap.getInt("system_ui_statusbar_clock_double_size", 0)
@@ -35,7 +34,7 @@ object TimeCustomization : BaseHook(){
     private val isDoubleHour = mPrefsMap.getBoolean("system_ui_statusbar_clock_hour_cn")
     private val isPeriod = mPrefsMap.getBoolean("system_ui_statusbar_clock_period")
 
-    //极客模式
+    // 极客模式
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
     private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
 
@@ -46,13 +45,13 @@ object TimeCustomization : BaseHook(){
     @SuppressLint("SetTextI18n")
     override fun init() {
         val mClockClass = when {
-            Build.VERSION.SDK_INT == Build.VERSION_CODES.R ->  loadClass("com.android.systemui.statusbar.policy.MiuiClock")
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->  loadClass("com.android.systemui.statusbar.views.MiuiClock")
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
             else -> null
         }
 
         when (getMode) {
-            //预设模式
+            // 预设模式
             1 -> {
                 var c: Context? = null
                 mClockClass?.constructorFinder()?.first {
@@ -116,7 +115,7 @@ object TimeCustomization : BaseHook(){
                     }
                 }
             }
-            //极客模式
+            // 极客模式
             2 -> {
                 var c: Context? = null
 
@@ -242,18 +241,23 @@ object TimeCustomization : BaseHook(){
                     "00", "01", "02", "03", "04", "05" -> {
                         period = "凌晨"
                     }
+
                     "06", "07", "08", "09", "10", "11" -> {
                         period = "上午"
                     }
+
                     "12" -> {
                         period = "中午"
                     }
+
                     "13", "14", "15", "16", "17" -> {
                         period = "下午"
                     }
+
                     "18" -> {
                         period = "傍晚"
                     }
+
                     "19", "20", "21", "22", "23" -> {
                         period = "晚上"
                     }
@@ -277,36 +281,47 @@ object TimeCustomization : BaseHook(){
                 "23", "00" -> {
                     doubleHour = "子时"
                 }
+
                 "01", "02" -> {
                     doubleHour = "丑时"
                 }
+
                 "03", "04" -> {
                     doubleHour = "寅时"
                 }
+
                 "05", "06" -> {
                     doubleHour = "卯时"
                 }
+
                 "07", "08" -> {
                     doubleHour = "辰时"
                 }
+
                 "09", "10" -> {
                     doubleHour = "巳时"
                 }
+
                 "11", "12" -> {
                     doubleHour = "午时"
                 }
+
                 "13", "14" -> {
                     doubleHour = "未时"
                 }
+
                 "15", "16" -> {
                     doubleHour = "申时"
                 }
+
                 "17", "18" -> {
                     doubleHour = "酉时"
                 }
+
                 "19", "20" -> {
                     doubleHour = "戌时"
                 }
+
                 "21", "22" -> {
                     doubleHour = "亥时"
                 }

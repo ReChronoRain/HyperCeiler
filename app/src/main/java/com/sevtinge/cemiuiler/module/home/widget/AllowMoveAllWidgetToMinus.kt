@@ -11,7 +11,7 @@ import com.sevtinge.cemiuiler.utils.getObjectFieldOrNull
 object AllowMoveAllWidgetToMinus : BaseHook() {
     override fun init() {
 
-        //if (!mPrefsMap.getBoolean("home_widget_to_minus")) return
+        // if (!mPrefsMap.getBoolean("home_widget_to_minus")) return
         try {
             loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder().first {
                 name == "canDragToPa" && parameterCount == 2

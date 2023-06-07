@@ -1,25 +1,25 @@
 package com.sevtinge.cemiuiler.module.contentextension;
 
 import android.app.SearchManager;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class UseThirdPartyBrowser extends BaseHook {
 
     @Override
     public void init() {
-        //XposedBridge.log("Hook到传送门进程！");
+        // XposedBridge.log("Hook到传送门进程！");
         final Class<?> clazz = XposedHelpers.findClass("com.miui.contentextension.utils.AppsUtils", lpparam.classLoader);
-        //getClassInfo(clazz);
+        // getClassInfo(clazz);
 
         XposedHelpers.findAndHookMethod(clazz, "getIntentWithBrowser", String.class, new XC_MethodReplacement() {
             @Override

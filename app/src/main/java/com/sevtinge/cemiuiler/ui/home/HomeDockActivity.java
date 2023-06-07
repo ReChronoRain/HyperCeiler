@@ -6,12 +6,8 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.PickerHomeActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.home.base.BaseHomeActivity;
-import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.SwitchPreference;
 
 public class HomeDockActivity extends BaseHomeActivity {
 

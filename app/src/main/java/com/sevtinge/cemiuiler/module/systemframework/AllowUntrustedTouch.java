@@ -11,6 +11,6 @@ public class AllowUntrustedTouch extends BaseHook {
     @Override
     public void init() {
         mInputManager = findClassIfExists("android.hardware.input.InputManager");
-        hookAllMethods(mInputManager, "getBlockUntrustedTouchesMode", XC_MethodReplacement.returnConstant(0));//error
+        hookAllMethods(mInputManager, "getBlockUntrustedTouchesMode", XC_MethodReplacement.returnConstant(0));// error
     }
 }

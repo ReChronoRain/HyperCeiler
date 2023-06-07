@@ -29,7 +29,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
     private int mType;
 
 
-    public void setData (List<AppData> appInfoList) {
+    public void setData(List<AppData> appInfoList) {
         this.appInfoList = appInfoList;
         notifyDataSetChanged();
     }
@@ -42,9 +42,10 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
 
     /**
      * 在Adapter中设置一个过滤方法，目的是为了将过滤后的数据传入Adapter中并刷新数据
+     *
      * @param locationListModels
      */
-    public void setFilter(List<AppData> locationListModels ) {
+    public void setFilter(List<AppData> locationListModels) {
         appInfoList = new ArrayList<>();
         appInfoList.addAll(locationListModels);
         notifyDataSetChanged();
@@ -101,8 +102,8 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
         }
     }
 
-    public interface onItemClickListener{
-        void onItemClick(View view, int position, AppData appData , boolean isCheck);
+    public interface onItemClickListener {
+        void onItemClick(View view, int position, AppData appData, boolean isCheck);
     }
 
 }

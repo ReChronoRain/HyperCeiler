@@ -57,7 +57,8 @@ object ColorUtils {
     }
 
     fun addAlphaForColor(color: Int, alpha: Int): Int {
-        return Color.valueOf(Color.red(color) / 255f,Color.green(color)/ 255f,Color.blue(color)/ 255f,alpha/ 255f).toArgb()
+        return Color.valueOf(Color.red(color) / 255f, Color.green(color) / 255f, Color.blue(color) / 255f, alpha / 255f)
+            .toArgb()
     }
 
 }

@@ -15,8 +15,8 @@ public class BluetoothRestrict extends BaseHook {
         mLocalBluetoothAdapter = findClassIfExists("com.android.settingslib.bluetooth.LocalBluetoothAdapter");
 
         findAndHookMethod(mLocalBluetoothAdapter,
-                "isSupportBluetoothRestrict",
-                Context.class,
-                XC_MethodReplacement.returnConstant(false));
+            "isSupportBluetoothRestrict",
+            Context.class,
+            XC_MethodReplacement.returnConstant(false));
     }
 }

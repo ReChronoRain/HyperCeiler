@@ -27,14 +27,14 @@ object ChargingCVP : BaseHook() {
             .filterByName("getChargingHintText")
             .filterByParamCount(3)
             .first().createHook {
-            after {
-                if (it.result != null) {
-                    it.result = it.result as String + "\n" + getCVP()
+                after {
+                    if (it.result != null) {
+                        it.result = it.result as String + "\n" + getCVP()
+                    }
                 }
             }
-        }
 
-        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks  {
+        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
             after {
                 (it.thisObject as TextView).isSingleLine = false
             }
@@ -57,11 +57,11 @@ object ChargingCVP : BaseHook() {
         val power = String.format("%.2f", powerAll)
 
         // 电流/电压展示逻辑设置
-        val mCurrent = when(mPrefsMap.getBoolean("system_ui_show_charging_c_more")) {
+        val mCurrent = when (mPrefsMap.getBoolean("system_ui_show_charging_c_more")) {
             true -> "$current mA"
             else -> "${String.format("%.1f", abs(current / 1000f))} A"
         }
-        val mVoltage = when(mPrefsMap.getBoolean("system_ui_show_charging_v_more")) {
+        val mVoltage = when (mPrefsMap.getBoolean("system_ui_show_charging_v_more")) {
             true -> "${voltage.toInt()} mV"
             else -> "${String.format("%.1f", abs(voltage / 1000f))} V"
         }

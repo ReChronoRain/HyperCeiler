@@ -126,7 +126,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object o) {
             if (preference == mIconModePreference) {
-                setIconMode(Integer.parseInt((String)o));
+                setIconMode(Integer.parseInt((String) o));
             }
             return true;
         }

@@ -13,7 +13,7 @@ object ScreenRecorderConfig : BaseHook() {
         val mScreenRecorderConfigADescriptor = mScreenRecorderConfigA.first()
         val mScreenRecorderConfigAMethod: Method =
             mScreenRecorderConfigADescriptor.getMethodInstance(lpparam.classLoader)
-        //XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
+        // XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
         mScreenRecorderConfigAMethod.createHook {
             before { param ->
                 param.args[0] = 1200
@@ -23,11 +23,11 @@ object ScreenRecorderConfig : BaseHook() {
                         it.isAccessible = true
                     }.let { fieldAccessible ->
                         fieldAccessible.isFinal &&
-                                fieldAccessible.get(null).let {
-                                    kotlin.runCatching {
-                                        (it as IntArray).contentEquals(intArrayOf(15, 24, 30, 48, 60, 90))
-                                    }.getOrDefault(false)
-                                }
+                            fieldAccessible.get(null).let {
+                                kotlin.runCatching {
+                                    (it as IntArray).contentEquals(intArrayOf(15, 24, 30, 48, 60, 90))
+                                }.getOrDefault(false)
+                            }
                     }
                 }?.set(null, intArrayOf(15, 24, 30, 48, 60, 90, 120, 144))
             }
@@ -39,7 +39,7 @@ object ScreenRecorderConfig : BaseHook() {
         val mScreenRecorderConfigBDescriptor = mScreenRecorderConfigB.first()
         val mScreenRecorderConfigBMethod: Method =
             mScreenRecorderConfigBDescriptor.getMethodInstance(lpparam.classLoader)
-        //XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
+        // XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit method is $systemPropertiesMethod")
         mScreenRecorderConfigBMethod.createHook {
             before { param ->
                 param.args[0] = 1200
@@ -49,11 +49,11 @@ object ScreenRecorderConfig : BaseHook() {
                         it.isAccessible = true
                     }.let { fieldAccessible ->
                         fieldAccessible.isFinal &&
-                                fieldAccessible.get(null).let {
-                                    kotlin.runCatching {
-                                        (it as IntArray).contentEquals(intArrayOf(200, 100, 50, 32, 24, 16, 8, 6, 4, 1))
-                                    }.getOrDefault(false)
-                                }
+                            fieldAccessible.get(null).let {
+                                kotlin.runCatching {
+                                    (it as IntArray).contentEquals(intArrayOf(200, 100, 50, 32, 24, 16, 8, 6, 4, 1))
+                                }.getOrDefault(false)
+                            }
                     }
                 }?.set(null, intArrayOf(1200, 800, 400, 200, 100, 50, 32, 24, 16, 8, 6, 4, 1))
             }

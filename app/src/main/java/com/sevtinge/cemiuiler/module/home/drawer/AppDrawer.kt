@@ -14,13 +14,15 @@ object AppDrawer : BaseHook() {
     override fun init() {
         if (mPrefsMap.getBoolean("home_drawer_all")) {
             try {
-                loadClass("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer").methodFinder().first() {
-                    name == "buildSortCategoryList"
-                }
+                loadClass("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer").methodFinder()
+                    .first() {
+                        name == "buildSortCategoryList"
+                    }
             } catch (e: Exception) {
-                loadClass("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer").methodFinder().first() {
-                    name == "buildSortCategoryList"
-                }
+                loadClass("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer").methodFinder()
+                    .first() {
+                        name == "buildSortCategoryList"
+                    }
             }.createHook {
                 after {
                     val list = it.result as ArrayList<*>
@@ -34,7 +36,9 @@ object AppDrawer : BaseHook() {
 
         if (mPrefsMap.getBoolean("home_drawer_editor")) {
             "com.miui.home.launcher.allapps.AllAppsGridAdapter".hookAfterMethod(
-                "onBindViewHolder", "com.miui.home.launcher.allapps.AllAppsGridAdapter.ViewHolder".findClass(), Int::class.javaPrimitiveType
+                "onBindViewHolder",
+                "com.miui.home.launcher.allapps.AllAppsGridAdapter.ViewHolder".findClass(),
+                Int::class.javaPrimitiveType
             ) {
                 if (it.args[0].callMethodAs<Int>("getItemViewType") == 64) {
                     it.args[0].getObjectFieldAs<View>("itemView").visibility = View.INVISIBLE

@@ -850,7 +850,8 @@
     <string name="system_settings_ai_image_title">Ai Image Engine</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
-    <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string><string name="screen_recorder_config">Add more frame rate and bitrate selections</string>
+    <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
+    <string name="screen_recorder_config">Add more frame rate and bitrate selections</string>
     <string name="screen_recorder_config_desc">Please choose according to the hardware situation</string>
     <string name="about_other_title">Other</string>
     <string name="home_other">Other</string>

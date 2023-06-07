@@ -2,7 +2,6 @@ package com.sevtinge.cemiuiler.module.thememanager;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class EnablePadTheme extends BaseHook {
@@ -17,7 +16,7 @@ public class EnablePadTheme extends BaseHook {
         findAndHookMethod("com.android.thememanager.ThemeApplication", "onCreate", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setStaticBooleanField(findClassIfExists("miui.os.Build"),"IS_TABLET", true);
+                XposedHelpers.setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_TABLET", true);
             }
         });
 

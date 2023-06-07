@@ -95,7 +95,7 @@ public class BatteryIndicatorView extends ImageView {
             public void onChange(Uri uri) {
                 try {
                     String key = uri.getPathSegments().get(2);
-                    if (!mTesting ) {
+                    if (!mTesting) {
                         updateParameters();
                         update();
                     }
@@ -154,7 +154,7 @@ public class BatteryIndicatorView extends ImageView {
     }
 
     public void onDarkModeChanged(float intensity, int tintColor) {
-        //if (intensity != 0.0f && intensity != 1.0f) return;
+        // if (intensity != 0.0f && intensity != 1.0f) return;
         if (mTintColor == tintColor) return;
         mTintColor = tintColor;
         update();
@@ -181,7 +181,7 @@ public class BatteryIndicatorView extends ImageView {
     }
 
     public void onExtremePowerSaveChanged(boolean isExtremePowerSave) {
-        if (this.mIsExtremePowerSave == isExtremePowerSave ) return;
+        if (this.mIsExtremePowerSave == isExtremePowerSave) return;
         this.mIsExtremePowerSave = isExtremePowerSave;
         update();
     }
@@ -228,12 +228,15 @@ public class BatteryIndicatorView extends ImageView {
         mTransparency = PrefsUtils.getSharedIntPrefs(getContext(), "prefs_key_system_ui_status_bar_battery_indicator_alpha", 0);
         mPadding = PrefsUtils.getSharedIntPrefs(getContext(), "prefs_key_system_ui_status_bar_battery_indicator_padding", 0);
         mVisibility = PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_status_bar_battery_indicator_enable", false) ? View.VISIBLE : View.GONE;
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams)getLayoutParams();
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) getLayoutParams();
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         lp.gravity = mBottom ? Gravity.BOTTOM : Gravity.TOP;
         setLayoutParams(lp);
-        try { this.setImageAlpha(255 - Math.round(255 * mTransparency / 100f)); } catch (Throwable ignore) {}
+        try {
+            this.setImageAlpha(255 - Math.round(255 * mTransparency / 100f));
+        } catch (Throwable ignore) {
+        }
         this.setVisibility(mVisibility);
         this.setScaleType(mCentered ? ScaleType.CENTER : ScaleType.MATRIX);
         Matrix matrix = new Matrix();
@@ -254,7 +257,7 @@ public class BatteryIndicatorView extends ImageView {
             else if (level <= this.mLowLevel)
                 color = this.mLowColor;
 
-            ShapeDrawable shape = (ShapeDrawable)getDrawable();
+            ShapeDrawable shape = (ShapeDrawable) getDrawable();
             shape.setShaderFactory(null);
             Paint paint = shape.getPaint();
             paint.setShader(null);
@@ -278,17 +281,17 @@ public class BatteryIndicatorView extends ImageView {
             int mDisplayPadding = Math.round(mPadding / 100f * this.mDisplayWidth);
 
             if (mColorMode == ColorMode.GRADUAL) {
-                color = level <= this.mLowLevel || (!this.mTesting && (this.mIsBeingCharged || this.mIsPowerSave || this.mIsExtremePowerSave)) ? color : (int)new ArgbEvaluator().evaluate(1f - (level - this.mLowLevel) / (100f - this.mLowLevel), color, mLowColor);
+                color = level <= this.mLowLevel || (!this.mTesting && (this.mIsBeingCharged || this.mIsPowerSave || this.mIsExtremePowerSave)) ? color : (int) new ArgbEvaluator().evaluate(1f - (level - this.mLowLevel) / (100f - this.mLowLevel), color, mLowColor);
             } else if (mColorMode == ColorMode.RAINBOW) {
                 int steps = 15;
-                float jump = 300f / (float)steps;
+                float jump = 300f / (float) steps;
                 float[] pos = new float[steps];
                 int[] rainbow = new int[steps];
                 for (int i = 0; i < steps; i++) {
-                    pos[i] = i / (float)(steps - 1);
+                    pos[i] = i / (float) (steps - 1);
                     float c = (mCentered ? 240 : 0) + jump * i;
                     if (c > 360) c -= 360;
-                    rainbow[i] = Color.HSVToColor(255, new float[]{ c, 1.0f, 1.0f});
+                    rainbow[i] = Color.HSVToColor(255, new float[]{c, 1.0f, 1.0f});
                 }
                 shape.setShaderFactory(new ShapeDrawable.ShaderFactory() {
                     @Override
@@ -301,7 +304,7 @@ public class BatteryIndicatorView extends ImageView {
                 });
             }
             paint.setColor(color);
-            shape.setShape(mRounded ? new RoundRectShape(new float[] { mHeight, mHeight, mHeight, mHeight, mHeight, mHeight, mHeight, mHeight }, null, null) : new RectShape());
+            shape.setShape(mRounded ? new RoundRectShape(new float[]{mHeight, mHeight, mHeight, mHeight, mHeight, mHeight, mHeight, mHeight}, null, null) : new RectShape());
 
             int mWidth = Math.round((this.mDisplayWidth - mDisplayPadding * 2) * level / 100f);
             float mDensity = getResources().getDisplayMetrics().density;
@@ -317,10 +320,10 @@ public class BatteryIndicatorView extends ImageView {
             } else {
                 int shadowPadding = sbHeight - mHeight;
                 paint.setShadowLayer(
-                        (mGlow / 100f) * (sbHeight - 9 * mDensity),
-                        (mCentered || mDisplayPadding > 0) ? 0 : shadowPadding / 2f,
-                        mBottom ? mHeight - 10 : 10 - mHeight,
-                        Color.argb(Math.min(Math.round(mGlow / 100f * 255), Math.round(255 - mTransparency / 100f * 255)), Color.red(color), Color.green(color), Color.blue(color))
+                    (mGlow / 100f) * (sbHeight - 9 * mDensity),
+                    (mCentered || mDisplayPadding > 0) ? 0 : shadowPadding / 2f,
+                    mBottom ? mHeight - 10 : 10 - mHeight,
+                    Color.argb(Math.min(Math.round(mGlow / 100f * 255), Math.round(255 - mTransparency / 100f * 255)), Color.red(color), Color.green(color), Color.blue(color))
                 );
                 if (mDisplayPadding == 0)
                     setPadding(mCentered ? 0 : -shadowPadding, mBottom ? shadowPadding : -shadowPadding, mCentered ? 0 : Math.min(mDisplayWidth - mWidth, shadowPadding), mBottom ? -shadowPadding : shadowPadding);

@@ -6,12 +6,12 @@
         <SwitchPreference
             android:key="prefs_key_personal_assistant_widget_crack"
             android:title="@string/personal_assistant_widget_crack"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_personal_assistant_fold_widget_enable"
             android:title="@string/personal_assistant_fold_widget_enable"
-            android:summary="@string/personal_assistant_fold_widget_enable_desc"/>
+            android:summary="@string/personal_assistant_fold_widget_enable_desc" />
 
         <SwitchPreference
             android:title="@string/personal_assistant_blur_model"
@@ -26,7 +26,7 @@
             app:maxValue="99"
             android:format="%s"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_pa_enable"/>
+            android:dependency="prefs_key_pa_enable" />
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
@@ -34,11 +34,10 @@
             android:key="prefs_key_personal_assistant_color"
             android:dependency="prefs_key_pa_enable"
             android:defaultValue="-1"
-            app:showAlphaSlider="true"/>
-
+            app:showAlphaSlider="true" />
 
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

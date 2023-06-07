@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.camera;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.XposedBridge;
 
 public class UnlockCvlens extends BaseHook {
     @Override

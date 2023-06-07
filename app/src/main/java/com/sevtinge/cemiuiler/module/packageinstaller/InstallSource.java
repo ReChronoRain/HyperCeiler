@@ -14,7 +14,7 @@ public class InstallSource extends BaseHook {
         mInstallSourcePackageName = mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer");
 
         findAndHookMethodSilently("com.miui.packageInstaller.InstallStart",
-                "getCallingPackage",
-                XC_MethodReplacement.returnConstant(mInstallSourcePackageName));
+            "getCallingPackage",
+            XC_MethodReplacement.returnConstant(mInstallSourcePackageName));
     }
 }

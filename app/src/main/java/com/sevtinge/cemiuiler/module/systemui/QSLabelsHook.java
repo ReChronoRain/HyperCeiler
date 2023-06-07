@@ -34,10 +34,10 @@ public class QSLabelsHook extends BaseHook {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
                             if (param.args.length != 1) return;
-                            View mLabelContainer = (View)XposedHelpers.getObjectField(param.thisObject, "labelContainer");
+                            View mLabelContainer = (View) XposedHelpers.getObjectField(param.thisObject, "labelContainer");
                             if (mLabelContainer != null) {
                                 mLabelContainer.setVisibility(
-                                        mPrefsMap.getBoolean("system_ui_qs_label") ? View.GONE : View.VISIBLE
+                                    mPrefsMap.getBoolean("system_ui_qs_label") ? View.GONE : View.VISIBLE
                                 );
                             }
                         }

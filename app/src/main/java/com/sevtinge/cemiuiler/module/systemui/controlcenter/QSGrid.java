@@ -27,7 +27,8 @@ public class QSGrid extends BaseHook {
             case 5 -> rowsRes = R.integer.quick_settings_num_rows_5;
         }
 
-        if (cols > 2) mResHook.setResReplacement("com.android.systemui", "integer", "quick_settings_num_columns", colsRes);
+        if (cols > 2)
+            mResHook.setResReplacement("com.android.systemui", "integer", "quick_settings_num_columns", colsRes);
         if (rows > 1) mResHook.setResReplacement("com.android.systemui", "integer", "quick_settings_num_rows", rowsRes);
     }
 }

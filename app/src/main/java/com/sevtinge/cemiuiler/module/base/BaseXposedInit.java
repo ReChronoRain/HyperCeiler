@@ -50,15 +50,16 @@ import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
+
+import java.io.File;
+import java.util.Map;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
-
-import java.io.File;
-import java.util.Map;
 
 public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
@@ -67,7 +68,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<String, Object>();
 
     public SystemFramework mSystemFramework = new SystemFramework();
-    //public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
+    // public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
     public SystemUI mSystemUI = new SystemUI();
     public Home mHome = new Home();
     public ScreenShot mScreenShot = new ScreenShot();
@@ -112,7 +113,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public MiWallpaper mMiWallpaper = new MiWallpaper();
     public Downloads mDownloads = new Downloads();
     public Aod mAod = new Aod();
-    //public SystemSettings mSystemSettings = new SystemSettings();
+    // public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
         for (BaseModule app : baseModules) {
@@ -161,22 +162,22 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public void init(LoadPackageParam lpparam) {
         String packageName = lpparam.packageName;
         XposedBridge.log("Cemiuiler: packageName " + packageName);
-        //XposedBridge.log("Cemiuiler: R=" + Build.VERSION_CODES.R + " S=" + Build.VERSION_CODES.S + " T=" + Build.VERSION_CODES.TIRAMISU + " This=" + Build.VERSION.SDK_INT);
+        // XposedBridge.log("Cemiuiler: R=" + Build.VERSION_CODES.R + " S=" + Build.VERSION_CODES.S + " T=" + Build.VERSION_CODES.TIRAMISU + " This=" + Build.VERSION.SDK_INT);
         switch (packageName) {
             case "android":
                 XposedBridge.log("Cemiuiler: Hook android");
                 mSystemFramework.init(lpparam);
                 mVarious.init(lpparam);
-                //mSystemFrameworkForCorepatch.init(lpparam);
+                // mSystemFrameworkForCorepatch.init(lpparam);
                 break;
 
             case "com.android.systemui":
                 if (isSystemUIModuleEnable()) {
                     XposedBridge.log("Cemiuiler: Hook com.android.systemui");
-                    //ALPermissionManager.RootCommand(android.content.ContextWrapper.getPackageCodePath());
+                    // ALPermissionManager.RootCommand(android.content.ContextWrapper.getPackageCodePath());
                     mSystemUI.init(lpparam);
                     mVarious.init(lpparam);
-                    //mSystemUIPlugin.init(lpparam);
+                    // mSystemUIPlugin.init(lpparam);
                 }
                 break;
 

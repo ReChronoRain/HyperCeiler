@@ -23,13 +23,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
+
 import com.sevtinge.cemiuiler.BuildConfig;
-
 import com.sevtinge.cemiuiler.R;
-
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
@@ -43,6 +42,7 @@ import java.util.concurrent.Executors;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import moralnorm.internal.utils.ReflectUtils;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.PreferenceScreen;
@@ -204,7 +204,7 @@ public class Helpers {
                                 modData.sub = lastPrefSub;
                                 modData.order = order;
                                 allModsList.add(modData);
-                                //Log.e("miuizer", modData.key + " = " + modData.order);
+                                // Log.e("miuizer", modData.key + " = " + modData.order);
                             }
                         }
                         order++;
@@ -220,7 +220,7 @@ public class Helpers {
 
     public static Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
         return XposedHelpers.callStaticMethod(XposedHelpers.findClassIfExists("android.os.SystemProperties", classLoader),
-                method, prop, val);
+            method, prop, val);
     }
 
 
@@ -576,11 +576,20 @@ public class Helpers {
                 onChange(prefName, prefDefValueBool);
         }
 
-        public void onChange(Uri uri) {}
-        public void onChange(String name) {}
-        public void onChange(String name, String defValue) {}
-        public void onChange(String name, int defValue) {}
-        public void onChange(String name, boolean defValue) {}
+        public void onChange(Uri uri) {
+        }
+
+        public void onChange(String name) {
+        }
+
+        public void onChange(String name, String defValue) {
+        }
+
+        public void onChange(String name, int defValue) {
+        }
+
+        public void onChange(String name, boolean defValue) {
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -756,12 +765,15 @@ public class Helpers {
     public static int constrain(int amount, int low, int high) {
         return amount < low ? low : (Math.min(amount, high));
     }
+
     public static float constrain(float amount, float low, float high) {
         return amount < low ? low : (Math.min(amount, high));
     }
+
     public static float lerp(float start, float stop, float amount) {
         return start + (stop - start) * amount;
     }
+
     public static float lerp(int start, int stop, float amount) {
         return lerp((float) start, (float) stop, amount);
     }
@@ -777,14 +789,17 @@ public class Helpers {
     public static float lerpInvSat(float a, float b, float value) {
         return saturate(lerpInv(a, b, value));
     }
+
     public static float norm(float start, float stop, float value) {
         return (value - start) / (stop - start);
     }
+
     private static float sq(float f) {
         return f * f;
     }
+
     public static float exp(float f) {
-        return (float)Math.exp(f);
+        return (float) Math.exp(f);
     }
 
     public static float convertGammaToLinearFloat(float i, int max, float f, float f2) {

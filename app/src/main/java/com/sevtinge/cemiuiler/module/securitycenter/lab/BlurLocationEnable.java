@@ -1,22 +1,14 @@
 package com.sevtinge.cemiuiler.module.securitycenter.lab;
 
-import android.content.ComponentName;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import de.robv.android.xposed.callbacks.XCallback;
-import io.luckypray.dexkit.descriptor.member.DexClassDescriptor;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
+import io.luckypray.dexkit.descriptor.member.DexClassDescriptor;
 
 public class BlurLocationEnable extends BaseHook {
 
@@ -41,7 +33,7 @@ public class BlurLocationEnable extends BaseHook {
                             try {
                                 Map<String, Integer> featMap = (Map<String, Integer>) fm;
                                 featMap.put("mi_lab_blur_location_enable", 0);
-                                //featMap.put("mi_lab_blur_location_enable", 0);
+                                // featMap.put("mi_lab_blur_location_enable", 0);
                             } catch (Throwable ignore) {
                             }
                         }
@@ -87,7 +79,7 @@ public class BlurLocationEnable extends BaseHook {
 
          */
 
-        //findAndHookMethod(mStableVer, "IS_STABLE_VERSION", new MethodHook() {
+        // findAndHookMethod(mStableVer, "IS_STABLE_VERSION", new MethodHook() {
         //    @Override
         //    protected void before(MethodHookParam param) throws Throwable {
         //        param.setResult(true);

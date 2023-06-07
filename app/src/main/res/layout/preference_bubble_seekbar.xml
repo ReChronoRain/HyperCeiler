@@ -64,7 +64,7 @@
                 app:slider_width="8dp"
                 app:empty_progress_width="100dp"
                 app:visibility_height="25.449982dp"
-                app:visibility_width="300dp"/>
+                app:visibility_width="300dp" />
 
             <TextView
                 android:id="@+id/seekbar_value"

@@ -48,9 +48,17 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
                 if (query != null) {
                     if (query.moveToFirst()) {
                         str = if (showCity) {
-                            query.getString(query.getColumnIndexOrThrow("city_name")) + " " + query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
+                            query.getString(query.getColumnIndexOrThrow("city_name")) + " " + query.getString(
+                                query.getColumnIndexOrThrow(
+                                    "description"
+                                )
+                            ) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
                         } else {
-                            query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(query.getColumnIndexOrThrow("temperature"))
+                            query.getString(query.getColumnIndexOrThrow("description")) + " " + query.getString(
+                                query.getColumnIndexOrThrow(
+                                    "temperature"
+                                )
+                            )
                         }
                     }
                     query.close()

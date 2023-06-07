@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.joyose.*;
+import com.sevtinge.cemiuiler.module.joyose.DisableCloudControl;
+import com.sevtinge.cemiuiler.module.joyose.EnableGpuTuner;
+import com.sevtinge.cemiuiler.module.joyose.JoyoseDexKit;
 
 public class Joyose extends BaseModule {
 

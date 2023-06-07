@@ -19,9 +19,9 @@ public class SystemSettingsActivity extends BaseAppCompatActivity {
 
     public static class SystemSettingsFragment extends SubFragment {
 
-        PreferenceCategory mHighMode; //极致模式
-        SwitchPreference mAreaScreenshot; //区域截屏
-        SwitchPreference mKnuckleFunction; //指关节相关
+        PreferenceCategory mHighMode; // 极致模式
+        SwitchPreference mAreaScreenshot; // 区域截屏
+        SwitchPreference mKnuckleFunction; // 指关节相关
 
         @Override
         public int getContentResId() {

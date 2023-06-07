@@ -132,7 +132,7 @@ object SetDeviceLevel : BaseHook() {
             Log.ex(e)
         }
         try {
-            "com.xiaomi.onetrack.OneTrack".hookBeforeMethod( "isDisable") {
+            "com.xiaomi.onetrack.OneTrack".hookBeforeMethod("isDisable") {
                 it.result = true
             }
         } catch (e: Throwable) {

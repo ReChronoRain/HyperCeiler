@@ -1,22 +1,16 @@
 package com.sevtinge.cemiuiler.module.browser;
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import io.luckypray.dexkit.DexKitBridge;
-import io.luckypray.dexkit.builder.BatchFindArgs;
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
-import io.luckypray.dexkit.enums.MatchType;
+import static com.sevtinge.cemiuiler.module.browser.BrowserDexKit.mBrowserResultMethodsMap;
 
-import java.io.File;
+import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-import static com.sevtinge.cemiuiler.module.browser.BrowserDexKit.mBrowserResultMethodsMap;
+import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
+import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 
 public class DebugMode extends BaseHook {
     @Override

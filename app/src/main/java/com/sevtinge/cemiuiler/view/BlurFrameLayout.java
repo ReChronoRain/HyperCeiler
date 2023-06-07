@@ -44,10 +44,10 @@ public class BlurFrameLayout {
 
             String mBlurRadiusKey = key + "_blur_radius";
 
-            mBlurRadius = XposedInit.mPrefsMap.getInt(mBlurRadiusKey,60);
+            mBlurRadius = XposedInit.mPrefsMap.getInt(mBlurRadiusKey, 60);
 
-            mBgColor = XposedInit.mPrefsMap.getInt(mBgColorKey,-1);
-            mBgAlpha = XposedInit.mPrefsMap.getInt(mBgAlphaKey,60);
+            mBgColor = XposedInit.mPrefsMap.getInt(mBgColorKey, -1);
+            mBgAlpha = XposedInit.mPrefsMap.getInt(mBgAlphaKey, 60);
             mBgCornerRadius = DisplayUtils.dip2px(mContext, XposedInit.mPrefsMap.getInt(mBgCornerRadiusKey, 90));
         }
         setOnAttachStateChangeListener(mBlurView);
@@ -57,8 +57,8 @@ public class BlurFrameLayout {
         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                mViewRootImpl = XposedHelpers.callMethod(v,"getViewRootImpl");
-                mBlurDrawable = (Drawable) XposedHelpers.callMethod(mViewRootImpl,"createBackgroundBlurDrawable",new Object[0]);
+                mViewRootImpl = XposedHelpers.callMethod(v, "getViewRootImpl");
+                mBlurDrawable = (Drawable) XposedHelpers.callMethod(mViewRootImpl, "createBackgroundBlurDrawable", new Object[0]);
                 setBackgroundDrawable(mContext, v, isBlurEnable, mBgColor, mBgAlpha, mBgCornerRadius, mBlurRadius);
             }
 
@@ -85,15 +85,15 @@ public class BlurFrameLayout {
         int mColorRed = (color & 0x00ff0000) >> 16;
         int mColorGreen = (color & 0x0000ff00) >> 8;
         int mColorBlue = (color & 0x000000ff);
-        XposedHelpers.callMethod(mBlurDrawable,"setColor", Color.argb(alpha, mColorRed, mColorGreen, mColorBlue));
+        XposedHelpers.callMethod(mBlurDrawable, "setColor", Color.argb(alpha, mColorRed, mColorGreen, mColorBlue));
     }
 
     public void setCornerRadius(int cornerRadius) {
-        XposedHelpers.callMethod(mBlurDrawable,"setCornerRadius", cornerRadius);
+        XposedHelpers.callMethod(mBlurDrawable, "setCornerRadius", cornerRadius);
     }
 
     public void setBlurRadius(int blurRadius) {
-        XposedHelpers.callMethod(mBlurDrawable,"setBlurRadius", blurRadius);
+        XposedHelpers.callMethod(mBlurDrawable, "setBlurRadius", blurRadius);
     }
 
     private GradientDrawable createGradientDrawable(Context context, int color, int alpha, int cornerRadius) {

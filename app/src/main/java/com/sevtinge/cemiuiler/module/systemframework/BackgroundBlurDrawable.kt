@@ -6,7 +6,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 
-class BackgroundBlurDrawable :IXposedHookZygoteInit {
+class BackgroundBlurDrawable : IXposedHookZygoteInit {
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
         val classLoader = startupParam.javaClass.classLoader
         val mBackgroundBlurDrawableClass = classLoader?.let {

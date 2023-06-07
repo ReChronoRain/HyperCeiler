@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.miwallpaper.*;
+import com.sevtinge.cemiuiler.module.miwallpaper.UnlockSuperWallpaper;
 
 public class MiWallpaper extends BaseModule {
 
