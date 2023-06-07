@@ -15,6 +15,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_settings_connection_sharing_title">
+        <SwitchPreference
+            android:title="@string/system_settings_new_nfc_page"
+            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:key="prefs_key_system_settings_new_nfc_page"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_settings_accessibility_title">
         <SwitchPreference
             android:title="@string/system_settings_area_screenshot"
@@ -25,15 +34,6 @@
             android:title="@string/system_settings_knuckle_function"
             android:summary="@string/system_settings_knuckle_function_desc"
             android:key="prefs_key_system_settings_knuckle_function"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/system_settings_connection_sharing_title">
-        <SwitchPreference
-            android:title="@string/system_settings_new_nfc_page"
-            android:summary="@string/system_settings_new_nfc_page_desc"
-            android:key="prefs_key_system_settings_new_nfc_page"
             android:defaultValue="false" />
 
     </PreferenceCategory>

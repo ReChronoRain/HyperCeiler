@@ -10,10 +10,6 @@
             android:summary="@string/home_other_show_clock_desc"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory>
-
         <DropDownPreference
             android:key="prefs_key_home_other_seek_points"
             android:title="@string/home_other_seek_points"
@@ -123,15 +119,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_layout_searchbar_title">
-
-        <!--<SeekBarPreference
-            android:key="prefs_key_home_layout_searchbar_margin_top"
-            android:title="底部边距"
-            android:summary="底栏距离屏幕底部边距"
-            android:defaultValue="15"
-            app:maxValue="100"
-            android:format="%d dp"
-            app:showSeekBarValue="true"/>-->
 
         <SwitchPreference
             android:title="@string/home_layout_searchbar_margin_bottom"
