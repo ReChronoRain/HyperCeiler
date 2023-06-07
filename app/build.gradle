@@ -11,12 +11,12 @@ static def getGitRevision() {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.sevtinge.cemiuiler"
         minSdk 30
-        targetSdk 33
+        targetSdk 34
         versionCode 118
         versionName "1.1.118"
         project.archivesBaseName = "Cemiuiler"
