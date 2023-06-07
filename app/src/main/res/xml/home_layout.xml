@@ -39,6 +39,21 @@
             app:isPreferenceVisible="false" />
 
         <SwitchPreference
+            android:title="@string/top_margin"
+            android:summary="@string/home_layout_workspace_padding_top_desc"
+            android:key="prefs_key_home_layout_workspace_padding_top_enable"
+            android:defaultValue="false" />
+
+        <SeekBarPreference
+            android:layout="@layout/preference_seekbar_no_padding"
+            android:key="prefs_key_home_layout_workspace_padding_top"
+            android:defaultValue="30"
+            app:maxValue="150"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_layout_workspace_padding_top_enable" />
+
+        <SwitchPreference
             android:title="@string/home_layout_workspace_padding_bottom"
             android:summary="@string/home_layout_workspace_padding_bottom_desc"
             android:key="prefs_key_home_layout_workspace_padding_bottom_enable"
@@ -47,8 +62,8 @@
         <SeekBarPreference
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_workspace_padding_bottom"
-            android:defaultValue="190"
-            app:maxValue="300"
+            android:defaultValue="120"
+            app:maxValue="150"
             android:format="%d dp"
             app:showSeekBarValue="true"
             app:dialogTitle="@string/home_layout_workspace_padding_bottom"

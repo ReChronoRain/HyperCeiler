@@ -1024,4 +1024,9 @@
     <string name="aiasst_ai_captions">Force enabled AI captions</string>
     <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
     <string name="system_ui_status_bar_battery_size_title">Battery percentage text size</string>
+    <string name="top_margin">Top margin</string>
+    <string name="bottom_margin">Bottom margin</string>
+    <string name="left_margin">Left margin</string>
+    <string name="right_margin">Right margin</string>
+    <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
 </resources>

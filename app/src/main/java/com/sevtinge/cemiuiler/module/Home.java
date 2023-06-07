@@ -41,7 +41,7 @@ import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginTop;
 import com.sevtinge.cemiuiler.module.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
-import com.sevtinge.cemiuiler.module.home.layout.WorkspacePaddingBottom;
+import com.sevtinge.cemiuiler.module.home.layout.WorkspacePadding;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
 import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
@@ -104,7 +104,8 @@ public class Home extends BaseModule {
         // 布局
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
-        initHook(new WorkspacePaddingBottom(), mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable"));
+        initHook(new WorkspacePadding(), mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
+            mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable"));
 
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
         initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));

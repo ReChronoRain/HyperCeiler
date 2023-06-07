@@ -23,6 +23,11 @@
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活</string>
 
+    <string name="top_margin">顶部边距</string>
+    <string name="bottom_margin">底部边距</string>
+    <string name="left_margin">左侧间距</string>
+    <string name="right_margin">右侧间距</string>
+
     <string name="feature">功能</string>
     <string name="recommend">推荐</string>
     <string name="editor">编辑</string>
@@ -352,6 +357,7 @@
     <string name="home_layout_unlock_grids_no_words">解锁布局（无字模式）</string>
     <string name="home_layout_unlock_grids_no_words_desc">解锁主屏幕图标布局行列数限制</string>
     <string name="home_layout_workspace_padding_bottom_desc">主屏幕距离屏幕底部边距</string>
+    <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
     <string name="home_layout_workspace_padding_bottom">底部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
     <string name="home_layout_hotseats_margin_top">顶部边距</string>
