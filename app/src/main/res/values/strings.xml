@@ -579,6 +579,9 @@
     <string name="system_framework_volume_steps">Volume level multiplier</string>
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
+    <string name="system_settings_connection_sharing_title">Connetion &amp; sharing</string>
+    <string name="system_settings_new_nfc_page">New NFC Page</string>
+    <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_develop_speed_mode">Extreme mode</string>
     <string name="home_layout_searchbar_title">Search bar</string>

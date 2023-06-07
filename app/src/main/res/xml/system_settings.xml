@@ -29,6 +29,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/system_settings_connection_sharing_title">
+        <SwitchPreference
+            android:title="@string/system_settings_new_nfc_page"
+            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:key="prefs_key_system_settings_new_nfc_page"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_settings_lab_title">
         <SwitchPreference
             android:title="@string/system_settings_voip_assistant_controller"

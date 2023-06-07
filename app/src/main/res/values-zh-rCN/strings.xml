@@ -666,6 +666,10 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
 
+    <string name="system_settings_connection_sharing_title">连接与共享</string>
+    <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
+    <string name="system_settings_new_nfc_page_desc">开启后，不支持的机型默认付款应用无法选中小米钱包\n</string>
+
     <string name="system_settings_international_build">国际版本设置页面</string>
 
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
