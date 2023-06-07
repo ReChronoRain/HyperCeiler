@@ -62,6 +62,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Henvy-Mango" />
         </Preference>
+        <Preference android:title="Weverses">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Weverses" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 
