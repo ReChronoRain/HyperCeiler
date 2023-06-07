@@ -63,7 +63,7 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_workspace_padding_bottom"
             android:defaultValue="120"
-            app:maxValue="150"
+            app:maxValue="240"
             android:format="%d dp"
             app:showSeekBarValue="true"
             app:dialogTitle="@string/home_layout_workspace_padding_bottom"
