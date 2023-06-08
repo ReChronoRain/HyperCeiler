@@ -47,7 +47,6 @@
 
     <PreferenceCategory android:title="@string/system_ui_display_toast_title">
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:enabled="false"
             android:key="pref_key_system_ui_display_toast_times"
             android:title="@string/system_ui_display_toast_times_title"
             android:summary="@string/system_ui_display_toast_times_desc"

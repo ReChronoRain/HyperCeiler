@@ -26,6 +26,7 @@ import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSFiveGTile;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGridLabels;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.SmartHome;
+import com.sevtinge.cemiuiler.module.systemui.display.ToastTime;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.BlurButton;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ChargingCVP;
@@ -149,6 +150,9 @@ public class SystemUI extends BaseModule {
         boolean isStatusBarIconAtRightEnable = isWiFiAtLeft || isMobileNetworkAtLeft || isSwapWiFiAndMobileNetwork || isNetworkSpeedAtRight || isAlarmClockAtRight || isNFCAtRight || isVolumeAtRight || isZenAtRight;
 
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
+
+        // 显示
+        initHook(new ToastTime(), mPrefsMap.getInt("system_ui_display_toast_times", 0) > 0);
 
         // 导航栏
         initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
