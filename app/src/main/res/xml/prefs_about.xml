@@ -2,16 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:layout="@layout/activity_about"
         android:key="prefs_key_hidden_function"
+        android:layout="@layout/activity_about"
         android:summary="@string/xposed_description" />
 
     <PreferenceCategory android:title="@string/about_developer_title">
         <Preference
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
-            android:title="绀漓 | Sevtinge"
-            android:summary="Hook、App Icon">
+            android:summary="Hook、App Icon"
+            android:title="绀漓 | Sevtinge">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/sevtinge" />
@@ -19,8 +19,8 @@
         <Preference
             android:icon="@drawable/ic_moralnorm"
             android:layout="@layout/preference_round_layout"
-            android:title="MoralNorm"
-            android:summary="UI Design、Hook">
+            android:summary="UI Design、Hook"
+            android:title="MoralNorm">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/MoralNorm" />
@@ -28,8 +28,8 @@
         <Preference
             android:icon="@drawable/ic_linqiqi"
             android:layout="@layout/preference_round_layout"
-            android:title="Lin Qiqi"
-            android:summary="Hook">
+            android:summary="Hook"
+            android:title="Lin Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/mu7220" />
@@ -37,8 +37,8 @@
         <Preference
             android:icon="@drawable/ic_voyager"
             android:layout="@layout/preference_round_layout"
-            android:title="Voyager"
-            android:summary="Hook">
+            android:summary="Hook"
+            android:title="Voyager">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/hosizoraru" />
@@ -46,36 +46,33 @@
         <Preference
             android:icon="@drawable/ic_yifeplayte"
             android:layout="@layout/preference_round_layout"
-            android:title="Yife Playte"
-            android:summary="Hook">
+            android:summary="Hook"
+            android:title="Yife Playte">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YifePlayte" />
         </Preference>
         <Preference
-            android:title="@string/about_contributer"
-            android:key="prefs_key_about_contributer">
+            android:key="prefs_key_about_contributer"
+            android:title="@string/about_contributer">
             <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.AboutContributerActivity" />
+                android:targetClass="com.sevtinge.cemiuiler.ui.AboutContributerActivity"
+                android:targetPackage="com.sevtinge.cemiuiler" />
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
-        <Preference
-            android:title="@string/translator"
-            android:summary="@string/language">
+        <ValuePreference
+            android:title="@string/language"
+            android:value="@string/translator">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/translator_url" />
-        </Preference>
-        <!--ValuePreference
-                android:text="@string/language"
-                android:title="@string/translator" /-->
+        </ValuePreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_chat_title">
         <Preference
-            android:title="@string/about_qq_group"
-            android:key="prefs_key_about_join_qq_group" />
+            android:key="prefs_key_about_join_qq_group"
+            android:title="@string/about_qq_group" />
         <Preference android:title="@string/about_qq_channel">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -94,8 +91,8 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_other_title">
         <Preference
-            android:title="@string/about_github"
-            android:summary="@string/about_github_desc">
+            android:summary="@string/about_github_desc"
+            android:title="@string/about_github">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/sevtinge/Cemiuiler" />
@@ -106,23 +103,23 @@
                 android:data="https://cemiuiler.sevtinge.cc" />
         </Preference>
         <Preference
-            android:title="@string/about_use"
-            android:key="prefs_key_about_use">
+            android:key="prefs_key_about_use"
+            android:title="@string/about_use">
             <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.AboutUseActivity" />
+                android:targetClass="com.sevtinge.cemiuiler.ui.AboutUseActivity"
+                android:targetPackage="com.sevtinge.cemiuiler" />
         </Preference>
         <Preference
-            app:isPreferenceVisible="false"
+            android:summary="@string/about_crwd_desc"
             android:title="@string/about_crwd"
-            android:summary="@string/about_crwd_desc">
+            app:isPreferenceVisible="false">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://crwd.in/cemiuiler" />
         </Preference>
         <Preference
-            android:title="@string/about_donation"
-            android:summary="@string/about_donation_desc">
+            android:summary="@string/about_donation_desc"
+            android:title="@string/about_donation">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.sevtinge.cc/t/donation.html" />

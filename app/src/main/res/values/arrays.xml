@@ -54,7 +54,6 @@
         <item>com.xiaomi.misettings</item>
         <item>com.xiaomi.mtb</item>
         <item>com.xiaomi.scanner</item>
-        <item>miui.systemui.plugin</item>
     </string-array>
 
     <string-array name="app_module_support">
