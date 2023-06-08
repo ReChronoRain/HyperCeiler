@@ -15,6 +15,7 @@ import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 import com.sevtinge.cemiuiler.utils.setObjectField
+import com.sevtinge.cemiuiler.utils.setStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object UnlockIme : BaseHook() {
@@ -95,7 +96,7 @@ object UnlockIme : BaseHook() {
      */
     private fun hookSIsImeSupport(clazz: Class<*>) {
         kotlin.runCatching {
-            clazz.setObjectField("sIsImeSupport", 1)
+            clazz.setStaticObjectField("sIsImeSupport", 1)
             Log.i("Success:Hook field sIsImeSupport")
         }.onFailure {
             Log.i("Failed:Hook field sIsImeSupport ")
