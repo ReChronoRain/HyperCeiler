@@ -8,13 +8,13 @@ import android.os.FileObserver;
 import android.util.Log;
 
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
-import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
+import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import java.util.Set;
 
-public abstract class BaseMainActivity extends BaseAppCompatActivity {
+public abstract class BaseMainActivity extends SettingsActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
