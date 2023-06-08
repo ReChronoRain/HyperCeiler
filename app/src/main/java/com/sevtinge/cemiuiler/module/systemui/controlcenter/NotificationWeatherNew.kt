@@ -14,7 +14,7 @@ import com.sevtinge.cemiuiler.view.WeatherData
 
 @SuppressLint("StaticFieldLeak")
 object NotificationWeatherNew : BaseHook() {
-    // TODO: Android13控制中心天气不可用
+    // TODO: Android13 控制中心天气不可用
     lateinit var weather: WeatherData
     var clockId: Int = -2
 
@@ -28,7 +28,7 @@ object NotificationWeatherNew : BaseHook() {
             name == "onDetachedFromWindow"
         }.createHook {
             before {
-                if ((it.thisObject as TextView).id == clockId /* && this::weather.isInitialized */) {
+                if ((it.thisObject as TextView).id == clockId && NotificationWeatherNew::weather.isInitialized) {
                     weather.onDetachedFromWindow()
                 }
             }
@@ -39,10 +39,10 @@ object NotificationWeatherNew : BaseHook() {
             before {
                 val time = it.args[0]?.toString()
                 val view = it.thisObject as TextView
-                if (view.id == clockId && time != null /* && this::weather.isInitialized */) {
-//                val layout = view.layoutParams as ViewGroup.MarginLayoutParams
-//                val y = view.height / 2
-//                layout.topMargin = -y
+                if (view.id == clockId && time != null && NotificationWeatherNew::weather.isInitialized) {
+                    // val layout = view.layoutParams as ViewGroup.MarginLayoutParams
+                    // val y = view.height / 2
+                    // layout.topMargin = -y
                     it.args[0] = "${weather.weatherData}$time"
                 }
             }
