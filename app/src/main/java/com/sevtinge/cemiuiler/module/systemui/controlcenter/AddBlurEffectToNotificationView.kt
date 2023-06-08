@@ -13,40 +13,42 @@ import de.robv.android.xposed.XposedHelpers
 
 object AddBlurEffectToNotificationView : BaseHook() {
 
-    var blurBackgroundAlpha: Int = mPrefsMap.getInt("system_ui_control_center_blur_background_alpha", 100)
+    var blurBackgroundAlpha: Int =
+        mPrefsMap.getInt("system_ui_control_center_blur_background_alpha", 100)
     var cornerRadius: Int = mPrefsMap.getInt("system_ui_control_center_corner_radius", 48)
     var blurRadius: Int = mPrefsMap.getInt("system_ui_control_center_blur_radius", 99)
-    var defaultBackgroundAlpha: Int = XSPUtils.getInt("system_ui_control_center_default_background_alpha", 200)
+    var defaultBackgroundAlpha: Int =
+        XSPUtils.getInt("system_ui_control_center_default_background_alpha", 200)
 
 
     override fun init() {
-        val miuiExpandableNotificationRowClass = findClassIfExists(
-            "com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow"
-        ) ?: return
+        val miuiExpandableNotificationRowClass =
+            findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow")
+                ?: return
 
-        val notificationBackgroundViewClass = findClassIfExists(
-            "com.android.systemui.statusbar.notification.row.NotificationBackgroundView"
-        ) ?: return
+        val notificationBackgroundViewClass =
+            findClassIfExists("com.android.systemui.statusbar.notification.row.NotificationBackgroundView")
+                ?: return
 
-        val appMiniWindowRowTouchHelperClass = findClassIfExists(
-            "com.android.systemui.statusbar.notification.policy.AppMiniWindowRowTouchHelper"
-        ) ?: return
+        val appMiniWindowRowTouchHelperClass =
+            findClassIfExists("com.android.systemui.statusbar.notification.policy.AppMiniWindowRowTouchHelper")
+                ?: return
 
-        val miuiNotificationPanelViewControllerClass = findClassIfExists(
-            "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
-        ) ?: return
+        val miuiNotificationPanelViewControllerClass =
+            findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController")
+                ?: return
 
-        val notificationStackScrollLayoutClass = findClassIfExists(
-            "com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout"
-        ) ?: return
+        val notificationStackScrollLayoutClass =
+            findClassIfExists("com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout")
+                ?: return
 
-        val lockScreenMagazineControllerClass = findClassIfExists(
-            "com.android.keyguard.magazine.LockScreenMagazineController"
-        ) ?: return
+        val lockScreenMagazineControllerClass =
+            findClassIfExists("com.android.keyguard.magazine.LockScreenMagazineController")
+                ?: return
 
-        val blurRatioChangedListener = findClassIfExists(
-            "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
-        ) ?: return
+        val blurRatioChangedListener =
+            findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1")
+                ?: return
 
 
         // 每次设置背景的时候都同时改透明度
@@ -465,15 +467,11 @@ object AddBlurEffectToNotificationView : BaseHook() {
         XposedBridge.hookAllConstructors(miuiNotificationPanelViewControllerClass,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
+                    val miuiNotificationPanelViewControllerClass = param.thisObject
                     val mNotificationStackScroller =
                         HookUtils.getValueByField(
                             param.thisObject,
                             "mNotificationStackScroller"
-                        ) ?: return
-                    val mNotificationPanelViewController =
-                        HookUtils.getValueByField(
-                            param.thisObject,
-                            "mNotificationPanelViewController"
                         ) ?: return
                     mNotificationStackScroller as ViewGroup
                     XposedBridge.hookAllMethods(blurRatioChangedListener,
@@ -482,7 +480,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             override fun afterHookedMethod(param: MethodHookParam) {
                                 val radius = param.args[0] as Int
                                 val isOnKeyguard = XposedHelpers.callMethod(
-                                    mNotificationPanelViewController,
+                                    miuiNotificationPanelViewControllerClass,
                                     "isOnKeyguard"
                                 ) as Boolean
                                 for (i in 0..mNotificationStackScroller.childCount) {
