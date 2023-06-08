@@ -14,7 +14,6 @@ import com.sevtinge.cemiuiler.utils.api.sameAs
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
-import com.sevtinge.cemiuiler.utils.setObjectField
 import com.sevtinge.cemiuiler.utils.setStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
