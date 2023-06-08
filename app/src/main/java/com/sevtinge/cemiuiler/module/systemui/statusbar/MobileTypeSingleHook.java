@@ -46,14 +46,14 @@ public class MobileTypeSingleHook extends BaseHook {
                     mMobileGroup.addView(mMobileTypeSingle);
                 }
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) mMobileTypeSingle.getLayoutParams();
-                int leftMargin = mPrefsMap.getInt("system_ui_statusbar_indicator_left_margin", 7);
+                int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_type_left_margin", 7);
                 float marginLeft = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
                     leftMargin * 0.5f,
                     res.getDisplayMetrics()
                 );
                 mlp.leftMargin = (int) marginLeft;
-                int rightMargin = mPrefsMap.getInt("system_ui_statusbar_indicator_right_margin", 0);
+                int rightMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_type_right_margin", 0);
                 if (rightMargin > 0) {
                     float marginRight = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,

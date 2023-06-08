@@ -1,60 +1,12 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-    <AndroidXmlCodeStyleSettings>
-      <option name="USE_CUSTOM_SETTINGS" value="true" />
-    </AndroidXmlCodeStyleSettings>
     <JavaCodeStyleSettings>
       <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999" />
       <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999" />
-      <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
-        <value />
-      </option>
-      <option name="IMPORT_LAYOUT_TABLE">
-        <value>
-          <package name="android" withSubpackages="true" static="true" />
-          <package name="androidx" withSubpackages="true" static="true" />
-          <package name="com" withSubpackages="true" static="true" />
-          <package name="junit" withSubpackages="true" static="true" />
-          <package name="net" withSubpackages="true" static="true" />
-          <package name="org" withSubpackages="true" static="true" />
-          <package name="java" withSubpackages="true" static="true" />
-          <package name="javax" withSubpackages="true" static="true" />
-          <package name="" withSubpackages="true" static="true" />
-          <emptyLine />
-          <package name="android" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="androidx" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="com" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="junit" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="net" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="org" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="java" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="javax" withSubpackages="true" static="false" />
-          <emptyLine />
-          <package name="" withSubpackages="true" static="false" />
-          <emptyLine />
-        </value>
-      </option>
     </JavaCodeStyleSettings>
     <JetCodeStyleSettings>
-      <option name="PACKAGES_TO_USE_STAR_IMPORTS">
-        <value />
-      </option>
-      <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="2147483647" />
-      <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="2147483647" />
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </JetCodeStyleSettings>
-    <XML>
-      <option name="XML_KEEP_LINE_BREAKS" value="false" />
-      <option name="XML_ALIGN_ATTRIBUTES" value="false" />
-      <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
-    </XML>
     <codeStyleSettings language="JAVA">
       <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
       <option name="LINE_COMMENT_ADD_SPACE" value="true" />
