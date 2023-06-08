@@ -50,7 +50,7 @@ public class SharedPrefsProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         List<String> parts = uri.getPathSegments();
-        //Log.e("parts", String.valueOf(parts));
+        // Log.e("parts", String.valueOf(parts));
         MatrixCursor cursor = new MatrixCursor(new String[]{"data"});
 
         switch (uriMatcher.match(uri)) {

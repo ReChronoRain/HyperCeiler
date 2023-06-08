@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-            android:title="@string/milink_unlock_mishare"
-            android:key="prefs_key_milink_unlock_mishare"
-            android:defaultValue="false"/>
+        android:title="@string/milink_unlock_mishare"
+        android:key="prefs_key_milink_unlock_mishare"
+        android:defaultValue="false" />
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

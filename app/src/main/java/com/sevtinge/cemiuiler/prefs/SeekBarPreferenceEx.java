@@ -7,11 +7,13 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.sevtinge.cemiuiler.R;
-import moralnorm.preference.Preference;
-import moralnorm.preference.PreferenceViewHolder;
 
 import java.util.IllegalFormatException;
+
+import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceViewHolder;
 
 public class SeekBarPreferenceEx extends Preference {
 
@@ -79,8 +81,8 @@ public class SeekBarPreferenceEx extends Preference {
             mDefaultValue = 0;
         }
 
-        mSteppedMinValue = Math.round((float)mMinValue / mStepValue);
-        mSteppedMaxValue = Math.round((float)mMaxValue / mStepValue);
+        mSteppedMinValue = Math.round((float) mMinValue / mStepValue);
+        mSteppedMaxValue = Math.round((float) mMaxValue / mStepValue);
     }
 
     @Override
@@ -183,8 +185,8 @@ public class SeekBarPreferenceEx extends Preference {
     private void updateAllValues() {
         int currentValue = getValue();
         if (mMaxValue <= mMinValue) mMaxValue = mMinValue + 1;
-        mSteppedMinValue = Math.round((float)mMinValue / mStepValue);
-        mSteppedMaxValue = Math.round((float)mMaxValue / mStepValue);
+        mSteppedMinValue = Math.round((float) mMinValue / mStepValue);
+        mSteppedMaxValue = Math.round((float) mMaxValue / mStepValue);
 
         if (mSeekBar != null) mSeekBar.setMax(mSteppedMaxValue - mSteppedMinValue);
 
@@ -197,7 +199,7 @@ public class SeekBarPreferenceEx extends Preference {
     }
 
     private int getBoundedValue(int value) {
-        value = Math.round((float)value / mStepValue);
+        value = Math.round((float) value / mStepValue);
         if (value < mSteppedMinValue) value = mSteppedMinValue;
         if (value > mSteppedMaxValue) value = mSteppedMaxValue;
         return value;
@@ -221,7 +223,7 @@ public class SeekBarPreferenceEx extends Preference {
 
             try {
                 if (mUseDisplayDividerValue) {
-                    float floatValue = (float)value / (float)mDisplayDividerValue;
+                    float floatValue = (float) value / (float) mDisplayDividerValue;
                     text = String.format(mFormat, floatValue);
                 } else {
                     text = String.format(mFormat, value);

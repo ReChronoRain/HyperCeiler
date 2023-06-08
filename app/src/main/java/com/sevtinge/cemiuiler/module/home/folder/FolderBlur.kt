@@ -5,7 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.view.View
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.*
 
@@ -13,14 +13,14 @@ import com.sevtinge.cemiuiler.utils.*
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")
     override fun init() {
-        //修复文件夹背景模糊与始终模糊壁纸冲突
+        // 修复文件夹背景模糊与始终模糊壁纸冲突
         if (mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) return
 
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
-            EzXHelperInit.initHandleLoadPackage(lpparam)
-            EzXHelperInit.setLogTag(TAG)
-            EzXHelperInit.setToastTag(TAG)
-            EzXHelperInit.initAppContext(it.args[0] as Context)
+            EzXHelper.initHandleLoadPackage(lpparam)
+            EzXHelper.setLogTag(TAG)
+            EzXHelper.setToastTag(TAG)
+            EzXHelper.initAppContext(it.args[0] as Context)
 
 
             if (mPrefsMap.getStringAsInt(
@@ -40,7 +40,8 @@ object FolderBlur : BaseHook() {
                 val folderClingClass = findClassIfExists("com.miui.home.launcher.FolderCling")
                 val folderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo")
                 val folderClass = findClassIfExists("com.miui.home.launcher.Folder")
-                val cancelShortcutMenuReasonClass = findClassIfExists("com.miui.home.launcher.shortcuts.CancelShortcutMenuReason")
+                val cancelShortcutMenuReasonClass =
+                    findClassIfExists("com.miui.home.launcher.shortcuts.CancelShortcutMenuReason")
 
                 launcherClass.hookAfterMethod("isFolderShowing") {
                     isShouldBlur = it.result as Boolean
@@ -50,7 +51,7 @@ object FolderBlur : BaseHook() {
                     isFolderShowing = it.result as Boolean
                 }
 
-                folderClass.hookAfterMethod("onOpen"){
+                folderClass.hookAfterMethod("onOpen") {
                     val mLauncher = it.thisObject as Activity
                     blurUtilsClass.callStaticMethod(
                         "fastBlur",
@@ -81,7 +82,7 @@ object FolderBlur : BaseHook() {
                         it.result = true
                     }
                 } else {
-                    //copy from miui_xxl，修复文件夹内移动图标shortcut背景模糊丢失
+                    // copy from miui_xxl，修复文件夹内移动图标shortcut背景模糊丢失
 
                     launcherClass.hookAfterMethod("openFolder", folderInfo, View::class.java) {
                         val mLauncher = it.thisObject as Activity

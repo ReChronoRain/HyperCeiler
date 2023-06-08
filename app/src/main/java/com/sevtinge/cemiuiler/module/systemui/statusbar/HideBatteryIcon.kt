@@ -14,7 +14,7 @@ object HideBatteryIcon : BaseHook() {
             "updateResources",
             object : MethodHook() {
                 override fun after(param: MethodHookParam?) {
-                    //隐藏电池图标
+                    // 隐藏电池图标
                     if (mPrefsMap.getBoolean("system_ui_status_bar_battery_icon")) {
                         (param?.thisObject?.getObjectFieldAs<ImageView>("mBatteryIconView"))?.visibility =
                             View.GONE
@@ -23,7 +23,7 @@ object HideBatteryIcon : BaseHook() {
                                 View.GONE
                         }
                     }
-                    //隐藏电池百分号
+                    // 隐藏电池百分号
                     if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") || mPrefsMap.getBoolean(
                             "system_ui_status_bar_battery_percent_mark"
                         )
@@ -31,7 +31,7 @@ object HideBatteryIcon : BaseHook() {
                         (param?.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentMarkView"))?.textSize =
                             0F
                     }
-                    //隐藏电池内的百分比
+                    // 隐藏电池内的百分比
                     if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
                         (param?.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentView"))?.textSize =
                             0F
@@ -46,7 +46,7 @@ object HideBatteryIcon : BaseHook() {
             "updateChargeAndText",
             object : MethodHook() {
                 override fun after(param: MethodHookParam?) {
-                    //隐藏电池充电图标
+                    // 隐藏电池充电图标
                     if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
                         (param?.thisObject?.getObjectFieldAs<ImageView>("mBatteryChargingInView"))?.visibility =
                             View.GONE

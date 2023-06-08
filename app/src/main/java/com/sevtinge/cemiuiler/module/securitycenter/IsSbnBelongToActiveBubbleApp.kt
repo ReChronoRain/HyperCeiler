@@ -1,16 +1,18 @@
 package com.sevtinge.cemiuiler.module.securitycenter
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XposedBridge
 
 object IsSbnBelongToActiveBubbleApp : BaseHook() {
     override fun init() {
         try {
-            findMethod("com.miui.bubbles.settings.BubblesSettings") {
+            loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder().first {
                 name == "isSbnBelongToActiveBubbleApp"
-            }.hookReturnConstant(true)
+            }.createHook {
+                returnConstant(true)
+            }
         } catch (e: Throwable) {
             logE(e)
         }

@@ -1,13 +1,13 @@
 package com.sevtinge.cemiuiler.utils
 
-import com.github.kyuubiran.ezxhelper.utils.Log
-import com.github.kyuubiran.ezxhelper.utils.Log.logexIfThrow
+import com.github.kyuubiran.ezxhelper.Log
+import com.github.kyuubiran.ezxhelper.LogExtensions.logexIfThrow
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-abstract class AppRegister: IXposedHookLoadPackage, IXposedHookInitPackageResources {
+abstract class AppRegister : IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     abstract val packageName: String
 
@@ -28,7 +28,10 @@ abstract class AppRegister: IXposedHookLoadPackage, IXposedHookInitPackageResour
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam) {}
 
-    protected fun autoInitResourcesHooks(resparam: XC_InitPackageResources.InitPackageResourcesParam, vararg hook: ResourcesHookRegister) {
+    protected fun autoInitResourcesHooks(
+        resparam: XC_InitPackageResources.InitPackageResourcesParam,
+        vararg hook: ResourcesHookRegister
+    ) {
         hook.also {
         }.forEach {
             runCatching {

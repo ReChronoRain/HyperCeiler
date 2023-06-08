@@ -1,11 +1,13 @@
 package com.sevtinge.cemiuiler.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
 public class XposedUtils {
 
+    @SuppressLint("StaticFieldLeak")
     public static Context mModuleContext = null;
 
     public static synchronized Context getModuleContext(Context context) throws Throwable {

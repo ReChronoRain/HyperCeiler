@@ -9,8 +9,6 @@ import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.systemui.base.BaseSystemUIActivity;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import java.util.Objects;
-
 import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;

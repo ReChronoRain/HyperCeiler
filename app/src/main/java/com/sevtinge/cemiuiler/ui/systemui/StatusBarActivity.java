@@ -18,7 +18,7 @@ public class StatusBarActivity extends BaseSystemUIActivity {
 
     public static class StatusBarFragment extends SubFragment {
 
-        Preference mDeviceStatus; //硬件指示器
+        Preference mDeviceStatus; // 硬件指示器
 
         @Override
         public int getContentResId() {

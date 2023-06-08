@@ -9,15 +9,11 @@ public class StatusBarIcon extends BaseHook {
 
         MethodHook mIconHook = new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 String iconType = (String) param.args[0];
                 switch (checkSlot(iconType)) {
-                    case 1:
-                        param.args[1] = true;
-                        break;
-                    case 2:
-                        param.args[1] = false;
-                        break;
+                    case 1 -> param.args[1] = true;
+                    case 2 -> param.args[1] = false;
                 }
             }
         };
@@ -40,32 +36,31 @@ public class StatusBarIcon extends BaseHook {
         int hotspot = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_hotspot", 0);
         int headset = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_headset", 0);
 
-        switch (slotName) {
-            case "vpn"://vpn
-                return isEnable(vpn) ? vpn : 0;
-            case "alarm_clock"://闹钟
-                return isEnable(alarmClock) ? alarmClock : 0;
-            case "nfc"://nfc
-                return isEnable(nfc) ? nfc : 0;
-            case "zen"://勿扰模式
-                return isEnable(zen) ? zen : 0;
-            case "volume"://声音
-                return isEnable(volume) ? volume : 0;
-            case "wifi"://wifi
-                return isEnable(wifi) ? wifi : 0;
-            case "wifi_slave"://辅助wifi
-                return isEnable(wifi_slave) ? wifi_slave : 0;
-            case "airplane"://飞行模式
-                return isEnable(airplane) ? airplane : 0;
-            case "location"://位置信息
-                return isEnable(location) ? location : 0;
-            case "hotspot"://热点
-                return isEnable(hotspot) ? hotspot : 0;
-            case "headset"://耳机
-                return isEnable(headset) ? headset : 0;
-            default:
-                return 0;
-        }
+        return switch (slotName) {
+            case "vpn" ->// vpn
+                isEnable(vpn) ? vpn : 0;
+            case "alarm_clock" ->// 闹钟
+                isEnable(alarmClock) ? alarmClock : 0;
+            case "nfc" ->// nfc
+                isEnable(nfc) ? nfc : 0;
+            case "zen" ->// 勿扰模式
+                isEnable(zen) ? zen : 0;
+            case "volume" ->// 声音
+                isEnable(volume) ? volume : 0;
+            case "wifi" ->// wifi
+                isEnable(wifi) ? wifi : 0;
+            case "wifi_slave" ->// 辅助wifi
+                isEnable(wifi_slave) ? wifi_slave : 0;
+            case "airplane" ->// 飞行模式
+                isEnable(airplane) ? airplane : 0;
+            case "location" ->// 位置信息
+                isEnable(location) ? location : 0;
+            case "hotspot" ->// 热点
+                isEnable(hotspot) ? hotspot : 0;
+            case "headset" ->// 耳机
+                isEnable(headset) ? headset : 0;
+            default -> 0;
+        };
     }
 
     private static boolean isEnable(int i) {

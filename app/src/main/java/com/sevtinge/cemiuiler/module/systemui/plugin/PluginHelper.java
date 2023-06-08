@@ -6,8 +6,6 @@ import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XposedHelpers;
-
 public class PluginHelper extends BaseHook {
 
     private static ClassLoader pluginLoader = null;

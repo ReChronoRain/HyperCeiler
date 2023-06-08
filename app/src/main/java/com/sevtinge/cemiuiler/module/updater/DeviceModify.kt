@@ -4,7 +4,6 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.updater.UpdaterDexKit.mUpdaterResultMethodsMap
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import de.robv.android.xposed.XposedBridge
-import io.luckypray.dexkit.DexKitBridge
 import java.lang.reflect.Method
 
 object DeviceModify : BaseHook() {

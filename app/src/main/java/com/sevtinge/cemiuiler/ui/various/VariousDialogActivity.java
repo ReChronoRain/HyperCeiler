@@ -47,7 +47,7 @@ public class VariousDialogActivity extends BaseAppCompatActivity {
 
             mDialogBackgroundBlur = findPreference("prefs_key_various_dialog_bg_blur");
 
-            int gialogGravity = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getActivity(),"prefs_key_various_dialog_gravity","0"));
+            int gialogGravity = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getActivity(), "prefs_key_various_dialog_gravity", "0"));
 
             mDialogHorizontalMargin.setVisible(gialogGravity != 0);
             mDialogBottomMargin.setVisible(gialogGravity == 2);

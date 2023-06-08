@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
-        <Preference
-                android:summary="@string/about_contributer_desc"/>
-        <Preference
-                android:title="YuKongA">
+        <Preference android:summary="@string/about_contributer_desc" />
+        <Preference android:title="YuKongA">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/YuKongA"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YuKongA" />
         </Preference>
-        <Preference
-                android:title="黑弩">
+        <Preference android:title="黑弩">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/heinu123"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/heinu123" />
         </Preference>
-        <Preference
-                android:title="Qe_xr">
+        <Preference android:title="Qe_xr">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="http://www.coolapk.com/u/2919503"/>
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.coolapk.com/u/2919503" />
         </Preference>
-        <Preference
-                android:title="欧瓯烨">
+        <Preference android:title="欧瓯烨">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="http://www.coolapk.com/u/12223114"/>
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.coolapk.com/u/12223114" />
         </Preference>
-        <Preference
-                android:title="wushidi">
+        <Preference android:title="wushidi">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/wushidia"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/wushidia" />
         </Preference>
-        <Preference
-                android:title="GSWXXN">
+        <Preference android:title="GSWXXN">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/GSWXXN"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/GSWXXN" />
         </Preference>
-        <Preference
-                android:title="Wansn">
+        <Preference android:title="Wansn">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/Wansn-w"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Wansn-w" />
         </Preference>
-        <Preference
-                android:title="Next Alone">
+        <Preference android:title="Next Alone">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/NextAlone"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/NextAlone" />
         </Preference>
-        <Preference
-                android:title="nakixii">
+        <Preference android:title="nakixii">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/nakixii"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/nakixii" />
         </Preference>
-        <Preference
-                android:title="v5u87">
+        <Preference android:title="v5u87">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="http://www.coolapk.com/u/5816741"/>
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.coolapk.com/u/5816741" />
         </Preference>
-        <Preference
-                android:title="hamjin">
+        <Preference android:title="hamjin">
             <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="https://github.com/hamjin"/>
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/hamjin" />
+        </Preference>
+        <Preference android:title="Naomi">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Henvy-Mango" />
+        </Preference>
+        <Preference android:title="Weverses">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Weverses" />
         </Preference>
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

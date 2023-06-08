@@ -31,7 +31,7 @@ public class VolumeSettings extends BaseSystemFrameWorkActivity {
             mDefaultVolumeStream = findPreference("prefs_key_system_framework_default_volume_stream");
 
             mDefaultVolumeStream.setOnPreferenceChangeListener((preference, o) -> {
-                Settings.Secure.putInt(getContext().getContentResolver(),"system_framework_default_volume_stream", Integer.parseInt((String) o));
+                Settings.Secure.putInt(getContext().getContentResolver(), "system_framework_default_volume_stream", Integer.parseInt((String) o));
                 return true;
             });
         }

@@ -7,35 +7,33 @@ import moralnorm.annotation.ColorInt;
 public class ColorUtilsStatic {
 
     /**
-     * @color:  参数
-     *          类型：int
-     *          例如：-1272178
-     *
      * @return 字符串
-     * */
+     * @color: 参数
+     * 类型：int
+     * 例如：-1272178
+     */
     public static String colorToRGBA(int color) {
         int alpha = color >>> 24;
-        int r = ( color & 0xff0000 ) >> 16;
-        int g = ( color & 0xff00 ) >> 8;
+        int r = (color & 0xff0000) >> 16;
+        int g = (color & 0xff00) >> 8;
         int b = color & 0xff;
 
         return alpha + ", " + r + ", " + g + ", " + b;
     }
 
     /**
-     * @red     红色数值
-     * @green   绿色数值
-     * @blue    蓝色色数值
-     *
      * @return 字符串
-     * */
-    public static String rgbToHex(int red, int green, int blue){
+     * @red 红色数值
+     * @green 绿色数值
+     * @blue 蓝色色数值
+     */
+    public static String rgbToHex(int red, int green, int blue) {
 
         String hr = Integer.toHexString(red);
         String hg = Integer.toHexString(green);
         String hb = Integer.toHexString(blue);
 
-        return  "#"+hr + hg + hb;
+        return "#" + hr + hg + hb;
     }
 
     /**

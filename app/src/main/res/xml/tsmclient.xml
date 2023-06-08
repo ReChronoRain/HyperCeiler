@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-            android:title="@string/tsmclient_auto_nfc"
-            android:summary="@string/tsmclient_auto_nfc_desc"
-            android:key="prefs_key_tsmclient_auto_nfc"
-            android:defaultValue="false"/>
+        android:title="@string/tsmclient_auto_nfc"
+        android:summary="@string/tsmclient_auto_nfc_desc"
+        android:key="prefs_key_tsmclient_auto_nfc"
+        android:defaultValue="false" />
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

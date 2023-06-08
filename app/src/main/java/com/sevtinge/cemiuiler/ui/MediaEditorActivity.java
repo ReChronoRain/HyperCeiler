@@ -1,27 +1,28 @@
 package com.sevtinge.cemiuiler.ui;
 
 import androidx.fragment.app.Fragment;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 
-public class MediaEditorActivity  extends BaseAppCompatActivity {
+public class MediaEditorActivity extends BaseAppCompatActivity {
+
+    @Override
+    public Fragment initFragment() {
+        return new com.sevtinge.cemiuiler.ui.MediaEditorActivity.MediaEditorFragment();
+    }
+
+    public static class MediaEditorFragment extends SubFragment {
 
         @Override
-        public Fragment initFragment() {
-            return new com.sevtinge.cemiuiler.ui.MediaEditorActivity.MediaEditorFragment();
+        public int getContentResId() {
+            return R.xml.mediaeditor;
         }
-
-        public static class MediaEditorFragment extends SubFragment {
-
-            @Override
-            public int getContentResId() {
-                return R.xml.mediaeditor;
-            }
-        }
-
-
     }
+
+
+}
 
 
 

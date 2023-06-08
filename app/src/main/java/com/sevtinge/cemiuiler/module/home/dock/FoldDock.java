@@ -4,9 +4,7 @@ import android.content.Context;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedHelpers;
 
 public class FoldDock extends BaseHook {
 
@@ -28,29 +26,31 @@ public class FoldDock extends BaseHook {
         findAndHookMethod(mDeviceConfig, "getHotseatMaxCount", XC_MethodReplacement.returnConstant(5));
 
 
-        findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats",  "initContent", new MethodHook() {
+        findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "initContent", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 findAndHookMethod(mDeviceConfig, "isFoldDevice",
-                        XC_MethodReplacement.returnConstant(true));
+                    XC_MethodReplacement.returnConstant(true));
             }
+
             @Override
             protected void after(MethodHookParam param) throws Throwable {
 
                 findAndHookMethod(mDeviceConfig, "isFoldDevice",
-                        XC_MethodReplacement.returnConstant(false));
+                    XC_MethodReplacement.returnConstant(false));
             }
         });
         findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "updateContentView", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 findAndHookMethod(mApplication, "isInFoldLargeScreen",
-                        XC_MethodReplacement.returnConstant(true));
+                    XC_MethodReplacement.returnConstant(true));
             }
+
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 findAndHookMethod(mApplication, "isInFoldLargeScreen",
-                        XC_MethodReplacement.returnConstant(false));
+                    XC_MethodReplacement.returnConstant(false));
             }
         });
 

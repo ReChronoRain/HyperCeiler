@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module.guardprovider;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.XposedBridge;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class DisableUploadAppList extends BaseHook {

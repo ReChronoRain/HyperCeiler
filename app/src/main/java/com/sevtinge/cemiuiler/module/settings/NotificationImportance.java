@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.preference.Preference;
 
 public class NotificationImportance extends BaseHook {
 
@@ -40,9 +39,9 @@ public class NotificationImportance extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 Object pref = XposedHelpers.callMethod(param.thisObject, "findPreference", "importance");
                 XposedHelpers.setObjectField(param.thisObject, "mImportance", pref);
-                int mBackupImportance = (int)XposedHelpers.getObjectField(param.thisObject, "mBackupImportance");
+                int mBackupImportance = (int) XposedHelpers.getObjectField(param.thisObject, "mBackupImportance");
                 if (mBackupImportance > 0) {
-                    int index = (int)XposedHelpers.callMethod(pref, "findSpinnerIndexOfValue", String.valueOf(mBackupImportance));
+                    int index = (int) XposedHelpers.callMethod(pref, "findSpinnerIndexOfValue", String.valueOf(mBackupImportance));
                     if (index > -1) {
                         XposedHelpers.callMethod(pref, "setValueIndex", index);
                     }
@@ -66,9 +65,9 @@ public class NotificationImportance extends BaseHook {
                         }
                     };
                     Object mImportanceListener = Proxy.newProxyInstance(
-                            lpparam.classLoader,
-                            new Class[] { ImportanceListener },
-                            handler
+                        lpparam.classLoader,
+                        new Class[]{ImportanceListener},
+                        handler
                     );
                     XposedHelpers.callMethod(pref, "setOnPreferenceChangeListener", mImportanceListener);
                 }

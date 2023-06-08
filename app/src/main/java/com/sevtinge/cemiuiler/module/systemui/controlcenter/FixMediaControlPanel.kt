@@ -1,16 +1,15 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter
 
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
 object FixMediaControlPanel : BaseHook() {
     override fun init() {
         try {
-            EzXHelperInit.initHandleLoadPackage(lpparam)
+            EzXHelper.initHandleLoadPackage(lpparam)
             XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel",
                 lpparam.classLoader,
                 "setArtwork",

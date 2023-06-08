@@ -3,30 +3,30 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="@string/screen_recorder_config"
-                android:summary="@string/screen_recorder_config_desc"
-                android:key="prefs_key_screenrecorder_config"
-                android:defaultValue="false"/>
+            android:title="@string/screen_recorder_config"
+            android:summary="@string/screen_recorder_config_desc"
+            android:key="prefs_key_screenrecorder_config"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/screen_recorder_more_volume"
-                android:summary="@string/screen_recorder_more_volume_desc"
-                android:key="prefs_key_screenrecorder_more_volume"
-                android:defaultValue="false"/>
+            android:title="@string/screen_recorder_more_volume"
+            android:summary="@string/screen_recorder_more_volume_desc"
+            android:key="prefs_key_screenrecorder_more_volume"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/screen_recorder_force_support_playback_capture"
-                android:summary="@string/screen_recorder_force_support_playback_capture_desc"
-                android:key="prefs_key_screenrecorder_force_support_playback_capture"
-                android:defaultValue="false"/>
+            android:title="@string/screen_recorder_force_support_playback_capture"
+            android:summary="@string/screen_recorder_force_support_playback_capture_desc"
+            android:key="prefs_key_screenrecorder_force_support_playback_capture"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/save_to_screen_title"
             android:summary="@string/screen_recorder_save_to_movies_desc"
             android:key="prefs_key_screenrecorder_save_to_movies"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

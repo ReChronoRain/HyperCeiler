@@ -1,7 +1,11 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.screenrecorder.*;
+import com.sevtinge.cemiuiler.module.screenrecorder.ForceSupportPlaybackCapture;
+import com.sevtinge.cemiuiler.module.screenrecorder.SaveToMovies;
+import com.sevtinge.cemiuiler.module.screenrecorder.ScreenRecorderConfig;
+import com.sevtinge.cemiuiler.module.screenrecorder.ScreenRecorderDexKit;
+import com.sevtinge.cemiuiler.module.screenrecorder.UnlockMoreVolumeFrom;
 
 public class ScreenRecorder extends BaseModule {
 

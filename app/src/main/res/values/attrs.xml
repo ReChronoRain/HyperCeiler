@@ -77,7 +77,7 @@
         <attr name="showSeekBarValue" format="boolean" />
 
         <attr name="android:layout" />
-        <attr name="android:format"/>
+        <attr name="android:format" />
         <attr name="android:defaultValue" />
         <!--Attribute controlling the amount to increment or decrement the seekbar when the user
         presses the arrow keys-->

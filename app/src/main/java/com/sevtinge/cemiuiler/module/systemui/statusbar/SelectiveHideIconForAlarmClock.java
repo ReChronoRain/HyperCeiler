@@ -19,7 +19,6 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class SelectiveHideIconForAlarmClock extends BaseHook {
@@ -147,7 +146,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
     }
 
     public long getNextStockAlarmTime(Context context) {
-        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmMgr == null) return 0;
         AlarmManager.AlarmClockInfo aci = alarmMgr.getNextAlarmClock();
         return aci == null ? 0 : aci.getTriggerTime();

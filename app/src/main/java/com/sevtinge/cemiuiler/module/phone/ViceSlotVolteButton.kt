@@ -1,7 +1,8 @@
 package com.sevtinge.cemiuiler.module.phone
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.exec
 
@@ -9,15 +10,19 @@ object ViceSlotVolteButton : BaseHook() {
     override fun init() {
         try {
             exec("settings put global vice_slot_volte_data_enabled 1")
-            findMethod("com.android.phone.MiuiPhoneUtils") {
+            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "shouldHideViceSlotVolteDataButton"
-            }.hookReturnConstant(false)
+            }.createHook {
+                returnConstant(false)
+            }
         } catch (_: Throwable) {
         }
         try {
-            findMethod("com.android.phone.MiuiPhoneUtils") {
+            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "shouldHideSmartDualSimButton"
-            }.hookReturnConstant(false)
+            }.createHook {
+                returnConstant(false)
+            }
         } catch (_: Throwable) {
         }
     }

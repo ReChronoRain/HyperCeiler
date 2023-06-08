@@ -12,7 +12,6 @@ import android.os.Process;
 import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
 
@@ -37,7 +36,7 @@ public class StatusBarActions extends BaseHook {
         setupRestartSystemUIAction();
     }
 
-    //StatusBarActions
+    // StatusBarActions
     public void setupStatusBarAction() {
 
         findAndHookMethod(mStatusBarClass, "start", new MethodHook() {
@@ -80,7 +79,7 @@ public class StatusBarActions extends BaseHook {
                 case ACTION_PREFIX + "ClearMemory":
                     Intent clearIntent = new Intent("com.android.systemui.taskmanager.Clear");
                     clearIntent.putExtra("show_toast", true);
-                    //clearIntent.putExtra("clean_type", -1);
+                    // clearIntent.putExtra("clean_type", -1);
                     context.sendBroadcast(clearIntent);
                     break;
 
@@ -97,8 +96,8 @@ public class StatusBarActions extends BaseHook {
                 case ACTION_PREFIX + "OpenNotificationCenter":
                     try {
                         Object mNotificationPanel = XposedHelpers.getObjectField(mStatusBar, "mNotificationPanel");
-                        boolean mPanelExpanded = (boolean)XposedHelpers.getObjectField(mNotificationPanel, "mPanelExpanded");
-                        boolean mQsExpanded = (boolean)XposedHelpers.getObjectField(mNotificationPanel, "mQsExpanded");
+                        boolean mPanelExpanded = (boolean) XposedHelpers.getObjectField(mNotificationPanel, "mPanelExpanded");
+                        boolean mQsExpanded = (boolean) XposedHelpers.getObjectField(mNotificationPanel, "mQsExpanded");
                         boolean expandOnly = intent.getBooleanExtra("expand_only", false);
                         if (mPanelExpanded) {
                             if (!expandOnly) {
@@ -132,22 +131,22 @@ public class StatusBarActions extends BaseHook {
                 return;
             }
 
-            Handler mHandler = (Handler)XposedHelpers.getObjectField(miuiVolumeDialog, "mHandler");
+            Handler mHandler = (Handler) XposedHelpers.getObjectField(miuiVolumeDialog, "mHandler");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     boolean mShowing = XposedHelpers.getBooleanField(miuiVolumeDialog, "mShowing");
                     boolean mExpanded = XposedHelpers.getBooleanField(miuiVolumeDialog, "mExpanded");
 
-                    AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+                    AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                     boolean isInCall = am.getMode() == AudioManager.MODE_IN_CALL || am.getMode() == AudioManager.MODE_IN_COMMUNICATION;
                     if (mShowing) {
                         if (mExpanded || isInCall)
                             XposedHelpers.callMethod(miuiVolumeDialog, "dismissH", 1);
                         else {
                             Object mDialogView = XposedHelpers.getObjectField(miuiVolumeDialog, "mDialogView");
-                            View mExpandButton = (View)XposedHelpers.getObjectField(mDialogView, "mExpandButton");
-                            View.OnClickListener mClickExpand = (View.OnClickListener)XposedHelpers.getObjectField(mDialogView, "expandListener");
+                            View mExpandButton = (View) XposedHelpers.getObjectField(mDialogView, "mExpandButton");
+                            View.OnClickListener mClickExpand = (View.OnClickListener) XposedHelpers.getObjectField(mDialogView, "expandListener");
                             mClickExpand.onClick(mExpandButton);
                         }
                     } else {

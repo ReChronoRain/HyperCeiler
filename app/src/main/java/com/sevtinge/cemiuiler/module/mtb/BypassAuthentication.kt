@@ -1,34 +1,45 @@
 package com.sevtinge.cemiuiler.module.mtb
 
-import com.github.kyuubiran.ezxhelper.utils.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.setObjectField
 
 object BypassAuthentication : BaseHook() {
     override fun init() {
+        val mModemTestBoxClass = loadClass("com.xiaomi.mtb.activity.ModemTestBoxMainActivity")
+
         try {
-            findMethod("com.xiaomi.mtb.MtbApp") {
+            loadClass("com.xiaomi.mtb.MtbApp").methodFinder().first {
                 name == "setMiServerPermissionClass"
-            }.hookBefore {
-                it.args[0] = 0
+            }.createHook {
+                before {
+                    it.args[0] = 0
+                }
             }
         } catch (_: Throwable) {
         }
 
         try {
-            findMethod("com.xiaomi.mtb.activity.ModemTestBoxMainActivity") {
+            mModemTestBoxClass.methodFinder().first {
                 name == "updateClass"
-            }.hookBefore {
-                it.args[0] = 0
-                it.thisObject.putObject("mClassNet", 0)
+            }.createHook {
+                before {
+                    it.args[0] = 0
+                    it.thisObject.setObjectField("mClassNet", 0)
+                }
             }
         } catch (_: Throwable) {
         }
 
         try {
-            findMethod("com.xiaomi.mtb.activity.ModemTestBoxMainActivity") {
+            mModemTestBoxClass.methodFinder().first {
                 name == "initClassProduct"
-            }.hookAfter {
-                it.thisObject.putObject("mClassProduct", 0)
+            }.createHook {
+                after {
+                    it.thisObject.setObjectField("mClassProduct", 0)
+                }
             }
         } catch (_: Throwable) {
         }

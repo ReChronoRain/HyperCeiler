@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.misettings;
 
 import android.os.Bundle;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;

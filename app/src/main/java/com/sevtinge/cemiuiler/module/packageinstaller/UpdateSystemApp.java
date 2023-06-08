@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.packageinstaller;
 
 import android.content.pm.ApplicationInfo;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.lang.reflect.Method;
@@ -30,17 +31,17 @@ public class UpdateSystemApp extends BaseHook {
                 if (length >= 15 && length <= 25) {
                     List<Method> methods = List.of(mClz.getDeclaredMethods());
                     for (Method method : methods) {
-                        try{
-                        if (method.getParameterTypes()[0] == ApplicationInfo.class) {
-                            hookMethod(method, new MethodHook() {
-                                @Override
-                                protected void before(MethodHookParam param) throws Throwable {
-                                    param.setResult(false);
-                                }
-                            });
-                            break;
+                        try {
+                            if (method.getParameterTypes()[0] == ApplicationInfo.class) {
+                                hookMethod(method, new MethodHook() {
+                                    @Override
+                                    protected void before(MethodHookParam param) throws Throwable {
+                                        param.setResult(false);
+                                    }
+                                });
+                                break;
 
-                        }
+                            }
                         } catch (Throwable e) {
                             e.printStackTrace();
                         }

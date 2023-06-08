@@ -32,14 +32,14 @@ public class DisableThemeAd extends BaseHook {
 
     public void initZygote() {
 
-        hookAllMethods(DrmManager.class, "isSupportAd",new MethodHook() {
+        hookAllMethods(DrmManager.class, "isSupportAd", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(false);
             }
         });
 
-        hookAllMethods(DrmManager.class, "setSupportAd",new MethodHook() {
+        hookAllMethods(DrmManager.class, "setSupportAd", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.args[1] = false;

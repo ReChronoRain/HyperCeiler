@@ -6,7 +6,6 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -20,8 +19,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class DialogCustom extends BaseHook {
@@ -54,7 +51,7 @@ public class DialogCustom extends BaseHook {
                 protected void after(MethodHookParam param) throws Throwable {
                     Window mWindow = (Window) XposedHelpers.getObjectField(param.thisObject, "mWindow");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); //android.R.styleable.Window_windowBlurBehindRadius
+                        mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
                     }
                     mWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
                 }

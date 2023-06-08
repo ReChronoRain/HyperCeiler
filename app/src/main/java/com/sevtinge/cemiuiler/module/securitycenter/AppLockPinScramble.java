@@ -18,12 +18,12 @@ public class AppLockPinScramble extends BaseHook {
         hookAllConstructors("com.miui.applicationlock.widget.MiuiNumericInputView", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                LinearLayout keys = (LinearLayout)param.thisObject;
+                LinearLayout keys = (LinearLayout) param.thisObject;
                 ArrayList<View> mRandomViews = new ArrayList<View>();
                 View bottom0 = null;
                 View bottom2 = null;
                 for (int row = 0; row <= 3; row++) {
-                    ViewGroup cols = (ViewGroup)keys.getChildAt(row);
+                    ViewGroup cols = (ViewGroup) keys.getChildAt(row);
                     for (int col = 0; col <= 2; col++) {
                         if (row == 3)
                             if (col == 0) {
@@ -43,7 +43,7 @@ public class AppLockPinScramble extends BaseHook {
                 int cnt = 0;
                 for (int row = 0; row <= 3; row++)
                     for (int col = 0; col <= 2; col++) {
-                        ViewGroup cols = (ViewGroup)keys.getChildAt(row);
+                        ViewGroup cols = (ViewGroup) keys.getChildAt(row);
                         if (row == 3)
                             if (col == 0) {
                                 cols.addView(bottom0);

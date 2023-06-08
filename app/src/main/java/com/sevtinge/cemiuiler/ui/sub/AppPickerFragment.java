@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.data.adapter.AppDataAdapter;
 import com.sevtinge.cemiuiler.data.AppData;
+import com.sevtinge.cemiuiler.data.adapter.AppDataAdapter;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
@@ -114,9 +114,10 @@ public class AppPickerFragment extends Fragment {
 
     /**
      * 该方法提供了用于判断一个程序是系统程序还是用户程序的功能。
+     *
      * @param applicationInfo
      * @return true 用户自己安装的软件
-     *         fasle  系统软件.
+     * fasle  系统软件.
      */
     public static boolean filterApp(ApplicationInfo applicationInfo) {
         if ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
@@ -126,7 +127,6 @@ public class AppPickerFragment extends Fragment {
         }
         return false;
     }
-
 
 
     public void getOpenWithApps(Context context, List<AppData> appInfoList) {
@@ -161,24 +161,25 @@ public class AppPickerFragment extends Fragment {
         packs.addAll(packs4);
 
         AppData app;
-        for (ResolveInfo pack: packs) try {
-            boolean exists = false;
-            for (AppData openWithApp: appInfoList) {
-                if (openWithApp.packageName.equals(pack.activityInfo.applicationInfo.packageName)) {
-                    exists = true;
-                    break;
+        for (ResolveInfo pack : packs)
+            try {
+                boolean exists = false;
+                for (AppData openWithApp : appInfoList) {
+                    if (openWithApp.packageName.equals(pack.activityInfo.applicationInfo.packageName)) {
+                        exists = true;
+                        break;
+                    }
                 }
+                if (exists) continue;
+                app = new AppData();
+                app.icon = pack.activityInfo.applicationInfo.loadIcon(pm);
+                app.packageName = pack.activityInfo.applicationInfo.packageName;
+                app.enabled = pack.activityInfo.applicationInfo.enabled;
+                app.label = pack.activityInfo.applicationInfo.loadLabel(pm).toString();
+                appInfoList.add(app);
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
-            if (exists) continue;
-            app = new AppData();
-            app.icon = pack.activityInfo.applicationInfo.loadIcon(pm);
-            app.packageName = pack.activityInfo.applicationInfo.packageName;
-            app.enabled = pack.activityInfo.applicationInfo.enabled;
-            app.label = pack.activityInfo.applicationInfo.loadLabel(pm).toString();
-            appInfoList.add(app);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
     }
 
 

@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
-
 import com.sevtinge.cemiuiler.utils.SdkHelper;
+
 import moralnorm.preference.Preference;
 
 public class MainFragment extends SubFragment {

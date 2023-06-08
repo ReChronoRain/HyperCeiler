@@ -51,7 +51,7 @@ class HighBrightnessMode : TileService() {
                 maxFile = "/sys/class/mi_display/disp-DSI-0/max_brightness_clone"
                 file = "/sys/class/mi_display/disp-DSI-0/brightness_clone"
             } else {
-                maxFile =  "/sys/class/backlight/panel0-backlight/max_brightness"
+                maxFile = "/sys/class/backlight/panel0-backlight/max_brightness"
                 file = "/sys/class/backlight/panel0-backlight/brightness"
             }
 

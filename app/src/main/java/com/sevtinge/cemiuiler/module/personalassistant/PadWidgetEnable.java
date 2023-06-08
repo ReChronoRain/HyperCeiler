@@ -16,11 +16,11 @@ public class PadWidgetEnable extends BaseHook {
 
     @Override
     public void init() {
-        hookAllMethods(m2,"c", new MethodHook() {
+        hookAllMethods(m2, "c", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.callMethod(XposedHelpers.findClassIfExists("miui.os.Build",lpparam.classLoader),"isTablet", true);
-                XposedHelpers.setStaticBooleanField(XposedHelpers.findClassIfExists("miui.os.Build", lpparam.classLoader),"IS_TABLET", true);
+                XposedHelpers.callMethod(XposedHelpers.findClassIfExists("miui.os.Build", lpparam.classLoader), "isTablet", true);
+                XposedHelpers.setStaticBooleanField(XposedHelpers.findClassIfExists("miui.os.Build", lpparam.classLoader), "IS_TABLET", true);
             }
         });
 

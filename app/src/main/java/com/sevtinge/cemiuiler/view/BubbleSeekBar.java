@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import moralnorm.annotation.Nullable;
-
 import com.sevtinge.cemiuiler.R;
 
 import java.util.Collection;
@@ -31,6 +29,7 @@ import moralnorm.animation.property.IntValueProperty;
 import moralnorm.animation.property.ValueProperty;
 import moralnorm.animation.utils.EaseManager;
 import moralnorm.animation.utils.EaseManager.EaseStyleDef;
+import moralnorm.annotation.Nullable;
 
 public class BubbleSeekBar extends View {
 
@@ -129,22 +128,22 @@ public class BubbleSeekBar extends View {
 
             var4 = UpdateInfo.findBy(collection, ANIM_EMPTY_HEIGHT);
             if (var4 != null) {
-                mCurrentEmptyProgressHeight = (float)var4.getIntValue();
+                mCurrentEmptyProgressHeight = (float) var4.getIntValue();
             }
 
             var4 = UpdateInfo.findBy(collection, ANIM_FILL_HEIGHT);
             if (var4 != null) {
-                mCurrentFillProgressHeight = (float)var4.getIntValue();
+                mCurrentFillProgressHeight = (float) var4.getIntValue();
             }
 
             var4 = UpdateInfo.findBy(collection, ANIM_EMPTY_WIDTH);
             if (var4 != null) {
-                mCurrentEmptyProgressWidth = (float)var4.getIntValue();
+                mCurrentEmptyProgressWidth = (float) var4.getIntValue();
             }
 
             var4 = UpdateInfo.findBy(collection, ANIM_SLIDER_WIDTH);
             if (var4 != null) {
-                mCurrentSliderWidth = (float)var4.getIntValue();
+                mCurrentSliderWidth = (float) var4.getIntValue();
             }
             invalidate();
         }
@@ -252,7 +251,7 @@ public class BubbleSeekBar extends View {
     public final void initPopupWindow() {
         mShowBubbleConfig = new AnimConfig();
         mShowBubbleConfig.setMinDuration(200L);
-        mShowBubbleConfig.setEase(EaseManager.getStyle(EaseStyleDef.SPRING_PHY,0.9f, 0.3f));
+        mShowBubbleConfig.setEase(EaseManager.getStyle(EaseStyleDef.SPRING_PHY, 0.9f, 0.3f));
         mShowBubbleConfig.setSpecial(ANIM_Y, EaseManager.getStyle(EaseStyleDef.SPRING_PHY, 0.9f, 0.2f), 0);
         mShowBubbleConfig.setSpecial(ANIM_WIDTH, EaseManager.getStyle(EaseStyleDef.SPRING_PHY, 0.9f, 0.2f), 0);
         mShowBubbleConfig.setSpecial(ANIM_ALPHA, EaseManager.getStyle(EaseStyleDef.CUBIC_OUT, 100f), 0);
@@ -264,7 +263,7 @@ public class BubbleSeekBar extends View {
         mHideBubbleConfig.setSpecial(ANIM_WIDTH, EaseManager.getStyle(EaseStyleDef.CUBIC_IN, 250f), 0);
         mHideBubbleConfig.setSpecial(ANIM_ALPHA, EaseManager.getStyle(EaseStyleDef.CUBIC_OUT, 100f), 150L, 0);
 
-        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.bubble_seek_bar_window, (ViewGroup)null);
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.bubble_seek_bar_window, (ViewGroup) null);
         mPopWindowContentView = contentView.findViewById(R.id.rl_content_view);
         mProgressTv = (TextView) mPopWindowContentView.findViewById(R.id.tv_progress);
         mBubble = new Bubble(contentView, mPopWidowSize, mPopWidowSize, false);
@@ -292,10 +291,10 @@ public class BubbleSeekBar extends View {
     @SuppressLint("DrawAllocation")
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float f5 = ((float)mBsbVisibilityHeight - mCurrentFillProgressHeight) / 2.0F;
+        float f5 = ((float) mBsbVisibilityHeight - mCurrentFillProgressHeight) / 2.0F;
         if (mBubble.isShowing() && !mHideBubble) {
             ViewGroup.LayoutParams lp = mPopWindowContentView.getLayoutParams();
-            mPopX = (int)((float)mOffsetX + ((((float)(mBsbVisibilityWidth - mBsbVisibilityHeight)) * (mCurrentProgress + mDeviationProgress - (float)mMinProgress) / (float)(mMaxProgress - mMinProgress)) + (float) (mBsbVisibilityHeight / 2)) - (float)(mPopWidowSize / 2));
+            mPopX = (int) ((float) mOffsetX + ((((float) (mBsbVisibilityWidth - mBsbVisibilityHeight)) * (mCurrentProgress + mDeviationProgress - (float) mMinProgress) / (float) (mMaxProgress - mMinProgress)) + (float) (mBsbVisibilityHeight / 2)) - (float) (mPopWidowSize / 2));
             mPopY = -(mBsbVisibilityHeight + mOffsetY + mPopWidowSize + mBubbleY - mPopWidowPadding);
             mBubble.update(this, mPopX, mPopY, mPopWidowSize, mPopWidowSize);
             lp.width = mPopWindowContentViewSize;
@@ -305,41 +304,41 @@ public class BubbleSeekBar extends View {
         }
 
         mBsbSliderToFillGap = getContext().getResources().getDimensionPixelSize(mIsPress ? R.dimen.magic_bubble_seek_bar_slider_to_fill_gap_highlight : R.dimen.magic_bubble_seek_bar_slider_to_fill_gap_normal);
-        float var8 = (mCurrentProgress + mDeviationProgress - (float)mMinProgress) / (float)(mMaxProgress - mMinProgress);
-        mProgressPosition = (float)(mBsbVisibilityWidth - mBsbVisibilityHeight) * var8 + (float)(this.mEmptyProgressHeight / 2) + (float) mBsbSliderToFillGap;
+        float var8 = (mCurrentProgress + mDeviationProgress - (float) mMinProgress) / (float) (mMaxProgress - mMinProgress);
+        mProgressPosition = (float) (mBsbVisibilityWidth - mBsbVisibilityHeight) * var8 + (float) (this.mEmptyProgressHeight / 2) + (float) mBsbSliderToFillGap;
 
-        RectF r = new RectF((float)mOffsetX + (((float) mBsbVisibilityWidth - mCurrentEmptyProgressWidth) / 2f), (float)mOffsetY + (((float)mBsbVisibilityHeight - mCurrentEmptyProgressHeight) / 2f), (float)this.mBsbVisibilityWidth - (((float) mBsbVisibilityWidth - mCurrentEmptyProgressWidth) / 2f) + (float)mOffsetX, (float)this.mBsbVisibilityHeight - (((float)mBsbVisibilityHeight - mCurrentEmptyProgressHeight) / 2f) + (float)mOffsetY);
+        RectF r = new RectF((float) mOffsetX + (((float) mBsbVisibilityWidth - mCurrentEmptyProgressWidth) / 2f), (float) mOffsetY + (((float) mBsbVisibilityHeight - mCurrentEmptyProgressHeight) / 2f), (float) this.mBsbVisibilityWidth - (((float) mBsbVisibilityWidth - mCurrentEmptyProgressWidth) / 2f) + (float) mOffsetX, (float) this.mBsbVisibilityHeight - (((float) mBsbVisibilityHeight - mCurrentEmptyProgressHeight) / 2f) + (float) mOffsetY);
         canvas.drawRoundRect(r, mCurrentEmptyProgressHeight, mCurrentEmptyProgressHeight, mPaintEmpty);
 
-        mProgressPosition = Math.min(mProgressPosition, (float)mBsbVisibilityWidth - f5 - mCurrentFillProgressHeight / 2.0F);
+        mProgressPosition = Math.min(mProgressPosition, (float) mBsbVisibilityWidth - f5 - mCurrentFillProgressHeight / 2.0F);
         mProgressPosition = Math.max(mProgressPosition, mCurrentFillProgressHeight / 2f + f5);
-        mStartPointProportion = (float)(mStartPointProgress - mMinProgress) / (float)(mMaxProgress - mMinProgress);
+        mStartPointProportion = (float) (mStartPointProgress - mMinProgress) / (float) (mMaxProgress - mMinProgress);
         RectF rectF;
         if (mStartPointProportion == 0f) {
-            rectF = new RectF((float) mOffsetX + f5, (float)mOffsetY + f5, (float)mOffsetX + mProgressPosition + mCurrentFillProgressHeight / 2.0F + 4.0F, (float)(mOffsetY + mBsbVisibilityHeight) - f5);
+            rectF = new RectF((float) mOffsetX + f5, (float) mOffsetY + f5, (float) mOffsetX + mProgressPosition + mCurrentFillProgressHeight / 2.0F + 4.0F, (float) (mOffsetY + mBsbVisibilityHeight) - f5);
         } else {
 
             float f;
             float f2;
             if (var8 > mStartPointProportion) {
-                f = (float)(mWidth / 2);
+                f = (float) (mWidth / 2);
             } else {
-                f = (float)mOffsetX + mProgressPosition;
+                f = (float) mOffsetX + mProgressPosition;
             }
 
             if (var8 < mStartPointProportion) {
-                f2 = (float)(mWidth / 2);
+                f2 = (float) (mWidth / 2);
             } else {
                 f2 = (float) mOffsetX + mProgressPosition;
             }
 
-            rectF = new RectF(f - (mCurrentFillProgressHeight / 2f), (float) mOffsetY + f5, f2 + mCurrentFillProgressHeight / 2.0F, (float)(mOffsetY + mBsbVisibilityHeight) - f5);
+            rectF = new RectF(f - (mCurrentFillProgressHeight / 2f), (float) mOffsetY + f5, f2 + mCurrentFillProgressHeight / 2.0F, (float) (mOffsetY + mBsbVisibilityHeight) - f5);
         }
         canvas.drawRoundRect(rectF, mCurrentFillProgressHeight, mCurrentFillProgressHeight, mPaintFill);
 
         if (!mSliderEenlargeHide) {
-            float f = mCurrentSliderWidth == 0f ? (mCurrentFillProgressHeight - (float)(mBsbSliderToFillGap * 2)) / 2f : mCurrentSliderWidth / 2f;
-            canvas.drawCircle((float) mOffsetX + mProgressPosition, (float)mOffsetY + f5 + (mCurrentFillProgressHeight / 2.0F), f, mPaintSlider);
+            float f = mCurrentSliderWidth == 0f ? (mCurrentFillProgressHeight - (float) (mBsbSliderToFillGap * 2)) / 2f : mCurrentSliderWidth / 2f;
+            canvas.drawCircle((float) mOffsetX + mProgressPosition, (float) mOffsetY + f5 + (mCurrentFillProgressHeight / 2.0F), f, mPaintSlider);
         }
     }
 
@@ -370,45 +369,45 @@ public class BubbleSeekBar extends View {
             if (var2 == 0) {
                 this.mIsPress = true;
                 this.mPressX = var1.getX();
-                this.mProgressTv.setText(String.valueOf((int)this.mCurrentProgress));
+                this.mProgressTv.setText(String.valueOf((int) this.mCurrentProgress));
                 if (mProgressListener != null) {
                     mProgressListener.onStartTrackingTouch(this);
                 }
 
                 AnimState var16 = new AnimState("showFrom");
                 var5 = ANIM_EMPTY_HEIGHT;
-                var6 = (double)this.mCurrentEmptyProgressHeight;
+                var6 = (double) this.mCurrentEmptyProgressHeight;
                 var16 = var16.add(var5, var6);
                 ValueProperty var23 = ANIM_FILL_HEIGHT;
-                var6 = (double)this.mCurrentFillProgressHeight;
+                var6 = (double) this.mCurrentFillProgressHeight;
                 var16 = var16.add(var23, var6);
                 ValueProperty var30 = ANIM_EMPTY_WIDTH;
-                var6 = (double)this.mCurrentEmptyProgressWidth;
+                var6 = (double) this.mCurrentEmptyProgressWidth;
                 var16 = var16.add(var30, var6);
                 var13 = ANIM_SLIDER_WIDTH;
-                var6 = (double)this.mCurrentSliderWidth;
+                var6 = (double) this.mCurrentSliderWidth;
                 var16 = var16.add(var13, var6);
                 IntValueProperty var24 = ANIM_Y;
-                var6 = (double)this.mBubbleY;
+                var6 = (double) this.mBubbleY;
                 var16 = var16.add(var24, var6);
                 IntValueProperty var19 = ANIM_WIDTH;
-                var6 = (double)this.mPopWindowContentViewSize;
+                var6 = (double) this.mPopWindowContentViewSize;
                 var16 = var16.add(var19, var6);
                 var9 = ANIM_ALPHA;
-                var6 = (double)this.mPopWindowContentViewAlpha;
+                var6 = (double) this.mPopWindowContentViewAlpha;
                 var16 = var16.add(var9, var6);
                 AnimState var20 = new AnimState("showTo");
-                var6 = (double)((float)this.mBsbVisibilityHeight);
+                var6 = (double) ((float) this.mBsbVisibilityHeight);
                 var18 = var20.add(var5, var6);
-                var6 = (double)((float)this.mBsbVisibilityHeight);
+                var6 = (double) ((float) this.mBsbVisibilityHeight);
                 AnimState var25 = var18.add(var23, var6);
-                var6 = (double)((float)this.mBsbVisibilityWidth);
+                var6 = (double) ((float) this.mBsbVisibilityWidth);
                 AnimState var31 = var25.add(var30, var6);
-                var6 = (double)((float)this.mSliderWidthHighlight);
+                var6 = (double) ((float) this.mSliderWidthHighlight);
                 AnimState var34 = var31.add(var13, var6);
-                var6 = (double)(this.mBubbleSeekbarDistance + this.mPopWidowPadding);
+                var6 = (double) (this.mBubbleSeekbarDistance + this.mPopWidowPadding);
                 var22 = var34.add(var24, var6);
-                var6 = (double)this.mPopWidowSize;
+                var6 = (double) this.mPopWidowSize;
                 var17 = var22.add(var19, var6);
                 var17 = var17.add(var9, 1.0D);
                 Folme.useValue(new Object[]{this.mIdentityHashCode}).cancel();
@@ -424,13 +423,13 @@ public class BubbleSeekBar extends View {
                     if (var2 == 2) {
                         float var3 = var1.getX() - this.mPressX;
                         this.mMoveOffset = var3;
-                        var3 = (float)(this.mMaxProgress - this.mMinProgress) * var3 / (float)(this.mBsbVisibilityWidth - this.mBsbVisibilityHeight);
+                        var3 = (float) (this.mMaxProgress - this.mMinProgress) * var3 / (float) (this.mBsbVisibilityWidth - this.mBsbVisibilityHeight);
                         this.mDeviationProgress = var3;
-                        var3 = Math.min(var3, (float)this.getMaxProgress() - this.mCurrentProgress);
+                        var3 = Math.min(var3, (float) this.getMaxProgress() - this.mCurrentProgress);
                         this.mDeviationProgress = var3;
-                        var3 = Math.max(var3, (float)getMinProgress() - this.mCurrentProgress);
+                        var3 = Math.max(var3, (float) getMinProgress() - this.mCurrentProgress);
                         this.mDeviationProgress = var3;
-                        var2 = (int)(this.mCurrentProgress + var3);
+                        var2 = (int) (this.mCurrentProgress + var3);
                         this.mProgressTv.setText(String.valueOf(var2));
                         if (this.mProgressListener != null) {
                             if (this.mPreviousProgress == var2 && (var2 == this.getMaxProgress() || var2 == this.getMinProgress() || var2 == 0)) {
@@ -465,37 +464,37 @@ public class BubbleSeekBar extends View {
                 Folme.useValue(new Object[]{this.mIdentityHashCode}).cancel();
                 var17 = new AnimState("hideFrom");
                 var5 = ANIM_EMPTY_HEIGHT;
-                var6 = (double)this.mCurrentEmptyProgressHeight;
+                var6 = (double) this.mCurrentEmptyProgressHeight;
                 var17 = var17.add(var5, var6);
                 ValueProperty var8 = ANIM_FILL_HEIGHT;
-                var6 = (double)this.mCurrentFillProgressHeight;
+                var6 = (double) this.mCurrentFillProgressHeight;
                 var17 = var17.add(var8, var6);
                 var9 = ANIM_EMPTY_WIDTH;
-                var6 = (double)this.mCurrentEmptyProgressWidth;
+                var6 = (double) this.mCurrentEmptyProgressWidth;
                 var17 = var17.add(var9, var6);
                 ValueProperty var10 = ANIM_SLIDER_WIDTH;
-                var6 = (double)this.mCurrentSliderWidth;
+                var6 = (double) this.mCurrentSliderWidth;
                 var17 = var17.add(var10, var6);
                 IntValueProperty var11 = ANIM_Y;
-                var6 = (double)this.mBubbleY;
+                var6 = (double) this.mBubbleY;
                 var17 = var17.add(var11, var6);
                 IntValueProperty var12 = ANIM_WIDTH;
-                var6 = (double)this.mPopWindowContentViewSize;
+                var6 = (double) this.mPopWindowContentViewSize;
                 var17 = var17.add(var12, var6);
                 var13 = ANIM_ALPHA;
-                var6 = (double)this.mPopWindowContentViewAlpha;
+                var6 = (double) this.mPopWindowContentViewAlpha;
                 var17 = var17.add(var13, var6);
                 AnimState var14 = new AnimState("hideTo");
-                var6 = (double)((float)this.mEmptyProgressHeight);
+                var6 = (double) ((float) this.mEmptyProgressHeight);
                 var18 = var14.add(var5, var6);
-                var6 = (double)((float)this.mFillProgressHeight);
+                var6 = (double) ((float) this.mFillProgressHeight);
                 var18 = var18.add(var8, var6);
-                var6 = (double)((float)this.mBsbNormalWidth);
+                var6 = (double) ((float) this.mBsbNormalWidth);
                 AnimState var21 = var18.add(var9, var6);
-                var6 = (double)((float)this.mSliderWidth);
+                var6 = (double) ((float) this.mSliderWidth);
                 var22 = var21.add(var10, var6);
                 var22 = var22.add(var11, 0.0D);
-                var6 = (double)this.mBubbleWidthNormal;
+                var6 = (double) this.mBubbleWidthNormal;
                 var22 = var22.add(var12, var6);
                 var22 = var22.add(var13, 0.0D);
                 IStateStyle var27 = Folme.useValue(this.mIdentityHashCode);
@@ -515,7 +514,7 @@ public class BubbleSeekBar extends View {
     public void setCurrentHeight(float currentHeight) {
         mCurrentEmptyProgressHeight = currentHeight;
         if (mEnlargeAnimListener != null) {
-            mEnlargeAnimListener.onAnimProgressChanged((int)((float) mMaxProgress * (currentHeight - (float) mEmptyProgressHeight) / (float)(this.mBsbVisibilityHeight - mEmptyProgressHeight)));
+            mEnlargeAnimListener.onAnimProgressChanged((int) ((float) mMaxProgress * (currentHeight - (float) mEmptyProgressHeight) / (float) (this.mBsbVisibilityHeight - mEmptyProgressHeight)));
         }
         invalidate();
     }
@@ -568,7 +567,8 @@ public class BubbleSeekBar extends View {
 
     public interface ProgressListener {
 
-        default void onProgressStartChange(BubbleSeekBar seekBar, int progress) {}
+        default void onProgressStartChange(BubbleSeekBar seekBar, int progress) {
+        }
 
         void onProgressChanged(BubbleSeekBar seekBar, int progress);
 

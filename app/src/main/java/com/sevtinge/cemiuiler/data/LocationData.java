@@ -2,18 +2,19 @@ package com.sevtinge.cemiuiler.data;
 
 public class LocationData {
 
-    private String Title; //备注
-    private Double Longitude; //经度
-    private Double Latitude; //纬度
+    private String Title; // 备注
+    private Double Longitude; // 经度
+    private Double Latitude; // 纬度
     private int Offset;
-    private int RegionCode; //区域代码
-    private int BaseStationCode; //基站代码
+    private int RegionCode; // 区域代码
+    private int BaseStationCode; // 基站代码
     private int f;
-    private String Remarks; //备注
+    private String Remarks; // 备注
 
-    public LocationData() {}
+    public LocationData() {
+    }
 
-    //标题,经度,纬度,偏移
+    // 标题,经度,纬度,偏移
     public LocationData(String title, Double longitude, Double latitude, int offset, int regionCode, int baseStationCode, String remarks, int i4) {
         Title = title;
         Longitude = longitude;

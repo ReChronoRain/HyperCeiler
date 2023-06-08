@@ -35,7 +35,7 @@
                 android:maxLength="7"
                 android:singleLine="true"
                 android:inputType="textCapCharacters"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,7 +48,7 @@
                 android:id="@+id/old_color_panel"
                 android:layout_width="0px"
                 android:layout_height="fill_parent"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <com.sevtinge.cemiuiler.view.ColorPickerPanelView
                 android:id="@+id/new_color_panel"

@@ -1,16 +1,19 @@
 package com.sevtinge.cemiuiler.module.updater
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookBefore
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 class VabUpdate : BaseHook() {
     override fun init() {
-        findMethod("miui.util.FeatureParser") {
+        loadClass("miui.util.FeatureParser").methodFinder().first {
             name == "hasFeature" && parameterCount == 2
-        }.hookBefore {
-            if (it.args[0] == "support_ota_validate") {
-                it.result = false
+        }.createHook {
+            before {
+                if (it.args[0] == "support_ota_validate") {
+                    it.result = false
+                }
             }
         }
     }

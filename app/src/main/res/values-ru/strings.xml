@@ -746,12 +746,12 @@
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>
     <string name="system_ui_charge_animation_style_desc">Выберите стиль анимации зарядки на экране блокировки</string>
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
-    <string name="system_ui_control_center_auto_brightness">Автоматический диапазон яркости</string>
-    <string name="system_ui_control_center_auto_brightness_desc">Определение минимальных и максимальных значений для автояркости</string>
+    <string name="system_ui_display_auto_brightness">Автоматический диапазон яркости</string>
+    <string name="system_ui_display_auto_brightness_desc">Определение минимальных и максимальных значений для автояркости</string>
     <string name="system_ui_control_center_blur_background_alpha">Значение размытия фона</string>
     <string name="system_ui_control_center_blur_radius">Степень размытия</string>
     <string name="system_ui_control_center_blur_radius_desc">Без раскрывающегося уведомления</string>
-    <string name="system_ui_control_center_brightness_title">Яркость</string>
+    <string name="system_ui_display_brightness_title">Яркость</string>
     <string name="system_ui_control_center_compact_notice">Компактные уведомления</string>
     <string name="system_ui_control_center_compact_notice_desc">Уменьшить вертикальные отступы уведомлений</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Значение размытия фона элемента управления</string>
@@ -761,8 +761,8 @@
     <string name="system_ui_control_center_hide_device_ctrl_entry">Элемент управления устройством</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Элемент Mi Play</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Элемент Mi smart hub</string>
-    <string name="system_ui_control_center_max_brightness">Максимальная автояркость</string>
-    <string name="system_ui_control_center_min_brightness">Минимальная автояркость</string>
+    <string name="system_ui_display_max_brightness">Максимальная автояркость</string>
+    <string name="system_ui_display_min_brightness">Минимальная автояркость</string>
     <string name="system_ui_control_center_mute_visible_notice">Без звука при включенном экране</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Когда экран включен, всплывающее уведомление отображается без звукового сопровождения</string>
     <string name="system_ui_control_center_notification_blur_model">Настройка размытия уведомлений</string>
@@ -775,7 +775,7 @@
     <string name="system_ui_controlcenter_new_title">Новый центр управления</string>
     <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
     <string name="system_ui_controlcenter_title">Центр управления</string>
-    <string name="system_ui_hardware_title">Экран</string>
+    <string name="system_ui_display_title">Экран</string>
     <string name="system_ui_lock_screen_blur_button">Размытие камеры и кнопки умного экрана</string>
     <string name="system_ui_lock_screen_current">Ток</string>
     <string name="system_ui_lock_screen_default_theme">Поддерживает только тему по умолчанию</string>
@@ -846,6 +846,9 @@
     <string name="system_ui_status_bar_battery_percent">Скрыть процент заряда</string>
     <string name="system_ui_status_bar_battery_percent_mark">Скрыть процент заряда батареи</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Большой значок типа сети</string>
+    <string name="system_ui_statusbar_height_title">Высота строки состояния</string>
+    <string name="system_ui_statusbar_icon_size_title">Размер иконок в строке состояния</string>
+    <string name="system_ui_statusbar_no_lock_top_margin_title">Сбросить строку состояния на экране блокировки</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Блокировка двойным касанием</string>
     <string name="system_ui_status_bar_hide_icon">Скрывать строку состояния при создании скриншота</string>
     <string name="system_ui_status_bar_icon_airplane">Режим полета</string>
@@ -900,7 +903,6 @@
     <string name="system_ui_statusbar_clock_date">Показывать дату</string>
     <string name="system_ui_statusbar_clock_desc">Пример формата часов</string>
     <string name="system_ui_statusbar_clock_double">Показать в две строки</string>
-    <string name="system_ui_statusbar_clock_double_center">Выравнивание по центру двух строк</string>
     <string name="system_ui_statusbar_clock_double_size">Размер двойной строки</string>
     <string name="system_ui_statusbar_clock_editor">Формат часов</string>
     <string name="system_ui_statusbar_clock_hide_space">Скрыть пространство</string>

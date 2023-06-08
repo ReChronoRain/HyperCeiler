@@ -4,8 +4,8 @@ package com.sevtinge.cemiuiler.utils
 
 import android.annotation.SuppressLint
 import android.content.res.XResources
-import com.github.kyuubiran.ezxhelper.init.InitFields.ezXClassLoader
-import com.github.kyuubiran.ezxhelper.utils.Log
+import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
+import com.github.kyuubiran.ezxhelper.Log
 import dalvik.system.BaseDexClassLoader
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
@@ -13,14 +13,14 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.*
 import de.robv.android.xposed.XposedHelpers.*
 import de.robv.android.xposed.callbacks.XC_LayoutInflated
-import java.lang.reflect.Field
-import java.lang.reflect.Member
-import java.lang.reflect.Modifier
-import java.util.Enumeration
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.lang.reflect.Field
+import java.lang.reflect.Member
+import java.lang.reflect.Modifier
+import java.util.Enumeration
 
 typealias MethodHookParam = MethodHookParam
 typealias Replacer = (MethodHookParam) -> Any?
@@ -342,9 +342,9 @@ fun Class<*>.callStaticMethodOrNull(
     callStaticMethod(this, methodName, parameterTypes, *args)
 }
 
-fun String.findClass(): Class<*> = findClass(this, ezXClassLoader)
+fun String.findClass(): Class<*> = findClass(this, classLoader)
 
-fun String.findClassOrNull(): Class<*>? = findClassIfExists(this, ezXClassLoader)
+fun String.findClassOrNull(): Class<*>? = findClassIfExists(this, classLoader)
 
 fun Class<*>.new(vararg args: Any?): Any = newInstance(this, *args)
 
@@ -468,7 +468,7 @@ fun exec(command: String): String {
         val buffer = CharArray(4096)
         val output = StringBuilder()
         while (reader.read(buffer).also { read = it } > 0) {
-            output.append(buffer, 0, read)
+            output.appendRange(buffer, 0, read)
         }
         process.waitFor()
         output.toString()

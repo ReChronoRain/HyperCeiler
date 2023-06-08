@@ -34,7 +34,7 @@ public class ControlCenterActivity extends BaseSystemUIActivity {
             mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
             mFixMediaPanel.setVisible(SdkHelper.isAndroidS() || SdkHelper.isAndroidSv2());
 
-            ((SeekBarPreferenceEx)findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     if (!fromUser) return;
@@ -47,10 +47,12 @@ public class ControlCenterActivity extends BaseSystemUIActivity {
                 }
 
                 @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {}
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
 
                 @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {}
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
             });
         }
     }

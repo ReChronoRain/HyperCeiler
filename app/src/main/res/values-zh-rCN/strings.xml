@@ -23,6 +23,11 @@
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活</string>
 
+    <string name="top_margin">顶部边距</string>
+    <string name="bottom_margin">底部边距</string>
+    <string name="left_margin">左侧间距</string>
+    <string name="right_margin">右侧间距</string>
+
     <string name="feature">功能</string>
     <string name="recommend">推荐</string>
     <string name="editor">编辑</string>
@@ -101,6 +106,9 @@
 
     <string name="array_bold">加粗</string>
     <string name="array_theme">跟随主题</string>
+    <string name="array_clock_center">时钟居中</string>
+    <string name="array_clock_right">时钟居右</string>
+    <string name="array_clock_center_and_icon_left">时钟居中 + 图标居左</string>
 
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
@@ -349,6 +357,7 @@
     <string name="home_layout_unlock_grids_no_words">解锁布局（无字模式）</string>
     <string name="home_layout_unlock_grids_no_words_desc">解锁主屏幕图标布局行列数限制</string>
     <string name="home_layout_workspace_padding_bottom_desc">主屏幕距离屏幕底部边距</string>
+    <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
     <string name="home_layout_workspace_padding_bottom">底部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
     <string name="home_layout_hotseats_margin_top">顶部边距</string>
@@ -657,6 +666,10 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
 
+    <string name="system_settings_connection_sharing_title">连接与共享</string>
+    <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
+    <string name="system_settings_new_nfc_page_desc">开启后，不支持的机型默认付款应用无法选中小米钱包\n</string>
+
     <string name="system_settings_international_build">国际版本设置页面</string>
 
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
@@ -683,8 +696,17 @@
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
-    <string name="system_ui_hardware_title">显示</string>
+    <string name="system_ui_display_title">显示</string>
     <string name="system_ui_other_title">其他</string>
+
+    <string name="system_ui_display_brightness_title">亮度</string>
+    <string name="system_ui_display_auto_brightness">自动亮度范围</string>
+    <string name="system_ui_display_auto_brightness_desc">定义自动亮度的最小值和最大值</string>
+    <string name="system_ui_display_min_brightness">最小亮度</string>
+    <string name="system_ui_display_max_brightness">最大亮度</string>
+
+    <string name="system_ui_display_toast_times_title">显示时长调整</string>
+    <string name="system_ui_display_toast_times_desc">修改 Toast 显示时长，显示时长始终大于 1 秒</string>
 
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
@@ -696,11 +718,6 @@
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
-    <string name="system_ui_control_center_brightness_title">亮度</string>
-    <string name="system_ui_control_center_auto_brightness">自动亮度范围</string>
-    <string name="system_ui_control_center_auto_brightness_desc">定义自动亮度的最小值和最大值</string>
-    <string name="system_ui_control_center_min_brightness">最小亮度</string>
-    <string name="system_ui_control_center_max_brightness">最大亮度</string>
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
     <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_control_center_qs_tile_label">移除标题</string>
@@ -761,6 +778,15 @@
     <string name="system_ui_volume_timer">扩展计时器</string>
     <string name="system_ui_qs_label">快捷开关标签</string>
 
+    <string name="system_ui_statusbar_layout_title">布局</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_title">兼容模式</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_desc">对所有异形屏强制开启完整屏布局</string>
+    <string name="system_ui_statusbar_layout_mode_title">布局模式</string>
+    <string name="system_ui_statusbar_height_title">状态栏高度</string>
+    <string name="system_ui_statusbar_icon_size_title">图标大小</string>
+    <string name="system_ui_statusbar_top_margin_title">顶部边距调整</string>
+    <string name="system_ui_statusbar_no_lock_top_margin_title">不修改锁屏状态栏</string>
+    <string name="system_ui_statusbar_horizontal_spacing_title">水平间距调整</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">双击状态栏锁屏</string>
 
     <string name="system_ui_statusbar_iconmanage_title">图标</string>
@@ -805,7 +831,7 @@
     <string name="system_ui_statusbar_clock_second">显示秒数</string>
     <string name="system_ui_statusbar_clock_hide_space">隐藏间隔</string>
     <string name="system_ui_statusbar_clock_double">双排显示</string>
-    <string name="system_ui_statusbar_clock_double_center">双排居中对齐</string>
+    <string name="system_ui_statusbar_clock_double_mode_title">双排对齐方式</string>
     <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小</string>
     <string name="system_ui_statusbar_clock_double_size">双排时钟大小</string>
@@ -889,6 +915,7 @@
     <string name="system_ui_status_bar_battery_percent_mark">隐藏电量百分比符号</string>
     <string name="system_ui_status_bar_battery_charging">隐藏充电指示器</string>
     <string name="system_ui_status_bar_battery_icon">隐藏电池图标</string>
+    <string name="system_ui_status_bar_battery_size_title">电池百分比文字大小</string>
     <string name="system_ui_status_bar_battery_indicator_title">电量指示器</string>
     <string name="system_ui_status_bar_wifi_at_left">WIFI</string>
     <string name="system_ui_status_bar_mobile_network_at_left">移动网络</string>
@@ -959,6 +986,10 @@
 
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
+
+    <string name="aiasst">小爱翻译</string>
+    <string name="aiasst_ai_captions">强制启用实时字幕</string>
+    <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
@@ -1135,5 +1166,4 @@
 
     <string name="disable_detailed_log">禁用详细日志输出</string>
     <string name="disable_detailed_log_desc">重启以应用更改</string>
-
 </resources>

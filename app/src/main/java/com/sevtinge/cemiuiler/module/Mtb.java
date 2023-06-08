@@ -1,7 +1,8 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.mtb.*;
+import com.sevtinge.cemiuiler.module.mtb.BypassAuthentication;
+import com.sevtinge.cemiuiler.module.mtb.IsUserBuild;
 
 public class Mtb extends BaseModule {
     @Override

@@ -9,7 +9,7 @@ body:
     id: requirement
     attributes:
       label: "需求内容"
-      description: "简单说明你的需求" 
+      description: "简单说明你的需求"
       placeholder: 请添加...
     validations:
       required: true

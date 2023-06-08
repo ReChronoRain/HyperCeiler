@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
 
@@ -29,16 +28,16 @@
             android:title="@string/system_ui_lock_screen_show_charging_cv" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_show_charging_c_more"
-                android:title="@string/system_ui_lock_screen_show_charging_c_more"
-                android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_show_charging_c_more"
+            android:title="@string/system_ui_lock_screen_show_charging_c_more"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
 
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="prefs_key_system_ui_show_charging_v_more"
-                android:title="@string/system_ui_lock_screen_show_charging_v_more"
-                android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"/>
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_show_charging_v_more"
+            android:title="@string/system_ui_lock_screen_show_charging_v_more"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
 
         <SwitchPreference
             android:defaultValue="false"

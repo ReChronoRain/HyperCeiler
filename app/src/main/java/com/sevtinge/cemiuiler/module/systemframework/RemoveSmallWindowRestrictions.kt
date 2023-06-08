@@ -1,108 +1,116 @@
 package com.sevtinge.cemiuiler.module.systemframework
 
 import android.content.Context
-import com.github.kyuubiran.ezxhelper.utils.*
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object RemoveSmallWindowRestrictions : BaseHook() {
+    private val mSettingsClass = loadClass("com.android.server.wm.WindowManagerService\$SettingsObserver")
+    private val mWindowsUtilsClass = loadClass("android.util.MiuiMultiWindowUtils")
+    private val mWindowsClass = loadClass("android.util.MiuiMultiWindowAdapter")
+
     override fun init() {
-        // try {
-        //     findAllMethods("android.provider.Settings\$Global") {
-        //         name == "getInt"
-        //     }.hookAfter { param ->
-        //         XposedBridge.log("MaxFreeFormTest: android.provider.Settings\$Global.getInt called! param.args[1]: " + param.args[1])
-        //         if (param.args[1] == "enable_non_resizable_multi_window") {
-        //             val e = Throwable()
-        //             XposedBridge.log(e)
-        //             param.result = 1
-        //         }
-        //     }
-        //     XposedBridge.log("Cemiuiler: Hook android.provider.Settings\$Global.getInt success!")
-        // } catch (e: Throwable) {
-        //     XposedBridge.log("Cemiuiler: Hook android.provider.Settings\$Global.getInt failed!")
-        //     XposedBridge.log(e)
-        // }
-        //
         try {
-            findAllMethods("com.android.server.wm.ActivityTaskManagerService") {
+            loadClass("com.android.server.wm.ActivityTaskManagerService").methodFinder().first {
                 name == "retrieveSettings"
-            }.hookAfter { param ->
-                param.thisObject.javaClass.field("mDevEnableNonResizableMultiWindow")
-                    .setBoolean(param.thisObject, true)
+            }.createHook {
+                after { param ->
+                    param.thisObject.javaClass.getField("mDevEnableNonResizableMultiWindow")
+                        .setBoolean(param.thisObject, true)
+                }
             }
         } catch (e: Throwable) {
             log("Hook retrieveSettings failed by: $e")
         }
 
         try {
-            findAllMethods("com.android.server.wm.WindowManagerService\$SettingsObserver") {
+            mSettingsClass.methodFinder().filter {
                 name == "updateDevEnableNonResizableMultiWindow"
-            }.hookAfter { param ->
-                val this0 = param.thisObject.javaClass.field("this\$0").get(param.thisObject)
-                val mAtmService = this0.javaClass.field("mAtmService").get(this0)
-                mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService,true)
+            }.toList().createHooks {
+                after { param ->
+                    val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
+                    val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
+                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
+                }
             }
         } catch (e: Throwable) {
             log("Hook updateDevEnableNonResizableMultiWindow failed by: $e")
         }
 
         try {
-            findAllMethods("com.android.server.wm.WindowManagerService\$SettingsObserver") {
+            mSettingsClass.methodFinder().filter {
                 name == "onChange"
-            }.hookAfter { param ->
-                val this0 = param.thisObject.javaClass.field("this\$0").get(param.thisObject)
-                val mAtmService = this0.javaClass.field("mAtmService").get(this0)
-                mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService,true)
+            }.toList().createHooks {
+                after { param ->
+                    val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
+                    val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
+                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
+                }
             }
         } catch (e: Throwable) {
             log("Hook onChange failed by: $e")
         }
 
         try {
-            findMethod("android.util.MiuiMultiWindowUtils") {
+            mWindowsUtilsClass.methodFinder().first {
                 name == "isForceResizeable"
-            }.hookReturnConstant(true)
+            }.createHook {
+                returnConstant(true)
+            }
         } catch (e: Throwable) {
             log("Hook isForceResizeable failed by: $e")
         }
 
         // Author: LittleTurtle2333
         try {
-            findMethod("com.android.server.wm.Task") {
+            loadClass("com.android.server.wm.Task").methodFinder().first {
                 name == "isResizeable"
-            }.hookReturnConstant(true)
+            }.createHook {
+                returnConstant(true)
+            }
         } catch (e: Throwable) {
             log("Hook isResizeable failed by: $e")
         }
 
         try {
-            findMethod("android.util.MiuiMultiWindowAdapter") {
+            mWindowsClass.methodFinder().first {
                 name == "getFreeformBlackList"
-            }.hookReturnConstant(mutableListOf<String>())
+            }.createHook {
+                returnConstant(mutableListOf<String>())
+            }
         } catch (e: Throwable) {
             log("Hook getFreeformBlackList failed by: $e")
         }
 
         try {
-            findMethod("android.util.MiuiMultiWindowAdapter") {
+            mWindowsClass.methodFinder().first {
                 name == "getFreeformBlackListFromCloud" && parameterTypes[0] == Context::class.java
-            }.hookReturnConstant(mutableListOf<String>())
+            }.createHook {
+                returnConstant(mutableListOf<String>())
+            }
         } catch (e: Throwable) {
             log("Hook getFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
-            findAllMethods("android.util.MiuiMultiWindowAdapter") {
+            mWindowsClass.methodFinder().first {
                 name == "getStartFromFreeformBlackListFromCloud"
-            }.hookReturnConstant(mutableListOf<String>())
+            }.createHook {
+                returnConstant(mutableListOf<String>())
+            }
         } catch (e: Throwable) {
             log("Hook getStartFromFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
-            findMethod("android.util.MiuiMultiWindowUtils") {
+            mWindowsUtilsClass.methodFinder().first {
                 name == "supportFreeform"
-            }.hookReturnConstant(true)
+            }.createHook {
+                returnConstant(true)
+            }
         } catch (e: Throwable) {
             log("Hook supportFreeform failed by: $e")
         }

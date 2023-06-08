@@ -1,12 +1,9 @@
 package com.sevtinge.cemiuiler.ui;
 
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
-
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 
 

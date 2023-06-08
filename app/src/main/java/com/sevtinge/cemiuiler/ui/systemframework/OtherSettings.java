@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,13 +13,11 @@ import androidx.fragment.app.Fragment;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 import com.sevtinge.cemiuiler.ui.PickerHomeActivity;
-import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
-
+import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
-import de.robv.android.xposed.XposedBridge;
+
 import moralnorm.appcompat.app.AlertDialog;
-import moralnorm.os.SdkVersion;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
@@ -94,32 +91,32 @@ public class OtherSettings extends BaseAppCompatActivity {
             sendIntent.setType("*/*");
             startActivity(Intent.createChooser(sendIntent, null));
         } else if (item.getItemId() == R.id.system_framework_open_with_menu_test) {
-                Intent viewIntent = new Intent();
-                viewIntent.setAction(Intent.ACTION_VIEW);
-                new AlertDialog.Builder(this)
-                        .setTitle("请选择要测试的数据类型")
-                        .setItems(R.array.open_with_test, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String type = "*/*";
-                                if (which == 0) {
-                                    type = "image/*";
-                                } else if (which == 1) {
-                                    type = "audio/*";
-                                } else if (which == 2) {
-                                    type = "video/*";
-                                } else if (which == 3) {
-                                    type = "text/*";
-                                } else if (which == 4) {
-                                    type = "application/zip";
-                                }
-                                viewIntent.setDataAndType(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/test/" + which), type);
-                                startActivity(Intent.createChooser(viewIntent, null));
-                            }
-                        })
-                        .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
-                        })
-                        .show();
+            Intent viewIntent = new Intent();
+            viewIntent.setAction(Intent.ACTION_VIEW);
+            new AlertDialog.Builder(this)
+                .setTitle("请选择要测试的数据类型")
+                .setItems(R.array.open_with_test, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String type = "*/*";
+                        if (which == 0) {
+                            type = "image/*";
+                        } else if (which == 1) {
+                            type = "audio/*";
+                        } else if (which == 2) {
+                            type = "video/*";
+                        } else if (which == 3) {
+                            type = "text/*";
+                        } else if (which == 4) {
+                            type = "application/zip";
+                        }
+                        viewIntent.setDataAndType(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/test/" + which), type);
+                        startActivity(Intent.createChooser(viewIntent, null));
+                    }
+                })
+                .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+                })
+                .show();
         }
         return super.onOptionsItemSelected(item);
     }

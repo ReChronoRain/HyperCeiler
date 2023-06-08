@@ -6,12 +6,12 @@ import android.content.pm.ResolveInfo;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sevtinge.cemiuiler.utils.SdkHelper;
 import de.robv.android.xposed.XposedHelpers;
 
 public class PackagePermissions extends BaseHook {
@@ -28,7 +28,7 @@ public class PackagePermissions extends BaseHook {
         hookAllMethods(PMSCls, "shouldGrantPermissionBySignature", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
-                String pkgName = (String)XposedHelpers.callMethod(param.args[0], "getPackageName");
+                String pkgName = (String) XposedHelpers.callMethod(param.args[0], "getPackageName");
                 if (systemPackages.contains(pkgName)) param.setResult(true);
             }
         });
@@ -37,7 +37,7 @@ public class PackagePermissions extends BaseHook {
         hookAllMethodsSilently("com.android.server.pm.PackageManagerServiceUtils", "verifySignatures", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
-                String pkgName = (String)XposedHelpers.callMethod(param.args[0], "getName");
+                String pkgName = (String) XposedHelpers.callMethod(param.args[0], "getName");
                 if (systemPackages.contains(pkgName)) param.setResult(true);
             }
         });
@@ -45,12 +45,12 @@ public class PackagePermissions extends BaseHook {
 
         // Make module appear as system app
         String ActQueryService = SdkHelper.isAndroidTiramisu() ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService";
-       hookAllMethods(ActQueryService, "queryIntentActivitiesInternal", new MethodHook() {
+        hookAllMethods(ActQueryService, "queryIntentActivitiesInternal", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
             protected void after(MethodHookParam param) {
                 if (param.args.length < 6) return;
-                List<ResolveInfo> infos = (List<ResolveInfo>)param.getResult();
+                List<ResolveInfo> infos = (List<ResolveInfo>) param.getResult();
                 if (infos != null) {
                     for (ResolveInfo info : infos) {
                         if (info != null && info.activityInfo != null && systemPackages.contains(info.activityInfo.packageName)) {
@@ -59,7 +59,7 @@ public class PackagePermissions extends BaseHook {
                     }
                 }
             }
-       });
+        });
 
         findAndHookMethod("android.content.pm.ApplicationInfo", "isSystemApp", new MethodHook() {
             @Override
@@ -83,7 +83,7 @@ public class PackagePermissions extends BaseHook {
 
         try {
             Class<?> dpgpiClass = findClass("com.android.server.pm.MiuiDefaultPermissionGrantPolicy");
-            String[] MIUI_SYSTEM_APPS = (String[])XposedHelpers.getStaticObjectField(dpgpiClass, "MIUI_SYSTEM_APPS");
+            String[] MIUI_SYSTEM_APPS = (String[]) XposedHelpers.getStaticObjectField(dpgpiClass, "MIUI_SYSTEM_APPS");
             ArrayList<String> mySystemApps = new ArrayList<>(Arrays.asList(MIUI_SYSTEM_APPS));
             mySystemApps.addAll(systemPackages);
             XposedHelpers.setStaticObjectField(dpgpiClass, "MIUI_SYSTEM_APPS", mySystemApps.toArray(new String[0]));

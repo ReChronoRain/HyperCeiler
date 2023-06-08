@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.screenshot;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XC_MethodReplacement;
 
 public class UnlockMinimumCropLimit extends BaseHook {

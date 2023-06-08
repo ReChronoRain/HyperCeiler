@@ -13,7 +13,7 @@ public class DialogBlur extends BaseHook {
 
     @Override
     public void init() {
-        hookAllMethods(mDialogCls,"installContent",new MethodHook() {
+        hookAllMethods(mDialogCls, "installContent", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
 

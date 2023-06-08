@@ -1,16 +1,14 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
-import android.os.Build;
 import android.provider.Settings;
 import android.util.SparseIntArray;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 
 import java.util.Set;
 
-import com.sevtinge.cemiuiler.utils.SdkHelper;
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.os.SdkVersion;
 
 public class VolumeSeparateControl extends BaseHook {
 
@@ -68,9 +66,9 @@ public class VolumeSeparateControl extends BaseHook {
 
         findAndHookMethodSilently(mAudioService, "shouldZenMuteStream", int.class, new MethodHook() {
             protected void after(MethodHookParam param) throws Throwable {
-                int mStreamType = (int)param.args[0];
-                if (mStreamType == 5 && !(boolean)param.getResult()) {
-                    int mZenMode = (int)XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mNm"), "getZenMode");
+                int mStreamType = (int) param.args[0];
+                if (mStreamType == 5 && !(boolean) param.getResult()) {
+                    int mZenMode = (int) XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mNm"), "getZenMode");
                     if (mZenMode == 1) param.setResult(true);
                 }
             }

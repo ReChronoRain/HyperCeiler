@@ -25,7 +25,7 @@ public class CemiuilerSettings extends BaseHook {
 
     private Class<?> mPreferenceHeader;
 
-    int mIconModeInt = mPrefsMap.getStringAsInt("prefs_key_settings_icon_mode",0);
+    int mIconModeInt = mPrefsMap.getStringAsInt("prefs_key_settings_icon_mode", 0);
 
     @Override
     public void init() {
@@ -39,7 +39,7 @@ public class CemiuilerSettings extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 if (param.args[0] == null) return;
 
-                Context mContext = ((Activity)param.thisObject).getBaseContext();
+                Context mContext = ((Activity) param.thisObject).getBaseContext();
                 int opt = Integer.parseInt(mPrefsMap.getString("settings_icon", "0"));
                 if (opt == 0) return;
 
@@ -59,7 +59,7 @@ public class CemiuilerSettings extends BaseHook {
 
                 Bundle bundle = new Bundle();
                 ArrayList<UserHandle> users = new ArrayList<>();
-                users.add((UserHandle)XposedHelpers.newInstance(UserHandle.class, 0));
+                users.add((UserHandle) XposedHelpers.newInstance(UserHandle.class, 0));
                 bundle.putParcelableArrayList("header_user", users);
                 XposedHelpers.setObjectField(header, "extras", bundle);
 
@@ -67,9 +67,9 @@ public class CemiuilerSettings extends BaseHook {
                 int special = mContext.getResources().getIdentifier("other_special_feature_settings", "id", mContext.getPackageName());
                 int timer = mContext.getResources().getIdentifier("app_timer", "id", mContext.getPackageName());
 
-                List<Object> headers = (List<Object>)param.args[0];
+                List<Object> headers = (List<Object>) param.args[0];
                 int position = 0;
-                for (Object head: headers) {
+                for (Object head : headers) {
                     position++;
                     long id = XposedHelpers.getLongField(head, "id");
                     if (opt == 1 && id == -1) {

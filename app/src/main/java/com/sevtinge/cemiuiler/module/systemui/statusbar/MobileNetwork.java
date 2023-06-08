@@ -21,20 +21,20 @@ public class MobileNetwork extends BaseHook {
 
         mHDController = findClassIfExists("com.android.systemui.statusbar.policy.HDController");
 
-        findAndHookMethod(mStatusBarMobileView,"initViewState", mMobileIconState, new MethodHook() {
+        findAndHookMethod(mStatusBarMobileView, "initViewState", mMobileIconState, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
-                updateIconState(param, "mVolte","system_ui_status_bar_icon_big_hd");
+                updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
                 updateIconState(param, "mMobileType", "system_ui_status_bar_icon_mobile_network_type");
             }
         });
 
-        findAndHookMethod(mStatusBarMobileView,"updateState", mMobileIconState, new MethodHook() {
+        findAndHookMethod(mStatusBarMobileView, "updateState", mMobileIconState, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
-                updateIconState(param, "mVolte","system_ui_status_bar_icon_big_hd");
+                updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
                 updateIconState(param, "mMobileType", "system_ui_status_bar_icon_mobile_network_type");
 
             }
@@ -51,7 +51,7 @@ public class MobileNetwork extends BaseHook {
         });
 
 
-        //信号
+        // 信号
         /*hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "applyMobileState", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {

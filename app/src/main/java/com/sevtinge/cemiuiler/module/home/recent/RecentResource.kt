@@ -2,10 +2,10 @@ package com.sevtinge.cemiuiler.module.home.recent
 
 import android.app.Application
 import android.content.Context
-import com.sevtinge.cemiuiler.module.base.BaseHook
 import android.content.res.Resources
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
-import com.github.kyuubiran.ezxhelper.init.InitFields.appContext
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
+import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ResourcesHookData
 import com.sevtinge.cemiuiler.utils.ResourcesHookMap
 import com.sevtinge.cemiuiler.utils.dp2px
@@ -27,10 +27,10 @@ object RecentResource : BaseHook() {
 
     override fun init() {
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
-            EzXHelperInit.initHandleLoadPackage(lpparam)
-            EzXHelperInit.setLogTag(TAG)
-            EzXHelperInit.setToastTag(TAG)
-            EzXHelperInit.initAppContext(it.args[0] as Context)
+            EzXHelper.initHandleLoadPackage(lpparam)
+            EzXHelper.setLogTag(TAG)
+            EzXHelper.setToastTag(TAG)
+            EzXHelper.initAppContext(it.args[0] as Context)
 
             Resources::class.java.hookBeforeMethod("getBoolean", Int::class.javaPrimitiveType) { hook(it) }
             Resources::class.java.hookBeforeMethod("getDimension", Int::class.javaPrimitiveType) { hook(it) }

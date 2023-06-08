@@ -12,33 +12,33 @@
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_safe_mode"
             android:title="@string/miui_package_installer_safe_mode"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_disable_ad"
             android:title="@string/miui_package_installer_disable_ad"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_install_risk"
             android:title="@string/miui_package_installer_install_risk"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_safe_model_tip"
             android:title="@string/miui_package_installer_safe_model_tip"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_miui_package_installer_count_checking"
-                android:title="@string/miui_package_installer_count_checking"
-                android:defaultValue="false"/>
+            android:key="prefs_key_miui_package_installer_count_checking"
+            android:title="@string/miui_package_installer_count_checking"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_miui_package_installer_update_system_app"
             android:title="@string/miui_package_installer_update_system_app"
             android:summary="@string/miui_package_installer_update_system_app_desc"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <EditTextPreference
             android:title="@string/miui_package_installer_install_source"
@@ -49,9 +49,9 @@
             android:key="prefs_key_miui_package_installer_apk_info"
             android:title="@string/miui_package_installer_apk_info"
             android:summary="@string/miui_package_installer_apk_info_desc"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

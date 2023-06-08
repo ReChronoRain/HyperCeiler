@@ -5,7 +5,7 @@
     <SwitchPreference
         android:key="prefs_key_system_ui_status_bar_battery_indicator_enable"
         android:title="@string/enable"
-        android:defaultValue="false"/>
+        android:defaultValue="false" />
 
     <PreferenceCategory android:dependency="prefs_key_system_ui_status_bar_battery_indicator_enable">
 
@@ -29,14 +29,14 @@
             android:key="prefs_key_system_ui_status_bar_battery_indicator_align"
             app:entries="@array/battery_indicator_align"
             app:entryValues="@array/battery_indicator_align_value"
-            android:defaultValue="0"/>
+            android:defaultValue="0" />
 
         <DropDownPreference
             android:title="@string/system_ui_status_bar_battery_indicator_color"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color"
             app:entries="@array/battery_indicator_color"
             app:entryValues="@array/battery_indicator_color_value"
-            android:defaultValue="0"/>
+            android:defaultValue="0" />
 
         <ColorPickerPreference
             android:defaultValue="0xFF00FF00"
@@ -44,7 +44,7 @@
             android:title="@string/system_ui_status_bar_battery_indicator_color_full_power"
             app:showColorShades="true"
             app:showAlphaSlider="true"
-            app:colorShape="circle"/>
+            app:colorShape="circle" />
 
         <ColorPickerPreference
             android:defaultValue="0xFFFF0000"
@@ -52,7 +52,7 @@
             android:title="@string/system_ui_status_bar_battery_indicator_color_low_power"
             app:showColorShades="true"
             app:showAlphaSlider="true"
-            app:colorShape="circle"/>
+            app:colorShape="circle" />
 
         <ColorPickerPreference
             android:defaultValue="0xFFFFFF00"
@@ -60,7 +60,7 @@
             android:title="@string/system_ui_status_bar_battery_indicator_color_power_saving"
             app:showColorShades="true"
             app:showAlphaSlider="true"
-            app:colorShape="circle"/>
+            app:colorShape="circle" />
 
         <ColorPickerPreference
             android:defaultValue="0xFFFFFF00"
@@ -68,7 +68,7 @@
             android:title="@string/system_ui_status_bar_battery_indicator_color_power_charging"
             app:showColorShades="true"
             app:showAlphaSlider="true"
-            app:colorShape="circle"/>
+            app:colorShape="circle" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_height"
@@ -76,7 +76,7 @@
             android:defaultValue="5"
             app:maxValue="15"
             app:showSeekBarValue="true"
-            android:format="%d px"/>
+            android:format="%d px" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_padding"
@@ -84,7 +84,7 @@
             android:defaultValue="0"
             app:maxValue="33"
             app:showSeekBarValue="true"
-            android:format="%d%%"/>
+            android:format="%d%%" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_alpha"
@@ -93,7 +93,7 @@
             app:maxValue="100"
             app:stepValue="5"
             app:showSeekBarValue="true"
-            android:format="%d%%"/>
+            android:format="%d%%" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_glow"
@@ -101,7 +101,7 @@
             android:defaultValue="0"
             app:maxValue="100"
             app:showSeekBarValue="true"
-            android:format="%d%%"/>
+            android:format="%d%%" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_low_level"
@@ -110,13 +110,13 @@
             app:maxValue="50"
             app:stepValue="5"
             app:showSeekBarValue="true"
-            android:format="%d%%"/>
+            android:format="%d%%" />
 
         <Preference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_test"
-            android:title="@string/system_ui_status_bar_battery_indicator_test"/>
+            android:title="@string/system_ui_status_bar_battery_indicator_test" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

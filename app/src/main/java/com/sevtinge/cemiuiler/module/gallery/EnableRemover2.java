@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.gallery;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 public class EnableRemover2 extends BaseHook {

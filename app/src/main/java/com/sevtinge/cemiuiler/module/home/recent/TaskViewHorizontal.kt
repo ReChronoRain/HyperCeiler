@@ -17,7 +17,9 @@ object TaskViewHorizontal : BaseHook() {
             "scaleTaskView", RectF::class.java,
         ) {
             "com.miui.home.recents.util.Utilities".findClass().callStaticMethod(
-                "scaleRectAboutCenter", it.args[0], if (it.thisObject.callMethod("isLandscapeVisually") as Boolean) value2 else value1
+                "scaleRectAboutCenter",
+                it.args[0],
+                if (it.thisObject.callMethod("isLandscapeVisually") as Boolean) value2 else value1
             )
         }
 

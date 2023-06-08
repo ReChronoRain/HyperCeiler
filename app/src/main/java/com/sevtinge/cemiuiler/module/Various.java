@@ -1,8 +1,11 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.various.*;
-import com.sevtinge.cemiuiler.module.guardprovider.DisableUploadAppList;
+import com.sevtinge.cemiuiler.module.various.CollapseMiuiTitle;
+import com.sevtinge.cemiuiler.module.various.DialogCustom;
+import com.sevtinge.cemiuiler.module.various.MiuiAppNoOverScroll;
+import com.sevtinge.cemiuiler.module.various.NoAccessDeviceLogsRequest;
+import com.sevtinge.cemiuiler.module.various.UnlockIme;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -32,8 +35,6 @@ public class Various extends BaseModule {
     }
 
 
-
-
     private boolean isMiuiOverScrollApps() {
         return mPrefsMap.getBoolean("various_no_overscroll") && miuiOverScrollApps.contains(mPackageName);
     }
@@ -47,21 +48,21 @@ public class Various extends BaseModule {
     }
 
     HashSet<String> miuiOverScrollApps = new HashSet<String>(Arrays.asList(
-            "com.android.fileexplorer",
-            "com.android.providers.downloads.ui",
-            "com.android.settings"
+        "com.android.fileexplorer",
+        "com.android.providers.downloads.ui",
+        "com.android.settings"
     ));
 
     HashSet<String> miuiDialogCustomApps = new HashSet<String>(Arrays.asList(
-            "com.android.fileexplorer",
-            "com.android.providers.downloads.ui",
-            "com.android.settings"
+        "com.android.fileexplorer",
+        "com.android.providers.downloads.ui",
+        "com.android.settings"
     ));
 
     HashSet<String> collapseMiuiTitleApps = new HashSet<String>(Arrays.asList(
-            "com.android.fileexplorer",
-            "com.android.providers.downloads.ui",
-            "com.android.settings"
+        "com.android.fileexplorer",
+        "com.android.providers.downloads.ui",
+        "com.android.settings"
     ));
 
 

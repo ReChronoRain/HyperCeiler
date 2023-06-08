@@ -23,8 +23,8 @@ public class CustomMultipleChoiceView extends LinearLayout {
     private MutipleChoiceAdapter mAdapter;
     private List<String> mData;
     private ListView mListView;
-    private onCheckedListener mOnCheckedListener;//确定选择监听器
-    private boolean curWillCheckAll = true;//当前点击按钮时是否将全选
+    private onCheckedListener mOnCheckedListener;// 确定选择监听器
+    private boolean curWillCheckAll = true;// 当前点击按钮时是否将全选
 
     public CustomMultipleChoiceView(Context context) {
         super(context);
@@ -37,7 +37,7 @@ public class CustomMultipleChoiceView extends LinearLayout {
     }
 
     @SuppressLint("InflateParams")
-    private void initView(){
+    private void initView() {
         /* 实例化各个控件 */
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.view_custom_mutiplechoice, null);
@@ -71,7 +71,7 @@ public class CustomMultipleChoiceView extends LinearLayout {
         if (data != null) {
             mData = data;
             mAdapter = new MutipleChoiceAdapter(getContext(), data);
-            if (isSelected != null){
+            if (isSelected != null) {
                 if (isSelected.length != data.size()) {
                     throw new IllegalArgumentException("data's length not equal the isSelected's length");
                 } else {
@@ -88,19 +88,19 @@ public class CustomMultipleChoiceView extends LinearLayout {
         }
     }
 
-    public void setOnCheckedListener(onCheckedListener listener){
+    public void setOnCheckedListener(onCheckedListener listener) {
         mOnCheckedListener = listener;
     }
 
-    public interface onCheckedListener{
+    public interface onCheckedListener {
         void onChecked(SparseBooleanArray sparseBooleanArray);
     }
 
     /**
      * 全选
      */
-    public void selectAll(){
-        if(mData != null){
+    public void selectAll() {
+        if (mData != null) {
             for (int i = 0; i < mData.size(); i++) {
                 mAdapter.getCheckedArray().put(i, true);
             }
@@ -112,8 +112,8 @@ public class CustomMultipleChoiceView extends LinearLayout {
     /**
      * 全不选
      */
-    public void deselectAll(){
-        if(mData != null){
+    public void deselectAll() {
+        if (mData != null) {
             for (int i = 0; i < mData.size(); i++) {
                 mAdapter.getCheckedArray().put(i, false);
             }
@@ -121,10 +121,11 @@ public class CustomMultipleChoiceView extends LinearLayout {
             mAdapter.notifyDataSetChanged();
         }
     }
+
     /**
      * 反选
      */
-    public void reverseSelect(){
+    public void reverseSelect() {
         if (mData != null) {
             for (int i = 0; i < mData.size(); i++) {
                 mAdapter.getCheckedArray().put(i, !mAdapter.getCheckedArray().get(i));
@@ -134,28 +135,28 @@ public class CustomMultipleChoiceView extends LinearLayout {
         }
     }
 
-    private class OnCustomMultipleChoiceCheckedListener implements OnClickListener{
+    private class OnCustomMultipleChoiceCheckedListener implements OnClickListener {
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
 
                 case android.R.id.button1:
-                    //确定选择的按钮
-                    if(mOnCheckedListener != null && mAdapter != null){
+                    // 确定选择的按钮
+                    if (mOnCheckedListener != null && mAdapter != null) {
                         mOnCheckedListener.onChecked(mAdapter.getCheckedArray());
                     }
                     break;
 
                 case android.R.id.button2:
-                    //全选/反选按钮
-                    if(mData != null){
-                        if(curWillCheckAll) {
+                    // 全选/反选按钮
+                    if (mData != null) {
+                        if (curWillCheckAll) {
                             selectAll();
                         } else {
                             deselectAll();
                         }
-                        ((Button)v).setText(curWillCheckAll ? "反选" : "全选");
+                        ((Button) v).setText(curWillCheckAll ? "反选" : "全选");
                         curWillCheckAll = !curWillCheckAll;
                     }
                     break;

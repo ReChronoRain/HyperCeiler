@@ -14,9 +14,9 @@
             android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_disable_72h_verify"
-                android:key="prefs_key_system_framework_disable_72h_verify"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_disable_72h_verify"
+            android:key="prefs_key_system_framework_disable_72h_verify"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_system_framework_other_speed_install"
@@ -25,10 +25,10 @@
             android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_framework_other_disable_cleaner"
-                android:summary="@string/system_framework_other_disable_cleaner_desc"
-                android:key="prefs_key_system_framework_other_disable_cleaner"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_other_disable_cleaner"
+            android:summary="@string/system_framework_other_disable_cleaner_desc"
+            android:key="prefs_key_system_framework_other_disable_cleaner"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/system_framework_disable_app_link_verify"
@@ -80,9 +80,9 @@
 
 
         <SwitchPreference
-                android:title="@string/system_framework_allow_untrusted_touch"
-                android:key="prefs_key_system_framework_allow_untrusted_touch"
-                android:defaultValue="false" />
+            android:title="@string/system_framework_allow_untrusted_touch"
+            android:key="prefs_key_system_framework_allow_untrusted_touch"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/system_other_delete_on_post_notification"

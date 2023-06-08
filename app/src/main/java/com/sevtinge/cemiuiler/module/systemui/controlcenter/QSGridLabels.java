@@ -17,7 +17,7 @@ public class QSGridLabels extends BaseHook {
         Helpers.hookAllMethods("com.android.systemui.qs.MiuiTileLayout", lpparam.classLoader, "addTile", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                updateLabelsVisibility(param.args[0], XposedHelpers.getIntField(param.thisObject, "mRows"), ((ViewGroup)param.thisObject).getResources().getConfiguration().orientation);
+                updateLabelsVisibility(param.args[0], XposedHelpers.getIntField(param.thisObject, "mRows"), ((ViewGroup) param.thisObject).getResources().getConfiguration().orientation);
             }
         });
 
@@ -25,11 +25,11 @@ public class QSGridLabels extends BaseHook {
             @Override
             @SuppressWarnings("unchecked")
             protected void before(MethodHookParam param) throws Throwable {
-                ArrayList<Object> mPages = (ArrayList<Object>)XposedHelpers.getObjectField(param.thisObject, "mPages");
+                ArrayList<Object> mPages = (ArrayList<Object>) XposedHelpers.getObjectField(param.thisObject, "mPages");
                 if (mPages == null) return;
                 int mRows = 0;
                 if (mPages.size() > 0) mRows = XposedHelpers.getIntField(mPages.get(0), "mRows");
-                updateLabelsVisibility(param.args[0], mRows, ((ViewGroup)param.thisObject).getResources().getConfiguration().orientation);
+                updateLabelsVisibility(param.args[0], mRows, ((ViewGroup) param.thisObject).getResources().getConfiguration().orientation);
             }
         });
 
@@ -40,10 +40,10 @@ public class QSGridLabels extends BaseHook {
                 protected void after(MethodHookParam param) throws Throwable {
                     ViewGroup mLabelContainer = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mLabelContainer");
                     if (mLabelContainer != null) mLabelContainer.setPadding(
-                            mLabelContainer.getPaddingLeft(),
-                            Math.round(mLabelContainer.getResources().getDisplayMetrics().density * 2),
-                            mLabelContainer.getPaddingRight(),
-                            mLabelContainer.getPaddingBottom()
+                        mLabelContainer.getPaddingLeft(),
+                        Math.round(mLabelContainer.getResources().getDisplayMetrics().density * 2),
+                        mLabelContainer.getPaddingRight(),
+                        mLabelContainer.getPaddingBottom()
                     );
                 }
             });
@@ -56,15 +56,15 @@ public class QSGridLabels extends BaseHook {
         if (tileView != null) {
             ViewGroup mLabelContainer = null;
             try {
-                mLabelContainer = (ViewGroup)XposedHelpers.getObjectField(tileView, "mLabelContainer");
+                mLabelContainer = (ViewGroup) XposedHelpers.getObjectField(tileView, "mLabelContainer");
+            } catch (Throwable ignore) {
             }
-            catch (Throwable ignore) {}
 
             if (mLabelContainer != null) {
                 mLabelContainer.setVisibility(
-                        mPrefsMap.getBoolean("system_control_center_qs_tile_label") ||
-                                orientation == Configuration.ORIENTATION_PORTRAIT && mRows >= 5 ||
-                                orientation == Configuration.ORIENTATION_LANDSCAPE && mRows >= 3 ? View.GONE : View.VISIBLE
+                    mPrefsMap.getBoolean("system_control_center_qs_tile_label") ||
+                        orientation == Configuration.ORIENTATION_PORTRAIT && mRows >= 5 ||
+                        orientation == Configuration.ORIENTATION_LANDSCAPE && mRows >= 3 ? View.GONE : View.VISIBLE
                 );
             }
         }

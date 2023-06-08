@@ -6,7 +6,10 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.preference.*;
+import moralnorm.preference.ColorPickerPreference;
+import moralnorm.preference.Preference;
+import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SwitchPreference;
 
 public class CustomBackgroundSettings extends SubFragment implements Preference.OnPreferenceChangeListener {
 
@@ -97,13 +100,13 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
         if (preference == mBlurEnabled) {
             setBlurEnabled(!mBlurEnabled.isChecked());
         } else if (preference == mBlurRadius) {
-            setBackgroundBlurRadius((int)o);
+            setBackgroundBlurRadius((int) o);
         } else if (preference == mColor) {
             setBackgroundColor((int) o);
         } else if (preference == mColorAlpha) {
-            setBackgroundColorAlpha((int)o);
+            setBackgroundColorAlpha((int) o);
         } else if (preference == mCornerRadius) {
-            setBackgroundCornerRadius((int)o);
+            setBackgroundCornerRadius((int) o);
         }
         return false;
     }

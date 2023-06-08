@@ -22,6 +22,6 @@
         android:layout_gravity="end|bottom"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp" />
 
 </FrameLayout>

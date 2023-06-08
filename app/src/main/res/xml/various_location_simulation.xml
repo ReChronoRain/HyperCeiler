@@ -5,7 +5,7 @@
 
         <EditTextPreference
             android:title="@string/location_simulation_package_name"
-            android:key="prefs_key_location_simulation_package_name"/>
+            android:key="prefs_key_location_simulation_package_name" />
 
         <DropDownPreference
             android:key="prefs_key_location_simulation_location"
@@ -25,7 +25,7 @@
 
         <EditTextPreference
             android:title="@string/location_simulation_package_name"
-            android:key="prefs_key_location_simulation_package_name2"/>
+            android:key="prefs_key_location_simulation_package_name2" />
 
         <DropDownPreference
             android:key="prefs_key_location_simulation_location2"
@@ -45,7 +45,7 @@
 
         <EditTextPreference
             android:title="@string/location_simulation_package_name"
-            android:key="prefs_key_location_simulation_package_name3"/>
+            android:key="prefs_key_location_simulation_package_name3" />
 
         <DropDownPreference
             android:key="prefs_key_location_simulation_location3"
@@ -75,6 +75,6 @@
         <EditTextPreference android:title="@string/location_simulation_wifi" />
         <EditTextPreference android:title="@string/location_simulation_router_mac" />
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

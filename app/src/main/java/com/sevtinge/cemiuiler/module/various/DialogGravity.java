@@ -48,7 +48,7 @@ public class DialogGravity extends BaseHook {
 
             if (oldMethodFound) {
 
-                findAndHookMethod(mDialogCls,"setupDialogPanel", Configuration.class, new MethodHook() {
+                findAndHookMethod(mDialogCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
                         mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
@@ -61,11 +61,11 @@ public class DialogGravity extends BaseHook {
 
                             layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
 
-                            layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM|Gravity.CENTER;
+                            layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
 
-                            layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                            layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                            layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext,mDialogBottomMargin);
+                            layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                            layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                            layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
                         }
 
                         mParentPanel.setLayoutParams(layoutParams);
@@ -79,12 +79,12 @@ public class DialogGravity extends BaseHook {
             }
 
             for (Method method : methodList) {
-                if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE  && method.getModifiers() == 2  && method.getParameterCount() == 1) {
+                if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE && method.getModifiers() == 2 && method.getParameterCount() == 1) {
                     LogUtils.log("2222" + method.getName());
-                    XposedHelpers.findAndHookMethod(mDialogCls,method.getName(),new MethodHook() {
+                    XposedHelpers.findAndHookMethod(mDialogCls, method.getName(), new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) throws Throwable {
-                            Field field = XposedHelpers.findFirstFieldByExactType(mDialogCls,mDialogParentPanelCls);
+                            Field field = XposedHelpers.findFirstFieldByExactType(mDialogCls, mDialogParentPanelCls);
                             mParentPanel = (View) field.get(param.thisObject);
 
                             mContext = mParentPanel.getContext();
@@ -94,11 +94,11 @@ public class DialogGravity extends BaseHook {
                             if (mDialogGravity != 0) {
                                 layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
 
-                                layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM|Gravity.CENTER;
+                                layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
 
-                                layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                                layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext,mDialogHorizontalMargin));
-                                layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext,mDialogBottomMargin);
+                                layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                                layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dip2px(mContext, mDialogHorizontalMargin));
+                                layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
                             }
 
                             mParentPanel.setLayoutParams(layoutParams);

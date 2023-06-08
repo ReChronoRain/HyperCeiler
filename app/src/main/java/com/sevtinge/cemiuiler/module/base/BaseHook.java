@@ -1,9 +1,9 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import com.sevtinge.cemiuiler.XposedInit;
-import com.sevtinge.cemiuiler.utils.ResourcesHook;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
+import com.sevtinge.cemiuiler.utils.ResourcesHook;
 
 import java.lang.reflect.Method;
 

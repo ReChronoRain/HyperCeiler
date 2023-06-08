@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference android:title="@string/system_ui_lockscreen_title" >
+    <Preference android:title="@string/system_ui_lockscreen_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.LockScreenActivity"/>
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.LockScreenActivity" />
     </Preference>
 
-    <Preference
-        android:title="@string/system_ui_hardware_title"
-        android:enabled="false">
+    <Preference android:title="@string/system_ui_display_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.HardwareActivity" />
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.DisplayActivity" />
     </Preference>
 
-    <Preference android:title="@string/system_ui_statusbar_title" >
+    <Preference android:title="@string/system_ui_statusbar_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.StatusBarActivity" />
     </Preference>
 
-    <Preference android:title="@string/system_ui_navigation_title" >
+    <Preference android:title="@string/system_ui_navigation_title">
         <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.NavigationActivity"/>
+            android:targetPackage="com.sevtinge.cemiuiler"
+            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.NavigationActivity" />
     </Preference>
 
-    <Preference android:title="@string/system_ui_controlcenter_title" >
+    <Preference android:title="@string/system_ui_controlcenter_title">
         <intent
             android:targetPackage="com.sevtinge.cemiuiler"
             android:targetClass="com.sevtinge.cemiuiler.ui.systemui.ControlCenterActivity" />

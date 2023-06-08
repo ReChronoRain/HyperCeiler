@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.utils.Log
+import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.findClass
@@ -60,7 +60,11 @@ object IconTitleColor : BaseHook() {
                 mTitle.setTextColor(value)
             }
             "com.miui.home.launcher.common.Utilities".hookAfterMethod(
-                "adaptTitleStyleToWallpaper", Context::class.java, TextView::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType
+                "adaptTitleStyleToWallpaper",
+                Context::class.java,
+                TextView::class.java,
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType
             ) {
                 val mTitle = it.args[1] as TextView
                 if (mTitle.id == mTitle.resources.getIdentifier("icon_title", "id", "com.miui.home")) {

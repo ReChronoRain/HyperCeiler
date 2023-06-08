@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-            android:title="@string/phone_smart_dual_sim"
-            android:key="prefs_key_phone_smart_dual_sim"
-            android:defaultValue="false"/>
+        android:title="@string/phone_smart_dual_sim"
+        android:key="prefs_key_phone_smart_dual_sim"
+        android:defaultValue="false" />
 
     <SwitchPreference
-            android:title="@string/phone_vice_slot_volte"
-            android:summary="@string/phone_vice_slot_volte_desc"
-            android:key="prefs_key_phone_vice_slot_volte"
-            android:defaultValue="false"/>
+        android:title="@string/phone_vice_slot_volte"
+        android:summary="@string/phone_vice_slot_volte_desc"
+        android:key="prefs_key_phone_vice_slot_volte"
+        android:defaultValue="false" />
 
     <Preference android:enabled="false" />
 

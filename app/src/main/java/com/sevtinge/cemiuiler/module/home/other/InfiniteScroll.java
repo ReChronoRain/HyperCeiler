@@ -14,9 +14,9 @@ public class InfiniteScroll extends BaseHook {
             protected void after(final MethodHookParam param) throws Throwable {
                 if (param.args[0] != param.getResult()) return;
                 int screenCount = (int) XposedHelpers.callMethod(param.thisObject, "getScreenCount");
-                if ((int)param.args[2] == -1 && (int)param.args[0] == 0)
+                if ((int) param.args[2] == -1 && (int) param.args[0] == 0)
                     param.setResult(screenCount);
-                else if ((int)param.args[2] == 1 && (int)param.args[0] == screenCount - 1)
+                else if ((int) param.args[2] == 1 && (int) param.args[0] == screenCount - 1)
                     param.setResult(0);
             }
         });
@@ -27,7 +27,7 @@ public class InfiniteScroll extends BaseHook {
                 int index = (int) param.getResult();
                 int mCurrentScreenIndex = XposedHelpers.getIntField(param.thisObject, lpparam.packageName.equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
                 if (mCurrentScreenIndex != index) return;
-                int screenCount = (int)XposedHelpers.callMethod(param.thisObject, "getScreenCount");
+                int screenCount = (int) XposedHelpers.callMethod(param.thisObject, "getScreenCount");
                 if (index == 0) {
                     param.setResult(screenCount);
                 } else if (index == screenCount - 1) {

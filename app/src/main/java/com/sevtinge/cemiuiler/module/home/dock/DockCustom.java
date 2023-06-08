@@ -49,9 +49,9 @@ public class DockCustom extends BaseHook {
                 FrameLayout mSearchBarContainer = (FrameLayout) XposedHelpers.callMethod(param.thisObject, "getSearchBarContainer");
                 FrameLayout mSearchEdgeLayout = (FrameLayout) mSearchBarContainer.getParent();
 
-                int mDockHeight = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_height",80));
-                int mDockMargin = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_margin_horizontal",30));
-                int mDockBottomMargin = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_margin_bottom",30));
+                int mDockHeight = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_height", 80));
+                int mDockMargin = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30));
+                int mDockBottomMargin = DisplayUtils.dip2px(mSearchBarContainer.getContext(), XposedInit.mPrefsMap.getInt("home_dock_bg_margin_bottom", 30));
 
                 mDockView = new FrameLayout(mSearchBarContainer.getContext());
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDockHeight);
@@ -101,7 +101,7 @@ public class DockCustom extends BaseHook {
             }
         });
 
-        findAndHookMethod(mLauncherCls,"onStateSetStart", mLauncherStateCls, new MethodHook() {
+        findAndHookMethod(mLauncherCls, "onStateSetStart", mLauncherStateCls, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 if (param.args[0].getClass().getSimpleName().equals("LauncherState") && !isFolderShowing && !isShowEditPanel) {

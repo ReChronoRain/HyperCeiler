@@ -1,15 +1,18 @@
 package com.sevtinge.cemiuiler.module.contentextension
 
 import android.content.Context
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 class DoublePress : BaseHook() {
     override fun init() {
-        findMethod("com.miui.contentextension.utils.ContentCatcherUtil") {
+        loadClass("com.miui.contentextension.utils.ContentCatcherUtil").methodFinder().first {
             name == "isCatcherSupportDoublePress" &&
-                    parameterTypes[0] == Context::class.java
-        }.hookReturnConstant(true)
+                parameterTypes[0] == Context::class.java
+        }.createHook {
+            returnConstant(true)
+        }
     }
 }

@@ -70,7 +70,7 @@ public class NewBoxBlur extends BaseHook {
         findAndHookMethod(mTurboaLayout, "a", boolean.class, boolean.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                ImageView view = (ImageView) XposedHelpers.getObjectField(param.thisObject,"j");
+                ImageView view = (ImageView) XposedHelpers.getObjectField(param.thisObject, "j");
                 GradientDrawable shapeDrawable = new GradientDrawable();
                 shapeDrawable.setColor(Color.TRANSPARENT);
                 view.setImageDrawable(shapeDrawable);

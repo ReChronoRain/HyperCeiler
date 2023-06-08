@@ -17,12 +17,12 @@ public class BluetoothIcon extends BaseHook {
                 Object mIconController = XposedHelpers.getObjectField(param.thisObject, "mIconController");
                 if (opt == 2 || (opt == 3 && !isBluetoothConnected)) {
                     XposedHelpers.callMethod(mIconController, "setIconVisibility", "bluetooth", false);
-                } else if (opt == 1){
+                } else if (opt == 1) {
                     XposedHelpers.callMethod(mIconController, "setIconVisibility", "bluetooth", true);
                 }
                 if (opt_b == 2 || (opt_b == 3 && !isBluetoothConnected)) {
                     XposedHelpers.callMethod(mIconController, "setIconVisibility", "bluetooth_handsfree_battery", false);
-                } else if (opt_b == 1){
+                } else if (opt_b == 1) {
                     XposedHelpers.callMethod(mIconController, "setIconVisibility", "bluetooth_handsfree_battery", true);
                 }
             }

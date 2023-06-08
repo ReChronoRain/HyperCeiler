@@ -3,11 +3,13 @@ package com.sevtinge.cemiuiler.ui.various.fragment;
 import android.os.Bundle;
 import android.util.Log;
 
-
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
-import moralnorm.preference.*;
+import moralnorm.preference.DropDownPreference;
+import moralnorm.preference.PreferenceCategory;
+import moralnorm.preference.PreferenceFragmentCompat;
 import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SwitchPreference;
 
 public class VariousFragment extends PreferenceFragmentCompat {
 
@@ -49,7 +51,7 @@ public class VariousFragment extends PreferenceFragmentCompat {
         mBlurEnabledCat = findPreference("prefs_key_various_blur_enabled_cat");
         mBlurCustomCat = findPreference("prefs_key_various_blur_custom");
 
-        int gialogGravity = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getActivity(),"prefs_key_various_dialog_gravity","0"));
+        int gialogGravity = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getActivity(), "prefs_key_various_dialog_gravity", "0"));
 
         mDialogHorizontalMargin.setVisible(gialogGravity != 0);
         mDialogBottomMargin.setVisible(gialogGravity == 2);
@@ -62,7 +64,7 @@ public class VariousFragment extends PreferenceFragmentCompat {
         });
 
 
-        boolean bluEnabled = PrefsUtils.getSharedBoolPrefs(getActivity(),"prefs_key_various_blur_enabled",false);
+        boolean bluEnabled = PrefsUtils.getSharedBoolPrefs(getActivity(), "prefs_key_various_blur_enabled", false);
         mBlurEnabledCat.setVisible(bluEnabled);
         mBlurCustomCat.setVisible(bluEnabled);
 

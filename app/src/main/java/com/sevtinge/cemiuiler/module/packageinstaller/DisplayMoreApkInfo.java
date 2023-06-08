@@ -42,7 +42,7 @@ public class DisplayMoreApkInfo extends BaseHook {
 
             Field[] fields = mAppInfoViewObject.getDeclaredFields();
             String apkInfoFieldName = null;
-            for (Field field: fields)
+            for (Field field : fields)
                 if (mApkInfo.isAssignableFrom(field.getType())) {
                     apkInfoFieldName = field.getName();
                     break;
@@ -77,14 +77,14 @@ public class DisplayMoreApkInfo extends BaseHook {
                     linearLayout.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
 
                     LinearLayout.LayoutParams AppNameViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    AppNameViewParams.setMargins(0, DisplayUtils.dip2px(mRootView.getContext(), 10),0,0);
+                    AppNameViewParams.setMargins(0, DisplayUtils.dip2px(mRootView.getContext(), 10), 0, 0);
                     mAppNameView.setLayoutParams(AppNameViewParams);
                     mAppNameView.setGravity(Gravity.CENTER);
 
                     LinearLayout linearLayout2 = new LinearLayout(mRootView.getContext());
                     linearLayout2.setOrientation(LinearLayout.VERTICAL);
                     linearLayout2.setGravity(Gravity.CENTER);
-                    linearLayout2.setPadding(0, DisplayUtils.dip2px(mRootView.getContext(), 10),0,0);
+                    linearLayout2.setPadding(0, DisplayUtils.dip2px(mRootView.getContext(), 10), 0, 0);
                     linearLayout2.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
 
                     TextView mAppVersionNameView = new TextView(mRootView.getContext());
@@ -107,7 +107,7 @@ public class DisplayMoreApkInfo extends BaseHook {
                     String mAppVersionCode;
                     String mAppSdk;
                     if (mAppInfo != null) {
-                        mAppVersionName = (String)XposedHelpers.callMethod(apkInfo, "getInstalledVersionName") + " ➟ " + mPkgInfo.versionName;
+                        mAppVersionName = (String) XposedHelpers.callMethod(apkInfo, "getInstalledVersionName") + " ➟ " + mPkgInfo.versionName;
                         mAppVersionCode = XposedHelpers.callMethod(apkInfo, "getInstalledVersionCode") + " ➟ " + mPkgInfo.getLongVersionCode();
                         mAppSdk = mAppInfo.minSdkVersion + "-" + mAppInfo.targetSdkVersion + " ➟ " + mPkgInfo.applicationInfo.minSdkVersion + "-" + mPkgInfo.applicationInfo.targetSdkVersion;
                     } else {

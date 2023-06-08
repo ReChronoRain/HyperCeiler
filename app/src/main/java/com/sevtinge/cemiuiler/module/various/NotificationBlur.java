@@ -17,16 +17,16 @@ public class NotificationBlur extends BaseHook {
     Class<?> mCls = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.row.NotificationBackgroundView", lpparam.classLoader);
     Class<?> mCls2 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.policy.AppMiniWindowRowTouchHelper", lpparam.classLoader);
     Class<?> mCls3 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController", lpparam.classLoader);
-    Class<?> mCls4 = XposedHelpers.findClassIfExists("com.android.keyguard.magazine.LockScreenMagazineController",lpparam.classLoader);
-    Class<?> mCls5 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController$mBlurRatioChangedListener$1",lpparam.classLoader);
-    Class<?> mCls6 = XposedHelpers.findClassIfExists("com.android.systemui.shared.plugins.PluginInstanceManager$PluginHandler",lpparam.classLoader);
-    Class<?> mCls7 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow",lpparam.classLoader);
-    Class<?> mCls8 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout",lpparam.classLoader);
+    Class<?> mCls4 = XposedHelpers.findClassIfExists("com.android.keyguard.magazine.LockScreenMagazineController", lpparam.classLoader);
+    Class<?> mCls5 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController$mBlurRatioChangedListener$1", lpparam.classLoader);
+    Class<?> mCls6 = XposedHelpers.findClassIfExists("com.android.systemui.shared.plugins.PluginInstanceManager$PluginHandler", lpparam.classLoader);
+    Class<?> mCls7 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow", lpparam.classLoader);
+    Class<?> mCls8 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout", lpparam.classLoader);
 
     @Override
     public void init() {
 
-        hookAllMethods(mCls,"setCustomBackground", new MethodHook() {
+        hookAllMethods(mCls, "setCustomBackground", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 super.after(param);
@@ -37,7 +37,7 @@ public class NotificationBlur extends BaseHook {
             }
         });
 
-        hookAllMethods(mCls,"draw",new MethodHook() {
+        hookAllMethods(mCls, "draw", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 super.after(param);
@@ -49,7 +49,7 @@ public class NotificationBlur extends BaseHook {
             }
         });
 
-        hookAllMethods(mCls2,"onMiniWindowTrackingStart", new MethodHook() {
+        hookAllMethods(mCls2, "onMiniWindowTrackingStart", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 super.before(param);
@@ -75,7 +75,7 @@ public class NotificationBlur extends BaseHook {
             }
         });
 
-        hookAllMethods(mCls3,"onStateChanged", new MethodHook() {
+        hookAllMethods(mCls3, "onStateChanged", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 super.after(param);
@@ -133,7 +133,7 @@ public class NotificationBlur extends BaseHook {
         });
 
 
-        hookAllMethods(mCls4,"setViewsAlpha", new MethodHook() {
+        hookAllMethods(mCls4, "setViewsAlpha", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 super.before(param);

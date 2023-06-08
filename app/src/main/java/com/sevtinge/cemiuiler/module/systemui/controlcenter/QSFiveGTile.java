@@ -37,10 +37,10 @@ public class QSFiveGTile extends BaseHook {
         int mFiveGIconOffResId = mResHook.addResource("ic_control_center_5g_toggle_off", R.drawable.ic_control_center_5g_toggle_off);
 
         mQSFactoryClsName = SdkHelper.ATLEAST_T ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
-                "com.android.systemui.qs.tileimpl.QSFactoryImpl";
+            "com.android.systemui.qs.tileimpl.QSFactoryImpl";
 
         mNfcTileClsName = SdkHelper.ATLEAST_T ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
-                "com.android.systemui.qs.tiles.NfcTile";
+            "com.android.systemui.qs.tiles.NfcTile";
 
         mQSFactory = findClassIfExists(mQSFactoryClsName);
         mNfcTile = findClassIfExists(mNfcTileClsName);

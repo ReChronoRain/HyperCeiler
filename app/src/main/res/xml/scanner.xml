@@ -4,44 +4,44 @@
     <PreferenceCategory>
 
         <SwitchPreference
-                android:title="@string/scanner_card"
-                android:key="prefs_key_scanner_card"
-                android:defaultValue="false"/>
+            android:title="@string/scanner_card"
+            android:key="prefs_key_scanner_card"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/scanner_translation"
-                android:key="prefs_key_scanner_translation"
-                android:defaultValue="false"/>
+            android:title="@string/scanner_translation"
+            android:key="prefs_key_scanner_translation"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/scanner_ocr"
-                android:key="prefs_key_scanner_ocr"
-                android:defaultValue="false"/>
+            android:title="@string/scanner_ocr"
+            android:key="prefs_key_scanner_ocr"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/scanner_document"
-                android:key="prefs_key_scanner_document"
-                android:defaultValue="false"/>
+            android:title="@string/scanner_document"
+            android:key="prefs_key_scanner_document"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/scanner_excel"
-                android:key="prefs_key_scanner_excel"
-                android:defaultValue="false"
-                android:dependency="prefs_key_scanner_document"/>
+            android:title="@string/scanner_excel"
+            android:key="prefs_key_scanner_excel"
+            android:defaultValue="false"
+            android:dependency="prefs_key_scanner_document" />
 
         <SwitchPreference
-                android:title="@string/scanner_ppt"
-                android:key="prefs_key_scanner_ppt"
-                android:defaultValue="false"
-                android:dependency="prefs_key_scanner_document"/>
+            android:title="@string/scanner_ppt"
+            android:key="prefs_key_scanner_ppt"
+            android:defaultValue="false"
+            android:dependency="prefs_key_scanner_document" />
 
         <SwitchPreference
-                android:title="@string/scanner_doc_ppt"
-                android:key="prefs_key_scanner_doc_ppt"
-                android:defaultValue="false"/>
+            android:title="@string/scanner_doc_ppt"
+            android:key="prefs_key_scanner_doc_ppt"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

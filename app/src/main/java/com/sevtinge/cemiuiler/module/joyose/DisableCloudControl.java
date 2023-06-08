@@ -1,17 +1,18 @@
 package com.sevtinge.cemiuiler.module.joyose;
 
+import static com.sevtinge.cemiuiler.module.joyose.JoyoseDexKit.mJoyoseResultMethodsMap;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
 
-import static com.sevtinge.cemiuiler.module.joyose.JoyoseDexKit.mJoyoseResultMethodsMap;
+import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 
 public class DisableCloudControl extends BaseHook {
 
-    //Class<?> mCloud;
+    // Class<?> mCloud;
 
     Method cloudControl;
 
@@ -25,7 +26,7 @@ public class DisableCloudControl extends BaseHook {
                     hookMethod(cloudControl, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
-                            param.setResult(null);//2
+                            param.setResult(null);// 2
                         }
                     });
                 }
@@ -41,7 +42,7 @@ public class DisableCloudControl extends BaseHook {
             }
         });*/
 
-        //mCloud = findClassIfExists("com.xiaomi.joyose.cloud.g$a");
+        // mCloud = findClassIfExists("com.xiaomi.joyose.cloud.g$a");
 
     }
 }

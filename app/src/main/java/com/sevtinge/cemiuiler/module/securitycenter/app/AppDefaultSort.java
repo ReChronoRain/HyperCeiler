@@ -26,10 +26,10 @@ public class AppDefaultSort extends BaseHook {
         findAndHookMethod(mAppManagerCls, "onCreate", Bundle.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                param.args[0] = checkBundle((Context)param.thisObject, (Bundle)param.args[0]);
+                param.args[0] = checkBundle((Context) param.thisObject, (Bundle) param.args[0]);
                 Class<?> mFragXCls = findClassIfExists("androidx.fragment.app.Fragment");
                 Field[] fields = param.thisObject.getClass().getDeclaredFields();
-                for (Field field: fields) {
+                for (Field field : fields) {
                     if (Fragment.class.isAssignableFrom(field.getType()) || (mFragXCls != null && mFragXCls.isAssignableFrom(field.getType()))) {
                         fragCls = field.getType().getCanonicalName();
                         break;
@@ -40,7 +40,7 @@ public class AppDefaultSort extends BaseHook {
                         @Override
                         protected void before(final MethodHookParam param) throws Throwable {
                             try {
-                                param.args[0] = checkBundle((Context)XposedHelpers.callMethod(param.thisObject, "getContext"), (Bundle)param.args[0]);
+                                param.args[0] = checkBundle((Context) XposedHelpers.callMethod(param.thisObject, "getContext"), (Bundle) param.args[0]);
                             } catch (Throwable t) {
                                 LogUtils.log("AppDefaultSortHook", t);
                             }

@@ -52,7 +52,7 @@ object NetworkSpeed : BaseHook() {
         return Pair(tx, rx)
     }
 
-//  网速计算与隐藏相关
+    //  网速计算与隐藏相关
     @SuppressLint("DefaultLocale")
     private fun humanReadableByteCount(ctx: Context, bytes: Long): String {
         return try {
@@ -85,9 +85,9 @@ object NetworkSpeed : BaseHook() {
 
     override fun init() {
 //      双排网速相关
-        val networkClass = when{
-            Build.VERSION.SDK_INT ==  Build.VERSION_CODES.R ->  "com.android.systemui.statusbar.NetworkSpeedController"
-            Build.VERSION.SDK_INT >=  Build.VERSION_CODES.S ->  "com.android.systemui.statusbar.policy.NetworkSpeedController"
+        val networkClass = when {
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> "com.android.systemui.statusbar.NetworkSpeedController"
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
             else -> null
         }
 
@@ -168,27 +168,40 @@ object NetworkSpeed : BaseHook() {
                                 txarrow = if (txSpeed < lowLevel) "△" else "▲"
                                 rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
                             }
+
                             3 -> {
                                 txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
                                 rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
                             }
+
                             4 -> {
                                 txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
                                 rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
                             }
+
                             5 -> {
                                 txarrow = if (txSpeed < lowLevel) "↑" else "↑"
                                 rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
                             }
+
                             6 -> {
                                 txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
                                 rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
                             }
                         }
-                        val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(mContext, txSpeed) + txarrow
-                        val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(mContext, rxSpeed) + rxarrow
+                        val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
+                            mContext,
+                            txSpeed
+                        ) + txarrow
+                        val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(
+                            mContext,
+                            rxSpeed
+                        ) + rxarrow
                         val ax = humanReadableByteCount(mContext, newTxBytesFixed + newRxBytesFixed)
-                        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down") && !mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+                        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down") && !mPrefsMap.getBoolean(
+                                "system_ui_statusbar_network_speed_fakedualrow"
+                            )
+                        ) {
                             if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
                                 param.args[0] = "".trimIndent()
                             } else {

@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.module.securitycenter
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.RenderEffect
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Build
@@ -160,7 +162,7 @@ object BlurSecurity : BaseHook() {
                             if (shouldInvertColor) {
                                 invertViewColor(gameContentLayout)
 
-                                //设置 RenderEffect 后会导致文字动画出现问题，故去除动画
+                                // 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
                                 val performanceTextView = XposedHelpers.callMethod(
                                     param.thisObject,
                                     "getPerformanceTextView"

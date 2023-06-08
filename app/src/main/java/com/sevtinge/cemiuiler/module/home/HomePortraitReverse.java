@@ -13,7 +13,7 @@ public class HomePortraitReverse extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.Launcher", "onCreate", Bundle.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                Activity act = (Activity)param.thisObject;
+                Activity act = (Activity) param.thisObject;
                 act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             }
         });

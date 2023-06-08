@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
 
         <DropDownPreference
-                android:key="prefs_key_market_device_modify_new"
-                android:title="@string/market_device_modify"
-                android:defaultValue="0"
-                app:entries="@array/market_device_modify_list"
-                app:entryValues="@array/market_device_modify_value" />
+            android:key="prefs_key_market_device_modify_new"
+            android:title="@string/market_device_modify"
+            android:defaultValue="0"
+            app:entries="@array/market_device_modify_list"
+            app:entryValues="@array/market_device_modify_value" />
 
         <SwitchPreference
-                android:title="@string/market_disable_new_icon"
-                android:summary="@string/market_disable_new_icon_desc"
-                android:key="prefs_key_market_disable_new_icon"
-                android:defaultValue="false"
-                app:isPreferenceVisible="false"/>
+            android:title="@string/market_disable_new_icon"
+            android:summary="@string/market_disable_new_icon_desc"
+            android:key="prefs_key_market_disable_new_icon"
+            android:defaultValue="false"
+            app:isPreferenceVisible="false" />
 
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

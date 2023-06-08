@@ -19,9 +19,9 @@ public class VersionCodeModify extends BaseHook {
         findAndHookMethod(mApplication, "onCreate", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                String mVersionCode = mPrefsMap.getString("various_updater_miui_version","V14.0.22.11.26.DEV");
+                String mVersionCode = mPrefsMap.getString("various_updater_miui_version", "V14.0.22.11.26.DEV");
                 if (!TextUtils.isEmpty(mVersionCode)) {
-                    XposedHelpers.setStaticObjectField(Build.VERSION.class,"INCREMENTAL", mVersionCode);
+                    XposedHelpers.setStaticObjectField(Build.VERSION.class, "INCREMENTAL", mVersionCode);
                 }
             }
         });

@@ -13,11 +13,11 @@ public class FreeFormCountForHome extends BaseHook {
         mRecentsAndFSGesture = findClassIfExists("com.miui.home.launcher.RecentsAndFSGestureUtils");
 
         hookAllMethods(mRecentsAndFSGesture,
-                "canTaskEnterMiniSmallWindow",
-                XC_MethodReplacement.returnConstant(true));
+            "canTaskEnterMiniSmallWindow",
+            XC_MethodReplacement.returnConstant(true));
 
         hookAllMethods(mRecentsAndFSGesture,
-                "canTaskEnterSmallWindow",
-                XC_MethodReplacement.returnConstant(true));
+            "canTaskEnterSmallWindow",
+            XC_MethodReplacement.returnConstant(true));
     }
 }

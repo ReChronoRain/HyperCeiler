@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
-                     tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -11,159 +13,253 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"
-                     tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.INTERACT_ACROSS_USERS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-                     tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
-                     tools:ignore="QueryAllPackagesPermission" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
-                     tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"
-                     tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.MANAGE_USB"
-                     tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SET_ANIMATION_SCALE"
-                     tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.MODIFY_DAY_NIGHT_MODE"
-                     tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MANAGE_USB"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.SET_ANIMATION_SCALE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MODIFY_DAY_NIGHT_MODE"
+        tools:ignore="ProtectedPermissions" />
 
     <uses-permission android:name="miui.permission.READ_LOGS" />
     <uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
     <uses-permission android:name="com.miui.securitycenter.permission.ACCESS_SECURITY_CENTER_PROVIDER" />
 
-    <uses-permission android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    <uses-permission
+        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
-    <permission android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+
+    <permission
+        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
 
     <application
-            android:name=".Application"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:requestLegacyExternalStorage="true"
-            android:theme="@style/AppTheme">
+        android:name=".Application"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.MainActivity" android:exported="true">
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
 
         <activity-alias
-                android:label="@string/app_name"
-                android:name=".ui.HideAppActivity"
-                android:targetActivity=".ui.MainActivity"
-                android:exported="true">
+            android:label="@string/app_name"
+            android:name=".ui.HideAppActivity"
+            android:targetActivity=".ui.MainActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
 
-        <activity android:label="@string/about" android:name=".ui.AboutActivity"/>
+        <activity
+            android:label="@string/about"
+            android:name=".ui.AboutActivity" />
 
-        <activity android:label="@string/system_framework" android:name=".ui.SystemFrameworkActivity" android:exported="false">
+        <activity
+            android:label="@string/system_framework"
+            android:name=".ui.SystemFrameworkActivity"
+            android:exported="false">
             <intent-filter>
-                <action android:name="moralnorm.intent.action.SystemFramework"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="moralnorm.intent.action.SystemFramework" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/system_ui" android:name=".ui.SystemUIActivity" android:exported="false">
+        <activity
+            android:label="@string/system_ui"
+            android:name=".ui.SystemUIActivity"
+            android:exported="false">
             <intent-filter>
-                <action android:name="moralnorm.intent.action.SystemUI"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="moralnorm.intent.action.SystemUI" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/home" android:name=".ui.HomeActivity" android:exported="false">
+        <activity
+            android:label="@string/home"
+            android:name=".ui.HomeActivity"
+            android:exported="false">
             <intent-filter>
-                <action android:name="moralnorm.intent.action.Home"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="moralnorm.intent.action.Home" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/security_center" android:name=".ui.SecurityCenterActivity" android:exported="false">
+        <activity
+            android:label="@string/security_center"
+            android:name=".ui.SecurityCenterActivity"
+            android:exported="false">
             <intent-filter>
-                <action android:name="moralnorm.intent.action.SecurityCenter"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="moralnorm.intent.action.SecurityCenter" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/various" android:name=".ui.VariousActivity" android:exported="false">
+        <activity
+            android:label="@string/various"
+            android:name=".ui.VariousActivity"
+            android:exported="false">
             <intent-filter>
-                <action android:name="moralnorm.intent.action.Various"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="moralnorm.intent.action.Various" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/joyose" android:name=".ui.JoyoseActivity"/>
+        <activity
+            android:label="@string/joyose"
+            android:name=".ui.JoyoseActivity" />
 
-        <activity android:label="@string/powerkeeper" android:name=".ui.PowerKeeperActivity"/>
+        <activity
+            android:label="@string/powerkeeper"
+            android:name=".ui.PowerKeeperActivity" />
 
-        <activity android:label="@string/screenshot" android:name=".ui.ScreenShotActivity"/>
+        <activity
+            android:label="@string/screenshot"
+            android:name=".ui.ScreenShotActivity" />
 
-        <activity android:label="@string/screenrecorder" android:name=".ui.ScreenRecorderActivity"/>
+        <activity
+            android:label="@string/screenrecorder"
+            android:name=".ui.ScreenRecorderActivity" />
 
-        <activity android:label="@string/mediaeditor" android:name=".ui.MediaEditorActivity"/>
+        <activity
+            android:label="@string/mediaeditor"
+            android:name=".ui.MediaEditorActivity" />
 
-        <activity android:label="@string/music" android:name=".ui.MusicActivity"/>
+        <activity
+            android:label="@string/music"
+            android:name=".ui.MusicActivity" />
 
-        <activity android:label="@string/gallery" android:name=".ui.GalleryActivity"/>
+        <activity
+            android:label="@string/gallery"
+            android:name=".ui.GalleryActivity" />
 
-        <activity android:label="@string/clock" android:name=".ui.ClockActivity"/>
+        <activity
+            android:label="@string/clock"
+            android:name=".ui.ClockActivity" />
 
-        <activity android:label="@string/browser" android:name=".ui.BrowserActivity"/>
+        <activity
+            android:label="@string/browser"
+            android:name=".ui.BrowserActivity" />
 
-        <activity android:label="@string/weather" android:name=".ui.WeatherActivity"/>
+        <activity
+            android:label="@string/weather"
+            android:name=".ui.WeatherActivity" />
 
-        <activity android:label="@string/settings" android:name=".ui.SettingsActivity"/>
+        <activity
+            android:label="@string/settings"
+            android:name=".ui.SettingsActivity" />
 
-        <activity android:label="@string/aireco" android:name=".ui.AirecoActivity"/>
+        <activity
+            android:label="@string/aireco"
+            android:name=".ui.AirecoActivity" />
 
-        <activity android:label="@string/scanner" android:name=".ui.ScannerActivity"/>
+        <activity
+            android:label="@string/aiasst"
+            android:name=".ui.AiAsstActivity" />
 
-        <activity android:label="@string/mishare" android:name=".ui.MiShareActivity"/>
+        <activity
+            android:label="@string/scanner"
+            android:name=".ui.ScannerActivity" />
 
-        <activity android:label="@string/mirror" android:name=".ui.MirrorActivity"/>
+        <activity
+            android:label="@string/mishare"
+            android:name=".ui.MiShareActivity" />
 
-        <activity android:label="@string/market" android:name=".ui.MarketActivity"/>
+        <activity
+            android:label="@string/mirror"
+            android:name=".ui.MirrorActivity" />
 
-        <activity android:label="@string/guard_provider" android:name=".ui.GuardProviderActivity"/>
+        <activity
+            android:label="@string/market"
+            android:name=".ui.MarketActivity" />
 
-        <activity android:label="@string/milink" android:name=".ui.MiLinkActivity"/>
+        <activity
+            android:label="@string/guard_provider"
+            android:name=".ui.GuardProviderActivity" />
 
-        <activity android:label="@string/mi_settings" android:name=".ui.MiSettingsActivity"/>
+        <activity
+            android:label="@string/milink"
+            android:name=".ui.MiLinkActivity" />
 
-        <activity android:label="@string/miwallpaper" android:name=".ui.MiWallpaperActivity"/>
+        <activity
+            android:label="@string/mi_settings"
+            android:name=".ui.MiSettingsActivity" />
 
-        <activity android:label="@string/system_settings" android:name=".ui.SystemSettingsActivity"/>
+        <activity
+            android:label="@string/miwallpaper"
+            android:name=".ui.MiWallpaperActivity" />
 
-        <activity android:label="@string/updater" android:name=".ui.UpdaterActivity"/>
+        <activity
+            android:label="@string/system_settings"
+            android:name=".ui.SystemSettingsActivity" />
 
-        <activity android:label="@string/lbe" android:name=".ui.LbeActivity"/>
+        <activity
+            android:label="@string/updater"
+            android:name=".ui.UpdaterActivity" />
 
-        <activity android:label="@string/incallui" android:name=".ui.InCallUiActivity"/>
+        <activity
+            android:label="@string/lbe"
+            android:name=".ui.LbeActivity" />
 
-        <activity android:label="@string/tsmclient" android:name=".ui.TsmClientActivity"/>
+        <activity
+            android:label="@string/incallui"
+            android:name=".ui.InCallUiActivity" />
 
-        <activity android:label="@string/content_extension" android:name=".ui.ContentExtensionActivity"/>
+        <activity
+            android:label="@string/tsmclient"
+            android:name=".ui.TsmClientActivity" />
 
-        <activity android:label="@string/mms" android:name=".ui.MmsActivity"/>
+        <activity
+            android:label="@string/content_extension"
+            android:name=".ui.ContentExtensionActivity" />
 
-        <activity android:label="@string/camera" android:name=".ui.CameraActivity"/>
+        <activity
+            android:label="@string/mms"
+            android:name=".ui.MmsActivity" />
 
-        <activity android:label="@string/system_ui_plugin" android:name=".ui.SystemUIPluginActivity"/>
+        <activity
+            android:label="@string/camera"
+            android:name=".ui.CameraActivity" />
+
+        <activity
+            android:label="@string/system_ui_plugin"
+            android:name=".ui.SystemUIPluginActivity" />
 
         <activity
             android:label="@string/settings_safe_mode"
@@ -209,8 +305,8 @@
             android:label="@string/system_ui_statusbar_title"
             android:name=".ui.systemui.StatusBarActivity" />
         <activity
-                android:label="@string/system_ui_navigation_title"
-                android:name=".ui.systemui.NavigationActivity" />
+            android:label="@string/system_ui_navigation_title"
+            android:name=".ui.systemui.NavigationActivity" />
         <activity
             android:label="@string/system_ui_statusbar_iconmanage_title"
             android:name=".ui.systemui.statusbar.IconManageActivity" />
@@ -233,8 +329,8 @@
             android:label="@string/system_ui_controlcenter_title"
             android:name=".ui.systemui.ControlCenterActivity" />
         <activity
-            android:label="@string/system_ui_hardware_title"
-            android:name=".ui.systemui.HardwareActivity" />
+            android:label="@string/system_ui_display_title"
+            android:name=".ui.systemui.DisplayActivity" />
         <activity
             android:label="@string/system_ui_other_title"
             android:name=".ui.systemui.OtherActivity" />
@@ -263,40 +359,64 @@
         <activity
             android:label="@string/home_widget"
             android:name=".ui.home.HomeWidgetActivity" />
-        <activity android:label="@string/home_dock" android:name=".ui.home.HomeDockActivity"/>
-        <activity android:label="@string/home_other" android:name=".ui.home.HomeOtherActivity"/>
+        <activity
+            android:label="@string/home_dock"
+            android:name=".ui.home.HomeDockActivity" />
+        <activity
+            android:label="@string/home_other"
+            android:name=".ui.home.HomeOtherActivity" />
 
-        <activity android:label="@string/various_location_simulation_title" android:name=".ui.various.LocationSimulationActivity"/>
-        <activity android:label="@string/theme_manager" android:name=".ui.various.VariousThemeActivity"/>
-        <activity android:label="@string/various_dialog_title" android:name=".ui.various.VariousDialogActivity"/>
-        <activity android:label="@string/personal_assistant" android:name=".ui.PersonalAssistantActivity"/>
-        <activity android:label="@string/package_installer" android:name=".ui.MiuiPackageInstallerActivity"/>
+        <activity
+            android:label="@string/various_location_simulation_title"
+            android:name=".ui.various.LocationSimulationActivity" />
+        <activity
+            android:label="@string/theme_manager"
+            android:name=".ui.various.VariousThemeActivity" />
+        <activity
+            android:label="@string/various_dialog_title"
+            android:name=".ui.various.VariousDialogActivity" />
+        <activity
+            android:label="@string/personal_assistant"
+            android:name=".ui.PersonalAssistantActivity" />
+        <activity
+            android:label="@string/package_installer"
+            android:name=".ui.MiuiPackageInstallerActivity" />
 
-        <activity android:label="@string/location_data_title" android:name=".ui.various.LocationDataActivity"/>
+        <activity
+            android:label="@string/location_data_title"
+            android:name=".ui.various.LocationDataActivity" />
 
-        <activity android:label="@string/about_use" android:name=".ui.AboutUseActivity"/>
-        <activity android:label="@string/about_contributer" android:name=".ui.AboutContributerActivity"/>
+        <activity
+            android:label="@string/about_use"
+            android:name=".ui.AboutUseActivity" />
+        <activity
+            android:label="@string/about_contributer"
+            android:name=".ui.AboutContributerActivity" />
 
-        <activity android:label="@string/custom_hook" android:name=".ui.CustomHookActivity" android:exported="true">
+        <activity
+            android:label="@string/custom_hook"
+            android:name=".ui.CustomHookActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:theme="@style/AppTheme.Translucent.NoActionBar"
-                  android:name=".ui.customhook.CustomHookConfigActivity"/>
+        <activity
+            android:theme="@style/AppTheme.Translucent.NoActionBar"
+            android:name=".ui.customhook.CustomHookConfigActivity" />
 
-        <activity android:name=".ui.PickerHomeActivity"/>
+        <activity android:name=".ui.PickerHomeActivity" />
 
-        <activity android:name=".ui.common.DebugActivity"/>
+        <activity android:name=".ui.common.DebugActivity" />
 
         <provider
-                android:name=".provider.SharedPrefsProvider"
-                android:authorities="com.sevtinge.cemiuiler.provider.sharedprefs"
-                android:grantUriPermissions="true"
-                android:exported="false"
-                android:directBootAware="true"/>
+            android:name=".provider.SharedPrefsProvider"
+            android:authorities="com.sevtinge.cemiuiler.provider.sharedprefs"
+            android:grantUriPermissions="true"
+            android:exported="false"
+            android:directBootAware="true" />
 
         <service
             android:name=".titles.HighBrightnessMode"
@@ -309,11 +429,21 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="xposedmodule" android:value="true"/>
-        <meta-data android:name="xposedminversion" android:value="82"/>
-        <meta-data android:name="xposeddescription" android:value="@string/xposed_description"/>
-        <meta-data android:name="xposedsharedprefs" android:value="true"/>
-        <meta-data android:name="xposedscope" android:resource="@array/xposed_scope"/>
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="@string/xposed_description" />
+        <meta-data
+            android:name="xposedsharedprefs"
+            android:value="true" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/xposed_scope" />
 
     </application>
 

@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler
 
-import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
@@ -25,7 +25,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes()
-        //if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
+        // if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
         if (startupParam != null) {
             BackgroundBlurDrawable().initZygote(startupParam)
             SystemFrameworkForCorePatch().initZygote(startupParam)
@@ -35,9 +35,9 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         // Init EzXHelper
-        EzXHelperInit.initHandleLoadPackage(lpparam)
-        EzXHelperInit.setLogTag(TAG)
-        EzXHelperInit.setToastTag(TAG)
+        EzXHelper.initHandleLoadPackage(lpparam)
+        EzXHelper.setLogTag(TAG)
+        EzXHelper.setToastTag(TAG)
 
         init(lpparam)
 

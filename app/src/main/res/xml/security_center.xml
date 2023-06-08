@@ -43,21 +43,21 @@
             android:key="prefs_key_security_center_show_battery_temperature"
             android:title="@string/security_center_show_battery_temperature"
             android:defaultValue="false"
-            app:isPreferenceVisible="true"/>
+            app:isPreferenceVisible="true" />
 
         <SwitchPreference
-                android:key="prefs_key_security_center_super_wireless_charge"
-                android:title="@string/security_center_super_wireless_charge"
-                android:defaultValue="false"/>
+            android:key="prefs_key_security_center_super_wireless_charge"
+            android:title="@string/security_center_super_wireless_charge"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_privacy_title">
 
         <SwitchPreference
-                android:key="prefs_key_security_center_ai_clipboard"
-                android:title="@string/security_center_ai_clipboard"
-                android:defaultValue="false" />
+            android:key="prefs_key_security_center_ai_clipboard"
+            android:title="@string/security_center_ai_clipboard"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_blur_location"
@@ -65,9 +65,9 @@
             android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_security_center_get_number"
-                android:title="@string/security_center_get_number"
-                android:defaultValue="false" />
+            android:key="prefs_key_security_center_get_number"
+            android:title="@string/security_center_get_number"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_applock_pin_scramble"
@@ -80,80 +80,80 @@
     <PreferenceCategory android:title="@string/security_center_beauty_title">
 
         <SwitchPreference
-                android:key="prefs_key_security_center_beauty_light"
-                android:title="@string/security_center_beauty_light"
-                android:defaultValue="false" />
+            android:key="prefs_key_security_center_beauty_light"
+            android:title="@string/security_center_beauty_light"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_security_center_beauty_light_auto"
-                android:title="@string/security_center_beauty_light_auto"
-                android:defaultValue="false"
-                android:dependency="prefs_key_security_center_beauty_light"/>
+            android:key="prefs_key_security_center_beauty_light_auto"
+            android:title="@string/security_center_beauty_light_auto"
+            android:defaultValue="false"
+            android:dependency="prefs_key_security_center_beauty_light" />
 
         <SwitchPreference
-                android:key="prefs_key_security_center_beauty_face"
-                android:title="@string/security_center_beauty_face"
-                android:defaultValue="false" />
+            android:key="prefs_key_security_center_beauty_face"
+            android:title="@string/security_center_beauty_face"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_security_center_beauty_privacy"
-                android:title="@string/security_center_beauty_privacy"
-                android:defaultValue="false" />
+            android:key="prefs_key_security_center_beauty_privacy"
+            android:title="@string/security_center_beauty_privacy"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_security_center_beauty_pc"
-                android:title="@string/security_center_beauty_pc"
-                android:defaultValue="false" />
+            android:key="prefs_key_security_center_beauty_pc"
+            android:title="@string/security_center_beauty_pc"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_bubble_and_freeform_title">
 
         <SwitchPreference
-                android:title="@string/security_center_unlock_side_hide_freeform"
-                android:summary="@string/security_center_unlock_side_hide_freeform_desc"
-                android:key="prefs_key_security_center_unlock_side_hide_freeform"
-                android:defaultValue="false"
-                app:isPreferenceVisible="false"/>
+            android:title="@string/security_center_unlock_side_hide_freeform"
+            android:summary="@string/security_center_unlock_side_hide_freeform_desc"
+            android:key="prefs_key_security_center_unlock_side_hide_freeform"
+            android:defaultValue="false"
+            app:isPreferenceVisible="false" />
 
         <SwitchPreference
-                android:title="@string/security_center_remove_conversation_bubble_settings_restriction"
-                android:key="prefs_key_security_center_remove_conversation_bubble_settings_restriction"
-                android:defaultValue="false"/>
+            android:title="@string/security_center_remove_conversation_bubble_settings_restriction"
+            android:key="prefs_key_security_center_remove_conversation_bubble_settings_restriction"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_newbox_title">
 
         <SwitchPreference
-                android:title="@string/security_center_sidebar_line_color"
-                android:key="prefs_key_security_center_sidebar_line_color"
-                android:defaultValue="false"
-                android:enabled="false"/>
+            android:title="@string/security_center_sidebar_line_color"
+            android:key="prefs_key_security_center_sidebar_line_color"
+            android:defaultValue="false"
+            android:enabled="false" />
 
         <moralnorm.preference.ColorPickerPreference
-                android:persistent="false"
-                android:title="@string/security_center_sidebar_line_color_default"
-                android:key="prefs_key_security_center_sidebar_line_color_default"
-                android:defaultValue="-1294740525"
-                app:showAlphaSlider="true"
-                android:dependency="prefs_key_security_center_sidebar_line_color"/>
+            android:persistent="false"
+            android:title="@string/security_center_sidebar_line_color_default"
+            android:key="prefs_key_security_center_sidebar_line_color_default"
+            android:defaultValue="-1294740525"
+            app:showAlphaSlider="true"
+            android:dependency="prefs_key_security_center_sidebar_line_color" />
 
         <moralnorm.preference.ColorPickerPreference
-                android:persistent="false"
-                android:title="@string/security_center_sidebar_line_color_dark"
-                android:key="prefs_key_security_center_sidebar_line_color_dark"
-                android:defaultValue="-6842473"
-                app:showAlphaSlider="true"
-                android:dependency="prefs_key_security_center_sidebar_line_color"/>
+            android:persistent="false"
+            android:title="@string/security_center_sidebar_line_color_dark"
+            android:key="prefs_key_security_center_sidebar_line_color_dark"
+            android:defaultValue="-6842473"
+            app:showAlphaSlider="true"
+            android:dependency="prefs_key_security_center_sidebar_line_color" />
 
         <moralnorm.preference.ColorPickerPreference
-                android:persistent="false"
-                android:title="@string/security_center_sidebar_line_color_light"
-                android:key="prefs_key_security_center_sidebar_line_color_light"
-                android:defaultValue="-872415232"
-                app:showAlphaSlider="true"
-                android:dependency="prefs_key_security_center_sidebar_line_color"/>
+            android:persistent="false"
+            android:title="@string/security_center_sidebar_line_color_light"
+            android:key="prefs_key_security_center_sidebar_line_color_light"
+            android:defaultValue="-872415232"
+            app:showAlphaSlider="true"
+            android:dependency="prefs_key_security_center_sidebar_line_color" />
 
         <SwitchPreference
             android:title="@string/security_center_blur_model"
@@ -168,7 +168,7 @@
             app:maxValue="99"
             android:format="%s"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_se_enable"/>
+            android:dependency="prefs_key_se_enable" />
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
@@ -176,7 +176,7 @@
             android:key="prefs_key_security_center_color"
             android:dependency="prefs_key_se_enable"
             android:defaultValue="-1"
-            app:showAlphaSlider="true"/>
+            app:showAlphaSlider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_other_title">
@@ -191,7 +191,7 @@
             android:key="prefs_key_security_center_skip_count_down_limit"
             android:title="@string/security_center_skip_waiting_time"
             android:defaultValue="false"
-            app:isPreferenceVisible="true"/>
+            app:isPreferenceVisible="true" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_disable_root_check"
@@ -202,7 +202,7 @@
             android:key="prefs_key_security_center_remove_macro_black_list"
             android:title="@string/security_center_remove_macro_black_list"
             android:defaultValue="false"
-            app:isPreferenceVisible="true"/>
+            app:isPreferenceVisible="true" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_remove_open_app_confirmation_popup"
@@ -214,8 +214,8 @@
             android:key="prefs_key_security_center_disable_send_malicious_app_notification"
             android:title="@string/security_center_disable_send_malicious_app_notification"
             android:defaultValue="false"
-            app:isPreferenceVisible="true"/>
+            app:isPreferenceVisible="true" />
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 </PreferenceScreen>

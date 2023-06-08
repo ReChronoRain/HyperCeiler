@@ -20,7 +20,7 @@ public class IconManageActivity extends BaseSystemUIActivity {
     }
 
     public static class IconManageFragment extends SubFragment {
-    
+
         Preference UseNewHD;
         DropDownPreference IconNewHD;
         DropDownPreference mAlarmClockIcon;
@@ -37,7 +37,7 @@ public class IconManageActivity extends BaseSystemUIActivity {
             mAlarmClockIcon = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock");
             mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");
             mNotificationIconMaximum = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
-            
+
             UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
             IconNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
             UseNewHD.setVisible(SdkHelper.isAndroidTiramisu());
@@ -51,7 +51,7 @@ public class IconManageActivity extends BaseSystemUIActivity {
             });
 
             mNotificationIconMaximum.setOnPreferenceChangeListener((preference, o) -> {
-                if ((int)o == 16) {
+                if ((int) o == 16) {
                     mNotificationIconMaximum.setValue(R.string.unlimited);
                 }
                 return true;

@@ -84,13 +84,13 @@
         </Preference>
 
         <Preference
-                android:title="@string/downloads"
-                android:summary="com.android.providers.downloads"
-                android:key="prefs_key_downloads"
-                android:icon="@drawable/ic_downloads">
+            android:title="@string/downloads"
+            android:summary="com.android.providers.downloads"
+            android:key="prefs_key_downloads"
+            android:icon="@drawable/ic_downloads">
             <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.DownloadsActivity" />
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.DownloadsActivity" />
         </Preference>
 
         <Preference
@@ -321,6 +321,16 @@
         </Preference>
 
         <Preference
+            android:title="@string/aiasst"
+            android:summary="com.xiaomi.aiasst.vision"
+            android:key="prefs_key_aiasst"
+            android:icon="@drawable/ic_aiasst">
+            <intent
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.AiAsstActivity" />
+        </Preference>
+
+        <Preference
             android:title="@string/aireco"
             android:summary="com.xiaomi.aireco"
             android:key="prefs_key_aireco"
@@ -360,13 +370,13 @@
         </Preference>
 
         <Preference
-                android:title="@string/mi_settings"
-                android:summary="com.xiaomi.misettings"
-                android:key="prefs_key_mi_settings"
-                android:icon="@drawable/ic_misettings">
+            android:title="@string/mi_settings"
+            android:summary="com.xiaomi.misettings"
+            android:key="prefs_key_mi_settings"
+            android:icon="@drawable/ic_misettings">
             <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.MiSettingsActivity" />
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.MiSettingsActivity" />
         </Preference>
 
         <Preference

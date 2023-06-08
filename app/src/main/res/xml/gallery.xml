@@ -2,65 +2,65 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/settings">
         <SwitchPreference
-                android:title="@string/gallery_enable_hdr_enhanced"
-                android:key="prefs_key_gallery_enable_hdr_enhanced"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_hdr_enhanced"
+            android:key="prefs_key_gallery_enable_hdr_enhanced"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/feature">
         <SwitchPreference
-                android:title="@string/gallery_unlock_super_clipboard"
-                android:summary="@string/gallery_unlock_super_clipboard_desc"
-                android:key="prefs_key_gallery_unlock_super_clipboard"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_unlock_super_clipboard"
+            android:summary="@string/gallery_unlock_super_clipboard_desc"
+            android:key="prefs_key_gallery_unlock_super_clipboard"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_pdf"
-                android:key="prefs_key_gallery_enable_pdf"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_pdf"
+            android:key="prefs_key_gallery_enable_pdf"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_ocr"
-                android:key="prefs_key_gallery_enable_ocr"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_ocr"
+            android:key="prefs_key_gallery_enable_ocr"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_ocr_form"
-                android:key="prefs_key_gallery_enable_ocr_form"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_ocr_form"
+            android:key="prefs_key_gallery_enable_ocr_form"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/recommend">
         <SwitchPreference
-                android:title="@string/gallery_enable_id_photo"
-                android:key="prefs_key_gallery_enable_id_photo"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_id_photo"
+            android:key="prefs_key_gallery_enable_id_photo"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_photo_movie"
-                android:key="prefs_key_gallery_enable_photo_movie"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_photo_movie"
+            android:key="prefs_key_gallery_enable_photo_movie"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_video_post"
-                android:key="prefs_key_gallery_enable_video_post"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_video_post"
+            android:key="prefs_key_gallery_enable_video_post"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_video_editor"
-                android:key="prefs_key_gallery_enable_video_editor"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_video_editor"
+            android:key="prefs_key_gallery_enable_video_editor"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/editor">
         <SwitchPreference
-                android:title="@string/gallery_enable_text_yanhua"
-                android:key="prefs_key_gallery_enable_text_yanhua"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_text_yanhua"
+            android:key="prefs_key_gallery_enable_text_yanhua"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_remover_2"
-                android:key="prefs_key_gallery_enable_remover_2"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_remover_2"
+            android:key="prefs_key_gallery_enable_remover_2"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_magic_matting"
-                android:key="prefs_key_gallery_enable_magic_matting"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_magic_matting"
+            android:key="prefs_key_gallery_enable_magic_matting"
+            android:defaultValue="false" />
         <SwitchPreference
-                android:title="@string/gallery_enable_magic_sky"
-                android:key="prefs_key_gallery_enable_magic_sky"
-                android:defaultValue="false"/>
+            android:title="@string/gallery_enable_magic_sky"
+            android:key="prefs_key_gallery_enable_magic_sky"
+            android:defaultValue="false" />
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

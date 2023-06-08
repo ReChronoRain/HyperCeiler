@@ -1,25 +1,18 @@
 package com.sevtinge.cemiuiler.module.home.other
 
-import com.github.kyuubiran.ezxhelper.utils.findMethod
-import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import de.robv.android.xposed.XC_MethodReplacement
 
-class OverlapMode : BaseHook(){
+class OverlapMode : BaseHook() {
     override fun init() {
-        //Fold2样式负一屏
-        findMethod("com.miui.home.launcher.overlay.assistant.AssistantDeviceAdapter") {
-            name == "inOverlapMode"
-        }.hookReturnConstant(true)
-
-        /*findAndHookMethod(
-            "com.miui.home.launcher.overlay.assistant.AssistantDeviceAdapter",
-            "inOverlapMode",
-            object : XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any {
-                    return true
-                }
+        // Fold2 样式负一屏
+        loadClass("com.miui.home.launcher.overlay.assistant.AssistantDeviceAdapter").methodFinder()
+            .first {
+                name == "inOverlapMode"
+            }.createHook {
+                returnConstant(true)
             }
-        )*/
     }
 }

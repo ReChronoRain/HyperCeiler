@@ -1,9 +1,9 @@
 package com.sevtinge.cemiuiler.module.mishare
 
 import android.content.Context
-import com.github.kyuubiran.ezxhelper.utils.findAllMethods
-import com.github.kyuubiran.ezxhelper.utils.hookBefore
-import com.github.kyuubiran.ezxhelper.utils.paramCount
+import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
@@ -22,8 +22,10 @@ class NoAutoTurnOff : BaseHook() {
         }.forEach { (_, classes) ->
             classes.map {
                 it.getMethodInstance(lpparam.classLoader)
-            }.hookBefore {
-                it.result = null
+            }.createHooks {
+                before {
+                    it.result = null
+                }
             }
         }
 
@@ -32,14 +34,17 @@ class NoAutoTurnOff : BaseHook() {
             matchType = MatchType.FULL
         }.forEach { (_, classes) ->
             classes.map {
-                val qaq = it.getClassInstance(lpparam.classLoader)
-                findAllMethods(qaq) {
-                    returnType == Boolean::class.java && paramCount == 2 && parameterTypes[0] == Context::class.java && parameterTypes[1] == String::class.java
-                }.hookBefore { param ->
-                    if (param.args[1].equals("security_agree")) {
-                        param.result = false
+                it.getClassInstance(classLoader).methodFinder()
+                    .filterByReturnType(Boolean::class.java)
+                    .filterByParamCount(2)
+                    .filterByParamTypes(Context::class.java, String::class.java)
+                    .toList().createHooks {
+                        before { param ->
+                            if (param.args[1].equals("security_agree")) {
+                                param.result = false
+                            }
+                        }
                     }
-                }
             }
         }
         closeDexKit()

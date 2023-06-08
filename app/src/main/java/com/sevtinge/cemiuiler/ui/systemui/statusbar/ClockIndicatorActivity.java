@@ -44,7 +44,7 @@ public class ClockIndicatorActivity extends BaseSystemUIActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object o) {
             if (preference == mClockModePreference) {
-                setClockMode(Integer.parseInt((String)o));
+                setClockMode(Integer.parseInt((String) o));
             }
             return true;
         }

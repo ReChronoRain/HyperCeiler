@@ -1,260 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/shot">
 
         <SwitchPreference
-                android:title="@string/camera_shot_hand_gesture"
-                android:key="prefs_key_camera_shot_hand_gesture"
-                android:defaultValue="false"/>
+            android:title="@string/camera_shot_hand_gesture"
+            android:key="prefs_key_camera_shot_hand_gesture"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_shot_color_enhance"
-                android:key="prefs_key_camera_shot_color_enhance"
-                android:defaultValue="false"/>
+            android:title="@string/camera_shot_color_enhance"
+            android:key="prefs_key_camera_shot_color_enhance"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_shot_makeup"
-                android:summary="@string/camera_shot_makeup_desc"
-                android:key="prefs_key_camera_shot_makeup"
-                android:defaultValue="false"/>
+            android:title="@string/camera_shot_makeup"
+            android:summary="@string/camera_shot_makeup_desc"
+            android:key="prefs_key_camera_shot_makeup"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/record">
 
         <SwitchPreference
-                android:title="@string/camera_record_60fps"
-                android:summary="@string/camera_record_60fps_desc"
-                android:key="prefs_key_camera_record_60fps"
-                android:defaultValue="false"/>
+            android:title="@string/camera_record_60fps"
+            android:summary="@string/camera_record_60fps_desc"
+            android:key="prefs_key_camera_record_60fps"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_record_120fps"
-                android:summary="@string/camera_record_120fps_desc"
-                android:key="prefs_key_camera_record_120fps"
-                android:defaultValue="false"/>
+            android:title="@string/camera_record_120fps"
+            android:summary="@string/camera_record_120fps_desc"
+            android:key="prefs_key_camera_record_120fps"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_record_hdr"
-                android:key="prefs_key_camera_record_hdr"
-                android:defaultValue="false"/>
+            android:title="@string/camera_record_hdr"
+            android:key="prefs_key_camera_record_hdr"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_record_ai"
-                android:key="prefs_key_camera_record_ai"
-                android:defaultValue="false"/>
+            android:title="@string/camera_record_ai"
+            android:key="prefs_key_camera_record_ai"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_record_audio_zoom"
-                android:key="prefs_key_camera_record_audio_zoom"
-                android:defaultValue="false"/>
+            android:title="@string/camera_record_audio_zoom"
+            android:key="prefs_key_camera_record_audio_zoom"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/portrait">
 
         <SwitchPreference
-                android:title="@string/camera_portrait_cvlens"
-                android:summary="@string/camera_portrait_cvlens_desc"
-                android:key="prefs_key_camera_portrait_cvlens"
-                android:defaultValue="false"/>
+            android:title="@string/camera_portrait_cvlens"
+            android:summary="@string/camera_portrait_cvlens_desc"
+            android:key="prefs_key_camera_portrait_cvlens"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_portrait_new_beauty"
-                android:summary="@string/camera_portrait_new_beauty_desc"
-                android:key="prefs_key_camera_portrait_new_beauty"
-                android:defaultValue="false"/>
+            android:title="@string/camera_portrait_new_beauty"
+            android:summary="@string/camera_portrait_new_beauty_desc"
+            android:key="prefs_key_camera_portrait_new_beauty"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/camera_pro">
 
         <SwitchPreference
-                android:title="@string/camera_pro_raw"
-                android:key="prefs_key_camera_pro_raw"
-                android:defaultValue="false"/>
+            android:title="@string/camera_pro_raw"
+            android:key="prefs_key_camera_pro_raw"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_pro_log"
-                android:key="prefs_key_camera_pro_log"
-                android:defaultValue="false"/>
+            android:title="@string/camera_pro_log"
+            android:key="prefs_key_camera_pro_log"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/feature">
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_aiwatermark"
-                android:key="prefs_key_camera_features_unlock_aiwatermark"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_aiwatermark"
+            android:key="prefs_key_camera_features_unlock_aiwatermark"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_ambilight"
-                android:key="prefs_key_camera_features_unlock_ambilight"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_ambilight"
+            android:key="prefs_key_camera_features_unlock_ambilight"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_clone"
-                android:key="prefs_key_camera_features_unlock_clone"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_clone"
+            android:key="prefs_key_camera_features_unlock_clone"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_cosmetic_mirror"
-                android:key="prefs_key_camera_features_unlock_cosmetic_mirror"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_cosmetic_mirror"
+            android:key="prefs_key_camera_features_unlock_cosmetic_mirror"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_doc"
-                android:key="prefs_key_camera_features_unlock_doc"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_doc"
+            android:key="prefs_key_camera_features_unlock_doc"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_idcard"
-                android:key="prefs_key_camera_features_unlock_idcard"
-                android:dependency="prefs_key_camera_features_unlock_doc"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_idcard"
+            android:key="prefs_key_camera_features_unlock_idcard"
+            android:dependency="prefs_key_camera_features_unlock_doc"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_dualcam"
-                android:key="prefs_key_camera_features_unlock_dualcam"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_dualcam"
+            android:key="prefs_key_camera_features_unlock_dualcam"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_duration"
-                android:key="prefs_key_camera_features_unlock_duration"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_duration"
+            android:key="prefs_key_camera_features_unlock_duration"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_milive"
-                android:key="prefs_key_camera_features_unlock_milive"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_milive"
+            android:key="prefs_key_camera_features_unlock_milive"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_moon"
-                android:key="prefs_key_camera_features_unlock_moon"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_moon"
+            android:key="prefs_key_camera_features_unlock_moon"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_pano"
-                android:key="prefs_key_camera_features_unlock_pano"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_pano"
+            android:key="prefs_key_camera_features_unlock_pano"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_pixel"
-                android:key="prefs_key_camera_features_unlock_pixel"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_pixel"
+            android:key="prefs_key_camera_features_unlock_pixel"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_portrait"
-                android:key="prefs_key_camera_features_unlock_portrait"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_portrait"
+            android:key="prefs_key_camera_features_unlock_portrait"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_slow"
-                android:key="prefs_key_camera_features_unlock_slow"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_slow"
+            android:key="prefs_key_camera_features_unlock_slow"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_videosky"
-                android:key="prefs_key_camera_features_unlock_videosky"
-                android:defaultValue="false"
-                app:isPreferenceVisible="false"/>
+            android:title="@string/camera_features_unlock_videosky"
+            android:key="prefs_key_camera_features_unlock_videosky"
+            android:defaultValue="false"
+            app:isPreferenceVisible="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_vlog"
-                android:key="prefs_key_camera_features_unlock_vlog"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_vlog"
+            android:key="prefs_key_camera_features_unlock_vlog"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_vlog_pro"
-                android:key="prefs_key_camera_features_unlock_vlog_pro"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_vlog_pro"
+            android:key="prefs_key_camera_features_unlock_vlog_pro"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film"
-                android:key="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film"
+            android:key="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film_delay"
-                android:key="prefs_key_camera_features_unlock_film_delay"
-                android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film_delay"
+            android:key="prefs_key_camera_features_unlock_film_delay"
+            android:dependency="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film_dollyzoom"
-                android:key="prefs_key_camera_features_unlock_film_dollyzoom"
-                android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film_dollyzoom"
+            android:key="prefs_key_camera_features_unlock_film_dollyzoom"
+            android:dependency="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film_dream"
-                android:key="prefs_key_camera_features_unlock_film_dream"
-                android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film_dream"
+            android:key="prefs_key_camera_features_unlock_film_dream"
+            android:dependency="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film_slowshutter"
-                android:key="prefs_key_camera_features_unlock_film_slowshutter"
-                android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film_slowshutter"
+            android:key="prefs_key_camera_features_unlock_film_slowshutter"
+            android:dependency="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film_timebackflow"
-                android:key="prefs_key_camera_features_unlock_film_timebackflow"
-                android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film_timebackflow"
+            android:key="prefs_key_camera_features_unlock_film_timebackflow"
+            android:dependency="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_features_unlock_film_timefreeze"
-                android:key="prefs_key_camera_features_unlock_film_timefreeze"
-                android:dependency="prefs_key_camera_features_unlock_film"
-                android:defaultValue="false"/>
+            android:title="@string/camera_features_unlock_film_timefreeze"
+            android:key="prefs_key_camera_features_unlock_film_timefreeze"
+            android:dependency="prefs_key_camera_features_unlock_film"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings">
 
         <SwitchPreference
-                android:title="@string/camera_settings_track_focus"
-                android:key="prefs_key_camera_settings_track_focus"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_track_focus"
+            android:key="prefs_key_camera_settings_track_focus"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_settings_heic"
-                android:key="prefs_key_camera_settings_heic"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_heic"
+            android:key="prefs_key_camera_settings_heic"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_settings_predictive"
-                android:key="prefs_key_camera_settings_predictive"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_predictive"
+            android:key="prefs_key_camera_settings_predictive"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_settings_nevus"
-                android:key="prefs_key_camera_settings_nevus"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_nevus"
+            android:key="prefs_key_camera_settings_nevus"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_settings_men_makeup"
-                android:key="prefs_key_camera_settings_men_makeup"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_men_makeup"
+            android:key="prefs_key_camera_settings_men_makeup"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_settings_lab_options"
-                android:key="prefs_key_camera_settings_lab_options"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_lab_options"
+            android:key="prefs_key_camera_settings_lab_options"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/camera_settings_track_eyes"
-                android:key="prefs_key_camera_settings_track_eyes"
-                android:dependency="prefs_key_camera_settings_lab_options"
-                android:defaultValue="false"/>
+            android:title="@string/camera_settings_track_eyes"
+            android:key="prefs_key_camera_settings_track_eyes"
+            android:dependency="prefs_key_camera_settings_lab_options"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

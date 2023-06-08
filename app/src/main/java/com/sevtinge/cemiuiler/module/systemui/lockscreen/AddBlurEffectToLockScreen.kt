@@ -24,7 +24,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             "com.android.keyguard.magazine.LockScreenMagazineController"
         ) ?: return
 
-        //to com.sevtinge.cemiuiler.module.systemui.lockscreen.BlurButton
+        // to com.sevtinge.cemiuiler.module.systemui.lockscreen.BlurButton
         /*XposedBridge.hookAllMethods(
             keyguardBottomAreaViewClass,
             "onAttachedToWindow",
@@ -165,7 +165,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
                 }
             })
 
-        //控制中心异常
+        // 控制中心异常
         /*XposedBridge.hookAllMethods(
             keyguardMoveHelperClass,
             "setTranslation",
@@ -269,7 +269,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
             })
          */
 
-        //锁屏过渡至桌面模糊异常
+        // 锁屏过渡至桌面模糊异常
         /*
         XposedBridge.hookAllMethods(
             baseKeyguardMoveHelperClass,

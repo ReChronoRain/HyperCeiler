@@ -2,10 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
-            android:title="@string/mishare_disable_mishare_auto_off"
-            android:key="prefs_key_disable_mishare_auto_off"
-            android:defaultValue="false"/>
+        android:title="@string/mishare_disable_mishare_auto_off"
+        android:key="prefs_key_disable_mishare_auto_off"
+        android:defaultValue="false" />
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

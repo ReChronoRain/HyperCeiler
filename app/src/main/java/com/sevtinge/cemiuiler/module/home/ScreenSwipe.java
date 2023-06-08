@@ -31,16 +31,16 @@ public class ScreenSwipe extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
                 if ((boolean) XposedHelpers.callMethod(param.thisObject, "isInNormalEditingMode")) return;
                 String key = null;
-                Context helperContext = ((ViewGroup)param.thisObject).getContext();
+                Context helperContext = ((ViewGroup) param.thisObject).getContext();
                 int numOfFingers = 1;
-                if (param.args[1] != null) numOfFingers = ((MotionEvent)param.args[1]).getPointerCount();
-                if ((int)param.args[0] == 11) {
+                if (param.args[1] != null) numOfFingers = ((MotionEvent) param.args[1]).getPointerCount();
+                if ((int) param.args[0] == 11) {
                     if (numOfFingers == 1)
                         key = "prefs_key_home_gesture_down_swipe";
                     else if (numOfFingers == 2)
                         key = "prefs_key_home_gesture_down_swipe2";
                     if (GlobalActions.handleAction(helperContext, key)) param.setResult(true);
-                } else if ((int)param.args[0] == 10) {
+                } else if ((int) param.args[0] == 10) {
                     if (numOfFingers == 1)
                         key = "prefs_key_home_gesture_up_swipe";
                     else if (numOfFingers == 2)
@@ -53,8 +53,8 @@ public class ScreenSwipe extends BaseHook {
         findAndHookMethod(mLauncher, "onCreate", Bundle.class, new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                final Activity act = (Activity)param.thisObject;
-                Handler mHandler = (Handler)XposedHelpers.getObjectField(act, "mHandler");
+                final Activity act = (Activity) param.thisObject;
+                Handler mHandler = (Handler) XposedHelpers.getObjectField(act, "mHandler");
                 new PrefsUtils.SharedPrefsObserver(act, mHandler) {
                     @Override
                     public void onChange(Uri uri) {
@@ -92,7 +92,8 @@ public class ScreenSwipe extends BaseHook {
         findAndHookMethodSilently("com.miui.home.launcher.allapps.LauncherMode", "getPullDownGesture", Context.class, new MethodHook() {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
-                if (PrefsUtils.getSharedIntPrefs((Context)param.args[0], "prefs_key_home_gesture_down_swipe_action", 1) > 1) param.setResult("no_action");
+                if (PrefsUtils.getSharedIntPrefs((Context) param.args[0], "prefs_key_home_gesture_down_swipe_action", 1) > 1)
+                    param.setResult("no_action");
             }
         });
 
@@ -100,42 +101,48 @@ public class ScreenSwipe extends BaseHook {
         findAndHookMethodSilently("com.miui.home.launcher.allapps.LauncherMode", "getSlideUpGesture", Context.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                if (PrefsUtils.getSharedIntPrefs((Context)param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0) param.setResult("no_action");
+                if (PrefsUtils.getSharedIntPrefs((Context) param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0)
+                    param.setResult("no_action");
             }
         });
 
         if (findAndHookMethodSilently("com.miui.home.launcher.DeviceConfig", "isGlobalSearchEnable", Context.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                if (PrefsUtils.getSharedIntPrefs((Context)param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0) param.setResult(false);
+                if (PrefsUtils.getSharedIntPrefs((Context) param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0)
+                    param.setResult(false);
             }
         })) {
             findAndHookMethodSilently("com.miui.home.launcher.search.SearchEdgeLayout", "isTopSearchEnable", new MethodHook() {
                 @Override
                 protected void before(final MethodHookParam param) throws Throwable {
-                    View view = (View)param.thisObject;
-                    if (PrefsUtils.getSharedIntPrefs(view.getContext(), "prefs_key_home_gesture_down_swipe_action", 0) > 0) param.setResult(false);
+                    View view = (View) param.thisObject;
+                    if (PrefsUtils.getSharedIntPrefs(view.getContext(), "prefs_key_home_gesture_down_swipe_action", 0) > 0)
+                        param.setResult(false);
                 }
             });
 
             findAndHookMethodSilently("com.miui.home.launcher.search.SearchEdgeLayout", "isBottomGlobalSearchEnable", new MethodHook() {
                 @Override
                 protected void before(final MethodHookParam param) throws Throwable {
-                    View view = (View)param.thisObject;
-                    if (PrefsUtils.getSharedIntPrefs(view.getContext(), "prefs_key_home_gesture_up_swipe_action", 0) > 0) param.setResult(false);
+                    View view = (View) param.thisObject;
+                    if (PrefsUtils.getSharedIntPrefs(view.getContext(), "prefs_key_home_gesture_up_swipe_action", 0) > 0)
+                        param.setResult(false);
                 }
             });
 
             findAndHookMethodSilently("com.miui.home.launcher.DeviceConfig", "isGlobalSearchBottomEffectEnable", Context.class, new MethodHook() {
                 @Override
                 protected void before(final MethodHookParam param) throws Throwable {
-                    if (PrefsUtils.getSharedIntPrefs((Context)param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0) param.setResult(false);
+                    if (PrefsUtils.getSharedIntPrefs((Context) param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0)
+                        param.setResult(false);
                 }
             });
         } else if (!findAndHookMethodSilently("com.miui.home.launcher.DeviceConfig", "allowedSlidingUpToStartGolbalSearch", Context.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                if (PrefsUtils.getSharedIntPrefs((Context)param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0) param.setResult(false);
+                if (PrefsUtils.getSharedIntPrefs((Context) param.args[0], "prefs_key_home_gesture_up_swipe_action", 0) > 0)
+                    param.setResult(false);
             }
         })) if (lpparam.packageName.equals("com.miui.home")) LogUtils.logXp(TAG, "Cannot disable swipe up search");
     }

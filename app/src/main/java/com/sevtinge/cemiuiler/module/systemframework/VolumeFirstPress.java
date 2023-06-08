@@ -17,9 +17,9 @@ public class VolumeFirstPress extends BaseHook {
         findAndHookMethod(mVolumeController, "suppressAdjustment", int.class, int.class, boolean.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                int streamType = (int)param.args[0];
+                int streamType = (int) param.args[0];
                 if (streamType != AudioManager.STREAM_MUSIC) return;
-                boolean isMuteAdjust = (boolean)param.args[2];
+                boolean isMuteAdjust = (boolean) param.args[2];
                 if (isMuteAdjust) return;
                 Object mController = XposedHelpers.getObjectField(param.thisObject, "mController");
                 if (mController == null) return;

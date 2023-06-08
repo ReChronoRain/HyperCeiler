@@ -12,7 +12,7 @@
         <Preference
             android:key="prefs_key_home_small_folder_icon_bg_custom"
             android:title="@string/home_small_folder_icon_bg_custom"
-            android:dependency="prefs_key_home_small_folder_icon_bg"/>
+            android:dependency="prefs_key_home_small_folder_icon_bg" />
 
         <SeekBarPreference
             android:key="prefs_key_home_small_folder_icon_bg_size"
@@ -21,95 +21,95 @@
             app:maxValue="100"
             android:format="%d dp"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_home_small_folder_icon_bg"/>
+            android:dependency="prefs_key_home_small_folder_icon_bg" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_big_folder_title">
 
-            <SwitchPreference
-                android:title="@string/home_big_folder_icon_bg_2x1"
-                android:key="prefs_key_home_big_folder_icon_bg_2x1"
-                android:defaultValue="false" />
+        <SwitchPreference
+            android:title="@string/home_big_folder_icon_bg_2x1"
+            android:key="prefs_key_home_big_folder_icon_bg_2x1"
+            android:defaultValue="false" />
 
-            <Preference
-                android:key="prefs_key_home_big_folder_icon_bg_2x1_custom"
-                android:title="@string/home_big_folder_icon_bg_2x1_custom"
-                android:dependency="prefs_key_home_big_folder_icon_bg_2x1" />
+        <Preference
+            android:key="prefs_key_home_big_folder_icon_bg_2x1_custom"
+            android:title="@string/home_big_folder_icon_bg_2x1_custom"
+            android:dependency="prefs_key_home_big_folder_icon_bg_2x1" />
 
-            <SeekBarPreference
-                android:title="@string/home_big_folder_icon_bg_width_2x1"
-                android:key="prefs_key_home_big_folder_icon_bg_width_2x1"
-                android:defaultValue="145"
-                app:maxValue="200"
-                android:format="%d dp"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_big_folder_icon_bg_2x1"/>
+        <SeekBarPreference
+            android:title="@string/home_big_folder_icon_bg_width_2x1"
+            android:key="prefs_key_home_big_folder_icon_bg_width_2x1"
+            android:defaultValue="145"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_big_folder_icon_bg_2x1" />
 
-            <SeekBarPreference
-                android:title="@string/home_big_folder_icon_bg_height_2x1"
-                android:key="prefs_key_home_big_folder_icon_bg_height_2x1"
-                android:defaultValue="62"
-                app:maxValue="200"
-                android:format="%d dp"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_big_folder_icon_bg_2x1"/>
+        <SeekBarPreference
+            android:title="@string/home_big_folder_icon_bg_height_2x1"
+            android:key="prefs_key_home_big_folder_icon_bg_height_2x1"
+            android:defaultValue="62"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_big_folder_icon_bg_2x1" />
 
-            <SwitchPreference
-                android:title="@string/home_big_folder_icon_bg_1x2"
-                android:key="prefs_key_home_big_folder_icon_bg_1x2"
-                android:defaultValue="false" />
+        <SwitchPreference
+            android:title="@string/home_big_folder_icon_bg_1x2"
+            android:key="prefs_key_home_big_folder_icon_bg_1x2"
+            android:defaultValue="false" />
 
-            <Preference
-                android:key="prefs_key_home_big_folder_icon_bg_1x2_custom"
-                android:title="@string/home_big_folder_icon_bg_1x2_custom"
-                android:dependency="prefs_key_home_big_folder_icon_bg_1x2" />
+        <Preference
+            android:key="prefs_key_home_big_folder_icon_bg_1x2_custom"
+            android:title="@string/home_big_folder_icon_bg_1x2_custom"
+            android:dependency="prefs_key_home_big_folder_icon_bg_1x2" />
 
-            <SeekBarPreference
-                android:title="@string/home_big_folder_icon_bg_width_1x2"
-                android:key="prefs_key_home_big_folder_icon_bg_width_1x2"
-                android:defaultValue="62"
-                app:maxValue="200"
-                android:format="%d dp"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_big_folder_icon_bg_1x2"/>
+        <SeekBarPreference
+            android:title="@string/home_big_folder_icon_bg_width_1x2"
+            android:key="prefs_key_home_big_folder_icon_bg_width_1x2"
+            android:defaultValue="62"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_big_folder_icon_bg_1x2" />
 
-            <SeekBarPreference
-                android:title="@string/home_big_folder_icon_bg_height_1x2"
-                android:key="prefs_key_home_big_folder_icon_bg_height_1x2"
-                android:defaultValue="145"
-                app:maxValue="200"
-                android:format="%d dp"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_big_folder_icon_bg_1x2"/>
+        <SeekBarPreference
+            android:title="@string/home_big_folder_icon_bg_height_1x2"
+            android:key="prefs_key_home_big_folder_icon_bg_height_1x2"
+            android:defaultValue="145"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_big_folder_icon_bg_1x2" />
 
-            <SwitchPreference
-                android:title="@string/home_big_folder_icon_bg"
-                android:key="prefs_key_home_big_folder_icon_bg"
-                android:defaultValue="false"/>
+        <SwitchPreference
+            android:title="@string/home_big_folder_icon_bg"
+            android:key="prefs_key_home_big_folder_icon_bg"
+            android:defaultValue="false" />
 
-            <Preference
-                android:key="prefs_key_home_big_folder_icon_bg_custom"
-                android:title="@string/home_big_folder_icon_bg_custom"
-                android:dependency="prefs_key_home_big_folder_icon_bg" />
+        <Preference
+            android:key="prefs_key_home_big_folder_icon_bg_custom"
+            android:title="@string/home_big_folder_icon_bg_custom"
+            android:dependency="prefs_key_home_big_folder_icon_bg" />
 
-            <SeekBarPreference
-                android:title="@string/home_big_folder_icon_bg_width"
-                android:key="prefs_key_home_big_folder_icon_bg_width"
-                android:defaultValue="145"
-                app:maxValue="200"
-                android:format="%d dp"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_big_folder_icon_bg"/>
+        <SeekBarPreference
+            android:title="@string/home_big_folder_icon_bg_width"
+            android:key="prefs_key_home_big_folder_icon_bg_width"
+            android:defaultValue="145"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_big_folder_icon_bg" />
 
-            <SeekBarPreference
-                android:title="@string/home_big_folder_icon_bg_height"
-                android:key="prefs_key_home_big_folder_icon_bg_height"
-                android:defaultValue="145"
-                app:maxValue="200"
-                android:format="%d dp"
-                app:showSeekBarValue="true"
-                android:dependency="prefs_key_home_big_folder_icon_bg"/>
+        <SeekBarPreference
+            android:title="@string/home_big_folder_icon_bg_height"
+            android:key="prefs_key_home_big_folder_icon_bg_height"
+            android:defaultValue="145"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_big_folder_icon_bg" />
 
         <SwitchPreference
             android:title="@string/home_big_folder_item_max_count"
@@ -129,12 +129,12 @@
             android:defaultValue="0" />
 
         <SeekBarPreference
-                android:key="prefs_key_home_folder_shade_level"
-                android:title="@string/home_folder_shade_level_title"
-                android:defaultValue="0"
-                app:maxValue="100"
-                android:format="%d %%"
-                app:showSeekBarValue="true"/>
+            android:key="prefs_key_home_folder_shade_level"
+            android:title="@string/home_folder_shade_level_title"
+            android:defaultValue="0"
+            app:maxValue="100"
+            android:format="%d %%"
+            app:showSeekBarValue="true" />
 
         <SwitchPreference
             android:key="prefs_key_home_folder_animation"
@@ -142,60 +142,60 @@
             android:defaultValue="false" />
 
         <SeekBarPreference
-                android:defaultValue="110"
-                android:dependency="prefs_key_home_folder_animation"
-                android:key="prefs_key_home_folder_anim_1"
-                android:title="@string/home_folder_anim_1"
-                android:format="%d / 100 f"
-                app:maxValue="150"
-                app:minValue="50"
-                app:showSeekBarValue="true" />
+            android:defaultValue="110"
+            android:dependency="prefs_key_home_folder_animation"
+            android:key="prefs_key_home_folder_anim_1"
+            android:title="@string/home_folder_anim_1"
+            android:format="%d / 100 f"
+            app:maxValue="150"
+            app:minValue="50"
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
-                android:defaultValue="30"
-                android:dependency="prefs_key_home_folder_animation"
-                android:key="prefs_key_home_folder_anim_2"
-                android:title="@string/home_folder_anim_2"
-                android:format="%d / 30 f"
-                app:maxValue="60"
-                app:minValue="10"
-                app:showSeekBarValue="true" />
+            android:defaultValue="30"
+            android:dependency="prefs_key_home_folder_animation"
+            android:key="prefs_key_home_folder_anim_2"
+            android:title="@string/home_folder_anim_2"
+            android:format="%d / 30 f"
+            app:maxValue="60"
+            app:minValue="10"
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
-                android:defaultValue="101"
-                android:dependency="prefs_key_home_folder_animation"
-                android:key="prefs_key_home_folder_anim_3"
-                android:title="@string/home_folder_anim_3"
-                android:format="%d / 100 f"
-                app:maxValue="150"
-                app:minValue="50"
-                app:showSeekBarValue="true" />
+            android:defaultValue="101"
+            android:dependency="prefs_key_home_folder_animation"
+            android:key="prefs_key_home_folder_anim_3"
+            android:title="@string/home_folder_anim_3"
+            android:format="%d / 100 f"
+            app:maxValue="150"
+            app:minValue="50"
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
-                android:defaultValue="24"
-                android:dependency="prefs_key_home_folder_animation"
-                android:key="prefs_key_home_folder_anim_4"
-                android:title="@string/home_folder_anim_4"
-                android:format="%d / 30 f"
-                app:maxValue="60"
-                app:minValue="10"
-                app:showSeekBarValue="true" />
+            android:defaultValue="24"
+            android:dependency="prefs_key_home_folder_animation"
+            android:key="prefs_key_home_folder_anim_4"
+            android:title="@string/home_folder_anim_4"
+            android:format="%d / 30 f"
+            app:maxValue="60"
+            app:minValue="10"
+            app:showSeekBarValue="true" />
 
         <SwitchPreference
-                android:key="prefs_key_home_folder_auto_close"
-                android:title="@string/home_auto_close_folder_title"
-                android:summary="@string/home_auto_close_folder_summary"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_folder_auto_close"
+            android:title="@string/home_auto_close_folder_title"
+            android:summary="@string/home_auto_close_folder_summary"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_home_folder_space"
-                android:title="@string/home_folder_space_title"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_folder_space"
+            android:title="@string/home_folder_space_title"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:key="prefs_key_home_folder_blur"
-                android:title="@string/home_folder_blur_title"
-                android:defaultValue="false" />
+            android:key="prefs_key_home_folder_blur"
+            android:title="@string/home_folder_blur_title"
+            android:defaultValue="false" />
 
         <SeekBarPreference
             android:key="prefs_key_home_folder_columns"
@@ -204,7 +204,7 @@
             app:minValue="1"
             app:maxValue="6"
             android:format="@string/home_folder_cols_format"
-            app:showSeekBarValue="true"/>
+            app:showSeekBarValue="true" />
 
         <SeekBarPreference
             android:key="prefs_key_home_folder_vertical_padding"
@@ -214,7 +214,7 @@
             app:maxValue="100"
             android:format="%d dp"
 
-            app:showSeekBarValue="true"/>
+            app:showSeekBarValue="true" />
 
         <SwitchPreference
             android:key="prefs_key_home_folder_width"
@@ -222,6 +222,6 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

@@ -3,7 +3,7 @@
 
     <PreferenceCategory>
         <SwitchPreference
-                android:title="@string/system_settings_international_build"
+            android:title="@string/system_settings_international_build"
             android:key="prefs_key_system_settings_international_build"
             android:defaultValue="false" />
 
@@ -11,6 +11,15 @@
             android:title="@string/system_settings_safe_wifi"
             android:summary="@string/system_settings_safe_wifi_desc"
             android:key="prefs_key_system_settings_safe_wifi"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_settings_connection_sharing_title">
+        <SwitchPreference
+            android:title="@string/system_settings_new_nfc_page"
+            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:key="prefs_key_system_settings_new_nfc_page"
             android:defaultValue="false" />
 
     </PreferenceCategory>
@@ -39,19 +48,19 @@
 
     <PreferenceCategory android:title="@string/system_settings_ai_image_title">
         <SwitchPreference
-                android:title="@string/system_settings_ai_image_unlock_sr"
-                android:key="prefs_key_system_settings_ai_image_unlock_sr"
-                android:defaultValue="false"/>
+            android:title="@string/system_settings_ai_image_unlock_sr"
+            android:key="prefs_key_system_settings_ai_image_unlock_sr"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_settings_ai_image_unlock_ai"
-                android:key="prefs_key_system_settings_ai_image_unlock_ai"
-                android:defaultValue="false"/>
+            android:title="@string/system_settings_ai_image_unlock_ai"
+            android:key="prefs_key_system_settings_ai_image_unlock_ai"
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_settings_ai_image_unlock_memc"
-                android:key="prefs_key_system_settings_ai_image_unlock_memc"
-                android:defaultValue="false"/>
+            android:title="@string/system_settings_ai_image_unlock_memc"
+            android:key="prefs_key_system_settings_ai_image_unlock_memc"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
@@ -60,13 +69,13 @@
             android:title="@string/system_settings_permission_show_app_up"
             android:key="prefs_key_system_settings_permission_show_app_up"
             android:summary="@string/system_settings_permission_show_app_up_desc"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
 
         <SwitchPreference
-                android:title="@string/system_settings_permission_unknown_origin_app"
-                android:key="prefs_key_system_settings_permission_unknown_origin_app"
-                android:summary="@string/system_settings_permission_unknown_origin_app_desc"
-                android:defaultValue="false"/>
+            android:title="@string/system_settings_permission_unknown_origin_app"
+            android:key="prefs_key_system_settings_permission_unknown_origin_app"
+            android:summary="@string/system_settings_permission_unknown_origin_app_desc"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
@@ -74,12 +83,12 @@
         android:title="@string/system_settings_develop_title"
         android:key="prefs_key_system_settings_develop_speed">
         <SwitchPreference
-                android:title="@string/system_settings_develop_speed_mode"
-                android:key="prefs_key_system_settings_develop_speed_mode"
-                android:summary="@string/system_settings_develop_speed_mode_desc"
-                android:defaultValue="false"/>
+            android:title="@string/system_settings_develop_speed_mode"
+            android:key="prefs_key_system_settings_develop_speed_mode"
+            android:summary="@string/system_settings_develop_speed_mode_desc"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

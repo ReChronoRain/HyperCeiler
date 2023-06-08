@@ -10,46 +10,52 @@ import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
-import com.github.kyuubiran.ezxhelper.init.InitFields
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.utils.PrefsUtils.getSharedPrefs
 import moralnorm.internal.utils.DeviceHelper
 import java.io.DataOutputStream
 import java.util.*
 
 fun dp2px(dpValue: Float): Int = TypedValue.applyDimension(
-    TypedValue.COMPLEX_UNIT_DIP, dpValue, InitFields.appContext.resources.displayMetrics
+    TypedValue.COMPLEX_UNIT_DIP, dpValue, EzXHelper.appContext.resources.displayMetrics
 ).toInt()
 
-fun px2dp(pxValue: Int): Int = (pxValue / InitFields.appContext.resources.displayMetrics.density + 0.5f).toInt()
+fun px2dp(pxValue: Int): Int = (pxValue / EzXHelper.appContext.resources.displayMetrics.density + 0.5f).toInt()
 
 fun getDensityDpi(): Int =
-    (InitFields.appContext.resources.displayMetrics.widthPixels / InitFields.appContext.resources.displayMetrics.density).toInt()
+    (EzXHelper.appContext.resources.displayMetrics.widthPixels / EzXHelper.appContext.resources.displayMetrics.density).toInt()
 
 fun isDarkMode(): Boolean =
-    InitFields.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
 @SuppressLint("PrivateApi")
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 fun getProp(mKey: String): String =
-    Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(Class.forName("android.os.SystemProperties"), mKey)
+    Class.forName("android.os.SystemProperties").getMethod("get", String::class.java)
+        .invoke(Class.forName("android.os.SystemProperties"), mKey)
         .toString()
 
 @SuppressLint("PrivateApi")
 fun getProp(mKey: String, defaultValue: Boolean): Boolean =
-    Class.forName("android.os.SystemProperties").getMethod("getBoolean", String::class.java, Boolean::class.javaPrimitiveType)
+    Class.forName("android.os.SystemProperties")
+        .getMethod("getBoolean", String::class.java, Boolean::class.javaPrimitiveType)
         .invoke(Class.forName("android.os.SystemProperties"), mKey, defaultValue) as Boolean
 
 fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        InitFields.appContext.packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+        EzXHelper.appContext.packageManager.getPackageInfo(
+            packageName,
+            PackageManager.PackageInfoFlags.of(flags.toLong())
+        )
     } else {
         @Suppress("DEPRECATION")
-        InitFields.appContext.packageManager.getPackageInfo(packageName, flags)
+        EzXHelper.appContext.packageManager.getPackageInfo(packageName, flags)
     }
 
-fun checkVersionName(): String = getPackageInfoCompat(InitFields.appContext.packageName).versionName
+fun checkVersionName(): String = getPackageInfoCompat(EzXHelper.appContext.packageName).versionName
 
-fun isAlpha(): Boolean = getPackageInfoCompat(InitFields.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
+fun isAlpha(): Boolean =
+    getPackageInfoCompat(EzXHelper.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
 
 fun isPadDevice(): Boolean = DeviceHelper.isTablet() || DeviceHelper.isFoldDevice()
 
@@ -57,7 +63,7 @@ fun atLeastAndroidS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 fun atLeastAndroidT(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-fun checkVersionCode(): Long = getPackageInfoCompat(InitFields.appContext.packageName).longVersionCode
+fun checkVersionCode(): Long = getPackageInfoCompat(EzXHelper.appContext.packageName).longVersionCode
 
 fun checkMiuiVersion(): Float = when (getProp("ro.miui.ui.version.name")) {
     "V140" -> 14f
@@ -91,11 +97,11 @@ fun execShell(command: String) {
 
 @SuppressLint("DiscouragedApi")
 fun getCornerRadiusTop(): Int {
-    val resourceId = InitFields.appContext.resources.getIdentifier(
+    val resourceId = EzXHelper.appContext.resources.getIdentifier(
         "rounded_corner_radius_top", "dimen", "android"
     )
     return if (resourceId > 0) {
-        InitFields.appContext.resources.getDimensionPixelSize(resourceId)
+        EzXHelper.appContext.resources.getDimensionPixelSize(resourceId)
     } else 100
 }
 

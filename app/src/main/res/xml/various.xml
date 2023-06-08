@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
-        <Preference android:title="@string/various_location_simulation_title"
-                    android:enabled="false">
+        <Preference
+            android:title="@string/various_location_simulation_title"
+            android:enabled="false">
             <intent
-                    android:targetPackage="com.sevtinge.cemiuiler"
-                    android:targetClass="com.sevtinge.cemiuiler.ui.various.LocationSimulationActivity"/>
+                android:targetPackage="com.sevtinge.cemiuiler"
+                android:targetClass="com.sevtinge.cemiuiler.ui.various.LocationSimulationActivity" />
         </Preference>
 
         <Preference
-                android:title="@string/various_dialog_title"
+            android:title="@string/various_dialog_title"
             android:key="prefs_key_various_dialog"
             app:isPreferenceVisible="true">
 
@@ -57,15 +58,15 @@
             android:defaultValue="false" />
 
         <DropDownPreference
-                android:key="prefs_key_various_collapse_miui_title"
-                android:title="@string/various_collapse_miui_title"
-                android:summary="@string/various_collapse_miui_title_desc"
-                android:defaultValue="0"
-                app:entries="@array/collapse_miui_title"
-                app:entryValues="@array/collapse_miui_title_value"/>
+            android:key="prefs_key_various_collapse_miui_title"
+            android:title="@string/various_collapse_miui_title"
+            android:summary="@string/various_collapse_miui_title_desc"
+            android:defaultValue="0"
+            app:entries="@array/collapse_miui_title"
+            app:entryValues="@array/collapse_miui_title_value" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

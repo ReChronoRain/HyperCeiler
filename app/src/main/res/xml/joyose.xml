@@ -2,21 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/joyose_cloud_control_title">
         <SwitchPreference
-                android:title="@string/joyose_disable_cloud_control"
-                android:key="prefs_key_various_disable_cloud_control"
-                android:defaultValue="false"/>
+            android:title="@string/joyose_disable_cloud_control"
+            android:key="prefs_key_various_disable_cloud_control"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/joyose_game_title">
         <SwitchPreference
-                android:title="@string/joyose_enable_gpu_tuner"
-                android:summary="@string/joyose_enable_gpu_tuner_desc"
-                android:key="prefs_key_joyose_enable_gpu_tuner"
-                android:defaultValue="false"/>
+            android:title="@string/joyose_enable_gpu_tuner"
+            android:summary="@string/joyose_enable_gpu_tuner_desc"
+            android:key="prefs_key_joyose_enable_gpu_tuner"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

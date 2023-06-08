@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.systemui.hardware;
+package com.sevtinge.cemiuiler.module.systemui.display;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -95,8 +95,7 @@ public class AutoBrightness extends BaseHook {
                                     int defVal = "pref_key_system_control_center_min_brightness".equals(key) ? 25 : 75;
                                     mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, defVal));
                                 }
-                                case "boolean" ->
-                                        mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
+                                case "boolean" -> mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
                             }
                         } catch (Throwable t) {
                             Helpers.log(t);

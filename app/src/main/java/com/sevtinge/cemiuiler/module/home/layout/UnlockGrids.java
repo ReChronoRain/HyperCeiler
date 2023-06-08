@@ -4,13 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-
 import com.sevtinge.cemiuiler.utils.Helpers;
+
+import java.util.ArrayList;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
-
-import java.util.ArrayList;
 
 public class UnlockGrids extends BaseHook {
 
@@ -54,7 +54,7 @@ public class UnlockGrids extends BaseHook {
                 XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mScreenCellsConfig"), "setVisible", true);
             }
         });
-        Class <?> DeviceConfigClass = XposedHelpers.findClass("com.miui.home.launcher.DeviceConfig", lpparam.classLoader);
+        Class<?> DeviceConfigClass = XposedHelpers.findClass("com.miui.home.launcher.DeviceConfig", lpparam.classLoader);
         Helpers.findAndHookMethod(DeviceConfigClass, "loadCellsCountConfig", Context.class, boolean.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
@@ -92,10 +92,12 @@ public class UnlockGrids extends BaseHook {
 
         Helpers.hookAllMethods("com.miui.home.launcher.DeviceConfig", lpparam.classLoader, "isCellSizeChangedByTheme", new MethodHook() {
             XC_MethodHook.Unhook nowordHook;
+
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 nowordHook = Helpers.findAndHookMethodUseUnhook("com.miui.home.launcher.common.Utilities", lpparam.classLoader, "isNoWordModel", XC_MethodReplacement.returnConstant(false));
             }
+
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 if (nowordHook != null) nowordHook.unhook();

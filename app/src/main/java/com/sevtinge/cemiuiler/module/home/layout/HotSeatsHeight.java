@@ -14,7 +14,7 @@ public class HotSeatsHeight extends BaseHook {
 
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
 
-        findAndHookMethod(mDeviceConfig,"calcHotSeatsHeight", Context.class, boolean.class, new MethodHook() {
+        findAndHookMethod(mDeviceConfig, "calcHotSeatsHeight", Context.class, boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];

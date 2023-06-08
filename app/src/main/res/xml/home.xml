@@ -73,6 +73,6 @@
             android:targetPackage="com.sevtinge.cemiuiler" />
     </Preference>
 
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

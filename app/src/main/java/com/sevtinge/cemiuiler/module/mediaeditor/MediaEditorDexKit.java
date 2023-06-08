@@ -24,12 +24,12 @@ public class MediaEditorDexKit extends BaseHook {
                 return;
             }
             mMediaEditorResultMethodsMap =
-                    bridge.batchFindMethodsUsingStrings(
-                            BatchFindArgs.builder()
-                                    .addQuery("FilterManager", List.of("wayne"))
-                                    .matchType(MatchType.CONTAINS)
-                                    .build()
-                    );
+                bridge.batchFindMethodsUsingStrings(
+                    BatchFindArgs.builder()
+                        .addQuery("FilterManager", List.of("wayne"))
+                        .matchType(MatchType.FULL)
+                        .build()
+                );
         } catch (Throwable e) {
             e.printStackTrace();
         }

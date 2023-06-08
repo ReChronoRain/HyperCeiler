@@ -24,15 +24,15 @@ public class LargeIconCornerRadius extends BaseHook {
 
         mBigIconUtil = findClassIfExists("com.miui.home.launcher.bigicon.BigIconUtil");
 
-        hookAllMethods(mBigIconUtil, "getCroppedFromCorner",  new MethodHook() {
+        hookAllMethods(mBigIconUtil, "getCroppedFromCorner", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[3];
                 Bitmap bitmap = (Bitmap) param.args[2];
                 Drawable drawable = new BitmapDrawable(context.getResources(),
-                        croppedCorners(bitmap,
-                                DisplayUtils.dp2px(context,
-                                        mPrefsMap.getInt("home_large_icon_corner_radius", 32))));
+                    croppedCorners(bitmap,
+                        DisplayUtils.dp2px(context,
+                            mPrefsMap.getInt("home_large_icon_corner_radius", 32))));
                 param.setResult(drawable);
             }
         });

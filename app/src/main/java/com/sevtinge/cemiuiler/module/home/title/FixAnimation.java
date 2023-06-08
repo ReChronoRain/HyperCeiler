@@ -1,12 +1,13 @@
 package com.sevtinge.cemiuiler.module.home.title;
 
 import android.view.MotionEvent;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import de.robv.android.xposed.XposedBridge;
+
 import de.robv.android.xposed.XposedHelpers;
 import kotlin.jvm.internal.Intrinsics;
 
-//from MIUI-EXTRA by Art-Chen
+// from MIUI-EXTRA by Art-Chen
 
 public class FixAnimation extends BaseHook {
 

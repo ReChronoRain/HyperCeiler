@@ -27,7 +27,10 @@ object FolderColumns : BaseHook() {
             if (columns > 3) {
                 val mBackgroundView = XposedHelpers.getObjectField(it.thisObject, "mBackgroundView") as ViewGroup
                 mBackgroundView.setPadding(
-                    mBackgroundView.paddingLeft / 3, mBackgroundView.paddingTop, mBackgroundView.paddingRight / 3, mBackgroundView.paddingBottom
+                    mBackgroundView.paddingLeft / 3,
+                    mBackgroundView.paddingTop,
+                    mBackgroundView.paddingRight / 3,
+                    mBackgroundView.paddingBottom
                 )
             }
         }

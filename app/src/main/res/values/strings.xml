@@ -579,6 +579,9 @@
     <string name="system_framework_volume_steps">Volume level multiplier</string>
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
+    <string name="system_settings_connection_sharing_title">Connetion &amp; sharing</string>
+    <string name="system_settings_new_nfc_page">New NFC Page</string>
+    <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_develop_speed_mode">Extreme mode</string>
     <string name="home_layout_searchbar_title">Search bar</string>
@@ -760,7 +763,6 @@
     <string name="system_ui_statusbar_clock_hour_cn">Show double hour</string>
     <string name="system_ui_statusbar_clock_hide_space">Hide space</string>
     <string name="system_ui_statusbar_clock_double">Show double</string>
-    <string name="system_ui_statusbar_clock_double_center">Double row center alignment</string>
     <string name="array_clock_default">Default</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
@@ -922,7 +924,7 @@
     <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
     <string name="link_open_mode_default">System default</string>
     <string name="link_open_mode_mi">Xiaomi browser</string>
-     <string name="clipboard">Clipboard</string>
+    <string name="clipboard">Clipboard</string>
     <string name="lbe_clipboard_tip">Read clipboard</string>
     <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
     <string name="about_offical">Official website</string>
@@ -961,13 +963,13 @@
     <string name="system_ui_navigation_handle_custom_width_land">Landscape width</string>
     <string name="system_ui_navigation_handle_custom_color">Color when light-mode</string>
     <string name="system_ui_navigation_handle_custom_color_dark">Color when dark-mode</string>
-    <string name="system_ui_control_center_brightness_title">Brightness</string>
-    <string name="system_ui_control_center_auto_brightness">Auto brightness range</string>
-    <string name="system_ui_control_center_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
-    <string name="system_ui_control_center_min_brightness">Auto Brightness Min</string>
-    <string name="system_ui_control_center_max_brightness">Auto Brightness Max</string>
+    <string name="system_ui_display_brightness_title">Brightness</string>
+    <string name="system_ui_display_auto_brightness">Auto brightness range</string>
+    <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
+    <string name="system_ui_display_min_brightness">Auto Brightness Min</string>
+    <string name="system_ui_display_max_brightness">Auto Brightness Max</string>
     <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
-    <string name="system_ui_hardware_title">Display</string>
+    <string name="system_ui_display_title">Display</string>
     <string name="downloads">Download management program</string>
     <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
@@ -1022,4 +1024,29 @@
     <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="home_widget_resizable">Remove any widget size limitations</string>
+    <string name="system_ui_statusbar_horizontal_spacing_title">Horizontal spacing</string>
+    <string name="system_ui_statusbar_no_lock_top_margin_title">Unset statusbar in Keyguard</string>
+    <string name="system_ui_statusbar_top_margin_title">Top padding</string>
+    <string name="system_ui_statusbar_icon_size_title">Status bar icon size</string>
+    <string name="system_ui_statusbar_height_title">Status bar height</string>
+    <string name="system_ui_display_toast_title" translatable="false">Toast</string>
+    <string name="system_ui_display_toast_times_title">Display duration adjustment</string>
+    <string name="system_ui_display_toast_times_desc">Modify the display duration of Toast, the display duration is always greater than 1 second</string>
+    <string name="system_ui_statusbar_clock_double_mode_title">Double row alignment</string>
+    <string name="system_ui_statusbar_layout_mode_title">Layout mode</string>
+    <string name="array_clock_center">Clock center</string>
+    <string name="array_clock_right">Clock right</string>
+    <string name="array_clock_center_and_icon_left">Clock center &amp; Icon left</string>
+    <string name="system_ui_statusbar_layout_title">Layout</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_title">Compatibility mode</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Forcibly enable the full screen layout for all special-shaped screens</string>
+    <string name="aiasst">AI Translate</string>
+    <string name="aiasst_ai_captions">Force enabled AI captions</string>
+    <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
+    <string name="system_ui_status_bar_battery_size_title">Battery percentage text size</string>
+    <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
+    <string name="bottom_margin">Bottom margin</string>
+    <string name="top_margin">Top margin</string>
+    <string name="left_margin">Left margin</string>
+    <string name="right_margin">Right margin</string>
 </resources>

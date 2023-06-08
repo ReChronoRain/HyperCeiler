@@ -1,13 +1,15 @@
 name: Android Ci Release
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
     paths-ignore:
-      - "README.md"
-      - "README_en-US.md"
+      - ".github/**"
+      - "!.github/workflows/**"
+      - ".idea/"
       - "doc/*"
+      - "*.md"
 jobs:
   build:
     runs-on: ubuntu-latest

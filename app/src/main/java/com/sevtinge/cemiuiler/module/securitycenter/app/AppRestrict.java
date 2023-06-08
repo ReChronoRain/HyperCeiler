@@ -28,7 +28,7 @@ public class AppRestrict extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     if ((int) param.args[3] == 128 && (int) param.args[4] == 0) {
-                        ApplicationInfo appInfo = (ApplicationInfo)param.getResult();
+                        ApplicationInfo appInfo = (ApplicationInfo) param.getResult();
                         appInfo.flags &= ~ApplicationInfo.FLAG_SYSTEM;
                         param.setResult(appInfo);
                     }

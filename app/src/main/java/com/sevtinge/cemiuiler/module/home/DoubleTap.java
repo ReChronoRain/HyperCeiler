@@ -31,13 +31,13 @@ public class DoubleTap extends BaseHook {
         findAndHookMethod(mWorkspace, "dispatchTouchEvent", MotionEvent.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                DoubleTapController mDoubleTapControllerEx = (DoubleTapController)XposedHelpers.getAdditionalInstanceField(param.thisObject, "mDoubleTapControllerEx");
+                DoubleTapController mDoubleTapControllerEx = (DoubleTapController) XposedHelpers.getAdditionalInstanceField(param.thisObject, "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx == null) return;
-                if (!mDoubleTapControllerEx.isDoubleTapEvent((MotionEvent)param.args[0])) return;
+                if (!mDoubleTapControllerEx.isDoubleTapEvent((MotionEvent) param.args[0])) return;
                 int mCurrentScreenIndex = XposedHelpers.getIntField(param.thisObject, lpparam.packageName.equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
                 Object cellLayout = XposedHelpers.callMethod(param.thisObject, "getCellLayout", mCurrentScreenIndex);
-                if ((boolean)XposedHelpers.callMethod(cellLayout, "lastDownOnOccupiedCell")) return;
-                if ((boolean)XposedHelpers.callMethod(param.thisObject, "isInNormalEditingMode")) return;
+                if ((boolean) XposedHelpers.callMethod(cellLayout, "lastDownOnOccupiedCell")) return;
+                if ((boolean) XposedHelpers.callMethod(param.thisObject, "isInNormalEditingMode")) return;
                 mDoubleTapControllerEx.onDoubleTapEvent();
             }
         });
@@ -75,7 +75,7 @@ public class DoubleTap extends BaseHook {
                 float rawY = motionEvent.getRawY();
                 if (Math.abs(rawX - this.mActionDownRawX) <= ((float) this.mTouchSlop) && Math.abs(rawY - this.mActionDownRawY) <= ((float) this.mTouchSlop)) {
                     long MAX_DURATION = 500;
-                    if (SystemClock.elapsedRealtime() - this.mLastClickTime > MAX_DURATION || rawY - this.mFirstClickRawY > (float)this.mTouchSlop || rawX - this.mFirstClickRawX > (float)this.mTouchSlop) {
+                    if (SystemClock.elapsedRealtime() - this.mLastClickTime > MAX_DURATION || rawY - this.mFirstClickRawY > (float) this.mTouchSlop || rawX - this.mFirstClickRawX > (float) this.mTouchSlop) {
                         this.mClickCount = 0;
                     }
                     this.mClickCount++;

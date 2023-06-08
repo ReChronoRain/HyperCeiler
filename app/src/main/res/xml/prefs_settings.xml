@@ -7,7 +7,7 @@
         <SwitchPreference
             android:title="@string/settings_hide_app_icon"
             android:key="prefs_key_settings_hide_app_icon"
-            android:defaultValue="true"/>
+            android:defaultValue="true" />
 
         <DropDownPreference
             android:title="@string/settings_icon"
@@ -32,10 +32,10 @@
             android:key="prefs_key_settings_reboot" />
 
         <SwitchPreference
-                android:title="@string/disable_detailed_log"
-                android:summary="@string/disable_detailed_log_desc"
-                android:key="prefs_key_settings_disable_detailed_log"
-                android:defaultValue="false"/>
+            android:title="@string/disable_detailed_log"
+            android:summary="@string/disable_detailed_log_desc"
+            android:key="prefs_key_settings_disable_detailed_log"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
@@ -43,15 +43,15 @@
 
         <Preference
             android:key="prefs_key_back"
-            android:title="@string/settings_back"/>
+            android:title="@string/settings_back" />
 
         <Preference
             android:key="prefs_key_rest"
-            android:title="@string/settings_rest"/>
+            android:title="@string/settings_rest" />
 
         <Preference
             android:key="prefs_key_reset"
-            android:title="@string/settings_reset"/>
+            android:title="@string/settings_reset" />
 
     </PreferenceCategory>
 
@@ -77,6 +77,6 @@
                 android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
         </Preference>
     </PreferenceCategory>-->
-<Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 
 </PreferenceScreen>

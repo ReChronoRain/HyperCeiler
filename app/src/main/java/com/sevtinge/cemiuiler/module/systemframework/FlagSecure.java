@@ -1,23 +1,18 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
-
-import de.robv.android.xposed.XC_MethodReplacement;
-
 import android.os.Build;
 import android.util.Log;
+
+import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.function.BiPredicate;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class FlagSecure extends BaseHook {
 
@@ -54,16 +49,16 @@ public class FlagSecure extends BaseHook {
                 Class<?> windowsState = XposedHelpers.findClass("com.android.server.wm.WindowState", lpparam.classLoader);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     XposedHelpers.findAndHookMethod(
-                            windowsState,
-                            "isSecureLocked",
-                            XC_MethodReplacement.returnConstant(false));
+                        windowsState,
+                        "isSecureLocked",
+                        XC_MethodReplacement.returnConstant(false));
                 } else {
                     XposedHelpers.findAndHookMethod(
-                            "com.android.server.wm.WindowManagerService",
-                            lpparam.classLoader,
-                            "isSecureLocked",
-                            windowsState,
-                            XC_MethodReplacement.returnConstant(false));
+                        "com.android.server.wm.WindowManagerService",
+                        lpparam.classLoader,
+                        "isSecureLocked",
+                        windowsState,
+                        XC_MethodReplacement.returnConstant(false));
                 }
             } catch (Throwable t) {
                 XposedBridge.log(t);

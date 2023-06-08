@@ -13,16 +13,17 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
             android:title="@string/system_ui_statusbar_network_speed_font_size" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
-            android:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
             android:layout="@layout/preference_seekbar_no_padding"
             app:dialogTitle="@string/system_ui_statusbar_network_speed_font_size"
-            app:maxValue="32"
-            app:minValue="6"
-            app:showSeekBarValue="true" />
+            app:stepValue="1"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="40"
+            app:minValue="8" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -116,35 +117,42 @@
             app:minValue="10"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="0"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-            android:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_network_speed_left_margin"
             android:title="@string/system_ui_statusbar_indicator_left_margin"
             app:maxValue="10"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="0"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-            android:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_network_speed_right_margin"
             android:title="@string/system_ui_statusbar_indicator_right_margin"
             app:maxValue="10"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="8"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-            android:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_network_speed_vertical_offset"
             android:title="@string/system_ui_statusbar_indicator_vertical_offset"
             app:maxValue="16"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:negativeShift="8"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
 
     </PreferenceCategory>
 

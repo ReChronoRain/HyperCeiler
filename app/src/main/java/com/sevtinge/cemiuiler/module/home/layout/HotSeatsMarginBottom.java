@@ -14,7 +14,7 @@ public class HotSeatsMarginBottom extends BaseHook {
 
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
 
-        findAndHookMethod(mDeviceConfig,"calcHotSeatsMarginBottom", Context.class, boolean.class, boolean.class, new MethodHook() {
+        findAndHookMethod(mDeviceConfig, "calcHotSeatsMarginBottom", Context.class, boolean.class, boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];

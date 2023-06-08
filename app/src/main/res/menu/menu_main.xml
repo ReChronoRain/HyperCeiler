@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/restart_home"
-        android:title="@string/cemiuiler_restart_quick"/>
+        android:title="@string/cemiuiler_restart_quick" />
 
     <item
         android:id="@+id/settings"
-        android:title="@string/settings"/>
+        android:title="@string/settings" />
 
 </menu>

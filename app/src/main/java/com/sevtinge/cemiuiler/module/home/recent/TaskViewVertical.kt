@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module.home.recent
 
 import android.graphics.RectF
-import com.github.kyuubiran.ezxhelper.init.InitFields.appContext
+import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.findClass
@@ -18,7 +18,8 @@ object TaskViewVertical : BaseHook() {
             "com.miui.home.recents.util.Utilities".findClass().callStaticMethod(
                 "scaleRectAboutCenter",
                 it.args[0],
-                value * "com.miui.home.recents.util.Utilities".findClass().callStaticMethod("getTaskViewScale", appContext) as Float
+                value * "com.miui.home.recents.util.Utilities".findClass()
+                    .callStaticMethod("getTaskViewScale", appContext) as Float
             )
         }
 

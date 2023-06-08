@@ -3,15 +3,15 @@
     android:height="200dp"
     android:viewportWidth="432"
     android:viewportHeight="432">
-  <path
-      android:pathData="M141.7,165.99L196.19,140.58A23.19,23.19 110,0 1,227 151.79L252.45,206.36A23.19,23.19 110,0 1,241.23 237.18L186.75,262.59A23.19,23.19 110,0 1,155.93 251.37L130.48,196.8A23.19,23.19 110,0 1,141.7 165.99z"
-      android:fillColor="@color/ic_launcher_foreground"/>
-  <path
-      android:pathData="M265.33,191.94a52.8,52.8 0,1 1,-63.62 83.72"
-      android:strokeWidth="21"
-      android:strokeColor="@color/ic_launcher_foreground"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="M268.8,152.54m-13.66,0a13.66,13.66 0,1 1,27.32 0a13.66,13.66 0,1 1,-27.32 0"
-      android:fillColor="@color/ic_launcher_foreground"/>
+    <path
+        android:pathData="M141.7,165.99L196.19,140.58A23.19,23.19 110,0 1,227 151.79L252.45,206.36A23.19,23.19 110,0 1,241.23 237.18L186.75,262.59A23.19,23.19 110,0 1,155.93 251.37L130.48,196.8A23.19,23.19 110,0 1,141.7 165.99z"
+        android:fillColor="@color/ic_launcher_foreground" />
+    <path
+        android:pathData="M265.33,191.94a52.8,52.8 0,1 1,-63.62 83.72"
+        android:strokeWidth="21"
+        android:strokeColor="@color/ic_launcher_foreground"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M268.8,152.54m-13.66,0a13.66,13.66 0,1 1,27.32 0a13.66,13.66 0,1 1,-27.32 0"
+        android:fillColor="@color/ic_launcher_foreground" />
 </vector>

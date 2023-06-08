@@ -46,6 +46,7 @@
         <item>com.miui.voiceassist</item>
         <item>com.miui.weather2</item>
         <item>com.sohu.inputmethod.sogou.xiaomi</item>
+        <item>com.xiaomi.aiasst.vision</item>
         <item>com.xiaomi.aireco</item>
         <item>com.xiaomi.joyose</item>
         <item>com.xiaomi.market</item>
@@ -440,6 +441,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="system_ui_status_bar_clock_double_mode">
+        <item>@string/array_default</item>
+        <item>@string/array_align_center</item>
+        <item>@string/array_align_right</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_clock_double_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="system_ui_status_bar_battery_show">
         <item>@string/array_battery_both</item>
         <item>@string/array_battery_power</item>
@@ -460,6 +473,20 @@
     </string-array>
 
     <string-array name="system_ui_status_bar_battery_disable_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_layout_mode">
+        <item>@string/array_default</item>
+        <item>@string/array_clock_center</item>
+        <item>@string/array_clock_right</item>
+        <item>@string/array_clock_center_and_icon_left</item>
+    </string-array>
+
+    <string-array name="system_ui_status_bar_layout_mode_value">
         <item>0</item>
         <item>1</item>
         <item>2</item>

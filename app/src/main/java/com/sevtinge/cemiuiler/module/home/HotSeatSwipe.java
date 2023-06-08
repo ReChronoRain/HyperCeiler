@@ -17,13 +17,14 @@ public class HotSeatSwipe extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "dispatchTouchEvent", MotionEvent.class, new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) throws Throwable {
-                MotionEvent ev = (MotionEvent)param.args[0];
+                MotionEvent ev = (MotionEvent) param.args[0];
                 if (ev == null) return;
 
-                ViewGroup hotSeat = (ViewGroup)param.thisObject;
+                ViewGroup hotSeat = (ViewGroup) param.thisObject;
                 Context helperContext = hotSeat.getContext();
                 if (helperContext == null) return;
-                if (mDetectorHorizontal == null) mDetectorHorizontal = new GestureDetector(helperContext, new SwipeListenerHorizontal(hotSeat));
+                if (mDetectorHorizontal == null)
+                    mDetectorHorizontal = new GestureDetector(helperContext, new SwipeListenerHorizontal(hotSeat));
                 mDetectorHorizontal.onTouchEvent(ev);
             }
         });
@@ -38,7 +39,7 @@ public class HotSeatSwipe extends BaseHook {
         final Context helperContext;
 
         SwipeListenerHorizontal(Object cellLayout) {
-            helperContext = ((ViewGroup)cellLayout).getContext();
+            helperContext = ((ViewGroup) cellLayout).getContext();
             float density = helperContext.getResources().getDisplayMetrics().density;
             SWIPE_MIN_DISTANCE_HORIZ = Math.round(75 * density);
             SWIPE_THRESHOLD_VELOCITY = Math.round(33 * density);

@@ -10,18 +10,19 @@ import de.robv.android.xposed.XposedHelpers
 
 object QSControlDetailBackgroundAlpha : BaseHook() {
     override fun init() {
-        val qSControlDetailBackgroundAlpha = mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255)
+        val qSControlDetailBackgroundAlpha =
+            mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255)
         val qSControlDetailClass = findClassIfExists(
             "com.android.systemui.controlcenter.phone.detail.QSControlDetail"
         )
-        if(qSControlDetailClass != null){
+        if (qSControlDetailClass != null) {
             XposedHelpers.findAndHookMethod(
                 qSControlDetailClass,
                 "updateBackground",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val mDetailContainer = HookUtils.getValueByField(param.thisObject,"mDetailContainer") as View
-                        if(mDetailContainer.background != null){
+                        val mDetailContainer = HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                        if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha
                         }
@@ -31,14 +32,14 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
         val modalQSControlDetailClass = findClassIfExists(
             "com.android.systemui.statusbar.notification.modal.ModalQSControlDetail"
         )
-        if(modalQSControlDetailClass != null){
+        if (modalQSControlDetailClass != null) {
             XposedHelpers.findAndHookMethod(
                 modalQSControlDetailClass,
                 "updateBackground",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val mDetailContainer = HookUtils.getValueByField(param.thisObject,"mDetailContainer") as View
-                        if(mDetailContainer.background != null){
+                        val mDetailContainer = HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                        if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha
                         }
@@ -46,7 +47,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                 })
         }
 
-        hookClassInPlugin{classLoader ->
+        hookClassInPlugin { classLoader ->
             try {
                 val smoothRoundDrawableClass = XposedHelpers.callMethod(
                     classLoader,

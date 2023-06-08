@@ -2,7 +2,6 @@ package com.sevtinge.cemiuiler.module.camera
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
-import de.robv.android.xposed.XposedBridge
 
 object EnableLabOptions : BaseHook() {
     override fun init() {

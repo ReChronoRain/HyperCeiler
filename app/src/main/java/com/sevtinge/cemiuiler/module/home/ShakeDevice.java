@@ -20,11 +20,11 @@ public class ShakeDevice extends BaseHook {
             protected void after(final MethodHookParam param) throws Throwable {
                 ShakeManager shakeMgr = (ShakeManager) XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey);
                 if (shakeMgr == null) {
-                    shakeMgr = new ShakeManager((Context)param.thisObject);
+                    shakeMgr = new ShakeManager((Context) param.thisObject);
                     XposedHelpers.setAdditionalInstanceField(param.thisObject, shakeMgrKey, shakeMgr);
                 }
-                Activity launcherActivity = (Activity)param.thisObject;
-                SensorManager sensorMgr = (SensorManager)launcherActivity.getSystemService(Context.SENSOR_SERVICE);
+                Activity launcherActivity = (Activity) param.thisObject;
+                SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
                 shakeMgr.reset();
                 sensorMgr.registerListener(shakeMgr, sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
             }
@@ -34,9 +34,9 @@ public class ShakeDevice extends BaseHook {
             @Override
             protected void after(final MethodHookParam param) throws Throwable {
                 if (XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey) == null) return;
-                Activity launcherActivity = (Activity)param.thisObject;
-                SensorManager sensorMgr = (SensorManager)launcherActivity.getSystemService(Context.SENSOR_SERVICE);
-                sensorMgr.unregisterListener((ShakeManager)XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey));
+                Activity launcherActivity = (Activity) param.thisObject;
+                SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
+                sensorMgr.unregisterListener((ShakeManager) XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey));
             }
         });
     }
