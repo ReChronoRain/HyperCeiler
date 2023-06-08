@@ -105,9 +105,7 @@
     <string name="home_dock_bg_height_desc">Yuva yüksekliği</string>
     <string name="home_dock_bg_margin_horizontal">Dikey kenar boşluğu</string>
     <string name="home_dock_bg_margin_horizontal_desc">Ekranın her iki tarafından yerleştirme mesafesi</string>
-    <string name="home_dock_bg_margin_top">Üst kenar boşluğu</string>
     <string name="home_dock_bg_margin_top_desc">Ekran göstergesinden yuvanın kenar boşluğu</string>
-    <string name="home_dock_bg_margin_bottom">Alt kenar boşluğu</string>
     <string name="home_dock_bg_margin_bottom_desc">Ekranın altından Dock\'un kenar boşluğu</string>
     <string name="home_dock_icon_margin_bottom">Simge alt kenar boşluğu</string>
     <string name="home_dock_icon_margin_bottom_desc">Dock simgesinin ekranın alt kenar boşluğundan uzaklığı</string>
@@ -592,13 +590,9 @@
     <string name="home_layout_unlock_grids_no_words">Düzenin kilidini aç (kelime modu yok)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Ana ekran simgesi düzen boyutu sınırının kilidini aç</string>
     <string name="home_layout_workspace_padding_bottom_desc">Ana ekran ekranın alt kenar boşluğundan uzaklığı</string>
-    <string name="home_layout_workspace_padding_bottom">Alt kenar boşluğu</string>
     <string name="home_layout_hotseats_height">Yükseklik</string>
-    <string name="home_layout_hotseats_margin_top">Üst kenar boşluğu</string>
     <string name="home_layout_hotseats_margin_top_desc">Sayfa göstergesi kenar boşluğundan yerleştirme mesafesi</string>
-    <string name="home_layout_hotseats_margin_bottom">Alt kenar boşluğu</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Ekranın alt kenar boşluğundan yerleştirme mesafesi</string>
-    <string name="home_layout_searchbar_margin_bottom">Alt kenar boşluğu</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Ekranın alt kenar boşluğundan arama çubuğu mesafesi</string>
     <string name="home_other_home_mode">Masaüstü modu</string>
     <string name="home_other_show_clock">Görüntüleme süresi</string>
@@ -698,16 +692,16 @@
     <string name="system_ui_statusbar_network_speed_detailed_desc">Gelen ve giden ağ hızlarını ayrı göster</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">İçerik genişliğini düzeltin</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Yatay titremeyi önlemek için</string>
-    <string name="system_ui_statusbar_indicator_left_margin">Sol kenar boşluğu</string>
-    <string name="system_ui_statusbar_indicator_right_margin">Sağ kenar boşluğu</string>
-    <string name="system_ui_statusbar_indicator_vertical_offset">Yukarı ve aşağı ofset</string>
+    <string name="left_margin">Sol kenar boşluğu</string>
+    <string name="right_margin">Sağ kenar boşluğu</string>
+    <string name="vertical_offset">Yukarı ve aşağı ofset</string>
     <string name="array_align_left">Sol</string>
     <string name="array_align_right">Sağ</string>
     <string name="array_align_center">Merkez</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">İkinci sonek (/ s) başına Bayt gizle</string>
     <string name="array_netspeedicons_no">Simgeler yok</string>
     <string name="system_ui_statusbar_network_speed_icon">Gösterge simgesi</string>
-    <string name="system_ui_statusbar_indicator_align">Yatay hizalama</string>
+    <string name="horizontal_alignment">Yatay hizalama</string>
     <string name="joyose_enable_gpu_tuner_desc">Açtıktan sonra, [Oyun Alanı] \'nın alt ortasına oyun GPU\'su ile ilgili ayarları ekleyin</string>
     <string name="system_ui_status_bar_hide_icon">Ekran görüntüsü alırken durum çubuğunu gizleyin</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Mobil ağ türü simgesi</string>
@@ -825,4 +819,6 @@
     <string name="system_ui_control_center_compact_notice">Kompakt bildirimler</string>
     <string name="system_ui_control_center_compact_notice_desc">Bildirimlerin dikey dolgularını azalt</string>
     <string name="home_widget_resizable">Widget boyut sınırlamalarını kaldırın</string>
+    <string name="bottom_margin">Alt kenar boşluğu</string>
+    <string name="top_margin">Üst kenar boşluğu</string>
 </resources>

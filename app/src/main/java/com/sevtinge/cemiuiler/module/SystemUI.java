@@ -152,7 +152,7 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
         // 显示
-        initHook(new ToastTime(), mPrefsMap.getInt("system_ui_display_toast_times", 0) > 0);
+        initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
 
         // 导航栏
         initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));

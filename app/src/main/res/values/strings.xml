@@ -109,9 +109,7 @@
     <string name="home_dock_bg_height_desc">Dock height</string>
     <string name="home_dock_bg_margin_horizontal">Vertical margin</string>
     <string name="home_dock_bg_margin_horizontal_desc">Dock distance from both sides of the screen</string>
-    <string name="home_dock_bg_margin_top">Top margin</string>
     <string name="home_dock_bg_margin_top_desc">Margin of the Dock from the screen indicator</string>
-    <string name="home_dock_bg_margin_bottom">Bottom margin</string>
     <string name="home_dock_bg_margin_bottom_desc">Margin of the Dock from the bottom of the screen</string>
     <string name="home_dock_icon_margin_bottom">Icon bottom margin</string>
     <string name="home_dock_icon_margin_bottom_desc">Dock icon distance from screen bottom margin</string>
@@ -591,13 +589,9 @@
     <string name="home_layout_unlock_grids_no_words">Unlock layout (no word mode)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Unlock home screen icon layout size limit</string>
     <string name="home_layout_workspace_padding_bottom_desc">Home screen distance from screen bottom margin</string>
-    <string name="home_layout_workspace_padding_bottom">Bottom margin</string>
     <string name="home_layout_hotseats_height">Height</string>
-    <string name="home_layout_hotseats_margin_top">Top margin</string>
     <string name="home_layout_hotseats_margin_top_desc">Dock distance from page indicator margin</string>
-    <string name="home_layout_hotseats_margin_bottom">Bottom margin</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock distance from screen bottom margin</string>
-    <string name="home_layout_searchbar_margin_bottom">Bottom margin</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Search bar distance from screen bottom margin</string>
     <string name="home_other_home_mode">Desktop mode</string>
     <string name="home_other_show_clock">Display time</string>
@@ -697,16 +691,16 @@
     <string name="system_ui_statusbar_network_speed_detailed_desc">Show incoming and outgoing network speeds separately</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">To prevent horizontal jitter</string>
-    <string name="system_ui_statusbar_indicator_left_margin">Left margin</string>
-    <string name="system_ui_statusbar_indicator_right_margin">Right margin</string>
-    <string name="system_ui_statusbar_indicator_vertical_offset">Up and down offset</string>
+    <string name="left_margin">Left margin</string>
+    <string name="right_margin">Right margin</string>
+    <string name="vertical_offset">Up and down offset</string>
     <string name="array_align_left">Left</string>
     <string name="array_align_right">Right</string>
     <string name="array_align_center">Centered</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (/s)</string>
     <string name="array_netspeedicons_no">No icons</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
-    <string name="system_ui_statusbar_indicator_align">Horizontal alignment</string>
+    <string name="horizontal_alignment">Horizontal alignment</string>
     <string name="joyose_enable_gpu_tuner_desc">After opening, add game GPU related settings in the bottom middle of [Game Space]</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
@@ -1047,6 +1041,4 @@
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
     <string name="bottom_margin">Bottom margin</string>
     <string name="top_margin">Top margin</string>
-    <string name="left_margin">Left margin</string>
-    <string name="right_margin">Right margin</string>
 </resources>

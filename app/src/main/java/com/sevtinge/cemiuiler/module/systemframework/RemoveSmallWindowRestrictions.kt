@@ -6,6 +6,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.api.field
 
 object RemoveSmallWindowRestrictions : BaseHook() {
     private val mSettingsClass = loadClass("com.android.server.wm.WindowManagerService\$SettingsObserver")
@@ -18,7 +19,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "retrieveSettings"
             }.createHook {
                 after { param ->
-                    param.thisObject.javaClass.getField("mDevEnableNonResizableMultiWindow")
+                    param.thisObject.javaClass.field("mDevEnableNonResizableMultiWindow")
                         .setBoolean(param.thisObject, true)
                 }
             }
@@ -31,9 +32,9 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "updateDevEnableNonResizableMultiWindow"
             }.toList().createHooks {
                 after { param ->
-                    val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
-                    val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
-                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
+                    val this0 = param.thisObject.javaClass.field("this\$0").get(param.thisObject)
+                    val mAtmService = this0.javaClass.field("mAtmService").get(this0)
+                    mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
                 }
             }
         } catch (e: Throwable) {
@@ -45,9 +46,9 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "onChange"
             }.toList().createHooks {
                 after { param ->
-                    val this0 = param.thisObject.javaClass.getField("this\$0").get(param.thisObject)
-                    val mAtmService = this0.javaClass.getField("mAtmService").get(this0)
-                    mAtmService.javaClass.getField("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
+                    val this0 = param.thisObject.javaClass.field("this\$0").get(param.thisObject)
+                    val mAtmService = this0.javaClass.field("mAtmService").get(this0)
+                    mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow").setBoolean(mAtmService, true)
                 }
             }
         } catch (e: Throwable) {

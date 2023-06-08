@@ -240,11 +240,9 @@
     <string name="home_dock_bg_custom_enable">Настройка дока</string>
     <string name="home_dock_bg_height">Высота</string>
     <string name="home_dock_bg_height_desc">Высота дока</string>
-    <string name="home_dock_bg_margin_bottom">Нижняя граница</string>
     <string name="home_dock_bg_margin_bottom_desc">Граница Дока в нижней части экрана</string>
     <string name="home_dock_bg_margin_horizontal">Горизонтальная граница</string>
     <string name="home_dock_bg_margin_horizontal_desc">Расстояние Дока от краев экрана</string>
-    <string name="home_dock_bg_margin_top">Верхняя граница</string>
     <string name="home_dock_bg_margin_top_desc">Граница дока от индикатора экрана</string>
     <string name="home_dock_fold">Док в стиле Mix Fold</string>
     <string name="home_dock_hide_seekpoint">Скрыть индикатор страниц</string>
@@ -304,19 +302,15 @@
     <string name="home_layout">Макеты</string>
     <string name="home_layout_home_title">Раб.стол</string>
     <string name="home_layout_hotseats_height">Высота</string>
-    <string name="home_layout_hotseats_margin_bottom">Нижняя граница</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Расстояние до дока от нижней границы экрана</string>
-    <string name="home_layout_hotseats_margin_top">Верхняя граница</string>
     <string name="home_layout_hotseats_margin_top_desc">Расстояние до дока от индикатора страниц</string>
     <string name="home_layout_hotseats_title">Док</string>
-    <string name="home_layout_searchbar_margin_bottom">Нижняя граница</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Расстояние строки поиска от нижней границы экрана</string>
     <string name="home_layout_searchbar_title">Панель поиска</string>
     <string name="home_layout_unlock_grids">Разблокировать сетку</string>
     <string name="home_layout_unlock_grids_desc">Разблокировать ограничение сетки на раб.столе</string>
     <string name="home_layout_unlock_grids_no_words">Разблокировать сетку (без текста)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Разблокировать ограничение сетки на раб.столе</string>
-    <string name="home_layout_workspace_padding_bottom">Нижняя граница</string>
     <string name="home_layout_workspace_padding_bottom_desc">Расстояние раб.стола от нижнего края экрана</string>
     <string name="home_mode_dark">Темный режим</string>
     <string name="home_mode_day">Светлый режим</string>
@@ -929,17 +923,17 @@
     <string name="system_ui_statusbar_iconmanage_status_title">Значок состояния</string>
     <string name="system_ui_statusbar_iconmanage_title">Управление значками</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wi-Fi</string>
-    <string name="system_ui_statusbar_indicator_align">Горизонтальное выравнивание</string>
+    <string name="horizontal_alignment">Горизонтальное выравнивание</string>
     <string name="system_ui_statusbar_indicator_battery_title">Энергопотребление</string>
     <string name="system_ui_statusbar_indicator_bold">Жирный</string>
     <string name="system_ui_statusbar_indicator_default_title">По умолчанию</string>
     <string name="system_ui_statusbar_indicator_expand_title">Развернуть</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Исправить ширину содержимого</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Предотвратить дрожание соседних элементов влево и вправо</string>
-    <string name="system_ui_statusbar_indicator_left_margin">Левый интервал</string>
-    <string name="system_ui_statusbar_indicator_right_margin">Правый интервал</string>
+    <string name="left_margin">Левый интервал</string>
+    <string name="right_margin">Правый интервал</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Температура</string>
-    <string name="system_ui_statusbar_indicator_vertical_offset">Смещение вверх и вниз</string>
+    <string name="vertical_offset">Смещение вверх и вниз</string>
     <string name="system_ui_statusbar_mobile_type_bold">Жирный</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Размер шрифта</string>
     <string name="system_ui_statusbar_mobile_type_margin_desc">После включения двухрядной мобильной сети, она станет недоступной для настройки</string>
@@ -993,7 +987,7 @@
     <string name="updater_fuck_vab_desc">"Поддерживаются только устройства VAB, не переключайте, другие устройства, отличные от VAB!
 - Вы можете перейти к полному пакету внутренних тестовых карт без внутренних разрешений на тестирование
 - Рекомендуется удалять данные после перепрошивки в разных типах версий
-- Не поддерживает никакие неофициальные ROM 
+- Не поддерживает никакие неофициальные ROM
 - Эта функция опасна, подумайте, стоит ли ее включать, после ознакомления с работой Fastboot"</string>
     <string name="updater_miui_version">Поддельная версия MIUI для обновления</string>
     <string name="updater_miui_version_desc">Изменяйте только обновление системы, которое может в определенной степени защитить обновление системы</string>
@@ -1036,4 +1030,6 @@
     <string name="weather_device_level_title_low">Низкий</string>
     <string name="weather_device_level_title_middle">Средний</string>
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
+    <string name="bottom_margin">Нижняя граница</string>
+    <string name="top_margin">Верхняя граница</string>
 </resources>

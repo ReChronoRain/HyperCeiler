@@ -27,6 +27,8 @@
     <string name="bottom_margin">底部边距</string>
     <string name="left_margin">左侧间距</string>
     <string name="right_margin">右侧间距</string>
+    <string name="vertical_offset">上下偏移量</string>
+    <string name="horizontal_alignment">水平对齐</string>
 
     <string name="feature">功能</string>
     <string name="recommend">推荐</string>
@@ -270,9 +272,7 @@
     <string name="home_dock_bg_height_desc">Dock 栏高度</string>
     <string name="home_dock_bg_margin_horizontal">水平边距</string>
     <string name="home_dock_bg_margin_horizontal_desc">Dock 栏距屏幕两侧边距</string>
-    <string name="home_dock_bg_margin_top">顶部边距</string>
     <string name="home_dock_bg_margin_top_desc">Dock 栏距页面指示器边距</string>
-    <string name="home_dock_bg_margin_bottom">底部边距</string>
     <string name="home_dock_bg_margin_bottom_desc">Dock 栏距屏幕底部边距</string>
     <string name="home_dock_icon_margin_bottom">图标底部边距</string>
     <string name="home_dock_icon_margin_bottom_desc">Dock 栏图标距屏幕底部边距</string>
@@ -358,13 +358,9 @@
     <string name="home_layout_unlock_grids_no_words_desc">解锁主屏幕图标布局行列数限制</string>
     <string name="home_layout_workspace_padding_bottom_desc">主屏幕距离屏幕底部边距</string>
     <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
-    <string name="home_layout_workspace_padding_bottom">底部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
-    <string name="home_layout_hotseats_margin_top">顶部边距</string>
     <string name="home_layout_hotseats_margin_top_desc">底栏距离页面指示器边距</string>
-    <string name="home_layout_hotseats_margin_bottom">底部边距</string>
     <string name="home_layout_hotseats_margin_bottom_desc">底栏距离屏幕底部边距</string>
-    <string name="home_layout_searchbar_margin_bottom">底部边距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜索栏距离屏幕底部边距</string>
 
     <string name="home_other_home_mode">桌面模式</string>
@@ -796,10 +792,6 @@
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
-    <string name="system_ui_statusbar_indicator_left_margin">左侧间距</string>
-    <string name="system_ui_statusbar_indicator_right_margin">右侧间距</string>
-    <string name="system_ui_statusbar_indicator_vertical_offset">上下偏移量</string>
-    <string name="system_ui_statusbar_indicator_align">水平对齐</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">固定宽度</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
