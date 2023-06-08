@@ -50,7 +50,7 @@
             android:dependency="prefs_key_home_layout_workspace_padding_top_enable" />
 
         <SwitchPreference
-            android:title="@string/home_layout_workspace_padding_bottom"
+            android:title="@string/bottom_margin"
             android:summary="@string/home_layout_workspace_padding_bottom_desc"
             android:key="prefs_key_home_layout_workspace_padding_bottom_enable"
             android:defaultValue="false" />
@@ -85,7 +85,7 @@
             android:dependency="prefs_key_home_layout_hotseats_height_enable" />
 
         <SwitchPreference
-            android:title="@string/home_layout_hotseats_margin_top"
+            android:title="@string/top_margin"
             android:summary="@string/home_layout_hotseats_margin_top_desc"
             android:key="prefs_key_home_layout_hotseats_margin_top_enable"
             android:defaultValue="false" />
@@ -94,14 +94,13 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_top"
             android:defaultValue="20"
-            app:dialogTitle="@string/home_layout_hotseats_margin_top"
             app:maxValue="100"
             android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_layout_hotseats_margin_top_enable" />
 
         <SwitchPreference
-            android:title="@string/home_layout_hotseats_margin_bottom"
+            android:title="@string/bottom_margin"
             android:summary="@string/home_layout_hotseats_margin_bottom_desc"
             android:key="prefs_key_home_layout_hotseats_margin_bottom_enable"
             android:defaultValue="false" />
@@ -110,7 +109,6 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_bottom"
             android:defaultValue="70"
-            app:dialogTitle="@string/home_layout_hotseats_margin_bottom"
             app:maxValue="100"
             android:format="%d dp"
             app:showSeekBarValue="true"
@@ -121,7 +119,7 @@
     <PreferenceCategory android:title="@string/home_layout_searchbar_title">
 
         <SwitchPreference
-            android:title="@string/home_layout_searchbar_margin_bottom"
+            android:title="@string/bottom_margin"
             android:summary="@string/home_layout_searchbar_margin_bottom_desc"
             android:key="prefs_key_home_layout_searchbar_margin_bottom_enable"
             android:defaultValue="false" />
@@ -130,7 +128,6 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_searchbar_margin_bottom"
             android:defaultValue="30"
-            app:dialogTitle="@string/home_layout_searchbar_margin_bottom"
             app:maxValue="100"
             android:format="%d dp"
             app:showSeekBarValue="true"

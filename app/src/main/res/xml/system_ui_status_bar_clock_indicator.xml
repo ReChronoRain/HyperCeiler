@@ -17,7 +17,7 @@
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="12"
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
-            android:title="@string/system_ui_statusbar_indicator_vertical_offset"
+            android:title="@string/vertical_offset"
             app:maxValue="24"
             app:minValue="0"
             app:defaultValueText="@string/array_default"

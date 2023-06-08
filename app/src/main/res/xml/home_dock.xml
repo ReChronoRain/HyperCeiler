@@ -25,15 +25,15 @@
 
     <PreferenceCategory>
 
-        <Preference
-            android:key="prefs_key_home_dock_bg_custom"
-            android:title="@string/home_dock_bg_custom"
-            android:dependency="prefs_key_home_dock_bg_custom_enable" />
-
         <SwitchPreference
             android:title="@string/home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_custom_enable"
             android:defaultValue="false" />
+
+        <Preference
+            android:key="prefs_key_home_dock_bg_custom"
+            android:title="@string/home_dock_bg_custom"
+            android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
         <SeekBarPreference
             android:key="prefs_key_home_dock_bg_height"
@@ -57,7 +57,7 @@
 
         <SeekBarPreference
             android:key="prefs_key_home_dock_bg_margin_top"
-            android:title="@string/home_dock_bg_margin_top"
+            android:title="@string/top_margin"
             android:summary="@string/home_dock_bg_margin_top_desc"
             android:defaultValue="25"
             app:maxValue="100"
@@ -68,7 +68,7 @@
 
         <SeekBarPreference
             android:key="prefs_key_home_dock_bg_margin_bottom"
-            android:title="@string/home_dock_bg_margin_bottom"
+            android:title="@string/bottom_margin"
             android:summary="@string/home_dock_bg_margin_bottom_desc"
             android:defaultValue="15"
             app:maxValue="100"
@@ -104,7 +104,6 @@
             android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
 
 </PreferenceScreen>
