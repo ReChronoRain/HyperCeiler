@@ -62,7 +62,6 @@
             app:maxValue="240"
             android:format="%d dp"
             app:showSeekBarValue="true"
-            app:dialogTitle="@string/home_layout_workspace_padding_bottom"
             android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable" />
 
     </PreferenceCategory>
