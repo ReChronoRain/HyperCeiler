@@ -14,6 +14,7 @@ import com.sevtinge.cemiuiler.utils.api.sameAs
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
+import com.sevtinge.cemiuiler.utils.getStaticObjectField
 import com.sevtinge.cemiuiler.utils.setStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -77,7 +78,7 @@ object UnlockIme : BaseHook() {
                     // 针对A11的修复切换输入法列表
                     it.getMethod("getSupportIme").createHook {
                         replace { _ ->
-                            it.getObjectField("sBottomViewHelper")
+                            it.getStaticObjectField("sBottomViewHelper")
                                 ?.getObjectFieldAs<InputMethodManager>("mImm")?.enabledInputMethodList
                         }
                     }
