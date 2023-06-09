@@ -1,40 +1,36 @@
-package com.sevtinge.cemiuiler.module.mishare;
+package com.sevtinge.cemiuiler.module.mishare
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.hostDir
+import com.sevtinge.cemiuiler.utils.DexKit.loadDexKit
+import io.luckypray.dexkit.descriptor.member.DexClassDescriptor
+import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor
+import io.luckypray.dexkit.enums.MatchType
 
-import java.util.List;
-import java.util.Map;
-
-import io.luckypray.dexkit.DexKitBridge;
-import io.luckypray.dexkit.builder.BatchFindArgs;
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
-import io.luckypray.dexkit.enums.MatchType;
-
-public class MiShareDexKit extends BaseHook {
-
-    public static Map<String, List<DexMethodDescriptor>> mMiShareResultMethodsMap;
-
-    @Override
-    public void init() {
-        System.loadLibrary("dexkit");
-        String apkPath = lpparam.appInfo.sourceDir;
-        DexKitBridge bridge = DexKitBridge.create(apkPath);
+class MiShareDexKit : BaseHook() {
+    override fun init() {
+        System.loadLibrary("dexkit")
+        hostDir = lpparam.appInfo.sourceDir
+        loadDexKit()
         try {
-            if (bridge == null) {
-                return;
+            mMiShareResultMethodsMap = dexKitBridge.batchFindMethodsUsingStrings {
+                addQuery("qwq", listOf("EnabledState", "mishare_enabled"))
+                matchType = MatchType.FULL
             }
-            mMiShareResultMethodsMap =
-                bridge.batchFindMethodsUsingStrings(
-                    BatchFindArgs.builder()
-                        .addQuery("MiShareAutoOff", List.of("MiShareService", "EnabledState"))
-                        .addQuery("qwq", List.of("EnabledState", "mishare_enabled"))
-                        .addQuery("qwq2", List.of("null context", "cta_agree"))
-                        .matchType(MatchType.CONTAINS)
-                        .build()
-                );
-        } catch (Throwable e) {
-            e.printStackTrace();
+            mMiShareResultClassMap = dexKitBridge.batchFindClassesUsingStrings {
+                addQuery("qwq2", listOf("null context", "cta_agree"))
+                matchType = MatchType.FULL
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
-        bridge.close();
+        closeDexKit()
+    }
+
+    companion object {
+        var mMiShareResultMethodsMap: Map<String, List<DexMethodDescriptor>>? = null
+        var mMiShareResultClassMap: Map<String, List<DexClassDescriptor>>? = null
     }
 }
