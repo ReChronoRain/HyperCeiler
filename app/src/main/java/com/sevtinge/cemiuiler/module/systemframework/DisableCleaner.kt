@@ -11,6 +11,13 @@ object DisableCleaner : BaseHook() {
                 }
             }
         )
+        hookAllMethods("com.android.server.am.CameraBooster", "boostCameraIfNeeded",
+            object : MethodHook() {
+                override fun before(param: MethodHookParam?) {
+                    param?.result = null
+                }
+            }
+        )
         hookAllMethods("com.android.server.am.OomAdjuster", "shouldKillExcessiveProcesses",
             object : MethodHook() {
                 override fun before(param: MethodHookParam?) {
