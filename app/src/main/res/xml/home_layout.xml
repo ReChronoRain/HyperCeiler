@@ -77,7 +77,6 @@
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_height"
             android:defaultValue="80"
-            app:dialogTitle="@string/home_layout_hotseats_height"
             app:maxValue="100"
             android:format="%d dp"
             app:showSeekBarValue="true"
