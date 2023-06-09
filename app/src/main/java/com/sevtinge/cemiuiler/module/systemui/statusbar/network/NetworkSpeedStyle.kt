@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
-object NetworkSpeedUnit : BaseHook() {
+object NetworkSpeedStyle : BaseHook() {
     override fun init() {
         hookAllConstructors(
             "com.android.systemui.statusbar.views.NetworkSpeedView",
@@ -18,6 +18,11 @@ object NetworkSpeedUnit : BaseHook() {
                     val dualRow =
                         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
                     val meter = param.thisObject as TextView
+
+                    if (dualRow) {
+                        mResHook.setObjectReplacement(lpparam.packageName, "string", "network_speed_suffix", "%1\$s\n%2\$s");
+                    }
+
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
                         val fontSize =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
@@ -36,6 +41,7 @@ object NetworkSpeedUnit : BaseHook() {
                                 logE(e)
                             }
                         }
+
                         // 网速加粗
                         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_bold")) {
                             meter.typeface = Typeface.DEFAULT_BOLD
@@ -50,6 +56,7 @@ object NetworkSpeedUnit : BaseHook() {
                             leftMargin * 0.5f,
                             res.displayMetrics
                         ).toInt()
+
                         // 右侧间距
                         var rightMargin =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_right_margin", 0)
@@ -58,6 +65,7 @@ object NetworkSpeedUnit : BaseHook() {
                             rightMargin * 0.5f,
                             res.displayMetrics
                         ).toInt()
+
                         // 上下偏移量
                         var topMargin = 0
                         val verticalOffset =

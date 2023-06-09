@@ -16,7 +16,6 @@ object BatterySize : BaseHook() {
             .filterByName("updateResources")
             .first().createHook {
                 after {
-
                     (it.thisObject.getObjectFieldAs<TextView>("mBatteryPercentView")).setTextSize(
                         TypedValue.COMPLEX_UNIT_DIP, size
                     )

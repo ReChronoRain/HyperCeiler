@@ -65,7 +65,7 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeed;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSpacing;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedUnit;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
 import com.sevtinge.cemiuiler.utils.SdkHelper;
@@ -120,7 +120,7 @@ public class SystemUI extends BaseModule {
         // 网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
             initHook(NetworkSpeed.INSTANCE);
-            initHook(NetworkSpeedUnit.INSTANCE);
+            initHook(NetworkSpeedStyle.INSTANCE);
             initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         }
         initHook(NetworkSpeedSpacing.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);

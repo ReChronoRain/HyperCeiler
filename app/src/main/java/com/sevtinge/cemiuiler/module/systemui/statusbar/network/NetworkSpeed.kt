@@ -7,6 +7,8 @@ import android.net.NetworkCapabilities
 import android.net.TrafficStats
 import android.os.Build
 import android.util.Pair
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
@@ -59,9 +61,7 @@ object NetworkSpeed : BaseHook() {
             val modRes = Helpers.getModuleRes(ctx)
             val hideSecUnit = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")
             var unitSuffix = modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
-            if (hideSecUnit) {
-                unitSuffix = ""
-            }
+            if (hideSecUnit) unitSuffix = ""
             var f = bytes / 1024.0f
             var expIndex = 0
             if (f > 999.0f) {
@@ -71,12 +71,10 @@ object NetworkSpeed : BaseHook() {
             val pre =
                 modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
             if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format(
-                    "%s$unitSuffix", pre
-                )
-            } else (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format(
-                "%s$unitSuffix", pre
-            )
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
+            } else {
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
+            }
         } catch (t: Throwable) {
             Helpers.log(t)
             ""
@@ -84,7 +82,7 @@ object NetworkSpeed : BaseHook() {
     }
 
     override fun init() {
-//      双排网速相关
+       // 双排网速相关
         val networkClass = when {
             Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> "com.android.systemui.statusbar.NetworkSpeedController"
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
@@ -97,29 +95,33 @@ object NetworkSpeed : BaseHook() {
         if (nscCls == null) {
             Helpers.log("DetailedNetSpeedHook", "Cemiuiler: No NetworkSpeed view or controller")
         } else {
-            Helpers.findAndHookMethod(nscCls, "getTotalByte", object : MethodHook() {
-                override fun after(param: MethodHookParam) {
+            nscCls.methodFinder().first {
+                name == "getTotalByte"
+            }.createHook {
+                after {
                     val bytes = getTrafficBytes()
                     txBytesTotal = bytes.first
                     rxBytesTotal = bytes.second
                     measureTime = System.nanoTime()
                 }
-            })
-            Helpers.findAndHookMethod(nscCls, "updateNetworkSpeed", object : MethodHook() {
-                override fun before(param: MethodHookParam) {
+            }
+
+            nscCls.methodFinder().first {
+                name == "updateNetworkSpeed"
+            }.createHook {
+                before {
                     var isConnected = false
                     val mContext =
-                        XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+                        XposedHelpers.getObjectField(it.thisObject, "mContext") as Context
                     val mConnectivityManager =
                         mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                     val nw = mConnectivityManager.activeNetwork
                     if (nw != null) {
                         val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
-                        if (capabilities != null && (!(!capabilities.hasTransport(
-                                NetworkCapabilities.TRANSPORT_WIFI
-                            ) && !capabilities.hasTransport(
-                                NetworkCapabilities.TRANSPORT_CELLULAR
-                            )))
+                        if (capabilities != null && (!(!capabilities.hasTransport
+                                (NetworkCapabilities.TRANSPORT_WIFI) &&
+                                !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            ))
                         ) {
                             isConnected = true
                         }
@@ -145,87 +147,77 @@ object NetworkSpeed : BaseHook() {
                         rxSpeed = 0
                     }
                 }
-            })
-            Helpers.findAndHookMethod(nscCls, "updateText",
-                String::class.java, object : MethodHook() {
-                    override fun before(param: MethodHookParam) {
-                        val mContext =
-                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
-//                      隐藏慢速
-                        val hideLow = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
-//                      慢速水平
-                        val lowLevel = mPrefsMap.getInt(
-                            "system_ui_statusbar_network_speed_hide_slow",
-                            1
-                        ) * 1024
-//                      网速图标
-                        val icons =
-                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
-                        var txarrow = ""
-                        var rxarrow = ""
-                        when (icons) {
-                            2 -> {
-                                txarrow = if (txSpeed < lowLevel) "△" else "▲"
-                                rxarrow = if (rxSpeed < lowLevel) "▽" else "▼"
-                            }
+            }
+           nscCls.methodFinder().first {
+               name == "updateText" && parameterTypes[0] == String::class.java
+           }.createHook {
+               before { param ->
+                   val mContext =
+                       XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+                   //  隐藏慢速
+                   val hideLow =
+                       mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
+                   //  慢速水平
+                   val lowLevel =
+                       mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
+                   //  网速图标
+                   val icons =
+                       mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
+                   var txArrow = ""
+                   var rxArrow = ""
 
-                            3 -> {
-                                txarrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                                rxarrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
-                            }
+                   when (icons) {
+                       2 -> {
+                           txArrow = if (txSpeed < lowLevel) "△" else "▲"
+                           rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
+                       }
+                       3 -> {
+                           txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
+                           rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                       }
+                       4 -> {
+                           txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
+                           rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                       }
+                       5 -> {
+                           txArrow = if (txSpeed < lowLevel) "↑" else "↑"
+                           rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
+                       }
+                       6 -> {
+                           txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
+                           rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                       }
+                   }
+                   val tx =
+                       if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(mContext, txSpeed) + txArrow
+                   val rx =
+                       if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(mContext, rxSpeed) + rxArrow
+                   val ax = humanReadableByteCount(mContext, newTxBytesFixed + newRxBytesFixed)
 
-                            4 -> {
-                                txarrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                                rxarrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
-                            }
-
-                            5 -> {
-                                txarrow = if (txSpeed < lowLevel) "↑" else "↑"
-                                rxarrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                            }
-
-                            6 -> {
-                                txarrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                                rxarrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
-                            }
-                        }
-                        val tx = if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(
-                            mContext,
-                            txSpeed
-                        ) + txarrow
-                        val rx = if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(
-                            mContext,
-                            rxSpeed
-                        ) + rxarrow
-                        val ax = humanReadableByteCount(mContext, newTxBytesFixed + newRxBytesFixed)
-                        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down") && !mPrefsMap.getBoolean(
-                                "system_ui_statusbar_network_speed_fakedualrow"
-                            )
-                        ) {
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                                param.args[0] = "".trimIndent()
-                            } else {
-                                param.args[0] = """
-                    $tx
-                    $rx
-                    """.trimIndent()
-                            }
-                        } else if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                                param.args[0] = "".trimIndent()
-                            } else {
-                                param.args[0] = """
-                    $ax
-                    """.trimIndent()
-                            }
-                        } else {
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                                param.args[0] = "".trimIndent()
-                            }
-                        }
-                    }
-                }
-            )
+                   if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down") &&
+                       !mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
+                   ) {
+                       if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                           param.args[0] = "".trimIndent()
+                       } else {
+                           param.args[0] = """
+                           $tx
+                           $rx
+                           """.trimIndent()
+                       }
+                   } else if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+                       if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                           param.args[0] = "".trimIndent()
+                       } else {
+                           param.args[0] = ax.trimIndent()
+                       }
+                   } else {
+                       if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                           param.args[0] = "".trimIndent()
+                       }
+                   }
+               }
+           }
         }
     }
 }
