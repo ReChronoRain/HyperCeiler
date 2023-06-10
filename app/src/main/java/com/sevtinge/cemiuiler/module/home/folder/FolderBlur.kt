@@ -7,7 +7,6 @@ import android.view.View
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.*
 
-
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")
     override fun init() {
@@ -25,11 +24,7 @@ object FolderBlur : BaseHook() {
             launcherClass.hookBeforeMethod("isShouldBlur") {
                 it.result = false
             }
-            blurUtilsClass.hookBeforeMethod(
-                "fastBlurWhenOpenOrCloseFolder",
-                launcherClass,
-                Boolean::class.java
-            ) {
+            blurUtilsClass.hookBeforeMethod("fastBlurWhenOpenOrCloseFolder", launcherClass, Boolean::class.java) {
                 it.result = null
             }
         } catch (_: Exception) {
@@ -40,12 +35,8 @@ object FolderBlur : BaseHook() {
         launcherClass.hookAfterMethod("openFolder", folderInfo, View::class.java) {
             val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
             val isInNormalEditing = mLauncher.callMethod("isInNormalEditing") as Boolean
-            if (!isInNormalEditing) blurUtilsClass.callStaticMethod(
-                "fastBlur",
-                1.0f,
-                mLauncher.window,
-                true
-            )
+            if (!isInNormalEditing)
+                blurUtilsClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true)
         }
 
         launcherClass.hookAfterMethod("isFolderShowing") {
@@ -56,29 +47,17 @@ object FolderBlur : BaseHook() {
             isShouldBlur = false
             val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
             val isInNormalEditing = mLauncher.callMethod("isInNormalEditing") as Boolean
-            if (isInNormalEditing) blurUtilsClass.callStaticMethod(
-                "fastBlur",
-                1.0f,
-                mLauncher.window,
-                true,
-                0L
-            )
-            else blurUtilsClass.callStaticMethod("fastBlur", 0.0f, mLauncher.window, true)
+            if (isInNormalEditing)
+                blurUtilsClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true, 0L)
+            else
+                blurUtilsClass.callStaticMethod("fastBlur", 0.0f, mLauncher.window, true)
         }
 
-        launcherClass.hookAfterMethod(
-            "cancelShortcutMenu",
-            Int::class.java,
-            cancelShortcutMenuReasonClass
-        ) {
-            val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
-            if (isShouldBlur) blurUtilsClass.callStaticMethod(
-                "fastBlur",
-                1.0f,
-                mLauncher.window,
-                true,
-                0L
-            )
+        launcherClass.hookAfterMethod("cancelShortcutMenu", Int::class.java, cancelShortcutMenuReasonClass) {
+            val mLauncher =
+                applicationClass.callStaticMethod("getLauncher") as Activity
+            if (isShouldBlur)
+                blurUtilsClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true, 0L)
         }
 
         launcherClass.hookBeforeMethod("onGesturePerformAppToHome") {
@@ -125,13 +104,8 @@ object FolderBlur : BaseHook() {
         }
 
 
-        if (((mPrefsMap.getStringAsInt(
-                "home_recent_blur_level",
-                6
-            ) == 0) && (mPrefsMap.getStringAsInt(
-                "home_recent_blur_level",
-                6
-            ) != 5)) || (mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 0)
+        if (((mPrefsMap.getStringAsInt("home_recent_blur_level", 6) == 0) && (mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 5)) ||
+            (mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 0)
         ) {
             navStubViewClass.hookBeforeMethod("appTouchResolution", MotionEvent::class.java) {
                 val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity

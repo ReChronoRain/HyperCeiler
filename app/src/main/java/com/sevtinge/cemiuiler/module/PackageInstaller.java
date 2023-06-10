@@ -32,7 +32,7 @@ public class PackageInstaller extends BaseModule {
         initHook(new InstallRiskDisable(), mPrefsMap.getBoolean("miui_package_installer_install_risk"));
 
         // 禁用安全守护提示
-        initHook(new DisableSafeModelTip(), mPrefsMap.getBoolean("miui_package_installer_safe_model_tip"));
+        initHook(DisableSafeModelTip.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_safe_model_tip"));
 
         // 允许更新系统应用
         initHook(new AllAsSystemApp(), mPrefsMap.getBoolean("miui_package_installer_update_system_app"));
