@@ -54,8 +54,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         mSearchView = findViewById(R.id.search_view);
         mSearchInputView = findViewById(android.R.id.input);
 
-        mSearchInputView.setHint(R.string.search);
-        mSearchView.setVisibility(this instanceof BaseMainActivity ? View.VISIBLE : View.GONE);
     }
 
     public abstract Fragment initFragment();

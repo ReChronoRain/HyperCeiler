@@ -76,6 +76,17 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.SubSettings" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:label="@string/settings"
+            android:name=".ui.ModuleSettingsActivity" />
+
         <activity-alias
             android:label="@string/app_name"
             android:name=".ui.HideAppActivity"
@@ -92,198 +103,12 @@
             android:name=".ui.AboutActivity" />
 
         <activity
-            android:label="@string/system_framework"
-            android:name=".ui.SystemFrameworkActivity"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="moralnorm.intent.action.SystemFramework" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="@string/system_ui"
-            android:name=".ui.SystemUIActivity"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="moralnorm.intent.action.SystemUI" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="@string/home"
-            android:name=".ui.HomeActivity"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="moralnorm.intent.action.Home" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="@string/security_center"
-            android:name=".ui.SecurityCenterActivity"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="moralnorm.intent.action.SecurityCenter" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="@string/various"
-            android:name=".ui.VariousActivity"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="moralnorm.intent.action.Various" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:label="@string/joyose"
-            android:name=".ui.JoyoseActivity" />
-
-        <activity
-            android:label="@string/powerkeeper"
-            android:name=".ui.PowerKeeperActivity" />
-
-        <activity
-            android:label="@string/screenshot"
-            android:name=".ui.ScreenShotActivity" />
-
-        <activity
-            android:label="@string/screenrecorder"
-            android:name=".ui.ScreenRecorderActivity" />
-
-        <activity
-            android:label="@string/mediaeditor"
-            android:name=".ui.MediaEditorActivity" />
-
-        <activity
-            android:label="@string/music"
-            android:name=".ui.MusicActivity" />
-
-        <activity
-            android:label="@string/gallery"
-            android:name=".ui.GalleryActivity" />
-
-        <activity
-            android:label="@string/clock"
-            android:name=".ui.ClockActivity" />
-
-        <activity
-            android:label="@string/browser"
-            android:name=".ui.BrowserActivity" />
-
-        <activity
-            android:label="@string/weather"
-            android:name=".ui.WeatherActivity" />
-
-        <activity
-            android:label="@string/settings"
-            android:name=".ui.SettingsActivity" />
-
-        <activity
-            android:label="@string/aireco"
-            android:name=".ui.AirecoActivity" />
-
-        <activity
-            android:label="@string/aiasst"
-            android:name=".ui.AiAsstActivity" />
-
-        <activity
-            android:label="@string/scanner"
-            android:name=".ui.ScannerActivity" />
-
-        <activity
-            android:label="@string/mishare"
-            android:name=".ui.MiShareActivity" />
-
-        <activity
-            android:label="@string/mirror"
-            android:name=".ui.MirrorActivity" />
-
-        <activity
-            android:label="@string/market"
-            android:name=".ui.MarketActivity" />
-
-        <activity
-            android:label="@string/guard_provider"
-            android:name=".ui.GuardProviderActivity" />
-
-        <activity
-            android:label="@string/milink"
-            android:name=".ui.MiLinkActivity" />
-
-        <activity
-            android:label="@string/mi_settings"
-            android:name=".ui.MiSettingsActivity" />
-
-        <activity
-            android:label="@string/miwallpaper"
-            android:name=".ui.MiWallpaperActivity" />
-
-        <activity
             android:label="@string/system_settings"
             android:name=".ui.SystemSettingsActivity" />
 
         <activity
-            android:label="@string/updater"
-            android:name=".ui.UpdaterActivity" />
-
-        <activity
-            android:label="@string/lbe"
-            android:name=".ui.LbeActivity" />
-
-        <activity
-            android:label="@string/incallui"
-            android:name=".ui.InCallUiActivity" />
-
-        <activity
-            android:label="@string/tsmclient"
-            android:name=".ui.TsmClientActivity" />
-
-        <activity
-            android:label="@string/content_extension"
-            android:name=".ui.ContentExtensionActivity" />
-
-        <activity
-            android:label="@string/mms"
-            android:name=".ui.MmsActivity" />
-
-        <activity
-            android:label="@string/camera"
-            android:name=".ui.CameraActivity" />
-
-        <activity
-            android:label="@string/system_ui_plugin"
-            android:name=".ui.SystemUIPluginActivity" />
-
-        <activity
             android:label="@string/settings_safe_mode"
             android:name=".ui.settings.SafeModeActivity" />
-
-        <activity
-            android:label="@string/mtb"
-            android:name=".ui.MtbActivity" />
-
-        <activity
-            android:label="@string/phone"
-            android:name=".ui.PhoneActivity" />
-
-        <activity
-            android:label="@string/fileexplorer"
-            android:name=".ui.FileExplorerActivity" />
-
-        <activity
-            android:label="@string/downloads"
-            android:name=".ui.DownloadsActivity" />
-
-        <activity
-            android:label="@string/aod"
-            android:name=".ui.AodActivity" />
 
         <activity
             android:label="@string/floating_window"
@@ -375,12 +200,6 @@
         <activity
             android:label="@string/various_dialog_title"
             android:name=".ui.various.VariousDialogActivity" />
-        <activity
-            android:label="@string/personal_assistant"
-            android:name=".ui.PersonalAssistantActivity" />
-        <activity
-            android:label="@string/package_installer"
-            android:name=".ui.MiuiPackageInstallerActivity" />
 
         <activity
             android:label="@string/location_data_title"

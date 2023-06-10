@@ -2,11 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/restart_home"
+        android:id="@+id/restart"
         android:title="@string/cemiuiler_restart_quick" />
 
     <item
         android:id="@+id/settings"
         android:title="@string/settings" />
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/about" />
 
 </menu>
