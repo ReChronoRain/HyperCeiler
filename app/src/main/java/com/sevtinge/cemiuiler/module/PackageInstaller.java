@@ -45,6 +45,6 @@ public class PackageInstaller extends BaseModule {
         initHook(DisplayMoreApkInfoNew.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_apk_info"));
 
         // 禁用频繁安装应用检查
-        initHook(new DisableCountChecking(), mPrefsMap.getBoolean("miui_package_installer_count_checking"));
+        initHook(DisableCountChecking.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_count_checking"));
     }
 }
