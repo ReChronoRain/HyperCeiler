@@ -39,14 +39,14 @@ object DisableCleaner : BaseHook() {
                 }
             }
         )
-        hookAllMethods("com.android.server.am.ProcessCleanerBase", "isCurrentProcessInBackup",
+        hookAllMethods("com.android.server.am.ProcessMemoryCleaner", "checkBackgroundProcCompact",
             object : MethodHook() {
                 override fun before(param: MethodHookParam) {
-                    param.result = true
+                    param.result = null
                 }
             }
         )
-        hookAllMethods("com.android.server.am.ProcessMemoryCleaner", "checkBackgroundProcCompact",
+        hookAllMethods("com.android.server.am.ProcessPowerCleaner", "handleAutoLockOff",
             object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
