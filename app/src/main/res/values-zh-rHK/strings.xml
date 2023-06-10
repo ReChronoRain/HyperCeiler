@@ -47,6 +47,9 @@
     <string name="array_battery_temp">電池溫度</string>
     <string name="array_bold">加粗</string>
     <string name="array_theme">跟隨主題</string>
+    <string name="array_clock_center">時鐘置中</string>
+    <string name="array_clock_right">時鐘置右</string>
+    <string name="array_clock_center_and_icon_left">時鐘置中 + 圖示置左</string>
     <string name="array_clock_default">預設</string>
     <string name="array_clock_geek">極客</string>
     <string name="array_close">關閉</string>
@@ -295,6 +298,7 @@
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
     <string name="home_layout">佈局</string>
     <string name="home_layout_home_title">主螢幕</string>
+    <string name="home_layout_workspace_padding_top_desc">主屏幕距離螢幕頂部邊緣</string>
     <string name="home_layout_hotseats_height">高度</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock 距離螢幕底部邊距</string>
     <string name="home_layout_hotseats_margin_top_desc">Dock 距離頁面指示器邊距</string>
@@ -513,11 +517,13 @@
     <string name="screenrecorder">螢幕錄製</string>
     <string name="screen_recorder_config">增加更多影格率與碼率選項</string>
     <string name="screen_recorder_config_desc">請根據硬體情況酌情選擇</string>
+    <string name="save_to_screen_title">規範儲存位置</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>
     <string name="screen_recorder_force_support_playback_capture_desc">需要螢幕錄製版本支援</string>
     <string name="screen_recorder_more_volume">解鎖更多聲音來源選項</string>
     <string name="screen_recorder_more_volume_desc">僅支援部分版本</string>
     <string name="screenshot">截圖</string>
+    <string name="screen_recorder_save_to_movies_desc">規範錄製影片儲存位置為 Movies/ScreenRecorder</string>
     <string name="screenshot_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
     <string name="security">手機管家</string>
     <string name="security_app_sort_summary">修改應用程式管理列表預設排序</string>
@@ -526,6 +532,7 @@
     <string name="security_app_title">顯示更多應用程式資訊</string>
     <string name="security_center">手機管家</string>
     <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
+    <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
     <string name="security_center_app_title">應用程式管理</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
@@ -676,6 +683,9 @@
     <string name="system_settings_develop_speed_mode">極致模式</string>
     <string name="system_settings_develop_speed_mode_desc">在不支援的機型上開啟後不會顯示入口</string>
     <string name="system_settings_develop_title">開發者選項</string>
+    <string name="system_settings_connection_sharing_title">連接與分享</string>
+    <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
+    <string name="system_settings_new_nfc_page_desc">開啟後，不支援的設備預設付款應用程式無法選中小米錢包</string>
     <string name="system_settings_international_build">國際版本設定頁面</string>
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
@@ -696,6 +706,8 @@
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_blur_radius">通知模糊程度</string>
+    <string name="system_ui_control_center_hide_mi_smart_hub_entry">小米妙享</string>
+    <string name="system_ui_control_center_hide_device_ctrl_entry">智慧生活</string>
     <string name="system_ui_control_center_control_detail_background_alpha">面板詳情背景透明度</string>
     <string name="system_ui_control_center_corner_radius">通知模糊區域圓角</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
@@ -751,6 +763,7 @@
     <string name="system_ui_status_bar_battery_indicator_padding">水準邊距</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">圓角</string>
     <string name="system_ui_status_bar_battery_indicator_test">測試</string>
+    <string name="system_ui_status_bar_battery_size_title">電池百分比文字大小</string>
     <string name="system_ui_status_bar_battery_indicator_title">電量指示器</string>
     <string name="system_ui_status_bar_battery_percent">隱藏電量百分比</string>
     <string name="system_ui_status_bar_battery_percent_mark">隱藏電量百分比符號</string>
@@ -826,6 +839,10 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">通知圖示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
     <string name="system_ui_statusbar_iconmanage_status_title">狀態圖示</string>
+    <string name="system_ui_statusbar_layout_title">佈局</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_title">相容模式</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_desc">對所有異形螢幕強制開啟完整螢幕版面配置</string>
+    <string name="system_ui_statusbar_layout_mode_title">佈局模式</string>
     <string name="system_ui_statusbar_height_title">狀態欄高度</string>
     <string name="system_ui_statusbar_icon_size_title">圖示大小</string>
     <string name="system_ui_statusbar_top_margin_title">上邊距調整</string>
@@ -915,6 +932,7 @@
     <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
     <string name="various_install_app_info_sdk">支援 SDK</string>
     <string name="various_install_app_info_version_code">版本號碼</string>
+    <string name="system_control_center_sunshine_mode">陽光模式</string>
     <string name="various_install_app_info_version_name">版本名稱</string>
     <string name="various_install_app_size">應用程式大小</string>
     <string name="various_location_simulation_1_title">任務 1</string>
@@ -981,6 +999,8 @@
     <string name="system_ui_control_center_blur_radius_desc">不含下拉通知</string>
     <string name="system_ui_control_center_corner_radius_desc">預設主題無需調節</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android12+ MTK 設備使用，可能存在 GPU 負載較高的情形</string>
+    <string name="system_ui_display_toast_times_title">顯示時長調整</string>
+    <string name="system_ui_display_toast_times_desc">修改 Toast 顯示時長，顯示時長始終大於 1 秒</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
