@@ -796,8 +796,6 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
 
-    <string name="system_ui_statusbar_mobile_type_margin_desc">开启双排移动网络后将不可调整</string>
-
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">网速字体大小</string>
     <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>

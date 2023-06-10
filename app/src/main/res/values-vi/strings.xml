@@ -956,7 +956,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="vertical_offset">Chiều rộng lên và xuống</string>
     <string name="system_ui_statusbar_mobile_type_bold">Chữ đậm</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Cỡ chữ</string>
-    <string name="system_ui_statusbar_mobile_type_margin_desc">Sau khi mở mạng di động hàng kép, nó sẽ không thể điều chỉnh được</string>
     <string name="system_ui_statusbar_network_speed_detailed">Tốc độ tải lên và tải xuống được hiển thị trong hàng kép</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">Hiển thị tốc độ mạng đến và đi riêng biệt</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">Mở tùy chỉnh</string>
