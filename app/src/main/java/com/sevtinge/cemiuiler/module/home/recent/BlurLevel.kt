@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.home.recent
 
 import android.app.Activity
+import android.view.MotionEvent
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -34,9 +35,9 @@ object BlurLevel : BaseHook() {
             }
 
             5 -> {
-                val blurClass = "com.miui.home.launcher.common.BlurUtils".findClass()
-                val navStubViewClass = "com.miui.home.recents.NavStubView".findClass()
-                val applicationClass = "com.miui.home.launcher.Application".findClass()
+                val blurClass = findClassIfExists("com.miui.home.launcher.common.BlurUtils")
+                val navStubViewClass = findClassIfExists("com.miui.home.recents.NavStubView")
+                val applicationClass = findClassIfExists("com.miui.home.launcher.Application")
                 navStubViewClass.hookAfterAllMethods("onTouchEvent") {
                     val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
                     blurClass.callStaticMethod("fastBlur", 1.0f, mLauncher.window, true, 500L)
@@ -53,6 +54,11 @@ object BlurLevel : BaseHook() {
                             5 -> it.result = 2
                         }
                     }
+                }
+
+                navStubViewClass.hookBeforeMethod("appTouchResolution", MotionEvent::class.java) {
+                    val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
+                    blurClass.callStaticMethod("fastBlurDirectly", 1.0f, mLauncher.window)
                 }
             }
 
