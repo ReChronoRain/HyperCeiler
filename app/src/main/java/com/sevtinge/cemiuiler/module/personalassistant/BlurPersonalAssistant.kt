@@ -17,15 +17,10 @@ object BlurPersonalAssistant : BaseHook() {
     val backgroundColor = mPrefsMap.getInt("personal_assistant_color", -1)
 
     override fun init() {
-        val AssistantOverlayWindowClass = findClassIfExists(
-            "com.miui.personalassistant.core.overlay.AssistantOverlayWindow"
-        ) ?: return
-
         val appVersionName = Helpers.getPackageVersionName(lpparam)
-
         var lastBlurRadius = -1
-
         val mScrollStateManager = mPersonalAssistantResultMethodsMap["ScrollStateManager"]!!
+
         for (descriptor in mScrollStateManager) {
             try {
                 val mScrollStateManagerMethod = descriptor.getMethodInstance(lpparam.classLoader)
@@ -63,7 +58,11 @@ object BlurPersonalAssistant : BaseHook() {
             }
         }
 
-        /*XposedHelpers.findAndHookMethod(
+        /*
+        val AssistantOverlayWindowClass = findClassIfExists(
+            "com.miui.personalassistant.core.overlay.AssistantOverlayWindow"
+        ) ?: return
+        XposedHelpers.findAndHookMethod(
             AssistantOverlayWindowClass,
             "a",
             Float::class.java,
@@ -90,7 +89,6 @@ object BlurPersonalAssistant : BaseHook() {
                     }
                 }
             })
-
          */
     }
 }

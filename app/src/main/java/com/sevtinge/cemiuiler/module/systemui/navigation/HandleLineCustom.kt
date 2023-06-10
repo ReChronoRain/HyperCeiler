@@ -7,12 +7,6 @@ object HandleLineCustom : BaseHook() {
     override fun init() {
         val mNavigationHandleRadius =
             mPrefsMap.getInt("system_ui_navigation_handle_custom_thickness", 185).toFloat() / 100
-        val mNavigationHandleHeight =
-            mPrefsMap.getInt("system_ui_navigation_handle_custom_thickness", 600).toFloat() / 10
-        val mNavigationHomeHandleWidth =
-            mPrefsMap.getInt("system_ui_navigation_handle_custom_width", 145).toFloat()
-        val mNavigationHomeHandleWidthLand =
-            mPrefsMap.getInt("system_ui_navigation_handle_custom_width_land", 254).toFloat()
         try {
             mResHook.setDensityReplacement(
                 "com.android.systemui",
@@ -24,6 +18,12 @@ object HandleLineCustom : BaseHook() {
             log(e.toString())
         }
         /*
+        val mNavigationHandleHeight =
+            mPrefsMap.getInt("system_ui_navigation_handle_custom_thickness", 600).toFloat() / 10
+        val mNavigationHomeHandleWidth =
+            mPrefsMap.getInt("system_ui_navigation_handle_custom_width", 145).toFloat()
+        val mNavigationHomeHandleWidthLand =
+            mPrefsMap.getInt("system_ui_navigation_handle_custom_width_land", 254).toFloat()
         try {
             mResHook.setDensityReplacement(
                 "com.android.systemui",

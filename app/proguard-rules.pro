@@ -5,3 +5,5 @@
 -keep class com.sevtinge.cemiuiler.utils.Helpers{int XposedVersion;}
 -keep class * extends com.sevtinge.cemiuiler.module.base.BaseHook
 -keep class com.sevtinge.cemiuiler.ui.HideAppActivity
+-dontwarn android.app.ActivityTaskManager$RootTaskInfo
+-dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo

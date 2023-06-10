@@ -79,7 +79,7 @@ dependencies {
 
     implementation 'org.luckypray:DexKit:1.1.8'
     implementation 'com.github.kyuubiran:EzXHelper:2.0.5'
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
     implementation "com.google.code.gson:gson:2.10.1"
 

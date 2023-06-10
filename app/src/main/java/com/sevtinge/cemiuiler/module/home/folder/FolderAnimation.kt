@@ -31,32 +31,32 @@ class FolderAnimation : BaseHook() {
                 for (field in launcherClass.declaredFields) {
                     if (field.name == "val\$folderInfo") {
                         val mLauncherClass =
-                            loadClassOrNull("com.miui.home.launcher.Launcher$$i")
-                        if (mLauncherClass != null) {
-                            for (field in mLauncherClass.declaredFields) {
-                                if (field.name == "val\$folderInfo") {
-                                    mLauncherClass.methodFinder().first {
-                                        name == "run"
+                            loadClassOrNull("com.miui.home.launcher.Launcher$$i") ?: continue
+
+                        for (child in mLauncherClass.declaredFields) {
+                            if (child.name != "val\$folderInfo")
+                                continue
+
+                            mLauncherClass.methodFinder().first {
+                                name == "run"
+                            }.createHook {
+                                before {
+                                    hook1 = mSpringAnimator.methodFinder().first {
+                                        name == "setDampingResponse"
+                                            && parameterTypes[0] == Float::class.javaPrimitiveType
+                                            && parameterTypes[1] == Float::class.javaPrimitiveType
                                     }.createHook {
                                         before {
-                                            hook1 = mSpringAnimator.methodFinder().first {
-                                                name == "setDampingResponse"
-                                                    && parameterTypes[0] == Float::class.javaPrimitiveType
-                                                    && parameterTypes[1] == Float::class.javaPrimitiveType
-                                            }.createHook {
-                                                before {
-                                                    it.args[0] = value1
-                                                    it.args[1] = value2
-                                                }
-                                            }
-                                        }
-                                        after {
-                                            hook1?.unhook()
+                                            it.args[0] = value1
+                                            it.args[1] = value2
                                         }
                                     }
-                                    break
+                                }
+                                after {
+                                    hook1?.unhook()
                                 }
                             }
+                            break
                         }
                     }
                 }
