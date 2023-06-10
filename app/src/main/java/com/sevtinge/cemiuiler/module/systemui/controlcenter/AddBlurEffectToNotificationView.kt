@@ -467,6 +467,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
         XposedBridge.hookAllConstructors(miuiNotificationPanelViewControllerClass,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
+                    val miuiNotificationPanelViewControllerClass = param.thisObject
                     val mNotificationStackScroller =
                         HookUtils.getValueByField(
                             param.thisObject,
@@ -479,7 +480,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             override fun afterHookedMethod(param: MethodHookParam) {
                                 val radius = param.args[0] as Int
                                 val isOnKeyguard = XposedHelpers.callMethod(
-                                    param.thisObject,
+                                    miuiNotificationPanelViewControllerClass,
                                     "isOnKeyguard"
                                 ) as Boolean
                                 for (i in 0..mNotificationStackScroller.childCount) {
