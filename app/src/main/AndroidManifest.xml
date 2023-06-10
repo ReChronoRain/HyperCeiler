@@ -103,14 +103,6 @@
             android:name=".ui.AboutActivity" />
 
         <activity
-            android:label="@string/system_settings"
-            android:name=".ui.SystemSettingsActivity" />
-
-        <activity
-            android:label="@string/settings_safe_mode"
-            android:name=".ui.settings.SafeModeActivity" />
-
-        <activity
             android:label="@string/floating_window"
             android:name=".ui.systemframework.FreeFormSettings" />
         <activity
@@ -194,9 +186,7 @@
         <activity
             android:label="@string/various_location_simulation_title"
             android:name=".ui.various.LocationSimulationActivity" />
-        <activity
-            android:label="@string/theme_manager"
-            android:name=".ui.various.VariousThemeActivity" />
+
         <activity
             android:label="@string/various_dialog_title"
             android:name=".ui.various.VariousDialogActivity" />
@@ -204,13 +194,6 @@
         <activity
             android:label="@string/location_data_title"
             android:name=".ui.various.LocationDataActivity" />
-
-        <activity
-            android:label="@string/about_use"
-            android:name=".ui.AboutUseActivity" />
-        <activity
-            android:label="@string/about_contributer"
-            android:name=".ui.AboutContributerActivity" />
 
         <activity
             android:label="@string/custom_hook"

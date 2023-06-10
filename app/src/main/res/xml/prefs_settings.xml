@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/settings_hide_app_icon"
             android:key="prefs_key_settings_hide_app_icon"
@@ -40,7 +39,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_data_title">
-
         <Preference
             android:key="prefs_key_back"
             android:title="@string/settings_back" />
@@ -56,16 +54,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_bug_title">
-
         <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SafeModeFragment"
             android:title="@string/settings_safe_mode"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc">
-
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.settings.SafeModeActivity" />
-
         </Preference>
 
     </PreferenceCategory>

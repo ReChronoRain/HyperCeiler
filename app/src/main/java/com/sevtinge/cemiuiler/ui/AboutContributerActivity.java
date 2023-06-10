@@ -17,7 +17,7 @@ public class AboutContributerActivity extends BaseAppCompatActivity {
 
         @Override
         public int getContentResId() {
-            return R.xml.prefs_about_contributer;
+            return R.xml.prefs_about_contributor;
         }
     }
 

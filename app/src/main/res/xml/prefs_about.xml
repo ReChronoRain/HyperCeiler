@@ -16,6 +16,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/sevtinge" />
         </Preference>
+
         <Preference
             android:icon="@drawable/ic_moralnorm"
             android:layout="@layout/preference_round_layout"
@@ -25,6 +26,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/MoralNorm" />
         </Preference>
+
         <Preference
             android:icon="@drawable/ic_linqiqi"
             android:layout="@layout/preference_round_layout"
@@ -34,6 +36,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/mu7220" />
         </Preference>
+
         <Preference
             android:icon="@drawable/ic_voyager"
             android:layout="@layout/preference_round_layout"
@@ -43,6 +46,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/hosizoraru" />
         </Preference>
+
         <Preference
             android:icon="@drawable/ic_yifeplayte"
             android:layout="@layout/preference_round_layout"
@@ -52,7 +56,9 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YifePlayte" />
         </Preference>
+
         <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AboutContributorFragment"
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer">
             <intent
@@ -73,16 +79,19 @@
         <Preference
             android:key="prefs_key_about_join_qq_group"
             android:title="@string/about_qq_group" />
+
         <Preference android:title="@string/about_qq_channel">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://qun.qq.com/qqweb/qunpro/share?_wv=3&amp;_wwv=128&amp;appChannel=share&amp;inviteCode=1XAId3dB6BS&amp;businessType=9&amp;from=246610&amp;biz=ka" />
         </Preference>
+
         <Preference android:title="@string/about_tg_group">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://t.me/sevtinge_nest" />
         </Preference>
+
         <Preference android:title="@string/about_tg_channel">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -97,18 +106,19 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/sevtinge/Cemiuiler" />
         </Preference>
+
         <Preference android:title="@string/about_offical">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://cemiuiler.sevtinge.cc" />
         </Preference>
+
         <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AboutUseFragment"
             android:key="prefs_key_about_use"
             android:title="@string/about_use">
-            <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.AboutUseActivity"
-                android:targetPackage="com.sevtinge.cemiuiler" />
         </Preference>
+
         <Preference
             android:summary="@string/about_crwd_desc"
             android:title="@string/about_crwd"
@@ -117,6 +127,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://crwd.in/cemiuiler" />
         </Preference>
+
         <Preference
             android:summary="@string/about_donation_desc"
             android:title="@string/about_donation">

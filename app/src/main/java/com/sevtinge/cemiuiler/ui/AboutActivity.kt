@@ -80,7 +80,7 @@ class AboutActivity : AppCompatActivity() {
             }
         }
 
-        /****************
+        /**
          *
          * 调用 joinQQGroup() 即可发起手Q客户端申请加群
          * @param this@joinQQGroup 由官网生成的key
