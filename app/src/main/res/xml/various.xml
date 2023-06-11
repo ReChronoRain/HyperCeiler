@@ -6,11 +6,8 @@
 
         <Preference
             android:title="@string/various_location_simulation_title"
-            android:enabled="false">
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.various.LocationSimulationActivity" />
-        </Preference>
+            android:enabled="false"
+            app:isPreferenceVisible="false"/>
 
         <Preference
             android:title="@string/various_dialog_title"

@@ -98,71 +98,7 @@
             </intent-filter>
         </activity-alias>
 
-        <activity
-            android:label="@string/system_ui_lockscreen_title"
-            android:name=".ui.systemui.LockScreenActivity" />
-        <activity
-            android:label="@string/system_ui_statusbar_title"
-            android:name=".ui.systemui.StatusBarActivity" />
-        <activity
-            android:label="@string/system_ui_navigation_title"
-            android:name=".ui.systemui.NavigationActivity" />
-        <activity
-            android:label="@string/system_ui_statusbar_iconmanage_title"
-            android:name=".ui.systemui.statusbar.IconManageActivity" />
-        <activity
-            android:label="@string/system_ui_statusbar_network_speed_indicator_title"
-            android:name=".ui.systemui.statusbar.NetworkSpeedIndicatorActivity" />
-        <activity
-            android:label="@string/system_ui_statusbar_clock_title"
-            android:name=".ui.systemui.statusbar.ClockIndicatorActivity" />
-        <activity
-            android:label="@string/system_ui_statusbar_device_title"
-            android:name=".ui.systemui.statusbar.BatteryDetailIndicatorActivity" />
-        <activity
-            android:label="@string/system_ui_statusbar_iconmanage_mobile_network_title"
-            android:name=".ui.systemui.statusbar.DoubleLineNetworkActivity" />
-        <activity
-            android:label="@string/system_ui_status_bar_mobile_type_single_title"
-            android:name=".ui.systemui.statusbar.MobileNetworkTypeActivity" />
-        <activity
-            android:label="@string/system_ui_controlcenter_title"
-            android:name=".ui.systemui.ControlCenterActivity" />
-        <activity
-            android:label="@string/system_ui_display_title"
-            android:name=".ui.systemui.DisplayActivity" />
-        <activity
-            android:label="@string/system_ui_other_title"
-            android:name=".ui.systemui.OtherActivity" />
-        <activity
-            android:label="@string/system_ui_status_bar_battery_indicator_title"
-            android:name=".ui.systemui.statusbar.BatteryIndicatorActivity" />
-
-        <activity
-            android:label="@string/various_location_simulation_title"
-            android:name=".ui.various.LocationSimulationActivity" />
-
-        <activity
-            android:label="@string/location_data_title"
-            android:name=".ui.various.LocationDataActivity" />
-
-        <activity
-            android:label="@string/custom_hook"
-            android:name=".ui.CustomHookActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:theme="@style/AppTheme.Translucent.NoActionBar"
-            android:name=".ui.customhook.CustomHookConfigActivity" />
-
         <activity android:name=".ui.SubPickerActivity" />
-
-        <activity android:name=".ui.common.DebugActivity" />
 
         <provider
             android:name=".provider.SharedPrefsProvider"

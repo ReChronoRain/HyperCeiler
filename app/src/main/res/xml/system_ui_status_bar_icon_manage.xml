@@ -124,17 +124,11 @@
             android:summary="@string/system_ui_status_bar_use_new_hd_summary"
             android:title="@string/system_ui_status_bar_use_new_hd" />
 
-        <Preference android:title="@string/system_ui_status_bar_mobile_type_single_title">
-            <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.MobileNetworkTypeActivity"
-                android:targetPackage="com.sevtinge.cemiuiler" />
-        </Preference>
+        <Preference android:title="@string/system_ui_status_bar_mobile_type_single_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.MobileNetworkTypeSettings" />
 
-        <Preference android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title">
-            <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.DoubleLineNetworkActivity"
-                android:targetPackage="com.sevtinge.cemiuiler" />
-        </Preference>
+        <Preference android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_location_title">
@@ -268,11 +262,8 @@
 
         <Preference
             android:title="@string/system_ui_status_bar_battery_indicator_title"
-            app:isPreferenceVisible="false">
-            <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryIndicatorActivity"
-                android:targetPackage="com.sevtinge.cemiuiler" />
-        </Preference>
+            app:isPreferenceVisible="false"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryIndicatorSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_left_title">

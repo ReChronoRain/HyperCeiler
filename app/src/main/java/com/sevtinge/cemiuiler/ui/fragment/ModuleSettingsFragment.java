@@ -1,15 +1,20 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.HideAppActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.BackupUtils;
 import com.sevtinge.cemiuiler.utils.DialogHelper;
+import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.ShellUtils;
 
@@ -18,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.MultiSelectListPreference;

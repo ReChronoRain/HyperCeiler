@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.base.BaseAppCompatActivity;
-import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
+import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
-public class LocationSimulationActivity extends BaseAppCompatActivity {
+public class LocationSimulationActivity extends SettingsActivity {
 
     private static SharedPreferences mSharedPrefs;
 
@@ -20,14 +20,10 @@ public class LocationSimulationActivity extends BaseAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setImmersionMenuEnabled(true);
+        setFragment(new LocationSimulationFragment());
     }
 
-    @Override
-    public Fragment initFragment() {
-        return new LocationSimulationFragment();
-    }
-
-    public static class LocationSimulationFragment extends SubFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static class LocationSimulationFragment extends SettingsPreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +75,7 @@ public class LocationSimulationActivity extends BaseAppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.location_simulation_data) {
-            startActivity(this, LocationDataActivity.class);
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.ui.fragment.sub;
 import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.base.SubFragment;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 

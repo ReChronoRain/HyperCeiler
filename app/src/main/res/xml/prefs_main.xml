@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
@@ -294,11 +295,8 @@
             android:enabled="false"
             android:icon="@drawable/ic_custom"
             android:key="prefs_key_custom_hook"
-            android:title="@string/custom_hook">
-            <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.CustomHookActivity"
-                android:targetPackage="com.sevtinge.cemiuiler" />
-        </Preference>
+            android:title="@string/custom_hook"
+            app:isPreferenceVisible="false"/>
 
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.VariousFragment"

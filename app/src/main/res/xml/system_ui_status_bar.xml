@@ -2,38 +2,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference android:title="@string/system_ui_statusbar_iconmanage_title">
-        <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.IconManageActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
-    </Preference>
-
-    <Preference android:title="@string/system_ui_statusbar_network_speed_indicator_title">
-        <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.NetworkSpeedIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
-    </Preference>
-
-    <Preference android:title="@string/system_ui_statusbar_clock_title">
-        <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.ClockIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
-    </Preference>
+    <Preference
+        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.IconManageSettings"
+        android:title="@string/system_ui_statusbar_iconmanage_title" />
 
     <Preference
-        android:title="@string/system_ui_statusbar_device_title"
-        android:key="prefs_key_system_ui_status_bar_device">
-        <intent
-            android:targetClass="com.sevtinge.cemiuiler.ui.systemui.statusbar.BatteryDetailIndicatorActivity"
-            android:targetPackage="com.sevtinge.cemiuiler" />
-    </Preference>
+        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings"
+        android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
+
+    <Preference
+        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings"
+        android:title="@string/system_ui_statusbar_clock_title" />
+
+    <Preference
+        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings"
+        android:key="prefs_key_system_ui_status_bar_device"
+        android:title="@string/system_ui_statusbar_device_title" />
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_system_ui_statusbar_layout_compatibility_mode"
-            android:title="@string/system_ui_statusbar_layout_compatibility_mode_title"
-            android:summary="@string/system_ui_statusbar_layout_compatibility_mode_desc" />
+            android:summary="@string/system_ui_statusbar_layout_compatibility_mode_desc"
+            android:title="@string/system_ui_statusbar_layout_compatibility_mode_title" />
 
         <DropDownPreference
             android:defaultValue="0"
@@ -45,88 +36,88 @@
 
     <PreferenceCategory android:title="@string/system_ui_display_title">
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="19"
             android:enabled="false"
             android:key="pref_key_system_ui_statusbar_height"
             android:title="@string/system_ui_statusbar_height_title"
-            android:defaultValue="19"
             app:defaultValueText="@string/array_default"
-            app:minValue="19"
+            app:format="%s dp"
             app:maxValue="80"
-            app:stepValue="1"
-            app:format="%s dp" />
+            app:minValue="19"
+            app:stepValue="1" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="12"
             android:enabled="false"
             android:key="pref_key_system_ui_statusbar_icon_size"
             android:title="@string/system_ui_statusbar_icon_size_title"
-            android:defaultValue="12"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
-            app:minValue="12"
+            app:format="%s dp"
             app:maxValue="40"
-            app:stepValue="1"
-            app:format="%s dp" />
+            app:minValue="12"
+            app:stepValue="1" />
 
         <SwitchPreference
-            android:enabled="false"
             android:defaultValue="false"
+            android:enabled="false"
             android:key="pref_key_system_ui_statusbar_top_margin"
             android:title="@string/system_ui_statusbar_top_margin_title" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:key="pref_key_system_ui_statusbar_top_margin_val"
             android:defaultValue="1"
-            android:layout="@layout/preference_seekbar_no_padding"
             android:dependency="pref_key_system_ui_statusbar_top_margin"
-            app:minValue="0"
+            android:key="pref_key_system_ui_statusbar_top_margin_val"
+            android:layout="@layout/preference_seekbar_no_padding"
+            app:format="%s dp"
             app:maxValue="15"
-            app:stepValue="1"
-            app:format="%s dp" />
+            app:minValue="0"
+            app:stepValue="1" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="pref_key_system_ui_statusbar_no_lock_top_margin"
             android:dependency="pref_key_system_ui_statusbar_top_margin"
+            android:key="pref_key_system_ui_statusbar_no_lock_top_margin"
             android:title="@string/system_ui_statusbar_no_lock_top_margin_title" />
 
         <SwitchPreference
-            android:enabled="false"
             android:defaultValue="false"
+            android:enabled="false"
             android:key="pref_key_system_ui_statusbar_horizontal_spacing"
             android:title="@string/system_ui_statusbar_horizontal_spacing_title" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="16"
+            android:dependency="pref_key_system_ui_statusbar_horizontal_spacing"
             android:key="pref_key_system_ui_statusbar_left_margin"
             android:title="@string/left_margin"
-            android:dependency="pref_key_system_ui_statusbar_horizontal_spacing"
-            android:defaultValue="16"
-            app:minValue="0"
+            app:format="%s dp"
             app:maxValue="80"
-            app:stepValue="1"
-            app:format="%s dp" />
+            app:minValue="0"
+            app:stepValue="1" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="16"
+            android:dependency="pref_key_system_ui_statusbar_horizontal_spacing"
             android:key="pref_key_system_ui_statusbar_right_margin"
             android:title="@string/right_margin"
-            android:dependency="pref_key_system_ui_statusbar_horizontal_spacing"
-            android:defaultValue="16"
-            app:minValue="0"
+            app:format="%s dp"
             app:maxValue="30"
-            app:stepValue="1"
-            app:format="%s dp" />
+            app:minValue="0"
+            app:stepValue="1" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
 
         <SwitchPreference
-            android:title="@string/system_ui_status_bar_double_tap_to_sleep"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_double_tap_to_sleep"
-            android:defaultValue="false" />
+            android:title="@string/system_ui_status_bar_double_tap_to_sleep" />
 
         <SwitchPreference
-            android:title="@string/system_ui_status_bar_hide_icon"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_hide_icon"
-            android:defaultValue="false" />
+            android:title="@string/system_ui_status_bar_hide_icon" />
 
     </PreferenceCategory>
 
