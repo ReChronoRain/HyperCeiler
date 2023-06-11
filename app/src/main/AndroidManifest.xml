@@ -99,10 +99,6 @@
         </activity-alias>
 
         <activity
-            android:label="@string/about"
-            android:name=".ui.AboutActivity" />
-
-        <activity
             android:label="@string/system_ui_lockscreen_title"
             android:name=".ui.systemui.LockScreenActivity" />
         <activity

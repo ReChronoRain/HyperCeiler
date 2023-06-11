@@ -6,9 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.ui.fragment.AboutFragment;
 import com.sevtinge.cemiuiler.ui.fragment.MainFragment;
 import com.sevtinge.cemiuiler.ui.main.base.BaseMainActivity;
 import com.sevtinge.cemiuiler.utils.ALPermissionManager;
+import com.sevtinge.cemiuiler.utils.SettingLauncherHelper;
 import com.sevtinge.cemiuiler.view.RestartAlertDialog;
 
 public class MainActivity extends BaseMainActivity {
@@ -38,8 +40,7 @@ public class MainActivity extends BaseMainActivity {
             Intent intent = new Intent(this, ModuleSettingsActivity.class);
             startActivity(intent);
         } else if (itemId == R.id.about) {
-            Intent mAboutIntent = new Intent(this, AboutActivity.class);
-            startActivity(mAboutIntent);
+            SettingLauncherHelper.onStartSettings(this, SubSettings.class, AboutFragment.class, item.getTitle().toString());
         }
         return super.onOptionsItemSelected(item);
     }

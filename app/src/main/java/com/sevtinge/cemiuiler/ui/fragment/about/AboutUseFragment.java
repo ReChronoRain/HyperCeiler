@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.ui.fragment;
+package com.sevtinge.cemiuiler.ui.fragment.about;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;

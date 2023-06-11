@@ -58,13 +58,9 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AboutContributorFragment"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.about.AboutContributerFragment"
             android:key="prefs_key_about_contributer"
-            android:title="@string/about_contributer">
-            <intent
-                android:targetClass="com.sevtinge.cemiuiler.ui.AboutContributerActivity"
-                android:targetPackage="com.sevtinge.cemiuiler" />
-        </Preference>
+            android:title="@string/about_contributer" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
         <ValuePreference
@@ -114,10 +110,9 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AboutUseFragment"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.about.AboutUseFragment"
             android:key="prefs_key_about_use"
-            android:title="@string/about_use">
-        </Preference>
+            android:title="@string/about_use" />
 
         <Preference
             android:summary="@string/about_crwd_desc"
