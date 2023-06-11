@@ -1027,4 +1027,5 @@
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
     <string name="bottom_margin">Нижняя граница</string>
     <string name="top_margin">Верхняя граница</string>
+    <string name="preference_default_value_text">Стандарт</string>
 </resources>

@@ -818,4 +818,5 @@
     <string name="home_widget_resizable">Widget boyut sınırlamalarını kaldırın</string>
     <string name="bottom_margin">Alt kenar boşluğu</string>
     <string name="top_margin">Üst kenar boşluğu</string>
+    <string name="preference_default_value_text">Varsayılan</string>
 </resources>

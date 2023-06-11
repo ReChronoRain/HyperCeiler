@@ -1041,4 +1041,32 @@
     <string name="bottom_margin">Bottom margin</string>
     <string name="top_margin">Top margin</string>
     <string name="home_other_shortcut_title">Shortcut</string>
+    <string name="summary_collapsed_preference_list" translatable="false">%1$s%2$s</string>
+    <string name="expand_button_title">High level</string>
+    <string name="not_set">Not set</string>
+    <string name="copy">Copy</string>
+    <string name="preference_on">Turned on</string>
+    <string name="preference_off">Turned off</string>
+    <string name="preference_copied">Copied %1$s to clipboard.</string>
+    <string name="preference_default_value_text">Default</string>
+    <string name="preference_dialog_color_picker_default_title">Choose the color</string>
+    <string name="preference_dialog_color_picker_presets">Preset color</string>
+    <string name="preference_dialog_color_picker_custom">Custom color</string>
+    <string name="preference_dialog_color_picker_transparency">Transparency</string>
+    <string name="preference_dialog_color_picker_select">Confirm selection</string>
+    <string name="abc_action_bar_home_description">Back to the homepage</string>
+    <string name="abc_action_bar_up_description">Back to the previous level</string>
+    <string name="actionbar_button_up_description">Back</string>
+    <string name="appcompat_action_mode_select_all">Select all</string>
+    <string name="appcompat_cancel_description">Cancel</string>
+    <string name="appcompat_confirm_description">Ok</string>
+    <string name="appcompat_select_all_description">Select all</string>
+    <string name="appcompat_deselect_all_description">Unselect all</string>
+    <string name="appcompat_delete_description">Delete</string>
+    <string name="appcompat_search_action_mode_cancel">Cancel</string>
+    <string name="appcompat_search_input_description">Search</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">More</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">More</string>
+    <string name="more">More</string>
+    <string name="clearable_edittext_clear_description">Clear up</string>
 </resources>
