@@ -364,6 +364,7 @@
     <string name="home_layout_hotseats_margin_bottom_desc">底栏距离屏幕底部边距</string>
     <string name="home_layout_searchbar_margin_bottom_desc">搜索栏距离屏幕底部边距</string>
 
+    <string name="home_other_shortcut_title">快捷菜单</string>
     <string name="home_other_home_mode">桌面模式</string>
     <string name="home_other_show_clock">显示时间</string>
     <string name="home_other_show_clock_desc">时钟小部件所在页面始终显示时间</string>

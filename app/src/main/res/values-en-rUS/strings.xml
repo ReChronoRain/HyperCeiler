@@ -1026,4 +1026,5 @@
     <string name="bottom_margin">Bottom margin</string>
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
     <string name="new_task">New Task</string>
+    <string name="home_other_shortcut_title">Shortcut</string>
 </resources>

@@ -2,6 +2,56 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/home_other_shortcut_title">
+
+        <SwitchPreference
+            android:key="prefs_key_home_other_freeform_shortcut_menu"
+            android:defaultValue="false"
+            android:title="@string/home_other_freeform_shortcut_menu"
+            android:summary="@string/home_other_freeform_shortcut_menu_desc" />
+
+        <SwitchPreference
+            android:key="prefs_key_home_other_tasks_shortcut_menu"
+            android:defaultValue="false"
+            android:title="@string/home_other_tasks_shortcut_menu"
+            android:summary="@string/home_other_tasks_shortcut_menu_desc" />
+
+        <SwitchPreference
+            android:key="prefs_key_home_other_shortcut_background_blur"
+            android:title="@string/home_other_shortcut_background_blur"
+            android:defaultValue="false" />
+
+        <SeekBarPreference
+            android:title="@string/home_other_shortcut_background_blur_custom"
+            android:key="prefs_key_home_other_shortcut_background_blur_custom"
+            android:defaultValue="200"
+            app:minValue="10"
+            app:maxValue="255"
+            android:format="%s"
+            app:showSeekBarValue="true"
+            android:dependency="prefs_key_home_other_shortcut_background_blur" />
+
+        <SwitchPreference
+            android:key="prefs_key_home_other_shortcut_remove_restrictions"
+            android:title="@string/home_other_shortcut_remove_restrictions"
+            android:defaultValue="false" />
+
+        <SeekBarPreference
+            android:key="prefs_key_home_other_blur_radius"
+            android:title="@string/home_other_blur_radius"
+            android:defaultValue="100"
+            app:maxValue="500"
+            app:minValue="0"
+            android:format="%s / 100 f"
+            app:showSeekBarValue="true" />
+
+        <!--<SwitchPreference
+            android:key="prefs_key_home_other_fold_dock"
+            android:title="Fold Dock"
+            android:defaultValue="false"/>-->
+
+    </PreferenceCategory>
+
     <PreferenceCategory>
 
         <SwitchPreference
@@ -64,55 +114,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory>
-
-        <SwitchPreference
-            android:key="prefs_key_home_other_freeform_shortcut_menu"
-            android:defaultValue="false"
-            android:title="@string/home_other_freeform_shortcut_menu"
-            android:summary="@string/home_other_freeform_shortcut_menu_desc" />
-
-        <SwitchPreference
-            android:key="prefs_key_home_other_tasks_shortcut_menu"
-            android:defaultValue="false"
-            android:title="@string/home_other_tasks_shortcut_menu"
-            android:summary="@string/home_other_tasks_shortcut_menu_desc" />
-
-        <SwitchPreference
-            android:key="prefs_key_home_other_shortcut_background_blur"
-            android:title="@string/home_other_shortcut_background_blur"
-            android:defaultValue="false" />
-
-        <SeekBarPreference
-            android:title="@string/home_other_shortcut_background_blur_custom"
-            android:key="prefs_key_home_other_shortcut_background_blur_custom"
-            android:defaultValue="200"
-            app:minValue="10"
-            app:maxValue="255"
-            android:format="%s"
-            app:showSeekBarValue="true"
-            android:dependency="prefs_key_home_other_shortcut_background_blur" />
-
-        <SwitchPreference
-            android:key="prefs_key_home_other_shortcut_remove_restrictions"
-            android:title="@string/home_other_shortcut_remove_restrictions"
-            android:defaultValue="false" />
-
-        <SeekBarPreference
-            android:key="prefs_key_home_other_blur_radius"
-            android:title="@string/home_other_blur_radius"
-            android:defaultValue="100"
-            app:maxValue="500"
-            app:minValue="0"
-            android:format="%s / 100 f"
-            app:showSeekBarValue="true" />
-
-        <!--<SwitchPreference
-            android:key="prefs_key_home_other_fold_dock"
-            android:title="Fold Dock"
-            android:defaultValue="false"/>-->
-
-    </PreferenceCategory>
     <Preference android:enabled="false" />
 
 </PreferenceScreen>
