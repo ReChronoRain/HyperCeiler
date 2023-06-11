@@ -598,6 +598,8 @@
     <string name="home_other_infinite_scroll_desc">Jump from last page to first page and vice versa</string>
     <string name="home_other_freeform_shortcut_menu">Freeform mode</string>
     <string name="home_other_freeform_shortcut_menu_desc">Add freeform menu to the shortcut menu</string>
+    <string name="home_other_tasks_shortcut_menu">More tasks mode</string>
+    <string name="home_other_tasks_shortcut_menu_desc">Add new tasks menu to the shortcut menu</string>
     <string name="home_other_user_present_animation">Optimize unlock animation</string>
     <string name="home_other_perfect_icon">Perfect Icon Priority</string>
     <string name="home_other_portrait_reverse">Opposite vertical screen</string>
@@ -852,6 +854,7 @@
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <string name="floating_window">Freeform</string>
+    <string name="new_task">New Task</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="system_settings_ai_image_title">Ai Image Engine</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
@@ -1037,4 +1040,5 @@
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
     <string name="bottom_margin">Bottom margin</string>
     <string name="top_margin">Top margin</string>
+    <string name="home_other_shortcut_title">Shortcut</string>
 </resources>

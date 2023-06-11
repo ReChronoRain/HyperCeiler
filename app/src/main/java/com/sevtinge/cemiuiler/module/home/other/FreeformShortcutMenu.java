@@ -68,6 +68,9 @@ public class FreeformShortcutMenu extends BaseHook {
                     if (param.getResult().equals("应用信息")) {
                         param.setResult("信息");
                     }
+                    if (param.getResult().equals("新建窗口")) {
+                        param.setResult("多开");
+                    }
                 }
             });
 
@@ -88,22 +91,25 @@ public class FreeformShortcutMenu extends BaseHook {
                     if (mShortTitle.equals(modRes.getString(R.string.share_center))) {
                         XposedHelpers.callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", mContext);
                     } else if (mShortTitle.equals(modRes.getString(R.string.floating_window))) {
-                        param.setResult(getFreeformOnClickListener(obj));
+                        param.setResult(getFreeformOnClickListener(obj, false));
+                    } else if (mShortTitle.equals(modRes.getString(R.string.new_task))) {
+                        param.setResult(getFreeformOnClickListener(obj, true));
                     }
+                    log(String.valueOf(mShortTitle));
                 }
             });
 
             hookAllMethods(mSystemShortcutMenu, "getMaxShortcutItemCount", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    param.setResult(5);
+                    param.setResult(6);
                 }
             });
 
             hookAllMethods(mAppShortcutMenu, "getMaxShortcutItemCount", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    param.setResult(5);
+                    param.setResult(6);
                 }
             });
 
@@ -117,11 +123,21 @@ public class FreeformShortcutMenu extends BaseHook {
                     List mAllSystemShortcutMenuItems = (List) XposedHelpers.getStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems");
 
                     Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
-                    callMethod(mSmallWindowInstance, "setShortTitle", modRes.getString(R.string.floating_window));
-                    callMethod(mSmallWindowInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_small_window", "drawable", mContext.getPackageName())));
+                    Object mNewTasksInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
+                    if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
+                        log("1");
+                        callMethod(mSmallWindowInstance, "setShortTitle", modRes.getString(R.string.floating_window));
+                        callMethod(mSmallWindowInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_small_window", "drawable", mContext.getPackageName())));
+                    }
+                    if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) {
+                        log("2");
+                        callMethod(mNewTasksInstance, "setShortTitle", modRes.getString(R.string.new_task));
+                        callMethod(mNewTasksInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_add_pair", "drawable", mContext.getPackageName())));
+                    }
 
                     ArrayList sAllSystemShortcutMenuItems = new ArrayList();
                     sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
+                    sAllSystemShortcutMenuItems.add(mNewTasksInstance);
                     sAllSystemShortcutMenuItems.addAll(mAllSystemShortcutMenuItems);
                     XposedHelpers.setStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems", sAllSystemShortcutMenuItems);
                 }
@@ -132,7 +148,8 @@ public class FreeformShortcutMenu extends BaseHook {
         }
     }
 
-    private View.OnClickListener getFreeformOnClickListener(Object obj) {
+
+    private View.OnClickListener getFreeformOnClickListener(Object obj, boolean isNewTaskOnClick) {
         View.OnClickListener onClickListener = view -> {
             Intent intent = new Intent();
             Context mContext = view.getContext();
@@ -141,6 +158,10 @@ public class FreeformShortcutMenu extends BaseHook {
             intent.addCategory("android.intent.category.DEFAULT");
             intent.setComponent(mComponentName);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (isNewTaskOnClick) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                log("3");
+            }
             Object makeFreeformActivityOptions = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", new Object[]{mContext, mComponentName.getPackageName()});
 
             if (makeFreeformActivityOptions != null) {
