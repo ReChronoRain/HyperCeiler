@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.plugin;
 
-import static com.sevtinge.cemiuiler.utils.SdkHelper.ATLEAST_T;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.ATLEAST_T;
 
 import android.content.pm.ApplicationInfo;
 

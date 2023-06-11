@@ -83,7 +83,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ThemeFragment"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ThemeManagerFragment"
             android:icon="@drawable/ic_theme_manager"
             android:key="prefs_key_various_theme"
             android:summary="com.android.thememanager"

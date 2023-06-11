@@ -4,7 +4,7 @@ import android.provider.Settings;
 import android.util.SparseIntArray;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import java.util.Set;
 

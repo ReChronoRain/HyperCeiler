@@ -1,8 +1,11 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
+import android.view.View;
+
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
@@ -16,6 +19,14 @@ public class ThemeManagerFragment extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.theme_manager;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+            getResources().getString(R.string.theme_manager),
+            "com.android.thememanager"
+        );
     }
 
     @Override

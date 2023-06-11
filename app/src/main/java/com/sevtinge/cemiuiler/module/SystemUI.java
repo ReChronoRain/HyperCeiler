@@ -68,7 +68,7 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSpac
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import java.util.Objects;
 

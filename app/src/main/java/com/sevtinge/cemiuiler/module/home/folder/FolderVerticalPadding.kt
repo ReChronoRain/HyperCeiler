@@ -2,7 +2,7 @@ package com.sevtinge.cemiuiler.module.home.folder
 
 import android.widget.GridView
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.dp2px
+import com.sevtinge.cemiuiler.utils.devicesdk.dp2px
 import com.sevtinge.cemiuiler.utils.findClass
 import com.sevtinge.cemiuiler.utils.hookAfterAllMethods
 import de.robv.android.xposed.XposedHelpers

@@ -36,7 +36,7 @@ import com.sevtinge.cemiuiler.module.systemframework.network.DualSASupport;
 import com.sevtinge.cemiuiler.module.systemframework.network.N1Band;
 import com.sevtinge.cemiuiler.module.systemframework.network.N28Band;
 import com.sevtinge.cemiuiler.module.systemframework.network.N5N8Band;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 
 public class SystemFramework extends BaseModule {

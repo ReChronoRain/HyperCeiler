@@ -546,8 +546,6 @@
     <string name="theme_manager_enable_fold_theme">Enable Fold theme</string>
     <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
     <string name="tsmclient_auto_nfc_desc">NFC is automatically turned on when entering the card swiping page, and it is automatically turned off when exiting</string>
-    <string name="restart_systemui">Restart System UI</string>
-    <string name="restart_systemui_desc">Are you sure you want to restart the System UI now?</string>
     <string name="restart_app_desc1">"Are you sure you want to restart now "</string>
     <string name="restart_app_desc2">" ?"</string>
     <string name="tip">Tip</string>
@@ -684,7 +682,6 @@
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="home_other_always_blur_launcher_wallpaper">Always blur launcher wallpaper</string>
     <string name="soft_reboot">Reboot</string>
-    <string name="soft_reboot_desc">Are you sure you want to reboot now?</string>
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>

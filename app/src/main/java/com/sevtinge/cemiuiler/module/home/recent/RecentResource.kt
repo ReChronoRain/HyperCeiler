@@ -8,7 +8,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ResourcesHookData
 import com.sevtinge.cemiuiler.utils.ResourcesHookMap
-import com.sevtinge.cemiuiler.utils.dp2px
+import com.sevtinge.cemiuiler.utils.devicesdk.dp2px
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import de.robv.android.xposed.XC_MethodHook
 

@@ -506,8 +506,6 @@
     <string name="rest_title">Recuperar</string>
     <string name="restart_app_desc1">Tem certeza de que deseja reiniciar agora</string>
     <string name="restart_app_desc2"> \?</string>
-    <string name="restart_systemui">Reiniciar a IU do sistema</string>
-    <string name="restart_systemui_desc">Tem certeza de que deseja reiniciar a IU do sistema agora?</string>
     <string name="scanner">Scanner</string>
     <string name="scanner_card">Desbloquear cartão de identificação de digitalização</string>
     <string name="scanner_doc_ppt">Desbloquear ficheiros de verificação</string>
@@ -606,7 +604,6 @@
     <string name="shot">Tiro</string>
     <string name="show_newmods_title">Marcar novo módulo</string>
     <string name="soft_reboot">Reiniciar</string>
-    <string name="soft_reboot_desc">Tem certeza de que deseja reiniciar agora?</string>
     <string name="status_bar_icon_mode_default">Defeito</string>
     <string name="status_bar_icon_mode_off">Sempre escondido</string>
     <string name="status_bar_icon_mode_off_unconnect">Ocultar apenas quando não estiver ligado</string>

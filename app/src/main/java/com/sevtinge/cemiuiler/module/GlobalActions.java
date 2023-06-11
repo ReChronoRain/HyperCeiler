@@ -120,7 +120,6 @@ public class GlobalActions extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
                 intentfilter.addAction(ACTION_PREFIX + "RestartApps");
-                intentfilter.addAction(ACTION_PREFIX + "RestartHome");
                 mContext.registerReceiver(mRestartReceiver, intentfilter);
             }
         });
@@ -138,11 +137,8 @@ public class GlobalActions extends BaseHook {
                 String action = intent.getAction();
                 if (action == null) return;
 
-                switch (action) {
-                    case ACTION_PREFIX + "RestartApps" ->
-                        forceStopPackage(context, intent.getStringExtra("packageName"));
-
-                    case ACTION_PREFIX + "RestartHome" -> forceStopPackage(context, "com.miui.home");
+                if ((ACTION_PREFIX + "RestartApps").equals(action)) {
+                    forceStopPackage(context, intent.getStringExtra("packageName"));
                 }
             } catch (Exception e) {
                 LogUtils.log(e);

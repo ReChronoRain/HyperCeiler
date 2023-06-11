@@ -536,8 +536,6 @@
     <string name="theme_manager_enable_fold_theme">Katlama temasını etkinleştir</string>
     <string name="tsmclient_auto_nfc">Nfc\'yi otomatik olarak yönet</string>
     <string name="tsmclient_auto_nfc_desc">Kart kaydırma sayfasına girerken NFC otomatik olarak açılır ve çıkarken otomatik olarak kapanır</string>
-    <string name="restart_systemui">Sistem arayüzünü yeniden başlat</string>
-    <string name="restart_systemui_desc">Sistem arayüzünü şimdi yeniden başlatmak istediğinizden emin misiniz?</string>
     <string name="restart_app_desc1">"Şimdi yeniden başlatmak istediğinizden emin misiniz"</string>
     <string name="restart_app_desc2">" ?"</string>
     <string name="tip">Tip</string>
@@ -676,7 +674,6 @@
     <string name="home_recent_task_view_card_rounded_corners">Görev görünümü kartı köşeleri yuvarlatılmış</string>
     <string name="home_other_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
     <string name="soft_reboot">Hızlı yeniden başlat</string>
-    <string name="soft_reboot_desc">Şimdi hızlı yeniden başlatmak istediğinizden emin misiniz?</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Ağ hızı göstergesi yönetimi</string>
     <string name="system_ui_statusbar_indicator_default_title">Varsayılan</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Ağ hızı güncelleme aralığı</string>
