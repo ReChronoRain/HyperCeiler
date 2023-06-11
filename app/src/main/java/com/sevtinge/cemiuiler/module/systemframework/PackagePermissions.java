@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
-import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidMoreVersion;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
