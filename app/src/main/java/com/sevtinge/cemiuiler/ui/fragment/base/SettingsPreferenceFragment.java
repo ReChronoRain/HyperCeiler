@@ -3,7 +3,9 @@ package com.sevtinge.cemiuiler.ui.fragment.base;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
@@ -28,10 +30,19 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
             setPreferencesFromResource(mContentResId, s);
             initPrefs();
         }
+        ((BaseSettingsActivity)getActivity()).setRestartView(addRestartListener());
+    }
+
+    public View.OnClickListener addRestartListener() {
+        return null;
     }
 
     public SharedPreferences getSharedPreferences() {
         return PrefsUtils.mSharedPreferences;
+    }
+
+    public boolean hasKey(String key) {
+        return getSharedPreferences().contains(key);
     }
 
     public void initPrefs() {}

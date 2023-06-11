@@ -6,42 +6,50 @@
         <Preference
             android:key="prefs_key_home_gesture_double_tap"
             android:title="@string/home_gesture_double_tap"
-            android:summary="@string/home_gesture_double_tap_desc" />
+            android:summary="@string/home_gesture_double_tap_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_shake"
             android:title="@string/home_gesture_shake"
-            android:summary="@string/home_gesture_shake_desc" />
+            android:summary="@string/home_gesture_shake_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_left_swipe"
             android:title="@string/home_gesture_left_swipe"
-            android:summary="@string/home_gesture_left_swipe_desc" />
+            android:summary="@string/home_gesture_left_swipe_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_right_swipe"
             android:title="@string/home_gesture_right_swipe"
-            android:summary="@string/home_gesture_right_swipe_desc" />
+            android:summary="@string/home_gesture_right_swipe_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_up_swipe"
             android:title="@string/home_gesture_up_swipe"
-            android:summary="@string/home_gesture_up_swipe_desc" />
+            android:summary="@string/home_gesture_up_swipe_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_down_swipe"
             android:title="@string/home_gesture_down_swipe"
-            android:summary="@string/home_gesture_down_swipe_desc" />
+            android:summary="@string/home_gesture_down_swipe_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_up_swipe2"
             android:title="@string/home_gesture_up_swipe2"
-            android:summary="@string/home_gesture_up_swipe2_desc" />
+            android:summary="@string/home_gesture_up_swipe2_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <Preference
             android:key="prefs_key_home_gesture_down_swipe2"
             android:title="@string/home_gesture_down_swipe2"
-            android:summary="@string/home_gesture_down_swipe2_desc" />
+            android:summary="@string/home_gesture_down_swipe2_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
         <!--<Preference
             android:key="prefs_key_home_gesture_pinch"

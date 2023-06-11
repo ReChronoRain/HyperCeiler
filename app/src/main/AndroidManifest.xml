@@ -103,19 +103,6 @@
             android:name=".ui.AboutActivity" />
 
         <activity
-            android:label="@string/floating_window"
-            android:name=".ui.systemframework.FreeFormSettings" />
-        <activity
-            android:label="@string/system_framework_volume_title"
-            android:name=".ui.systemframework.VolumeSettings" />
-        <activity
-            android:label="@string/system_framework_phone_title"
-            android:name=".ui.systemframework.NetworkSettings" />
-        <activity
-            android:label="@string/system_framework_other_title"
-            android:name=".ui.systemframework.OtherSettings" />
-
-        <activity
             android:label="@string/system_ui_lockscreen_title"
             android:name=".ui.systemui.LockScreenActivity" />
         <activity
@@ -156,40 +143,8 @@
             android:name=".ui.systemui.statusbar.BatteryIndicatorActivity" />
 
         <activity
-            android:label="@string/home_gesture"
-            android:name=".ui.home.HomeGestureActivity" />
-        <activity
-            android:label="@string/home_layout"
-            android:name=".ui.home.HomeLayoutActivity" />
-        <activity
-            android:label="@string/home_folder"
-            android:name=".ui.home.HomeFolderActivity" />
-        <activity
-            android:label="@string/home_drawer"
-            android:name=".ui.home.HomeDrawerActivity" />
-        <activity
-            android:label="@string/home_title"
-            android:name=".ui.home.HomeTitleActivity" />
-        <activity
-            android:label="@string/home_recent"
-            android:name=".ui.home.HomeRecentActivity" />
-        <activity
-            android:label="@string/home_widget"
-            android:name=".ui.home.HomeWidgetActivity" />
-        <activity
-            android:label="@string/home_dock"
-            android:name=".ui.home.HomeDockActivity" />
-        <activity
-            android:label="@string/home_other"
-            android:name=".ui.home.HomeOtherActivity" />
-
-        <activity
             android:label="@string/various_location_simulation_title"
             android:name=".ui.various.LocationSimulationActivity" />
-
-        <activity
-            android:label="@string/various_dialog_title"
-            android:name=".ui.various.VariousDialogActivity" />
 
         <activity
             android:label="@string/location_data_title"
@@ -209,7 +164,7 @@
             android:theme="@style/AppTheme.Translucent.NoActionBar"
             android:name=".ui.customhook.CustomHookConfigActivity" />
 
-        <activity android:name=".ui.PickerHomeActivity" />
+        <activity android:name=".ui.SubPickerActivity" />
 
         <activity android:name=".ui.common.DebugActivity" />
 

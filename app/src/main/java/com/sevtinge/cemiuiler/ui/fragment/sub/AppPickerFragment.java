@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.ui.sub;
+package com.sevtinge.cemiuiler.ui.fragment.sub;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +14,16 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.callback.IAppSelectCallback;
 import com.sevtinge.cemiuiler.data.AppData;
 import com.sevtinge.cemiuiler.data.adapter.AppDataAdapter;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
+import com.sevtinge.cemiuiler.utils.BitmapUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import java.util.ArrayList;
@@ -28,25 +31,25 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import moralnorm.appcompat.app.Fragment;
-
 public class AppPickerFragment extends Fragment {
 
     private Bundle args;
     private String key = null;
     private boolean appSelector;
-
     private View mRootView;
     private ProgressBar mAmProgress;
     private RecyclerView mAppListRv;
     private AppDataAdapter mAppListAdapter;
     private List<AppData> appDataList;
     public Handler mHandler;
-
     private Set<String> selectedApps;
+    private IAppSelectCallback mAppSelectCallback;
+    public void setAppSelectCallback(IAppSelectCallback callback) {
+        mAppSelectCallback = callback;
+    }
 
     @Override
-    public View onInflateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_app_picker, container, false);
         initView();
         return mRootView;
@@ -55,9 +58,9 @@ public class AppPickerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppCompatActivity().getAppCompatActionBar().hide();
+        getActivity().setTitle(R.string.array_global_actions_launch_choose);
         args = getActivity().getIntent().getExtras();
-        appSelector = args.getBoolean("app_selector");
+        appSelector = args.getBoolean("is_app_selector");
         if (appSelector) {
             key = args.getString("app_selector_key");
         } else {
@@ -75,7 +78,11 @@ public class AppPickerFragment extends Fragment {
 
         mAppListAdapter.setOnItemClickListener((view, position, appData, isCheck) -> {
             if (appSelector) {
-                PrefsUtils.editor().putString(key + "_app", appData.packageName + "|" + appData.activityName).apply();
+                mAppSelectCallback.sendMsgToActivity(BitmapUtils.Bitmap2Bytes(appData.icon),
+                    appData.label,
+                    appData.packageName,
+                    appData.versionName + "(" + appData.versionCode + ")",
+                    appData.activityName);
                 getActivity().finish();
             } else {
                 CheckBox checkBox = view.findViewById(android.R.id.checkbox);
@@ -172,7 +179,7 @@ public class AppPickerFragment extends Fragment {
                 }
                 if (exists) continue;
                 app = new AppData();
-                app.icon = pack.activityInfo.applicationInfo.loadIcon(pm);
+                app.icon = BitmapUtils.drawableToBitmap(pack.activityInfo.applicationInfo.loadIcon(pm));
                 app.packageName = pack.activityInfo.applicationInfo.packageName;
                 app.enabled = pack.activityInfo.applicationInfo.enabled;
                 app.label = pack.activityInfo.applicationInfo.loadLabel(pm).toString();
@@ -202,7 +209,7 @@ public class AppPickerFragment extends Fragment {
         AppData appData;
         for (ResolveInfo resolveInfo : resolveInfos) {
             appData = new AppData();
-            appData.icon = resolveInfo.loadIcon(packageManager);
+            appData.icon = BitmapUtils.drawableToBitmap(resolveInfo.loadIcon(packageManager));
             appData.label = resolveInfo.loadLabel(packageManager).toString();
             appData.packageName = resolveInfo.activityInfo.packageName;
             appData.activityName = resolveInfo.activityInfo.name;

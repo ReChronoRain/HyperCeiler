@@ -62,7 +62,7 @@
                 android:key="prefs_key_open_app"
                 android:title="@string/array_global_actions_launch" />
 
-            <ValuePreference
+            <Preference
                 android:key="prefs_key_open_app_selector"
                 android:title="@string/array_global_actions_launch_choose"
                 android:dependency="prefs_key_open_app" />

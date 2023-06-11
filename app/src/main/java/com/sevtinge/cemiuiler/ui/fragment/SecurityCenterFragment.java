@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.PickerHomeActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.Preference;

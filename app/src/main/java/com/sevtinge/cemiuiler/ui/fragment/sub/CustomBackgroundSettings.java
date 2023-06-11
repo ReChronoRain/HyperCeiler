@@ -1,9 +1,10 @@
-package com.sevtinge.cemiuiler.ui.sub;
+package com.sevtinge.cemiuiler.ui.fragment.sub;
 
 import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.SubFragment;
+import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.ColorPickerPreference;
@@ -11,7 +12,7 @@ import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreference;
 import moralnorm.preference.SwitchPreference;
 
-public class CustomBackgroundSettings extends SubFragment implements Preference.OnPreferenceChangeListener {
+public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private SeekBarPreference mBlurRadius;
     private SwitchPreference mBlurEnabled;
@@ -34,7 +35,7 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
 
     @Override
     public void initPrefs() {
-        Bundle args = getActivity().getIntent().getExtras();
+        Bundle args = getArguments();
         String mKey = args.getString("key");
 
         mBlurRadius = findPreference("prefs_key_custom_background_blur_radius");
@@ -87,11 +88,6 @@ public class CustomBackgroundSettings extends SubFragment implements Preference.
             PrefsUtils.mSharedPreferences.edit().putInt(key, defValue).apply();
             preference.setValue(defValue);
         }
-    }
-
-
-    private boolean hasKey(String key) {
-        return PrefsUtils.mSharedPreferences.contains(key);
     }
 
 

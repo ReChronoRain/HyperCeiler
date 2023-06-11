@@ -38,6 +38,13 @@
             android:title="@string/home_recent_remove_icon"
             android:defaultValue="false" />
 
+        <DropDownPreference
+            android:key="prefs_key_home_recent_blur_level"
+            android:title="@string/home_recent_blur_level"
+            android:defaultValue="6"
+            app:entries="@array/home_recent_blur"
+            app:entryValues="@array/home_recent_blur_value" />
+
         <EditTextPreference
             android:key="prefs_key_home_recent_text"
             android:title="@string/home_recent_text" />

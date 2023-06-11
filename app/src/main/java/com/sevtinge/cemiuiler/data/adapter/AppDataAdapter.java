@@ -63,7 +63,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
         AppData appInfo = appInfoList.get(position);
         selectedApps = PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<String>());
 
-        holder.mAppListIcon.setImageDrawable(appInfo.icon);
+        holder.mAppListIcon.setImageBitmap(appInfo.icon);
         holder.mAppName.setText(appInfo.label);
         holder.mAppPackageName.setText(appInfo.packageName);
         holder.mSelecte.setChecked(shouldSelect(appInfo.packageName));

@@ -3,29 +3,21 @@
 
     <PreferenceCategory>
 
-        <Preference android:title="@string/floating_window">
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.FreeFormSettings" />
-        </Preference>
+        <Preference
+            android:title="@string/floating_window"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.FreeFormSettings"/>
 
-        <Preference android:title="@string/system_framework_volume_title">
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.VolumeSettings" />
-        </Preference>
+        <Preference
+            android:title="@string/system_framework_volume_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.VolumeSettings"/>
 
-        <Preference android:title="@string/system_framework_phone_title">
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.NetworkSettings" />
-        </Preference>
+        <Preference
+            android:title="@string/system_framework_phone_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings"/>
 
-        <Preference android:title="@string/system_framework_other_title">
-            <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.systemframework.OtherSettings" />
-        </Preference>
+        <Preference
+            android:title="@string/system_framework_other_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.OtherSettings"/>
 
     </PreferenceCategory>
 

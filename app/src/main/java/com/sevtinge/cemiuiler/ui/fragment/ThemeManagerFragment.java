@@ -2,12 +2,13 @@ package com.sevtinge.cemiuiler.ui.fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.cemiuiler.utils.SdkHelper;
 
-import moralnorm.os.SystemProperties;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
-public class ThemeFragment extends SettingsPreferenceFragment {
+public class ThemeManagerFragment extends SettingsPreferenceFragment {
+
     PreferenceCategory mVersionCodeModifyPreferenceCat;
     SwitchPreference mVersionCodeModifyPreference;
     SwitchPreference mThemeManagerCrack;
@@ -22,7 +23,7 @@ public class ThemeFragment extends SettingsPreferenceFragment {
         mVersionCodeModifyPreferenceCat = findPreference("prefs_key_theme_manager_version_code_modify_cat");
         mVersionCodeModifyPreference = findPreference("prefs_key_theme_manager_version_code_modify");
 
-        if (getMiuiVersionCode() <= 13) {
+        if (SdkHelper.PROP_MIUI_VERSION_CODE <= 13) {
             mVersionCodeModifyPreferenceCat.setVisible(true);
         } else {
             mVersionCodeModifyPreferenceCat.setVisible(false);
@@ -34,9 +35,5 @@ public class ThemeFragment extends SettingsPreferenceFragment {
         if (!getSharedPreferences().getBoolean("prefs_key_hidden_function", false)) {
             mThemeManagerCrack.setVisible(false);
         }
-    }
-
-    private int getMiuiVersionCode() {
-        return Integer.parseInt(SystemProperties.get("ro.miui.ui.version.code"));
     }
 }
