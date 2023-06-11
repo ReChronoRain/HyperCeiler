@@ -181,7 +181,7 @@ public class Home extends BaseModule {
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
-        initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
+        initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
         initHook(new UserPresentAnimation(), mPrefsMap.getBoolean("home_other_user_present_animation"));
         initHook(new PerfectIcon(), mPrefsMap.getBoolean("home_other_perfect_icon"));
         initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));

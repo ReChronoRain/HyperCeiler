@@ -73,6 +73,12 @@
             android:summary="@string/home_other_freeform_shortcut_menu_desc" />
 
         <SwitchPreference
+            android:key="prefs_key_home_other_tasks_shortcut_menu"
+            android:defaultValue="false"
+            android:title="@string/home_other_tasks_shortcut_menu"
+            android:summary="@string/home_other_tasks_shortcut_menu_desc" />
+
+        <SwitchPreference
             android:key="prefs_key_home_other_shortcut_background_blur"
             android:title="@string/home_other_shortcut_background_blur"
             android:defaultValue="false" />

@@ -83,6 +83,7 @@
     <string name="downloads">下载管理程序</string>
     <string name="share_center">小米妙享中心</string>
     <string name="floating_window">小窗</string>
+    <string name="new_task">多开</string>
     <string name="custom_hook">自定义</string>
 
     <string name="about_developer_title">开发者</string>
@@ -370,6 +371,8 @@
     <string name="home_other_infinite_scroll_desc">从末页跳转至首页，反之亦然</string>
     <string name="home_other_freeform_shortcut_menu">小窗模式</string>
     <string name="home_other_freeform_shortcut_menu_desc">在快捷菜单中添加小窗菜单</string>
+    <string name="home_other_tasks_shortcut_menu">多开模式</string>
+    <string name="home_other_tasks_shortcut_menu_desc">在快捷菜单中添加多开菜单</string>
     <string name="home_other_user_present_animation">优化解锁动画</string>
     <string name="home_other_always_blur_launcher_wallpaper">始终模糊桌面壁纸</string>
     <string name="home_other_perfect_icon">完美图标优先级</string>
