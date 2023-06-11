@@ -95,7 +95,6 @@ public class FreeformShortcutMenu extends BaseHook {
                     } else if (mShortTitle.equals(modRes.getString(R.string.new_task))) {
                         param.setResult(getFreeformOnClickListener(obj, true));
                     }
-                    log(String.valueOf(mShortTitle));
                 }
             });
 
@@ -125,12 +124,10 @@ public class FreeformShortcutMenu extends BaseHook {
                     Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
                     Object mNewTasksInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
                     if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
-                        log("1");
                         callMethod(mSmallWindowInstance, "setShortTitle", modRes.getString(R.string.floating_window));
                         callMethod(mSmallWindowInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_small_window", "drawable", mContext.getPackageName())));
                     }
                     if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) {
-                        log("2");
                         callMethod(mNewTasksInstance, "setShortTitle", modRes.getString(R.string.new_task));
                         callMethod(mNewTasksInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_add_pair", "drawable", mContext.getPackageName())));
                     }
@@ -160,7 +157,6 @@ public class FreeformShortcutMenu extends BaseHook {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (isNewTaskOnClick) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                log("3");
             }
             Object makeFreeformActivityOptions = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", new Object[]{mContext, mComponentName.getPackageName()});
 
