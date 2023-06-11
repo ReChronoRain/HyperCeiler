@@ -1,11 +1,12 @@
 package com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.SeekBarPreference;
 
@@ -29,6 +30,6 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mNetworkSpeedWidth = findPreference("prefs_key_system_ui_statusbar_network_speed_fixedcontent_width");
-        mNetworkSpeedWidth.setVisible(!SdkHelper.isAndroidR());
+        mNetworkSpeedWidth.setVisible(!isAndroidR());
     }
 }

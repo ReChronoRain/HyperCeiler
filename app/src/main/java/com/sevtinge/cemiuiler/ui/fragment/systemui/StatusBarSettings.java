@@ -1,11 +1,12 @@
 package com.sevtinge.cemiuiler.ui.fragment.systemui;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.Preference;
 
@@ -29,6 +30,6 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mDeviceStatus = findPreference("prefs_key_system_ui_status_bar_device");
-        mDeviceStatus.setVisible(!SdkHelper.isAndroidR());
+        mDeviceStatus.setVisible(!isAndroidR());
     }
 }

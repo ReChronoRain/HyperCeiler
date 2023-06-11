@@ -1,10 +1,13 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
@@ -36,10 +39,10 @@ public class QSFiveGTile extends BaseHook {
         int mFiveGIconResId = mResHook.addResource("ic_control_center_5g_toggle_on", R.drawable.ic_control_center_5g_toggle_on);
         int mFiveGIconOffResId = mResHook.addResource("ic_control_center_5g_toggle_off", R.drawable.ic_control_center_5g_toggle_off);
 
-        mQSFactoryClsName = SdkHelper.ATLEAST_T ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
+        mQSFactoryClsName = isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
             "com.android.systemui.qs.tileimpl.QSFactoryImpl";
 
-        mNfcTileClsName = SdkHelper.ATLEAST_T ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
+        mNfcTileClsName = isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
             "com.android.systemui.qs.tiles.NfcTile";
 
         mQSFactory = findClassIfExists(mQSFactoryClsName);

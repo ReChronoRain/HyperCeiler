@@ -1,8 +1,9 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.Preference;
 
@@ -21,7 +22,7 @@ public class MainFragment extends SettingsPreferenceFragment {
         mPowerSetting = findPreference("prefs_key_powerkeeper");
         mMTB = findPreference("prefs_key_mtb");
 
-        mPowerSetting.setVisible(!SdkHelper.isAndroidR());
-        mMTB.setVisible(!SdkHelper.isAndroidR());
+        mPowerSetting.setVisible(!isAndroidR());
+        mMTB.setVisible(!isAndroidR());
     }
 }

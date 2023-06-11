@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.systemui;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,13 +9,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Process;
 import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -26,7 +28,7 @@ public class StatusBarActions extends BaseHook {
     @Override
     public void init() {
 
-        if (SdkHelper.isAndroidTiramisu()) {
+        if (isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU)) {
             mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.CentralSurfacesImpl");
         } else {
             mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.StatusBar");
@@ -76,24 +78,21 @@ public class StatusBarActions extends BaseHook {
             if (action == null) return;
 
             switch (action) {
-                case ACTION_PREFIX + "ClearMemory":
+                case ACTION_PREFIX + "ClearMemory" -> {
                     Intent clearIntent = new Intent("com.android.systemui.taskmanager.Clear");
                     clearIntent.putExtra("show_toast", true);
                     // clearIntent.putExtra("clean_type", -1);
                     context.sendBroadcast(clearIntent);
-                    break;
-
-                case ACTION_PREFIX + "OpenRecents":
+                }
+                case ACTION_PREFIX + "OpenRecents" -> {
                     Intent recentIntent = new Intent("SYSTEM_ACTION_RECENTS");
                     recentIntent.setPackage("com.android.systemui");
                     context.sendBroadcast(recentIntent);
-                    break;
+                }
 
-                case ACTION_PREFIX + "OpenVolumeDialog":
-                    OpenVolumeDialogs(context);
-                    break;
+                case ACTION_PREFIX + "OpenVolumeDialog" -> OpenVolumeDialogs(context);
 
-                case ACTION_PREFIX + "OpenNotificationCenter":
+                case ACTION_PREFIX + "OpenNotificationCenter" -> {
                     try {
                         Object mNotificationPanel = XposedHelpers.getObjectField(mStatusBar, "mNotificationPanel");
                         boolean mPanelExpanded = (boolean) XposedHelpers.getObjectField(mNotificationPanel, "mPanelExpanded");
@@ -116,7 +115,7 @@ public class StatusBarActions extends BaseHook {
                         XposedHelpers.callMethod(context.getSystemService("statusbar"), "expandNotificationsPanel");
                         Binder.restoreCallingIdentity(token);
                     }
-                    break;
+                }
             }
         }
     };

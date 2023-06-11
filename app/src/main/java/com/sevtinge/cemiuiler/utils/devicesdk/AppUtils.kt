@@ -59,21 +59,7 @@ fun isAlpha(): Boolean =
 
 fun isPadDevice(): Boolean = DeviceHelper.isTablet() || DeviceHelper.isFoldDevice()
 
-fun atLeastAndroidS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
-fun atLeastAndroidT(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-
 fun checkVersionCode(): Long = getPackageInfoCompat(EzXHelper.appContext.packageName).longVersionCode
-
-fun checkMiuiVersion(): Float = when (getProp("ro.miui.ui.version.name")) {
-    "V140" -> 14f
-    "V130" -> 13f
-    "V125" -> 12.5f
-    "V12" -> 12f
-    "V11" -> 11f
-    "V10" -> 10f
-    else -> 0f
-}
 
 fun checkAndroidVersion(): String = getProp("ro.build.version.release")
 

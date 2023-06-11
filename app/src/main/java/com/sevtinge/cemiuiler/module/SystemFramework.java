@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemframework.AllowUntrustedTouch;
 import com.sevtinge.cemiuiler.module.systemframework.AppDisableService;
@@ -36,7 +38,6 @@ import com.sevtinge.cemiuiler.module.systemframework.network.DualSASupport;
 import com.sevtinge.cemiuiler.module.systemframework.network.N1Band;
 import com.sevtinge.cemiuiler.module.systemframework.network.N28Band;
 import com.sevtinge.cemiuiler.module.systemframework.network.N5N8Band;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 
 public class SystemFramework extends BaseModule {
@@ -104,7 +105,7 @@ public class SystemFramework extends BaseModule {
         initHook(new LocationSimulation(), false);
 
         // 核心破解
-        if (SdkHelper.isAndroidTiramisu()) {
+        if (isAndroidT()) {
             initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
         }
 

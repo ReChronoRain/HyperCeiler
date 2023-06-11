@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.BluetoothRestrict;
 import com.sevtinge.cemiuiler.module.systemui.ChargeAnimationStyle;
@@ -68,7 +70,6 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSpac
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import java.util.Objects;
 
@@ -209,7 +210,7 @@ public class SystemUI extends BaseModule {
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
 
-        if (!SdkHelper.isAndroidR()) {
+        if (!isAndroidR()) {
             initHook(AddBlurEffectToLockScreen.INSTANCE);
             initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
             initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));

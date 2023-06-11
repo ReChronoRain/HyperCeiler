@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -14,7 +16,6 @@ import android.widget.TextView;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,7 +60,7 @@ public class CCGrid extends BaseHook {
             }
         });
 
-        String pluginLoaderClass = SdkHelper.isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.shared.plugins.PluginInstance$Factory" : "com.android.systemui.shared.plugins.PluginManagerImpl";
+        String pluginLoaderClass = isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.shared.plugins.PluginInstance$Factory" : "com.android.systemui.shared.plugins.PluginManagerImpl";
         Helpers.hookAllMethods(pluginLoaderClass, lpparam.classLoader, "getClassLoader", new MethodHook() {
             private boolean isHooked = false;
 
