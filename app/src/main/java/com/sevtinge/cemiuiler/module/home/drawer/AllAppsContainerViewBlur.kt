@@ -13,7 +13,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.getCornerRadiusTop
+import com.sevtinge.cemiuiler.utils.devicesdk.getCornerRadiusTop
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 import com.zhenxiang.blur.BlurFrameLayout

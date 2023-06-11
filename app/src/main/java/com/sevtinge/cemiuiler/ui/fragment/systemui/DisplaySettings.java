@@ -1,9 +1,11 @@
 package com.sevtinge.cemiuiler.ui.fragment.systemui;
 
+import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class DisplaySettings extends SettingsPreferenceFragment {
@@ -14,6 +16,14 @@ public class DisplaySettings extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.system_ui_display;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+            getResources().getString(R.string.system_ui),
+            "com.android.systemui"
+        );
     }
 
     @Override

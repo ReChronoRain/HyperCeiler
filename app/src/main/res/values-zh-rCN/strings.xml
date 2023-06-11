@@ -14,10 +14,7 @@
     <string name="about_contributer_desc">感谢以下贡献者为 Cemiuiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
     <string name="about_donation">支持</string>
     <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
-    <string name="restart_systemui">重启系统界面</string>
-    <string name="restart_systemui_desc">确定要立即重启系统界面吗？</string>
     <string name="soft_reboot">重启</string>
-    <string name="soft_reboot_desc">确定要执行重启吗？</string>
     <string name="restart_app_desc1">确定要立即重启</string>
     <string name="restart_app_desc2">吗？</string>
     <string name="tip">提示</string>

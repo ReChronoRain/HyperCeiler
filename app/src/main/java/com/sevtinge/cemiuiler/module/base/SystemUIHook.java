@@ -2,7 +2,7 @@ package com.sevtinge.cemiuiler.module.base;
 
 import android.os.Build;
 
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 

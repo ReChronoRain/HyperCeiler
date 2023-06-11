@@ -502,10 +502,9 @@
     <string name="rest_permission">現在您必須手動啟用此選項的權限。</string>
     <string name="rest_success">還原成功</string>
     <string name="rest_title">還原</string>
+    <string name="soft_reboot">重啟</string>
     <string name="restart_app_desc1">"確定要立即重啟"</string>
     <string name="restart_app_desc2">"嗎？"</string>
-    <string name="restart_systemui">重啟系統介面</string>
-    <string name="restart_systemui_desc">確定要立即重啟系統介面嗎？</string>
     <string name="scanner">小愛視覺</string>
     <string name="scanner_card">解鎖掃名片</string>
     <string name="scanner_doc_ppt">解鎖掃文件</string>
@@ -601,8 +600,6 @@
     <string name="freeform_notification">通知懸浮視窗</string>
     <string name="share_app">分享至第三方應用程式</string>
     <string name="show_newmods_title">標記新模組</string>
-    <string name="soft_reboot">重啟</string>
-    <string name="soft_reboot_desc">確定要執行重啟嗎？</string>
     <string name="status_bar_icon_mode_default">預設</string>
     <string name="status_bar_icon_mode_off">總是隱藏</string>
     <string name="status_bar_icon_mode_off_unconnect">僅在未連接時隱藏</string>

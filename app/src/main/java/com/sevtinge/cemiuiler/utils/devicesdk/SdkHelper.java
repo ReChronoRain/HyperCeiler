@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils;
+package com.sevtinge.cemiuiler.utils.devicesdk;
 
 import android.os.Build;
 

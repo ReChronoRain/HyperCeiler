@@ -87,7 +87,6 @@
     <string name="array_global_actions_volume_down">Громкость -</string>
     <string name="array_global_actions_volume_up">Громкость +</string>
     <string name="array_gradual">Градиент</string>
-    <string name="array_netspeedicons_bullets">☖ ⛉ ( ☗ ⛊ )</string>
     <string name="array_netspeedicons_no">Без значков</string>
     <string name="array_rainbow">Цвета радуги</string>
     <string name="array_theme">Отслеживать тему</string>
@@ -513,8 +512,6 @@
     <string name="rest_title">Восстановить</string>
     <string name="restart_app_desc1">Перезагрузить</string>
     <string name="restart_app_desc2">\?</string>
-    <string name="restart_systemui">Перезагрузить System UI</string>
-    <string name="restart_systemui_desc">Перезагрузить System UI?</string>
     <string name="save_to_screen_title">Место сохранения</string>
     <string name="scanner">Сканер</string>
     <string name="scanner_card">Сканировать ID-карты</string>
@@ -624,9 +621,8 @@
     <string name="share_app">Общий доступ к сторонним приложениям</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="shot">Фото</string>
-    <string name="show_newmods_title">Отметить новый модуль</string>
     <string name="soft_reboot">Перезагрузка</string>
-    <string name="soft_reboot_desc">Выполнить перезагрузку?</string>
+    <string name="show_newmods_title">Отметить новый модуль</string>
     <string name="status_bar_icon_mode_default">По умолчанию</string>
     <string name="status_bar_icon_mode_off">Всегда скрывать</string>
     <string name="status_bar_icon_mode_off_unconnect">Скрывать только когда не подключено</string>

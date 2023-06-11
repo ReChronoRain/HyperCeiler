@@ -30,7 +30,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyPrivacy;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 public class SecurityCenter extends BaseModule {
 

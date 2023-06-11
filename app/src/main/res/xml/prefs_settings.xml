@@ -55,7 +55,7 @@
 
     <PreferenceCategory android:title="@string/settings_bug_title">
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SafeModeFragment"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.settings.SafeModeFragment"
             android:title="@string/settings_safe_mode"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc">

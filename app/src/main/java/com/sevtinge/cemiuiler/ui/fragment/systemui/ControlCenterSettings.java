@@ -1,12 +1,14 @@
 package com.sevtinge.cemiuiler.ui.fragment.systemui;
 
 import android.provider.Settings;
+import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.SwitchPreference;
 
@@ -17,6 +19,14 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.system_ui_control_center;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+            getResources().getString(R.string.system_ui),
+            "com.android.systemui"
+        );
     }
 
     @Override

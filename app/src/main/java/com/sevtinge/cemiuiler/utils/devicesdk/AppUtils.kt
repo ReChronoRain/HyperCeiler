@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils
+package com.sevtinge.cemiuiler.utils.devicesdk
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -4,7 +4,7 @@ import android.os.Build;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.SdkHelper;
+import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.SwitchPreference;
 

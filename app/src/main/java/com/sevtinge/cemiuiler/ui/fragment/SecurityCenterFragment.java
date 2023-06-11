@@ -2,11 +2,13 @@ package com.sevtinge.cemiuiler.ui.fragment;
 
 import android.Manifest;
 import android.provider.Settings;
+import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.Preference;
@@ -21,6 +23,14 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.security_center;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+            getResources().getString(R.string.security_center),
+            "com.miui.securitycenter"
+        );
     }
 
     @Override
