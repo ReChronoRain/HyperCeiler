@@ -674,7 +674,7 @@
     <string name="home_recent_app_name_distance_task_view_card">App name distance task view card</string>
     <string name="home_recent_task_view_card_rounded_corners">Task view card rounded corners</string>
     <string name="home_other_disable_hide_google">Disable hide Google</string>
-    <string name="soft_reboot">Reboot</string>
+    <string name="soft_reboot">Reboot </string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Network speed update interval</string>
