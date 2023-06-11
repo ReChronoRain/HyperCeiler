@@ -39,6 +39,7 @@ class ThemeCrackNew : BaseHook() {
                     it.result = false
                 }
             }
+
             val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
             for (descriptor in drmResult) {
                 try {
@@ -80,8 +81,7 @@ class ThemeCrackNew : BaseHook() {
                                     }
 
                                     val productId = it.thisObject.getObjectField(resource.name)
-                                        ?.callMethod("getProductId")
-                                        .toString()
+                                        ?.callMethod("getProductId").toString()
                                     val strPath =
                                         "/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra"
                                     val file = File(strPath)

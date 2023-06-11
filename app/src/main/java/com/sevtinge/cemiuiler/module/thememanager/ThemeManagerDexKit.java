@@ -26,8 +26,10 @@ public class ThemeManagerDexKit extends BaseHook {
             mThemeManagerResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("DrmResult", List.of("theme", "ThemeManagerTag", "/system"))
-                        .addQuery("LargeIcon", List.of("apply failed", "/data/system/theme/large_icons/", "default_large_icon_product_id"))
+                        .addQuery("DrmResult", List.of("theme", "ThemeManagerTag", "/system", "check rights isLegal:"))
+                        .addQuery("LargeIcon", List.of(
+                            "apply failed", "/data/system/theme/large_icons/", "default_large_icon_product_id", "largeicons", "relativePackageList is empty"
+                        ))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );
