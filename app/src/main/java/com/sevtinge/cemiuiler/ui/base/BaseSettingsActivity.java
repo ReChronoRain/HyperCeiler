@@ -95,7 +95,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
     public void showRestartDialog(boolean isRestartSystem, String appLabel, String packagename) {
         new AlertDialog.Builder(this)
             .setCancelable(false)
-            .setTitle(getResources().getString(R.string.soft_reboot) + appLabel)
+            .setTitle(getResources().getString(R.string.soft_reboot) + " " + appLabel)
             .setMessage(getResources().getString(R.string.restart_app_desc1) + appLabel + getResources().getString(R.string.restart_app_desc2))
             .setHapticFeedbackEnabled(true)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> doRestart(packagename, isRestartSystem))

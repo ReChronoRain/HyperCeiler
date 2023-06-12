@@ -529,7 +529,7 @@
     <string name="rest_success">Khôi phục đã thành công</string>
     <string name="rest_title">Khôi phục</string>
     <string name="restart_app_desc1">"Bạn có muốn khởi động lại máy bây giờ "</string>
-    <string name="restart_app_desc2">" ?"</string>
+    <string name="restart_app_desc2">"?"</string>
     <string name="save_to_screen_title">Lưu thông tin vị trí</string>
     <string name="scanner">Máy quét</string>
     <string name="scanner_card">Mở khóa quét thẻ ID</string>

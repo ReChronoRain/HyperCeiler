@@ -505,7 +505,7 @@
     <string name="rest_success">Recuperação bem sucedida</string>
     <string name="rest_title">Recuperar</string>
     <string name="restart_app_desc1">Tem certeza de que deseja reiniciar agora</string>
-    <string name="restart_app_desc2"> \?</string>
+    <string name="restart_app_desc2">?</string>
     <string name="scanner">Scanner</string>
     <string name="scanner_card">Desbloquear cartão de identificação de digitalização</string>
     <string name="scanner_doc_ppt">Desbloquear ficheiros de verificação</string>
