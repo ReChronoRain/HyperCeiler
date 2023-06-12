@@ -45,6 +45,7 @@ class ThemeCrackNew : BaseHook() {
                 try {
                     // val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
                     val drmResultMethod = descriptor.getMethodInstance(lpparam.classLoader)
+                    if (drmResultMethod.returnType != DrmManager.DrmResult::class.java) continue
                     log("DrmResult method is $drmResultMethod")
                     drmResultMethod.createHook {
                         after {
@@ -58,8 +59,7 @@ class ThemeCrackNew : BaseHook() {
             assert(drmResult.size == 1)
             val drmResultDescriptor = drmResult.first()
             val drmResultMethod: Method = drmResultDescriptor.getMethodInstance(lpparam.classLoader)
-            if (drmResultMethod.returnType != DrmManager.DrmResult::class.java) continue
-log("DrmResult method is $drmResultMethod")
+            log("DrmResult method is $drmResultMethod")
             drmResultMethod.hookAfter {
                 it.result = DrmManager.DrmResult.DRM_SUCCESS
             }
