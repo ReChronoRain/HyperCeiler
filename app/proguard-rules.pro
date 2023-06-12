@@ -8,3 +8,5 @@
 -keep class * extends com.sevtinge.cemiuiler.ui.fragment.base.*
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
+-allowaccessmodification
+-overloadaggressively
