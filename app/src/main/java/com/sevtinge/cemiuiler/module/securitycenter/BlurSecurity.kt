@@ -45,17 +45,10 @@ object BlurSecurity : BaseHook() {
 
     // 不反转颜色的名单ID或类名
     // whiteList 不在列表内子元素也会反色
-    private val invertColorWhiteList =
-        arrayOf(
-            "lv_main",
-            "second_view"
-        )
+    private val invertColorWhiteList = arrayOf("lv_main", "second_view")
 
     // keepList 列表内元素及其子元素不会反色
-    private val keepColorList =
-        arrayOf(
-            "rv_information"
-        )
+    private val keepColorList = arrayOf("rv_information")
 
     override fun init() {
         val turboLayoutClass = findClassIfExists(
@@ -67,9 +60,9 @@ object BlurSecurity : BaseHook() {
         lateinit var videoBoxViewClass: Class<*>
         lateinit var videoBoxViewMethodName: String
         when {
-            getPackageVersionCode(lpparam) in 40000749..40000750 || getPackageVersionCode(lpparam) == 40000770 || getPackageVersionCode(
-                lpparam
-            ) == 40000780 -> {
+            getPackageVersionCode(lpparam) in 40000749..40000750 ||
+                getPackageVersionCode(lpparam) == 40000770 ||
+                getPackageVersionCode(lpparam) == 40000780 -> {
                 appVersionCode = 40000749
                 videoBoxViewClass = findClassIfExists("t7.i") ?: return
                 videoBoxViewMethodName = "i"
@@ -120,12 +113,7 @@ object BlurSecurity : BaseHook() {
                             }
 
                             view.background =
-                                HookUtils.createBlurDrawable(
-                                    view,
-                                    blurRadius,
-                                    40,
-                                    backgroundColor
-                                )
+                                HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
@@ -152,12 +140,7 @@ object BlurSecurity : BaseHook() {
                             }
 
                             gameContentLayout.background =
-                                HookUtils.createBlurDrawable(
-                                    gameContentLayout,
-                                    blurRadius,
-                                    40,
-                                    backgroundColor
-                                )
+                                HookUtils.createBlurDrawable(gameContentLayout, blurRadius, 40, backgroundColor)
 
                             if (shouldInvertColor) {
                                 invertViewColor(gameContentLayout)
@@ -226,12 +209,7 @@ object BlurSecurity : BaseHook() {
                                     }
 
                                     view.background =
-                                        HookUtils.createBlurDrawable(
-                                            view,
-                                            blurRadius,
-                                            40,
-                                            backgroundColor
-                                        )
+                                        HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
                                     if (shouldInvertColor) {
                                         invertViewColor(mainContent)
@@ -266,12 +244,7 @@ object BlurSecurity : BaseHook() {
                                     }
 
                                     view.background =
-                                        HookUtils.createBlurDrawable(
-                                            view,
-                                            blurRadius,
-                                            40,
-                                            backgroundColor
-                                        )
+                                        HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
                                     if (shouldInvertColor) {
                                         invertViewColor(mainContent)

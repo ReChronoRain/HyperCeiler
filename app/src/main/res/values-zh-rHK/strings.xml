@@ -1034,4 +1034,7 @@
     <string name="not_set">未設定</string>
     <string name="expand_button_title">進階</string>
     <string name="copy">複製</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">更多</string>
+    <string name="more">更多</string>
+    <string name="security_center_pad">平板管家</string>
 </resources>

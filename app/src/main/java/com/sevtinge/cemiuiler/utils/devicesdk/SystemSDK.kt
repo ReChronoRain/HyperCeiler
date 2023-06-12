@@ -12,6 +12,7 @@ fun isAndroidR(): Boolean = getAndroidVersion() == Build.VERSION_CODES.R
 fun isAndroidS(): Boolean = getAndroidVersion() == Build.VERSION_CODES.S
 fun isAndroidSv2(): Boolean = getAndroidVersion() == Build.VERSION_CODES.S_V2
 fun isAndroidT(): Boolean = getAndroidVersion() == Build.VERSION_CODES.TIRAMISU
+fun isAndroidU(): Boolean = getAndroidVersion() == Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
 fun isMoreAndroidVersion(version: Int): Boolean {
     return getAndroidVersion() >= version

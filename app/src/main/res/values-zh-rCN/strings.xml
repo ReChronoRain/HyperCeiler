@@ -97,6 +97,7 @@
     <string name="fileexplorer">文件管理</string>
     <string name="screenshot">截屏</string>
     <string name="security_center">手机管家</string>
+    <string name="security_center_pad">平板管家</string>
     <string name="system_framework">系统框架</string>
     <string name="system_settings">设置</string>
     <string name="system_ui">系统界面</string>

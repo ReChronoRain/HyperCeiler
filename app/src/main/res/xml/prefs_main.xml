@@ -216,6 +216,13 @@
             android:title="@string/security_center" />
 
         <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SecurityCenterFragment"
+            android:icon="@drawable/ic_security_center"
+            android:key="prefs_key_security_center_pad"
+            android:summary="com.miui.securitycenter"
+            android:title="@string/security_center_pad" />
+
+        <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.TsmClientFragment"
             android:icon="@drawable/ic_tsmclient"
             android:key="prefs_key_tsmclient"
