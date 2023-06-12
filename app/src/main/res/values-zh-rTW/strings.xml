@@ -1034,7 +1034,19 @@
     <string name="not_set">未設定</string>
     <string name="expand_button_title">進階</string>
     <string name="copy">複製</string>
+    <string name="abc_action_bar_home_description">轉到首頁</string>
+    <string name="abc_action_bar_up_description">轉到上一層級</string>
+    <string name="actionbar_button_up_description">返回</string>
+    <string name="appcompat_action_mode_select_all">全選</string>
+    <string name="appcompat_cancel_description">取消</string>
+    <string name="appcompat_confirm_description">確認</string>
+    <string name="appcompat_select_all_description">全選</string>
+    <string name="appcompat_deselect_all_description">全不選</string>
+    <string name="appcompat_delete_description">刪除</string>
+    <string name="appcompat_search_action_mode_cancel">取消</string>
+    <string name="appcompat_search_input_description">搜索</string>
     <string name="appcompat_actionbar_immersion_button_more_description">更多</string>
     <string name="more">更多</string>
+    <string name="clearable_edittext_clear_description">清空</string>
     <string name="security_center_pad">平板管家</string>
 </resources>
