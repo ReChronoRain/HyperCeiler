@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.base;
 
-import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.os.Build;
 
@@ -15,7 +16,7 @@ public abstract class SystemUIHook extends BaseHook {
     public void setLoadPackageParam(LoadPackageParam param) {
         super.setLoadPackageParam(param);
 
-        if (isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU)) {
+        if (isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU)) {
             mPluginLoaderClassName = "com.android.systemui.shared.plugins.PluginInstance$Factory";
         } else {
             mPluginLoaderClassName = "com.android.systemui.shared.plugins.PluginManagerImpl";

@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui;
 
-import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -28,7 +28,7 @@ public class StatusBarActions extends BaseHook {
     @Override
     public void init() {
 
-        if (isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU)) {
+        if (isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU)) {
             mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.CentralSurfacesImpl");
         } else {
             mStatusBarClass = findClassIfExists("com.android.systemui.statusbar.phone.StatusBar");
@@ -43,7 +43,7 @@ public class StatusBarActions extends BaseHook {
 
         findAndHookMethod(mStatusBarClass, "start", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 mStatusBar = param.thisObject;
                 Context mStatusBarContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
@@ -170,7 +170,7 @@ public class StatusBarActions extends BaseHook {
         if (mStatusBarClass == null) return;
         findAndHookMethod(mStatusBarClass, "start", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 mStatusBar = param.thisObject;
                 Context mStatusBarContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();

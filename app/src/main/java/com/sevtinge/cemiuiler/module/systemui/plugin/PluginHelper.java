@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.plugin;
 
-import static com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper.isAndroidMoreVersion;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
@@ -13,7 +13,7 @@ public class PluginHelper extends BaseHook {
 
     @Override
     public void init() {
-        String pluginLoaderClass = isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.shared.plugins.PluginInstance$Factory" : "com.android.systemui.shared.plugins.PluginManagerImpl";
+        String pluginLoaderClass = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.shared.plugins.PluginInstance$Factory" : "com.android.systemui.shared.plugins.PluginManagerImpl";
         hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
             private boolean isHooked = false;
 

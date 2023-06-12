@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
-import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidMoreVersion;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
@@ -24,7 +24,7 @@ public class PackagePermissions extends BaseHook {
         systemPackages.add(Helpers.mAppModulePkg);
 
         // Allow signature level permissions for module
-        String PMSCls = isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.permission.PermissionManagerServiceImpl" : "com.android.server.pm.permission.PermissionManagerService";
+        String PMSCls = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.permission.PermissionManagerServiceImpl" : "com.android.server.pm.permission.PermissionManagerService";
 
         // Allow signature level permissions for module
         hookAllMethods(PMSCls, "shouldGrantPermissionBySignature", new MethodHook() {
@@ -46,7 +46,7 @@ public class PackagePermissions extends BaseHook {
 
 
         // Make module appear as system app
-        String ActQueryService = isAndroidMoreVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService";
+        String ActQueryService = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService";
         hookAllMethods(ActQueryService, "queryIntentActivitiesInternal", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
