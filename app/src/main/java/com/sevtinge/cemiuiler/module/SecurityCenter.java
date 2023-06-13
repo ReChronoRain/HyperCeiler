@@ -59,10 +59,10 @@ public class SecurityCenter extends BaseModule {
         initHook(new GetNumberEnable(), mPrefsMap.getBoolean("security_center_get_number"));
 
         // 前置摄像助手
-        initHook(new BeautyLight(), mPrefsMap.getBoolean("security_center_beauty_light"));
+        initHook(BeautyLight.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_light"));
         initHook(new BeautyLightAuto(), mPrefsMap.getBoolean("security_center_beauty_light_auto"));
         initHook(new BeautyFace(), mPrefsMap.getBoolean("security_center_beauty_face"));
-        initHook(new BeautyPrivacy(), mPrefsMap.getBoolean("security_center_beauty_privacy"));
+        initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));
         initHook(new BeautyPc(), mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         // 其他
