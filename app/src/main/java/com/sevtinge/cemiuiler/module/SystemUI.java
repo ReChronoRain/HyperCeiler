@@ -35,7 +35,7 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.ChargingCVP;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ClockDisplaySeconds;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ForceClockUseSystemFontsHook;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.LockScreenDoubleTapToSleep;
-import com.sevtinge.cemiuiler.module.systemui.lockscreen.NoPasswordHook;
+import com.sevtinge.cemiuiler.module.systemui.lockscreen.NoPassword;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.RemoveCamera;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.RemoveSmartScreen;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ScramblePIN;
@@ -206,7 +206,7 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_ui_show_charging_v_more"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
-        initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
+        initHook(NoPassword.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
 
