@@ -198,7 +198,7 @@ object NetworkSpeed : BaseHook() {
                        !mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
                    ) {
                        if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                           param.args[0] = ""
+                           param.args[0] = "".trimIndent()
                        } else {
                            param.args[0] = """
                            $tx
@@ -207,13 +207,13 @@ object NetworkSpeed : BaseHook() {
                        }
                    } else if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
                        if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                           param.args[0] = ""
+                           param.args[0] = "".trimIndent()
                        } else {
                            param.args[0] = ax.trimIndent()
                        }
                    } else {
                        if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                           param.args[0] = ""
+                           param.args[0] = "".trimIndent()
                        }
                    }
                }

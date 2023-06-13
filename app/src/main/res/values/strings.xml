@@ -1066,6 +1066,7 @@
     <string name="appcompat_search_action_mode_cancel">Cancel</string>
     <string name="appcompat_search_input_description">Search</string>
     <string name="appcompat_actionbar_immersion_button_more_description">More</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">More</string>
     <string name="more">More</string>
     <string name="clearable_edittext_clear_description">Clear up</string>
     <string name="security_center_pad">Tablet security center</string>
