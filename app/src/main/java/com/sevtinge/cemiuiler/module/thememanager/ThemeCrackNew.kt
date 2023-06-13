@@ -74,10 +74,8 @@ class ThemeCrackNew : BaseHook() {
                             largeIconMethod.createHook {
                                 before {
                                     val resource = (it.thisObject.javaClass).fieldFinder().first {
-                                        type == loadClass(
-                                            "com.android.thememanager.basemodule.resource.model.Resource",
-                                            lpparam.classLoader
-                                        )
+                                        type ==
+                                            loadClass("com.android.thememanager.basemodule.resource.model.Resource", lpparam.classLoader)
                                     }
 
                                     val productId = it.thisObject.getObjectField(resource.name)
