@@ -54,9 +54,7 @@ public class SystemFramework extends BaseModule {
         initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(new StickyFloatingWindows(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
         initHook(MultiFreeFormSupported.INSTANCE, mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform"));
-        initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_open_notification") ||
-            mPrefsMap.getBoolean("system_framework_freeform_app_share") ||
-            mPrefsMap.getBoolean("system_framework_freeform_open_notification_fw"));
+        initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
         // initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
 
         // 音量
