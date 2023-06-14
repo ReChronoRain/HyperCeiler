@@ -5,7 +5,7 @@ import com.sevtinge.cemiuiler.module.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.home.AnimDurationRatio;
 import com.sevtinge.cemiuiler.module.home.DoubleTap;
 import com.sevtinge.cemiuiler.module.home.FreeFormCountForHome;
-import com.sevtinge.cemiuiler.module.home.HomeDexkit;
+import com.sevtinge.cemiuiler.module.home.HomeDexKit;
 import com.sevtinge.cemiuiler.module.home.HomePortraitReverse;
 import com.sevtinge.cemiuiler.module.home.HotSeatSwipe;
 import com.sevtinge.cemiuiler.module.home.MaxFreeForm;
@@ -92,7 +92,7 @@ public class Home extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // Dexkit
-        initHook(new HomeDexkit());
+        initHook(new HomeDexKit());
 
         // 手势
         initHook(new DoubleTap(), mPrefsMap.getInt("home_gesture_double_tap_action", 0) > 0);

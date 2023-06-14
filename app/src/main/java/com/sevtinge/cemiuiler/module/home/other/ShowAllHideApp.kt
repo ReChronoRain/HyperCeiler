@@ -4,12 +4,12 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.home.HomeDexkit
+import com.sevtinge.cemiuiler.module.home.HomeDexKit
 
 object ShowAllHideApp : BaseHook() {
     override fun init() {
         val result =
-            HomeDexkit.mHomeResultClassMap!!["HideAllApp"]
+            HomeDexKit.mHomeResultClassMap!!["HideAllApp"]
 
         result!!.map {
             it.getClassInstance(EzXHelper.classLoader).methodFinder().first {

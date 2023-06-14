@@ -8,7 +8,7 @@ import com.sevtinge.cemiuiler.utils.yife.DexKit.loadDexKit
 import io.luckypray.dexkit.descriptor.member.DexClassDescriptor
 import io.luckypray.dexkit.enums.MatchType
 
-class HomeDexkit : BaseHook() {
+class HomeDexKit : BaseHook() {
     override fun init() {
         System.loadLibrary("dexkit")
         initDexKit(lpparam)
