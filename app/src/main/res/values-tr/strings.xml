@@ -658,8 +658,6 @@
     <string name="home_drawer_blur">Tüm Uygulamalar Kapsayıcı Görünümü Bulanıklığını Etkinleştir</string>
     <string name="home_drawer_blur_desc">Bu özelliği kullanmak için lütfen uygulama çekmecesi arka plan saydamlığını %100 olarak ayarlayın</string>
     <string name="home_other_blur_radius">Bulanıklık Yarıçapı</string>
-    <string name="home_drawer_all">Uygulama Çekmecesinde \"Tümünü\" Gizle</string>
-    <string name="home_drawer_editor">Uygulama Çekmecesinin Sayfasındaki \"Düzenle\" Düğmesini Gizle</string>
     <string name="home_dock_fold">Fold\'un İskelesi</string>
     <string name="home_dock_hide_seekpoint">Arama noktasını gizle</string>
     <string name="home_recent_hide_status_bar_in_task_view">Görev görünümünde durum çubuğunu gizle</string>

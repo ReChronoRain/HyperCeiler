@@ -252,10 +252,8 @@
     <string name="home_dock_margin_bottom">Индикатор страниц в нижней части экрана</string>
     <string name="home_dock_unlock_hotseat">Убрать ограничение по количеству значков в доке</string>
     <string name="home_drawer">Контейнер приложений</string>
-    <string name="home_drawer_all">Скрыть \"Все\" в Контейнере приложений</string>
     <string name="home_drawer_blur">Включить размытие в Контейнере приложений</string>
     <string name="home_drawer_blur_desc">Установите прозрачность фона Контейнера приложений на 100%, чтобы использовать эту функцию</string>
-    <string name="home_drawer_editor">Скрыть \"Изменить\" на вкладке Контейнера приложений</string>
     <string name="home_enable_blur">Включить размытие</string>
     <string name="home_folder">Папка</string>
     <string name="home_folder_anim_1">Отскок при открытии</string>
