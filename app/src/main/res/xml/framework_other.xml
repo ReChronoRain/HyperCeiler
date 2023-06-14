@@ -47,24 +47,26 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:enabled="false"
             android:key="prefs_key_system_framework_clean_share_menu"
             android:title="@string/system_framework_clean_share_menu" />
 
         <Preference
             android:dependency="prefs_key_system_framework_clean_share_menu"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.AppPickerFragment"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.AppPicker"
             android:key="prefs_key_system_framework_clean_share_apps"
             android:summary="@string/system_framework_clean_share_apps_desc"
             android:title="@string/system_framework_clean_share_apps" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:enabled="false"
             android:key="prefs_key_system_framework_clean_open_menu"
             android:title="@string/system_framework_clean_open_menu" />
 
         <Preference
             android:dependency="prefs_key_system_framework_clean_open_menu"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.AppPickerFragment"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.AppPicker"
             android:key="prefs_key_system_framework_clean_open_apps"
             android:summary="@string/system_framework_clean_open_apps_desc"
             android:title="@string/system_framework_clean_open_apps" />

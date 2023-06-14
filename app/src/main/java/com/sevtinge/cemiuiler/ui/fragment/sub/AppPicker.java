@@ -31,7 +31,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AppPickerFragment extends Fragment {
+public class AppPicker extends Fragment {
 
     private Bundle args;
     private String key = null;
@@ -58,8 +58,9 @@ public class AppPickerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.array_global_actions_launch_choose);
-        args = getActivity().getIntent().getExtras();
+        requireActivity().setTitle(R.string.array_global_actions_launch_choose);
+        args = requireActivity().getIntent().getExtras();
+        assert args != null;
         appSelector = args.getBoolean("is_app_selector");
         if (appSelector) {
             key = args.getString("app_selector_key");
@@ -83,7 +84,7 @@ public class AppPickerFragment extends Fragment {
                     appData.packageName,
                     appData.versionName + "(" + appData.versionCode + ")",
                     appData.activityName);
-                getActivity().finish();
+                requireActivity().finish();
             } else {
                 CheckBox checkBox = view.findViewById(android.R.id.checkbox);
 //                String key = "prefs_key_system_framework_clean_share_apps";

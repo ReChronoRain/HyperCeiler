@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.systemui.statusbar
+package com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all
 
 import android.view.View
 import android.widget.FrameLayout

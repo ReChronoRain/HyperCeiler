@@ -5,10 +5,10 @@ import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.callback.IAppSelectCallback;
 import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
-import com.sevtinge.cemiuiler.ui.fragment.sub.AppPickerFragment;
+import com.sevtinge.cemiuiler.ui.fragment.sub.AppPicker;
 
 public class SubPickerActivity extends SettingsActivity {
-    AppPickerFragment mAppSelectFragment = new AppPickerFragment();
+    AppPicker mAppSelectFragment = new AppPicker();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
