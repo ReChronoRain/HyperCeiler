@@ -181,6 +181,18 @@
             android:dependency="prefs_key_se_enable"
             android:defaultValue="-1"
             app:showAlphaSlider="true" />
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_remove_macro_black_list"
+            android:title="@string/security_center_remove_macro_black_list"
+            android:defaultValue="false" />
+
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_unlock_gun_service"
+            android:title="@string/security_center_unlock_gun_service"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_other_title">
@@ -202,12 +214,6 @@
             android:key="prefs_key_security_center_disable_root_check"
             android:title="@string/security_center_disable_root_check"
             android:defaultValue="false" />
-
-        <SwitchPreference
-            android:key="prefs_key_security_center_remove_macro_black_list"
-            android:title="@string/security_center_remove_macro_black_list"
-            android:defaultValue="false"
-            app:isPreferenceVisible="true" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_remove_open_app_confirmation_popup"

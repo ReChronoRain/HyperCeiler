@@ -13,7 +13,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.IsSbnBelongToActiveBubbleApp
 import com.sevtinge.cemiuiler.module.securitycenter.LockOneHundredPoints;
 import com.sevtinge.cemiuiler.module.securitycenter.NewBoxBlur;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveConversationBubbleSettingsRestriction;
-import com.sevtinge.cemiuiler.module.securitycenter.RemoveMacroBlackList;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveOpenAppConfirmationPopup;
 import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTime;
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
@@ -33,6 +33,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyPrivacy;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.UnlockGunService;
 
 public class SecurityCenter extends BaseModule {
 
@@ -71,7 +72,6 @@ public class SecurityCenter extends BaseModule {
         initHook(new LockOneHundredPoints(), mPrefsMap.getBoolean("security_center_score"));
         initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
         initHook(new DisableRootCheck(), mPrefsMap.getBoolean("security_center_disable_root_check"));
-        initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
 
         // 小窗和气泡通知
@@ -82,11 +82,13 @@ public class SecurityCenter extends BaseModule {
         // 移除打开应用弹窗
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
-        //
+        //全局侧边栏
         if (!isAndroidR()) {
             initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
             initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         }
+        initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
+        initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
     }
 }

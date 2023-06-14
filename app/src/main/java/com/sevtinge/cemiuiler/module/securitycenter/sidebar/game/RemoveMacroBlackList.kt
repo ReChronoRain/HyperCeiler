@@ -1,8 +1,9 @@
-package com.sevtinge.cemiuiler.module.securitycenter
+package com.sevtinge.cemiuiler.module.securitycenter.sidebar.game
 
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
 import java.lang.reflect.Method
 
 class RemoveMacroBlackList : BaseHook() {

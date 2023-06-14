@@ -1057,4 +1057,5 @@
     <string name="security_center_skip_waiting_time_desc">Skip the wait for confirmation countdown for most official dangerous options</string>
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
     <string name="security_center_unlock_screen_time">Screen used time and power consumption</string>
+    <string name="security_center_unlock_gun_service">Unlock Gun service</string>
 </resources>

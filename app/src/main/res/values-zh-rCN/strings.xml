@@ -626,6 +626,7 @@
     <string name="security_center_sidebar_line_color_light">浅色背景下全局侧边栏提示线颜色</string>
     <string name="security_center_disable_ban">移除举报键</string>
     <string name="security_center_unlock_screen_time">屏幕使用时长与耗电</string>
+    <string name="security_center_unlock_gun_service">解锁准星辅助</string>
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>

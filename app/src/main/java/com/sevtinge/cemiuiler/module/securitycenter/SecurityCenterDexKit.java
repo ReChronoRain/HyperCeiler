@@ -49,6 +49,7 @@ public class SecurityCenterDexKit extends BaseHook {
                         .addQuery("LabUtils", List.of("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable"))
                         .addQuery("BeautyLight", List.of("pref_support_front_light", "pref_privacy_support_devices"))
                         .addQuery("PowerRankHelperHolder", List.of("PowerRankHelperHolder", "not support screenPowerSplit"))
+                        .addQuery("GbGameCollimator",List.of("gb_game_collimator_status"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );
