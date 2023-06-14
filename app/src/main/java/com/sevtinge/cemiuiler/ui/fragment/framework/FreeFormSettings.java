@@ -1,11 +1,13 @@
 package com.sevtinge.cemiuiler.ui.fragment.framework;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
@@ -30,7 +32,7 @@ public class FreeFormSettings extends SettingsPreferenceFragment {
         mMoreFreeForm = findPreference("prefs_key_system_framework_freeform_count");
         mSmallFreeForm = findPreference("prefs_key_system_framework_freeform_bubble_title");
 
-        mMoreFreeForm.setVisible(SdkHelper.PROP_MIUI_VERSION_CODE >= 13);
-        mSmallFreeForm.setVisible(!SdkHelper.isAndroidR());
+        mMoreFreeForm.setVisible(isMoreMiuiVersion(13f));
+        mSmallFreeForm.setVisible(!isAndroidR());
     }
 }

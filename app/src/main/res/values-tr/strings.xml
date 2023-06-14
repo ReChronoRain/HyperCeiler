@@ -537,7 +537,7 @@
     <string name="tsmclient_auto_nfc">Nfc\'yi otomatik olarak yönet</string>
     <string name="tsmclient_auto_nfc_desc">Kart kaydırma sayfasına girerken NFC otomatik olarak açılır ve çıkarken otomatik olarak kapanır</string>
     <string name="restart_app_desc1">"Şimdi yeniden başlatmak istediğinizden emin misiniz"</string>
-    <string name="restart_app_desc2">" ?"</string>
+    <string name="restart_app_desc2">"?"</string>
     <string name="tip">Tip</string>
     <string name="hook_failed">Modül aktif değil</string>
     <string name="settings_icon_desc">Sistem ayarlarında modül girişinin konumunu ayarlayın</string>
@@ -818,4 +818,5 @@
     <string name="home_widget_resizable">Widget boyut sınırlamalarını kaldırın</string>
     <string name="bottom_margin">Alt kenar boşluğu</string>
     <string name="top_margin">Üst kenar boşluğu</string>
+    <string name="preference_default_value_text">Varsayılan</string>
 </resources>

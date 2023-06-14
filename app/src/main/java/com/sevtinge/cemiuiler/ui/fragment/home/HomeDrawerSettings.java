@@ -1,11 +1,12 @@
 package com.sevtinge.cemiuiler.ui.fragment.home;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.SwitchPreference;
 
@@ -29,7 +30,7 @@ public class HomeDrawerSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mAllAppsContainerViewBlur = findPreference("prefs_key_home_drawer_blur");
-        mAllAppsContainerViewBlur.setVisible(!SdkHelper.isAndroidR());
+        mAllAppsContainerViewBlur.setVisible(!isAndroidR());
 
         mAllAppsContainerViewBlur.setOnPreferenceChangeListener((preference, o) -> true);
     }

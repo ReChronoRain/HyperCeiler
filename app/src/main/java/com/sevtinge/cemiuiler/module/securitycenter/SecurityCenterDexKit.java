@@ -47,6 +47,7 @@ public class SecurityCenterDexKit extends BaseHook {
                         .addQuery("Macro", List.of("pref_gb_unsupport_macro_apps", "gb_game_gunsight", "com.tencent.tmgp.sgame"))
                         .addQuery("Macro1", List.of("key_macro_toast", "content://com.xiaomi.macro.MacroStatusProvider/game_macro_change"))
                         .addQuery("LabUtils", List.of("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable"))
+                        .addQuery("BeautyLight", List.of("pref_support_front_light", "pref_privacy_support_devices"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

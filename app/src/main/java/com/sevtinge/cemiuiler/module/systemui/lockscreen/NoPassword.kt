@@ -5,7 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
-object NoPasswordHook : BaseHook() {
+object NoPassword : BaseHook() {
     override fun init() {
         loadClass("com.android.internal.widget.LockPatternUtils\$StrongAuthTracker").methodFinder().first {
             name == "isBiometricAllowedForUser"

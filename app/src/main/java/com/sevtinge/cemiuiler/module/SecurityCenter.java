@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.securitycenter.AppLockPinScramble;
 import com.sevtinge.cemiuiler.module.securitycenter.BlurSecurity;
@@ -30,7 +32,6 @@ import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyPrivacy;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 public class SecurityCenter extends BaseModule {
 
@@ -58,10 +59,10 @@ public class SecurityCenter extends BaseModule {
         initHook(new GetNumberEnable(), mPrefsMap.getBoolean("security_center_get_number"));
 
         // 前置摄像助手
-        initHook(new BeautyLight(), mPrefsMap.getBoolean("security_center_beauty_light"));
+        initHook(BeautyLight.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_light"));
         initHook(new BeautyLightAuto(), mPrefsMap.getBoolean("security_center_beauty_light_auto"));
         initHook(new BeautyFace(), mPrefsMap.getBoolean("security_center_beauty_face"));
-        initHook(new BeautyPrivacy(), mPrefsMap.getBoolean("security_center_beauty_privacy"));
+        initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));
         initHook(new BeautyPc(), mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         // 其他
@@ -80,7 +81,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
         //
-        if (!SdkHelper.isAndroidR()) {
+        if (!isAndroidR()) {
             initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
             initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));

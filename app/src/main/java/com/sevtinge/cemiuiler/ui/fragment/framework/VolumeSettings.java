@@ -1,8 +1,10 @@
 package com.sevtinge.cemiuiler.ui.fragment.framework;
 
 import android.provider.Settings;
+import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.DropDownPreference;
@@ -13,6 +15,14 @@ public class VolumeSettings extends SettingsPreferenceFragment {
     @Override
     public int getContentResId() {
         return R.xml.framework_volume;
+    }
+
+    @Override
+    public View.OnClickListener addRestartListener() {
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+            getResources().getString(R.string.system_ui),
+            "com.android.systemui"
+        );
     }
 
     @Override

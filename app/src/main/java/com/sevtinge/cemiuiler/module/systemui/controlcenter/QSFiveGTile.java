@@ -1,10 +1,14 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
@@ -13,7 +17,6 @@ import android.widget.Switch;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import de.robv.android.xposed.XposedHelpers;
 import miui.telephony.TelephonyManager;
@@ -29,6 +32,7 @@ public class QSFiveGTile extends BaseHook {
     String mNfcTileClsName;
 
     @Override
+    @SuppressLint("DiscouragedApi")
     public void init() {
 
         final boolean[] isListened = {false};
@@ -36,10 +40,10 @@ public class QSFiveGTile extends BaseHook {
         int mFiveGIconResId = mResHook.addResource("ic_control_center_5g_toggle_on", R.drawable.ic_control_center_5g_toggle_on);
         int mFiveGIconOffResId = mResHook.addResource("ic_control_center_5g_toggle_off", R.drawable.ic_control_center_5g_toggle_off);
 
-        mQSFactoryClsName = SdkHelper.ATLEAST_T ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
+        mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
             "com.android.systemui.qs.tileimpl.QSFactoryImpl";
 
-        mNfcTileClsName = SdkHelper.ATLEAST_T ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
+        mNfcTileClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
             "com.android.systemui.qs.tiles.NfcTile";
 
         mQSFactory = findClassIfExists(mQSFactoryClsName);
@@ -66,7 +70,7 @@ public class QSFiveGTile extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
                 String tileName = (String) param.args[0];
                 if (tileName.startsWith("custom_")) {
-                    String nfcField = SdkHelper.ATLEAST_T ? "nfcTileProvider" : "mNfcTileProvider";
+                    String nfcField = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nfcTileProvider" : "mNfcTileProvider";
                     Object provider = XposedHelpers.getObjectField(param.thisObject, nfcField);
                     Object tile = XposedHelpers.callMethod(provider, "get");
                     XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);

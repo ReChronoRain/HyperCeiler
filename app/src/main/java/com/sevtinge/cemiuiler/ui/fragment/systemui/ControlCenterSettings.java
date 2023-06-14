@@ -1,5 +1,8 @@
 package com.sevtinge.cemiuiler.ui.fragment.systemui;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidSv2;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidS;
+
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
@@ -8,7 +11,6 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.SwitchPreference;
 
@@ -32,7 +34,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
-        mFixMediaPanel.setVisible(SdkHelper.isAndroidS() || SdkHelper.isAndroidSv2());
+        mFixMediaPanel.setVisible(isAndroidS() || isAndroidSv2());
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

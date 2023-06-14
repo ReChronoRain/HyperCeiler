@@ -1,12 +1,13 @@
 package com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
@@ -41,8 +42,8 @@ public class IconManageSettings extends SettingsPreferenceFragment {
 
         UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
         IconNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
-        UseNewHD.setVisible(SdkHelper.isAndroidTiramisu());
-        IconNewHD.setVisible(SdkHelper.isAndroidTiramisu());
+        UseNewHD.setVisible(isAndroidT());
+        IconNewHD.setVisible(isAndroidT());
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

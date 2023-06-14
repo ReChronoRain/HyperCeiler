@@ -621,7 +621,7 @@
     <string name="share_app">Общий доступ к сторонним приложениям</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="shot">Фото</string>
-    <string name="soft_reboot">Перезагрузка</string>
+    <string name="soft_reboot">Перезагрузка </string>
     <string name="show_newmods_title">Отметить новый модуль</string>
     <string name="status_bar_icon_mode_default">По умолчанию</string>
     <string name="status_bar_icon_mode_off">Всегда скрывать</string>
@@ -1027,4 +1027,5 @@
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
     <string name="bottom_margin">Нижняя граница</string>
     <string name="top_margin">Верхняя граница</string>
+    <string name="preference_default_value_text">Стандарт</string>
 </resources>

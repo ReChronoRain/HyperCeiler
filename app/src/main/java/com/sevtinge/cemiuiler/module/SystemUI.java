@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.BluetoothRestrict;
 import com.sevtinge.cemiuiler.module.systemui.ChargeAnimationStyle;
@@ -33,7 +35,7 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.ChargingCVP;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ClockDisplaySeconds;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ForceClockUseSystemFontsHook;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.LockScreenDoubleTapToSleep;
-import com.sevtinge.cemiuiler.module.systemui.lockscreen.NoPasswordHook;
+import com.sevtinge.cemiuiler.module.systemui.lockscreen.NoPassword;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.RemoveCamera;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.RemoveSmartScreen;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ScramblePIN;
@@ -68,7 +70,6 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSpac
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.StatusBarNoNetSpeedSep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.s.NetworkSpeedWidth;
-import com.sevtinge.cemiuiler.utils.devicesdk.SdkHelper;
 
 import java.util.Objects;
 
@@ -120,9 +121,9 @@ public class SystemUI extends BaseModule {
         // 网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
             initHook(NetworkSpeed.INSTANCE);
-            initHook(NetworkSpeedStyle.INSTANCE);
             initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         }
+        initHook(NetworkSpeedStyle.INSTANCE);
         initHook(NetworkSpeedSpacing.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
         initHook(NetworkSpeedSec.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
@@ -205,11 +206,11 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_ui_show_charging_v_more"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
-        initHook(NoPasswordHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
+        initHook(NoPassword.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
         initHook(ForceClockUseSystemFontsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_force_system_fonts"));
 
-        if (!SdkHelper.isAndroidR()) {
+        if (!isAndroidR()) {
             initHook(AddBlurEffectToLockScreen.INSTANCE);
             initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
             initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
