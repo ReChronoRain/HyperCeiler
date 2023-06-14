@@ -67,6 +67,16 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Weverses" />
         </Preference>
+        <Preference android:title="柚稚的孩纸">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/zjw2017" />
+        </Preference>
+        <Preference android:title="相见即是缘">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Meetingfate" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 
