@@ -55,6 +55,12 @@
             android:summary="@string/system_ui_notification_freeform_desc"
             android:title="@string/system_ui_notification_freeform" />
 
+        <SwitchPreference
+            android:title="@string/system_ui_plugin_enable_volume_blur"
+            android:summary="@string/system_ui_plugin_enable_volume_blur_desc"
+            android:key="prefs_key_system_ui_plugin_enable_volume_blur"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:isPreferenceVisible="false">
