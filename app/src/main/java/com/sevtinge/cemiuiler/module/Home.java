@@ -5,6 +5,7 @@ import com.sevtinge.cemiuiler.module.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.home.AnimDurationRatio;
 import com.sevtinge.cemiuiler.module.home.DoubleTap;
 import com.sevtinge.cemiuiler.module.home.FreeFormCountForHome;
+import com.sevtinge.cemiuiler.module.home.HomeDexkit;
 import com.sevtinge.cemiuiler.module.home.HomePortraitReverse;
 import com.sevtinge.cemiuiler.module.home.HotSeatSwipe;
 import com.sevtinge.cemiuiler.module.home.MaxFreeForm;
@@ -90,6 +91,8 @@ public class Home extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        // Dexkit
+        initHook(new HomeDexkit());
 
         // 手势
         initHook(new DoubleTap(), mPrefsMap.getInt("home_gesture_double_tap_action", 0) > 0);
@@ -190,7 +193,7 @@ public class Home extends BaseModule {
         initHook(BlurRadius.INSTANCE, mPrefsMap.getInt("home_other_blur_radius", 100) != 100);
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_other_disable_hide_google"));
-        initHook(new ShowAllHideApp());
+        initHook(ShowAllHideApp.INSTANCE); // 桌面快捷方式管理
         initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
 
         // 实验性功能

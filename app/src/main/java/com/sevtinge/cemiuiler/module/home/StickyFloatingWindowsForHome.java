@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.home;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +16,9 @@ public class StickyFloatingWindowsForHome extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "onAttachedToWindow", new MethodHook() {
+            @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
                 mContext.registerReceiver(new BroadcastReceiver() {
                     @Override
