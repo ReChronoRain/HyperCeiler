@@ -677,8 +677,10 @@
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_monet_title">Monet</string>
     <string name="home_drawer">Drawer</string>
-    <string name="home_drawer_all">Hide \"All\" in App Drawer</string>
-    <string name="home_drawer_editor">Hide \"Edit\" Button in App Drawer\'s Paging</string>
+    <string name="home_drawer_all">Remove \"All\" tab</string>
+    <string name="home_drawer_all_desc">Removed the \"All\" tab for grouping apps in the drawer</string>
+    <string name="home_drawer_editor">Hide \"Edit\" Button</string>
+    <string name="home_drawer_editor_desc">Removed the \"Edit\" button from the Apps tab in the drawer</string>
     <string name="home_drawer_blur">Enable All Apps Container View Blur</string>
     <string name="home_drawer_blur_desc">Please set app drawer background transparency to 100% to use this feature</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
@@ -1051,4 +1053,7 @@
     <string name="more">More</string>
     <string name="clearable_edittext_clear_description">Clear up</string>
     <string name="security_center_pad">Tablet security center</string>
+    <string name="home_title_title_marquee_desc">App names that are too long will be scrolled instead of wrapping</string>
+    <string name="security_center_skip_waiting_time_desc">Skip the wait for confirmation countdown for most official dangerous options</string>
+    <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
 </resources>

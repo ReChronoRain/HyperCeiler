@@ -13,31 +13,37 @@ import miui.drm.DrmManager
 
 class DisableThemeAdNew : BaseHook() {
     override fun init() {
-
         try {
-            (DrmManager::class.java).methodFinder().filter {
+            DrmManager::class.java.methodFinder().filter {
                 name == "isSupportAd"
             }.toList().createHooks {
-                returnConstant(false)
+                before {
+                    it.result = false
+                }
             }
         } catch (t: Throwable) {
             Log.ex(t)
         }
         try {
-            (DrmManager::class.java).methodFinder().filter {
+            DrmManager::class.java.methodFinder().filter {
                 name == "setSupportAd"
             }.toList().createHooks {
-                returnConstant(false)
+                before {
+                    it.result = false
+                }
             }
         } catch (t: Throwable) {
             Log.ex(t)
         }
         try {
-            loadClass("com.android.thememanager.basemodule.ad.model.AdInfoResponse").methodFinder().first {
-                name == "isAdValid" && parameterCount == 1
-            }.createHook {
-                returnConstant(false)
-            }
+            loadClass("com.android.thememanager.basemodule.ad.model.AdInfoResponse").methodFinder()
+                .first {
+                    name == "isAdValid" && parameterCount == 1
+                }.createHook {
+                    before {
+                        it.result = false
+                    }
+                }
         } catch (t: Throwable) {
             Log.ex(t)
         }
@@ -48,9 +54,7 @@ class DisableThemeAdNew : BaseHook() {
 
     private fun hook(clazz: Class<*>) {
         try {
-            (clazz).constructorFinder().first {
-                parameterTypes.size == 2
-            }.createHook {
+            clazz.constructorFinder().filterByParamCount(2).first().createHook {
                 after {
                     if (it.args[0] != null) {
                         val view = it.args[0] as View
@@ -64,5 +68,4 @@ class DisableThemeAdNew : BaseHook() {
             Log.ex(t)
         }
     }
-
 }

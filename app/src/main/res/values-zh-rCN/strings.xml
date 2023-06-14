@@ -290,8 +290,10 @@
     <string name="home_dock">底栏</string>
     <string name="home_other">其他</string>
 
-    <string name="home_drawer_all">移除应用分组中的“全部”</string>
-    <string name="home_drawer_editor">移除应用分页内的“编辑”按钮</string>
+    <string name="home_drawer_all">移除 “全部” 分页</string>
+    <string name="home_drawer_all_desc">移除抽屉栏内应用分组的 “全部” 分页</string>
+    <string name="home_drawer_editor">移除 “编辑” 按钮</string>
+    <string name="home_drawer_editor_desc">移除抽屉栏内应用分页的 “编辑” 按钮</string>
     <string name="home_drawer_blur">抽屉模糊</string>
     <string name="home_drawer_blur_desc">请将应用程序抽屉的背景透明度设置为 100% 以使用此功能</string>
 
@@ -448,6 +450,7 @@
     <string name="home_title_bigicon_title">大图标</string>
     <string name="home_title_title_title">标题</string>
     <string name="home_title_title_marquee">文字滚动</string>
+    <string name="home_title_title_marquee_desc">过长的应用名称将以滚动进行显示，不再使用换行</string>
     <string name="home_title_font_size">文本大小</string>
     <string name="home_title_title_color">文本颜色</string>
     <string name="home_title_animation_speed">动画速度</string>
@@ -604,6 +607,7 @@
     <string name="security_score">禁用体检优化</string>
     <string name="security_score_summary">锁定 100 分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
+    <string name="security_center_skip_waiting_time_desc">跳过大部分官方危险选项的等待确认倒计时时间</string>
     <string name="security_center_newbox_blur">全局侧边栏模糊</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">移除气泡通知应用限制</string>
     <string name="security_center_remove_open_app_confirmation_popup">移除打开应用弹窗</string>
@@ -976,6 +980,7 @@
 
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
+    <string name="theme_manager_diable_ads_desc">将 “猜你喜欢” 的广告替换为空白卡片，其余位置的广告将完全移除</string>
     <string name="theme_manager_crack">主题破解</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>

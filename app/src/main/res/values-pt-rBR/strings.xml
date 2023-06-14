@@ -250,10 +250,8 @@
     <string name="home_dock_margin_bottom">Indicador da margem da página na parte inferior do ecrã</string>
     <string name="home_dock_unlock_hotseat">Remover a restrição do número do ícone do dock</string>
     <string name="home_drawer">Gaveta</string>
-    <string name="home_drawer_all">Ocultar \"todos\" na gaveta de aplicativos</string>
     <string name="home_drawer_blur">Ativar Todos Os Aplicativos Container View Blur</string>
     <string name="home_drawer_blur_desc">Defina a transparência do plano de fundo da gaveta do aplicativo para 100%para usar esse recurso</string>
-    <string name="home_drawer_editor">Ocultar o botão \"Editar\" na paginação do app Drawer</string>
     <string name="home_enable_blur">Iniciar desfoque</string>
     <string name="home_folder">Pasta</string>
     <string name="home_folder_anim_1">Velocidade de abertura 1</string>

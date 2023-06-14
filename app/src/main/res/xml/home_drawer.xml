@@ -5,11 +5,13 @@
 
         <SwitchPreference
             android:title="@string/home_drawer_all"
+            android:summary="@string/home_drawer_all_desc"
             android:key="prefs_key_home_drawer_all"
             android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/home_drawer_editor"
+            android:summary="@string/home_drawer_editor_desc"
             android:key="prefs_key_home_drawer_editor"
             android:defaultValue="false" />
 

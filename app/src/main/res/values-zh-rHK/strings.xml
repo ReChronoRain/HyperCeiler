@@ -177,6 +177,7 @@
     <string name="custom_background_color_alpha">背景顏色透明度</string>
     <string name="custom_background_corner_radius">背景圓角</string>
     <string name="custom_blur_enabled">背景模糊</string>
+    <string name="new_task">多開</string>
     <string name="custom_hook">自訂</string>
     <string name="custom_hook_mode">選擇模式</string>
     <string name="custom_hook_new">增加 Hook</string>
@@ -250,10 +251,12 @@
     <string name="home_dock_margin_bottom">頁面指示器距螢幕底部邊距</string>
     <string name="home_dock_unlock_hotseat">解鎖底欄圖示數量限制</string>
     <string name="home_drawer">抽屜</string>
-    <string name="home_drawer_all">隱藏應用程式分組中的「全部」</string>
+    <string name="home_drawer_all">移除「全部」分組</string>
+    <string name="home_drawer_editor_desc">移除抽屜欄內應用程式分頁的「編輯」按鈕</string>
     <string name="home_drawer_blur">抽屜模糊</string>
     <string name="home_drawer_blur_desc">請將應用程式抽屜的背景透明度設定為 100% 以使用此功能</string>
-    <string name="home_drawer_editor">隱藏分類頁面內的「編輯」按鈕</string>
+    <string name="home_drawer_all_desc">移除抽屜欄內應用程式分組的「全部」分頁</string>
+    <string name="home_drawer_editor">移除「編輯」按鈕</string>
     <string name="home_enable_blur">啟用模糊</string>
     <string name="home_folder">資料夾</string>
     <string name="home_folder_anim_title">回彈動畫</string>
@@ -321,6 +324,7 @@
     <string name="home_other_freeform_shortcut_menu">小窗模式</string>
     <string name="home_other_freeform_shortcut_menu_desc">在快捷選單中增加小窗應用程式</string>
     <string name="home_other_high_models">強制識別為高端機型</string>
+    <string name="home_other_shortcut_title">快捷選單</string>
     <string name="home_other_home_mode">桌面模式</string>
     <string name="home_other_icon_monet_color">使用 Monet 取色</string>
     <string name="home_other_icon_mono_chrome">圖示背景色</string>
@@ -335,6 +339,8 @@
     <string name="home_other_show_clock">顯示時間</string>
     <string name="home_other_show_clock_desc">時鐘小工具所在頁面始終顯示時間</string>
     <string name="home_other_use_edit_color">使用自訂顏色</string>
+    <string name="home_other_tasks_shortcut_menu">多開模式</string>
+    <string name="home_other_tasks_shortcut_menu_desc">在快捷選單中新增多開選單</string>
     <string name="home_other_user_present_animation">最佳化解鎖動畫</string>
     <string name="home_other_your_color">編輯顏色</string>
     <string name="home_recent">最近任務</string>
@@ -1049,4 +1055,7 @@
     <string name="more">更多</string>
     <string name="clearable_edittext_clear_description">清空</string>
     <string name="security_center_pad">平板管家</string>
+    <string name="home_title_title_marquee_desc">過長的應用程式名稱將以滾動進行顯示，不再使用換行</string>
+    <string name="security_center_skip_waiting_time_desc">跳過大部分官方危險選項的等待確認倒數時間</string>
+    <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
 </resources>

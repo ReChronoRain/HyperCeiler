@@ -42,13 +42,11 @@ import com.sevtinge.cemiuiler.module.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.cemiuiler.module.systemui.navigation.HandleLineCustom;
 import com.sevtinge.cemiuiler.module.systemui.navigation.NavigationCustom;
 import com.sevtinge.cemiuiler.module.systemui.plugin.PluginHelper;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.BatterySize;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.BigMobileNetworkType;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DualRowSignalHook;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.HideBatteryIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileNetwork;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileTypeSingleHook;
@@ -63,6 +61,7 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiNetworkIndicator;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiStandard;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideBatteryIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeed;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSec;
@@ -115,7 +114,7 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
             mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
         initHook(HideBatteryIcon.INSTANCE, isHideBatteryIcon);
-        initHook(BatterySize.INSTANCE);
+        // initHook(BatterySize.INSTANCE);
         // initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         // 网速指示器
@@ -162,8 +161,8 @@ public class SystemUI extends BaseModule {
         // 状态栏布局
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
             mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
-        // initHook(new StatusBarHeighten());
-        // initHook(new StatusBarIconSize());
+        // initHook(StatusBarHeighten.INSTANCE);
+        // initHook(StatusBarIconSize.INSTANCE);
 
         // 实验性功能
         initHook(new SwitchControlPanel(), false);

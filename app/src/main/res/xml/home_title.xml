@@ -93,6 +93,7 @@
 
         <SwitchPreference
             android:title="@string/home_title_title_marquee"
+            android:summary="@string/home_title_title_marquee_desc"
             android:key="prefs_key_home_title_title_marquee"
             android:defaultValue="false" />
 

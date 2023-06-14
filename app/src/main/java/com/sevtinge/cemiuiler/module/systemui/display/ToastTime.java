@@ -14,7 +14,8 @@ import de.robv.android.xposed.XposedHelpers;
 public class ToastTime extends BaseHook {
     @Override
     public void init() {
-        Helpers.findAndHookMethod("com.android.server.notification.NotificationManagerService", lpparam.classLoader, "showNextToastLocked", new MethodHook() {
+        Helpers.findAndHookMethod("com.android.server.notification.NotificationManagerService", lpparam.classLoader, "showNextToastLocked",
+            new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
             protected void after(MethodHookParam param) {
@@ -22,7 +23,7 @@ public class ToastTime extends BaseHook {
                 Handler mHandler = (Handler)XposedHelpers.getObjectField(param.thisObject, "mHandler");
                 ArrayList<Object> mToastQueue = (ArrayList<Object>)XposedHelpers.getObjectField(param.thisObject, "mToastQueue");
                 if (mContext == null || mHandler == null || mToastQueue == null || mToastQueue.size() == 0) return;
-                int mod = (Helpers.getSharedIntPref(mContext, "pref_key_system_toasttime", 0) - 4) * 1000;
+                int mod = (Helpers.getSharedIntPref(mContext, "system_ui_display_toast_times", 0) - 4) * 1000;
                 for (Object record: mToastQueue)
                     if (record != null && mHandler.hasMessages(2, record)) {
                         mHandler.removeCallbacksAndMessages(record);
@@ -33,13 +34,14 @@ public class ToastTime extends BaseHook {
             }
         });
 
-        Helpers.findAndHookMethod("com.android.server.policy.PhoneWindowManager", lpparam.classLoader, "systemReady", new MethodHook() {
+        Helpers.findAndHookMethod("com.android.server.policy.PhoneWindowManager", lpparam.classLoader, "systemReady",
+            new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = (Handler)XposedHelpers.getObjectField(param.thisObject, "mHandler");
 
-                new Helpers.SharedPrefObserver(mContext, mHandler, "pref_key_system_toasttime", 0) {
+                new Helpers.SharedPrefObserver(mContext, mHandler, "system_ui_display_toast_times", 0) {
                     @Override
                     public void onChange(String name, int defValue) {
                         mPrefsMap.put(name, Helpers.getSharedIntPref(mContext, name, defValue));

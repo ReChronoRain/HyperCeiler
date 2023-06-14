@@ -273,10 +273,8 @@
     <string name="home_dock_margin_bottom">Lề của chỉ báo trang từ cuối màn hình</string>
     <string name="home_dock_unlock_hotseat">Mở khóa giới hạn số biểu tượng thanh dock</string>
     <string name="home_drawer">Ngăn ứng dụng</string>
-    <string name="home_drawer_all">Ẩn \"Tất cả\" trong ngăn ứng dụng</string>
     <string name="home_drawer_blur">Bật chế độ làm mờ Ngăn chứa ứng dụng</string>
     <string name="home_drawer_blur_desc">Vui lòng đặt độ trong suốt của nền ngăn kéo ứng dụng thành 100% để sử dụng tính năng này</string>
-    <string name="home_drawer_editor">Xóa nút \"Chỉnh sửa\" trong tab ứng dụng</string>
     <string name="home_enable_blur">Kích hoạt làm mờ</string>
     <string name="home_folder">Thư mục</string>
     <string name="home_folder_anim_title">Phục hồi hoạt ảnh</string>
