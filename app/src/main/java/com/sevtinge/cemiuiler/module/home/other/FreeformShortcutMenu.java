@@ -133,8 +133,8 @@ public class FreeformShortcutMenu extends BaseHook {
                     }
 
                     ArrayList sAllSystemShortcutMenuItems = new ArrayList();
-                    sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
-                    sAllSystemShortcutMenuItems.add(mNewTasksInstance);
+                    if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
+                    if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) sAllSystemShortcutMenuItems.add(mNewTasksInstance);
                     sAllSystemShortcutMenuItems.addAll(mAllSystemShortcutMenuItems);
                     XposedHelpers.setStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems", sAllSystemShortcutMenuItems);
                 }
