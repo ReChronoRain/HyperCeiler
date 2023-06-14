@@ -55,9 +55,9 @@ public class BaseSettingsActivity extends AppCompatActivity {
             targetFragment.setArguments(mProxy.getArguments(intent));
             setFragment(targetFragment);
         }
-        if (!(this instanceof MainActivity)) {
+        /*if (!(this instanceof MainActivity)) {
             findViewById(R.id.search_view).setVisibility(View.GONE);
-        }
+        }*/
         showXposedActiveDialog();
     }
 

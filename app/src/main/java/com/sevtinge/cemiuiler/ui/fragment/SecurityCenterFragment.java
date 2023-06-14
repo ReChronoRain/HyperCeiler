@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+
 import android.Manifest;
 import android.provider.Settings;
 import android.view.View;
@@ -15,7 +17,7 @@ import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
 public class SecurityCenterFragment extends SettingsPreferenceFragment {
-
+    String mSecurity;
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
     Preference mNewboxBackgroundCustom;
@@ -27,8 +29,13 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
+        if (!isPad()) {
+            mSecurity = getResources().getString(R.string.security_center);
+        } else {
+            mSecurity = getResources().getString(R.string.security_center_pad);
+        }
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.security_center),
+            mSecurity,
             "com.miui.securitycenter"
         );
     }
