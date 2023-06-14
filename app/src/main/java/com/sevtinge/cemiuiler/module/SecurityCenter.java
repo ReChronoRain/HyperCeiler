@@ -15,6 +15,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.NewBoxBlur;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveOpenAppConfirmationPopup;
+import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTime;
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.module.securitycenter.ShowBatteryTemperatureNew;
 import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom;
@@ -51,6 +52,7 @@ public class SecurityCenter extends BaseModule {
         // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(new UnlockSuperWirelessCharge(), mPrefsMap.getBoolean("security_center_super_wireless_charge"));
+        initHook(new ScreenUsedTime(), mPrefsMap.getBoolean("security_center_unlock_screen_time"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
