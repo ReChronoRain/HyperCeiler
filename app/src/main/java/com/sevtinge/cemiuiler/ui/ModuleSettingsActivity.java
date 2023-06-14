@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.cemiuiler.R;
@@ -28,14 +27,14 @@ public class ModuleSettingsActivity extends SettingsActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (grantResults.length == 0) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             return;
         }
 
         switch (requestCode) {
-            case Helpers.REQUEST_PERMISSIONS_BACKUP -> {
+            case Helpers.REQUEST_PERMISSIONS_BACKUP:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mModuleSettingsFragment.backupSettings(this);
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -43,8 +42,8 @@ public class ModuleSettingsActivity extends SettingsActivity {
                 } else {
                     Toast.makeText(this, R.string.backup_permission, Toast.LENGTH_LONG).show();
                 }
-            }
-            case Helpers.REQUEST_PERMISSIONS_RESTORE -> {
+                break;
+            case Helpers.REQUEST_PERMISSIONS_RESTORE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mModuleSettingsFragment.restoreSettings(this);
                 } else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -52,8 +51,9 @@ public class ModuleSettingsActivity extends SettingsActivity {
                 } else {
                     Toast.makeText(this, R.string.rest_permission, Toast.LENGTH_LONG).show();
                 }
-            }
-            default -> super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -64,15 +64,16 @@ public class ModuleSettingsActivity extends SettingsActivity {
         try {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             switch (requestCode) {
-                case BackupUtils.CREATE_DOCUMENT_CODE -> {
+                case BackupUtils.CREATE_DOCUMENT_CODE:
                     BackupUtils.handleCreateDocument(this, data.getData());
                     alert.setTitle(R.string.backup_success);
-                }
-                case BackupUtils.OPEN_DOCUMENT_CODE -> {
+                    break;
+                case BackupUtils.OPEN_DOCUMENT_CODE:
                     BackupUtils.handleReadDocument(this, data.getData());
                     alert.setTitle(R.string.rest_success);
-                }
-                default -> { return; }
+                    break;
+                default:
+                    return;
             }
             alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
             });
@@ -80,8 +81,12 @@ public class ModuleSettingsActivity extends SettingsActivity {
         } catch (Exception e) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             switch (requestCode) {
-                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(R.string.backup_failed);
-                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(R.string.rest_failed);
+                case BackupUtils.CREATE_DOCUMENT_CODE:
+                    alert.setTitle(R.string.backup_failed);
+                    break;
+                case BackupUtils.OPEN_DOCUMENT_CODE:
+                    alert.setTitle(R.string.rest_failed);
+                    break;
             }
             alert.setMessage(e.toString());
             alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {

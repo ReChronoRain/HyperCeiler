@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
-import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
-
 import android.Manifest;
 import android.provider.Settings;
 import android.view.View;
@@ -18,7 +16,6 @@ import moralnorm.preference.SwitchPreference;
 
 public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
-    String mSecurity;
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
     Preference mNewboxBackgroundCustom;
@@ -30,20 +27,15 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        if (!isPad()) {
-            mSecurity = getResources().getString(R.string.security_center);
-        } else {
-            mSecurity = getResources().getString(R.string.security_center_pad);
-        }
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            mSecurity,
+            getResources().getString(R.string.security_center),
             "com.miui.securitycenter"
         );
     }
 
     @Override
     public void initPrefs() {
-        int permission = ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_SECURE_SETTINGS);
+        int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_SECURE_SETTINGS);
 
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
@@ -56,35 +48,35 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             mBlurLocation.setEnabled(false);
             mAiClipboard.setEnabled(false);
         } else {
-            boolean mBlurLocationEnable = Settings.Secure.getInt(requireContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
-            boolean mAiClipboardEnable = Settings.Secure.getInt(requireContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
+            boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
+            boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
 
             mBlurLocation.setChecked(mBlurLocationEnable);
             mAiClipboard.setChecked(mAiClipboardEnable);
         }
 
-        boolean mBlurLocationEnable = Settings.Secure.getInt(requireContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
-        boolean mAiClipboardEnable = Settings.Secure.getInt(requireContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
+        boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
+        boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;
 
         mBlurLocation.setChecked(mBlurLocationEnable);
         mAiClipboard.setChecked(mAiClipboardEnable);
 
         mBlurLocation.setOnPreferenceChangeListener((preference, o) -> {
-            Settings.Secure.putInt(requireContext().getContentResolver(), "mi_lab_blur_location_enable", (Boolean) o ? 1 : 0);
+            Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", (Boolean) o ? 1 : 0);
             return true;
         });
 
         mAiClipboard.setOnPreferenceChangeListener((preference, o) -> {
-            Settings.Secure.putInt(requireContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean) o ? 1 : 0);
+            Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean) o ? 1 : 0);
             return true;
         });
     }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        // if (preference == mNewboxBackgroundCustom) {
-        //     openMultiAction(preference, null, PickerHomeActivity.Actions.Blur);
-        // }
+        if (preference == mNewboxBackgroundCustom) {
+            /*openMultiAction(preference, null, PickerHomeActivity.Actions.Blur);*/
+        }
         return super.onPreferenceTreeClick(preference);
     }
 }
