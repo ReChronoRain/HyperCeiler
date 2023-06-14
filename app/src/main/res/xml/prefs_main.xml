@@ -292,13 +292,6 @@
             android:title="@string/scanner" />
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemUIPluginFragment"
-            android:icon="@drawable/ic_system_ui_plugin"
-            android:key="prefs_key_system_ui_plugin"
-            android:summary="miui.systemui.plugin"
-            android:title="@string/system_ui_plugin" />
-
-        <Preference
             android:enabled="false"
             android:icon="@drawable/ic_custom"
             android:key="prefs_key_custom_hook"
