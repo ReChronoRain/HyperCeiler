@@ -202,6 +202,11 @@
             android:title="@string/security_center_unlock_memc"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:key="prefs_key_security_center_unlock_s_resulotion"
+            android:title="@string/security_center_unlock_s_resulotion"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_other_title">

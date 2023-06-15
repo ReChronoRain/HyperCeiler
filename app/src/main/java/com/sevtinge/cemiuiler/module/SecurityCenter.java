@@ -36,6 +36,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.UnlockMemc;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.UnlockSuperResolution;
 
 public class SecurityCenter extends BaseModule {
 
@@ -94,5 +95,6 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(new DisableRemoveScreenHoldOn(), mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
         initHook(UnlockMemc.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_memc"));
+        initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resulotion"));
     }
 }
