@@ -22,6 +22,9 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     SwitchPreference mBlurLocation;
     Preference mNewboxBackgroundCustom;
 
+    SwitchPreference mBeautyLight;
+    SwitchPreference mBeautyLightAuto;
+
     @Override
     public int getContentResId() {
         return R.xml.security_center;
@@ -29,11 +32,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        if (!isPad()) {
-            mSecurity = getResources().getString(R.string.security_center);
-        } else {
-            mSecurity = getResources().getString(R.string.security_center_pad);
-        }
+        mSecurity = getResources().getString(!isPad() ? R.string.security_center_pad : R.string.security_center);
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
             mSecurity,
             "com.miui.securitycenter"
@@ -48,6 +47,8 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
 
         mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
+        mBeautyLight = findPreference("prefs_key_security_center_beauty_light");
+        mBeautyLightAuto = findPreference("prefs_key_security_center_beauty_light_auto");
 
         if (permission != PermissionChecker.PERMISSION_GRANTED) {
             mBlurLocation.setSummary(R.string.security_center_no_permission);
@@ -75,6 +76,13 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
         mAiClipboard.setOnPreferenceChangeListener((preference, o) -> {
             Settings.Secure.putInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", (Boolean) o ? 1 : 0);
+            return true;
+        });
+
+        mBeautyLight.setOnPreferenceChangeListener((preference, o) -> {
+            if (!(boolean) o) {
+                mBeautyLightAuto.setChecked(false);
+            }
             return true;
         });
     }
