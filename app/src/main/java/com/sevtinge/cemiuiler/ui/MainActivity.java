@@ -35,7 +35,7 @@ import moralnorm.appcompat.internal.view.SearchActionMode;
 import moralnorm.recyclerview.widget.LinearLayoutManager;
 import moralnorm.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends SettingsActivity implements SearchActionMode.Callback {
+public class MainActivity extends SettingsActivity {
 
     View mFrameContent;
     View mSearchView;
@@ -71,7 +71,7 @@ public class MainActivity extends SettingsActivity implements SearchActionMode.C
         mSearchInputView.setHint("搜索模块");
         mSearchResultView.setLayoutManager(new LinearLayoutManager(this));
         mSearchResultView.setAdapter(mSearchAdapter);
-        mSearchView.setOnClickListener(v -> startSearchMode(this));
+        mSearchView.setOnClickListener(v -> startSearchMode());
 
         mSearchAdapter.setOnItemClickListener((view, ad) -> {
             SettingLauncherHelper.onStartSettingsForArguments(this,
@@ -165,9 +165,38 @@ public class MainActivity extends SettingsActivity implements SearchActionMode.C
         adapter.getFilter().filter(filter);
     }
 
-    private void startSearchMode(SearchActionMode.Callback callback) {
+    private void startSearchMode() {
         mFrameContent.setVisibility(View.GONE);
-        SearchActionMode startActionMode = (SearchActionMode) startActionMode(callback);
+        SearchActionMode startActionMode = (SearchActionMode) startActionMode(new SearchActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                SearchActionMode searchActionMode = (SearchActionMode) actionMode;
+                searchActionMode.setAnchorView(mSearchView);
+                searchActionMode.setAnimateView(mSearchResultView);
+                searchActionMode.setResultView(mSearchResultView);
+                searchActionMode.getSearchInput().addTextChangedListener(mSearchResultListener);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                SearchActionMode searchActionMode = (SearchActionMode) actionMode;
+                searchActionMode.getSearchInput().removeTextChangedListener(mSearchResultListener);
+                exitSearchMode();
+                updateData();
+            }
+        });
+
         if (startActionMode == null) {
             throw new NullPointerException("null cannot be cast to non-null type moralnorm.appcompat.internal.view.SearchActionMode");
         }
@@ -182,33 +211,6 @@ public class MainActivity extends SettingsActivity implements SearchActionMode.C
 
     public void requestBackup() {
         new BackupManager(getApplicationContext()).dataChanged();
-    }
-
-    @Override
-    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        SearchActionMode searchActionMode = (SearchActionMode) actionMode;
-        searchActionMode.setAnchorView(mSearchView);
-        searchActionMode.setAnimateView(mSearchResultView);
-        searchActionMode.getSearchInput().addTextChangedListener(mSearchResultListener);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        return true;
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode actionMode) {
-        SearchActionMode searchActionMode = (SearchActionMode) actionMode;
-        searchActionMode.getSearchInput().removeTextChangedListener(mSearchResultListener);
-        exitSearchMode();
-        updateData();
     }
 
     private void updateData() {
