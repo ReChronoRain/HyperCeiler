@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.utils.yife
+package com.sevtinge.cemiuiler.utils
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import io.luckypray.dexkit.DexKitBridge

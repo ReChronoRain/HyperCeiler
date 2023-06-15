@@ -3,8 +3,8 @@ package com.sevtinge.cemiuiler.module.packageinstaller
 import android.content.pm.ApplicationInfo
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.yife.DexKit
-import com.sevtinge.cemiuiler.utils.yife.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 
 class AllAsSystemApp : BaseHook() {
     override fun init() {

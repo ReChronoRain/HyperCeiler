@@ -628,6 +628,7 @@
     <string name="security_center_unlock_screen_time">屏幕使用时长与耗电</string>
     <string name="security_center_unlock_gun_service">解锁准星辅助</string>
     <string name="security_center_disable_remove_screen_hold_on">禁用移除息屏听剧与熄屏挂机</string>
+    <string name="security_center_unlock_memc">解锁动态画面补偿</string>
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>

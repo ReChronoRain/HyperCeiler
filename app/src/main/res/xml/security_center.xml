@@ -197,6 +197,11 @@
             android:title="@string/security_center_disable_remove_screen_hold_on"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:key="prefs_key_security_center_unlock_memc"
+            android:title="@string/security_center_unlock_memc"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_other_title">

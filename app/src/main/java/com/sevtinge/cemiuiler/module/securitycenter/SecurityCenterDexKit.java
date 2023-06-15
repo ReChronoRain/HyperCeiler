@@ -51,6 +51,7 @@ public class SecurityCenterDexKit extends BaseHook {
                         .addQuery("BeautyLight", List.of("pref_support_front_light", "pref_privacy_support_devices"))
                         .addQuery("PowerRankHelperHolder", List.of("PowerRankHelperHolder", "not support screenPowerSplit"))
                         .addQuery("GbGameCollimator",List.of("gb_game_collimator_status"))
+                        .addQuery("FrcSupport", List.of("ro.vendor.media.video.frc.support"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );
