@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
 
@@ -38,6 +39,16 @@
             android:key="prefs_key_system_ui_show_charging_v_more"
             android:title="@string/system_ui_lock_screen_show_charging_v_more"
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
+
+        <SeekBarPreference
+            android:defaultValue="3"
+            android:format="%d s"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
+            android:key="prefs_key_system_ui_statusbar_lock_screen_show_spacing"
+            android:title="@string/system_ui_statusbar_lock_screen_show_spacing"
+            app:maxValue="15"
+            app:minValue="1"
+            app:showSeekBarValue="true" />
 
         <SwitchPreference
             android:defaultValue="false"
