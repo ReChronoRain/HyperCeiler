@@ -9,5 +9,6 @@
 -keep class miui.drm.**{*;}
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
+-dontwarn com.android.internal.view.menu.MenuBuilder
 -allowaccessmodification
 -overloadaggressively
