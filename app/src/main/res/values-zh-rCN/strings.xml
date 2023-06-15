@@ -633,7 +633,7 @@
     <string name="security_center_disable_remove_screen_hold_on">禁用移除息屏听剧与熄屏挂机</string>
     <string name="security_center_unlock_memc">解锁动态画面补偿</string>
     <string name="security_center_unlock_enhance_contours">解锁影像轮廓增强</string>
-    <string name="security_center_unlock_s_resulotion">解锁极清播放</string>
+    <string name="security_center_unlock_s_resolution">解锁极清播放</string>
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>

@@ -1078,7 +1078,7 @@
     <string name="security_center_unlock_gun_service">Unlock Gun service</string>
     <string name="security_center_disable_remove_screen_hold_on">Disable remove screen hold on</string>
     <string name="security_center_unlock_memc">Unlock MEMC</string>
-    <string name="security_center_unlock_s_resulotion">Unlock Super resolution</string>
+    <string name="security_center_unlock_s_resolution">Unlock Super resolution</string>
     <string name="security_center_unlock_enhance_contours">Unlock Enhance contours</string>
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps use barrage</string>

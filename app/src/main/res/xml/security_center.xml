@@ -208,8 +208,8 @@
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:key="prefs_key_security_center_unlock_s_resulotion"
-            android:title="@string/security_center_unlock_s_resulotion"
+            android:key="prefs_key_security_center_unlock_s_resolution"
+            android:title="@string/security_center_unlock_s_resolution"
             android:defaultValue="false" />
 
     </PreferenceCategory>

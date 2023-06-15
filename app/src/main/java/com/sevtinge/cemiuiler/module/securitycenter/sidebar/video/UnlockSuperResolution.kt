@@ -45,7 +45,7 @@ object UnlockSuperResolution : BaseHook() {
                 val aisSupport = descriptor.getMethodInstance(lpparam.classLoader)
                 log("aisSupport method is $aisSupport")
                 if (aisSupport.returnType == Boolean::class.javaPrimitiveType) {
-                    XposedBridge.hookMethod(aisSupport, XC_MethodReplacement.returnConstant(false))
+                    XposedBridge.hookMethod(aisSupport, XC_MethodReplacement.returnConstant(true))
                 }
             }
         } catch (e: Throwable) {

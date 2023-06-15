@@ -96,7 +96,7 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(new DisableRemoveScreenHoldOn(), mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
         initHook(UnlockMemc.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_memc"));
-        initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resulotion"));
+        initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resolution"));
         initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
     }
 }
