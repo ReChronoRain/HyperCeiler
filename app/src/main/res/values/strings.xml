@@ -1079,4 +1079,5 @@
     <string name="security_center_disable_remove_screen_hold_on">Disable remove screen hold on</string>
     <string name="security_center_unlock_memc">Unlock MEMC</string>
     <string name="security_center_unlock_s_resulotion">Unlock Super resolution</string>
+    <string name="security_center_unlock_enhance_contours">Unlock Enhance contours</string>
 </resources>

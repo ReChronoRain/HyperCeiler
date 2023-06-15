@@ -35,6 +35,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.UnlockEnhanceContours;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.UnlockMemc;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.UnlockSuperResolution;
 
@@ -85,7 +86,7 @@ public class SecurityCenter extends BaseModule {
         // 移除打开应用弹窗
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
-        //全局侧边栏
+        // 全局侧边栏
         if (!isAndroidR()) {
             initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
@@ -96,5 +97,6 @@ public class SecurityCenter extends BaseModule {
         initHook(new DisableRemoveScreenHoldOn(), mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
         initHook(UnlockMemc.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_memc"));
         initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resulotion"));
+        initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
     }
 }
