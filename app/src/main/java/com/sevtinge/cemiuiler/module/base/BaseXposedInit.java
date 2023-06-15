@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.AiAsst;
 import com.sevtinge.cemiuiler.module.Aireco;
 import com.sevtinge.cemiuiler.module.Aod;
+import com.sevtinge.cemiuiler.module.Barrage;
 import com.sevtinge.cemiuiler.module.Browser;
 import com.sevtinge.cemiuiler.module.Camera;
 import com.sevtinge.cemiuiler.module.Clock;
@@ -113,6 +114,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public MiWallpaper mMiWallpaper = new MiWallpaper();
     public Downloads mDownloads = new Downloads();
     public Aod mAod = new Aod();
+    public Barrage mBarrage = new Barrage();
     // public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -315,6 +317,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.xiaomi.aireco":
                 XposedBridge.log("Cemiuiler: Hook com.xiaomi.aireco");
                 mAireco.init(lpparam);
+                mVarious.init(lpparam);
+                break;
+
+            case "com.xiaomi.barrage":
+                XposedBridge.log("Cemiuiler: Hook com.xiaomi.barrage");
+                mBarrage.init(lpparam);
                 mVarious.init(lpparam);
                 break;
 

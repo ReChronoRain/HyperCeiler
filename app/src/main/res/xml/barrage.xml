@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="@string/barrage_any_barrage"
+            android:key="prefs_key_barrage_any_barrage"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+    <Preference android:enabled="false" />
+
+</PreferenceScreen>

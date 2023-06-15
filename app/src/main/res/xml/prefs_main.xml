@@ -251,8 +251,15 @@
             android:title="@string/aireco" />
 
         <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.BarrageFragment"
+            android:icon="@drawable/ic_default_icon"
+            android:key="prefs_key_barrage"
+            android:summary="com.xiaomi.barrage"
+            android:title="@string/barrage" />
+
+        <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.JoyoseFragment"
-            android:icon="@drawable/ic_joyose_new"
+            android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_joyose"
             android:summary="com.xiaomi.joyose"
             android:title="@string/joyose" />

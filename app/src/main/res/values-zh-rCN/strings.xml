@@ -109,6 +109,7 @@
     <string name="weather">天气</string>
     <string name="downloads">下载管理程序</string>
     <string name="share_center">小米妙享中心</string>
+    <string name="barrage">弹幕通知</string>
     <string name="floating_window">小窗</string>
     <string name="new_task">多开</string>
     <string name="custom_hook">自定义</string>
@@ -196,6 +197,8 @@
     <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>
 
     <string name="aireco_device_modify">移除内测限制</string>
+
+    <string name="barrage_any_barrage">允许所有应用使用弹幕通知</string>
 
     <string name="browser_debug_mode">开发者选项</string>
     <string name="browser_debug_mode_desc">不支持 17.5.xxxxx 及以上版本</string>
