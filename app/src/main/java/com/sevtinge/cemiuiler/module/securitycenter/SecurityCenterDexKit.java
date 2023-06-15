@@ -38,6 +38,7 @@ public class SecurityCenterDexKit extends BaseHook {
                         .addQuery("Macro2", List.of("pref_gb_unsupport_macro_apps"))
                         .addQuery("IsShowReport", List.of("android.intent.action.VIEW", "com.xiaomi.market"))
                         .addQuery("FuckRiskPkg", List.of("riskPkgList", "key_virus_pkg_list", "show_virus_notification"))
+                        .addQuery("RemoveScreenHoldOn", List.of("remove_screen_off_hold_on"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

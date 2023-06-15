@@ -34,6 +34,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.UnlockGunService;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 
 public class SecurityCenter extends BaseModule {
 
@@ -90,5 +91,6 @@ public class SecurityCenter extends BaseModule {
         }
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
+        initHook(new DisableRemoveScreenHoldOn(), mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
     }
 }

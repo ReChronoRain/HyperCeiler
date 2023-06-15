@@ -187,10 +187,14 @@
             android:title="@string/security_center_remove_macro_black_list"
             android:defaultValue="false" />
 
-
         <SwitchPreference
             android:key="prefs_key_security_center_unlock_gun_service"
             android:title="@string/security_center_unlock_gun_service"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_security_center_disable_remove_screen_hold_on"
+            android:title="@string/security_center_disable_remove_screen_hold_on"
             android:defaultValue="false" />
 
     </PreferenceCategory>
