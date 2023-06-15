@@ -20,12 +20,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.data.ModData;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 
@@ -34,6 +36,8 @@ import org.xmlpull.v1.XmlPullParser;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -58,11 +62,6 @@ public class Helpers {
     public static int XposedVersion = 0;
 
     public static String mAppModulePkg = BuildConfig.APPLICATION_ID;
-
-    public static ArrayList<ModData> allModsList = new ArrayList<ModData>();
-
-    public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-    public static final String MIUIZER_NS = "http://schemas.android.com/apk/res-auto";
 
     public static final int REQUEST_PERMISSIONS_BACKUP = 1;
     public static final int REQUEST_PERMISSIONS_RESTORE = 2;
@@ -135,87 +134,6 @@ public class Helpers {
         } catch (Throwable ignore) {
         }
         return isDackMode(context) ? black : white;
-    }
-
-
-    public static void getAllMods(Context context, boolean force) {
-        if (force) allModsList.clear();
-        else if (allModsList.size() > 0) return;
-        parsePrefXml(context, R.xml.home);
-        parsePrefXml(context, R.xml.security_center);
-        parsePrefXml(context, R.xml.various);
-    }
-
-    private static String getModTitle(Resources res, String title) {
-        if (title == null) return null;
-        int titleResId = Integer.parseInt(title.substring(1));
-        if (titleResId <= 0) return null;
-        return res.getString(titleResId);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    private static void parsePrefXml(Context context, int xmlResId) {
-        Resources res = context.getResources();
-        String lastPrefSub = null;
-        String lastPrefSubTitle = null;
-        String lastPrefSubSubTitle = null;
-        int catResId = 0;
-        ModData.ModCat catPrefKey = null;
-
-        if (xmlResId == R.xml.home) {
-            catResId = R.string.home;
-            catPrefKey = ModData.ModCat.prefs_key_home;
-        } else if (xmlResId == R.xml.security_center) {
-            catResId = R.string.security;
-            catPrefKey = ModData.ModCat.prefs_key_security_center;
-        } else if (xmlResId == R.xml.various) {
-            catResId = R.string.various;
-            catPrefKey = ModData.ModCat.prefs_key_various;
-        }
-
-        try (XmlResourceParser xml = res.getXml(xmlResId)) {
-            int eventType = xml.getEventType();
-            int order = 0;
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && !PreferenceScreen.class.getSimpleName().equals(xml.getName()))
-                    try {
-                        if (xml.getName().equals(PreferenceCategory.class.getSimpleName()) || xml.getName().equals(PreferenceCategory.class.getCanonicalName())) {
-                            if (xml.getAttributeValue(ANDROID_NS, "key") != null) {
-                                lastPrefSub = xml.getAttributeValue(ANDROID_NS, "key");
-                                lastPrefSubTitle = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                                lastPrefSubSubTitle = null;
-                                order = 1;
-                            } else {
-                                lastPrefSubSubTitle = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                                order++;
-                            }
-                            eventType = xml.next();
-                            continue;
-                        }
-
-                        ModData modData = new ModData();
-                        boolean isChild = xml.getAttributeBooleanValue(MIUIZER_NS, "child", false);
-                        if (!isChild) {
-                            modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                            if (modData.title != null) {
-                                modData.breadcrumbs = res.getString(catResId) + (lastPrefSubTitle == null ? "" : ("/" + lastPrefSubTitle + (lastPrefSubSubTitle == null ? "" : "/" + lastPrefSubSubTitle)));
-                                modData.key = xml.getAttributeValue(ANDROID_NS, "key");
-                                modData.cat = catPrefKey;
-                                modData.sub = lastPrefSub;
-                                modData.order = order;
-                                allModsList.add(modData);
-                                // Log.e("miuizer", modData.key + " = " + modData.order);
-                            }
-                        }
-                        order++;
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                    }
-                eventType = xml.next();
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
     }
 
     public static Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {

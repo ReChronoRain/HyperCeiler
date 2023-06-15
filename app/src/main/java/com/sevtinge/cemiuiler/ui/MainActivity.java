@@ -6,14 +6,18 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.FileObserver;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.AboutFragment;
@@ -21,27 +25,78 @@ import com.sevtinge.cemiuiler.ui.fragment.MainFragment;
 import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.SearchHelper;
 import com.sevtinge.cemiuiler.utils.SettingLauncherHelper;
 import com.sevtinge.cemiuiler.view.RestartAlertDialog;
 
 import java.util.Set;
 
 import moralnorm.appcompat.internal.view.SearchActionMode;
+import moralnorm.recyclerview.widget.LinearLayoutManager;
+import moralnorm.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends SettingsActivity {
+public class MainActivity extends SettingsActivity implements SearchActionMode.Callback {
 
-    ViewGroup mSearchView;
-    TextWatcher mTextWatcher;
-    TextView mSearchInputView;
+    View mFrameContent;
+    View mSearchView;
     SearchActionMode mSearchActionMode;
+    TextView mSearchInputView;
+    RecyclerView mSearchResultView;
+    TextWatcher mSearchResultListener;
+    ModSearchAdapter mSearchAdapter;
+    String lastFilter;
     private final MainFragment mMainFrag = new MainFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new Thread(new Runnable() {
+            public void run() {
+                SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null);
+            }
+        }).start();
+        initView();
         initData();
         setImmersionMenuEnabled(true);
         setFragment(mMainFrag);
         ALPermissionManager.RootCommand(getPackageCodePath());
+    }
+
+    private void initView() {
+        mFrameContent = findViewById(R.id.frame_content);
+        mSearchView = findViewById(R.id.search_view);
+        mSearchInputView = findViewById(android.R.id.input);
+        mSearchResultView = findViewById(R.id.search_result_view);
+
+        mSearchAdapter = new ModSearchAdapter();
+        mSearchInputView.setHint("搜索模块");
+        mSearchResultView.setLayoutManager(new LinearLayoutManager(this));
+        mSearchResultView.setAdapter(mSearchAdapter);
+        mSearchView.setOnClickListener(v -> startSearchMode(this));
+
+        mSearchAdapter.setOnItemClickListener((view, ad) -> {
+            SettingLauncherHelper.onStartSettingsForArguments(this,
+                SubSettings.class,
+                ad.fragment,
+                null,
+                ad.catTitleResId);
+        });
+
+        mSearchResultListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                findMod(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                findMod(s.toString());
+            }
+        };
     }
 
     @Override
@@ -102,13 +157,21 @@ public class MainActivity extends SettingsActivity {
         }
     }
 
+    void findMod(String filter) {
+        lastFilter = filter;
+        mSearchResultView.setVisibility(filter.equals("") ? View.GONE : View.VISIBLE);
+        ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
+        if (adapter == null) return;
+        adapter.getFilter().filter(filter);
+    }
+
     private void startSearchMode(SearchActionMode.Callback callback) {
+        mFrameContent.setVisibility(View.GONE);
         SearchActionMode startActionMode = (SearchActionMode) startActionMode(callback);
-        if (startActionMode != null) {
-            mSearchActionMode = startActionMode;
-            return;
+        if (startActionMode == null) {
+            throw new NullPointerException("null cannot be cast to non-null type moralnorm.appcompat.internal.view.SearchActionMode");
         }
-        throw new NullPointerException("null cannot be cast to non-null type SearchActionMode");
+        mSearchActionMode = startActionMode;
     }
 
     private void exitSearchMode() {
@@ -119,5 +182,36 @@ public class MainActivity extends SettingsActivity {
 
     public void requestBackup() {
         new BackupManager(getApplicationContext()).dataChanged();
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        SearchActionMode searchActionMode = (SearchActionMode) actionMode;
+        searchActionMode.setAnchorView(mSearchView);
+        searchActionMode.setAnimateView(mSearchResultView);
+        searchActionMode.getSearchInput().addTextChangedListener(mSearchResultListener);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        SearchActionMode searchActionMode = (SearchActionMode) actionMode;
+        searchActionMode.getSearchInput().removeTextChangedListener(mSearchResultListener);
+        exitSearchMode();
+        updateData();
+    }
+
+    private void updateData() {
+        mFrameContent.setVisibility(View.VISIBLE);
     }
 }
