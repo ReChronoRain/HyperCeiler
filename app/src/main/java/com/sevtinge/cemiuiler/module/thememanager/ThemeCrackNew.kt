@@ -28,7 +28,6 @@ class ThemeCrackNew : BaseHook() {
                 parameterCount == 2 && parameterTypes[0] == Int::class.javaPrimitiveType && parameterTypes[1] == Int::class.javaPrimitiveType
             }.toList().createHooks {
                 before {
-                    it.args[0] = 0
                     it.args[1] = 0
                 }
             }
