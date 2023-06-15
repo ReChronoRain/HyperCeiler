@@ -32,6 +32,7 @@ public class SearchHelper {
 
     public static void getAllMods(Context context, boolean force) {
         if (force) allModsList.clear(); else if (allModsList.size() > 0) return;
+        // 系统框架页面相关
         parsePrefXml(context, R.xml.framework_freeform,
             R.string.system_framework,
             R.string.floating_window,
@@ -41,6 +42,77 @@ public class SearchHelper {
             R.string.system_framework,
             R.string.system_framework_volume_title,
             "com.sevtinge.cemiuiler.ui.fragment.framework.VolumeSettings");
+
+        parsePrefXml(context, R.xml.framework_phone,
+            R.string.system_framework,
+            R.string.system_framework_phone_title,
+            "com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings");
+
+        parsePrefXml(context, R.xml.framework_other,
+            R.string.system_framework,
+            R.string.system_framework_other_title,
+            "com.sevtinge.cemiuiler.ui.fragment.framework.OtherSettings");
+
+        // 系统界面页面相关
+        parsePrefXml(context, R.xml.system_ui_lock_screen,
+            R.string.system_ui,
+            R.string.system_ui_lockscreen_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.LockScreenSettings");
+
+        parsePrefXml(context, R.xml.system_ui_display,
+            R.string.system_ui,
+            R.string.system_ui_display_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.DisplaySettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.StatusBarSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_icon_manage,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_iconmanage_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.IconManageSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_mobile_network_type,
+            R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_status_bar_mobile_type_single_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.MobileNetworkTypeSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_doubleline_network,
+            R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_statusbar_iconmanage_mobile_network_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_network_speed_indicator,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_network_speed_indicator_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_clock_indicator,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_clock_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_hardware_detail_indicator,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_device_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings");
+
+        parsePrefXml(context, R.xml.system_ui_navigation,
+            R.string.system_ui,
+            R.string.system_ui_navigation_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.NavigationSettings");
+
+        parsePrefXml(context, R.xml.system_ui_control_center,
+            R.string.system_ui,
+            R.string.system_ui_controlcenter_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.ControlCenterSettings");
+
+        parsePrefXml(context, R.xml.system_ui_other,
+            R.string.system_ui,
+            R.string.system_ui_other_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.SystemUIOtherSettings");
     }
 
     private static void parsePrefXml(Context context, int xmlResId, int catResId, int catSubResId, String catPrefsFragment) {

@@ -12,6 +12,7 @@
     <Preference
         android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.StatusBarSettings"
         android:title="@string/system_ui_statusbar_title" />
+
     <Preference
         android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.NavigationSettings"
         android:title="@string/system_ui_navigation_title" />
