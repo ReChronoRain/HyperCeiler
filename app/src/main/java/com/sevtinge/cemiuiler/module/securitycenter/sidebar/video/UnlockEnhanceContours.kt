@@ -6,10 +6,14 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
 import com.sevtinge.cemiuiler.utils.DexKit
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.loadDexKit
 import java.util.Objects
 
 object UnlockEnhanceContours : BaseHook() {
     override fun init() {
+        DexKit.hostDir = lpparam.appInfo.sourceDir
+        loadDexKit()
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -32,7 +36,7 @@ object UnlockEnhanceContours : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            logE("FrcSupport", e)
         }
         try {
             val result = Objects.requireNonNull(
@@ -53,7 +57,7 @@ object UnlockEnhanceContours : BaseHook() {
                     }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            logE("AisSupport", e)
         }
     }
 }

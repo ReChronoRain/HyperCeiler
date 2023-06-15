@@ -4,11 +4,14 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
+import com.sevtinge.cemiuiler.utils.DexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import java.util.Objects
 
 object UnlockMemc : BaseHook() {
     override fun init() {
+        DexKit.hostDir = lpparam.appInfo.sourceDir
+        DexKit.loadDexKit()
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -31,7 +34,7 @@ object UnlockMemc : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            logE("FrcSupport", e)
         }
     }
 }

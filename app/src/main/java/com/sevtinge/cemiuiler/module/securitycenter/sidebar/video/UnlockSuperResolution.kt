@@ -11,6 +11,8 @@ import java.util.Objects
 
 object UnlockSuperResolution : BaseHook() {
     override fun init() {
+        DexKit.hostDir = lpparam.appInfo.sourceDir
+        DexKit.loadDexKit()
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -33,7 +35,7 @@ object UnlockSuperResolution : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            logE("FrcSupport", e)
         }
         try {
             val result = Objects.requireNonNull(
@@ -47,7 +49,7 @@ object UnlockSuperResolution : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            logE("AisSupport", e)
         }
     }
 }
