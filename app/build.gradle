@@ -14,7 +14,8 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.sevtinge.cemiuiler"
+        namespace 'com.sevtinge.cemiuiler'
+        applicationId namespace
         minSdk 30
         targetSdk 34
         versionCode 119
@@ -31,6 +32,19 @@ android {
 
     buildFeatures {
         buildConfig = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/**"
+            excludes += "/kotlin/**"
+            excludes += "/*.txt"
+            excludes += "/*.bin"
+            excludes += "/*.json"
+        }
+        dex {
+            useLegacyPackaging = true
+        }
     }
 
     buildTypes {
@@ -66,7 +80,6 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
-    namespace 'com.sevtinge.cemiuiler'
 }
 
 dependencies {
