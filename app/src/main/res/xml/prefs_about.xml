@@ -103,6 +103,14 @@
                 android:data="https://github.com/sevtinge/Cemiuiler" />
         </Preference>
 
+        <Preference
+            android:summary="@string/about_crwd_desc"
+            android:title="@string/about_crwd">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://crwd.in/cemiuiler" />
+        </Preference>
+
         <Preference android:title="@string/about_offical">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -113,15 +121,6 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.about.AboutUseFragment"
             android:key="prefs_key_about_use"
             android:title="@string/about_use" />
-
-        <Preference
-            android:summary="@string/about_crwd_desc"
-            android:title="@string/about_crwd"
-            app:isPreferenceVisible="false">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://crwd.in/cemiuiler" />
-        </Preference>
 
         <Preference
             android:summary="@string/about_donation_desc"
