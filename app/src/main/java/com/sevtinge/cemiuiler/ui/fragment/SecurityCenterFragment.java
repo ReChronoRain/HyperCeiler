@@ -32,7 +32,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        mSecurity = getResources().getString(!isPad() ? R.string.security_center_pad : R.string.security_center);
+        mSecurity = getResources().getString(!isPad() ? R.string.security_center : R.string.security_center_pad);
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
             mSecurity,
             "com.miui.securitycenter"

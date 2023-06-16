@@ -18,6 +18,7 @@
             android:key="prefs_key_home_folder"
             android:title="@string/home_folder"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.home.HomeFolderSettings" />
+
         <Preference
             android:key="prefs_key_home_drawer"
             android:title="@string/home_drawer"
@@ -51,7 +52,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <DropDownPreference
             android:defaultValue="6"
             android:key="prefs_key_home_recent_blur_level"
