@@ -41,7 +41,7 @@ object ChargingCVP : BaseHook() {
                     val runnable = object : Runnable {
                         override fun run() {
                             invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
-                            handler.postDelayed(this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 3) * 1000L)
+                            handler.postDelayed(this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) /2 * 1000L)
                         }
                     }
 
