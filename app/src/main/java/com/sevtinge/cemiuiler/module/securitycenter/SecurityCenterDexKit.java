@@ -40,6 +40,7 @@ public class SecurityCenterDexKit extends BaseHook {
                         .addQuery("FuckRiskPkg", List.of("riskPkgList", "key_virus_pkg_list", "show_virus_notification"))
                         .addQuery("RemoveScreenHoldOn", List.of("remove_screen_off_hold_on"))
                         .addQuery("AisSupport", List.of("debug.config.media.video.ais.support"))
+                        .addQuery("PowerRankHelperHolderSdkHelper", List.of("ishtar", "nuwa", "fuxi"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

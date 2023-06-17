@@ -13,10 +13,9 @@ import com.sevtinge.cemiuiler.module.securitycenter.IsSbnBelongToActiveBubbleApp
 import com.sevtinge.cemiuiler.module.securitycenter.LockOneHundredPoints;
 import com.sevtinge.cemiuiler.module.securitycenter.NewBoxBlur;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveConversationBubbleSettingsRestriction;
-import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTimeV;
+import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTime;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveOpenAppConfirmationPopup;
-import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTime;
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.module.securitycenter.ShowBatteryTemperatureNew;
 import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom;
@@ -58,7 +57,7 @@ public class SecurityCenter extends BaseModule {
         // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(new UnlockSuperWirelessCharge(), mPrefsMap.getBoolean("security_center_super_wireless_charge"));
-        initHook(ScreenUsedTimeV.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
+        initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));

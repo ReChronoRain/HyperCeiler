@@ -1074,7 +1074,7 @@
     <string name="home_drawer_all_desc">Removed the \"All\" tab for grouping apps in the drawer</string>
     <string name="home_drawer_editor_desc">Removed the \"Edit\" button from the Apps tab in the drawer</string>
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
-    <string name="security_center_unlock_screen_time">Screen used time and power consumption</string>
+    <string name="security_center_unlock_screen_time">Displays detailed power consumption data</string>
     <string name="security_center_unlock_gun_service">Unlock Gun service</string>
     <string name="security_center_disable_remove_screen_hold_on">Disable remove screen hold on</string>
     <string name="security_center_unlock_memc">Unlock MEMC</string>
