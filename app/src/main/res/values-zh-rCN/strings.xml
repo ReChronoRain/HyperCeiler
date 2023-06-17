@@ -586,7 +586,6 @@
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
-    <string name="security_center_beauty_light">解锁模拟补光灯亮度</string>
     <string name="security_center_beauty_light_auto">解锁智能调节补光灯亮度</string>
     <string name="security_center_beauty_face">解锁视频通话美颜</string>
     <string name="security_center_beauty_privacy">解锁隐私拍摄</string>

@@ -83,17 +83,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_beauty_title">
-
-        <SwitchPreference
-            android:key="prefs_key_security_center_beauty_light"
-            android:title="@string/security_center_beauty_light"
-            android:defaultValue="false" />
-
         <SwitchPreference
             android:key="prefs_key_security_center_beauty_light_auto"
             android:title="@string/security_center_beauty_light_auto"
-            android:defaultValue="false"
-            android:dependency="prefs_key_security_center_beauty_light" />
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="prefs_key_security_center_beauty_face"

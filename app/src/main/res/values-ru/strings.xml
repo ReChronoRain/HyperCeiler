@@ -551,7 +551,6 @@
     <string name="security_center_applock_pin_scramble_desc">Случайным образом изменить порядок клавиатуры PIN-кода блокировки приложения</string>
     <string name="security_center_battery_title">Энергосбережение и батарея</string>
     <string name="security_center_beauty_face">Украшение для видеовызовов</string>
-    <string name="security_center_beauty_light">Яркость имитации лампы</string>
     <string name="security_center_beauty_light_auto">Авторегулировка яркости имитации лампы</string>
     <string name="security_center_beauty_pc">Сохранять лица по центру</string>
     <string name="security_center_beauty_privacy">Конфиденциальная камера</string>

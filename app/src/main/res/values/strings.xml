@@ -241,7 +241,6 @@
     <string name="security_center_get_number">Manage the application to obtain the mobile phone number and log in with one click</string>
     <string name="security_center_applock_pin_scramble">Applock out of order PIN</string>
     <string name="security_center_applock_pin_scramble_desc">Randomly change app lock PIN keypad sequence</string>
-    <string name="security_center_beauty_light">Unlock Fill light brightness</string>
     <string name="security_center_beauty_light_auto">Unlock Adjust fill light brightness automatically</string>
     <string name="security_center_beauty_face">Unlock Beautify for video calls</string>
     <string name="security_center_beauty_privacy">Unlock Privacy camera</string>

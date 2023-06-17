@@ -47,8 +47,6 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
 
         mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
-        mBeautyLight = findPreference("prefs_key_security_center_beauty_light");
-        mBeautyLightAuto = findPreference("prefs_key_security_center_beauty_light_auto");
 
         if (permission != PermissionChecker.PERMISSION_GRANTED) {
             mBlurLocation.setSummary(R.string.security_center_no_permission);
@@ -79,12 +77,16 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             return true;
         });
 
-        mBeautyLight.setOnPreferenceChangeListener((preference, o) -> {
+/*         当个示例参考，后面移除
+            mBeautyLight = findPreference("prefs_key_security_center_beauty_light");
+            mBeautyLightAuto = findPreference("prefs_key_security_center_beauty_light_auto");
+
+            mBeautyLight.setOnPreferenceChangeListener((preference, o) -> {
             if (!(boolean) o) {
                 mBeautyLightAuto.setChecked(false);
             }
             return true;
-        });
+        });*/
     }
 
     @Override

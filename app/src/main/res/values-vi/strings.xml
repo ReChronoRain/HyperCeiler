@@ -568,7 +568,6 @@
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
     <string name="security_center_battery_title">Tiết kiệm pin và pin</string>
     <string name="security_center_beauty_face">Làm đẹp cho cuộc gọi video</string>
-    <string name="security_center_beauty_light">Trợ sáng camera trước</string>
     <string name="security_center_beauty_light_auto">Mở khóa điều chỉnh độ sáng của đèn phụ tự động</string>
     <string name="security_center_beauty_pc">Mở khóa chân dung ở giữa</string>
     <string name="security_center_beauty_privacy">Mở khóa bảo mật máy ảnh</string>

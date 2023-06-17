@@ -13,7 +13,6 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.R;
@@ -68,7 +67,7 @@ public class MainActivity extends SettingsActivity {
         mSearchResultView = findViewById(R.id.search_result_view);
 
         mSearchAdapter = new ModSearchAdapter();
-        mSearchInputView.setHint("搜索模块");
+        mSearchInputView.setHint(getResources().getString(R.string.search));
         mSearchResultView.setLayoutManager(new LinearLayoutManager(this));
         mSearchResultView.setAdapter(mSearchAdapter);
         mSearchView.setOnClickListener(v -> startSearchMode());

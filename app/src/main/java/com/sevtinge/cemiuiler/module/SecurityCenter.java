@@ -13,9 +13,8 @@ import com.sevtinge.cemiuiler.module.securitycenter.IsSbnBelongToActiveBubbleApp
 import com.sevtinge.cemiuiler.module.securitycenter.LockOneHundredPoints;
 import com.sevtinge.cemiuiler.module.securitycenter.NewBoxBlur;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveConversationBubbleSettingsRestriction;
-import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTime;
-import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.securitycenter.RemoveOpenAppConfirmationPopup;
+import com.sevtinge.cemiuiler.module.securitycenter.ScreenUsedTime;
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.module.securitycenter.ShowBatteryTemperatureNew;
 import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom;
@@ -26,13 +25,13 @@ import com.sevtinge.cemiuiler.module.securitycenter.app.AppDetails;
 import com.sevtinge.cemiuiler.module.securitycenter.app.AppDisable;
 import com.sevtinge.cemiuiler.module.securitycenter.app.AppRestrict;
 import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyFace;
-import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyLight;
 import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyLightAuto;
 import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyPc;
 import com.sevtinge.cemiuiler.module.securitycenter.beauty.BeautyPrivacy;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.UnlockEnhanceContours;
@@ -66,7 +65,6 @@ public class SecurityCenter extends BaseModule {
         initHook(new GetNumberEnable(), mPrefsMap.getBoolean("security_center_get_number"));
 
         // 前置摄像助手
-        initHook(BeautyLight.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_light"));
         initHook(new BeautyLightAuto(), mPrefsMap.getBoolean("security_center_beauty_light_auto"));
         initHook(new BeautyFace(), mPrefsMap.getBoolean("security_center_beauty_face"));
         initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));

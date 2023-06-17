@@ -543,7 +543,6 @@
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
     <string name="security_center_battery_title">省電與電池</string>
     <string name="security_center_beauty_face">解鎖視訊通話美肌</string>
-    <string name="security_center_beauty_light">解鎖模擬補光燈亮度</string>
     <string name="security_center_beauty_light_auto">解鎖智慧調節補光燈亮度</string>
     <string name="security_center_beauty_pc">解鎖人像居中</string>
     <string name="security_center_beauty_privacy">解鎖隱私拍攝</string>

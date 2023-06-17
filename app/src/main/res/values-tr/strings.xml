@@ -236,7 +236,6 @@
     <string name="security_center_get_number">Cep telefonu numarasını almak ve tek bir tıklama ile giriş yapmak için uygulamayı yönetin</string>
     <string name="security_center_applock_pin_scramble">Sipariş dışı PIN\'i kilitle</string>
     <string name="security_center_applock_pin_scramble_desc">Uygulama kilidi PIN tuş takımı sırasını rastgele değiştir</string>
-    <string name="security_center_beauty_light">Dolgu ışığı parlaklığının kilidini açın</string>
     <string name="security_center_beauty_light_auto">Kilidini aç Dolgu ışığı parlaklığını otomatik olarak ayarla</string>
     <string name="security_center_beauty_face">Görüntülü aramalar için Güzelleştirmenin kilidini açın</string>
     <string name="security_center_beauty_privacy">Gizlilik kamerasının kilidini aç</string>

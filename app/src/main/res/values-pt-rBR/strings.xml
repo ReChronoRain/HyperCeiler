@@ -533,7 +533,6 @@
     <string name="security_center_applock_pin_scramble_desc">Alterar aleatoriamente a sequência do teclado do PIN de bloqueio da aplicação</string>
     <string name="security_center_battery_title">Poupança de bateria e bateria</string>
     <string name="security_center_beauty_face">Desbloquear embelezar para chamadas de vídeo</string>
-    <string name="security_center_beauty_light">Desbloquear o brilho da luz de preenchimento</string>
     <string name="security_center_beauty_light_auto">Desbloquear ajustar o brilho da luz de preenchimento automaticamente</string>
     <string name="security_center_beauty_pc">Desbloquear manter rostos centrados</string>
     <string name="security_center_beauty_privacy">Desbloquear Câmera Privacidade</string>
