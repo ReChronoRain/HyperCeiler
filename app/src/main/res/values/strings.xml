@@ -1083,4 +1083,5 @@
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps use barrage</string>
     <string name="system_ui_statusbar_lock_screen_show_spacing">Display refresh interval</string>
+    <string name="security_center_unlock_screen_time_desc">Show screen power usage information in the top battery drain and resume showing all other apps\' power consumption and time</string>
 </resources>
