@@ -71,9 +71,15 @@ object NetworkSpeed : BaseHook() {
             val pre =
                 modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
             if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) String.format("%.1f", f) else String.format(
+                    "%.0f",
+                    f
+                )) + "\n" + String.format("%s$unitSuffix", pre)
             } else {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) String.format("%.1f", f) else String.format(
+                    "%.0f",
+                    f
+                )) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
             Helpers.log(t)
@@ -82,7 +88,7 @@ object NetworkSpeed : BaseHook() {
     }
 
     override fun init() {
-       // 双排网速相关
+        // 双排网速相关
         val networkClass = when {
             Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> "com.android.systemui.statusbar.NetworkSpeedController"
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
@@ -121,7 +127,7 @@ object NetworkSpeed : BaseHook() {
                         if (capabilities != null && (!(!capabilities.hasTransport
                                 (NetworkCapabilities.TRANSPORT_WIFI) &&
                                 !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                            ))
+                                ))
                         ) {
                             isConnected = true
                         }
@@ -148,76 +154,86 @@ object NetworkSpeed : BaseHook() {
                     }
                 }
             }
-           nscCls.methodFinder().first {
-               name == "updateText" && parameterTypes[0] == String::class.java
-           }.createHook {
-               before { param ->
-                   val mContext =
-                       XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
-                   //  隐藏慢速
-                   val hideLow =
-                       mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
-                   //  慢速水平
-                   val lowLevel =
-                       mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
-                   //  网速图标
-                   val icons =
-                       mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
-                   var txArrow = ""
-                   var rxArrow = ""
 
-                   when (icons) {
-                       2 -> {
-                           txArrow = if (txSpeed < lowLevel) "△" else "▲"
-                           rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
-                       }
-                       3 -> {
-                           txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                           rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
-                       }
-                       4 -> {
-                           txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                           rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
-                       }
-                       5 -> {
-                           txArrow = if (txSpeed < lowLevel) "↑" else "↑"
-                           rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                       }
-                       6 -> {
-                           txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                           rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
-                       }
-                   }
-                   val tx =
-                       if (hideLow && txSpeed < lowLevel) "" else humanReadableByteCount(mContext, txSpeed) + txArrow
-                   val rx =
-                       if (hideLow && rxSpeed < lowLevel) "" else humanReadableByteCount(mContext, rxSpeed) + rxArrow
-                   val ax = humanReadableByteCount(mContext, newTxBytesFixed + newRxBytesFixed)
+            nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2)
+                .first()
+                .createHook {
+                    before {
+                        //  隐藏慢速
+                        val hideLow =
+                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
+                        //  慢速水平
+                        val lowLevel =
+                            mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
+                        // 值和单位双排显示
+                        val fakeDualRow =
+                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
+                        // 上下行网速双排显示
+                        val doubleUpDown =
+                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
+                        //  网速图标
+                        val icons =
+                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2")
+                                .toInt()
+                        var txArrow = ""
+                        var rxArrow = ""
 
-                   if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down") &&
-                       !mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
-                   ) {
-                       if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                           param.args[0] = "".trimIndent()
-                       } else {
-                           param.args[0] = """
-                           $tx
-                           $rx
-                           """.trimIndent()
-                       }
-                   } else if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                       if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                           param.args[0] = "".trimIndent()
-                       } else {
-                           param.args[0] = ax.trimIndent()
-                       }
-                   } else {
-                       if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                           param.args[0] = "".trimIndent()
-                       }
-                   }
-               }
-           }
+                        when (icons) {
+                            2 -> {
+                                txArrow = if (txSpeed < lowLevel) "△" else "▲"
+                                rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
+                            }
+
+                            3 -> {
+                                txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
+                                rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                            }
+
+                            4 -> {
+                                txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
+                                rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                            }
+
+                            5 -> {
+                                txArrow = if (txSpeed < lowLevel) "↑" else "↑"
+                                rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
+                            }
+
+                            6 -> {
+                                txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
+                                rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                            }
+                        }
+
+                        // 计算上行网速
+                        val tx =
+                            if (hideLow && txSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
+                        // 计算下行网速
+                        val rx =
+                            if (hideLow && rxSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
+                        // 计算总网速
+                        val ax =
+                            humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
+
+                        if (doubleUpDown && !fakeDualRow) {
+                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                                it.result = ""
+                            } else {
+                                it.result = "$tx\n$rx"
+                            }
+                        } else if (fakeDualRow) {
+                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                                it.result = ""
+                            } else {
+                                it.result = ax
+                            }
+                        } else {
+                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
+                                it.result = ""
+                            }
+                        }
+                    }
+                }
         }
     }
 }
