@@ -19,8 +19,10 @@ class RemoveConversationBubbleSettingsRestriction : BaseHook() {
             before { param ->
                 val classBubbleApp = loadClass("com.miui.bubbles.settings.BubbleApp")
                 val arrayMap = ArrayMap<String, Any>()
-                val mContext = param.thisObject.getObjectField("mContext") as Context
-                val mCurrentUserId = param.thisObject.getObjectField("mCurrentUserId") as Int
+                val mContext =
+                    param.thisObject.getObjectField("mContext") as Context
+                val mCurrentUserId =
+                    param.thisObject.getObjectField("mCurrentUserId") as Int
                 val freeformSuggestionList = HiddenApiBypass.invoke(
                     Class.forName("android.util.MiuiMultiWindowUtils"),
                     null,
