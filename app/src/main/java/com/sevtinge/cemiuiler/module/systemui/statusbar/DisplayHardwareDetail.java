@@ -446,15 +446,9 @@ public class DisplayHardwareDetail extends BaseHook {
         batteryView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
         if (isFontBold) batteryView.setTypeface(Typeface.DEFAULT_BOLD);
         switch (align) {
-            case 2:
-                batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                break;
-            case 3:
-                batteryView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                break;
-            case 4:
-                batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-                break;
+            case 2 -> batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            case 3 -> batteryView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            case 4 -> batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }
         if (fixedWidth > 10)
             lp.width = (int) (batteryView.getResources().getDisplayMetrics().density * fixedWidth);
