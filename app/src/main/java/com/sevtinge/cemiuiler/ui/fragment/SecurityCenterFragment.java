@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
 import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import android.Manifest;
 import android.provider.Settings;
@@ -21,9 +22,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
     Preference mNewboxBackgroundCustom;
-
-    SwitchPreference mBeautyLight;
-    SwitchPreference mBeautyLightAuto;
+    SwitchPreference mOpenByDefaultSetting;
 
     @Override
     public int getContentResId() {
@@ -45,6 +44,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
+        mOpenByDefaultSetting = findPreference("prefs_key_security_center_app_default_setting");
 
         mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
 
@@ -60,6 +60,8 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             mBlurLocation.setChecked(mBlurLocationEnable);
             mAiClipboard.setChecked(mAiClipboardEnable);
         }
+
+        mOpenByDefaultSetting.setVisible(!isAndroidR()); // 应用打开链接管理
 
         boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
         boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;

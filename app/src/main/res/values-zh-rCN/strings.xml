@@ -606,6 +606,11 @@
     <string name="security_restrict_app_summary">允许配置省电程序并且为系统应用接入 WIFI</string>
     <string name="security_disable_app_title">应用状态控制</string>
     <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
+    <string name="security_disable_app_url_title">应用打开链接管理</string>
+    <string name="security_disable_app_url_summary">将应用详情中 “消除默认操作” 更改为 “默认打开” 设置</string>
+    <string name="app_link_open_always">允许应用打开支持的链接</string>
+    <string name="app_link_open_never">不允许应用打开链接</string>
+    <string name="open_by_default">默认打开</string>
     <string name="security_score">禁用体检优化</string>
     <string name="security_score_summary">锁定 100 分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>

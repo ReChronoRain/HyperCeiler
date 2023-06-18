@@ -24,6 +24,13 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_security_center_app_default_setting"
+            android:summary="@string/security_disable_app_url_summary"
+            android:title="@string/security_disable_app_url_title"
+            app:isPreferenceVisible="false"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_security_center_app_disable"
             android:summary="@string/security_disable_app_summary"
             android:title="@string/security_disable_app_title"
