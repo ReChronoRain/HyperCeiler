@@ -33,6 +33,8 @@ public class PluginHelper extends BaseHook {
                         HideMiPlayEntry.initHideMiPlayEntry(pluginLoader);
                     if (mPrefsMap.getStringAsInt("system_ui_control_center_device_ctrl_entry", 0) != 0)
                         HideDeviceControlEntry.initHideDeviceControlEntry(pluginLoader);
+                    if (mPrefsMap.getBoolean("system_ui_control_center_show_weather"))
+                        NotificationWeatherInPlugin.initNotificationWeatherInPlugin(pluginLoader);
                 }
             }
         });
