@@ -1088,4 +1088,18 @@
     <string name="app_link_open_always">Allows the app to open supported links</string>
     <string name="app_link_open_never">Do not allow apps to open links</string>
     <string name="open_by_default">Open by default</string>
+    <string name="various_mipad_input_title">Input</string>
+    <string name="various_mipad_input_close_magic_title">No Magic Pointer</string>
+    <string name="various_mipad_input_close_magic_desc">Turn the round MIUI pointer to AOSP pointer.</string>
+    <string name="various_mipad_input_restore_esc_title">Restore ESC function</string>
+    <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \\\"back\\\" function by MIUI.</string>
+    <string name="various_mipad_input_disable_bluetooth_title">Remove stylus bluetooth restriction</string>
+    <string name="various_mipad_input_disable_bluetooth_desc">Make all compatible stylus work without the need of bluetooth connection to official stylus.</string>
+    <string name="various_mipad_input_bluetooth_version_title">Driver version</string>
+    <string name="various_mipad_input_bluetooth_version_desc">Driver version for removing stylus bluetooth restriction</string>
+    <string name="various_mipad_input_ingore_gesture_title">Ignore stylus buttons gesture</string>
+    <string name="various_mipad_input_ingore_gesture_desc">Ignore the long press gesture on the stylus buttons</string>
+    <string name="various_mipad_input_need_finger_num_title">Swap the number of fingers required for gestures</string>
+    <string name="various_mipad_input_need_finger_num_desc">Change screenshot gesture, partial screenshot gesture, and horizontal split screen gesture to be triggered by four fingers, and switch apps gesture to be triggered by three fingers</string>
+    <string name="various_mipad_title">MiPad</string>
 </resources>

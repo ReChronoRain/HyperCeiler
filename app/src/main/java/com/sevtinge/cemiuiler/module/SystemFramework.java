@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
@@ -33,6 +34,11 @@ import com.sevtinge.cemiuiler.module.systemframework.VolumeSeparateControl;
 import com.sevtinge.cemiuiler.module.systemframework.VolumeSteps;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.cemiuiler.module.systemframework.freeform.OpenAppInFreeForm;
+import com.sevtinge.cemiuiler.module.systemframework.mipad.IgnoreStylusKeyGesture;
+import com.sevtinge.cemiuiler.module.systemframework.mipad.NoMagicPointer;
+import com.sevtinge.cemiuiler.module.systemframework.mipad.RemoveStylusBluetoothRestriction;
+import com.sevtinge.cemiuiler.module.systemframework.mipad.RestoreEsc;
+import com.sevtinge.cemiuiler.module.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.cemiuiler.module.systemframework.network.DualNRSupport;
 import com.sevtinge.cemiuiler.module.systemframework.network.DualSASupport;
 import com.sevtinge.cemiuiler.module.systemframework.network.N1Band;
@@ -101,6 +107,15 @@ public class SystemFramework extends BaseModule {
 
         // 位置模拟
         initHook(new LocationSimulation(), false);
+
+        // 小米/红米平板设置相关
+        if (isPad()) {
+            initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
+            initHook(NoMagicPointer.INSTANCE, mPrefsMap.getBoolean("mipad_input_close_magic"));
+            initHook(RemoveStylusBluetoothRestriction.INSTANCE, mPrefsMap.getBoolean("mipad_input_disable_bluetooth"));
+            initHook(RestoreEsc.INSTANCE, mPrefsMap.getBoolean("mipad_input_restore_esc"));
+            initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
+        }
 
         // 核心破解
         if (isAndroidT()) {

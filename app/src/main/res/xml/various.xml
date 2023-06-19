@@ -15,6 +15,12 @@
             app:isPreferenceVisible="true"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.AlertDialogSettings" />
 
+        <Preference
+            android:title="@string/various_mipad_title"
+            android:key="prefs_key_various_mipad"
+            app:isPreferenceVisible="true"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.MiPadSettings" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">

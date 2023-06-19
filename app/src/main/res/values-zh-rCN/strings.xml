@@ -1015,6 +1015,7 @@
 
     <string name="various_location_simulation_title">位置模拟</string>
     <string name="various_dialog_title">弹窗</string>
+    <string name="various_mipad_title">平板相关</string>
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
@@ -1024,6 +1025,20 @@
     <string name="various_collapse_miui_title">MIUI 标题</string>
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
+
+    <string name="various_mipad_input_title">输入</string>
+    <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
+    <string name="various_mipad_input_close_magic_desc">移除 MIUI For Pad 破烂的圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
+    <string name="various_mipad_input_restore_esc_title">恢复 ESC 键功能</string>
+    <string name="various_mipad_input_restore_esc_desc">恢复被 MIUI 强硬射为 “返回” 功能的 ESC 键</string>
+    <string name="various_mipad_input_disable_bluetooth_title">去除触控笔蓝牙限制</string>
+    <string name="various_mipad_input_disable_bluetooth_desc">无需链接小米灵感触控笔的蓝牙即可使用兼容的触控笔</string>
+    <string name="various_mipad_input_bluetooth_version_title">驱动版本</string>
+    <string name="various_mipad_input_bluetooth_version_desc">移除触控笔蓝牙限制所使用的驱动版本</string>
+    <string name="various_mipad_input_ingore_gesture_title">忽略触控笔按键手势</string>
+    <string name="various_mipad_input_ingore_gesture_desc">忽略触控笔长按按键时的手势</string>
+    <string name="various_mipad_input_need_finger_num_title">交换手势所需的手指数量</string>
+    <string name="various_mipad_input_need_finger_num_desc">将三指截屏、三指长按区域截屏、三指横向分屏手势更改为四指触发，切换应用手势更改为三指触发</string>
 
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>

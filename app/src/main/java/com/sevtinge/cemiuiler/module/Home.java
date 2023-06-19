@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.home.AnimDurationRatio;
@@ -84,6 +86,7 @@ import com.sevtinge.cemiuiler.module.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.cemiuiler.module.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.cemiuiler.module.home.widget.HideWidgetTitles;
 import com.sevtinge.cemiuiler.module.home.widget.ResizableWidgets;
+import com.sevtinge.cemiuiler.module.systemframework.mipad.SetGestureNeedFingerNum;
 
 import java.util.Objects;
 
@@ -218,6 +221,11 @@ public class Home extends BaseModule {
         initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
         initHook(AnimDurationRatio.INSTANCE, true);
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
+
+        // 小米/红米平板相关
+        if (isPad()) {
+            initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
+        }
     }
 
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/various_mipad_input_title">
+        <SwitchPreference
+            android:title="@string/various_mipad_input_close_magic_title"
+            android:summary="@string/various_mipad_input_close_magic_desc"
+            android:key="prefs_key_mipad_input_close_magic"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/various_mipad_input_restore_esc_title"
+            android:summary="@string/various_mipad_input_restore_esc_desc"
+            android:key="prefs_key_mipad_input_restore_esc"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/various_mipad_input_disable_bluetooth_title"
+            android:summary="@string/various_mipad_input_disable_bluetooth_desc"
+            android:key="prefs_key_mipad_input_disable_bluetooth"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:title="@string/various_mipad_input_ingore_gesture_title"
+            android:summary="@string/various_mipad_input_ingore_gesture_desc"
+            android:key="prefs_key_mipad_input_ingore_gesture"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/various_mipad_input_need_finger_num_title"
+            android:summary="@string/various_mipad_input_need_finger_num_desc"
+            android:key="prefs_key_mipad_input_need_finger_num"
+            android:defaultValue="false" />
+
+        <DropDownPreference
+            android:key="prefs_key_mipad_input_bluetooth_version"
+            android:title="@string/various_mipad_input_bluetooth_version_title"
+            android:summary="@string/various_mipad_input_bluetooth_version_desc"
+            android:defaultValue="2"
+            app:entries="@array/mipad_input_bluetooth_version"
+            app:entryValues="@array/mipad_input_bluetooth_version_value" />
+    </PreferenceCategory>
+    <Preference android:enabled="false" />
+</PreferenceScreen>

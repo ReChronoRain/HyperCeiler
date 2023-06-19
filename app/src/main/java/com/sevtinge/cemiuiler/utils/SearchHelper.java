@@ -349,6 +349,13 @@ public class SearchHelper {
             R.string.various,
             "com.sevtinge.cemiuiler.ui.fragment.VariousFragment");
 
+        if (isPad()) {
+            parsePrefXml(context, R.xml.various_mipad,
+                R.string.various,
+                R.string.various_mipad_title,
+                "com.sevtinge.cemiuiler.ui.fragment.VariousFragment");
+        }
+
         // 实验性
         /*parsePrefXml(context, R.xml.theme_manager,
             R.string.theme_manager,
