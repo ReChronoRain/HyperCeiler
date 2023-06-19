@@ -7,7 +7,6 @@ import android.os.Handler
 import android.provider.Settings
 import android.util.TypedValue
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
@@ -45,8 +44,12 @@ object TimeCustomization : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
         val mClockClass = when {
-            Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
+            Build.VERSION.SDK_INT == 30 ->
+                findClassIfExists("com.android.systemui.statusbar.policy.MiuiClock", lpparam.classLoader)
+
+            Build.VERSION.SDK_INT >= 31 ->
+                findClassIfExists("com.android.systemui.statusbar.views.MiuiClock", lpparam.classLoader)
+
             else -> null
         }
 
@@ -164,9 +167,7 @@ object TimeCustomization : BaseHook() {
                                     textV.getObjectField("mMiuiStatusBarClockController")
                                 val mCalendar =
                                     mMiuiStatusBarClockController?.callMethod("getCalendar")
-                                mCalendar?.callMethod(
-                                    "setTimeInMillis", System.currentTimeMillis()
-                                )
+                                mCalendar?.callMethod("setTimeInMillis", System.currentTimeMillis())
                                 val textSb = StringBuilder()
                                 val formatSb = StringBuilder(getGeekFormat.toString())
                                 mCalendar?.callMethod("format", c, textSb, formatSb)

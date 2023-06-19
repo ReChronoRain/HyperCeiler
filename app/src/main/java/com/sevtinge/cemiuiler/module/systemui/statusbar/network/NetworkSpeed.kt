@@ -34,16 +34,10 @@ object NetworkSpeed : BaseHook() {
             while (list.hasMoreElements()) {
                 val iFace = list.nextElement()
                 if (iFace.isUp && !iFace.isVirtual && !iFace.isLoopback && !iFace.isPointToPoint && "" != iFace.name) {
-                    tx += XposedHelpers.callStaticMethod(
-                        TrafficStats::class.java,
-                        "getTxBytes",
-                        iFace.name
-                    ) as Long
-                    rx += XposedHelpers.callStaticMethod(
-                        TrafficStats::class.java,
-                        "getRxBytes",
-                        iFace.name
-                    ) as Long
+                    tx +=
+                        XposedHelpers.callStaticMethod(TrafficStats::class.java, "getTxBytes", iFace.name) as Long
+                    rx +=
+                        XposedHelpers.callStaticMethod(TrafficStats::class.java, "getRxBytes", iFace.name) as Long
                 }
             }
         } catch (t: Throwable) {
@@ -71,15 +65,9 @@ object NetworkSpeed : BaseHook() {
             val pre =
                 modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
             if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format(
-                    "%.0f",
-                    f
-                )) + "\n" + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
             } else {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format(
-                    "%.0f",
-                    f
-                )) + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
             Helpers.log(t)
@@ -90,13 +78,13 @@ object NetworkSpeed : BaseHook() {
     override fun init() {
         // 双排网速相关
         val networkClass = when {
-            Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> "com.android.systemui.statusbar.NetworkSpeedController"
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
+            Build.VERSION.SDK_INT == 30 -> "com.android.systemui.statusbar.NetworkSpeedController"
+            Build.VERSION.SDK_INT >= 31 -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
             else -> null
         }
 
         val nscCls =
-            XposedHelpers.findClassIfExists(networkClass, lpparam.classLoader)
+            findClassIfExists(networkClass, lpparam.classLoader)
 
         if (nscCls == null) {
             Helpers.log("DetailedNetSpeedHook", "Cemiuiler: No NetworkSpeed view or controller")
