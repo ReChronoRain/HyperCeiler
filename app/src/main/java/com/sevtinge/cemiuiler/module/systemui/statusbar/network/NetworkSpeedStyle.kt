@@ -8,8 +8,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object NetworkSpeedStyle : BaseHook() {
     override fun init() {
-        hookAllConstructors(
-            "com.android.systemui.statusbar.views.NetworkSpeedView",
+        hookAllConstructors("com.android.systemui.statusbar.views.NetworkSpeedView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     // 值和单位双排显示 + 上下行网速双排显示
@@ -20,7 +19,7 @@ object NetworkSpeedStyle : BaseHook() {
                     val meter = param.thisObject as TextView
 
                     if (dualRow) {
-                        mResHook.setObjectReplacement(lpparam.packageName, "string", "network_speed_suffix", "%1\$s\n%2\$s");
+                        mResHook.setObjectReplacement(lpparam.packageName, "string", "network_speed_suffix", "%1\$s\n%2\$s")
                     }
 
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
