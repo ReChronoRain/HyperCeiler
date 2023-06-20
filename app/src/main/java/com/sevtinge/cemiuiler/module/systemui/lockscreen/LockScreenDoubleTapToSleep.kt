@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.systemui.lockscreen
 
+import android.app.KeyguardManager
 import android.content.Context
 import android.os.SystemClock
 import android.view.MotionEvent
@@ -43,21 +44,22 @@ object LockScreenDoubleTapToSleep : BaseHook() {
                         && kotlin.math.abs(currentTouchX - lastTouchX) < 100f
                         && kotlin.math.abs(currentTouchY - lastTouchY) < 100f
                     ) {
-                        XposedHelpers.callMethod(
-                            v.context.getSystemService(Context.POWER_SERVICE),
-                            "goToSleep",
-                            SystemClock.uptimeMillis()
-                        )
+                        val keyguardMgr =
+                            v.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+                        if (keyguardMgr.isKeyguardLocked) {
+                            XposedHelpers.callMethod(
+                                v.context.getSystemService(Context.POWER_SERVICE),
+                                "goToSleep",
+                                SystemClock.uptimeMillis()
+                            )
+                        }
                         currentTouchTime = 0L
                         currentTouchX = 0f
                         currentTouchY = 0f
                     }
 
-                    setAdditionalInstanceField(
-                        view,
-                        "currentTouchTime",
-                        currentTouchTime
-                    )
+                    setAdditionalInstanceField(view, "currentTouchTime", currentTouchTime)
                     setAdditionalInstanceField(view, "currentTouchX", currentTouchX)
                     setAdditionalInstanceField(view, "currentTouchY", currentTouchY)
                     v.performClick()

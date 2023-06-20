@@ -44,8 +44,8 @@ object ScreenUsedTime : BaseHook() {
             methodDeclareClass = powerRankHelperHolder!!.name
             methodReturnType = "boolean"
             methodParamTypes = arrayOf()
-        }.forEach { methods ->
-            val methods = methods.getMethodInstance(EzXHelper.classLoader)
+        }.forEach { method ->
+            val methods = method.getMethodInstance(EzXHelper.classLoader)
             log("powerRankHelperHolderMethod method is $methods")
             methods.createHook {
                 returnConstant(

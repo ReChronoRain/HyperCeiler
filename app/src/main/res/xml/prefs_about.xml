@@ -30,7 +30,7 @@
         <Preference
             android:icon="@drawable/ic_linqiqi"
             android:layout="@layout/preference_round_layout"
-            android:summary="Hook"
+            android:summary="Hook、Translator"
             android:title="Lin Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
