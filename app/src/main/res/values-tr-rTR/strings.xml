@@ -816,4 +816,5 @@
     <string name="bottom_margin">Alt kenar boşluğu</string>
     <string name="top_margin">Üst kenar boşluğu</string>
     <string name="preference_default_value_text">Varsayılan</string>
+    <string name="security_center_remove_low_battery_reminder_title">Düşük pil seviyesiyle ilgili uyarıyı gizle</string>
 </resources>

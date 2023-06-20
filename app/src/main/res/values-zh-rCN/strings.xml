@@ -617,6 +617,8 @@
     <string name="security_center_skip_waiting_time_desc">跳过大部分官方危险选项的等待确认倒计时时间</string>
     <string name="security_center_newbox_blur">全局侧边栏模糊</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">移除气泡通知应用限制</string>
+    <string name="security_center_remove_low_battery_reminder_title">隐藏低电量警告</string>
+    <string name="security_center_remove_low_battery_reminder_summary">当电量低于 20% 时，不再弹出打开省电模式的警告对话框</string>
     <string name="security_center_remove_open_app_confirmation_popup">移除打开应用弹窗</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">移除 \"XXX 想要打开 XXX\" 的弹窗</string>
     <string name="security_center_no_permission">未取得所需权限</string>

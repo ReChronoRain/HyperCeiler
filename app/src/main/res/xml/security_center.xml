@@ -236,6 +236,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_security_center_remove_low_battery_reminder"
+            android:title="@string/security_center_remove_low_battery_reminder_title"
+            android:summary="@string/security_center_remove_low_battery_reminder_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_security_center_remove_open_app_confirmation_popup"
             android:title="@string/security_center_remove_open_app_confirmation_popup"
             android:summary="@string/security_center_remove_open_app_confirmation_popup_summary"

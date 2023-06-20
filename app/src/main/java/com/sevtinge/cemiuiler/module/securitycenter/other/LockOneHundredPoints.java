@@ -1,8 +1,9 @@
-package com.sevtinge.cemiuiler.module.securitycenter;
+package com.sevtinge.cemiuiler.module.securitycenter.other;
 
 import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.securitycenter;
+package com.sevtinge.cemiuiler.module.securitycenter.other;
 
 import android.os.Handler;
 

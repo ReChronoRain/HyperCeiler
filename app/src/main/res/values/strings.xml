@@ -1106,4 +1106,6 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lockscreen_information_title">Information</string>
     <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted, this function is not available</string>
+    <string name="security_center_remove_low_battery_reminder_title">Hide warning about low battery level</string>
+    <string name="security_center_remove_low_battery_reminder_summary">When the battery is below 20%, the warning dialog to turn on the power saving mode no longer pops up</string>
 </resources>

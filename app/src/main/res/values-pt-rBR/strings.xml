@@ -989,4 +989,5 @@
     <string name="bottom_margin">Margem inferior</string>
     <string name="top_margin">Margem superior</string>
     <string name="preference_default_value_text">Defeito</string>
+    <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre baixo nível de bateria</string>
 </resources>

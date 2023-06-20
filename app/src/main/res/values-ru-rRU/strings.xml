@@ -1025,4 +1025,5 @@
     <string name="bottom_margin">Нижняя граница</string>
     <string name="top_margin">Верхняя граница</string>
     <string name="preference_default_value_text">Стандарт</string>
+    <string name="security_center_remove_low_battery_reminder_title">Скрыть предупреждение о низком заряде батареи</string>
 </resources>

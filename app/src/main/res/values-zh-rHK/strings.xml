@@ -1057,4 +1057,5 @@
     <string name="home_title_title_marquee_desc">過長的應用程式名稱將以滾動進行顯示，不再使用換行</string>
     <string name="security_center_skip_waiting_time_desc">跳過大部分官方危險選項的等待確認倒數時間</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
+    <string name="security_center_remove_low_battery_reminder_title">隱藏低電量警告</string>
 </resources>
