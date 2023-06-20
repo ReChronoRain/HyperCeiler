@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--    <string name="abc_action_bar_home_description">Chỉ đường về nhà</string>
-        <string name="abc_action_bar_up_description">Di chuyển lên</string>
-        <string name="abc_action_menu_overflow_description">Tùy chọn khác</string>
-        <string name="abc_action_mode_done">Xong</string>
-        <string name="abc_activity_chooser_view_see_all">Xem tất cả</string>
-        <string name="abc_activitychooserview_choose_application">Chọn một ứng dụng</string>
-        <string name="abc_capital_off">TẮT</string>
-        <string name="abc_capital_on">BẬT</string>
-        <string name="abc_menu_alt_shortcut_label">Alt+</string>
-        <string name="abc_menu_ctrl_shortcut_label">Ctrl+</string>
-        <string name="abc_menu_delete_shortcut_label">delete</string>
-        <string name="abc_menu_enter_shortcut_label">enter</string>
-        <string name="abc_menu_function_shortcut_label">Function+</string>
-        <string name="abc_menu_meta_shortcut_label">Meta+</string>
-        <string name="abc_menu_shift_shortcut_label">Shift+</string>
-        <string name="abc_menu_space_shortcut_label">space</string>
-        <string name="abc_menu_sym_shortcut_label">Sym+</string>
-        <string name="abc_prepend_shortcut_label">Menu+</string>
-        <string name="abc_search_hint">Tìm kiếm…</string>
-        <string name="abc_searchview_description_clear">Xóa truy vấn</string>
-        <string name="abc_searchview_description_query">Truy vấn tìm kiếm</string>
-        <string name="abc_searchview_description_search">Tìm kiếm</string>
-        <string name="abc_searchview_description_submit">Gửi truy vấn</string>
-        <string name="abc_searchview_description_voice">Tìm kiếm bằng giọng nói</string>
-        <string name="abc_shareactionprovider_share_with">Chia sẻ với</string>
-        <string name="abc_shareactionprovider_share_with_application">Chia sẻ với %s</string>
-        <string name="abc_toolbar_collapse_description">Thu gọn</string>-->
+    <string name="abc_action_bar_home_description">Chỉ đường về nhà</string>
+    <string name="abc_action_bar_up_description">Di chuyển lên</string>
     <string name="about">Giới thiệu</string>
     <string name="about_chat_title">Thảo luận</string>
     <string name="about_contributer">Người đóng góp</string>
