@@ -5,6 +5,12 @@
     <PreferenceCategory>
 
         <SwitchPreference
+            android:title="@string/content_extension_unlock_pad_title"
+            android:summary="@string/content_extension_unlock_pad_desc"
+            android:key="prefs_key_content_extension_unlock_pad"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/content_extension_browser"
             android:summary="@string/content_extension_browser_desc"
             android:key="prefs_key_content_extension_browser"

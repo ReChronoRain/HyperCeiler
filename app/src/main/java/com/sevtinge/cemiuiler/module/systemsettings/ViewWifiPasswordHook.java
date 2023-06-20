@@ -52,7 +52,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         });
         Helpers.hookAllMethods("miuix.appcompat.app.AlertDialog", lpparam.classLoader, "onCreate", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 if (wifiSharedKey[0] != null) {
                     TextView messageView = (TextView) XposedHelpers.callMethod(param.thisObject, "getMessageView");
                     messageView.setTextIsSelectable(true);
@@ -79,7 +79,7 @@ public class ViewWifiPasswordHook extends BaseHook {
             }
 
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Object wifiEntry = param.args[0];
                 boolean canShare = (boolean) XposedHelpers.callMethod(wifiEntry, "canShare");
                 if (canShare) {

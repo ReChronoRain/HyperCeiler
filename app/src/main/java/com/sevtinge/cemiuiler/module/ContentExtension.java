@@ -1,9 +1,13 @@
 package com.sevtinge.cemiuiler.module;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.contentextension.DoublePress;
 import com.sevtinge.cemiuiler.module.contentextension.LinkOpenMode;
 import com.sevtinge.cemiuiler.module.contentextension.SuperImage;
+import com.sevtinge.cemiuiler.module.contentextension.UnlockForPad;
 import com.sevtinge.cemiuiler.module.contentextension.UseThirdPartyBrowser;
 
 public class ContentExtension extends BaseModule {
@@ -14,6 +18,10 @@ public class ContentExtension extends BaseModule {
         initHook(new DoublePress(), mPrefsMap.getBoolean("content_extension_double_press"));
         initHook(new SuperImage(), mPrefsMap.getBoolean("content_extension_super_image"));
         initHook(new LinkOpenMode());
+
+        if (isPad() && !isAndroidR()){
+            initHook(UnlockForPad.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_pad"));
+        }
     }
 }
 
