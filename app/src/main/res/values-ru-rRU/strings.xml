@@ -772,8 +772,7 @@
     <string name="system_ui_lock_screen_hide_camera">Скрыть камеру</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Скрыть умный экран</string>
     <string name="system_ui_lock_screen_password_free">Без ввода пароля при загрузке</string>
-    <string name="system_ui_lock_screen_password_free_desc">"Эта опция будет работать только в том случае, если на устройстве не включено шифрование
-Путь проверки шифрования: Настройки - Безопасность - Дополнительно - Дополнительные настройки безопасности - Шифрование и учетные данные"</string>
+    <string name="system_ui_lock_screen_password_free_desc">Эта опция будет работать только в том случае, если на устройстве не включено шифрование</string>
     <string name="system_ui_lock_screen_scramble_pin">Случайный PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Случайный порядок ввода PIN с клавиатуры</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Показывать подробную информацию о токах</string>

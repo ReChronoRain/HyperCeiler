@@ -985,7 +985,7 @@
     <string name="system_ui_display_min_brightness">最小亮度</string>
     <string name="system_ui_display_max_brightness">最大亮度</string>
     <string name="system_ui_lock_screen_password_free">開機免輸入密碼</string>
-    <string name="system_ui_lock_screen_password_free_desc">需要設備未啟用加密才會生效。\n查看是否加密路徑：設定-安全-更多安全設定-更多安全性設定-加密與憑證</string>
+    <string name="system_ui_lock_screen_password_free_desc">需要設備未啟用加密才會生效</string>
     <string name="system_ui_lock_screen_double_lock">雙擊鎖定螢幕</string>
     <string name="system_ui_lock_screen_double_lock_desc">雙擊空白處鎖定螢幕</string>
     <string name="system_ui_navigation_handle_title">手勢提示線</string>

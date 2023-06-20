@@ -944,7 +944,7 @@
     <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
     <string name="system_ui_status_bar_battery_icon">Hide battery icon</string>
     <string name="system_ui_lock_screen_password_free">No need to enter password when booting</string>
-    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption\nCheck whether the path is encrypted: Settings - Security - More Security Settings - More Security Settings - Encryption and Credentials</string>
+    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
     <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
     <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
     <string name="system_ui_navigation_title">Navigation</string>
@@ -1105,4 +1105,5 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Hide zen mode notification</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lockscreen_information_title">Information</string>
+    <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted, this function is not available</string>
 </resources>
