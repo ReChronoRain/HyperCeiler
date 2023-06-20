@@ -1011,4 +1011,5 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="weather_device_level_title_low">Thấp</string>
     <string name="weather_device_level_title_middle">Trung bình</string>
     <string name="xposed_description">Làm cho MIUI tuyệt vời trở lại!</string>
+    <string name="system_ui_lock_screen_not_disturb_mode_title">Ẩn thông báo chế độ không làm phiền</string>
 </resources>

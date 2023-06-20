@@ -792,6 +792,7 @@
 
     <string name="system_ui_lockscreen_safe_title">安全</string>
     <string name="system_ui_lockscreen_ui_title">界面</string>
+    <string name="system_ui_lockscreen_information_title">信息</string>
     <string name="system_ui_lock_screen_scramble_pin">乱序 PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">随机更改 PIN 键盘顺序</string>
     <string name="system_ui_lock_screen_password_free">开机免输入密码</string>
@@ -809,6 +810,8 @@
     <string name="system_ui_lock_screen_force_system_fonts">时钟强制使用系统字体</string>
     <string name="system_ui_lock_screen_double_lock">双击锁屏</string>
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
+    <string name="system_ui_lock_screen_not_disturb_mode_title">隐藏勿扰模式通知</string>
+    <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>

@@ -1102,4 +1102,7 @@
     <string name="various_mipad_input_need_finger_num_title">Swap the number of fingers required for gestures</string>
     <string name="various_mipad_input_need_finger_num_desc">Change screenshot gesture, partial screenshot gesture, and horizontal split screen gesture to be triggered by four fingers, and switch apps gesture to be triggered by three fingers</string>
     <string name="various_mipad_title">MiPad</string>
+    <string name="system_ui_lock_screen_not_disturb_mode_title">Hide zen mode notification</string>
+    <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
+    <string name="system_ui_lockscreen_information_title">Information</string>
 </resources>
