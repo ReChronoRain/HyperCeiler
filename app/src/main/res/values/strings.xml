@@ -1113,4 +1113,5 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Show battery temperature</string>
     <string name="system_settings_novelty_haptic_title">Unlock the new version of the touch adjustment page</string>
     <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptics - Haptics page</string>
+    <string name="content_extension_unlock_taplus_horizontal_title">Allow use of taplus on landscape screens</string>
 </resources>

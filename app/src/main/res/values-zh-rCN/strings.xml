@@ -262,6 +262,7 @@
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
     <string name="content_extension_unlock_taplus_title">解锁传送门</string>
     <string name="content_extension_unlock_taplus_desc">仅为阉割的设备进行解锁，已有传送门功能的无须开启</string>
+    <string name="content_extension_unlock_taplus_horizontal_title">允许在横屏方向上使用传送门</string>
     <string name="content_extension_double_press">开放双指长按</string>
     <string name="content_extension_super_image">开放超分辨率图片</string>
     <string name="content_extension_super_image_summary">需要系统底层支持</string>
