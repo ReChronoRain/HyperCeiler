@@ -1108,6 +1108,6 @@
     <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted, this function is not available</string>
     <string name="security_center_remove_low_battery_reminder_title">Hide warning about low battery level</string>
     <string name="security_center_remove_low_battery_reminder_summary">When the battery is below 20%, the warning dialog to turn on the power saving mode no longer pops up</string>
-    <string name="content_extension_unlock_pad_title">Unlock Taplus</string>
-    <string name="content_extension_unlock_pad_desc">Unlock only tablet devices castrated by MIUI For Pad</string>
+    <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
+    <string name="content_extension_unlock_taplus_desc">It is only unlocked for castrated devices, and those with portal functions do not need to be opened</string>
 </resources>

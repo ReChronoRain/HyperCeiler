@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
-import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import android.view.View;
@@ -12,7 +11,7 @@ import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import moralnorm.preference.SwitchPreference;
 
 public class ContentExtensionFragment extends SettingsPreferenceFragment {
-    SwitchPreference mUnlockPad;
+    SwitchPreference mUnlockTaplus;
 
     @Override
     public int getContentResId() {
@@ -21,9 +20,9 @@ public class ContentExtensionFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        mUnlockPad = findPreference("prefs_key_content_extension_unlock_pad");
+        mUnlockTaplus= findPreference("prefs_key_content_extension_unlock_taplus");
 
-        mUnlockPad.setVisible(isPad() && !isAndroidR());
+        mUnlockTaplus.setVisible(!isAndroidR());
     }
 
     @Override
