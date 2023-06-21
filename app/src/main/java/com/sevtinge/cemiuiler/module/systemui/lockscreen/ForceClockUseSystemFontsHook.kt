@@ -11,6 +11,7 @@ import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 
 object ForceClockUseSystemFontsHook : BaseHook() {
     override fun init() {
+
         loadClass("com.miui.clock.MiuiBaseClock").methodFinder().filter {
             name == "updateViewsTextSize"
         }.toList().createHooks {
@@ -22,7 +23,7 @@ object ForceClockUseSystemFontsHook : BaseHook() {
         }
 
         loadClass("com.miui.clock.MiuiLeftTopLargeClock").methodFinder().filter {
-            name == "onLanguageChanged"
+            name == "onLanguageChanged" && parameterTypes == String::class.java
         }.toList().createHooks {
             after { param ->
                 val mTimeText =
