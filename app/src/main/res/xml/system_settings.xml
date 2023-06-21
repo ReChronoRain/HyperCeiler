@@ -13,6 +13,12 @@
             android:key="prefs_key_system_settings_safe_wifi"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/system_settings_novelty_haptic_title"
+            android:summary="@string/system_settings_novelty_haptic_desc"
+            android:key="prefs_key_system_settings_novelty_haptic"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

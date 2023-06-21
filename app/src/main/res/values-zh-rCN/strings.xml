@@ -720,6 +720,8 @@
     <string name="system_settings_new_nfc_page_desc">开启后，不支持的机型默认付款应用无法选中小米钱包\n</string>
 
     <string name="system_settings_international_build">国际版本设置页面</string>
+    <string name="system_settings_novelty_haptic_title">解锁新版触感调节页面</string>
+    <string name="system_settings_novelty_haptic_desc">仅供有 声音与触感-触感 页面的设备使用</string>
 
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
     <string name="system_settings_safe_wifi_desc">解锁管理已保存网络\n路径：设置-WLAN-高级设置-管理保存的网络</string>

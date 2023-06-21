@@ -1111,4 +1111,6 @@
     <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
     <string name="content_extension_unlock_taplus_desc">It is only unlocked for castrated devices, and those with portal functions do not need to be opened</string>
     <string name="system_ui_lock_screen_show_battery_temperature">Show battery temperature</string>
+    <string name="system_settings_novelty_haptic_title">Unlock the new version of the touch adjustment page</string>
+    <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptics - Haptics page</string>
 </resources>

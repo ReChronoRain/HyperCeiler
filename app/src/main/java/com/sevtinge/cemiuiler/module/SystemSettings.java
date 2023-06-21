@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module;
 
-import android.os.Build;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.miinput.UnlockKnuckleFunction;
@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.module.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.cemiuiler.module.systemsettings.EnableSpeedMode;
 import com.sevtinge.cemiuiler.module.systemsettings.InternationalBuild;
 import com.sevtinge.cemiuiler.module.systemsettings.NewNFCPage;
+import com.sevtinge.cemiuiler.module.systemsettings.NoveltyHaptic;
 import com.sevtinge.cemiuiler.module.systemsettings.PermissionTopOfApp;
 import com.sevtinge.cemiuiler.module.systemsettings.QuickInstallPermission;
 import com.sevtinge.cemiuiler.module.systemsettings.UnLockAreaScreenshot;
@@ -34,8 +35,9 @@ public class SystemSettings extends BaseModule {
         initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));
         initHook(new UnlockMemc(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_memc"));
         initHook(UnLockAreaScreenshot.INSTANCE, mPrefsMap.getBoolean("system_settings_area_screenshot"));
+        initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+        if (!isMoreAndroidVersion(33)) {
             initHook(UnlockKnuckleFunction.INSTANCE, mPrefsMap.getBoolean("system_settings_knuckle_function"));
         }
     }
