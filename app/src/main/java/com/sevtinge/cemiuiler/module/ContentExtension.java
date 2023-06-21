@@ -19,7 +19,7 @@ public class ContentExtension extends BaseModule {
         initHook(new LinkOpenMode());
 
         if (!isAndroidR()){
-            initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_pad"));
+            initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
         }
     }
 }

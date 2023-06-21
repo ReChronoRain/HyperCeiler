@@ -75,23 +75,34 @@ object ChargingCVP : BaseHook() {
             .filterByParamTypes(Context::class.java, Boolean::class.javaPrimitiveType, Int::class.javaPrimitiveType)
             .first().createHook {
                 after { param ->
-                    param.result = param.result?.let { "$it\n${getCVP()}" }
+                    param.result = param.result?.let { "$it ${getCVP()}" }
                 }
         }
     }
 
     private fun getCVP(): String {
+        // 获取电流信息
         val batteryManager =
             AndroidAppHelper.currentApplication().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
         val current =
             abs(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) / 1000)
         var voltage = 0.0
+        var temp = 0.0
+
         kotlin.runCatching {
+            // 获取电压信息
             val voltageNow =
                 BufferedReader(FileReader("/sys/class/power_supply/battery/voltage_now"))
             voltage =
                 BigDecimal(voltageNow.readLine().toDouble() / 1000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
+           // 获取电池温度信息
+            val temNow =
+                BufferedReader(FileReader("/sys/class/power_supply/battery/temp"))
+            temp =
+                BigDecimal(temNow.readLine().toDouble() / 10.0).setScale(1, RoundingMode.HALF_UP).toDouble()
         }
+
+        // 计算功率信息
         val powerAll = abs((current * voltage) / 1000f / 1000f)
         val power = String.format("%.2f", powerAll)
 
@@ -104,8 +115,12 @@ object ChargingCVP : BaseHook() {
             true -> "${voltage.toInt()} mV"
             else -> "${String.format("%.1f", abs(voltage / 1000f))} V"
         }
-
-        return "$mCurrent · $mVoltage · $power W"
+        // 电池温度是否展示
+        val mTemp = when (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) {
+            true -> "· $temp ℃"
+            false -> ""
+        }
+        // 输出展示信息
+        return "$mTemp\n$mCurrent · $mVoltage · $power W"
     }
-
 }

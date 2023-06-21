@@ -15,15 +15,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object DisableClipboardTip : BaseHook() {
     override fun init() {
-        if (!lpparam.packageName.equals("com.lbe.security.miui")) {
-            return
-        }
+        if (!lpparam.packageName.equals("com.lbe.security.miui")) return
 
         val permissionRequestClass =
-            XposedHelpers.findClass(
-                "com.lbe.security.sdk.PermissionRequest",
-                lpparam.classLoader
-            )
+            XposedHelpers.findClass("com.lbe.security.sdk.PermissionRequest", lpparam.classLoader)
 
         val mDisableClipboardTip = mPrefsMap.getBoolean("lbe_disable_clipboard_tip")
 
@@ -48,12 +43,7 @@ object DisableClipboardTip : BaseHook() {
                         val modRes = Helpers.getModuleRes(context)
 
                         if (!mDisableClipboardTip) {
-                            Toast.makeText(
-                                context,
-                                "$appName ${modRes.getString(R.string.lbe_clipboard_tip)}",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            Toast.makeText(context, "$appName ${modRes.getString(R.string.lbe_clipboard_tip)}", Toast.LENGTH_SHORT).show()
                         }
                         hideDialog(lpparam, packageName, param)
 

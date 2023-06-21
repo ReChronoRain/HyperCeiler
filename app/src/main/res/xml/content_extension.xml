@@ -5,8 +5,8 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:title="@string/content_extension_unlock_pad_title"
-            android:summary="@string/content_extension_unlock_pad_desc"
+            android:title="@string/content_extension_unlock_taplus_title"
+            android:summary="@string/content_extension_unlock_taplus_desc"
             android:key="prefs_key_content_extension_unlock_taplus"
             android:defaultValue="false" />
 
