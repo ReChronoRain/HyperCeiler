@@ -9,12 +9,6 @@ import com.sevtinge.cemiuiler.utils.devicesdk.Build.IS_TABLET
 
 object UnlockTaplus : BaseHook() {
     override fun init() {
-        loadClass("com.android.settings.utils.SettingsFeatures").methodFinder().first {
-            name == "isNeedRemoveContentExtension"
-        }.createHook {
-            returnConstant(false)
-        }
-
         if (!IS_TABLET) return
         loadClass("com.miui.contentextension.setting.activity.MainSettingsActivity").methodFinder()
             .first {

@@ -24,11 +24,21 @@ object RealMemory : BaseHook() {
             false -> loadClass("com.miui.home.recents.views.RecentsContainer")
         }
 
-        mRecentsContainerClass.declaredConstructors.constructorFinder().first {
-            parameterCount == 2
-        }.createHook {
-            after {
-                context = it.args[0] as Context
+        if (IS_TABLET) {
+            loadClass("com.miui.home.recents.views.RecentsContainer").declaredConstructors.constructorFinder().first {
+                parameterCount == 2
+            }.createHook {
+                after {
+                    context = it.args[0] as Context
+                }
+            }
+        } else {
+            mRecentsContainerClass.declaredConstructors.constructorFinder().first {
+                parameterCount == 2
+            }.createHook {
+                after {
+                    context = it.args[0] as Context
+                }
             }
         }
 
