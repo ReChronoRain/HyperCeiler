@@ -14,7 +14,7 @@ public class UserPresentAnimation extends BaseHook {
 
         findAndHookMethod(mUserPresentAnimationCompatV12Phone, "getSpringAnimator", View.class, int.class, float.class, float.class, float.class, float.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 param.args[4] = 0.5f;
                 param.args[5] = 0.5f;
             }
