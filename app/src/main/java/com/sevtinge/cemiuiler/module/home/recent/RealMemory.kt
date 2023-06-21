@@ -10,17 +10,19 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.Build.IS_TABLET
 import com.sevtinge.cemiuiler.utils.getObjectField
 
 @SuppressLint("StaticFieldLeak")
 object RealMemory : BaseHook() {
-    var context: Context? = null
-
     @SuppressLint("DiscouragedApi")
     override fun init() {
         var context: Context? = null
         fun Any.formatSize(): String = Formatter.formatFileSize(context, this as Long)
-        val mRecentsContainerClass = loadClass("com.miui.home.recents.views.RecentsContainer")
+        val mRecentsContainerClass = when(IS_TABLET) {
+            true -> loadClass("com.miui.home.recents.views.RecentsDecorations")
+            false -> loadClass("com.miui.home.recents.views.RecentsContainer")
+        }
 
         mRecentsContainerClass.declaredConstructors.constructorFinder().first {
             parameterCount == 2
