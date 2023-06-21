@@ -28,7 +28,7 @@ object NotificationWeatherNew : BaseHook() {
             name == "onDetachedFromWindow"
         }.createHook {
             before {
-                if ((it.thisObject as TextView).id == clockId && NotificationWeatherNew::weather.isInitialized) {
+                if ((it.thisObject as TextView).id == clockId && this@NotificationWeatherNew::weather.isInitialized) {
                     weather.onDetachedFromWindow()
                 }
             }
@@ -39,7 +39,7 @@ object NotificationWeatherNew : BaseHook() {
             before {
                 val time = it.args[0]?.toString()
                 val view = it.thisObject as TextView
-                if (view.id == clockId && time != null && NotificationWeatherNew::weather.isInitialized) {
+                if (view.id == clockId && time != null && this@NotificationWeatherNew::weather.isInitialized) {
                     // val layout = view.layoutParams as ViewGroup.MarginLayoutParams
                     // val y = view.height / 2
                     // layout.topMargin = -y
@@ -75,5 +75,4 @@ object NotificationWeatherNew : BaseHook() {
         }
 
     }
-
 }
