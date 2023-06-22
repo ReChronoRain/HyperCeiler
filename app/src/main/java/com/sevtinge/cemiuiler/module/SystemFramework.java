@@ -44,6 +44,7 @@ import com.sevtinge.cemiuiler.module.systemframework.network.DualSASupport;
 import com.sevtinge.cemiuiler.module.systemframework.network.N1Band;
 import com.sevtinge.cemiuiler.module.systemframework.network.N28Band;
 import com.sevtinge.cemiuiler.module.systemframework.network.N5N8Band;
+import com.sevtinge.cemiuiler.module.various.NoAccessDeviceLogsRequest;
 
 
 public class SystemFramework extends BaseModule {
@@ -104,6 +105,7 @@ public class SystemFramework extends BaseModule {
         initHook(new UseOriginalAnimation(), mPrefsMap.getBoolean("system_framework_other_use_original_animation"));
         initHook(new SpeedInstall(), mPrefsMap.getBoolean("system_framework_other_speed_install"));
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
+        initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
 
         // 位置模拟
         initHook(new LocationSimulation(), false);

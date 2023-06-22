@@ -4,7 +4,6 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.various.CollapseMiuiTitle;
 import com.sevtinge.cemiuiler.module.various.DialogCustom;
 import com.sevtinge.cemiuiler.module.various.MiuiAppNoOverScroll;
-import com.sevtinge.cemiuiler.module.various.NoAccessDeviceLogsRequest;
 import com.sevtinge.cemiuiler.module.various.UnlockIme;
 
 import java.util.Arrays;
@@ -26,7 +25,6 @@ public class Various extends BaseModule {
 
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());
         initHook(new DialogCustom(), isMiuiDialogCustom());
-        initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
@@ -47,19 +45,19 @@ public class Various extends BaseModule {
         return mPrefsMap.getStringAsInt("various_collapse_miui_title", 0) != 0 && collapseMiuiTitleApps.contains(mPackageName);
     }
 
-    HashSet<String> miuiOverScrollApps = new HashSet<String>(Arrays.asList(
+    HashSet<String> miuiOverScrollApps = new HashSet<>(Arrays.asList(
         "com.android.fileexplorer",
         "com.android.providers.downloads.ui",
         "com.android.settings"
     ));
 
-    HashSet<String> miuiDialogCustomApps = new HashSet<String>(Arrays.asList(
+    HashSet<String> miuiDialogCustomApps = new HashSet<>(Arrays.asList(
         "com.android.fileexplorer",
         "com.android.providers.downloads.ui",
         "com.android.settings"
     ));
 
-    HashSet<String> collapseMiuiTitleApps = new HashSet<String>(Arrays.asList(
+    HashSet<String> collapseMiuiTitleApps = new HashSet<>(Arrays.asList(
         "com.android.fileexplorer",
         "com.android.providers.downloads.ui",
         "com.android.settings"
