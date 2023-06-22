@@ -163,10 +163,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
 
                         if (blurBackground) {
                             XposedHelpers.callStaticMethod(
-                                blurUtilsClass,
-                                "fastBlurDirectly",
-                                0f,
-                                mWindow
+                                blurUtilsClass, "fastBlurDirectly", 0f, mWindow
                             )
                         }
                     }
@@ -206,10 +203,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                             // 修复始终模糊壁纸模糊丢失
                             if (blurBackground && !mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) {
                                 XposedHelpers.callStaticMethod(
-                                    blurUtilsClass,
-                                    "fastBlurDirectly",
-                                    value / 50f,
-                                    mWindow
+                                    blurUtilsClass, "fastBlurDirectly", value / 50f, mWindow
                                 )
                             }
                         }
@@ -267,8 +261,8 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                         val mSystemShortcutMenu: ViewGroup
                         val mSystemShortcutMenuBackground: GradientDrawable
                         /*
-                                                val mWidgetShortcutMenu: ViewGroup
-                                                val mWidgetShortcutMenuBackground: GradientDrawable
+                             val mWidgetShortcutMenu: ViewGroup
+                             val mWidgetShortcutMenuBackground: GradientDrawable
                         */
                         val mAppPersonaliseShortcutMenu: ViewGroup
                         val mAppPersonaliseShortcutMenuBackground: GradientDrawable
@@ -291,7 +285,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedBridge.log("Cemiuiler: BlurWhenShowShortcutMenu get mAppShortcutMenu failed by: $e")
+                            log("BlurWhenShowShortcutMenu get mAppShortcutMenu failed by: $e")
                         }
                         try {
                             mSystemShortcutMenu = param.thisObject.getObjectField("mSystemShortcutMenu") as ViewGroup
@@ -308,7 +302,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedBridge.log("Cemiuiler: BlurWhenShowShortcutMenu get mSystemShortcutMenu failed by: $e")
+                            log("BlurWhenShowShortcutMenu get mSystemShortcutMenu failed by: $e")
                         }
                         try {
                             mAppPersonaliseShortcutMenu =
@@ -326,7 +320,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedBridge.log("Cemiuiler: BlurWhenShowShortcutMenu get mAppPersonaliseShortcutMenu failed by: $e")
+                            log("BlurWhenShowShortcutMenu get mAppPersonaliseShortcutMenu failed by: $e")
                         }
                         try {
                             mFolderShortcutMenu = param.thisObject.getObjectField("mFolderShortcutMenu") as ViewGroup
@@ -343,7 +337,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedBridge.log("Cemiuiler: BlurWhenShowShortcutMenu get mFolderShortcutMenu failed by: $e")
+                            log("BlurWhenShowShortcutMenu get mFolderShortcutMenu failed by: $e")
                         }
                         /*try {
                              mWidgetShortcutMenu = param.thisObject.getObjectField("mWidgetShortcutMenu") as ViewGroup
@@ -373,8 +367,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                             return
                         }
                         val mArrow = HookUtils.getValueByField(
-                            param.thisObject,
-                            "mArrow"
+                            param.thisObject, "mArrow"
                         ) as View
                         val mArrowBackground = mArrow.background as ShapeDrawable
                         mArrowBackground.alpha = shortcutMenuBackgroundAlpha

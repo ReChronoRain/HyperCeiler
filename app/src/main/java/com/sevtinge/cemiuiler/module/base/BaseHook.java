@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import com.sevtinge.cemiuiler.XposedInit;
+import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
@@ -34,7 +35,7 @@ public abstract class BaseHook {
                 printHookStateLog("Hook Success!");
         } catch (Throwable t) {
             printHookStateLog("Hook Failed!");
-            printHookFailedLog(t);
+            Helpers.log(TAG + t);
         }
     }
 
