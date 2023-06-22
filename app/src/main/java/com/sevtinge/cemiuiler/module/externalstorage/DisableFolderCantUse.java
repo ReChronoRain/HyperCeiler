@@ -7,7 +7,7 @@ public class DisableFolderCantUse extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.externalstorage.ExternalStorageProvider", "shouldBlockFromTree", String.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 param.setResult(false);
             }
         });

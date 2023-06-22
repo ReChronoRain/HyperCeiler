@@ -5,11 +5,11 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.devicesdk.Build.IS_TABLET
+import com.sevtinge.cemiuiler.utils.api.isPad
 
 object UnlockTaplus : BaseHook() {
     override fun init() {
-        if (!IS_TABLET) return
+        if (!isPad()) return
         loadClass("com.miui.contentextension.setting.activity.MainSettingsActivity").methodFinder()
             .first {
                 name == "getFragment"

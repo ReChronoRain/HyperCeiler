@@ -174,7 +174,9 @@ public class Helpers {
 
 
     public static void log(String line) {
-        XposedBridge.log("Cemiuiler: " + line);
+        if (!BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log")) {
+            XposedBridge.log("Cemiuiler: " + line);
+        }
     }
 
     public static void log(Throwable t) {
@@ -333,7 +335,7 @@ public class Helpers {
             Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
             if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0) ;
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log(t);
         }
     }
 
@@ -343,7 +345,7 @@ public class Helpers {
             if (XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
                 log(getCallerMethod(), "Failed to hook " + methodName + " method in " + hookClass.getCanonicalName());
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log(t);
         }
     }
 
@@ -354,7 +356,7 @@ public class Helpers {
             if (hookClass == null || XposedBridge.hookAllConstructors(hookClass, callback).size() == 0)
                 log(getCallerMethod(), "Failed to hook " + className + " constructor");
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log(t);
         }
     }
 
@@ -368,7 +370,7 @@ public class Helpers {
                     log(getCallerMethod(), "Failed to hook " + hookClass.getPackageName() + "/" + hookClass.getCanonicalName() + " constructor");
                 }
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log(t);
         }
     }
 
@@ -380,6 +382,7 @@ public class Helpers {
                 XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
             }
         } catch (Throwable t) {
+            log(t);
         }
     }
 
@@ -550,7 +553,7 @@ public class Helpers {
                 return prefValue == 1;
             } else log("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            log(t);
         }
 
         if (BaseHook.mPrefsMap.containsKey(name))
@@ -605,7 +608,7 @@ public class Helpers {
             try {
                 this.before(param);
             } catch (Throwable t) {
-                XposedBridge.log(t);
+                log(t);
             }
         }
 
@@ -614,7 +617,7 @@ public class Helpers {
             try {
                 this.after(param);
             } catch (Throwable t) {
-                XposedBridge.log(t);
+                log(t);
             }
         }
     }
@@ -626,11 +629,10 @@ public class Helpers {
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-            XposedBridge.log("Cemiuiler: " + lpparam + " versionName is " + versionName);
+            log(lpparam + " versionName is " + versionName);
             return versionName;
         } catch (Throwable e) {
-            XposedBridge.log("Cemiuiler: Unknown Version.");
-            XposedBridge.log(e);
+            log("Unknown Version. Error message: " + e);
             return "null";
         }
     }
@@ -642,11 +644,10 @@ public class Helpers {
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            XposedBridge.log("Cemiuiler: " + lpparam + " versionCode is " + versionCode);
+            log( lpparam + " versionCode is " + versionCode);
             return versionCode;
         } catch (Throwable e) {
-            XposedBridge.log("Cemiuiler: Unknown Version.");
-            XposedBridge.log(e);
+            log("Unknown Version. Error message: " + e);
             return -1;
         }
     }

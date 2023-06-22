@@ -66,7 +66,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
     public static ResourcesHook mResHook;
     public static String mModulePath = null;
-    public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<String, Object>();
+    public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
 
     public SystemFramework mSystemFramework = new SystemFramework();
     // public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
