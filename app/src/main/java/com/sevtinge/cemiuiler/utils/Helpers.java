@@ -7,7 +7,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,24 +19,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.BuildConfig;
-import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.data.ModData;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -48,8 +39,6 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import moralnorm.internal.utils.ReflectUtils;
-import moralnorm.preference.PreferenceCategory;
-import moralnorm.preference.PreferenceScreen;
 
 public class Helpers {
 
@@ -593,24 +582,6 @@ public class Helpers {
     public static Uri anyPrefToUri() {
         return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/");
     }
-
-    public static boolean isAndroidVersionTiramisu() {
-        switch (Build.VERSION.SDK_INT) {
-            case Build.VERSION_CODES.R: // 30
-                return false;
-            case Build.VERSION_CODES.S_V2: // 32
-                return false;
-            case Build.VERSION_CODES.S: // 31
-                return false;
-            case Build.VERSION_CODES.TIRAMISU: // 33
-                return true;
-            default:
-                LogUtils.log(" Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
-                break;
-        }
-        return false;
-    }
-
 
     public static class MethodHook extends XC_MethodHook {
 

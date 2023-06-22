@@ -147,9 +147,9 @@ public class FreeformShortcutMenu extends BaseHook {
 
 
     private View.OnClickListener getFreeformOnClickListener(Object obj, boolean isNewTaskOnClick) {
-        View.OnClickListener onClickListener = view -> {
+        return view -> {
             Intent intent = new Intent();
-            Context mContext = view.getContext();
+            Context mContext1 = view.getContext();
             ComponentName mComponentName = (ComponentName) callMethod(obj, "getComponentName", new Object[0]);
             intent.setAction("android.intent.action.MAIN");
             intent.addCategory("android.intent.category.DEFAULT");
@@ -158,12 +158,11 @@ public class FreeformShortcutMenu extends BaseHook {
             if (isNewTaskOnClick) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
             }
-            Object makeFreeformActivityOptions = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", new Object[]{mContext, mComponentName.getPackageName()});
+            Object makeFreeformActivityOptions = XposedHelpers.callStaticMethod(mActivityUtilsCompat, "makeFreeformActivityOptions", mContext1, mComponentName.getPackageName());
 
             if (makeFreeformActivityOptions != null) {
-                mContext.startActivity(intent, (Bundle) callMethod(makeFreeformActivityOptions, "toBundle", new Object[0]));
+                mContext1.startActivity(intent, (Bundle) callMethod(makeFreeformActivityOptions, "toBundle", new Object[0]));
             }
         };
-        return onClickListener;
     }
 }

@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.packageinstaller.PackageInstallerDexKit;
 import com.sevtinge.cemiuiler.module.personalassistant.BlurOverlay;
 import com.sevtinge.cemiuiler.module.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.cemiuiler.module.personalassistant.EnableFoldWidget;

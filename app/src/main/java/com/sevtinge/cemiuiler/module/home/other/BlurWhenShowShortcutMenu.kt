@@ -32,7 +32,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
         val blurUtilsClass: Class<*> = findClassIfExists("com.miui.home.launcher.common.BlurUtils")
         val applicationClass: Class<*> = findClassIfExists("com.miui.home.launcher.Application")
         val utilitiesClass: Class<*> = findClassIfExists("com.miui.home.launcher.common.Utilities")
-        val DragViewClass: Class<*> = findClassIfExists("com.miui.home.launcher.DragView")
+        val dragViewClass: Class<*> = findClassIfExists("com.miui.home.launcher.DragView")
 
         val allBluredDrawable: MutableList<Drawable> = ArrayList()
 
@@ -73,13 +73,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                     val mWindow = HookUtils.getValueByField(systemUiController, "mWindow")
                     val targetBlurView = XposedHelpers.callMethod(mLauncher, "getScreen") as View
                     // 修复文件夹内各种模糊冲突异常
-                    if (iconIsInFolder) {
-
-                        blurBackground = !mPrefsMap.getBoolean("home_folder_blur")
-
-                    } else {
-                        blurBackground = true
-                    }
+                    blurBackground = if (iconIsInFolder) !mPrefsMap.getBoolean("home_folder_blur") else true
                     val renderEffectArray = arrayOfNulls<RenderEffect>(51)
                     for (index in 0..50) {
                         renderEffectArray[index] = RenderEffect.createBlurEffect(
@@ -93,7 +87,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                     valueAnimator.addUpdateListener { animator ->
                         val value = animator.animatedValue as Int
                         targetBlurView.setRenderEffect(renderEffectArray[value])
-// 修复始终模糊壁纸冲突导致的各种模糊异常
+                        // 修复始终模糊壁纸冲突导致的各种模糊异常
                         if (blurBackground && !mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) {
                             XposedHelpers.callStaticMethod(
                                 blurUtilsClass,
@@ -143,7 +137,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                 }
             })
 
-        XposedBridge.hookAllMethods(DragViewClass, "remove", object : XC_MethodHook() {
+        XposedBridge.hookAllMethods(dragViewClass, "remove", object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 if (isShortcutMenuLayerBlurred) {
                     param.result = null

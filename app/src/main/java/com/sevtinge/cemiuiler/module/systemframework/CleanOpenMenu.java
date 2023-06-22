@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.systemframework;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,12 +47,11 @@ public class CleanOpenMenu extends BaseHook {
                             if (!key.contains("pref_key_system_framework_clean_open_apps")) return;
 
                             switch (type) {
-                                case "stringset":
+                                case "stringset" ->
                                     mPrefsMap.put(key, Helpers.getSharedStringSetPref(mContext, key));
-                                    break;
-                                case "integer":
+
+                                case "integer" ->
                                     mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
-                                    break;
                             }
                         } catch (Throwable t) {
                             logE(t);
@@ -105,7 +106,7 @@ public class CleanOpenMenu extends BaseHook {
             }
         };
 
-        String ActQueryService = Helpers.isAndroidVersionTiramisu() ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService$ComputerEngine";
+        String ActQueryService = isMoreAndroidVersion(33) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService$ComputerEngine";
         Helpers.hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
 
         // if (!findAndHookMethodSilently(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, int.class, boolean.class, boolean.class, hook))

@@ -9,7 +9,7 @@ public class AddMiuiPlusEntry extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.settings.connection.MiMirrorController", "isMirrorSupported", new BaseHook.MethodHook() {
             @Override
-            protected void before(XC_MethodHook.MethodHookParam param) throws Throwable {
+            protected void before(XC_MethodHook.MethodHookParam param) {
                 param.setResult(true);
             }
         });

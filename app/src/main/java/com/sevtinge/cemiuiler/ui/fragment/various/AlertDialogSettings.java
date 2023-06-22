@@ -5,7 +5,6 @@ import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreference;
 
 public class AlertDialogSettings extends SettingsPreferenceFragment {

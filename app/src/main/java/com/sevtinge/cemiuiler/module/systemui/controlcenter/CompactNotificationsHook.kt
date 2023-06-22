@@ -8,17 +8,18 @@ import android.widget.FrameLayout
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
 import de.robv.android.xposed.XposedHelpers
+import kotlin.math.roundToInt
 
 
 object CompactNotificationsHook : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {
-        val abHeight = 39
+        val abHeight = 39.0f
 
         if (mPrefsMap.getBoolean("system_ui_control_center_compact_notice")) {
-            mResHook.setDensityReplacement("android", "dimen", "notification_action_height", abHeight.toFloat())
-            mResHook.setDensityReplacement("android", "dimen", "android_notification_action_height", abHeight.toFloat())
-            mResHook.setDensityReplacement("android", "dimen", "notification_action_list_height", abHeight.toFloat())
+            mResHook.setDensityReplacement("android", "dimen", "notification_action_height", abHeight)
+            mResHook.setDensityReplacement("android", "dimen", "android_notification_action_height", abHeight)
+            mResHook.setDensityReplacement("android", "dimen", "notification_action_list_height", abHeight)
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "notification_row_extra_padding", 0F)
         }
 
@@ -36,7 +37,7 @@ object CompactNotificationsHook : BaseHook() {
                         mView.resources.getIdentifier("actions_container", "id", "android")
                     ) ?: return
                     val density = mView.resources.displayMetrics.density
-                    val height = Math.round(density * abHeight).toInt()
+                    val height = (density * abHeight).roundToInt()
                     val actions = container.getChildAt(0) as ViewGroup
                     val lp1 = actions.layoutParams as FrameLayout.LayoutParams
                     lp1.height = height

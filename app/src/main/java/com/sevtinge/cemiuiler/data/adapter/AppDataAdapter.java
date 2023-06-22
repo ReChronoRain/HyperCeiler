@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.data.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,9 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
     private int mType;
 
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<AppData> appInfoList) {
-        this.appInfoList = appInfoList;
+        AppDataAdapter.appInfoList = appInfoList;
         notifyDataSetChanged();
     }
 

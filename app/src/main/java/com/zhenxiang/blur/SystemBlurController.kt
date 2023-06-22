@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import com.android.internal.graphics.drawable.BackgroundBlurDrawable
 import com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap
+import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import com.zhenxiang.blur.model.CornersRadius
 import java.util.function.Consumer
 
@@ -52,7 +53,7 @@ class SystemBlurController(
         }
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (isMoreAndroidVersion(31)) {
             // On api 31 and above background init is done in onViewAttachedToWindow
             view.addOnAttachStateChangeListener(this)
         } else {
@@ -78,7 +79,7 @@ class SystemBlurController(
         }
     }
 
-    override fun onViewDetachedFromWindow(_v: View) {
+    override fun onViewDetachedFromWindow(v: View) {
         // Clear blur drawable
         if (view.background is BackgroundBlurDrawable) {
             view.background = null

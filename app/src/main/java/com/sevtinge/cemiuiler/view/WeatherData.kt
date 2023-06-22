@@ -19,7 +19,7 @@ import com.sevtinge.cemiuiler.utils.callStaticMethod
 class WeatherData(val context: Context?, private val showCity: Boolean) {
 
     private val mContext: Context
-    private val WEATHER_URI = Uri.parse("content://weather/weather")
+    private val mWeatherUri = Uri.parse("content://weather/weather")
     private val mHandler: Handler
     private val mWeatherObserver: ContentObserver?
     private val mWeatherRunnable: WeatherRunnable
@@ -38,7 +38,7 @@ class WeatherData(val context: Context?, private val showCity: Boolean) {
         mWeatherObserver = WeatherContentObserver(mHandler)
         mContext = context!!
         mWeatherRunnable = WeatherRunnable()
-        context.contentResolver.registerContentObserver(WEATHER_URI, true, mWeatherObserver)
+        context.contentResolver.registerContentObserver(mWeatherUri, true, mWeatherObserver)
         updateWeatherInfo()
     }
 
@@ -52,7 +52,7 @@ class WeatherData(val context: Context?, private val showCity: Boolean) {
         override fun run() {
             var str = ""
             try {
-                val query = mContext.contentResolver.query(WEATHER_URI, null, null, null, null)
+                val query = mContext.contentResolver.query(mWeatherUri, null, null, null, null)
                 if (query != null) {
                     if (query.moveToFirst()) {
                         str = if (showCity) {

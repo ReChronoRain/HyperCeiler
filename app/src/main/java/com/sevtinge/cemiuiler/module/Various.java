@@ -22,7 +22,6 @@ public class Various extends BaseModule {
         mPackageName = mLoadPackageParam.packageName;
         isMiuiApps = mPackageName.startsWith("com.miui") || mPackageName.startsWith("com.xiaomi") || miuiDialogCustomApps.contains(mPackageName);
 
-
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());
         initHook(new DialogCustom(), isMiuiDialogCustom());
 

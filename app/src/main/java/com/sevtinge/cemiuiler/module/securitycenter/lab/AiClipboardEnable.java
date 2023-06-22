@@ -27,7 +27,7 @@ public class AiClipboardEnable extends BaseHook {
                 log("labUtils class is " + labUtils);
                 findAndHookMethod("com.miui.permcenter.settings.PrivacyLabActivity", "onCreateFragment", new MethodHook() {
                     @Override
-                    protected void before(MethodHookParam param) throws Throwable {
+                    protected void before(MethodHookParam param) {
                         Object fm = Helpers.getStaticObjectFieldSilently(labUtils, "b");
                         if (fm != null) {
                             try {

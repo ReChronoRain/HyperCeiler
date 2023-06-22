@@ -26,7 +26,6 @@ public class ResourcesHook {
         return 0x7e00f000 | (resourceName.hashCode() & 0x00ffffff);
     }
 
-    @SuppressWarnings("FieldCanBeLocal")
     private final Helpers.MethodHook mReplaceHook = new Helpers.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {

@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.aiasst;
+package com.sevtinge.cemiuiler.module.aiasst
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook

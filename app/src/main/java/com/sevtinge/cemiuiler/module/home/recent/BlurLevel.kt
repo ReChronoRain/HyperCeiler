@@ -7,7 +7,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.callStaticMethod
-import com.sevtinge.cemiuiler.utils.findClass
 import com.sevtinge.cemiuiler.utils.hookAfterAllMethods
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
 

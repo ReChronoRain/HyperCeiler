@@ -15,12 +15,12 @@ object AppDrawer : BaseHook() {
         if (mPrefsMap.getBoolean("home_drawer_all")) {
             try {
                 loadClass("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer").methodFinder()
-                    .first() {
+                    .first {
                         name == "buildSortCategoryList"
                     }
             } catch (e: Exception) {
                 loadClass("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer").methodFinder()
-                    .first() {
+                    .first {
                         name == "buildSortCategoryList"
                     }
             }.createHook {

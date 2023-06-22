@@ -1,13 +1,8 @@
 package com.sevtinge.cemiuiler.module.systemui.plugin
 
-import android.content.pm.ApplicationInfo
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.NotificationWeatherNew
-import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 import com.sevtinge.cemiuiler.view.WeatherData
 import de.robv.android.xposed.XposedHelpers

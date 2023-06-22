@@ -59,7 +59,6 @@ object DisableClipboardTip : BaseHook() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 pm.getApplicationInfo(packageName, PackageManager.ApplicationInfoFlags.of(0))
             } else {
-                @Suppress("DEPRECATION")
                 pm.getApplicationInfo(packageName, 0)
             }
         return (pm.getApplicationLabel(ai)) as String

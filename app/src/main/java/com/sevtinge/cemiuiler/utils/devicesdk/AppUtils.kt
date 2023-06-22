@@ -48,7 +48,6 @@ fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
             PackageManager.PackageInfoFlags.of(flags.toLong())
         )
     } else {
-        @Suppress("DEPRECATION")
         EzXHelper.appContext.packageManager.getPackageInfo(packageName, flags)
     }
 

@@ -51,17 +51,17 @@ object ShortcutBackgroundBlur : BaseHook() {
         log("" + shortcutMenuBackgroundAlpha)
         log("" + singleLayerAlpha)
 
-        val BLUR_ICON_APP_NAME = arrayOf("锁屏", "手电筒", "数据", "飞行模式", "蓝牙", "WLAN 热点")
-        val allBluredDrawable: MutableList<Drawable> = ArrayList()
+        val mBlurIconAppName = arrayOf("锁屏", "手电筒", "数据", "飞行模式", "蓝牙", "WLAN 热点")
+        val allBlurredDrawable: MutableList<Drawable> = ArrayList()
 
         fun showBlurDrawable() {
-            allBluredDrawable.forEach { drawable ->
+            allBlurredDrawable.forEach { drawable ->
                 XposedHelpers.callMethod(drawable, "setVisible", true, false)
             }
         }
 
         fun hideBlurDrawable() {
-            allBluredDrawable.forEach { drawable ->
+            allBlurredDrawable.forEach { drawable ->
                 XposedHelpers.callMethod(drawable, "setVisible", false, false)
             }
         }
@@ -79,10 +79,10 @@ object ShortcutBackgroundBlur : BaseHook() {
             if (iconIsInFolder) return@hookBeforeAllMethods
 
             // 文件夹内不模糊
-            val iconIsApplicatoin = dragViewInfo.callMethod("isApplicatoin") as Boolean
+            val iconIsApplication = dragViewInfo.callMethod("isApplicatoin") as Boolean
             val iconTitle = dragViewInfo.callMethod("getTitle") as String
 
-            if (!iconIsApplicatoin && !BLUR_ICON_APP_NAME.contains(iconTitle)) return@hookBeforeAllMethods
+            if (!iconIsApplication && !mBlurIconAppName.contains(iconTitle)) return@hookBeforeAllMethods
 
             val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity
             val launcherStatusField = launcherStateClass.getDeclaredField("ALL_APPS")
