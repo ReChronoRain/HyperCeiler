@@ -2,17 +2,19 @@ package com.sevtinge.cemiuiler.module.systemui.statusbar.clock
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.provider.Settings
 import android.util.TypedValue
 import android.widget.TextView
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
+import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.cemiuiler.utils.getObjectField
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
@@ -44,12 +46,8 @@ object TimeCustomization : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
         val mClockClass = when {
-            Build.VERSION.SDK_INT == 30 ->
-                findClassIfExists("com.android.systemui.statusbar.policy.MiuiClock", lpparam.classLoader)
-
-            Build.VERSION.SDK_INT >= 31 ->
-                findClassIfExists("com.android.systemui.statusbar.views.MiuiClock", lpparam.classLoader)
-
+            isAndroidR() -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+            isMoreAndroidVersion(31) -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
             else -> null
         }
 
@@ -57,9 +55,9 @@ object TimeCustomization : BaseHook() {
             // 预设模式
             1 -> {
                 var c: Context? = null
-                mClockClass?.constructorFinder()?.first {
+                mClockClass!!.constructorFinder().first {
                     paramCount == 3
-                }?.createHook {
+                }.createHook {
                     after {
                         try {
                             c = it.args[0] as Context
@@ -99,9 +97,9 @@ object TimeCustomization : BaseHook() {
                     }
                 }
 
-                mClockClass?.methodFinder()?.first {
+                mClockClass.methodFinder().first {
                     name == "updateTime"
-                }?.createHook {
+                }.createHook {
                     after {
                         try {
                             val textV = it.thisObject as TextView
@@ -122,9 +120,9 @@ object TimeCustomization : BaseHook() {
             2 -> {
                 var c: Context? = null
 
-                mClockClass?.constructorFinder()?.first {
+                mClockClass!!.constructorFinder().first {
                     paramCount == 3
-                }?.createHook {
+                }.createHook {
                     after {
                         try {
                             c = it.args[0] as Context
@@ -156,9 +154,9 @@ object TimeCustomization : BaseHook() {
                     }
                 }
 
-                mClockClass?.methodFinder()?.first {
+                mClockClass.methodFinder().first {
                     name == "updateTime"
-                }?.createHook {
+                }.createHook {
                     before {
                         try {
                             val textV = it.thisObject as TextView

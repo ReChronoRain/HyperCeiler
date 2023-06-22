@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.systemui.statusbar.clock
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Typeface
-import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
@@ -12,14 +11,16 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
+import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 
 
 object TimeStyle : BaseHook() {
-    @SuppressLint("RtlHardcoded")
+    @SuppressLint("RtlHardcoded", "DiscouragedApi")
     override fun init() {
         val mClockClass = when {
-            Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
+            isAndroidR() -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+            isMoreAndroidVersion(31) -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
             else -> null
         }
         val clockBold = mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
@@ -28,20 +29,19 @@ object TimeStyle : BaseHook() {
         val isGeekAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0)
         val verticalOffset = mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12)
 
-        mClockClass?.constructorFinder()?.first {
+        mClockClass!!.constructorFinder().first {
             paramCount == 3
-        }?.createHook {
+        }.createHook {
             after {
                 val textV = it.thisObject as TextView
                 val res: Resources = textV.resources
 
-                // 时钟加粗
-                if (clockBold) {
-                    textV.typeface = Typeface.DEFAULT_BOLD
-                }
-
-                // 时钟对齐方式
                 if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                    // 时钟加粗
+                    if (clockBold) {
+                        textV.typeface = Typeface.DEFAULT_BOLD
+                    }
+                    // 时钟对齐方式
                     when (getMode) {
                         // 预设模式下
                         1 -> {
