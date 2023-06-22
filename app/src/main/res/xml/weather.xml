@@ -6,7 +6,7 @@
         <DropDownPreference
             android:key="prefs_key_weather_device_level"
             android:title="@string/weather_device_level_title"
-            android:defaultValue="0"
+            android:defaultValue="3"
             app:entries="@array/weather_device_level"
             app:entryValues="@array/weather_device_level_value" />
 

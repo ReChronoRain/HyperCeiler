@@ -165,7 +165,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
     public void init(LoadPackageParam lpparam) {
         String packageName = lpparam.packageName;
-        log("packageName " + packageName);
         // XposedBridge.log("R=" + Build.VERSION_CODES.R + " S=" + Build.VERSION_CODES.S + " T=" + Build.VERSION_CODES.TIRAMISU + " This=" + Build.VERSION.SDK_INT);
         switch (packageName) {
             case "android" -> {
