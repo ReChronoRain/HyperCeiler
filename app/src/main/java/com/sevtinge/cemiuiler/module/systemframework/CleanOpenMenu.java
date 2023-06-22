@@ -64,7 +64,7 @@ public class CleanOpenMenu extends BaseHook {
         MethodHook hook = new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 try {
                     if (param.args[0] == null) return;
                     if (param.args.length < 6) return;

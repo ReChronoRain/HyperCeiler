@@ -16,7 +16,7 @@ public class QSGridLabels extends BaseHook {
     public void init() {
         Helpers.hookAllMethods("com.android.systemui.qs.MiuiTileLayout", lpparam.classLoader, "addTile", new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 updateLabelsVisibility(param.args[0], XposedHelpers.getIntField(param.thisObject, "mRows"), ((ViewGroup) param.thisObject).getResources().getConfiguration().orientation);
             }
         });

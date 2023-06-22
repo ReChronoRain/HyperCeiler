@@ -174,7 +174,8 @@ public class SystemUI extends BaseModule {
         initHook(new SmartHome(), false);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new QSFiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
-        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 || mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
+        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
+            mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
@@ -187,9 +188,8 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
             mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
-        initHook(new QSGrid(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
-            mPrefsMap.getInt("system_control_center_old_qs_columns", 2) > 2);
-        initHook(new QQSGrid(), mPrefsMap.getInt("system_control_center_old_qs_grid_columns", 2) > 2);
+        initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
+        initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
 
         // Actions
         initHook(new StatusBarActions());
