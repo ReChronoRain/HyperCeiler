@@ -163,8 +163,8 @@ public class SystemUI extends BaseModule {
         // 状态栏布局
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
             mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
-        // initHook(StatusBarHeighten.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_heighten", 19) != 19);
-        // initHook(StatusBarIconSize.INSTANCE);
+        // initHook(StatusBarHeighten.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_heighten_enable"));
+        // initHook(StatusBarIconSize.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_icon_size_enable"));
 
         // 实验性功能
         initHook(new SwitchControlPanel(), false);
@@ -202,9 +202,7 @@ public class SystemUI extends BaseModule {
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ClockDisplaySeconds.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_second"));
-        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv") ||
-            mPrefsMap.getBoolean("system_ui_show_charging_c_more") ||
-            mPrefsMap.getBoolean("system_ui_show_charging_v_more"));
+        initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
         initHook(RemoveCamera.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera"));
         initHook(RemoveSmartScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen"));
         initHook(NoPassword.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_password_free"));

@@ -18,6 +18,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import java.io.BufferedReader
 import java.io.FileReader
 import java.math.BigDecimal
@@ -27,48 +28,56 @@ import kotlin.math.abs
 object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
-        val clazzDependency = loadClass("com.android.systemui.Dependency")
-        val clazzKeyguardIndicationController = loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
-        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
-            after { param ->
-                (param.thisObject as TextView).isSingleLine = false
-                val screenOnOffReceiver = @SuppressLint("ServiceCast")
-                object : BroadcastReceiver() {
-                    val keyguardIndicationController = invokeStaticMethodBestMatch(
-                        clazzDependency, "get", null, clazzKeyguardIndicationController
-                    )!!
-                    val handler = Handler((param.thisObject as TextView).context.mainLooper)
-                    val runnable = object : Runnable {
-                        override fun run() {
-                            invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
-                            handler.postDelayed(this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) /2 * 1000L)
+        if (isMoreAndroidVersion(33)) {
+            val clazzDependency = loadClass("com.android.systemui.Dependency")
+            val clazzKeyguardIndicationController =
+                loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
+                after { param ->
+                    (param.thisObject as TextView).isSingleLine = false
+                    val screenOnOffReceiver = @SuppressLint("ServiceCast")
+                    object : BroadcastReceiver() {
+                        val keyguardIndicationController = invokeStaticMethodBestMatch(
+                            clazzDependency, "get", null, clazzKeyguardIndicationController
+                        )!!
+                        val handler = Handler((param.thisObject as TextView).context.mainLooper)
+                        val runnable = object : Runnable {
+                            override fun run() {
+                                invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
+                                handler.postDelayed(this,
+                                    mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
+                                )
+                            }
                         }
-                    }
 
-                    init {
-                        if (((param.thisObject as TextView).context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
-                            handler.post(runnable)
-                        }
-                    }
-
-                    override fun onReceive(context: Context, intent: Intent) {
-                        when (intent.action) {
-                            Intent.ACTION_SCREEN_ON -> {
+                        init {
+                            if (((param.thisObject as TextView).context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
                                 handler.post(runnable)
                             }
+                        }
 
-                            Intent.ACTION_SCREEN_OFF -> {
-                                handler.removeCallbacks(runnable)
+                        override fun onReceive(context: Context, intent: Intent) {
+                            when (intent.action) {
+                                Intent.ACTION_SCREEN_ON -> {
+                                    handler.post(runnable)
+                                }
+
+                                Intent.ACTION_SCREEN_OFF -> {
+                                    handler.removeCallbacks(runnable)
+                                }
                             }
                         }
                     }
-                }
 
-                val filter = IntentFilter().apply {
-                    addAction(Intent.ACTION_SCREEN_ON)
-                    addAction(Intent.ACTION_SCREEN_OFF)
+                    val filter = IntentFilter().apply {
+                        addAction(Intent.ACTION_SCREEN_ON)
+                        addAction(Intent.ACTION_SCREEN_OFF)
+                    }
+                    (param.thisObject as TextView).context.registerReceiver(
+                        screenOnOffReceiver,
+                        filter
+                    )
                 }
-                (param.thisObject as TextView).context.registerReceiver(screenOnOffReceiver, filter)
             }
         }
         loadClass("com.android.keyguard.charge.ChargeUtils").methodFinder().filterByName("getChargingHintText")
