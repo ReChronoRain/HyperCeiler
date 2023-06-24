@@ -206,7 +206,5 @@ object NotificationWeather : BaseHook() {
                 }
             }
         }
-
-
     }
 }

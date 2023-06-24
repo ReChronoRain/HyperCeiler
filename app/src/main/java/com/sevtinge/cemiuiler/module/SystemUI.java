@@ -163,8 +163,6 @@ public class SystemUI extends BaseModule {
         // 状态栏布局
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
             mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
-        // initHook(StatusBarHeighten.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_heighten_enable"));
-        // initHook(StatusBarIconSize.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_icon_size_enable"));
 
         // 实验性功能
         initHook(new SwitchControlPanel(), false);

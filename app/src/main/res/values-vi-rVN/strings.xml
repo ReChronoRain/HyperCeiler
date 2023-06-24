@@ -805,9 +805,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_battery_percent">Phần trăm pin</string>
     <string name="system_ui_status_bar_battery_percent_mark">Tỷ lệ phần trăm pin</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
-    <string name="system_ui_statusbar_height_title">Chiều cao thanh trạng thái</string>
-    <string name="system_ui_statusbar_icon_size_title">Kích thước biểu tượng thanh trạng thái</string>
-    <string name="system_ui_statusbar_no_lock_top_margin_title">Bỏ đặt thanh trạng thái bằng Keyguard</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Nhấn đúp để ngủ</string>
     <string name="system_ui_status_bar_hide_icon">Ẩn thanh trạng thái khi chụp ảnh màn hình</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>

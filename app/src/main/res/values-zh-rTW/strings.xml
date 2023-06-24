@@ -845,11 +845,6 @@
     <string name="system_ui_statusbar_layout_compatibility_mode_title">相容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">對所有異形螢幕強制開啟完整螢幕版面配置</string>
     <string name="system_ui_statusbar_layout_mode_title">佈局模式</string>
-    <string name="system_ui_statusbar_height_title">狀態欄高度</string>
-    <string name="system_ui_statusbar_icon_size_title">圖示大小</string>
-    <string name="system_ui_statusbar_top_margin_title">上邊距調整</string>
-    <string name="system_ui_statusbar_no_lock_top_margin_title">不修改鎖屏狀態欄</string>
-    <string name="system_ui_statusbar_horizontal_spacing_title">水平間距調整</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">雙擊狀態欄鎖屏</string>
     <string name="system_ui_statusbar_iconmanage_title">圖示</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">雙排蜂窩移動網絡圖示</string>

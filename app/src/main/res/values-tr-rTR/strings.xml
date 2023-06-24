@@ -277,9 +277,6 @@
     <string name="system_ui_monet_overlay_custom_color">Tema rengini seçin</string>
     <string name="system_ui_volume_timer">Genişletilmiş zamanlayıcı</string>
     <string name="system_ui_qs_label">Hızlı geçiş sekmesi</string>
-    <string name="system_ui_statusbar_height_title">Durum çubuğu yüksekliği</string>
-    <string name="system_ui_statusbar_icon_size_title">Durum çubuğu boyutu</string>
-    <string name="system_ui_statusbar_no_lock_top_margin_title">Keyguardda ayarlanmamış durum çubuğu</string>
     <string name="system_ui_statusbar_iconmanage_title">Simge yöneticisi</string>
     <string name="system_ui_statusbar_clock_title">Saat göstergesi yönetimi</string>
     <string name="system_ui_status_bar_battery_indicator_centered">Merkez</string>

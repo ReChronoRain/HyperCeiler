@@ -1016,11 +1016,6 @@
     <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="home_widget_resizable">Remove any widget size limitations</string>
-    <string name="system_ui_statusbar_horizontal_spacing_title">Horizontal spacing</string>
-    <string name="system_ui_statusbar_no_lock_top_margin_title">Unset statusbar in Keyguard</string>
-    <string name="system_ui_statusbar_top_margin_title">Top padding</string>
-    <string name="system_ui_statusbar_icon_size_title">Status bar icon size</string>
-    <string name="system_ui_statusbar_height_title">Status bar height</string>
     <string name="system_ui_display_toast_title" translatable="false">Toast</string>
     <string name="system_ui_display_toast_times_title">Display duration adjustment</string>
     <string name="system_ui_display_toast_times_desc">Modify the display duration of Toast, the display duration is always greater than 1 second</string>

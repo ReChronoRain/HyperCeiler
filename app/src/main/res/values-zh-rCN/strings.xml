@@ -841,11 +841,6 @@
     <string name="system_ui_statusbar_layout_compatibility_mode_title">兼容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">对所有异形屏强制开启完整屏布局</string>
     <string name="system_ui_statusbar_layout_mode_title">布局模式</string>
-    <string name="system_ui_statusbar_height_title">状态栏高度</string>
-    <string name="system_ui_statusbar_icon_size_title">图标大小</string>
-    <string name="system_ui_statusbar_top_margin_title">顶部边距调整</string>
-    <string name="system_ui_statusbar_no_lock_top_margin_title">不修改锁屏状态栏</string>
-    <string name="system_ui_statusbar_horizontal_spacing_title">水平间距调整</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">双击状态栏锁屏</string>
 
     <string name="system_ui_statusbar_iconmanage_title">图标</string>
