@@ -76,7 +76,6 @@ object NotificationWeather : BaseHook() {
                     mConstraintLayout!!.addView(dateTime)
 
                     // 组件属性
-
                     val dateTimeLp = ConstraintLayout.LayoutParams(
                         ConstraintLayout.LayoutParams.WRAP_CONTENT,
                         ConstraintLayout.LayoutParams.WRAP_CONTENT

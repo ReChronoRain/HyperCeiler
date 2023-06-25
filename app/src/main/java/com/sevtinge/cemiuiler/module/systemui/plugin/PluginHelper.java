@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.module.systemui.plugin;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.pm.ApplicationInfo;
-import android.os.Build;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
@@ -13,12 +12,12 @@ public class PluginHelper extends BaseHook {
 
     @Override
     public void init() {
-        String pluginLoaderClass = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.shared.plugins.PluginInstance$Factory" : "com.android.systemui.shared.plugins.PluginManagerImpl";
+        String pluginLoaderClass = isMoreAndroidVersion(33) ? "com.android.systemui.shared.plugins.PluginInstance$Factory" : "com.android.systemui.shared.plugins.PluginManagerImpl";
         hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
             private boolean isHooked = false;
 
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 ApplicationInfo appInfo = (ApplicationInfo) param.args[0];
                 if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
                     isHooked = true;

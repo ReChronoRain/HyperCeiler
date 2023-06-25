@@ -3,7 +3,7 @@ package com.sevtinge.cemiuiler.module.systemui.plugin
 import android.widget.TextView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.NotificationWeatherNew
-import com.sevtinge.cemiuiler.utils.getObjectFieldAs
+import com.sevtinge.cemiuiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.cemiuiler.view.WeatherData
 import de.robv.android.xposed.XposedHelpers
 
@@ -18,7 +18,7 @@ object NotificationWeatherInPlugin {
             "addClockViews",
             object : BaseHook.MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    val dateView = param.thisObject.getObjectFieldAs<TextView>("dateView")
+                    val dateView = param.thisObject.getObjectFieldOrNullAs<TextView>("dateView")!!
                     NotificationWeatherNew.clockId = dateView.id
                     NotificationWeatherNew.weather = WeatherData(dateView.context, isDisplayCity)
                     //NotificationWeatherNew.weather.callBacks = { dateView.callMethod("updateTime") }

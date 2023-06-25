@@ -32,20 +32,20 @@ object ChargingCVP : BaseHook() {
             val clazzDependency = loadClass("com.android.systemui.Dependency")
             val clazzKeyguardIndicationController =
                 loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
-            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors
+             ?.createHooks {
                 after { param ->
                     (param.thisObject as TextView).isSingleLine = false
                     val screenOnOffReceiver = @SuppressLint("ServiceCast")
                     object : BroadcastReceiver() {
                         val keyguardIndicationController = invokeStaticMethodBestMatch(
-                            clazzDependency, "get", null, clazzKeyguardIndicationController
-                        )!!
+                            clazzDependency, "get", null, clazzKeyguardIndicationController)!!
                         val handler = Handler((param.thisObject as TextView).context.mainLooper)
                         val runnable = object : Runnable {
                             override fun run() {
                                 invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
-                                handler.postDelayed(this,
-                                    mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
+                                handler.postDelayed(
+                                    this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
                                 )
                             }
                         }
@@ -73,18 +73,20 @@ object ChargingCVP : BaseHook() {
                         addAction(Intent.ACTION_SCREEN_ON)
                         addAction(Intent.ACTION_SCREEN_OFF)
                     }
-                    (param.thisObject as TextView).context.registerReceiver(
-                        screenOnOffReceiver,
-                        filter
-                    )
+                    (param.thisObject as TextView).context.registerReceiver(screenOnOffReceiver, filter)
                 }
             }
         }
-        loadClass("com.android.keyguard.charge.ChargeUtils").methodFinder().filterByName("getChargingHintText")
-            .filterByParamTypes(Context::class.java, Boolean::class.javaPrimitiveType, Int::class.javaPrimitiveType)
+        loadClass("com.android.keyguard.charge.ChargeUtils").methodFinder()
+            .filterByName("getChargingHintText")
+            .filterByParamTypes(
+                Context::class.java,
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType
+            )
             .first().createHook {
-                after { param ->
-                    param.result = param.result?.let { "$it ${getCVP()}" }
+                after {
+                    it.result = it.result as String + getCVP()
                 }
         }
     }
@@ -92,7 +94,8 @@ object ChargingCVP : BaseHook() {
     private fun getCVP(): String {
         // 获取电流信息
         val batteryManager =
-            AndroidAppHelper.currentApplication().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            AndroidAppHelper.currentApplication()
+                .getSystemService(Context.BATTERY_SERVICE) as BatteryManager
         val current =
             abs(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) / 1000)
         var voltage = 0.0
@@ -130,6 +133,6 @@ object ChargingCVP : BaseHook() {
             false -> ""
         }
         // 输出展示信息
-        return "$mTemp\n$mCurrent · $mVoltage · $power W"
+        return "${mTemp}\n$mCurrent · $mVoltage · $power W"
     }
 }
