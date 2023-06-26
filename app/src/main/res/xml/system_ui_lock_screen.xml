@@ -61,12 +61,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_show_charging_v_more"
-            android:title="@string/system_ui_lock_screen_show_charging_v_more"
-            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_ui_show_battery_temperature"
             android:title="@string/system_ui_lock_screen_show_battery_temperature"
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
