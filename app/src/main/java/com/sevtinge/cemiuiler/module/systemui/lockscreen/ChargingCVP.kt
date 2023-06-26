@@ -133,7 +133,7 @@ object ChargingCVP : BaseHook() {
         }
         val mVoltage = "${String.format("%.1f", abs(voltage / 1000f))} V"
         // 电池温度是否展示
-        val mTemp = if (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) "· $temp ℃" else ""
+        val mTemp = if (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) " · $temp ℃" else ""
         // 输出展示信息
         return "${mTemp}\n$mCurrent · $mVoltage · $power W"
     }

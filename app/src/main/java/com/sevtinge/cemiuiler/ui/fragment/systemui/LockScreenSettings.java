@@ -36,6 +36,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
         mChangingCVTime.setVisible(isMoreAndroidVersion(33));
 
         if (isDeviceEncrypted(getContext())) {
+            mPasswordFree.setChecked(false);
             mPasswordFree.setEnabled(false);
             mPasswordFree.setSummary(R.string.system_ui_lock_screen_password_free_tip);
         }
