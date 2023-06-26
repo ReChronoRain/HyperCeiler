@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object NoveltyHaptic : BaseHook() {
     override fun init() {
+        if (mPrefsMap.getBoolean("system_settings_international_build")) return // 开启国际版设置界面将禁用此功能
         loadClass("com.android.settings.utils.SettingsFeatures").methodFinder().first {
             name == "isNoveltyHaptic"
         }.createHook {
