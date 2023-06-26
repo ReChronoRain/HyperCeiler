@@ -1,33 +1,31 @@
-package com.sevtinge.cemiuiler.module.misettings;
+package com.sevtinge.cemiuiler.module.misettings
 
-import android.os.Bundle;
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.MemberExtensions.isFinal
+import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
+import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
+import com.sevtinge.cemiuiler.module.base.BaseHook
 
-import com.sevtinge.cemiuiler.module.base.BaseHook;
+object CustomRefreshRate : BaseHook() {
+    override fun init() {
+        val result1 = MiSettingsDexKit.mMiSettingsResultMethodsMap!!["category"]
+        val result2 = MiSettingsDexKit.mMiSettingsResultClassMap!!["refresh"]
 
-import de.robv.android.xposed.XposedHelpers;
-
-public class CustomRefreshRate extends BaseHook {
-
-    Class<?> mNewRefreshRateFragment;
-    Class<?> mRefreshRateActivity;
-
-    @Override
-    public void init() {
-        mNewRefreshRateFragment = findClassIfExists("com.xiaomi.misettings.display.RefreshRate.NewRefreshRateFragment");
-        mRefreshRateActivity = findClassIfExists("com.xiaomi.misettings.display.RefreshRate.RefreshRateActivity");
-
-        findAndHookMethod(mNewRefreshRateFragment, "b", boolean.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.args[0] = true;
+        result1!!.single().getMethodInstance(EzXHelper.classLoader).createHook {
+            before {
+                it.args[0] = true
             }
-        });
+        }
 
-        findAndHookMethod(mRefreshRateActivity, "onCreate", Bundle.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                XposedHelpers.setObjectField(param.thisObject, "a", true);
-            }
-        });
+        result2!!.map {
+            it.getClassInstance(EzXHelper.classLoader).fieldFinder()
+                .toList().forEach { field ->
+                    if (field.isFinal && field.isStatic) {
+                        field.isAccessible = true
+                        field.set(null, true)
+                    }
+                }
+        }
     }
 }
