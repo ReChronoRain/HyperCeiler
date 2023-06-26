@@ -76,6 +76,12 @@ object ChargingCVP : BaseHook() {
                     (param.thisObject as TextView).context.registerReceiver(screenOnOffReceiver, filter)
                 }
             }
+        } else {
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
+                after {
+                    (it.thisObject as TextView).isSingleLine = false
+                }
+            }
         }
         loadClass("com.android.keyguard.charge.ChargeUtils").methodFinder()
             .filterByName("getChargingHintText")
@@ -86,7 +92,9 @@ object ChargingCVP : BaseHook() {
             )
             .first().createHook {
                 after {
-                    it.result = it.result as String + getCVP()
+                    if (it.result != null) {
+                        it.result = it.result as String + getCVP()
+                    }
                 }
         }
     }
@@ -118,20 +126,14 @@ object ChargingCVP : BaseHook() {
         val powerAll = abs((current * voltage) / 1000f / 1000f)
         val power = String.format("%.2f", powerAll)
 
-        // 电流/电压展示逻辑设置
+        // 电流展示逻辑设置
         val mCurrent = when (mPrefsMap.getBoolean("system_ui_show_charging_c_more")) {
             true -> "$current mA"
             else -> "${String.format("%.1f", abs(current / 1000f))} A"
         }
-        val mVoltage = when (mPrefsMap.getBoolean("system_ui_show_charging_v_more")) {
-            true -> "${voltage.toInt()} mV"
-            else -> "${String.format("%.1f", abs(voltage / 1000f))} V"
-        }
+        val mVoltage = "${String.format("%.1f", abs(voltage / 1000f))} V"
         // 电池温度是否展示
-        val mTemp = when (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) {
-            true -> "· $temp ℃"
-            false -> ""
-        }
+        val mTemp = if (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) "· $temp ℃" else ""
         // 输出展示信息
         return "${mTemp}\n$mCurrent · $mVoltage · $power W"
     }
