@@ -777,7 +777,6 @@
     <string name="system_ui_lock_screen_scramble_pin_desc">Случайный порядок ввода PIN с клавиатуры</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Показывать подробную информацию о токах</string>
     <string name="system_ui_lock_screen_show_charging_cv">Отображение информации о заряде в нижней части экрана блокировки</string>
-    <string name="system_ui_lock_screen_show_charging_v_more">Показать подробную информацию о напряжении</string>
     <string name="system_ui_lock_screen_show_second">Показывать секунды на часах</string>
     <string name="system_ui_lockscreen_safe_title">Безопасность</string>
     <string name="system_ui_lockscreen_title">Экран блокировки</string>

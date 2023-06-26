@@ -29,7 +29,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
         mBlurButton = findPreference("prefs_key_system_ui_lock_screen_blur_button");
         mForceSystemFonts = findPreference("prefs_key_system_ui_lock_screen_force_system_fonts");
         mPasswordFree = findPreference("prefs_key_system_ui_lock_screen_password_free");
-        mChangingCVTime = findPreference("prefs_key_system_ui_statusbar_lock_screen_show_spacing");
+        mChangingCVTime = findPreference("prefs_key_system_ui_lock_screen_show_spacing");
 
         mBlurButton.setVisible(!isAndroidR());
         mForceSystemFonts.setVisible(!isAndroidR());

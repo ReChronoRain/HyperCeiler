@@ -1008,7 +1008,6 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi smart hub entry</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Device control entry</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Show detailed current</string>
-    <string name="system_ui_lock_screen_show_charging_v_more">Show detailed voltage</string>
     <string name="search">Search</string>
     <string name="system_ui_control_center_compact_notice">Compact notifications</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\\\' vertical paddings</string>
@@ -1076,7 +1075,7 @@
     <string name="security_center_unlock_enhance_contours">Unlock Enhance contours</string>
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps use barrage</string>
-    <string name="system_ui_statusbar_lock_screen_show_spacing">Display refresh interval</string>
+    <string name="system_ui_lock_screen_show_spacing">Display refresh interval</string>
     <string name="security_center_unlock_screen_time_desc">Show screen power usage information in the top battery drain and resume showing all other apps\' power consumption and time</string>
     <string name="security_disable_app_url_title">Apply open link management</string>
     <string name="security_disable_app_url_summary">Change the \"Remove default action\" to \"Open by default\" setting in the app details</string>
