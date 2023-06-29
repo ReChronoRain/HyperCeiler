@@ -12,6 +12,7 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SwitchPreference;
 
 public class IconManageSettings extends SettingsPreferenceFragment {
 
@@ -20,6 +21,8 @@ public class IconManageSettings extends SettingsPreferenceFragment {
     DropDownPreference mAlarmClockIcon;
     SeekBarPreference mAlarmClockIconN;
     SeekBarPreference mNotificationIconMaximum;
+    SwitchPreference mBatteryNumber;
+    SwitchPreference mBatteryPercentage;
 
     @Override
     public int getContentResId() {
@@ -40,6 +43,9 @@ public class IconManageSettings extends SettingsPreferenceFragment {
         mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");
         mNotificationIconMaximum = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
 
+        mBatteryNumber = findPreference("prefs_key_system_ui_status_bar_battery_percent");
+        mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
+
         UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
         IconNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
         UseNewHD.setVisible(isAndroidT());
@@ -55,6 +61,13 @@ public class IconManageSettings extends SettingsPreferenceFragment {
         mNotificationIconMaximum.setOnPreferenceChangeListener((preference, o) -> {
             if ((int) o == 16) {
                 mNotificationIconMaximum.setValue(R.string.unlimited);
+            }
+            return true;
+        });
+
+        mBatteryNumber.setOnPreferenceChangeListener((preference, o) -> {
+            if (!(boolean) o) {
+                mBatteryPercentage.setChecked(false);
             }
             return true;
         });

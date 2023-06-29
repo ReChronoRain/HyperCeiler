@@ -9,10 +9,7 @@ object HandleLineCustom : BaseHook() {
             mPrefsMap.getInt("system_ui_navigation_handle_custom_thickness", 185).toFloat() / 100
         try {
             mResHook.setDensityReplacement(
-                "com.android.systemui",
-                "dimen",
-                "navigation_handle_radius",
-                mNavigationHandleRadius
+                "com.android.systemui", "dimen", "navigation_handle_radius", mNavigationHandleRadius
             )
         } catch (e: Exception) {
             log(e.toString())

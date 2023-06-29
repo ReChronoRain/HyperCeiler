@@ -45,7 +45,7 @@ import com.sevtinge.cemiuiler.module.systemui.navigation.HandleLineCustom;
 import com.sevtinge.cemiuiler.module.systemui.navigation.NavigationCustom;
 import com.sevtinge.cemiuiler.module.systemui.plugin.PluginHelper;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.BigMobileNetworkType;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.BluetoothIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DualRowSignalHook;
@@ -55,11 +55,11 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileTypeSingleHook;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileTypeTextCustom;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarIcon;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarIconPositionAdjust;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.StatusBarSimIcon;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.UseNewHD;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiNetworkIndicator;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarSimIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.t.UseNewHD;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiStandard;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
@@ -78,7 +78,6 @@ public class SystemUI extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
@@ -93,13 +92,13 @@ public class SystemUI extends BaseModule {
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
 
         // 状态栏图标
-        initHook(new WifiNetworkIndicator(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
+        initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
         initHook(new StatusBarIcon(), true);
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(NotificationIconColumns.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_notification_dots_maximum_enable") || mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
-        initHook(new UseNewHD(), mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
+        initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
         initHook(StatusBarSimIcon.INSTANCE);
 

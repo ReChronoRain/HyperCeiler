@@ -8,7 +8,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 
-object BatterySize : BaseHook() {
+object BatteryStyle : BaseHook() {
     override fun init() {
         val size = mPrefsMap.getInt("system_ui_statusbar_battery_size", 0).toFloat()
         if (size == 0f) return

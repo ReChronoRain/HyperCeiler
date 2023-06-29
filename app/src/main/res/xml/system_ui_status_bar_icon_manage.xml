@@ -13,13 +13,6 @@
 
         <DropDownPreference
             android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_wifi_slave"
-            android:title="@string/system_ui_status_bar_icon_wifi_slave"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
-        <DropDownPreference
-            android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_wifi_standard"
             android:title="@string/system_ui_status_bar_icon_wifi_standard"
             app:entries="@array/status_bar_icon_mode"
@@ -29,6 +22,13 @@
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_hotspot"
             android:title="@string/system_ui_status_bar_icon_hotspot"
+            app:entries="@array/status_bar_icon_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_wifi_slave"
+            android:title="@string/system_ui_status_bar_icon_wifi_slave"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
