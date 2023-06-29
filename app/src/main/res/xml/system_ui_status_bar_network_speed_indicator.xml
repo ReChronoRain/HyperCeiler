@@ -156,7 +156,6 @@
             app:format="%s dp" />
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
 
 </PreferenceScreen>

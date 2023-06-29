@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_battery_style_change_location"
+            android:title="@string/system_ui_status_bar_battery_style_change_location_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_battery_style_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="15"
+            android:key="prefs_key_system_ui_status_bar_battery_style_font_size"
+            android:title="@string/system_ui_status_bar_battery_style_font_size"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="40"
+            app:minValue="15"
+            app:stepValue="1" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="15"
+            android:key="prefs_key_system_ui_status_bar_battery_style_font_mark_size"
+            android:title="@string/system_ui_status_bar_battery_style_font_mark_size"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="40"
+            app:minValue="15"
+            app:stepValue="1" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_battery_style_left_margin"
+            android:title="@string/left_margin"
+            app:maxValue="10"
+            app:minValue="0"
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_battery_style_right_margin"
+            android:title="@string/right_margin"
+            app:maxValue="10"
+            app:minValue="0"
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="8"
+            android:key="prefs_key_system_ui_status_bar_battery_style_vertical_offset"
+            android:title="@string/vertical_offset"
+            app:maxValue="16"
+            app:minValue="0"
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:negativeShift="8"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:defaultValue="17"
+            android:key="prefs_key_system_ui_status_bar_battery_style_vertical_offset_mark"
+            android:title="@string/system_ui_status_bar_battery_style_vertical_offset"
+            app:maxValue="17"
+            app:minValue="0"
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:negativeShift="8"
+            app:displayDividerValue="2"
+            app:format="%s dp" />
+
+    </PreferenceCategory>
+    <Preference android:enabled="false" />
+</PreferenceScreen>

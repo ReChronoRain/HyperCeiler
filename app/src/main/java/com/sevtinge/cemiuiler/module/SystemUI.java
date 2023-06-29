@@ -45,7 +45,6 @@ import com.sevtinge.cemiuiler.module.systemui.navigation.HandleLineCustom;
 import com.sevtinge.cemiuiler.module.systemui.navigation.NavigationCustom;
 import com.sevtinge.cemiuiler.module.systemui.plugin.PluginHelper;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.BigMobileNetworkType;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.DualRowSignalHook;
@@ -55,15 +54,17 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileTypeSingleHook;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.MobileTypeTextCustom;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIcon;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarSimIcon;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.t.UseNewHD;
-import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.WifiStandard;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BatteryStyle;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideBatteryIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarSimIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.WifiNetworkIndicator;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeed;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.network.NetworkSpeedSec;
@@ -115,7 +116,7 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
             mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
         initHook(HideBatteryIcon.INSTANCE, isHideBatteryIcon);
-        // initHook(BatterySize.INSTANCE);
+        initHook(BatteryStyle.INSTANCE);
         // initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         // 网速指示器

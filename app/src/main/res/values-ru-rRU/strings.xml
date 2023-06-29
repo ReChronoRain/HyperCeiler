@@ -922,7 +922,6 @@
     <string name="right_margin">Правый интервал</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Температура</string>
     <string name="vertical_offset">Смещение вверх и вниз</string>
-    <string name="system_ui_statusbar_mobile_type_bold">Жирный</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Размер шрифта</string>
     <string name="system_ui_statusbar_network_speed_Bs">Б/с</string>
     <string name="system_ui_statusbar_network_speed_detailed">Скорость загрузки и скачивания отображаются в две строки</string>
@@ -933,6 +932,7 @@
     <string name="system_ui_statusbar_network_speed_format_KBs">%d КБ/с</string>
     <string name="system_ui_statusbar_network_speed_format_d_m">%d мин</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Скрыть злые уведомления</string>
+    <string name="system_ui_status_bar_battery_style_change_location_title">Поменять местами значок и процент батареи</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d мс</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d с</string>
     <string name="system_ui_statusbar_network_speed_hide">Скрыть низкую скорость сети</string>

@@ -881,7 +881,6 @@
     <string name="right_margin">Margem direita</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperatura relacionada</string>
     <string name="vertical_offset">Deslocamento para cima e para baixo</string>
-    <string name="system_ui_statusbar_mobile_type_bold">Bold</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Tamanho da fonte</string>
     <string name="system_ui_statusbar_network_speed_Bs">B / s</string>
     <string name="system_ui_statusbar_network_speed_detailed">A velocidade de Upload e download é exibida em linhas duplas</string>
@@ -892,6 +891,7 @@
     <string name="system_ui_statusbar_network_speed_format_KBs">%d KB / s</string>
     <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do modo zen</string>
+    <string name="system_ui_status_bar_battery_style_change_location_title">Trocar ícone e porcentagem da bateria</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d em</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
     <string name="system_ui_statusbar_network_speed_hide">Ocultar velocidade de rede lenta</string>

@@ -86,6 +86,11 @@ public class SearchHelper {
             R.string.system_ui_statusbar_iconmanage_mobile_network_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings");
 
+        parsePrefXml(context, R.xml.system_ui_status_bar_battery_styles,
+            R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_status_bar_battery_style_title,
+            "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryStyleSettings");
+
         parsePrefXml(context, R.xml.system_ui_status_bar_network_speed_indicator,
             R.string.system_ui,
             R.string.system_ui_statusbar_network_speed_indicator_title,

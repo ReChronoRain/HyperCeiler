@@ -765,7 +765,6 @@
     <string name="system_ui_status_bar_battery_indicator_padding">水準邊距</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">圓角</string>
     <string name="system_ui_status_bar_battery_indicator_test">測試</string>
-    <string name="system_ui_status_bar_battery_size_title">電池百分比文字大小</string>
     <string name="system_ui_status_bar_battery_indicator_title">電量指示器</string>
     <string name="system_ui_status_bar_battery_percent">隱藏電量百分比</string>
     <string name="system_ui_status_bar_battery_percent_mark">隱藏電量百分比符號</string>
@@ -853,7 +852,6 @@
     <string name="system_ui_status_bar_mobile_type_single">蜂窩移動網絡類型圖示單獨顯示</string>
     <string name="system_ui_status_bar_mobile_type_custom">個性化文本內容</string>
     <string name="system_ui_statusbar_mobile_type_font_size">字體大小</string>
-    <string name="system_ui_statusbar_mobile_type_bold">加粗</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wi-Fi</string>
     <string name="horizontal_alignment">水準對齊</string>
     <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
@@ -1052,4 +1050,5 @@
     <string name="security_center_skip_waiting_time_desc">跳過大部分官方危險選項的等待確認倒數時間</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
     <string name="security_center_remove_low_battery_reminder_title">隱藏低電量警告</string>
+    <string name="system_ui_status_bar_battery_style_change_location_title">交換電池的圖示和百分比位置</string>
 </resources>

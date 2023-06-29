@@ -23,7 +23,7 @@
         android:defaultValue="false"
         android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
         android:key="prefs_key_system_ui_statusbar_mobile_type_bold"
-        android:title="@string/system_ui_statusbar_mobile_type_bold" />
+        android:title="@string/system_ui_statusbar_indicator_bold" />
 
     <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
         android:defaultValue="27"

@@ -254,12 +254,9 @@
             android:key="prefs_key_system_ui_status_bar_battery_icon"
             android:title="@string/system_ui_status_bar_battery_icon" />
 
-        <EditTextPreference
-            android:defaultValue="0.0"
-            android:inputType="textMultiLine"
-            app:isPreferenceVisible="false"
-            android:key="prefs_key_system_ui_status_bar_battery_size"
-            android:title="@string/system_ui_status_bar_battery_size_title" />
+        <Preference
+            android:title="@string/system_ui_status_bar_battery_style_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryStyleSettings" />
 
         <Preference
             android:title="@string/system_ui_status_bar_battery_indicator_title"
@@ -317,6 +314,5 @@
             android:title="@string/system_ui_status_bar_swap_wifi_and_mobile_network" />
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
 </PreferenceScreen>

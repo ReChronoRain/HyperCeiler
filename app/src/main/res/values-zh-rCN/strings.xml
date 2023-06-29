@@ -920,7 +920,11 @@
     <string name="system_ui_status_bar_mobile_type_single">移动网络类型图标单独显示</string>
     <string name="system_ui_status_bar_mobile_type_custom">自定义文本内容</string>
     <string name="system_ui_statusbar_mobile_type_font_size">字体大小</string>
-    <string name="system_ui_statusbar_mobile_type_bold">加粗</string>
+
+    <string name="system_ui_status_bar_battery_style_change_location_title">交换电池图标与百分比位置</string>
+    <string name="system_ui_status_bar_battery_style_font_size">电量百分比字体大小</string>
+    <string name="system_ui_status_bar_battery_style_font_mark_size">电量百分比符号字体大小</string>
+    <string name="system_ui_status_bar_battery_style_vertical_offset">电量百分比符号上下偏移量</string>
 
     <string name="system_ui_statusbar_iconmanage_wifi_title">WIFI</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">蓝牙</string>
@@ -962,7 +966,7 @@
     <string name="system_ui_status_bar_battery_percent_mark">隐藏电量百分比符号</string>
     <string name="system_ui_status_bar_battery_charging">隐藏充电指示器</string>
     <string name="system_ui_status_bar_battery_icon">隐藏电池图标</string>
-    <string name="system_ui_status_bar_battery_size_title">电池百分比文字大小</string>
+    <string name="system_ui_status_bar_battery_style_title">电池自定义</string>
     <string name="system_ui_status_bar_battery_indicator_title">电量指示器</string>
     <string name="system_ui_status_bar_wifi_at_left">WIFI</string>
     <string name="system_ui_status_bar_mobile_network_at_left">移动网络</string>

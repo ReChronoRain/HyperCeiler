@@ -296,7 +296,6 @@
     <string name="system_ui_status_bar_battery_indicator_test">Test</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Simge stilleri</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Yazı Boyutu</string>
-    <string name="system_ui_statusbar_mobile_type_bold">Kalın</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wifi</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">Bluetooth</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">Mobil ağ</string>
@@ -814,4 +813,5 @@
     <string name="top_margin">Üst kenar boşluğu</string>
     <string name="preference_default_value_text">Varsayılan</string>
     <string name="security_center_remove_low_battery_reminder_title">Düşük pil seviyesiyle ilgili uyarıyı gizle</string>
+    <string name="system_ui_status_bar_battery_style_change_location_title">Simge ve Pil yüzdesi Değiştirin</string>
 </resources>
