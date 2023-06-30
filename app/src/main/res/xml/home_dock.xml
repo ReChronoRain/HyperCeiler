@@ -63,7 +63,7 @@
             android:key="prefs_key_home_dock_bg_margin_top"
             android:summary="@string/home_dock_bg_margin_top_desc"
             android:title="@string/top_margin"
-            app:maxValue="100"
+            app:maxValue="150"
             app:showSeekBarValue="true" />
 
 
@@ -74,7 +74,7 @@
             android:key="prefs_key_home_dock_bg_margin_bottom"
             android:summary="@string/home_dock_bg_margin_bottom_desc"
             android:title="@string/bottom_margin"
-            app:maxValue="100"
+            app:maxValue="150"
             app:showSeekBarValue="true" />
 
 
