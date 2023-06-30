@@ -47,7 +47,7 @@
             android:key="prefs_key_task_view_corners"
             android:title="@string/home_recent_task_view_card_rounded_corners"
             android:format="%d dp"
-            app:maxValue="100"
+            app:maxValue="60"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
