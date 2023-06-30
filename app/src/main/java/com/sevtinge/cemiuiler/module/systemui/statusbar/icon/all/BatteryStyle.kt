@@ -45,66 +45,79 @@ object BatteryStyle : BaseHook() {
                     batteryView.addView(mBatteryPercentMarkView, 0)
                     batteryView.addView(mBatteryPercentView, 0)
                 }
-                val fontSize =
-                    mPrefsMap.getInt("system_ui_status_bar_battery_style_font_size", 15) * 0.5f
-                if (fontSize > 7.5) {
-                    mBatteryTextDigitView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize)
-                    mBatteryPercentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize)
-                }
-                val fontSizeMark =
-                    mPrefsMap.getInt("system_ui_status_bar_battery_style_font_mark_size", 15) * 0.5f
-                if (fontSizeMark > 7.5) {
-                    mBatteryPercentMarkView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeMark)
-                }
 
-                if (mPrefsMap.getBoolean("system_ui_status_bar_battery_style_bold")) {
-                    mBatteryTextDigitView.typeface = Typeface.DEFAULT_BOLD
-                    mBatteryPercentView.typeface = Typeface.DEFAULT_BOLD
-                }
+                if (mPrefsMap.getBoolean("system_ui_status_bar_battery_style_enable_custom")) {
+                    val fontSize =
+                        mPrefsMap.getInt("system_ui_status_bar_battery_style_font_size", 15) * 0.5f
+                    if (fontSize > 7.5) {
+                        mBatteryTextDigitView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize)
+                        mBatteryPercentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize)
+                    }
+                    val fontSizeMark =
+                        mPrefsMap.getInt("system_ui_status_bar_battery_style_font_mark_size", 15) * 0.5f
+                    if (fontSizeMark > 7.5) {
+                        mBatteryPercentMarkView.setTextSize(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            fontSizeMark
+                        )
+                    }
 
-                var leftMargin: Int =
-                    mPrefsMap.getInt("system_ui_status_bar_battery_style_left_margin", 0)
-                var rightMargin: Int =
-                    mPrefsMap.getInt("system_ui_status_bar_battery_style_right_margin", 0)
+                    if (mPrefsMap.getBoolean("system_ui_status_bar_battery_style_bold")) {
+                        mBatteryTextDigitView.typeface = Typeface.DEFAULT_BOLD
+                        mBatteryPercentView.typeface = Typeface.DEFAULT_BOLD
+                    }
 
-                leftMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, leftMargin * 0.5f, res.displayMetrics
-                ).toInt()
-                rightMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, rightMargin * 0.5f, res.displayMetrics
-                ).toInt()
+                    var leftMargin: Int =
+                        mPrefsMap.getInt("system_ui_status_bar_battery_style_left_margin", 0)
+                    var rightMargin: Int =
+                        mPrefsMap.getInt("system_ui_status_bar_battery_style_right_margin", 0)
 
-                var topMargin = 0
-                val verticalOffset: Int =
-                    mPrefsMap.getInt("system_ui_status_bar_battery_style_vertical_offset", 8)
-                if (verticalOffset != 8) {
-                    val marginTop =
-                        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (verticalOffset - 8) * 0.5f, res.displayMetrics)
-                    topMargin = marginTop.toInt()
-                }
+                    leftMargin = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, leftMargin * 0.5f, res.displayMetrics
+                    ).toInt()
+                    rightMargin = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, rightMargin * 0.5f, res.displayMetrics
+                    ).toInt()
 
-                var digitRightMargin = 0
-                var markRightMargin = 0
-                if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) {
-                    digitRightMargin = rightMargin
-                } else {
-                    markRightMargin = rightMargin
-                }
-                if (leftMargin > 0 || topMargin != 8 || digitRightMargin > 0) {
-                    mBatteryPercentView.setPaddingRelative(
-                        leftMargin, topMargin, digitRightMargin, 0
-                    )
-                }
+                    var topMargin = 0
+                    val verticalOffset: Int =
+                        mPrefsMap.getInt("system_ui_status_bar_battery_style_vertical_offset", 8)
+                    if (verticalOffset != 8) {
+                        val marginTop =
+                            TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP, (verticalOffset - 8) * 0.5f, res.displayMetrics
+                            )
+                        topMargin = marginTop.toInt()
+                    }
 
-                val verticalOffsetMark =
-                    mPrefsMap.getInt("system_ui_status_bar_battery_style_vertical_offset_mark", 17)
-                if (verticalOffsetMark < 17) {
-                    val marginTop =
-                        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (verticalOffsetMark - 8) * 0.5f, res.displayMetrics)
-                    topMargin = marginTop.toInt()
-                }
-                if (verticalOffset < 17 || markRightMargin > 0) {
-                    mBatteryPercentMarkView.setPaddingRelative(0, topMargin, markRightMargin, 0)
+                    var digitRightMargin = 0
+                    var markRightMargin = 0
+                    if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")) {
+                        digitRightMargin = rightMargin
+                    } else {
+                        markRightMargin = rightMargin
+                    }
+                    if (leftMargin > 0 || topMargin != 8 || digitRightMargin > 0) {
+                        mBatteryPercentView.setPaddingRelative(
+                            leftMargin, topMargin, digitRightMargin, 0
+                        )
+                    }
+
+                    val verticalOffsetMark =
+                        mPrefsMap.getInt(
+                            "system_ui_status_bar_battery_style_vertical_offset_mark",
+                            17
+                        )
+                    if (verticalOffsetMark < 17) {
+                        val marginTop =
+                            TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP, (verticalOffsetMark - 8) * 0.5f, res.displayMetrics
+                            )
+                        topMargin = marginTop.toInt()
+                    }
+                    if (verticalOffset < 17 || markRightMargin > 0) {
+                        mBatteryPercentMarkView.setPaddingRelative(0, topMargin, markRightMargin, 0)
+                    }
                 }
             }
         }
