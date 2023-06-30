@@ -21,7 +21,8 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                 "updateBackground",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val mDetailContainer = HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                        val mDetailContainer =
+                            HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
                         if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha

@@ -73,22 +73,14 @@ object HookUtils {
         color: Int? = null
     ): Drawable? {
         try {
-            val mViewRootImpl = XposedHelpers.callMethod(
-                view,
-                "getViewRootImpl"
-            ) ?: return null
-            val blurDrawable = XposedHelpers.callMethod(
-                mViewRootImpl,
-                "createBackgroundBlurDrawable"
-            ) as Drawable
+            val mViewRootImpl =
+                XposedHelpers.callMethod(view, "getViewRootImpl") ?: return null
+            val blurDrawable =
+                XposedHelpers.callMethod(mViewRootImpl, "createBackgroundBlurDrawable") as Drawable
             XposedHelpers.callMethod(blurDrawable, "setBlurRadius", blurRadius)
             XposedHelpers.callMethod(blurDrawable, "setCornerRadius", cornerRadius)
             if (color != null) {
-                XposedHelpers.callMethod(
-                    blurDrawable,
-                    "setColor",
-                    color
-                )
+                XposedHelpers.callMethod(blurDrawable, "setColor",color)
             }
             return blurDrawable
         } catch (e: Throwable) {
