@@ -56,7 +56,7 @@ object BlurButton : BaseHook() {
         }
 
         // 已摆烂，剩下数组异常问题（会多生成一个 0 的数组，导致抛出 ArrayIndexOutOfBoundsException 异常），感觉我没能力修好（
-        // 性能优化得差不多了，但是在 1.2.120 正式版上还是会移除它，等找到有效解决方法再重新加回
+        // 性能优化得差不多了
         val timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
