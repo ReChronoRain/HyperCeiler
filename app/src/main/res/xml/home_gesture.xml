@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/home_navigation_title">
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:title="@string/home_navigation_back_area_height"
+            android:key="prefs_key_home_navigation_back_area_height"
+            app:maxValue="100"
+            app:minValue="10"
+            android:defaultValue="60"
+            app:defaultValueText="@string/array_default"
+            app:format="%s%"
+            app:stepValue="5"
+            app:showSeekBarValue="true"/>
+
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:title="@string/home_navigation_back_area_width"
+            android:key="prefs_key_home_navigation_back_area_width"
+            app:maxValue="400"
+            app:minValue="100"
+            android:defaultValue="100"
+            app:defaultValueText="@string/array_default"
+            app:format="%s%"
+            app:stepValue="5"
+            app:showSeekBarValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_gesture_title2">
         <Preference
             android:key="prefs_key_home_gesture_double_tap"
             android:title="@string/home_gesture_double_tap"

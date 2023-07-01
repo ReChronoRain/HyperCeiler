@@ -46,6 +46,8 @@ import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginTop;
 import com.sevtinge.cemiuiler.module.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePadding;
+import com.sevtinge.cemiuiler.module.home.navigation.BackGestureAreaHeight;
+import com.sevtinge.cemiuiler.module.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
 import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
@@ -108,6 +110,9 @@ public class Home extends BaseModule {
             || mPrefsMap.getInt("home_gesture_right_swipe_action", 0) > 0);
         initHook(new ShakeDevice(), mPrefsMap.getInt("home_gesture_shake_action", 0) > 0);
         //initHook(new SwipeAndStop(), mPrefsMap.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
+
+        initHook(new BackGestureAreaHeight(), mPrefsMap.getInt("home_navigation_back_area_height", 60) != 60);
+        initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
 
         // 布局
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
