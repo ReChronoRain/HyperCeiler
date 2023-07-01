@@ -93,7 +93,7 @@
     <string name="gallery_enable_magic_matting">Unlock Cut</string>
     <string name="gallery_enable_magic_sky">Unlock Sky</string>
     <string name="guard_provider_disable_upload_applist">Prevent automatic upload of installed app list</string>
-    <string name="home_gesture">Gesture</string>
+    <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_layout">Layout</string>
     <string name="home_folder">Folder</string>
     <string name="home_title">Icon and Title</string>
@@ -1112,4 +1112,6 @@
     <string name="system_ui_status_bar_battery_style_change_location_title">Swap icon and percentage of battery</string>
     <string name="system_ui_status_bar_battery_style_font_size">Battery percentage font size</string>
     <string name="system_ui_status_bar_battery_style_font_mark_size">Battery percentage symbol font size</string>
+    <string name="home_gesture_swipe_and_stop">Swipe and stop</string>
+    <string name="home_gesture_swipe_and_stop_desc">Swipe and stop on the non-home screen</string>
 </resources>

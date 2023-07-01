@@ -49,6 +49,12 @@
             android:summary="@string/home_gesture_down_swipe2_desc"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/>
 
+        <!--Preference
+            android:key="prefs_key_home_gesture_swipe_and_stop"
+            android:title="@string/home_gesture_swipe_and_stop"
+            android:summary="@string/home_gesture_swipe_and_stop_desc"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.MultiActionSettings"/-->
+
         <!--<Preference
             android:key="prefs_key_home_gesture_pinch"
             android:title="@string/home_gesture_pinch" />
