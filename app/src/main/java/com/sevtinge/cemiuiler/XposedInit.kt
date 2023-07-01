@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
@@ -40,7 +41,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         EzXHelper.setToastTag(TAG)
 
         init(lpparam)
-
+        CrashRecord.init(appContext)
         SystemFrameworkForCorePatch().handleLoadPackage(lpparam)
     }
 
