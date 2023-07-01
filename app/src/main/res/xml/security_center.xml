@@ -131,6 +131,17 @@
     <PreferenceCategory android:title="@string/security_center_newbox_title">
 
         <SwitchPreference
+            android:title="@string/security_center_hide_sidebar"
+            android:key="prefs_key_security_center_hide_sidebar"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/security_center_leave_open"
+            android:key="prefs_key_security_center_leave_open"
+            android:dependency="prefs_key_security_center_hide_sidebar"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color"
             android:defaultValue="false"

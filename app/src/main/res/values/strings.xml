@@ -1118,4 +1118,6 @@
     <string name="home_navigation_title">Navigation</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
+    <string name="security_center_hide_sidebar">Hide sidebar</string>
+    <string name="security_center_leave_open">Leave the slide unfolded</string>
 </resources>

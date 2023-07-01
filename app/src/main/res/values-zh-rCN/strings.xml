@@ -652,6 +652,8 @@
     <string name="security_center_unlock_memc">解锁动态画面补偿</string>
     <string name="security_center_unlock_enhance_contours">解锁影像轮廓增强</string>
     <string name="security_center_unlock_s_resolution">解锁极清播放</string>
+    <string name="security_center_hide_sidebar">隐藏侧边栏</string>
+    <string name="security_center_leave_open">保留侧滑展开</string>
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>

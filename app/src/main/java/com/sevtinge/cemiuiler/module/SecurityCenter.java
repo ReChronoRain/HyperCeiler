@@ -32,6 +32,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.lab.GetNumberEnable;
 import com.sevtinge.cemiuiler.module.securitycenter.other.NoLowBatteryWarning;
+import com.sevtinge.cemiuiler.module.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.cemiuiler.module.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
@@ -99,5 +100,6 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockMemc.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_memc"));
         initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resolution"));
         initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
+        initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
     }
 }
