@@ -51,6 +51,7 @@ object BlurSecurity : BaseHook() {
     private val keepColorList = arrayOf("rv_information")
 
     override fun init() {
+        if (getPackageVersionCode(lpparam) >= 40000790) return //暂时屏蔽高版本启用模糊，待修复后移除
         val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
         ) ?: return
