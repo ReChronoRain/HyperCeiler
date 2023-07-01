@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -22,6 +23,7 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import de.robv.android.xposed.XposedHelpers;
 
 public class GlobalActions extends BaseHook {
+
 
     @Override
     public void init() {

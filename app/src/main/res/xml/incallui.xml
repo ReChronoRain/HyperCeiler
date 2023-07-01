@@ -7,6 +7,10 @@
             android:key="prefs_key_incallui_hide_crbt"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/incallui_answer_in_head_up"
+            android:key="prefs_key_incallui_answer_in_head_up"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 

@@ -286,7 +286,7 @@
 
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
 
-    <string name="home_gesture">手势</string>
+    <string name="home_gesture">手势与导航</string>
     <string name="home_layout">布局</string>
     <string name="home_folder">文件夹</string>
     <string name="home_title">图标与标题</string>
@@ -361,6 +361,9 @@
     <string name="home_folder_anim_3">关闭时回弹幅度</string>
     <string name="home_folder_anim_4">关闭时慢放速度</string>
 
+    <string name="home_gesture_title2">手势</string>
+    <string name="home_navigation_title">导航</string>
+
     <string name="home_gesture_mainscreen_title">主屏幕</string>
     <string name="home_gesture_gesture_title">全面屏手势</string>
     <string name="home_gesture_double_tap">双击</string>
@@ -381,8 +384,13 @@
     <string name="home_gesture_down_swipe2_desc">在任意主屏幕双指下滑</string>
     <string name="home_gesture_pinch">双指捏合</string>
     <string name="home_gesture_spread">双指扩展</string>
+    <string name="home_gesture_swipe_and_stop">滑动并停止</string>
+    <string name="home_gesture_swipe_and_stop_desc">在任意非主屏幕由屏幕两侧向内滑动并停止</string>
     <string name="home_gesture_multi_choose_app">选择应用</string>
     <string name="home_gesture_multi_choose_app_none">未选择</string>
+
+    <string name="home_navigation_back_area_height">返回手势区域高度</string>
+    <string name="home_navigation_back_area_width">返回手势区域宽度</string>
 
     <string name="home_layout_home_title">主屏幕</string>
     <string name="home_layout_hotseats_title">底栏</string>
@@ -474,6 +482,7 @@
     <string name="home_widget_resizable">解除小部件大小限制</string>
 
     <string name="incallui_hide_crbt">隐藏电话彩铃</string>
+    <string name="incallui_answer_in_head_up">从浮动通知接听电话时不进入全屏</string>
 
     <string name="joyose_cloud_control_title">云控</string>
     <string name="joyose_disable_cloud_control">禁用云控</string>
@@ -644,6 +653,9 @@
     <string name="security_center_unlock_memc">解锁动态画面补偿</string>
     <string name="security_center_unlock_enhance_contours">解锁影像轮廓增强</string>
     <string name="security_center_unlock_s_resolution">解锁极清播放</string>
+    <string name="security_center_hide_sidebar">隐藏侧边栏</string>
+    <string name="security_center_leave_open">保留侧滑展开</string>
+    <string name="security_center_disable_sidebar_show_suggest">禁止展示推荐应用</string>
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>

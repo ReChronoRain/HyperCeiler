@@ -5,16 +5,16 @@ import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.home.AnimDurationRatio;
-import com.sevtinge.cemiuiler.module.home.DoubleTap;
+import com.sevtinge.cemiuiler.module.home.gesture.DoubleTap;
 import com.sevtinge.cemiuiler.module.home.FreeFormCountForHome;
 import com.sevtinge.cemiuiler.module.home.HomeDexKit;
 import com.sevtinge.cemiuiler.module.home.HomePortraitReverse;
-import com.sevtinge.cemiuiler.module.home.HotSeatSwipe;
+import com.sevtinge.cemiuiler.module.home.gesture.HotSeatSwipe;
 import com.sevtinge.cemiuiler.module.home.MaxFreeForm;
 import com.sevtinge.cemiuiler.module.home.ScreenSwipe;
 import com.sevtinge.cemiuiler.module.home.SeekPoints;
 import com.sevtinge.cemiuiler.module.home.SetDeviceLevel;
-import com.sevtinge.cemiuiler.module.home.ShakeDevice;
+import com.sevtinge.cemiuiler.module.home.gesture.ShakeDevice;
 import com.sevtinge.cemiuiler.module.home.StickyFloatingWindowsForHome;
 import com.sevtinge.cemiuiler.module.home.UnlockHotseatIcon;
 import com.sevtinge.cemiuiler.module.home.UserPresentAnimation;
@@ -39,12 +39,15 @@ import com.sevtinge.cemiuiler.module.home.folder.FolderColumns;
 import com.sevtinge.cemiuiler.module.home.folder.FolderShade;
 import com.sevtinge.cemiuiler.module.home.folder.FolderVerticalPadding;
 import com.sevtinge.cemiuiler.module.home.folder.SmallFolderIconBlur;
+import com.sevtinge.cemiuiler.module.home.gesture.SwipeAndStop;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsHeight;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginTop;
 import com.sevtinge.cemiuiler.module.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.home.layout.WorkspacePadding;
+import com.sevtinge.cemiuiler.module.home.navigation.BackGestureAreaHeight;
+import com.sevtinge.cemiuiler.module.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.cemiuiler.module.home.other.AlwaysShowStatusClock;
 import com.sevtinge.cemiuiler.module.home.other.BlurRadius;
@@ -106,6 +109,10 @@ public class Home extends BaseModule {
         initHook(new HotSeatSwipe(), mPrefsMap.getInt("home_gesture_left_swipe_action", 0) > 0
             || mPrefsMap.getInt("home_gesture_right_swipe_action", 0) > 0);
         initHook(new ShakeDevice(), mPrefsMap.getInt("home_gesture_shake_action", 0) > 0);
+        //initHook(new SwipeAndStop(), mPrefsMap.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
+
+        initHook(new BackGestureAreaHeight(), mPrefsMap.getInt("home_navigation_back_area_height", 60) != 60);
+        initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
 
         // 布局
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
