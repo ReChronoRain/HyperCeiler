@@ -1121,4 +1121,5 @@
     <string name="security_center_hide_sidebar">Hide sidebar</string>
     <string name="security_center_leave_open">Leave the slide unfolded</string>
     <string name="security_center_disable_sidebar_show_suggest">Disable show suggest apps</string>
+    <string name="incallui_answer_in_head_up">Answer in head up</string>
 </resources>

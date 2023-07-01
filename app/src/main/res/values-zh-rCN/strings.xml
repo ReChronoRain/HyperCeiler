@@ -482,6 +482,7 @@
     <string name="home_widget_resizable">解除小部件大小限制</string>
 
     <string name="incallui_hide_crbt">隐藏电话彩铃</string>
+    <string name="incallui_answer_in_head_up">从浮动通知接听电话时不进入全屏</string>
 
     <string name="joyose_cloud_control_title">云控</string>
     <string name="joyose_disable_cloud_control">禁用云控</string>
