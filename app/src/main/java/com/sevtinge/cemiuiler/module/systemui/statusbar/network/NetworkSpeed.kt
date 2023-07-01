@@ -14,7 +14,6 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
-import java.util.Locale
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
@@ -62,21 +61,11 @@ object NetworkSpeed : BaseHook() {
                 expIndex = 1
                 f /= 1024.0f
             }
-            val pre =
-                modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
+            val pre = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
             if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                // 使用本地化参数来格式化字符串
-                (if (f < 100.0f) {
-                    String.format(Locale.getDefault(), "%.1f", f)
-                } else {
-                    String.format(Locale.getDefault(), "%.0f", f)
-                }) + "\n" + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
             } else {
-                (if (f < 100.0f) {
-                    String.format(Locale.getDefault(), "%.1f", f)
-                } else {
-                    String.format(Locale.getDefault(), "%.0f", f)
-                }) + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
             Helpers.log(t)
@@ -169,8 +158,7 @@ object NetworkSpeed : BaseHook() {
                             mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
                         //  网速图标
                         val icons =
-                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2")
-                                .toInt()
+                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
                         var txArrow = ""
                         var rxArrow = ""
 
@@ -213,11 +201,29 @@ object NetworkSpeed : BaseHook() {
                         // 存储是否隐藏慢速的条件的结果
                         val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
 
-                        it.result = when {
-                            isLowSpeed -> "" // 如果隐藏慢速，直接返回空字符串
-                            doubleUpDown && !fakeDualRow -> "$tx\n$rx" // 如果显示上下行网速并且不是双排显示，返回上下行网速的字符串
-                            fakeDualRow -> ax // 如果是双排显示，返回总网速的字符串
-                            else -> "" // 其他情况，返回空字符串
+                        when {
+                            // 如果显示上下行网速并且不是双排显示，返回上下行网速的字符串
+                            doubleUpDown && !fakeDualRow -> {
+                                if (isLowSpeed) {
+                                    it.result = ""
+                                } else {
+                                    it.result = "$tx\n$rx"
+                                }
+                            }
+                            // 如果是双排显示，返回总网速的字符串
+                            fakeDualRow -> {
+                                if (isLowSpeed) {
+                                    it.result = ""
+                                } else {
+                                    it.result = ax
+                                }
+                            }
+                            // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
+                            else -> {
+                                if (isLowSpeed) {
+                                    it.result = ""
+                                }
+                            }
                         }
                     }
                 }

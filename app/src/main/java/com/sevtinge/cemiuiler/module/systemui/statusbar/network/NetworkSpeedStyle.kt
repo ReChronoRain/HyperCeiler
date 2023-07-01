@@ -18,6 +18,10 @@ object NetworkSpeedStyle : BaseHook() {
                         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
                     val meter = param.thisObject as TextView
 
+                    if (dualRow) {
+                        mResHook.setObjectReplacement(lpparam.packageName, "string", "network_speed_suffix", "%1\$s\n%2\$s")
+                    }
+
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
                         val fontSize =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
