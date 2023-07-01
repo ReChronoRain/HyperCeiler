@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemFrameworkFragment"
             android:icon="@drawable/ic_system_framework"
@@ -35,7 +33,7 @@
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.FileExplorerFragment"
             android:icon="@drawable/ic_fileexplorer"
-            android:key="prefs_key_fileexplorer"
+            android:key="prefs_key_file_explorer"
             android:summary="com.android.fileexplorer"
             android:title="@string/fileexplorer" />
 
@@ -170,6 +168,7 @@
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.MiuiPackageInstallerFragment"
             android:icon="@drawable/ic_package_installer"
+            android:key="prefs_key_package_installer"
             android:summary="com.miui.packageinstaller"
             android:title="@string/package_installer" />
 
@@ -197,7 +196,7 @@
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.ScreenRecorderFragment"
             android:icon="@drawable/ic_screenrecorder"
-            android:key="prefs_key_screenrecorder"
+            android:key="prefs_key_screen_recorder"
             android:summary="com.miui.screenrecorder"
             android:title="@string/screenrecorder" />
 
@@ -267,6 +266,7 @@
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.MarketFragment"
             android:icon="@drawable/ic_market"
+            android:key="prefs_key_market"
             android:summary="com.xiaomi.market"
             android:title="@string/market" />
 
@@ -313,5 +313,4 @@
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

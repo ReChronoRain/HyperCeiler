@@ -74,7 +74,7 @@
     <string name="clock">时钟</string>
     <string name="camera">相机</string>
     <string name="gallery">相册</string>
-    <string name="guard_provider">MIUI安全组件</string>
+    <string name="guard_provider">MIUI 安全组件</string>
     <string name="incallui">电话</string>
     <string name="joyose">Joyose</string>
     <string name="lbe">权限管理服务</string>
@@ -575,7 +575,7 @@
     <string name="screen_recorder_save_to_movies_desc">规范录制视频保存位置到 Movies/ScreenRecorder</string>
 
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
-    <string name="screenshot_save_to_pictures_desc">规范截图保存位置到 /Pictures/Screenshots</string>
+    <string name="screenshot_save_to_pictures_desc">规范截图保存位置到 Pictures/Screenshots</string>
 
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>
