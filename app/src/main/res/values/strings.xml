@@ -1120,4 +1120,5 @@
     <string name="home_navigation_back_area_width">Back gesture area width</string>
     <string name="security_center_hide_sidebar">Hide sidebar</string>
     <string name="security_center_leave_open">Leave the slide unfolded</string>
+    <string name="security_center_disable_sidebar_show_suggest">Disable show suggest apps</string>
 </resources>

@@ -195,6 +195,11 @@
             app:showAlphaSlider="true" />
 
         <SwitchPreference
+            android:title="@string/security_center_disable_sidebar_show_suggest"
+            android:key="prefs_key_security_center_disable_sidebar_show_suggest"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_security_center_remove_macro_black_list"
             android:title="@string/security_center_remove_macro_black_list"
             android:defaultValue="false" />
