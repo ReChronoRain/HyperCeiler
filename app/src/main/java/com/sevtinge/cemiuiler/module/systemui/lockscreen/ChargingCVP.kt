@@ -69,15 +69,18 @@ object ChargingCVP : BaseHook() {
                         }
                     }
 
-                    val filter = IntentFilter().apply {
-                        addAction(Intent.ACTION_SCREEN_ON)
-                        addAction(Intent.ACTION_SCREEN_OFF)
+                    with(param.thisObject as TextView) {
+                        val filter = IntentFilter().apply {
+                            addAction(Intent.ACTION_SCREEN_ON)
+                            addAction(Intent.ACTION_SCREEN_OFF)
+                        }
+                        context.registerReceiver(screenOnOffReceiver, filter)
                     }
-                    (param.thisObject as TextView).context.registerReceiver(screenOnOffReceiver, filter)
                 }
             }
         } else {
-            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors
+                ?.createHooks {
                 after {
                     (it.thisObject as TextView).isSingleLine = false
                 }
@@ -92,8 +95,8 @@ object ChargingCVP : BaseHook() {
             )
             .first().createHook {
                 after {
-                    if (it.result != null) {
-                        it.result = it.result as String + getCVP()
+                    it.result?.let { result ->
+                        it.result = result as String + getCVP()
                     }
                 }
         }
@@ -115,7 +118,7 @@ object ChargingCVP : BaseHook() {
                 BufferedReader(FileReader("/sys/class/power_supply/battery/voltage_now"))
             voltage =
                 BigDecimal(voltageNow.readLine().toDouble() / 1000.0).setScale(1, RoundingMode.HALF_UP).toDouble()
-           // 获取电池温度信息
+            // 获取电池温度信息
             val temNow =
                 BufferedReader(FileReader("/sys/class/power_supply/battery/temp"))
             temp =
@@ -127,14 +130,15 @@ object ChargingCVP : BaseHook() {
         val power = String.format("%.2f", powerAll)
 
         // 电流展示逻辑设置
-        val mCurrent = when (mPrefsMap.getBoolean("system_ui_show_charging_c_more")) {
-            true -> "$current mA"
-            else -> "${String.format("%.1f", abs(current / 1000f))} A"
+        val mCurrent = if (mPrefsMap.getBoolean("system_ui_show_charging_c_more")) {
+            "$current mA"
+        } else {
+            "${String.format("%.1f", abs(current / 1000f))} A"
         }
         val mVoltage = "${String.format("%.1f", abs(voltage / 1000f))} V"
         // 电池温度是否展示
         val mTemp = if (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) " · $temp ℃" else ""
         // 输出展示信息
-        return "${mTemp}\n$mCurrent · $mVoltage · $power W"
+        return "$mTemp\n$mCurrent · $mVoltage · $power W"
     }
 }

@@ -23,6 +23,8 @@ object BlurButton : BaseHook() {
         var mLeftAffordanceView: WeakReference<ImageView>? = null
         var mRightAffordanceView: WeakReference<ImageView>? = null
         var keyguardBottomAreaView: WeakReference<View>? = null
+        var handler = Handler(Looper.getMainLooper())
+        var needUpdate = true
 
         // from com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen
 
@@ -44,14 +46,17 @@ object BlurButton : BaseHook() {
                 }
             })
 
-        fun createBlurLayerDrawable(view: View, color: Int): LayerDrawable {
+        fun createBlurLayerDrawable(view: View, color: Int): Array<LayerDrawable> {
             val blurDrawable = createBlurDrawable(view, 40, 100, color)
-            return LayerDrawable(arrayOf(blurDrawable)).apply {
-                setLayerInset(0, 40, 40, 40, 40)
-            }
+            val leftLayerDrawable = LayerDrawable(arrayOf(blurDrawable)).apply {
+                setLayerInset(0, 40, 40, 40, 40) }
+            val rightLayerDrawable = LayerDrawable(arrayOf(blurDrawable)).apply {
+                setLayerInset(0, 40, 40, 40, 40) }
+            return arrayOf(leftLayerDrawable, rightLayerDrawable)
         }
 
-        var handler = Handler(Looper.getMainLooper())
+        // 已摆烂，剩下数组异常问题（会多生成一个 0 的数组，导致抛出 ArrayIndexOutOfBoundsException 异常），感觉我没能力修好（
+        // 性能优化得差不多了，但是在 1.2.120 正式版上还是会移除它，等找到有效解决方法再重新加回
         val timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
@@ -60,34 +65,39 @@ object BlurButton : BaseHook() {
                     context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
                 if (keyguardManager.isKeyguardLocked) {
-                    val blurColor = Color.argb(60, 255, 255, 255)
-                    // 调用函数来创建模糊图像
-                    keyguardBottomAreaView?.get()?.let { view ->
-                        val leftLayerDrawable = createBlurLayerDrawable(view, blurColor)
-                        val rightLayerDrawable = createBlurLayerDrawable(view, blurColor)
-
-                        // 通过Handler对象来发送一个消息
+                    if (needUpdate) {
                         val message = Message.obtain()
-                        message.obj = arrayOf(leftLayerDrawable, rightLayerDrawable)
+                        message.obj = true
                         handler.sendMessage(message)
+                        needUpdate = false
                     }
                 } else {
-                    val message = Message.obtain()
-                    message.obj = null
-                    handler.sendMessage(message)
+                    if (needUpdate) {
+                        val message = Message.obtain()
+                        message.obj = false
+                        handler.sendMessage(message)
+                        needUpdate = false
+                    }
                 }
             }
         }, 0, 100)
 
         handler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
-                if (msg.obj == null) {
-                    mLeftAffordanceView?.get()?.background = null
-                    mRightAffordanceView?.get()?.background = null
-                } else {
-                    val drawables = msg.obj as Array<LayerDrawable>
-                    mLeftAffordanceView?.get()?.background = drawables[0]
-                    mRightAffordanceView?.get()?.background = drawables[1]
+                val updateFlag = msg.obj as? Boolean
+                if (updateFlag != null) {
+                    if (updateFlag) {
+                        val blurColor = Color.argb(60, 255, 255, 255)
+                        keyguardBottomAreaView?.get()?.let { view ->
+                            val layerDrawables = createBlurLayerDrawable(view, blurColor)
+                            mLeftAffordanceView?.get()?.background = layerDrawables[0]
+                            mRightAffordanceView?.get()?.background = layerDrawables[1]
+                        }
+                    } else {
+                        mLeftAffordanceView?.get()?.background = null
+                        mRightAffordanceView?.get()?.background = null
+                    }
+                    needUpdate = true
                 }
             }
         }

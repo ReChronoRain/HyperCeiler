@@ -1,11 +1,11 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar.network
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.TrafficStats
 import android.os.Build
+import android.os.SystemClock
 import android.util.Pair
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -14,6 +14,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
+import java.util.Locale
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
@@ -49,7 +50,6 @@ object NetworkSpeed : BaseHook() {
     }
 
     //  网速计算与隐藏相关
-    @SuppressLint("DefaultLocale")
     private fun humanReadableByteCount(ctx: Context, bytes: Long): String {
         return try {
             val modRes = Helpers.getModuleRes(ctx)
@@ -65,9 +65,18 @@ object NetworkSpeed : BaseHook() {
             val pre =
                 modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
             if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
+                // 使用本地化参数来格式化字符串
+                (if (f < 100.0f) {
+                    String.format(Locale.getDefault(), "%.1f", f)
+                } else {
+                    String.format(Locale.getDefault(), "%.0f", f)
+                }) + "\n" + String.format("%s$unitSuffix", pre)
             } else {
-                (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
+                (if (f < 100.0f) {
+                    String.format(Locale.getDefault(), "%.1f", f)
+                } else {
+                    String.format(Locale.getDefault(), "%.0f", f)
+                }) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
             Helpers.log(t)
@@ -114,14 +123,13 @@ object NetworkSpeed : BaseHook() {
                         val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
                         if (capabilities != null && (!(!capabilities.hasTransport
                                 (NetworkCapabilities.TRANSPORT_WIFI) &&
-                                !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                                ))
+                                !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)))
                         ) {
                             isConnected = true
                         }
                     }
                     if (isConnected) {
-                        val nanoTime = System.nanoTime()
+                        val nanoTime = SystemClock.elapsedRealtimeNanos()
                         var newTime = nanoTime - measureTime
                         measureTime = nanoTime
                         if (newTime == 0L) newTime = (4 * 10.0.pow(9.0)).roundToLong()
@@ -202,23 +210,14 @@ object NetworkSpeed : BaseHook() {
                         // 计算总网速
                         val ax =
                             humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
+                        // 存储是否隐藏慢速的条件的结果
+                        val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
 
-                        if (doubleUpDown && !fakeDualRow) {
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                                it.result = ""
-                            } else {
-                                it.result = "$tx\n$rx"
-                            }
-                        } else if (fakeDualRow) {
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                                it.result = ""
-                            } else {
-                                it.result = ax
-                            }
-                        } else {
-                            if (hideLow && (txSpeed + rxSpeed) < lowLevel) {
-                                it.result = ""
-                            }
+                        it.result = when {
+                            isLowSpeed -> "" // 如果隐藏慢速，直接返回空字符串
+                            doubleUpDown && !fakeDualRow -> "$tx\n$rx" // 如果显示上下行网速并且不是双排显示，返回上下行网速的字符串
+                            fakeDualRow -> ax // 如果是双排显示，返回总网速的字符串
+                            else -> "" // 其他情况，返回空字符串
                         }
                     }
                 }

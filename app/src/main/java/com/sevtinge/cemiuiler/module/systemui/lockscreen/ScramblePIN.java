@@ -16,8 +16,6 @@ public class ScramblePIN extends BaseHook {
 
     @Override
     public void init() {
-
-
         mKeyguardPINView = findClassIfExists("com.android.keyguard.KeyguardPINView");
 
         findAndHookMethod(mKeyguardPINView, "onFinishInflate", new MethodHook() {
