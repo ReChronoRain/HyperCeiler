@@ -671,6 +671,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">该功能极度危险，仅在绝对需要时启用</string>
     <string name="system_framework_core_patch_enhanced_mode">增强模式</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般不需要开启</string>
+    <string name="system_framework_disable_integrity">禁用系统完整性校验</string>
+    <string name="system_framework_disable_integrity_desc">禁止自动恢复被篡改的内容</string>
 
     <string name="system_framework_bubble_title">气泡通知</string>
     <string name="system_framework_freeform_count">多小窗</string>
