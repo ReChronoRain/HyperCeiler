@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cemiuiler</string>
     <string name="xposed_description">MIUI\'yi Yeniden Harika Hale Getirin!</string>
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>
@@ -326,8 +325,6 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d saat</string>
     <string name="system_ui_status_bar_icon_airplane">Uçak modu</string>
     <string name="system_ui_status_bar_icon_headset">Kulaklık</string>
-    <string name="system_ui_status_bar_icon_nfc">NFC</string>
-    <string name="system_ui_status_bar_icon_vpn">VPN</string>
     <string name="system_ui_status_bar_icon_volume">Hacim</string>
     <string name="system_ui_status_bar_icon_zen">Zen</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maksimum bildirim noktası sayısı</string>
@@ -340,8 +337,6 @@
     <string name="system_ui_status_bar_mobile_network_at_left">Mobil ağ</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Wi-Fi ve Mobil Ağı Değiştirin</string>
     <string name="system_ui_status_bar_network_speed_at_right">İnternet hızı</string>
-    <string name="system_ui_status_bar_alarm_clock_at_right">Alarm saati</string>
-    <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_use_new_hd">Yeni HD simgesini kullanmaya zorla</string>
     <string name="system_ui_status_bar_use_new_hd_summary">Yeni bir sistem sürümü gereklidir. Bazı modeller güncellenmemiş olabilir</string>
     <string name="tsmclient_nfc_turning_on">NFC otomatik olarak açılıyor</string>
@@ -388,7 +383,6 @@
     <string name="location_simulation_location_custom">Konum seç</string>
     <string name="location_simulation_network">Ağ</string>
     <string name="location_simulation_operator_fix">Taşıyıcı maskeli balo düzeltmesi</string>
-    <string name="location_simulation_gps">GPS</string>
     <string name="location_simulation_mac">Mac adresi</string>
     <string name="location_simulation_wifi">Wifi</string>
     <string name="location_simulation_router_mac">Yönlendirici Mac Adresi</string>
@@ -523,7 +517,6 @@
     <string name="rest_permission">Şimdi bu seçenek için izinleri manuel olarak etkinleştirmeniz gerekiyor.</string>
     <string name="tsmclient">Akıllı kartlar</string>
     <string name="system_ui_status_bar_volume_at_right">Ses sahnesi</string>
-    <string name="system_ui_status_bar_zen_at_right">Rahatsız etmeyin modu</string>
     <string name="theme_manager_version_code_modify">MIUI sürüm algılamayı devre dışı bırak</string>
     <string name="theme_manager_diable_ads">Reklamları devre dışı bırak</string>
     <string name="theme_manager_crack">Tema yaması</string>

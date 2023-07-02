@@ -29,7 +29,6 @@
     <string name="app_details_nolaunch">應用程式沒有預設可啟動的活動</string>
     <string name="app_details_playstore">使用應用程式商店打開</string>
     <string name="app_details_sdk">目標 SDK 版本</string>
-    <string name="app_name">Cemiuiler</string>
     <string name="app_sort_frequency">使用頻率</string>
     <string name="app_sort_install">安裝時間</string>
     <string name="app_sort_name">應用程式名稱</string>
@@ -416,7 +415,6 @@
     <string name="location_custom">自訂</string>
     <string name="location_data_title">數據庫</string>
     <string name="location_delete">刪除</string>
-    <string name="location_simulation_gps">GPS</string>
     <string name="location_simulation_location">位置</string>
     <string name="location_simulation_location_custom">選擇位置</string>
     <string name="location_simulation_mac">Mac 位址</string>
@@ -761,7 +759,6 @@
     <string name="system_ui_status_bar_mobile_type_single_title">蜂窩移動網絡類型圖示</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
     <string name="system_ui_qs_label">快捷開關標籤</string>
-    <string name="system_ui_status_bar_alarm_clock_at_right">鬧鐘</string>
     <string name="system_ui_status_bar_battery_charging">隱藏充電指示器</string>
     <string name="system_ui_status_bar_battery_indicator_align">垂直對齊</string>
     <string name="system_ui_status_bar_battery_indicator_alpha">透明度</string>
@@ -798,10 +795,8 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">無 SIM 卡圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
     <string name="system_ui_status_bar_icon_new_hd">新 HD 圖示</string>
-    <string name="system_ui_status_bar_icon_nfc">NFC</string>
     <string name="system_ui_status_bar_icon_small_hd">小 HD 圖示</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
-    <string name="system_ui_status_bar_icon_vpn">VPN</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">網路活動指示器</string>
     <string name="system_ui_status_bar_icon_wifi_slave">從 Wi-Fi</string>
@@ -810,7 +805,6 @@
     <string name="system_ui_status_bar_mobile_network_at_left">行動網路</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">交換 Wi-Fi 與行動網路</string>
     <string name="system_ui_status_bar_network_speed_at_right">網路速度</string>
-    <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">於水滴屏的裝置上不顯示時間和網速間的分隔號</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">網速分隔符號號號</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知點數最大數量</string>
@@ -819,7 +813,6 @@
     <string name="system_ui_status_bar_use_new_hd_summary">需要較新的系統版本，部分機型可能至今未進版</string>
     <string name="system_ui_status_bar_volume_at_right">聲音情境</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
-    <string name="system_ui_status_bar_zen_at_right">勿擾模式</string>
     <string name="system_ui_statusbar_battery_disable">隱藏單位</string>
     <string name="system_ui_statusbar_battery_electric_current">電流總顯示正值</string>
     <string name="system_ui_statusbar_battery_line_show">單排顯示</string>

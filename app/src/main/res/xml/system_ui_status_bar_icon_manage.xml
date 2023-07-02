@@ -288,12 +288,17 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_alarm_clock_at_right"
-            android:title="@string/system_ui_status_bar_alarm_clock_at_right" />
+            android:title="@string/system_ui_status_bar_icon_alarm_clock" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_nfc_at_right"
-            android:title="@string/system_ui_status_bar_nfc_at_right" />
+            android:title="@string/system_ui_status_bar_icon_nfc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_headset_at_right"
+            android:title="@string/system_ui_status_bar_icon_headset" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -303,7 +308,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_zen_at_right"
-            android:title="@string/system_ui_status_bar_zen_at_right" />
+            android:title="@string/system_ui_status_bar_icon_zen" />
 
     </PreferenceCategory>
 

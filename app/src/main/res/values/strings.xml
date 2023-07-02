@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name">Cemiuiler</string>
+    <string name="app_name" translatable="false">Cemiuiler</string>
     <string name="xposed_description">Make MIUI Great Again!</string>
     <string name="language">English</string>
     <string name="translator">Lin Qiqi</string>
@@ -337,8 +337,8 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d hours</string>
     <string name="system_ui_status_bar_icon_airplane">Airplane mode</string>
     <string name="system_ui_status_bar_icon_headset">Headset</string>
-    <string name="system_ui_status_bar_icon_nfc">NFC</string>
-    <string name="system_ui_status_bar_icon_vpn">VPN</string>
+    <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
+    <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>
     <string name="system_ui_status_bar_icon_volume">Volume</string>
     <string name="system_ui_status_bar_icon_zen">Zen</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maximum number of notification points</string>
@@ -351,8 +351,6 @@
     <string name="system_ui_status_bar_mobile_network_at_left">Mobile Network</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Swap Wi-Fi and Mobile Network</string>
     <string name="system_ui_status_bar_network_speed_at_right">Internet speed</string>
-    <string name="system_ui_status_bar_alarm_clock_at_right">Alarm clock</string>
-    <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_use_new_hd">Force to use new HD icon</string>
     <string name="system_ui_status_bar_use_new_hd_summary">A recent system version is required, some models may not have been updated</string>
     <string name="tsmclient_nfc_turning_on">Turning on NFC automatically……</string>
@@ -396,9 +394,9 @@
     <string name="location_simulation_location_custom">Select location</string>
     <string name="location_simulation_network">Network</string>
     <string name="location_simulation_operator_fix">Carrier masquerade fix</string>
-    <string name="location_simulation_gps">GPS</string>
+    <string name="location_simulation_gps" translatable="false">GPS</string>
     <string name="location_simulation_mac">Mac address</string>
-    <string name="location_simulation_wifi">WIFI</string>
+    <string name="location_simulation_wifi">Wi-Fi</string>
     <string name="location_simulation_router_mac">Router Mac Address</string>
     <string name="location_simulation_work_title">Title</string>
     <string name="location_simulation_work_offset">Offset</string>
@@ -524,7 +522,6 @@
     <string name="rest_permission">Now you have to manually enable permissions for this option.</string>
     <string name="tsmclient">Smart cards</string>
     <string name="system_ui_status_bar_volume_at_right">Sound scene</string>
-    <string name="system_ui_status_bar_zen_at_right">Do not disturb mode</string>
     <string name="theme_manager_version_code_modify">Disable MIUI version detection</string>
     <string name="theme_manager_diable_ads">Disable ads</string>
     <string name="theme_manager_crack">Theme patch</string>
