@@ -279,7 +279,7 @@
     <string name="home_folder_space_title">減少邊距</string>
     <string name="home_folder_vertical_padding_title">資料夾水準間距</string>
     <string name="home_folder_width_title">利用整個資料夾視圖的寬度</string>
-    <string name="home_gesture">手勢</string>
+    <string name="home_gesture">手勢與導航欄</string>
     <string name="home_gesture_double_tap">雙擊</string>
     <string name="home_gesture_double_tap_desc">在任意主螢幕空白處雙擊</string>
     <string name="home_gesture_down_swipe">下滑</string>
@@ -1099,4 +1099,5 @@
     <string name="various_mipad_input_ingore_gesture_desc">忽略觸控筆長按按鍵時的手勢</string>
     <string name="various_mipad_input_need_finger_num_title">交換手勢所需的手指數量</string>
     <string name="various_mipad_input_need_finger_num_desc">將三指截圖、三指長按區域截圖、三指橫向分螢幕手勢更改為四指觸發，切換應用程式手勢更改為三指觸發</string>
+    <string name="system_ui_lock_screen_hide_status_bar">鎖屏時隱藏狀態欄</string>
 </resources>
