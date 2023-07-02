@@ -29,9 +29,10 @@ public class StatusBarIconAtRight extends BaseHook {
         isVolmeAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
         isZenAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
 
-        findAndHookMethod("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl", "setIconVisibility", String.class, boolean.class, new MethodHook() {
+        findAndHookMethod("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl",
+            "setIconVisibility", String.class, boolean.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 String slot = (String) param.args[0];
                 boolean isAlarmClockIcon = "alarm_clock".equals(slot) && isAlarmClockAtRightEnable;
                 boolean isNFCIcon = "nfc".equals(slot) && isNFCAtRightEnable;
@@ -68,7 +69,7 @@ public class StatusBarIconAtRight extends BaseHook {
         if (isNetworkSpeedAtRightEnable) {
             hookAllMethods(mMiuiPhoneStatusBarView, "updateCutoutLocation", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     int mCurrentStatusBarType = (int) XposedHelpers.getObjectField(param.thisObject, "mCurrentStatusBarType");
                     if (mCurrentStatusBarType == 1) {
                         Object mDripNetworkSpeedView = XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedView");
@@ -79,7 +80,7 @@ public class StatusBarIconAtRight extends BaseHook {
 
             hookAllMethods("com.android.systemui.statusbar.policy.NetworkSpeedController", "setDripNetworkSpeedView", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     param.args[0] = null;
                 }
             });

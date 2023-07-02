@@ -35,6 +35,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
     boolean isNFCAtRightEnable;
     boolean isVolmeAtRightEnable;
     boolean isZenAtRightEnable;
+    boolean isHeadsetAtRightEnable;
 
     @Override
     public void init() {
@@ -53,11 +54,12 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         isNFCAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_nfc_at_right");
         isVolmeAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_volume_at_right");
         isZenAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_zen_at_right");
+        isHeadsetAtRightEnable = mPrefsMap.getBoolean("system_ui_status_bar_headset_at_right");
 
         isSwapWiFiAndMobileNetwork = mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network");
 
         isMoveLeft = isWiFiAtLeftEnable || isMobileNetworkAtLeftEnable;
-        isMoveRight = isNetworkSpeedAtRightEnable || isAlarmClockAtRightEnable || isNFCAtRightEnable || isVolmeAtRightEnable || isZenAtRightEnable;
+        isMoveRight = isNetworkSpeedAtRightEnable || isAlarmClockAtRightEnable || isNFCAtRightEnable || isVolmeAtRightEnable || isZenAtRightEnable || isHeadsetAtRightEnable;
 
         if (isWiFiAtLeftEnable && isMobileNetworkAtLeftEnable && !isSwapWiFiAndMobileNetwork) {
             mSignalIcons = new String[]{"no_sim", "mobile", "demo_mobile", "airplane", "hotspot", "slave_wifi", "wifi", "demo_wifi"};
@@ -76,17 +78,19 @@ public class StatusBarIconPositionAdjust extends BaseHook {
 
         if (isMoveRight) {
 
-            findAndHookMethod(mMiuiDripLeftStatusBarIconControllerImpl, "setIconVisibility", String.class, boolean.class, new MethodHook() {
+            findAndHookMethod(mMiuiDripLeftStatusBarIconControllerImpl,
+                "setIconVisibility", String.class, boolean.class, new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     String slot = (String) param.args[0];
 
                     boolean isAlarmClockIcon = "alarm_clock".equals(slot) && isAlarmClockAtRightEnable;
                     boolean isNFCIcon = "nfc".equals(slot) && isNFCAtRightEnable;
                     boolean isVolumeIcon = "volume".equals(slot) && isVolmeAtRightEnable;
                     boolean isZenIcon = "zen".equals(slot) && isZenAtRightEnable;
+                    boolean isHeadsetIcon = "headset".equals(slot) && isHeadsetAtRightEnable;
 
-                    if (isAlarmClockIcon || isNFCIcon || isVolumeIcon || isZenIcon) {
+                    if (isAlarmClockIcon || isNFCIcon || isVolumeIcon || isZenIcon || isHeadsetIcon) {
                         param.args[1] = false;
                     }
                 }
@@ -94,7 +98,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
 
             findAndHookMethod(mSystemUIApplication, "onCreate", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     ArrayList<String> rightBlockList;
                     Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
                     Class<?> MiuiEndIconManager = findClass("com.android.systemui.statusbar.phone.MiuiEndIconManager", lpparam.classLoader);
@@ -125,9 +129,9 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                     if (isNFCAtRightEnable) {
                         rightBlockList.remove("nfc");
                     }
-                    /*if (mPrefsMap.getBoolean("system_statusbar_headset_atright")) {
+                    if (isHeadsetAtRightEnable) {
                         rightBlockList.remove("headset");
-                    }*/
+                    }
                     if (blockList != null) {
                         XposedHelpers.setStaticObjectField(MiuiEndIconManager, "RIGHT_BLOCK_LIST", rightBlockList);
                     } else {
@@ -140,9 +144,9 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         if (isMoveLeft || isSwapWiFiAndMobileNetwork) {
             findAndHookConstructor(mStatusBarIconList, String[].class, new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     boolean isRightController = "StatusBarIconControllerImpl".equals(param.thisObject.getClass().getSimpleName());
-                    ArrayList<String> allStatusIcons = new ArrayList<String>(Arrays.asList((String[]) param.args[0]));
+                    ArrayList<String> allStatusIcons = new ArrayList<>(Arrays.asList((String[]) param.args[0]));
                     if (isRightController) {
                         int startIndex = allStatusIcons.indexOf("no_sim");
                         int endIndex = allStatusIcons.indexOf("demo_wifi") + 1;
@@ -199,7 +203,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         if (isMoveLeft || isNetworkSpeedAtRightEnable) {
             hookAllMethods("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView", "updateCutoutLocation", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     int mCurrentStatusBarType = (int) XposedHelpers.getObjectField(param.thisObject, "mCurrentStatusBarType");
                     if (mCurrentStatusBarType == 1) {
                         if (isNetworkSpeedAtRightEnable) {
@@ -220,7 +224,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
         if (isNetworkSpeedAtRightEnable) {
             hookAllMethods("com.android.systemui.statusbar.policy.NetworkSpeedController", "setDripNetworkSpeedView", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     param.args[0] = null;
                 }
             });
