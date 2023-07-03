@@ -66,7 +66,7 @@
             android:dependency="prefs_key_n_enable"
             android:format="%s"
             app:maxValue="240"
-            app:minValue="100"
+            app:minValue="60"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
@@ -76,7 +76,7 @@
             android:dependency="prefs_key_n_enable"
             android:format="%s"
             app:maxValue="250"
-            app:minValue="120"
+            app:minValue="60"
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>
@@ -100,7 +100,7 @@
             android:title="@string/system_ui_control_center_control_detail_background_alpha"
             android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
             android:defaultValue="255"
-            app:minValue="120"
+            app:minValue="60"
             app:maxValue="255"
             app:format="%s"
             app:showSeekBarValue="true" />
