@@ -1119,4 +1119,5 @@
     <string name="weather_device_level_title_middle">中</string>
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
     <string name="system_ui_lock_screen_hide_status_bar">鎖屏時隱藏狀態欄</string>
+    <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
 </resources>

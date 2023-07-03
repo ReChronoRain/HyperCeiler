@@ -1122,4 +1122,5 @@
     <string name="system_framework_disable_integrity">Disable system integrity verification</string>
     <string name="system_framework_disable_integrity_desc">Disable automatic recovery of tampered content</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from lock screen</string>
+    <string name="system_ui_status_bar_icon_vowifi">Hide VoWiFi icon</string>
 </resources>

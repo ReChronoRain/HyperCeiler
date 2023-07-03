@@ -1100,4 +1100,5 @@
     <string name="various_mipad_input_need_finger_num_title">交換手勢所需的手指數量</string>
     <string name="various_mipad_input_need_finger_num_desc">將三指截圖、三指長按區域截圖、三指橫向分螢幕手勢更改為四指觸發，切換應用程式手勢更改為三指觸發</string>
     <string name="system_ui_lock_screen_hide_status_bar">鎖屏時隱藏狀態欄</string>
+    <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
 </resources>

@@ -969,6 +969,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n">仅在闹钟响铃前显示闹钟图标</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
+    <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_zen">勿扰模式</string>

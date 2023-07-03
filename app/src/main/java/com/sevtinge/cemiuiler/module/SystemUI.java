@@ -61,6 +61,7 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BatteryStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideBatteryIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarSimIcon;
@@ -103,6 +104,7 @@ public class SystemUI extends BaseModule {
         initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
         initHook(StatusBarSimIcon.INSTANCE);
+        initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi"));
 
         // 移动网络图标
         initHook(new MobileNetwork(), true);
