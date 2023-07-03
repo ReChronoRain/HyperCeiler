@@ -8,7 +8,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 class StatusBarIcon : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl").methodFinder().first() {
+        loadClass("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl").methodFinder().first {
             name == "setIconVisibility" && paramCount == 2
         }.createHook {
             before { param ->
@@ -20,7 +20,7 @@ class StatusBarIcon : BaseHook() {
             }
         }
 
-        loadClass("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl").methodFinder().first() {
+        loadClass("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl").methodFinder().first {
             name == "setIconVisibility" && paramCount == 2
         }.createHook {
             before { param ->

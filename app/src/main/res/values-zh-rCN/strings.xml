@@ -947,6 +947,7 @@
     <string name="system_ui_statusbar_iconmanage_status_title">状态图标</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知图标</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
+    <string name="system_ui_statusbar_iconmamage_call_title">通话</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
     <string name="system_ui_status_bar_icon_wifi">WIFI 图标</string>
@@ -973,6 +974,10 @@
     <string name="system_ui_status_bar_icon_headset">耳机</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_zen">勿扰模式</string>
+    <string name="system_ui_status_bar_icon_stealth">隐藏隐身模式图标</string>
+    <string name="system_ui_status_bar_icon_mute">隐藏麦克风静音图标</string>
+    <string name="system_ui_status_bar_icon_speakerphone">隐藏免提图标</string>
+    <string name="system_ui_status_bar_icon_call_record">隐藏录音图标</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知省略点数最大数量</string>
     <string name="system_ui_status_bar_notification_icon_maximum">通知图标最大数量</string>
     <string name="system_ui_status_bar_battery_percent">隐藏电量百分比</string>

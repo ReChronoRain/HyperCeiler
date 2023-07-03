@@ -62,6 +62,7 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BatteryStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BluetoothIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideBatteryIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideVoWiFiIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.StatusBarSimIcon;
@@ -97,6 +98,7 @@ public class SystemUI extends BaseModule {
         // 状态栏图标
         initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
         initHook(new StatusBarIcon(), true);
+        initHook(new IconsFromSystemManager());
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);

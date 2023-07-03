@@ -1123,4 +1123,9 @@
     <string name="system_framework_disable_integrity_desc">Disable automatic recovery of tampered content</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from lock screen</string>
     <string name="system_ui_status_bar_icon_vowifi">Hide VoWiFi icon</string>
+    <string name="system_ui_status_bar_icon_stealth">Hide incognito mode icon</string>
+    <string name="system_ui_status_bar_icon_mute">Hide muted mic icon</string>
+    <string name="system_ui_status_bar_icon_speakerphone">Hide speakerphone icon</string>
+    <string name="system_ui_status_bar_icon_call_record">Hide recording icon</string>
+    <string name="system_ui_statusbar_iconmamage_call_title">Call</string>
 </resources>

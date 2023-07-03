@@ -199,6 +199,11 @@
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_hide_icon_stealth"
+            android:title="@string/system_ui_status_bar_icon_stealth" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_notify_title">
@@ -236,7 +241,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_battery_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
@@ -269,8 +273,25 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryIndicatorSettings" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_left_title">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmamage_call_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_hide_icon_mute"
+            android:title="@string/system_ui_status_bar_icon_mute" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_hide_icon_speakerphone"
+            android:title="@string/system_ui_status_bar_icon_speakerphone" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_hide_icon_call_record"
+            android:title="@string/system_ui_status_bar_icon_call_record" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_left_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_wifi_at_left"
@@ -284,7 +305,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_right_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_network_speed_at_right"
