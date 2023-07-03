@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Cemiuiler</string>
     <string name="xposed_description">Make MIUI Great Again!</string>
 
     <string name="language">简体中文</string>
@@ -835,6 +834,7 @@
     <string name="system_ui_lock_screen_double_lock_desc">双击空白位置锁屏</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">隐藏勿扰模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
+    <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
 
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
@@ -970,8 +970,6 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
-    <string name="system_ui_status_bar_icon_nfc">NFC</string>
-    <string name="system_ui_status_bar_icon_vpn">VPN</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_zen">勿扰模式</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知省略点数最大数量</string>
@@ -986,10 +984,7 @@
     <string name="system_ui_status_bar_mobile_network_at_left">移动网络</string>
     <string name="system_ui_status_bar_swap_wifi_and_mobile_network">交换 WIFI 与移动网络</string>
     <string name="system_ui_status_bar_network_speed_at_right">网速</string>
-    <string name="system_ui_status_bar_alarm_clock_at_right">闹钟</string>
-    <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_volume_at_right">声音情景</string>
-    <string name="system_ui_status_bar_zen_at_right">勿扰模式</string>
     <string name="system_ui_status_bar_use_new_hd">强制使用新 HD 图标</string>
     <string name="system_ui_status_bar_use_new_hd_summary">需要较新的系统版本，部分机型可能至今未进版</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">网速分隔符</string>
@@ -1103,7 +1098,6 @@
     <string name="location_simulation_location_custom">选择位置</string>
     <string name="location_simulation_network">网络</string>
     <string name="location_simulation_operator_fix">运营商伪装修复</string>
-    <string name="location_simulation_gps">GPS</string>
     <string name="location_simulation_mac">Mac 地址</string>
     <string name="location_simulation_wifi">WIFI</string>
     <string name="location_simulation_router_mac">路由器 Mac 地址</string>

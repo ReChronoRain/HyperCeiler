@@ -99,6 +99,11 @@
             android:summary="@string/system_ui_lock_screen_double_lock_desc"
             android:title="@string/system_ui_lock_screen_double_lock" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_hide_status_bar"
+            android:title="@string/system_ui_lock_screen_hide_status_bar" />
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>

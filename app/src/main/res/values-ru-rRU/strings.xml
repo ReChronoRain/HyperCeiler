@@ -33,7 +33,6 @@
     <string name="app_details_nolaunch">Стандартный запуск данного приложения невозможен</string>
     <string name="app_details_playstore">Открыть в Play Маркет</string>
     <string name="app_details_sdk">Текущая версия SDK</string>
-    <string name="app_name">Cemiuiler</string>
     <string name="app_sort_frequency">Частота использования</string>
     <string name="app_sort_install">Время установки</string>
     <string name="app_sort_name">Имя приложения</string>
@@ -408,7 +407,6 @@
     <string name="location_custom">Своё</string>
     <string name="location_data_title">База данных</string>
     <string name="location_delete">Удалить</string>
-    <string name="location_simulation_gps">GPS</string>
     <string name="location_simulation_location">Местоположение</string>
     <string name="location_simulation_location_custom">Выбор местоположения</string>
     <string name="location_simulation_mac">Mac-адрес</string>
@@ -809,7 +807,6 @@
     <string name="system_ui_plugin_enable_volume_blur">Включить размытие полосы громкости</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Только для моделей MTK с Android 12+, возможна высокая загрузка графического процессора</string>
     <string name="system_ui_qs_label">Вкладка быстрого переключения</string>
-    <string name="system_ui_status_bar_alarm_clock_at_right">Будильник</string>
     <string name="system_ui_status_bar_battery_charging">Скрыть индикатор зарядки</string>
     <string name="system_ui_status_bar_battery_icon">Скрыть значок батареи</string>
     <string name="system_ui_status_bar_battery_indicator_align">Выровнять по вертикали</string>
@@ -848,10 +845,8 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Отсутствие SIM-карты</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Логика отображения</string>
     <string name="system_ui_status_bar_icon_new_hd">Новый HD</string>
-    <string name="system_ui_status_bar_icon_nfc">NFC</string>
     <string name="system_ui_status_bar_icon_small_hd">Маленький HD</string>
     <string name="system_ui_status_bar_icon_volume">Громкость</string>
-    <string name="system_ui_status_bar_icon_vpn">VPN</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">Индикатор сетевой активности</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Ведомый Wi-Fi</string>
@@ -862,7 +857,6 @@
     <string name="system_ui_status_bar_mobile_type_single">Значок типа мобильной сети отображается отдельно</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Значок типа мобильной сети</string>
     <string name="system_ui_status_bar_network_speed_at_right">Скорость интернета</string>
-    <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">Вертикальная линия между временем и скоростью интернета не отображается на устройствах с центральной камерой</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Разделитель скорости сети</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Максимальное количество пунктов уведомлений</string>
@@ -872,7 +866,6 @@
     <string name="system_ui_status_bar_use_new_hd_summary">Требуется последняя версия системы, некоторые модели, возможно, не были обновлены</string>
     <string name="system_ui_status_bar_volume_at_right">Звуковой режим</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
-    <string name="system_ui_status_bar_zen_at_right">Режим \"Не беспокоить\"</string>
     <string name="system_ui_statusbar_battery_disable">Скрывать единицы измерения</string>
     <string name="system_ui_statusbar_battery_electric_current">Ток всегда показывает положительное значение</string>
     <string name="system_ui_statusbar_battery_line_show">Отображать в одной строке</string>
@@ -1022,4 +1015,5 @@
     <string name="top_margin">Верхняя граница</string>
     <string name="preference_default_value_text">Стандарт</string>
     <string name="security_center_remove_low_battery_reminder_title">Скрыть предупреждение о низком заряде батареи</string>
+    <string name="system_ui_lock_screen_hide_status_bar">Удаляет строку состояния с экрана блокировки</string>
 </resources>

@@ -37,7 +37,6 @@
     <string name="app_details_nolaunch">Ứng dụng chưa đặt khởi chạy mặc định</string>
     <string name="app_details_playstore">Mở bằng cửa hàng ứng dụng</string>
     <string name="app_details_sdk">Phiên bản đích SDK</string>
-    <string name="app_name">Cemiuiler</string>
     <string name="app_sort_frequency">Tần suất sử dụng</string>
     <string name="app_sort_install">Thời gian cài đặt</string>
     <string name="app_sort_name">Tên ứng dụng</string>
@@ -421,7 +420,6 @@
     <string name="location_custom">Tùy chỉnh</string>
     <string name="location_data_title">Cơ sở dữ liệu</string>
     <string name="location_delete">Xóa</string>
-    <string name="location_simulation_gps">Định vị GPS</string>
     <string name="location_simulation_location">Vị trí</string>
     <string name="location_simulation_location_custom">Chọn vị trí</string>
     <string name="location_simulation_mac">Địa chỉ Mac</string>
@@ -835,7 +833,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_plugin_enable_volume_blur">Làm mờ thanh âm lượng</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">Chỉ dành cho các mẫu Android12+ MTK, có thể có tải GPU cao</string>
     <string name="system_ui_qs_label">Chuyển đổi tab nhanh</string>
-    <string name="system_ui_status_bar_alarm_clock_at_right">Đồng hồ báo thức</string>
     <string name="system_ui_status_bar_battery_charging">Chỉ số sạc pin</string>
     <string name="system_ui_status_bar_battery_icon">Ẩn biểu tượng pin</string>
     <string name="system_ui_status_bar_battery_indicator_align">Căn chỉnh theo chiều dọc</string>
@@ -874,10 +871,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Biểu tượng không có sim</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
     <string name="system_ui_status_bar_icon_new_hd">Biểu tượng HD mới</string>
-    <string name="system_ui_status_bar_icon_nfc">NFC</string>
     <string name="system_ui_status_bar_icon_small_hd">Biểu tượng HD nhỏ</string>
     <string name="system_ui_status_bar_icon_volume">Âm lượng</string>
-    <string name="system_ui_status_bar_icon_vpn">VPN</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
     <string name="system_ui_status_bar_icon_wifi_network_indicator">Chỉ báo hoạt động mạng</string>
     <string name="system_ui_status_bar_icon_wifi_slave">Biểu tượng Wi-Fi phụ</string>
@@ -888,7 +883,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_mobile_type_single">Biểu tượng loại mạng di động tùy chỉnh</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Biểu tượng mạng di động</string>
     <string name="system_ui_status_bar_network_speed_at_right">Tốc độ mạng</string>
-    <string name="system_ui_status_bar_nfc_at_right">NFC</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">Đường kẻ dọc giữa thời gian và tốc độ mạng không hiển thị trên thiết bị có màn hình giọt nước</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Bộ tách tốc độ internet</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Số lượng biểu tượng thông báo tối đa</string>
@@ -898,7 +892,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_use_new_hd_summary">Cần có phiên bản hệ thống mới hơn và một số kiểu máy có thể chưa cập nhật</string>
     <string name="system_ui_status_bar_volume_at_right">Âm thanh cảnh báo</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
-    <string name="system_ui_status_bar_zen_at_right">Chế độ không làm phiền</string>
     <string name="system_ui_statusbar_battery_disable">Ẩn đơn vị</string>
     <string name="system_ui_statusbar_battery_electric_current">Luôn hiển thị cưởng độ dòng điện</string>
     <string name="system_ui_statusbar_battery_line_show">Hiển thị 1 hàng</string>
@@ -1040,4 +1033,5 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ẩn thông báo chế độ không làm phiền</string>
     <string name="security_center_remove_low_battery_reminder_title">Ẩn cảnh báo pin yếu</string>
     <string name="system_ui_status_bar_battery_style_change_location_title">Hoán đổi biểu tượng và phần trăm pin</string>
+    <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái khi khóa màn hình</string>
 </resources>
