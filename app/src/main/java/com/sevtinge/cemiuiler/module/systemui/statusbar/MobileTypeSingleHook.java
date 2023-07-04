@@ -41,7 +41,7 @@ public class MobileTypeSingleHook extends BaseHook {
                 Resources res = mContext.getResources();
                 LinearLayout mMobileGroup = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mMobileGroup");
                 TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                if (!mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left")) {
+                if (!mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_left")) {
                     mMobileGroup.removeView(mMobileTypeSingle);
                     mMobileGroup.addView(mMobileTypeSingle);
                 }

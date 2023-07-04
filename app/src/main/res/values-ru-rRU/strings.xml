@@ -1017,4 +1017,5 @@
     <string name="security_center_remove_low_battery_reminder_title">Скрыть предупреждение о низком заряде батареи</string>
     <string name="system_ui_lock_screen_hide_status_bar">Удаляет строку состояния с экрана блокировки</string>
     <string name="system_ui_status_bar_mobile_indicator">Скрыть индикаторы активности мобильной сети</string>
+    <string name="system_ui_status_bar_mobile_type_left">Отображать слева от сигнала</string>
 </resources>

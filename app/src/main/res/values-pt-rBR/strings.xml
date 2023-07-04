@@ -982,4 +982,5 @@
     <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre baixo nível de bateria</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remova a barra de status na tela de bloqueio</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de atividade da rede móvel</string>
+    <string name="system_ui_status_bar_mobile_type_left">Exibir à esquerda do sinal</string>
 </resources>

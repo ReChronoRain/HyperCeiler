@@ -1035,4 +1035,5 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_battery_style_change_location_title">Hoán đổi biểu tượng và phần trăm pin</string>
     <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái khi khóa màn hình</string>
     <string name="system_ui_status_bar_mobile_indicator">Ẩn chỉ báo hoạt động mạng di động</string>
+    <string name="system_ui_status_bar_mobile_type_left">Hiển thị bên trái tín hiệu</string>
 </resources>

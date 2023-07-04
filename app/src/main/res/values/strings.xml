@@ -1130,4 +1130,5 @@
     <string name="system_ui_statusbar_iconmamage_call_title">Call</string>
     <string name="miui_package_installer_safe_mode_desc">Force open and lock the official security guard</string>
     <string name="system_ui_status_bar_mobile_indicator">Hide mobile network activity indicators</string>
+    <string name="system_ui_status_bar_mobile_type_left">Display at left of signal</string>
 </resources>

@@ -1102,4 +1102,5 @@
     <string name="system_ui_lock_screen_hide_status_bar">鎖屏時隱藏狀態欄</string>
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
     <string name="system_ui_status_bar_mobile_indicator">隱藏移動網路活動指示器</string>
+    <string name="system_ui_status_bar_mobile_type_left">顯示在信號左側</string>
 </resources>
