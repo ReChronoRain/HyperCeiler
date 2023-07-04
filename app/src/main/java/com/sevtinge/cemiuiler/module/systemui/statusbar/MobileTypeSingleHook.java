@@ -17,7 +17,7 @@ public class MobileTypeSingleHook extends BaseHook {
     public void init() {
         MethodHook showSingleMobileType = new MethodHook(MethodHook.PRIORITY_HIGHEST) {
             @Override
-            protected void before(final MethodHookParam param) throws Throwable {
+            protected void before(final MethodHookParam param) {
                 Object mobileIconState = param.args[0];
                 XposedHelpers.setObjectField(mobileIconState, "showMobileDataTypeSingle", true);
                 XposedHelpers.setObjectField(mobileIconState, "fiveGDrawableId", 0);
@@ -27,7 +27,7 @@ public class MobileTypeSingleHook extends BaseHook {
 
         MethodHook afterUpdate = new MethodHook() {
             @Override
-            protected void after(final MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) {
                 Object mMobileLeftContainer = XposedHelpers.getObjectField(param.thisObject, "mMobileLeftContainer");
                 XposedHelpers.callMethod(mMobileLeftContainer, "setVisibility", 8);
             }

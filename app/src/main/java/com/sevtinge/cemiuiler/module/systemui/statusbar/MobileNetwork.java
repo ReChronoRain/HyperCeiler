@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.systemui.statusbar;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
@@ -23,26 +24,47 @@ public class MobileNetwork extends BaseHook {
 
         findAndHookMethod(mStatusBarMobileView, "initViewState", mMobileIconState, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
                 updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
-                updateIconState(param, "mMobileType", "system_ui_status_bar_icon_mobile_network_type");
             }
         });
 
         findAndHookMethod(mStatusBarMobileView, "updateState", mMobileIconState, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
                 updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
-                updateIconState(param, "mMobileType", "system_ui_status_bar_icon_mobile_network_type");
+            }
+        });
+
+        hookAllMethods(mStatusBarMobileView, "applyMobileState", new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) {
+                int qpt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0);
+                View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
+                if (qpt > 0) {
+                    boolean isMobileConnected = false;
+                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                    if (qpt == 1) {
+                        mMobileTypeSingle.setVisibility(View.VISIBLE);
+                        mMobileType.setVisibility(View.VISIBLE);
+                    }
+                    if (qpt == 3) {
+                        isMobileConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
+                    }
+                    if (qpt == 2 || (qpt == 3 && !isMobileConnected)) {
+                        mMobileTypeSingle.setVisibility(View.GONE);
+                        mMobileType.setVisibility(View.GONE);
+                    }
+                }
 
             }
         });
 
         findAndHookMethod(mHDController, "update", new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0);
                 if (opt > 0) {
                     XposedHelpers.setBooleanField(param.thisObject, "mWifiAvailable", opt == 1 ? false : opt == 2);

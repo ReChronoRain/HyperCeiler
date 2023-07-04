@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.TrafficStats
 import android.os.Build
-import android.os.SystemClock
 import android.util.Pair
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -118,7 +117,7 @@ object NetworkSpeed : BaseHook() {
                         }
                     }
                     if (isConnected) {
-                        val nanoTime = SystemClock.elapsedRealtimeNanos()
+                        val nanoTime = System.nanoTime()
                         var newTime = nanoTime - measureTime
                         measureTime = nanoTime
                         if (newTime == 0L) newTime = (4 * 10.0.pow(9.0)).roundToLong()

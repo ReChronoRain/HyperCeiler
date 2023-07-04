@@ -524,6 +524,7 @@
 
     <string name="miui_package_installer_modify">净化页面</string>
     <string name="miui_package_installer_safe_mode">纯净模式</string>
+    <string name="miui_package_installer_safe_mode_desc">强制开启并锁定官方的安全守护</string>
     <string name="miui_package_installer_disable_ad">禁用推广</string>
     <string name="miui_package_installer_install_risk">禁用风险检测</string>
     <string name="miui_package_installer_safe_model_tip">禁用安全守护提示</string>
