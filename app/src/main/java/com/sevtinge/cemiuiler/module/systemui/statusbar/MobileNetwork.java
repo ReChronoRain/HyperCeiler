@@ -42,6 +42,7 @@ public class MobileNetwork extends BaseHook {
             @Override
             protected void after(MethodHookParam param) {
                 int qpt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0);
+                boolean hideIndicator = mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
                 View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
                 if (qpt > 0) {
                     boolean isMobileConnected = false;
@@ -58,7 +59,17 @@ public class MobileNetwork extends BaseHook {
                         mMobileType.setVisibility(View.GONE);
                     }
                 }
-
+                // 隐藏移动网络活动指示器
+                View mLeftInOut = (View) XposedHelpers.getObjectField(param.thisObject, "mLeftInOut");
+                if (hideIndicator) {
+                    View mRightInOut = (View) XposedHelpers.getObjectField(param.thisObject, "mRightInOut");
+                    mLeftInOut.setVisibility(View.GONE);
+                    mRightInOut.setVisibility(View.GONE);
+                }
+                if (mMobileType.getVisibility() == View.GONE && mLeftInOut.getVisibility() == View.GONE) {
+                    View mMobileLeftContainer = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileLeftContainer");
+                    mMobileLeftContainer.setVisibility(View.GONE);
+                }
             }
         });
 

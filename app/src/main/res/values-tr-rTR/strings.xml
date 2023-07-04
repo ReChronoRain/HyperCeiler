@@ -808,4 +808,5 @@
     <string name="security_center_remove_low_battery_reminder_title">Düşük pil seviyesiyle ilgili uyarıyı gizle</string>
     <string name="system_ui_status_bar_battery_style_change_location_title">Simge ve Pil yüzdesi Değiştirin</string>
     <string name="system_ui_lock_screen_hide_status_bar">Durum çubuğunu kilit ekranından kaldır</string>
+    <string name="system_ui_status_bar_mobile_indicator">Mobil ağ etkinliği göstergelerini gizle</string>
 </resources>

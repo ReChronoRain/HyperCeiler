@@ -36,7 +36,7 @@ public class MobileTypeSingleHook extends BaseHook {
 
         findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", "init", new MethodHook() {
             @Override
-            protected void after(final MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Resources res = mContext.getResources();
                 LinearLayout mMobileGroup = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mMobileGroup");
