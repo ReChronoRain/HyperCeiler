@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,7 +27,7 @@ public class MediaEditorDexKit extends BaseHook {
             mMediaEditorResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("FilterManager", List.of("wayne"))
+                        .addQuery("FilterManager", Set.of("wayne"))
                         .matchType(MatchType.FULL)
                         .build()
                 );

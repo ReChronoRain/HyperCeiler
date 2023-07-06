@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,11 +27,11 @@ public class PackageInstallerDexKit extends BaseHook {
             mPackageInstallerResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("SecureVerifyEnable", List.of("secure_verify_enable"))
-                        .addQuery("DisableSecurityModeFlag", List.of("user_close_security_mode_flag"))
-                        .addQuery("InstallerOpenSafetyModel", List.of("installerOpenSafetyModel"))
-                        .addQuery("AppStoreRecommend", List.of("app_store_recommend"))
-                        .addQuery("EnableAds", List.of("ads_enable"))
+                        .addQuery("SecureVerifyEnable", Set.of("secure_verify_enable"))
+                        .addQuery("DisableSecurityModeFlag", Set.of("user_close_security_mode_flag"))
+                        .addQuery("InstallerOpenSafetyModel", Set.of("installerOpenSafetyModel"))
+                        .addQuery("AppStoreRecommend", Set.of("app_store_recommend"))
+                        .addQuery("EnableAds", Set.of("ads_enable"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

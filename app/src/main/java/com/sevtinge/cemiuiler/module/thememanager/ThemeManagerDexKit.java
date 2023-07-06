@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,8 +27,8 @@ public class ThemeManagerDexKit extends BaseHook {
             mThemeManagerResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("DrmResult", List.of("theme", "ThemeManagerTag", "/system", "check rights isLegal:"))
-                        .addQuery("LargeIcon", List.of(
+                        .addQuery("DrmResult", Set.of("theme", "ThemeManagerTag", "/system", "check rights isLegal:"))
+                        .addQuery("LargeIcon", Set.of(
                             "apply failed", "/data/system/theme/large_icons/", "default_large_icon_product_id", "largeicons", "relativePackageList is empty"
                         ))
                         .matchType(MatchType.CONTAINS)

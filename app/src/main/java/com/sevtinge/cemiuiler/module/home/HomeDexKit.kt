@@ -15,7 +15,7 @@ class HomeDexKit : BaseHook() {
         loadDexKit()
         try {
             mHomeResultClassMap = dexKitBridge.batchFindClassesUsingStrings {
-                addQuery("HideAllApp", listOf("appInfo.packageName", "activityInfo"))
+                addQuery("HideAllApp", setOf("appInfo.packageName", "activityInfo"))
                 matchType = MatchType.FULL
             }
         } catch (e: Throwable) {

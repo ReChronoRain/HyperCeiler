@@ -16,11 +16,11 @@ class MiShareDexKit : BaseHook() {
         loadDexKit()
         try {
             mMiShareResultMethodsMap = dexKitBridge.batchFindMethodsUsingStrings {
-                addQuery("qwq", listOf("EnabledState", "mishare_enabled"))
+                addQuery("qwq", setOf("EnabledState", "mishare_enabled"))
                 matchType = MatchType.FULL
             }
             mMiShareResultClassMap = dexKitBridge.batchFindClassesUsingStrings {
-                addQuery("qwq2", listOf("null context", "cta_agree"))
+                addQuery("qwq2", setOf("null context", "cta_agree"))
                 matchType = MatchType.FULL
             }
         } catch (e: Throwable) {

@@ -15,7 +15,7 @@ class PowerKeeperDexKit : BaseHook() {
         loadDexKit()
         try {
             mPowerKeeperResultMethodsMap = dexKitBridge.batchFindMethodsUsingStrings {
-                addQuery("fucSwitch", listOf("custom_mode_switch", "fucSwitch"))
+                addQuery("fucSwitch", setOf("custom_mode_switch", "fucSwitch"))
                 matchType = MatchType.FULL
             }
         } catch (e: Throwable) {

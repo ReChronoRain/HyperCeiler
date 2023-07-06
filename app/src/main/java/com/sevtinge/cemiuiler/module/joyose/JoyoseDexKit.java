@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,8 +27,8 @@ public class JoyoseDexKit extends BaseHook {
             mJoyoseResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("CloudControl", List.of("job exist, sync local..."))
-                        .addQuery("GpuTuner", List.of("GPUTUNER_SWITCH"))
+                        .addQuery("CloudControl", Set.of("job exist, sync local..."))
+                        .addQuery("GpuTuner", Set.of("GPUTUNER_SWITCH"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

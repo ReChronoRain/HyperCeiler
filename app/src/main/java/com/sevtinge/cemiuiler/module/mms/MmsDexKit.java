@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,7 +27,7 @@ public class MmsDexKit extends BaseHook {
             mMmsResultClassMap =
                 bridge.batchFindClassesUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("DisableAd", List.of("Unknown type of the message: "))
+                        .addQuery("DisableAd", Set.of("Unknown type of the message: "))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,7 +27,7 @@ public class GuardProviderDexKit extends BaseHook {
             mGuardProviderResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("AntiDefraudAppManager", List.of("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app"))
+                        .addQuery("AntiDefraudAppManager", Set.of("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

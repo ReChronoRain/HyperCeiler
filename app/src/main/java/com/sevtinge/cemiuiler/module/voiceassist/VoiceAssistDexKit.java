@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,7 +27,7 @@ public class VoiceAssistDexKit extends BaseHook {
             mVoiceAssistResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("BrowserActivityWithIntent", List.of("IntentUtils", "permission click No Application can handle your intent"))
+                        .addQuery("BrowserActivityWithIntent", Set.of("IntentUtils", "permission click No Application can handle your intent"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

@@ -37,14 +37,14 @@ fun Array<Class<*>>.sameAs(vararg other: Any): Boolean {
 }
 
 /**
-检测设备是否加密，来源米客
+ * 检测设备是否加密，来源米客
+ * @return 返回一个 Boolean 值，true 为已加密，false 为未加密
+ * API 34 已弃用 DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING 属性值，官方说法如下
+ * This result code has never actually been used, so there is no reason for apps to check for it.
  */
 fun isDeviceEncrypted(context: Context): Boolean {
     val policyMgr = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
     val encryption = policyMgr.storageEncryptionStatus
     return encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE ||
         encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER
-    // API 34 已弃用下面属性值，官方说法
-    // This result code has never actually been used, so there is no reason for apps to check for it.
-    // encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVATING
 }

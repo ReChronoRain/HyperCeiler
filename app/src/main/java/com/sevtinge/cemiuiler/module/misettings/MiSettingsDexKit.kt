@@ -16,11 +16,11 @@ class MiSettingsDexKit : BaseHook() {
         loadDexKit()
         try {
             mMiSettingsResultMethodsMap = dexKitBridge.batchFindMethodsUsingStrings {
-                addQuery("category", listOf("btn_preferce_category"))
+                addQuery("category", setOf("btn_preferce_category"))
                 matchType = MatchType.FULL
             }
             mMiSettingsResultClassMap = dexKitBridge.batchFindClassesUsingStrings {
-                addQuery("refresh", listOf("The current device does not support refresh rate adjustment"))
+                addQuery("refresh", setOf("The current device does not support refresh rate adjustment"))
                 matchType = MatchType.FULL
             }
         } catch (e: Throwable) {

@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,7 +27,7 @@ public class MarketDexKit extends BaseHook {
             mMarketResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("DesktopSupportOperationIcon", List.of("com.miui.home", "supportOperationIcon", "AppGlobals.getContext()"))
+                        .addQuery("DesktopSupportOperationIcon", Set.of("com.miui.home", "supportOperationIcon", "AppGlobals.getContext()"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

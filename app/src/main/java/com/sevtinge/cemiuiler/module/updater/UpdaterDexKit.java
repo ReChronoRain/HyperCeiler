@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,7 +27,7 @@ public class UpdaterDexKit extends BaseHook {
             mUpdaterResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("SystemProperties", List.of("android.os.SystemProperties", "get", "get e"))
+                        .addQuery("SystemProperties", Set.of("android.os.SystemProperties", "get", "get e"))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

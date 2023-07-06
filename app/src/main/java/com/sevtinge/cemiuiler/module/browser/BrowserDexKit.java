@@ -6,6 +6,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -28,9 +29,9 @@ public class BrowserDexKit extends BaseHook {
             mBrowserResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("DebugMode", List.of("pref_key_debug_mode_new"))
-                        .addQuery("DebugMode1", List.of("pref_key_debug_mode"))
-                        .addQuery("DebugMode2", List.of("pref_key_debug_mode_" + getPackageVersionCode(lpparam)))
+                        .addQuery("DebugMode", Set.of("pref_key_debug_mode_new"))
+                        .addQuery("DebugMode1", Set.of("pref_key_debug_mode"))
+                        .addQuery("DebugMode2", Set.of("pref_key_debug_mode_" + getPackageVersionCode(lpparam)))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );

@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.luckypray.dexkit.DexKitBridge;
 import io.luckypray.dexkit.builder.BatchFindArgs;
@@ -26,8 +27,8 @@ public class ScreenRecorderDexKit extends BaseHook {
             mScreenRecorderResultMethodsMap =
                 bridge.batchFindMethodsUsingStrings(
                     BatchFindArgs.builder()
-                        .addQuery("ScreenRecorderConfigA", List.of("Error when set frame value, maxValue = "))
-                        .addQuery("ScreenRecorderConfigB", List.of("defaultBitRate = "))
+                        .addQuery("ScreenRecorderConfigA", Set.of("Error when set frame value, maxValue = "))
+                        .addQuery("ScreenRecorderConfigB", Set.of("defaultBitRate = "))
                         .matchType(MatchType.CONTAINS)
                         .build()
                 );
