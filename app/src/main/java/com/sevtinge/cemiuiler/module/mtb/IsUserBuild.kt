@@ -7,13 +7,10 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object IsUserBuild : BaseHook() {
     override fun init() {
-        try {
-            loadClass("com.xiaomi.mtb.MtbUtils").methodFinder().first {
-                name == "IsUserBuild"
-            }.createHook {
-                returnConstant(false)
-            }
-        } catch (_: Throwable) {
+        loadClass("com.xiaomi.mtb.MtbUtils").methodFinder().first {
+            name == "IsUserBuild"
+        }.createHook {
+            returnConstant(false)
         }
     }
 }

@@ -7,13 +7,10 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object DisableCountChecking : BaseHook() {
     override fun init() {
-        val riskControlRulesClass = loadClass("com.miui.packageInstaller.model.RiskControlRules")
-        try {
-            riskControlRulesClass.methodFinder().filterByName("getCurrentLevel").first().createHook {
-                returnConstant(0)
-            }
-        } catch (t: Throwable) {
-            logE(t)
+        loadClass("com.miui.packageInstaller.model.RiskControlRules").methodFinder().first {
+            name == "getCurrentLevel"
+        }.createHook {
+            returnConstant(0)
         }
     }
 }

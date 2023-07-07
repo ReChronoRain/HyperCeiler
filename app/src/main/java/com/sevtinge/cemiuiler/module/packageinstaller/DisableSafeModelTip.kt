@@ -13,15 +13,13 @@ object DisableSafeModelTip : BaseHook() {
         val miuiSettingsCompatClass =
             loadClass("com.android.packageinstaller.compat.MiuiSettingsCompat")
 
-        try {
+        runCatching {
             miuiSettingsCompatClass.methodFinder().filterByName("isPersonalizedAdEnabled")
                 .filterByReturnType(Boolean::class.java).toList().createHooks {
                 before {
                     it.result = false
                 }
             }
-        } catch (t: Throwable) {
-            logE(t)
         }
 
         var letter = 'a'

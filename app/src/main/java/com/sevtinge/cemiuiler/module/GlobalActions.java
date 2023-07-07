@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module;
 
 import static java.lang.System.currentTimeMillis;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -9,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -17,11 +17,11 @@ import android.view.KeyEvent;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
 public class GlobalActions extends BaseHook {
 
 
@@ -35,7 +35,7 @@ public class GlobalActions extends BaseHook {
     public void setupGlobalActions() {
         hookAllConstructors("com.android.server.accessibility.AccessibilityManagerService", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mGlobalContext = (Context) param.args[0];
                 IntentFilter mFilter = new IntentFilter();
                 // Actions
@@ -55,7 +55,7 @@ public class GlobalActions extends BaseHook {
             method, prop, val);
     }
 
-
+    @SuppressLint("UnsafeIntentLaunch")
     private final BroadcastReceiver mGlobalReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -109,7 +109,7 @@ public class GlobalActions extends BaseHook {
                     }
                 }
             } catch (Throwable t) {
-                LogUtils.log(t);
+                Helpers.log(t);
             }
         }
     };
@@ -118,7 +118,7 @@ public class GlobalActions extends BaseHook {
     public void setupRestartActions() {
         hookAllMethods("com.android.server.policy.PhoneWindowManager", "init", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
                 intentfilter.addAction(ACTION_PREFIX + "RestartApps");
@@ -143,7 +143,7 @@ public class GlobalActions extends BaseHook {
                     forceStopPackage(context, intent.getStringExtra("packageName"));
                 }
             } catch (Exception e) {
-                LogUtils.log(e);
+                Helpers.log(e);
             }
         }
     };
@@ -202,7 +202,7 @@ public class GlobalActions extends BaseHook {
             context.sendBroadcast(new Intent(ACTION_PREFIX + action));
             return true;
         } catch (Throwable t) {
-            LogUtils.log(t);
+            Helpers.log(t);
             return false;
         }
     }
@@ -301,7 +301,7 @@ public class GlobalActions extends BaseHook {
 
             return intent;
         } catch (Throwable t) {
-            LogUtils.log(t);
+            Helpers.log(t);
             return null;
         }
     }

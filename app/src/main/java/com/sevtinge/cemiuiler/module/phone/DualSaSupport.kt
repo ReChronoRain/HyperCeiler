@@ -7,13 +7,10 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object DualSaSupport : BaseHook() {
     override fun init() {
-        try {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
-                name == "isDualSaSupported"
-            }.createHook {
-                returnConstant(true)
-            }
-        } catch (_: Throwable) {
+        loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
+            name == "isDualSaSupported"
+        }.createHook {
+            returnConstant(true)
         }
     }
 }

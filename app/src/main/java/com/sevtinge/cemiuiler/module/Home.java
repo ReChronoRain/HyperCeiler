@@ -1,20 +1,18 @@
 package com.sevtinge.cemiuiler.module;
 
 import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.home.AnimDurationRatio;
-import com.sevtinge.cemiuiler.module.home.gesture.DoubleTap;
 import com.sevtinge.cemiuiler.module.home.FreeFormCountForHome;
 import com.sevtinge.cemiuiler.module.home.HomeDexKit;
 import com.sevtinge.cemiuiler.module.home.HomePortraitReverse;
-import com.sevtinge.cemiuiler.module.home.gesture.HotSeatSwipe;
 import com.sevtinge.cemiuiler.module.home.MaxFreeForm;
 import com.sevtinge.cemiuiler.module.home.ScreenSwipe;
 import com.sevtinge.cemiuiler.module.home.SeekPoints;
 import com.sevtinge.cemiuiler.module.home.SetDeviceLevel;
-import com.sevtinge.cemiuiler.module.home.gesture.ShakeDevice;
 import com.sevtinge.cemiuiler.module.home.StickyFloatingWindowsForHome;
 import com.sevtinge.cemiuiler.module.home.UnlockHotseatIcon;
 import com.sevtinge.cemiuiler.module.home.UserPresentAnimation;
@@ -39,7 +37,9 @@ import com.sevtinge.cemiuiler.module.home.folder.FolderColumns;
 import com.sevtinge.cemiuiler.module.home.folder.FolderShade;
 import com.sevtinge.cemiuiler.module.home.folder.FolderVerticalPadding;
 import com.sevtinge.cemiuiler.module.home.folder.SmallFolderIconBlur;
-import com.sevtinge.cemiuiler.module.home.gesture.SwipeAndStop;
+import com.sevtinge.cemiuiler.module.home.gesture.DoubleTap;
+import com.sevtinge.cemiuiler.module.home.gesture.HotSeatSwipe;
+import com.sevtinge.cemiuiler.module.home.gesture.ShakeDevice;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsHeight;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.cemiuiler.module.home.layout.HotSeatsMarginTop;
@@ -145,7 +145,7 @@ public class Home extends BaseModule {
         // 抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||
             mPrefsMap.getBoolean("home_drawer_editor"));
-        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur"));
+        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur") && !isAndroidR());
 
         // 最近任务
         initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 6);
@@ -209,13 +209,11 @@ public class Home extends BaseModule {
 
         // 实验性功能
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur"));
-        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur"));
+        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur") && !isAndroidR());
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
         initHook(new AllAppsBlur(), true);
         initHook(new FixAnimation(), mPrefsMap.getBoolean("home_title_fix_animation"));
-        if (mPrefsMap.getBoolean("home_large_icon_enable")) {
-            initHook(new LargeIconCornerRadius(), true);
-        }
+        initHook(new LargeIconCornerRadius(), mPrefsMap.getBoolean("home_large_icon_enable"));
 
         // 多小窗
         initHook(new FreeFormCountForHome(), mPrefsMap.getBoolean("system_framework_freeform_count"));
@@ -231,9 +229,7 @@ public class Home extends BaseModule {
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 
         // 小米/红米平板相关
-        if (isPad()) {
-            initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
-        }
+        initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num") && isPad());
     }
 
 }

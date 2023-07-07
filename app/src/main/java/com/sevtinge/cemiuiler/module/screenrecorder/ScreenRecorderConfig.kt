@@ -24,7 +24,7 @@ object ScreenRecorderConfig : BaseHook() {
                     }.let { fieldAccessible ->
                         fieldAccessible.isFinal &&
                             fieldAccessible.get(null).let {
-                                kotlin.runCatching {
+                                runCatching {
                                     (it as IntArray).contentEquals(intArrayOf(15, 24, 30, 48, 60, 90))
                                 }.getOrDefault(false)
                             }
@@ -50,7 +50,7 @@ object ScreenRecorderConfig : BaseHook() {
                     }.let { fieldAccessible ->
                         fieldAccessible.isFinal &&
                             fieldAccessible.get(null).let {
-                                kotlin.runCatching {
+                                runCatching {
                                     (it as IntArray).contentEquals(intArrayOf(200, 100, 50, 32, 24, 16, 8, 6, 4, 1))
                                 }.getOrDefault(false)
                             }

@@ -5,20 +5,20 @@ import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap
 import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.cemiuiler.view.WeatherData
 
 
 @SuppressLint("StaticFieldLeak")
-object NotificationWeatherNew : BaseHook() {
+object NotificationWeatherNew {
     // TODO: Android13 控制中心天气不可用
     lateinit var weather: WeatherData
     var clockId: Int = -2
 
-    @SuppressLint("DiscouragedApi", "ClickableViewAccessibility")
-    override fun init() {
+    @JvmStatic
+    fun notificationWeatherInPlugin(classLoader: ClassLoader?) {
         val mControlCenterDateViewClass =
             loadClass("com.android.systemui.controlcenter.phone.widget.QSControlCenterHeaderView")
 
@@ -45,10 +45,7 @@ object NotificationWeatherNew : BaseHook() {
                 }
             }
         }
-    }
 
-    @JvmStatic
-    fun notificationWeatherInPlugin(classLoader: ClassLoader?) {
         val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
         loadClass(
             "miui.systemui.controlcenter.windowview.MainPanelHeaderController", classLoader

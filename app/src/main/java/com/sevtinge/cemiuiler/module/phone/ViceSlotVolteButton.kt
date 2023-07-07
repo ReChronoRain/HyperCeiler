@@ -8,22 +8,20 @@ import com.sevtinge.cemiuiler.utils.exec
 
 object ViceSlotVolteButton : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             exec("settings put global vice_slot_volte_data_enabled 1")
             loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "shouldHideViceSlotVolteDataButton"
             }.createHook {
                 returnConstant(false)
             }
-        } catch (_: Throwable) {
         }
-        try {
+        runCatching {
             loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "shouldHideSmartDualSimButton"
             }.createHook {
                 returnConstant(false)
             }
-        } catch (_: Throwable) {
         }
     }
 }

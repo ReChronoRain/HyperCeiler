@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.ViewSwitcher
-import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
@@ -20,7 +19,6 @@ import com.zhenxiang.blur.BlurFrameLayout
 import com.zhenxiang.blur.model.CornersRadius
 
 
-@RequiresApi(Build.VERSION_CODES.S)
 object AllAppsContainerViewBlur : BaseHook() {
     override fun init() {
         Application::class.java.hookBeforeMethod("attach", Context::class.java) {
@@ -37,8 +35,10 @@ object AllAppsContainerViewBlur : BaseHook() {
                     val appsView = mCategoryContainer.parent as RelativeLayout
                     val blur = BlurFrameLayout(mCategoryContainer.context)
                     val radius = getCornerRadiusTop().toFloat()
-                    blur.blurController.apply {
-                        cornerRadius = CornersRadius.custom(radius, radius, 0f, 0f)
+                    if (Build.VERSION.SDK_INT >= 31) {
+                        blur.blurController.apply {
+                            cornerRadius = CornersRadius.custom(radius, radius, 0f, 0f)
+                        }
                     }
                     val view = View(mCategoryContainer.context)
                     blur.addView(view)

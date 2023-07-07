@@ -7,22 +7,20 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object N5N8BandPhone : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
                 name == "isN5Supported"
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
 
-        try {
+        runCatching {
             loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
                 name == "isN8Supported"
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
     }
 }

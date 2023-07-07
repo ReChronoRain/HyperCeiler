@@ -13,14 +13,13 @@ object FuckRiskPkg : BaseHook() {
         val appVersionCode = getPackageVersionCode(lpparam)
         if (appVersionCode >= 40000774) {
             for (descriptor in result) {
-                try {
+                runCatching {
                     val mRiskPkg = descriptor.getMethodInstance(lpparam.classLoader)
                     mRiskPkg.createHook {
                         before {
                             it.result = null
                         }
                     }
-                } catch (_: Throwable) {
                 }
             }
         }

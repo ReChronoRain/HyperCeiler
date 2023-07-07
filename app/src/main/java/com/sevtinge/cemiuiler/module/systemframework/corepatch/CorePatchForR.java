@@ -153,7 +153,6 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                                 }
                             }
                         } catch (Throwable ignored) {
-
                         }
                         try {
                             if (lastSigs == null && prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {

@@ -27,7 +27,8 @@ object FolderBlur : BaseHook() {
             blurUtilsClass.hookBeforeMethod("fastBlurWhenOpenOrCloseFolder", launcherClass, Boolean::class.java) {
                 it.result = null
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logE(e)
         }
         var isShouldBlur = false
 

@@ -7,7 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object ModemFeature : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             loadClass("com.android.phone.FiveGManagerBase").methodFinder().first {
                 name == "getModemFeatureMode"
             }.createHook {
@@ -16,10 +16,9 @@ object ModemFeature : BaseHook() {
                     it.result = true
                 }
             }
-        } catch (_: Throwable) {
         }
 
-        try {
+        runCatching {
             loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "isModemFeatureSupported"
             }.createHook {
@@ -27,10 +26,9 @@ object ModemFeature : BaseHook() {
                     it.args[0] = -1
                 }
             }
-        } catch (_: Throwable) {
         }
 
-        try {
+        runCatching {
             loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
                 name == "getModemFeatureFromDb"
             }.createHook {
@@ -38,7 +36,6 @@ object ModemFeature : BaseHook() {
                     it.args[0] = -1
                 }
             }
-        } catch (_: Throwable) {
         }
     }
 }

@@ -7,13 +7,12 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object N28Band : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
                 name == "isN28Supported"
             }.createHook {
                 returnConstant(true)
             }
-        } catch (_: Throwable) {
         }
     }
 }

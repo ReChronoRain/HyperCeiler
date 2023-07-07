@@ -7,7 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object DualNRSupport : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
                 name == "isDualNrSupported"
             }.createHook {
@@ -15,7 +15,6 @@ object DualNRSupport : BaseHook() {
                     it.result = true
                 }
             }
-        } catch (_: Throwable) {
         }
     }
 }

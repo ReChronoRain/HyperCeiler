@@ -10,7 +10,7 @@ object BypassAuthentication : BaseHook() {
     override fun init() {
         val mModemTestBoxClass = loadClass("com.xiaomi.mtb.activity.ModemTestBoxMainActivity")
 
-        try {
+        runCatching {
             loadClass("com.xiaomi.mtb.MtbApp").methodFinder().first {
                 name == "setMiServerPermissionClass"
             }.createHook {
@@ -18,10 +18,9 @@ object BypassAuthentication : BaseHook() {
                     it.args[0] = 0
                 }
             }
-        } catch (_: Throwable) {
         }
 
-        try {
+        runCatching {
             mModemTestBoxClass.methodFinder().first {
                 name == "updateClass"
             }.createHook {
@@ -30,10 +29,9 @@ object BypassAuthentication : BaseHook() {
                     it.thisObject.setObjectField("mClassNet", 0)
                 }
             }
-        } catch (_: Throwable) {
         }
 
-        try {
+        runCatching {
             mModemTestBoxClass.methodFinder().first {
                 name == "initClassProduct"
             }.createHook {
@@ -41,7 +39,6 @@ object BypassAuthentication : BaseHook() {
                     it.thisObject.setObjectField("mClassProduct", 0)
                 }
             }
-        } catch (_: Throwable) {
         }
     }
 

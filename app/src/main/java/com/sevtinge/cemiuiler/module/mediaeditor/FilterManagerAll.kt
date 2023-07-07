@@ -17,21 +17,18 @@ object FilterManagerAll : BaseHook() {
     override fun init() {
         val result = mMediaEditorResultMethodsMap["FilterManager"]!!
         val methodResult = result.filter { it.isMethod }.map { it.getMethodInstance(safeClassLoader) }.toTypedArray()
-        try {
-            MethodFinder.fromArray(methodResult).first {
-                returnType == List::class.java || (parameterCount == 1 && parameterTypes[0] == Bundle::class.java)
-            }.createHook {
-                before {
-                    if (!this@FilterManagerAll::device.isInitialized) {
-                        device = Build.DEVICE
-                    }
-                    setStaticObject(loadClass("android.os.Build"), "DEVICE", "wayne")
+        MethodFinder.fromArray(methodResult).first {
+            returnType == List::class.java || (parameterCount == 1 && parameterTypes[0] == Bundle::class.java)
+        }.createHook {
+            before {
+                if (!this@FilterManagerAll::device.isInitialized) {
+                    device = Build.DEVICE
                 }
-                after {
-                    setStaticObject(loadClass("android.os.Build"), "DEVICE", device)
-                }
+                setStaticObject(loadClass("android.os.Build"), "DEVICE", "wayne")
             }
-        } catch (_: Throwable) {
+            after {
+                setStaticObject(loadClass("android.os.Build"), "DEVICE", device)
+            }
         }
     }
 }

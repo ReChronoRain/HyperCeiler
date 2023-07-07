@@ -7,15 +7,12 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object IsSbnBelongToActiveBubbleApp : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder().first {
                 name == "isSbnBelongToActiveBubbleApp"
             }.createHook {
                 returnConstant(true)
             }
-        } catch (e: Throwable) {
-            logE(e)
         }
     }
-
 }

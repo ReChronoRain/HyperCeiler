@@ -22,11 +22,10 @@ object BlurPersonalAssistant : BaseHook() {
         val mScrollStateManager = mPersonalAssistantResultMethodsMap["ScrollStateManager"]!!
 
         for (descriptor in mScrollStateManager) {
-            try {
+            runCatching {
                 val mScrollStateManagerMethod = descriptor.getMethodInstance(lpparam.classLoader)
                 log("mScrollStateManager method is $mScrollStateManagerMethod")
-                XposedBridge.hookMethod(
-                    mScrollStateManagerMethod,
+                XposedBridge.hookMethod(mScrollStateManagerMethod,
                     object : XC_MethodHook() {
                         @RequiresApi(Build.VERSION_CODES.S)
                         override fun afterHookedMethod(param: MethodHookParam) {
@@ -39,7 +38,7 @@ object BlurPersonalAssistant : BaseHook() {
                                 HookUtils.getValueByField(param.thisObject, "b") ?: return
                             }
                             if (window.javaClass.name.contains("Window")) {
-                                try {
+                                runCatching {
                                     window as Window
                                     val blurRadius = (scrollX * blurRadius).toInt()
                                     if (abs(blurRadius - lastBlurRadius) > 2) {
@@ -49,12 +48,10 @@ object BlurPersonalAssistant : BaseHook() {
                                     val backgroundColorDrawable = ColorDrawable(backgroundColor)
                                     backgroundColorDrawable.alpha = (scrollX * 255).toInt()
                                     window.setBackgroundDrawable(backgroundColorDrawable)
-                                } catch (_: Throwable) {
                                 }
                             }
                         }
                     })
-            } catch (_: Throwable) {
             }
         }
 

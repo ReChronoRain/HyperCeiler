@@ -277,9 +277,7 @@ object ShortcutBackgroundBlur : BaseHook() {
                         }
                     }
                 })
-            XposedBridge.hookAllMethods(
-                shortcutMenuClass,
-                "addArrow",
+            XposedBridge.hookAllMethods(shortcutMenuClass, "addArrow",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         if (!isShortcutMenuLayerBlurred) {
@@ -292,7 +290,8 @@ object ShortcutBackgroundBlur : BaseHook() {
                         val mArrowBackground = mArrow.background as ShapeDrawable
                         mArrowBackground.alpha = shortcutMenuBackgroundAlpha
                     }
-                })
+                }
+            )
         }
 
         /*

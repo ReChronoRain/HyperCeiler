@@ -7,7 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object MultiFreeFormSupported : BaseHook() {
     override fun init() {
-        try {
+        runCatching {
             if (!mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform")) {
                 loadClass("android.util.MiuiMultiWindowUtils").methodFinder().first {
                     name == "multiFreeFormSupported"
@@ -34,8 +34,6 @@ object MultiFreeFormSupported : BaseHook() {
                 }
                 log("Hook success!")
             }
-        } catch (e: Throwable) {
-            logE(e)
         }
     }
 

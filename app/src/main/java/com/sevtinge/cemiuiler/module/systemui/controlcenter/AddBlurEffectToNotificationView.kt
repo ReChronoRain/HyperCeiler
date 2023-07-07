@@ -532,17 +532,15 @@ object AddBlurEffectToNotificationView : BaseHook() {
             if (HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
                 mBackgroundNormal.background = null
             }
-            try {
+            runCatching {
                 XposedHelpers.callMethod(
                     mBackgroundNormal,
                     "setDrawableAlpha",
                     defaultBackgroundAlpha
                 )
-            } catch (e: Throwable) {
-                // Nothing to do.
             }
 
-            try {
+            runCatching {
                 val childList =
                     XposedHelpers.callMethod(notificationRow, "getAttachedChildren") ?: return
                 childList as List<*>
@@ -553,8 +551,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         }
                     }
                 }
-            } catch (e: Throwable) {
-                // Nothing to do.
             }
         }
     }
@@ -578,7 +574,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             if (HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
                 XposedHelpers.callMethod(mBackgroundNormal.background, "setAlpha", alpha)
             }
-            try {
+            runCatching {
                 val childList =
                     XposedHelpers.callMethod(notificationRow, "getAttachedChildren") ?: return
                 childList as List<*>
@@ -589,8 +585,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         }
                     }
                 }
-            } catch (e: Throwable) {
-                // Nothing to do.
             }
         }
     }
@@ -628,7 +622,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     // Nothing to do.
                 }
             }
-            try {
+            runCatching {
                 val childList =
                     XposedHelpers.callMethod(notificationRow, "getAttachedChildren") ?: return
                 childList as List<*>
@@ -639,8 +633,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         }
                     }
                 }
-            } catch (e: Throwable) {
-                // Nothing to do.
             }
         }
     }

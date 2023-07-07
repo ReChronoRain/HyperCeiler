@@ -10,22 +10,18 @@ object AlwaysShowStatusClock : BaseHook() {
 
         // if (!mPrefsMap.getBoolean("home_show_status_clock")) return
         val mWorkspaceClass = loadClass("com.miui.home.launcher.Workspace")
-        try {
-            mWorkspaceClass.methodFinder().first {
-                name == "isScreenHasClockGadget"
+        val methodNames =
+            listOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
+
+        methodNames.forEach { methodName ->
+            val result = runCatching {
+                mWorkspaceClass.methodFinder().first {
+                    name == methodName
+                }.createHook {
+                    before { it.result = false }
+                }
             }
-        } catch (e: Exception) {
-            mWorkspaceClass.methodFinder().first {
-                name == "isScreenHasClockWidget"
-            }
-        } catch (e: Exception) {
-            mWorkspaceClass.methodFinder().first {
-                name == "isClockWidget"
-            }
-        }.createHook {
-            before {
-                it.result = false
-            }
+            if (result.isSuccess) return@forEach
         }
     }
 }

@@ -52,9 +52,7 @@ class EnableVolumeBlur : BaseHook() {
             "com.android.systemui.shared.plugins.PluginInstanceManager\$PluginHandler"
         )
         if (pluginHandlerClass != null) {
-            XposedBridge.hookAllMethods(
-                pluginHandlerClass,
-                "handleLoadPlugin",
+            XposedBridge.hookAllMethods(pluginHandlerClass, "handleLoadPlugin",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val componentName = param.args[0]
@@ -84,9 +82,7 @@ class EnableVolumeBlur : BaseHook() {
             "com.android.systemui.shared.plugins.PluginActionManager"
         )
         if (pluginActionManagerClass != null) {
-            XposedBridge.hookAllMethods(
-                pluginActionManagerClass,
-                "loadPluginComponent",
+            XposedBridge.hookAllMethods(pluginActionManagerClass, "loadPluginComponent",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val componentName = param.args[0]
