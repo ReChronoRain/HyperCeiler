@@ -5,6 +5,7 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVe
 import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.systemui.controlcenter.CCGrid;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.NotificationWeatherNew;
 
 public class PluginHelper extends BaseHook {
@@ -35,6 +36,12 @@ public class PluginHelper extends BaseHook {
                         HideDeviceControlEntry.initHideDeviceControlEntry(pluginLoader);
                     if (mPrefsMap.getBoolean("system_ui_control_center_show_weather")) {
                         NotificationWeatherNew.notificationWeatherInPlugin(pluginLoader);
+                    }
+                    if (mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
+                        mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
+                        mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
+                        mPrefsMap.getBoolean("system_control_center_qs_tile_label")) {
+                        CCGrid.initCCGrid(pluginLoader);
                     }
                 }
             }
