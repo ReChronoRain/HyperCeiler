@@ -10,10 +10,7 @@ class BackgroundBlurDrawable : IXposedHookZygoteInit {
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
         val classLoader = startupParam.javaClass.classLoader
         val mBackgroundBlurDrawableClass = classLoader?.let {
-            HookUtils.getClass(
-                "com.android.internal.graphics.drawable.BackgroundBlurDrawable",
-                it
-            )
+            HookUtils.getClass("com.android.internal.graphics.drawable.BackgroundBlurDrawable", it)
         } ?: return
         // 为 BackgroundBlurDrawable 应当增加一个判断
         // 此处应该可以为AOSP提交修复补丁
