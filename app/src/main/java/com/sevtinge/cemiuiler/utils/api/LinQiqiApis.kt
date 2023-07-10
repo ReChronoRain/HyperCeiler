@@ -2,6 +2,8 @@ package com.sevtinge.cemiuiler.utils.api
 
 import android.app.admin.DevicePolicyManager
 import android.content.Context
+import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
+import java.lang.reflect.Method
 
 /**
  * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
@@ -34,6 +36,75 @@ fun Array<Class<*>>.sameAs(vararg other: Any): Boolean {
         }
     }
     return true
+}
+
+
+/**
+ * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
+ *
+ * 扩展函数 通过类或者对象获取单个方法
+ * @param methodName 方法名
+ * @param isStatic 是否为静态方法
+ * @param returnType 方法返回值 填入null为无视返回值
+ * @param argTypes 方法参数类型
+ * @return 符合条件的方法
+ * @throws IllegalArgumentException 方法名为空
+ * @throws NoSuchMethodException 未找到方法
+ */
+fun Any.method(
+    methodName: String,
+    returnType: Class<*>? = null,
+    isStatic: Boolean = false,
+    argTypes: ArgTypes = argTypes()
+): Method {
+    if (methodName.isBlank()) throw IllegalArgumentException("Method name must not be empty!")
+    var c = if (this is Class<*>) this else this.javaClass
+    do {
+        c.declaredMethods.toList().asSequence()
+            .filter { it.name == methodName }
+            .filter { it.parameterTypes.size == argTypes.argTypes.size }
+            .apply { if (returnType != null) filter { returnType == it.returnType } }
+            .filter { it.parameterTypes.sameAs(*argTypes.argTypes) }
+            .filter { it.isStatic == isStatic }
+            .firstOrNull()?.let { it.isAccessible = true; return it }
+    } while (c.superclass?.also { c = it } != null)
+    throw NoSuchMethodException("Name:$methodName, Static: $isStatic, ArgTypes:${argTypes.argTypes.joinToString(",")}")
+}
+
+/**
+ * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
+ * 扩展函数 调用对象的方法
+ *
+ * @param methodName 方法名
+ * @param args 形参表 可空
+ * @param argTypes 形参类型 可空
+ * @param returnType 返回值类型 为null时无视返回值类型
+ * @return 函数调用后的返回值
+ * @throws IllegalArgumentException 当方法名为空时
+ * @throws IllegalArgumentException 当args的长度与argTypes的长度不符时
+ * @throws IllegalArgumentException 当对象是一个Class时
+ */
+fun Any.invokeMethod(
+    methodName: String,
+    args: Args = args(),
+    argTypes: ArgTypes = argTypes(),
+    returnType: Class<*>? = null
+): Any? {
+    if (methodName.isBlank()) throw IllegalArgumentException("Object name must not be empty!")
+    if (args.args.size != argTypes.argTypes.size) throw IllegalArgumentException("Method args size must equals argTypes size!")
+    return if (args.args.isEmpty()) {
+        try {
+            this.method(methodName, returnType, false)
+        } catch (e: NoSuchMethodException) {
+            return null
+        }.invoke(this)
+    } else {
+        try {
+            this.method(methodName, returnType, false, argTypes = argTypes)
+        } catch (e: NoSuchMethodException) {
+            return null
+        }.invoke(this, *args.args)
+    }
 }
 
 /**

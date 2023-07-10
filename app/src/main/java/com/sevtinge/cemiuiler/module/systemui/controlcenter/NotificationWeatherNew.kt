@@ -7,14 +7,14 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.callMethod
+import com.sevtinge.cemiuiler.utils.api.invokeMethod
+import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.cemiuiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.cemiuiler.view.WeatherData
 
 
 @SuppressLint("StaticFieldLeak")
 object NotificationWeatherNew : BaseHook() {
-    // TODO: Android13 控制中心天气不可用
     lateinit var weather: WeatherData
     var clockId: Int = -2
 
@@ -48,7 +48,11 @@ object NotificationWeatherNew : BaseHook() {
             }
         }
 
-        loadClass("com.android.systemui.shared.plugins.PluginManagerImpl").methodFinder().first {
+        val pluginLoaderClass =
+            if (isMoreAndroidVersion(33)) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
+            else "com.android.systemui.shared.plugins.PluginManagerImpl"
+
+        loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
             name == "getClassLoader"
         }.createHook {
             after { getClassLoader ->
@@ -66,7 +70,7 @@ object NotificationWeatherNew : BaseHook() {
                             clockId = dateView.id
                             weather = WeatherData(dateView.context, isDisplayCity)
                             weather.callBacks = {
-                                dateView.callMethod("updateTime")
+                                dateView.invokeMethod("updateTime")
                             }
                         }
                     }

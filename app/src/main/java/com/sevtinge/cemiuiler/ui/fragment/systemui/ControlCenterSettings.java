@@ -13,13 +13,14 @@ import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment {
 
     SwitchPreference mFixMediaPanel;
-    PreferenceCategory mWeather;
+    SwitchPreference mNotice;
+    SeekBarPreferenceEx mNewCCGrid;
+    SwitchPreference mNewCCGridRect;
 
     @Override
     public int getContentResId() {
@@ -37,9 +38,14 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
-        mWeather = findPreference("prefs_key_system_ui_control_center_show_weather_enable");
+        mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
+        mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
+        mNotice = findPreference("prefs_key_n_enable");
+
         mFixMediaPanel.setVisible(isAndroidS() || isAndroidSv2());
-        mWeather.setVisible(!isAndroidR());
+        mNewCCGrid.setVisible(!isAndroidR());
+        mNewCCGridRect.setVisible(!isAndroidR());
+        mNotice.setVisible(!isAndroidR());
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

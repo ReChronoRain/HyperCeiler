@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -82,7 +81,7 @@ object NotificationWeatherOld : BaseHook() {
                         }
                         context.startActivity(intent)
                     } catch (e: Exception) {
-                        Toast.makeText(context, "启动失败，可能是不支持", Toast.LENGTH_LONG).show()
+                        logE(e)
                     }
                 }
             }

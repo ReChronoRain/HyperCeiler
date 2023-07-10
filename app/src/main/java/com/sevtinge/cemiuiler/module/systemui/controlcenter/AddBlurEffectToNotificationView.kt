@@ -183,7 +183,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             "setDrawableAlpha",
                             blurBackgroundAlpha
                         )
-                    } else {
+                    } /*else {
                         if (HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
                             mBackgroundNormal.background = null
                         }
@@ -196,7 +196,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         } catch (e: Throwable) {
                             logE("BlurNotificationView -> defaultBackgroundAlpha", e)
                         }
-                    }
+                    }*/
                 }
             })
 

@@ -48,19 +48,6 @@ fun Any.field(
 }
 
 /**
- * 扩展函数 调用对象中符合条件的方法
- * @param args 参数
- * @param condition 条件
- * @return 方法的返回值
- * @throws NoSuchMethodException 未找到方法
- */
-fun Any.invokeMethod(vararg args: Any?, condition: MethodCondition): Any? {
-    this::class.java.declaredMethods.firstOrNull { it.condition() }
-        ?.let { it.isAccessible = true;return it(this, *args) }
-    throw NoSuchMethodException()
-}
-
-/**
  * 判断运行模块的机型是否是平板
  * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
  * @author Voyager

@@ -87,10 +87,7 @@ class CCGrid : BaseHook() {
         val pluginLoaderClass =
             if (isMoreAndroidVersion(33)) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
             else "com.android.systemui.shared.plugins.PluginManagerImpl"
-        Helpers.hookAllMethods(
-            pluginLoaderClass,
-            lpparam.classLoader,
-            "getClassLoader",
+        Helpers.hookAllMethods(pluginLoaderClass, lpparam.classLoader, "getClassLoader",
             object : MethodHook() {
                 private var isHooked = false
                 override fun after(param: MethodHookParam) {
@@ -280,11 +277,11 @@ class CCGrid : BaseHook() {
                         "qs_cell_height",
                         85f
                     )
-                    val QSController = XposedHelpers.findClassIfExists(
+                    val mQSController = XposedHelpers.findClassIfExists(
                         "miui.systemui.controlcenter.qs.tileview.StandardTileView",
                         pluginLoader
                     )
-                    Helpers.hookAllMethods(QSController, "init", object : MethodHook() {
+                    Helpers.hookAllMethods(mQSController, "init", object : MethodHook() {
                         override fun before(param: MethodHookParam) {
                             if (param.args.size != 1) return
                             val mLabelContainer = XposedHelpers.getObjectField(
