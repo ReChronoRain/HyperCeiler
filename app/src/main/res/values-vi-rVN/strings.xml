@@ -1036,4 +1036,5 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái khi khóa màn hình</string>
     <string name="system_ui_status_bar_mobile_indicator">Ẩn chỉ báo hoạt động mạng di động</string>
     <string name="system_ui_status_bar_mobile_type_left">Hiển thị bên trái tín hiệu</string>
+    <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
 </resources>

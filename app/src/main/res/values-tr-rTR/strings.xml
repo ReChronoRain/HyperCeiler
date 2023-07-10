@@ -810,4 +810,5 @@
     <string name="system_ui_lock_screen_hide_status_bar">Durum çubuğunu kilit ekranından kaldır</string>
     <string name="system_ui_status_bar_mobile_indicator">Mobil ağ etkinliği göstergelerini gizle</string>
     <string name="system_ui_status_bar_mobile_type_left">Sinyalin solundaki ekran</string>
+    <string name="system_ui_control_center_switch_cc_and_notification_title">Anahtar kontrol merkezi ve bildirim çekmecesi</string>
 </resources>

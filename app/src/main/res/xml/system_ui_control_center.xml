@@ -150,6 +150,11 @@
             android:key="prefs_key_system_ui_control_center_rounded_rect"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/system_ui_control_center_switch_cc_and_notification_title"
+            android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
+            android:defaultValue="false" />
+
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_cc_rows"
             android:title="@string/system_control_center_qs_rows"

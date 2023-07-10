@@ -28,6 +28,7 @@ import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSFiveGTile;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGridLabels;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.SmartHome;
+import com.sevtinge.cemiuiler.module.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.cemiuiler.module.systemui.display.ToastTime;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.BlurButton;
@@ -181,6 +182,7 @@ public class SystemUI extends BaseModule {
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
+        initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
         initHook(FixMediaControlPanel.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_fix_media_control_panel"));

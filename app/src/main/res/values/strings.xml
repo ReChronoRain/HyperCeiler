@@ -1131,4 +1131,5 @@
     <string name="miui_package_installer_safe_mode_desc">Force open and lock the official security guard</string>
     <string name="system_ui_status_bar_mobile_indicator">Hide mobile network activity indicators</string>
     <string name="system_ui_status_bar_mobile_type_left">Display at left of signal</string>
+    <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
 </resources>

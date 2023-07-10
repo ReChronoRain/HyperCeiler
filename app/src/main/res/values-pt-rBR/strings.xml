@@ -885,6 +885,7 @@
     <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do modo zen</string>
     <string name="system_ui_status_bar_battery_style_change_location_title">Trocar ícone e porcentagem da bateria</string>
+    <string name="system_ui_control_center_switch_cc_and_notification_title">Alternar entre o centro de controle e a gaveta de notificações</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d em</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
     <string name="system_ui_statusbar_network_speed_hide">Ocultar velocidade de rede lenta</string>
