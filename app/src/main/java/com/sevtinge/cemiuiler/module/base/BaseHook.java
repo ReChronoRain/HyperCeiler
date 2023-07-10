@@ -58,7 +58,9 @@ public abstract class BaseHook {
     }
 
     public void logI(String log) {
-        XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+        if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
+            XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+        }
     }
 
     public void logE(Exception e) {
