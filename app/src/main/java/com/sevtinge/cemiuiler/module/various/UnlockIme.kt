@@ -94,7 +94,7 @@ object UnlockIme : BaseHook() {
      * @param clazz 声明或继承字段的类
      */
     private fun hookSIsImeSupport(clazz: Class<*>) {
-        kotlin.runCatching {
+        runCatching {
             clazz.setStaticObjectField("sIsImeSupport", 1)
             Log.i("Success:Hook field sIsImeSupport")
         }.onFailure {
@@ -109,7 +109,7 @@ object UnlockIme : BaseHook() {
      * @param clazz 声明或继承方法的类
      */
     private fun hookIsXiaoAiEnable(clazz: Class<*>) {
-        kotlin.runCatching {
+        runCatching {
             clazz.getMethod("isXiaoAiEnable").createHook {
                 returnConstant(false)
             }
@@ -125,12 +125,13 @@ object UnlockIme : BaseHook() {
      * @param clazz 声明或继承字段的类
      */
     private fun setPhraseBgColor(clazz: Class<*>) {
-        kotlin.runCatching {
+        runCatching {
             // 导航栏颜色被设置后, 将颜色存储起来并传递给常用语
             loadClass("com.android.internal.policy.PhoneWindow").methodFinder().first {
                 name == "setNavigationBarColor" && parameterTypes.sameAs(Int::class.java)
             }.createHook {
                 after { param ->
+                    if​ (param.args[​0​] ​==​ ​0​) ​return​@after
                     navBarColor = param.args[0] as Int
                     customizeBottomViewColor(clazz)
                 }
@@ -169,7 +170,7 @@ object UnlockIme : BaseHook() {
      * @param className 声明或继承方法的类的名称
      */
     private fun hookDeleteNotSupportIme(className: String, classLoader: ClassLoader) {
-        kotlin.runCatching {
+        runCatching {
             loadClass(className, classLoader).methodFinder().first { name == "deleteNotSupportIme" }
                 .createHook { returnConstant(null) }
         }.onFailure {
