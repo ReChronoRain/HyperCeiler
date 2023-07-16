@@ -784,7 +784,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển truyền thống</string>
     <string name="system_ui_controlcenter_title">Trung tâm điều khiển</string>
-    <string name="system_ui_display_title">Hiển thị</string>
+    <string name="system_framework_display_title">Hiển thị</string>
     <string name="system_ui_display_toast_times_title">Điều chỉnh thời lượng hiển thị</string>
     <string name="system_ui_display_toast_times_desc">Điều chỉnh thời lượng hiển thị của Toast, thời lượng hiển thị phải lớn hơn 1 giây</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>

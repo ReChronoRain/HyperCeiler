@@ -6,10 +6,6 @@
         android:title="@string/system_ui_lockscreen_title" />
 
     <Preference
-        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.DisplaySettings"
-        android:title="@string/system_ui_display_title" />
-
-    <Preference
         android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.StatusBarSettings"
         android:title="@string/system_ui_statusbar_title" />
 

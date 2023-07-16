@@ -844,7 +844,7 @@
     <string name="system_ui_display_brightness_title">亮度</string>
     <string name="system_ui_display_max_brightness">最大亮度</string>
     <string name="system_ui_display_min_brightness">最小亮度</string>
-    <string name="system_ui_display_title">顯示</string>
+    <string name="system_framework_display_title">顯示</string>
     <string name="system_ui_display_toast_times_desc">修改 Toast 顯示時長，顯示時長始終大於 1 秒</string>
     <string name="system_ui_display_toast_times_title">顯示時長調整</string>
     <string name="system_ui_lock_screen_blur_button">相機和智慧助理按鈕背景模糊</string>

@@ -760,7 +760,7 @@
     <string name="system_ui_controlcenter_new_title">Новый центр управления</string>
     <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
     <string name="system_ui_controlcenter_title">Центр управления</string>
-    <string name="system_ui_display_title">Экран</string>
+    <string name="system_framework_display_title">Экран</string>
     <string name="system_ui_lock_screen_blur_button">Размытие камеры и кнопки умного экрана</string>
     <string name="system_ui_lock_screen_current">Ток</string>
     <string name="system_ui_lock_screen_default_theme">Поддерживает только тему по умолчанию</string>

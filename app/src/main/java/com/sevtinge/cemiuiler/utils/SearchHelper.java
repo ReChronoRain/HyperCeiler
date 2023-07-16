@@ -50,6 +50,11 @@ public class SearchHelper {
             R.string.system_framework_phone_title,
             "com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings");
 
+        parsePrefXml(context, R.xml.framework_display,
+            R.string.system_framework,
+            R.string.system_framework_display_title,
+            "com.sevtinge.cemiuiler.ui.fragment.framework.DisplaySettings");
+
         parsePrefXml(context, R.xml.framework_other,
             R.string.system_framework,
             R.string.system_framework_other_title,
@@ -60,11 +65,6 @@ public class SearchHelper {
             R.string.system_ui,
             R.string.system_ui_lockscreen_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.LockScreenSettings");
-
-        parsePrefXml(context, R.xml.system_ui_display,
-            R.string.system_ui,
-            R.string.system_ui_display_title,
-            "com.sevtinge.cemiuiler.ui.fragment.systemui.DisplaySettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar,
             R.string.system_ui,

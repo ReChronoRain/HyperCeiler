@@ -981,7 +981,7 @@
     <string name="security_center_disable_ban">移除舉報鍵</string>
     <string name="system_settings_knuckle_function">解鎖指關節相關功能</string>
     <string name="system_settings_knuckle_function_desc">實驗性功能 \n啟用後請重啟 設定、輸入設定 作用範圍 \n目前僅解鎖 UI 介面</string>
-    <string name="system_ui_display_title">顯示</string>
+    <string name="system_framework_display_title">顯示</string>
     <string name="system_ui_display_brightness_title">亮度</string>
     <string name="system_ui_display_auto_brightness">自動亮度範圍</string>
     <string name="system_ui_display_auto_brightness_desc">自訂自動亮度的最小值和最大值</string>

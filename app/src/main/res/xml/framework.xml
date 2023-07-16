@@ -12,6 +12,10 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.VolumeSettings"/>
 
         <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.DisplaySettings"
+            android:title="@string/system_framework_display_title" />
+
+        <Preference
             android:title="@string/system_framework_phone_title"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings"/>
 

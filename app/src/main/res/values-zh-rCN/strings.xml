@@ -659,6 +659,7 @@
 
     <string name="system_framework_volume_title">音量</string>
     <string name="system_framework_other_title">其他</string>
+    <string name="system_framework_display_title">显示</string>
     <string name="system_framework_phone_title">网络</string>
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
@@ -762,7 +763,6 @@
     <string name="system_ui_lockscreen_title">锁屏</string>
     <string name="system_ui_statusbar_title">状态栏</string>
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
-    <string name="system_ui_display_title">显示</string>
     <string name="system_ui_other_title">其他</string>
 
     <string name="system_ui_display_brightness_title">亮度</string>

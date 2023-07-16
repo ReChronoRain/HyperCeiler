@@ -29,7 +29,6 @@ import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.QSGridLabels;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.SmartHome;
 import com.sevtinge.cemiuiler.module.systemui.controlcenter.SwitchCCAndNotification;
-import com.sevtinge.cemiuiler.module.systemui.display.ToastTime;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.AddBlurEffectToLockScreen;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.BlurButton;
 import com.sevtinge.cemiuiler.module.systemui.lockscreen.ChargingCVP;
@@ -160,9 +159,6 @@ public class SystemUI extends BaseModule {
 
         initHook(new StatusBarIconPositionAdjust(), isStatusBarIconAtRightEnable);
 
-        // 显示
-        initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
-
         // 导航栏
         initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
         initHook(new NavigationCustom(), mPrefsMap.getBoolean("system_ui_navigation_custom"));
@@ -183,7 +179,6 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
-        // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
         initHook(FixMediaControlPanel.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_fix_media_control_panel"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));

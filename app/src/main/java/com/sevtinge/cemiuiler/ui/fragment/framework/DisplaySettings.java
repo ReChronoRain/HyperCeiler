@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.ui.fragment.systemui;
+package com.sevtinge.cemiuiler.ui.fragment.framework;
 
 import android.view.View;
 import android.widget.SeekBar;
@@ -15,15 +15,12 @@ public class DisplaySettings extends SettingsPreferenceFragment {
 
     @Override
     public int getContentResId() {
-        return R.xml.system_ui_display;
+        return R.xml.framework_display;
     }
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.system_ui),
-            "com.android.systemui"
-        );
+        return view -> ((BaseSettingsActivity)getActivity()).showRestartSystemDialog();
     }
 
     @Override
