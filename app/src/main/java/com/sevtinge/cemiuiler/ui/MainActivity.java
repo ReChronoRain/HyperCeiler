@@ -172,7 +172,6 @@ public class MainActivity extends SettingsActivity {
                 SearchActionMode searchActionMode = (SearchActionMode) actionMode;
                 searchActionMode.setAnchorView(mSearchView);
                 searchActionMode.setAnimateView(mSearchResultView);
-                searchActionMode.setResultView(mSearchResultView);
                 searchActionMode.getSearchInput().addTextChangedListener(mSearchResultListener);
                 return true;
             }
