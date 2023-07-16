@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.home.drawer
 
 import android.view.View
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
@@ -14,7 +15,8 @@ object AppDrawer : BaseHook() {
     override fun init() {
         if (mPrefsMap.getBoolean("home_drawer_all")) {
             try {
-                loadClass("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer").methodFinder()
+                loadClassOrNull("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer")!!
+                    .methodFinder()
                     .first {
                         name == "buildSortCategoryList"
                     }

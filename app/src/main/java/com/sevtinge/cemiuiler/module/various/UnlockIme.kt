@@ -131,7 +131,7 @@ object UnlockIme : BaseHook() {
                 name == "setNavigationBarColor" && parameterTypes.sameAs(Int::class.java)
             }.createHook {
                 after { param ->
-                    if​ (param.args[​0​] ​==​ ​0​) ​return​@after
+                    if(param.args[0] == 0) return@after
                     navBarColor = param.args[0] as Int
                     customizeBottomViewColor(clazz)
                 }
