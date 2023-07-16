@@ -201,7 +201,7 @@ object NetworkSpeed : BaseHook() {
                         val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
 
                         when {
-                            // 如果显示上下行网速并且不是双排显示，返回上下行网速的字符串
+                            // 如果显示上下行网速并且不开值和单位双排显示，返回上下行网速的字符串
                             doubleUpDown && !fakeDualRow -> {
                                 if (isLowSpeed) {
                                     it.result = ""
@@ -209,7 +209,7 @@ object NetworkSpeed : BaseHook() {
                                     it.result = "$tx\n$rx"
                                 }
                             }
-                            // 如果是双排显示，返回总网速的字符串
+                            // 如果开启值和单位双排显示，返回总网速的字符串
                             fakeDualRow -> {
                                 if (isLowSpeed) {
                                     it.result = ""

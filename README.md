@@ -31,15 +31,14 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
 ## 支持的应用
 
-![badge_system_framework] ![badge_system_layer]
-![badge_system_layer_component] ![badge_system_service]
+![badge_system_framework] ![badge_system_layer] ![badge_system_service]
 ![badge_miui_launcher] ![badge_system_upgrade]
 ![badge_joyose] ![badge_mi_settings]
 ![badge_mobile_manager] ![badge_permission_manager]
 ![badge_battery_and_performance] ![badge_settings]
 ![badge_file_manager]  ![badge_screen_recorder]
-![badge_package_installer] ![badge_miui_security] ![badge_miui_beta] 
-![badge_messages] ![badge_phone] 
+![badge_package_installer] ![badge_miui_security] ![badge_miui_beta]
+![badge_messages] ![badge_phone]
 ![badge_camera] ![badge_screen_mirroring]
 ![badge_screenshots]
 ![badge_gallery] ![badge_weather]
@@ -49,10 +48,10 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 ![badge_cleaner] ![badge_smart_assistant]
 ![badge_themes_and_wallpapers] ![badge_app_store]
 ![badge_xiaoai_suggestions] ![badge_xiaoai_vision]
-![badge_xiaoai_voice] ![badge_mi_drop] 
+![badge_xiaoai_voice] ![badge_mi_drop]
 ![badge_mi_cloud] ![badge_mi_smart_card]
 ![badge_mi_gallery_editor] ![badge_com.miui.rom]
-![badge_wallpaper] ![badge_miui_input]  
+![badge_wallpaper] ![badge_miui_input]
 ![badge_mi_aod] ![badge_xiaomi_settings]
 
 > **PS: 以上应用均会自动选择作用域(在LSPosed框架下)**
@@ -99,12 +98,11 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 [badge_qgroup]: https://img.shields.io/badge/QQ-群组-4DB8FF?style=for-the-badge&logo=tencentqq
 [qguild_url]: https://pd.qq.com/s/35ooe0ssj
 [badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
-[telegram_url]: https://t.me/cemiuiler_chatfree
+[telegram_url]: https://t.me/cemiuiler
 [badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler_chatfree
 
 [badge_system_framework]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6-3DDC84?style=for-the-badge&logo=android&logoColor=white
 [badge_system_layer]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E7%95%8C%E9%9D%A2-3DDC84?style=for-the-badge&logo=android&logoColor=white
-[badge_system_layer_component]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E7%95%8C%E9%9D%A2%E7%BB%84%E4%BB%B6-3DDC84?style=for-the-badge&logo=android&logoColor=white
 [badge_system_service]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1-3DDC84?style=for-the-badge&logo=android&logoColor=white
 [badge_system_upgrade]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0-fe7e4d?style=for-the-badge&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNy40LjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i5Zu+5bGCXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNTc2IDUxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTc2IDUxMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTQ0MC42LDEyLjZsNCw4Mi44QzM5Ny42LDM5LjksMzI4LjYsNy45LDI1NS44LDhDMTM0LjcsOCwzMy45LDk0LjksMTIuMywyMDkuOGMtMS4yLDYuNSwzLjEsMTIuOCw5LjYsMTQNCgljMC43LDAuMSwxLjQsMC4yLDIuMiwwLjJoNDljNS42LDAsMTAuNC0zLjgsMTEuNy05LjNDMTA3LjYsMTIwLjMsMjAyLjYsNjIuMiwyOTcsODQuOWM0Mi44LDEwLjMsODAuMiwzNi4zLDEwNC44LDcyLjlsLTEwMS41LTQuOQ0KCWMtNi42LTAuMy0xMi4yLDQuOC0xMi42LDExLjRjMCwwLjIsMCwwLjQsMCwwLjZ2NDcuNGMwLDYuNiw1LjQsMTIsMTIsMTJINTAwYzYuNiwwLDEyLTUuNCwxMi0xMlYxMmMwLTYuNi01LjQtMTItMTItMTJoLTQ3LjQNCgljLTYuNiwwLTEyLDUuNC0xMiwxMkM0NDAuNiwxMi4yLDQ0MC42LDEyLjQsNDQwLjYsMTIuNnogTTI1NS44LDQzMmMtNTguNiwwLjEtMTEzLjQtMjkuMS0xNDYtNzcuOGwxMDEuOCw0LjkNCgljNi42LDAuMywxMi4yLTQuOCwxMi42LTExLjRjMC0wLjIsMC0wLjQsMC0wLjZ2LTQ3LjRjMC02LjYtNS40LTEyLTEyLTEySDEyYy02LjYsMC0xMiw1LjQtMTIsMTJWNTAwYzAsNi42LDUuNCwxMiwxMiwxMmg0Ny4zDQoJYzYuNiwwLDEyLTUuNCwxMi0xMmMwLTAuMiwwLTAuNCwwLTAuNmwtNC4yLTgyLjZjNDcsNTUuNCwxMTYsODcuMiwxODguNiw4Ny4yYzEyMS4xLDAsMjIxLjktODYuOSwyNDMuNi0yMDEuOA0KCWMxLjItNi41LTMuMS0xMi44LTkuNi0xNGMtMC43LTAuMS0xLjQtMC4yLTIuMi0wLjJoLTQ5Yy01LjYsMC0xMC40LDMuOC0xMS43LDkuM0M0MDcuOCwzNzYuMywzMzcuMSw0MzIsMjU1LjgsNDMyeiIvPg0KPC9zdmc+DQo=
 [badge_miui_launcher]: https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E6%A1%8C%E9%9D%A2-6e66cd?style=for-the-badge&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNy40LjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i5Zu+5bGCXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNTc2IDUxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTc2IDUxMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTI4MC40LDE0OC4zTDk2LDMwMC4xVjQ2NGMwLDguOCw3LjIsMTYsMTYsMTZsMTEyLjEtMC4zYzguOCwwLDE1LjktNy4yLDE1LjktMTZWMzY4YzAtOC44LDcuMi0xNiwxNi0xNmg2NA0KCWM4LjgsMCwxNiw3LjIsMTYsMTZ2OTUuNmMwLDguOCw3LjEsMTYsMTUuOSwxNmMwLDAsMCwwLDAuMSwwbDExMiwwLjNjOC44LDAsMTYtNy4yLDE2LTE2VjMwMEwyOTUuNywxNDguMw0KCUMyOTEuMiwxNDQuNywyODQuOCwxNDQuNywyODAuNCwxNDguM0wyODAuNCwxNDguM3ogTTU3MS42LDI1MS41TDQ4OCwxODIuNlY0NGMwLTYuNi01LjQtMTItMTItMTJoLTU2Yy02LjYsMC0xMiw1LjQtMTIsMTJ2NzIuNg0KCUwzMTguNSw0M2MtMTcuNy0xNC42LTQzLjMtMTQuNi02MSwwTDQuMywyNTEuNWMtNS4xLDQuMi01LjgsMTEuOC0xLjYsMTYuOWMwLDAsMCwwLDAsMGwyNS41LDMxYzQuMiw1LjEsMTEuOCw1LjksMTYuOSwxLjYNCgljMCwwLDAsMCwwLDBsMjM1LjItMTkzLjdjNC41LTMuNiwxMC44LTMuNiwxNS4zLDBMNTMwLjksMzAxYzUuMSw0LjIsMTIuNywzLjUsMTYuOS0xLjZjMCwwLDAsMCwwLDBsMjUuNS0zMQ0KCUM1NzcuNSwyNjMuMyw1NzYuOCwyNTUuNyw1NzEuNiwyNTEuNUM1NzEuNiwyNTEuNSw1NzEuNiwyNTEuNSw1NzEuNiwyNTEuNUw1NzEuNiwyNTEuNXoiLz4NCjwvc3ZnPg0K
