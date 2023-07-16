@@ -4,23 +4,67 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.view.View
 import android.widget.ImageView
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.ObjectUtils
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils.createBlurDrawable
-import com.sevtinge.cemiuiler.utils.HookUtils.getValueByField
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
-import java.lang.ref.WeakReference
-import java.util.Timer
-import java.util.TimerTask
 
 object BlurButton : BaseHook() {
     override fun init() {
-        var mLeftAffordanceView: WeakReference<ImageView>? = null
+        lateinit var mLeftAffordanceView: ImageView
+        lateinit var mRightAffordanceView: ImageView
+        lateinit var keyguardBottomAreaView: View
+
+        loadClassOrNull(
+            "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
+        )!!.methodFinder()
+            .filter {
+                name in setOf(
+                    "onAttachedToWindow",
+                    "onDetachedFromWindow",
+                    "updateRightAffordanceIcon",
+                    "updateLeftAffordanceIcon"
+                )
+            }.toList().createHooks {
+                after { param ->
+                    mLeftAffordanceView =
+                        ObjectUtils.getObjectOrNullAs<ImageView>(param.thisObject, "mLeftAffordanceView")!!
+
+                    mRightAffordanceView =
+                        ObjectUtils.getObjectOrNullAs<ImageView>(param.thisObject, "mRightAffordanceView")!!
+
+                    keyguardBottomAreaView = param.thisObject as View
+
+                    // Your blur logic
+                    val context = keyguardBottomAreaView.context ?: return@after
+                    val keyguardManager =
+                        context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+                    if (keyguardManager.isKeyguardLocked) {
+                        val leftBlurDrawable = createBlurDrawable(
+                            keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
+                        )
+                        val leftLayerDrawable = LayerDrawable(arrayOf(leftBlurDrawable))
+                        val rightBlurDrawable = createBlurDrawable(
+                            keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
+                        )
+                        val rightLayerDrawable = LayerDrawable(arrayOf(rightBlurDrawable))
+                        leftLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
+                        rightLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
+                        mLeftAffordanceView.background = leftLayerDrawable
+                        mRightAffordanceView.background = rightLayerDrawable
+                    } else {
+                        mLeftAffordanceView.background = null
+                        mRightAffordanceView.background = null
+                    }
+                }
+            }
+
+        /*var mLeftAffordanceView: WeakReference<ImageView>? = null
         var mRightAffordanceView: WeakReference<ImageView>? = null
         var keyguardBottomAreaView: WeakReference<View>? = null
         var handler = Handler(Looper.getMainLooper())
@@ -100,6 +144,6 @@ object BlurButton : BaseHook() {
                     needUpdate = true
                 }
             }
-        }
+        }*/
     }
 }
