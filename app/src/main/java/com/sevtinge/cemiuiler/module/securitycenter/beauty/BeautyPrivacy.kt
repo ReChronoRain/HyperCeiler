@@ -30,7 +30,9 @@ object BeautyPrivacy : BaseHook() {
                         when {
                             appVersionCode == 40010749 -> name == "f"
                             appVersionCode == 40010750 -> name == "l"
-                            appVersionCode >= 40010771 -> name == "f"// 平板端截止到 7.8.5-20230511 版本
+                            appVersionCode in 40010771..40010784 -> name == "f"
+                            appVersionCode >= 40010785 -> name == "Y"
+                            // 平板端截止到 7.8.5-20230511 版本
                             else -> name == "l" // 未混淆分类
                         }
                     }
