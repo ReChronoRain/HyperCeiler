@@ -35,7 +35,7 @@ public abstract class BaseHook {
                 printHookStateLog("Hook Success!");
         } catch (Throwable t) {
             printHookStateLog("Hook Failed!");
-            Helpers.log(TAG + t);
+            Helpers.log(TAG + " " + t);
         }
     }
 
