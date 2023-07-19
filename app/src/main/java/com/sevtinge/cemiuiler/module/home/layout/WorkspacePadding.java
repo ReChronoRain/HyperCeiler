@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler.module.home.layout;
 
-import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
-
 import android.content.Context;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
@@ -16,8 +14,7 @@ public class WorkspacePadding extends BaseHook {
     public void init() {
 
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
-        mHomeVersionCode = getPackageVersionCode(lpparam);
-
+        
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
