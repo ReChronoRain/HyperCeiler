@@ -14,9 +14,10 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ColorUtils
-import com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode
+import com.sevtinge.cemiuiler.utils.DexKit
 import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
@@ -51,6 +52,8 @@ object BlurSecurity : BaseHook() {
     private val keepColorList = arrayOf("rv_information")
 
     override fun init() {
+        DexKit.loadDexKit()
+        log("0")
         //if (getPackageVersionCode(lpparam) >= 40000790) return //暂时屏蔽高版本启用模糊，待修复后移除  //我觉得更像是傻逼miui的反色炸了
         val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
@@ -58,35 +61,8 @@ object BlurSecurity : BaseHook() {
         val newToolBoxTopViewClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
-        lateinit var videoBoxViewClass: Class<*>
-        lateinit var videoBoxViewMethodName: String
-        when {
-            getPackageVersionCode(lpparam) in 40000749..40000750 ||
-                getPackageVersionCode(lpparam) == 40000770 ||
-                getPackageVersionCode(lpparam) in 40000780 .. 40000785 -> {
-                appVersionCode = 40000749
-                videoBoxViewClass = findClassIfExists("t7.i") ?: return
-                videoBoxViewMethodName = "i"
-            }
 
-            getPackageVersionCode(lpparam) in 40000771..40000776 -> {
-                appVersionCode = 40000771
-                videoBoxViewClass = findClassIfExists("r7.m") ?: findClassIfExists("t7.i") ?: return
-                videoBoxViewMethodName = "j"
-            }
-
-            getPackageVersionCode(lpparam) in 40000777..40000779 ||
-                getPackageVersionCode(lpparam) == 40000794 -> {
-                appVersionCode = 40000771
-                videoBoxViewClass = findClassIfExists("t7.m") ?: return
-                videoBoxViewMethodName = "j"
-            }
-
-            else -> {
-                videoBoxViewClass = findClassIfExists("com.miui.gamebooster.videobox.adapter.i")
-                videoBoxViewMethodName = "a"
-            }
-        }
+        log("1")
 
 
         var newBoxClass: Class<*>? = null
@@ -189,7 +165,45 @@ object BlurSecurity : BaseHook() {
             }
         })
 
-        if (getPackageVersionCode(lpparam) >= 40000754) {
+        //if (getPackageVersionCode(lpparam) >= 40000754) {
+            DexKit.dexKitBridge.findMethod {
+                methodReturnType = "Landroid/view/View;"
+                methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")
+            }.forEach {
+                log("2.5")
+                it.getMethodInstance(lpparam.classLoader).createHook {
+                    after { param ->
+                        val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
+                        mainContent.addOnAttachStateChangeListener(
+                            object :
+                                View.OnAttachStateChangeListener {
+                                @RequiresApi(Build.VERSION_CODES.S)
+                                override fun onViewAttachedToWindow(view: View) {
+                                    if (view.background != null) {
+                                        if (HookUtils.isBlurDrawable(view.background)) {
+                                            return
+                                        }
+                                    }
+
+                                    view.background =
+                                        HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
+
+                                    if (shouldInvertColor) {
+                                        invertViewColor(mainContent)
+                                    }
+                                }
+
+                                override fun onViewDetachedFromWindow(view: View) {
+                                    view.background = null
+                                }
+                            })
+                    }
+                }
+            }
+        log("2")
+
+            /*
+
             XposedHelpers.findAndHookMethod(
                 videoBoxViewClass,
                 videoBoxViewMethodName,
@@ -260,6 +274,8 @@ object BlurSecurity : BaseHook() {
                     }
                 })
         }
+        */
+
 
         if (shouldInvertColor) {
             val detailSettingsLayoutClass = findClassIfExists(
@@ -376,6 +392,9 @@ object BlurSecurity : BaseHook() {
                     }
                 })
 
+
+            log("3")
+
             XposedHelpers.findAndHookMethod(
                 srsLevelSeekBarProClass,
                 if (appVersionCode >= 40000749) "b" else "a", Context::class.java,
@@ -463,6 +482,8 @@ object BlurSecurity : BaseHook() {
                     }
                 })
         }
+
+        log("4")
     }
 
     // 尽量给最外层加 RenderEffect 而不是 最内层
