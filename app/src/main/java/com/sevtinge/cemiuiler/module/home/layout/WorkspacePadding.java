@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.home.layout;
 
+import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
+
 import android.content.Context;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
@@ -14,6 +16,7 @@ public class WorkspacePadding extends BaseHook {
     public void init() {
 
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
+        mHomeVersionCode = getPackageVersionCode(lpparam);
 
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
             @Override
@@ -32,12 +35,22 @@ public class WorkspacePadding extends BaseHook {
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
-            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
-                }
-            });
+            try {
+                // 新版本桌面，先标记，后续再做进一步修改
+                findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", Context.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
+                    }
+                });
+            } catch (Throwable t) {
+                findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
+                    }
+                });
+            }
         }
     }
 }
