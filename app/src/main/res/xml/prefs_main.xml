@@ -314,6 +314,7 @@
     </PreferenceCategory>
 
     <Preference
+        android:enabled="false"
         android:key="prefs_key_tip"
         android:summary="@string/tip_0" />
 
