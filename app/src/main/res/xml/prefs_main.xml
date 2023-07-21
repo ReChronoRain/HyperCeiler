@@ -312,5 +312,11 @@
             android:title="@string/various" />
 
     </PreferenceCategory>
+
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_tip"
+        android:summary="@string/tip_0" />
+
     <Preference android:enabled="false" />
 </PreferenceScreen>

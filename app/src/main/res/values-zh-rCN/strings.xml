@@ -1251,4 +1251,23 @@
 
     <string name="disable_detailed_log">禁用详细日志输出</string>
     <string name="disable_detailed_log_desc">重启以应用更改</string>
+
+    <string name="tip_a">Tip: </string>
+    <string name="tip_0">叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
+    <string name="tip_1">您可以在 "关于-支持" 中捐赠以支持和维护我们的开发。</string>
+    <string name="tip_2">想要联系开发者？Telegram@Sevtinge_PM_bot 或者 哔哩哔哩@绀漓丨Sevtinge。</string>
+    <string name="tip_3">想要加入群聊一起划水？Telegram@cemiuiler 或者在 QQ 搜索 247909573 加入群聊。</string>
+    <string name="tip_4">Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_5">猜猜下一次看到这条 Tip 是什么时候？</string>
+    <string name="tip_6">Make MIUI Great Again!</string>
+    <string name="tip_7">关注绀漓喵，关注绀漓谢谢喵~ (Github@sevtinge 或 哔哩哔哩@绀漓丨Sevtinge)</string>
+    <string name="tip_8">绀漓到底是男生还是女生？</string>
+    <string name="tip_9">三江新闻: 失踪的 GL3625 次列车于 1404 年 4 月 7 日早 5 点被发现于哈津货运铁路海门至津城段，第 13 节车厢神秘失踪。</string>
+    <string name="tip_10">三江新闻: 绀漓被证实搭乘了 GL3625 次列车的 13 车厢。</string>
+    <string name="tip_11">三江新闻: 附近居民表示对类似 GL3625 次列车的事故表示习以为常。</string>
+    <string name="tip_12">你知道吗？其实 Tips 全是废话。(确信)</string>
+    <string name="tip_13">你知道吗？Cemiuiler 的生日在 5 月 1 日，而绀漓的在 2 月 2 日。</string>
+    <string name="tip_14">绀漓目前就读于山河大学三江市校区信息工程技术学院。</string>
+    <string name="tip_15">据说绀漓有两种不同的形态。</string>
+    <string name="tip_16">绀漓是小奶狐！(划掉)</string>
 </resources>
