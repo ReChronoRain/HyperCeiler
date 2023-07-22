@@ -23,16 +23,17 @@ object BeautyPrivacy : BaseHook() {
                             appVersionCode in 40000754..40000756 -> name == "Q"
                             appVersionCode in 40000761..40000762 -> name == "R"
                             appVersionCode in 40000771..40000772 -> name == "X"
-                            appVersionCode >= 40000774 -> name == "Y"// 手机端截止到 7.8.5-20230515 版本
+                            appVersionCode in 40000774..40000799 -> name == "Y"
+                            appVersionCode >= 40000800 -> name == "Z" // 手机端截止到  8.0.0-230714.0.1 版本
                             else -> name == "M" // 未混淆分类
                         }
                     } else {
                         when {
                             appVersionCode == 40010749 -> name == "f"
                             appVersionCode == 40010750 -> name == "l"
-                            appVersionCode in 40010771..40010784 -> name == "f"
-                            appVersionCode >= 40010785 -> name == "Y"
-                            // 平板端截止到 7.8.5-20230511 版本
+                            appVersionCode == 40010771 -> name == "X"
+                            appVersionCode in 40010774..40010799 -> name == "Y"
+                            appVersionCode >= 40010800 -> name == "Z"// 平板端截止到 8.0.0-230714.0.1.pad 版本
                             else -> name == "l" // 未混淆分类
                         }
                     }
@@ -40,8 +41,8 @@ object BeautyPrivacy : BaseHook() {
                     returnConstant(true)
                 }
             }
-        } catch (e: Throwable) {
-            e.printStackTrace()
+        } catch (e: Exception) {
+          Log.e("BeautyPrivacy", e)
         }
     }
 }
