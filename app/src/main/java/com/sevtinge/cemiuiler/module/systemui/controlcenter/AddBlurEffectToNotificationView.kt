@@ -299,7 +299,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         showBlurEffectForNotificationRow(expandableView)
                     } else {
                         // ZenModeView 没有 isHeadsUpState 方法
-                        try {
+                        runCatching {
                             val isHeadsUp =
                                 XposedHelpers.callMethod(
                                     expandableView,
@@ -308,9 +308,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             if (isHeadsUp) {
                                 showBlurEffectForNotificationRow(expandableView)
                             }
-                        } catch (e: Throwable) {
-                            logE("BlurNotificationView -> isHeadsUp", e)
-                            return
                         }
                     }
                 }
