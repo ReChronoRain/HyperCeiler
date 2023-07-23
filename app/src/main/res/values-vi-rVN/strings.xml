@@ -109,7 +109,6 @@
     <string name="camera_features_unlock_cosmetic_mirror">Mở khóa chế độ gương</string>
     <string name="camera_features_unlock_doc">Mở khóa tài liệu</string>
     <string name="camera_features_unlock_dualcam">Mở khóa máy ảnh kép</string>
-    <string name="camera_features_unlock_duration">Mở khóa chụp ảnh tua nhanh thời gian</string>
     <string name="camera_features_unlock_film">Mở khóa Khung phim</string>
     <string name="camera_features_unlock_film_delay">Mở khóa Phơi sáng lâu</string>
     <string name="camera_features_unlock_film_dollyzoom">Mở khóa Thu phóng ma thuật</string>
