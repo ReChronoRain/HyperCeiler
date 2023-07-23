@@ -60,6 +60,12 @@
             android:summary="@string/system_ui_statusbar_network_speed_hide_desc"
             android:title="@string/system_ui_statusbar_network_speed_hide" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_hide"
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide_all"
+            android:title="@string/system_ui_statusbar_network_speed_hide" />
+
         <SeekBarPreference
             android:defaultValue="64"
             android:format="%d KB/s"

@@ -876,6 +876,7 @@
     <string name="system_ui_statusbar_network_speed_detailed">双排显示上下行网速</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
     <string name="system_ui_statusbar_network_speed_hide">隐藏慢速</string>
+    <string name="system_ui_statusbar_network_speed_hide_all">当上下行均为慢速时隐藏</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">网速值低于该水平时被认为慢，部分指示器图标会显示不同的指示器图标</string>
@@ -1270,4 +1271,6 @@
     <string name="tip_14">绀漓目前就读于山河大学三江市校区信息工程技术学院。</string>
     <string name="tip_15">据说绀漓有两种不同的形态。</string>
     <string name="tip_16">绀漓是小奶狐！(划掉)</string>
+    <string name="tip_17">冷知识：铃柒柒有两种人格，一种是猫娘控，一种是萝莉控（x</string>
+    <string name="tip_18">Cemiuiler 是电老虎（暴论）</string>
 </resources>

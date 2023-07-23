@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
-import static com.sevtinge.cemiuiler.utils.Helpers.log;
 import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
@@ -27,7 +26,7 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        int randomTip = r.nextInt(17);
+        int randomTip = r.nextInt(19);
         // log("tip id is" + randomTip);
 
         mPowerSetting = findPreference("prefs_key_powerkeeper");
@@ -58,6 +57,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         else if (randomTip == 14) mTip.setSummary(getString(R.string.tip_a) + " " + getString(R.string.tip_14));
         else if (randomTip == 15) mTip.setSummary(getString(R.string.tip_a) + " " + getString(R.string.tip_15));
         else if (randomTip == 16) mTip.setSummary(getString(R.string.tip_a) + " " + getString(R.string.tip_16));
+        else if (randomTip == 17) mTip.setSummary(getString(R.string.tip_a) + " " + getString(R.string.tip_17));
+        else if (randomTip == 18) mTip.setSummary(getString(R.string.tip_a) + " " + getString(R.string.tip_18));
         else mTip.setSummary(getString(R.string.tip_a) + " " + R.string.tip_0);
     }
 }
