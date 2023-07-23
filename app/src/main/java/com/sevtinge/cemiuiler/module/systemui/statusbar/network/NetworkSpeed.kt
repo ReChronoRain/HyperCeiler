@@ -202,7 +202,7 @@ object NetworkSpeed : BaseHook() {
                             humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
                         // 存储是否隐藏慢速的条件的结果
                         val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
-                        val isAllLowSpeed = hideLow & allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
+                        val isAllLowSpeed = hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
 
                         when {
                             // 如果显示上下行网速并且不开值和单位双排显示，返回上下行网速的字符串
