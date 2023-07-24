@@ -19,6 +19,7 @@
 </div>
 
 > Make MIUI Great Again!
+> 
 > <a href="https://crwd.in/cemiuiler">为 Cemiuiler 项目提供翻译</a>
 
 ## 支持的版本
