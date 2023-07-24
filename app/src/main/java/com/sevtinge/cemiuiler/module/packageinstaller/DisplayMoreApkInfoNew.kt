@@ -14,12 +14,12 @@ import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.DisplayUtils.dip2px
 import com.sevtinge.cemiuiler.utils.Helpers
 import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.callMethodOrNull
 import com.sevtinge.cemiuiler.utils.hookAfterMethod
 import de.robv.android.xposed.XposedHelpers
-import moralnorm.internal.utils.DisplayUtils.dp2px
 import java.io.File
 import java.lang.reflect.Method
 import java.text.DecimalFormat
@@ -82,7 +82,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.MATCH_PARENT
                         )
-                    appNameViewParams.setMargins(0, dp2px(mContext, 10f), 0, 0)
+                    appNameViewParams.setMargins(0, dip2px(mContext, 10f), 0, 0)
                     mAppNameView.layoutParams = appNameViewParams
                     mAppNameView.gravity = Gravity.CENTER
                     val linearLayout2 = LinearLayout(mContainerView.context)
@@ -90,16 +90,16 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     linearLayout2.orientation = LinearLayout.VERTICAL
                     linearLayout2.gravity = Gravity.CENTER
                     linearLayout2.setPadding(
-                        dp2px(mContext, 18f),
-                        dp2px(mContext, 15f),
-                        dp2px(mContext, 18f),
-                        dp2px(mContext, 15f)
+                        dip2px(mContext, 18f),
+                        dip2px(mContext, 15f),
+                        dip2px(mContext, 18f),
+                        dip2px(mContext, 15f)
                     )
                     linearLayout2.layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT
                     ).also {
-                        it.setMargins(0, dp2px(mContext, 13f), 0, 0)
+                        it.setMargins(0, dip2px(mContext, 13f), 0, 0)
                     }
                     linearLayout2.background =
                         modRes.getDrawable(

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <moralnorm.appcompat.widget.CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@android:id/text1"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
@@ -10,5 +9,4 @@
     android:paddingStart="@dimen/appcompat_dialog_list_item_padding_start"
     android:paddingEnd="@dimen/appcompat_dialog_list_item_padding_end"
     android:minHeight="@dimen/appcompat_dialog_list_preferred_item_height"
-    app:checkMarkCompat="?android:listChoiceIndicatorMultiple"
-    android:textAppearance="@style/TextAppearance.AlertDialogListItem.MultiChoice" />
+    style="@style/Widget.AlertDialogListItem.MultiChoice" />

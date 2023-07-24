@@ -14,7 +14,7 @@ public class CustomHookActivity extends AppCompatActivity {
     Button mAddConfig;
 
     @Override
-    protected void onCreate(Bundle bundle) {
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_custom_hook);
         initView();

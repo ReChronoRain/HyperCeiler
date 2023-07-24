@@ -19,10 +19,10 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.DisplayUtils.dip2px
 import com.sevtinge.cemiuiler.utils.findClassOrNull
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 import com.sevtinge.cemiuiler.utils.isStatic
-import moralnorm.internal.utils.DisplayUtils.dp2px
 
 object ShowBatteryTemperatureNew : BaseHook() {
     @SuppressLint("DiscouragedApi")
@@ -66,8 +66,8 @@ object ShowBatteryTemperatureNew : BaseHook() {
                     when (layoutParams) {
                         is LinearLayout.LayoutParams -> {
                             (layoutParams as LinearLayout.LayoutParams).topMargin = 0
-                            setPadding(0, dp2px(context, 4f), 0, 0)
-                            height = dp2px(context, 49f)
+                            setPadding(0, dip2px(context, 4f), 0, 0)
+                            height = dip2px(context, 49f)
                         }
                     }
                     setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36.4f)
@@ -90,10 +90,10 @@ object ShowBatteryTemperatureNew : BaseHook() {
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                             )
-                            (layoutParams as LinearLayout.LayoutParams).marginStart = dp2px(context, 3.6f)
+                            (layoutParams as LinearLayout.LayoutParams).marginStart = dip2px(context, 3.6f)
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.1f)
                             setTextColor(Color.parseColor(if (isDarkMode) "#e6e6e6" else "#333333"))
-                            setPadding(0, dp2px(context, 26f), 0, 0)
+                            setPadding(0, dip2px(context, 26f), 0, 0)
                             text = "℃"
                             gravity = Gravity.NO_GRAVITY
                             typeface = Typeface.create(null, 700, false)
@@ -118,7 +118,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
                                 it.addRule(RelativeLayout.BELOW, l1.id)
                                 it.addRule(RelativeLayout.ALIGN_START, l1.id)
                             }
-                            (layoutParams as RelativeLayout.LayoutParams).topMargin = -dp2px(context, 0.78f)
+                            (layoutParams as RelativeLayout.LayoutParams).topMargin = -dip2px(context, 0.78f)
                         }
                         val tempView = TextView(context).apply {
                             layoutParams = RelativeLayout.LayoutParams(
@@ -128,7 +128,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
                                 it.addRule(RelativeLayout.END_OF, l2.id)
                                 it.addRule(RelativeLayout.ALIGN_BOTTOM, l2.id)
                             }
-                            setPadding(dp2px(context, 3.6f), 0, 0, dp2px(context, 5.9f))
+                            setPadding(dip2px(context, 3.6f), 0, 0, dip2px(context, 5.9f))
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.1f)
                             setTextColor(Color.parseColor(if (isDarkMode) "#e6e6e6" else "#333333"))
                             text = "℃"

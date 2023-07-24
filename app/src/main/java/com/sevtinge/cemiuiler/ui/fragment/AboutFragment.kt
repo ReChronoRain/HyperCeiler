@@ -25,11 +25,11 @@ class AboutFragment : SettingsPreferenceFragment() {
         val mHiddenFunction = findPreference<Preference>("prefs_key_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
-        mHiddenFunction.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
+        mHiddenFunction?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
 
         var versionClickTime = 0
         val maxCloseClickTime = 3
-        mHiddenFunction.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        mHiddenFunction?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             it as SwitchPreference
             it.isChecked = !(it.isChecked)
             versionClickTime++
@@ -53,7 +53,7 @@ class AboutFragment : SettingsPreferenceFragment() {
             false
         }
 
-        mQQGroup.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        mQQGroup?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             "MF68KGcOGYEfMvkV_htdyT6D6C13We_r".joinQQGroup() //&authKey=du488g%2FRPdQ%2FaUq0IKuDLvK24mEmbpRidqHGE6qqv3wpa1lbUa6Vi7JJ4YxWe7s5&noverify=0&group_code=247909573
             true
         }

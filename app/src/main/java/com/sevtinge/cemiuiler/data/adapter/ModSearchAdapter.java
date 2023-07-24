@@ -12,6 +12,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.data.ModData;
 import com.sevtinge.cemiuiler.utils.Helpers;
@@ -20,8 +22,6 @@ import com.sevtinge.cemiuiler.utils.SearchHelper;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import moralnorm.recyclerview.widget.RecyclerView;
 
 public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> implements Filterable {
 

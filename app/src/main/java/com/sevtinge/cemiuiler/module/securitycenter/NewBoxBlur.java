@@ -9,9 +9,9 @@ import android.widget.ImageView;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.BlurUtils;
+import com.sevtinge.cemiuiler.utils.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.internal.utils.DisplayUtils;
 
 public class NewBoxBlur extends BaseHook {
 
@@ -41,8 +41,8 @@ public class NewBoxBlur extends BaseHook {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 ViewGroup view = (ViewGroup) param.thisObject;
-                int paddingVertical = DisplayUtils.dp2px(view.getContext(), mPrefsMap.getInt("security_center_newbox_bg_padding_vertical", 10));
-                int paddingHorizontal = DisplayUtils.dp2px(view.getContext(), mPrefsMap.getInt("security_center_newbox_bg_padding_horizontal", 10));
+                int paddingVertical = DisplayUtils.dip2px(view.getContext(), mPrefsMap.getInt("security_center_newbox_bg_padding_vertical", 10));
+                int paddingHorizontal = DisplayUtils.dip2px(view.getContext(), mPrefsMap.getInt("security_center_newbox_bg_padding_horizontal", 10));
                 view.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
                 new BlurUtils(view, "security_center_newbox_bg_custom");
             }

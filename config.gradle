@@ -43,18 +43,11 @@ ext {
             "AndroidXConstraintLayout" : "androidx.constraintlayout:constraintlayout:${AndroidXConstraintLayoutVersion}",
 
             "animation" : "libs/animation-${BuildTypes}.aar",
-            "annotation" : "libs/annotation-${BuildTypes}.aar",
             "appcompat" : "libs/appcompat-${BuildTypes}.aar",
-            "appcompat_resources" : "libs/appcompat-resources-${BuildTypes}.aar",
-            "blur" : "libs/blur-${BuildTypes}.aar",
             "core" : "libs/core-${BuildTypes}.aar",
             "haptic" : "libs/haptic-${BuildTypes}.aar",
-            "internal" : "libs/internal-${BuildTypes}.aar",
-            "os" : "libs/os-${BuildTypes}.aar",
             "preference" : "libs/preference-${BuildTypes}.aar",
-            "recyclerview" : "libs/recyclerview-${BuildTypes}.aar",
             "smooth" : "libs/smooth-${BuildTypes}.aar",
             "springback" : "libs/springback-${BuildTypes}.aar",
-            "stub" : "libs/stub-${BuildTypes}.aar",
     ]
 }

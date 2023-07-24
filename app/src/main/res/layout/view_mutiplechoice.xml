@@ -11,14 +11,14 @@
         app:scrollableView="@android:id/list"
         android:layout_weight="1">
 
-        <moralnorm.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </moralnorm.springback.view.SpringBackLayout>
 
-    <moralnorm.appcompat.widget.dialog.DialogButtonPanel
+    <moralnorm.appcompat.internal.widget.DialogButtonPanel
         style="?android:buttonBarStyle"
         android:gravity="center"
         android:orientation="vertical"
@@ -48,6 +48,6 @@
             android:layout_weight="1"
             style="?android:buttonBarPositiveButtonStyle" />
 
-    </moralnorm.appcompat.widget.dialog.DialogButtonPanel>
+    </moralnorm.appcompat.internal.widget.DialogButtonPanel>
 
 </LinearLayout>

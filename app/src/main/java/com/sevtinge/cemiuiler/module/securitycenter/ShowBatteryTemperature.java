@@ -15,11 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.DisplayUtils;
 
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.internal.utils.DisplayUtils;
 
 public class ShowBatteryTemperature extends BaseHook {
 
@@ -64,7 +64,7 @@ public class ShowBatteryTemperature extends BaseHook {
                 LinearLayout mTemperature = new LinearLayout(mContext);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, mContainerView.getId());
-                params.setMargins(0, 0, 0, DisplayUtils.dp2px(mContext, 21.5f));
+                params.setMargins(0, 0, 0, DisplayUtils.dip2px(mContext, 21.5f));
                 mTemperature.setLayoutParams(params);
 
                 mTemperature.addView(mTemperatureStateTv);
@@ -86,7 +86,7 @@ public class ShowBatteryTemperature extends BaseHook {
 
     private void applyTemperatureStyle(Context context, TextView tv, boolean isDarkMode) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(DisplayUtils.dp2px(context, 3), 0, 0, 0);
+        lp.setMargins(DisplayUtils.dip2px(context, 3), 0, 0, 0);
         tv.setLayoutParams(lp);
         tv.setText("℃");
         tv.setTextColor(Color.parseColor(isDarkMode ? "#e6e6e6" : "#333333"));

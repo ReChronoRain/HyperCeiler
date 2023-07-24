@@ -3,14 +3,13 @@ package com.sevtinge.cemiuiler.ui.customhook;
 import android.os.Bundle;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
 
-import moralnorm.appcompat.app.PickerDragActivity;
-
-public class CustomHookConfigActivity extends PickerDragActivity {
+public class CustomHookConfigActivity extends SettingsActivity {
 
     @Override
-    protected void onCreate(Bundle bundle) {
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        setDragContentView(R.layout.activity_custom_hook_config);
+        setContentView(R.layout.activity_custom_hook_config);
     }
 }

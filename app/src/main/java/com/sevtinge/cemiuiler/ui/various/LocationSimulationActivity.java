@@ -17,7 +17,7 @@ public class LocationSimulationActivity extends SettingsActivity {
     private static SharedPreferences mSharedPrefs;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setImmersionMenuEnabled(true);
         setFragment(new LocationSimulationFragment());

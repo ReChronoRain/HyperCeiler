@@ -62,13 +62,13 @@
             android:title="@string/about_contributer" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_translator_title">
-        <ValuePreference
+        <Preference
             android:title="@string/language"
-            android:value="@string/translator">
+            android:summary="@string/translator">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/translator_url" />
-        </ValuePreference>
+        </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_chat_title">
         <Preference

@@ -6,11 +6,11 @@
 
     <include
         android:id="@+id/search_view"
-        layout="@layout/search_stub" />
+        layout="@layout/miuix_appcompat_search_stub" />
 
     <include layout="@layout/frame_content" />
 
-    <moralnorm.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_result_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

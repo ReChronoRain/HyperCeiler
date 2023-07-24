@@ -59,7 +59,7 @@
             android:fadingEdge="horizontal"
             android:maxLines="2"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.Preference" />
+            android:textAppearance="@style/TextAppearance.List" />
 
         <TextView
             android:id="@android:id/summary"
@@ -69,7 +69,7 @@
             android:layout_alignStart="@android:id/title"
             android:layout_marginTop="@dimen/preference_summary_margin_top"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.Preference.Secondary"
+            android:textAppearance="@style/TextAppearance.List.Secondary"
             tools:ignore="PrivateResource" />
 
     </RelativeLayout>
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:gravity="center"
-        android:minWidth="@dimen/preference_widget_min_width"
+        android:minWidth="@dimen/preference_widget_minWidth"
         android:orientation="vertical"
         tools:ignore="PrivateResource" />
 
@@ -91,6 +91,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
         android:gravity="center"
-        android:src="@drawable/ic_arrow_right"
+        android:src="@drawable/ic_preference_arrow_right"
         tools:ignore="ContentDescription,PrivateResource" />
 </LinearLayout>

@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.data.adapter.ModSearchAdapter;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
@@ -30,9 +33,7 @@ import com.sevtinge.cemiuiler.view.RestartAlertDialog;
 
 import java.util.Set;
 
-import moralnorm.appcompat.internal.view.SearchActionMode;
-import moralnorm.recyclerview.widget.LinearLayoutManager;
-import moralnorm.recyclerview.widget.RecyclerView;
+import moralnorm.view.SearchActionMode;
 
 public class MainActivity extends SettingsActivity {
 
@@ -46,7 +47,7 @@ public class MainActivity extends SettingsActivity {
     String lastFilter;
     private final MainFragment mMainFrag = new MainFragment();
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new Thread(new Runnable() {
             public void run() {
@@ -171,7 +172,7 @@ public class MainActivity extends SettingsActivity {
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
                 SearchActionMode searchActionMode = (SearchActionMode) actionMode;
                 searchActionMode.setAnchorView(mSearchView);
-                searchActionMode.setAnimateView(mSearchResultView);
+                searchActionMode.setAnimateView(findViewById(android.R.id.list_container));
                 searchActionMode.getSearchInput().addTextChangedListener(mSearchResultListener);
                 return true;
             }
@@ -205,6 +206,7 @@ public class MainActivity extends SettingsActivity {
         if (mSearchActionMode != null) {
             mSearchActionMode = null;
         }
+        mFrameContent.setVisibility(View.VISIBLE);
     }
 
     public void requestBackup() {

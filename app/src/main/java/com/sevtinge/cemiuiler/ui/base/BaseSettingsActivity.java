@@ -34,8 +34,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
     public String PACKAGENAME_SYSTEM_UI = "com.android.systemui";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme(ViewUtils.isNightMode(this) ? R.style.AppTheme_Dark : R.style.AppTheme);
+    public void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mProxy = new SettingsProxy(this);
         initialFragmentName = mProxy.getInitialFragmentName(intent);

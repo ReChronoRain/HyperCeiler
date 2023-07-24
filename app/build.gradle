@@ -16,7 +16,7 @@ android {
     defaultConfig {
         namespace 'com.sevtinge.cemiuiler'
         applicationId namespace
-        minSdk 30
+        minSdk 31
         targetSdk 34
         versionCode 122
         versionName "1.2.122"
@@ -109,17 +109,10 @@ dependencies {
     implementation roots.AndroidXConstraintLayout
 
     implementation files(roots.animation)
-    implementation files(roots.annotation)
     implementation files(roots.appcompat)
-    implementation files(roots.appcompat_resources)
-    implementation files(roots.blur)
     implementation files(roots.core)
     implementation files(roots.haptic)
-    implementation files(roots.internal)
-    implementation files(roots.os)
     implementation files(roots.preference)
-    implementation files(roots.recyclerview)
     implementation files(roots.smooth)
     implementation files(roots.springback)
-    implementation files(roots.stub)
 }
