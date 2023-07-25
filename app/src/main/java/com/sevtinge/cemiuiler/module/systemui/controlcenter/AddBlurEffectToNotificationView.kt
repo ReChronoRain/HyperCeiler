@@ -308,8 +308,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             if (isHeadsUp) {
                                 showBlurEffectForNotificationRow(expandableView)
                             }
-                        } ​catch​ (t:​ ​Throwable​) {
-                          // 阻断 isHeadsUpState 继续执行
+                        } catch (e: Throwable)
                           return
                         }
                     }
