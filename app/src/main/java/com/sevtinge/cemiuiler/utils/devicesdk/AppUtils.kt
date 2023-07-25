@@ -56,7 +56,9 @@ fun checkVersionName(): String = getPackageInfoCompat(EzXHelper.appContext.packa
 fun isAlpha(): Boolean =
     getPackageInfoCompat(EzXHelper.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
 
-fun isPadDevice(): Boolean = DeviceHelper.isTablet() || DeviceHelper.isFoldDevice()
+fun isTablet(): Boolean = Resources.getSystem().getConfiguration().smallestScreenWidthDp >= 600
+
+fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
 
 fun checkVersionCode(): Long = getPackageInfoCompat(EzXHelper.appContext.packageName).longVersionCode
 

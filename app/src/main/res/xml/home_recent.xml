@@ -42,66 +42,73 @@
             android:key="prefs_key_home_recent_text"
             android:title="@string/home_recent_text" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="20"
             android:key="prefs_key_task_view_corners"
             android:title="@string/home_recent_task_view_card_rounded_corners"
             android:format="%d dp"
+            app:defaultValueText="@string/array_default"
             app:maxValue="60"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="40"
             android:key="prefs_key_task_view_header_height"
             android:title="@string/home_recent_app_name_distance_task_view_card"
             android:format="%d dp"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
             android:defaultValue="100"
-            app:maxValue="500"
-            app:minValue="10"
             android:format="%s / 100 f"
-            app:showSeekBarValue="true" />
+            app:defaultValueText="@string/array_default"
+            app:maxValue="500"
+            app:minValue="10"         
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="100"
             android:key="prefs_key_task_view_horizontal1"
             android:title="@string/home_recent_horizontal_task_view_card_size1"
             android:format="%d / 100 f"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="100"
             android:key="prefs_key_task_view_horizontal2"
             android:title="@string/home_recent_horizontal_task_view_card_size2"
             android:format="%d / 100 f"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="100"
             android:key="prefs_key_home_recent_vertical_task_view_card_size"
             android:title="@string/home_recent_vertical_task_view_card_size"
             android:format="%d / 100 f"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="14"
             android:key="prefs_key_home_recent_text_size"
             android:title="@string/home_recent_text_size"
             android:format="%d f"
+            app:defaultValueText="@string/array_default"
             app:maxValue="30"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"

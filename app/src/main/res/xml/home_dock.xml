@@ -36,72 +36,78 @@
             android:key="prefs_key_home_dock_bg_custom"
             android:title="@string/home_dock_bg_custom" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="150"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:format="%d dp"
             android:key="prefs_key_home_dock_bg_height"
             android:summary="@string/home_dock_bg_height_desc"
             android:title="@string/home_dock_bg_height"
+            app:defaultValueText="@string/array_default"
+            app:minValue="0"
             app:maxValue="300"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:format="%d dp"
             android:key="prefs_key_home_dock_bg_margin_horizontal"
             android:summary="@string/home_dock_bg_margin_horizontal_desc"
             android:title="@string/home_dock_bg_margin_horizontal"
+            app:defaultValueText="@string/array_default"
+            app:minValue="0"
             app:maxValue="160"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="25"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:format="%d dp"
             android:key="prefs_key_home_dock_bg_margin_top"
             android:summary="@string/home_dock_bg_margin_top_desc"
             android:title="@string/top_margin"
+            app:defaultValueText="@string/array_default"
+            app:minValue="0"
             app:maxValue="150"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="15"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:format="%d dp"
             android:key="prefs_key_home_dock_bg_margin_bottom"
             android:summary="@string/home_dock_bg_margin_bottom_desc"
             android:title="@string/bottom_margin"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
 
-        <!--<SeekBarPreference
+        <!--<com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_home_dock_icon_margin_bottom"
             android:title="@string/home_dock_icon_margin_bottom"
             android:summary="@string/home_dock_icon_margin_bottom_desc"
             android:defaultValue="90"
             app:maxValue="200"
             android:format="%d dp"
-            app:showSeekBarValue="true"
+            app:stepValue="1"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_home_dock_icon_bottom_margin"
             android:title="@string/home_dock_icon_bottom_margin"
             android:defaultValue="35"
             app:maxValue="100"
-            app:showSeekBarValue="true"
+            app:stepValue="1"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_home_dock_margin_bottom"
             android:title="@string/home_dock_margin_bottom"
             android:defaultValue="60"
             app:maxValue="100"
-            app:showSeekBarValue="true"
+            app:stepValue="1"
             android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
 
     </PreferenceCategory>

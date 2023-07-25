@@ -146,6 +146,9 @@ object NetworkSpeed : BaseHook() {
                         //  隐藏慢速
                         val hideLow =
                             mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
+                        // 网速均低于设定值隐藏
+                        val allHideLow =
+                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
                         //  慢速水平
                         val lowLevel =
                             mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
@@ -190,20 +193,23 @@ object NetworkSpeed : BaseHook() {
 
                         // 计算上行网速
                         val tx =
-                            if (hideLow && txSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
+                            if (hideLow && !allHideLow && txSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
                         // 计算下行网速
                         val rx =
-                            if (hideLow && rxSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
+                            if (hideLow && !allHideLow && rxSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
                         // 计算总网速
                         val ax =
                             humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
                         // 存储是否隐藏慢速的条件的结果
                         val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
+                        val isAllLowSpeed = hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
 
                         when {
                             // 如果显示上下行网速并且不开值和单位双排显示，返回上下行网速的字符串
                             doubleUpDown && !fakeDualRow -> {
-                                if (isLowSpeed) {
+                                if (isLowSpeed && !isAllLowSpeed) {
+                                    it.result = ""
+                                } else if (isAllLowSpeed) {
                                     it.result = ""
                                 } else {
                                     it.result = "$tx\n$rx"

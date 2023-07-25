@@ -10,9 +10,9 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceManager;
-import moralnorm.preference.material.MaterialPreferenceFragmentCompat;
+import moralnorm.preference.compat.PreferenceFragment;
 
-public class BasePreferenceFragment extends MaterialPreferenceFragmentCompat {
+public class BasePreferenceFragment extends PreferenceFragment {
 
     private PreferenceManager mPreferenceManager;
 

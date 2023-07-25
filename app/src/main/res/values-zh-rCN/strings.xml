@@ -647,7 +647,7 @@
     <string name="security_center_sidebar_line_color_light">浅色背景下全局侧边栏提示线颜色</string>
     <string name="security_center_disable_ban">移除举报键</string>
     <string name="security_center_unlock_screen_time">显示详细耗电数据</string>
-    <string name="security_center_unlock_screen_time_desc">在耗电排行中显示屏幕耗电信息并恢复显示所有其他应用的耗电量和时间</string>
+    <string name="security_center_unlock_screen_time_desc">在耗电排行中显示屏幕耗电信息，并恢复显示所有其他应用的耗电量和时间</string>
     <string name="security_center_unlock_gun_service">解锁准星辅助</string>
     <string name="security_center_disable_remove_screen_hold_on">禁用移除息屏听剧与熄屏挂机</string>
     <string name="security_center_unlock_memc">解锁动态画面补偿</string>
@@ -876,6 +876,7 @@
     <string name="system_ui_statusbar_network_speed_detailed">双排显示上下行网速</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
     <string name="system_ui_statusbar_network_speed_hide">隐藏慢速</string>
+    <string name="system_ui_statusbar_network_speed_hide_all">当上下行均为慢速时隐藏</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">网速值低于该水平时被认为慢，部分指示器图标会显示不同的指示器图标</string>
@@ -1269,4 +1270,6 @@
     <string name="tip_14">Tip: 绀漓目前就读于山河大学三江市校区信息工程技术学院。</string>
     <string name="tip_15">Tip: 据说绀漓有两种不同的形态。</string>
     <string name="tip_16">Tip: 绀漓是小奶狐！(划掉)</string>
+    <string name="tip_17">Tip: 冷知识：铃柒柒有两种人格，一种是猫娘控，一种是萝莉控（x</string>
+    <string name="tip_18">Tip: Cemiuiler 是电老虎 (暴论)</string>
 </resources>

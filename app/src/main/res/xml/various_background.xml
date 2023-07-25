@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory android:key="prefs_key_custom_background_blur">
-
         <SwitchPreference
             android:persistent="false"
             android:title="@string/custom_background_blur_enabled"
             android:key="prefs_key_custom_background_blur_enabled"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_blur_radius"
             android:title="@string/custom_background_blur_radius"
             android:defaultValue="60"
+            app:defaultValueText="@string/array_default"
             app:maxValue="100"
             android:format="%d dp"
-            app:showSeekBarValue="true"
+            app:stepValue="1"
             android:dependency="prefs_key_custom_background_blur_enabled" />
 
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
             android:title="@string/custom_background_color"
@@ -31,25 +29,26 @@
             android:defaultValue="2113929215"
             app:showAlphaSlider="true" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_color_alpha"
             android:title="@string/custom_background_color_alpha"
             android:defaultValue="120"
+            app:defaultValueText="@string/array_default"
             app:maxValue="255"
             android:format="%d %%"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_corner_radius"
             android:title="@string/custom_background_corner_radius"
             android:defaultValue="20"
+            app:defaultValueText="@string/array_default"
             app:maxValue="60"
             android:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

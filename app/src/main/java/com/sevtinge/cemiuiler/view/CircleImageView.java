@@ -20,9 +20,9 @@ import android.widget.ImageView;
 
 import com.sevtinge.cemiuiler.R;
 
-import moralnorm.annotation.ColorInt;
-import moralnorm.annotation.ColorRes;
-import moralnorm.annotation.DrawableRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 
 public class CircleImageView extends ImageView {
 

@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.data.adapter.MutipleChoiceAdapter;
 
 import java.util.List;
-
-import moralnorm.annotation.Nullable;
-import moralnorm.recyclerview.widget.LinearLayoutManager;
-import moralnorm.recyclerview.widget.RecyclerView;
 
 public class MultipleChoiceView extends LinearLayout {
 

@@ -50,7 +50,7 @@ public class LocationDataActivity extends AppCompatActivity implements View.OnCl
     EditText mRemarks;
 
     @Override
-    protected void onCreate(Bundle bundle) {
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_location);
 

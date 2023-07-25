@@ -27,13 +27,15 @@
         android:title="@string/home_widget_allow_moved_to_minus_one_screen"
         android:defaultValue="false" />
 
-    <SeekBarPreference
+    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
         android:key="prefs_key_home_widget_corner_radius"
         android:title="@string/home_widget_corner_radius"
         android:defaultValue="0"
         app:maxValue="30"
+        app:minValue="0"
+        app:defaultValueText="@string/array_default"
         android:format="%d dp"
-        app:showSeekBarValue="true" />
+        app:stepValue="1" />
+        
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

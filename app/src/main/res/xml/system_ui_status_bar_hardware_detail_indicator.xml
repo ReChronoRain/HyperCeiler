@@ -72,15 +72,16 @@
             app:minValue="8"
             app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:format="%d s"
             android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
+            app:defaultValueText="@string/array_default"
             app:maxValue="10"
             app:minValue="1"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
         <DropDownPreference
             android:defaultValue="1"
@@ -90,16 +91,17 @@
             app:entries="@array/system_ui_status_bar_horizontal_align"
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:defaultValueText="@string/array_default"
             app:maxValue="120"
             app:minValue="10"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="4"
@@ -202,15 +204,16 @@
             app:minValue="8"
             app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:format="%d s"
             android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
+            app:defaultValueText="@string/array_default"
             app:maxValue="10"
             app:minValue="1"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
         <DropDownPreference
             android:defaultValue="1"
@@ -220,16 +223,17 @@
             app:entries="@array/system_ui_status_bar_horizontal_align"
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:defaultValueText="@string/array_default"
             app:maxValue="120"
             app:minValue="10"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="4"

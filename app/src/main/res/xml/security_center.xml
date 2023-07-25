@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory android:title="@string/security_center_app_title">
-
         <DropDownPreference
             android:key="prefs_key_security_center_app_default_sort"
             android:title="@string/security_app_sort_title"
@@ -45,7 +43,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_battery_title">
-
         <SwitchPreference
             android:key="prefs_key_security_center_show_battery_temperature"
             android:title="@string/security_center_show_battery_temperature"
@@ -129,7 +126,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_newbox_title">
-
         <SwitchPreference
             android:title="@string/security_center_hide_sidebar"
             android:key="prefs_key_security_center_hide_sidebar"
@@ -176,14 +172,15 @@
             android:key="prefs_key_se_enable"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:title="@string/security_center_blurradius"
             android:key="prefs_key_security_center_blurradius"
             android:defaultValue="60"
+            app:defaultValueText="@string/array_default"
             app:minValue="30"
             app:maxValue="99"
-            android:format="%s"
-            app:showSeekBarValue="true"
+            android:format="%d %%"
+            app:stepValue="1"
             android:dependency="prefs_key_se_enable" />
 
         <moralnorm.preference.ColorPickerPreference
@@ -232,7 +229,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_other_title">
-
         <SwitchPreference
             android:key="prefs_key_security_center_score"
             android:title="@string/security_score"
@@ -268,7 +264,7 @@
             android:title="@string/security_center_disable_send_malicious_app_notification"
             android:defaultValue="false"
             app:isPreferenceVisible="true" />
+            
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
 </PreferenceScreen>

@@ -13,11 +13,12 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.DisplayUtils
+import com.sevtinge.cemiuiler.utils.DisplayUtils.dip2px
 import com.sevtinge.cemiuiler.utils.SystemProperties
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.setObjectField
 import com.sevtinge.cemiuiler.view.WeatherView
-import moralnorm.internal.utils.DisplayUtils.dp2px
 
 
 object NotificationWeather : BaseHook() {
@@ -89,7 +90,7 @@ object NotificationWeather : BaseHook() {
                                 context.packageName
                             )
                         )
-                        it.bottomMargin = dp2px(context, 5f)
+                        it.bottomMargin = dip2px(context, 5f)
                     }
                     dateTime.layoutParams = dateTimeLp
 

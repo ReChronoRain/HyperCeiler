@@ -38,7 +38,7 @@
                 android:layout_gravity="center_vertical"
                 android:singleLine="true"
                 android:textSize="18sp"
-                android:textColor="@android:color/black"/>
+                android:textAppearance="@style/TextAppearance.List"/>
 
             <TextView
                 android:id="@android:id/summary"
@@ -47,7 +47,7 @@
                 android:layout_gravity="center_vertical"
                 android:singleLine="true"
                 android:textSize="14.5sp"
-                android:textColor="?android:textColorSecondary"/>
+                android:textAppearance="@style/TextAppearance.List.Secondary"/>
 
         </LinearLayout>
     </LinearLayout>

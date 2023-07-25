@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sevtinge.cemiuiler.R;
 
 import java.util.List;
 
 import moralnorm.appcompat.widget.CheckedTextView;
-import moralnorm.recyclerview.widget.RecyclerView;
 
 public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdapter.ViewHolder> {
 

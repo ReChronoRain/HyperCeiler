@@ -53,7 +53,6 @@ object BlurSecurity : BaseHook() {
 
     override fun init() {
         DexKit.loadDexKit()
-        log("0")
         //if (getPackageVersionCode(lpparam) >= 40000790) return //暂时屏蔽高版本启用模糊，待修复后移除  //我觉得更像是傻逼miui的反色炸了
         val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
@@ -61,9 +60,6 @@ object BlurSecurity : BaseHook() {
         val newToolBoxTopViewClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
-
-        log("1")
-
 
         var newBoxClass: Class<*>? = null
         turboLayoutClass.methods.forEach {
@@ -200,7 +196,7 @@ object BlurSecurity : BaseHook() {
                     }
                 }
             }
-        log("2")
+        DexKit.closeDexKit()
 
             /*
 

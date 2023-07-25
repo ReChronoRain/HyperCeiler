@@ -12,8 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-
-import moralnorm.internal.utils.DisplayUtils;
+import com.sevtinge.cemiuiler.utils.DisplayUtils;
 
 public class LargeIconCornerRadius extends BaseHook {
 
@@ -31,7 +30,7 @@ public class LargeIconCornerRadius extends BaseHook {
                 Bitmap bitmap = (Bitmap) param.args[2];
                 Drawable drawable = new BitmapDrawable(context.getResources(),
                     croppedCorners(bitmap,
-                        DisplayUtils.dp2px(context,
+                        DisplayUtils.dip2px(context,
                             mPrefsMap.getInt("home_large_icon_corner_radius", 32))));
                 param.setResult(drawable);
             }

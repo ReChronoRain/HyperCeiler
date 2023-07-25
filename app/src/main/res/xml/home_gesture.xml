@@ -11,7 +11,7 @@
             app:minValue="10"
             android:defaultValue="60"
             app:defaultValueText="@string/array_default"
-            app:format="%s%"
+            app:format="%d %%"
             app:stepValue="5"
             app:showSeekBarValue="true"/>
 
@@ -22,7 +22,7 @@
             app:minValue="100"
             android:defaultValue="100"
             app:defaultValueText="@string/array_default"
-            app:format="%s%"
+            app:format="%d %%"
             app:stepValue="5"
             app:showSeekBarValue="true"/>
 

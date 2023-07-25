@@ -2,7 +2,7 @@ package com.sevtinge.cemiuiler.utils;
 
 import android.graphics.Color;
 
-import moralnorm.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 public class ColorUtilsStatic {
 

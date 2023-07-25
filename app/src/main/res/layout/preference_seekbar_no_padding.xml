@@ -50,7 +50,7 @@
                     android:ellipsize="end"
                     android:fadingEdge="horizontal"
                     android:maxLines="2"
-                    android:textAppearance="@style/TextAppearance.Preference" />
+                    android:textAppearance="@style/TextAppearance.List" />
 
                 <TextView
                     android:id="@android:id/summary"
@@ -61,7 +61,7 @@
                     android:layout_alignStart="@android:id/title"
                     android:layout_alignLeft="@android:id/title"
                     android:layout_marginTop="@dimen/preference_summary_margin_top"
-                    android:textAppearance="@style/TextAppearance.Preference.Secondary" />
+                    android:textAppearance="@style/TextAppearance.List.Secondary" />
 
             </RelativeLayout>
 
@@ -107,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="@dimen/preference_seekbar_value_min_width"
-                    android:textAppearance="@style/TextAppearance.Preference.Secondary" />
+                    android:textAppearance="@style/TextAppearance.List.Secondary" />
 
             </FrameLayout>
 
