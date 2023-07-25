@@ -2,7 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/home_title_icon_title">
-
         <SwitchPreference
             android:title="@string/home_title_big_icon_corner"
             android:key="prefs_key_home_title_big_icon_corner"
@@ -72,25 +71,25 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_title_bigicon_title">
-
         <SwitchPreference
             android:key="prefs_key_home_large_icon_enable"
-            android:title="@string/enable"
+            android:title="@string/home_large_icon_corner_radius"
             android:defaultValue="false" />
 
-        <SeekBarPreference
-            android:title="@string/home_large_icon_corner_radius"
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx          
             android:key="prefs_key_home_large_icon_corner_radius"
             android:dependency="prefs_key_home_large_icon_enable"
+            android:layout="@layout/preference_seekbar_no_padding"
             android:defaultValue="32"
-            app:maxValue="90"
             android:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:defaultValueText="@string/array_default"
+            app:maxValue="90"         
+            app:minValue="0"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_title_title_title">
-
         <SwitchPreference
             android:title="@string/home_title_title_marquee"
             android:summary="@string/home_title_title_marquee_desc"
@@ -104,15 +103,15 @@
             android:defaultValue="-1"
             app:showAlphaSlider="false" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_home_title_font_size"
             android:title="@string/home_title_font_size"
             android:defaultValue="12"
-            app:maxValue="20"
             android:format="%d sp"
-            app:showSeekBarValue="true" />
+            app:maxValue="20"          
+            app:minValue="0"
+            app:stepValue="1" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

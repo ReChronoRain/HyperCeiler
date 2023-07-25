@@ -85,24 +85,26 @@
             app:entries="@array/system_ui_status_bar_clock_double_mode"
             app:entryValues="@array/system_ui_status_bar_clock_double_mode_value" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="0"
             android:dependency="prefs_key_system_ui_statusbar_clock_double"
             android:key="prefs_key_system_ui_statusbar_clock_size"
             android:title="@string/system_ui_statusbar_clock_size"
+            app:defaultValueText="@string/array_default"
             android:format="%s dp"
             app:maxValue="20"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_double_size"
             android:title="@string/system_ui_statusbar_clock_double_size"
+            app:defaultValueText="@string/array_default"
             android:format="%s dp"
             app:maxValue="14"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
@@ -129,15 +131,16 @@
             app:entries="@array/system_ui_status_bar_clock_double_mode"
             app:entryValues="@array/system_ui_status_bar_clock_double_mode_value" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_clock_size_geek"
             android:title="@string/system_ui_statusbar_clock_size"
+            app:defaultValueText="@string/array_default"
             android:format="%s dp"
             app:maxValue="20"
             app:minValue="0"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
+            
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

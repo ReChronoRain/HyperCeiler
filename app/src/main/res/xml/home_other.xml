@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory android:title="@string/home_other_shortcut_title">
-
         <SwitchPreference
             android:key="prefs_key_home_other_freeform_shortcut_menu"
             android:defaultValue="false"
@@ -21,14 +19,15 @@
             android:title="@string/home_other_shortcut_background_blur"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:title="@string/home_other_shortcut_background_blur_custom"
             android:key="prefs_key_home_other_shortcut_background_blur_custom"
             android:defaultValue="200"
-            app:minValue="10"
+            app:minValue="80"
             app:maxValue="255"
+            app:defaultValueText="@string/array_default"            
             android:format="%s"
-            app:showSeekBarValue="true"
+            app:stepValue="1"
             android:dependency="prefs_key_home_other_shortcut_background_blur" />
 
         <SwitchPreference
@@ -36,14 +35,15 @@
             android:title="@string/home_other_shortcut_remove_restrictions"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="prefs_key_home_other_blur_radius"
             android:title="@string/home_other_blur_radius"
             android:defaultValue="100"
+            app:defaultValueText="@string/array_default"
             app:maxValue="500"
             app:minValue="0"
             android:format="%s / 100 f"
-            app:showSeekBarValue="true" />
+            app:stepValue="1" />
 
         <!--<SwitchPreference
             android:key="prefs_key_home_other_fold_dock"
@@ -53,7 +53,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <SwitchPreference
             android:key="prefs_key_personal_assistant_overlap_mode"
             android:title="@string/personal_assistant_overlap_mode"

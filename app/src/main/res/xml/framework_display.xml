@@ -49,13 +49,13 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_display_toast_times_enable"
-            android:title="@string/enable" />
+            android:title="@string/system_ui_display_toast_times_title"
+            android:summary="@string/system_ui_display_toast_times_desc" />
 
         <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
             android:key="pref_key_system_ui_display_toast_times"
             android:dependency="prefs_key_system_ui_display_toast_times_enable"
-            android:title="@string/system_ui_display_toast_times_title"
-            android:summary="@string/system_ui_display_toast_times_desc"
+            android:layout="@layout/preference_seekbar_no_padding"
             app:defaultValueText="@string/array_default"
             android:defaultValue="0"
             app:minValue="0"

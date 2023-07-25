@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/content_extension_unlock_taplus_title"
             android:summary="@string/content_extension_unlock_taplus_desc"
@@ -35,7 +33,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <DropDownPreference
             android:title="@string/content_extension_link_open_mode"
             android:summary="@string/content_extension_link_open_mode_desc"
@@ -43,8 +40,7 @@
             android:defaultValue="0"
             app:entries="@array/link_open_mode"
             app:entryValues="@array/link_open_mode_value" />
+            
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
-
 </PreferenceScreen>
