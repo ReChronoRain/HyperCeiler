@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.home.other;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+import static de.robv.android.xposed.XC_MethodReplacement.returnConstant;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
@@ -42,6 +44,22 @@ public class FreeformShortcutMenu extends BaseHook {
 
     @Override
     public void init() {
+
+        if (isPad()) {
+            hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$MultipleSmallWindowShortcutMenuItem", "isValid", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    returnConstant(true);
+                }
+            });
+            hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$SmallWindowShortcutMenuItem", "isValid", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    returnConstant(true);
+                }
+            });
+            return;
+        }
 
         mActivity = Activity.class;
         mViewDarkModeHelper = findClassIfExists("com.miui.home.launcher.util.ViewDarkModeHelper");
@@ -133,8 +151,10 @@ public class FreeformShortcutMenu extends BaseHook {
                     }
 
                     ArrayList sAllSystemShortcutMenuItems = new ArrayList();
-                    if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
-                    if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) sAllSystemShortcutMenuItems.add(mNewTasksInstance);
+                    if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"))
+                        sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
+                    if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))
+                        sAllSystemShortcutMenuItems.add(mNewTasksInstance);
                     sAllSystemShortcutMenuItems.addAll(mAllSystemShortcutMenuItems);
                     XposedHelpers.setStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems", sAllSystemShortcutMenuItems);
                 }
