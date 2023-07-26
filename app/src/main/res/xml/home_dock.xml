@@ -61,7 +61,7 @@
         <SeekBarPreferenceEx
             android:key="prefs_key_home_dock_bg_margin_top"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
-            android:title="@string/home_dock_bg_margin_top"
+            android:title="@string/top_margin"
             android:summary="@string/home_dock_bg_margin_top_desc"
             app:defaultValueText="@string/array_default"
             android:defaultValue="25"   
@@ -73,7 +73,7 @@
         <SeekBarPreferenceEx
             android:key="prefs_key_home_dock_bg_margin_bottom"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
-            android:title="@string/home_dock_bg_margin_bottom"
+            android:title="@string/bottom_margin"
             android:summary="@string/home_dock_bg_margin_bottom_desc"
             app:defaultValueText="@string/array_default"
             android:defaultValue="15"   
