@@ -8,14 +8,14 @@
             android:key="prefs_key_custom_background_blur_enabled"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_blur_radius"
             android:title="@string/custom_background_blur_radius"
             android:defaultValue="60"
             app:defaultValueText="@string/array_default"
             app:maxValue="100"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1"
             android:dependency="prefs_key_custom_background_blur_enabled" />
 
@@ -29,24 +29,24 @@
             android:defaultValue="2113929215"
             app:showAlphaSlider="true" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_color_alpha"
             android:title="@string/custom_background_color_alpha"
             android:defaultValue="120"
             app:defaultValueText="@string/array_default"
             app:maxValue="255"
-            android:format="%d %%"
+            app:format="%d %%"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_corner_radius"
             android:title="@string/custom_background_corner_radius"
             android:defaultValue="20"
             app:defaultValueText="@string/array_default"
             app:maxValue="60"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1" />
 
     </PreferenceCategory>

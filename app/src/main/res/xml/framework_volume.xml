@@ -30,25 +30,30 @@
         android:key="prefs_key_system_framework_volume_disable_safe"
         android:defaultValue="false" />
         
-    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+    <SeekBarPreferenceEx
         android:key="prefs_key_system_framework_volume_media_steps"
         android:title="@string/system_framework_volume_media_steps"
         android:summary="@string/system_framework_volume_media_steps_desc"
         android:defaultValue="15"
+        app:defaultValueText="@string/array_default"
         app:maxValue="30"
         app:minValue="15"
         app:stepValue="1"
-        android:format="%s"/>
+        app:format="%s"
+        app:showSeekBarValue="true" />
 
-    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+    <SeekBarPreferenceEx
         android:key="prefs_key_system_framework_volume_steps"
         android:title="@string/system_framework_volume_steps"
         android:defaultValue="0"
+        app:defaultValueText="@string/array_default"
         app:minValue="0"
         app:maxValue="500"
         app:stepValue="25"
-        android:format="x%s"
+        app:format="X %s"
         app:displayDividerValue="100"
+        app:showSeekBarValue="true"
         app:isPreferenceVisible="false" />
+        
     <Preference android:enabled="false" />
 </PreferenceScreen>
