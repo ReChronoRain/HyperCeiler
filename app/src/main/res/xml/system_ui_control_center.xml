@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
         <SwitchPreference
             android:key="prefs_key_system_ui_control_center_show_weather"
@@ -34,7 +33,7 @@
             android:title="@string/system_ui_control_center_notification_blur_model"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/system_ui_control_center_blur_radius"
             android:summary="@string/system_ui_control_center_blur_radius_desc"
             android:key="prefs_key_system_ui_control_center_blur_radius"
@@ -46,7 +45,7 @@
             app:minValue="20"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/system_ui_control_center_corner_radius"
             android:summary="@string/system_ui_control_center_corner_radius_desc"
             android:key="prefs_key_system_ui_control_center_corner_radius"
@@ -58,7 +57,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/system_ui_control_center_blur_background_alpha"
             android:key="prefs_key_system_ui_control_center_blur_background_alpha"
             android:defaultValue="100"
@@ -69,7 +68,7 @@
             app:minValue="85"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/system_ui_control_center_default_background_alpha"
             android:key="prefs_key_system_ui_control_center_default_background_alpha"
             android:defaultValue="200"
@@ -88,7 +87,7 @@
             android:title="@string/system_ui_control_center_fix_media_control_panel"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_qs_detail_bg"
             android:title="@string/system_control_center_qs_detail_bg"
             app:defaultValueText="@string/array_default"
@@ -98,7 +97,7 @@
             app:format="%d"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/system_ui_control_center_control_detail_background_alpha"
             android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
             android:defaultValue="255"
@@ -163,7 +162,7 @@
             android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_cc_rows"
             android:title="@string/system_control_center_qs_rows"
             app:defaultValueText="@string/array_default"
@@ -174,7 +173,7 @@
             app:format="@string/system_control_center_qs_rows_format"
             app:showSeekBarValue="true" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_cc_columns"
             android:title="@string/system_control_center_qs_columns"
             app:defaultValueText="@string/array_default"
@@ -193,7 +192,7 @@
             android:key="prefs_key_system_control_center_old_enable"
             android:defaultValue="false"/>
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_old_qs_rows"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:title="@string/system_control_center_qs_rows"
@@ -206,7 +205,7 @@
             app:format="@string/system_control_center_qs_rows_format"
             app:showSeekBarValue="true" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_old_qs_columns"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:title="@string/system_control_center_qs_columns"
@@ -219,7 +218,7 @@
             app:format="@string/system_control_center_qs_columns_format"
             app:showSeekBarValue="true" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_old_qs_grid_columns"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:title="@string/system_control_center_old_qs_grid_columns"

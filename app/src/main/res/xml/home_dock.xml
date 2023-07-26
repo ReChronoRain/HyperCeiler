@@ -33,58 +33,54 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.CustomBackgroundSettings"
             android:key="prefs_key_home_dock_bg_custom"
             android:title="@string/home_dock_bg_custom" />
-
+            
         <SeekBarPreferenceEx
-            android:defaultValue="150"
-            android:dependency="prefs_key_home_dock_bg_custom_enable"
-            android:format="%d dp"
             android:key="prefs_key_home_dock_bg_height"
-            android:summary="@string/home_dock_bg_height_desc"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/home_dock_bg_height"
+            android:summary="@string/home_dock_bg_height_desc"
             app:defaultValueText="@string/array_default"
-            app:minValue="0"
+            android:defaultValue="150"   
             app:maxValue="300"
             app:stepValue="1"
+            app:format="%d dp"
             app:showSeekBarValue="true" />
-
+        
         <SeekBarPreferenceEx
-            android:defaultValue="10"
-            android:dependency="prefs_key_home_dock_bg_custom_enable"
-            android:format="%d dp"
             android:key="prefs_key_home_dock_bg_margin_horizontal"
-            android:summary="@string/home_dock_bg_margin_horizontal_desc"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/home_dock_bg_margin_horizontal"
+            android:summary="@string/home_dock_bg_margin_horizontal_desc"
             app:defaultValueText="@string/array_default"
-            app:minValue="0"
+            android:defaultValue="25"   
             app:maxValue="160"
-            app:stepValue="1" 
+            app:stepValue="1"
+            app:format="%d dp"
             app:showSeekBarValue="true" />
-
+            
         <SeekBarPreferenceEx
-            android:defaultValue="25"
-            android:dependency="prefs_key_home_dock_bg_custom_enable"
-            android:format="%d dp"
             android:key="prefs_key_home_dock_bg_margin_top"
-            android:summary="@string/home_dock_bg_margin_top_desc"
-            android:title="@string/top_margin"
-            app:defaultValueText="@string/array_default"
-            app:minValue="0"
-            app:maxValue="150"
-            app:stepValue="1" 
-            app:showSeekBarValue="true" />
-
-        <SeekBarPreferenceEx
-            android:defaultValue="15"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
-            android:format="%d dp"
-            android:key="prefs_key_home_dock_bg_margin_bottom"
-            android:summary="@string/home_dock_bg_margin_bottom_desc"
-            android:title="@string/bottom_margin"
+            android:title="@string/home_dock_bg_margin_top"
+            android:summary="@string/home_dock_bg_margin_top_desc"
             app:defaultValueText="@string/array_default"
+            android:defaultValue="25"   
             app:maxValue="150"
             app:stepValue="1"
+            app:format="%d dp"
             app:showSeekBarValue="true" />
-
+            
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_dock_bg_margin_bottom"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:title="@string/home_dock_bg_margin_bottom"
+            android:summary="@string/home_dock_bg_margin_bottom_desc"
+            app:defaultValueText="@string/array_default"
+            android:defaultValue="15"   
+            app:maxValue="150"
+            app:stepValue="1"
+            app:format="%d dp"
+            app:showSeekBarValue="true" />
 
         <!--<SeekBarPreferenceEx
             android:key="prefs_key_home_dock_icon_margin_bottom"
