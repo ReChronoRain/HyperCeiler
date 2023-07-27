@@ -15,7 +15,7 @@
         android:defaultValue="0"
         app:defaultValueText="@string/array_default"
         app:maxValue="100"
-        app:format="%s dp"                
+        app:format="%d dp"                
         app:showSeekBarValue="true" />
 
     <SeekBarPreferenceEx
@@ -23,7 +23,7 @@
         android:title="@string/various_dialog_margin_bottom"
         android:summary="@string/various_dialog_margin_bottom_desc"
         android:defaultValue="0"
-        android:format="%d dp"      
+        app:format="%d dp"      
         app:maxValue="100"
         app:showSeekBarValue="true" />
 
@@ -38,7 +38,7 @@
             android:dependency="prefs_key_various_dialog_window_blur"                    
             android:title="@string/various_dialog_window_blur_radius"
             android:defaultValue="60"
-            app:format="%s dp"
+            app:format="%d dp"
             app:maxValue="300"
             app:showSeekBarValue="true" />
 
