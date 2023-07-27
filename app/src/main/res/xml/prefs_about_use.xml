@@ -57,13 +57,20 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify" />
-        </Preference>
+        </Preference>        
         <Preference
             android:title="DisableFlagSecure"
             android:summary="LSPosed | GPL-3.0">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LSPosed/DisableFlagSecure" />
+        </Preference>
+        <Preference
+            android:title="DisableLogRequest"
+            android:summary="QueallyTech | AGPL-3.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/QueallyTech/DisableLogRequest" />
         </Preference>
         <Preference
             android:title="EzXHelper"

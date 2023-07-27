@@ -16,7 +16,7 @@
             android:dependency="prefs_key_system_control_center_auto_brightness"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="pref_key_system_ui_auto_brightness_min"
             android:dependency="prefs_key_system_control_center_auto_brightness_min"
             android:layout="@layout/preference_seekbar_no_padding"
@@ -33,7 +33,7 @@
             android:dependency="prefs_key_system_control_center_auto_brightness"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="pref_key_system_ui_auto_brightness_max"
             android:dependency="prefs_key_system_control_center_auto_brightness_max"
             android:layout="@layout/preference_seekbar_no_padding"
@@ -52,7 +52,7 @@
             android:title="@string/system_ui_display_toast_times_title"
             android:summary="@string/system_ui_display_toast_times_desc" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="pref_key_system_ui_display_toast_times"
             android:dependency="prefs_key_system_ui_display_toast_times_enable"
             android:layout="@layout/preference_seekbar_no_padding"

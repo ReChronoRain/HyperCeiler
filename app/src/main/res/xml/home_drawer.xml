@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/home_drawer_all"
             android:summary="@string/home_drawer_all_desc"
@@ -22,7 +20,5 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

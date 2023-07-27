@@ -5,13 +5,13 @@ import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SeekBarPreferenceEx;
 
 public class AlertDialogSettings extends SettingsPreferenceFragment {
 
     private DropDownPreference mDialogGravity;
-    private SeekBarPreference mDialogHorizontalMargin;
-    private SeekBarPreference mDialogBottomMargin;
+    private SeekBarPreferenceEx mDialogHorizontalMargin;
+    private SeekBarPreferenceEx mDialogBottomMargin;
 
     @Override
     public int getContentResId() {

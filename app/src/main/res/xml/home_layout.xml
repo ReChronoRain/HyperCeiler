@@ -38,13 +38,13 @@
             android:key="prefs_key_home_layout_workspace_padding_top_enable"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_workspace_padding_top"
-            app:defaultValueText="@string/array_default"
+            android:key="prefs_key_home_layout_workspace_padding_top"            
             android:defaultValue="30"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1"
             android:dependency="prefs_key_home_layout_workspace_padding_top_enable" />
 
@@ -54,13 +54,13 @@
             android:key="prefs_key_home_layout_workspace_padding_bottom_enable"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_workspace_padding_bottom"
-            app:defaultValueText="@string/array_default"
+            android:key="prefs_key_home_layout_workspace_padding_bottom"          
             android:defaultValue="120"
+            app:defaultValueText="@string/array_default"
             app:maxValue="240"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1"
             android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable" />
 
@@ -72,13 +72,13 @@
             android:key="prefs_key_home_layout_hotseats_height_enable"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_height"
             android:defaultValue="80"
-            app:dialogTitle="@string/home_layout_hotseats_height"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            android:format="%d dp"
+            app:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_home_layout_hotseats_height_enable" />
 
@@ -88,13 +88,13 @@
             android:key="prefs_key_home_layout_hotseats_margin_top_enable"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_home_layout_hotseats_margin_top"
-            app:defaultValueText="@string/array_default"
             android:defaultValue="20"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1"
             android:dependency="prefs_key_home_layout_hotseats_margin_top_enable" />
 
@@ -104,13 +104,13 @@
             android:key="prefs_key_home_layout_hotseats_margin_bottom_enable"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_hotseats_margin_bottom"
-            app:defaultValueText="@string/array_default"
+            android:key="prefs_key_home_layout_hotseats_margin_bottom"           
             android:defaultValue="70"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1"
             android:dependency="prefs_key_home_layout_hotseats_margin_bottom_enable" />
 
@@ -123,13 +123,13 @@
             android:key="prefs_key_home_layout_searchbar_margin_bottom_enable"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_searchbar_margin_bottom"
-            app:defaultValueText="@string/array_default"
+            android:key="prefs_key_home_layout_searchbar_margin_bottom"            
             android:defaultValue="30"
+            app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            android:format="%d dp"
+            app:format="%d dp"
             app:stepValue="1"
             android:dependency="prefs_key_home_layout_searchbar_margin_bottom_enable" />
 

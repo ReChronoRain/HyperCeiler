@@ -7,7 +7,7 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVe
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
+import moralnorm.preference.SeekBarPreferenceEx;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 

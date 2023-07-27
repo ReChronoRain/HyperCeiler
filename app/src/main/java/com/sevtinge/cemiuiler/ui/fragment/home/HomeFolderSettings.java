@@ -9,15 +9,15 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class HomeFolderSettings extends SettingsPreferenceFragment {
 
     DropDownPreference mFolderShade;
-    SeekBarPreference mFolderShadeLevel;
+    SeekBarPreferenceEx mFolderShadeLevel;
 
-    SeekBarPreference mFolderColumns;
+    SeekBarPreferenceEx mFolderColumns;
     SwitchPreference mFolderWidth;
     SwitchPreference mFolderSpace;
     Preference mSmallFolderIconBackgroundCustom;

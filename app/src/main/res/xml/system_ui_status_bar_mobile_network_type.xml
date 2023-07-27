@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <DropDownPreference
         android:defaultValue="0"
         android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type"
@@ -36,7 +35,7 @@
         android:key="prefs_key_system_ui_statusbar_mobile_type_bold"
         android:title="@string/system_ui_statusbar_indicator_bold" />
 
-    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+    <SeekBarPreferenceEx
         android:defaultValue="27"
         android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
         android:key="prefs_key_system_ui_statusbar_mobile_type_font_size"
@@ -47,7 +46,7 @@
         app:minValue="18"
         app:stepValue="1" />
 
-    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+    <SeekBarPreferenceEx
         android:defaultValue="7"
         android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
         android:key="prefs_key_system_ui_statusbar_mobile_type_left_margin"
@@ -59,7 +58,7 @@
         app:minValue="0"
         app:stepValue="1" />
 
-    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+    <SeekBarPreferenceEx
         android:defaultValue="0"
         android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
         android:key="prefs_key_system_ui_statusbar_mobile_type_right_margin"
@@ -71,7 +70,7 @@
         app:minValue="0"
         app:stepValue="1" />
 
-    <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+    <SeekBarPreferenceEx
         android:defaultValue="8"
         android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
         android:key="prefs_key_system_ui_statusbar_mobile_type_vertical_offset"

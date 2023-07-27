@@ -2,7 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
-
         <SwitchPreference
             android:key="prefs_key_home_recent_disable_wallpaper_dimming"
             android:title="@string/home_recent_disable_wallpaper_dimming"
@@ -42,55 +41,55 @@
             android:key="prefs_key_home_recent_text"
             android:title="@string/home_recent_text" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:defaultValue="20"
+        <SeekBarPreferenceEx            
             android:key="prefs_key_task_view_corners"
-            android:title="@string/home_recent_task_view_card_rounded_corners"
-            android:format="%d dp"
+            android:title="@string/home_recent_task_view_card_rounded_corners"           
+            android:defaultValue="20"
             app:defaultValueText="@string/array_default"
             app:maxValue="60"
-            app:stepValue="1" />
+            app:stepValue="1" 
+            android:format="%d dp" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:defaultValue="40"
+        <SeekBarPreferenceEx          
             android:key="prefs_key_task_view_header_height"
-            android:title="@string/home_recent_app_name_distance_task_view_card"
-            android:format="%d dp"
+            android:title="@string/home_recent_app_name_distance_task_view_card"           
+            android:defaultValue="40"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            app:stepValue="1" />
+            app:stepValue="1" 
+            app:format="%d dp" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
-            android:defaultValue="100"
-            android:format="%s / 100 f"
+            android:defaultValue="100"            
             app:defaultValueText="@string/array_default"
             app:maxValue="500"
             app:minValue="10"         
-            app:stepValue="1" />
+            app:stepValue="1" 
+            app:format="%d / 100 f" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:defaultValue="100"
+        <SeekBarPreferenceEx
             android:key="prefs_key_task_view_horizontal1"
-            android:title="@string/home_recent_horizontal_task_view_card_size1"
-            android:format="%d / 100 f"
-            app:defaultValueText="@string/array_default"
-            app:maxValue="150"
-            app:minValue="50"
-            app:stepValue="1" />
-
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+            android:title="@string/home_recent_horizontal_task_view_card_size1"          
             android:defaultValue="100"
-            android:key="prefs_key_task_view_horizontal2"
-            android:title="@string/home_recent_horizontal_task_view_card_size2"
-            android:format="%d / 100 f"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
+            app:stepValue="1" 
+            app:format="%d / 100 f" />
+
+        <SeekBarPreferenceEx            
+            android:key="prefs_key_task_view_horizontal2"
+            android:title="@string/home_recent_horizontal_task_view_card_size2"            
+            android:defaultValue="100"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="150"
+            app:minValue="50"
+            app:format="%d / 100 f"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="100"
             android:key="prefs_key_home_recent_vertical_task_view_card_size"
             android:title="@string/home_recent_vertical_task_view_card_size"
@@ -100,14 +99,14 @@
             app:minValue="50"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:defaultValue="14"
+        <SeekBarPreferenceEx            
             android:key="prefs_key_home_recent_text_size"
             android:title="@string/home_recent_text_size"
-            android:format="%d f"
-            app:defaultValueText="@string/array_default"
+            android:defaultValue="14"
+            app:defaultValueText="@string/array_default"            
             app:maxValue="30"
             app:minValue="0"
+            app:format="%d f"
             app:stepValue="1" />
 
         <moralnorm.preference.ColorPickerPreference
@@ -125,7 +124,5 @@
             app:showAlphaSlider="true" />
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

@@ -8,11 +8,11 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
-import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SeekBarPreferenceEx;
 
 public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment {
 
-    SeekBarPreference mNetworkSpeedWidth; // 固定宽度
+    SeekBarPreferenceEx mNetworkSpeedWidth; // 固定宽度
 
     @Override
     public int getContentResId() {

@@ -11,7 +11,7 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class IconManageSettings extends SettingsPreferenceFragment {
@@ -19,8 +19,8 @@ public class IconManageSettings extends SettingsPreferenceFragment {
     Preference UseNewHD;
     DropDownPreference IconNewHD;
     DropDownPreference mAlarmClockIcon;
-    SeekBarPreference mAlarmClockIconN;
-    SeekBarPreference mNotificationIconMaximum;
+    SeekBarPreferenceEx mAlarmClockIconN;
+    SeekBarPreferenceEx mNotificationIconMaximum;
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
 

@@ -35,14 +35,14 @@
             android:title="@string/home_other_shortcut_remove_restrictions"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_other_blur_radius"
             android:title="@string/home_other_blur_radius"
             android:defaultValue="100"
             app:defaultValueText="@string/array_default"
             app:maxValue="500"
             app:minValue="0"
-            android:format="%s / 100 f"
+            app:format="%s / 100 f"
             app:stepValue="1" />
 
         <!--<SwitchPreference
@@ -61,7 +61,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <DropDownPreference
             android:key="prefs_key_home_other_home_mode"
             android:title="@string/home_other_home_mode"
@@ -112,7 +111,5 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

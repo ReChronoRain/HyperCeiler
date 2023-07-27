@@ -17,14 +17,14 @@
             android:key="prefs_key_pa_enable"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/personal_assistant_blurradius"
             android:key="prefs_key_personal_assistant_blurradius"
             android:defaultValue="80"
             app:minValue="30"
             app:maxValue="99"
             app:defaultValueText="@string/array_default"        
-            android:format="%d %%"
+            app:format="%d %%"
             app:stepValue="1"
             android:dependency="prefs_key_pa_enable" />
 

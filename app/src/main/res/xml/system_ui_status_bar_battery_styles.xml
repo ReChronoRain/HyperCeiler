@@ -18,7 +18,7 @@
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="15"
             android:key="prefs_key_system_ui_status_bar_battery_style_font_size"
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
@@ -30,7 +30,7 @@
             app:minValue="15"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="15"
             android:key="prefs_key_system_ui_status_bar_battery_style_font_mark_size"
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
@@ -42,7 +42,7 @@
             app:minValue="15"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_battery_style_left_margin"
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
@@ -54,7 +54,7 @@
             app:displayDividerValue="2"
             app:format="%s dp" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_battery_style_right_margin"
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
@@ -66,7 +66,7 @@
             app:displayDividerValue="2"
             app:format="%s dp" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="8"
             android:key="prefs_key_system_ui_status_bar_battery_style_vertical_offset"
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
@@ -79,7 +79,7 @@
             app:displayDividerValue="2"
             app:format="%s dp" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="17"
             android:key="prefs_key_system_ui_status_bar_battery_style_vertical_offset_mark"
             android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"

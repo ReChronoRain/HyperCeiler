@@ -71,6 +71,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 - [「DexKit」 by LuckyPray](https://github.com/LuckyPray/DexKit)
 - [「Disable app link verify」 by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify)
 - [「DisableFlagSecure」 by LSPosed](https://github.com/LSPosed/DisableFlagSecure)
+- [「DisableLogRequest」 by QueallyTech](https://github.com/QueallyTech/DisableLogRequest)
 - [「EzXHelper」 by KyuubiRan](https://github.com/KyuubiRan/EzXHelper)
 - [「FixMiuiMediaControlPanel」 by qqlittleice](https://github.com/qqlittleice/FixMiuiMediaControlPanel)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)

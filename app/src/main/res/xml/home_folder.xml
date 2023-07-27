@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory android:title="@string/home_small_folder_title">
-
         <SwitchPreference
             android:key="prefs_key_home_small_folder_icon_bg"
             android:title="@string/home_small_folder_icon_bg"
@@ -30,7 +28,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_big_folder_title">
-
         <SwitchPreference
             android:title="@string/home_big_folder_icon_bg_2x1"
             android:key="prefs_key_home_big_folder_icon_bg_2x1"
@@ -153,7 +150,7 @@
             app:defaultValueText="@string/array_default"
             app:maxValue="100"
             app:minValue="0"
-            android:format="%d %%"
+            app:format="%d %%"
             app:stepValue="1" />
 
         <SwitchPreference

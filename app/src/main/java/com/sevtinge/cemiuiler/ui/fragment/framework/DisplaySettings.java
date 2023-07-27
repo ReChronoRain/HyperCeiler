@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx;
+import moralnorm.preference.SeekBarPreferenceEx;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 

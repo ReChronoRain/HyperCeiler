@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_battery_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_battery_enable"
@@ -61,7 +59,7 @@
             android:key="prefs_key_system_ui_statusbar_battery_bold"
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_size"
@@ -72,10 +70,10 @@
             app:minValue="8"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-            android:format="%d s"
+            app:format="%d s"
             android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
             app:defaultValueText="@string/array_default"
@@ -91,10 +89,10 @@
             app:entries="@array/system_ui_status_bar_horizontal_align"
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-            android:format="%s dp"
+            app:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
@@ -103,7 +101,7 @@
             app:minValue="10"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_left_margin"
@@ -115,7 +113,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_right_margin"
@@ -127,7 +125,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="8"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
             android:key="prefs_key_system_ui_statusbar_battery_vertical_offset"
@@ -193,7 +191,7 @@
             android:key="prefs_key_system_ui_statusbar_temp_bold"
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_size"
@@ -204,10 +202,10 @@
             app:minValue="8"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-            android:format="%d s"
+            app:format="%d s"
             android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
             app:defaultValueText="@string/array_default"
@@ -223,10 +221,10 @@
             app:entries="@array/system_ui_status_bar_horizontal_align"
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-            android:format="%s dp"
+            app:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
@@ -235,7 +233,7 @@
             app:minValue="10"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_left_margin"
@@ -247,7 +245,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="4"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_right_margin"
@@ -259,7 +257,7 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:defaultValue="8"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_vertical_offset"
