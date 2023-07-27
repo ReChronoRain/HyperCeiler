@@ -16,7 +16,7 @@ android {
     defaultConfig {
         namespace 'com.sevtinge.cemiuiler'
         applicationId namespace
-        minSdk 31
+        minSdk 30
         targetSdk 34
         versionCode 122
         versionName "1.2.122"
