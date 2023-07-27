@@ -65,16 +65,18 @@
             android:title="@string/system_ui_lock_screen_show_battery_temperature"
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
-            android:defaultValue="6"
+        <SeekBarPreferenceEx            
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
             android:title="@string/system_ui_lock_screen_show_spacing"
-            app:format="%s s"
+            android:defaultValue="6"
+            app:defaultValueText="@string/array_default"           
             app:maxValue="10"
             app:minValue="2"
             app:stepValue="1"
-            app:displayDividerValue="2" />
+            app:displayDividerValue="2" 
+            app:format="%d s"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 

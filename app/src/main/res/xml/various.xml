@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <Preference
             android:title="@string/various_location_simulation_title"
             android:enabled="false"
@@ -24,7 +22,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
-
         <SwitchPreference
             android:title="@string/settings_notfication_importance"
             android:key="prefs_key_settings_notfication_importance"
@@ -65,7 +62,5 @@
             app:entryValues="@array/collapse_miui_title_value" />
 
     </PreferenceCategory>
-
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

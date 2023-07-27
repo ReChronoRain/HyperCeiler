@@ -36,7 +36,7 @@
             android:defaultValue="120"
             app:defaultValueText="@string/array_default"
             app:maxValue="255"
-            app:format="%d %%"
+            app:format="%s"
             app:stepValue="1" />
 
         <SeekBarPreferenceEx

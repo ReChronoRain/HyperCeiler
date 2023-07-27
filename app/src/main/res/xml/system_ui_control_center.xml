@@ -32,54 +32,54 @@
             android:key="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_notification_blur_model"
             android:defaultValue="false" />
-
+        
         <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_control_center_blur_radius"
+            android:dependency="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_blur_radius"
             android:summary="@string/system_ui_control_center_blur_radius_desc"
-            android:key="prefs_key_system_ui_control_center_blur_radius"
-            android:defaultValue="60"
-            android:dependency="prefs_key_n_enable"
+            android:defaultValue="56"
             app:defaultValueText="@string/array_default"
-            android:format="%s"
-            app:maxValue="99"
             app:minValue="20"
-            app:stepValue="1" />
-
+            app:maxValue="99"
+            app:stepValue="1"
+            app:format="%d %%"          
+            app:showSeekBarValue="true" />
+            
         <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_control_center_corner_radius"
+            android:dependency="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_corner_radius"
             android:summary="@string/system_ui_control_center_corner_radius_desc"
-            android:key="prefs_key_system_ui_control_center_corner_radius"
             android:defaultValue="48"
-            android:dependency="prefs_key_n_enable"
             app:defaultValueText="@string/array_default"
             app:maxValue="100"
-            app:minValue="0"
-            app:stepValue="1" 
-            app:format="%s"
+            app:stepValue="1"
+            app:format="%d dp"          
             app:showSeekBarValue="true" />
-
+            
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_control_center_blur_background_alpha"
             android:key="prefs_key_system_ui_control_center_blur_background_alpha"
-            android:defaultValue="100"
             android:dependency="prefs_key_n_enable"
+            android:title="@string/system_ui_control_center_blur_background_alpha"           
+            android:defaultValue="100"
             app:defaultValueText="@string/array_default"
-            app:maxValue="240"
+            app:maxValue="255"
             app:minValue="85"
             app:stepValue="1"
-            app:format="%s"
+            app:format="%s"          
             app:showSeekBarValue="true" />
-
+            
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_control_center_default_background_alpha"
             android:key="prefs_key_system_ui_control_center_default_background_alpha"
-            android:defaultValue="200"
             android:dependency="prefs_key_n_enable"
+            android:title="@string/system_ui_control_center_default_background_alpha"           
+            android:defaultValue="200"
             app:defaultValueText="@string/array_default"
-            app:maxValue="250"
+            app:maxValue="255"
             app:minValue="85"
-            app:stepValue="1" 
-            app:format="%s"
+            app:stepValue="1"
+            app:format="%s"          
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>
@@ -89,20 +89,20 @@
             android:key="prefs_key_system_ui_control_center_fix_media_control_panel"
             android:title="@string/system_ui_control_center_fix_media_control_panel"
             android:defaultValue="false" />
-
+            
         <SeekBarPreferenceEx
-            android:key="prefs_key_system_control_center_qs_detail_bg"
-            android:title="@string/system_control_center_qs_detail_bg"
+            android:key="prefs_key_system_control_center_qs_detail_bg"          
+            android:title="@string/system_control_center_qs_detail_bg"           
             android:defaultValue="0"
-            app:maxValue="255"
-            app:minValue="0"
-            app:stepValue="1" 
-            app:format="%s"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="255"         
+            app:stepValue="1"
+            app:format="%s"          
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
-            android:title="@string/system_ui_control_center_control_detail_background_alpha"
+        <SeekBarPreferenceEx          
             android:key="prefs_key_system_ui_control_center_control_detail_background_alpha"
+            android:title="@string/system_ui_control_center_control_detail_background_alpha"
             android:defaultValue="255"
             app:defaultValueText="@string/array_default"
             app:minValue="85"
@@ -136,7 +136,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_controlcenter_magnet_title">
-
         <SwitchPreference
             android:title="@string/system_control_center_5g_tile"
             android:key="prefs_key_system_control_center_5g_tile"
@@ -168,9 +167,9 @@
 
         <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_cc_rows"
-            android:title="@string/system_control_center_qs_rows"
-            app:defaultValueText="@string/array_default"
+            android:title="@string/system_control_center_qs_rows"          
             android:defaultValue="4"
+            app:defaultValueText="@string/array_default"
             app:minValue="3"
             app:maxValue="6"
             app:stepValue="1"
@@ -179,9 +178,9 @@
 
         <SeekBarPreferenceEx
             android:key="prefs_key_system_control_center_cc_columns"
-            android:title="@string/system_control_center_qs_columns"
-            app:defaultValueText="@string/array_default"
+            android:title="@string/system_control_center_qs_columns"           
             android:defaultValue="4"
+            app:defaultValueText="@string/array_default"
             app:minValue="4"
             app:maxValue="6"
             app:stepValue="1"
@@ -200,9 +199,9 @@
             android:key="prefs_key_system_control_center_old_qs_rows"
             android:dependency="prefs_key_system_control_center_old_enable"
             android:title="@string/system_control_center_qs_rows"
-            android:summary="@string/system_control_center_old_qs_rows_desc"
-            app:defaultValueText="@string/array_default"
+            android:summary="@string/system_control_center_old_qs_rows_desc"           
             android:defaultValue="1"
+            app:defaultValueText="@string/array_default"
             app:minValue="1"
             app:maxValue="5"
             app:stepValue="1"
@@ -214,8 +213,8 @@
             android:dependency="prefs_key_system_control_center_old_enable"
             android:title="@string/system_control_center_qs_columns"
             android:summary="@string/system_control_center_old_qs_columns_desc"
-            app:defaultValueText="@string/array_default"
             android:defaultValue="2"
+            app:defaultValueText="@string/array_default"
             app:minValue="2"
             app:maxValue="7"
             app:stepValue="1"
@@ -227,8 +226,8 @@
             android:dependency="prefs_key_system_control_center_old_enable"
             android:title="@string/system_control_center_old_qs_grid_columns"
             android:summary="@string/system_control_center_old_qs_grid_columns_desc"
-            app:defaultValueText="@string/array_default"
             android:defaultValue="2"
+            app:defaultValueText="@string/array_default"
             app:minValue="2"
             app:maxValue="7"
             app:stepValue="1"
