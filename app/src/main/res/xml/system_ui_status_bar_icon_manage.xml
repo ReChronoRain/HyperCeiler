@@ -40,7 +40,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_bluetooth"
@@ -59,7 +58,6 @@
 
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_mobile_title">
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_new_hd"
@@ -135,7 +133,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_location_title">
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_location"
@@ -146,7 +143,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_status_title">
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_headset"
@@ -161,14 +157,15 @@
             app:entries="@array/status_bar_icon_alarm_clock"
             app:entryValues="@array/status_bar_icon_alarm_clock_value" />
 
-        <SeekBarPreferenceEx
-            android:format="@string/system_ui_status_bar_icon_alarm_clock_n_format"
+        <SeekBarPreferenceEx           
             android:key="prefs_key_system_ui_status_bar_icon_alarm_clock_n"
             android:title="@string/system_ui_status_bar_icon_alarm_clock_n"
+            android:defaultValue="0"
             app:defaultValueText="@string/array_default"
             app:maxValue="48"
             app:minValue="0"
-            app:stepValue="1" />
+            app:stepValue="1"
+            app:format="@string/system_ui_status_bar_icon_alarm_clock_n_format" />
 
         <DropDownPreference
             android:defaultValue="0"
@@ -212,34 +209,32 @@
             android:key="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
             android:title="@string/system_ui_status_bar_notification_dots_maximum" />
 
-        <SeekBarPreferenceEx
-            android:defaultValue="3"
-            android:dependency="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
-            android:format="%s"
+        <SeekBarPreferenceEx       
+            android:dependency="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"            
             android:key="prefs_key_system_ui_status_bar_notification_dots_maximum"
             android:layout="@layout/preference_seekbar_no_padding"
             app:dialogTitle="@string/system_ui_status_bar_notification_dots_maximum"
+            android:defaultValue="3"
             app:defaultValueText="@string/array_default"
-            app:maxValue="5"
-            app:minValue="0"
-            app:stepValue="1" />
+            app:maxValue="5"            
+            app:stepValue="1" 
+            app:format="%s" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
             android:title="@string/system_ui_status_bar_notification_icon_maximum" />
 
-        <SeekBarPreferenceEx
-            android:defaultValue="3"
-            android:dependency="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
-            android:format="%s"
+        <SeekBarPreferenceEx            
+            android:dependency="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"         
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum"
             android:layout="@layout/preference_seekbar_no_padding"
             app:dialogTitle="@string/system_ui_status_bar_notification_icon_maximum"
+            android:defaultValue="3"
             app:defaultValueText="@string/array_default"
-            app:maxValue="15"
-            app:minValue="0"
-            app:stepValue="1" />
+            app:maxValue="15"            
+            app:stepValue="1"
+            app:format="%s" />
             
     </PreferenceCategory>
 

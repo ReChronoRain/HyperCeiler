@@ -21,9 +21,8 @@
             app:maxValue="40"
             app:minValue="8"
             app:stepValue="1"
-            app:displayDividerValue="2"
             app:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:displayDividerValue="2" />
 
         <SwitchPreference
             android:defaultValue="false"

@@ -19,7 +19,7 @@
             android:title="@string/home_other_shortcut_background_blur"
             android:defaultValue="false" />
 
-        <com.sevtinge.cemiuiler.prefs.SeekBarPreferenceEx
+        <SeekBarPreferenceEx
             android:title="@string/home_other_shortcut_background_blur_custom"
             android:key="prefs_key_home_other_shortcut_background_blur_custom"
             android:defaultValue="200"

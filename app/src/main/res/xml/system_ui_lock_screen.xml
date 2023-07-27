@@ -74,9 +74,8 @@
             app:maxValue="10"
             app:minValue="2"
             app:stepValue="1"
-            app:displayDividerValue="2" 
-            app:format="%d s"
-            app:showSeekBarValue="true" />
+            app:format="%s s"
+            app:displayDividerValue="2" />
 
     </PreferenceCategory>
 

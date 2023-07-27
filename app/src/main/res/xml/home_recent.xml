@@ -48,7 +48,7 @@
             app:defaultValueText="@string/array_default"
             app:maxValue="60"
             app:stepValue="1" 
-            android:format="%d dp" />
+            app:format="%d dp" />
 
         <SeekBarPreferenceEx          
             android:key="prefs_key_task_view_header_height"
@@ -93,7 +93,7 @@
             android:defaultValue="100"
             android:key="prefs_key_home_recent_vertical_task_view_card_size"
             android:title="@string/home_recent_vertical_task_view_card_size"
-            android:format="%d / 100 f"
+            app:format="%d / 100 f"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
