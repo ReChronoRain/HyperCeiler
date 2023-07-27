@@ -14,7 +14,7 @@
         android:layout_height="100dp" />
 
     <TextView
-        android:textAppearance="@style/TextAppearance"
+        android:textAppearance="@style/TextAppearance.List"
         android:paddingTop="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
