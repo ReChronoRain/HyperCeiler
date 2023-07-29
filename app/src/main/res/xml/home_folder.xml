@@ -223,7 +223,7 @@
             android:defaultValue="false" />
 
         <SeekBarPreferenceEx 
-            android:key="prefs_key_home_big_folder_icon_bg_width_1x2"
+            android:key="prefs_key_home_folder_columns"
             android:title="@string/home_folder_cols_title"
             android:defaultValue="3"   
             app:defaultValueText="@string/array_default"
@@ -232,7 +232,7 @@
             app:stepValue="1"
             app:format="@string/home_folder_cols_format"
             app:showSeekBarValue="true" />
-
+            
         <SeekBarPreferenceEx 
             android:key="prefs_key_home_folder_vertical_padding"
             android:title="@string/home_folder_vertical_padding_title"

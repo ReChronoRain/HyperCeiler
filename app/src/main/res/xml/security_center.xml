@@ -172,16 +172,16 @@
             android:key="prefs_key_se_enable"
             android:defaultValue="false" />
 
-        <SeekBarPreferenceEx
-            android:title="@string/security_center_blurradius"
+        <SeekBarPreferenceEx            
+            android:dependency="prefs_key_se_enable"
             android:key="prefs_key_security_center_blurradius"
+            android:title="@string/security_center_blurradius"
             android:defaultValue="60"
             app:defaultValueText="@string/array_default"
             app:minValue="30"
             app:maxValue="99"
-            android:format="%d %%"
-            app:stepValue="1"
-            android:dependency="prefs_key_se_enable" />
+            app:format="%d %%"
+            app:stepValue="1" />
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"

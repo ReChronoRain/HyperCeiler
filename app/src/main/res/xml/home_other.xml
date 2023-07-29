@@ -23,10 +23,10 @@
             android:title="@string/home_other_shortcut_background_blur_custom"
             android:key="prefs_key_home_other_shortcut_background_blur_custom"
             android:defaultValue="200"
+            app:defaultValueText="@string/array_default"           
             app:minValue="80"
-            app:maxValue="255"
-            app:defaultValueText="@string/array_default"            
-            android:format="%s"
+            app:maxValue="255" 
+            app:format="%s"
             app:stepValue="1"
             android:dependency="prefs_key_home_other_shortcut_background_blur" />
 
