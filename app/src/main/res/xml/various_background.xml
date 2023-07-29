@@ -8,11 +8,12 @@
             android:key="prefs_key_custom_background_blur_enabled"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <SeekBarPreferenceEx
             android:persistent="false"
             android:key="prefs_key_custom_background_blur_radius"
             android:title="@string/custom_background_blur_radius"
             android:defaultValue="60"            
+            app:defaultValueText="@string/array_default"
             app:maxValue="100"
             app:format="%d dp"
             app:stepValue="1"
@@ -22,26 +23,28 @@
 
     <PreferenceCategory>
         <moralnorm.preference.ColorPickerPreference
-            android:persistent="false"
+            app:persistent="false"
             android:title="@string/custom_background_color"
             android:key="prefs_key_custom_background_color"
             android:defaultValue="2113929215"
             app:showAlphaSlider="true" />
 
-        <SeekBarPreference
-            android:persistent="false"
+        <SeekBarPreferenceEx
+            app:persistent="false"
             android:key="prefs_key_custom_background_color_alpha"
             android:title="@string/custom_background_color_alpha"
             android:defaultValue="120"            
+            app:defaultValueText="@string/array_default"
             app:maxValue="255"
             app:format="%s"
             app:stepValue="1" />
 
-        <SeekBarPreference
-            android:persistent="false"
+        <SeekBarPreferenceEx
+            app:persistent="false"
             android:key="prefs_key_custom_background_corner_radius"
             android:title="@string/custom_background_corner_radius"
             android:defaultValue="20"            
+            app:defaultValueText="@string/array_default"
             app:maxValue="60"
             app:format="%d dp"
             app:stepValue="1" />

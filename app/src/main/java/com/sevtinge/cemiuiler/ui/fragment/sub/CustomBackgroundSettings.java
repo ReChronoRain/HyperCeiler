@@ -8,17 +8,17 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreference;
+import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    private SeekBarPreference mBlurRadius;
+    private SeekBarPreferenceEx mBlurRadius;
     private SwitchPreference mBlurEnabled;
 
     private ColorPickerPreference mColor;
-    private SeekBarPreference mColorAlpha;
-    private SeekBarPreference mCornerRadius;
+    private SeekBarPreferenceEx mColorAlpha;
+    private SeekBarPreferenceEx mCornerRadius;
 
     private String mBlurRadiusKey;
     private String mBlurEnabledKey;
@@ -80,7 +80,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
         }
     }
 
-    private void setSeekBarPreferenceValue(SeekBarPreference preference, String key, int defValue) {
+    private void setSeekBarPreferenceValue(SeekBarPreferenceEx preference, String key, int defValue) {
         if (hasKey(key)) {
             preference.setValue(PrefsUtils.getSharedIntPrefs(getContext(), key, defValue));
         } else if (preference.isVisible()) {
