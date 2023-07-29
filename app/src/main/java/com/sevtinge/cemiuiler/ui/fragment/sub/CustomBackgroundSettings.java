@@ -13,7 +13,7 @@ import moralnorm.preference.SwitchPreference;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    private SeekBarPreferenceEx mBlurRadius;
+    private SeekBarPreference mBlurRadius;
     private SwitchPreference mBlurEnabled;
 
     private ColorPickerPreference mColor;
