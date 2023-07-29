@@ -9,7 +9,6 @@ import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreference;
-import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
@@ -18,8 +17,8 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private SwitchPreference mBlurEnabled;
 
     private ColorPickerPreference mColor;
-    private SeekBarPreferenceEx mColorAlpha;
-    private SeekBarPreferenceEx mCornerRadius;
+    private SeekBarPreference mColorAlpha;
+    private SeekBarPreference mCornerRadius;
 
     private String mBlurRadiusKey;
     private String mBlurEnabledKey;
