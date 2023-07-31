@@ -6,15 +6,13 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import com.sevtinge.cemiuiler.utils.DexKit.hostDir
-import com.sevtinge.cemiuiler.utils.DexKit.loadDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
 import java.util.Objects
 
 object UnlockEnhanceContours : BaseHook() {
     override fun init() {
-        hostDir = lpparam.appInfo.sourceDir
-        loadDexKit()
+        initDexKit(lpparam)
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -23,7 +21,7 @@ object UnlockEnhanceContours : BaseHook() {
                 val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
                 log("frcSupport class is $frcSupport")
                 var counter = 0
-                dexKitBridge.findMethod {
+                safeDexKitBridge.findMethod {
                     methodDeclareClass = frcSupport.name
                     methodReturnType = "boolean"
                     methodParamTypes = arrayOf("java.lang.String")

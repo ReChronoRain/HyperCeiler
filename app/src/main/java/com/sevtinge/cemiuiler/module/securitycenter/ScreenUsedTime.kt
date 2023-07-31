@@ -3,9 +3,9 @@ package com.sevtinge.cemiuiler.module.securitycenter
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.DexKit
-import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import com.sevtinge.cemiuiler.utils.DexKit.loadDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
 import java.lang.reflect.Method
 import java.util.Objects
 
@@ -13,9 +13,7 @@ object ScreenUsedTime : BaseHook() {
     private var powerRankHelperHolder: Class<*>? = null
     private var powerRankHelperHolderSdkHelper: Method? = null
     override fun init() {
-        DexKit.hostDir = lpparam.appInfo.sourceDir
-        loadDexKit()
-
+        initDexKit(lpparam)
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["PowerRankHelperHolder"]
@@ -40,7 +38,7 @@ object ScreenUsedTime : BaseHook() {
             logE("PowerRankHelperHolderSdkHelper", e)
         }
 
-        dexKitBridge.findMethod {
+        safeDexKitBridge.findMethod {
             methodDeclareClass = powerRankHelperHolder!!.name
             methodReturnType = "boolean"
             methodParamTypes = arrayOf()
@@ -56,5 +54,6 @@ object ScreenUsedTime : BaseHook() {
                 )
             }
         }
+        closeDexKit()
     }
 }

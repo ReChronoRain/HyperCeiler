@@ -4,14 +4,14 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
-import com.sevtinge.cemiuiler.utils.DexKit
-import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
 import java.util.Objects
 
 object UnlockMemc : BaseHook() {
     override fun init() {
-        DexKit.hostDir = lpparam.appInfo.sourceDir
-        DexKit.loadDexKit()
+        initDexKit(lpparam)
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -20,7 +20,7 @@ object UnlockMemc : BaseHook() {
                 val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
                 log("frcSupport class is $frcSupport")
                 var counter = 0
-                dexKitBridge.findMethod {
+                safeDexKitBridge.findMethod {
                     methodDeclareClass = frcSupport.name
                     methodReturnType = "boolean"
                     methodParamTypes = arrayOf("java.lang.String")
@@ -36,5 +36,6 @@ object UnlockMemc : BaseHook() {
         } catch (e: Throwable) {
             logE("FrcSupport", e)
         }
+        closeDexKit()
     }
 }

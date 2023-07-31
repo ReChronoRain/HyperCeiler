@@ -3,14 +3,14 @@ package com.sevtinge.cemiuiler.module.packageinstaller
 import android.content.pm.ApplicationInfo
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.DexKit
-import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
 
 class AllAsSystemApp : BaseHook() {
     override fun init() {
-        DexKit.hostDir = lpparam.appInfo.sourceDir
-        DexKit.loadDexKit()
-        dexKitBridge.findMethod {
+        initDexKit(lpparam)
+        safeDexKitBridge.findMethod {
             methodParamTypes = arrayOf("Landroid/content/pm/ApplicationInfo;")
             methodReturnType = "boolean"
         }.forEach {
@@ -21,6 +21,6 @@ class AllAsSystemApp : BaseHook() {
                 }
             }
         }
-        DexKit.closeDexKit()
+        closeDexKit()
     }
 }

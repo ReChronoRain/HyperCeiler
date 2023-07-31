@@ -4,15 +4,16 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
-import com.sevtinge.cemiuiler.utils.DexKit
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import java.util.Objects
 
 object UnlockSuperResolution : BaseHook() {
     override fun init() {
-        DexKit.hostDir = lpparam.appInfo.sourceDir
-        DexKit.loadDexKit()
+        initDexKit(lpparam)
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -21,7 +22,7 @@ object UnlockSuperResolution : BaseHook() {
                 val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
                 log("frcSupport class is $frcSupport")
                 var counter = 0
-                DexKit.dexKitBridge.findMethod {
+                safeDexKitBridge.findMethod {
                     methodDeclareClass = frcSupport.name
                     methodReturnType = "boolean"
                     methodParamTypes = arrayOf("java.lang.String")
@@ -51,5 +52,6 @@ object UnlockSuperResolution : BaseHook() {
         } catch (e: Throwable) {
             logE("AisSupport", e)
         }
+        closeDexKit()
     }
 }
