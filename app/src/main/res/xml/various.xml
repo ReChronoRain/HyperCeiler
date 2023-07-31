@@ -21,7 +21,37 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_other_title">
+    <PreferenceCategory
+        android:title="@string/various_super_clipboard_title"
+        android:enabled="false" >
+        <SwitchPreference
+            android:title="@string/browser"
+            android:key="prefs_key_various_clipboard_browser"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/gallery"
+            android:key="prefs_key_various_clipboard_gallery"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/fileexplorer"
+            android:key="prefs_key_various_clipboard_fileexplorer"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/content_extension"
+            android:key="prefs_key_various_clipboard_content_extension"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/notes"
+            android:key="prefs_key_various_clipboard_notes"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/various">
         <SwitchPreference
             android:title="@string/settings_notfication_importance"
             android:key="prefs_key_settings_notfication_importance"

@@ -87,6 +87,7 @@
     <string name="mms">短信</string>
     <string name="mtb">鲁班 (MTB)</string>
     <string name="music">音乐</string>
+    <string name="notes">笔记</string>
     <string name="package_installer">应用包管理组件</string>
     <string name="personal_assistant">智能助理</string>
     <string name="phone">电话服务</string>
@@ -1057,6 +1058,8 @@
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
+    <string name="various_super_clipboard_title">超级剪切板</string>
+
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">移除 MIUI For Pad 破烂的圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
@@ -1270,6 +1273,10 @@
     <string name="tip_14">Tip: 绀漓目前就读于山河大学三江市校区信息工程技术学院。</string>
     <string name="tip_15">Tip: 据说绀漓有两种不同的形态。</string>
     <string name="tip_16">Tip: 绀漓是小奶狐！(划掉)</string>
-    <string name="tip_17">Tip: 冷知识：铃柒柒有两种人格，一种是猫娘控，一种是萝莉控（x</string>
+    <string name="tip_17">Tip: 铃柒柒有两种人格，一种是猫娘控，一种是萝莉控（x</string>
     <string name="tip_18">Tip: Cemiuiler 是电老虎 (暴论)</string>
+    <string name="tip_19">Tip: Cemiuiler 成为大杂烩之前还是一个叫 MIUI Feature 的模块</string>
+    <string name="tip_20">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
+    <string name="tip_21">Tip: 请不要把 Cemiuiler 叫成 西米露，呜呜~~</string>
+    <string name="tip_22">Tip: 没事不要追新版 Canary，坏了不要催更（</string>
 </resources>

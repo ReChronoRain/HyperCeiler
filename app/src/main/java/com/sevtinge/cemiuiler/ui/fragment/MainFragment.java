@@ -26,7 +26,7 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        int randomTip = r.nextInt(19);
+        int randomTip = r.nextInt(23);
         // log("tip id is" + randomTip);
 
         mPowerSetting = findPreference("prefs_key_powerkeeper");
@@ -59,6 +59,10 @@ public class MainFragment extends SettingsPreferenceFragment {
         else if (randomTip == 16) mTip.setSummary(R.string.tip_16);
         else if (randomTip == 17) mTip.setSummary(R.string.tip_17);
         else if (randomTip == 18) mTip.setSummary(R.string.tip_18);
+        else if (randomTip == 19) mTip.setSummary(R.string.tip_19);
+        else if (randomTip == 20) mTip.setSummary(R.string.tip_20);
+        else if (randomTip == 21) mTip.setSummary(R.string.tip_21);
+        else if (randomTip == 22) mTip.setSummary(R.string.tip_22);
         else mTip.setSummary(R.string.tip_0);
     }
 }
