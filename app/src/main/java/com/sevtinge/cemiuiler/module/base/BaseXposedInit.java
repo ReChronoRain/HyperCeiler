@@ -170,14 +170,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
         // XposedBridge.log("R=" + Build.VERSION_CODES.R + " S=" + Build.VERSION_CODES.S + " T=" + Build.VERSION_CODES.TIRAMISU + " This=" + Build.VERSION.SDK_INT);
         switch (packageName) {
             case "android" -> {
-                log("Hook android");
                 mSystemFramework.init(lpparam);
                 mVarious.init(lpparam);
             }
             // mSystemFrameworkForCorepatch.init(lpparam);
             case "com.android.systemui" -> {
                 if (isSystemUIModuleEnable()) {
-                    log("Hook com.android.systemui");
                     // ALPermissionManager.RootCommand(android.content.ContextWrapper.getPackageCodePath());
                     mSystemUI.init(lpparam);
                     mVarious.init(lpparam);
@@ -186,161 +184,130 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.miui.home" -> {
                 if (isHomeModuleEnable()) {
-                    log("Hook com.miui.home");
                     mHome.init(lpparam);
                     mVarious.init(lpparam);
                 }
             }
             case "com.miui.securitycenter" -> {
                 if (isSecurityCenterModuleEnable()) {
-                    log("Hook com.miui.securitycenter");
                     mSecurityCenter.init(lpparam);
                     mVarious.init(lpparam);
                 }
             }
             case "com.android.settings" -> {
-                log("Hook com.android.settings");
                 mSystemSettings.init(lpparam);
                 mSettings.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.personalassistant" -> {
-                log("Hook com.miui.personalassistant");
                 mPersonalAssistant.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.thememanager" -> {
-                log("Hook com.android.thememanager");
                 mThemeManager.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.browser" -> {
-                log("Hook com.android.browse");
                 mBrowser.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.updater" -> {
-                log("Hook com.android.updater");
                 mUpdater.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.market" -> {
-                log("Hook com.xiaomi.market");
                 mMarket.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.packageinstaller" -> {
-                log("Hook com.miui.packageinstaller");
                 mPackageInstaller.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.powerkeeper" -> {
-                log("Hook com.miui.powerkeeper");
                 mPowerKeeper.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.misettings" -> {
-                log("Hook com.xiaomi.misettings");
                 mMiSettings.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.joyose" -> {
-                log("Hook com.xiaomi.joyose");
                 mJoyose.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.screenshot" -> {
-                log("Hook com.miui.screenshot");
                 mScreenShot.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.screenrecorder" -> {
-                log("Hook com.miui.screenrecorder");
                 mScreenRecorder.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.mediaeditor" -> {
-                log("Hook com.miui.mediaeditor");
                 mMediaEditor.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.miwallpaper" -> {
-                log("Hook com.miui.miwallpaper");
                 mMiWallpaper.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.weather2" -> {
-                log("Hook com.miui.weather2");
                 mWeather.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.deskclock" -> {
-                log("Hook com.android.deskclock");
                 mClock.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.player" -> {
-                log("Hook com.miui.player");
                 mMusic.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.gallery" -> {
-                log("Hook com.miui.gallery");
                 mGallery.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.aod" -> {
-                log("Hook com.miui.aod");
                 mAod.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.aireco" -> {
-                log("Hook com.xiaomi.aireco");
                 mAireco.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.barrage" -> {
-                log("Hook com.xiaomi.barrage");
                 mBarrage.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.aiasst.vision" -> {
-                log("Hook com.xiaomi.aiasst.vision");
                 mAiAsst.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.scanner" -> {
-                log("Hook com.xiaomi.scanner");
                 mScanner.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.miinput" -> {
-                log("Hook com.miui.miinput");
                 mInputSettings.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.mishare.connectivity" -> {
-                log("Hook com.miui.mishare.connectivity");
                 mMiShare.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.milink.service" -> {
-                log("Hook com.milink.service");
                 mMiLink.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.guardprovider" -> {
-                log("Hook com.miui.guardprovider");
                 mGuardProvider.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.lbe.security.miui" -> {
-                log("Hook com.lbe.security.miui");
                 mLbe.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.incallui" -> {
-                log("Hook com.android.incallui");
                 mInCallUi.init(lpparam);
                 mVarious.init(lpparam);
             }
@@ -349,17 +316,14 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.miui.tsmclient" -> {
-                log("Hook com.miui.tsmclient");
                 mTsmClient.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.contentextension" -> {
-                log("Hook com.miui.contentextension");
                 mContentExtension.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.voiceassist" -> {
-                log("Hook com.miui.voiceassist");
                 mVoiceAssist.init(lpparam);
                 mVarious.init(lpparam);
             }
@@ -369,7 +333,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.android.fileexplorer" -> {
-                log("Hook com.android.fileexplorer");
                 mFileExplorer.init(lpparam);
                 mVarious.init(lpparam);
             }
@@ -379,21 +342,17 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.mtb" -> {
-                log("Hook com.xiaomi.mtb");
                 mMtb.init(lpparam);
             }
             case "com.android.externalstorage" -> {
-                log("Hook com.android.externalstorage");
                 mExternalStorage.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.camera" -> {
-                log("Hook com.android.camera");
                 mCamera.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.providers.downloads" -> {
-                log("Hook com.android.providers.downloads");
                 mDownloads.init(lpparam);
                 mVarious.init(lpparam);
             }
