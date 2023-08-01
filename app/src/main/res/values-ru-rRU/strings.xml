@@ -211,8 +211,6 @@
     <string name="gallery_enable_text_yanhua">Текстовый фейерверк</string>
     <string name="gallery_enable_video_editor">Редактор видео</string>
     <string name="gallery_enable_video_post">Видеоэффекты</string>
-    <string name="gallery_unlock_super_clipboard">Разблокировать супер буфер обмена</string>
-    <string name="gallery_unlock_super_clipboard_desc">Разрешить копирование изображения в буфер обмена</string>
     <string name="guard_provider">Безопасность MIUI</string>
     <string name="guard_provider_disable_upload_applist">Запретить автозагрузку списка установленных приложений</string>
     <string name="home">Системный раб.стол</string>
@@ -1019,4 +1017,5 @@
     <string name="system_ui_lock_screen_hide_status_bar">Удаляет строку состояния с экрана блокировки</string>
     <string name="system_ui_status_bar_mobile_indicator">Скрыть индикаторы активности мобильной сети</string>
     <string name="system_ui_status_bar_mobile_type_left">Отображать слева от сигнала</string>
+    <string name="various_super_clipboard_picture_desc">Разрешить копирование изображения в буфер обмена</string>
 </resources>

@@ -22,31 +22,44 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/various_super_clipboard_title"
-        android:enabled="false" >
+        android:title="@string/various_super_clipboard_title">
         <SwitchPreference
-            android:title="@string/browser"
-            android:key="prefs_key_various_clipboard_browser"
+            android:title="@string/enable"
+            android:summary="@string/various_super_clipboard_summary"
+            android:key="prefs_key_various_super_clipboard_enable"
             android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/gallery"
-            android:key="prefs_key_various_clipboard_gallery"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:title="@string/fileexplorer"
-            android:key="prefs_key_various_clipboard_fileexplorer"
-            android:defaultValue="false" />
-
-        <SwitchPreference
-            android:title="@string/content_extension"
-            android:key="prefs_key_various_clipboard_content_extension"
+            android:summary="@string/various_super_clipboard_picture_desc"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_gallery"
             android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/notes"
-            android:key="prefs_key_various_clipboard_notes"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_notes"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/screenshot"
+            android:summary="@string/various_super_clipboard_picture_desc"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_screenshot"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/browser"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_browser"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/fileexplorer"
+            android:summary="@string/various_super_clipboard_files_desc"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_fileexplorer"
             android:defaultValue="false" />
 
     </PreferenceCategory>

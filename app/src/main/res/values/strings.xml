@@ -996,8 +996,6 @@
     <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
     <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
-    <string name="gallery_unlock_super_clipboard">Unlock Super clipboard</string>
-    <string name="gallery_unlock_super_clipboard_desc">Allow copy image to clipboard</string>
     <string name="mi_settings_show_fps">Show more FPS list</string>
     <string name="mi_settings">Mi Settings</string>
     <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
@@ -1153,9 +1151,10 @@
     <string name="tip_17">Tip: Lin Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
     <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
     <string name="various_super_clipboard_title">Super Clipboard</string>
-    <string name="tip_19">Tip: Before Cemiuiler became a hybrid module, it was still a module called MIUI Feature</string>
-    <string name="tip_20">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
-    <string name="tip_21">Tip: Please don\'t call Cemiuiler a sago drink</string>
-    <string name="tip_22">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
+    <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
+    <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
     <string name="notes">Notes</string>
+    <string name="various_super_clipboard_summary">The super clipboard is a clipboard that supports copying files/texts\nPlease ensure that the following system applications have the metadata of is_support_miui_super_clipboard , this feature will not be available without</string>
+    <string name="various_super_clipboard_picture_desc">Allow copy image to clipboard</string>
+    <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
 </resources>

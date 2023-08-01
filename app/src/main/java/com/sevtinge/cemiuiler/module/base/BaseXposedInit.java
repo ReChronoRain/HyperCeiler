@@ -30,6 +30,7 @@ import com.sevtinge.cemiuiler.module.MiWallpaper;
 import com.sevtinge.cemiuiler.module.Mms;
 import com.sevtinge.cemiuiler.module.Mtb;
 import com.sevtinge.cemiuiler.module.Music;
+import com.sevtinge.cemiuiler.module.Notes;
 import com.sevtinge.cemiuiler.module.PackageInstaller;
 import com.sevtinge.cemiuiler.module.PersonalAssistant;
 import com.sevtinge.cemiuiler.module.Phone;
@@ -117,6 +118,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Downloads mDownloads = new Downloads();
     public Aod mAod = new Aod();
     public Barrage mBarrage = new Barrage();
+    public Notes mNotes = new Notes();
     // public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -340,6 +342,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.android.incallui" -> {
                 log("Hook com.android.incallui");
                 mInCallUi.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.miui.notes" -> {
+                mNotes.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.tsmclient" -> {

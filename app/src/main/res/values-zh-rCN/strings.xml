@@ -281,8 +281,6 @@
     <string name="gallery_enable_remover_2">解锁魔法消除</string>
     <string name="gallery_enable_magic_matting">解锁魔法抠图</string>
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
-    <string name="gallery_unlock_super_clipboard">解锁超级剪贴板</string>
-    <string name="gallery_unlock_super_clipboard_desc">允许复制图片至剪贴板</string>
 
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
 
@@ -1059,6 +1057,9 @@
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="various_super_clipboard_title">超级剪切板</string>
+    <string name="various_super_clipboard_summary">超级剪切板是一个支持复制文件/文本的剪切板\n请确保下列系统应用是否有 is_support_miui_super_clipboard 的元数据，没有将无法使用这个功能</string>
+    <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
+    <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
 
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
@@ -1275,8 +1276,6 @@
     <string name="tip_16">Tip: 绀漓是小奶狐！(划掉)</string>
     <string name="tip_17">Tip: 铃柒柒有两种人格，一种是猫娘控，一种是萝莉控（x</string>
     <string name="tip_18">Tip: Cemiuiler 是电老虎 (暴论)</string>
-    <string name="tip_19">Tip: Cemiuiler 成为大杂烩之前还是一个叫 MIUI Feature 的模块</string>
-    <string name="tip_20">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
-    <string name="tip_21">Tip: 请不要把 Cemiuiler 叫成 西米露，呜呜~~</string>
-    <string name="tip_22">Tip: 没事不要追新版 Canary，坏了不要催更（</string>
+    <string name="tip_19">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
+    <string name="tip_20">Tip: 没事不要追新版 Canary，坏了不要催更（</string>
 </resources>

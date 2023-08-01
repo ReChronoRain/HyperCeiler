@@ -19,6 +19,7 @@ fun isMoreAndroidVersion(version: Int): Boolean {
 }
 
 fun getMiuiVersion(): Float = when (getProp("ro.miui.ui.version.name")) {
+    "V150" -> 15f
     "V140" -> 14f
     "V130" -> 13f
     "V125" -> 12.5f

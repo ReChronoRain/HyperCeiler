@@ -1016,8 +1016,6 @@
     <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
     <string name="system_control_center_old_qs_columns_desc">豎屏時會額外增加一列\n如果您的ROM具有快速設置緊湊佈局選項，不管是橫屏還是豎屏都會增加其他列</string>
     <string name="system_control_center_old_qs_rows_desc">豎屏顯示 5 行時會隱藏標籤，橫屏時則限制為 3 行</string>
-    <string name="gallery_unlock_super_clipboard">解鎖超級剪貼簿</string>
-    <string name="gallery_unlock_super_clipboard_desc">允許將圖片複製到剪貼簿</string>
     <string name="mi_settings_show_fps">顯示更多幀數設定選項</string>
     <string name="mi_settings">小米設定</string>
     <string name="system_framework_disable_72h_verify">禁用每 72 小時驗證鎖定螢幕密碼</string>
@@ -1103,4 +1101,5 @@
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
     <string name="system_ui_status_bar_mobile_indicator">隱藏移動網路活動指示器</string>
     <string name="system_ui_status_bar_mobile_type_left">顯示在信號左側</string>
+    <string name="various_super_clipboard_picture_desc">允許將圖片複製到剪貼簿</string>
 </resources>

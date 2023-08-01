@@ -11,7 +11,7 @@ import com.sevtinge.cemiuiler.module.gallery.EnablePhotoMovie;
 import com.sevtinge.cemiuiler.module.gallery.EnableRemover2;
 import com.sevtinge.cemiuiler.module.gallery.EnableTextYanhua;
 import com.sevtinge.cemiuiler.module.gallery.EnableVideoPost;
-import com.sevtinge.cemiuiler.module.gallery.UnlockSuperClipboard;
+import com.sevtinge.cemiuiler.module.various.UnlockSuperClipboard;
 
 public class Gallery extends BaseModule {
 
@@ -29,7 +29,7 @@ public class Gallery extends BaseModule {
         initHook(new EnableVideoPost(), mPrefsMap.getBoolean("gallery_enable_video_editor"));
         initHook(new EnableOcr(), mPrefsMap.getBoolean("gallery_enable_ocr"));
         initHook(new EnableOcrForm(), mPrefsMap.getBoolean("gallery_enable_ocr_form"));
-        initHook(new UnlockSuperClipboard(), mPrefsMap.getBoolean("gallery_unlock_super_clipboard"));
+        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getBoolean("various_super_clipboard_enable"));
     }
 }
 
