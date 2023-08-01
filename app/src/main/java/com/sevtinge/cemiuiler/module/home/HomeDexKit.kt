@@ -9,7 +9,6 @@ import io.luckypray.dexkit.enums.MatchType
 
 class HomeDexKit : BaseHook() {
     override fun init() {
-        System.loadLibrary("dexkit")
         initDexKit(lpparam)
         try {
             mHomeResultClassMap = safeDexKitBridge.batchFindClassesUsingStrings {
