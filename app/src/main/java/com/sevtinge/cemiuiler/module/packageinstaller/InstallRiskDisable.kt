@@ -14,7 +14,9 @@ object DisableSafeModelTip : BaseHook() {
         for (descriptor in result) {
             val mSecureVerifyEnable = descriptor.getMethodInstance(lpparam.classLoader)
             mSecureVerifyEnable.createHook {
-                returnConstant(false)
+                before {
+                    it.result = false
+                }
             }
         }
         
@@ -24,7 +26,9 @@ object DisableSafeModelTip : BaseHook() {
         for (descriptor2 in result2) {
             val isInstallRiskEnabled = descriptor2.getMethodInstance(lpparam.classLoader)
             isInstallRiskEnabled.createHook {
-                returnConstant(false)
+                before {
+                    it.result = false
+                }
             }
         }
     

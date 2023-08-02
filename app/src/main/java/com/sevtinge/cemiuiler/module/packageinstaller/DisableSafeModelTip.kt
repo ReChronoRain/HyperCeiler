@@ -16,7 +16,9 @@ object DisableSafeModelTip : BaseHook() {
         for (descriptor in result) {
             val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
             mDisableSafeModelTip.createHook {
-                returnConstant(false)
+                before {
+                    it.result = false
+                }
             }
             // val miuiSettingsCompatClass = loadClass("com.android.packageinstaller.compat.MiuiSettingsCompat")
             /*miuiSettingsCompatClass.methodFinder().filterByName("isPersonalizedAdEnabled")
