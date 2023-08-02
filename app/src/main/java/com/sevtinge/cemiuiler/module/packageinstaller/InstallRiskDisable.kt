@@ -34,7 +34,7 @@ object InstallRiskDisable : BaseHook() {
           for (descriptor in result3) {
             val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
             mDisableSafeModelTip.createHook {
-                 returnConstant(​false​)
+                 returnConstant(false)
             }
         }
     }
