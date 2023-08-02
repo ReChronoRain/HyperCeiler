@@ -7,28 +7,24 @@ import com.sevtinge.cemiuiler.module.packageinstaller.PackageInstallerDexKit.mPa
 import java.util.Objects
 
 object DisableSafeModelTip : BaseHook() {
-    override fun init() {
-        runCatching {
-            val result = Objects.requireNonNull(
-                mPackageInstallerResultMethodsMap!!["SecureVerifyEnable"]
-            )
-            for (descriptor in result) {
-                val mSecureVerifyEnable = descriptor.getMethodInstance(lpparam.classLoader)
-                mSecureVerifyEnable.createHook {
-                    returnConstant(false)
-                }
+    override fun init() {        
+        val result = Objects.requireNonNull(
+            mPackageInstallerResultMethodsMap!!["SecureVerifyEnable"]
+        )
+        for (descriptor in result) {
+            val mSecureVerifyEnable = descriptor.getMethodInstance(lpparam.classLoader)
+            mSecureVerifyEnable.createHook {
+                returnConstant(false)
             }
         }
         
-        runCatching {
-            val result2 = Objects.requireNonNull(
-                mPackageInstallerResultMethodsMap!!["isInstallRiskEnabled"]
-            )
-            for (descriptor in result2) {
-                val isInstallRiskEnabled = descriptor.getMethodInstance(lpparam.classLoader)
-                isInstallRiskEnabled.createHook {
-                    returnConstant(false)
-                }
+        val result2 = Objects.requireNonNull(
+            mPackageInstallerResultMethodsMap!!["isInstallRiskEnabled"]
+        )
+        for (descriptor2 in result2) {
+            val isInstallRiskEnabled = descriptor2.getMethodInstance(lpparam.classLoader)
+            isInstallRiskEnabled.createHook {
+                returnConstant(false)
             }
         }
     

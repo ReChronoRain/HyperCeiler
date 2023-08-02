@@ -10,23 +10,21 @@ import java.util.Objects
 
 object DisableSafeModelTip : BaseHook() {
     override fun init() {
-        runCatching {
-            val result = Objects.requireNonNull(
-                mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
-            )
-            for (descriptor in result) {
-                val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
-                mDisableSafeModelTip.createHook {
-                    returnConstant(false)
-                }
-                // val miuiSettingsCompatClass = loadClass("com.android.packageinstaller.compat.MiuiSettingsCompat")
-                /*miuiSettingsCompatClass.methodFinder().filterByName("isPersonalizedAdEnabled")
-                    .filterByReturnType(Boolean::class.java).toList().createHooks {
-                        before {
-                            it.result = false
-                        }
-                    }*/
+        val result = Objects.requireNonNull(
+            mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
+        )
+        for (descriptor in result) {
+            val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
+            mDisableSafeModelTip.createHook {
+                returnConstant(false)
             }
+            // val miuiSettingsCompatClass = loadClass("com.android.packageinstaller.compat.MiuiSettingsCompat")
+            /*miuiSettingsCompatClass.methodFinder().filterByName("isPersonalizedAdEnabled")
+                .filterByReturnType(Boolean::class.java).toList().createHooks {
+                    before {
+                        it.result = false
+                    }
+                }*/
         }
 
         var letter = 'a'
