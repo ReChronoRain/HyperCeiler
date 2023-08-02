@@ -27,17 +27,15 @@ object InstallRiskDisable : BaseHook() {
                 returnConstant(false)
             }
         }
-    
-        /*runCatching {
-            val result3 = Objects.requireNonNull(
-                mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
-            )
-            for (descriptor in result3) {
-                val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
-                mDisableSafeModelTip.createHook {
-                    returnConstant(​false​)
-                }
+           
+        val result3 = Objects.requireNonNull(
+            mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
+        )
+          for (descriptor in result3) {
+            val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
+            mDisableSafeModelTip.createHook {
+                 returnConstant(​false​)
             }
-        }*/
+        }
     }
 }
