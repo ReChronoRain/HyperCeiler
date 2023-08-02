@@ -37,7 +37,7 @@ object UnlockSuperClipboard : BaseHook() {
             }
 
             "com.miui.notes" -> {
-                if (mPrefsMap.getBoolean("notes_super_clipboard")) {
+                if (mPrefsMap.getBoolean("various_super_clipboard_notes")) {
                     methodSuperClipboard("com.miui.common.tool.Utils")
                 }
             }

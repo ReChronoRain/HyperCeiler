@@ -32,6 +32,7 @@ public class PackageInstallerDexKit extends BaseHook {
                         .addQuery("InstallerOpenSafetyModel", Set.of("installerOpenSafetyModel"))
                         .addQuery("AppStoreRecommend", Set.of("app_store_recommend"))
                         .addQuery("EnableAds", Set.of("ads_enable"))
+                        .addQuery("isInstallRiskEnabled", Set.of("virus_scan_install"))
                         .addQuery("DisableSafeModelTip", Set.of("android.provider.MiuiSettings$Ad"))
                         .matchType(MatchType.CONTAINS)
                         .build()
