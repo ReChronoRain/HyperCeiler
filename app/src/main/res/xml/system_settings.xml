@@ -87,9 +87,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="prefs_key_system_settings_develop_speed"
-        android:title="@string/system_settings_develop_title">
+    <PreferenceCategory android:title="@string/system_settings_develop_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_apps_freezer"
@@ -104,5 +102,4 @@
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

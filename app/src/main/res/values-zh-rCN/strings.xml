@@ -734,10 +734,6 @@
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">开启后，不支持的机型默认付款应用无法选中小米钱包\n</string>
 
-    <string name="system_settings_freezer_title">缓存应用</string>
-    <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
-    <string name="system_settings_apps_freezer_more">开启后可在"开发者选项"中找到此功能，为强制显示不保证可用"</string>
-
     <string name="system_settings_international_build">国际版本设置页面</string>
     <string name="system_settings_novelty_haptic_title">解锁新版触感调节页面</string>
     <string name="system_settings_novelty_haptic_desc">仅供有 声音与触感-触感 页面的设备使用</string>
@@ -755,6 +751,8 @@
     <string name="system_settings_permission_unknown_origin_app_desc">使用国际版行为，直接跳转对应应用 \"安装未知应用\" 的权限开关</string>
 
     <string name="system_settings_develop_title">开发者选项</string>
+        <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
+    <string name="system_settings_apps_freezer_more">开启后可在"开发者选项"中找到此功能，为强制显示不保证可用"</string>
     <string name="system_settings_develop_speed_mode">极致模式</string>
     <string name="system_settings_develop_speed_mode_desc">在不支持的机型上开启后不会显示入口</string>
 

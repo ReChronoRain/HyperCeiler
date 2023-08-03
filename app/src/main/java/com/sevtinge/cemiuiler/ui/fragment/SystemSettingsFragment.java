@@ -14,8 +14,8 @@ import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class SystemSettingsFragment extends SettingsPreferenceFragment {
-    PreferenceCategory mHighMode; // 极致模式
     PreferenceCategory mNewNfc; // 新版 NFC 界面
+    SwitchPreference mHighMode; // 极致模式
     SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mKnuckleFunction; // 指关节相关
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
@@ -35,7 +35,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        mHighMode = findPreference("prefs_key_system_settings_develop_speed");
+        mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
         mAreaScreenshot = findPreference("prefs_key_system_settings_area_screenshot");
         mKnuckleFunction = findPreference("prefs_key_system_settings_knuckle_function");
         mNewNfc = findPreference("prefs_key_system_settings_connection_sharing");
