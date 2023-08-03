@@ -1058,4 +1058,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_icon_call_record">Ẩn biểu tượng Ghi âm</string>
     <string name="system_ui_statusbar_iconmamage_call_title">Cuộc gọi</string>
     <string name="various_super_clipboard_picture_desc">Cho phép sao chép ảnh vào clipboard</string>
+    <string name="system_ui_control_auto_close">Nam Châm Tự Động Thu Gọn</string>
+    <string name="system_ui_control_auto_close_more">Sau khi bật, bấm vào biểu tượng thanh trạng thái sẽ tự động thu gọn thanh trạng thái</string>
 </resources>

@@ -1018,4 +1018,6 @@
     <string name="system_ui_status_bar_mobile_indicator">Скрыть индикаторы активности мобильной сети</string>
     <string name="system_ui_status_bar_mobile_type_left">Отображать слева от сигнала</string>
     <string name="various_super_clipboard_picture_desc">Разрешить копирование изображения в буфер обмена</string>
+    <string name="system_ui_control_auto_close">Автоматически сворачивающийся магнит</string>
+    <string name="system_ui_control_auto_close_more">После включения, клик на магнитной плитке на панели состояния автоматически свернет панель состояния</string>
 </resources>

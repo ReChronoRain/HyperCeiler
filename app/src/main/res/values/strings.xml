@@ -1157,4 +1157,6 @@
     <string name="various_super_clipboard_summary">The super clipboard is a clipboard that supports copying files/texts\nPlease ensure that the following system applications have the metadata of is_support_miui_super_clipboard , this feature will not be available without</string>
     <string name="various_super_clipboard_picture_desc">Allow copy image to clipboard</string>
     <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
+    <string name="system_ui_control_auto_close">Tile Auto-Collapse</string>
+    <string name="system_ui_control_auto_close_more">After enabling, clicking the status bar tile will automatically collapse the status bar</string>
 </resources>

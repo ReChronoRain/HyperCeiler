@@ -1121,4 +1121,6 @@
     <string name="system_ui_status_bar_mobile_indicator">隱藏移動網路活動指示器</string>
     <string name="system_ui_status_bar_mobile_type_left">顯示在信號左側</string>
     <string name="various_super_clipboard_picture_desc">允許將圖片複製到剪貼簿</string>
+    <string name="system_ui_control_auto_close">磁貼自動收起</string>
+    <string name="system_ui_control_auto_close_more">開啓後點擊磁貼會自動收起狀態欄</string>
 </resources>

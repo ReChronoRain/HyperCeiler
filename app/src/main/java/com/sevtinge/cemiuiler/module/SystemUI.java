@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
+import com.sevtinge.cemiuiler.module.systemui.AutoCloseCollapse;
 import com.sevtinge.cemiuiler.module.systemui.BluetoothRestrict;
 import com.sevtinge.cemiuiler.module.systemui.ChargeAnimationStyle;
 import com.sevtinge.cemiuiler.module.systemui.MiuiGxzwSize;
@@ -191,6 +192,7 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
+        initHook(new AutoCloseCollapse(),mPrefsMap.getBoolean("system_ui_control_auto_close"));
 
         // Actions
         initHook(new StatusBarActions());

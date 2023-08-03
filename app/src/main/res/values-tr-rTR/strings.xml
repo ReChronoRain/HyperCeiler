@@ -811,4 +811,6 @@
     <string name="system_ui_status_bar_mobile_indicator">Mobil ağ etkinliği göstergelerini gizle</string>
     <string name="system_ui_status_bar_mobile_type_left">Sinyalin solundaki ekran</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Anahtar kontrol merkezi ve bildirim çekmecesi</string>
+    <string name="system_ui_control_auto_close">Otomatik Olarak Kapanan Mıknatıs</string>
+    <string name="system_ui_control_auto_close_more">Etkinleştirdikten sonra durum çubuğu mıknatısına tıklamak durum çubuğunu otomatik olarak kapatacaktır</string>
 </resources>
