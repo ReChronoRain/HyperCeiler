@@ -3,21 +3,21 @@
 
     <PreferenceCategory>
         <SwitchPreference
-            android:title="@string/system_settings_international_build"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_international_build"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_international_build" />
 
         <SwitchPreference
-            android:title="@string/system_settings_safe_wifi"
-            android:summary="@string/system_settings_safe_wifi_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_safe_wifi"
-            android:defaultValue="false" />
+            android:summary="@string/system_settings_safe_wifi_desc"
+            android:title="@string/system_settings_safe_wifi" />
 
         <SwitchPreference
-            android:title="@string/system_settings_novelty_haptic_title"
-            android:summary="@string/system_settings_novelty_haptic_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_novelty_haptic"
-            android:defaultValue="false" />
+            android:summary="@string/system_settings_novelty_haptic_desc"
+            android:title="@string/system_settings_novelty_haptic_title" />
 
     </PreferenceCategory>
 
@@ -25,76 +25,82 @@
         android:key="prefs_key_system_settings_connection_sharing"
         android:title="@string/system_settings_connection_sharing_title">
         <SwitchPreference
-            android:title="@string/system_settings_new_nfc_page"
-            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_new_nfc_page"
-            android:defaultValue="false" />
+            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:title="@string/system_settings_new_nfc_page" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_accessibility_title">
         <SwitchPreference
-            android:title="@string/system_settings_area_screenshot"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_area_screenshot"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_area_screenshot" />
 
         <SwitchPreference
-            android:title="@string/system_settings_knuckle_function"
-            android:summary="@string/system_settings_knuckle_function_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_knuckle_function"
-            android:defaultValue="false" />
+            android:summary="@string/system_settings_knuckle_function_desc"
+            android:title="@string/system_settings_knuckle_function" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_lab_title">
         <SwitchPreference
-            android:title="@string/system_settings_voip_assistant_controller"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_voip_assistant_controller"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_voip_assistant_controller" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_ai_image_title">
         <SwitchPreference
-            android:title="@string/system_settings_ai_image_unlock_sr"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_ai_image_unlock_sr"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_ai_image_unlock_sr" />
 
         <SwitchPreference
-            android:title="@string/system_settings_ai_image_unlock_ai"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_ai_image_unlock_ai"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_ai_image_unlock_ai" />
 
         <SwitchPreference
-            android:title="@string/system_settings_ai_image_unlock_memc"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_ai_image_unlock_memc"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_ai_image_unlock_memc" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_permission_title">
         <SwitchPreference
-            android:title="@string/system_settings_permission_show_app_up"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_permission_show_app_up"
             android:summary="@string/system_settings_permission_show_app_up_desc"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_permission_show_app_up" />
 
         <SwitchPreference
-            android:title="@string/system_settings_permission_unknown_origin_app"
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_permission_unknown_origin_app"
             android:summary="@string/system_settings_permission_unknown_origin_app_desc"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_permission_unknown_origin_app" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/system_settings_develop_title"
-        android:key="prefs_key_system_settings_develop_speed">
+        android:key="prefs_key_system_settings_develop_speed"
+        android:title="@string/system_settings_develop_title">
         <SwitchPreference
-            android:title="@string/system_settings_develop_speed_mode"
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_apps_freezer"
+            android:summary="@string/system_settings_apps_freezer_more"
+            android:title="@string/system_settings_apps_freezer" />
+        
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_develop_speed_mode"
             android:summary="@string/system_settings_develop_speed_mode_desc"
-            android:defaultValue="false" />
+            android:title="@string/system_settings_develop_speed_mode" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />

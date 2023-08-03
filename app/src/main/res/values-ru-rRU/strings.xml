@@ -1020,4 +1020,6 @@
     <string name="various_super_clipboard_picture_desc">Разрешить копирование изображения в буфер обмена</string>
     <string name="system_ui_control_auto_close">Автоматически сворачивающийся магнит</string>
     <string name="system_ui_control_auto_close_more">После включения, клик на магнитной плитке на панели состояния автоматически свернет панель состояния</string>
+    <string name="system_settings_apps_freezer">Обязательное отображение приостановленных кэшированных приложений</string>
+    <string name="system_settings_apps_freezer_more">После включения эту функцию можно найти в "Параметре разработчика", не гарантируя ее доступность для обязательного отображения</string>
 </resources>

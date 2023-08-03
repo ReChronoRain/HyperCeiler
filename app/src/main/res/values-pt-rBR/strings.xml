@@ -984,6 +984,8 @@
     <string name="system_ui_lock_screen_hide_status_bar">Remova a barra de status na tela de bloqueio</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de atividade da rede móvel</string>
     <string name="system_ui_status_bar_mobile_type_left">Exibir à esquerda do sinal</string>
-    <string name="system_ui_control_auto_close">Ímã de Recolhimento Automático</string>
-    <string name="system_ui_control_auto_close_more">Após habilitado, clicar no ícone do painel de status recolherá automaticamente o painel de status</string>
+    <string name="system_ui_control_auto_close">As telhas magnéticas retraem-se automaticamente</string>
+    <string name="system_ui_control_auto_close_more">Após a abertura, clicar no bloco da barra de status retrairá automaticamente a barra de status</string>
+    <string name="system_settings_apps_freezer">Força o display a pausar a execução de aplicações cachadas</string>
+    <string name="system_settings_apps_freezer_more">Depois de ser activado, esta característica pode ser encontrada nas "Opções do Desenvolvidor". Não é garantido estar disponível para o display obrigatório</string>
 </resources>

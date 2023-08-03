@@ -6,6 +6,7 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVe
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.miinput.UnlockKnuckleFunction;
 import com.sevtinge.cemiuiler.module.systemsettings.AddMiuiPlusEntry;
+import com.sevtinge.cemiuiler.module.systemsettings.AppsFreezerEnable;
 import com.sevtinge.cemiuiler.module.systemsettings.EnableSpeedMode;
 import com.sevtinge.cemiuiler.module.systemsettings.InternationalBuild;
 import com.sevtinge.cemiuiler.module.systemsettings.NewNFCPage;
@@ -32,6 +33,7 @@ public class SystemSettings extends BaseModule {
         initHook(new QuickInstallPermission(), mPrefsMap.getBoolean("system_settings_permission_unknown_origin_app"));
         initHook(new InternationalBuild(), mPrefsMap.getBoolean("system_settings_international_build"));
         initHook(new NewNFCPage(), mPrefsMap.getBoolean("system_settings_new_nfc_page"));
+        initHook(new AppsFreezerEnable(), mPrefsMap.getBoolean("system_settings_apps_freezer"));
 
         initHook(new UnlockSuperResolution(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_sr"));
         initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));
@@ -39,7 +41,7 @@ public class SystemSettings extends BaseModule {
         initHook(UnLockAreaScreenshot.INSTANCE, mPrefsMap.getBoolean("system_settings_area_screenshot"));
         initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
 
-        if (!isAndroidR()){
+        if (!isAndroidR()) {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
         }
 

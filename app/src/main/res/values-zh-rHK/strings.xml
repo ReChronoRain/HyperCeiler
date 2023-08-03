@@ -1104,4 +1104,6 @@
     <string name="various_super_clipboard_picture_desc">允許將圖片複製到剪貼簿</string>
     <string name="system_ui_control_auto_close">磁貼自動收起</string>
     <string name="system_ui_control_auto_close_more">開啓後點擊磁貼會自動收起狀態欄</string>
+    <string name="system_settings_apps_freezer">强制顯示暫停執行已緩存的應用</string>
+    <string name="system_settings_apps_freezer_more">開啓后可在"開發者選項"中找到此功能，為强制顯示不保證可用</string>
 </resources>
