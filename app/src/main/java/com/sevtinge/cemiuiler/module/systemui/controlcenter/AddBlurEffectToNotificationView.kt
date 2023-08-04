@@ -9,6 +9,7 @@ import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.cemiuiler.utils.replaceMethod
 
 object AddBlurEffectToNotificationView : BaseHook() {
     var blurBackgroundAlpha: Int =
@@ -47,6 +48,18 @@ object AddBlurEffectToNotificationView : BaseHook() {
             findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1")
                 ?: return
 
+                
+        //避免控制中心通知上移
+     "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getTopPadding")
+            {
+
+            return@replaceMethod  1750.0f
+            }
+        //修改横幅通知上划极限值 
+     "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getStackTranslation")
+            {
+            return@replaceMethod -1200.0f
+            }
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
@@ -472,10 +485,10 @@ object AddBlurEffectToNotificationView : BaseHook() {
                                         mNotificationStackScroller.getChildAt(i) ?: continue
                                     if (radius > 30 && !isOnKeyguard) {
                                         hideBlurEffectForNotificationRow(childAt)
-                                    } else {
-                                        // 锁屏状态显示模糊
+                                    } /*else {
+                                        // 锁屏状态显示模糊（不能留，点击通知进入密码页面模糊残留）
                                         if (isOnKeyguard) showBlurEffectForNotificationRow(childAt)
-                                    }
+                                    }*/
                                 }
                             }
                         })
