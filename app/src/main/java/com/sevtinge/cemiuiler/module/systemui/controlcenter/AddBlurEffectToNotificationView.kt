@@ -48,18 +48,20 @@ object AddBlurEffectToNotificationView : BaseHook() {
             findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1")
                 ?: return
 
-                
-        //避免控制中心通知上移
-     "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getTopPadding")
+        // 存在卡片砍头情况        
+        /*
+        // 避免控制中心通知上移
+        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getTopPadding")
             {
 
             return@replaceMethod  1750.0f
             }
-        //修改横幅通知上划极限值 
-     "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getStackTranslation")
+        // 修改横幅通知上划极限值 
+        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getStackTranslation")
             {
             return@replaceMethod -1200.0f
             }
+        */
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
