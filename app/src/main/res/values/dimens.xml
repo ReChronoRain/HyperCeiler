@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="header_icon_size">30dp</dimen>
+
     <dimen name="magic_px_50">18.179993dp</dimen>
     <dimen name="magic_px_100">36.75998dp</dimen>
     <dimen name="magic_seek_bar_bubble_shape_bg_solid_radius">65.44998dp</dimen>
