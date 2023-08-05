@@ -1066,9 +1066,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="various_mipad_input_title">Nhập</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_unlock_ime">Mở khóa IME</string>
-    <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý LSPosed</string>
-    <string name="vertical_offset">Lên và xuống</string>
+    <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý LSPosed</string>    
     <string name="various_super_clipboard_picture_desc">Cho phép sao chép ảnh vào clipboard</string>
+    <string name="vertical_offset">Lên và xuống</string>
     <string name="weather">Thời tiết</string>
     <string name="weather_device_level_title">Tốc độ của hoạt ảnh</string>
     <string name="weather_device_level_title_high">Cao</string>

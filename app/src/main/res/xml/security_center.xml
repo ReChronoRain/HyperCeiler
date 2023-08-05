@@ -110,7 +110,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_bubble_and_freeform_title">
-
         <SwitchPreference
             android:title="@string/security_center_unlock_side_hide_freeform"
             android:summary="@string/security_center_unlock_side_hide_freeform_desc"

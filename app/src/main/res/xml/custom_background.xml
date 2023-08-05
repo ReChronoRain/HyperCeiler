@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <SwitchPreference
-            android:title="启用自定义"
+            android:title="@string/custom_enable"
             android:persistent="false"
             android:key="prefs_key_custom_background_enabled" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:dependency="prefs_key_custom_background_enabled">
-
         <moralnorm.preference.ColorPickerPreference
             android:title="@string/custom_background_color"
             android:persistent="false"
@@ -26,6 +23,7 @@
             android:key="prefs_key_custom_background_color_alpha"
             android:defaultValue="120"
             android:max="255"
+            app:defaultValueText="@string/array_default"
             app:format="%d"
             app:showSeekBarValue="true"/>
 
@@ -35,13 +33,13 @@
             android:key="prefs_key_custom_background_corner_radius"
             android:defaultValue="20"
             android:max="60"
+            app:defaultValueText="@string/array_default"
             app:format="%d dp"
             app:showSeekBarValue="true"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:dependency="prefs_key_custom_background_enabled">
-
         <SwitchPreference
             android:title="@string/custom_background_blur_enabled"
             android:persistent="false"
@@ -53,6 +51,7 @@
             android:key="prefs_key_custom_background_blur_radius"
             android:defaultValue="60"
             android:max="100"
+            app:defaultValueText="@string/array_default"
             app:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_custom_background_blur_enabled"/>

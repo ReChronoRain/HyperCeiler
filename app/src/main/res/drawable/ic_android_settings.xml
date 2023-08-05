@@ -12,10 +12,10 @@
 
     <item>
         <vector
-            android:width="48dp"
-            android:height="48dp"
-            android:viewportWidth="48"
-            android:viewportHeight="48">
+            android:width="36dp"
+            android:height="36dp"
+            android:viewportWidth="30"
+            android:viewportHeight="30">
             <path
                 android:pathData="M8,0L22,0A8,8 0,0 1,30 8L30,22A8,8 0,0 1,22 30L8,30A8,8 0,0 1,0 22L0,8A8,8 0,0 1,8 0z"
                 android:fillColor="#3DDC84"/>
