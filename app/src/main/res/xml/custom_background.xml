@@ -23,8 +23,8 @@
             android:key="prefs_key_custom_background_color_alpha"
             android:defaultValue="120"
             android:max="255"
-            app:defaultValueText="@string/array_default"
-            app:format="%d"
+            android:defaultValueText="@string/array_default"       
+            android:format="%d"    
             app:showSeekBarValue="true"/>
 
         <SeekBarPreference
@@ -33,8 +33,8 @@
             android:key="prefs_key_custom_background_corner_radius"
             android:defaultValue="20"
             android:max="60"
-            app:defaultValueText="@string/array_default"
-            app:format="%d dp"
+            android:defaultValueText="@string/array_default"
+            android:format="%d dp"
             app:showSeekBarValue="true"/>
 
     </PreferenceCategory>
@@ -51,8 +51,8 @@
             android:key="prefs_key_custom_background_blur_radius"
             android:defaultValue="60"
             android:max="100"
-            app:defaultValueText="@string/array_default"
-            app:format="%d dp"
+            android:defaultValueText="@string/array_default"
+            android:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_custom_background_blur_enabled"/>
 

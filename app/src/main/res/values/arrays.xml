@@ -65,22 +65,26 @@
         <item>@string/various</item>
     </string-array>
 
-    <string-array name="restart_apps_name">
-        <item>@string/joyose</item>
-        <item>@string/powerkeeper</item>
-        <item>@string/system_settings</item>
-        <item>@string/security_center</item>
+    <string-array name="restart_apps_name">           
         <item>@string/system_ui</item>
         <item>@string/home</item>
+        <item>@string/security_center</item>
+        <item>@string/personal_assistant</item>
+        <item>@string/mi_input_settings</item>
+        <item>@string/notes</item>
+        <item>@string/powerkeeper</item>
+        <item>@string/joyose</item>
     </string-array>
 
     <string-array name="restart_apps_packagename">
-        <item>com.xiaomi.joyose</item>
-        <item>com.miui.powerkeeper</item>
-        <item>com.android.settings</item>
-        <item>com.miui.securitycenter</item>
         <item>com.android.systemui</item>
         <item>com.miui.home</item>
+        <item>com.miui.securitycenter</item>
+        <item>com.miui.personalassistant</item>
+        <item>com.miui.miinput</item>
+        <item>com.miui.notes</item>
+        <item>com.miui.powerkeeper</item>
+        <item>com.xiaomi.joyose</item>
     </string-array>
 
     <string-array name="miui_core_app_package_name">

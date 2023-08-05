@@ -26,7 +26,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_dock_bg_custom_enable"
-            android:title="@string/home_dock_bg_custom_enable" />
+            android:title="@string/home_dock_bg_enable" />
 
         <Preference
             android:dependency="prefs_key_home_dock_bg_custom_enable"

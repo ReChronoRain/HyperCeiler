@@ -175,6 +175,7 @@
     <string name="custom_background_color_alpha">transparência da cor de fundo</string>
     <string name="custom_background_corner_radius">Fundo cantos arredondados</string>
     <string name="custom_blur_enabled">Desfoque de fundo</string>
+    <string name="custom_enable">Ativar a personalização</string>
     <string name="custom_hook">Personalizado</string>
     <string name="custom_hook_mode">Modo de selecção</string>
     <string name="custom_hook_new">Adicionar gancho</string>
@@ -233,7 +234,6 @@
     <string name="home_blur_radius_title">Raio do desfoque</string>
     <string name="home_dock">Doca</string>
     <string name="home_dock_bg_custom">Desfoque de fundo</string>
-    <string name="home_dock_bg_custom_enable">Ativar a personalização</string>
     <string name="home_dock_bg_height">Altura</string>
     <string name="home_dock_bg_height_desc">Altura da doca</string>
     <string name="home_dock_bg_margin_bottom_desc">Margem da doca a partir da parte inferior do ecrã</string>

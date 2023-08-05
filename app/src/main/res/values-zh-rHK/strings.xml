@@ -167,6 +167,7 @@
     <string name="content_extension_double_press">開放雙指長按</string>
     <string name="content_extension_super_image">開放超解析度圖片</string>
     <string name="content_extension_super_image_summary">需要系統底層支援</string>
+    <string name="custom_enable">啟用自訂</string>
     <string name="downloads">下載管理程式</string>
     <string name="various_fuck_xlDownload">阻止建立 .xlDownload 資料夾</string>
     <string name="various_fuck_xlDownload_desc">防止下載管理程式在內部記憶體的根目錄上生成 .xlDownload 資料夾</string>
@@ -234,7 +235,6 @@
     <string name="home_blur_radius_title">模糊半徑</string>
     <string name="home_dock">Dock</string>
     <string name="home_dock_bg_custom">背景模糊</string>
-    <string name="home_dock_bg_custom_enable">啟用自訂</string>
     <string name="home_dock_bg_height">高度</string>
     <string name="home_dock_bg_height_desc">Dock 欄高度</string>
     <string name="home_dock_bg_margin_bottom_desc">Dock 欄距螢幕底部邊距</string>

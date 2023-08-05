@@ -99,7 +99,6 @@
     <string name="home_title_icon_title">Simge</string>
     <string name="home_title_title_title">Başlık</string>
     <string name="home_title_big_icon_corner">Orta simge yuvarlak köşeyi takip etsin</string>
-    <string name="home_dock_bg_custom_enable">Özelleştirmeyi aç</string>
     <string name="home_dock_bg_height">Yükseklik</string>
     <string name="home_dock_bg_height_desc">Yuva yüksekliği</string>
     <string name="home_dock_bg_margin_horizontal">Dikey kenar boşluğu</string>
@@ -815,4 +814,5 @@
     <string name="system_ui_control_auto_close_more">Açıldıktan sonra durum çubuğuna tıklamak durum çubuğunu otomatik olarak geri çekecek</string>
     <string name="system_settings_apps_freezer">Köpücü uygulamaların çalışmasını durdurmak için göstermeyi zorla</string>
     <string name="system_settings_apps_freezer_more">Qabilleştirildikten sonra, bu özelliği "Geliştirici Seçenekleri" içinde bulunabilir. Mevcut görüntüler için mevcut olması garantili değil</string>
+    <string name="custom_enable">Özelleştirmeyi aç</string>
 </resources>

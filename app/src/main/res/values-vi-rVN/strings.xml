@@ -177,6 +177,7 @@
     <string name="content_extension_unlock_taplus_horizontal_title">Cho phép sử dụng Taplus trên màn hình ngang</string>
     <string name="content_extension_super_image">Mở khoá Chất lượng lưu hình ảnh : Siêu phân giải</string>
     <string name="content_extension_super_image_summary">Yêu cầu hỗ trợ cơ bản từ thiết bị</string>
+    <string name="custom_enable">Bật tùy chỉnh</string>
     <string name="custom_background_blur_enabled">Làm mờ nền</string>
     <string name="custom_background_blur_radius">Bán kính mờ</string>
     <string name="custom_background_color">Màu nền</string>
@@ -241,7 +242,6 @@
     <string name="home_blur_radius_title">Bán kính mờ</string>
     <string name="home_dock">Thanh dock</string>
     <string name="home_dock_bg_custom">Mờ nền</string>
-    <string name="home_dock_bg_custom_enable">Bật tùy chỉnh</string>
     <string name="home_dock_bg_height">Chiều cao</string>
     <string name="home_dock_bg_height_desc">Chiều cao Dock</string>
     <string name="home_dock_bg_margin_bottom_desc">Lề của Dock từ dưới cùng của màn hình</string>

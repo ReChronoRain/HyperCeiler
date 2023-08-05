@@ -175,6 +175,7 @@
     <string name="custom_background_color_alpha">Прозрачность цвета</string>
     <string name="custom_background_corner_radius">Закругленные углы</string>
     <string name="custom_blur_enabled">Размытие фона</string>
+    <string name="custom_enable">Настройка дока</string>
     <string name="custom_hook">Своё</string>
     <string name="custom_hook_mode">Выбор режима</string>
     <string name="custom_hook_new">Добавить Hook</string>
@@ -233,7 +234,6 @@
     <string name="home_blur_radius_title">Степень размытия</string>
     <string name="home_dock">Док</string>
     <string name="home_dock_bg_custom">Размытие фона</string>
-    <string name="home_dock_bg_custom_enable">Настройка дока</string>
     <string name="home_dock_bg_height">Высота</string>
     <string name="home_dock_bg_height_desc">Высота дока</string>
     <string name="home_dock_bg_margin_bottom_desc">Граница Дока в нижней части экрана</string>

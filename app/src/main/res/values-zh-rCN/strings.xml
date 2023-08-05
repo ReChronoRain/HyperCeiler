@@ -83,6 +83,7 @@
     <string name="milink">投屏</string>
     <string name="mirror">MIUI+</string>
     <string name="mi_settings">小米设置</string>
+    <string name="mi_input_settings">输入设置</string>
     <string name="mishare">小米互传</string>
     <string name="miwallpaper">壁纸</string>
     <string name="mms">短信</string>
@@ -302,7 +303,7 @@
     <string name="home_drawer_blur">抽屉模糊</string>
     <string name="home_drawer_blur_desc">请将应用程序抽屉的背景透明度设置为 100% 以使用此功能</string>
 
-    <string name="home_dock_bg_custom_enable">启用自定义</string>
+    <string name="home_dock_bg_enable">添加 Dock 栏背景</string>
     <string name="home_dock_bg_height">高度</string>
     <string name="home_dock_bg_height_desc">Dock 栏高度</string>
     <string name="home_dock_bg_margin_horizontal">水平边距</string>

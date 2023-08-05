@@ -51,6 +51,7 @@
     <string name="various">Other</string>
     <string name="weather">Weather</string>
     <string name="mtb">MTB</string>
+    <string name="mi_input_settings">Input settings</string>
     <string name="phone">Phone Service</string>
     <string name="custom_hook">Custom</string>
     <string name="about_developer_title">Developer</string>
@@ -105,7 +106,7 @@
     <string name="home_title_icon_title">Icon</string>
     <string name="home_title_title_title">Title</string>
     <string name="home_title_big_icon_corner">Medium icon round corner follow</string>
-    <string name="home_dock_bg_custom_enable">Turn on customization</string>
+    <string name="home_dock_bg_enable">Add Dock Bar Background</string>
     <string name="home_dock_bg_height">Height</string>
     <string name="home_dock_bg_height_desc">Dock height</string>
     <string name="home_dock_bg_margin_horizontal">Vertical margin</string>
@@ -1094,6 +1095,7 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lockscreen_information_title">Information</string>
     <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted, this function is not available</string>
+    <string name="system_ui_statusbar_network_speed_hide_all">Hide when both uplink and downlink are slow</string>
     <string name="security_center_remove_low_battery_reminder_title">Hide warning about low battery level</string>
     <string name="security_center_remove_low_battery_reminder_summary">When the battery is below 20%, the warning dialog to turn on the power saving mode no longer pops up</string>
     <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
@@ -1131,6 +1133,7 @@
     <string name="system_ui_status_bar_mobile_indicator">Hide mobile network activity indicators</string>
     <string name="system_ui_status_bar_mobile_type_left">Display at left of signal</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
+    <string name="various_super_clipboard_title">Super Clipboard</string>
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in "About - Support".</string>
     <string name="tip_2">Tip: Want to contact to developer? Telegram@Sevtinge_PM_bot or Bilibili@绀漓丨Sevtinge.</string>
@@ -1148,10 +1151,8 @@
     <string name="tip_14">Tip: Sevtinge studied at the School of Information Engineering and Technology of Sanjiang City Campus of Shanhe University.</string>
     <string name="tip_15">Tip: I heard that Sevtinge has two different forms.</string>
     <string name="tip_16">Tip: Sevtinge is a little fox! (Cross out)</string>
-    <string name="system_ui_statusbar_network_speed_hide_all">Hide when both uplink and downlink are slow</string>
     <string name="tip_17">Tip: Lin Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
     <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
-    <string name="various_super_clipboard_title">Super Clipboard</string>
     <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
     <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
     <string name="notes">Notes</string>

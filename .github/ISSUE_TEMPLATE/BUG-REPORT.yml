@@ -48,29 +48,42 @@ body:
     id: device
     attributes:
       label: "机型"
-      description: 填写你的机型.
-      placeholder: 小米
+      description: 填写你的机型，可填型号.
+      placeholder: Xiaomi
     validations:
       required: true
   - type: dropdown
     id: miui_version
     attributes:
-      label: "MIUI版本"
-      description: 你当前正在使用的MIUI版本
+      label: "MIUI 版本"
+      description: 您当前正在使用的 MIUI 版本
       multiple: true
       options:
-        - MIUI13 Android 12
-        - MIUI13 Android 13
-        - MIUI14 Android 12
-        - MIUI14 Android 13
+        - MIUI12 / MIUI12.5
+        - MIUI13
+        - MIUI14
+        - MIUI15
         - 其它
+    validations:
+      required: true
+  - type: dropdown
+    id: android_version
+    attributes:
+      label: "Android 版本"
+      description: 您当前正在使用的 Android 版本
+      multiple: true
+      options:
+        - Android 11
+        - Android 12
+        - Android 13
+        - Android 14
     validations:
       required: true
   - type: input
     id: cemiuiler_version
     attributes:
-      label: "Cemiuiler版本号"
-      description: 填写你的Cemiuiler版本.
+      label: "Cemiuiler 版本"
+      description: 填写您的 Cemiuiler 版本.
       placeholder: x.y.z-YYYYMMDD
     validations:
       required: true
