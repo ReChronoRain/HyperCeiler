@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
         <Preference
+            android:enabled="false"
+            android:key="prefs_key_tip"
+            android:layout="@layout/preference_text"
+            android:summary="@string/tip_0" />
+        <Preference
+            android:icon="@drawable/ic_android_settings"
+            android:title="Icon Test" />
+        <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemFrameworkFragment"
             android:icon="@drawable/ic_system_framework"
             android:key="prefs_key_system_framework"
@@ -77,16 +85,14 @@
             android:icon="@drawable/ic_system_settings"
             android:key="prefs_key_system_settings"
             android:summary="com.android.settings"
-            android:title="@string/system_settings">
-        </Preference>
+            android:title="@string/system_settings"></Preference>
 
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.ThemeManagerFragment"
             android:icon="@drawable/ic_theme_manager"
             android:key="prefs_key_various_theme"
             android:summary="com.android.thememanager"
-            android:title="@string/theme_manager">
-        </Preference>
+            android:title="@string/theme_manager"></Preference>
 
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.UpdaterFragment"
@@ -303,7 +309,7 @@
             android:icon="@drawable/ic_custom"
             android:key="prefs_key_custom_hook"
             android:title="@string/custom_hook"
-            app:isPreferenceVisible="false"/>
+            app:isPreferenceVisible="false" />
 
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.VariousFragment"
@@ -312,11 +318,6 @@
             android:title="@string/various" />
 
     </PreferenceCategory>
-
-    <Preference
-        android:enabled="false"
-        android:key="prefs_key_tip"
-        android:summary="@string/tip_0" />
 
     <Preference android:enabled="false" />
 </PreferenceScreen>
