@@ -42,7 +42,6 @@ body:
       description: 添加问题截图以便我们快速定位.
       value: |
         ![图片注释](图片链接)
-      render: Markdown
     validations:
       required: false
   - type: input
