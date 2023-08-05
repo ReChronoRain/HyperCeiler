@@ -25,7 +25,7 @@
             android:persistent="false"
             android:key="prefs_key_custom_background_color_alpha"
             android:defaultValue="120"
-            app:maxValue="255"
+            android:max="255"
             app:format="%d"
             app:showSeekBarValue="true"/>
 
@@ -34,7 +34,7 @@
             android:persistent="false"
             android:key="prefs_key_custom_background_corner_radius"
             android:defaultValue="20"
-            app:maxValue="60"
+            android:max="60"
             app:format="%d dp"
             app:showSeekBarValue="true"/>
 
@@ -52,7 +52,7 @@
             android:persistent="false"
             android:key="prefs_key_custom_background_blur_radius"
             android:defaultValue="60"
-            app:maxValue="100"
+            android:max="100"
             app:format="%d dp"
             app:showSeekBarValue="true"
             android:dependency="prefs_key_custom_background_blur_enabled"/>
