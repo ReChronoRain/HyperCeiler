@@ -29,11 +29,17 @@
         android:title="@string/system_framework_volume_disable_safe"
         android:key="prefs_key_system_framework_volume_disable_safe"
         android:defaultValue="false" />
-        
-    <SeekBarPreferenceEx
-        android:key="prefs_key_system_framework_volume_media_steps"
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_system_framework_volume_media_steps_enable"
         android:title="@string/system_framework_volume_media_steps"
-        android:summary="@string/system_framework_volume_media_steps_desc"
+        android:summary="@string/system_framework_volume_media_steps_desc" />
+
+    <SeekBarPreferenceEx
+        android:layout="@layout/preference_seekbar_no_padding"
+        android:key="prefs_key_system_framework_volume_media_steps"
+        android:dependency="prefs_key_system_framework_volume_media_steps_enable"
         android:defaultValue="15"
         app:defaultValueText="@string/array_default"
         app:maxValue="30"
@@ -54,6 +60,6 @@
         app:displayDividerValue="100"
         app:showSeekBarValue="true"
         app:isPreferenceVisible="false" />
-        
+
     <Preference android:enabled="false" />
 </PreferenceScreen>

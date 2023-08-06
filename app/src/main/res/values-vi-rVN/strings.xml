@@ -894,7 +894,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Biểu tượng tín hiệu mạng sim 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Biểu tượng không có sim</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
-    <string name="system_ui_status_bar_icon_mute">Ẩn biểu tượng Tắt Mic</string>    
+    <string name="system_ui_status_bar_icon_mute">Ẩn biểu tượng Tắt Mic</string>
     <string name="system_ui_status_bar_icon_new_hd">Biểu tượng HD mới</string>
     <string name="system_ui_status_bar_icon_small_hd">Biểu tượng HD nhỏ</string>
     <string name="system_ui_status_bar_icon_speakerphone">Ẩn biểu tượng Loa ngoài</string>
@@ -950,7 +950,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_statusbar_device_title">Phần cứng</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Pin</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">Bluetooth</string>
-    <string name="system_ui_statusbar_iconmamage_call_title">Cuộc gọi</string>
+    <string name="system_ui_statusbar_iconmanage_call_title">Cuộc gọi</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Chuyển biểu tượng sang trái</string>
     <string name="system_ui_statusbar_iconmanage_location_title">Vị trí</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Tỉ lệ biểu tượng</string>
@@ -1054,7 +1054,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="various_location_simulation_all_title">Vũ trụ</string>
     <string name="various_location_simulation_title">Giả vị trí</string>
     <string name="various_mipad_input_bluetooth_version_desc">Phiên bản trình điều khiển bỏ hạn chế bluetooth trên bút Stylus</string>
-    <string name="various_mipad_input_bluetooth_version_title">Phiên bản trình điều khiển</string> 
+    <string name="various_mipad_input_bluetooth_version_title">Phiên bản trình điều khiển</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Cho phép tất cả bút Stylus hoạt động mà không cần kết nối bluetooth với bút stylus gốc.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Bỏ hạn chế bluetooth bút Stylus</string>
     <string name="various_mipad_input_ingore_gesture_desc">Bỏ qua cử chỉ nhấn và giữ trên các nút bút Stylus</string>
@@ -1066,7 +1066,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="various_mipad_input_title">Nhập</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_unlock_ime">Mở khóa IME</string>
-    <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý LSPosed</string>    
+    <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý LSPosed</string>
     <string name="various_super_clipboard_picture_desc">Cho phép sao chép ảnh vào clipboard</string>
     <string name="vertical_offset">Lên và xuống</string>
     <string name="weather">Thời tiết</string>
@@ -1091,5 +1091,5 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="tip_13">"Bạn có biết? Sinh nhật của Cemiuiler vào ngày 1/5, sinh nhật của Sevtinge vào ngày 2/2."</string>
     <string name="tip_14">Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
     <string name="tip_15">Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
-    <string name="tip_16">Sevtinge là một con cáo!</string>    
+    <string name="tip_16">Sevtinge là một con cáo!</string>
 </resources>

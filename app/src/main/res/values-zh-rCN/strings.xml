@@ -957,7 +957,7 @@
     <string name="system_ui_statusbar_iconmanage_status_title">状态图标</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知图标</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
-    <string name="system_ui_statusbar_iconmamage_call_title">通话</string>
+    <string name="system_ui_statusbar_iconmanage_call_title">通话</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
     <string name="system_ui_status_bar_icon_wifi">WIFI 图标</string>
