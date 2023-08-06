@@ -77,6 +77,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Meetingfate" />
         </Preference>
+        <Preference android:title="焕晨HChen">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 

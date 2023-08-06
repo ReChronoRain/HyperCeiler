@@ -1163,4 +1163,6 @@
     <string name="system_ui_control_auto_close_more">After opening, clicking on the status bar tile will automatically retract the status bar</string>
     <string name="system_settings_apps_freezer">Force showing freeze cached apps</string>
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in "Developer Options," but its functionality is not guaranteed</string>
+    <string name="security_center_gms_open">GMS Service</string>
+    <string name="security_center_gms_open_more">When it is turned on, a tile will be created. You can manage the Google service switch with one click in the Taskbar</string>
 </resources>
