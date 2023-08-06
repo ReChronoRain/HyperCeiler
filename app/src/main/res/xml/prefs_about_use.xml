@@ -45,6 +45,13 @@
                 android:data="https://github.com/MonwF/customiuizer" />
         </Preference>
         <Preference
+            android:title="CustoMIUIzerMod"
+            android:summary="liyafe1997 | GPL-3.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/liyafe1997/CustoMIUIzerMod" />
+        </Preference>
+        <Preference
             android:title="DexKit"
             android:summary="LuckyPray | LGPL-3.0">
             <intent
@@ -57,7 +64,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify" />
-        </Preference>        
+        </Preference>
         <Preference
             android:title="DisableFlagSecure"
             android:summary="LSPosed | GPL-3.0">

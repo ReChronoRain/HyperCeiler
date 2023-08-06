@@ -4,10 +4,49 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
+import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedStyle : BaseHook() {
     override fun init() {
+        if (isAndroidR()) {
+            // Android 11 or MIUI12.5 Need to hook Statusbar in Screen Lock interface, to set front size
+            // Thanks for CustoMIUIzerMod
+            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder().first {
+                name == "onDensityOrFontScaleChanged"
+            }.createHook {
+               after { params ->
+                   val meter = XposedHelpers.getObjectField(params.thisObject, "mNetworkSpeedView") as TextView
+
+                   val doubleLine =
+                       (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") && mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down"))
+                   val dualRow =
+                       mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
+                   val fontSize =
+                       mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
+                   val fontSizeEnable: Boolean =
+                       mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
+
+                   // 网速字体大小调整
+                   if (fontSizeEnable) {
+                       try {
+                           if (doubleLine || dualRow) {
+                               meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
+                           } else {
+                               meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
+                           }
+                       } catch (e: Throwable) {
+                           logE(e)
+                       }
+                   }
+               }
+            }
+        }
+
         hookAllConstructors("com.android.systemui.statusbar.views.NetworkSpeedView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {

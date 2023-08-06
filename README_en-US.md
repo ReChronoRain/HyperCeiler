@@ -19,7 +19,7 @@
 </div>
 
 > Make MIUI Great Again!
-> 
+>
 > <a href="https://crwd.in/cemiuiler">Provide translations for the Cemiuiler project</a>
 
 ## Supported versions
@@ -67,6 +67,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 - [「BypassSignCheck」 by Weverses](https://github.com/Weverses/BypassSignCheck)
 - [「CorePatch」 by LSPosed](https://github.com/LSPosed/CorePatch)
 - [「CustoMIUIzer」 by MonwF](https://github.com/MonwF/customiuizer)
+- [「CustoMIUIzerMod」 by liyafe1997](https://github.com/liyafe1997/CustoMIUIzerMod)
 - [「DexKit」 by LuckyPray](https://github.com/LuckyPray/DexKit)
 - [「Disable app link verify」 by Xposed-Modules-Repo](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify)
 - [「DisableFlagSecure」 by LSPosed](https://github.com/LSPosed/DisableFlagSecure)
