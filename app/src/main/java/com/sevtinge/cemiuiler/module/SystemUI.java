@@ -175,8 +175,8 @@ public class SystemUI extends BaseModule {
         // 控制中心
         initHook(new SmartHome(), false);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
-        initHook(new FiveAndGmsTile(), mPrefsMap.getBoolean("security_center_gms_open") ||
-            mPrefsMap.getBoolean("system_control_center_5g_tile"));    
+        initHook(new FiveAndGmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));    
+        initHook(new FiveAndGmsTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
