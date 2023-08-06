@@ -2,7 +2,7 @@
     CompileSdkVersion = 32  // 用于编译的SDK版本
 
     ApplicationId = "com.sevtinge.cemiuiler" //包名
-    MinSdkVersion = 31    // 最低支持Android版本
+    MinSdkVersion = 30    // 最低支持Android版本
     TargetSdkVersion = 32   // 目标版本
     VersionCode = 1006        //版本号
     VersionName = "1.0.0.6"
@@ -21,9 +21,9 @@ ext {
     AndroidXLifecycleVersion = '2.6.1'
     AndroidXVectorDrawableVersion = '1.2.0-beta01'
     AndroidXVectorDrawableAnimatedVersion = '1.1.0'
-    AndroidXCustomViewVersion = '1.1.0'
+    AndroidXCustomViewVersion = '1.2.0-alpha02'
     AndroidXCustomViewPoolingContainerVersion = '1.0.0'
-    AndroidXConstraintLayoutVersion = '2.2.0-alpha10'
+    AndroidXConstraintLayoutVersion = '2.2.0-alpha11'
 
     BuildTypes = "debug"
 
