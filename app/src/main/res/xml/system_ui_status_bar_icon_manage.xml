@@ -190,6 +190,13 @@
 
         <DropDownPreference
             android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_data_saver"
+            android:title="@string/system_ui_status_bar_icon_data_saver"
+            app:entries="@array/status_bar_icon_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_zen"
             android:title="@string/system_ui_status_bar_icon_zen"
             app:entries="@array/status_bar_icon_mode"

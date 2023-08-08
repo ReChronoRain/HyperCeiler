@@ -362,8 +362,10 @@ public class DisplayHardwareDetail extends BaseHook {
                                     if (powerTempNow != null)
                                         batteryTempVal = Integer.parseInt(powerTempNow);
                                     int cpuTempVal = Integer.parseInt(cpuProps);
-                                    String simpleBatteryTemp = String.format(Locale.getDefault(), "%.1f", batteryTempVal / 10f);
-                                    String simpleCpuTemp = String.format(Locale.getDefault(), "%.1f", cpuTempVal / 1000f);
+                                    boolean DecimalPlacesOr = mPrefsMap.getBoolean("system_ui_statusbar_temp_decimal_places");
+                                    String DecimalPlaces = DecimalPlacesOr ? "%.0f" : "%.1f";
+                                    String simpleBatteryTemp = String.format(Locale.getDefault(), DecimalPlaces, batteryTempVal / 10f);
+                                    String simpleCpuTemp = String.format(Locale.getDefault(), DecimalPlaces, cpuTempVal / 1000f);
                                     int opt = mPrefsMap.getStringAsInt("system_ui_statusbar_temp_show", 1);
                                     boolean hideUnit = mPrefsMap.getBoolean("system_ui_statusbar_temp_disable");
                                     String tempUnit = hideUnit ? "" : "℃";

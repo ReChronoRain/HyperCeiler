@@ -61,6 +61,7 @@ import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BatteryStyle;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.BluetoothIcon;
+import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.DataSaverIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideBatteryIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.cemiuiler.module.systemui.statusbar.icon.all.IconsFromSystemManager;
@@ -108,6 +109,7 @@ public class SystemUI extends BaseModule {
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
         initHook(StatusBarSimIcon.INSTANCE);
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi"));
+        initHook(new DataSaverIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_data_saver", 0) != 0);
 
         // 移动网络图标
         initHook(new MobileNetwork(), true);
@@ -175,7 +177,7 @@ public class SystemUI extends BaseModule {
         // 控制中心
         initHook(new SmartHome(), false);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
-        initHook(new FiveAndGmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));    
+        initHook(new FiveAndGmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new FiveAndGmsTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));

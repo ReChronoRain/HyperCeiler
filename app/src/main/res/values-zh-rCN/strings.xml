@@ -911,6 +911,7 @@
     <string name="system_ui_statusbar_indicator_temperature_title">温度相关</string>
     <string name="system_ui_statusbar_battery_size">字体大小</string>
     <string name="system_ui_statusbar_battery_show">显示内容</string>
+    <string name="system_ui_statusbar_temp_decimal_places">隐藏小数位</string>
     <string name="system_ui_statusbar_battery_disable">隐藏单位</string>
     <string name="system_ui_statusbar_battery_right_show">右侧显示</string>
     <string name="system_ui_statusbar_battery_electric_current">电流总显示正值</string>
@@ -985,6 +986,7 @@
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
+    <string name="system_ui_status_bar_icon_data_saver">流量节省</string>
     <string name="system_ui_status_bar_icon_zen">勿扰模式</string>
     <string name="system_ui_status_bar_icon_stealth">隐藏隐身模式图标</string>
     <string name="system_ui_status_bar_icon_mute">隐藏麦克风静音图标</string>

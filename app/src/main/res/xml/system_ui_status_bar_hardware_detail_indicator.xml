@@ -73,10 +73,10 @@
         <SeekBarPreferenceEx
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-            app:format="%d s"
             android:key="prefs_key_system_ui_statusbar_battery_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
             app:defaultValueText="@string/array_default"
+            app:format="%d s"
             app:maxValue="10"
             app:minValue="1"
             app:stepValue="1" />
@@ -92,11 +92,11 @@
         <SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_battery_enable"
-            app:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_battery_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
             app:defaultValueText="@string/array_default"
+            app:format="%s dp"
             app:maxValue="120"
             app:minValue="10"
             app:stepValue="1" />
@@ -164,6 +164,12 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
+            android:key="prefs_key_system_ui_statusbar_temp_decimal_places"
+            android:title="@string/system_ui_statusbar_temp_decimal_places" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_temp_enable"
             android:key="prefs_key_system_ui_statusbar_temp_disable"
             android:title="@string/system_ui_statusbar_battery_disable" />
 
@@ -205,10 +211,10 @@
         <SeekBarPreferenceEx
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-            app:format="%d s"
             android:key="prefs_key_system_ui_statusbar_temp_update_spacing"
             android:title="@string/system_ui_statusbar_battery_update_spacing"
             app:defaultValueText="@string/array_default"
+            app:format="%d s"
             app:maxValue="10"
             app:minValue="1"
             app:stepValue="1" />
@@ -224,11 +230,11 @@
         <SeekBarPreferenceEx
             android:defaultValue="10"
             android:dependency="prefs_key_system_ui_statusbar_temp_enable"
-            app:format="%s dp"
             android:key="prefs_key_system_ui_statusbar_temp_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
             app:defaultValueText="@string/array_default"
+            app:format="%s dp"
             app:maxValue="120"
             app:minValue="10"
             app:stepValue="1" />
