@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.securitycenter.app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -20,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.robv.android.xposed.XposedHelpers;
-import moralnorm.appcompat.app.AlertDialog;
 
+@SuppressLint("DiscouragedApi")
 public class AppDisable extends BaseHook {
 
     public ArrayList<String> mMiuiCoreApps;
@@ -85,14 +86,15 @@ public class AppDisable extends BaseHook {
                     boolean isEnabledOrDefault = (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
                     if (isEnabledOrDefault) {
                         if (isSystem) {
-                            String title = modRes.getString(R.string.disable_app_title);
+                           /* String title = modRes.getString(R.string.disable_app_title);
                             String text = modRes.getString(R.string.disable_app_text);
                             new AlertDialog.Builder(act)
                                 .setTitle(title)
                                 .setMessage(text)
                                 .setPositiveButton(android.R.string.ok, (dialog, which) -> setAppState(act, mPackageInfo.packageName, item, false))
                                 .setNegativeButton(android.R.string.cancel, null)
-                                .show();
+                                .show();*/
+                            setAppState(act, mPackageInfo.packageName, item, false);
                         } else {
                             setAppState(act, mPackageInfo.packageName, item, false);
                         }
