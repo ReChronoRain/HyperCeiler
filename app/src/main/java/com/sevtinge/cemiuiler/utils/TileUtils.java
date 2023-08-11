@@ -29,43 +29,63 @@ public abstract class TileUtils extends BaseHook {
         mResourceIcon = findClass("com.android.systemui.qs.tileimpl.QSTileImpl$ResourceIcon");
         SystemUiHook(); // 不需要覆写
         tileAllName(mQSFactory); // 不需要覆写
-        findAndHookMethod(myTile, "isAvailable", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                if (tileName != null) {
-                    tileCheck(param, tileName);
+        try {
+            myTile.getDeclaredMethod("isAvailable");
+            findAndHookMethod(myTile, "isAvailable", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                    if (tileName != null) {
+                        tileCheck(param, tileName);
+                    }
                 }
-            }
-        });
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have isAvailable");
+        }
         tileName(myTile); // 不需要覆写
-        findAndHookMethod(myTile, "handleSetListening", boolean.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                if (tileName != null) {
-                    tileListening(param, tileName);
+        try {
+            myTile.getDeclaredMethod("handleSetListening", boolean.class);
+            findAndHookMethod(myTile, "handleSetListening", boolean.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                    if (tileName != null) {
+                        tileListening(param, tileName);
+                    }
                 }
-            }
-        });
-        findAndHookMethod(myTile, "getLongClickIntent", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                if (tileName != null) {
-                    tileLongClickIntent(param, tileName);
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have handleSetListening");
+        }
+        try {
+            myTile.getDeclaredMethod("getLongClickIntent");
+            findAndHookMethod(myTile, "getLongClickIntent", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                    if (tileName != null) {
+                        tileLongClickIntent(param, tileName);
+                    }
                 }
-            }
-        });
-        findAndHookMethod(myTile, "handleClick", View.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                if (tileName != null) {
-                    tileClick(param, tileName);
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have getLongClickIntent");
+        }
+        try {
+            myTile.getDeclaredMethod("handleClick", View.class);
+            findAndHookMethod(myTile, "handleClick", View.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                    if (tileName != null) {
+                        tileClick(param, tileName);
+                    }
                 }
-            }
-        });
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have handleClick");
+        }
         hookAllMethods(myTile, "handleUpdateState", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
@@ -75,8 +95,9 @@ public abstract class TileUtils extends BaseHook {
                 }
             }
         });
+
     }
-    
+
     /*用于指定磁贴工厂函数*/
     public Class<?> customQSFactory() {
         return null;
@@ -112,42 +133,52 @@ public abstract class TileUtils extends BaseHook {
             logI("Error custom:" + custom);
             return;
         }
-        findAndHookMethod("com.android.systemui.SystemUIApplication", "onCreate", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) {
-                if (!isListened[0]) {
-                    isListened[0] = true;
-                    // 获取Context
-                    Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
-                    // 获取miui_quick_settings_tiles_stock字符串的值
-                    @SuppressLint("DiscouragedApi") int stockTilesResId = mContext.getResources().getIdentifier("miui_quick_settings_tiles_stock", "string", lpparam.packageName);
-                    String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
-                    // 将拼接后的字符串分别替换下面原有的字符串。
-                    mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
-                    mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
-                    mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+        try {
+            findClassIfExists("com.android.systemui.SystemUIApplication").getDeclaredMethod("onCreate");
+            findAndHookMethod("com.android.systemui.SystemUIApplication", "onCreate", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    if (!isListened[0]) {
+                        isListened[0] = true;
+                        // 获取Context
+                        Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
+                        // 获取miui_quick_settings_tiles_stock字符串的值
+                        @SuppressLint("DiscouragedApi") int stockTilesResId = mContext.getResources().getIdentifier("miui_quick_settings_tiles_stock", "string", lpparam.packageName);
+                        String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
+                        // 将拼接后的字符串分别替换下面原有的字符串。
+                        mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
+                        mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
+                        mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                    }
                 }
-            }
-        });
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have onCreate");
+        }
     }
 
     /*
      * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上Key，用于定位磁贴。
      */
     public void tileAllName(Class<?> QSFactory) {
-        findAndHookMethod(QSFactory, customTileProvider()[1], String.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                String tileName = (String) param.args[0];
-                if (tileName.equals(customName())) {
-                    String myTileProvider = customTileProvider()[0];
-                    Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
-                    Object tile = XposedHelpers.callMethod(provider, "get");
-                    XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
-                    param.setResult(tile);
+        try {
+            QSFactory.getDeclaredMethod(customTileProvider()[1], String.class);
+            findAndHookMethod(QSFactory, customTileProvider()[1], String.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    String tileName = (String) param.args[0];
+                    if (tileName.equals(customName())) {
+                        String myTileProvider = customTileProvider()[0];
+                        Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
+                        Object tile = XposedHelpers.callMethod(provider, "get");
+                        XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
+                        param.setResult(tile);
+                    }
                 }
-            }
-        });
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have " + customTileProvider()[1]);
+        }
     }
 
     /*在这里可以为你的自定义磁贴判断系统是否支持
@@ -164,19 +195,24 @@ public abstract class TileUtils extends BaseHook {
             logI("Error customValue:" + customValue);
             return;
         }
-        findAndHookMethod(myTile, "getTileLabel", new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                if (tileName != null) {
-                    if (tileName.equals(custom)) {
-                        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        Resources modRes = Helpers.getModuleRes(mContext);
-                        param.setResult(modRes.getString(customValue));
+        try {
+            myTile.getDeclaredMethod("getTileLabel");
+            findAndHookMethod(myTile, "getTileLabel", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                    if (tileName != null) {
+                        if (tileName.equals(custom)) {
+                            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                            Resources modRes = Helpers.getModuleRes(mContext);
+                            param.setResult(modRes.getString(customValue));
+                        }
                     }
                 }
-            }
-        });
+            });
+        } catch (NoSuchMethodException e) {
+            logI("Don't Have getTileLabel");
+        }
     }
 
     /*这个方法用于监听系统设置变化

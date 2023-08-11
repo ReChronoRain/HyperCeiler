@@ -140,16 +140,15 @@
             android:defaultValue="false"
             android:key="prefs_key_system_control_center_5g_tile"
             android:title="@string/system_control_center_5g_tile" />
-
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="prefs_key_system_control_center_sunshine_mode"
-            android:title="@string/system_control_center_sunshine_mode"
-            app:isPreferenceVisible="false" />
-        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_gms_open"
             android:summary="@string/security_center_gms_open_more"
             android:title="@string/security_center_gms_open" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_control_center_sunshine_mode"
+            android:title="@string/system_control_center_sunshine_mode" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_control_auto_close"

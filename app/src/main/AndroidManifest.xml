@@ -63,8 +63,8 @@
         android:name=".Application"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity
@@ -76,7 +76,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.SubSettings" android:exported="true">
+        <activity
+            android:name=".ui.SubSettings"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -84,14 +86,14 @@
         </activity>
 
         <activity
-            android:label="@string/settings"
-            android:name=".ui.ModuleSettingsActivity" />
+            android:name=".ui.ModuleSettingsActivity"
+            android:label="@string/settings" />
 
         <activity-alias
-            android:label="@string/app_name"
             android:name=".ui.HideAppActivity"
-            android:targetActivity=".ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name"
+            android:targetActivity=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -103,20 +105,9 @@
         <provider
             android:name=".provider.SharedPrefsProvider"
             android:authorities="com.sevtinge.cemiuiler.provider.sharedprefs"
-            android:grantUriPermissions="true"
+            android:directBootAware="true"
             android:exported="false"
-            android:directBootAware="true" />
-
-        <service
-            android:name=".titles.HighBrightnessMode"
-            android:exported="true"
-            android:icon="@drawable/baseline_wb_sunny_24"
-            android:label="@string/system_control_center_sunshine_mode"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
+            android:grantUriPermissions="true" />
 
         <meta-data
             android:name="xposedmodule"
