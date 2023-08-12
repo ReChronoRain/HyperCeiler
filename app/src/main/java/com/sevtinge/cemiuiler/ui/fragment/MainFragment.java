@@ -50,7 +50,7 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        int randomTip = r.nextInt(23);
+        int randomTip = r.nextInt(21);
         // log("tip id is" + randomTip);
 
         mPowerSetting = findPreference("prefs_key_powerkeeper");
@@ -65,6 +65,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         mSecurityCenter.setVisible(!isPad());
         mSecurityCenterPad.setVisible(isPad());
 
+        if (randomTip >= tips.length)
+            randomTip = (tips.length - 1);
         mTip.setSummary(tips[randomTip]);
     }
 }
