@@ -4,137 +4,144 @@
     <PreferenceCategory android:title="@string/system_ui_navigation_title">
 
         <SwitchPreference
-            android:title="@string/system_ui_navigation_custom"
-            android:key="prefs_key_system_ui_navigation_custom"
             android:defaultValue="false"
-            android:enabled="false" />
+            android:enabled="false"
+            android:key="prefs_key_system_ui_navigation_custom"
+            android:title="@string/system_ui_navigation_custom" />
 
         <!--navigation_bar_height-->
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_navigation_custom_height"
+            android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_custom_height"
-            app:maxValue="1000"
-            app:minValue="1"
+            android:title="@string/system_ui_navigation_custom_height"
             app:displayDividerValue="10"
             app:format="%s dp"
-            app:stepValue="1"
+            app:maxValue="1000"
+            app:minValue="1"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_system_ui_navigation_custom" />
+            app:stepValue="1" />
 
         <!--navigation_bar_height_landscape-->
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_navigation_custom_height_land"
+            android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_custom_height_land"
-            app:maxValue="1000"
-            app:minValue="1"
+            android:title="@string/system_ui_navigation_custom_height_land"
             app:displayDividerValue="10"
             app:format="%s dp"
-            app:stepValue="1"
+            app:maxValue="1000"
+            app:minValue="1"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_system_ui_navigation_custom" />
+            app:stepValue="1" />
 
         <!--navigation_bar_frame_height-->
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_navigation_frame_custom_height"
+            android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_frame_custom_height"
-            app:maxValue="1000"
-            app:minValue="1"
+            android:title="@string/system_ui_navigation_frame_custom_height"
             app:displayDividerValue="10"
             app:format="%s dp"
-            app:stepValue="1"
+            app:maxValue="1000"
+            app:minValue="1"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_system_ui_navigation_custom" />
+            app:stepValue="1" />
 
         <!--navigation_bar_frame_height_landscape-->
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_navigation_frame_custom_height_land"
+            android:dependency="prefs_key_system_ui_navigation_custom"
             android:key="prefs_key_system_ui_navigation_frame_custom_height_land"
-            app:maxValue="1000"
-            app:minValue="1"
+            android:title="@string/system_ui_navigation_frame_custom_height_land"
             app:displayDividerValue="10"
             app:format="%s dp"
-            app:stepValue="1"
+            app:maxValue="1000"
+            app:minValue="1"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_system_ui_navigation_custom" />
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_navigation_handle_title">
         <SwitchPreference
-            android:title="@string/system_ui_navigation_handle_custom"
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="prefs_key_system_ui_hide_navigation_bar"
+            android:title="@string/system_ui_hide_navigation_bar" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_hide_navigation_bar"
             android:key="prefs_key_system_ui_navigation_handle_custom"
-            android:defaultValue="false" />
+            android:title="@string/system_ui_navigation_handle_custom" />
 
         <!--navigation_handle_radius-->
         <SeekBarPreferenceEx
+            android:defaultValue="185"
+            android:dependency="prefs_key_system_ui_navigation_handle_custom"
+            android:key="prefs_key_system_ui_navigation_handle_custom_thickness"
             android:title="@string/system_ui_navigation_handle_custom_thickness"
             app:defaultValueText="@string/array_default"
-            android:key="prefs_key_system_ui_navigation_handle_custom_thickness"
-            android:defaultValue="185"
-            app:maxValue="500"
-            app:minValue="0"
             app:displayDividerValue="100"
             app:format="%s dp"
-            app:stepValue="5"
+            app:maxValue="500"
+            app:minValue="0"
             app:showSeekBarValue="true"
-            android:dependency="prefs_key_system_ui_navigation_handle_custom" />
+            app:stepValue="5" />
 
         <!--navigation_handle_bottom-->
         <SeekBarPreferenceEx
+            android:defaultValue="600"
+            android:dependency="prefs_key_system_ui_navigation_handle_custom"
+            android:enabled="false"
+            android:key="prefs_key_system_ui_navigation_handle_custom_height"
             android:title="@string/system_ui_navigation_handle_custom_height"
             app:defaultValueText="@string/array_default"
-            android:key="prefs_key_system_ui_navigation_handle_custom_height"
-            android:defaultValue="600"
-            app:maxValue="1000"
-            app:minValue="0"
             app:displayDividerValue="10"
             app:format="%s dp"
-            app:stepValue="5"
+            app:maxValue="1000"
+            app:minValue="0"
             app:showSeekBarValue="true"
-            android:enabled="false"
-            android:dependency="prefs_key_system_ui_navigation_handle_custom" />
+            app:stepValue="5" />
 
         <!--navigation_home_handle_width-->
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_navigation_handle_custom_width"
-            android:key="prefs_key_system_ui_navigation_handle_custom_width"
             android:defaultValue="145"
+            android:dependency="prefs_key_system_ui_navigation_handle_custom"
+            android:enabled="false"
+            android:key="prefs_key_system_ui_navigation_handle_custom_width"
+            android:title="@string/system_ui_navigation_handle_custom_width"
+            app:format="%d dp"
             app:maxValue="400"
             app:minValue="0"
-            app:format="%d dp"
-            app:showSeekBarValue="true"
-            android:enabled="false"
-            android:dependency="prefs_key_system_ui_navigation_handle_custom" />
+            app:showSeekBarValue="true" />
 
         <!--navigation_home_handle_width land-->
         <SeekBarPreferenceEx
-            android:title="@string/system_ui_navigation_handle_custom_width_land"
-            android:key="prefs_key_system_ui_navigation_handle_custom_width_land"
             android:defaultValue="254"
+            android:dependency="prefs_key_system_ui_navigation_handle_custom"
+            android:enabled="false"
+            android:key="prefs_key_system_ui_navigation_handle_custom_width_land"
+            android:title="@string/system_ui_navigation_handle_custom_width_land"
+            app:format="%d dp"
             app:maxValue="600"
             app:minValue="0"
-            app:format="%d dp"
-            app:showSeekBarValue="true"
-            android:enabled="false"
-            android:dependency="prefs_key_system_ui_navigation_handle_custom" />
+            app:showSeekBarValue="true" />
 
         <!--navigation_bar_home_handle_dark_color-->
         <moralnorm.preference.ColorPickerPreference
+            android:defaultValue="-1"
+            android:dependency="prefs_key_system_ui_navigation_handle_custom"
+            android:key="prefs_key_system_ui_navigation_handle_custom_color_dark"
             android:persistent="false"
             android:title="@string/system_ui_navigation_handle_custom_color_dark"
-            android:key="prefs_key_system_ui_navigation_handle_custom_color_dark"
-            android:defaultValue="-1"
-            app:showAlphaSlider="true"
-            android:dependency="prefs_key_system_ui_navigation_handle_custom" />
+            app:showAlphaSlider="true" />
 
         <!--navigation_bar_home_handle_light_color-->
         <moralnorm.preference.ColorPickerPreference
+            android:defaultValue="-872415232"
+            android:dependency="prefs_key_system_ui_navigation_handle_custom"
+            android:key="prefs_key_system_ui_navigation_handle_custom_color"
             android:persistent="false"
             android:title="@string/system_ui_navigation_handle_custom_color"
-            android:key="prefs_key_system_ui_navigation_handle_custom_color"
-            android:defaultValue="-872415232"
-            app:showAlphaSlider="true"
-            android:dependency="prefs_key_system_ui_navigation_handle_custom" />
+            app:showAlphaSlider="true" />
 
         <!--navigation_handle_horizontal_margin 30-->
 

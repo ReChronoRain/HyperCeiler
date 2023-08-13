@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.home.AnimDurationRatio;
 import com.sevtinge.cemiuiler.module.home.FreeFormCountForHome;
+import com.sevtinge.cemiuiler.module.home.HideNavigationBar;
 import com.sevtinge.cemiuiler.module.home.HomeDexKit;
 import com.sevtinge.cemiuiler.module.home.HomePortraitReverse;
 import com.sevtinge.cemiuiler.module.home.MaxFreeForm;
@@ -109,7 +110,7 @@ public class Home extends BaseModule {
         initHook(new HotSeatSwipe(), mPrefsMap.getInt("home_gesture_left_swipe_action", 0) > 0
             || mPrefsMap.getInt("home_gesture_right_swipe_action", 0) > 0);
         initHook(new ShakeDevice(), mPrefsMap.getInt("home_gesture_shake_action", 0) > 0);
-        //initHook(new SwipeAndStop(), mPrefsMap.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
+        // initHook(new SwipeAndStop(), mPrefsMap.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
 
         initHook(new BackGestureAreaHeight(), mPrefsMap.getInt("home_navigation_back_area_height", 60) != 60);
         initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
@@ -190,6 +191,7 @@ public class Home extends BaseModule {
         initHook(FoldDeviceDock.INSTANCE, mPrefsMap.getBoolean("home_dock_fold"));
         initHook(HideSeekPoint.INSTANCE, mPrefsMap.getBoolean("home_dock_hide_seekpoint"));
         initHook(ShowDockIconTitle.INSTANCE, mPrefsMap.getBoolean("home_dock_icon_title"));
+        initHook(new HideNavigationBar(), mPrefsMap.getBoolean("system_ui_hide_navigation_bar"));
 
         // 其他
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);

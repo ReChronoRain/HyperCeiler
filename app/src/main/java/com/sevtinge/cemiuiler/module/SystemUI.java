@@ -6,6 +6,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemui.AutoCollapse;
 import com.sevtinge.cemiuiler.module.systemui.BluetoothRestrict;
 import com.sevtinge.cemiuiler.module.systemui.ChargeAnimationStyle;
+import com.sevtinge.cemiuiler.module.systemui.HideNavigationBar;
 import com.sevtinge.cemiuiler.module.systemui.MiuiGxzwSize;
 import com.sevtinge.cemiuiler.module.systemui.MonetThemeOverlay;
 import com.sevtinge.cemiuiler.module.systemui.NotificationFix;
@@ -167,6 +168,7 @@ public class SystemUI extends BaseModule {
         // 导航栏
         initHook(HandleLineCustom.INSTANCE, mPrefsMap.getBoolean("system_ui_navigation_handle_custom"));
         initHook(new NavigationCustom(), mPrefsMap.getBoolean("system_ui_navigation_custom"));
+        initHook(new HideNavigationBar(), mPrefsMap.getBoolean("system_ui_hide_navigation_bar"));
 
         // 状态栏布局
         initHook(StatusBarLayout.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_layout_compatibility_mode") ||
@@ -181,7 +183,7 @@ public class SystemUI extends BaseModule {
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new FiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
-        initHook(new SunlightMode(),mPrefsMap.getBoolean("system_control_center_sunshine_mode"));
+        initHook(new SunlightMode(), mPrefsMap.getBoolean("system_control_center_sunshine_mode"));
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));

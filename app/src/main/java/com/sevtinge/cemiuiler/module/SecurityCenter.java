@@ -16,6 +16,7 @@ import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit;
 import com.sevtinge.cemiuiler.module.securitycenter.ShowBatteryTemperatureNew;
 import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom;
 import com.sevtinge.cemiuiler.module.securitycenter.UnlockSuperWirelessCharge;
+import com.sevtinge.cemiuiler.module.securitycenter.VideoDolbyOpen;
 import com.sevtinge.cemiuiler.module.securitycenter.app.AppDefaultSort;
 import com.sevtinge.cemiuiler.module.securitycenter.app.AppDetails;
 import com.sevtinge.cemiuiler.module.securitycenter.app.AppDisable;
@@ -103,5 +104,6 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
         initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
         initHook(new DisableDockSuggest(), mPrefsMap.getBoolean("security_center_disable_sidebar_show_suggest"));
+        initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
     }
 }
