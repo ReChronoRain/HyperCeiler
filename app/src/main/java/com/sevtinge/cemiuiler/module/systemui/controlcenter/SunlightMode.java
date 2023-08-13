@@ -91,7 +91,7 @@ public class SunlightMode extends TileUtils {
                     Settings.System.putInt(mContext.getContentResolver(), "sunlight_mode", 1);
                     XposedHelpers.callMethod(param.thisObject, "refreshState");
                 } else {
-                    logI("ERROR Int For sunlight_mode");
+                    logE("ERROR Int For sunlight_mode");
                 }
             } catch (Settings.SettingNotFoundException e) {
                 XposedHelpers.callMethod(param.thisObject, "refreshState");
@@ -114,7 +114,7 @@ public class SunlightMode extends TileUtils {
                     isEnable = false;
                 }
             } catch (Settings.SettingNotFoundException e) {
-                logI("Not Find sunlight_mode");
+                logE("Not Find sunlight_mode");
             }
 
             ArrayMap<String, Integer> tileOnResMap = new ArrayMap<>();
