@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
-import com.sevtinge.cemiuiler.utils.replaceMethod
 
 object AddBlurEffectToNotificationView : BaseHook() {
     var blurBackgroundAlpha: Int =
@@ -19,6 +19,18 @@ object AddBlurEffectToNotificationView : BaseHook() {
     var defaultBackgroundAlpha: Int =
         mPrefsMap.getInt("system_ui_control_center_default_background_alpha", 200)
 
+    fun setDrawableAlpha(thiz: Any?, alpha: Int) {
+        if (isAndroidU()) {
+            XposedHelpers.setObjectField(thiz, "mDrawableAlpha", alpha)
+        } else {
+            XposedHelpers.callMethod(
+                thiz,
+                "setDrawableAlpha",
+                arrayOf<Class<*>>(Integer.TYPE),
+                alpha
+            )
+        }
+    }
     override fun init() {
         val miuiExpandableNotificationRowClass =
             findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow")
@@ -33,7 +45,11 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 ?: return
 
         val miuiNotificationPanelViewControllerClass =
-            findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController")
+            findClassIfExists(
+            if (isAndroidU())
+                "com.android.systemui.shade.MiuiNotificationPanelViewController"
+            else
+                "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController")
                 ?: return
 
         val notificationStackScrollLayoutClass =
@@ -45,10 +61,14 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 ?: return
 
         val blurRatioChangedListener =
-            findClassIfExists("com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1")
-                ?: return
+            findClassIfExists(
+                if (isAndroidU())
+                    "com.android.systemui.shade.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
+                else
+                    "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
+            ) ?: return
 
-        // 存在卡片砍头情况        
+        // 存在卡片砍头情况
         /*
         // 避免控制中心通知上移
         "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getTopPadding")
@@ -56,7 +76,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
             return@replaceMethod  1750.0f
             }
-        // 修改横幅通知上划极限值 
+        // 修改横幅通知上划极限值
         "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getStackTranslation")
             {
             return@replaceMethod -1200.0f
@@ -77,16 +97,14 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         XposedHelpers.callMethod(notificationBackgroundView, "headsUp") as Boolean
                     if (isHandsUp) {
                         mDrawableAlphaField.set(notificationBackgroundView, blurBackgroundAlpha)
-                        XposedHelpers.callMethod(
+                        setDrawableAlpha(
                             notificationBackgroundView,
-                            "setDrawableAlpha",
                             blurBackgroundAlpha
                         )
                     } else {
                         mDrawableAlphaField.set(notificationBackgroundView, defaultBackgroundAlpha)
-                        XposedHelpers.callMethod(
+                        setDrawableAlpha(
                             notificationBackgroundView,
-                            "setDrawableAlpha",
                             defaultBackgroundAlpha
                         )
                     }
@@ -126,9 +144,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             mBackgroundNormal.background, "setVisible",
                             false, false
                         )
-                        XposedHelpers.callMethod(
+                        setDrawableAlpha(
                             mBackgroundNormal,
-                            "setDrawableAlpha",
                             defaultBackgroundAlpha + 30
                         )
                     }
@@ -156,9 +173,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                             true,
                             false
                         )
-                        XposedHelpers.callMethod(
+                        setDrawableAlpha(
                             mBackgroundNormal,
-                            "setDrawableAlpha",
                             blurBackgroundAlpha
                         )
                     }
@@ -193,9 +209,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                                 cornerRadius
                             )
 
-                        XposedHelpers.callMethod(
+                        setDrawableAlpha(
                             mBackgroundNormal,
-                            "setDrawableAlpha",
                             blurBackgroundAlpha
                         )
                     } /*else {
@@ -301,7 +316,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         HookUtils.getValueByField(mController, "mPanelViewController")
                             ?: return
                     val isExpanding =
-                        XposedHelpers.callMethod(mPanelViewController, "isExpanding") as Boolean
+                        XposedHelpers.callMethod(mPanelViewController, if (isAndroidU()) "isExpandingOrCollapsing" else "isExpanding") as Boolean
                     if (isExpanding) {
                         return
                     }
@@ -500,7 +515,10 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
     fun isDefaultLockScreenTheme(): Boolean {
         val miuiKeyguardUtilsClass = findClassIfExists(
-            "com.android.keyguard.utils.MiuiKeyguardUtils"
+            if (isAndroidU())
+                "com.miui.systemui.util.CommonUtil"
+            else
+                "com.android.keyguard.utils.MiuiKeyguardUtils"
         ) ?: return true
         return XposedHelpers.callStaticMethod(
             miuiKeyguardUtilsClass,
@@ -531,9 +549,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 mBackgroundNormal.background = null
             }
             runCatching {
-                XposedHelpers.callMethod(
+                setDrawableAlpha(
                     mBackgroundNormal,
-                    "setDrawableAlpha",
                     defaultBackgroundAlpha
                 )
             }
@@ -610,9 +627,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 mBackgroundNormal.background =
                     HookUtils.createBlurDrawable(mBackgroundNormal, blurRadius, cornerRadius)
                 runCatching {
-                    XposedHelpers.callMethod(
+                    setDrawableAlpha(
                         mBackgroundNormal,
-                        "setDrawableAlpha",
                         blurBackgroundAlpha
                     )
                 }

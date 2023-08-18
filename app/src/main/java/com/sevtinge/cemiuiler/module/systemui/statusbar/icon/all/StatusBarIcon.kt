@@ -5,6 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 
 class StatusBarIcon : BaseHook() {
     override fun init() {
@@ -20,7 +21,11 @@ class StatusBarIcon : BaseHook() {
             }
         }
 
-        loadClass("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl").methodFinder().first {
+
+        loadClass(if (isAndroidU())
+            "com.android.systemui.statusbar.phone.StatusBarIconControllerImpl"
+        else
+            "com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl").methodFinder().first {
             name == "setIconVisibility" && paramCount == 2
         }.createHook {
             before { param ->

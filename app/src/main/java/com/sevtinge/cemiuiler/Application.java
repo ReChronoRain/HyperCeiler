@@ -2,7 +2,6 @@ package com.sevtinge.cemiuiler;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 

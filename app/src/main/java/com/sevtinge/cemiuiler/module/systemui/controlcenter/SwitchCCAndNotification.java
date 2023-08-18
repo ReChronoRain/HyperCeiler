@@ -1,13 +1,11 @@
 package com.sevtinge.cemiuiler.module.systemui.controlcenter;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
-
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-
 import de.robv.android.xposed.XposedHelpers;
 
 public class SwitchCCAndNotification extends BaseHook {
@@ -24,7 +22,11 @@ public class SwitchCCAndNotification extends BaseHook {
                     FrameLayout bar = (FrameLayout) param.thisObject;
                     Object mControlPanelWindowManager = XposedHelpers.getObjectField(param.thisObject, "mControlPanelWindowManager");
                     boolean dispatchToControlPanel = (boolean) XposedHelpers.callMethod(mControlPanelWindowManager, "dispatchToControlPanel", param.args[0], bar.getWidth());
-                    XposedHelpers.callMethod(mControlPanelWindowManager, "setTransToControlPanel", dispatchToControlPanel);
+                    if (isAndroidU()) {
+                        XposedHelpers.setObjectField(mControlPanelWindowManager, "mTransToControlPanel", dispatchToControlPanel);
+                    } else {
+                        XposedHelpers.callMethod(mControlPanelWindowManager, "setTransToControlPanel", dispatchToControlPanel);
+                    }
                     param.setResult(dispatchToControlPanel);
                     return;
                 }

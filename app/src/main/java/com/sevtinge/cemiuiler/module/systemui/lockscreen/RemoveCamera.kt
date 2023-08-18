@@ -6,12 +6,17 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.getObjectField
 
 object RemoveCamera : BaseHook() {
     override fun init() {
         // 屏蔽右下角组件显示
-        loadClass("com.android.systemui.statusbar.phone.KeyguardBottomAreaView").methodFinder().first {
+        loadClass(
+            if (isAndroidU())
+                "com.android.keyguard.injector.KeyguardBottomAreaInjector"
+            else
+                "com.android.systemui.statusbar.phone.KeyguardBottomAreaView").methodFinder().first {
             name == "onFinishInflate"
         }.createHook {
             after {

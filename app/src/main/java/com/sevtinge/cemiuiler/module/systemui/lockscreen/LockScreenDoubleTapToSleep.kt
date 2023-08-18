@@ -9,13 +9,18 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
 import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
 
 object LockScreenDoubleTapToSleep : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.phone.NotificationsQuickSettingsContainer").methodFinder().first {
+        loadClass(
+            if (isAndroidU())
+                "com.android.systemui.shade.NotificationsQuickSettingsContainer"
+            else
+                "com.android.systemui.statusbar.phone.NotificationsQuickSettingsContainer").methodFinder().first {
             name == "onFinishInflate"
         }.createHook {
             before {

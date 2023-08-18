@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -13,7 +14,10 @@ import de.robv.android.xposed.XposedHelpers
 object AddBlurEffectToLockScreen : BaseHook() {
     override fun init() {
         val miuiNotificationPanelViewControllerClass = findClassIfExists(
-            "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
+            if (isAndroidU())
+                "com.android.systemui.shade.MiuiNotificationPanelViewController"
+            else
+                "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
         ) ?: return
 
         val keyguardBottomAreaViewClass = findClassIfExists(
@@ -452,7 +456,10 @@ object AddBlurEffectToLockScreen : BaseHook() {
 
     fun isDefaultLockScreenTheme(): Boolean {
         val miuiKeyguardUtilsClass = findClassIfExists(
-            "com.android.keyguard.utils.MiuiKeyguardUtils"
+            if (isAndroidU())
+                "com.miui.systemui.util.CommonUtil"
+            else
+                "com.android.keyguard.utils.MiuiKeyguardUtils"
         ) ?: return true
         return XposedHelpers.callStaticMethod(
             miuiKeyguardUtilsClass,

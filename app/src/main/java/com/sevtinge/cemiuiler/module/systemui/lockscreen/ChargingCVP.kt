@@ -18,7 +18,9 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
+import de.robv.android.xposed.XposedHelpers
 import java.io.BufferedReader
 import java.io.FileReader
 import java.math.BigDecimal
@@ -38,12 +40,18 @@ object ChargingCVP : BaseHook() {
                     (param.thisObject as TextView).isSingleLine = false
                     val screenOnOffReceiver = @SuppressLint("ServiceCast")
                     object : BroadcastReceiver() {
-                        val keyguardIndicationController = invokeStaticMethodBestMatch(
+                        val keyguardIndicationController = if (isAndroidU())
+                            loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
+                        else invokeStaticMethodBestMatch(
                             clazzDependency, "get", null, clazzKeyguardIndicationController)!!
                         val handler = Handler((param.thisObject as TextView).context.mainLooper)
                         val runnable = object : Runnable {
                             override fun run() {
-                                invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
+                                if (isAndroidU())
+                                    XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")
+                                else
+                                    invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
+
                                 handler.postDelayed(
                                     this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
                                 )
