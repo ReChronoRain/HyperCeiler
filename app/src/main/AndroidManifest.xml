@@ -106,7 +106,8 @@
             android:name=".provider.SharedPrefsProvider"
             android:authorities="com.sevtinge.cemiuiler.provider.sharedprefs"
             android:directBootAware="true"
-            android:exported="false"
+            android:exported="true"
+            android:defaultToDeviceProtectedStorage="true"
             android:grantUriPermissions="true" />
 
         <meta-data
