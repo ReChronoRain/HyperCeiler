@@ -29,17 +29,17 @@ public class PrefsUtils {
     public static String mPrefsFile = mPrefsPath + "/" + mPrefsName + ".xml";
 
 
-    public static SharedPreferences getSharedPrefs(Context context, boolean protectedStorage, boolean multiProcess) {
-        if (protectedStorage) context = Helpers.getProtectedContext(context);
+    public static SharedPreferences getSharedPrefs(Context context, boolean multiProcess) {
+        context = Helpers.getProtectedContext(context);
         try {
-            return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE);
+            return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE | Context.MODE_PRIVATE);
         } catch (Throwable t) {
             return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE : Context.MODE_PRIVATE);
         }
     }
 
-    public static SharedPreferences getSharedPrefs(Context context, boolean protectedStorage) {
-        return getSharedPrefs(context, protectedStorage, false);
+    public static SharedPreferences getSharedPrefs(Context context) {
+        return getSharedPrefs(context, false);
     }
 
 

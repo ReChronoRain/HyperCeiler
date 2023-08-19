@@ -9,7 +9,7 @@ public class Application extends android.app.Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        PrefsUtils.mSharedPreferences = PrefsUtils.getSharedPrefs(base, Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE);
+        PrefsUtils.mSharedPreferences = PrefsUtils.getSharedPrefs(base);
         super.attachBaseContext(base);
     }
 

@@ -67,18 +67,8 @@ public class Helpers {
     };
 
     public static synchronized Context getProtectedContext(Context context) {
-        return getProtectedContext(context, null);
+        return context.createDeviceProtectedStorageContext();
     }
-
-    public static synchronized Context getProtectedContext(Context context, Configuration config) {
-        try {
-            Context mContext = context.isDeviceProtectedStorage() ? context : context.createDeviceProtectedStorageContext();
-            return config == null ? mContext : mContext.createConfigurationContext(config);
-        } catch (Throwable t) {
-            return context;
-        }
-    }
-
 
     public static boolean checkStorageReadable(Activity activity) {
         String state = Environment.getExternalStorageState();
