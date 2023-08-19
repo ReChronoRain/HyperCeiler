@@ -146,21 +146,24 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
         if (mPrefsMap.size() == 0) {
             XSharedPreferences mXSharedPreferences = null;
             try {
-                if (XposedBridge.getXposedVersion() >= 93) {
-                    mXSharedPreferences = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
-                } else {
-                    mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
-                }
+                mXSharedPreferences = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
                 mXSharedPreferences.makeWorldReadable();
+
+                Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
+                if (allPrefs == null || allPrefs.size() == 0) {
+                    mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
+                    mXSharedPreferences.makeWorldReadable();
+                    allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
+                    if (allPrefs == null || allPrefs.size() == 0) {
+                        LogUtils.log("[UID " + android.os.Process.myUid() + "] Cannot read module's SharedPreferences, some mods might not work!");
+                    } else {
+                        mPrefsMap.putAll(allPrefs);
+                    }
+                } else {
+                    mPrefsMap.putAll(allPrefs);
+                }
             } catch (Throwable t) {
                 XposedBridge.log(t);
-            }
-
-            Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-            if (allPrefs == null || allPrefs.size() == 0) {
-                LogUtils.log("[UID " + android.os.Process.myUid() + "] Cannot read module's SharedPreferences, some mods might not work!");
-            } else {
-                mPrefsMap.putAll(allPrefs);
             }
         }
     }

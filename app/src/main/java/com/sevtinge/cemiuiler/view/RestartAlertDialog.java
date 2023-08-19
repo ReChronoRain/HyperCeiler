@@ -33,23 +33,22 @@ public class RestartAlertDialog extends AlertDialog {
             dismiss();
             for (int i = 0; i < sparseBooleanArray.size(); i++) {
                 if (sparseBooleanArray.get(i)) {
-                    if (mAppPackageNameList.get(i).equals("com.android.systemui")) {
-                        Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
-                        intent.setPackage("com.android.systemui");
-                        context.sendBroadcast(intent);
-                    } else {
-                        restartApp(context, mAppPackageNameList.get(i));
-                    }
+                    ALPermissionManager.RootCommand("killall " + mAppPackageNameList.get(i));
                 }
             }
         });
         return view;
     }
 
-
     public void restartApp(Context context, String packageName) {
         Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartApps");
         intent.putExtra("packageName", packageName);
+        context.sendBroadcast(intent);
+    }
+
+    public void restartSystemUI(Context context) {
+        Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
+        intent.setPackage("com.android.systemui");
         context.sendBroadcast(intent);
     }
 }

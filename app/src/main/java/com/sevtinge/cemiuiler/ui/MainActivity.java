@@ -59,6 +59,8 @@ public class MainActivity extends SettingsActivity {
         setImmersionMenuEnabled(true);
         setFragment(mMainFrag);
         ALPermissionManager.RootCommand(getPackageCodePath());
+        ALPermissionManager.RootCommand("chmod 0777 " + PrefsUtils.mPrefsFile);
+        ALPermissionManager.RootCommand("chown root:root " + PrefsUtils.mPrefsFile);
     }
 
     private void initView() {
