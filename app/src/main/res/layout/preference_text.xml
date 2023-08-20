@@ -23,6 +23,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:paddingStart="@dimen/preference_item_padding_start"
+    android:paddingEnd="@dimen/preference_item_padding_end"
     android:paddingBottom="@dimen/preference_item_padding_inner">
 
     <include layout="@layout/image_frame" />

@@ -21,7 +21,6 @@ import java.util.List;
 import moralnorm.appcompat.app.ActionBar;
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
-import moralnorm.internal.utils.ViewUtils;
 
 public class BaseSettingsActivity extends AppCompatActivity {
 
