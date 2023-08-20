@@ -1169,4 +1169,5 @@
     <string name="security_center_gms_open_more">When it is turned on, a tile will be created. You can manage the Google service switch with one click in the Taskbar</string>
     <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
+    <string name="system_ui_statusbar_network_speed_swap_places">Swap uplink and downlink speeds and icon positions</string>
 </resources>

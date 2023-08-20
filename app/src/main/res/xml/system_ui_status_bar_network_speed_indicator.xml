@@ -12,17 +12,17 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
             android:title="@string/system_ui_statusbar_network_speed_font_size" />
 
-        <SeekBarPreferenceEx           
-            android:layout="@layout/preference_seekbar_no_padding" 
+        <SeekBarPreferenceEx
+            android:layout="@layout/preference_seekbar_no_padding"
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
-            android:defaultValue="13"     
-            app:defaultValueText="@string/array_default"       
+            android:defaultValue="13"
+            app:defaultValueText="@string/array_default"
             app:maxValue="40"
             app:minValue="8"
             app:stepValue="1"
             app:format="%s dp"
-            app:displayDividerValue="2" 
+            app:displayDividerValue="2"
             app:showSeekBarValue="true" />
 
         <SwitchPreference
@@ -35,15 +35,15 @@
             android:key="prefs_key_system_ui_status_bar_no_netspeed_separator"
             android:summary="@string/system_ui_status_bar_no_netspeed_separator_desc"
             android:title="@string/system_ui_status_bar_no_netspeed_separator_title" />
-            
-        <SeekBarPreferenceEx            
-            android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"      
-            android:title="@string/system_ui_statusbar_network_speed_update_spacing"     
-            android:defaultValue="3"     
-            app:defaultValueText="@string/array_default"       
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"
+            android:title="@string/system_ui_statusbar_network_speed_update_spacing"
+            android:defaultValue="3"
+            app:defaultValueText="@string/array_default"
             app:maxValue="10"
             app:minValue="1"
-            app:stepValue="1"           
+            app:stepValue="1"
             app:format="%d s"
             app:showSeekBarValue="true" />
 
@@ -68,12 +68,12 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_hide_all"
             android:title="@string/system_ui_statusbar_network_speed_hide_all" />
 
-        <SeekBarPreferenceEx           
-            android:key="prefs_key_system_ui_statusbar_network_speed_hide_slow"      
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"   
+        <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide_slow"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:title="@string/system_ui_statusbar_network_speed_hide_slow"
             android:summary="@string/system_ui_statusbar_network_speed_hide_slow_desc"
-            android:defaultValue="64"            
+            android:defaultValue="64"
             app:defaultValueText="@string/array_default"
             app:maxValue="1024"
             app:minValue="1"
@@ -101,6 +101,12 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_detailed"
             android:title="@string/system_ui_statusbar_network_speed_detailed" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
+            android:key="prefs_key_system_ui_statusbar_network_speed_swap_places"
+            android:title="@string/system_ui_statusbar_network_speed_swap_places" />
+
         <DropDownPreference
             android:defaultValue="2"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_show_up_down"
@@ -117,9 +123,9 @@
             app:entries="@array/system_ui_status_bar_horizontal_align"
             app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
 
-        <SeekBarPreferenceEx                      
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_network_speed_fixedcontent_width"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"            
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:defaultValue="10"
@@ -130,19 +136,19 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx                   
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_network_speed_left_margin"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:title="@string/left_margin"
-            android:defaultValue="0"          
+            android:defaultValue="0"
             app:defaultValueText="@string/array_default"
             app:maxValue="10"
             app:stepValue="1"
             app:displayDividerValue="2"
-            app:format="%d dp" 
+            app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx                     
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_network_speed_right_margin"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:title="@string/right_margin"
@@ -154,17 +160,17 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx           
+        <SeekBarPreferenceEx
             android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_vertical_offset"
-            android:title="@string/vertical_offset"              
+            android:title="@string/vertical_offset"
             android:defaultValue="8"
             app:defaultValueText="@string/array_default"
             app:maxValue="16"
             app:stepValue="1"
             app:negativeShift="8"
             app:displayDividerValue="2"
-            app:format="%d dp" 
+            app:format="%d dp"
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>

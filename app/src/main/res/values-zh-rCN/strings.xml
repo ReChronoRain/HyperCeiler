@@ -882,6 +882,7 @@
     <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>
     <string name="system_ui_statusbar_network_speed_show_up_down">显示上下行网速</string>
     <string name="system_ui_statusbar_network_speed_detailed">双排显示上下行网速</string>
+    <string name="system_ui_statusbar_network_speed_swap_places">交换上下行网速与图标位置</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
     <string name="system_ui_statusbar_network_speed_hide">隐藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_all">当上下行均为慢速时隐藏</string>

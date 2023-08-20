@@ -158,7 +158,10 @@ object NetworkSpeed : BaseHook() {
                         // 上下行网速双排显示
                         val doubleUpDown =
                             mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
-                        //  网速图标
+                        // 交换图标与网速位置
+                        val swapPlaces =
+                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
+                        // 网速图标
                         val icons =
                             mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
                         var txArrow = ""
@@ -193,10 +196,24 @@ object NetworkSpeed : BaseHook() {
 
                         // 计算上行网速
                         val tx =
-                            if (hideLow && !allHideLow && txSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
+                            if (hideLow && !allHideLow && txSpeed < lowLevel)
+                                ""
+                            else {
+                                if (swapPlaces)
+                                    "$txArrow${humanReadableByteCount(it.args[0] as Context, txSpeed)}"
+                                else
+                                    "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
+                            }
                         // 计算下行网速
                         val rx =
-                            if (hideLow && !allHideLow && rxSpeed < lowLevel) "" else "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
+                            if (hideLow && !allHideLow && rxSpeed < lowLevel)
+                                ""
+                            else {
+                                if (swapPlaces)
+                                    "$rxArrow${humanReadableByteCount(it.args[0] as Context, rxSpeed)}"
+                                else
+                                    "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
+                            }
                         // 计算总网速
                         val ax =
                             humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
