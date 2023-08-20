@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.GlobalActions;
+import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 
 import java.util.Arrays;
 import java.util.List;
