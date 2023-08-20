@@ -4,9 +4,13 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
+import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.replaceMethod
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -31,6 +35,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             )
         }
     }
+
     override fun init() {
         val miuiExpandableNotificationRowClass =
             findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow")
@@ -46,11 +51,11 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         val miuiNotificationPanelViewControllerClass =
             findClassIfExists(
-            if (isAndroidU())
-                "com.android.systemui.shade.MiuiNotificationPanelViewController"
-            else
-                "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController")
-                ?: return
+                if (isAndroidU())
+                    "com.android.systemui.shade.MiuiNotificationPanelViewController"
+                else
+                    "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
+            ) ?: return
 
         val notificationStackScrollLayoutClass =
             findClassIfExists("com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout")
@@ -68,20 +73,39 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
-        // 存在卡片砍头情况
-        /*
-        // 避免控制中心通知上移
-        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getTopPadding")
-            {
+        // 修改横幅通知上滑极限值
+        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getStackTranslation") {
+            val getScreenHeight =
+                findClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
+                    .callStaticMethod("getScreenHeight", appContext) as Int
 
-            return@replaceMethod  1750.0f
-            }
-        // 修改横幅通知上划极限值
-        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod( "getStackTranslation")
-            {
-            return@replaceMethod -1200.0f
-            }
-        */
+            val mStackTranslation = it.thisObject.getObjectField("mStackTranslation") as Float
+
+            val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+
+            val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+
+            if (isFlinging || isSwipingUp)
+                return@replaceMethod getScreenHeight.toFloat()
+            else
+                return@replaceMethod mStackTranslation
+
+        }
+
+        // 避免修改上滑极限值以后动画速度过快
+        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction") {
+
+            val appearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
+
+            val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+
+            val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+
+            if (isFlinging || isSwipingUp)
+                return@replaceMethod -appearFraction * appearFraction * appearFraction
+            else
+                return@replaceMethod appearFraction
+        }
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
@@ -133,10 +157,12 @@ object AddBlurEffectToNotificationView : BaseHook() {
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val mPickedMiniWindowChild =
-                        HookUtils.getValueByField(param.thisObject, "mPickedMiniWindowChild")?: return
+                        HookUtils.getValueByField(param.thisObject, "mPickedMiniWindowChild")
+                            ?: return
 
                     val mBackgroundNormal =
-                        HookUtils.getValueByField(mPickedMiniWindowChild, "mBackgroundNormal")?: return
+                        HookUtils.getValueByField(mPickedMiniWindowChild, "mBackgroundNormal")
+                            ?: return
                     mBackgroundNormal as View
 
                     if (HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
@@ -316,10 +342,11 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         HookUtils.getValueByField(mController, "mPanelViewController")
                             ?: return
                     val isExpanding =
-                        XposedHelpers.callMethod(mPanelViewController, if (isAndroidU()) "isExpandingOrCollapsing" else "isExpanding") as Boolean
-                    if (isExpanding) {
-                        return
-                    }
+                        XposedHelpers.callMethod(mPanelViewController,
+                            if (isAndroidU()) "isExpandingOrCollapsing" else "isExpanding"
+                        ) as Boolean
+                    if (isExpanding) return
+
                     val isOnKeyguard =
                         XposedHelpers.callMethod(mPanelViewController, "isOnKeyguard") as Boolean
                     if (isOnKeyguard) {
@@ -339,7 +366,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                                 showBlurEffectForNotificationRow(expandableView)
                             }
                         } catch (e: Throwable) {
-                          return
+                            return
                         }
                     }
                 }
@@ -621,7 +648,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             }
         } else {
             val mBackgroundNormal =
-                HookUtils.getValueByField(notificationRow, "mBackgroundNormal")?: return
+                HookUtils.getValueByField(notificationRow, "mBackgroundNormal") ?: return
             mBackgroundNormal as View
             if (!HookUtils.isBlurDrawable(mBackgroundNormal.background)) {
                 mBackgroundNormal.background =
