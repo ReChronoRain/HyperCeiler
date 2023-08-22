@@ -17,7 +17,6 @@
             android:key="prefs_key_home_small_folder_icon_bg_size"
             android:dependency="prefs_key_home_small_folder_icon_bg"
             android:title="@string/home_small_folder_icon_bg_size"
-            android:summary="@string/home_dock_bg_margin_bottom_desc"
             android:defaultValue="56"   
             app:defaultValueText="@string/array_default"
             app:maxValue="100"
