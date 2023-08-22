@@ -41,6 +41,12 @@
             android:dependency="prefs_key_various_super_clipboard_enable"
             android:key="prefs_key_various_super_clipboard_notes"
             android:defaultValue="false" />
+            
+        <SwitchPreference
+            android:title="@string/creation"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_creation"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:title="@string/screenshot"

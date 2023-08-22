@@ -30,7 +30,7 @@
             android:icon="@drawable/ic_linqiqi"
             android:layout="@layout/preference_round_layout"
             android:summary="Hook、Translator"
-            android:title="Lin Qiqi">
+            android:title="Ling Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/mu7220" />
@@ -128,7 +128,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.sevtinge.cc/t/donation.html" />
         </Preference>
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

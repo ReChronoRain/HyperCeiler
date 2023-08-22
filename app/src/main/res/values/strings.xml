@@ -4,7 +4,7 @@
     <string name="app_name" translatable="false">Cemiuiler</string>
     <string name="xposed_description">Make MIUI Great Again!</string>
     <string name="language">English</string>
-    <string name="translator">Lin Qiqi</string>
+    <string name="translator">Ling Qiqi</string>
     <string name="translator_url">https://github.com/mu7220</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
@@ -1153,7 +1153,7 @@
     <string name="tip_14">Tip: Sevtinge studied at the School of Information Engineering and Technology of Sanjiang City Campus of Shanhe University.</string>
     <string name="tip_15">Tip: I heard that Sevtinge has two different forms.</string>
     <string name="tip_16">Tip: Sevtinge is a little fox! (Cross out)</string>
-    <string name="tip_17">Tip: Lin Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
+    <string name="tip_17">Tip: Ling Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
     <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
     <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
     <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
@@ -1170,4 +1170,5 @@
     <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Swap uplink and downlink speeds and icon positions</string>
+    <string name="creation">Mi Canvas</string>
 </resources>

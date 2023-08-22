@@ -41,6 +41,11 @@ object UnlockSuperClipboard : BaseHook() {
                     methodSuperClipboard("com.miui.common.tool.Utils")
                 }
             }
+            "com.miui.creation" -> {
+                if (mPrefsMap.getBoolean("various_super_clipboard_creation") {
+                    methodSuperClipboard("com.miui.creation.common.tools.ClipUtils")
+                }
+            }
         }
     }
 
@@ -53,12 +58,22 @@ object UnlockSuperClipboard : BaseHook() {
     }
 
     private fun dexKitSuperClipboard() {
-        safeDexKitBridge.findMethodUsingString {
-            usingString = "ro.miui.support_super_clipboard"
-            matchType = MatchType.FULL
-            methodReturnType = "boolean"
-        }.firstOrNull()?.getMethodInstance(EzXHelper.safeClassLoader)?.createHook {
-            returnConstant(true)
+        try {
+            safeDexKitBridge.findMethodUsingString {
+                usingString = "persist.sys.support_super_clipboard"
+                matchType = MatchType.FULL
+                methodReturnType = "boolean"
+            }.firstOrNull()?.getMethodInstance(EzXHelper.safeClassLoader)?.createHook {
+                returnConstant(true)
+            }
+        } catch (t: Throwable) {
+            safeDexKitBridge.findMethodUsingString {
+                usingString = "ro.miui.support_super_clipboard"
+                matchType = MatchType.FULL
+                methodReturnType = "boolean"
+            }.firstOrNull()?.getMethodInstance(EzXHelper.safeClassLoader)?.createHook {
+                returnConstant(true)
+            }
         }
     }
 }

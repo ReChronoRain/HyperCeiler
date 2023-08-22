@@ -73,6 +73,7 @@
     <string name="browser">浏览器</string>
     <string name="clock">时钟</string>
     <string name="camera">相机</string>
+    <string name="creation">小米创作</string>
     <string name="gallery">相册</string>
     <string name="guard_provider">MIUI 安全组件</string>
     <string name="incallui">电话</string>
@@ -757,7 +758,7 @@
 
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
-    <string name="system_settings_apps_freezer_more">开启后可在"开发者选项"中找到此功能，为强制显示不保证可用"</string>
+    <string name="system_settings_apps_freezer_more">开启后可在"开发者选项"中找到此功能，为强制显示，不保证可用"</string>
     <string name="system_settings_develop_speed_mode">极致模式</string>
     <string name="system_settings_develop_speed_mode_desc">在不支持的机型上开启后不会显示入口</string>
 
@@ -880,7 +881,7 @@
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">网速字体大小</string>
     <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">显示上下行网速</string>
+    <string name="system_ui_statusbar_network_speed_show_up_down">显示上下行网速</string>    
     <string name="system_ui_statusbar_network_speed_detailed">双排显示上下行网速</string>
     <string name="system_ui_statusbar_network_speed_swap_places">交换上下行网速与图标位置</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
