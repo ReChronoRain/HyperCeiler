@@ -42,7 +42,7 @@ object UnlockSuperClipboard : BaseHook() {
                 }
             }
             "com.miui.creation" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_creation") {
+                if (mPrefsMap.getBoolean("various_super_clipboard_creation")) {
                     methodSuperClipboard("com.miui.creation.common.tools.ClipUtils")
                 }
             }
