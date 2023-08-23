@@ -69,6 +69,7 @@
     <string name="home">系统桌面</string>
     <string name="aod">万象息屏</string>
     <string name="content_extension">传送门</string>
+    <string name="aiasst">小爱翻译</string>
     <string name="aireco">小爱建议</string>
     <string name="browser">浏览器</string>
     <string name="clock">时钟</string>
@@ -1092,9 +1093,10 @@
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
 
-    <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
     <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
+    
+    <string name="canvas_unlock">解除手机端使用限制</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>

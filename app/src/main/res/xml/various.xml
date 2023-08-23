@@ -20,6 +20,15 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.MiPadSettings" />
 
     </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:title="@string/canvas">
+        <SwitchPreference
+            android:title="@string/canvas_unlock"
+            android:key="prefs_key_canvas_unlock_enable"
+            android:defaultValue="false" />
+            
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/various_super_clipboard_title">

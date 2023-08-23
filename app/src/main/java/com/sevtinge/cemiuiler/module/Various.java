@@ -28,6 +28,9 @@ public class Various extends BaseModule {
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
         initHook(UnlockIme.INSTANCE, mPrefsMap.getBoolean("various_unlock_ime"));
+        
+        // 先丢这里，后面有时间再迁出去
+        initHook(UnlockCreation.INSTANCE, mPrefsMap.getBoolean("canvas_unlock_enable"));
 
     }
 
