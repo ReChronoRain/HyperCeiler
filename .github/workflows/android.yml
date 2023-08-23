@@ -24,10 +24,9 @@ jobs:
           distribution: "temurin"
           cache: gradle
 
-      - name: Build with Gradle Canary & Debug
+      - name: Build with Gradle All
         shell: bash
-        run: ./gradlew assembleCanary
-        run: ./gradlew assembleDebug
+        run: ./gradlew assemble
              
       - name: Sign Canary APK
         if: success()
