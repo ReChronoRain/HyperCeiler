@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.various.CollapseMiuiTitle;
 import com.sevtinge.cemiuiler.module.various.DialogCustom;
 import com.sevtinge.cemiuiler.module.various.MiuiAppNoOverScroll;
+import com.sevtinge.cemiuiler.module.various.UnlockImeUnlockCreation;
 import com.sevtinge.cemiuiler.module.various.UnlockIme;
 
 import java.util.Arrays;
