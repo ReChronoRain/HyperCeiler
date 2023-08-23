@@ -22,7 +22,7 @@
     </PreferenceCategory>
     
     <PreferenceCategory
-        android:title="@string/canvas">
+        android:title="@string/creation">
         <SwitchPreference
             android:title="@string/canvas_unlock"
             android:key="prefs_key_canvas_unlock_enable"
