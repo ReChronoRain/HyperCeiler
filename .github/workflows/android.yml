@@ -24,16 +24,28 @@ jobs:
           distribution: "temurin"
           cache: gradle
 
-      - name: Build with Gradle Canary
+      - name: Build with Gradle Canary & Debug
         shell: bash
         run: ./gradlew assembleCanary
-
+        run: ./gradlew assembleDebug
+             
       - name: Sign Canary APK
         if: success()
         id: sign_canary
         uses: r0adkll/sign-android-release@v1.0.4
         with:
           releaseDirectory: ./app/build/outputs/apk/canary
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          
+      - name: Sign Debug APK
+        if: success()
+        id: sign_debug
+        uses: r0adkll/sign-android-release@v1.0.4
+        with:
+          releaseDirectory: ./app/build/outputs/apk/debug
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -45,16 +57,18 @@ jobs:
         with:
           name: Cemiuiler canary
           path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-
+          
       - name: Post to Beta Channel & Canary Group
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
         env:
           GROUP_ID: ${{ secrets.CANARY_GROUP_ID }}
+          GROUP_ID_TEMPORARY: ${{ secrets.GROUP_TEMPORARY_ID }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           MESSAGE_THREAD_ID: ${{ secrets.MESSAGE_THREAD_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
+          DEBUG: ${{ steps.sign_debug.outputs.signedReleaseFile }}
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
@@ -64,3 +78,4 @@ jobs:
           cd ${{ github.workspace }}
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&message_thread_id=${MESSAGE_THREAD_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID_TEMPORARY}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F debug="@${DEBUG}"
