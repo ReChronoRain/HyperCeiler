@@ -30,6 +30,7 @@ import kotlin.math.abs
 object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
+        // 去除单行限制，Android13 以上扩展一个刷新频率，Android12 的后面再看看情况
         if (isMoreAndroidVersion(33)) {
             val clazzDependency = loadClass("com.android.systemui.Dependency")
             val clazzKeyguardIndicationController =
@@ -94,12 +95,19 @@ object ChargingCVP : BaseHook() {
                 }
             }
         }
-        loadClass("com.android.keyguard.charge.ChargeUtils").methodFinder()
+        
+        // 修改底部文本信息
+        val mBottomChargeClass = when {           
+            isMoreAndroidVersion(34) -> loadClass("com.miui.charge.ChargeUtils")
+            else -> loadClass("com.android.keyguard.charge.ChargeUtils")
+        }
+        
+        mBottomChargeClass.methodFinder()
             .filterByName("getChargingHintText")
             .filterByParamTypes(
                 Context::class.java,
-                Boolean::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType
+                Boolean::class.javaPrimitiveType
+                // Int::class.javaPrimitiveType
             )
             .first().createHook {
                 after {
