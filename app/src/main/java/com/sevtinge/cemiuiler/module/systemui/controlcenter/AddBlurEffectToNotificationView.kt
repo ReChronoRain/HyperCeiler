@@ -8,6 +8,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
 import com.sevtinge.cemiuiler.utils.callStaticMethod
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidS
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.replaceMethod
@@ -73,38 +74,40 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
-        // 修改横幅通知上滑极限值
-        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getStackTranslation") {
-            val getScreenHeight =
-                findClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
-                    .callStaticMethod("getScreenHeight", appContext) as Int
+        // 修改横幅通知上滑极限值，仅 Android13 测试通过
+        if (!isAndroidS()) {
+            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getStackTranslation") {
+                val getScreenHeight =
+                    findClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
+                        .callStaticMethod("getScreenHeight", appContext) as Int
 
-            val mStackTranslation = it.thisObject.getObjectField("mStackTranslation") as Float
+                val mStackTranslation = it.thisObject.getObjectField("mStackTranslation") as Float
 
-            val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
 
-            val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+                val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
 
-            if (isFlinging || isSwipingUp)
-                return@replaceMethod getScreenHeight.toFloat()
-            else
-                return@replaceMethod mStackTranslation
+                if (isFlinging || isSwipingUp)
+                    return@replaceMethod getScreenHeight.toFloat()
+                else
+                    return@replaceMethod mStackTranslation
 
-        }
+            }
 
-        // 避免修改上滑极限值以后动画速度过快
-        "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction") {
+            // 避免修改上滑极限值以后动画速度过快
+            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction") {
 
-            val appearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
+                val appearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
 
-            val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
 
-            val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+                val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
 
-            if (isFlinging || isSwipingUp)
-                return@replaceMethod -appearFraction * appearFraction * appearFraction
-            else
-                return@replaceMethod appearFraction
+                if (isFlinging || isSwipingUp)
+                    return@replaceMethod -appearFraction * appearFraction * appearFraction
+                else
+                    return@replaceMethod appearFraction
+            }
         }
 
         // 每次设置背景的时候都同时改透明度
