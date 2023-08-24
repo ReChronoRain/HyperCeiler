@@ -82,6 +82,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/HChenX" />
         </Preference>
+        <Preference android:title="雨中走过">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/pomelohan" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 
