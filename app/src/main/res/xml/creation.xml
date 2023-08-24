@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <PreferenceCategory>
+        <SwitchPreference
+            android:title="@string/creation_unlock"
+            android:key="prefs_key_creation_unlock_enable"
+            android:defaultValue="false" />
+    
+    </PreferenceCategory>
 </PreferenceScreen>

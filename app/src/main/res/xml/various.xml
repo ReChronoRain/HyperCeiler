@@ -22,15 +22,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/creation">
-        <SwitchPreference
-            android:title="@string/creation_unlock"
-            android:key="prefs_key_creation_unlock_enable"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/various_super_clipboard_title">
         <SwitchPreference
             android:title="@string/enable"
