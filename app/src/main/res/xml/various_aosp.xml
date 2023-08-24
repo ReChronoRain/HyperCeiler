@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <Preference
+            android:title="@string/various_open_aosp_extremely_dark_title">
+            <intent
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.Settings$ReduceBrightColorsSettingsActivity" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/various_open_aosp_battery_title">
+            <intent
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.Settings$HighPowerApplicationsActivity" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/various_open_aosp_notification_title">
+            <intent
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.Settings$ConfigureNotificationSettingsActivity" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/various_open_aosp_app_manage_title">
+            <intent
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.applications.ManageApplications" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/various_open_aosp_language_title">
+            <intent
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.LanguageSettings" />
+        </Preference>
+        
+    </PreferenceCategory>
+    <Preference android:enabled="false" />
+</PreferenceScreen>

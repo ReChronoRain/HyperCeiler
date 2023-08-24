@@ -600,7 +600,7 @@
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 服务</string>
-    <string name="security_center_gms_open_more">开启后将会创建磁贴，可在任务栏一键管理谷歌服务开关</string>
+    <string name="security_center_gms_open_more">开启后将会创建磁贴，可在控制中心中一键管理谷歌服务开关</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
@@ -1061,6 +1061,7 @@
     <string name="various_location_simulation_title">位置模拟</string>
     <string name="various_dialog_title">弹窗</string>
     <string name="various_mipad_title">平板相关</string>
+    <string name="various_open_aosp_something_title">打开 “隐藏” 的原生界面</string>
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
@@ -1075,6 +1076,12 @@
     <string name="various_super_clipboard_summary">超级剪切板是一个支持复制文件/文本的剪切板\n请确保下列系统应用是否有 is_support_miui_super_clipboard 的元数据，没有将无法使用这个功能</string>
     <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
     <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
+    
+    <string name="various_open_aosp_battery_title">电池优化</string>
+    <string name="various_open_aosp_notification_title">通知设置</string>
+    <string name="various_open_aosp_app_manage_title">应用管理</string>
+    <string name="various_open_aosp_language_title">语言设置</string>
+    <string name="various_open_aosp_extremely_dark_title">极暗</string>   
 
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>

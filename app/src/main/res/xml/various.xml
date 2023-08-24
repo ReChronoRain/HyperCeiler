@@ -12,6 +12,11 @@
             android:key="prefs_key_various_dialog"
             app:isPreferenceVisible="true"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.AlertDialogSettings" />
+            
+        <Preference
+            android:title="@string/various_open_aosp_something_title"
+            android:key="prefs_key_various_open_aosp_something"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.AOSPSettings" />
 
         <Preference
             android:title="@string/various_mipad_title"

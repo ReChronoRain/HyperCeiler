@@ -1172,4 +1172,10 @@
     <string name="system_ui_statusbar_network_speed_swap_places">Swap uplink and downlink speeds and icon positions</string>
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
+    <string name="various_open_aosp_something_title">Open aosp interface "hidden"</string>
+    <string name="various_open_aosp_battery_title">Battery Optimization</string>
+    <string name="various_open_aosp_notification_title">Notification Settings</string>
+    <string name="various_open_aosp_app_manage_title">App Management</string>
+    <string name="various_open_aosp_language_title">Language Settings</string>
+    <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
 </resources>

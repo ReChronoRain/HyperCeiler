@@ -240,7 +240,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Kr328/.xlDownload" />
         </Preference>
+        
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>
