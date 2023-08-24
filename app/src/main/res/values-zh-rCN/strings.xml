@@ -882,7 +882,7 @@
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">网速字体大小</string>
     <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">显示上下行网速</string>    
+    <string name="system_ui_statusbar_network_speed_show_up_down">显示上下行网速</string>
     <string name="system_ui_statusbar_network_speed_detailed">双排显示上下行网速</string>
     <string name="system_ui_statusbar_network_speed_swap_places">交换上下行网速与图标位置</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
@@ -1095,8 +1095,8 @@
 
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
     <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
-    
-    <string name="canvas_unlock">解除手机端使用限制</string>
+
+    <string name="creation_unlock">解除手机端使用限制</string>
 
     <string name="custom_background_blur_enabled">背景模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>

@@ -20,14 +20,14 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.MiPadSettings" />
 
     </PreferenceCategory>
-    
+
     <PreferenceCategory
         android:title="@string/creation">
         <SwitchPreference
-            android:title="@string/canvas_unlock"
-            android:key="prefs_key_canvas_unlock_enable"
+            android:title="@string/creation_unlock"
+            android:key="prefs_key_creation_unlock_enable"
             android:defaultValue="false" />
-            
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -50,7 +50,7 @@
             android:dependency="prefs_key_various_super_clipboard_enable"
             android:key="prefs_key_various_super_clipboard_notes"
             android:defaultValue="false" />
-            
+
         <SwitchPreference
             android:title="@string/creation"
             android:dependency="prefs_key_various_super_clipboard_enable"

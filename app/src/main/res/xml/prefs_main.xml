@@ -7,7 +7,7 @@
             android:key="prefs_key_tip"
             android:layout="@layout/preference_text"
             android:summary="@string/tip_0" />
-            
+
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemFrameworkFragment"
             android:icon="@drawable/ic_system_framework"
@@ -126,6 +126,13 @@
             android:key="prefs_key_content_extension"
             android:summary="com.miui.contentextension"
             android:title="@string/content_extension" />
+
+        <Preference
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.CreationFragment"
+            android:icon="@drawable/ic_creation"
+            android:key="prefs_key_creation"
+            android:summary="com.miui.creation"
+            android:title="@string/creation" />
 
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.GalleryFragment"

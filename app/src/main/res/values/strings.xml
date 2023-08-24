@@ -1171,5 +1171,5 @@
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Swap uplink and downlink speeds and icon positions</string>
     <string name="creation">Mi Canvas</string>
-    <string name="canvas_unlock">Remove restrictions on the use of mobile phones</string>
+    <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
 </resources>

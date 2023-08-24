@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.various
+package com.sevtinge.cemiuiler.module.creation
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.setStaticObject

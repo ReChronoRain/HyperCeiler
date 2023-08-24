@@ -11,6 +11,7 @@ import com.sevtinge.cemiuiler.module.Browser;
 import com.sevtinge.cemiuiler.module.Camera;
 import com.sevtinge.cemiuiler.module.Clock;
 import com.sevtinge.cemiuiler.module.ContentExtension;
+import com.sevtinge.cemiuiler.module.Creation;
 import com.sevtinge.cemiuiler.module.Downloads;
 import com.sevtinge.cemiuiler.module.ExternalStorage;
 import com.sevtinge.cemiuiler.module.FileExplorer;
@@ -119,6 +120,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public Aod mAod = new Aod();
     public Barrage mBarrage = new Barrage();
     public Notes mNotes = new Notes();
+    public Creation mCreation = new Creation();
     // public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -357,6 +359,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.providers.downloads" -> {
                 mDownloads.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.miui.creation" -> {
+                mCreation.init(lpparam);
                 mVarious.init(lpparam);
             }
             case BuildConfig.APPLICATION_ID -> ModuleActiveHook(lpparam);

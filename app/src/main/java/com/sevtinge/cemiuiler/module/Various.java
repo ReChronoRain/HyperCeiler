@@ -4,7 +4,6 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.various.CollapseMiuiTitle;
 import com.sevtinge.cemiuiler.module.various.DialogCustom;
 import com.sevtinge.cemiuiler.module.various.MiuiAppNoOverScroll;
-import com.sevtinge.cemiuiler.module.various.UnlockCreation;
 import com.sevtinge.cemiuiler.module.various.UnlockIme;
 
 import java.util.Arrays;
@@ -29,9 +28,7 @@ public class Various extends BaseModule {
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
         initHook(UnlockIme.INSTANCE, mPrefsMap.getBoolean("various_unlock_ime"));
-        
-        // 先丢这里，后面有时间再迁出去
-        initHook(UnlockCreation.INSTANCE, mPrefsMap.getBoolean("canvas_unlock_enable"));
+
 
     }
 
