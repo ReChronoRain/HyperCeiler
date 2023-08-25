@@ -15,6 +15,7 @@
             
         <Preference
             android:title="@string/various_open_aosp_something_title"
+            android:summary="@string/various_open_aosp_something_desc"
             android:key="prefs_key_various_open_aosp_something"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.AOSPSettings" />
 
