@@ -8,7 +8,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.cemiuiler.module.base.BaseHook
 
 object DeviceShellCustomize : BaseHook() {
-    private lateinit var device: String 
+     private lateinit var device: String 
      private val deviceS by lazy { 
          mPrefsMap.getString("screenshot_device_customize", "")
      } 
@@ -18,7 +18,7 @@ object DeviceShellCustomize : BaseHook() {
              .filterByName("getResId") 
              .first().createHook { 
                  before { 
-                     if (!this@DeviceShell::device.isInitialized) { 
+                     if (!this@DeviceShellCustomize::device.isInitialized) { 
                          device = Build.DEVICE 
                      } 
                      setStaticObject(loadClass("android.os.Build"), "DEVICE", deviceS) 
