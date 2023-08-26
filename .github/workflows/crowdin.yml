@@ -13,7 +13,7 @@ permissions:
    contents: write 
    pull-requests: write
   
- jobs: 
+jobs: 
    synchronize-with-crowdin: 
      runs-on: ubuntu-latest 
      steps: 
