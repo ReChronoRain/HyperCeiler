@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
+import android.text.TextUtils;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.screenshot.DeviceShellCustomize;
 import com.sevtinge.cemiuiler.module.screenshot.SaveToPictures;
