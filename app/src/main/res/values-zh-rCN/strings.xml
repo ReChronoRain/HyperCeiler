@@ -461,6 +461,9 @@
     <string name="home_recent_text_color">卡片文字颜色</string>
     <string name="home_recent_freeform_background_color">小窗应用卡片背景颜色</string>
     <string name="home_recent_show_real_memory">显示真实使用内存量</string>
+    <string name="home_recent_show_memory_info_sum">平板专用</string>
+    <string name="home_recent_show_memory_info">强制展示内存信息</string>
+    <string name="home_recent_always_show_clean_up">无卡片时不隐藏清理图标</string>
 
     <string name="home_title_icon_title">图标</string>
     <string name="home_title_bigicon_title">大图标</string>
@@ -1079,12 +1082,12 @@
     <string name="various_super_clipboard_summary">超级剪切板是一个支持复制文件/文本的剪切板\n请确保下列系统应用是否有 is_support_miui_super_clipboard 的元数据，没有将无法使用这个功能</string>
     <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
     <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
-    
+
     <string name="various_open_aosp_battery_title">电池优化</string>
     <string name="various_open_aosp_notification_title">通知设置</string>
     <string name="various_open_aosp_app_manage_title">应用管理</string>
     <string name="various_open_aosp_language_title">语言设置</string>
-    <string name="various_open_aosp_extremely_dark_title">极暗</string>   
+    <string name="various_open_aosp_extremely_dark_title">极暗</string>
 
     <string name="various_mipad_input_title">输入</string>
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>

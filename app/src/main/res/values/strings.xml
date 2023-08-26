@@ -1179,6 +1179,9 @@
     <string name="various_open_aosp_app_manage_title">App Management</string>
     <string name="various_open_aosp_language_title">Language Settings</string>
     <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
+    <string name="home_recent_show_memory_info">Show memory info</string>
+    <string name="home_recent_show_memory_info_sum">only for pad</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
     <string name="screenshot_device_customize_desc">Please enter the model code</string>
+    <string name="home_recent_always_show_clean_up">无卡片时禁止隐藏清理图标</string>
 </resources>

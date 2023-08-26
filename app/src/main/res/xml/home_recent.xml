@@ -8,6 +8,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_home_recent_show_memory_info"
+            android:title="@string/home_recent_show_memory_info"
+            android:summary="@string/home_recent_show_memory_info_sum"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_home_recent_show_real_memory"
             android:title="@string/home_recent_show_real_memory"
             android:defaultValue="false" />
@@ -33,6 +39,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_always_show_clean_up"
+            android:title="@string/home_recent_always_show_clean_up"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_home_recent_remove_icon"
             android:title="@string/home_recent_remove_icon"
             android:defaultValue="false" />
@@ -41,47 +52,47 @@
             android:key="prefs_key_home_recent_text"
             android:title="@string/home_recent_text" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_task_view_corners"
-            android:title="@string/home_recent_task_view_card_rounded_corners"           
+            android:title="@string/home_recent_task_view_card_rounded_corners"
             android:defaultValue="20"
             app:defaultValueText="@string/array_default"
             app:maxValue="60"
-            app:stepValue="1" 
+            app:stepValue="1"
             app:format="%d dp" />
 
-        <SeekBarPreferenceEx          
+        <SeekBarPreferenceEx
             android:key="prefs_key_task_view_header_height"
-            android:title="@string/home_recent_app_name_distance_task_view_card"           
+            android:title="@string/home_recent_app_name_distance_task_view_card"
             android:defaultValue="40"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
-            app:stepValue="1" 
+            app:stepValue="1"
             app:format="%d dp" />
 
         <SeekBarPreferenceEx
             android:key="prefs_key_home_recent_animation_speed"
             android:title="@string/home_recent_animation_speed"
-            android:defaultValue="100"            
+            android:defaultValue="100"
             app:defaultValueText="@string/array_default"
             app:maxValue="500"
-            app:minValue="10"         
-            app:stepValue="1" 
+            app:minValue="10"
+            app:stepValue="1"
             app:format="%d / 100 f" />
 
         <SeekBarPreferenceEx
             android:key="prefs_key_task_view_horizontal1"
-            android:title="@string/home_recent_horizontal_task_view_card_size1"          
+            android:title="@string/home_recent_horizontal_task_view_card_size1"
             android:defaultValue="100"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
             app:minValue="50"
-            app:stepValue="1" 
+            app:stepValue="1"
             app:format="%d / 100 f" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_task_view_horizontal2"
-            android:title="@string/home_recent_horizontal_task_view_card_size2"            
+            android:title="@string/home_recent_horizontal_task_view_card_size2"
             android:defaultValue="100"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
@@ -99,11 +110,11 @@
             app:minValue="50"
             app:stepValue="1" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_recent_text_size"
             android:title="@string/home_recent_text_size"
             android:defaultValue="14"
-            app:defaultValueText="@string/array_default"            
+            app:defaultValueText="@string/array_default"
             app:maxValue="30"
             app:minValue="0"
             app:format="%d f"
