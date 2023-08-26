@@ -9,10 +9,6 @@ on:
    schedule: 
      - cron: '0 0 * * *'
   
-permissions: 
-   contents: write 
-   pull-requests: write
-  
 jobs: 
    synchronize-with-crowdin: 
      runs-on: ubuntu-latest 
@@ -26,10 +22,6 @@ jobs:
          upload_translations: false 
          download_translations: false 
          upload_sources: true 
-         
-         create_pull_request: true 
-         localization_branch_name: crowdin_branch 
-         pull_request_labels: 'enhancement, documentation'
          
          config: 'crowdin.yml' 
          crowdin_branch_name: main
