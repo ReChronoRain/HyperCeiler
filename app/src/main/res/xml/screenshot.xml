@@ -12,7 +12,11 @@
             android:summary="@string/screenshot_save_to_pictures_desc"
             android:key="prefs_key_screenshot_save_to_pictures"
             android:defaultValue="false" />
+            
+        <EditTextPreference
+            android:title="@string/screenshot_device_customize_title"
+            android:summary="@string/screenshot_device_customize_desc"
+            android:key="prefs_key_screenshot_device_customize" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 </PreferenceScreen>

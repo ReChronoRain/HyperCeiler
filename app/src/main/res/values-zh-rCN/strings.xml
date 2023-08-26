@@ -587,7 +587,9 @@
     <string name="screen_recorder_save_to_movies_desc">规范录制视频保存位置到 Movies/ScreenRecorder</string>
 
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
-    <string name="screenshot_save_to_pictures_desc">规范截图保存位置到 Pictures/Screenshots</string>
+    <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
+    <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
+    <string name="screenshot_device_customize_desc">填写请输入 机型代号</string>
 
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>
