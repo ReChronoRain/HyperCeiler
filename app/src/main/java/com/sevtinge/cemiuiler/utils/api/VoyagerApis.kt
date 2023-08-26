@@ -2,6 +2,8 @@ package com.sevtinge.cemiuiler.utils.api
 
 import android.content.Context
 import android.util.TypedValue
+import com.github.kyuubiran.ezxhelper.ClassUtils
+import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.utils.isStatic
@@ -56,6 +58,17 @@ fun isPad() =
     loadClass("miui.os.Build")
         .getField("IS_TABLET")
         .getBoolean(null)
+
+private val clazzMiuiBuild by lazy {
+    loadClass("miui.os.Build")
+}
+
+/**
+ * 设备是否为平板
+ */
+val IS_TABLET by lazy {
+    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
+}
 
 fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
     var targetClass = clazz
