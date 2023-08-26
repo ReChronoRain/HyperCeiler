@@ -1,3 +1,5 @@
+name: Crowdin Action
+
 on: 
    workflow_dispatch: 
    push: 
