@@ -1,9 +1,9 @@
-project_id_env: CROWDIN_PROJECT_ID 
+project_id_env: CROWDIN_PROJECT_ID
 api_token_env: CROWDIN_API_TOKEN
 pull_request_title: '[translation] Update translation from Crowdin'
-preserve_hierarchy: 1
+preserve_hierarchy: true
 
 files:
   - source: /app/src/main/res/values/strings.xml
-    translation: /app/src/main/res/values-%two_letters_code%/strings.xml      
+    translation: /app/src/main/res/values-%two_letters_code%/%original_file_name%
     type: android

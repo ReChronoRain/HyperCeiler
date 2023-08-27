@@ -1,30 +1,38 @@
 name: Crowdin Action
 
-on: 
-   workflow_dispatch: 
-   push: 
-     branches: [ main ] 
-     paths: 
-       - app/src/main/res/values/strings.xml 
-   schedule: 
+on:
+   workflow_dispatch:
+   push:
+     branches: [ main ]
+     paths:
+       - app/src/main/res/values/strings.xml
+   schedule:
      - cron: '0 0 * * *'
-  
-jobs: 
-   synchronize-with-crowdin: 
-     runs-on: ubuntu-latest 
-     steps: 
-     - name: Checkout 
-       uses: actions/checkout@v3 
-  
-     - name: crowdin action 
-       uses: crowdin/github-action@master 
-       with: 
-         upload_translations: false 
-         download_translations: false 
-         upload_sources: true 
-         
-         config: 'crowdin.yml' 
+
+jobs:
+   synchronize-with-crowdin:
+     runs-on: ubuntu-latest
+     steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+
+     - name: Crowdin Action
+       uses: crowdin/github-action@master
+       with:
+         # Upload and download translation settings
+         upload_sources: true
+         upload_translations: true
+         download_translations: true
+
+         # Pull request settings
+         create_pull_request: true
+         localization_branch_name: crowdin_branch
+         pull_request_labels: 'enhancement, documentation'
+
+         # Global settings
+         config: 'crowdin.yml'
          crowdin_branch_name: main
-       env: 
-         CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }} 
+       env:
+         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+         CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
          CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
