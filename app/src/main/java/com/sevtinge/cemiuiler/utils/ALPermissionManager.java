@@ -12,10 +12,10 @@ public class ALPermissionManager {
         Process process = null;
         DataOutputStream os = null;
         try {
-            String cmd = "chmod 777 " + pkgCodePath;
+            // String cmd = "chmod 777 " + pkgCodePath;
             process = Runtime.getRuntime().exec("su"); // 切换到root帐号
             os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes(cmd + "\n");
+            os.writeBytes(pkgCodePath + "\n");
             os.writeBytes("exit\n");
             os.flush();
             process.waitFor();
