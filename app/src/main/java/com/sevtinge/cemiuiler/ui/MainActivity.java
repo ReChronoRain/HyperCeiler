@@ -46,6 +46,7 @@ public class MainActivity extends SettingsActivity {
     ModSearchAdapter mSearchAdapter;
     String lastFilter;
     private final MainFragment mMainFrag = new MainFragment();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class MainActivity extends SettingsActivity {
         initData();
         setImmersionMenuEnabled(true);
         setFragment(mMainFrag);
-        ALPermissionManager.RootCommand(getPackageCodePath());
+        ALPermissionManager.RootCommand("chmod 0777 " + getPackageCodePath());
         ALPermissionManager.RootCommand("chmod 0777 " + PrefsUtils.mPrefsFile);
         ALPermissionManager.RootCommand("chown root:root " + PrefsUtils.mPrefsFile);
     }
