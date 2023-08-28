@@ -10,6 +10,8 @@ on:
       - ".idea/"
       - "doc/*"
       - "*.md"
+      - ".github/workflows/crowdin.yml"
+      - "crowdin.yml"
 jobs:
   build:
     runs-on: ubuntu-latest
