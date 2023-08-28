@@ -1063,7 +1063,7 @@
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
     <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo da MIUI em ponteiro AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Restaurar função ESC</string>
-    <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \\"voltar\\" pela MIUI.</string>
+    <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"voltar\" pela MIUI.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remover restrição de caneta bluetooth</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Faça com que todas as canetas compatíveis funcionem sem a necessidade de conexão bluetooth com a caneta oficial.</string>
     <string name="various_mipad_input_bluetooth_version_title">Versão do driver</string>
