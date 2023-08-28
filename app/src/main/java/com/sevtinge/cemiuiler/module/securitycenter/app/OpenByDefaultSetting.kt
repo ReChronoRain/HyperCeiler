@@ -21,7 +21,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import io.luckypray.dexkit.enums.MatchType
 
 object OpenByDefaultSetting : BaseHook() {
@@ -61,7 +61,7 @@ object OpenByDefaultSetting : BaseHook() {
             }
 
         initDexKit(lpparam)
-        safeDexKitBridge.findMethodUsingString {
+        dexKitBridge.findMethodUsingString {
             usingString = "enter_way"
             matchType = MatchType.CONTAINS
             methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;"

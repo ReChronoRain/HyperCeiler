@@ -5,7 +5,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import io.luckypray.dexkit.enums.MatchType
 
 object UnlockSuperClipboard : BaseHook() {
@@ -59,7 +59,7 @@ object UnlockSuperClipboard : BaseHook() {
 
     private fun dexKitSuperClipboard() {
         try {
-            safeDexKitBridge.findMethodUsingString {
+            dexKitBridge.findMethodUsingString {
                 usingString = "persist.sys.support_super_clipboard"
                 matchType = MatchType.FULL
                 methodReturnType = "boolean"
@@ -67,7 +67,7 @@ object UnlockSuperClipboard : BaseHook() {
                 returnConstant(true)
             }
         } catch (t: Throwable) {
-            safeDexKitBridge.findMethodUsingString {
+            dexKitBridge.findMethodUsingString {
                 usingString = "ro.miui.support_super_clipboard"
                 matchType = MatchType.FULL
                 methodReturnType = "boolean"

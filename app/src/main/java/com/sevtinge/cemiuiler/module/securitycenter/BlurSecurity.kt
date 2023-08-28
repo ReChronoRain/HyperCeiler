@@ -18,7 +18,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ColorUtils
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.HookUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
@@ -162,7 +162,7 @@ object BlurSecurity : BaseHook() {
         })
 
         // if (getPackageVersionCode(lpparam) >= 40000754) {
-        safeDexKitBridge.findMethod {
+        dexKitBridge.findMethod {
             methodReturnType = "Landroid/view/View;"
             methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")
         }.forEach {

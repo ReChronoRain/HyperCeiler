@@ -5,12 +5,12 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.safeDexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 
 class AllAsSystemApp : BaseHook() {
     override fun init() {
         initDexKit(lpparam)
-        safeDexKitBridge.findMethod {
+        dexKitBridge.findMethod {
             methodParamTypes = arrayOf("Landroid/content/pm/ApplicationInfo;")
             methodReturnType = "boolean"
         }.forEach {
