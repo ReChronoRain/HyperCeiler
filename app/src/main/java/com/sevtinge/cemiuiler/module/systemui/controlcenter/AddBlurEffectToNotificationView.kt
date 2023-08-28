@@ -74,8 +74,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
-        // 修改横幅通知上滑极限值，仅 Android13 测试通过
-        if (!isAndroidS()) {
+        // 修改横幅通知上滑极限值，存在部分异常问题，暂时回退
+        /*if (!isAndroidS()) {
             "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getStackTranslation") {
                 val getScreenHeight =
                     findClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
@@ -108,7 +108,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 else
                     return@replaceMethod appearFraction
             }
-        }
+        }*/
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
