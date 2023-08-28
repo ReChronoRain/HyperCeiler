@@ -461,7 +461,7 @@
     <string name="home_recent_text_color">卡片文字颜色</string>
     <string name="home_recent_freeform_background_color">小窗应用卡片背景颜色</string>
     <string name="home_recent_show_real_memory">显示真实使用内存量</string>
-    <string name="home_recent_show_memory_info_sum">平板专用</string>
+    <string name="home_recent_show_memory_info_sum">仅供平板使用</string>
     <string name="home_recent_show_memory_info">强制展示内存信息</string>
     <string name="home_recent_always_show_clean_up">无卡片时不隐藏清理图标</string>
 
@@ -516,6 +516,7 @@
     <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
 
     <string name="mi_settings_show_fps">显示更多帧率设置项</string>
+    <string name="mi_settings_show_fps_desc">模块默认解锁全部帧率，不保证全部可用</string>
 
     <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
 
@@ -896,7 +897,7 @@
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">网速值低于该水平时被认为慢，部分指示器图标会显示不同的指示器图标</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 /s 单位</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">网速隐藏 *b/s 单位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器图标</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">启用自定义</string>
 

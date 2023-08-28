@@ -986,7 +986,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao"</s
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Khi giá trị tốc độ mạng thấp hơn mức này, nó được coi là chậm và một số biểu tượng chỉ báo sẽ hiển thị các biểu tượng chỉ báo khác nhau</string>
     <string name="system_ui_statusbar_network_speed_icon">Biểu tượng chỉ báo</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Tốc độ mạng</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (/s)</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_show_up_down">Hiển thị tốc độ mạng kép</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Thời gian cập nhật tốc độ mạng</string>
     <string name="system_ui_statusbar_temp_fix_cpu">Sửa giới hạn nhiệt CPU</string>

@@ -7,7 +7,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.api.IS_TABLET
 import com.sevtinge.cemiuiler.utils.api.isPad
 
-class AlwaysShowCleanUp: BaseHook() {
+object AlwaysShowCleanUp: BaseHook() {
     override fun init() {
         loadClass(
             when (IS_TABLET) {

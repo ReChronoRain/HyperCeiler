@@ -3,6 +3,7 @@
 
     <SwitchPreference
         android:title="@string/mi_settings_show_fps"
+        android:summary="@string/mi_settings_show_fps_desc"
         android:key="prefs_key_mi_settings_show_fps"
         android:defaultValue="false" />
 

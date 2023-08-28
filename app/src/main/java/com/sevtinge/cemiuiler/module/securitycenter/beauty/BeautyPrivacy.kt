@@ -5,7 +5,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.securitycenter.SecurityCenterDexKit
 import com.sevtinge.cemiuiler.utils.Helpers
-import com.sevtinge.cemiuiler.utils.api.isPad
+import com.sevtinge.cemiuiler.utils.api.IS_TABLET
 import java.util.Objects
 
 object BeautyPrivacy : BaseHook() {
@@ -17,7 +17,7 @@ object BeautyPrivacy : BaseHook() {
             for (descriptor in result) {
                 val beautyPrivacyUtils = descriptor.getClassInstance(lpparam.classLoader)
                 beautyPrivacyUtils.methodFinder().first {
-                    if (!isPad()) {
+                    if (!IS_TABLET) {
                         when {
                             appVersionCode in 40000749..40000750 -> name == "X"
                             appVersionCode in 40000754..40000756 -> name == "Q"

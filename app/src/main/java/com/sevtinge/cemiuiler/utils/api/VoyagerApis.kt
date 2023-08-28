@@ -49,26 +49,24 @@ fun Any.field(
     throw NoSuchFieldException("Name: $fieldName,Static: $isStatic, Type: ${if (fieldType == null) "ignore" else fieldType.name}")
 }
 
-/**
- * 判断运行模块的机型是否是平板
- * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
- * @author Voyager
- */
-fun isPad() =
-    loadClass("miui.os.Build")
-        .getField("IS_TABLET")
-        .getBoolean(null)
-
 private val clazzMiuiBuild by lazy {
     loadClass("miui.os.Build")
 }
 
 /**
- * 设备是否为平板
+ * 判断运行模块的机型是否是平板
+ * @return 一个 Boolean 值，true 代表是平板，false 代表不是平板
+ * @author Voyager
  */
 val IS_TABLET by lazy {
     getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_TABLET") ?: false
 }
+
+/**
+ * 函数调用，适用于其他一些需要判断的情况
+ */
+fun isPad() =
+    clazzMiuiBuild.getField("IS_TABLET").getBoolean(null)
 
 fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
     var targetClass = clazz

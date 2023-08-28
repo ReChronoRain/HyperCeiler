@@ -690,7 +690,7 @@
     <string name="array_align_left">Esquerda</string>
     <string name="array_align_right">Direita</string>
     <string name="array_align_center">Centralizado</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de Byte por segundo (/s)</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de Byte por segundo (*b/s)</string>
     <string name="array_netspeedicons_no">Sem ícones</string>
     <string name="system_ui_statusbar_network_speed_icon">Ícone indicador</string>
     <string name="horizontal_alignment">Alinhamento horizontal</string>

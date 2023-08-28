@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.ui.fragment.home;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.view.View;
 
@@ -31,10 +32,10 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mDisableMonoChrome = findPreference("prefs_key_home_other_icon_mono_chrome");
-        mDisableMonoChrome.setVisible(isAndroidT());
+        mDisableMonoChrome.setVisible(isMoreAndroidVersion(33));
         mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
-        mDisableMonetColor.setVisible(isAndroidT());
+        mDisableMonetColor.setVisible(isMoreAndroidVersion(33));
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
     }
 }

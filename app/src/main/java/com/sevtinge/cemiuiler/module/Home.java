@@ -167,8 +167,8 @@ public class Home extends BaseModule {
         initHook(RecentResource.INSTANCE, mPrefsMap.getInt("task_view_corners", 20) != 20 ||
             mPrefsMap.getInt("task_view_header_height", 40) != 40);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
-        initHook(new MemInfoShow(), mPrefsMap.getBoolean("home_recent_show_memory_info"));
-        initHook(new AlwaysShowCleanUp(),mPrefsMap.getBoolean("always_show_clean_up"));
+        initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && isPad());
+        initHook(AlwaysShowCleanUp.INSTANCE,mPrefsMap.getBoolean("always_show_clean_up"));
 
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));

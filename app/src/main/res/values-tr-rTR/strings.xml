@@ -680,7 +680,7 @@
     <string name="array_align_left">Sol</string>
     <string name="array_align_right">Sağ</string>
     <string name="array_align_center">Merkez</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">İkinci sonek (/ s) başına Bayt gizle</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">İkinci sonek (*b/s) başına Bayt gizle</string>
     <string name="array_netspeedicons_no">Simgeler yok</string>
     <string name="system_ui_statusbar_network_speed_icon">Gösterge simgesi</string>
     <string name="horizontal_alignment">Yatay hizalama</string>

@@ -690,7 +690,7 @@
     <string name="array_align_left">左</string>
     <string name="array_align_right">右</string>
     <string name="array_align_center">中央</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (/s)</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (*b/s)</string>
     <string name="array_netspeedicons_no">アイコンなし</string>
     <string name="system_ui_statusbar_network_speed_icon">インジケーターアイコン</string>
     <string name="horizontal_alignment">Horizontal alignment</string>
@@ -998,7 +998,6 @@
     <string name="system_ui_lock_screen_show_charging_c_more">Show detailed current</string>
     <string name="search">検索</string>
     <string name="system_ui_control_center_compact_notice">コンパクトな通知</string>
-    <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\\' vertical paddings</string>
     <string name="save_to_screen_title">Specification save location</string>
     <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
@@ -1168,7 +1167,7 @@
     <string name="various_open_aosp_language_title">Language Settings</string>
     <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
     <string name="home_recent_show_memory_info">Show memory info</string>
-    <string name="home_recent_show_memory_info_sum">only for pad</string>
+    <string name="home_recent_show_memory_info_sum">For tablet use only</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
     <string name="screenshot_device_customize_desc">Please enter the model code</string>
     <string name="home_recent_always_show_clean_up">Prohibit hiding the cleanup icon when there is no card</string>

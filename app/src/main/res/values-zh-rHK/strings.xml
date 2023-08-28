@@ -886,7 +886,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">網速值低於該水準時被認為慢，部分指示器圖示會有所不同</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 /s 單位</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *b/s 單位</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">網速更新間隔</string>
     <string name="system_ui_statusbar_temp_fix_cpu">更改 CPU 溫度獲取源</string>
     <string name="system_ui_statusbar_temp_fix_cpu_desc">輸入 /sys/devices/virtual/thermal/ 資料夾下 thermal_zone* 資料夾後的數位以指定源</string>
