@@ -95,20 +95,22 @@ object ChargingCVP : BaseHook() {
                 }
             }
         }
-        
+
         // 修改底部文本信息
-        val mBottomChargeClass = when {           
-            isMoreAndroidVersion(34) -> loadClass("com.miui.charge.ChargeUtils")
-            else -> loadClass("com.android.keyguard.charge.ChargeUtils")
+        val mBottomChargeClass by lazy {
+            when {
+                isMoreAndroidVersion(34) -> "com.miui.charge.ChargeUtils"
+                else -> "com.android.keyguard.charge.ChargeUtils"
+            }
         }
-        
-        mBottomChargeClass.methodFinder()
+
+        loadClass(mBottomChargeClass).methodFinder()
             .filterByName("getChargingHintText")
-            .filterByParamTypes(
+            /*.filterByParamTypes(
                 Context::class.java,
-                Boolean::class.javaPrimitiveType
-                // Int::class.javaPrimitiveType
-            )
+                Boolean::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType
+            )*/
             .first().createHook {
                 after {
                     it.result?.let { result ->
