@@ -19,6 +19,7 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -245,6 +246,30 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                     }
                 }
             }
+        }
+
+        var keySetManagerClass = findClass("com.android.server.pm.KeySetManagerService", loadPackageParam.classLoader);
+        if (keySetManagerClass != null) {
+            var shouldBypass = new ThreadLocal<Boolean>();
+            hookAllMethods(keySetManagerClass, "shouldCheckUpgradeKeySetLocked", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && Arrays.stream(Thread.currentThread().getStackTrace()).anyMatch((o) -> "preparePackageLI".equals(o.getMethodName()))) {
+                        shouldBypass.set(true);
+                        param.setResult(true);
+                    } else {
+                        shouldBypass.set(false);
+                    }
+                }
+            });
+            hookAllMethods(keySetManagerClass, "checkUpgradeKeySetLocked", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (prefs.getBoolean("digestCreak", true) && shouldBypass.get()) {
+                        param.setResult(true);
+                    }
+                }
+            });
         }
     }
 

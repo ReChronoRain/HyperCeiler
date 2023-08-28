@@ -698,8 +698,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="system_framework_disable_app_link_verify_desc">Hoàn nguyên để mở trực tiếp các ứng dụng được hỗ trợ khi mở liên kết, không cần kiểm tra liên kết được hỗ trợ trong cài đặt ứng dụng</string>
     <string name="system_framework_disable_freeform_blacklist">Cho phép tất cả ứng dụng mở ở dạng cửa sổ nổi</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Đồng ý tất cả ứng dụng đều có thể hoạt động ở dạng cửa sổ nổi</string>
-    <string name="system_framework_disable_integrity">Tắt xác minh tính toàn vẹn của hệ thống</string>
-    <string name="system_framework_disable_integrity_desc">Tắt tự động khôi phục ứng dụng giả mạo</string>
     <string name="system_framework_freeform_content_extension_desc">Chỉ hỗ trợ các liên kết</string>
     <string name="system_framework_freeform_bubble">Bong bóng dạng tự do</string>
     <string name="system_framework_freeform_count">Nhiều cửa sổ nổi</string>

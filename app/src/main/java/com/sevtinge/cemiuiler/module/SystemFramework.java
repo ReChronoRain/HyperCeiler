@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.module;
 
 import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.systemframework.AllowUntrustedTouch;
@@ -33,7 +33,6 @@ import com.sevtinge.cemiuiler.module.systemframework.VolumeMediaSteps;
 import com.sevtinge.cemiuiler.module.systemframework.VolumeSeparateControl;
 import com.sevtinge.cemiuiler.module.systemframework.VolumeSteps;
 import com.sevtinge.cemiuiler.module.systemframework.corepatch.BypassSignCheckForT;
-import com.sevtinge.cemiuiler.module.systemframework.corepatch.DisableSystemIntegrity;
 import com.sevtinge.cemiuiler.module.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.cemiuiler.module.systemframework.mipad.IgnoreStylusKeyGesture;
 import com.sevtinge.cemiuiler.module.systemframework.mipad.NoMagicPointer;
@@ -126,10 +125,9 @@ public class SystemFramework extends BaseModule {
         }
 
         // 核心破解
-        if (isAndroidT()) {
+        if (isMoreAndroidVersion(33)) {
             initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak"));
         }
-        initHook(new DisableSystemIntegrity(), mPrefsMap.getBoolean("system_framework_disable_integrity"));
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));

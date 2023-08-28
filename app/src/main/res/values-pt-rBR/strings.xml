@@ -1102,8 +1102,6 @@
     <string name="security_center_leave_open">Deixe o slide desdobrado</string>
     <string name="security_center_disable_sidebar_show_suggest">Desativar mostrar sugestões de apps</string>
     <string name="incallui_answer_in_head_up">Responda de cabeça erguida</string>
-    <string name="system_framework_disable_integrity">Desative a verificação de integridade do sistema</string>
-    <string name="system_framework_disable_integrity_desc">Desative a recuperação automática de conteúdo adulterado</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
     <string name="system_ui_status_bar_icon_vowifi">Ocultar ícone VoWiFi</string>
     <string name="system_ui_status_bar_icon_stealth">Ocultar ícone do modo incógnito</string>

@@ -57,13 +57,6 @@
             android:key="prefs_key_system_framework_core_patch_enhanced_mode"
             android:defaultValue="false" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_disable_integrity"
-            android:title="@string/system_framework_disable_integrity"
-            android:summary="@string/system_framework_disable_integrity_desc"/>
-
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>
