@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.data.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -50,7 +51,7 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
         int start = ad.title.toLowerCase().indexOf(filterString);
         if (start >= 0) {
             Spannable spannable = new SpannableString(ad.title);
-            spannable.setSpan(new ForegroundColorSpan(SearchHelper.markColorVibrant), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
         } else {
             viewHolder.mName.setText(ad.title);
@@ -107,8 +108,12 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
 
             for (ModData filterableData: SearchHelper.allModsList) {
                 if (constraint.toString().equals(SearchHelper.NEW_MODS_SEARCH_QUERY)) {
-                    if (SearchHelper.newMods.contains(filterableData.key)) nlist.add(filterableData);
-                } else if (filterableData.title.toLowerCase().contains(filterString)) nlist.add(filterableData);
+                    if (SearchHelper.NEW_MODS.contains(filterableData.key)) {
+                        nlist.add(filterableData);
+                    }
+                } else if (filterableData.title.toLowerCase().contains(filterString)) {
+                    nlist.add(filterableData);
+                }
             }
 
             FilterResults results = new FilterResults();
@@ -117,11 +122,13 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
             return results;
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             modsList.clear();
-            if (results.count > 0 && results.values != null)
+            if (results.count > 0 && results.values != null) {
                 modsList.addAll((ArrayList<ModData>)results.values);
+            }
             sortList();
             notifyDataSetChanged();
         }

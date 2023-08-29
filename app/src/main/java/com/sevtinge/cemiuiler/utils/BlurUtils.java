@@ -74,7 +74,7 @@ public class BlurUtils {
         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                mViewRootImpl = XposedHelpers.callMethod(v, "getViewRootImpl", new Object[0]);
+                mViewRootImpl = XposedHelpers.callMethod(v, "getViewRootImpl");
                 mBlurDrawable = createBackgroundDrawable(mViewRootImpl, isBlurEnable, ColorUtilsStatic.colorToHexARGB(mColor), mCornerRadius, mBlurRadius);
                 v.setBackground(mBlurDrawable);
             }

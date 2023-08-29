@@ -55,7 +55,7 @@ public class ColorUtilsStatic {
         G = G.length() == 1 ? "0" + G : G;
         B = B.length() == 1 ? "0" + B : B;
         //
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("#");
         sb.append(A);
         sb.append(R);

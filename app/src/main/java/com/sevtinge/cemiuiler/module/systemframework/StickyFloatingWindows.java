@@ -22,12 +22,12 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class StickyFloatingWindows extends BaseHook {
 
-    public static ConcurrentHashMap<String, Pair<Float, Rect>> fwApps = new ConcurrentHashMap<String, Pair<Float, Rect>>();
+    public static ConcurrentHashMap<String, Pair<Float, Rect>> fwApps = new ConcurrentHashMap<>();
 
     @Override
     public void init() {
 
-        final List<String> fwBlackList = new ArrayList<String>();
+        final List<String> fwBlackList = new ArrayList<>();
         fwBlackList.add("com.miui.securitycenter");
         fwBlackList.add("com.miui.home");
         Class<?> MiuiMultiWindowUtils = findClass("android.util.MiuiMultiWindowUtils");
@@ -59,7 +59,7 @@ public class StickyFloatingWindows extends BaseHook {
                         LogUtils.log(TAG, t);
                     }
                 } else if (windowingMode == 5 && !fwApps.containsKey(pkgName)) {
-                    fwApps.put(pkgName, new Pair<Float, Rect>(0f, null));
+                    fwApps.put(pkgName, new Pair<>(0f, null));
                     storeFwAppsInSetting(mContext);
                 }
             }
@@ -74,7 +74,7 @@ public class StickyFloatingWindows extends BaseHook {
                 String pkgName = getTaskPackageName(param.thisObject, (int) param.args[2], options);
                 if (fwBlackList.contains(pkgName)) return;
                 if (windowingMode == 5 && pkgName != null) {
-                    fwApps.put(pkgName, new Pair<Float, Rect>(0f, null));
+                    fwApps.put(pkgName, new Pair<>(0f, null));
                     Context mContext = (Context) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mService"), "mContext");
                     storeFwAppsInSetting(mContext);
                 }
@@ -141,7 +141,7 @@ public class StickyFloatingWindows extends BaseHook {
                 String pkgName = (String) XposedHelpers.callMethod(miuiFreeFormActivityStack, "getStackPackageName");
                 if (fwBlackList.contains(pkgName)) return;
                 if (!fwApps.containsKey(pkgName)) {
-                    fwApps.put(pkgName, new Pair<Float, Rect>(0f, null));
+                    fwApps.put(pkgName, new Pair<>(0f, null));
                     Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                     storeFwAppsInSetting(mContext);
                 }
@@ -187,7 +187,7 @@ public class StickyFloatingWindows extends BaseHook {
                         if (fwApps.containsKey(pkgName)) {
                             Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                             float sScale = (float) XposedHelpers.callMethod(miuiFreeFormActivityStack, "getFreeFormScale");
-                            fwApps.put(pkgName, new Pair<Float, Rect>(sScale, new Rect((Rect) param.args[1])));
+                            fwApps.put(pkgName, new Pair<>(sScale, new Rect((Rect) param.args[1])));
                             storeFwAppsInSetting(mContext);
                         }
                     }
@@ -237,7 +237,7 @@ public class StickyFloatingWindows extends BaseHook {
         for (String appData : dataArr) {
             if ("".equals(appData)) continue;
             String[] appDataArr = appData.split(":");
-            fwApps.put(appDataArr[0], new Pair<Float, Rect>(Float.parseFloat(appDataArr[1]), "-".equals(appDataArr[2]) ? null : Rect.unflattenFromString(appDataArr[2])));
+            fwApps.put(appDataArr[0], new Pair<>(Float.parseFloat(appDataArr[1]), "-".equals(appDataArr[2]) ? null : Rect.unflattenFromString(appDataArr[2])));
         }
     }
 

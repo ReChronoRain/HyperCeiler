@@ -72,9 +72,13 @@ public class GlobalActions extends BaseHook {
                         int conflictProp2 = (int) Helpers.proxySystemProperties("getInt", "ro.vendor.df.effect.conflict", 0, null);
                         boolean hasConflict = conflictProp == 1 || conflictProp2 == 1;
                         Object dfMgr = XposedHelpers.callStaticMethod(XposedHelpers.findClass("miui.hardware.display.DisplayFeatureManager", null), "getInstance");
-                        if (hasConflict && opt == 0) XposedHelpers.callMethod(dfMgr, "setScreenEffect", 15, 1);
+                        if (hasConflict && opt == 0) {
+                            XposedHelpers.callMethod(dfMgr, "setScreenEffect", 15, 1);
+                        }
                         Settings.Secure.putInt(context.getContentResolver(), "accessibility_display_inversion_enabled", opt == 0 ? 1 : 0);
-                        if (hasConflict && opt != 0) XposedHelpers.callMethod(dfMgr, "setScreenEffect", 15, 0);
+                        if (hasConflict && opt != 0) {
+                            XposedHelpers.callMethod(dfMgr, "setScreenEffect", 15, 0);
+                        }
                     }
 
                     case ACTION_PREFIX + "LockScreen" -> {
@@ -101,10 +105,11 @@ public class GlobalActions extends BaseHook {
                                 user = launchIntent.getIntExtra("user", 0);
                                 launchIntent.removeExtra("user");
                             }
-                            if (user != 0)
+                            if (user != 0) {
                                 XposedHelpers.callMethod(context, "startActivityAsUser", launchIntent, XposedHelpers.newInstance(UserHandle.class, user));
-                            else
+                            } else {
                                 context.startActivity(launchIntent);
+                            }
                         }
                     }
                 }
@@ -114,7 +119,9 @@ public class GlobalActions extends BaseHook {
         }
     };
 
-    // RestartActions
+    /**
+     * RestartActions
+     */
     public void setupRestartActions() {
         hookAllMethods("com.android.server.policy.PhoneWindowManager", "init", new MethodHook() {
             @Override
@@ -137,7 +144,9 @@ public class GlobalActions extends BaseHook {
         public void onReceive(Context context, Intent intent) {
             try {
                 String action = intent.getAction();
-                if (action == null) return;
+                if (action == null) {
+                    return;
+                }
 
                 if ((ACTION_PREFIX + "RestartApps").equals(action)) {
                     forceStopPackage(context, intent.getStringExtra("packageName"));
@@ -154,12 +163,17 @@ public class GlobalActions extends BaseHook {
     }
 
     public static boolean handleAction(Context context, String key, boolean skipLock) {
-        if (key == null || key.isEmpty()) return false;
+        if (key == null || key.isEmpty()) {
+            return false;
+        }
         int action = PrefsUtils.getSharedIntPrefs(context, key + "_action", 0);
-        if (action <= 0) return false;
+        if (action <= 0) {
+            return false;
+        }
         if (action >= 85 && action <= 88) {
-            if (GlobalActions.isMediaActionsAllowed(context))
+            if (GlobalActions.isMediaActionsAllowed(context)) {
                 GlobalActions.sendDownUpKeyEvent(context, action, false);
+            }
             return true;
         }
         return switch (action) {
@@ -236,7 +250,9 @@ public class GlobalActions extends BaseHook {
         if (!isAllowed) {
             long mCurrentTime = currentTimeMillis();
             long mLastPauseTime = Settings.System.getLong(mContext.getContentResolver(), "last_music_paused_time", mCurrentTime);
-            if (mCurrentTime - mLastPauseTime < 10 * 60 * 1000) isAllowed = true;
+            if (mCurrentTime - mLastPauseTime < 10 * 60 * 1000) {
+                isAllowed = true;
+            }
         }
         return isAllowed;
     }
@@ -255,7 +271,9 @@ public class GlobalActions extends BaseHook {
     }
 
     public static boolean launchIntent(Context context, Intent intent) {
-        if (intent == null) return false;
+        if (intent == null) {
+            return false;
+        }
         Intent bIntent = new Intent(ACTION_PREFIX + "LaunchIntent");
         bIntent.putExtra("intent", intent);
         context.sendBroadcast(bIntent);
@@ -268,9 +286,13 @@ public class GlobalActions extends BaseHook {
 
     public static Intent getIntent(Context context, String prefs, IntentType intentType, boolean skipLock) {
         try {
-            if (intentType == IntentType.APP) prefs += "_app";
-            else if (intentType == IntentType.ACTIVITY) prefs += "_activity";
-            else if (intentType == IntentType.SHORTCUT) prefs += "_shortcut_intent";
+            if (intentType == IntentType.APP) {
+                prefs += "_app";
+            } else if (intentType == IntentType.ACTIVITY) {
+                prefs += "_activity";
+            } else if (intentType == IntentType.SHORTCUT) {
+                prefs += "_shortcut_intent";
+            }
 
             String prefValue = PrefsUtils.getSharedStringPrefs(context, prefs, null);
             if (prefValue == null) return null;
@@ -280,11 +302,15 @@ public class GlobalActions extends BaseHook {
                 intent = Intent.parseUri(prefValue, 0);
             } else {
                 String[] pkgAppArray = prefValue.split("\\|");
-                if (pkgAppArray.length < 2) return null;
+                if (pkgAppArray.length < 2) {
+                    return null;
+                }
                 ComponentName name = new ComponentName(pkgAppArray[0], pkgAppArray[1]);
                 intent.setComponent(name);
                 int user = PrefsUtils.getSharedIntPrefs(context, prefs + "_user", 0);
-                if (user != 0) intent.putExtra("user", user);
+                if (user != 0) {
+                    intent.putExtra("user", user);
+                }
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 

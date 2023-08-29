@@ -78,13 +78,13 @@ public class LogcatHelper {
                 e.printStackTrace();
             }
 
-            /**
-             *
-             * 日志等级：*:v , *:d , *:w , *:e , *:f , *:s
-             *
-             * 显示当前mPID程序的 E和W等级的日志.
-             *
-             * */
+            /*
+
+              日志等级：*:v , *:d , *:w , *:e , *:f , *:s
+              <p>
+              显示当前mPID程序的 E和W等级的日志.
+              <p>
+              */
 
             // cmds = "logcat *:e *:w | grep \"(" + mPID + ")\"";
             // cmds = "logcat  | grep \"(" + mPID + ")\"";//打印所有日志信息

@@ -85,13 +85,17 @@ public class OpenAppInFreeForm extends BaseHook {
     }
 
     private boolean shouldOpenInFreeForm(Intent intent, String callingPackage) {
-        if (intent == null || intent.getComponent() == null) return false;
-        final List<String> fwBlackList = new ArrayList<String>();
+        if (intent == null || intent.getComponent() == null) {
+            return false;
+        }
+        final List<String> fwBlackList = new ArrayList<>();
         fwBlackList.add("com.miui.home");
         fwBlackList.add("com.android.camera");
         fwBlackList.add("com.android.systemui");
         String pkgName = intent.getComponent().getPackageName();
-        if (fwBlackList.contains(pkgName)) return false;
+        if (fwBlackList.contains(pkgName)) {
+            return false;
+        }
         boolean openInFw = false;
         final boolean openFwWhenShare = mPrefsMap.getBoolean("system_framework_freeform_app_share");
         if (openFwWhenShare) {

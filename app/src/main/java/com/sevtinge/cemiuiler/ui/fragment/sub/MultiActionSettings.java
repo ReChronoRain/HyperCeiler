@@ -136,11 +136,11 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
 
     public static String getAppName(Context context, String pkgActName, boolean forcePkg) {
         PackageManager pm = context.getPackageManager();
-        String not_selected = "None";
+        String notSelected = "None";
         String[] pkgActArray = pkgActName.split("\\|");
         ApplicationInfo ai;
 
-        if (!pkgActName.equals(not_selected)) {
+        if (!pkgActName.equals(notSelected)) {
             if (pkgActArray.length >= 1 && pkgActArray[0] != null) try {
                 if (!forcePkg && pkgActArray.length >= 2 && pkgActArray[1] != null && !pkgActArray[1].trim().equals("")) {
                     return pm.getActivityInfo(new ComponentName(pkgActArray[0], pkgActArray[1]), 0).loadLabel(pm).toString();

@@ -16,7 +16,7 @@ public class SpinnerEx extends Spinner {
 
     public CharSequence[] entries;
     public int[] entryValues;
-    private final ArrayList<Integer> disabledItems = new ArrayList<Integer>();
+    private final ArrayList<Integer> disabledItems = new ArrayList<>();
 
     public SpinnerEx(Context context, AttributeSet attrs) {
         super(context, attrs);

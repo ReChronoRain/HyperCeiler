@@ -105,20 +105,25 @@ public class PrefsUtils {
         try {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null) {
-                Set<String> prefValue = new LinkedHashSet<String>();
-                while (cursor.moveToNext()) prefValue.add(cursor.getString(0));
+                Set<String> prefValue = new LinkedHashSet<>();
+                while (cursor.moveToNext()) {
+                    prefValue.add(cursor.getString(0));
+                }
                 cursor.close();
                 return prefValue;
-            } else LogUtils.logXp("ContentResolver", "[" + name + "] Cursor fail: null");
+            } else {
+                LogUtils.logXp("ContentResolver", "[" + name + "] Cursor fail: null");
+            }
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
 
-        LinkedHashSet<String> empty = new LinkedHashSet<String>();
-        if (XposedInit.mPrefsMap.containsKey(name))
+        LinkedHashSet<String> empty = new LinkedHashSet<>();
+        if (XposedInit.mPrefsMap.containsKey(name)) {
             return (Set<String>) XposedInit.mPrefsMap.getObject(name, empty);
-        else
+        } else {
             return empty;
+        }
     }
 
 

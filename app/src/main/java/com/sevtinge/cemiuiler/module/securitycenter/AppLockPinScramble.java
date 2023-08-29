@@ -19,7 +19,7 @@ public class AppLockPinScramble extends BaseHook {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 LinearLayout keys = (LinearLayout) param.thisObject;
-                ArrayList<View> mRandomViews = new ArrayList<View>();
+                ArrayList<View> mRandomViews = new ArrayList<>();
                 View bottom0 = null;
                 View bottom2 = null;
                 for (int row = 0; row <= 3; row++) {

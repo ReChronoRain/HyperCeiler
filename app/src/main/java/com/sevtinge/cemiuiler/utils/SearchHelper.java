@@ -14,17 +14,17 @@ import com.sevtinge.cemiuiler.data.ModData;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class SearchHelper {
 
-    public static final int markColorVibrant = Color.rgb(255, 0, 0);
+    public static final int MARK_COLOR_VIBRANT = Color.rgb(255, 0, 0);
     public static final String NEW_MODS_SEARCH_QUERY = "\uD83C\uDD95";
-    public static ArrayList<ModData> allModsList = new ArrayList<ModData>();
+    public static ArrayList<ModData> allModsList = new ArrayList<>();
 
-    public static final HashSet<String> newMods = new HashSet<>(
-        Arrays.asList(
+    public static final HashSet<String> NEW_MODS = new HashSet<>(
+        Set.of(
             "pref_key_launcher_nozoomanim"
         )
     );
@@ -33,7 +33,11 @@ public class SearchHelper {
     public static final String MIUIZER_NS = "http://schemas.android.com/apk/res-auto";
 
     public static void getAllMods(Context context, boolean force) {
-        if (force) allModsList.clear(); else if (allModsList.size() > 0) return;
+        if (force) {
+            allModsList.clear();
+        } else if (allModsList.size() > 0) {
+            return;
+        }
         // 系统框架页面相关
         parsePrefXml(context, R.xml.framework_freeform,
             R.string.system_framework,
@@ -408,9 +412,9 @@ public class SearchHelper {
     }
 
     private static String getModTitle(Resources res, String title) {
-        if (title == null) return null;
+        if (title == null) { return null; }
         int titleResId = Integer.parseInt(title.substring(1));
-        if (titleResId <= 0) return null;
+        if (titleResId <= 0) { return null; }
         return res.getString(titleResId);
     }
 }

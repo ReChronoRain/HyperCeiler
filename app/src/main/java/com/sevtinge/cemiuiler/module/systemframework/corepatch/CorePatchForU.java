@@ -1,11 +1,8 @@
 package com.sevtinge.cemiuiler.module.systemframework.corepatch;
 
-import android.util.Log;
-
 import java.lang.reflect.InvocationTargetException;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 

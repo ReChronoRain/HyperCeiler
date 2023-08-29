@@ -56,13 +56,14 @@ public class Helpers {
     public static final int REQUEST_PERMISSIONS_RESTORE = 2;
 
 
-    public static LruCache<String, Bitmap> memoryCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / 1024) / 2) {
+    public static LruCache<String, Bitmap> memoryCache = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 2) {
         @Override
         protected int sizeOf(String key, Bitmap icon) {
-            if (icon != null)
+            if (icon != null) {
                 return icon.getAllocationByteCount() / 1024;
-            else
+            } else {
                 return 130 * 130 * 4 / 1024;
+            }
         }
     };
 
@@ -498,20 +499,25 @@ public class Helpers {
         try {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null) {
-                Set<String> prefValue = new LinkedHashSet<String>();
-                while (cursor.moveToNext()) prefValue.add(cursor.getString(0));
+                Set<String> prefValue = new LinkedHashSet<>();
+                while (cursor.moveToNext()) {
+                    prefValue.add(cursor.getString(0));
+                }
                 cursor.close();
                 return prefValue;
-            } else log("ContentResolver", "[" + name + "] Cursor fail: null");
+            } else {
+                log("ContentResolver", "[" + name + "] Cursor fail: null");
+            }
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
 
-        LinkedHashSet<String> empty = new LinkedHashSet<String>();
-        if (BaseHook.mPrefsMap.containsKey(name))
+        LinkedHashSet<String> empty = new LinkedHashSet<>();
+        if (BaseHook.mPrefsMap.containsKey(name)) {
             return (Set<String>) BaseHook.mPrefsMap.getObject(name, empty);
-        else
+        } else {
             return empty;
+        }
     }
 
     public static int getSharedIntPref(Context context, String name, int defValue) {

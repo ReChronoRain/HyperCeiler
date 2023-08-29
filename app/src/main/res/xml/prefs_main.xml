@@ -83,15 +83,14 @@
             android:icon="@drawable/ic_system_settings"
             android:key="prefs_key_system_settings"
             android:summary="com.android.settings"
-            android:title="@string/system_settings"></Preference>
+            android:title="@string/system_settings" />
 
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.ThemeManagerFragment"
             android:icon="@drawable/ic_theme_manager"
             android:key="prefs_key_various_theme"
             android:summary="com.android.thememanager"
-            android:title="@string/theme_manager"></Preference>
-
+            android:title="@string/theme_manager" />
         <Preference
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.UpdaterFragment"
             android:icon="@drawable/ic_updater"

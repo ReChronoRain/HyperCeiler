@@ -180,7 +180,7 @@ public class StatusBarIconPositionAdjust extends BaseHook {
                 protected void after(MethodHookParam param) throws Throwable {
                     Object dripLeftController = XposedHelpers.callStaticMethod(findClass("com.android.systemui.Dependency", lpparam.classLoader), "get", findClass("com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl", lpparam.classLoader));
                     Object mDripIconManager = XposedHelpers.getObjectField(param.thisObject, "mDripLeftDarkIconManager");
-                    ArrayList<String> blockList = new ArrayList<String>();
+                    ArrayList<String> blockList = new ArrayList<>();
                     int mCurrentStatusBarType = (int) XposedHelpers.getAdditionalInstanceField(dripLeftController, "mCurrentStatusBarType");
                     if (mCurrentStatusBarType != 1) {
                         blockList.addAll(dripLeftIcons);

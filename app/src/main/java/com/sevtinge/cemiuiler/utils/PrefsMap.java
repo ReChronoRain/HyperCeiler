@@ -28,7 +28,7 @@ public class PrefsMap<K, V> extends HashMap<K, V> {
     @SuppressWarnings("unchecked")
     public Set<String> getStringSet(String key) {
         key = "prefs_key_" + key;
-        return get(key) == null ? new LinkedHashSet<String>() : (Set<String>) get(key);
+        return get(key) == null ? new LinkedHashSet<>() : (Set<String>) get(key);
     }
 
     public boolean getBoolean(String key) {

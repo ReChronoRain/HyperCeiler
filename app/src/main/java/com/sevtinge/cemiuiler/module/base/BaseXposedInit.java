@@ -72,55 +72,55 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
 
-    public SystemFramework mSystemFramework = new SystemFramework();
+    public final SystemFramework mSystemFramework = new SystemFramework();
     // public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
-    public SystemUI mSystemUI = new SystemUI();
-    public Home mHome = new Home();
-    public ScreenShot mScreenShot = new ScreenShot();
+    public final SystemUI mSystemUI = new SystemUI();
+    public final Home mHome = new Home();
+    public final ScreenShot mScreenShot = new ScreenShot();
 
-    public ScreenRecorder mScreenRecorder = new ScreenRecorder();
-    public SecurityCenter mSecurityCenter = new SecurityCenter();
-    public SystemSettings mSystemSettings = new SystemSettings();
-    public Settings mSettings = new Settings();
-    public PersonalAssistant mPersonalAssistant = new PersonalAssistant();
-    public ThemeManager mThemeManager = new ThemeManager();
-    public Updater mUpdater = new Updater();
-    public Market mMarket = new Market();
-    public MediaEditor mMediaEditor = new MediaEditor();
-    public PackageInstaller mPackageInstaller = new PackageInstaller();
-    public PowerKeeper mPowerKeeper = new PowerKeeper();
-    public MiSettings mMiSettings = new MiSettings();
-    public Joyose mJoyose = new Joyose();
-    public Various mVarious = new Various();
-    public Weather mWeather = new Weather();
-    public Clock mClock = new Clock();
-    public FileExplorer mFileExplorer = new FileExplorer();
-    public Music mMusic = new Music();
-    public Gallery mGallery = new Gallery();
-    public Aireco mAireco = new Aireco();
-    public AiAsst mAiAsst = new AiAsst();
-    public Scanner mScanner = new Scanner();
-    public MiShare mMiShare = new MiShare();
-    public MiLink mMiLink = new MiLink();
-    public GuardProvider mGuardProvider = new GuardProvider();
-    public Lbe mLbe = new Lbe();
-    public InCallUi mInCallUi = new InCallUi();
-    public InputSettings mInputSettings = new InputSettings();
-    public TsmClient mTsmClient = new TsmClient();
-    public ContentExtension mContentExtension = new ContentExtension();
-    public VoiceAssist mVoiceAssist = new VoiceAssist();
-    public Mms mMms = new Mms();
-    public ExternalStorage mExternalStorage = new ExternalStorage();
-    public Camera mCamera = new Camera();
-    public Browser mBrowser = new Browser();
-    public Mtb mMtb = new Mtb();
-    public Phone mPhone = new Phone();
-    public MiWallpaper mMiWallpaper = new MiWallpaper();
-    public Downloads mDownloads = new Downloads();
-    public Aod mAod = new Aod();
-    public Barrage mBarrage = new Barrage();
-    public Notes mNotes = new Notes();
-    public Creation mCreation = new Creation();
+    public final ScreenRecorder mScreenRecorder = new ScreenRecorder();
+    public final SecurityCenter mSecurityCenter = new SecurityCenter();
+    public final SystemSettings mSystemSettings = new SystemSettings();
+    public final Settings mSettings = new Settings();
+    public final PersonalAssistant mPersonalAssistant = new PersonalAssistant();
+    public final ThemeManager mThemeManager = new ThemeManager();
+    public final Updater mUpdater = new Updater();
+    public final Market mMarket = new Market();
+    public final MediaEditor mMediaEditor = new MediaEditor();
+    public final PackageInstaller mPackageInstaller = new PackageInstaller();
+    public final PowerKeeper mPowerKeeper = new PowerKeeper();
+    public final MiSettings mMiSettings = new MiSettings();
+    public final Joyose mJoyose = new Joyose();
+    public final Various mVarious = new Various();
+    public final Weather mWeather = new Weather();
+    public final Clock mClock = new Clock();
+    public final FileExplorer mFileExplorer = new FileExplorer();
+    public final Music mMusic = new Music();
+    public final Gallery mGallery = new Gallery();
+    public final Aireco mAireco = new Aireco();
+    public final AiAsst mAiAsst = new AiAsst();
+    public final Scanner mScanner = new Scanner();
+    public final MiShare mMiShare = new MiShare();
+    public final MiLink mMiLink = new MiLink();
+    public final GuardProvider mGuardProvider = new GuardProvider();
+    public final Lbe mLbe = new Lbe();
+    public final InCallUi mInCallUi = new InCallUi();
+    public final InputSettings mInputSettings = new InputSettings();
+    public final TsmClient mTsmClient = new TsmClient();
+    public final ContentExtension mContentExtension = new ContentExtension();
+    public final VoiceAssist mVoiceAssist = new VoiceAssist();
+    public final Mms mMms = new Mms();
+    public final ExternalStorage mExternalStorage = new ExternalStorage();
+    public final Camera mCamera = new Camera();
+    public final Browser mBrowser = new Browser();
+    public final Mtb mMtb = new Mtb();
+    public final Phone mPhone = new Phone();
+    public final MiWallpaper mMiWallpaper = new MiWallpaper();
+    public final Downloads mDownloads = new Downloads();
+    public final Aod mAod = new Aod();
+    public final Barrage mBarrage = new Barrage();
+    public final Notes mNotes = new Notes();
+    public final Creation mCreation = new Creation();
     // public SystemSettings mSystemSettings = new SystemSettings();
     /*public void init(BaseModule... baseModules) {
         mPkgName = mLoadPackageParam.packageName;
@@ -333,7 +333,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.android.mms" -> {
-                log("Hook com.android.mms");
                 mMms.init(lpparam);
                 mVarious.init(lpparam);
             }
@@ -342,7 +341,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.android.phone" -> {
-                log("Hook com.android.phone");
                 mPhone.init(lpparam);
                 mVarious.init(lpparam);
             }

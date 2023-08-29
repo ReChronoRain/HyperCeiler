@@ -14,9 +14,9 @@
             app:entries="@array/system_ui_status_bar_clock_mode"
             app:entryValues="@array/system_ui_status_bar_clock_mode_value" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
-            android:title="@string/vertical_offset"            
+            android:title="@string/vertical_offset"
             android:defaultValue="12"
             app:defaultValueText="@string/array_default"
             app:maxValue="24"
@@ -86,7 +86,7 @@
             app:entries="@array/system_ui_status_bar_clock_double_mode"
             app:entryValues="@array/system_ui_status_bar_clock_double_mode_value" />
 
-        <SeekBarPreferenceEx          
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_size"
             android:dependency="prefs_key_system_ui_statusbar_clock_double"
             android:title="@string/system_ui_statusbar_clock_size"
@@ -97,12 +97,12 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_double_size"
-            android:title="@string/system_ui_statusbar_clock_double_size"           
+            android:title="@string/system_ui_statusbar_clock_double_size"
             android:defaultValue="0"
-            app:defaultValueText="@string/array_default"           
-            app:maxValue="16"           
+            app:defaultValueText="@string/array_default"
+            app:maxValue="16"
             app:stepValue="1"
             app:format="%d dp"
             app:showSeekBarValue="true" />
@@ -132,16 +132,16 @@
             app:entries="@array/system_ui_status_bar_clock_double_mode"
             app:entryValues="@array/system_ui_status_bar_clock_double_mode_value" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_size_geek"
-            android:title="@string/system_ui_statusbar_clock_size"            
+            android:title="@string/system_ui_statusbar_clock_size"
             android:defaultValue="0"
-            app:defaultValueText="@string/array_default"            
+            app:defaultValueText="@string/array_default"
             app:maxValue="20"
             app:stepValue="1"
             app:format="%d dp"
             app:showSeekBarValue="true" />
-            
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>

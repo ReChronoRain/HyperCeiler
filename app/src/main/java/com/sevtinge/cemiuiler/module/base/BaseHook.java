@@ -20,8 +20,8 @@ public abstract class BaseHook {
     public boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public LoadPackageParam lpparam;
-    public ResourcesHook mResHook = XposedInit.mResHook;
-    public static PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
+    public final ResourcesHook mResHook = XposedInit.mResHook;
+    public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
 
     public static final String ACTION_PREFIX = "com.sevtinge.cemiuiler.module.action.";
 
@@ -31,8 +31,9 @@ public abstract class BaseHook {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (!mPrefsMap.getBoolean("settings_disable_detailed_log"))
+            if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
                 printHookStateLog("Hook Success!");
+            }
         } catch (Throwable t) {
             printHookStateLog("Hook Failed!");
             Helpers.log(TAG + " " + t);

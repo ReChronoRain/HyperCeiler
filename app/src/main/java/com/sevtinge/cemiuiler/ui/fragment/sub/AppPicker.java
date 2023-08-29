@@ -88,7 +88,7 @@ public class AppPicker extends Fragment {
             } else {
                 CheckBox checkBox = view.findViewById(android.R.id.checkbox);
 //                String key = "prefs_key_system_framework_clean_share_apps";
-                selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<String>()));
+                selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);
                     selectedApps.remove(appData.packageName);
@@ -178,7 +178,9 @@ public class AppPicker extends Fragment {
                         break;
                     }
                 }
-                if (exists) continue;
+                if (exists) {
+                    continue;
+                }
                 app = new AppData();
                 app.icon = BitmapUtils.drawableToBitmap(pack.activityInfo.applicationInfo.loadIcon(pm));
                 app.packageName = pack.activityInfo.applicationInfo.packageName;

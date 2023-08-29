@@ -25,9 +25,9 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
     private static List<AppData> appInfoList;
     private Set<String> selectedApps;
     private onItemClickListener onItemClickListener;
-    private Context mContext;
-    private String mKey;
-    private int mType;
+    private final Context mContext;
+    private final String mKey;
+    private final int mType;
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -47,6 +47,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
      *
      * @param locationListModels
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void setFilter(List<AppData> locationListModels) {
         appInfoList = new ArrayList<>();
         appInfoList.addAll(locationListModels);
@@ -63,7 +64,7 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         AppData appInfo = appInfoList.get(position);
-        selectedApps = PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<String>());
+        selectedApps = PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>());
 
         holder.mAppListIcon.setImageBitmap(appInfo.icon);
         holder.mAppName.setText(appInfo.label);
@@ -90,10 +91,10 @@ public class AppDataAdapter extends RecyclerView.Adapter<AppDataAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mAppListIcon;
-        private TextView mAppName;
-        private TextView mAppPackageName;
-        private CheckBox mSelecte;
+        private final ImageView mAppListIcon;
+        private final TextView mAppName;
+        private final TextView mAppPackageName;
+        private final CheckBox mSelecte;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -22,7 +22,7 @@ public class ScramblePIN extends BaseHook {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 View[][] mViews = (View[][]) XposedHelpers.getObjectField(param.thisObject, "mViews");
-                ArrayList<View> mRandomViews = new ArrayList<View>();
+                ArrayList<View> mRandomViews = new ArrayList<>();
                 for (int row = 1; row <= 3; row++) {
                     for (int col = 0; col <= 2; col++) {
                         if (mViews[row][col] != null) mRandomViews.add(mViews[row][col]);
