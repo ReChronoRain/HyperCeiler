@@ -1182,4 +1182,6 @@
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
     <string name="screenshot_device_customize_desc">Please enter the model code</string>
     <string name="home_recent_always_show_clean_up">Prohibit hiding the cleanup icon when there is no card</string>
+    <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
+    <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
 </resources>

@@ -18,6 +18,8 @@
     <string name="restart_app_desc2">吗？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活</string>
+    <string name="kill_failed">结束进程失败，请检查是否为 Cemiuiler 授予了 Root/Su 权限?</string>
+    <string name="reboot_failed">重启失败，请检查是否为 Cemiuiler 授予了 Root/Su 权限?</string>
 
     <string name="expand_button_title">高级</string>
     <string name="not_set">未设置</string>

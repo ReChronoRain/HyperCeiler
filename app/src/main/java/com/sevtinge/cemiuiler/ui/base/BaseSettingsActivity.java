@@ -1,6 +1,10 @@
 package com.sevtinge.cemiuiler.ui.base;
 
+import static android.widget.Toast.LENGTH_SHORT;
 import static com.sevtinge.cemiuiler.utils.KotlinXposedHelperKt.exec;
+import static com.sevtinge.cemiuiler.utils.ToastHelper.makeText;
+
+import static moralnorm.appcompat.widget.dialoganim.DimAnimator.dismiss;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,7 +34,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
     public ActionBar mActionBar;
     public static List<BaseSettingsActivity> mActivityList = new ArrayList<>();
 
-    public String PACKAGENAME_SYSTEM_UI = "com.android.systemui";
+    public final String PACKAGENAME_SYSTEM_UI = "com.android.systemui";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,16 +135,48 @@ public class BaseSettingsActivity extends AppCompatActivity {
     }
 
     public void restartSystem() {
-        exec("reboot");
+        try {
+            exec("reboot");
+        } catch (Throwable t) {
+            new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(R.string.reboot_failed)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                .show();
+        }
     }
 
     public void restartSystemUI() {
-        sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI"));
+        try {
+            exec("killall com.android.systemui");
+        } catch (Throwable t) {
+            new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(R.string.kill_failed)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                .show();
+        }
+        // sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI"));
     }
 
     public void restartApps(String packagename) {
-        Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartApps");
-        intent.putExtra("packageName", packagename);
-        sendBroadcast(intent);
+        try {
+            exec("killall " + packagename);
+        } catch (Throwable t) {
+            new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(R.string.tip)
+                .setMessage(R.string.kill_failed)
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                .show();
+        }
+        // Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartApps");
+        // intent.putExtra("packageName", packagename);
+        // sendBroadcast(intent);
     }
 }
