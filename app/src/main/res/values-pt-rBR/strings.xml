@@ -300,7 +300,7 @@
     <string name="system_ui_status_bar_battery_indicator_color_full_power">Cor da bateria cheia</string>
     <string name="system_ui_status_bar_battery_indicator_color_low_power">Cor da bateria baixa</string>
     <string name="system_ui_status_bar_battery_indicator_color_power_saving">Cor do modo de economia de energia</string>
-    <string name="system_ui_status_bar_battery_indicator_color_power_charging">Cor de carregamento</string>
+    <string name="system_ui_status_bar_battery_indicator_color_power_charging">Cor do carregamento</string>
     <string name="system_ui_status_bar_battery_indicator_height">Altura</string>
     <string name="system_ui_status_bar_battery_indicator_padding">Margem horizontal</string>
     <string name="system_ui_status_bar_battery_indicator_alpha">Transparência</string>
@@ -379,7 +379,7 @@
     <string name="various_dialog_gravity">Localização da janela pop-up</string>
     <string name="various_dialog_margin_horizontal">Janela pop-up para margem vertical</string>
     <string name="various_dialog_margin_horizontal_desc">A distância entre a janela pop-up e as laterais da tela</string>
-    <string name="various_dialog_margin_bottom">Janela pop-up para a margem inferior</string>
+    <string name="various_dialog_margin_bottom">Janela pop-up para margem vertical</string>
     <string name="various_dialog_margin_bottom_desc">A distância da janela pop-up até a parte inferior da tela</string>
     <string name="various_dialog_window_blur">Blur da janela</string>
     <string name="various_dialog_window_blur_radius">Raio do blur da janela</string>
@@ -506,8 +506,8 @@
     <string name="cemiuiler_restart_quick">Reiniciar apps rapidamente</string>
     <string name="location_add">Adicionar</string>
     <string name="location_delete">Excluir</string>
-    <string name="reset_title">Tem certeza de que deseja redefinir?</string>
-    <string name="reset_desc">Depois de redefinir a configuração do módulo, todos os seus dados serão excluídos!</string>
+    <string name="reset_title">Você tem certeza de que deseja redefinir?</string>
+    <string name="reset_desc">Após redefinir a configuração do módulo, todos os seus dados serão excluídos!</string>
     <string name="reset_okay">A configuração do módulo foi redefinida</string>
     <string name="backup_success">Backup concluído</string>
     <string name="backup_failed">Backup falhou</string>
@@ -563,7 +563,7 @@
     <string name="system_framework_volume_first_press">Ajuste de volume instantâneo</string>
     <string name="system_framework_volume_separate_control">Controle de volume independente</string>
     <string name="system_framework_volume_disable_safe">Remover restrições de segurança de volume alto</string>
-    <string name="system_framework_volume_separate_slider">Controle deslizante de volume de notificação</string>
+    <string name="system_framework_volume_separate_slider">Controle deslizante do volume de notificação</string>
     <string name="system_framework_volume_media_steps">Nível de volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
     <string name="system_framework_volume_steps">Multiplicador de nível de volume</string>
@@ -585,7 +585,7 @@
     <string name="home_layout_hotseats_margin_top_desc">Distância da dock da margem do indicador de página</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distância da dock da margem inferior da tela</string>
     <string name="home_layout_searchbar_margin_bottom_desc">Distância da barra de pesquisa da margem inferior da tela</string>
-    <string name="home_other_home_mode">Modo Desktop</string>
+    <string name="home_other_home_mode">Modo desktop</string>
     <string name="home_other_show_clock">Tempo de exibição</string>
     <string name="home_other_show_clock_desc">A página onde o widget de relógio está localizado sempre exibe a hora</string>
     <string name="home_other_infinite_scroll">Rolagem infinita</string>
@@ -612,7 +612,7 @@
     <string name="joyose_cloud_control_title">Controle de nuvem</string>
     <string name="joyose_disable_cloud_control">Desativar controle de nuvem</string>
     <string name="joyose_game_title">Game Space</string>
-    <string name="joyose_enable_gpu_tuner">Programação de desempenho</string>
+    <string name="joyose_enable_gpu_tuner">Agendamento de desempenho</string>
     <string name="home_dock_unlock_hotseat">Remover restrição de número de ícones na dock</string>
     <string name="security_app_title">Exibir detalhes adicionais do app</string>
     <string name="security_app_summary">Adicione novos campos ao app na página:\n- Número da versão do app\n- Diretório APK\n- Diretório dos dados\n- ID do usuário\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a app store \n- Iniciar um app</string>
@@ -690,7 +690,7 @@
     <string name="array_align_left">Esquerda</string>
     <string name="array_align_right">Direita</string>
     <string name="array_align_center">Centralizado</string>
-    <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de Byte por segundo (*b/s)</string>
+    <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de bytes por segundo (*b/s)</string>
     <string name="array_netspeedicons_no">Sem ícones</string>
     <string name="system_ui_statusbar_network_speed_icon">Ícone indicador</string>
     <string name="horizontal_alignment">Alinhamento horizontal</string>
@@ -814,7 +814,7 @@
     <string name="settings_icon_mode">Estilo do ícone</string>
     <string name="settings_icon_miui_13">Estilo de corte de fundo</string>
     <string name="settings_icon_miui_14">Estilo retângulo arredondado</string>
-    <string name="system_ui_statusbar_indicator_temperature_title">Temperatura relacionada</string>
+    <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="array_cpu_temp">Temperatura da CPU</string>
     <string name="array_battery_temp">Temperatura da bateria</string>
@@ -850,7 +850,7 @@
     <string name="system_framework_other_title">Outro</string>
     <string name="system_ui_other_title">Outro</string>
     <string name="system_ui_another_title">Outro</string>
-    <string name="screen_recorder_more_volume">Desbloquear mais Volume de</string>
+    <string name="screen_recorder_more_volume">Desbloquear mais volume de</string>
     <string name="screen_recorder_more_volume_desc">Algumas versões não são suportadas</string>
     <string name="phone_double_5g_nr">Uso de cartão duplo 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
@@ -983,6 +983,7 @@
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
     <string name="security_center_disable_send_malicious_app_notification">Desativar notificações de \"App malicioso encontrado\"</string>
     <string name="mi_settings_show_fps">Exibir mais lista de FPS</string>
+    <string name="mi_settings_show_fps_desc">O módulo desbloqueia todas as taxas de quadros por padrão, não é garantido que estejam disponíveis</string>
     <string name="mi_settings">Configurações Mi</string>
     <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio por 72 horas</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Mi Smart Hub</string>
@@ -1158,7 +1159,7 @@
     <string name="various_open_aosp_language_title">Configurações de Idioma</string>
     <string name="various_open_aosp_extremely_dark_title">Extremamente Escuro</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
-    <string name="home_recent_show_memory_info_sum">somente para tablet</string>
+    <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado com shell</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo</string>
     <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza quando não houver apps em segundo plano</string>
