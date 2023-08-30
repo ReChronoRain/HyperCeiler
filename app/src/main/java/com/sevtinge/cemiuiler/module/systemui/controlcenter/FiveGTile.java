@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.util.ArrayMap;
-import android.widget.Switch;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.utils.TileUtils;
@@ -27,7 +26,7 @@ public class FiveGTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQsFactory() {
+    public Class<?> customQSFactory() {
         return findClassIfExists(mQSFactoryClsName);
     }
 
@@ -56,69 +55,36 @@ public class FiveGTile extends TileUtils {
 
     @Override
     public void tileCheck(MethodHookParam param, String tileName) {
-        if ("custom_5G".equals(tileName)) {
-            // 获取设置是否支持5G
-            param.setResult(TelephonyManager.getDefault().isFiveGCapable());
-        } else {
-            param.setResult(false);
-        }
-    }
-
-    @Override
-    public void tileListening(MethodHookParam param, String tileName) {
-        if ("custom_5G".equals(tileName)) {
-            param.setResult(null);
-        }
+        // 获取设置是否支持5G
+        param.setResult(TelephonyManager.getDefault().isFiveGCapable());
     }
 
     @Override
     public void tileLongClickIntent(MethodHookParam param, String tileName) {
-        if ("custom_5G".equals(tileName)) {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            intent.setComponent(new ComponentName("com.android.phone", "com.android.phone.settings.PreferredNetworkTypeListPreference"));
-            param.setResult(intent);
-        } else {
-            param.setResult(null);
-        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.setComponent(new ComponentName("com.android.phone", "com.android.phone.settings.PreferredNetworkTypeListPreference"));
+        param.setResult(intent);
     }
 
     @Override
     public void tileClick(MethodHookParam param, String tileName) {
-        if ("custom_5G".equals(tileName)) {
-            TelephonyManager manager = TelephonyManager.getDefault();
-            // 切换5G状态
-            manager.setUserFiveGEnabled(!manager.isUserFiveGEnabled());
-            // 更新磁贴状态
-            XposedHelpers.callMethod(param.thisObject, "refreshState");
-        }
-        param.setResult(null);
+        TelephonyManager manager = TelephonyManager.getDefault();
+        // 切换5G状态
+        manager.setUserFiveGEnabled(!manager.isUserFiveGEnabled());
+        // 更新磁贴状态
+        XposedHelpers.callMethod(param.thisObject, "refreshState");
     }
 
     @Override
-    public void tileUpdateState(MethodHookParam param, Class<?> mResourceIcon, String tileName) {
+    public ArrayMap<String, Integer> tileUpdateState(MethodHookParam param, Class<?> mResourceIcon, String tileName) {
         boolean isEnable;
-        if ("custom_5G".equals(tileName)) {
-            TelephonyManager manager = TelephonyManager.getDefault();
-            isEnable = manager.isUserFiveGEnabled();
-
-            ArrayMap<String, Integer> tileOnResMap = new ArrayMap<>();
-            ArrayMap<String, Integer> tileOffResMap = new ArrayMap<>();
-            if (mPrefsMap.getBoolean("system_control_center_5g_tile")) {
-                tileOnResMap.put("custom_5G", mResHook.addResource("ic_control_center_5g_toggle_on", R.drawable.ic_control_center_5g_toggle_on));
-                tileOffResMap.put("custom_5G", mResHook.addResource("ic_control_center_5g_toggle_off", R.drawable.ic_control_center_5g_toggle_off));
-            }
-            Object booleanState = param.args[0];
-            XposedHelpers.setObjectField(booleanState, "value", isEnable);
-            // 测试为开关状态控制，2为开，1为关
-            XposedHelpers.setObjectField(booleanState, "state", isEnable ? 2 : 1);
-            String tileLabel = (String) XposedHelpers.callMethod(param.thisObject, "getTileLabel");
-            XposedHelpers.setObjectField(booleanState, "label", tileLabel);
-            XposedHelpers.setObjectField(booleanState, "contentDescription", tileLabel);
-            XposedHelpers.setObjectField(booleanState, "expandedAccessibilityClassName", Switch.class.getName());
-            Object mIcon = XposedHelpers.callStaticMethod(mResourceIcon, "get", isEnable ? tileOnResMap.get(tileName) : tileOffResMap.get(tileName));
-            XposedHelpers.setObjectField(booleanState, "icon", mIcon);
-        }
-        param.setResult(null);
+        TelephonyManager manager = TelephonyManager.getDefault();
+        isEnable = manager.isUserFiveGEnabled();
+        ArrayMap<String, Integer> tileResMap = new ArrayMap<>();
+        tileResMap.put("custom_5G_Enable", isEnable ? 1 : 0);
+        tileResMap.put("custom_5G_ON", mResHook.addResource("ic_control_center_5g_toggle_on", R.drawable.ic_control_center_5g_toggle_on));
+        tileResMap.put("custom_5G_OFF", mResHook.addResource("ic_control_center_5g_toggle_off", R.drawable.ic_control_center_5g_toggle_off));
+        return tileResMap;
     }
 }

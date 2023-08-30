@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.ArrayMap;
-import android.widget.Switch;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.utils.TileUtils;
@@ -38,7 +37,7 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQsFactory() {
+    public Class<?> customQSFactory() {
         return findClassIfExists(mQSFactoryClsName);
     }
 
@@ -67,97 +66,68 @@ public class GmsTile extends TileUtils {
 
     @Override
     public void tileCheck(MethodHookParam param, String tileName) {
-        if ("custom_GMS".equals(tileName)) {
-            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-            PackageManager packageManager = mContext.getPackageManager();
-            try {
-                packageManager.getPackageInfo(CheckGms, PackageManager.GET_ACTIVITIES);
-                param.setResult(true);
-            } catch (PackageManager.NameNotFoundException e) {
-                logI("Not Find GMS App");
-                param.setResult(false);
-            }
+        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+        PackageManager packageManager = mContext.getPackageManager();
+        try {
+            packageManager.getPackageInfo(CheckGms, PackageManager.GET_ACTIVITIES);
+            param.setResult(true);
+        } catch (PackageManager.NameNotFoundException e) {
+            logI("Not Find GMS App");
+            param.setResult(false);
         }
     }
 
     @Override
-    public void tileListening(MethodHookParam param, String tileName) {
-        if ("custom_GMS".equals(tileName)) {
-            param.setResult(null);
-        }
-    }
-
-    @Override
-    public void tileLongClickIntent(MethodHookParam param, String tileName) {
-        if ("custom_GMS".equals(tileName)) {
-            // 长按跳转谷歌基础服务页面
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.googlebase.ui.GmsCoreSettings"));
-            param.setResult(intent);
-        } else {
-            param.setResult(null);
-        }
+    public Intent tileHandleLongClick(MethodHookParam param, String tileName) {
+        // 长按跳转谷歌基础服务页面
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.googlebase.ui.GmsCoreSettings"));
+        return intent;
     }
 
     @Override
     public void tileClick(MethodHookParam param, String tileName) {
-        if ("custom_GMS".equals(tileName)) {
-            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-            PackageManager packageManager = mContext.getPackageManager();
-            int End = packageManager.getApplicationEnabledSetting(CheckGms);
-            if (End == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
-                for (String GmsAppsSystem : GmsAppsSystem) {
-                    try {
-                        packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
-                        packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
-                        logI("To Enabled Gms App:" + GmsAppsSystem);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        logI("Don't have Gms app :" + GmsAppsSystem);
-                    }
+        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+        PackageManager packageManager = mContext.getPackageManager();
+        int End = packageManager.getApplicationEnabledSetting(CheckGms);
+        if (End == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+            for (String GmsAppsSystem : GmsAppsSystem) {
+                try {
+                    packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
+                    packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
+                    logI("To Enabled Gms App:" + GmsAppsSystem);
+                } catch (PackageManager.NameNotFoundException e) {
+                    logI("Don't have Gms app :" + GmsAppsSystem);
                 }
-                XposedHelpers.callMethod(param.thisObject, "refreshState");
-            } else if (End == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || End == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) {
-                for (String GmsAppsSystem : GmsAppsSystem) {
-                    try {
-                        packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
-                        packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
-                        logI("To Disabled Gms App:" + GmsAppsSystem);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        logI("Don't have Gms app :" + GmsAppsSystem);
-                    }
-                }
-                XposedHelpers.callMethod(param.thisObject, "refreshState");
             }
+            XposedHelpers.callMethod(param.thisObject, "refreshState");
+        } else if (End == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || End == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) {
+            for (String GmsAppsSystem : GmsAppsSystem) {
+                try {
+                    packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
+                    packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
+                    logI("To Disabled Gms App:" + GmsAppsSystem);
+                } catch (PackageManager.NameNotFoundException e) {
+                    logI("Don't have Gms app :" + GmsAppsSystem);
+                }
+            }
+            XposedHelpers.callMethod(param.thisObject, "refreshState");
         }
-        param.setResult(null);
+
     }
 
     @Override
-    public void tileUpdateState(MethodHookParam param, Class<?> mResourceIcon, String tileName) {
+    public ArrayMap<String, Integer> tileUpdateState(MethodHookParam param, Class<?> mResourceIcon, String tileName) {
         boolean isEnable;
-        if ("custom_GMS".equals(tileName)) {
-            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-            PackageManager packageManager = mContext.getPackageManager();
-            int End = packageManager.getApplicationEnabledSetting(CheckGms);
-            isEnable = End == PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-            ArrayMap<String, Integer> tileOnResMap = new ArrayMap<>();
-            ArrayMap<String, Integer> tileOffResMap = new ArrayMap<>();
-            if (mPrefsMap.getBoolean("security_center_gms_open")) {
-                tileOnResMap.put("custom_GMS", mResHook.addResource("ic_control_center_gms_toggle_on", R.drawable.ic_control_center_gms_toggle_on));
-                tileOffResMap.put("custom_GMS", mResHook.addResource("ic_control_center_gms_toggle_off", R.drawable.ic_control_center_gms_toggle_off));
-            }
-            Object booleanState = param.args[0];
-            XposedHelpers.setObjectField(booleanState, "value", isEnable);
-            // 测试为开关状态控制，2为开，1为关
-            XposedHelpers.setObjectField(booleanState, "state", isEnable ? 2 : 1);
-            String tileLabel = (String) XposedHelpers.callMethod(param.thisObject, "getTileLabel");
-            XposedHelpers.setObjectField(booleanState, "label", tileLabel);
-            XposedHelpers.setObjectField(booleanState, "contentDescription", tileLabel);
-            XposedHelpers.setObjectField(booleanState, "expandedAccessibilityClassName", Switch.class.getName());
-            Object mIcon = XposedHelpers.callStaticMethod(mResourceIcon, "get", isEnable ? tileOnResMap.get(tileName) : tileOffResMap.get(tileName));
-            XposedHelpers.setObjectField(booleanState, "icon", mIcon);
-        }
-        param.setResult(null);
+        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+        PackageManager packageManager = mContext.getPackageManager();
+        int End = packageManager.getApplicationEnabledSetting(CheckGms);
+        isEnable = End == PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        ArrayMap<String, Integer> tileResMap = new ArrayMap<>();
+        tileResMap.put("custom_GMS_Enable", isEnable ? 1 : 0);
+        tileResMap.put("custom_GMS_ON", mResHook.addResource("ic_control_center_gms_toggle_on", R.drawable.ic_control_center_gms_toggle_on));
+        tileResMap.put("custom_GMS_OFF", mResHook.addResource("ic_control_center_gms_toggle_off", R.drawable.ic_control_center_gms_toggle_off));
+        return tileResMap;
     }
 }
