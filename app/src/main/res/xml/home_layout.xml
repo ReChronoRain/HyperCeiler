@@ -5,13 +5,13 @@
     <PreferenceCategory>
         <SwitchPreference
             android:key="prefs_key_home_other_show_clock"
-            android:title="@string/home_other_show_clock"
-            android:summary="@string/home_other_show_clock_desc"
+            android:title="@string/home_layout_show_clock"
+            android:summary="@string/home_layout_show_clock_desc"
             android:defaultValue="false" />
 
         <DropDownPreference
             android:key="prefs_key_home_other_seek_points"
-            android:title="@string/home_other_seek_points"
+            android:title="@string/home_layout_seek_points"
             app:entries="@array/seek_points"
             app:entryValues="@array/seek_points_value"
             android:defaultValue="0" />
@@ -40,7 +40,7 @@
 
         <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_workspace_padding_top"            
+            android:key="prefs_key_home_layout_workspace_padding_top"
             android:defaultValue="30"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
@@ -56,7 +56,7 @@
 
         <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_workspace_padding_bottom"          
+            android:key="prefs_key_home_layout_workspace_padding_bottom"
             android:defaultValue="120"
             app:defaultValueText="@string/array_default"
             app:maxValue="240"
@@ -106,7 +106,7 @@
 
         <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_hotseats_margin_bottom"           
+            android:key="prefs_key_home_layout_hotseats_margin_bottom"
             android:defaultValue="70"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
@@ -125,7 +125,7 @@
 
         <SeekBarPreferenceEx
             android:layout="@layout/preference_seekbar_no_padding"
-            android:key="prefs_key_home_layout_searchbar_margin_bottom"            
+            android:key="prefs_key_home_layout_searchbar_margin_bottom"
             android:defaultValue="30"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
