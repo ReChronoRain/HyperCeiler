@@ -27,7 +27,7 @@ public class FiveGTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
+    public Class<?> customQsFactory() {
         return findClassIfExists(mQSFactoryClsName);
     }
 

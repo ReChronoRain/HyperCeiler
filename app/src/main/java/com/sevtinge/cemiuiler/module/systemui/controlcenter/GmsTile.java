@@ -2,7 +2,9 @@ package com.sevtinge.cemiuiler.module.systemui.controlcenter;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.ArrayMap;
@@ -36,7 +38,7 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
+    public Class<?> customQsFactory() {
         return findClassIfExists(mQSFactoryClsName);
     }
 
@@ -88,6 +90,12 @@ public class GmsTile extends TileUtils {
     @Override
     public void tileLongClickIntent(MethodHookParam param, String tileName) {
         if ("custom_GMS".equals(tileName)) {
+            // 长按跳转谷歌基础服务页面
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.googlebase.ui.GmsCoreSettings"));
+            param.setResult(intent);
+        } else {
             param.setResult(null);
         }
     }

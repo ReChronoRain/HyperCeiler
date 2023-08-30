@@ -24,7 +24,7 @@ public class SunlightMode extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
+    public Class<?> customQsFactory() {
         return findClassIfExists(mQSFactoryClsName);
     }
 
