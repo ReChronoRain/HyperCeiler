@@ -956,9 +956,9 @@
     <string name="system_ui_other_notification_fix">Desativar lista de permissões de notificação</string>
     <string name="system_ui_notification_title">Notificação</string>
     <string name="system_settings_knuckle_function">Desbloquear as funções relacionadas à articulação</string>
-    <string name="system_settings_knuckle_function_desc">Recursos experimentais\nReinicie após habilitar as Configurações, Escopo das configurações de entrada\nNo momento, apenas desbloqueia a interface do usuário</string>
+    <string name="system_settings_knuckle_function_desc">Recursos experimentais\nPor favor, reinicie após ativar as Configurações, Escopo das Configurações de Entrada\nNo momento, apenas desbloqueia a interface do usuário</string>
     <string name="system_ui_navigation_custom_height">Altura da navegação</string>
-    <string name="system_ui_navigation_custom_height_land">Altura de navegação na paisagem</string>
+    <string name="system_ui_navigation_custom_height_land">Altura da navegação no modo paisagem</string>
     <string name="system_ui_navigation_frame_custom_height">Altura do quadro de navegação</string>
     <string name="system_ui_navigation_frame_custom_height_land">Altura do quadro de navegação em paisagem</string>
     <string name="system_ui_navigation_custom">Navegação personalizada</string>
@@ -993,7 +993,7 @@
     <string name="system_ui_control_center_compact_notice">Notificações compactas</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduza o espaçamento vertical das notificações</string>
     <string name="save_to_screen_title">Especificar para salvar localização</string>
-    <string name="screen_recorder_save_to_movies_desc">Especificar o local para salvar gravações de tela Movies/ScreenRecorder</string>
+    <string name="screen_recorder_save_to_movies_desc">Especifique o local para salvar gravações de tela Movies/ScreenRecorder</string>
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="home_widget_resizable">Remover quaisquer limitações de tamanho do widget</string>
     <string name="system_ui_display_toast_times_title">Exibir ajuste de duração</string>
@@ -1005,7 +1005,7 @@
     <string name="array_clock_center_and_icon_left">Relógio central e Ícone à esquerda</string>
     <string name="system_ui_statusbar_layout_title">Layout</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Modo de compatibilidade</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Habilite forçosamente o layout de tela inteira para todas as telas de formato especial</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Ative forçosamente o layout de tela inteira para todas as telas de formato especial</string>
     <string name="aiasst">Tradutor AI</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
     <string name="aiasst_ai_captions_desc">Somente Chinês e Inglês podem ser reconhecidos e traduzidos</string>
@@ -1039,12 +1039,12 @@
     <string name="appcompat_actionbar_immersion_button_more_description">Mais</string>
     <string name="more">Mais</string>
     <string name="clearable_edittext_clear_description">Limpar</string>
-    <string name="security_center_pad">Central de segurança de tablets</string>
+    <string name="security_center_pad">Central de segurança para tablets</string>
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
     <string name="security_center_skip_waiting_time_desc">Ignorar a contagem regressiva de espera para opções perigosas</string>
     <string name="home_drawer_all_desc">Removido a aba \"Todos\" para agrupar apps na gaveta</string>
     <string name="home_drawer_editor_desc">Removido o botão \"Editar\" da guia de apps na gaveta</string>
-    <string name="theme_manager_diable_ads_desc">Substituir anúncios de \"adivinhe o que você gosta\" por cartões em branco e remover completamente o restante dos anúncios</string>
+    <string name="theme_manager_diable_ads_desc">Substituir anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
     <string name="security_center_unlock_screen_time">Exibe dados detalhados do consumo de energia</string>
     <string name="security_center_unlock_gun_service">Desbloquear o Serviço de armas</string>
     <string name="security_center_disable_remove_screen_hold_on">Desativar remover tela em espera</string>
@@ -1053,7 +1053,7 @@
     <string name="security_center_unlock_enhance_contours">Desbloquear Melhorar contornos</string>
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem barragem</string>
-    <string name="system_ui_lock_screen_show_spacing">Intervalo de atualização da tela</string>
+    <string name="system_ui_lock_screen_show_spacing">Intervalo de atualização de tela</string>
     <string name="security_center_unlock_screen_time_desc">Exibir informações do uso de energia da tela na parte superior da bateria e retomar a exibição do consumo de energia e do tempo de todos os outros apps</string>
     <string name="security_disable_app_url_title">Aplicar gerenciamento de link aberto</string>
     <string name="security_disable_app_url_summary">Altere a configuração \"Remover ação padrão\" para \"Abrir por padrão\" nos detalhes do app</string>
@@ -1111,7 +1111,7 @@
     <string name="system_ui_status_bar_icon_call_record">Ocultar ícone de gravação</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Chamada</string>
     <string name="miui_package_installer_safe_mode_desc">Forçar a abertura e bloquear a segurança oficial</string>
-    <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de atividade de rede móvel</string>
+    <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de atividade da rede móvel</string>
     <string name="system_ui_status_bar_mobile_type_left">Exibir à esquerda do sinal</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Altere o centro de controle e a gaveta de notificações</string>
     <string name="various_super_clipboard_title">Super Área de Transferência</string>
@@ -1163,4 +1163,6 @@
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado com shell</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo</string>
     <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza quando não houver apps em segundo plano</string>
+    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su?</string>
+    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o Cemiuiler recebeu permissão Root/Su?</string>
 </resources>
