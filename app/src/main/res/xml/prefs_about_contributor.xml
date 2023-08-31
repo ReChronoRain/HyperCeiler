@@ -87,6 +87,16 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/pomelohan" />
         </Preference>
+        <Preference android:title="淡い夏">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/lightsummer233" />
+        </Preference>
+        <Preference android:title="雪中明月">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/lswlc33" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 
