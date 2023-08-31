@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Content that does not require translation-->
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Torne a MIUI ótima novamente!</string>
     <!--Cemiuiler Settings/About Page-->
@@ -20,7 +21,7 @@
     <string name="settings_hide_app_icon">Ícone na tela inicial</string>
     <string name="settings_icon">Ícone nas Configurações</string>
     <string name="settings_icon_desc">Defina a localização de entrada do módulo nas configurações do sistema</string>
-    <string name="settings_icon_disable">Desativar</string>
+    <string name="settings_icon_disable">Desativado</string>
     <string name="settings_icon_top">Topo</string>
     <string name="settings_icon_medium">Meio</string>
     <string name="settings_icon_down">Fundo</string>
@@ -288,7 +289,7 @@
     <string name="browser_debug_mode_desc">17.5.xxxxx e acima não são suportados</string>
     <!--Camera-->
     <string name="camera">Câmera</string>
-    <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente IA</string>
+    <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente</string>
     <string name="camera_features_unlock_ambilight">Desbloquear Longa exposição</string>
     <string name="camera_features_unlock_clone">Desbloquear Modo Clonar</string>
     <string name="camera_features_unlock_cosmetic_mirror">Desbloquear Espelho de bolso</string>
@@ -498,6 +499,13 @@
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de bytes por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Ícone indicador</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">Ativar personalização</string>
+    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
+    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
+    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
+    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
+    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
+    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
+    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Modo de relógio personalizado</string>
     <string name="system_ui_statusbar_clock_editor">Formato do relógio</string>
     <string name="system_ui_statusbar_clock_year">Exibir ano</string>
@@ -770,7 +778,7 @@
     <string name="home_enable_blur">Iniciar blur</string>
     <string name="home_blur_radius_title">Raio do blur</string>
     <string name="home_folder_shade_title">Cor de sobreposição</string>
-    <string name="home_folder_shade_summary">Melhore ou enfraqueça a cor de fundo</string>
+    <string name="home_folder_shade_summary">Melhore ou enfraqueça a cor do fundo</string>
     <string name="home_folder_shade_solid">Fundo inteiro</string>
     <string name="home_folder_shade_gradient">Somente meio</string>
     <string name="home_folder_shade_level_title">Intensidade da cor</string>
@@ -893,7 +901,7 @@
     <string name="mishare_disable_mishare_auto_off">Desativar o fechamento automático do Compartilhamento Mi</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Papéis de Parede Mi</string>
-    <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super Wallpapers</string>
+    <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
     <!--Package installer-->
     <string name="package_installer">Instalador de Pacotes</string>
     <string name="miui_package_installer_modify">Purificar a página</string>
@@ -960,7 +968,7 @@
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_applock_pin_scramble_desc">Alterar aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Ajustar o brilho do preenchimento da luz automaticamente</string>
-    <string name="security_center_beauty_face">Desbloquear o Embelezamento para chamadas de vídeo</string>
+    <string name="security_center_beauty_face">Desbloquear Embelezamento para chamadas de vídeo</string>
     <string name="security_center_beauty_privacy">Desbloquear Câmera de privacidade</string>
     <string name="security_center_beauty_pc">Desbloquear Mantenha os rostos centralizados</string>
     <string name="security_center_disable_root_check">Desativar detecção de root</string>
@@ -976,7 +984,7 @@
     <string name="security_app_sort_title">Classificação da lista de gerenciamento de apps</string>
     <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciamento de apps</string>
     <string name="security_restrict_app_title">Limite total</string>
-    <string name="security_restrict_app_summary">Permitir configuração de economia de bateria e acesso ao Wi-Fi para apps do sistema</string>
+    <string name="security_restrict_app_summary">Permite configurar a economia de bateria e acesso ao Wi-Fi para apps do sistema</string>
     <string name="security_disable_app_title">Controle de estado do app</string>
     <string name="security_disable_app_summary">Permitir desativar qualquer app na página de informações do app</string>
     <string name="security_disable_app_url_title">Aplicar gerenciamento de link aberto</string>
@@ -997,7 +1005,7 @@
     <string name="security_center_no_permission">Permissões necessárias não concedidas</string>
     <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em janelas flutuantes</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Desbloquear ocultar na lateral em janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o telefone for cortado em segundo plano</string>
-    <string name="security_center_super_wireless_charge">Desbloquear Super carga sem fios</string>
+    <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fios</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
     <string name="security_center_blurradius">Valor do blur da barra lateral</string>
     <string name="security_center_color">Cor da barra lateral</string>
@@ -1009,7 +1017,7 @@
     <string name="security_center_disable_ban">Remover botão de relatório</string>
     <string name="security_center_unlock_screen_time">Exibe dados detalhados do consumo de energia</string>
     <string name="security_center_unlock_screen_time_desc">Exibir informações do uso de energia da tela na parte superior da bateria e retomar a exibição do consumo de energia e do tempo de todos os outros apps</string>
-    <string name="security_center_unlock_gun_service">Desbloquear o Serviço de armas</string>
+    <string name="security_center_unlock_gun_service">Desbloquear Serviço de armas</string>
     <string name="security_center_disable_remove_screen_hold_on">Desativar remover tela em espera</string>
     <string name="security_center_unlock_memc">Desbloquear MEMC</string>
     <string name="security_center_unlock_enhance_contours">Desbloquear Melhorar contornos</string>
@@ -1064,7 +1072,7 @@
     <!--MTB-->
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Ignorar autenticação MTB</string>
-    <string name="mtb_auth_desc">Este é um recurso de alto risco, quaisquer problemas decorrentes disso será de responsabilidade do usuário. Por favor, tenha cuidado para fazer backup de sua banda base. Digite *#*#MODEMTEST#*#* na interface de discagem para abrir as configurações do MTB</string>
+    <string name="mtb_auth_desc">Este é um recurso de alto risco, quaisquer problemas decorrentes disso será de responsabilidade do usuário. Por favor, tenha cuidado para fazer backup de sua banda base. Digite *#*#MODEMTEST#*#* na interface de discagem para abrir as Configurações do MTB</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_card">Desbloquear digitalização ID</string>
@@ -1076,7 +1084,7 @@
     <string name="scanner_doc_ppt">Desbloquear arquivos de digitalização</string>
     <!--Other-->
     <string name="various">Outro</string>
-    <string name="notes">Observações</string>
+    <string name="notes">Notas</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="new_task">Nova tarefa</string>
     <string name="custom_hook">Personalizado</string>
@@ -1084,7 +1092,7 @@
     <string name="various_location_simulation_title">Localização falsa</string>
     <string name="various_dialog_title">Diálogo</string>
     <string name="various_mipad_title">MiPad</string>
-    <string name="various_open_aosp_something_title">Ocultar Propriedades</string>
+    <string name="various_open_aosp_something_title">Propriedades ocultas</string>
     <string name="various_open_aosp_something_desc">Abra a interface aosp \"oculta\"</string>
     <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
@@ -1096,14 +1104,14 @@
     <string name="various_collapse_miui_title_desc">Ajustar título da barra superior em apps da MIUI</string>
     <string name="various_disable_folder_cantuse">Remover limite de pastas indisponíveis</string>
     <string name="various_super_clipboard_title">Super Área de Transferência</string>
-    <string name="various_super_clipboard_summary">A super área de transferência é uma área de transferência que suporta a cópia de arquivos/textos\nPor favor, certifique-se de que os seguintes apps do sistema tenham os metadados de is_support_miui_super_clipboard , este recurso não estará disponível sem</string>
+    <string name="various_super_clipboard_summary">A super área de transferência é uma área de transferência que suporta a cópia de arquivos/textos\nPor favor, certifique-se de que os seguintes apps do sistema tenham os metadados de is_support_miui_super_clipboard, este recurso não estará disponível sem ele</string>
     <string name="various_super_clipboard_picture_desc">Permitir copiar imagem para a área de transferência</string>
     <string name="various_super_clipboard_files_desc">Permitir copiar arquivos para a área de transferência</string>
-    <string name="various_open_aosp_battery_title">Otimização da Bateria</string>
+    <string name="various_open_aosp_battery_title">Otimização de bateria</string>
     <string name="various_open_aosp_notification_title">Configurações de Notificação</string>
-    <string name="various_open_aosp_app_manage_title">Gerenciamento de App</string>
+    <string name="various_open_aosp_app_manage_title">Gerenciamento de apps</string>
     <string name="various_open_aosp_language_title">Configurações de Idioma</string>
-    <string name="various_open_aosp_extremely_dark_title">Extremamente Escuro</string>
+    <string name="various_open_aosp_extremely_dark_title">Extra escuro</string>
     <string name="various_mipad_input_title">Entrada</string>
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
     <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo da MIUI em ponteiro AOSP.</string>
@@ -1119,8 +1127,8 @@
     <string name="various_mipad_input_need_finger_num_desc">Altere o gesto de captura de tela, o gesto de captura de tela parcial e o gesto de tela dividida horizontal para serem acionados por quatro dedos e mude o gesto de apps para ser acionado por três dedos</string>
     <string name="custom_background_blur_enabled">Blur do fundo</string>
     <string name="custom_background_blur_radius">Raio do blur</string>
-    <string name="custom_background_color">Cor de fundo</string>
-    <string name="custom_background_color_alpha">transparência da cor de fundo</string>
+    <string name="custom_background_color">Cor do fundo</string>
+    <string name="custom_background_color_alpha">Transparência da cor do fundo</string>
     <string name="custom_background_corner_radius">Cantos arredondados de fundo</string>
     <string name="custom_blur_enabled">Blur do fundo</string>
     <string name="various_blur_radius">Raio do blur</string>
