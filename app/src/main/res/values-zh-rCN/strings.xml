@@ -271,7 +271,7 @@
     <string name="phone_n28">解锁 N28 频段</string>
     <string name="phone_n28_desc">支持 N28 频段 (NR)</string>
     <string name="phone_n5_n8">解锁 N5/N8 频段</string>
-    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 "enable N5 and N8 Mode"，则开启成功</string>
+    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 \"enable N5 and N8 Mode\"，则开启成功</string>
 
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
@@ -1278,7 +1278,7 @@
     <string name="location_delete">删除</string>
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
-    <string name="tip_1">Tip: 您可以在 "关于-支持" 中捐赠以支持和维护我们的开发。</string>
+    <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
     <string name="tip_2">Tip: 想要联系开发者？Telegram@Sevtinge_PM_bot 或者 哔哩哔哩@绀漓丨Sevtinge。</string>
     <string name="tip_3">Tip: 想要加入群聊一起划水？Telegram@cemiuiler 或者在 QQ 搜索 247909573 加入群聊。</string>
     <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
