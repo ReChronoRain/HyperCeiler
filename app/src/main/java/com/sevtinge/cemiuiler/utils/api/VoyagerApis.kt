@@ -68,6 +68,13 @@ val IS_TABLET by lazy {
 fun isPad() =
     clazzMiuiBuild.getField("IS_TABLET").getBoolean(null)
 
+/**
+ * 是否为国际版系统
+ */
+val IS_INTERNATIONAL_BUILD by lazy {
+    getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD") ?: false
+}
+
 fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
     var targetClass = clazz
     if (targetClass == null) {

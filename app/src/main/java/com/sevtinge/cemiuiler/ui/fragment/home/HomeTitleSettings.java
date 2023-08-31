@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.ui.fragment.home;
 
-import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.view.View;
@@ -15,6 +15,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
 
     SwitchPreference mDisableMonoChrome;
     SwitchPreference mDisableMonetColor;
+    SwitchPreference mDisableHideTheme;
 
     @Override
     public int getContentResId() {
@@ -37,5 +38,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
         mDisableMonetColor.setVisible(isMoreAndroidVersion(33));
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
+        mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
+        mDisableHideTheme.setVisible(isPad());
     }
 }

@@ -19,6 +19,7 @@ import com.sevtinge.cemiuiler.module.home.UnlockHotseatIcon;
 import com.sevtinge.cemiuiler.module.home.UserPresentAnimation;
 import com.sevtinge.cemiuiler.module.home.WidgetCornerRadius;
 import com.sevtinge.cemiuiler.module.home.WidgetCrack;
+import com.sevtinge.cemiuiler.module.home.dock.DisableRecentsIcon;
 import com.sevtinge.cemiuiler.module.home.dock.DockCustom;
 import com.sevtinge.cemiuiler.module.home.dock.FoldDeviceDock;
 import com.sevtinge.cemiuiler.module.home.dock.FoldDock;
@@ -79,6 +80,8 @@ import com.sevtinge.cemiuiler.module.home.recent.RemoveIcon;
 import com.sevtinge.cemiuiler.module.home.recent.TaskViewHorizontal;
 import com.sevtinge.cemiuiler.module.home.recent.TaskViewVertical;
 import com.sevtinge.cemiuiler.module.home.title.BigIconCorner;
+import com.sevtinge.cemiuiler.module.home.title.DisableHideFile;
+import com.sevtinge.cemiuiler.module.home.title.DisableHideTheme;
 import com.sevtinge.cemiuiler.module.home.title.DownloadAnimation;
 import com.sevtinge.cemiuiler.module.home.title.EnableIconMonoChrome;
 import com.sevtinge.cemiuiler.module.home.title.FixAnimation;
@@ -173,6 +176,8 @@ public class Home extends BaseModule {
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
+        initHook(DisableHideTheme.INSTANCE,mPrefsMap.getBoolean("home_title_disable_hide_theme"));
+        initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
         // 标题
@@ -196,6 +201,7 @@ public class Home extends BaseModule {
         initHook(HideSeekPoint.INSTANCE, mPrefsMap.getBoolean("home_dock_hide_seekpoint"));
         initHook(ShowDockIconTitle.INSTANCE, mPrefsMap.getBoolean("home_dock_icon_title"));
         initHook(new HideNavigationBar(), mPrefsMap.getBoolean("system_ui_hide_navigation_bar"));
+        initHook(DisableRecentsIcon.INSTANCE, mPrefsMap.getBoolean("home_dock_disable_recents_icon"));
 
         // 其他
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);

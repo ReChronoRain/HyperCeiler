@@ -271,7 +271,7 @@
     <string name="phone_n28">解锁 N28 频段</string>
     <string name="phone_n28_desc">支持 N28 频段 (NR)</string>
     <string name="phone_n5_n8">解锁 N5/N8 频段</string>
-    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 "enable N5 and N8 Mode"，则开启成功</string>
+    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 \"enable N5 and N8 Mode\"，则开启成功</string>
 
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
@@ -862,6 +862,9 @@
     <string name="home_title_download_animation">下载动画</string>
     <string name="home_title_fix_animation">优化打断动画</string>
     <string name="home_title_icon_scale">图标缩放</string>
+    <string name="home_title_disable_hide_file">禁止隐藏 ”文件“ 图标</string>
+    <string name="home_title_disable_hide_theme">禁止隐藏 ”主题壁纸“ 图标</string>
+    <string name="home_title_disable_hide_theme_sum">只对针对手机版主题壁纸，Pad 的壁纸与个性化本身没有图标</string>
 
     <string name="home_recent">最近任务</string>
     <string name="home_recent_animation_speed">动画速度</string>
@@ -911,6 +914,8 @@
     <string name="home_dock_fold">Fold 样式底栏</string>
     <string name="home_dock_hide_seekpoint">移除页面指示器</string>
     <string name="home_dock_icon_title">显示应用标题</string>
+    <string name="home_dock_disable_recents_icon">隐藏 Dock 栏最近应用的图标</string>
+    <string name="home_dock_disable_recents_icon_sum">例如 Pad 的 Dock 栏分隔符右侧的应用图标</string>
 
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷菜单</string>
@@ -1278,7 +1283,7 @@
     <string name="location_delete">删除</string>
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
-    <string name="tip_1">Tip: 您可以在 "关于-支持" 中捐赠以支持和维护我们的开发。</string>
+    <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
     <string name="tip_2">Tip: 想要联系开发者？Telegram@Sevtinge_PM_bot 或者 哔哩哔哩@绀漓丨Sevtinge。</string>
     <string name="tip_3">Tip: 想要加入群聊一起划水？Telegram@cemiuiler 或者在 QQ 搜索 247909573 加入群聊。</string>
     <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>

@@ -13,6 +13,17 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_home_title_disable_hide_file"
+            android:title="@string/home_title_disable_hide_file"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="prefs_key_home_title_disable_hide_theme"
+            android:title="@string/home_title_disable_hide_theme"
+            android:summary="@string/home_title_disable_hide_theme_sum"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_home_title_download_animation"
             android:title="@string/home_title_download_animation"
             android:defaultValue="false" />
@@ -77,13 +88,13 @@
             android:title="@string/home_large_icon_corner_radius"
             android:defaultValue="false" />
 
-        <SeekBarPreferenceEx          
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_large_icon_corner_radius"
             android:dependency="prefs_key_home_large_icon_enable"
             android:layout="@layout/preference_seekbar_no_padding"
-            android:defaultValue="32"            
+            android:defaultValue="32"
             app:defaultValueText="@string/array_default"
-            app:maxValue="90"         
+            app:maxValue="90"
             app:minValue="0"
             app:stepValue="1"
             app:format="%d dp" />
@@ -107,11 +118,11 @@
         <SeekBarPreferenceEx
             android:key="prefs_key_home_title_font_size"
             android:title="@string/home_title_font_size"
-            android:defaultValue="12"         
-            app:defaultValueText="@string/array_default"   
-            app:maxValue="20"          
+            android:defaultValue="12"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="20"
             app:minValue="0"
-            app:stepValue="1" 
+            app:stepValue="1"
             app:format="%d sp" />
 
     </PreferenceCategory>
