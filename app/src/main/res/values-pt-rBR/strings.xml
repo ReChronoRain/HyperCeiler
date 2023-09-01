@@ -813,6 +813,9 @@
     <string name="home_title_download_animation">Baixar animação</string>
     <string name="home_title_fix_animation">Animação de interrupção otimizada</string>
     <string name="home_title_icon_scale">Dimensionamento de ícones</string>
+    <string name="home_title_disable_hide_file">Desative a ocultação do ícone \"arquivo\"</string>
+    <string name="home_title_disable_hide_theme">Não esconda o ícone do \"gerenciador de temas\"</string>
+    <string name="home_title_disable_hide_theme_sum">Somente para o gerenciador de temas da versão mobile, o gerenciador de temas do Pad e a personalização em si não possuem ícone</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar o escurecimento do papel de parede</string>
@@ -859,6 +862,8 @@
     <string name="home_dock_fold">Dock da pasta</string>
     <string name="home_dock_hide_seekpoint">Ocultar ponto de busca</string>
     <string name="home_dock_icon_title">Exibir o título do ícone na dock</string>
+    <string name="home_dock_disable_recents_icon">Ocultar ícones de apps recentes da dock</string>
+    <string name="home_dock_disable_recents_icon_sum">Por exemplo: ícones de apps à direita do separador dock do Pad</string>
     <string name="home_other">Outro</string>
     <string name="home_other_shortcut_title">Atalho</string>
     <string name="home_other_home_mode">Modo desktop</string>
