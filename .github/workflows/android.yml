@@ -1,4 +1,5 @@
 name: Android CI
+
 on:
   push:
     branches: [ "main" ]
@@ -12,56 +13,63 @@ on:
       - "*.md"
       - ".github/workflows/crowdin.yml"
       - "crowdin.yml"
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     name: Build App
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Git Repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           submodules: true
 
-      - name: Set up JDK 19
+      - name: Set up JDK 20
         uses: actions/setup-java@v3
         with:
-          java-version: "19"
-          distribution: "temurin"
+          java-version: '20'
+          distribution: 'temurin'
           cache: gradle
 
-      - name: Build with Gradle All
+      - name: Create Sign File
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          touch signing.properties
+          echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
+          echo keyAlias=${{ secrets.ALIAS }} >> signing.properties
+          echo keyPassword='${{ secrets.KEY_STORE_PASSWORD }}' >> signing.properties
+          echo storeFile=key.jks >> signing.properties
+          echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
+
+      - name: Build with Gradle
         shell: bash
         run: ./gradlew assemble
-             
-      - name: Sign Canary APK
+
+      - name: Find APKs
+        run: |
+          echo "APK_FILE_CANARY=$(find app/build/outputs/apk/canary -name '*.apk')" >> $GITHUB_ENV
+          echo "APK_FILE_DEBUG=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
+
+      - name: Show APKs SHA256
         if: success()
-        id: sign_canary
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/canary
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          
-      - name: Sign Debug APK
-        if: success()
-        id: sign_debug
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: ./app/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        run: |
+          echo "### Build Success" >> $GITHUB_STEP_SUMMARY
+          echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
+          echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
+          canary=($(sha256sum '${{ env.APK_FILE_CANARY }}'))
+          echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
+          debug=($(sha256sum '${{ env.APK_FILE_DEBUG }}'))
+          echo "|Debug|$debug" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Canary APK
         if: contains(github.event.head_commit.message, '[upload]') == true
         uses: actions/upload-artifact@v3
         with:
           name: Cemiuiler Canary
-          path: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-          
+          path: ${{ env.APK_FILE_CANARY }}
+
       - name: Post to Beta Channel & Canary Group
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
@@ -71,8 +79,8 @@ jobs:
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           MESSAGE_THREAD_ID: ${{ secrets.MESSAGE_THREAD_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CANARY: ${{ steps.sign_canary.outputs.signedReleaseFile }}
-          DEBUG: ${{ steps.sign_debug.outputs.signedReleaseFile }}
+          CANARY: ${{ env.APK_FILE_CANARY }}
+          DEBUG: ${{ env.APK_FILE_DEBUG }}
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}

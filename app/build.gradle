@@ -51,37 +51,72 @@ android {
         }
     }
 
+    def properties
+    def propertiesFile = rootProject.file('signing.properties')
+    if (propertiesFile.exists()) {
+        properties = new Properties()
+        properties.load(propertiesFile.newDataInputStream())
+    }
+    def getString = { String propertyName, String environmentName, String prompt ->
+        return properties?.get(propertyName) ?: System.getenv(environmentName) ?:
+            System.console()?.readLine('\n' + prompt + ': ')
+    }
+    def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
+
+    signingConfigs {
+        cemiuiler {
+            if (keyStoreFile != null) {
+                storeFile keyStoreFile
+                storePassword getString('storePassword', 'STORE_PASSWORD', 'Store password')
+                keyAlias getString('keyAlias', 'KEY_ALIAS', 'Key alias')
+                keyPassword getString('keyPassword', 'KEY_PASSWORD', 'Key password')
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+            if (keyStoreFile != null) {
+                signingConfig signingConfigs.cemiuiler
+            }
         }
         beta {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+            if (keyStoreFile != null) {
+                signingConfig signingConfigs.cemiuiler
+            }
         }
         canary {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
+            if (keyStoreFile != null) {
+                signingConfig signingConfigs.cemiuiler
+            }
         }
         debug {
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
+            if (keyStoreFile != null) {
+                signingConfig signingConfigs.cemiuiler
+            }
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_19
-        targetCompatibility JavaVersion.VERSION_19
+        sourceCompatibility JavaVersion.VERSION_20
+        targetCompatibility JavaVersion.VERSION_20
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_19.toString()
+        jvmTarget = JavaVersion.VERSION_20.toString()
     }
 
 }
