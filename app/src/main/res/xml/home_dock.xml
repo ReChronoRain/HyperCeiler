@@ -19,8 +19,7 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="prefs_key_home_dock_disable_recents_icon"
-        android:title="@string/home_dock_disable_recents_icon"
-        android:summary="@string/home_dock_disable_recents_icon_sum"/>
+        android:title="@string/home_dock_disable_recents_icon" />
 
     <SwitchPreference
         android:defaultValue="false"

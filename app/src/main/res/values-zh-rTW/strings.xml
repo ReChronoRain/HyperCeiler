@@ -687,7 +687,6 @@
     <string name="content_extension_browser">使用協力廠商瀏覽器</string>
     <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜尋，需自行選擇預設瀏覽器</string>
     <string name="content_extension_unlock_taplus_title">解鎖傳送門</string>
-    <string name="content_extension_unlock_taplus_desc">僅為閹割的裝置進行解鎖，已有傳送門功能的無須開啟</string>
     <string name="content_extension_unlock_taplus_horizontal_title">允許在橫向螢幕上使用傳送門</string>
     <string name="content_extension_double_press">開放雙指長按</string>
     <string name="content_extension_super_image">開放超解析度圖片</string>
@@ -973,7 +972,6 @@
     <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS Service</string>
-    <string name="security_center_gms_open_more">When it is turned on, a tile will be created. You can manage the Google service switch with one click in the Taskbar</string>
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>

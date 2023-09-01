@@ -688,7 +688,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="content_extension_browser">Sử dụng trình duyệt của bên thứ ba</string>
     <string name="content_extension_browser_desc">Làm cho Taplus không yêu cầu sử dụng trình duyệt MIUI, Cách mở liên kết để ở Mặc định</string>
     <string name="content_extension_unlock_taplus_title">Mở khoá Taplus</string>
-    <string name="content_extension_unlock_taplus_desc">Chỉ mở khóa cho các thiết bị bị cắt giảm. Những thiết bị có chức năng cổng thông tin không cần mở</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Cho phép sử dụng Taplus trên màn hình ngang</string>
     <string name="content_extension_double_press">Mở khoá Cử chỉ : 2 Ngón</string>
     <string name="content_extension_super_image">Mở khoá Chất lượng lưu hình ảnh : Siêu phân giải</string>
@@ -974,7 +973,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="security_center_ai_clipboard">Bảo vệ khay nhớ tạm</string>
     <string name="security_center_blur_location">Độ chính xác định vị thấp hơn</string>
     <string name="security_center_gms_open">GMS Service</string>
-    <string name="security_center_gms_open_more">When it is turned on, a tile will be created. You can manage the Google service switch with one click in the Taskbar</string>
     <string name="security_center_get_number">Quản lý ứng dụng truy cập số điện thoại</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>

@@ -681,7 +681,6 @@
     <string name="content_extension_browser">Usar navegador de terceiros</string>
     <string name="content_extension_browser_desc">Torne o Taplus não obrigatório para usar o Navegador MIUI para pesquisas, você precisa escolher o navegador padrão por conta própria</string>
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
-    <string name="content_extension_unlock_taplus_desc">Só está desbloqueado para dispositivos com funcionalidades limitadas, e aqueles com funções de portal não precisam ser abertos</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Permitir o uso do taplus em telas de paisagem</string>
     <string name="content_extension_double_press">Gesto: 2 dedos</string>
     <string name="content_extension_super_image">Qualidade das imagens salvas : Super resolução</string>
@@ -819,7 +818,6 @@
     <string name="home_title_icon_scale">Dimensionamento de ícones</string>
     <string name="home_title_disable_hide_file">Desative a ocultação do ícone \"arquivo\"</string>
     <string name="home_title_disable_hide_theme">Não esconda o ícone do \"gerenciador de temas\"</string>
-    <string name="home_title_disable_hide_theme_sum">Somente para o gerenciador de temas da versão mobile, o gerenciador de temas do Pad e a personalização em si não possuem ícone</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar o escurecimento do papel de parede</string>
@@ -867,7 +865,6 @@
     <string name="home_dock_hide_seekpoint">Ocultar ponto de busca</string>
     <string name="home_dock_icon_title">Exibir título do ícone na dock</string>
     <string name="home_dock_disable_recents_icon">Ocultar ícones de apps recentes da dock</string>
-    <string name="home_dock_disable_recents_icon_sum">Por exemplo: ícones de apps à direita do separador dock do Pad</string>
     <string name="home_other">Outros</string>
     <string name="home_other_shortcut_title">Atalho</string>
     <string name="home_other_home_mode">Modo desktop</string>
@@ -972,7 +969,6 @@
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Menor precisão de posicionamento</string>
     <string name="security_center_gms_open">Serviço GMS</string>
-    <string name="security_center_gms_open_more">Quando ativado, um bloco será criado. Você pode gerenciar a troca de serviço do Google com um clique na barra de tarefas</string>
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_applock_pin_scramble_desc">Alterar aleatoriamente a sequência do PIN do Bloqueio de apps</string>

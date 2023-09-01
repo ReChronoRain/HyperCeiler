@@ -674,7 +674,6 @@
     <string name="content_extension_browser">サードパーティーのブラウザーを使用する</string>
     <string name="content_extension_browser_desc">Taplus の検索で MIUI ブラウザーの使用を強制しないようにします。デフォルトのブラウザーを自分で選択する必要があります。</string>
     <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
-    <string name="content_extension_unlock_taplus_desc">It is only unlocked for castrated devices, and those with portal functions do not need to be opened</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Allow use of taplus on landscape screens</string>
     <string name="content_extension_double_press">ジェスチャー：2本指</string>
     <string name="content_extension_super_image">保存する画像の画質: 超解像度</string>
@@ -960,7 +959,6 @@
     <string name="security_center_ai_clipboard">クリップボードの保護</string>
     <string name="security_center_blur_location">おおまかな位置情報</string>
     <string name="security_center_gms_open">GMS Service</string>
-    <string name="security_center_gms_open_more">When it is turned on, a tile will be created. You can manage the Google service switch with one click in the Taskbar</string>
     <string name="security_center_get_number">電話番号を使ってワンクリックでログインするアプリケーションを管理する</string>
     <string name="security_center_applock_pin_scramble">アプリロックのPINの順序をランダムにする</string>
     <string name="security_center_applock_pin_scramble_desc">アプリロックのPINキーパッドの配列をランダムにする</string>

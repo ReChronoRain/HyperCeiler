@@ -20,7 +20,6 @@
         <SwitchPreference
             android:key="prefs_key_home_title_disable_hide_theme"
             android:title="@string/home_title_disable_hide_theme"
-            android:summary="@string/home_title_disable_hide_theme_sum"
             android:defaultValue="false" />
 
         <SwitchPreference

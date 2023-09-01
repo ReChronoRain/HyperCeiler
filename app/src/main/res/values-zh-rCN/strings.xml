@@ -137,7 +137,7 @@
     <string name="array_theme">跟随主题</string>
     <string name="array_clock_center">时钟居中</string>
     <string name="array_clock_right">时钟居右</string>
-    <string name="array_clock_center_and_icon_left">时钟居中 + 图标居左</string>
+    <string name="array_clock_center_and_icon_left">时钟居中且图标居左</string>
 
     <string name="array_clock_default">预设</string>
     <string name="array_clock_geek">极客</string>
@@ -172,8 +172,8 @@
     <string name="array_global_actions_invert_colors">颜色反转</string>
     <string name="array_global_actions_switchkeyboard">切换键盘</string>
     <string name="array_global_actions_goback">返回</string>
-    <string name="array_global_actions_onehanded_left">单手模式(左)</string>
-    <string name="array_global_actions_onehanded_right">单手模式(右)</string>
+    <string name="array_global_actions_onehanded_left">单手模式 (左)</string>
+    <string name="array_global_actions_onehanded_right">单手模式 (右)</string>
     <string name="array_global_actions_scrolltotop">回到顶部</string>
     <string name="array_global_actions_expandsidebar">展开侧边栏</string>
     <string name="array_global_actions_floatingwindow">迷你小窗</string>
@@ -514,7 +514,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">网速</string>
     <string name="system_ui_status_bar_volume_at_right">声音情景</string>
     <string name="system_ui_status_bar_use_new_hd">强制使用新 HD 图标</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">需要较新的系统版本，部分机型可能至今未进版</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">仅支持部分系统版本</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">网速分隔符</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">于居中摄像头的设备上不显示时间和网速间的竖线</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
@@ -597,7 +597,7 @@
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
     <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_control_center_5g_toggle_label">5G网络</string>
-    <string name="system_control_center_sunshine_mode">阳光模式</string>
+    <string name="system_control_center_sunshine_mode">阳光模式开关</string>
     <string name="system_ui_control_auto_close">磁贴自动收起</string>
     <string name="system_ui_control_auto_close_more">开启后点击状态栏磁贴会自动收起状态栏</string>
     <string name="system_control_center_qs_tile_label">移除标题</string>
@@ -653,7 +653,7 @@
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">禁用通知白名单</string>
     <string name="system_ui_plugin_enable_volume_blur">音量条模糊</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">仅供 Android12+ MTK 机型使用，可能存在 GPU 负载较高的情况</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">仅供 Android 12 及以上的 MTK 机型使用，可能存在 GPU 负载较高的情况</string>
     <!--系统设置-->
     <string name="system_settings">设置</string>
     <string name="system_settings_international_build">国际版本设置页面</string>
@@ -663,16 +663,16 @@
     <string name="system_settings_wifi_password_label">密码</string>
     <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
     <string name="system_settings_novelty_haptic_title">解锁新版触感调节页面</string>
-    <string name="system_settings_novelty_haptic_desc">仅供有 声音与触感-触感 页面的设备使用</string>
+    <string name="system_settings_novelty_haptic_desc">仅支持有 \"声音与触感-触感\" 页面的设备</string>
 
     <string name="system_settings_connection_sharing_title">连接与共享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
-    <string name="system_settings_new_nfc_page_desc">开启后，不支持的机型默认付款应用无法选中小米钱包\n</string>
+    <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包\n</string>
 
     <string name="system_settings_accessibility_title">快捷手势</string>
     <string name="system_settings_area_screenshot">解锁区域截屏</string>
     <string name="system_settings_knuckle_function">解锁指关节相关功能</string>
-    <string name="system_settings_knuckle_function_desc">实验性功能 \n启用后请重启 设置、输入设置 作用域 \n当前仅解锁 UI 界面</string>
+    <string name="system_settings_knuckle_function_desc">实验性功能</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
@@ -708,7 +708,7 @@
     <string name="updater_miui_version">伪装 MIUI 版本</string>
     <string name="updater_miui_version_desc">仅对系统更新修改，可在一定程度上屏蔽系统更新</string>
     <string name="updater_device">伪装机型</string>
-    <string name="updater_device_desc">可用于获取其他机型的 ROM 包，该功能极度危险\n填写请输入 机型代号</string>
+    <string name="updater_device_desc">输入目标设备的机型代号以指定机型，可用于获取其他机型的 ROM 包，该功能极度危险</string>
     <!--权限管理服务-->
     <string name="lbe">权限管理服务</string>
     <string name="clipboard">剪切板</string>
@@ -727,7 +727,6 @@
     <string name="content_extension_browser">使用第三方浏览器</string>
     <string name="content_extension_browser_desc">使传送门不强制使用 MIUI 浏览器进行搜索，需自行选择默认浏览器</string>
     <string name="content_extension_unlock_taplus_title">解锁传送门</string>
-    <string name="content_extension_unlock_taplus_desc">仅为阉割的设备进行解锁，已有传送门功能的无须开启</string>
     <string name="content_extension_unlock_taplus_horizontal_title">允许在横屏方向上使用传送门</string>
     <string name="content_extension_double_press">开放双指长按</string>
     <string name="content_extension_super_image">开放超分辨率图片</string>
@@ -795,7 +794,7 @@
     <string name="home_layout_show_clock_desc">时钟小部件所在页面始终显示时间</string>
     <string name="home_layout_unlock_grids">解锁布局</string>
     <string name="home_layout_unlock_grids_desc">解锁主屏幕图标布局行列数限制</string>
-    <string name="home_layout_unlock_grids_no_words">解锁布局（无字模式）</string>
+    <string name="home_layout_unlock_grids_no_words">解锁布局 (无字模式)</string>
     <string name="home_layout_unlock_grids_no_words_desc">解锁主屏幕图标布局行列数限制</string>
     <string name="home_layout_workspace_padding_bottom_desc">主屏幕距离屏幕底部边距</string>
     <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
@@ -852,7 +851,7 @@
     <string name="home_drawer_editor">移除 “编辑” 按钮</string>
     <string name="home_drawer_editor_desc">移除抽屉栏内应用分页的 “编辑” 按钮</string>
     <string name="home_drawer_blur">抽屉模糊</string>
-    <string name="home_drawer_blur_desc">请将应用程序抽屉的背景透明度设置为 100% 以使用此功能</string>
+    <string name="home_drawer_blur_desc">需将应用程序抽屉的背景透明度设置为 100%</string>
 
     <string name="home_title">图标与标题</string>
     <string name="home_title_icon_title">图标</string>
@@ -867,9 +866,8 @@
     <string name="home_title_download_animation">下载动画</string>
     <string name="home_title_fix_animation">优化打断动画</string>
     <string name="home_title_icon_scale">图标缩放</string>
-    <string name="home_title_disable_hide_file">禁止隐藏 ”文件“ 图标</string>
-    <string name="home_title_disable_hide_theme">禁止隐藏 ”主题壁纸“ 图标</string>
-    <string name="home_title_disable_hide_theme_sum">只对针对手机版主题壁纸，Pad 的壁纸与个性化本身没有图标</string>
+    <string name="home_title_disable_hide_file">禁止隐藏 \"文件\" 图标</string>
+    <string name="home_title_disable_hide_theme">禁止隐藏 \"主题壁纸\" 图标</string>
 
     <string name="home_recent">最近任务</string>
     <string name="home_recent_animation_speed">动画速度</string>
@@ -920,7 +918,6 @@
     <string name="home_dock_hide_seekpoint">移除页面指示器</string>
     <string name="home_dock_icon_title">显示应用标题</string>
     <string name="home_dock_disable_recents_icon">隐藏 Dock 栏最近应用的图标</string>
-    <string name="home_dock_disable_recents_icon_sum">例如 Pad 的 Dock 栏分隔符右侧的应用图标</string>
 
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷菜单</string>
@@ -935,7 +932,7 @@
     <string name="home_other_always_blur_launcher_wallpaper">始终模糊桌面壁纸</string>
     <string name="home_other_perfect_icon">完美图标优先级</string>
     <string name="home_other_icon_mono_chrome">图标背景色</string>
-    <string name="home_other_icon_monet_color">使用莫奈取色</string>
+    <string name="home_other_icon_monet_color">使用 Monet 取色</string>
     <string name="home_other_use_edit_color">使用自定义颜色</string>
     <string name="home_other_your_color">编辑颜色</string>
     <string name="home_other_portrait_reverse">允许反向竖屏</string>
@@ -950,12 +947,12 @@
     <string name="home_other_high_models">强制识别为高端机型</string>
 
     <string name="home_recent_blur_level">模糊等级</string>
-    <string name="home_recent_complete_blur_plus">完整模糊补充（实验性）</string>
+    <string name="home_recent_complete_blur_plus">完整模糊补充 (实验性)</string>
     <string name="home_recent_complete_blur">完整模糊</string>
     <string name="home_recent_test_blur">测试模糊</string>
     <string name="home_recent_simple_blur">简单模糊</string>
     <string name="home_recent_none_blur">无模糊</string>
-    <string name="home_recent_none_blur_simple_anim">无模糊（精简动画）</string>
+    <string name="home_recent_none_blur_simple_anim">无模糊 (精简动画)</string>
     <!--小米相册-编辑-->
     <string name="mediaeditor">小米相册-编辑</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
@@ -1026,8 +1023,7 @@
     <string name="security_center_show_battery_temperature">显示电池温度</string>
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
-    <string name="security_center_gms_open">GMS 服务</string>
-    <string name="security_center_gms_open_more">开启后将会创建磁贴，可在控制中心中一键管理谷歌服务开关</string>
+    <string name="security_center_gms_open">GMS 开关</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
@@ -1052,7 +1048,7 @@
     <string name="security_disable_app_title">应用状态控制</string>
     <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
     <string name="security_disable_app_url_title">应用打开链接管理</string>
-    <string name="security_disable_app_url_summary">将应用详情中 “消除默认操作” 更改为 “默认打开” 设置</string>
+    <string name="security_disable_app_url_summary">将应用详情中 \"消除默认操作\" 更改为 \"默认打开\" 设置</string>
     <string name="app_link_open_always">允许应用打开支持的链接</string>
     <string name="app_link_open_never">不允许应用打开链接</string>
     <string name="open_by_default">默认打开</string>
@@ -1157,21 +1153,22 @@
 
     <string name="various_location_simulation_title">位置模拟</string>
     <string name="various_dialog_title">弹窗</string>
-    <string name="various_mipad_title">平板相关</string>
+    <string name="various_mipad_title">Pad 相关</string>
     <string name="various_open_aosp_something_title">隐藏特性</string>
-    <string name="various_open_aosp_something_desc">便捷打开 “隐藏” 的原生界面</string>
+    <string name="various_open_aosp_something_desc">便捷打开被隐藏的原生界面</string>
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
-    <string name="various_unlock_ime_desc">开启后请在 LSPosed 管理器中勾选对应输入法作用域</string>
+    <string name="various_unlock_ime_desc">开启后请在 XPosed 管理器中勾选对应输入法作用域</string>
     <string name="various_collapse_miui_title">MIUI 标题</string>
     <string name="various_collapse_miui_title_desc">调整 MIUI 应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="various_super_clipboard_title">超级剪切板</string>
-    <string name="various_super_clipboard_summary">超级剪切板是一个支持复制文件/文本的剪切板\n请确保下列系统应用是否有 is_support_miui_super_clipboard 的元数据，没有将无法使用这个功能</string>
+    <string name="various_unlock_super_clipboard">解锁超级剪切板</string>
+    <string name="various_super_clipboard_summary">仅支持包含 is_support_miui_super_clipboard 元数据的设备</string>
     <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
     <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
 
@@ -1185,8 +1182,8 @@
     <string name="various_mipad_input_close_magic_title">关闭 Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">移除 MIUI For Pad 破烂的圆形鼠标指针，并恢复为安卓原生的鼠标指针</string>
     <string name="various_mipad_input_restore_esc_title">恢复 ESC 键功能</string>
-    <string name="various_mipad_input_restore_esc_desc">恢复被 MIUI 强硬射为 “返回” 功能的 ESC 键</string>
-    <string name="various_mipad_input_disable_bluetooth_title">去除触控笔蓝牙限制</string>
+    <string name="various_mipad_input_restore_esc_desc">恢复被 MIUI 强硬射为 \"返回\" 功能的 ESC 键</string>
+    <string name="various_mipad_input_disable_bluetooth_title">移除触控笔蓝牙限制</string>
     <string name="various_mipad_input_disable_bluetooth_desc">无需链接小米灵感触控笔的蓝牙即可使用兼容的触控笔</string>
     <string name="various_mipad_input_bluetooth_version_title">驱动版本</string>
     <string name="various_mipad_input_bluetooth_version_desc">移除触控笔蓝牙限制所使用的驱动版本</string>

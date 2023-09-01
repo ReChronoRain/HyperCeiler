@@ -12,7 +12,7 @@
             android:key="prefs_key_various_dialog"
             app:isPreferenceVisible="true"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.various.AlertDialogSettings" />
-            
+
         <Preference
             android:title="@string/various_open_aosp_something_title"
             android:summary="@string/various_open_aosp_something_desc"
@@ -30,7 +30,7 @@
     <PreferenceCategory
         android:title="@string/various_super_clipboard_title">
         <SwitchPreference
-            android:title="@string/enable"
+            android:title="@string/various_unlock_super_clipboard"
             android:summary="@string/various_super_clipboard_summary"
             android:key="prefs_key_various_super_clipboard_enable"
             android:defaultValue="false" />

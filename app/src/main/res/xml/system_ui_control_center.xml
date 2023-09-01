@@ -143,7 +143,6 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_gms_open"
-            android:summary="@string/security_center_gms_open_more"
             android:title="@string/security_center_gms_open" />
         <SwitchPreference
             android:defaultValue="false"
