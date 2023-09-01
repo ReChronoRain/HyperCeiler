@@ -16,39 +16,31 @@ class AboutFragment : SettingsPreferenceFragment() {
     }
 
     override fun initPrefs() {
-        val c = Calendar.getInstance()
-        val hours: Int = when (val hour = c.get(Calendar.HOUR_OF_DAY)) {
+        val lIIllll = Calendar.getInstance()
+        val lIIlllI: Int = when (val lIIllIl = lIIllll.get(Calendar.HOUR_OF_DAY)) {
             0 -> 24
-            else -> hour
+            else -> lIIllIl
         }
 
-        val mHiddenFunction = findPreference<Preference>("prefs_key_hidden_function")
+        val lIIllII = findPreference<Preference>("prefs_key_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
-        mHiddenFunction?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
+        lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
 
-        var versionClickTime = 0
-        val maxCloseClickTime = 3
-        mHiddenFunction?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        var lIIlIll = 0
+        val lIIlIlI = 1
+        lIIllII?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             it as SwitchPreference
             it.isChecked = !(it.isChecked)
-            versionClickTime++
+            lIIlIll++
             if (it.isChecked) {
-                if (versionClickTime < maxCloseClickTime) {
-                    // ToastHelper.makeText(context, "都启动过了还点？")
-                } else {
+                if (lIIlIll >= lIIlIlI) {
                     it.isChecked = !(it.isChecked)
-                    versionClickTime = 0
-                    // ToastHelper.makeText(context, "行吧给你关咯")
+                    lIIlIll = 0
                 }
-            } else if (versionClickTime < hours) {
-                // val string = String.format("还需点击%d次", hour - versionClickTime)
-                // ToastHelper.makeText(context, string)
-            } else {
+            } else if (lIIlIll >= lIIlllI) {
                 it.isChecked = !(it.isChecked)
-                versionClickTime = 0
-                // val string = String.format("已启动")
-                // ToastHelper.makeText(context, string)
+                lIIlIll = 0
             }
             false
         }
@@ -60,7 +52,6 @@ class AboutFragment : SettingsPreferenceFragment() {
     }
 
     /**
-     *
      * 调用 joinQQGroup() 即可发起手Q客户端申请加群
      * @param this@joinQQGroup 由官网生成的key
      * @return 返回true表示呼起手Q成功，返回false表示呼起失败
