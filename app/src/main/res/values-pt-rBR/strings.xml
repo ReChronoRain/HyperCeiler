@@ -11,7 +11,7 @@
     <string name="about">Sobre</string>
     <string name="about_use">Citar</string>
     <string name="about_use_desc">O Cemiuiler usa alguns ou todos os seguintes projetos de código aberto, graças aos desenvolvedores desses projetos por seu apoio (em nenhuma ordem em particular)</string>
-    <string name="about_contributer">Colaborador</string>
+    <string name="about_contributer">Colaboradores</string>
     <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do Cemiuiler (em nenhuma ordem em particular)</string>
     <string name="about_donation">Patrocinadores</string>
     <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
@@ -20,7 +20,7 @@
     <string name="settings_debug_title">Depurar</string>
     <string name="settings_hide_app_icon">Ícone na tela inicial</string>
     <string name="settings_icon">Ícone nas Configurações</string>
-    <string name="settings_icon_desc">Defina a localização de entrada do módulo nas configurações do sistema</string>
+    <string name="settings_icon_desc">Defina onde o ícone do módulo ficará nas Configurações</string>
     <string name="settings_icon_disable">Desativado</string>
     <string name="settings_icon_top">Topo</string>
     <string name="settings_icon_medium">Meio</string>
@@ -28,11 +28,11 @@
     <string name="settings_icon_mode">Estilo do ícone</string>
     <string name="settings_icon_miui_14">Estilo retângulo arredondado</string>
     <string name="settings_icon_miui_13">Estilo de corte de fundo</string>
-    <string name="settings_reboot">Reiniciar o app de destino</string>
+    <string name="settings_reboot">Reiniciar app de destino</string>
     <string name="settings_back">Fazer backup das configurações do módulo</string>
     <string name="settings_rest">Restaurar configurações do módulo</string>
     <string name="settings_reset">Redefinir configurações do módulo</string>
-    <string name="reset_title">Você tem certeza de que deseja redefinir?</string>
+    <string name="reset_title">Tem certeza que deseja redefinir?</string>
     <string name="reset_desc">Após redefinir a configuração do módulo, todos os seus dados serão excluídos!</string>
     <string name="reset_okay">A configuração do módulo foi redefinida</string>
     <string name="backup_success">Backup concluído</string>
@@ -48,7 +48,7 @@
     <string name="disable_detailed_log_desc">Reinicie para aplicar</string>
     <string name="settings_safe_mode">Modo seguro</string>
     <string name="settings_safe_mode_desc">Parar função do módulo</string>
-    <string name="about_developer_title">Desenvolvedor</string>
+    <string name="about_developer_title">Desenvolvedores</string>
     <string name="about_translator_title">Tradutor</string>
     <string name="about_chat_title">Discussão</string>
     <string name="about_other_title">Outro</string>
@@ -56,7 +56,7 @@
     <string name="about_qq_channel">Canal QQ</string>
     <string name="about_tg_group">Grupo Telegram</string>
     <string name="about_tg_channel">Canal Telegram</string>
-    <string name="about_github">Código Fonte</string>
+    <string name="about_github">Código fonte</string>
     <string name="about_github_desc">Este projeto é de código aberto baseado na licença AGPL-3.0</string>
     <string name="about_offical">Site oficial</string>
     <string name="about_crwd">Crowdin</string>
@@ -130,7 +130,7 @@
     <string name="array_theme">Seguir o assunto</string>
     <string name="array_clock_center">Centralizar o relógio</string>
     <string name="array_clock_right">Relógio à direita</string>
-    <string name="array_clock_center_and_icon_left">Relógio central e Ícone à esquerda</string>
+    <string name="array_clock_center_and_icon_left">Relógio no meio e ícone à esquerda</string>
     <string name="array_clock_default">Padrão</string>
     <string name="array_clock_geek">Geek</string>
     <string name="array_battery_both">Ambos</string>
@@ -208,7 +208,7 @@
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
-    <string name="system_framework_other_title">Outro</string>
+    <string name="system_framework_other_title">Outros</string>
     <string name="system_framework_display_title">Tela</string>
     <string name="system_framework_phone_title">Rede</string>
     <string name="system_framework_bubble_title">Notificação em bolha</string>
@@ -227,12 +227,12 @@
     <string name="system_framework_volume_separate_control">Controle de volume independente</string>
     <string name="system_framework_volume_disable_safe">Remover restrições de segurança de volume alto</string>
     <string name="system_framework_volume_separate_slider">Controle deslizante do volume de notificação</string>
-    <string name="system_framework_volume_media_steps">Nível de volume de mídia</string>
+    <string name="system_framework_volume_media_steps">Nível do volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
     <string name="system_framework_volume_steps">Multiplicador de nível de volume</string>
     <string name="system_ui_display_brightness_title">Brilho</string>
-    <string name="system_ui_display_auto_brightness">Faixa de brilho automático</string>
-    <string name="system_ui_display_auto_brightness_desc">Definir valores mínimos e máximos para brilho automático</string>
+    <string name="system_ui_display_auto_brightness">Alcance do brilho automático</string>
+    <string name="system_ui_display_auto_brightness_desc">Definir valores mínimos e máximos para o brilho automático</string>
     <string name="system_ui_display_min_brightness">Brilho automático mínimo</string>
     <string name="system_ui_display_max_brightness">Brilho automático máximo</string>
     <string name="system_ui_display_toast_times_title">Exibir ajuste de duração</string>
@@ -241,7 +241,7 @@
     <string name="phone_double_5g_nr">Uso de cartão duplo 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
     <string name="phone_double_5g_sa">Uso de cartão duplo SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Recursos experimentais. Faça o cartão SIM secundário suportar SA</string>
+    <string name="phone_double_5g_sa_desc">Recursos experimentais. Faça com que o SIM secundário suporte SA</string>
     <string name="system_framework_phone_band_title">Configurações de banda</string>
     <string name="phone_n1">Banda N1</string>
     <string name="phone_n1_desc">Suporte Banda N1 (NR)</string>
@@ -280,37 +280,37 @@
     <string name="system_framework_core_patch_auth_creak">Desativar a verificação de integridade</string>
     <string name="system_framework_core_patch_auth_creak_desc">Permite instalar apps após modificar o arquivo no apk (ignorar erro de resumo inválido)</string>
     <string name="system_framework_core_patch_digest_creak">Desativar a comparação de assinaturas</string>
-    <string name="system_framework_core_patch_digest_creak_desc">Permitir a reinstalação do app com assinaturas diferentes</string>
+    <string name="system_framework_core_patch_digest_creak_desc">Permite a reinstalação do app com assinaturas diferentes</string>
     <string name="system_framework_core_patch_use_pre_signature">Usar assinaturas instaladas</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">Esse recurso é extremamente perigoso e só deve ser ativado quando for absolutamente necessário</string>
     <string name="system_framework_core_patch_enhanced_mode">Modo aprimorado</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Realize alguma validação no app</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
-    <string name="browser_debug_mode">Opções do desenvolvedor</string>
+    <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx e acima não são suportados</string>
     <!--Camera-->
     <string name="camera">Câmera</string>
     <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente</string>
     <string name="camera_features_unlock_ambilight">Desbloquear Longa exposição</string>
-    <string name="camera_features_unlock_clone">Desbloquear Modo Clonar</string>
+    <string name="camera_features_unlock_clone">Desbloquear modo Clonar</string>
     <string name="camera_features_unlock_cosmetic_mirror">Desbloquear Espelho de bolso</string>
-    <string name="camera_features_unlock_doc">Desbloquear Modo Documento</string>
-    <string name="camera_features_unlock_idcard">Desbloquear Modo de Cartão de Identificação</string>
+    <string name="camera_features_unlock_doc">Desbloquear modo Documentos</string>
+    <string name="camera_features_unlock_idcard">Desbloquear modo Cartão de Identificação</string>
     <string name="camera_features_unlock_dualcam">Desbloquear Câmera dupla</string>
     <string name="camera_features_unlock_duration">Desbloquear Duração</string>
-    <string name="camera_features_unlock_milive">Desbloquear Vídeos curtos</string>
-    <string name="camera_features_unlock_moon">Desbloquear Modo Superlua</string>
-    <string name="camera_features_unlock_pano">Desbloquear Modo Panorama</string>
-    <string name="camera_features_unlock_pixel">Desbloquear Modo Pixel</string>
-    <string name="camera_features_unlock_portrait">Desbloquear Modo Retrato</string>
+    <string name="camera_features_unlock_milive">Desbloquear Vídeo curto</string>
+    <string name="camera_features_unlock_moon">Desbloquear modo Superlua</string>
+    <string name="camera_features_unlock_pano">Desbloquear modo Panorama</string>
+    <string name="camera_features_unlock_pixel">Desbloquear modo Pixel</string>
+    <string name="camera_features_unlock_portrait">Desbloquear modo Retrato</string>
     <string name="camera_features_unlock_slow">Desbloquear Câmera lenta</string>
     <string name="camera_features_unlock_videosky">Desbloquear Video-céu</string>
     <string name="camera_features_unlock_vlog">Desbloquear VLOG</string>
     <string name="camera_features_unlock_vlog_pro">Desbloquear VLOG PRO</string>
     <string name="camera_features_unlock_film">Desbloquear Câmera de filme</string>
     <string name="camera_features_unlock_film_delay">Desbloquear Longa exposição</string>
-    <string name="camera_features_unlock_film_dollyzoom">Desbloquear Zoom Dolly</string>
+    <string name="camera_features_unlock_film_dollyzoom">Desbloquear zoom Dolly</string>
     <string name="camera_features_unlock_film_dream">Desbloquear Sonho</string>
     <string name="camera_features_unlock_film_slowshutter">Desbloquear Disparador lento</string>
     <string name="camera_features_unlock_film_timebackflow">Desbloquear Fluxo de tempo</string>
@@ -417,7 +417,7 @@
     <string name="system_ui_statusbar_layout_mode_title">Modo de layout</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Toque duas vezes para desligar a tela</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Barra de sinal de duas linhas</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilos de ícone</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilos de ícones</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Dimensionamento de ícone</string>
     <string name="system_ui_status_bar_mobile_type_single">O ícone do tipo de rede móvel é exibido separadamente</string>
     <string name="system_ui_status_bar_mobile_type_left">Exibir à esquerda do sinal</string>
@@ -454,7 +454,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de exibição</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ícone do tipo de rede grande</string>
     <string name="system_ui_status_bar_icon_location">Localização</string>
-    <string name="system_ui_status_bar_icon_alarm_clock">Despertador</string>
+    <string name="system_ui_status_bar_icon_alarm_clock">Alarme</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Exibir ícone do alarme apenas antes do alarme disparar</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
     <string name="system_ui_status_bar_icon_airplane">Modo avião</string>
@@ -596,13 +596,12 @@
     <string name="system_control_center_old_qs_grid_columns_desc">A orientação de paisagem terá uma coluna adicional</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do bloco Bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Mova o bloco do bluetooth para perto do bloco da rede</string>
-
-    <string name="system_ui_other_title">Outro</string>
+    <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo de animação de carregamento da tela de bloqueio</string>
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativo</string>
-    <string name="system_ui_another_title">Outro</string>
+    <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação de mais apps para abrir uma janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -619,12 +618,12 @@
     <string name="system_settings">Configurações</string>
     <string name="system_settings_international_build">Versão internacional das configurações</string>
     <string name="system_settings_safe_wifi">Ver suas senhas de Wi-Fi salvas</string>
-    <string name="system_settings_safe_wifi_desc">Desbloquear Gerenciar redes salvas\nCaminho: Configurações - Wi-Fi - Configurações adicionais - Gerenciar redes salvas</string>
+    <string name="system_settings_safe_wifi_desc">Caminho: Configurações - Wi-Fi - Configurações adicionais - Gerenciar redes salvas</string>
     <string name="system_settings_wifipassword_btn_title">Verificar</string>
     <string name="system_settings_wifi_password_label">Senha</string>
     <string name="system_settings_wifi_password_dlgtitle">Detalhes do Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Desbloqueie a nova versão da página de retorno tátil</string>
-    <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno Tátil - Página de retorno tátil</string>
+    <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno tátil - Página de retorno tátil</string>
     <string name="system_settings_connection_sharing_title">Conexão e compartilhamento</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
@@ -659,7 +658,7 @@
     <!--Updater-->
     <string name="updater">Atualizações</string>
     <string name="updater_fuck_vab">Remover verificação OTA</string>
-    <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados, por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem de cartão de teste interno sem permissões de teste interno\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão\n- Não suporta nenhum uso de ROM não oficial\n- Esta função é perigosa, por favor, avalie se deve ativá-la após entender a operação do Fastboot</string>
+    <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados, por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão\n- Não suporta nenhum uso de ROM não oficial\n- Esta função é perigosa, por favor, avalie se deve ativá-la após entender a operação do Fastboot</string>
     <string name="updater_miui_version">Versão da MIUI falsa para Atualizações</string>
     <string name="updater_miui_version_desc">Modifique apenas a atualização do sistema, que pode proteger a atualização do sistema até certo ponto</string>
     <string name="updater_device">Dispositivo falso para Atualizações</string>
@@ -863,13 +862,13 @@
     <string name="home_dock_bg_custom">Blur do fundo</string>
     <string name="home_dock_icon_bottom_margin">Distância do ícone da margem inferior</string>
     <string name="home_dock_margin_bottom">Margem do indicador de página da parte inferior da tela</string>
-    <string name="home_dock_unlock_hotseat">Remover restrição de número de ícones na dock</string>
-    <string name="home_dock_fold">Dock da pasta</string>
+    <string name="home_dock_unlock_hotseat">Remover restrição de ícones na dock</string>
+    <string name="home_dock_fold">Dock fold</string>
     <string name="home_dock_hide_seekpoint">Ocultar ponto de busca</string>
-    <string name="home_dock_icon_title">Exibir o título do ícone na dock</string>
+    <string name="home_dock_icon_title">Exibir título do ícone na dock</string>
     <string name="home_dock_disable_recents_icon">Ocultar ícones de apps recentes da dock</string>
     <string name="home_dock_disable_recents_icon_sum">Por exemplo: ícones de apps à direita do separador dock do Pad</string>
-    <string name="home_other">Outro</string>
+    <string name="home_other">Outros</string>
     <string name="home_other_shortcut_title">Atalho</string>
     <string name="home_other_home_mode">Modo desktop</string>
     <string name="home_other_infinite_scroll">Rolagem infinita</string>
@@ -942,7 +941,7 @@
     <string name="powerkeeper">Bateria e desempenho</string>
     <string name="powerkeeper_custom_refresh_rate">Apps personalizados com alta taxa de atualização</string>
     <string name="powerkeeper_lock_max_fps">Bloquear FPS máximo</string>
-    <string name="powerkeeper_do_not_kill_apps">Tentar não encerrar os apps</string>
+    <string name="powerkeeper_do_not_kill_apps">Tente não encerrar os apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
@@ -1019,7 +1018,7 @@
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
     <string name="security_center_blurradius">Valor do blur da barra lateral</string>
     <string name="security_center_color">Cor da barra lateral</string>
-    <string name="security_center_other_title">Outro</string>
+    <string name="security_center_other_title">Outros</string>
     <string name="security_center_sidebar_line_color">Cor da linha da barra lateral personalizada</string>
     <string name="security_center_sidebar_line_color_default">Cor padrão da linha da barra lateral</string>
     <string name="security_center_sidebar_line_color_dark">Cor da linha da barra lateral escura</string>
@@ -1049,7 +1048,7 @@
     <string name="weather_device_level_title_middle">Média</string>
     <string name="weather_device_level_title_high">Alta</string>
     <!--AI Translate-->
-    <string name="aiasst">Tradutor AI</string>
+    <string name="aiasst">Tradutor IA</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
     <string name="aiasst_ai_captions_desc">Somente Chinês e Inglês podem ser reconhecidos e traduzidos</string>
     <!--AI Reco-->
@@ -1093,7 +1092,7 @@
     <string name="scanner_ppt">Desbloquear digitalização PPT</string>
     <string name="scanner_doc_ppt">Desbloquear arquivos de digitalização</string>
     <!--Other-->
-    <string name="various">Outro</string>
+    <string name="various">Outros</string>
     <string name="notes">Notas</string>
     <string name="share_center">Mi Smart Hub</string>
     <string name="new_task">Nova tarefa</string>
@@ -1107,11 +1106,11 @@
     <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_bluetooth_restrict">Impedir que o bluetooth seja desligado temporariamente</string>
-    <string name="various_disable_access_device_logs">Ignorar a caixa de diálogo de solicitação de registros do dispositivo de acesso</string>
+    <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação de logs do dispositivo de acesso</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
     <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no gerenciador LSPosed</string>
     <string name="various_collapse_miui_title">Título MIUI</string>
-    <string name="various_collapse_miui_title_desc">Ajustar título da barra superior em apps da MIUI</string>
+    <string name="various_collapse_miui_title_desc">Ajuste o título da barra superior em apps da MIUI</string>
     <string name="various_disable_folder_cantuse">Remover limite de pastas indisponíveis</string>
     <string name="various_super_clipboard_title">Super Área de Transferência</string>
     <string name="various_super_clipboard_summary">A super área de transferência é uma área de transferência que suporta a cópia de arquivos/textos\nPor favor, certifique-se de que os seguintes apps do sistema tenham os metadados de is_support_miui_super_clipboard, este recurso não estará disponível sem ele</string>
@@ -1139,10 +1138,10 @@
     <string name="custom_background_blur_radius">Raio do blur</string>
     <string name="custom_background_color">Cor do fundo</string>
     <string name="custom_background_color_alpha">Transparência da cor do fundo</string>
-    <string name="custom_background_corner_radius">Cantos arredondados de fundo</string>
+    <string name="custom_background_corner_radius">Cantos arredondados do fundo</string>
     <string name="custom_blur_enabled">Blur do fundo</string>
     <string name="various_blur_radius">Raio do blur</string>
-    <string name="various_background_corner_radius">Cantos arredondados de fundo</string>
+    <string name="various_background_corner_radius">Cantos arredondados do fundo</string>
     <string name="various_background_alpha">Transparência da máscara de fundo</string>
     <string name="various_background_color">Cor de fundo</string>
     <string name="various_dialog_window_blur_title">Blur</string>
@@ -1189,7 +1188,7 @@
     <string name="system_volume">Sistema</string>
     <string name="notification_volume">Notificação</string>
     <string name="freeform_notification">Janela flutuante de notificação</string>
-    <string name="share_app">Compartilhe com apps de terceiros</string>
+    <string name="share_app">Compartilhar com apps de terceiros</string>
     <string name="show_newmods_title">Marcar novo módulo</string>
     <string name="default_volume_stream_ring">Tocar</string>
     <string name="default_volume_stream_media">Mídias</string>
@@ -1213,12 +1212,12 @@
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
-    <string name="tip_2">Dica: Quer entrar em contato com o desenvolvedor? Telegram@Sevtinge_PM_bot ou Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Dica: Quer entrar no grupo oficial? Telegram@cemiuiler ou pesquise 247909573 no QQ.</string>
+    <string name="tip_2">Dica: Quer entrar em contato com o desenvolvedor? Telegram: @Sevtinge_PM_bot ou Bilibili: @绀漓丨Sevtinge.</string>
+    <string name="tip_3">Dica: Quer entrar no grupo oficial? Telegram: @cemiuiler ou pesquise 247909573 no QQ.</string>
     <string name="tip_4">Dica: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
     <string name="tip_5">Dica: Adivinhe quantas vezes mais você terá que ver essa dica novamente?</string>
     <string name="tip_6">Dica: Torne a MIUI ótima novamente!</string>
-    <string name="tip_7">Dica: Bem-vindo a seguir Github@sevtinge ou Bilibili@绀漓丨Sevtinge.</string>
+    <string name="tip_7">Dica: Seja bem-vindo para seguir no Github: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
     <string name="tip_8">Dica: Sevtinge é menino ou menina?</string>
     <string name="tip_9">Dica: A cidade de Sanjiang tende a entrar em colapso.</string>
     <string name="tip_10">Dica: Ah, esse mundo é tão lindo…       Pena que essa beleza não pertença ao Sevtinge.</string>
@@ -1226,7 +1225,7 @@
     <string name="tip_12">Dica: Você sabe? Na verdade, Dicas é tudo bobagem. (Convencido)</string>
     <string name="tip_13">Dica: Você sabe? O aniversário do Cemiuiler é em 1 de maio e o aniversário de Sevtinge é em 2 de fevereiro.</string>
     <string name="tip_14">Dica: Sevtinge estudou na Escola de Engenharia e Tecnologia da Informação do Campus da cidade de Sanjiang da Universidade de Shanhe.</string>
-    <string name="tip_15">Dica: Ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
+    <string name="tip_15">Dica: Eu ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
     <string name="tip_16">Dica: Sevtinge é uma raposinha! (Descartar)</string>
     <string name="tip_17">Dica: Ling Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
     <string name="tip_18">Dica: Cemiuiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
