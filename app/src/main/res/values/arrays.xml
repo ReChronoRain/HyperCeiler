@@ -66,7 +66,7 @@
         <item>@string/various</item>
     </string-array>
 
-    <string-array name="restart_apps_name">           
+    <string-array name="restart_apps_name">
         <item>@string/system_ui</item>
         <item>@string/home</item>
         <item>@string/security_center</item>
@@ -550,6 +550,18 @@
         <item />
         <item>thick</item>
         <item>theme</item>
+    </string-array>
+
+    <string-array name="control_center_cc_bluetooth_tile_style">
+        <item>@string/array_default</item>
+        <item>@string/array_bluetooth_tile_style_2rows2cols</item>
+        <item>@string/array_bluetooth_tile_style_3rows</item>
+    </string-array>
+
+    <string-array name="control_center_cc_bluetooth_tile_style_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="mipad_input_bluetooth_version">

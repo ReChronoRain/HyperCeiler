@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
+
+import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.SeekBarPreferenceEx;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -21,6 +23,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     SwitchPreference mNotice;
     SeekBarPreferenceEx mNewCCGrid;
     SwitchPreference mNewCCGridRect;
+    DropDownPreference mBluetoothSytle;
 
     @Override
     public int getContentResId() {
@@ -41,11 +44,13 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mNotice = findPreference("prefs_key_n_enable");
+        mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
 
         mFixMediaPanel.setVisible(isAndroidS() || isAndroidSv2());
         mNewCCGrid.setVisible(!isAndroidR());
         mNewCCGridRect.setVisible(!isAndroidR());
         mNotice.setVisible(!isAndroidR());
+        mBluetoothSytle.setVisible(!isAndroidR());
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

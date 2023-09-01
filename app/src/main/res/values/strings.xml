@@ -215,6 +215,8 @@
     <string name="app_sort_frequency">Usage frequency</string>
     <string name="app_sort_storage">Used storage</string>
     <string name="app_sort_install">Installation time</string>
+    <string name="array_bluetooth_tile_style_3rows">Three big tiles</string>
+    <string name="array_bluetooth_tile_style_2rows2cols"> One big and two small tiles</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -604,6 +606,9 @@
     <string name="system_control_center_old_qs_columns_desc">Landscape orientation will have one additional column\nIf your ROM has a compact Quick Settings layout option, it will add another column in both orientations</string>
     <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
     <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth tile style</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Move the bluetooth tile near the network tile</string>
+
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_charge_animation_style">Charging animation style</string>

@@ -202,6 +202,8 @@
     <string name="app_sort_frequency">Частота использования</string>
     <string name="app_sort_storage">Занимаемое место</string>
     <string name="app_sort_install">Время установки</string>
+    <string name="array_bluetooth_tile_style_3rows">Три большие плитки</string>
+    <string name="array_bluetooth_tile_style_2rows2cols">Одна большая и две маленькие плитки</string>
     <!--System Framework-->
     <string name="system_framework">Системный фреймворк</string>
     <string name="system_framework_volume_title">Громкость</string>
@@ -586,6 +588,9 @@
 Если в вашем ROM есть опция компактной компоновки быстрых настроек, она добавит еще один столбец в обеих ориентациях</string>
     <string name="system_control_center_old_qs_grid_columns">Количество столбцов в свернутой панели</string>
     <string name="system_control_center_old_qs_grid_columns_desc">Альбомная ориентация + один доп.столбец</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Стиль плитки Bluetooth</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Переместить Bluetooth-плитку рядом с сетевой плиткой</string>
+
     <string name="system_ui_other_title">Другое</string>
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>

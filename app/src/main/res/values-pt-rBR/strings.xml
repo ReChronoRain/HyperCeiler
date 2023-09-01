@@ -203,6 +203,8 @@
     <string name="app_sort_frequency">Frequência de uso</string>
     <string name="app_sort_storage">Uso do armazenamento</string>
     <string name="app_sort_install">Data de instalação</string>
+    <string name="array_bluetooth_tile_style_3rows">Três blocos grandes</string>
+    <string name="array_bluetooth_tile_style_2rows2cols">Um bloco grande e dois pequenos</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -592,6 +594,9 @@
     <string name="system_control_center_old_qs_columns_desc">A orientação paisagem terá uma coluna adicional\nSe sua ROM tiver uma opção compacta de layout de configurações rápidas, ela adicionará outra coluna em ambas as orientações</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_desc">A orientação de paisagem terá uma coluna adicional</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do bloco Bluetooth</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Mova o bloco do bluetooth para perto do bloco da rede</string>
+
     <string name="system_ui_other_title">Outro</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
