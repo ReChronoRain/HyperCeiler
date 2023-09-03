@@ -1087,8 +1087,6 @@
     <string name="various_location_simulation_title">位置情報を偽装</string>
     <string name="various_dialog_title">ダイアログ</string>
     <string name="various_mipad_title">MiPad</string>
-    <string name="various_open_aosp_something_title">Hide Properties</string>
-    <string name="various_open_aosp_something_desc">Open aosp interface \"hidden\"</string>
     <string name="settings_notfication_importance">通知の重要度を表示する</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>

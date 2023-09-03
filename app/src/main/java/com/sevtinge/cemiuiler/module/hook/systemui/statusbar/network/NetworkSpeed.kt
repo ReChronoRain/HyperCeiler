@@ -141,9 +141,9 @@ object NetworkSpeed : BaseHook() {
             }
 
             try {
-                nscCls.methodFinder().filterByName("updateText").first()
-            } catch (t: Throwable) {
                 nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first()
+            } catch (t: Throwable) {
+                nscCls.methodFinder().filterByName("updateText").filterByParamCount(1).first()
             }.createHook {
                 before {
                     //  隐藏慢速

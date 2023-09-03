@@ -1082,8 +1082,6 @@
     <string name="various_location_simulation_title">Sahte konum</string>
     <string name="various_dialog_title">Diyalog</string>
     <string name="various_mipad_title">MiPad</string>
-    <string name="various_open_aosp_something_title">Hide Properties</string>
-    <string name="various_open_aosp_something_desc">Open aosp interface \"hidden\"</string>
     <string name="settings_notfication_importance">Bildirim önemini göster</string>
     <string name="various_no_overscroll">Sınır dışı sekmeyi devre dışı bırak</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
