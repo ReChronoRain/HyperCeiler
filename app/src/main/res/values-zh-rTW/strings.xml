@@ -66,8 +66,6 @@
     <string name="restart_app_desc2">嗎？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模組暫未啟用</string>
-    <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
-    <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
     <string name="expand_button_title">進階</string>
     <string name="not_set">未設定</string>
     <string name="copy">複製</string>
@@ -433,7 +431,6 @@
     <string name="system_ui_statusbar_iconmanage_status_title">狀態圖示</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知圖示</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">電池</string>
-    <string name="system_ui_statusbar_iconmanage_call_title">Call</string>
     <string name="system_ui_statusbar_iconmanage_left_title">圖示左側顯示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -459,12 +456,7 @@
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
     <string name="system_ui_status_bar_icon_headset">耳機</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
-    <string name="system_ui_status_bar_icon_data_saver">Data Saver</string>
     <string name="system_ui_status_bar_icon_zen">免打擾模式</string>
-    <string name="system_ui_status_bar_icon_stealth">Hide incognito mode icon</string>
-    <string name="system_ui_status_bar_icon_mute">Hide muted mic icon</string>
-    <string name="system_ui_status_bar_icon_speakerphone">Hide speakerphone icon</string>
-    <string name="system_ui_status_bar_icon_call_record">Hide recording icon</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知點數最大數量</string>
     <string name="system_ui_status_bar_notification_icon_maximum">通知圖示最大數量</string>
     <string name="system_ui_status_bar_battery_percent">隱藏電量百分比</string>
@@ -584,7 +576,6 @@
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">開啟螢幕時彈出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
-    <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_enable_title">自訂行列數</string>
@@ -610,7 +601,7 @@
     <string name="system_ui_notification_title">通知</string>
     <string name="system_ui_other_notification_fix">停用通知白名單</string>
     <string name="system_ui_plugin_enable_volume_blur">音量條模糊</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android12+ MTK 裝置使用，可能存在 GPU 負載較高的情形</string>
+    <string name="system_ui_plugin_enable_volume_blur_desc">僅供 Android 12 及以上 MTK 裝置使用，可能存在 GPU 負載較高的情形</string>
     <!--Settings-->
     <string name="system_settings">設定</string>
     <string name="system_settings_international_build">國際版本設定頁面</string>
@@ -695,7 +686,6 @@
     <string name="content_extension_link_open_mode_desc">選擇一個瀏覽器以打開連結</string>
     <!--Mi Canvas-->
     <string name="creation">小米創作</string>
-    <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
     <!--Gallery-->
     <string name="gallery">相簿</string>
     <string name="gallery_enable_hdr_enhanced">解鎖超動態顯示</string>
@@ -840,9 +830,6 @@
     <string name="home_recent_text_color">卡片文字顏色</string>
     <string name="home_recent_freeform_background_color">小窗應用程式卡片背景顏色</string>
     <string name="home_recent_show_real_memory">顯示真實運行記憶體</string>
-    <string name="home_recent_show_memory_info_sum">For tablet use only</string>
-    <string name="home_recent_show_memory_info">Show memory info</string>
-    <string name="home_recent_always_show_clean_up">Prohibit hiding the cleanup icon when there is no card</string>
     <string name="home_widget">小工具</string>
     <string name="home_widget_all_widget_animation">小工具動畫</string>
     <string name="home_widget_show_miui_widget">顯示 MIUI 小工具</string>
@@ -915,7 +902,6 @@
     <string name="package_installer">應用程式檔案管理元件</string>
     <string name="miui_package_installer_modify">淨化頁面</string>
     <string name="miui_package_installer_safe_mode">純淨模式</string>
-    <string name="miui_package_installer_safe_mode_desc">Force open and lock the official security guard</string>
     <string name="miui_package_installer_disable_ad">停用推廣</string>
     <string name="miui_package_installer_install_risk">停用風險檢測</string>
     <string name="miui_package_installer_safe_model_tip">停用安全守護提示</string>
@@ -956,8 +942,6 @@
     <string name="screenshot">截圖</string>
     <string name="screenshot_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
     <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
-    <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
-    <string name="screenshot_device_customize_desc">Please enter the model code</string>
     <!--Security/Tablet security center-->
     <string name="security_center">手機管家</string>
     <string name="security_center_pad">平板管家</string>
@@ -1082,9 +1066,7 @@
     <string name="mirror_unlock_miui_plus">解鎖 MIUI+</string>
     <!--Mi Settings-->
     <string name="mi_settings">小米設定</string>
-    <string name="mi_input_settings">Input settings</string>
     <string name="mi_settings_show_fps">顯示更多幀數設定選項</string>
-    <string name="mi_settings_show_fps_desc">The module unlocks all frame rates by default, not guaranteed to be available</string>
     <!--MTB-->
     <string name="mtb">魯班 (MTB)</string>
     <string name="mtb_auth">繞過魯班 (MTB) 鑒權</string>
@@ -1119,15 +1101,7 @@
     <string name="various_collapse_miui_title">MIUI 標題</string>
     <string name="various_collapse_miui_title_desc">調整 MIUI 應用程式中的頂欄標題</string>
     <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
-    <string name="various_super_clipboard_title">Super Clipboard</string>
-    <string name="various_super_clipboard_summary">The super clipboard is a clipboard that supports copying files/texts\nPlease ensure that the following system applications have the metadata of is_support_miui_super_clipboard , this feature will not be available without</string>
     <string name="various_super_clipboard_picture_desc">允許將圖片複製到剪貼簿</string>
-    <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
-    <string name="various_open_aosp_battery_title">Battery Optimization</string>
-    <string name="various_open_aosp_notification_title">Notification Settings</string>
-    <string name="various_open_aosp_app_manage_title">App Management</string>
-    <string name="various_open_aosp_language_title">Language Settings</string>
-    <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
     <string name="various_mipad_input_title">輸入</string>
     <string name="various_mipad_input_close_magic_title">關閉 Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">移除 MIUI For Pad 破爛的圓形滑鼠指針，並恢復為安卓原生的滑鼠指針</string>
@@ -1217,25 +1191,4 @@
     <string name="location_add">增加</string>
     <string name="location_delete">刪除</string>
     <!--Tip-->
-    <string name="tip_0">Tip: Here\'s a tip!</string>
-    <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
-    <string name="tip_2">Tip: Want to contact to developer? Telegram@Sevtinge_PM_bot or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Tip: Want to join the official group? Telegram@cemiuiler or search 247909573 in QQ.</string>
-    <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Tip: Guess how many more times you have to see this tip again?</string>
-    <string name="tip_6">Tip: Make MIUI Great Again!</string>
-    <string name="tip_7">Tip: Welcome to follow Github@sevtinge or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_8">Tip: Is Sevtinge a boy or a girl?</string>
-    <string name="tip_9">Tip: Sanjiang City tends to collapse.</string>
-    <string name="tip_10">Tip: Ah, this world is so beautiful…       It\'s a pity that this beauty does not belong to Sevtinge.</string>
-    <string name="tip_11">Tip: I\'ve kept some bugs so you know you\'re using Cemiuiler.</string>
-    <string name="tip_12">Tip: Do you know? In fact, Tips is all nonsense. (Convinced)</string>
-    <string name="tip_13">Tip: Do you know? Cemiuiler\'s birthday is on May 1, and Sevtinge\'s birthday is on February 2.</string>
-    <string name="tip_14">Tip: Sevtinge studied at the School of Information Engineering and Technology of Sanjiang City Campus of Shanhe University.</string>
-    <string name="tip_15">Tip: I heard that Sevtinge has two different forms.</string>
-    <string name="tip_16">Tip: Sevtinge is a little fox! (Cross out)</string>
-    <string name="tip_17">Tip: Ling Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
-    <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
-    <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
-    <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
 </resources>
