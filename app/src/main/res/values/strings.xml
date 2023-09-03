@@ -216,7 +216,7 @@
     <string name="app_sort_storage">Used storage</string>
     <string name="app_sort_install">Installation time</string>
     <string name="array_bluetooth_tile_style_3rows">Three big tiles</string>
-    <string name="array_bluetooth_tile_style_2rows2cols"> One big and two small tiles</string>
+    <string name="array_bluetooth_tile_style_2rows2cols">One big and two small tiles</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
