@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.app;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.hook.systemui.AutoCollapse;
@@ -133,7 +134,7 @@ public class SystemUI extends BaseModule {
 
         // 网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
-            initHook(NetworkSpeed.INSTANCE);
+            initHook(NetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
             initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
         }
         initHook(NetworkSpeedStyle.INSTANCE);
