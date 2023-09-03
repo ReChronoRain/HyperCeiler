@@ -1089,7 +1089,7 @@
     <string name="various_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
     <string name="various_disable_access_device_logs">Erişim cihazı günlükleri isteği iletişim kutusunu kapat</string>
     <string name="various_unlock_ime">IME\'nin kilidini aç</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
+    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager</string>
     <string name="various_collapse_miui_title">MIUI başlığı</string>
     <string name="various_collapse_miui_title_desc">MIUI uygulamalarında üst çubuk başlığını ayarlayın</string>
     <string name="various_disable_folder_cantuse">Kullanılamayan klasör sınırını kaldırın</string>

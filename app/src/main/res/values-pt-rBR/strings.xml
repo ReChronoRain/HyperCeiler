@@ -1104,7 +1104,7 @@
     <string name="various_disable_bluetooth_restrict">Impedir que o bluetooth seja desligado temporariamente</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação de logs do dispositivo de acesso</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
-    <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no gerenciador LSPosed</string>
+    <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no gerenciador Xposed</string>
     <string name="various_collapse_miui_title">Título MIUI</string>
     <string name="various_collapse_miui_title_desc">Ajuste o título da barra superior em apps da MIUI</string>
     <string name="various_disable_folder_cantuse">Remover limite de pastas indisponíveis</string>

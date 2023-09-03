@@ -12,11 +12,12 @@
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.VolumeSettings"/>
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.DisplaySettings"
-            android:title="@string/system_framework_display_title" />
+            android:title="@string/system_framework_display_title"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.DisplaySettings" />
 
         <Preference
             android:title="@string/system_framework_phone_title"
+            android:key="prefs_key_system_framework_network"
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings"/>
 
         <Preference
@@ -37,6 +38,12 @@
             android:title="@string/system_framework_core_patch_auth_creak"
             android:summary="@string/system_framework_core_patch_auth_creak_desc"
             android:key="prefs_key_system_framework_core_patch_auth_creak"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/system_framework_disable_integrity"
+            android:summary="@string/system_framework_disable_integrity_desc"
+            android:key="prefs_key_system_framework_core_patch_disable_integrity"
             android:defaultValue="false" />
 
         <SwitchPreference

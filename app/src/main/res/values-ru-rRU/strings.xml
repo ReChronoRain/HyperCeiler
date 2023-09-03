@@ -1112,7 +1112,7 @@
     <string name="various_disable_bluetooth_restrict">Предотвратить временное отключение Bluetooth</string>
     <string name="various_disable_access_device_logs">Отключить диалог запроса журнала доступа устройства</string>
     <string name="various_unlock_ime">Разблокировать IME</string>
-    <string name="various_unlock_ime_desc">После открытия, проверьте соответствующую область метода ввода в LSPosed manager</string>
+    <string name="various_unlock_ime_desc">После открытия, проверьте соответствующую область метода ввода в Xposed manager</string>
     <string name="various_collapse_miui_title">Заголовок MIUI</string>
     <string name="various_collapse_miui_title_desc">Изменяет заголовок верхней панели в приложениях MIUI</string>
     <string name="various_disable_folder_cantuse">Снять ограничение на доступ к запретной папке</string>

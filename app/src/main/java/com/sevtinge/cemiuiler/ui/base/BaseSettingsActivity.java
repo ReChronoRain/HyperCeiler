@@ -28,8 +28,6 @@ public class BaseSettingsActivity extends AppCompatActivity {
     public ActionBar mActionBar;
     public static List<BaseSettingsActivity> mActivityList = new ArrayList<>();
 
-    // public final String PACKAGENAME_SYSTEM_UI = "com.android.systemui";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
@@ -120,13 +118,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
 
     public void doRestart(String packagename, boolean isRestartSystem) {
         boolean result;
-       /* if (isRestartSystem) {
-            restartSystem();
-        } else if (packagename.equals(PACKAGENAME_SYSTEM_UI)) {
-            restartSystemUI();
-        } else {
-            restartApps(packagename);
-        }*/
+
         if (isRestartSystem) {
             result = ALPermissionManager.RootCommand("reboot");
         } else {
@@ -138,54 +130,8 @@ public class BaseSettingsActivity extends AppCompatActivity {
                 .setTitle(R.string.tip)
                 .setMessage(isRestartSystem ? R.string.reboot_failed : R.string.kill_failed)
                 .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
     }
-
-   /* public void restartSystem() {
-        try {
-            exec("reboot");
-        } catch (Throwable t) {
-            new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.tip)
-                .setMessage(R.string.reboot_failed)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
-                .show();
-        }
-    }
-
-    public void restartSystemUI() {
-        try {
-            exec("killall com.android.systemui");
-        } catch (Throwable t) {
-            new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.tip)
-                .setMessage(R.string.kill_failed)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
-                .show();
-        }
-        // sendBroadcast(new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI"));
-    }
-
-    public void restartApps(String packagename) {
-        try {
-            exec("killall " + packagename);
-        } catch (Throwable t) {
-            new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.tip)
-                .setMessage(R.string.kill_failed)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
-                .show();
-        }
-        // Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartApps");
-        // intent.putExtra("packageName", packagename);
-        // sendBroadcast(intent);
-    }*/
 }

@@ -5,7 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
-import com.sevtinge.cemiuiler.module.GlobalActions;
+import com.sevtinge.cemiuiler.module.app.GlobalActions;
 
 public class ShakeManager implements SensorEventListener {
 

@@ -1115,7 +1115,7 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="various_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="various_disable_access_device_logs">Bỏ qua thông báo yêu cầu truy cập nhật ký thiết bị</string>
     <string name="various_unlock_ime">Mở khóa IME</string>
-    <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý LSPosed</string>
+    <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý Xposed</string>
     <string name="various_collapse_miui_title">Tiêu đề MIUI</string>
     <string name="various_collapse_miui_title_desc">Điều chỉnh tiêu đề thanh trên cùng trong ứng dụng MIUI</string>
     <string name="various_disable_folder_cantuse">Xóa hạn chế một số thư mục không chọn được</string>

@@ -1094,7 +1094,6 @@
     <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="various_unlock_ime">IME をアンロック</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
     <string name="various_collapse_miui_title">MIUI のタイトル</string>
     <string name="various_collapse_miui_title_desc">MIUIアプリのトップバーのタイトルを調整する</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>

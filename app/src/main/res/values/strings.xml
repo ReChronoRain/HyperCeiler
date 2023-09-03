@@ -291,6 +291,8 @@
     <string name="system_framework_core_patch_downgr_desc">Allow downgrade applications</string>
     <string name="system_framework_core_patch_auth_creak">Disable digest verify</string>
     <string name="system_framework_core_patch_auth_creak_desc">Allows install apps after modify file in apk (ignore invalid digest error)</string>
+    <string name="system_framework_disable_integrity">Disable system integrity checks</string>
+    <string name="system_framework_disable_integrity_desc">Automatic recovery of tampered content is prohibited. When the \"Disable digest verify\" function is turned on, it will be enabled by default.\nOnly supports Android 13 and above</string>
     <string name="system_framework_core_patch_digest_creak">Disable compare signatures</string>
     <string name="system_framework_core_patch_digest_creak_desc">Allow re-install app with different signatures</string>
     <string name="system_framework_core_patch_use_pre_signature">Use installed signatures</string>
@@ -493,7 +495,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">Internet speed</string>
     <string name="system_ui_status_bar_volume_at_right">Sound scene</string>
     <string name="system_ui_status_bar_use_new_hd">Force to use new HD icon</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">A recent system version is required, some models may not have been updated</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">Only supports some system versions</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Network speed separator</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">The vertical line between time and internet speed is not displayed on devices with centered camera</string>
     <string name="system_ui_status_bar_hide_icon">Hide the status bar when taking a screenshot</string>
@@ -1115,13 +1117,13 @@
     <string name="various_dialog_title">Dialog</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Hide Properties</string>
-    <string name="various_open_aosp_something_desc">Open aosp interface \"hidden\"</string>
+    <string name="various_open_aosp_something_desc">Open AOSP interface \"hidden\"</string>
     <string name="settings_notfication_importance">Show notification importance</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the LSPosed manager</string>
+    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager</string>
     <string name="various_collapse_miui_title">MIUI Title</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in MIUI apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
@@ -1139,7 +1141,7 @@
     <string name="various_mipad_input_close_magic_title">No Magic Pointer</string>
     <string name="various_mipad_input_close_magic_desc">Turn the round MIUI pointer to AOSP pointer.</string>
     <string name="various_mipad_input_restore_esc_title">Restore ESC function</string>
-    <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \\"back\\" function by MIUI.</string>
+    <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \"back\" function by MIUI.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remove stylus bluetooth restriction</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Make all compatible stylus work without the need of bluetooth connection to official stylus.</string>
     <string name="various_mipad_input_bluetooth_version_title">Driver version</string>

@@ -1,14 +1,14 @@
 package com.sevtinge.cemiuiler
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.sevtinge.cemiuiler.module.SystemFrameworkForCorePatch
+import com.sevtinge.cemiuiler.module.app.SystemFrameworkForCorePatch
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit
-import com.sevtinge.cemiuiler.module.home.title.EnableIconMonetColor
-import com.sevtinge.cemiuiler.module.securitycenter.SidebarLineCustom
-import com.sevtinge.cemiuiler.module.settings.VolumeSeparateControlForSettings
-import com.sevtinge.cemiuiler.module.systemframework.*
-import com.sevtinge.cemiuiler.module.systemui.navigation.HandleLineCustom
-import com.sevtinge.cemiuiler.module.tsmclient.AutoNfc
+import com.sevtinge.cemiuiler.module.hook.home.title.EnableIconMonetColor
+import com.sevtinge.cemiuiler.module.hook.securitycenter.SidebarLineCustom
+import com.sevtinge.cemiuiler.module.hook.settings.VolumeSeparateControlForSettings
+import com.sevtinge.cemiuiler.module.hook.systemframework.*
+import com.sevtinge.cemiuiler.module.hook.systemui.navigation.HandleLineCustom
+import com.sevtinge.cemiuiler.module.hook.tsmclient.AutoNfc
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
