@@ -11,7 +11,6 @@ import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 
 object ForceClockUseSystemFontsHook : BaseHook() {
     override fun init() {
-
         loadClass("com.miui.clock.MiuiBaseClock").methodFinder().filter {
             name == "updateViewsTextSize"
         }.toList().createHooks {

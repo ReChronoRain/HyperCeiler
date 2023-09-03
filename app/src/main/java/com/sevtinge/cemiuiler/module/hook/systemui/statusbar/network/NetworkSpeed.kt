@@ -80,8 +80,9 @@ object NetworkSpeed : BaseHook() {
             else -> null
         }
 
-        val nscCls =
+        val nscCls by lazy {
             findClassIfExists(networkClass, lpparam.classLoader)
+        }
 
         if (nscCls == null) {
             Helpers.log("DetailedNetSpeedHook", "Cemiuiler: No NetworkSpeed view or controller")
@@ -109,8 +110,8 @@ object NetworkSpeed : BaseHook() {
                     val nw = mConnectivityManager.activeNetwork
                     if (nw != null) {
                         val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
-                        if (capabilities != null && (!(!capabilities.hasTransport
-                                (NetworkCapabilities.TRANSPORT_WIFI) &&
+                        if (capabilities != null && (!(!
+                            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
                                 !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)))
                         ) {
                             isConnected = true
@@ -139,116 +140,122 @@ object NetworkSpeed : BaseHook() {
                 }
             }
 
-            nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2)
-                .first()
-                .createHook {
-                    before {
-                        //  隐藏慢速
-                        val hideLow =
-                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
-                        // 网速均低于设定值隐藏
-                        val allHideLow =
-                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
-                        //  慢速水平
-                        val lowLevel =
-                            mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
-                        // 值和单位双排显示
-                        val fakeDualRow =
-                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
-                        // 上下行网速双排显示
-                        val doubleUpDown =
-                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
-                        // 交换图标与网速位置
-                        val swapPlaces =
-                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
-                        // 网速图标
-                        val icons =
-                            mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
-                        var txArrow = ""
-                        var rxArrow = ""
+            try {
+                nscCls.methodFinder().filterByName("updateText").first()
+            } catch (t: Throwable) {
+                nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first()
+            }.createHook {
+                before {
+                    //  隐藏慢速
+                    val hideLow =
+                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
+                    // 网速均低于设定值隐藏
+                    val allHideLow =
+                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
+                    //  慢速水平
+                    val lowLevel =
+                        mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
+                    // 值和单位双排显示
+                    val fakeDualRow =
+                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
+                    // 上下行网速双排显示
+                    val doubleUpDown =
+                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
+                    // 交换图标与网速位置
+                    val swapPlaces =
+                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
+                    // 网速图标
+                    val icons =
+                        mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
+                    var txArrow = ""
+                    var rxArrow = ""
 
-                        when (icons) {
-                            2 -> {
-                                txArrow = if (txSpeed < lowLevel) "△" else "▲"
-                                rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
-                            }
-
-                            3 -> {
-                                txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                                rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
-                            }
-
-                            4 -> {
-                                txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                                rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
-                            }
-
-                            5 -> {
-                                txArrow = if (txSpeed < lowLevel) "↑" else "↑"
-                                rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                            }
-
-                            6 -> {
-                                txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                                rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
-                            }
+                    when (icons) {
+                        2 -> {
+                            txArrow = if (txSpeed < lowLevel) "△" else "▲"
+                            rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
                         }
 
-                        // 计算上行网速
-                        val tx =
-                            if (hideLow && !allHideLow && txSpeed < lowLevel)
-                                ""
-                            else {
-                                if (swapPlaces)
-                                    "$txArrow${humanReadableByteCount(it.args[0] as Context, txSpeed)}"
-                                else
-                                    "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
-                            }
-                        // 计算下行网速
-                        val rx =
-                            if (hideLow && !allHideLow && rxSpeed < lowLevel)
-                                ""
-                            else {
-                                if (swapPlaces)
-                                    "$rxArrow${humanReadableByteCount(it.args[0] as Context, rxSpeed)}"
-                                else
-                                    "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
-                            }
-                        // 计算总网速
-                        val ax =
-                            humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
-                        // 存储是否隐藏慢速的条件的结果
-                        val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
-                        val isAllLowSpeed = hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
+                        3 -> {
+                            txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
+                            rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
+                        }
 
-                        when {
-                            // 如果显示上下行网速并且不开值和单位双排显示，返回上下行网速的字符串
-                            doubleUpDown && !fakeDualRow -> {
-                                if (isLowSpeed && !isAllLowSpeed) {
-                                    it.result = ""
-                                } else if (isAllLowSpeed) {
-                                    it.result = ""
-                                } else {
-                                    it.result = "$tx\n$rx"
-                                }
+                        4 -> {
+                            txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
+                            rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                        }
+
+                        5 -> {
+                            txArrow = if (txSpeed < lowLevel) "↑" else "↑"
+                            rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
+                        }
+
+                        6 -> {
+                            txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
+                            rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
+                        }
+                    }
+
+                    // 计算上行网速
+                    val tx =
+                        if (hideLow && !allHideLow && txSpeed < lowLevel)
+                            ""
+                        else {
+                            if (swapPlaces)
+                                "$txArrow${humanReadableByteCount(it.args[0] as Context, txSpeed)}"
+                            else
+                                "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
+                        }
+                    // 计算下行网速
+                    val rx =
+                        if (hideLow && !allHideLow && rxSpeed < lowLevel)
+                            ""
+                        else {
+                            if (swapPlaces)
+                                "$rxArrow${humanReadableByteCount(it.args[0] as Context, rxSpeed)}"
+                            else
+                                "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
+                        }
+                    // 计算总网速
+                    val ax =
+                        humanReadableByteCount(
+                            it.args[0] as Context,
+                            newTxBytesFixed + newRxBytesFixed
+                        )
+                    // 存储是否隐藏慢速的条件的结果
+                    val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
+                    val isAllLowSpeed =
+                        hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
+
+                    when {
+                        // 如果显示上下行网速并且不开值和单位双排显示，返回上下行网速的字符串
+                        doubleUpDown && !fakeDualRow -> {
+                            if (isLowSpeed && !isAllLowSpeed) {
+                                it.result = ""
+                            } else if (isAllLowSpeed) {
+                                it.result = ""
+                            } else {
+                                it.result = "$tx\n$rx"
                             }
-                            // 如果开启值和单位双排显示，返回总网速的字符串
-                            fakeDualRow -> {
-                                if (isLowSpeed) {
-                                    it.result = ""
-                                } else {
-                                    it.result = ax
-                                }
+                        }
+                        // 如果开启值和单位双排显示，返回总网速的字符串
+                        fakeDualRow -> {
+                            if (isLowSpeed) {
+                                it.result = ""
+                            } else {
+                                it.result = ax
                             }
-                            // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
-                            else -> {
-                                if (isLowSpeed) {
-                                    it.result = ""
-                                }
+                        }
+                        // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
+                        else -> {
+                            if (isLowSpeed) {
+                                it.result = ""
                             }
                         }
                     }
                 }
+            }
         }
     }
 }
