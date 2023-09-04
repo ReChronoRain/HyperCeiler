@@ -242,6 +242,8 @@
     <string name="system_framework_volume_media_steps">Media volume level</string>
     <string name="system_framework_volume_media_steps_desc">It may cause the scrolling of the volume bar to freeze or the Bluetooth volume to be abnormal</string>
     <string name="system_framework_volume_steps">Volume level multiplier</string>
+    <string name="system_ui_display_cutout_title">Display Cutout</string>
+    <string name="system_ui_display_hide_cutout">Hide Display Cutout</string>
     <string name="system_ui_display_brightness_title">Brightness</string>
     <string name="system_ui_display_auto_brightness">Auto brightness range</string>
     <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>

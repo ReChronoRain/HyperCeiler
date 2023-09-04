@@ -44,6 +44,7 @@ import com.sevtinge.cemiuiler.module.hook.systemframework.network.DualSASupport;
 import com.sevtinge.cemiuiler.module.hook.systemframework.network.N1Band;
 import com.sevtinge.cemiuiler.module.hook.systemframework.network.N28Band;
 import com.sevtinge.cemiuiler.module.hook.systemframework.network.N5N8Band;
+import com.sevtinge.cemiuiler.module.hook.systemframework.display.DisplayCutout;
 import com.sevtinge.cemiuiler.module.hook.systemframework.display.ToastTime;
 import com.sevtinge.cemiuiler.module.hook.various.NoAccessDeviceLogsRequest;
 
@@ -109,6 +110,7 @@ public class SystemFramework extends BaseModule {
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
 
         // 显示
+        initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
         initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
 

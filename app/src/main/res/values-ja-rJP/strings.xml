@@ -229,6 +229,8 @@
     <string name="system_framework_volume_media_steps">メディアの音量レベル</string>
     <string name="system_framework_volume_media_steps_desc">オンにすると、ボリュームバーのスクロールがフリーズしたり、Bluetoothの音量が異常になる場合があります</string>
     <string name="system_framework_volume_steps">音量のステップ数</string>
+    <string name="system_ui_display_cutout_title">画面のノッチ</string>
+    <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
     <string name="system_ui_display_brightness_title">明るさ</string>
     <string name="system_ui_display_auto_brightness">明るさの自動調整範囲</string>
     <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
