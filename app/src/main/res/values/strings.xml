@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Content that does not require translation-->
     <string name="app_name" translatable="false">Cemiuiler</string>
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>
@@ -1074,10 +1073,10 @@
     <!--AI Reco-->
     <string name="aireco">AI Reco</string>
     <string name="aireco_device_modify">Remove beta restrictions</string>
-    <!--弹幕通知-->
+    <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps use barrage</string>
-    <!--Barrage-->
+    <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Cloud Control</string>
     <string name="joyose_disable_cloud_control">Disable Cloud control</string>

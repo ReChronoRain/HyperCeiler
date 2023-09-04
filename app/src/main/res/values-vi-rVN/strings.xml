@@ -24,9 +24,6 @@
     <string name="settings_icon_top">Trên cùng</string>
     <string name="settings_icon_medium">Ở giữa</string>
     <string name="settings_icon_down">Bên dưới</string>
-    <string name="settings_icon_mode">Icon style</string>
-    <string name="settings_icon_miui_14">Rounded rectangle style</string>
-    <string name="settings_icon_miui_13">Background cutout style</string>
     <string name="settings_reboot">Khởi động lại ứng dụng liên quan</string>
     <string name="settings_back">Sao lưu cài đặt module</string>
     <string name="settings_rest">Khôi phục cài đặt module</string>
@@ -57,7 +54,6 @@
     <string name="about_tg_channel">Kênh Telegram</string>
     <string name="about_github">Mã nguồn</string>
     <string name="about_github_desc">Dự án này là mã nguồn mở dựa trên giấy phép AGPL-3.0</string>
-    <string name="about_offical">Official website</string>
     <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Giúp chúng tôi dịch Cemiuiler sang ngôn ngữ của bạn</string>
     <!--Pop-up window/miuix part-->
@@ -66,13 +62,6 @@
     <string name="restart_app_desc2">\?</string>
     <string name="tip">Mẹo</string>
     <string name="hook_failed">Mô-đun chưa được kích hoạt</string>
-    <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
-    <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
-    <string name="expand_button_title">High level</string>
-    <string name="not_set">Not set</string>
-    <string name="copy">Copy</string>
-    <string name="more">More</string>
-    <string name="clearable_edittext_clear_description">Clear up</string>
     <string name="preference_on">Bật</string>
     <string name="preference_off">Tắt</string>
     <string name="preference_copied">Sao chép vào clipboard.</string>
@@ -84,16 +73,6 @@
     <string name="preference_dialog_color_picker_select">Xác nhận lựa chọn</string>
     <string name="abc_action_bar_home_description">Chỉ đường về nhà</string>
     <string name="abc_action_bar_up_description">Di chuyển lên</string>
-    <string name="actionbar_button_up_description">Back</string>
-    <string name="appcompat_action_mode_select_all">Select all</string>
-    <string name="appcompat_cancel_description">Cancel</string>
-    <string name="appcompat_confirm_description">Ok</string>
-    <string name="appcompat_select_all_description">Select all</string>
-    <string name="appcompat_deselect_all_description">Unselect all</string>
-    <string name="appcompat_delete_description">Delete</string>
-    <string name="appcompat_search_action_mode_cancel">Cancel</string>
-    <string name="appcompat_search_input_description">Search</string>
-    <string name="appcompat_actionbar_immersion_button_more_description">More</string>
     <!--String reuse-->
     <string name="top_margin">Lề trên cùng</string>
     <string name="bottom_margin">Lề dưới cùng</string>
@@ -163,10 +142,6 @@
     <string name="array_global_actions_goback">Quay Lại</string>
     <string name="array_global_actions_onehanded_left">Chế độ một tay (trái)</string>
     <string name="array_global_actions_onehanded_right">Chế độ một tay (phải)</string>
-    <string name="array_global_actions_scrolltotop">Scroll to top</string>
-    <string name="array_global_actions_expandsidebar">Show sidebar</string>
-    <string name="array_global_actions_floatingwindow">Floating window</string>
-    <string name="array_global_actions_pinningwindow">Pinning window</string>
     <string name="array_align_top">Trên</string>
     <string name="array_align_bottom">Dưới cùng</string>
     <string name="array_discrete">Riêng lẻ</string>
@@ -375,7 +350,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_scramble_pin_desc">Sắp xếp Mã PIN ngẫu nhiên</string>
     <string name="system_ui_lock_screen_password_free">Không cần nhập mật khẩu khi khởi động lại</string>
     <string name="system_ui_lock_screen_password_free_desc">Nó sẽ chỉ có hiệu lực nếu thiết bị không được kích hoạt mã hóa</string>
-    <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted, this function is not available</string>
     <string name="system_ui_lock_screen_default_theme">Chỉ hỗ trợ chủ đề mặc định</string>
     <string name="system_ui_lock_screen_show_charging_cv">Hiển thị thông tin sạc ở dưới cùng màn hình khóa</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Hiển thị chi tiết mA</string>
@@ -394,7 +368,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái ở màn hình khóa</string>
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
-    <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
     <string name="system_ui_navigation_handle_custom">Tùy chỉnh thanh ngang</string>
     <string name="system_ui_navigation_handle_custom_height">Chiều cao</string>
     <string name="system_ui_navigation_handle_custom_width">Độ rộng chiều dọc</string>
@@ -403,10 +376,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_navigation_handle_custom_color">Màu ở chế độ sáng</string>
     <string name="system_ui_navigation_handle_custom_color_dark">Màu ở chế độ tối</string>
     <string name="system_ui_navigation_custom">Tùy chỉnh thanh ngang cử chỉ</string>
-    <string name="system_ui_navigation_custom_height">Navigation height</string>
-    <string name="system_ui_navigation_custom_height_land">Landscape navigation height</string>
-    <string name="system_ui_navigation_frame_custom_height">Navigation frame height</string>
-    <string name="system_ui_navigation_frame_custom_height_land">Landscape navigation frame height</string>
     <string name="system_ui_statusbar_title">Thanh trạng thái</string>
     <string name="system_ui_statusbar_iconmanage_title">Biểu tượng</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Tốc độ mạng</string>
@@ -462,7 +431,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_vowifi">Ẩn biểu tượng VoWiFi</string>
     <string name="system_ui_status_bar_icon_headset">Tai nghe</string>
     <string name="system_ui_status_bar_icon_volume">Tắt chuông</string>
-    <string name="system_ui_status_bar_icon_data_saver">Data Saver</string>
     <string name="system_ui_status_bar_icon_zen">Zen mode</string>
     <string name="system_ui_status_bar_icon_stealth">Ẩn biểu tượng Ẩn danh</string>
     <string name="system_ui_status_bar_icon_mute">Ẩn biểu tượng Tắt Mic</string>
@@ -492,23 +460,14 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_fakedualrow">Giá trị và đơn vị được hiển thị trong hàng kép</string>
     <string name="system_ui_statusbar_network_speed_show_up_down">Hiển thị tốc độ mạng kép</string>
     <string name="system_ui_statusbar_network_speed_detailed">Tốc độ tải lên và tải xuống được hiển thị trong hàng kép</string>
-    <string name="system_ui_statusbar_network_speed_swap_places">Swap uplink and downlink speeds and icon positions</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">Hiển thị tốc độ mạng đến và đi riêng biệt</string>
     <string name="system_ui_statusbar_network_speed_hide">Ẩn khi tốc độ mạng chậm</string>
-    <string name="system_ui_statusbar_network_speed_hide_all">Hide when both uplink and downlink are slow</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Chỉ báo không còn hiển thị khi tốc độ internet thấp</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Mức độ chậm</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Khi giá trị tốc độ mạng thấp hơn mức này, nó được coi là chậm và một số biểu tượng chỉ báo sẽ hiển thị các biểu tượng chỉ báo khác nhau</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Biểu tượng chỉ báo</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">Mở tùy chỉnh</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
-    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Tùy chỉnh đồng hồ</string>
     <string name="system_ui_statusbar_clock_editor">Định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_year">Hiện năm</string>
@@ -528,7 +487,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_indicator_temperature_title">Về nhiệt độ</string>
     <string name="system_ui_statusbar_battery_size">Cỡ chữ</string>
     <string name="system_ui_statusbar_battery_show">Hiển thị nội dung</string>
-    <string name="system_ui_statusbar_temp_decimal_places">Hide decimal places</string>
     <string name="system_ui_statusbar_battery_disable">Ẩn đơn vị</string>
     <string name="system_ui_statusbar_battery_right_show">Hiện thị bên phải</string>
     <string name="system_ui_statusbar_battery_electric_current">Luôn hiển thị cưởng độ dòng điện</string>
@@ -598,7 +556,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="system_control_center_old_qs_grid_columns_desc">Cột bổ sung sẽ được thêm vào bảng thu gọn</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Kiểu ô Bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Ô Bluetooth được di chuyển đến khu vực ô mạng</string>
-
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
@@ -622,16 +579,12 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="system_settings_international_build">Cài đặt kiểu Globall</string>
     <string name="system_settings_safe_wifi">Xem mật khẩu WiFi đã lưu</string>
     <string name="system_settings_safe_wifi_desc">Xem tại: Cài đặt - WI-FI - Cài đặt nâng cao - Quản lý mạng đã lưu</string>
-    <string name="system_settings_wifipassword_btn_title">Check</string>
-    <string name="system_settings_wifi_password_label">Password</string>
-    <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
     <string name="system_settings_novelty_haptic_title">Mở khóa phiên bản mới của Tab Chạm</string>
     <string name="system_settings_novelty_haptic_desc">Chỉ dành cho các thiết bị có Âm thanh &amp; Chạm - Tab Chạm</string>
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
     <string name="system_settings_accessibility_title">Lối tắt cử chỉ</string>
-    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_knuckle_function">Mở khóa Chạm lưng</string>
     <string name="system_settings_knuckle_function_desc">Chỉ mở khóa giao diện, không chấp nhận báo lỗi chức năng</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
@@ -676,7 +629,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="lbe_disable_clipboard_tip">Bỏ quyền đọc ghi tạm</string>
     <string name="lbe_clipboard_tip_toast">Đọc clipboard bằng cách sử dụng gợi ý Toast</string>
     <string name="lbe_clipboard_tip_toast_desc">Ẩn hộp thoại và cho phép ứng dụng đọc clipboard theo mặc định</string>
-    <string name="lbe_clipboard_tip">Read clipboard</string>
     <!--Cast-->
     <string name="milink">Truyền</string>
     <string name="milink_unlock_mishare">Mở khóa Kết nối thiết bị</string>
@@ -695,8 +647,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="content_extension_link_open_mode">Cách mở liên kết</string>
     <string name="content_extension_link_open_mode_desc">Chọn trình duyệt để mở liên kết</string>
     <!--Mi Canvas-->
-    <string name="creation">Mi Canvas</string>
-    <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
     <!--Gallery-->
     <string name="gallery">Thư viện ảnh</string>
     <string name="gallery_enable_hdr_enhanced">Mở khóa hiển thị Ultra Dynamic</string>
@@ -721,8 +671,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="home_navigation_back_area_height">Chiều cao khu vực cử chỉ quay lại</string>
     <string name="home_navigation_back_area_width">Chiều rộng khu vực cử chỉ quay lại</string>
     <string name="home_gesture_title2">Cử chỉ</string>
-    <string name="home_gesture_mainscreen_title">Main screen</string>
-    <string name="home_gesture_gesture_title">Full-screen gesture</string>
     <string name="home_gesture_double_tap">Nhấn đúp</string>
     <string name="home_gesture_double_tap_desc">Nhấn đúp vào bất kỳ đâu trên màn hình chính</string>
     <string name="home_gesture_shake">Lắc</string>
@@ -741,9 +689,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="home_gesture_down_swipe2_desc">Vuốt xuống bằng hai ngón tay trên bất kỳ chỗ nào ở màn hình chính</string>
     <string name="home_gesture_pinch">Chụm bằng hai ngón tay</string>
     <string name="home_gesture_spread">Vuốt 2 ngón tay</string>
-    <string name="home_gesture_swipe_and_stop">Swipe and stop</string>
-    <string name="home_gesture_swipe_and_stop_desc">Swipe and stop on the non-home screen</string>
-    <string name="home_gesture_multi_choose_app">Choose an app</string>
     <string name="home_gesture_multi_choose_app_none">None</string>
     <string name="home_layout">Bố cục</string>
     <string name="home_layout_home_title">Màn hình chính</string>
@@ -822,7 +767,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="home_title_big_icon_corner">Bo tròn góc biểu tượng hình viên thuốc</string>
     <string name="home_title_download_animation">Hoạt ảnh tải về</string>
     <string name="home_title_fix_animation">Tối ưu hiệu ứng chuyển cảnh</string>
-    <string name="home_title_icon_scale">Icons scaling</string>
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_disable_wallpaper_dimming">Tắt làm mờ hình nền</string>
@@ -841,9 +785,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="home_recent_text_color">Màu tiêu đề ứng dụng</string>
     <string name="home_recent_freeform_background_color">Màu nền cửa sổ nổi</string>
     <string name="home_recent_show_real_memory">Hiển thị trạng thái bộ nhớ</string>
-    <string name="home_recent_show_memory_info_sum">For tablet use only</string>
-    <string name="home_recent_show_memory_info">Show memory info</string>
-    <string name="home_recent_always_show_clean_up">Prohibit hiding the cleanup icon when there is no card</string>
     <string name="home_widget">Tiện ích</string>
     <string name="home_widget_all_widget_animation">Hoạt ảnh tiện ích</string>
     <string name="home_widget_show_miui_widget">Hiển thị tiện ích MIUI</string>
@@ -853,7 +794,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="home_widget_hide_title">Ẩn tiêu đề widget</string>
     <string name="home_widget_resizable">Xóa giới hạn kích thước tiện ích</string>
     <string name="home_dock">Thanh dock</string>
-    <string name="home_dock_bg_enable">Add Dock Bar Background</string>
     <string name="home_dock_bg_height">Chiều cao</string>
     <string name="home_dock_bg_height_desc">Chiều cao Dock</string>
     <string name="home_dock_bg_margin_horizontal">Lề dọc</string>
@@ -957,22 +897,17 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="screenshot">Ảnh chụp màn hình</string>
     <string name="screenshot_unlock_minimum_crop_limit">Mở khóa Giới hạn cắt hình</string>
     <string name="screenshot_save_to_pictures_desc">Vị trí lưu ảnh chụp màn hình /Pictures/Screenshots</string>
-    <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
-    <string name="screenshot_device_customize_desc">Please enter the model code</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Bảo mật</string>
-    <string name="security_center_pad">Tablet security center</string>
     <string name="security_center_app_title">Quản lý ứng dụng</string>
     <string name="security_center_battery_title">Pin và hiệu suất</string>
     <string name="security_center_privacy_title">Bảo vệ riêng tư</string>
     <string name="security_center_beauty_title">Trợ lý Camera trước</string>
     <string name="security_center_bubble_and_freeform_title">Bong bóng và cửa sổ nổi</string>
     <string name="security_center_newbox_title">Thanh bên</string>
-    <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="security_center_show_battery_temperature">Hiển thị nhiệt độ pin</string>
     <string name="security_center_ai_clipboard">Bảo vệ khay nhớ tạm</string>
     <string name="security_center_blur_location">Độ chính xác định vị thấp hơn</string>
-    <string name="security_center_gms_open">GMS Service</string>
     <string name="security_center_get_number">Quản lý ứng dụng truy cập số điện thoại</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
@@ -1005,9 +940,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="security_disable_app_summary">Cho phép tắt bất kỳ ứng dụng nào từ trang thông tin ứng dụng</string>
     <string name="security_disable_app_url_title">Áp dụng quản lý mở liên kết</string>
     <string name="security_disable_app_url_summary">Thay đổi \"Xóa mặc định\" thành \"Mở theo mặc định\" trong chi tiết ứng dụng</string>
-    <string name="app_link_open_always">Allows the app to open supported links</string>
-    <string name="app_link_open_never">Do not allow apps to open links</string>
-    <string name="open_by_default">Open by default</string>
     <string name="security_score">Tắt tối ưu hóa kiểm tra sức khỏe</string>
     <string name="security_score_summary">Khóa 100 điểm và vô hiệu hóa tối ưu hóa</string>
     <string name="security_center_skip_waiting_time">Bỏ qua giới hạn đếm ngược</string>
@@ -1027,9 +959,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="security_center_color">Màu lớp phủ nền thanh bên toàn cầu</string>
     <string name="security_center_other_title">Khác</string>
     <string name="security_center_sidebar_line_color">Tùy chỉnh màu Sidebar</string>
-    <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
-    <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
-    <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
     <string name="security_center_disable_ban">Xóa nút báo cáo</string>
     <string name="security_center_unlock_screen_time">Hiển thị \"Màn hình\" trong pin</string>
     <string name="security_center_unlock_screen_time_desc">Hiển thị phần \"Màn hình\" trên cùng trong mục pin và các ứng dụng &amp; thời gian sử dụng</string>
@@ -1040,7 +969,6 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="security_center_unlock_s_resolution">Mở khóa siêu độ phân giải</string>
     <string name="security_center_hide_sidebar">Ẩn sidebar</string>
     <string name="security_center_leave_open">Vuốt để mở ra</string>
-    <string name="security_center_disable_sidebar_show_suggest">Disable show suggest apps</string>
     <!--Smart cards-->
     <string name="tsmclient">Thẻ thông minh</string>
     <string name="tsmclient_auto_nfc">NFC tự động</string>
@@ -1061,10 +989,10 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <!--AI Reco-->
     <string name="aireco">AI Reco</string>
     <string name="aireco_device_modify">Xóa các hạn chế thử nghiệm</string>
-    <!--弹幕通知-->
+    <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
-    <!--Barrage-->
+    <!--Joyose-->
     <string name="joyose">Trí tuệ xuất sắc</string>
     <string name="joyose_cloud_control_title">Kiểm soát đám mây</string>
     <string name="joyose_disable_cloud_control">Tắt kiểm soát đám mây</string>
@@ -1075,16 +1003,12 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="market">GetApps</string>
     <string name="market_device_modify">Giả mạo thiết bị thành</string>
     <string name="market_device_modify_desc">Mẫu thiết bị được ngụy trang là Xiaomi 13 Ultra</string>
-    <string name="market_disable_new_icon">Prohibit use third-party icons</string>
-    <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_unlock_miui_plus">Mở khóa MIUI+</string>
     <!--Mi Settings-->
     <string name="mi_settings">Cài đặt Mi</string>
-    <string name="mi_input_settings">Input settings</string>
     <string name="mi_settings_show_fps">Thêm tùy chọn tần số quét</string>
-    <string name="mi_settings_show_fps_desc">The module unlocks all frame rates by default, not guaranteed to be available</string>
     <!--MTB-->
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Bỏ xác thực MTB</string>
@@ -1100,16 +1024,10 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="scanner_doc_ppt">Mở khóa Scan chữ</string>
     <!--Other-->
     <string name="various">Khác</string>
-    <string name="notes">Notes</string>
     <string name="share_center">Mi Smart Hub</string>
-    <string name="new_task">New Task</string>
     <string name="custom_hook">Tùy chỉnh</string>
-    <string name="app_version_not_supported">Unsupported version</string>
     <string name="various_location_simulation_title">Giả vị trí</string>
     <string name="various_dialog_title">Hộp thoại</string>
-    <string name="various_mipad_title">MiPad</string>
-    <string name="various_open_aosp_something_title">Hide Properties</string>
-    <string name="various_open_aosp_something_desc">Open aosp interface \"hidden\"</string>
     <string name="settings_notfication_importance">Hiện thông báo quan trọng</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
@@ -1119,20 +1037,10 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="various_collapse_miui_title">Tiêu đề MIUI</string>
     <string name="various_collapse_miui_title_desc">Điều chỉnh tiêu đề thanh trên cùng trong ứng dụng MIUI</string>
     <string name="various_disable_folder_cantuse">Xóa hạn chế một số thư mục không chọn được</string>
-    <string name="various_super_clipboard_title">Super Clipboard</string>
-    <string name="various_super_clipboard_summary">The super clipboard is a clipboard that supports copying files/texts\nPlease ensure that the following system applications have the metadata of is_support_miui_super_clipboard , this feature will not be available without</string>
     <string name="various_super_clipboard_picture_desc">Cho phép sao chép ảnh vào clipboard</string>
-    <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
-    <string name="various_open_aosp_battery_title">Battery Optimization</string>
-    <string name="various_open_aosp_notification_title">Notification Settings</string>
-    <string name="various_open_aosp_app_manage_title">App Management</string>
-    <string name="various_open_aosp_language_title">Language Settings</string>
-    <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
     <string name="various_mipad_input_title">Nhập</string>
-    <string name="various_mipad_input_close_magic_title">No Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">Turn the round MIUI pointer to AOSP pointer.</string>
     <string name="various_mipad_input_restore_esc_title">Khôi phục chức năng ESC</string>
-    <string name="various_mipad_input_restore_esc_desc">Khôi phục chức năng ESC được mặc định vào \\"Back\\" Hoạt động trên MIUI.</string>
+    <string name="various_mipad_input_restore_esc_desc">Khôi phục chức năng ESC được mặc định vào \"Back\" Hoạt động trên MIUI.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Bỏ hạn chế bluetooth bút Stylus</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Cho phép tất cả bút Stylus hoạt động mà không cần kết nối bluetooth với bút stylus gốc.</string>
     <string name="various_mipad_input_bluetooth_version_title">Phiên bản trình điều khiển</string>
@@ -1217,25 +1125,20 @@ Nếu ROM của bạn có tùy chọn thu gọn bố cục cài đặt nhanh s�
     <string name="location_add">Thêm</string>
     <string name="location_delete">Xóa</string>
     <!--Tip-->
-    <string name="tip_0">Tip: Đây là một số mẹo!</string>
-    <string name="tip_1">Tip: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
-    <string name="tip_2">Tip: Bạn muốn liên hệ với nhà phát triển? Telegram@Sevtinge_PM_bot Hoặc Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Tip: Bạn muốn tham gia nhóm chính thức? Telegram@cemiuiler Hoặc tìm 247909573 trong QQ.</string>
-    <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Tip: Đoán xem bạn phải xem lại mẹo này bao nhiêu lần nữa?</string>
-    <string name="tip_6">Tip: Làm cho MIUI tuyệt vời trở lại!</string>
-    <string name="tip_7">Tip: Chào mừng bạn theo dõi trên Github@sevtinge Hoặc Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_8">Tip: evtinge là con trai hay con gái?</string>
-    <string name="tip_9">Tip: Tin tức Sanjiang: Chuyến tàu GL3625 bị mất tích được tìm thấy vào lúc 5 giờ sáng ngày 7 tháng 4 năm 1404 trên chuyến Haimen-Jincheng xuất phát từ Haimen đến Jincheng của công ty vận tải đường sắt Har-Jincheng, toa thứ 13 đã biến mất một cách bí ẩn.</string>
-    <string name="tip_10">Tip: Sanjiang news: Sevtinge được xác nhận đã ngồi trên toa thứ 13 của đoàn tàu GL3625.</string>
-    <string name="tip_11">Tip: Sanjiang news: Người dân cho biết họ đã quen với việc đoàn tàu GL3625 biến mất.</string>
-    <string name="tip_12">Tip: Bạn có biết? Trong thực tế, Tất cả Mẹo là vô nghĩa.</string>
-    <string name="tip_13">Tip: Bạn có biết? Sinh nhật của Cemiuiler vào ngày 1/5, sinh nhật của Sevtinge vào ngày 2/2.</string>
-    <string name="tip_14">Tip: Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
-    <string name="tip_15">Tip: Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
-    <string name="tip_16">Tip: Sevtinge là một con cáo!</string>
-    <string name="tip_17">Tip: Ling Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
-    <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
-    <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
-    <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
+    <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
+    <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
+    <string name="tip_2">Mẹo: Bạn muốn liên hệ với nhà phát triển? Telegram@Sevtinge_PM_bot Hoặc Bilibili@绀漓丨Sevtinge.</string>
+    <string name="tip_3">Mẹo: Bạn muốn tham gia nhóm chính thức? Telegram@cemiuiler Hoặc tìm 247909573 trong QQ.</string>
+    <string name="tip_5">Mẹo: Đoán xem bạn phải xem lại mẹo này bao nhiêu lần nữa?</string>
+    <string name="tip_6">Mẹo: Làm cho MIUI tuyệt vời trở lại!</string>
+    <string name="tip_7">Mẹo: Chào mừng bạn theo dõi trên Github@sevtinge Hoặc Bilibili@绀漓丨Sevtinge.</string>
+    <string name="tip_8">Mẹo: Sevtinge là con trai hay con gái?</string>
+    <string name="tip_9">Mẹo: Tin tức Sanjiang: Chuyến tàu GL3625 bị mất tích được tìm thấy vào lúc 5 giờ sáng ngày 7 tháng 4 năm 1404 trên chuyến Haimen-Jincheng xuất phát từ Haimen đến Jincheng của công ty vận tải đường sắt Har-Jincheng, toa thứ 13 đã biến mất một cách bí ẩn.</string>
+    <string name="tip_10">Mẹo: Sanjiang news: Sevtinge được xác nhận đã ngồi trên toa thứ 13 của đoàn tàu GL3625.</string>
+    <string name="tip_11">Mẹo: Sanjiang news: Người dân cho biết họ đã quen với việc đoàn tàu GL3625 biến mất.</string>
+    <string name="tip_12">Mẹo: Bạn có biết? Trong thực tế, Tất cả Mẹo là vô nghĩa.</string>
+    <string name="tip_13">Mẹo: Bạn có biết? Sinh nhật của Cemiuiler vào ngày 1/5, sinh nhật của Sevtinge vào ngày 2/2.</string>
+    <string name="tip_14">Mẹo: Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
+    <string name="tip_15">Mẹo: Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
+    <string name="tip_16">Mẹo: Sevtinge là một con cáo!</string>
 </resources>

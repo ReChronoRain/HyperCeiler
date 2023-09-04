@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Content that does not require translation-->
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Torne a MIUI ótima novamente!</string>
     <!--Cemiuiler Settings/About Page-->
@@ -277,8 +276,8 @@
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
     <string name="system_framework_core_patch_downgr_desc">Permitir downgrade de apps</string>
-    <string name="system_framework_core_patch_auth_creak">Desativar a verificação de integridade</string>
-    <string name="system_framework_core_patch_auth_creak_desc">Permite instalar apps após modificar o arquivo no apk (ignorar erro de resumo inválido)</string>
+    <string name="system_framework_core_patch_auth_creak">Desativar verificação de integridade</string>
+    <string name="system_framework_core_patch_auth_creak_desc">Permite instalar apps após modificar o arquivo no apk (ignorar erro de integridade inválido)</string>
     <string name="system_framework_disable_integrity">Desativar verificações de integridade do sistema</string>
     <string name="system_framework_disable_integrity_desc">A recuperação automática de conteúdo adulterado é proibida. Quando a função \"Desativar verificação de integridade\" estiver ativada, ela será ativada por padrão.\nCompatível apenas com Android 13 e superior</string>
     <string name="system_framework_core_patch_digest_creak">Desativar a comparação de assinaturas</string>
@@ -483,7 +482,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">Velocidade da internet</string>
     <string name="system_ui_status_bar_volume_at_right">Cena sonora</string>
     <string name="system_ui_status_bar_use_new_hd">Forçar o uso do novo ícone HD</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">Uma versão recente do sistema é necessária, alguns modelos podem não ter sido atualizados</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">Suporta apenas algumas versões do sistema</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Separador de velocidade de rede</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">A linha vertical entre o tempo e a velocidade da internet não é exibida em dispositivos com câmera centralizada</string>
     <string name="system_ui_status_bar_hide_icon">Ocultar a barra de status ao fazer uma captura de tela</string>
@@ -1052,10 +1051,10 @@
     <!--AI Reco-->
     <string name="aireco">AI Reco</string>
     <string name="aireco_device_modify">Remover restrições beta</string>
-    <!--弹幕通知-->
+    <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem barragem</string>
-    <!--Barrage-->
+    <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Controle de nuvem</string>
     <string name="joyose_disable_cloud_control">Desativar controle de nuvem</string>
@@ -1100,7 +1099,7 @@
     <string name="various_dialog_title">Diálogo</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Propriedades ocultas</string>
-    <string name="various_open_aosp_something_desc">Abra a interface aosp \"oculta\"</string>
+    <string name="various_open_aosp_something_desc">Abra a interface AOSP \"oculta\"</string>
     <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_bluetooth_restrict">Impedir que o bluetooth seja desligado temporariamente</string>

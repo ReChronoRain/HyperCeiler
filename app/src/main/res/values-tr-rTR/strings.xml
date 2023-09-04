@@ -56,8 +56,6 @@
     <string name="about_tg_group">Telegram grubu.</string>
     <string name="about_tg_channel">Telegram kanalı.</string>
     <string name="about_github">Kaynak kod.</string>
-    <string name="about_github_desc">This project is open source based on the AGPL-3.0 license</string>
-    <string name="about_offical">Official website</string>
     <string name="about_crwd">Crowdin.</string>
     <string name="about_crwd_desc">Cemiuiler uygulamasını dilinize çevirmemize yardım edin.</string>
     <!--Pop-up window/miuix part-->
@@ -66,34 +64,7 @@
     <string name="restart_app_desc2">\?</string>
     <string name="tip">Tip</string>
     <string name="hook_failed">Modül aktif değil</string>
-    <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
-    <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
-    <string name="expand_button_title">High level</string>
-    <string name="not_set">Not set</string>
-    <string name="copy">Copy</string>
-    <string name="more">More</string>
-    <string name="clearable_edittext_clear_description">Clear up</string>
-    <string name="preference_on">Turned on</string>
-    <string name="preference_off">Turned off</string>
-    <string name="preference_copied">Copied %1$s to clipboard.</string>
     <string name="preference_default_value_text">Varsayılan</string>
-    <string name="preference_dialog_color_picker_default_title">Choose the color</string>
-    <string name="preference_dialog_color_picker_presets">Preset color</string>
-    <string name="preference_dialog_color_picker_custom">Custom color</string>
-    <string name="preference_dialog_color_picker_transparency">Transparency</string>
-    <string name="preference_dialog_color_picker_select">Confirm selection</string>
-    <string name="abc_action_bar_home_description">Back to the homepage</string>
-    <string name="abc_action_bar_up_description">Back to the previous level</string>
-    <string name="actionbar_button_up_description">Back</string>
-    <string name="appcompat_action_mode_select_all">Select all</string>
-    <string name="appcompat_cancel_description">Cancel</string>
-    <string name="appcompat_confirm_description">Ok</string>
-    <string name="appcompat_select_all_description">Select all</string>
-    <string name="appcompat_deselect_all_description">Unselect all</string>
-    <string name="appcompat_delete_description">Delete</string>
-    <string name="appcompat_search_action_mode_cancel">Cancel</string>
-    <string name="appcompat_search_input_description">Search</string>
-    <string name="appcompat_actionbar_immersion_button_more_description">More</string>
     <!--String reuse-->
     <string name="top_margin">Üst kenar boşluğu</string>
     <string name="bottom_margin">Alt kenar boşluğu</string>
@@ -104,39 +75,22 @@
     <string name="feature">İşlev</string>
     <string name="recommend">Önerilen</string>
     <string name="editor">Düzenleyici</string>
-    <string name="record">Record</string>
-    <string name="shot">Shot</string>
-    <string name="portrait">Portrait</string>
-    <string name="camera_pro">Pro</string>
     <string name="enable">Etkinleştir</string>
     <string name="custom_enable">Özelleştirmeyi aç</string>
     <string name="search">aramak</string>
-    <string name="floating_window">Freeform</string>
-    <string name="save_to_screen_title">Specification save location</string>
     <string name="system_ui_statusbar_indicator_default_title">Varsayılan</string>
     <string name="system_ui_statusbar_indicator_expand_title">Genişlet</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">İçerik genişliğini düzeltin</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Yatay titremeyi önlemek için</string>
     <string name="system_ui_statusbar_indicator_bold">Kalın</string>
     <!--Multi-list Array-->
-    <string name="array_close">Close</string>
     <string name="array_default">Varsayılan</string>
     <string name="array_align_left">Sol</string>
     <string name="array_align_right">Sağ</string>
     <string name="array_align_center">Merkez</string>
     <string name="array_netspeedicons_no">Simgeler yok</string>
-    <string name="array_bold">Bold</string>
-    <string name="array_theme">Follow the subject</string>
-    <string name="array_clock_center">Clock center</string>
-    <string name="array_clock_right">Clock right</string>
-    <string name="array_clock_center_and_icon_left">Clock center &amp; Icon left</string>
     <string name="array_clock_default">Varsayılan</string>
     <string name="array_clock_geek">İnek</string>
-    <string name="array_battery_both">Both</string>
-    <string name="array_battery_power">Power only</string>
-    <string name="array_battery_current">Current only</string>
-    <string name="array_battery_temp">Battery temperature</string>
-    <string name="array_cpu_temp">CPU temperature</string>
     <string name="array_global_actions_none">Eylem yok</string>
     <string name="array_global_actions_notif">Bildirim merkezi\'ni açın</string>
     <string name="array_global_actions_eqs">Hızlı ayarlar panelini genişletin</string>
@@ -163,10 +117,6 @@
     <string name="array_global_actions_goback">Geri</string>
     <string name="array_global_actions_onehanded_left">Tek Elle Kullanım Modu (Solda)</string>
     <string name="array_global_actions_onehanded_right">Tek Elle Kullanım Modu (Sağda)</string>
-    <string name="array_global_actions_scrolltotop">Scroll to top</string>
-    <string name="array_global_actions_expandsidebar">Show sidebar</string>
-    <string name="array_global_actions_floatingwindow">Floating window</string>
-    <string name="array_global_actions_pinningwindow">Pinning window</string>
     <string name="array_align_top">Üst</string>
     <string name="array_align_bottom">Alt</string>
     <string name="array_discrete">Ayrı</string>
@@ -206,8 +156,6 @@
     <string name="system_framework">Sistem Çerçevesi</string>
     <string name="system_framework_volume_title">Ses</string>
     <string name="system_framework_other_title">Diğer</string>
-    <string name="system_framework_display_title">Display</string>
-    <string name="system_framework_phone_title">Network</string>
     <string name="system_framework_bubble_title">Kabarcık bildirimi</string>
     <string name="system_framework_freeform_count">Çoklu serbest form</string>
     <string name="system_framework_disable_freeform_blacklist">Küçük serbest forma izin verilmesini zorla</string>
@@ -216,9 +164,6 @@
     <string name="system_framework_freeform_bubble">Kabarcık serbest formu</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Tüm serbest formu mini serbest forma dönüştürün</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Son görevlerde tüm serbest formu mini serbest forma dönüştürün\nBu özellik, yüksek kararsızlığa sahip deneysel bir özelliktir</string>
-    <string name="system_framework_freeform_jump">Open with freeform when jump to another app</string>
-    <string name="system_framework_freeform_title_desc">In the following scenarios, when you need to jump to other apps, you will use the freeform to open</string>
-    <string name="system_framework_freeform_content_extension_desc">Only supports links</string>
     <string name="system_framework_default_volume_stream">Ses seviyesini varsayılan olarak ayarla</string>
     <string name="system_framework_volume_first_press">Anında ses ayarı</string>
     <string name="system_framework_volume_separate_control">Bağımsız ses kontrolü</string>
@@ -227,25 +172,6 @@
     <string name="system_framework_volume_media_steps">Medya ses seviyesi</string>
     <string name="system_framework_volume_media_steps_desc">Ses çubuğunun kaydırılmasının donmasına veya Bluetooth ses seviyesinin anormal olmasına neden olabilir</string>
     <string name="system_framework_volume_steps">Ses seviyesi çarpanı</string>
-    <string name="system_ui_display_brightness_title">Brightness</string>
-    <string name="system_ui_display_auto_brightness">Auto brightness range</string>
-    <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
-    <string name="system_ui_display_min_brightness">Auto Brightness Min</string>
-    <string name="system_ui_display_max_brightness">Auto Brightness Max</string>
-    <string name="system_ui_display_toast_times_title">Display duration adjustment</string>
-    <string name="system_ui_display_toast_times_desc">Modify the display duration of Toast, the display duration is always greater than 1 second</string>
-    <string name="system_framework_phone_network_title">Network settings</string>
-    <string name="phone_double_5g_nr">Double card use 5G (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">Main and secondary SIM-card enable 5G at the same time (The secondary SIM-card only support NSA)</string>
-    <string name="phone_double_5g_sa">Double card use SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Experimental features. Make the secondary SIM-card support SA</string>
-    <string name="system_framework_phone_band_title">Band settings</string>
-    <string name="phone_n1">N1 Band</string>
-    <string name="phone_n1_desc">Support N1 Band (NR)</string>
-    <string name="phone_n28">N28 Band</string>
-    <string name="phone_n28_desc">Support N28 Band (NR)</string>
-    <string name="phone_n5_n8">N5/N8 Band</string>
-    <string name="phone_n5_n8_desc">Enter *#*#65686633#*#* on the dial interface to Support N5/N8 Band. If it shows \"enable N5 and N8 Mode\", the feature will enable successfully.</string>
     <string name="system_framework_screen_all_rotations">Bu özellik, yüksek kararsızlığa sahip deneysel bir özelliktir</string>
     <string name="system_framework_allow_untrusted_touch">Güvenilmeyen dokunuşa izin ver</string>
     <string name="system_framework_allow_uninstall">Bazı ön yükleme uygulamalarını kaldırmaya izin ver</string>
@@ -254,10 +180,8 @@
     <string name="system_framework_disable_app_link_verify_desc">Uygulama ayarlarında desteklenen bağlantıları etkinleştirmeden bağlantıları açarken doğrudan desteklenen uygulamaları açmaya geri dönün</string>
     <string name="system_framework_clean_share_menu">Paylaşım menüsünü temizle</string>
     <string name="system_framework_clean_share_apps">Seçilen uygulamalar</string>
-    <string name="system_framework_clean_share_apps_desc">The selected app will not appear in the share menu</string>
     <string name="system_framework_clean_open_menu">Birlikte aç menüsünü temizleyin</string>
     <string name="system_framework_clean_open_apps">Seçilen uygulamalar</string>
-    <string name="system_framework_clean_open_apps_desc">The selected app will not appear in the open with menu</string>
     <string name="system_other_flag_secure">Ekran görüntüsüne izin ver</string>
     <string name="system_other_flag_secure_desc">Herhangi bir uygulamanın ekran görüntülerine ve ekran kayıtlarına izin verir</string>
     <string name="system_other_delete_on_post_notification">Üst ekran bildirimini kaldırma</string>
@@ -267,9 +191,6 @@
     <string name="system_framework_other_use_original_animation">Geçiş animasyonları yerel stilleri kullanır</string>
     <string name="system_framework_other_speed_install">Hızlı Kurulum</string>
     <string name="system_framework_other_speed_install_desc">Kurulumu hızlandırmak için çalışan belleğe yükleyin</string>
-    <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
-    <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
-    <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Paket Yöneticisi Hizmeti</string>
     <string name="system_framework_core_patch_downgr">Düşürmeye izin ver</string>
@@ -285,7 +206,6 @@
     <!--Browser-->
     <string name="browser">Tarayıcı</string>
     <string name="browser_debug_mode">Geliştirici ayarları</string>
-    <string name="browser_debug_mode_desc">17.5.xxxxx and above are not supported</string>
     <!--Camera-->
     <string name="camera">Kamera</string>
     <string name="camera_features_unlock_aiwatermark">AI filigranının kilidini aç</string>
@@ -339,92 +259,34 @@
     <!--Clock-->
     <string name="clock">Saat</string>
     <string name="clock_enable_hour_glass">Kum saati animasyonunun kilidini aç</string>
-    <string name="clock_enable_hour_glass_desc">Version 13.65.0 and above are not supported</string>
     <!--File Manager-->
-    <string name="fileexplorer">File Manager</string>
-    <string name="file_explorer_can_selectable">File Explorer Can Selectable</string>
-    <string name="file_explorer_is_single_line">File Explorer Is Single Line</string>
     <!--Phone-->
     <string name="incallui">Telefon</string>
     <string name="incallui_hide_crbt">Kişiselleştirilmiş renkli zil sesini gizle</string>
-    <string name="incallui_answer_in_head_up">Answer in head up</string>
     <!--Message-->
     <string name="mms">Mesaj</string>
     <string name="mms_disable_ad">Reklamları devre dışı bırak</string>
     <string name="mms_disable_ad_desc">Ekranın altındaki kısayolları ve SMS içeriğinin altındaki promosyonları kaldırın</string>
     <!--Phone Service-->
-    <string name="phone">Phone Service</string>
-    <string name="phone_smart_dual_sim">Unlock Smart dual SIM</string>
-    <string name="phone_vice_slot_volte">Unlock Vice slot volte</string>
-    <string name="phone_vice_slot_volte_desc">Use mobile data during VoLTE calls on the secondary SIM</string>
     <!--Download management program-->
-    <string name="downloads">Download management program</string>
-    <string name="various_fuck_xlDownload">Block creation of .xlDownload folder</string>
-    <string name="various_fuck_xlDownload_desc">Prevent download manager from generating .xlDownload folder on root of internal storage</string>
     <!--System UI-->
     <string name="system_ui">Sistem Arayüzü</string>
     <string name="system_ui_lockscreen_title">Kilit ekranı</string>
     <string name="system_ui_lockscreen_safe_title">Güvenlik</string>
-    <string name="system_ui_lockscreen_ui_title">UI</string>
-    <string name="system_ui_lockscreen_information_title">Information</string>
     <string name="system_ui_lock_screen_scramble_pin">Rastgele PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">PIN tuş takımı sırasını randomize etme</string>
-    <string name="system_ui_lock_screen_password_free">No need to enter password when booting</string>
-    <string name="system_ui_lock_screen_password_free_desc">It will take effect only if the device is not enabled for encryption</string>
-    <string name="system_ui_lock_screen_password_free_tip">The current device is encrypted, this function is not available</string>
-    <string name="system_ui_lock_screen_default_theme">Support default theme only</string>
     <string name="system_ui_lock_screen_show_charging_cv">Kilit ekranının alt kısmında şarj bilgilerini göster</string>
-    <string name="system_ui_lock_screen_show_charging_c_more">Show detailed current</string>
-    <string name="system_ui_lock_screen_show_battery_temperature">Show battery temperature</string>
-    <string name="system_ui_lock_screen_show_spacing">Display refresh interval</string>
-    <string name="system_ui_lock_screen_hide_camera">Hide camera</string>
-    <string name="system_ui_lock_screen_hide_smart_screen">Hide smart screen</string>
-    <string name="system_ui_lock_screen_current">Current</string>
-    <string name="system_ui_lock_screen_show_second">Clock show second</string>
-    <string name="system_ui_lock_screen_blur_button">Blur camera and smart screen button</string>
     <string name="system_ui_lock_screen_force_system_fonts">Saati sistem yazı tiplerini kullanmaya zorla</string>
-    <string name="system_ui_lock_screen_double_lock">Double tap the lock screen</string>
-    <string name="system_ui_lock_screen_double_lock_desc">Double-tap an empty location to lock the screen</string>
-    <string name="system_ui_lock_screen_not_disturb_mode_title">Hide zen mode notification</string>
-    <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lock_screen_hide_status_bar">Durum çubuğunu kilit ekranından kaldır</string>
-    <string name="system_ui_navigation_title">Navigation</string>
-    <string name="system_ui_navigation_handle_title">Handle line</string>
-    <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
-    <string name="system_ui_navigation_handle_custom">Custom handle line</string>
-    <string name="system_ui_navigation_handle_custom_height">Height</string>
-    <string name="system_ui_navigation_handle_custom_width">Portrait width</string>
-    <string name="system_ui_navigation_handle_custom_width_land">Landscape width</string>
-    <string name="system_ui_navigation_handle_custom_thickness">Thickness</string>
-    <string name="system_ui_navigation_handle_custom_color">Color when light-mode</string>
-    <string name="system_ui_navigation_handle_custom_color_dark">Color when dark-mode</string>
-    <string name="system_ui_navigation_custom">Custom navigation</string>
-    <string name="system_ui_navigation_custom_height">Navigation height</string>
-    <string name="system_ui_navigation_custom_height_land">Landscape navigation height</string>
-    <string name="system_ui_navigation_frame_custom_height">Navigation frame height</string>
-    <string name="system_ui_navigation_frame_custom_height_land">Landscape navigation frame height</string>
     <string name="system_ui_statusbar_title">Durum çubuğu</string>
     <string name="system_ui_statusbar_iconmanage_title">Simge yöneticisi</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Ağ hızı göstergesi yönetimi</string>
     <string name="system_ui_statusbar_clock_title">Saat göstergesi yönetimi</string>
-    <string name="system_ui_statusbar_device_title">Hardware indicators</string>
-    <string name="system_ui_statusbar_layout_title">Layout</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_title">Compatibility mode</string>
-    <string name="system_ui_statusbar_layout_compatibility_mode_desc">Forcibly enable the full screen layout for all special-shaped screens</string>
-    <string name="system_ui_statusbar_layout_mode_title">Layout mode</string>
-    <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Simge stilleri</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
-    <string name="system_ui_status_bar_mobile_type_single">Mobile network type icon display separately</string>
     <string name="system_ui_status_bar_mobile_type_left">Sinyalin solundaki ekran</string>
     <string name="system_ui_status_bar_mobile_indicator">Mobil ağ etkinliği göstergelerini gizle</string>
-    <string name="system_ui_status_bar_mobile_type_custom">Custom text</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Yazı Boyutu</string>
     <string name="system_ui_status_bar_battery_style_change_location_title">Simge ve Pil yüzdesi Değiştirin</string>
-    <string name="system_ui_status_bar_battery_style_font_size">Battery percentage font size</string>
-    <string name="system_ui_status_bar_battery_style_font_mark_size">Battery percentage symbol font size</string>
-    <string name="system_ui_status_bar_battery_style_vertical_offset">Up and down offset of battery percentage symbol</string>
     <string name="system_ui_statusbar_iconmanage_wifi_title">Wifi</string>
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">Bluetooth</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">Mobil ağ</string>
@@ -432,7 +294,6 @@
     <string name="system_ui_statusbar_iconmanage_status_title">Durum simgesi</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">Bildirim simgesi</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Pil</string>
-    <string name="system_ui_statusbar_iconmanage_call_title">Call</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Simgenin sol tarafında gösterilir</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Simgenin sağ tarafı gösterir</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -455,22 +316,14 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n">Alarm simgesini yalnızca alarm çalmadan önce göster</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d saat</string>
     <string name="system_ui_status_bar_icon_airplane">Uçak modu</string>
-    <string name="system_ui_status_bar_icon_vowifi">Hide VoWiFi icon</string>
     <string name="system_ui_status_bar_icon_headset">Kulaklık</string>
     <string name="system_ui_status_bar_icon_volume">Hacim</string>
-    <string name="system_ui_status_bar_icon_data_saver">Data Saver</string>
     <string name="system_ui_status_bar_icon_zen">Zen</string>
-    <string name="system_ui_status_bar_icon_stealth">Hide incognito mode icon</string>
-    <string name="system_ui_status_bar_icon_mute">Hide muted mic icon</string>
-    <string name="system_ui_status_bar_icon_speakerphone">Hide speakerphone icon</string>
-    <string name="system_ui_status_bar_icon_call_record">Hide recording icon</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maksimum bildirim noktası sayısı</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maksimum bildirim simgesi sayısı</string>
     <string name="system_ui_status_bar_battery_percent">Pil yüzdesini gizle</string>
     <string name="system_ui_status_bar_battery_percent_mark">Pil yüzdesi işaretini sakla</string>
     <string name="system_ui_status_bar_battery_charging">Şarj gösterge ışığını gizleme</string>
-    <string name="system_ui_status_bar_battery_icon">Hide battery icon</string>
-    <string name="system_ui_status_bar_battery_style_title">Battery customization</string>
     <string name="system_ui_status_bar_battery_indicator_title">Pil göstergesi</string>
     <string name="system_ui_status_bar_wifi_at_left">Wifi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Mobil ağ</string>
@@ -478,7 +331,6 @@
     <string name="system_ui_status_bar_network_speed_at_right">İnternet hızı</string>
     <string name="system_ui_status_bar_volume_at_right">Ses sahnesi</string>
     <string name="system_ui_status_bar_use_new_hd">Yeni HD simgesini kullanmaya zorla</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">Yeni bir sistem sürümü gereklidir. Bazı modeller güncellenmemiş olabilir</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Ağ hızı ayırıcı</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">Zaman ve şebeke hızı arasındaki dikey çizgi, su damlası ekranı olan cihazda görüntülenmez</string>
     <string name="system_ui_status_bar_hide_icon">Ekran görüntüsü alırken durum çubuğunu gizleyin</string>
@@ -486,12 +338,9 @@
     <string name="system_ui_statusbar_network_speed_update_spacing">Ağ hızı güncelleme aralığı</string>
     <string name="system_ui_statusbar_network_speed_font_size">Ağ hızı yazı tipi boyutu</string>
     <string name="system_ui_statusbar_network_speed_fakedualrow">Değer ve birim çift sıra halinde görüntülenir</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">Show up and down network speed</string>
     <string name="system_ui_statusbar_network_speed_detailed">Yükleme ve indirme hızı çift sıra halinde görüntülenir</string>
-    <string name="system_ui_statusbar_network_speed_swap_places">Swap uplink and downlink speeds and icon positions</string>
     <string name="system_ui_statusbar_network_speed_detailed_desc">Gelen ve giden ağ hızlarını ayrı göster</string>
     <string name="system_ui_statusbar_network_speed_hide">Yavaş ağ hızını gizle</string>
-    <string name="system_ui_statusbar_network_speed_hide_all">Hide when both uplink and downlink are slow</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Ağ hızı düşük olduğunda gösterge artık gösterilmiyor</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Yavaş ağ hızı seviyesi</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Bu seviyenin altındaki ağ hızı değerleri yavaş kabul edilir ve farklı bir gösterge simgesi görüntülenir (yalnızca bazı simgeler)</string>
@@ -509,24 +358,8 @@
     <string name="system_ui_statusbar_clock_second">Saniyeleri göster</string>
     <string name="system_ui_statusbar_clock_hide_space">Alanı gizle</string>
     <string name="system_ui_statusbar_clock_double">Çifte göster</string>
-    <string name="system_ui_statusbar_clock_double_mode_title">Double row alignment</string>
-    <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Saat boyutu</string>
     <string name="system_ui_statusbar_clock_double_size">Çift sıra saat boyutu</string>
-    <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
-    <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
-    <string name="system_ui_statusbar_battery_size">Font size</string>
-    <string name="system_ui_statusbar_battery_show">Show contents</string>
-    <string name="system_ui_statusbar_temp_decimal_places">Hide decimal places</string>
-    <string name="system_ui_statusbar_battery_disable">Hide units</string>
-    <string name="system_ui_statusbar_battery_right_show">Show on the right</string>
-    <string name="system_ui_statusbar_battery_electric_current">The current always shows a positive value</string>
-    <string name="system_ui_statusbar_battery_line_show">Single row display</string>
-    <string name="system_ui_statusbar_battery_opposite">Reverse order</string>
-    <string name="system_ui_statusbar_battery_only_changing_show">Show only when charging</string>
-    <string name="system_ui_statusbar_battery_update_spacing">Status update interval</string>
-    <string name="system_ui_statusbar_temp_fix_cpu">Fix CPU temperature</string>
-    <string name="system_ui_statusbar_temp_fix_cpu_desc">Enter number of /sys/devices/virtual/thermal/thermal_zone*</string>
     <string name="system_ui_status_bar_battery_indicator_centered">Merkez</string>
     <string name="system_ui_status_bar_battery_indicator_rounded">Yuvarlatılmış köşeler</string>
     <string name="system_ui_status_bar_battery_indicator_limitvis">Görünürlüğü sınırla</string>
@@ -549,7 +382,6 @@
     <string name="system_control_center_qs_detail_bg">Kart arka plan saydamlığı</string>
     <string name="system_control_center_5g_tile">5G ağ anahtarı</string>
     <string name="system_control_center_5g_toggle_label">5G ağı</string>
-    <string name="system_control_center_sunshine_mode">Sunshine Mode</string>
     <string name="system_ui_control_auto_close">Magnetik karoları otomatik çekil</string>
     <string name="system_ui_control_auto_close_more">Açıldıktan sonra durum çubuğuna tıklamak durum çubuğunu otomatik olarak geri çekecek</string>
     <string name="system_control_center_qs_tile_label">Başlığı kaldır</string>
@@ -558,28 +390,18 @@
     <string name="system_control_center_qs_columns">Sütunlar</string>
     <string name="system_control_center_qs_columns_format">%d liste</string>
     <string name="system_ui_control_center_hide_mi_play_entry">MiPlay Girişini Gizle</string>
-    <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi smart hub entry</string>
-    <string name="system_ui_control_center_hide_device_ctrl_entry">Device control entry</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Ayrıntı Arka Plan bulanıklığı değerini kontrol etme</string>
     <string name="system_ui_control_center_notification_blur_model">Bildirim Bulanıklığı Modeli</string>
     <string name="system_ui_control_center_blur_radius">Bulanıklık Yarıçapı</string>
-    <string name="system_ui_control_center_blur_radius_desc">Without dropdown notification</string>
     <string name="system_ui_control_center_corner_radius">Köşe Yarıçapı</string>
-    <string name="system_ui_control_center_corner_radius_desc">The default theme does not need to be adjusted</string>
     <string name="system_ui_control_center_blur_background_alpha">Arka Plan değerini bulanıklaştır</string>
     <string name="system_ui_control_center_default_background_alpha">Varsayılan Arka Plan değeri</string>
-    <string name="system_ui_control_center_fix_media_control_panel">Fix media control panel</string>
     <string name="system_ui_control_center_compact_notice">Kompakt bildirimler</string>
     <string name="system_ui_control_center_compact_notice_desc">Bildirimlerin dikey dolgularını azalt</string>
-    <string name="system_ui_control_center_show_weather">Show weather</string>
-    <string name="system_ui_control_center_show_weather_city">Show city</string>
-    <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
-    <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="system_ui_control_center_rounded_rect">Yuvarlatılmış dikdörtgen döşeme</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Anahtar kontrol merkezi ve bildirim çekmecesi</string>
     <string name="system_ui_controlcenter_new_title">Yeni kontrol merkezi</string>
     <string name="system_ui_controlcenter_old_title">Eski kontrol merkezi</string>
-    <string name="system_ui_controlcenter_enable_title">Customize the number of rows and columns</string>
     <string name="system_control_center_old_qs_rows_desc">Etiketler dikey yönde 5 satır için gizlenecektir. Yatay yönde gizli etiketlere sahip satır sayısı 3 ile sınırlıdır</string>
     <string name="system_control_center_old_qs_columns_desc">Yatay yönde ek bir sütun olacaktır\nROMunuzda kompakt bir Hızlı Ayarlar düzeni seçeneği varsa, her iki yönde de başka bir sütun ekleyecektir</string>
     <string name="system_control_center_old_qs_grid_columns">Daraltılmış paneldeki sütun sayısı</string>
@@ -598,38 +420,15 @@
     <string name="system_ui_monet_overlay_custom_color">Tema rengini seçin</string>
     <string name="system_ui_volume_timer">Genişletilmiş zamanlayıcı</string>
     <string name="system_ui_qs_label">Hızlı geçiş sekmesi</string>
-    <string name="system_ui_notification_title">Notification</string>
-    <string name="system_ui_other_notification_fix">Disable notification whitelist</string>
     <string name="system_ui_plugin_enable_volume_blur">Ses çubuğu bulanıklığını etkinleştir</string>
-    <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models, there may be high GPU load</string>
     <!--Settings-->
     <string name="system_settings">Ayarlar</string>
-    <string name="system_settings_international_build">International version of settings</string>
-    <string name="system_settings_safe_wifi">View your saved WiFi passwords</string>
     <string name="system_settings_safe_wifi_desc">Kayıtlı Ağları Yönetin Kilidini Açın\nYol: Ayarlar-WLAN-Gelişmiş Ayarlar-Kayıtlı Ağları Yönetin</string>
-    <string name="system_settings_wifipassword_btn_title">Check</string>
-    <string name="system_settings_wifi_password_label">Password</string>
-    <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
-    <string name="system_settings_novelty_haptic_title">Unlock the new version of the touch adjustment page</string>
-    <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptics - Haptics page</string>
-    <string name="system_settings_connection_sharing_title">Connetion &amp; sharing</string>
-    <string name="system_settings_new_nfc_page">New NFC Page</string>
-    <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
-    <string name="system_settings_accessibility_title">Gesture shortcuts</string>
-    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
-    <string name="system_settings_knuckle_function">Unlock knuckle related functions</string>
-    <string name="system_settings_knuckle_function_desc">Experimental features\nPlease restart after enabling Settings, Input Settings Scope\nCurrently only unlocks the UI interface</string>
     <string name="system_settings_lab_title">Öne çıkan işlevler</string>
     <string name="system_settings_voip_assistant_controller">VoIP asistanı</string>
-    <string name="system_settings_ai_image_title">Ai Image Engine</string>
-    <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
-    <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
-    <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
     <string name="system_settings_permission_title">İzin</string>
     <string name="system_settings_permission_show_app_up">Uygulama listesinde arama yapmadan üst düzey izinler</string>
     <string name="system_settings_permission_show_app_up_desc">Eski davranışı geri yükleyin, doğrudan \"diğer uygulamaların üstünde görüntülenen” ilgili uygulamanın izin anahtarına atlayın</string>
-    <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Use the international build, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_develop_title">Geliştirici seçenekleri</string>
     <string name="system_settings_apps_freezer">Köpücü uygulamaların çalışmasını durdurmak için göstermeyi zorla</string>
     <string name="system_settings_apps_freezer_more">Qabilleştirildikten sonra, bu özelliği \"Geliştirici Seçenekleri\" içinde bulunabilir. Mevcut görüntüler için mevcut olması garantili değil</string>
@@ -639,7 +438,6 @@
     <string name="theme_manager">Temalar</string>
     <string name="theme_manager_version_code_modify">MIUI sürüm algılamayı devre dışı bırak</string>
     <string name="theme_manager_diable_ads">Reklamları devre dışı bırak</string>
-    <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
     <string name="theme_manager_crack">Tema yaması</string>
     <string name="theme_manager_enable_pad_theme">Ped temasını etkinleştir</string>
     <string name="theme_manager_enable_fold_theme">Katlama temasını etkinleştir</string>
@@ -653,31 +451,19 @@
     <string name="updater_device_desc">Bu özellik gerçekten tehlikeli, lütfen günlük olarak kullanmayın.</string>
     <!--Permissions-->
     <string name="lbe">İzinler</string>
-    <string name="clipboard">Clipboard</string>
     <string name="lbe_disable_clipboard_tip">Tost İpuçlarını Gizle</string>
-    <string name="lbe_clipboard_tip_toast">Read the clipboard using Toast hints</string>
-    <string name="lbe_clipboard_tip_toast_desc">Hide the dialog and allow the app to read the clipboard by default</string>
-    <string name="lbe_clipboard_tip">Read clipboard</string>
     <!--Cast-->
     <string name="milink">Yayınla</string>
     <string name="milink_unlock_mishare">Cihaz ara bağlantısının kilidini aç</string>
     <!--Always-on display-->
-    <string name="aod">Always-on display</string>
-    <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Üçüncü taraf tarayıcıyı kullanma</string>
     <string name="content_extension_browser_desc">Arama için MIUI tarayıcısını kullanmak için Taplus\'u zorunlu kılmayın, varsayılan tarayıcıyı kendiniz seçmeniz gerekir</string>
-    <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Allow use of taplus on landscape screens</string>
     <string name="content_extension_double_press">Jest: 2 parmak</string>
     <string name="content_extension_super_image">Görüntü kaydetme kalitesi: Süper çözünürlük</string>
     <string name="content_extension_super_image_summary">Gerçek koruma, cihaz modelinden temel destek gerektirir</string>
-    <string name="content_extension_link_open_mode">How to open link</string>
-    <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
     <!--Mi Canvas-->
-    <string name="creation">Mi Canvas</string>
-    <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
     <!--Gallery-->
     <string name="gallery">Galeri</string>
     <string name="gallery_enable_hdr_enhanced">Ekran yüksek dinamik aralığının kilidini aç</string>
@@ -698,12 +484,6 @@
     <!--System launcher-->
     <string name="home">Sistem başlatıcı</string>
     <string name="home_gesture">Hareket</string>
-    <string name="home_navigation_title">Navigation</string>
-    <string name="home_navigation_back_area_height">Back gesture area height</string>
-    <string name="home_navigation_back_area_width">Back gesture area width</string>
-    <string name="home_gesture_title2">Gesture</string>
-    <string name="home_gesture_mainscreen_title">Main screen</string>
-    <string name="home_gesture_gesture_title">Full-screen gesture</string>
     <string name="home_gesture_double_tap">Çift tıklayın</string>
     <string name="home_gesture_double_tap_desc">Ana ekranda herhangi bir yere çift dokunun</string>
     <string name="home_gesture_shake">Sallamak</string>
@@ -722,10 +502,6 @@
     <string name="home_gesture_down_swipe2_desc">Herhangi bir ana ekranda iki parmağınızla aşağı kaydırın</string>
     <string name="home_gesture_pinch">İki parmağınızla sıkıştırın</string>
     <string name="home_gesture_spread">İki parmağınızla yayın</string>
-    <string name="home_gesture_swipe_and_stop">Swipe and stop</string>
-    <string name="home_gesture_swipe_and_stop_desc">Swipe and stop on the non-home screen</string>
-    <string name="home_gesture_multi_choose_app">Choose an app</string>
-    <string name="home_gesture_multi_choose_app_none">None</string>
     <string name="home_layout">Düzen</string>
     <string name="home_layout_home_title">Ana ekran</string>
     <string name="home_layout_hotseats_title">Yuva</string>
@@ -738,7 +514,6 @@
     <string name="home_layout_unlock_grids_no_words">Düzenin kilidini aç (kelime modu yok)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Ana ekran simgesi düzen boyutu sınırının kilidini aç</string>
     <string name="home_layout_workspace_padding_bottom_desc">Ana ekran ekranın alt kenar boşluğundan uzaklığı</string>
-    <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
     <string name="home_layout_hotseats_height">Yükseklik</string>
     <string name="home_layout_hotseats_margin_top_desc">Sayfa göstergesi kenar boşluğundan yerleştirme mesafesi</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Ekranın alt kenar boşluğundan yerleştirme mesafesi</string>
@@ -780,15 +555,7 @@
     <string name="home_folder_space_title">Kenar boşluklarını azalt</string>
     <string name="home_folder_blur_title">Arka plan bulanıklığı</string>
     <string name="home_folder_anim_title">Geri tepme animasyonu</string>
-    <string name="home_folder_anim_1">Open speed 1</string>
-    <string name="home_folder_anim_2">Open speed 2</string>
-    <string name="home_folder_anim_3">Close speed 1</string>
-    <string name="home_folder_anim_4">Close speed 2</string>
     <string name="home_drawer">Çekmece</string>
-    <string name="home_drawer_all">Remove \"All\" tab</string>
-    <string name="home_drawer_all_desc">Removed the \"All\" tab for grouping apps in the drawer</string>
-    <string name="home_drawer_editor">Hide \"Edit\" Button</string>
-    <string name="home_drawer_editor_desc">Removed the \"Edit\" button from the Apps tab in the drawer</string>
     <string name="home_drawer_blur">Tüm Uygulamalar Kapsayıcı Görünümü Bulanıklığını Etkinleştir</string>
     <string name="home_drawer_blur_desc">Bu özelliği kullanmak için lütfen uygulama çekmecesi arka plan saydamlığını %100 olarak ayarlayın</string>
     <string name="home_title">Simge ve başlık</string>
@@ -796,13 +563,11 @@
     <string name="home_title_bigicon_title">Büyük simge</string>
     <string name="home_title_title_title">Başlık</string>
     <string name="home_title_title_marquee">Metin kaydırma</string>
-    <string name="home_title_title_marquee_desc">App names that are too long will be scrolled instead of wrapping</string>
     <string name="home_title_font_size">Yazı tipi boyutu</string>
     <string name="home_title_title_color">Başlık rengi</string>
     <string name="home_title_animation_speed">Animasyon hızı</string>
     <string name="home_title_big_icon_corner">Orta simge yuvarlak köşeyi takip etsin</string>
     <string name="home_title_download_animation">Animasyonu indir</string>
-    <string name="home_title_fix_animation">Optimized interrupt animation</string>
     <string name="home_title_icon_scale">Simgeleri ölçekle</string>
     <string name="home_recent">Son</string>
     <string name="home_recent_animation_speed">Animasyon hızı</string>
@@ -821,10 +586,6 @@
     <string name="home_recent_text_size">Küçük resim etiketleri metninin boyutu</string>
     <string name="home_recent_text_color">Küçük resim etiketleri metninin rengi</string>
     <string name="home_recent_freeform_background_color">Serbest biçimli uygulama kartı arka plan rengi</string>
-    <string name="home_recent_show_real_memory">Show real memory</string>
-    <string name="home_recent_show_memory_info_sum">For tablet use only</string>
-    <string name="home_recent_show_memory_info">Show memory info</string>
-    <string name="home_recent_always_show_clean_up">Prohibit hiding the cleanup icon when there is no card</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animasyonu</string>
     <string name="home_widget_show_miui_widget">MIUI widget\'larını göster</string>
@@ -834,7 +595,6 @@
     <string name="home_widget_hide_title">Widget başlığını gizle</string>
     <string name="home_widget_resizable">Widget boyut sınırlamalarını kaldırın</string>
     <string name="home_dock">Yuva</string>
-    <string name="home_dock_bg_enable">Add Dock Bar Background</string>
     <string name="home_dock_bg_height">Yükseklik</string>
     <string name="home_dock_bg_height_desc">Yuva yüksekliği</string>
     <string name="home_dock_bg_margin_horizontal">Dikey kenar boşluğu</string>
@@ -851,14 +611,11 @@
     <string name="home_dock_hide_seekpoint">Arama noktasını gizle</string>
     <string name="home_dock_icon_title">Dock\'ta simge başlığını göster</string>
     <string name="home_other">Diğer</string>
-    <string name="home_other_shortcut_title">Shortcut</string>
     <string name="home_other_home_mode">Masaüstü modu</string>
     <string name="home_other_infinite_scroll">Sonsuz kaydırma</string>
     <string name="home_other_infinite_scroll_desc">Son sayfadan ilk sayfaya atla ve tam tersi</string>
     <string name="home_other_freeform_shortcut_menu">Serbest form modu</string>
     <string name="home_other_freeform_shortcut_menu_desc">Kısayol menüsüne serbest biçimli menü ekleme</string>
-    <string name="home_other_tasks_shortcut_menu">More tasks mode</string>
-    <string name="home_other_tasks_shortcut_menu_desc">Add new tasks menu to the shortcut menu</string>
     <string name="home_other_user_present_animation">Kilit açma animasyonunu optimize edin</string>
     <string name="home_other_always_blur_launcher_wallpaper">Her zaman başlatıcı duvar kağıdını bulanıklaştır</string>
     <string name="home_other_perfect_icon">Mükemmel Simge Önceliği</string>
@@ -875,7 +632,6 @@
     <string name="home_other_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
     <string name="home_other_fix_android_r_s">Masaüstünün kararmasına neden olan bir uyumluluk sorununu düzeltin</string>
     <string name="home_other_shortcut_background_blur_custom">Kısayol menüsü bulanıklık değeri</string>
-    <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
     <string name="home_recent_blur_level">Bulanıklık seviyesi</string>
     <string name="home_recent_complete_blur_plus">Tam Bulanıklık Artı</string>
     <string name="home_recent_complete_blur">Tam Bulanıklık</string>
@@ -891,13 +647,10 @@
     <string name="mishare">Mi Paylaşım</string>
     <string name="mishare_disable_mishare_auto_off">Mi Paylaşımının otomatik kapanmasını devre dışı bırak</string>
     <!--Wallpaper-->
-    <string name="miwallpaper">Wallpaper</string>
-    <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
     <!--Package installer-->
     <string name="package_installer">Paket Yükleyicisi</string>
     <string name="miui_package_installer_modify">Sayfayı temizle</string>
     <string name="miui_package_installer_safe_mode">Temizleme modu</string>
-    <string name="miui_package_installer_safe_mode_desc">Force open and lock the official security guard</string>
     <string name="miui_package_installer_disable_ad">Promosyonu devre dışı bırak</string>
     <string name="miui_package_installer_install_risk">Risk algılamayı devre dışı bırak</string>
     <string name="miui_package_installer_safe_model_tip">Güvenlik görevlisi istemini devre dışı bırak</string>
@@ -922,38 +675,24 @@
     <!--Battery and performance-->
     <string name="powerkeeper">Pil ve performans</string>
     <string name="powerkeeper_custom_refresh_rate">Özel yüksek yenileme hızı uygulamaları</string>
-    <string name="powerkeeper_lock_max_fps">Lock max FPS</string>
-    <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
-    <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Ekran Kaydedici</string>
     <string name="screen_recorder_force_support_playback_capture">AOSP ekran kayıt desteğini etkinleştirmeye zorla</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Ekran kayıt sürümü desteği gerektirir</string>
-    <string name="screen_recorder_config">Add more frame rate and bitrate selections</string>
-    <string name="screen_recorder_config_desc">Please choose according to the hardware situation</string>
-    <string name="screen_recorder_more_volume">Unlock more Volume from</string>
-    <string name="screen_recorder_more_volume_desc">Some version not support</string>
-    <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <!--Screenshot-->
     <string name="screenshot">Ekran Görüntüsü</string>
     <string name="screenshot_unlock_minimum_crop_limit">Minimum kırpma görüntü sınırının kilidini açın</string>
-    <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
-    <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
-    <string name="screenshot_device_customize_desc">Please enter the model code</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Güvenlik</string>
-    <string name="security_center_pad">Tablet security center</string>
     <string name="security_center_app_title">Uygulama yönetimi</string>
     <string name="security_center_battery_title">Pil Tasarrufu ve Pil</string>
     <string name="security_center_privacy_title">Gizlilik koruması</string>
     <string name="security_center_beauty_title">Ön kamera asistanı</string>
     <string name="security_center_bubble_and_freeform_title">Kabarcık ve serbest form</string>
     <string name="security_center_newbox_title">Kenar Çubuğu</string>
-    <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="security_center_show_battery_temperature">Pil sıcaklığını göster</string>
     <string name="security_center_ai_clipboard">Panoyu koru</string>
     <string name="security_center_blur_location">Daha düşük konumlandırma doğruluğu</string>
-    <string name="security_center_gms_open">GMS Service</string>
     <string name="security_center_get_number">Cep telefonu numarasını almak ve tek bir tıklama ile giriş yapmak için uygulamayı yönetin</string>
     <string name="security_center_applock_pin_scramble">Sipariş dışı PIN\'i kilitle</string>
     <string name="security_center_applock_pin_scramble_desc">Uygulama kilidi PIN tuş takımı sırasını rastgele değiştir</string>
@@ -963,7 +702,6 @@
     <string name="security_center_beauty_pc">Kilit açma Yüzleri ortalanmış tutun</string>
     <string name="security_center_disable_root_check">Kök algılamayı devre dışı bırak</string>
     <string name="security_center_remove_macro_black_list">Otomatik açılan kara listeyi kaldır</string>
-    <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
     <string name="security_center_newbox_custom_enable">Özel\'i etkinleştir</string>
     <string name="security_center_newbox_bg_custom">Arka plan bulanıklığı</string>
     <string name="security_center_newbox_bg_padding_vertical">Yatay kenar boşluğu</string>
@@ -977,19 +715,12 @@
     <string name="security_restrict_app_summary">Güç tasarrufu yapılandırmasına ve sistem uygulamaları için Wi-Fi\'ye erişime izin verir</string>
     <string name="security_disable_app_title">Uygulama durumu kontrolü</string>
     <string name="security_disable_app_summary">Uygulama bilgisi sayfasından herhangi bir uygulamayı devre dışı bırakmaya izin ver</string>
-    <string name="security_disable_app_url_title">Apply open link management</string>
-    <string name="security_disable_app_url_summary">Change the \"Remove default action\" to \"Open by default\" setting in the app details</string>
-    <string name="app_link_open_always">Allows the app to open supported links</string>
-    <string name="app_link_open_never">Do not allow apps to open links</string>
-    <string name="open_by_default">Open by default</string>
     <string name="security_score">Sağlık kontrolü optimizasyonunu devre dışı bırak</string>
     <string name="security_score_summary">100 noktayı kilitleyin ve optimizasyonu devre dışı bırakın</string>
     <string name="security_center_skip_waiting_time">Geri sayım sınırını atla</string>
-    <string name="security_center_skip_waiting_time_desc">Skip the wait for confirmation countdown for most official dangerous options</string>
     <string name="security_center_newbox_blur">Kenar çubuğu bulanıklığı</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Kabarcık bildirim uygulaması kısıtlamalarını kaldırın</string>
     <string name="security_center_remove_low_battery_reminder_title">Düşük pil seviyesiyle ilgili uyarıyı gizle</string>
-    <string name="security_center_remove_low_battery_reminder_summary">When the battery is below 20%, the warning dialog to turn on the power saving mode no longer pops up</string>
     <string name="security_center_remove_open_app_confirmation_popup">Açık uygulama açılır penceresini kaldır</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">\"Xxx\'in xxx\'i açmasına izin ver\" Zincir başlatma açılır penceresini kaldırın</string>
     <string name="security_center_no_permission">Gerekli izinler verilmedi</string>
@@ -1000,21 +731,6 @@
     <string name="security_center_blurradius">Kenar çubuğu bulanıklığı değeri</string>
     <string name="security_center_color">Kenar çubuğu rengi</string>
     <string name="security_center_other_title">Diğer</string>
-    <string name="security_center_sidebar_line_color">Sidebar line color custom</string>
-    <string name="security_center_sidebar_line_color_default">Sidebar line color default</string>
-    <string name="security_center_sidebar_line_color_dark">Sidebar line color dark</string>
-    <string name="security_center_sidebar_line_color_light">Sidebar line color light</string>
-    <string name="security_center_disable_ban">Remove report button</string>
-    <string name="security_center_unlock_screen_time">Displays detailed power consumption data</string>
-    <string name="security_center_unlock_screen_time_desc">Show screen power usage information in the top battery drain and resume showing all other apps\' power consumption and time</string>
-    <string name="security_center_unlock_gun_service">Unlock Gun service</string>
-    <string name="security_center_disable_remove_screen_hold_on">Disable remove screen hold on</string>
-    <string name="security_center_unlock_memc">Unlock MEMC</string>
-    <string name="security_center_unlock_enhance_contours">Unlock Enhance contours</string>
-    <string name="security_center_unlock_s_resolution">Unlock Super resolution</string>
-    <string name="security_center_hide_sidebar">Hide sidebar</string>
-    <string name="security_center_leave_open">Leave the slide unfolded</string>
-    <string name="security_center_disable_sidebar_show_suggest">Disable show suggest apps</string>
     <!--Smart cards-->
     <string name="tsmclient">Akıllı kartlar</string>
     <string name="tsmclient_auto_nfc">Nfc\'yi otomatik olarak yönet</string>
@@ -1029,16 +745,11 @@
     <string name="weather_device_level_title_middle">Orta</string>
     <string name="weather_device_level_title_high">Yüksek</string>
     <!--AI Translate-->
-    <string name="aiasst">AI Translate</string>
-    <string name="aiasst_ai_captions">Force enabled AI captions</string>
-    <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
     <!--AI Reco-->
     <string name="aireco">Yapay zeka tespiti</string>
     <string name="aireco_device_modify">Beta kısıtlamalarını kaldır</string>
-    <!--弹幕通知-->
-    <string name="barrage">Barrage</string>
-    <string name="barrage_any_barrage">Allow all apps use barrage</string>
     <!--Barrage-->
+    <!--Joyose-->
     <string name="joyose">Neşeli</string>
     <string name="joyose_cloud_control_title">Bulut Kontrolü</string>
     <string name="joyose_disable_cloud_control">Bulut kontrolünü devre dışı bırak</string>
@@ -1049,20 +760,11 @@
     <string name="market">GetApps</string>
     <string name="market_device_modify">Model kılığında</string>
     <string name="market_device_modify_desc">Gizlenmiş cihaz modeli Xiaomi 13 Ultra\'dır</string>
-    <string name="market_disable_new_icon">Prohibit use third-party icons</string>
-    <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_unlock_miui_plus">MIUI + \'nın kilidini aç</string>
     <!--Mi Settings-->
-    <string name="mi_settings">Mi Settings</string>
-    <string name="mi_input_settings">Input settings</string>
-    <string name="mi_settings_show_fps">Show more FPS list</string>
-    <string name="mi_settings_show_fps_desc">The module unlocks all frame rates by default, not guaranteed to be available</string>
     <!--MTB-->
-    <string name="mtb">MTB</string>
-    <string name="mtb_auth">Bypass MTB authentication</string>
-    <string name="mtb_auth_desc">This is a high-risk feature, any problems arising from this will be borne by the user, please be careful to back up your baseband. Enter *#*#MODEMTEST#*#* on the dial interface to open the MTB Settings</string>
     <!--Scanner-->
     <string name="scanner">Tarayıcı</string>
     <string name="scanner_card">Tarama kimlik kartının kilidini aç</string>
@@ -1074,45 +776,17 @@
     <string name="scanner_doc_ppt">Tarama dosyalarının kilidini aç</string>
     <!--Other-->
     <string name="various">Diğer</string>
-    <string name="notes">Notes</string>
-    <string name="share_center">Mi Smart Hub</string>
-    <string name="new_task">New Task</string>
     <string name="custom_hook">Özelleştir</string>
-    <string name="app_version_not_supported">Unsupported version</string>
     <string name="various_location_simulation_title">Sahte konum</string>
     <string name="various_dialog_title">Diyalog</string>
-    <string name="various_mipad_title">MiPad</string>
     <string name="settings_notfication_importance">Bildirim önemini göster</string>
     <string name="various_no_overscroll">Sınır dışı sekmeyi devre dışı bırak</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
     <string name="various_disable_access_device_logs">Erişim cihazı günlükleri isteği iletişim kutusunu kapat</string>
     <string name="various_unlock_ime">IME\'nin kilidini aç</string>
-    <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager</string>
     <string name="various_collapse_miui_title">MIUI başlığı</string>
     <string name="various_collapse_miui_title_desc">MIUI uygulamalarında üst çubuk başlığını ayarlayın</string>
     <string name="various_disable_folder_cantuse">Kullanılamayan klasör sınırını kaldırın</string>
-    <string name="various_super_clipboard_title">Super Clipboard</string>
-    <string name="various_super_clipboard_summary">The super clipboard is a clipboard that supports copying files/texts\nPlease ensure that the following system applications have the metadata of is_support_miui_super_clipboard , this feature will not be available without</string>
-    <string name="various_super_clipboard_picture_desc">Allow copy image to clipboard</string>
-    <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
-    <string name="various_open_aosp_battery_title">Battery Optimization</string>
-    <string name="various_open_aosp_notification_title">Notification Settings</string>
-    <string name="various_open_aosp_app_manage_title">App Management</string>
-    <string name="various_open_aosp_language_title">Language Settings</string>
-    <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
-    <string name="various_mipad_input_title">Input</string>
-    <string name="various_mipad_input_close_magic_title">No Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">Turn the round MIUI pointer to AOSP pointer.</string>
-    <string name="various_mipad_input_restore_esc_title">Restore ESC function</string>
-    <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \"back\" function by MIUI.</string>
-    <string name="various_mipad_input_disable_bluetooth_title">Remove stylus bluetooth restriction</string>
-    <string name="various_mipad_input_disable_bluetooth_desc">Make all compatible stylus work without the need of bluetooth connection to official stylus.</string>
-    <string name="various_mipad_input_bluetooth_version_title">Driver version</string>
-    <string name="various_mipad_input_bluetooth_version_desc">Driver version for removing stylus bluetooth restriction</string>
-    <string name="various_mipad_input_ingore_gesture_title">Ignore stylus buttons gesture</string>
-    <string name="various_mipad_input_ingore_gesture_desc">Ignore the long press gesture on the stylus buttons</string>
-    <string name="various_mipad_input_need_finger_num_title">Swap the number of fingers required for gestures</string>
-    <string name="various_mipad_input_need_finger_num_desc">Change screenshot gesture, partial screenshot gesture, and horizontal split screen gesture to be triggered by four fingers, and switch apps gesture to be triggered by three fingers</string>
     <string name="custom_background_blur_enabled">Arka plan bulanıklığı</string>
     <string name="custom_background_blur_radius">Bulanıklık yarıçapı</string>
     <string name="custom_background_color">Arka plan rengi</string>
@@ -1189,25 +863,4 @@
     <string name="location_add">Ekle</string>
     <string name="location_delete">Sil</string>
     <!--Tip-->
-    <string name="tip_0">Tip: Here\'s a tip!</string>
-    <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
-    <string name="tip_2">Tip: Want to contact to developer? Telegram@Sevtinge_PM_bot or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Tip: Want to join the official group? Telegram@cemiuiler or search 247909573 in QQ.</string>
-    <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Tip: Guess how many more times you have to see this tip again?</string>
-    <string name="tip_6">Tip: Make MIUI Great Again!</string>
-    <string name="tip_7">Tip: Welcome to follow Github@sevtinge or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_8">Tip: Is Sevtinge a boy or a girl?</string>
-    <string name="tip_9">Tip: Sanjiang City tends to collapse.</string>
-    <string name="tip_10">Tip: Ah, this world is so beautiful…       It\'s a pity that this beauty does not belong to Sevtinge.</string>
-    <string name="tip_11">Tip: I\'ve kept some bugs so you know you\'re using Cemiuiler.</string>
-    <string name="tip_12">Tip: Do you know? In fact, Tips is all nonsense. (Convinced)</string>
-    <string name="tip_13">Tip: Do you know? Cemiuiler\'s birthday is on May 1, and Sevtinge\'s birthday is on February 2.</string>
-    <string name="tip_14">Tip: Sevtinge studied at the School of Information Engineering and Technology of Sanjiang City Campus of Shanhe University.</string>
-    <string name="tip_15">Tip: I heard that Sevtinge has two different forms.</string>
-    <string name="tip_16">Tip: Sevtinge is a little fox! (Cross out)</string>
-    <string name="tip_17">Tip: Ling Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
-    <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
-    <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
-    <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
 </resources>
