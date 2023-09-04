@@ -279,6 +279,8 @@
     <string name="system_framework_core_patch_downgr_desc">Permitir downgrade de apps</string>
     <string name="system_framework_core_patch_auth_creak">Desativar a verificação de integridade</string>
     <string name="system_framework_core_patch_auth_creak_desc">Permite instalar apps após modificar o arquivo no apk (ignorar erro de resumo inválido)</string>
+    <string name="system_framework_disable_integrity">Desativar verificações de integridade do sistema</string>
+    <string name="system_framework_disable_integrity_desc">A recuperação automática de conteúdo adulterado é proibida. Quando a função \"Desativar verificação de integridade\" estiver ativada, ela será ativada por padrão.\nCompatível apenas com Android 13 e superior</string>
     <string name="system_framework_core_patch_digest_creak">Desativar a comparação de assinaturas</string>
     <string name="system_framework_core_patch_digest_creak_desc">Permite a reinstalação do app com assinaturas diferentes</string>
     <string name="system_framework_core_patch_use_pre_signature">Usar assinaturas instaladas</string>
