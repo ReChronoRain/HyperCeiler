@@ -1,29 +1,17 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.HideAppActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.cemiuiler.utils.BackupUtils;
 import com.sevtinge.cemiuiler.utils.DialogHelper;
-import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
-import com.sevtinge.cemiuiler.utils.ShellUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.MultiSelectListPreference;
@@ -36,6 +24,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     MultiSelectListPreference mReboot;
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
+
     @Override
     public int getContentResId() {
         return R.xml.prefs_settings;
@@ -67,7 +56,9 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
             return true;
         });
 
-        String[] mRestartAllScopes = getResources().getStringArray(R.array.xposed_scope);
+        mReboot = findPreference("prefs_key_settings_reboot");
+        mReboot.setVisible(false);
+        /*String[] mRestartAllScopes = getResources().getStringArray(R.array.xposed_scope);
         List<String> mItemList = Arrays.asList(mRestartAllScopes);
         String[] mItems = new String[0];
         if (mItemList.contains("android")) {
@@ -90,7 +81,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
             }
             ShellUtils.execCommand(mShellPackageName, true);
             return false;
-        });
+        });*/
 
         findPreference("prefs_key_back").setOnPreferenceClickListener(preference -> {
             final AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -123,9 +114,11 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     private void setIconMode(int mode) {
         mIconModeValue.setVisible(mode != 0);
     }
+
     public void backupSettings(Activity activity) {
         BackupUtils.backup(activity);
     }
+
     public void restoreSettings(Activity activity) {
         BackupUtils.restore(activity);
     }

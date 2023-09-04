@@ -662,6 +662,9 @@
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in \"Developer Options,\" but its functionality is not guaranteed</string>
     <string name="system_settings_develop_speed_mode">Extreme mode</string>
     <string name="system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
+    <string name="system_settings_window_animation_scale">Window Animation Zoom</string>
+    <string name="system_settings_transition_animation_scale">Transition Animation Scaling</string>
+    <string name="system_settings_animator_duration_scale">Animator duration scaling</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
     <string name="theme_manager_version_code_modify">Disable MIUI version detection</string>

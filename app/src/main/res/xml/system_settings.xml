@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
         <SwitchPreference
@@ -93,12 +94,48 @@
             android:key="prefs_key_system_settings_apps_freezer"
             android:summary="@string/system_settings_apps_freezer_more"
             android:title="@string/system_settings_apps_freezer" />
-        
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_develop_speed_mode"
             android:summary="@string/system_settings_develop_speed_mode_desc"
             android:title="@string/system_settings_develop_speed_mode" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="10"
+            android:key="prefs_key_system_settings_window_animation_scale"
+            android:title="@string/system_settings_window_animation_scale"
+            app:defaultValueText="@string/array_default"
+            app:format="%s f"
+            app:displayDividerValue="10"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="10"
+            android:key="prefs_key_system_settings_transition_animation_scale"
+            android:title="@string/system_settings_transition_animation_scale"
+            app:defaultValueText="@string/array_default"
+            app:format="%s f"
+            app:displayDividerValue="10"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="10"
+            android:key="prefs_key_system_settings_animator_duration_scale"
+            android:title="@string/system_settings_animator_duration_scale"
+            app:defaultValueText="@string/array_default"
+            app:format="%s f"
+            app:displayDividerValue="10"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />

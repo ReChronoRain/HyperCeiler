@@ -180,7 +180,7 @@ public abstract class TileUtils extends BaseHook {
     /*
      * 在第一次Hook时把新的快捷方式加载进快捷方式列表中。
      * */
-    public void SystemUiHook() {
+    private void SystemUiHook() {
         String custom = customName();
         if (custom.equals("")) {
             logI("Error custom:" + custom);
@@ -213,7 +213,7 @@ public abstract class TileUtils extends BaseHook {
     /*
      * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上Key，用于定位磁贴。
      */
-    public void tileAllName(Class<?> QSFactory) {
+    private void tileAllName(Class<?> QSFactory) {
         try {
             QSFactory.getDeclaredMethod(customTileProvider()[1], String.class);
             findAndHookMethod(QSFactory, customTileProvider()[1], String.class, new MethodHook() {
@@ -241,7 +241,7 @@ public abstract class TileUtils extends BaseHook {
 
 
     /*为按键打上自定义名称*/
-    public void tileName(Class<?> myTile) {
+    private void tileName(Class<?> myTile) {
         int customValue = customValue();
         String custom = customName();
         if (customValue == -1 || custom.equals("")) {
