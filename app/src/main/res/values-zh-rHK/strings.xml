@@ -452,7 +452,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">無 SIM 卡圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡 1 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡 2 訊號圖示</string>
-    <string name="system_ui_status_bar_icon_mobile_network_type">顯示邏輯</string>
+    <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大網絡類型圖示</string>
     <string name="system_ui_status_bar_icon_location">位置訊息</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
@@ -482,7 +482,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">網絡速度</string>
     <string name="system_ui_status_bar_volume_at_right">聲音情境</string>
     <string name="system_ui_status_bar_use_new_hd">強制使用新 HD 圖示</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">需要較新的系统版本，部分機型可能至今未進版</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">僅支援部分系统版本</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">網速分隔符號</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">於水滴屏的設備上不顯示時間和網速間的分隔號</string>
     <string name="system_ui_status_bar_hide_icon">截圖時隱藏狀態欄</string>
@@ -648,6 +648,9 @@
     <string name="system_settings_apps_freezer_more">開啓后可在\"開發者選項\"中找到此功能，為强制顯示，不保證可用</string>
     <string name="system_settings_develop_speed_mode">極致模式</string>
     <string name="system_settings_develop_speed_mode_desc">在不支援的機型上開啟後不會顯示入口</string>
+    <string name="system_settings_window_animation_scale">視窗動畫縮放</string>
+    <string name="system_settings_transition_animation_scale">轉場動畫比例縮放</string>
+    <string name="system_settings_animator_duration_scale">動畫持續時間縮放</string>
     <!--Themes-->
     <string name="theme_manager">主題桌布</string>
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本檢測</string>
@@ -710,7 +713,7 @@
     <string name="guard_provider_disable_upload_applist">阻止自動上傳已安裝的應用程式列表</string>
     <!--System launcher-->
     <string name="home">系统桌面</string>
-    <string name="home_gesture">手勢與導覽欄</string>
+    <string name="home_gesture">手勢與導航欄</string>
     <string name="home_navigation_title">導航</string>
     <string name="home_navigation_back_area_height">返回手勢區域高度</string>
     <string name="home_navigation_back_area_width">返回手勢區域寬度</string>
@@ -877,7 +880,7 @@
     <string name="home_other_tasks_shortcut_menu_desc">在快捷選單中新增多開選單</string>
     <string name="home_other_user_present_animation">最佳化解鎖動畫</string>
     <string name="home_other_always_blur_launcher_wallpaper">始終模糊桌布</string>
-    <string name="home_other_perfect_icon">完美圖示優先度</string>
+    <string name="home_other_perfect_icon">完美圖示優先級</string>
     <string name="home_other_icon_mono_chrome">圖示背景色</string>
     <string name="home_other_icon_monet_color">使用 Monet 取色</string>
     <string name="home_other_use_edit_color">使用自訂顏色</string>
@@ -886,7 +889,7 @@
     <string name="home_other_shortcut_background_blur">快捷選單背景模糊</string>
     <string name="home_other_blur_radius">模糊半徑</string>
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
-    <string name="home_other_app_icon_hide">桌面捷徑管理</string>
+    <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
     <string name="home_other_disable_hide_google">禁止隱藏 Google 圖示</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系统桌布黑屏</string>
@@ -1209,7 +1212,7 @@
     <string name="location_delete">刪除</string>
     <!--Tip-->
     <string name="tip_0">小提示：這是一個提示 (tip) ！</string>
-    <string name="tip_1">小提示：您可以在「關於 - 支持」中贊助支持我們。</string>
+    <string name="tip_1">小提示：您可以在「關於-赞助」中贊助支援我們。</string>
     <string name="tip_2">小提示：想要聯繫開發者？這裡可以找到我 Telegram@Sevtinge_PM_bot 或 Bilibili@绀漓丨Sevtinge。</string>
     <string name="tip_3">小提示：想要加入官方群組嗎？可以通過 Telegram@cemiuiler 或在 QQ 中搜索 247909573。</string>
     <string name="tip_4">小提示：Cemiuiler = Ceiler + MIUI ⇒ Ceiler = Ceil + er。</string>

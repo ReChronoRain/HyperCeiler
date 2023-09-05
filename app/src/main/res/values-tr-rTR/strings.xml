@@ -331,6 +331,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">İnternet hızı</string>
     <string name="system_ui_status_bar_volume_at_right">Ses sahnesi</string>
     <string name="system_ui_status_bar_use_new_hd">Yeni HD simgesini kullanmaya zorla</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">Yeni bir sistem sürümü gereklidir. Bazı modeller güncellenmemiş olabilir</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">Ağ hızı ayırıcı</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">Zaman ve şebeke hızı arasındaki dikey çizgi, su damlası ekranı olan cihazda görüntülenmez</string>
     <string name="system_ui_status_bar_hide_icon">Ekran görüntüsü alırken durum çubuğunu gizleyin</string>
