@@ -1176,7 +1176,7 @@
 
     <string name="various_super_clipboard_title">超级剪切板</string>
     <string name="various_unlock_super_clipboard">解锁超级剪切板</string>
-    <string name="various_super_clipboard_summary">仅支持包含 is_support_miui_super_clipboard 元数据的设备</string>
+    <string name="various_super_clipboard_summary">仅支持包含 is_support_miui_super_clipboard 元数据的应用</string>
     <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
     <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
 

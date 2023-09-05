@@ -681,7 +681,7 @@
     <string name="updater_miui_version">Fake MIUI version for Updater</string>
     <string name="updater_miui_version_desc">Only modify the system update, which can shield the system update to a certain extent</string>
     <string name="updater_device">Fake device for Updater</string>
-    <string name="updater_device_desc">This feature is really danger, please do not use it in daily\nFill in please enter model code</string>
+    <string name="updater_device_desc">Enter the model code of the target device to specify the model, which can be used to obtain ROM packages for other models, which is extremely dangerous</string>
     <!--Permissions-->
     <string name="lbe">Permissions</string>
     <string name="clipboard">Clipboard</string>
@@ -1133,7 +1133,7 @@
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
     <string name="various_super_clipboard_title">Super Clipboard</string>
     <string name="various_unlock_super_clipboard">Unlock Super Clipboard</string>
-    <string name="various_super_clipboard_summary">The super clipboard is a clipboard that supports copying files/texts\nPlease ensure that the following system applications have the metadata of is_support_miui_super_clipboard , this feature will not be available without</string>
+    <string name="various_super_clipboard_summary">Only apps containing is_support_miui_super_clipboard metadata are supported</string>
     <string name="various_super_clipboard_picture_desc">Allow copy image to clipboard</string>
     <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
     <string name="various_open_aosp_battery_title">Battery Optimization</string>

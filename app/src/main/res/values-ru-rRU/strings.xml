@@ -942,8 +942,8 @@
     <!--AI Reco-->
     <string name="aireco">AI Reco</string>
     <string name="aireco_device_modify">Снять ограничения бета-версии</string>
-    <!--弹幕通知-->
     <!--Barrage-->
+    <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Управление облаком</string>
     <string name="joyose_disable_cloud_control">Отключить управление облаком</string>
