@@ -229,6 +229,8 @@
     <string name="system_framework_volume_media_steps">Nível do volume de mídia</string>
     <string name="system_framework_volume_media_steps_desc">Isso pode fazer com que a rolagem da barra de volume congele ou o volume do Bluetooth fique anormal</string>
     <string name="system_framework_volume_steps">Multiplicador de nível de volume</string>
+    <string name="system_ui_display_cutout_title">Recorte de exibição</string>
+    <string name="system_ui_display_hide_cutout">Ocultar recorte de exibição</string>
     <string name="system_ui_display_brightness_title">Brilho</string>
     <string name="system_ui_display_auto_brightness">Alcance do brilho automático</string>
     <string name="system_ui_display_auto_brightness_desc">Definir valores mínimos e máximos para o brilho automático</string>
@@ -345,9 +347,9 @@
     <string name="clock_enable_hour_glass">Desbloquear a animação da ampulheta do relógio</string>
     <string name="clock_enable_hour_glass_desc">Versão 13.65.0 e superior não são suportadas</string>
     <!--File Manager-->
-    <string name="fileexplorer">Explorador de Arquivos</string>
-    <string name="file_explorer_can_selectable">O Explorador de Arquivos pode ser selecionado</string>
-    <string name="file_explorer_is_single_line">O Explorador de Arquivos é de linha única</string>
+    <string name="fileexplorer">Arquivos</string>
+    <string name="file_explorer_can_selectable">Arquivos pode ser selecionável</string>
+    <string name="file_explorer_is_single_line">Arquivos é de linha única</string>
     <!--Phone-->
     <string name="incallui">Ui de chamadas</string>
     <string name="incallui_hide_crbt">Ocultar tom de toque colorido personalizado</string>
@@ -648,6 +650,9 @@
     <string name="system_settings_apps_freezer_more">Uma vez ativado, esse recurso pode ser encontrado em “Opções do desenvolvedor”, mas sua funcionalidade não é garantida</string>
     <string name="system_settings_develop_speed_mode">Modo extremo</string>
     <string name="system_settings_develop_speed_mode_desc">A entrada não será exibida após a abertura em modelos não suportados</string>
+    <string name="system_settings_window_animation_scale">Zoom de animação da janela</string>
+    <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
+    <string name="system_settings_animator_duration_scale">Escala de duração da animação</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
     <string name="theme_manager_version_code_modify">Desativar detecção da versão da MIUI</string>

@@ -229,6 +229,8 @@
     <string name="system_framework_volume_media_steps">媒體音量階數</string>
     <string name="system_framework_volume_media_steps_desc">可能會導致音量條的滾動卡頓或藍牙音量異常</string>
     <string name="system_framework_volume_steps">音量級數倍增</string>
+    <string name="system_ui_display_cutout_title">顯示瀏海</string>
+    <string name="system_ui_display_hide_cutout">隱藏螢幕瀏海</string>
     <string name="system_ui_display_brightness_title">亮度</string>
     <string name="system_ui_display_auto_brightness">自動亮度範圍</string>
     <string name="system_ui_display_auto_brightness_desc">自訂自動亮度的最小值和最大值</string>
@@ -1212,7 +1214,7 @@
     <string name="location_delete">刪除</string>
     <!--Tip-->
     <string name="tip_0">小提示：這是一個提示 (tip) ！</string>
-    <string name="tip_1">小提示：您可以在「關於-贊助」中贊助支持我們。</string>
+    <string name="tip_1">小提示：你可以在「關於-贊助」中贊助以支援我們。</string>
     <string name="tip_2">小提示：想要聯繫開發者？這裡可以找到我 Telegram@Sevtinge_PM_bot 或 Bilibili@绀漓丨Sevtinge。</string>
     <string name="tip_3">小提示：想要加入官方群組嗎？可以通過 Telegram@cemiuiler 或在 QQ 中搜索 247909573。</string>
     <string name="tip_4">小提示：Cemiuiler = Ceiler + MIUI ⇒ Ceiler = Ceil + er。</string>
