@@ -4,20 +4,15 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
-import android.content.Context;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
-import com.sevtinge.cemiuiler.ui.MainActivity;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.cemiuiler.utils.ShellUtils;
 
 import java.io.IOException;
 
-import de.robv.android.xposed.XposedBridge;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
@@ -60,61 +55,24 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
 
     public void animationScale() {
         SeekBarPreferenceEx seekBarPreferenceWn = findPreference("prefs_key_system_settings_window_animation_scale");
-       /* ShellUtils.CommandResult commandWn = ShellUtils.execCommand("settings get global window_animation_scale", true, true);
+        /*ShellUtils.CommandResult commandWn = ShellUtils.execCommand("settings get global window_animation_scale", true, true);
         if (commandWn.result == 0) {
-            seekBarPreferenceWn.setDefaultValue(((int) Float.parseFloat(commandWn.successMsg) * 10));
+            seekBarPreferenceWn.setValue(((int) Float.parseFloat(commandWn.successMsg) * 100));
         }*/
-        seekBarPreferenceWn.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                float mFloat = (float) i;
-                try {
-                    mFloat = mFloat / 10;
-                    Runtime.getRuntime().exec("su -c settings put global window_animation_scale " + mFloat);
-                } catch (IOException e) {
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+        setOnSeekBarChangeListener(seekBarPreferenceWn, "su -c settings put global window_animation_scale ");
 
         SeekBarPreferenceEx seekBarPreferenceTr = findPreference("prefs_key_system_settings_transition_animation_scale");
-        seekBarPreferenceTr.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                float mFloat = (float) i;
-                try {
-                    mFloat = mFloat / 10;
-                    Runtime.getRuntime().exec("su -c settings put global transition_animation_scale " + mFloat);
-                } catch (IOException e) {
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+        setOnSeekBarChangeListener(seekBarPreferenceTr, "su -c settings put global transition_animation_scale ");
 
         SeekBarPreferenceEx seekBarPreferenceAn = findPreference("prefs_key_system_settings_animator_duration_scale");
-        seekBarPreferenceAn.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        setOnSeekBarChangeListener(seekBarPreferenceAn, "su -c settings put global animator_duration_scale ");
+    }
+
+    public void setOnSeekBarChangeListener(SeekBarPreferenceEx mySeekBarPreference, String shell) {
+        mySeekBarPreference.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                float mFloat = (float) i;
-                try {
-                    mFloat = mFloat / 10;
-                    Runtime.getRuntime().exec("su -c settings put global animator_duration_scale " + mFloat);
-                } catch (IOException e) {
-                }
+                setAnimator(i, shell);
             }
 
             @Override
@@ -125,5 +83,14 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    public void setAnimator(int i, String shell) {
+        float mFloat = (float) i;
+        mFloat = mFloat / 100;
+        try {
+            Runtime.getRuntime().exec(shell + mFloat);
+        } catch (IOException e) {
+        }
     }
 }
