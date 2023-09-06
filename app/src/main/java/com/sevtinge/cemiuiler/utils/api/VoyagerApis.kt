@@ -2,7 +2,7 @@ package com.sevtinge.cemiuiler.utils.api
 
 import android.content.Context
 import android.util.TypedValue
-import com.github.kyuubiran.ezxhelper.ClassUtils
+import android.view.Window
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
@@ -147,3 +147,31 @@ fun dp2px(context: Context, dpValue: Float): Int = TypedValue.applyDimension(
     dpValue,
     context.resources.displayMetrics
 ).toInt()
+
+/**
+ * 模糊查找组件调用
+ */
+object BlurDraw {
+    fun getValueByFields(target: Any, fieldNames: List<String>, clazz: Class<*>? = null): Any? {
+        var targetClass = clazz ?: target.javaClass
+        while (targetClass != Any::class.java) {
+            for (fieldName in fieldNames) {
+                try {
+                    val field = targetClass.getDeclaredField(fieldName)
+                    field.isAccessible = true
+                    val value = field.get(target)
+                    if (value is Window) {
+                        // Log.i("BlurPersonalAssistant Window field name: $fieldName")
+                        return value
+                    }
+                } catch (e: NoSuchFieldException) {
+                    // This field doesn't exist in this class, skip it
+                } catch (e: IllegalAccessException) {
+                    // This field isn't accessible, skip it
+                }
+            }
+            targetClass = targetClass.superclass ?: break
+        }
+        return null
+    }
+}
