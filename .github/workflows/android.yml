@@ -45,12 +45,11 @@ jobs:
 
       - name: Build with Gradle
         shell: bash
-        run: ./gradlew assemble
+        run: ./gradlew assembleCanary
 
       - name: Find APKs
         run: |
           echo "APK_FILE_CANARY=$(find app/build/outputs/apk/canary -name '*.apk')" >> $GITHUB_ENV
-          echo "APK_FILE_DEBUG=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
 
       - name: Show APKs SHA256
         if: success()
@@ -60,8 +59,6 @@ jobs:
           echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
           canary=($(sha256sum '${{ env.APK_FILE_CANARY }}'))
           echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
-          debug=($(sha256sum '${{ env.APK_FILE_DEBUG }}'))
-          echo "|Debug|$debug" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Canary APK
         if: contains(github.event.head_commit.message, '[upload]') == true
@@ -80,7 +77,6 @@ jobs:
           MESSAGE_THREAD_ID: ${{ secrets.MESSAGE_THREAD_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ env.APK_FILE_CANARY }}
-          DEBUG: ${{ env.APK_FILE_DEBUG }}
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
@@ -90,4 +86,3 @@ jobs:
           cd ${{ github.workspace }}
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&message_thread_id=${MESSAGE_THREAD_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID_TEMPORARY}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fdebug%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F debug="@${DEBUG}"
