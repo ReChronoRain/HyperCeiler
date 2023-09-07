@@ -17,22 +17,28 @@
             android:key="prefs_key_pa_enable"
             android:defaultValue="false" />
 
+        <DropDownPreference
+            android:key="prefs_key_personal_assistant_value"
+            android:title="@string/personal_assistant_blur_value"
+            android:defaultValue="1"
+            android:dependency="prefs_key_pa_enable"
+            app:entries="@array/personal_assistant_blur"
+            app:entryValues="@array/personal_assistant_blur_value" />
+
         <SeekBarPreferenceEx
             android:title="@string/personal_assistant_blurradius"
             android:key="prefs_key_personal_assistant_blurradius"
             android:defaultValue="80"
             app:minValue="30"
             app:maxValue="99"
-            app:defaultValueText="@string/array_default"        
+            app:defaultValueText="@string/array_default"
             app:format="%d %%"
-            app:stepValue="1"
-            android:dependency="prefs_key_pa_enable" />
+            app:stepValue="1" />
 
         <moralnorm.preference.ColorPickerPreference
             android:persistent="false"
             android:title="@string/personal_assistant_color"
             android:key="prefs_key_personal_assistant_color"
-            android:dependency="prefs_key_pa_enable"
             android:defaultValue="-1"
             app:showAlphaSlider="true" />
 

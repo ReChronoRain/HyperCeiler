@@ -227,6 +227,9 @@
 
     <string name="array_bluetooth_tile_style_3rows">三排大磁贴</string>
     <string name="array_bluetooth_tile_style_2rows2cols">一大和二小磁贴</string>
+
+    <string name="array_pa_blur_official">官方自带模糊</string>
+    <string name="array_bpa_blur_customize">自定义背景模糊</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -992,6 +995,7 @@
     <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
     <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>
     <string name="personal_assistant_blur_model">负一屏背景设置</string>
+    <string name="personal_assistant_blur_value">背景样式</string>
     <string name="personal_assistant_blurradius">负一屏背景模糊程度</string>
     <string name="personal_assistant_color">负一屏背景叠加层颜色</string>
     <!--音乐-->

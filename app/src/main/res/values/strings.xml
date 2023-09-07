@@ -216,6 +216,8 @@
     <string name="app_sort_install">Installation time</string>
     <string name="array_bluetooth_tile_style_3rows">Three big tiles</string>
     <string name="array_bluetooth_tile_style_2rows2cols">One big and two small tiles</string>
+    <string name="array_pa_blur_official">Official comes with blur</string>
+    <string name="array_bpa_blur_customize">Custom background blur</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -952,6 +954,7 @@
     <string name="personal_assistant_fold_widget_enable_desc">Enable Pad/Fold style widgets</string>
     <string name="personal_assistant_overlap_mode">Negative one screen Fold style</string>
     <string name="personal_assistant_blur_model">Personal assistant blur model</string>
+    <string name="personal_assistant_blur_value">Background style</string>
     <string name="personal_assistant_blurradius">Personal assistant blur value</string>
     <string name="personal_assistant_color">Personal assistant color</string>
     <!--Music-->
