@@ -16,7 +16,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 >
 > At present, Cemiuiler is based on Android 13 MIUI 14 mobile phone devices for adaptation, the coverage is not very complete, it needs continuous testing and improvement
 >
-> For Android 11 devices, we have tried our best to support them. After the release of Android 14-based MIUI, new features will no longer actively adapt to Android 11
+> We have tried our best to support Android 11 devices. After the release of version 1.3.130, the mainline branch will no longer support Android 11, but it will still provide maintenance and porting of old version functions.
 
 ## Supported Applications
 
@@ -24,7 +24,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
     <summary>Click to expand collapsed content</summary>
 
 | App Name | Package Name |
-| :---- | :---- | 
+| :---- | :---- |
 | System Framework | system |
 | System UI | com.android.systemui |
 | System Launcher | com.miui.home |
@@ -94,6 +94,7 @@ Join our group to report issues or get the latest updates.
 
 ## Provide translations for the Cemiuiler project
 
+[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 You can provide translations for the Cemiuiler project [here](https://crwd.in/cemiuiler).
 
 ## Thank!
