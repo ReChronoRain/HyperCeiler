@@ -95,6 +95,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 ## 为 Cemiuiler 贡献翻译
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+
 您可以在[这里](https://crwd.in/cemiuiler)为 Cemiuiler 项目贡献翻译。
 
 ## 感谢

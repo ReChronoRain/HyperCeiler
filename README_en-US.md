@@ -95,6 +95,7 @@ Join our group to report issues or get the latest updates.
 ## Provide translations for the Cemiuiler project
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+
 You can provide translations for the Cemiuiler project [here](https://crwd.in/cemiuiler).
 
 ## Thank!
