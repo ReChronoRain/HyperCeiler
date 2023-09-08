@@ -50,7 +50,7 @@
     <string name="about_developer_title">Desenvolvedores</string>
     <string name="about_translator_title">Tradutor</string>
     <string name="about_chat_title">Discussão</string>
-    <string name="about_other_title">Outro</string>
+    <string name="about_other_title">Outros</string>
     <string name="about_qq_group">Grupo QQ</string>
     <string name="about_qq_channel">Canal QQ</string>
     <string name="about_tg_group">Grupo Telegram</string>
@@ -204,6 +204,8 @@
     <string name="app_sort_install">Data de instalação</string>
     <string name="array_bluetooth_tile_style_3rows">Três blocos grandes</string>
     <string name="array_bluetooth_tile_style_2rows2cols"> Um bloco grande e dois pequenos</string>
+    <string name="array_pa_blur_official">Oficial vem com blur</string>
+    <string name="array_bpa_blur_customize">Blur de fundo personalizado</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -935,6 +937,7 @@
     <string name="personal_assistant_fold_widget_enable_desc">Ativar widgets de estilo Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Estilo de dobra da tela negativa</string>
     <string name="personal_assistant_blur_model">Modelo do blur do assistente pessoal</string>
+    <string name="personal_assistant_blur_value">Estilo do fundo</string>
     <string name="personal_assistant_blurradius">Valor do blur do assistente pessoal</string>
     <string name="personal_assistant_color">Cor do assistente pessoal</string>
     <!--Music-->

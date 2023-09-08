@@ -204,6 +204,8 @@
     <string name="app_sort_install">安裝時間</string>
     <string name="array_bluetooth_tile_style_3rows">三個大磁貼</string>
     <string name="array_bluetooth_tile_style_2rows2cols">大尺寸磁貼與兩個小磁貼</string>
+    <string name="array_pa_blur_official">官方預設糢糊效果</string>
+    <string name="array_bpa_blur_customize">自定義背景糢糊</string>
     <!--System Framework-->
     <string name="system_framework">系統框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -935,6 +937,7 @@
     <string name="personal_assistant_fold_widget_enable_desc">啟用 Pad/Fold 樣式的小工具</string>
     <string name="personal_assistant_overlap_mode">智慧助理 Fold 樣式</string>
     <string name="personal_assistant_blur_model">智慧助理背景設定</string>
+    <string name="personal_assistant_blur_value">背景樣式</string>
     <string name="personal_assistant_blurradius">智慧助理背景模糊程度</string>
     <string name="personal_assistant_color">智慧助理背景疊加層顏色</string>
     <!--Music-->
