@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.ui.fragment.sub;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -16,7 +17,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private String mKey = "";
     private String mCustomBackgroundEnabledKey;
     private String mColorKey;
-    private String mColorAlphaKey;
     private String mCornerRadiusKey;
 
     private String mBlurEnabledKey;
@@ -25,7 +25,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private SwitchPreference mCustomEnabledPreference;
 
     private ColorPickerPreference mColorPickerPreference;
-    private SeekBarPreference mColorAlphaPreference;
     private SeekBarPreference mCornerRadiusPreference;
 
     private SwitchPreference mBlurEnabledPreference;
@@ -46,7 +45,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
             mCustomBackgroundEnabledKey = mKey + "_custom_enable";
 
             mColorKey = mKey + "_color";
-            mColorAlphaKey = mKey + "_color_alpha";
             mCornerRadiusKey = mKey + "_corner_radius";
 
             mBlurEnabledKey = mKey + "_blur_enabled";
@@ -58,7 +56,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
         mCustomEnabledPreference = findPreference("prefs_key_custom_background_enabled");
 
         mColorPickerPreference = findPreference("prefs_key_custom_background_color");
-        mColorAlphaPreference = findPreference("prefs_key_custom_background_color_alpha");
         mCornerRadiusPreference = findPreference("prefs_key_custom_background_corner_radius");
 
         mBlurEnabledPreference = findPreference("prefs_key_custom_background_blur_enabled");
@@ -69,7 +66,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
         mCustomEnabledPreference.setOnPreferenceChangeListener(this);
 
         mColorPickerPreference.setOnPreferenceChangeListener(this);
-        mColorAlphaPreference.setOnPreferenceChangeListener(this);
         mCornerRadiusPreference.setOnPreferenceChangeListener(this);
 
         mBlurEnabledPreference.setOnPreferenceChangeListener(this);
@@ -80,7 +76,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private void loadData() {
         mCustomEnabledPreference.setChecked(isCustomEnabled());
         mColorPickerPreference.setColor(getColor(-1));
-        mColorAlphaPreference.setValue(getSeekBarValue(mColorAlphaKey, 60));
         mCornerRadiusPreference.setValue(getSeekBarValue(mCornerRadiusKey, 18));
         mBlurEnabledPreference.setChecked(isBackgroundBlurEnabled());
         mBlurRadiusPreference.setValue(getSeekBarValue(mBlurRadiusKey, 60));
@@ -112,8 +107,6 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
             setCustomEnable((Boolean) o);
         } else if (preference == mColorPickerPreference) {
             setBackgroundColor((int) o);
-        } else if (preference == mColorAlphaPreference) {
-            setBackgroundColorAlpha((int) o);
         } else if (preference == mCornerRadiusPreference) {
             setBackgroundCornerRadius((int) o);
         } else if (preference == mBlurEnabledPreference) {
@@ -130,12 +123,8 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private void setBackgroundColor(int value) {
+        mColorPickerPreference.setColor(value);
         PrefsUtils.mSharedPreferences.edit().putInt(mColorKey, value).apply();
-    }
-
-    private void setBackgroundColorAlpha(int value) {
-        mColorAlphaPreference.setValue(value);
-        PrefsUtils.mSharedPreferences.edit().putInt(mColorAlphaKey, value).apply();
     }
 
     private void setBackgroundCornerRadius(int value) {

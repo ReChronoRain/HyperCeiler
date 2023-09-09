@@ -1212,11 +1212,11 @@
     <string name="various_mipad_input_need_finger_num_title">交换手势所需的手指数量</string>
     <string name="various_mipad_input_need_finger_num_desc">将三指截屏、三指长按区域截屏、三指横向分屏手势更改为四指触发，切换应用手势更改为三指触发</string>
 
-    <string name="custom_background_blur_enabled">背景模糊</string>
+    <string name="custom_background_blur_enabled">高斯模糊</string>
     <string name="custom_background_blur_radius">模糊半径</string>
-    <string name="custom_background_color">背景颜色</string>
+    <string name="custom_background_color">颜色</string>
     <string name="custom_background_color_alpha">背景颜色透明度</string>
-    <string name="custom_background_corner_radius">背景圆角</string>
+    <string name="custom_background_corner_radius">圆角</string>
 
     <string name="custom_blur_enabled">背景模糊</string>
     <string name="various_blur_radius">模糊半径</string>

@@ -3,55 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
         <SwitchPreference
-            android:title="@string/custom_enable"
+            android:key="prefs_key_custom_background_enabled"
             android:persistent="false"
-            android:key="prefs_key_custom_background_enabled" />
+            android:title="@string/custom_enable" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:dependency="prefs_key_custom_background_enabled">
-        <moralnorm.preference.ColorPickerPreference
-            android:title="@string/custom_background_color"
-            android:persistent="false"
-            android:key="prefs_key_custom_background_color"
+        <ColorPickerPreference
             android:defaultValue="-1"
-            app:showAlphaSlider="false"/>
+            android:key="prefs_key_custom_background_color"
+            android:persistent="false"
+            android:title="@string/custom_background_color" />
 
         <SeekBarPreference
-            android:title="@string/custom_background_color_alpha"
-            android:persistent="false"
-            android:key="prefs_key_custom_background_color_alpha"
-            android:defaultValue="120"
-            android:max="255"      
-            android:format="%d"    
-            app:showSeekBarValue="true"/>
-
-        <SeekBarPreference
-            android:title="@string/custom_background_corner_radius"
-            android:persistent="false"
-            android:key="prefs_key_custom_background_corner_radius"
             android:defaultValue="20"
-            android:max="60"
             android:format="%d dp"
-            app:showSeekBarValue="true"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:dependency="prefs_key_custom_background_enabled">
-        <SwitchPreference
-            android:title="@string/custom_background_blur_enabled"
+            android:key="prefs_key_custom_background_corner_radius"
+            android:max="60"
             android:persistent="false"
-            android:key="prefs_key_custom_background_blur_enabled" />
+            android:title="@string/custom_background_corner_radius"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreference
+            android:key="prefs_key_custom_background_blur_enabled"
+            android:persistent="false"
+            android:title="@string/custom_background_blur_enabled" />
 
         <SeekBarPreference
-            android:title="@string/custom_background_blur_radius"
-            android:persistent="false"
-            android:key="prefs_key_custom_background_blur_radius"
             android:defaultValue="60"
-            android:max="100"
+            android:dependency="prefs_key_custom_background_blur_enabled"
             android:format="%d dp"
-            app:showSeekBarValue="true"
-            android:dependency="prefs_key_custom_background_blur_enabled"/>
+            android:key="prefs_key_custom_background_blur_radius"
+            android:max="100"
+            android:persistent="false"
+            android:title="@string/custom_background_blur_radius"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
+
 </PreferenceScreen>

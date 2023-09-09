@@ -86,15 +86,15 @@ public class BlurUtils {
         });
     }
 
-    private Drawable createBackgroundDrawable(Object viewRootImpl, boolean isBlurEnable, int color, int alpha, int cornerRadius, int blurRadius) {
+    private Drawable createBackgroundDrawable(Object viewRootImpl, boolean isBlurEnable, int color, int cornerRadius, int blurRadius) {
         Drawable mBackgroundDrawable;
         if (isBlurEnable) {
             mBackgroundDrawable = (Drawable) XposedHelpers.callMethod(viewRootImpl, "createBackgroundBlurDrawable", new Object[0]);
-            setColor(mBackgroundDrawable, color, alpha);
+            setColor(mBackgroundDrawable, color);
             setCornerRadius(mBackgroundDrawable, cornerRadius);
             setBlurRadius(mBackgroundDrawable, blurRadius);
         } else {
-            mBackgroundDrawable = createGradientDrawable(color, alpha, cornerRadius);
+            mBackgroundDrawable = createGradientDrawable(color, cornerRadius);
         }
         return mBackgroundDrawable;
     }
@@ -112,15 +112,16 @@ public class BlurUtils {
         return mBackgroundDrawable;
     }
 
-    private GradientDrawable createGradientDrawable(int color, int alpha, int cornerRadius) {
+    private GradientDrawable createGradientDrawable(int color, int cornerRadius) {
 
+        int mColorAlpha = (color & 0xff000000) >> 24;
         int mColorRed = (color & 0x00ff0000) >> 16;
         int mColorGreen = (color & 0x0000ff00) >> 8;
         int mColorBlue = (color & 0x000000ff);
 
         GradientDrawable mBackgroundDrawable = new GradientDrawable();
         mBackgroundDrawable.setShape(GradientDrawable.RECTANGLE);
-        mBackgroundDrawable.setColor(Color.argb(alpha, mColorRed, mColorGreen, mColorBlue));
+        mBackgroundDrawable.setColor(Color.argb(mColorAlpha, mColorRed, mColorGreen, mColorBlue));
         mBackgroundDrawable.setCornerRadius(cornerRadius);
         return mBackgroundDrawable;
     }
@@ -133,15 +134,12 @@ public class BlurUtils {
         return mBackgroundDrawable;
     }
 
-    public void setColor(Drawable drawable, int color, int alpha) {
+    public void setColor(Drawable drawable, int color) {
+        int mColorAlpha = (color & 0xff000000) >> 24;
         int mColorRed = (color & 0x00ff0000) >> 16;
         int mColorGreen = (color & 0x0000ff00) >> 8;
         int mColorBlue = (color & 0x000000ff);
-        XposedHelpers.callMethod(drawable, "setColor", Color.argb(alpha, mColorRed, mColorGreen, mColorBlue));
-    }
-
-    public void setColor(Drawable drawable, int color) {
-        XposedHelpers.callMethod(drawable, "setColor", Color.parseColor(String.valueOf(color)));
+        XposedHelpers.callMethod(drawable, "setColor", Color.argb(mColorAlpha, mColorRed, mColorGreen, mColorBlue));
     }
 
     public void setColor(Drawable drawable, String color) {
