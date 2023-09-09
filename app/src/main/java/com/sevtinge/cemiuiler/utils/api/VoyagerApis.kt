@@ -6,6 +6,7 @@ import android.view.Window
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.sevtinge.cemiuiler.utils.api.LazyClass.clazzMiuiBuild
 import com.sevtinge.cemiuiler.utils.isStatic
 import java.lang.reflect.Field
 import java.lang.reflect.Method
@@ -47,10 +48,6 @@ fun Any.field(
             ?.let { it.isAccessible = true;return it }
     } while (c.superclass?.also { c = it } != null)
     throw NoSuchFieldException("Name: $fieldName,Static: $isStatic, Type: ${if (fieldType == null) "ignore" else fieldType.name}")
-}
-
-private val clazzMiuiBuild by lazy {
-    loadClass("miui.os.Build")
 }
 
 /**

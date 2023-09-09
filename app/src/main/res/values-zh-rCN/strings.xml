@@ -671,6 +671,9 @@
     <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
     <string name="system_settings_novelty_haptic_title">解锁新版触感调节页面</string>
     <string name="system_settings_novelty_haptic_desc">仅支持有 \"声音与触感-触感\" 页面的设备</string>
+    <string name="system_settings_enable_pad_area">解锁平板专区</string>
+    <string name="system_settings_enable_fold_area">解锁折叠屏专区</string>
+    <string name="system_settings_enable_area_desc">不支持的设备解锁后会导致设置闪退</string>
 
     <string name="system_settings_connection_sharing_title">连接与共享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
@@ -829,6 +832,9 @@
     <string name="home_big_folder_icon_bg_width_1x2">背景宽度</string>
     <string name="home_big_folder_icon_bg_height_1x2">背景高度</string>
     <string name="home_big_folder_icon_bg">九宫格背景自定义</string>
+    <string name="home_big_folder_icon_bg_2x1_n">八宫格背景自定义</string>
+    <string name="home_big_folder_icon_bg_1x2_n">四宫格背景义</string>
+    <string name="home_big_folder_icon_bg_n">九、十六宫格背景自定义</string>
     <string name="home_big_folder_icon_bg_custom">自定义</string>
     <string name="home_big_folder_icon_bg_width">背景宽度</string>
     <string name="home_big_folder_icon_bg_height">背景高度</string>
@@ -956,6 +962,8 @@
     <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
     <string name="home_other_high_models">强制识别为高端机型</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">解锁桌面设置更多选项</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">解锁后的功能不一定可用，部分功能需要系统底层支持</string>
 
     <string name="home_recent_blur_level">模糊等级</string>
     <string name="home_recent_complete_blur_plus">完整模糊补充 (实验性)</string>

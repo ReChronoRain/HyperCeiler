@@ -4,6 +4,8 @@ import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
+import com.sevtinge.cemiuiler.module.hook.home.mipad.EnableHideGestureLine;
+import com.sevtinge.cemiuiler.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.cemiuiler.module.hook.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.hook.home.AnimDurationRatio;
 import com.sevtinge.cemiuiler.module.hook.home.FreeFormCountForHome;
@@ -241,7 +243,11 @@ public class Home extends BaseModule {
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 
         // 小米/红米平板相关
+        boolean mMoreSetting = mPrefsMap.getBoolean("home_other_mi_pad_enable_more_setting") && isPad();
         initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num") && isPad());
+        initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
+        initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
+
     }
 
 }

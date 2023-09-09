@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.home.folder;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -25,7 +27,11 @@ public class BigFolderIconBlur1x2 extends BaseHook {
 
     @Override
     public void init() {
-        mFolderIcon1x2 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon1x2");
+        if (isPad()) {
+            mFolderIcon1x2 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x2_4");
+        } else {
+            mFolderIcon1x2 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon1x2");
+        }
 
         mLauncher = findClassIfExists("com.miui.home.launcher.Launcher");
         mFolderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo");

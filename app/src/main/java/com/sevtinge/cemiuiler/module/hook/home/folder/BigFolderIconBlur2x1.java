@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.home.folder;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -25,7 +27,11 @@ public class BigFolderIconBlur2x1 extends BaseHook {
 
     @Override
     public void init() {
-        mFolderIcon2x1 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x1");
+        if (isPad()) {
+            mFolderIcon2x1 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon4x2_8");
+        } else {
+            mFolderIcon2x1 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x1");
+        }
 
         mLauncher = findClassIfExists("com.miui.home.launcher.Launcher");
         mFolderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo");
@@ -52,8 +58,13 @@ public class BigFolderIconBlur2x1 extends BaseHook {
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();
                 lp1.gravity = Gravity.CENTER;
-                lp1.width = mFolderWidth;
-                lp1.height = mFolderHeight;
+                if (isPad()) {
+                    lp1.width = mFolderWidth * 2;
+                    lp1.height = mFolderHeight * 2;
+                }else {
+                    lp1.width = mFolderWidth;
+                    lp1.height = mFolderHeight;
+                }
                 findAndHookMethod(mLauncher, "showEditPanel", boolean.class, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {

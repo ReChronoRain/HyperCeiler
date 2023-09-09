@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.ui.fragment.home;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
@@ -21,7 +23,9 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
     SwitchPreference mFolderWidth;
     SwitchPreference mFolderSpace;
     Preference mSmallFolderIconBackgroundCustom;
-    Preference mBigFolderIconBackgroundCustom;
+    Preference mSmallFolderIconBackgroundCustom1;
+    Preference mSmallFolderIconBackgroundCustom2;
+    Preference mSmallFolderIconBackgroundCustom3;
 
     @Override
     public int getContentResId() {
@@ -46,6 +50,11 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
         mFolderSpace = findPreference("prefs_key_home_folder_space");
         mSmallFolderIconBackgroundCustom = findPreference("prefs_key_home_small_folder_icon_bg_custom");
 
+        mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
+        mSmallFolderIconBackgroundCustom2 = findPreference("prefs_key_home_big_folder_icon_bg_1x2");
+        mSmallFolderIconBackgroundCustom3 = findPreference("prefs_key_home_big_folder_icon_bg");
+
+        setBigFolderTextForPad();
         setFolderShadeLevelEnable(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_home_folder_shade", "0")));
         setFolderWidthEnable(PrefsUtils.mSharedPreferences.getInt(mFolderColumns.getKey(), 3));
         setFolderSpaceEnable(PrefsUtils.mSharedPreferences.getInt(mFolderColumns.getKey(), 3));
@@ -60,6 +69,14 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
             setFolderSpaceEnable((Integer) o);
             return true;
         }));
+    }
+
+    private void setBigFolderTextForPad(){
+        if (isPad()){
+            mSmallFolderIconBackgroundCustom1.setTitle(R.string.home_big_folder_icon_bg_2x1_n);
+            mSmallFolderIconBackgroundCustom2.setTitle(R.string.home_big_folder_icon_bg_1x2_n);
+            mSmallFolderIconBackgroundCustom3.setTitle(R.string.home_big_folder_icon_bg_n);
+        }
     }
 
     private void setFolderShadeLevelEnable(int i) {

@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.home.folder;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -36,8 +38,14 @@ public class BigFolderIconBlur extends BaseHook {
         mLauncherState = findClassIfExists("com.miui.home.launcher.LauncherState");
         mDragView = findClassIfExists("com.miui.home.launcher.DragView");
         mFolderIcon2x2 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x2");
-        mFolderIcon2x2_4 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x2_4");
-        mFolderIcon2x2_9 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x2_9");
+
+        if (isPad()) {
+            mFolderIcon2x2_4 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon4x4_16");
+            mFolderIcon2x2_9 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon3x3_9");
+        } else {
+            mFolderIcon2x2_4 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x2_4");
+            mFolderIcon2x2_9 = findClassIfExists("com.miui.home.launcher.folder.FolderIcon2x2_9");
+        }
 
         hookAllConstructors(mFolderIcon, new MethodHook() {
             @Override
@@ -69,8 +77,15 @@ public class BigFolderIconBlur extends BaseHook {
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();
                 lp1.gravity = Gravity.CENTER;
-                lp1.width = mFolderWidth;
-                lp1.height = mFolderHeight;
+
+                if(isPad()){
+                    lp1.width = mFolderWidth * 2;
+                    lp1.height = mFolderHeight *2;
+                }else {
+                    lp1.width = mFolderWidth;
+                    lp1.height = mFolderHeight;
+                }
+
                 findAndHookMethod(mLauncher, "showEditPanel", boolean.class, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
@@ -112,15 +127,12 @@ public class BigFolderIconBlur extends BaseHook {
             }
         };
 
-        Method FolderIcon2x2_4_OnFinishInflate = XposedHelpers.findMethodExactIfExists(mFolderIcon2x2_4, "onFinishInflate", Void.TYPE);
-        Method FolderIcon2x2_9_OnFinishInflate = XposedHelpers.findMethodExactIfExists(mFolderIcon2x2_9, "onFinishInflate", Void.TYPE);
 
-        if (FolderIcon2x2_4_OnFinishInflate != null && FolderIcon2x2_9_OnFinishInflate != null) {
-            findAndHookMethod(mFolderIcon2x2_4, "onFinishInflate", mBigFolderIconBlur);
-            findAndHookMethod(mFolderIcon2x2_9, "onFinishInflate", mBigFolderIconBlur);
-        } else if (mFolderIcon2x2 != null) {
-            findAndHookMethod(mFolderIcon2x2, "onFinishInflate", mBigFolderIconBlur);
-        }
+        findAndHookMethod(mFolderIcon2x2_4, "onFinishInflate", mBigFolderIconBlur);
+        findAndHookMethod(mFolderIcon2x2_9, "onFinishInflate", mBigFolderIconBlur);
+
+        findAndHookMethod(mFolderIcon2x2, "onFinishInflate", mBigFolderIconBlur);
+
 
         hookAllConstructors(mDragView, new MethodHook() {
             @Override

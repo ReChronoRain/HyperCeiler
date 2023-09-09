@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
+import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
@@ -23,6 +24,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mKnuckleFunction; // 指关节相关
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
+    SwitchPreference mPad; // 解锁平板分区
 
     @Override
     public int getContentResId() {
@@ -44,12 +46,14 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mKnuckleFunction = findPreference("prefs_key_system_settings_knuckle_function");
         mNewNfc = findPreference("prefs_key_system_settings_connection_sharing");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
+        mPad = findPreference("prefs_key_system_settings_enable_pad_area");
 
         mHighMode.setVisible(!isAndroidR());
         mAreaScreenshot.setVisible(isAndroidR());
         mKnuckleFunction.setVisible(isMoreMiuiVersion(13f));
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
+        mPad.setVisible(isPad());
         animationScale();
     }
 

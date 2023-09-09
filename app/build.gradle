@@ -122,7 +122,6 @@ android {
 }
 
 dependencies {
-
     compileOnly(project(":hidden-api"))
 
     compileOnly files('libs/miui.jar')

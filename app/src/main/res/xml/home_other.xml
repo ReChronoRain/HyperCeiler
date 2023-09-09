@@ -23,9 +23,9 @@
             android:title="@string/home_other_shortcut_background_blur_custom"
             android:key="prefs_key_home_other_shortcut_background_blur_custom"
             android:defaultValue="200"
-            app:defaultValueText="@string/array_default"           
+            app:defaultValueText="@string/array_default"
             app:minValue="80"
-            app:maxValue="255" 
+            app:maxValue="255"
             app:format="%s"
             app:stepValue="1"
             android:dependency="prefs_key_home_other_shortcut_background_blur" />
@@ -54,19 +54,15 @@
 
     <PreferenceCategory>
         <SwitchPreference
+            android:key="prefs_key_home_other_mi_pad_enable_more_setting"
+            android:title="@string/home_other_mi_pad_enable_more_setting_title"
+            android:summary="@string/home_other_mi_pad_enable_more_setting_desc"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_personal_assistant_overlap_mode"
             android:title="@string/personal_assistant_overlap_mode"
             android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory>
-        <DropDownPreference
-            android:key="prefs_key_home_other_home_mode"
-            android:title="@string/home_other_home_mode"
-            app:entries="@array/home_mode"
-            app:entryValues="@array/home_mode_value"
-            android:defaultValue="0" />
 
         <SwitchPreference
             android:key="prefs_key_home_other_user_present_animation"
@@ -93,6 +89,13 @@
             android:key="prefs_key_home_other_disable_hide_google"
             android:title="@string/home_other_disable_hide_google"
             android:defaultValue="false" />
+
+        <DropDownPreference
+            android:key="prefs_key_home_other_home_mode"
+            android:title="@string/home_other_home_mode"
+            app:entries="@array/home_mode"
+            app:entryValues="@array/home_mode_value"
+            android:defaultValue="0" />
 
         <Preference android:title="@string/home_other_app_icon_hide">
             <intent

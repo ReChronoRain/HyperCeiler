@@ -642,6 +642,9 @@
     <string name="system_settings_wifi_password_dlgtitle">WiFi details</string>
     <string name="system_settings_novelty_haptic_title">Unlock the new version of the touch adjustment page</string>
     <string name="system_settings_novelty_haptic_desc">Only for devices with the Sounds &amp; Haptics - Haptics page</string>
+    <string name="system_settings_enable_pad_area">Unlock Pad area</string>
+    <string name="system_settings_enable_fold_area">Unlock Fold area</string>
+    <string name="system_settings_enable_area_desc">Unsupported devices will cause the settings to crash after being unlocked</string>
     <string name="system_settings_connection_sharing_title">Connetion &amp; sharing</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
@@ -795,6 +798,9 @@
     <string name="home_big_folder_icon_bg_width">Background width</string>
     <string name="home_big_folder_icon_bg_height">Background height</string>
     <string name="home_big_folder_item_max_count">Big Folder</string>
+    <string name="home_big_folder_icon_bg_2x1_n">4*2 background custom</string>
+    <string name="home_big_folder_icon_bg_1x2_n">2*2 background custom</string>
+    <string name="home_big_folder_icon_bg_n">3*3 &amp; 4*4 background custom</string>
     <string name="home_auto_close_folder_title">Auto Shut Off</string>
     <string name="home_auto_close_folder_summary">Close app\'s folder after launch</string>
     <string name="home_wallpaper">Background</string>
@@ -923,6 +929,8 @@
     <string name="home_recent_simple_blur">Simple Blur</string>
     <string name="home_recent_none_blur">None Blur</string>
     <string name="home_recent_none_blur_simple_anim">None Blur (Simple Anim)</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">Unlock more options for desktop settings</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">Unlocked functions may not be available, and some functions require underlying system support</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>

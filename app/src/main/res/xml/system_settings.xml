@@ -10,6 +10,18 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_settings_enable_pad_area"
+            android:title="@string/system_settings_enable_pad_area"
+            android:summary="@string/system_settings_enable_area_desc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_enable_fold_area"
+            android:title="@string/system_settings_enable_fold_area"
+            android:summary="@string/system_settings_enable_area_desc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_safe_wifi"
             android:summary="@string/system_settings_safe_wifi_desc"
             android:title="@string/system_settings_safe_wifi" />
