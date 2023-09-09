@@ -4,13 +4,16 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidS
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidT
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
 import com.sevtinge.cemiuiler.utils.replaceMethod
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -74,41 +77,80 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
-        // 修改横幅通知上滑极限值，存在部分异常问题，暂时回退
-        /*if (!isAndroidS()) {
-            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getStackTranslation") {
+        if(isAndroidT()) {
+            val mediaDataFilterClass =
+                findClassIfExists("com.android.systemui.media.MediaDataFilter") ?: return
+
+            val expandableNotificationRowClass =
+                findClassIfExists("com.android.systemui.statusbar.notification.row.ExpandableNotificationRow")
+                    ?: return
+
+            // 增加一个锁屏页面判断
+            var OnKeyguard = false
+
+            expandableNotificationRowClass.hookAfterMethod("isOnKeyguard") {
+                OnKeyguard = it.result as Boolean
+            }
+
+            // 增加一个控制中心音乐播放器判断
+            var hasActiveMediaOrRecommendation = false
+
+            mediaDataFilterClass.hookAfterMethod("hasActiveMediaOrRecommendation") {
+                hasActiveMediaOrRecommendation = it.result as Boolean
+            }
+
+
+            // 换个方式修改通知上划极限值
+            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getOverExpansion") {
                 val getScreenHeight =
-                    findClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
+                    loadClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
                         .callStaticMethod("getScreenHeight", appContext) as Int
-
-                val mStackTranslation = it.thisObject.getObjectField("mStackTranslation") as Float
-
-                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
-
+                val mOverExpansion = it.thisObject.getObjectField("mOverExpansion") as Float
+                val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
                 val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+                val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
+                val isScreenLandscape =
+                    loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
+                        .callStaticMethod("isScreenLandscape") as Boolean
 
-                if (isFlinging || isSwipingUp)
-                    return@replaceMethod getScreenHeight.toFloat()
-                else
-                    return@replaceMethod mStackTranslation
-
+                if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching) {
+                    if (hasActiveMediaOrRecommendation) {
+                        if (isScreenLandscape)
+                            return@replaceMethod -getScreenHeight.toFloat()
+                        else
+                            return@replaceMethod -getScreenHeight.toFloat() * 6.0f
+                    } else {
+                        if (isScreenLandscape)
+                            return@replaceMethod -getScreenHeight.toFloat() / 3.0f
+                        else
+                            return@replaceMethod -getScreenHeight.toFloat() / 1.2f
+                    }
+                } else {
+                    return@replaceMethod mOverExpansion
+                }
             }
 
-            // 避免修改上滑极限值以后动画速度过快
-            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction") {
-
-                val appearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
-
-                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
-
+            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction")
+            {
+                val mExpansionChanging =
+                    it.thisObject.getObjectField("mExpansionChanging") as Boolean
+                val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
                 val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+                val mAppearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
+                val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
+                val isScreenLandscape =
+                    loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
+                        .callStaticMethod("isScreenLandscape") as Boolean
 
-                if (isFlinging || isSwipingUp)
-                    return@replaceMethod -appearFraction * appearFraction * appearFraction
-                else
-                    return@replaceMethod appearFraction
+                if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching && hasActiveMediaOrRecommendation && isScreenLandscape) {
+                    return@replaceMethod mAppearFraction * 6.0f
+                } else {
+                    return@replaceMethod mAppearFraction
+                }
             }
-        }*/
+        }
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
@@ -345,7 +387,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                         HookUtils.getValueByField(mController, "mPanelViewController")
                             ?: return
                     val isExpanding =
-                        XposedHelpers.callMethod(mPanelViewController,
+                        XposedHelpers.callMethod(
+                            mPanelViewController,
                             if (isAndroidU()) "isExpandingOrCollapsing" else "isExpanding"
                         ) as Boolean
                     if (isExpanding) return
@@ -376,30 +419,26 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         // 锁屏状态透明度修改的时候同步修改模糊透明度
-        XposedBridge.hookAllMethods(
-            miuiNotificationPanelViewControllerClass,
-            "updateKeyguardElementAlpha",
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!isDefaultLockScreenTheme()) return
-                    val mNotificationStackScroller =
-                        HookUtils.getValueByField(param.thisObject, "mNotificationStackScroller")
-                            ?: return
-                    mNotificationStackScroller as ViewGroup
+        if(!isAndroidT()) {
+            XposedBridge.hookAllMethods(miuiNotificationPanelViewControllerClass, "updateKeyguardElementAlpha",
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (!isDefaultLockScreenTheme()) return
+                        val mNotificationStackScroller =
+                            HookUtils.getValueByField(param.thisObject, "mNotificationStackScroller") ?: return
+                        mNotificationStackScroller as ViewGroup
 
-                    val keyguardContentsAlpha =
-                        XposedHelpers.callMethod(
-                            param.thisObject,
-                            "getKeyguardContentsAlpha"
-                        ) as Float
-                    val drawableAlpha = keyguardContentsAlpha * 255
-                    for (i in 0..mNotificationStackScroller.childCount) {
-                        val childAt =
-                            mNotificationStackScroller.getChildAt(i) ?: continue
-                        setBlurEffectAlphaForNotificationRow(childAt, drawableAlpha.toInt())
+                        val keyguardContentsAlpha =
+                            XposedHelpers.callMethod(param.thisObject, "getKeyguardContentsAlpha") as Float
+                        val drawableAlpha = keyguardContentsAlpha * 255
+                        for (i in 0..mNotificationStackScroller.childCount) {
+                            val childAt =
+                                mNotificationStackScroller.getChildAt(i) ?: continue
+                            setBlurEffectAlphaForNotificationRow(childAt, drawableAlpha.toInt())
+                        }
                     }
-                }
-            })
+                })
+        }
 
         XposedBridge.hookAllMethods(
             miuiNotificationPanelViewControllerClass,

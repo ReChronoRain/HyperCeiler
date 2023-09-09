@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.ui.fragment.systemui;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidS;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidSv2;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 
 import android.provider.Settings;
 import android.view.View;
@@ -55,6 +56,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNotice.setVisible(!isAndroidR());
         mBluetoothSytle.setVisible(!isAndroidR());
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
+
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.app;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
