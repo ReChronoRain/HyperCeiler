@@ -48,6 +48,7 @@ import com.sevtinge.cemiuiler.module.app.Updater;
 import com.sevtinge.cemiuiler.module.app.Various;
 import com.sevtinge.cemiuiler.module.app.VoiceAssist;
 import com.sevtinge.cemiuiler.module.app.Weather;
+import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
@@ -151,6 +152,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
                 Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                 if (allPrefs == null || allPrefs.size() == 0) {
+                    ALPermissionManager.RootCommand("chmod 0777 " + PrefsUtils.mPrefsFile);
+                    ALPermissionManager.RootCommand("chown root:root " + PrefsUtils.mPrefsFile);
                     mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
