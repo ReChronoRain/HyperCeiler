@@ -41,34 +41,22 @@
         <ColorPickerPreference
             android:defaultValue="0xFF00FF00"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color_full_power"
-            android:title="@string/system_ui_status_bar_battery_indicator_color_full_power"
-            app:showColorShades="true"
-            app:showAlphaSlider="true"
-            app:colorShape="circle" />
+            android:title="@string/system_ui_status_bar_battery_indicator_color_full_power" />
 
         <ColorPickerPreference
             android:defaultValue="0xFFFF0000"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color_low_power"
-            android:title="@string/system_ui_status_bar_battery_indicator_color_low_power"
-            app:showColorShades="true"
-            app:showAlphaSlider="true"
-            app:colorShape="circle" />
+            android:title="@string/system_ui_status_bar_battery_indicator_color_low_power" />
 
         <ColorPickerPreference
             android:defaultValue="0xFFFFFF00"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color_power_saving"
-            android:title="@string/system_ui_status_bar_battery_indicator_color_power_saving"
-            app:showColorShades="true"
-            app:showAlphaSlider="true"
-            app:colorShape="circle" />
+            android:title="@string/system_ui_status_bar_battery_indicator_color_power_saving" />
 
         <ColorPickerPreference
             android:defaultValue="0xFFFFFF00"
             android:key="prefs_key_system_ui_status_bar_battery_indicator_color_power_charging"
-            android:title="@string/system_ui_status_bar_battery_indicator_color_power_charging"
-            app:showColorShades="true"
-            app:showAlphaSlider="true"
-            app:colorShape="circle" />
+            android:title="@string/system_ui_status_bar_battery_indicator_color_power_charging" />
 
         <SeekBarPreference
             android:key="prefs_key_system_ui_status_bar_battery_indicator_height"

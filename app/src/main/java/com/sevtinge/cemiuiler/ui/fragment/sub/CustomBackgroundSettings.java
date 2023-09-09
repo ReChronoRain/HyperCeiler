@@ -79,7 +79,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
 
     private void loadData() {
         mCustomEnabledPreference.setChecked(isCustomEnabled());
-        mColorPickerPreference.saveValue(getColor(-1));
+        mColorPickerPreference.setColor(getColor(-1));
         mColorAlphaPreference.setValue(getSeekBarValue(mColorAlphaKey, 60));
         mCornerRadiusPreference.setValue(getSeekBarValue(mCornerRadiusKey, 18));
         mBlurEnabledPreference.setChecked(isBackgroundBlurEnabled());
@@ -91,7 +91,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private void setColor() {
-        mColorPickerPreference.saveValue(getColor(2113929215));
+        mColorPickerPreference.setColor(getColor(2113929215));
     }
 
     private int getColor(int defValue) {
