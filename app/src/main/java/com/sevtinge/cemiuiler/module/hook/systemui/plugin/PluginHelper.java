@@ -35,7 +35,7 @@ public class PluginHelper extends BaseHook {
                         HideMiPlayEntry.initHideMiPlayEntry(pluginLoader);
                     if (mPrefsMap.getStringAsInt("system_ui_control_center_device_ctrl_entry", 0) != 0)
                         HideDeviceControlEntry.initHideDeviceControlEntry(pluginLoader);
-                    if (mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1) != 1)
+                    if (mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1) > 1)
                         BluetoothTileStyle.initHideDeviceControlEntry(pluginLoader);
                 }
             }

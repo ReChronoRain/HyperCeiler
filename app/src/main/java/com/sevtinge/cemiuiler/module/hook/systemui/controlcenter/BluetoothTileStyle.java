@@ -21,6 +21,9 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class BluetoothTileStyle {
     public static void initHideDeviceControlEntry(ClassLoader pluginLoader) {
+        int styleId = mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1);
+        if (styleId == 1) return;
+
         final int[] tileResIds = {0};
         Helpers.findAndHookMethod("miui.systemui.dagger.PluginComponentFactory", pluginLoader, "create", Context.class, Context.class, new MethodHook() {
             @SuppressLint("DiscouragedApi")
@@ -39,16 +42,15 @@ public class BluetoothTileStyle {
                 btTileView.setTag("big_tile_bt");
             }
         });
-        int styleId = mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1);
         MethodHook updateStyleHook = new MethodHook() {
-            boolean inited = false;
+            boolean United = false;
             @Override
             @SuppressLint("DiscouragedApi")
             protected void after(XC_MethodHook.MethodHookParam param) throws Throwable {
                 ViewGroup mView = (ViewGroup) XposedHelpers.callMethod(param.thisObject, "getView");
                 View bigTileB = (View) XposedHelpers.getObjectField(param.thisObject, "bigTileB");
-                if (!inited) {
-                    inited = true;
+                if (!United) {
+                    United = true;
                     Object factory = XposedHelpers.getObjectField(param.thisObject, "tileViewFactory");
                     View btTileView = mView.findViewWithTag("big_tile_bt");
                     int btTileId = ResourcesHook.getFakeResId("bt_big_tile");
