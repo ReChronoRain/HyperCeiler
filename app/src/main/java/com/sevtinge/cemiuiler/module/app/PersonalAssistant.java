@@ -22,7 +22,7 @@ public class PersonalAssistant extends BaseModule {
             initHook(BlurPersonalAssistantBackGround.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
         }
 
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
+        initHook(new WidgetCrack(), mPrefsMap.getBoolean("enable_hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
     }
 
 }
