@@ -31,7 +31,6 @@ public class BigFolderIconBlur extends BaseHook {
 
     @Override
     public void init() {
-
         mLauncher = findClassIfExists("com.miui.home.launcher.Launcher");
         mFolderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo");
         mFolderIcon = findClassIfExists("com.miui.home.launcher.FolderIcon");
@@ -49,7 +48,7 @@ public class BigFolderIconBlur extends BaseHook {
 
         hookAllConstructors(mFolderIcon, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Object mDockBlur = XposedHelpers.getAdditionalInstanceField(param.thisObject, "mDockBlur");
                 if (mDockBlur != null) return;
@@ -60,7 +59,7 @@ public class BigFolderIconBlur extends BaseHook {
 
         MethodHook mBigFolderIconBlur = new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 int mFolderWidth = DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_big_folder_icon_bg_width", 145));
                 int mFolderHeight = DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_big_folder_icon_bg_height", 145));
@@ -88,7 +87,7 @@ public class BigFolderIconBlur extends BaseHook {
 
                 findAndHookMethod(mLauncher, "showEditPanel", boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         isShowEditPanel = (boolean) param.args[0];
                         if (isShowEditPanel) {
                             mDockBlur.setVisibility(View.GONE);
@@ -102,21 +101,21 @@ public class BigFolderIconBlur extends BaseHook {
 
                 findAndHookMethod(mLauncher, "openFolder", mFolderInfo, View.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         mDockBlur.setVisibility(View.GONE);
                     }
                 });
 
                 findAndHookMethod(mLauncher, "closeFolder", boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         if (!isShowEditPanel) mDockBlur.setVisibility(View.VISIBLE);
                     }
                 });
 
                 findAndHookMethod(mLauncher, "onStateSetStart", mLauncherState, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         if (param.args[0].getClass().getSimpleName().equals("LauncherState")) {
                             mDockBlur.setVisibility(View.VISIBLE);
                         } else {
@@ -128,15 +127,19 @@ public class BigFolderIconBlur extends BaseHook {
         };
 
 
-        findAndHookMethod(mFolderIcon2x2_4, "onFinishInflate", mBigFolderIconBlur);
-        findAndHookMethod(mFolderIcon2x2_9, "onFinishInflate", mBigFolderIconBlur);
+        Method FolderIcon2x2_4_OnFinishInflate = XposedHelpers.findMethodExactIfExists(mFolderIcon2x2_4, "onFinishInflate", Void.TYPE);
+        Method FolderIcon2x2_9_OnFinishInflate = XposedHelpers.findMethodExactIfExists(mFolderIcon2x2_9, "onFinishInflate", Void.TYPE);
 
-        findAndHookMethod(mFolderIcon2x2, "onFinishInflate", mBigFolderIconBlur);
-
+        if (FolderIcon2x2_4_OnFinishInflate != null && FolderIcon2x2_9_OnFinishInflate != null) {
+            findAndHookMethod(mFolderIcon2x2_4, "onFinishInflate", mBigFolderIconBlur);
+            findAndHookMethod(mFolderIcon2x2_9, "onFinishInflate", mBigFolderIconBlur);
+        } else if (mFolderIcon2x2 != null) {
+            findAndHookMethod(mFolderIcon2x2, "onFinishInflate", mBigFolderIconBlur);
+        }
 
         hookAllConstructors(mDragView, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 View mDragView = (View) param.thisObject;
                 mDragView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
@@ -146,7 +149,6 @@ public class BigFolderIconBlur extends BaseHook {
                 boolean isFolderShowing = (boolean) XposedHelpers.callMethod(mLauncher, "isFolderShowing");
 
                 if (!isFolderShowing && itemType == 21) {
-
                     new BlurUtils(mDragView, "home_big_folder_icon_bg_custom");
                 }
             }
