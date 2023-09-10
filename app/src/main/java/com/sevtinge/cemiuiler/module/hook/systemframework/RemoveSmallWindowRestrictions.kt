@@ -24,7 +24,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            log("Hook retrieveSettings failed by: $e")
+            logI("Hook retrieveSettings failed by: $e")
         }
 
         try {
@@ -38,7 +38,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            log("Hook updateDevEnableNonResizableMultiWindow failed by: $e")
+            logI("Hook updateDevEnableNonResizableMultiWindow failed by: $e")
         }
 
         try {
@@ -52,7 +52,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            log("Hook onChange failed by: $e")
+            logI("Hook onChange failed by: $e")
         }
 
         try {
@@ -62,7 +62,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(true)
             }
         } catch (e: Throwable) {
-            log("Hook isForceResizeable failed by: $e")
+            logI("Hook isForceResizeable failed by: $e")
         }
 
         // Author: LittleTurtle2333
@@ -73,7 +73,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(true)
             }
         } catch (e: Throwable) {
-            log("Hook isResizeable failed by: $e")
+            logI("Hook isResizeable failed by: $e")
         }
 
         try {
@@ -83,7 +83,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(mutableListOf<String>())
             }
         } catch (e: Throwable) {
-            log("Hook getFreeformBlackList failed by: $e")
+            logI("Hook getFreeformBlackList failed by: $e")
         }
 
         try {
@@ -93,7 +93,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(mutableListOf<String>())
             }
         } catch (e: Throwable) {
-            log("Hook getFreeformBlackListFromCloud failed by: $e")
+            logI("Hook getFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
@@ -103,7 +103,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(mutableListOf<String>())
             }
         } catch (e: Throwable) {
-            log("Hook getStartFromFreeformBlackListFromCloud failed by: $e")
+            logI("Hook getStartFromFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
@@ -113,7 +113,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(true)
             }
         } catch (e: Throwable) {
-            log("Hook supportFreeform failed by: $e")
+            logI("Hook supportFreeform failed by: $e")
         }
 
     }

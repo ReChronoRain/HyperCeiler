@@ -25,14 +25,14 @@ object MultiFreeFormSupported : BaseHook() {
                         it.result = mResult
                     }
                 }
-                log("Hook with recents_to_small_freeform success!")
+                logI("Hook with recents_to_small_freeform success!")
             } else {
                 loadClass("android.util.MiuiMultiWindowUtils").methodFinder().first {
                     name == "multiFreeFormSupported"
                 }.createHook {
                     returnConstant(true)
                 }
-                log("Hook success!")
+                logI("Hook success!")
             }
         }
     }

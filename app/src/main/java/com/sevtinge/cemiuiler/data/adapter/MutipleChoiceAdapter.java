@@ -20,6 +20,9 @@ public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdap
     // 用来控制CheckBox的选中状况
     private SparseBooleanArray mIsChecked;
 
+    private OnCurWillCheckAllChangedListener mListener;
+    private boolean curWillCheckAll = true;
+
     public MutipleChoiceAdapter(List<String> list) {
         mList = list;
         mIsChecked = new SparseBooleanArray();
@@ -32,6 +35,14 @@ public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdap
         for (int i = 0; i < mList.size(); i++) {
             getCheckedArray().put(i, false);
         }
+    }
+
+    public interface OnCurWillCheckAllChangedListener {
+        void onCurWillCheckAllChanged(boolean curWillCheckAll);
+    }
+
+    public void setOnCurWillCheckAllChangedListener(OnCurWillCheckAllChangedListener listener) {
+        this.mListener = listener;
     }
 
     public SparseBooleanArray getCheckedArray() {
@@ -60,6 +71,17 @@ public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdap
             mCheckBoxTitle.toggle();
             // 将CheckBox的选中状况记录下来
             getCheckedArray().put(position, mCheckBoxTitle.isChecked());
+            for (int i = 0; i < mIsChecked.size(); i++) {
+                if (mIsChecked.valueAt(i)) {
+                    curWillCheckAll = false;
+                    break;
+                } else {
+                    curWillCheckAll = true;
+                }
+            }
+            if (mListener != null) {
+                mListener.onCurWillCheckAllChanged(curWillCheckAll);
+            }
         });
     }
 

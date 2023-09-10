@@ -21,7 +21,7 @@ public class DebugMode extends BaseHook {
             for (DexMethodDescriptor descriptor : result) {
                 Method DebugMode = descriptor.getMethodInstance(lpparam.classLoader);
                 if (DebugMode.getReturnType() == boolean.class && String.valueOf(DebugMode).contains("getDebugMode")) {
-                    log("DebugMode method is " + DebugMode);
+                    logI("DebugMode method is " + DebugMode);
                     found = true;
                     XposedBridge.hookMethod(DebugMode, XC_MethodReplacement.returnConstant(true));
                 }
@@ -31,7 +31,7 @@ public class DebugMode extends BaseHook {
                 for (DexMethodDescriptor descriptor1 : result1) {
                     Method DebugMode1 = descriptor1.getMethodInstance(lpparam.classLoader);
                     if (DebugMode1.getReturnType() == boolean.class && String.valueOf(DebugMode1).contains("getDebugMode")) {
-                        log("DebugMode1 method is " + DebugMode1);
+                        logI("DebugMode1 method is " + DebugMode1);
                         found = true;
                         XposedBridge.hookMethod(DebugMode1, XC_MethodReplacement.returnConstant(true));
                     }
@@ -42,7 +42,7 @@ public class DebugMode extends BaseHook {
                 for (DexMethodDescriptor descriptor2 : result2) {
                     Method DebugMode2 = descriptor2.getMethodInstance(lpparam.classLoader);
                     if (DebugMode2.getReturnType() == boolean.class && String.valueOf(DebugMode2).contains("getDebugMode")) {
-                        log("DebugMode2 method is " + DebugMode2);
+                        logI("DebugMode2 method is " + DebugMode2);
                         XposedBridge.hookMethod(DebugMode2, XC_MethodReplacement.returnConstant(true));
                     }
                 }

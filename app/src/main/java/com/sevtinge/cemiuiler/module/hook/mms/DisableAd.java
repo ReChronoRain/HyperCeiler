@@ -18,7 +18,7 @@ public class DisableAd extends BaseHook {
             List<DexClassDescriptor> result = Objects.requireNonNull(mMmsResultClassMap.get("DisableAd"));
             for (DexClassDescriptor descriptor : result) {
                 Class<?> enableAds = descriptor.getClassInstance(lpparam.classLoader);
-                log("EnableAds class is " + enableAds);
+                logI("EnableAds class is " + enableAds);
                 findAndHookMethod(enableAds, "j", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) throws Throwable {

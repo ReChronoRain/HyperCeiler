@@ -24,7 +24,7 @@ public class NotificationVolumeSeparateSlider extends SystemUIHook {
 
         hookAllMethods(mPluginLoaderClass, "getClassLoader", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 ApplicationInfo appInfo = (ApplicationInfo) param.args[0];
                 if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
                     isHooked = true;
@@ -34,7 +34,7 @@ public class NotificationVolumeSeparateSlider extends SystemUIHook {
 
                     hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new MethodHook() {
                         @Override
-                        protected void before(MethodHookParam param) throws Throwable {
+                        protected void before(MethodHookParam param) {
                             if (param.args.length != 4) return;
                             int streamType = (int) param.args[0];
                             if (streamType == 4) {

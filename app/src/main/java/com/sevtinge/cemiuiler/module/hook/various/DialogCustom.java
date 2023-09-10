@@ -76,7 +76,7 @@ public class DialogCustom extends BaseHook {
         }
 
         if (oldMethodFound) {
-            log("oldMethod found.");
+            logI("oldMethod found.");
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                 @Override
@@ -97,7 +97,7 @@ public class DialogCustom extends BaseHook {
             });
 
         } else {
-            log("oldMethod not found.");
+            logI("oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {

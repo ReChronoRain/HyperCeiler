@@ -72,7 +72,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
 
     public final SystemFramework mSystemFramework = new SystemFramework();
-    // public SystemFrameworkForCorepatch mSystemFrameworkForCorepatch = new SystemFrameworkForCorepatch();
     public final SystemUI mSystemUI = new SystemUI();
     public final Home mHome = new Home();
     public final ScreenShot mScreenShot = new ScreenShot();
@@ -120,21 +119,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Barrage mBarrage = new Barrage();
     public final Notes mNotes = new Notes();
     public final Creation mCreation = new Creation();
-    // public SystemSettings mSystemSettings = new SystemSettings();
-    /*public void init(BaseModule... baseModules) {
-        mPkgName = mLoadPackageParam.packageName;
-        for (BaseModule app : baseModules) {
-            String packageName = app.getAppPackageName();
-            String mSimpleName = app.getClass().getSimpleName();
-            if (TextUtils.isEmpty(packageName) && mSimpleName.equals("Various")) {
-                app.init(mLoadPackageParam, true);
-            } else {
-                if (mPkgName.equals(packageName)) {
-                    app.init(mLoadPackageParam, false);
-                }
-            }
-        }
-    }*/
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -145,7 +129,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
     public void setXSharedPrefs() {
         if (mPrefsMap.size() == 0) {
-            XSharedPreferences mXSharedPreferences = null;
+            XSharedPreferences mXSharedPreferences;
             try {
                 mXSharedPreferences = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
                 mXSharedPreferences.makeWorldReadable();
@@ -173,19 +157,15 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
     public void init(LoadPackageParam lpparam) {
         String packageName = lpparam.packageName;
-        // XposedBridge.log("R=" + Build.VERSION_CODES.R + " S=" + Build.VERSION_CODES.S + " T=" + Build.VERSION_CODES.TIRAMISU + " This=" + Build.VERSION.SDK_INT);
         switch (packageName) {
             case "android" -> {
                 mSystemFramework.init(lpparam);
                 mVarious.init(lpparam);
             }
-            // mSystemFrameworkForCorepatch.init(lpparam);
             case "com.android.systemui" -> {
                 if (isSystemUIModuleEnable()) {
-                    // ALPermissionManager.RootCommand(android.content.ContextWrapper.getPackageCodePath());
                     mSystemUI.init(lpparam);
                     mVarious.init(lpparam);
-                    // mSystemUIPlugin.init(lpparam);
                 }
             }
             case "com.miui.home" -> {
@@ -223,7 +203,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.market" -> {
                 mMarket.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.packageinstaller" -> {
                 mPackageInstaller.init(lpparam);
@@ -231,7 +210,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.miui.powerkeeper" -> {
                 mPowerKeeper.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.xiaomi.misettings" -> {
                 mMiSettings.init(lpparam);
@@ -239,7 +217,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.joyose" -> {
                 mJoyose.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.screenshot" -> {
                 mScreenShot.init(lpparam);
@@ -283,7 +260,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.barrage" -> {
                 mBarrage.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.xiaomi.aiasst.vision" -> {
                 mAiAsst.init(lpparam);
@@ -303,11 +279,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.milink.service" -> {
                 mMiLink.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.guardprovider" -> {
                 mGuardProvider.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.lbe.security.miui" -> {
                 mLbe.init(lpparam);
@@ -343,7 +317,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.phone" -> {
                 mPhone.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.xiaomi.mtb" -> {
                 mMtb.init(lpparam);
@@ -358,7 +331,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.providers.downloads" -> {
                 mDownloads.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.creation" -> {
                 mCreation.init(lpparam);

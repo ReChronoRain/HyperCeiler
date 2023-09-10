@@ -285,7 +285,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            log("BlurWhenShowShortcutMenu get mAppShortcutMenu failed by: $e")
+                            logI("BlurWhenShowShortcutMenu get mAppShortcutMenu failed by: $e")
                         }
                         try {
                             mSystemShortcutMenu = param.thisObject.getObjectField("mSystemShortcutMenu") as ViewGroup
@@ -302,7 +302,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            log("BlurWhenShowShortcutMenu get mSystemShortcutMenu failed by: $e")
+                            logI("BlurWhenShowShortcutMenu get mSystemShortcutMenu failed by: $e")
                         }
                         try {
                             mAppPersonaliseShortcutMenu =
@@ -320,7 +320,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            log("BlurWhenShowShortcutMenu get mAppPersonaliseShortcutMenu failed by: $e")
+                            logI("BlurWhenShowShortcutMenu get mAppPersonaliseShortcutMenu failed by: $e")
                         }
                         try {
                             mFolderShortcutMenu = param.thisObject.getObjectField("mFolderShortcutMenu") as ViewGroup
@@ -337,7 +337,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            log("BlurWhenShowShortcutMenu get mFolderShortcutMenu failed by: $e")
+                            logI("BlurWhenShowShortcutMenu get mFolderShortcutMenu failed by: $e")
                         }
                         /*try {
                              mWidgetShortcutMenu = param.thisObject.getObjectField("mWidgetShortcutMenu") as ViewGroup

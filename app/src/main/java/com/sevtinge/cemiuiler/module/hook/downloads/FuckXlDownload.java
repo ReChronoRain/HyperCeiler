@@ -17,13 +17,13 @@ public class FuckXlDownload extends BaseHook {
     @Override
     public void init() {
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) return;
-        log("Target path = " + TARGET_PATH);
+        logI("Target path = " + TARGET_PATH);
         XposedHelpers.findAndHookMethod(File.class, "mkdirs", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
                 final boolean isXlDownload = ((File) param.thisObject).getAbsoluteFile().equals(TARGET_PATH);
                 if (isXlDownload) {
-                    log("blocked");
+                    logI("blocked");
                     param.setThrowable(new FileNotFoundException("blocked"));
                 }
             }

@@ -16,7 +16,7 @@ public abstract class SystemUIHook extends BaseHook {
     public void setLoadPackageParam(LoadPackageParam param) {
         super.setLoadPackageParam(param);
 
-        if (isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU)) {
+        if (isMoreAndroidVersion(33)) {
             mPluginLoaderClassName = "com.android.systemui.shared.plugins.PluginInstance$Factory";
         } else {
             mPluginLoaderClassName = "com.android.systemui.shared.plugins.PluginManagerImpl";

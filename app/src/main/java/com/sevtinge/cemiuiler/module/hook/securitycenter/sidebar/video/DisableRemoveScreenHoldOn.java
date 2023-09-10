@@ -18,7 +18,7 @@ public class DisableRemoveScreenHoldOn extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultMap.get("RemoveScreenHoldOn"));
             for (DexMethodDescriptor descriptor : result) {
                 Method removeScreenHoldOn = descriptor.getMethodInstance(lpparam.classLoader);
-                log("removeScreenHoldOn method is " + removeScreenHoldOn);
+                logI("removeScreenHoldOn method is " + removeScreenHoldOn);
                 if (removeScreenHoldOn.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(removeScreenHoldOn, XC_MethodReplacement.returnConstant(false));
                 }

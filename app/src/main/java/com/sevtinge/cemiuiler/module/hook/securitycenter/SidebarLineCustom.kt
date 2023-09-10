@@ -11,9 +11,9 @@ object SidebarLineCustom : BaseHook() {
         val mSidebarLineColorDefault = mPrefsMap.getInt("security_center_sidebar_line_color_default", -1294740525)
         val mSidebarLineColorDark = mPrefsMap.getInt("security_center_sidebar_line_color_dark", -6842473)
         val mSidebarLineColorLight = mPrefsMap.getInt("security_center_sidebar_line_color_light", -872415232)
-        log("mSidebarLineColorDefault is $mSidebarLineColorDefault")
-        log("mSidebarLineColorDark is $mSidebarLineColorDark")
-        log("mSidebarLineColorLight is $mSidebarLineColorLight")
+        logI("mSidebarLineColorDefault is $mSidebarLineColorDefault")
+        logI("mSidebarLineColorDark is $mSidebarLineColorDark")
+        logI("mSidebarLineColorLight is $mSidebarLineColorLight")
         resParam.res.setReplacement(
             "com.miui.securitycenter",
             "color",

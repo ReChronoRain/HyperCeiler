@@ -278,7 +278,7 @@ public class DisplayHardwareDetail extends BaseHook {
                                                 try {
                                                     cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + "/temp", "r");
                                                 } catch (FileNotFoundException e) {
-                                                    log("get /sys/devices/virtual/thermal/thermal_zone*/temp (" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + ") failed: " + e);
+                                                    logI("get /sys/devices/virtual/thermal/thermal_zone*/temp (" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + ") failed: " + e);
                                                 }
                                             }
                                             cpuProps = cpuReader.readLine();
@@ -302,7 +302,7 @@ public class DisplayHardwareDetail extends BaseHook {
                                     try {
                                         rawCurr = -1 * Math.round(Integer.parseInt(props.getProperty("POWER_SUPPLY_CURRENT_NOW")) / 1000f);// 概率fc
                                     } catch (NumberFormatException e) {
-                                        log("get POWER_SUPPLY_CURRENT_NOW failed: " + e);
+                                        logI("get POWER_SUPPLY_CURRENT_NOW failed: " + e);
                                     }
                                     String preferred = "mA";
                                     if (mPrefsMap.getBoolean("system_ui_statusbar_battery_electric_current")) { // 电流始终显示正值
@@ -432,7 +432,7 @@ public class DisplayHardwareDetail extends BaseHook {
         if (!mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show") || mPrefsMap.getStringAsInt("system_ui_statusbar_" + subKey + "_show", 1) != 1) {
             fontSize = (float) (fontSize * 0.5);
         }
-        log("fontsize = " + fontSize);
+        logI("fontsize = " + fontSize);
         int align = mPrefsMap.getStringAsInt("system_ui_status_bar_" + subKey + "_align", 1);
         int fixedWidth = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fixedcontent_width", 10);
         int leftMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_left_margin", 4);

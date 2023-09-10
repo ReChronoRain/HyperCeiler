@@ -19,7 +19,7 @@ object UnlockEnhanceContours : BaseHook() {
             )
             for (descriptor in result) {
                 val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
-                log("frcSupport class is $frcSupport")
+                logI("frcSupport class is $frcSupport")
                 var counter = 0
                 dexKitBridge.findMethod {
                     methodDeclareClass = frcSupport.name
@@ -43,7 +43,7 @@ object UnlockEnhanceContours : BaseHook() {
             )
             for (descriptor in result) {
                 val aisSupport = descriptor.getMethodInstance(lpparam.classLoader)
-                log("aisSupport method is $aisSupport")
+                logI("aisSupport method is $aisSupport")
                 val newChar = aisSupport.name.toCharArray()
                 for (i in newChar.indices) {
                     newChar[i]++

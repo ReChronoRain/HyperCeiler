@@ -75,7 +75,7 @@ public class IconScaleHook extends BaseHook {
                             mMessage.animate().scaleX(multx).scaleY(multx).setStartDelay(0).start();
                         }
                     } catch (Throwable t) {
-                        log(String.valueOf(t));
+                        logI(String.valueOf(t));
                     }
                 });
 

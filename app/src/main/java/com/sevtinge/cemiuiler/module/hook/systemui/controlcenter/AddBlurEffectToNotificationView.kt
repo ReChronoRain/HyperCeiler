@@ -4,17 +4,10 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
-import com.sevtinge.cemiuiler.utils.callStaticMethod
-import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidS
-import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidT
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
-import com.sevtinge.cemiuiler.utils.getObjectField
-import com.sevtinge.cemiuiler.utils.hookAfterMethod
-import com.sevtinge.cemiuiler.utils.replaceMethod
+import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -77,7 +70,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
-        if(isAndroidT()) {
+        // 不懂 mi10u 会无限重启系统界面的原因
+        /*if(isAndroidT()) {
             val mediaDataFilterClass =
                 findClassIfExists("com.android.systemui.media.MediaDataFilter") ?: return
 
@@ -150,7 +144,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     return@replaceMethod mAppearFraction
                 }
             }
-        }
+        }*/
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
@@ -419,7 +413,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         // 锁屏状态透明度修改的时候同步修改模糊透明度
-        if(!isAndroidT()) {
+        if(!isMoreAndroidVersion(33)) {
             XposedBridge.hookAllMethods(miuiNotificationPanelViewControllerClass, "updateKeyguardElementAlpha",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {

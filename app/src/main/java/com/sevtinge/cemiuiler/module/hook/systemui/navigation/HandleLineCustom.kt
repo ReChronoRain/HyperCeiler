@@ -12,7 +12,7 @@ object HandleLineCustom : BaseHook() {
                 "com.android.systemui", "dimen", "navigation_handle_radius", mNavigationHandleRadius
             )
         } catch (e: Exception) {
-            log(e.toString())
+            logI(e.toString())
         }
         /*
         val mNavigationHandleHeight =
@@ -58,8 +58,8 @@ object HandleLineCustom : BaseHook() {
             mPrefsMap.getInt("system_ui_navigation_handle_custom_color", -872415232)
         val mNavigationHandleDarkColor =
             mPrefsMap.getInt("system_ui_navigation_handle_custom_color_dark", -1)
-        log("mNavigationHandleLightColor is $mNavigationHandleLightColor")
-        log("mNavigationHandleDarkColor is $mNavigationHandleDarkColor")
+        logI("mNavigationHandleLightColor is $mNavigationHandleLightColor")
+        logI("mNavigationHandleDarkColor is $mNavigationHandleDarkColor")
         resParam.res.setReplacement(
             "com.android.systemui",
             "color",

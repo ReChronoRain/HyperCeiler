@@ -47,7 +47,7 @@ object DisableClipboardTip : BaseHook() {
                         }
                         hideDialog(lpparam, packageName, param)
 
-                        log(" $packageName -> $appName read clipboard.")
+                        logI(" $packageName -> $appName read clipboard.")
                     }
                 }
             })

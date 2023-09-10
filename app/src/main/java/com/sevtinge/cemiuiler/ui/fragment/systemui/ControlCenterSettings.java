@@ -3,7 +3,6 @@ package com.sevtinge.cemiuiler.ui.fragment.systemui;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidS;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidSv2;
-import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 
 import android.provider.Settings;
 import android.view.View;

@@ -42,7 +42,7 @@ object BeautyPrivacy : BaseHook() {
                 }
             }
         } catch (e: Exception) {
-           log("BeautyPrivacy -> $e")
+           logI("BeautyPrivacy -> $e")
         }
     }
 }
