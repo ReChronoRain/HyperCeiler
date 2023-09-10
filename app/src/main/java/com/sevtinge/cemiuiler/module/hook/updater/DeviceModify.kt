@@ -36,7 +36,7 @@ object DeviceModify : BaseHook() {
             systemPropertiesMethod.hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
-            log("(Updater) dexkit method is $systemPropertiesMethod")
+            logI("(Updater) dexkit method is $systemPropertiesMethod")
         } catch (e: Throwable) {
             XposedBridge.log("Cemiuiler: DeviceModify (Updater) dexkit hook failed by $e")
         }

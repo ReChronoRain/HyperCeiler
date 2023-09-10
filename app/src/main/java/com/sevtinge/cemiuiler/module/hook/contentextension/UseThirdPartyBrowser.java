@@ -23,7 +23,7 @@ public class UseThirdPartyBrowser extends BaseHook {
         XposedHelpers.findAndHookMethod(clazz, "getIntentWithBrowser", String.class, new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                log("com.miui.contentextension hooked url " + param.args[0].toString());
+                logI("com.miui.contentextension hooked url " + param.args[0].toString());
                 Uri uri = Uri.parse(param.args[0].toString());
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -35,7 +35,7 @@ public class UseThirdPartyBrowser extends BaseHook {
         XposedHelpers.findAndHookMethod(clazz, "openGlobalSearch", Context.class, String.class, String.class, new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                log("com.miui.contentextension hooked all-search on, word is " + param.args[1].toString() + ", from " + param.args[2].toString());
+                logI("com.miui.contentextension hooked all-search on, word is " + param.args[1].toString() + ", from " + param.args[2].toString());
                 try {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_WEB_SEARCH);

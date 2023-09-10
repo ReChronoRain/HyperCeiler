@@ -25,7 +25,7 @@ public class HideCrbt extends BaseHook {
                     Integer.TYPE, Boolean.TYPE, beforeHookedMethod()
             });*/
         } catch (Exception e) {
-            log("method hooked failed! " + e);
+            logI("method hooked failed! " + e);
         }
     }
     /*public final void beforeHookedMethod(XC_MethodHook.MethodHookParam methodHookParam) {

@@ -14,22 +14,22 @@ public class NavigationCustom extends BaseHook {
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_height", mNavigationHeight);
         } catch (Exception e) {
-            log(String.valueOf(e));
+            logI(String.valueOf(e));
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_height_landscape", mNavigationHeightLand);
         } catch (Exception e) {
-            log(String.valueOf(e));
+            logI(String.valueOf(e));
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_frame_height", mNavigationFrameHeight);
         } catch (Exception e) {
-            log(String.valueOf(e));
+            logI(String.valueOf(e));
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_frame_height_landscape", mNavigationFrameHeightLand);
         } catch (Exception e) {
-            log(String.valueOf(e));
+            logI(String.valueOf(e));
         }
 
     }

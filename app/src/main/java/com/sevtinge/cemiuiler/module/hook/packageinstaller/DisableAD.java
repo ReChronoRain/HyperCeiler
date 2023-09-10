@@ -1,7 +1,5 @@
 package com.sevtinge.cemiuiler.module.hook.packageinstaller;
 
-import static com.sevtinge.cemiuiler.module.hook.packageinstaller.PackageInstallerDexKit.mPackageInstallerResultMethodsMap;
-
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.lang.reflect.Method;
@@ -20,7 +18,7 @@ public class DisableAD extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(PackageInstallerDexKit.mPackageInstallerResultMethodsMap.get("EnableAds"));
             for (DexMethodDescriptor descriptor : result) {
                 Method enableAds = descriptor.getMethodInstance(lpparam.classLoader);
-                log("enableAds method is " + enableAds);
+                logI("enableAds method is " + enableAds);
                 if (enableAds.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(enableAds, XC_MethodReplacement.returnConstant(false));
                 }
@@ -33,7 +31,7 @@ public class DisableAD extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(PackageInstallerDexKit.mPackageInstallerResultMethodsMap.get("AppStoreRecommend"));
             for (DexMethodDescriptor descriptor : result) {
                 Method appStoreRecommend = descriptor.getMethodInstance(lpparam.classLoader);
-                log("appStoreRecommend method is " + appStoreRecommend);
+                logI("appStoreRecommend method is " + appStoreRecommend);
                 if (appStoreRecommend.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(appStoreRecommend, XC_MethodReplacement.returnConstant(false));
                 }
@@ -46,7 +44,7 @@ public class DisableAD extends BaseHook {
             List<DexMethodDescriptor> result = Objects.requireNonNull(PackageInstallerDexKit.mPackageInstallerResultMethodsMap.get("InstallerOpenSafetyModel"));
             for (DexMethodDescriptor descriptor : result) {
                 Method installerOpenSafetyModel = descriptor.getMethodInstance(lpparam.classLoader);
-                log("installerOpenSafetyModel method is " + installerOpenSafetyModel);
+                logI("installerOpenSafetyModel method is " + installerOpenSafetyModel);
                 if (installerOpenSafetyModel.getReturnType() == boolean.class) {
                     XposedBridge.hookMethod(installerOpenSafetyModel, XC_MethodReplacement.returnConstant(false));
                 }

@@ -14,8 +14,8 @@ public class EnableHourGlass extends BaseHook {
                 if (appVersionCode <= 130206400) {
                     param.setResult(true);
                 } else {
-                    log("Your clock versionCode is " + appVersionCode);
-                    log("Please revert to a supported version yourself");
+                    logI("Your clock versionCode is " + appVersionCode);
+                    logI("Please revert to a supported version yourself");
                 }
             }
         });

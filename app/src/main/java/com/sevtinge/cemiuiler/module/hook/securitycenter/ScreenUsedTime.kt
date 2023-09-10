@@ -20,7 +20,7 @@ object ScreenUsedTime : BaseHook() {
             )
             for (descriptor in result) {
                 powerRankHelperHolder = descriptor.getClassInstance(lpparam.classLoader)
-                log("powerRankHelperHolder class is $powerRankHelperHolder")
+                logI("powerRankHelperHolder class is $powerRankHelperHolder")
             }
         } catch (e: Throwable) {
             logE("PowerRankHelperHolder", e)
@@ -32,7 +32,7 @@ object ScreenUsedTime : BaseHook() {
             )
             for (descriptor in result) {
                 powerRankHelperHolderSdkHelper = descriptor.getMethodInstance(lpparam.classLoader)
-                log("powerRankHelperHolderSdkHelper method is $powerRankHelperHolderSdkHelper")
+                logI("powerRankHelperHolderSdkHelper method is $powerRankHelperHolderSdkHelper")
             }
         } catch (e: Throwable) {
             logE("PowerRankHelperHolderSdkHelper", e)
@@ -44,7 +44,7 @@ object ScreenUsedTime : BaseHook() {
             methodParamTypes = arrayOf()
         }.forEach { method ->
             val methods = method.getMethodInstance(EzXHelper.classLoader)
-            log("powerRankHelperHolderMethod method is $methods")
+            logI("powerRankHelperHolderMethod method is $methods")
             methods.createHook {
                 returnConstant(
                     when (methods) {

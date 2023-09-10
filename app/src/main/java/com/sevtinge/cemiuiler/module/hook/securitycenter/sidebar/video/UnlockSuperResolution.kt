@@ -4,7 +4,6 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.hook.securitycenter.SecurityCenterDexKit
-import com.sevtinge.cemiuiler.utils.DexKit
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
@@ -21,7 +20,7 @@ object UnlockSuperResolution : BaseHook() {
             )
             for (descriptor in result) {
                 val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
-                log("frcSupport class is $frcSupport")
+                logI("frcSupport class is $frcSupport")
                 var counter = 0
                 dexKitBridge.findMethod {
                     methodDeclareClass = frcSupport.name
@@ -45,7 +44,7 @@ object UnlockSuperResolution : BaseHook() {
             )
             for (descriptor in result) {
                 val aisSupport = descriptor.getMethodInstance(lpparam.classLoader)
-                log("aisSupport method is $aisSupport")
+                logI("aisSupport method is $aisSupport")
                 if (aisSupport.returnType == Boolean::class.javaPrimitiveType) {
                     XposedBridge.hookMethod(aisSupport, XC_MethodReplacement.returnConstant(true))
                 }

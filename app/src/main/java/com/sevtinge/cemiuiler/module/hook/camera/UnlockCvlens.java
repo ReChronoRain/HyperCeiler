@@ -31,7 +31,7 @@ public class UnlockCvlens extends BaseHook {
                 }
             });
         } catch (Exception e) {
-            log("try to hook CvLensVersion failed!\n" + e);
+            logI("try to hook CvLensVersion failed!\n" + e);
             throw new RuntimeException(e);
         }
     }

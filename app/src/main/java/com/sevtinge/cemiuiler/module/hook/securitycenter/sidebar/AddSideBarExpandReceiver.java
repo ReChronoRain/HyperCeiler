@@ -30,7 +30,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         }
         Class <?> RegionSamplingHelper = findClassIfExists("com.android.systemui.navigationbar.gestural.RegionSamplingHelper", lpparam.classLoader);
         if (RegionSamplingHelper == null) {
-            log("failed to find RegionSamplingHelper");
+            logI("failed to find RegionSamplingHelper");
         }
         hookAllConstructors(RegionSamplingHelper, new MethodHook() {
             private int originDockLocation = -1;
@@ -106,7 +106,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         });
         Method[] methods = XposedHelpers.findMethodsByExactParameters(RegionSamplingHelper, void.class, Rect.class);
         if (methods.length == 0) {
-            log("Cannot find appropriate start method");
+            logI("Cannot find appropriate start method");
             return;
         }
         hookMethod(methods[0], new MethodHook() {

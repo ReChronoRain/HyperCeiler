@@ -24,7 +24,7 @@ public class AiClipboardEnable extends BaseHook {
             List<DexClassDescriptor> result = Objects.requireNonNull(SecurityCenterDexKit.mSecurityCenterResultClassMap.get("LabUtils"));
             for (DexClassDescriptor descriptor : result) {
                 labUtils = descriptor.getClassInstance(lpparam.classLoader);
-                log("labUtils class is " + labUtils);
+                logI("labUtils class is " + labUtils);
                 findAndHookMethod("com.miui.permcenter.settings.PrivacyLabActivity", "onCreateFragment", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {

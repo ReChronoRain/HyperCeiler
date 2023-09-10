@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import com.sevtinge.cemiuiler.XposedInit;
-import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
@@ -14,13 +13,11 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseHook {
-
     public String TAG = getClass().getSimpleName();
-
-    public boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
+    private boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public LoadPackageParam lpparam;
-    public final ResourcesHook mResHook = XposedInit.mResHook;
+    public static final ResourcesHook mResHook = XposedInit.mResHook;
     public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
 
     public static final String ACTION_PREFIX = "com.sevtinge.cemiuiler.module.action.";
@@ -31,12 +28,8 @@ public abstract class BaseHook {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
-                printHookStateLog("Hook Success!");
-            }
         } catch (Throwable t) {
-            printHookStateLog("Hook Failed!");
-            Helpers.log(TAG + " " + t);
+            logE(t);
         }
     }
 
@@ -44,22 +37,8 @@ public abstract class BaseHook {
         lpparam = param;
     }
 
-    private void printHookStateLog(String state) {
-        LogUtils.log(TAG + " " + state);
-    }
-
-    private void printHookFailedLog(Throwable th) {
-        LogUtils.log(TAG + " FailedInfo：" + th);
-    }
-
-    public void log(String log) {
-        if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
-            XposedBridge.log("Cemiuiler: " + TAG + " " + log);
-        }
-    }
-
     public void logI(String log) {
-        if (!mPrefsMap.getBoolean("settings_disable_detailed_log")) {
+        if (detailLog) {
             XposedBridge.log("Cemiuiler: " + TAG + " " + log);
         }
     }
@@ -87,7 +66,6 @@ public abstract class BaseHook {
     public void logE(String tag, String log) {
         XposedBridge.log("Cemiuiler: " + TAG + " " + tag + " hook failed by: " + log);
     }
-
 
     public Class<?> findClass(String className) {
         return findClass(className, lpparam.classLoader);

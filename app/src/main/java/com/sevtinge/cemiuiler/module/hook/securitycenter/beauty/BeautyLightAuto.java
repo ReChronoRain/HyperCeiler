@@ -20,7 +20,7 @@ public class BeautyLightAuto extends BaseHook {
                 if (!String.valueOf(descriptor).contains("<clinit>")) {
                     Method beautyLightAuto = descriptor.getMethodInstance(lpparam.classLoader);
                     if (beautyLightAuto.getReturnType() == boolean.class && !String.valueOf(descriptor).contains(String.valueOf(BeautyFace.beautyFace))) {
-                        log("beautyLightAuto method is " + beautyLightAuto);
+                        logI("beautyLightAuto method is " + beautyLightAuto);
                         XposedBridge.hookMethod(beautyLightAuto, XC_MethodReplacement.returnConstant(true));
                     }
                 }

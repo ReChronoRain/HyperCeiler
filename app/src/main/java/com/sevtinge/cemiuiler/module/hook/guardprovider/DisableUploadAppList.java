@@ -18,7 +18,7 @@ public class DisableUploadAppList extends BaseHook {
     @Override
     public void init(/*final XC_LoadPackage.LoadPackageParam lpparam*/) {
         if (lpparam.packageName.equals("com.miui.guardprovider")) {
-            log("Start to hook package " + lpparam.packageName);
+            logI("Start to hook package " + lpparam.packageName);
 
             // Debug mode flag process
             final Class<?> guardApplication = XposedHelpers.findClass("com.miui.guardprovider.GuardApplication", lpparam.classLoader);
@@ -27,21 +27,21 @@ public class DisableUploadAppList extends BaseHook {
                 for (Field field : guardApplicationFields) {
                     if (field.getName().equals("c")) {
                         XposedHelpers.setStaticBooleanField(guardApplication, "c", true);
-                        log("Info: GuardProvider will work as debug mode!");
+                        logI("Info: GuardProvider will work as debug mode!");
                     }
-                    log("Warning: GuardProvider debug mode flag not found!");
+                    logI("Warning: GuardProvider debug mode flag not found!");
                 }
             } else {
-                log("Warning: GuardApplication class not found. GuardProvider will not work as debug mode! ");
+                logI("Warning: GuardApplication class not found. GuardProvider will not work as debug mode! ");
             }
 
             // Prevent miui from uploading app list
             final Class<?> antiDefraudAppManager = XposedHelpers.findClassIfExists("com.miui.guardprovider.engine.mi.antidefraud.AntiDefraudAppManager", lpparam.classLoader);
             if (antiDefraudAppManager == null) {
-                log("Skip: AntiDefraudAppManager class not found.");
+                logI("Skip: AntiDefraudAppManager class not found.");
                 return;
             } else {
-                log("Info: AntiDefraudAppManager class found.");
+                logI("Info: AntiDefraudAppManager class found.");
             }
 
             final Method[] methods = antiDefraudAppManager.getDeclaredMethods();
@@ -53,10 +53,10 @@ public class DisableUploadAppList extends BaseHook {
                 }
             }
             if (getAllUnSystemAppsStatus == null) {
-                log("Skip: getAllUnSystemAppsStatus method not found.");
+                logI("Skip: getAllUnSystemAppsStatus method not found.");
                 return;
             } else {
-                log("Info: getAllUnSystemAppsStatus method found.");
+                logI("Info: getAllUnSystemAppsStatus method found.");
             }
 
             XposedBridge.hookMethod(getAllUnSystemAppsStatus, new XC_MethodHook() {
@@ -72,7 +72,7 @@ public class DisableUploadAppList extends BaseHook {
                         }
                     }
                     if (MIUI_VERSION == null) {
-                        log("Warning: Can't get MIUI_VERSION.");
+                        logI("Warning: Can't get MIUI_VERSION.");
                     }
 
                     String uuid = null;
@@ -90,10 +90,10 @@ public class DisableUploadAppList extends BaseHook {
                             getUUID.setAccessible(true);
                             uuid = (String) getUUID.invoke(methodHookParam);
                         } else {
-                            log("Warning: getUUID method not found.");
+                            logI("Warning: getUUID method not found.");
                         }
                     } else {
-                        log("Warning: uuidHelper class not found.");
+                        logI("Warning: uuidHelper class not found.");
                     }
 
                     JSONObject jSONObject = new JSONObject();
@@ -136,7 +136,7 @@ public class DisableUploadAppList extends BaseHook {
                     }
                     jSONObject.put("content", jSONArray);
 
-                    log("Info: Intercept=" + jSONObject.toString());
+                    logI("Info: Intercept=" + jSONObject.toString());
 
                     methodHookParam.setResult(null);
                 }

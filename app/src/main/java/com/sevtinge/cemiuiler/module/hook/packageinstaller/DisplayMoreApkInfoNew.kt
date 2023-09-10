@@ -37,7 +37,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
         mAppInfoViewObject =
             findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject")//.findClassOrNull()
         if (mAppInfoViewObject != null) {
-            log("mAppInfoViewObject is $mAppInfoViewObject")
+            logI("mAppInfoViewObject is $mAppInfoViewObject")
             mAppInfoViewObjectViewHolder =
                 findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")//"com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder".findClassOrNull()
             val methods: Array<Method> =
