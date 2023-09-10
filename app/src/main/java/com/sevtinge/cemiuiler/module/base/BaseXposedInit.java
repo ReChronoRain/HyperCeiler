@@ -217,7 +217,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.joyose" -> {
                 mJoyose.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.screenshot" -> {
                 mScreenShot.init(lpparam);
@@ -261,7 +260,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.barrage" -> {
                 mBarrage.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.xiaomi.aiasst.vision" -> {
                 mAiAsst.init(lpparam);
@@ -281,11 +279,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.milink.service" -> {
                 mMiLink.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.guardprovider" -> {
                 mGuardProvider.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.lbe.security.miui" -> {
                 mLbe.init(lpparam);
@@ -321,7 +317,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.phone" -> {
                 mPhone.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.xiaomi.mtb" -> {
                 mMtb.init(lpparam);
@@ -336,7 +331,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.providers.downloads" -> {
                 mDownloads.init(lpparam);
-                mVarious.init(lpparam);
             }
             case "com.miui.creation" -> {
                 mCreation.init(lpparam);
