@@ -629,6 +629,9 @@
     <string name="system_settings_wifi_password_dlgtitle">Detalhes do Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Desbloqueie a nova versão da página de retorno tátil</string>
     <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno tátil - Página de retorno tátil</string>
+    <string name="system_settings_enable_pad_area">Desbloquear área do Pad</string>
+    <string name="system_settings_enable_fold_area">Desbloquear área do Fold</string>
+    <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as configurações travem após serem desbloqueadas</string>
     <string name="system_settings_connection_sharing_title">Conexão e compartilhamento</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
@@ -782,6 +785,9 @@
     <string name="home_big_folder_icon_bg_width">Largura do fundo</string>
     <string name="home_big_folder_icon_bg_height">Altura do fundo</string>
     <string name="home_big_folder_item_max_count">Pasta Grande</string>
+    <string name="home_big_folder_icon_bg_2x1_n">4*2 fundo personalizado</string>
+    <string name="home_big_folder_icon_bg_1x2_n">2*2 fundo personalizado</string>
+    <string name="home_big_folder_icon_bg_n">3*3 e 4*4 fundo personalizado</string>
     <string name="home_auto_close_folder_title">Fechar automaticamente</string>
     <string name="home_auto_close_folder_summary">Feche a pasta após a abertura do app</string>
     <string name="home_wallpaper">Fundo</string>
@@ -906,6 +912,8 @@
     <string name="home_recent_simple_blur">Blur simples</string>
     <string name="home_recent_none_blur">Sem blur</string>
     <string name="home_recent_none_blur_simple_anim">Sem blur (Animação Simples)</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">Desbloquear mais opções para configurações da área de trabalho</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">As funções desbloqueadas podem não estar disponíveis e algumas funções requerem suporte do sistema subjacente</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor da Galeria</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear limite mínimo de corte de imagem</string>
@@ -994,7 +1002,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Margem vertical</string>
     <string name="security">Segurança</string>
     <string name="security_app_title">Exibir detalhes adicionais do app</string>
-    <string name="security_app_summary">Adicione novos campos ao app na página:\n- Número da versão do app\n- Diretório APK\n- Diretório dos dados\n- ID do usuário\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a app store \n- Iniciar um app</string>
+    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- Diretório APK\n- Diretório de dados\n- ID do usuário\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar um app</string>
     <string name="security_app_sort_title">Classificação da lista de gerenciamento de apps</string>
     <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciamento de apps</string>
     <string name="security_restrict_app_title">Limite total</string>

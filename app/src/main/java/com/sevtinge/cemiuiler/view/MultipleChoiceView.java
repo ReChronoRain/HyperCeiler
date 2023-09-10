@@ -16,16 +16,16 @@ import com.sevtinge.cemiuiler.data.adapter.MutipleChoiceAdapter;
 
 import java.util.List;
 
-public class MultipleChoiceView extends LinearLayout {
+public class MultipleChoiceView extends LinearLayout implements MutipleChoiceAdapter.OnCurWillCheckAllChangedListener {
 
     private MutipleChoiceAdapter mAdapter;
     private List<String> mData;
     private RecyclerView mListView;
     private Button mAllSelectBtn;
     private Button mOkBtn;
-    //确定选择监听器
+    // 确定选择监听器
     private onCheckedListener mOnCheckedListener;
-    //当前点击按钮时是否将全选
+    // 当前点击按钮时是否将全选
     private boolean curWillCheckAll = true;
 
     public MultipleChoiceView(Context context) {
@@ -59,7 +59,8 @@ public class MultipleChoiceView extends LinearLayout {
         if (data != null) {
             mData = data;
             mAdapter = new MutipleChoiceAdapter(data);
-            if (isSelected != null){
+            mAdapter.setOnCurWillCheckAllChangedListener(this);
+            if (isSelected != null) {
                 if (isSelected.length != data.size()) {
                     throw new IllegalArgumentException("data's length not equal the isSelected's length");
                 } else {
@@ -76,19 +77,25 @@ public class MultipleChoiceView extends LinearLayout {
         }
     }
 
-    public void setOnCheckedListener(onCheckedListener listener){
+    public void setOnCheckedListener(onCheckedListener listener) {
         mOnCheckedListener = listener;
     }
 
-    public interface onCheckedListener{
+    @Override
+    public void onCurWillCheckAllChanged(boolean curWillCheckAll) {
+        this.curWillCheckAll = curWillCheckAll;
+        mAllSelectBtn.setText(curWillCheckAll ? "全选" : "反选");
+    }
+
+    public interface onCheckedListener {
         void onChecked(SparseBooleanArray sparseBooleanArray);
     }
 
     /**
      * 全选
      */
-    public void selectAll(){
-        if(mData != null){
+    public void selectAll() {
+        if (mData != null) {
             for (int i = 0; i < mData.size(); i++) {
                 mAdapter.getCheckedArray().put(i, true);
             }
@@ -100,8 +107,8 @@ public class MultipleChoiceView extends LinearLayout {
     /**
      * 全不选
      */
-    public void deselectAll(){
-        if(mData != null){
+    public void deselectAll() {
+        if (mData != null) {
             for (int i = 0; i < mData.size(); i++) {
                 mAdapter.getCheckedArray().put(i, false);
             }
@@ -109,10 +116,11 @@ public class MultipleChoiceView extends LinearLayout {
             mAdapter.notifyDataSetChanged();
         }
     }
+
     /**
      * 反选
      */
-    public void reverseSelect(){
+    public void reverseSelect() {
         if (mData != null) {
             for (int i = 0; i < mData.size(); i++) {
                 mAdapter.getCheckedArray().put(i, !mAdapter.getCheckedArray().get(i));
@@ -127,19 +135,19 @@ public class MultipleChoiceView extends LinearLayout {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                //确定选择按钮
+                // 确定选择按钮
                 case android.R.id.button1 -> {
                     if (mOnCheckedListener != null && mAdapter != null) {
                         mOnCheckedListener.onChecked(mAdapter.getCheckedArray());
                     }
                 }
-                //全选/反选按钮
+                // 全选/反选按钮
                 case android.R.id.button2 -> {
                     if (mData != null) {
                         if (curWillCheckAll) {
                             selectAll();
                         } else {
-                            deselectAll();
+                            reverseSelect();
                         }
                         ((Button) v).setText(curWillCheckAll ? "反选" : "全选");
                         curWillCheckAll = !curWillCheckAll;
