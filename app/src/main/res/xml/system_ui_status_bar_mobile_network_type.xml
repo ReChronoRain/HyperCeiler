@@ -30,6 +30,13 @@
         android:title="@string/system_ui_status_bar_mobile_type_left" />
 
     <SwitchPreference
+        app:isPreferenceVisible="false"
+        android:defaultValue="false"
+        android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
+        android:key="prefs_key_system_ui_statusbar_mobile_type_only_show_network"
+        android:title="@string/system_ui_status_bar_mobile_type_only_show_network" />
+
+    <SwitchPreference
         android:defaultValue="false"
         android:dependency="prefs_key_system_ui_statusbar_mobile_type_enable"
         android:key="prefs_key_system_ui_statusbar_mobile_type_bold"
@@ -66,7 +73,7 @@
         app:defaultValueText="@string/array_default"
         app:displayDividerValue="2"
         app:format="%s dp"
-        app:maxValue="10"
+        app:maxValue="16"
         app:minValue="0"
         app:stepValue="1" />
 

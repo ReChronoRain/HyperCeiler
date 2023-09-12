@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.app;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
-import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
@@ -57,8 +56,7 @@ import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.DualRowSignalHook;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.MobileNetwork;
-import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.MobileTypeSingleHook;
-import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.MobileTypeTextCustom;
+import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.WifiStandard;
@@ -76,6 +74,7 @@ import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.icon.all.StatusBarS
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
+import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.NetworkSpeed;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
@@ -104,7 +103,7 @@ public class SystemUI extends BaseModule {
 
         // 状态栏图标
         initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
-        initHook(new StatusBarIcon(), true);
+        initHook(new StatusBarIcon());
         initHook(new IconsFromSystemManager());
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
@@ -120,7 +119,7 @@ public class SystemUI extends BaseModule {
         initHook(new MobileNetwork(), true);
         initHook(new BigMobileNetworkType(), false);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
-        initHook(new MobileTypeSingleHook(), mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
+        initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
         // 电池相关

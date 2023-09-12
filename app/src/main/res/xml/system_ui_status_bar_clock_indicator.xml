@@ -18,14 +18,13 @@
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
             android:title="@string/vertical_offset"
             android:defaultValue="12"
+            app:format="%s dp"
             app:defaultValueText="@string/array_default"
             app:maxValue="24"
             app:minValue="0"
             app:stepValue="1"
             app:negativeShift="12"
-            app:displayDividerValue="2"
-            app:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:displayDividerValue="2" />
 
     </PreferenceCategory>
 

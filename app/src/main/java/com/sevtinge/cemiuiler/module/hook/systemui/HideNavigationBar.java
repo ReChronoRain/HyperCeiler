@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.hook.systemui;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
 
@@ -15,6 +16,7 @@ public class HideNavigationBar extends BaseHook {
     public void init() {
         if (isAndroidU()) {
             hookAllConstructors("com.android.systemui.statusbar.phone.NavigationModeControllerExt", new MethodHook() {
+                @SuppressLint("PrivateApi")
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     super.after(param);
@@ -55,8 +57,7 @@ public class HideNavigationBar extends BaseHook {
             }
         );
         findAndHookMethod("com.android.systemui.statusbar.phone.MiuiDockIndicatorService",
-            "onNavigationModeChanged",
-            int.class,
+            "onNavigationModeChanged", int.class,
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {

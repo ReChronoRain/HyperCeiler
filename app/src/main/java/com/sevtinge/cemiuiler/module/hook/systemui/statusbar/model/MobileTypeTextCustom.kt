@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.hook.systemui.statusbar
+package com.sevtinge.cemiuiler.module.hook.systemui.statusbar.model
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook

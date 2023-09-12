@@ -12,6 +12,23 @@ import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
 import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedStyle : BaseHook() {
+    private val doubleLine by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") &&
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
+    }
+    private val dualRow by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
+    }
+    private val fontSize by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
+    }
+    private val fontSizeEnable by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
+    }
+    private val bold by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_bold")
+    }
+
     override fun init() {
         if (isAndroidR()) {
             // Android 11 or MIUI12.5 Need to hook Statusbar in Screen Lock interface, to set front size
@@ -22,15 +39,6 @@ object NetworkSpeedStyle : BaseHook() {
                after { params ->
                    val meter = XposedHelpers.getObjectField(params.thisObject, "mNetworkSpeedView") as TextView
 
-                   val doubleLine =
-                       (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") && mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down"))
-                   val dualRow =
-                       mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
-                   val fontSize =
-                       mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
-                   val fontSizeEnable: Boolean =
-                       mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
-
                    // 网速字体大小调整
                    if (fontSizeEnable) {
                        try {
@@ -39,7 +47,7 @@ object NetworkSpeedStyle : BaseHook() {
                            } else {
                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                            }
-                       } catch (e: Throwable) {
+                       } catch (e: Exception) {
                            logE(e)
                        }
                    }
@@ -51,10 +59,6 @@ object NetworkSpeedStyle : BaseHook() {
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     // 值和单位双排显示 + 上下行网速双排显示
-                    val doubleLine =
-                        (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") && mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down"))
-                    val dualRow =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
                     val meter = param.thisObject as TextView
 
                     if (dualRow) {
@@ -62,11 +66,6 @@ object NetworkSpeedStyle : BaseHook() {
                     }
 
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
-                        val fontSize =
-                            mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
-                        val fontSizeEnable: Boolean =
-                            mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
-
                         // 网速字体大小调整
                         if (fontSizeEnable) {
                             try {
@@ -75,13 +74,13 @@ object NetworkSpeedStyle : BaseHook() {
                                 } else {
                                     meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                                 }
-                            } catch (e: Throwable) {
+                            } catch (e: Exception) {
                                 logE(e)
                             }
                         }
 
                         // 网速加粗
-                        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_bold")) {
+                        if (bold) {
                             meter.typeface = Typeface.DEFAULT_BOLD
                         }
                         val res = meter.resources
@@ -134,7 +133,7 @@ object NetworkSpeedStyle : BaseHook() {
                                 }
                                 meter.setLineSpacing(0f, spacing)
                             }
-                        } catch (e: Throwable) {
+                        } catch (e: Exception) {
                             logE(e)
                         }
                     }

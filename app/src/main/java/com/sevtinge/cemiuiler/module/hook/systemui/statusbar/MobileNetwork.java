@@ -42,21 +42,34 @@ public class MobileNetwork extends BaseHook {
             @Override
             protected void after(MethodHookParam param) {
                 int qpt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0);
+                boolean singleMobileType = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable");
                 boolean hideIndicator = mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
                 View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
+                boolean dataConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
                 if (qpt > 0) {
-                    boolean isMobileConnected = false;
-                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
                     if (qpt == 1) {
-                        mMobileTypeSingle.setVisibility(View.VISIBLE);
-                        mMobileType.setVisibility(View.VISIBLE);
+                        if (singleMobileType) {
+                            TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                            mMobileTypeSingle.setVisibility(View.VISIBLE);
+                        } else {
+                            mMobileType.setVisibility(View.VISIBLE);
+                        }
                     }
-                    if (qpt == 3) {
-                        isMobileConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
+                    if (qpt == 3 && !dataConnected) {
+                        if (singleMobileType) {
+                            TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                            mMobileTypeSingle.setVisibility(View.GONE);
+                        } else {
+                            mMobileType.setVisibility(View.GONE);
+                        }
                     }
-                    if (qpt == 2 || (qpt == 3 && !isMobileConnected)) {
-                        mMobileTypeSingle.setVisibility(View.GONE);
-                        mMobileType.setVisibility(View.GONE);
+                    if (qpt == 2) {
+                        if (singleMobileType) {
+                            TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                            mMobileTypeSingle.setVisibility(View.GONE);
+                        } else {
+                            mMobileType.setVisibility(View.GONE);
+                        }
                     }
                 }
                 // 隐藏移动网络活动指示器
