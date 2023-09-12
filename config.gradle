@@ -14,11 +14,11 @@
 
 ext {
     XposedApiVersion = '82'
-    AndroidXCoreVersion = '1.10.1'
-    AndroidXCollectionVersion = '1.3.0-beta01'
+    AndroidXCoreVersion = '1.12.0'
+    AndroidXCollectionVersion = '1.3.0-rc01'
     AndroidXRecyclerviewVersion = '1.3.1'
-    AndroidXFragmentVersion = '1.7.0-alpha03'
-    AndroidXLifecycleVersion = '2.6.1'
+    AndroidXFragmentVersion = '1.7.0-alpha04'
+    AndroidXLifecycleVersion = '2.6.2'
     AndroidXVectorDrawableVersion = '1.2.0-beta01'
     AndroidXVectorDrawableAnimatedVersion = '1.1.0'
     AndroidXCustomViewVersion = '1.2.0-alpha02'
