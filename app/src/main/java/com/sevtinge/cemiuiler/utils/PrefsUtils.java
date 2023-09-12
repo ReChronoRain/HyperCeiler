@@ -32,7 +32,7 @@ public class PrefsUtils {
     public static SharedPreferences getSharedPrefs(Context context, boolean multiProcess) {
         context = Helpers.getProtectedContext(context);
         try {
-            return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE | Context.MODE_PRIVATE);
+            return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE);
         } catch (Throwable t) {
             return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE : Context.MODE_PRIVATE);
         }
@@ -259,7 +259,8 @@ public class PrefsUtils {
                 uri = boolPrefsToUri(mPrefsName, mPrefsDefValueBool);
             else if (prefType == PrefType.Any)
                 uri = anyPrefsToUri();
-            if (uri != null) ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
+            if (uri != null)
+                ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
         }
 
         @Override

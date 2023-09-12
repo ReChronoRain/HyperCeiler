@@ -105,9 +105,9 @@
         <provider
             android:name=".provider.SharedPrefsProvider"
             android:authorities="com.sevtinge.cemiuiler.provider.sharedprefs"
+            android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true"
             android:exported="true"
-            android:defaultToDeviceProtectedStorage="true"
             android:grantUriPermissions="true" />
 
         <meta-data
@@ -115,7 +115,7 @@
             android:value="true" />
         <meta-data
             android:name="xposedminversion"
-            android:value="82" />
+            android:value="93" />
         <meta-data
             android:name="xposeddescription"
             android:value="@string/xposed_description" />
