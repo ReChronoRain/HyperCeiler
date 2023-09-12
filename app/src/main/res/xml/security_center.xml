@@ -196,6 +196,7 @@
             android:title="@string/security_center_dolby_open" />
 
         <SwitchPreference
+            app:isPreferenceVisible="false"
             android:defaultValue="false"
             android:key="prefs_key_security_center_disable_sidebar_show_suggest"
             android:title="@string/security_center_disable_sidebar_show_suggest" />

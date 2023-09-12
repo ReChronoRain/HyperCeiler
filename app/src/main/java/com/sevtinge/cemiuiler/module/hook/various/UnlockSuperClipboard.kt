@@ -8,6 +8,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import io.luckypray.dexkit.enums.MatchType
@@ -82,5 +83,6 @@ object UnlockSuperClipboard : BaseHook() {
         setOf(ro, sys).filterNotNull().createHooks {
             returnConstant(true)
         }
+        closeDexKit()
     }
 }
