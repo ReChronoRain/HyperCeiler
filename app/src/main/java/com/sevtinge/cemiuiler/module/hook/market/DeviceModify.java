@@ -24,11 +24,6 @@ public class DeviceModify extends BaseHook {
             mDevice = "yuechu";
             mModel = "23046PNC9C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 222) {
-            // f2
-            mDevice = "zizhan";
-            mModel = "22061218C";
-            mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 223) {
             // f3
             mDevice = "babylon";
@@ -44,15 +39,15 @@ public class DeviceModify extends BaseHook {
             mDevice = "draco";
             mModel = "MIX Alpha";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 207) {
-            // pad6p
-            mDevice = "liuqin";
-            mModel = "23046RP50C";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 208) {
+            // pad6m
+            mDevice = "yudi";
+            mModel = "2307BRPDCC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 306) {
-            // k60p
-            mDevice = "socrates";
-            mModel = "22127RK46C";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 307) {
+            // k60u
+            mDevice = "corot";
+            mModel = "23078RKD5C";
             mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 332) {
             // n12t
