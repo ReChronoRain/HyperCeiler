@@ -59,25 +59,9 @@ public class MainActivity extends SettingsActivity {
         initData();
         setImmersionMenuEnabled(true);
         setFragment(mMainFrag);
-        suGet();
-    }
-
-    private void suGet() {
-        final String ExecutedCommand = "ExecutedCommand";
-        SharedPreferences sharedPreferences = getSharedPreferences(ExecutedCommand, MODE_PRIVATE);
-        boolean hasExecutedCommand = sharedPreferences.getBoolean("hasExecutedCommand", false);
-        String PackageCodePath = sharedPreferences.getString("packageCodePath", "null");
-        String Now_PackageCodePath = getPackageCodePath();
-        // BuildConfig.VERSION_CODE
-        if (!hasExecutedCommand || !PackageCodePath.equals(Now_PackageCodePath)) {
-            ALPermissionManager.RootCommand("chmod 0777 " + getPackageCodePath());
-
-            // 标记命令已执行
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("hasExecutedCommand", true);
-            editor.putString("packageCodePath", Now_PackageCodePath);
-            editor.apply();
-        }
+        ALPermissionManager.RootCommand("chmod 0777 " + getPackageCodePath());
+        ALPermissionManager.RootCommand("chmod 0777 " + PrefsUtils.mPrefsFile);
+        ALPermissionManager.RootCommand("chown root:root " + PrefsUtils.mPrefsFile);
     }
 
     private void initView() {
