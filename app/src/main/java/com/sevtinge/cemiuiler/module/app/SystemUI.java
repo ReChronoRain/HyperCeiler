@@ -31,6 +31,7 @@ import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSControlDetail
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGridLabels;
+import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SmartHome;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
@@ -202,6 +203,7 @@ public class SystemUI extends BaseModule {
         initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
+        initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
 
         // Actions
         initHook(new StatusBarActions());

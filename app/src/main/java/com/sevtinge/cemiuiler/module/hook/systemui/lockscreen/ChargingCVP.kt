@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Handler
 import android.os.PowerManager
 import android.widget.TextView
@@ -31,7 +32,7 @@ object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
         // 去除单行限制，Android13 以上扩展一个刷新频率，Android12 的后面再看看情况
-        if (isMoreAndroidVersion(33)) {
+        if (isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU)) {
             val clazzDependency = loadClass("com.android.systemui.Dependency")
             val clazzKeyguardIndicationController =
                 loadClass("com.android.systemui.statusbar.KeyguardIndicationController")

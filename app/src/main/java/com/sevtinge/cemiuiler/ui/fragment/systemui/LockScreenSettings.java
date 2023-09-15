@@ -4,6 +4,7 @@ import static com.sevtinge.cemiuiler.utils.api.LinQiqiApisKt.isDeviceEncrypted;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
@@ -33,7 +34,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
 
         mBlurButton.setVisible(!isAndroidR());
         mForceSystemFonts.setVisible(!isAndroidR());
-        mChangingCVTime.setVisible(isMoreAndroidVersion(33));
+        mChangingCVTime.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU));
 
         if (isDeviceEncrypted(getContext())) {
             mPasswordFree.setChecked(false);
