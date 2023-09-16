@@ -587,6 +587,8 @@
     <string name="system_ui_control_center_fix_media_control_panel">Corrigir painel de controle de mídia</string>
     <string name="system_ui_control_center_compact_notice">Notificações compactas</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduza o espaçamento vertical das notificações</string>
+    <string name="system_ui_control_center_redirect_notice">Redirecionar configurações de notificação</string>
+    <string name="system_ui_control_center_redirect_notice_desc">Ao abrir o menu de configurações de notificações, navega-se para as configurações do canal de destino em vez de aplicar as configurações de notificação</string>
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
