@@ -35,7 +35,6 @@ import com.sevtinge.cemiuiler.module.hook.securitycenter.other.LockOneHundredPoi
 import com.sevtinge.cemiuiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
-import com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.DisableDockSuggest;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
