@@ -4,8 +4,6 @@ import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.hook.home.mipad.EnableHideGestureLine;
-import com.sevtinge.cemiuiler.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.cemiuiler.module.hook.home.AllAppsBlur;
 import com.sevtinge.cemiuiler.module.hook.home.AnimDurationRatio;
 import com.sevtinge.cemiuiler.module.hook.home.FreeFormCountForHome;
@@ -17,6 +15,7 @@ import com.sevtinge.cemiuiler.module.hook.home.ScreenSwipe;
 import com.sevtinge.cemiuiler.module.hook.home.SeekPoints;
 import com.sevtinge.cemiuiler.module.hook.home.SetDeviceLevel;
 import com.sevtinge.cemiuiler.module.hook.home.StickyFloatingWindowsForHome;
+import com.sevtinge.cemiuiler.module.hook.home.ToastSlideAgain;
 import com.sevtinge.cemiuiler.module.hook.home.UnlockHotseatIcon;
 import com.sevtinge.cemiuiler.module.hook.home.UserPresentAnimation;
 import com.sevtinge.cemiuiler.module.hook.home.WidgetCornerRadius;
@@ -50,6 +49,8 @@ import com.sevtinge.cemiuiler.module.hook.home.layout.HotSeatsMarginTop;
 import com.sevtinge.cemiuiler.module.hook.home.layout.SearchBarMarginBottom;
 import com.sevtinge.cemiuiler.module.hook.home.layout.UnlockGrids;
 import com.sevtinge.cemiuiler.module.hook.home.layout.WorkspacePadding;
+import com.sevtinge.cemiuiler.module.hook.home.mipad.EnableHideGestureLine;
+import com.sevtinge.cemiuiler.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.cemiuiler.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.cemiuiler.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.cemiuiler.module.hook.home.other.AlwaysBlurWallpaper;
@@ -173,12 +174,12 @@ public class Home extends BaseModule {
             mPrefsMap.getInt("task_view_header_height", 40) != 40);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
         initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && isPad());
-        initHook(AlwaysShowCleanUp.INSTANCE,mPrefsMap.getBoolean("always_show_clean_up"));
+        initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
 
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
-        initHook(DisableHideTheme.INSTANCE,mPrefsMap.getBoolean("home_title_disable_hide_theme"));
+        initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme"));
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
@@ -237,6 +238,7 @@ public class Home extends BaseModule {
         initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode"));
 
         // Other
+        initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toastslideagain"));
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
         initHook(new WidgetCrack(), mPrefsMap.getBoolean("enable_hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
         initHook(AnimDurationRatio.INSTANCE, true);

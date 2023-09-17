@@ -64,6 +64,7 @@
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="prefs_key_system_ui_hide_navigation_bar"
+            android:summary="@string/system_ui_hide_navigation_bar_more"
             android:title="@string/system_ui_hide_navigation_bar" />
 
         <SwitchPreference

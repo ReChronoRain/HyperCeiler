@@ -14,12 +14,13 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     Preference mPowerSetting;
     Preference mMTB;
+    Preference mSecurityadd;
     Preference mSecurityCenter;
     Preference mSecurityCenterPad;
     Preference mTip;
     Random r = new Random();
 
-    int[] tips = new int[] {
+    int[] tips = new int[]{
         R.string.tip_0,
         R.string.tip_1,
         R.string.tip_2,
@@ -55,10 +56,12 @@ public class MainFragment extends SettingsPreferenceFragment {
 
         mPowerSetting = findPreference("prefs_key_powerkeeper");
         mMTB = findPreference("prefs_key_mtb");
+        mSecurityadd = findPreference("prefs_key_securityadd");
         mSecurityCenter = findPreference("prefs_key_security_center");
         mSecurityCenterPad = findPreference("prefs_key_security_center_pad");
         mTip = findPreference("prefs_key_tip");
 
+        mSecurityadd.setVisible(false);
         mPowerSetting.setVisible(!isAndroidR());
         mMTB.setVisible(!isAndroidR());
 
