@@ -3,46 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/home_other_shortcut_title">
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_freeform_shortcut_menu"
-            android:defaultValue="false"
-            android:title="@string/home_other_freeform_shortcut_menu"
-            android:summary="@string/home_other_freeform_shortcut_menu_desc" />
+            android:summary="@string/home_other_freeform_shortcut_menu_desc"
+            android:title="@string/home_other_freeform_shortcut_menu" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_tasks_shortcut_menu"
+            android:summary="@string/home_other_tasks_shortcut_menu_desc"
+            android:title="@string/home_other_tasks_shortcut_menu" />
+
+        <SwitchPreference
             android:defaultValue="false"
-            android:title="@string/home_other_tasks_shortcut_menu"
-            android:summary="@string/home_other_tasks_shortcut_menu_desc" />
-
-        <SwitchPreference
             android:key="prefs_key_home_other_shortcut_background_blur"
-            android:title="@string/home_other_shortcut_background_blur"
-            android:defaultValue="false" />
+            android:title="@string/home_other_shortcut_background_blur" />
 
         <SeekBarPreferenceEx
-            android:title="@string/home_other_shortcut_background_blur_custom"
-            android:key="prefs_key_home_other_shortcut_background_blur_custom"
             android:defaultValue="200"
+            android:dependency="prefs_key_home_other_shortcut_background_blur"
+            android:key="prefs_key_home_other_shortcut_background_blur_custom"
+            android:title="@string/home_other_shortcut_background_blur_custom"
             app:defaultValueText="@string/array_default"
-            app:minValue="80"
-            app:maxValue="255"
             app:format="%s"
-            app:stepValue="1"
-            android:dependency="prefs_key_home_other_shortcut_background_blur" />
+            app:maxValue="255"
+            app:minValue="80"
+            app:stepValue="1" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_shortcut_remove_restrictions"
-            android:title="@string/home_other_shortcut_remove_restrictions"
-            android:defaultValue="false" />
+            android:title="@string/home_other_shortcut_remove_restrictions" />
 
         <SeekBarPreferenceEx
+            android:defaultValue="100"
             android:key="prefs_key_home_other_blur_radius"
             android:title="@string/home_other_blur_radius"
-            android:defaultValue="100"
             app:defaultValueText="@string/array_default"
+            app:format="%s / 100 f"
             app:maxValue="500"
             app:minValue="0"
-            app:format="%s / 100 f"
             app:stepValue="1" />
 
         <!--<SwitchPreference
@@ -54,64 +54,70 @@
 
     <PreferenceCategory>
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_mi_pad_enable_more_setting"
-            android:title="@string/home_other_mi_pad_enable_more_setting_title"
             android:summary="@string/home_other_mi_pad_enable_more_setting_desc"
-            android:defaultValue="false" />
+            android:title="@string/home_other_mi_pad_enable_more_setting_title" />
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_toastslideagain"
+            android:title="@string/home_other_toastslideagain" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_personal_assistant_overlap_mode"
-            android:title="@string/personal_assistant_overlap_mode"
-            android:defaultValue="false" />
+            android:title="@string/personal_assistant_overlap_mode" />
+
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_user_present_animation"
-            android:title="@string/home_other_user_present_animation"
-            android:defaultValue="false" />
+            android:title="@string/home_other_user_present_animation" />
 
         <SwitchPreference
-            android:title="@string/home_other_infinite_scroll"
-            android:summary="@string/home_other_infinite_scroll_desc"
+            android:defaultValue="false"
             android:key="prefs_key_home_other_infinite_scroll"
-            android:defaultValue="false" />
+            android:summary="@string/home_other_infinite_scroll_desc"
+            android:title="@string/home_other_infinite_scroll" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_always_blur_launcher_wallpaper"
-            android:title="@string/home_other_always_blur_launcher_wallpaper"
-            android:defaultValue="false" />
+            android:title="@string/home_other_always_blur_launcher_wallpaper" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_portrait_reverse"
-            android:title="@string/home_other_portrait_reverse"
-            android:defaultValue="false" />
+            android:title="@string/home_other_portrait_reverse" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_disable_hide_google"
-            android:title="@string/home_other_disable_hide_google"
-            android:defaultValue="false" />
+            android:title="@string/home_other_disable_hide_google" />
 
         <DropDownPreference
+            android:defaultValue="0"
             android:key="prefs_key_home_other_home_mode"
             android:title="@string/home_other_home_mode"
             app:entries="@array/home_mode"
-            app:entryValues="@array/home_mode_value"
-            android:defaultValue="0" />
+            app:entryValues="@array/home_mode_value" />
 
         <Preference android:title="@string/home_other_app_icon_hide">
             <intent
-                android:targetPackage="com.miui.home"
-                android:targetClass="com.miui.home.settings.AllHideAppActivity" />
+                android:targetClass="com.miui.home.settings.AllHideAppActivity"
+                android:targetPackage="com.miui.home" />
         </Preference>
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_fix_android_r_s"
-            android:title="@string/home_other_fix_android_r_s"
-            android:defaultValue="false" />
+            android:title="@string/home_other_fix_android_r_s" />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_high_models"
-            android:title="@string/home_other_high_models"
-            android:defaultValue="false" />
+            android:title="@string/home_other_high_models" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
