@@ -61,8 +61,8 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_other_toastslideagain"
-            android:title="@string/home_other_toastslideagain" />
+            android:key="prefs_key_home_other_toast_slide_again"
+            android:title="@string/home_other_toast_slide_again" />
 
         <SwitchPreference
             android:defaultValue="false"

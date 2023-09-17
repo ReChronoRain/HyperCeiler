@@ -238,7 +238,7 @@ public class Home extends BaseModule {
         initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode"));
 
         // Other
-        initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toastslideagain"));
+        initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
         initHook(new WidgetCrack(), mPrefsMap.getBoolean("enable_hidden_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
         initHook(AnimDurationRatio.INSTANCE, true);

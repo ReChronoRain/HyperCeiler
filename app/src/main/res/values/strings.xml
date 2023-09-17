@@ -802,7 +802,6 @@
     <string name="home_big_folder_icon_bg_width">Background width</string>
     <string name="home_big_folder_icon_bg_height">Background height</string>
     <string name="home_big_folder_item_max_count">Big Folder</string>
-    <string name="home_other_toastslideagain">Prohibit prompts \"please stroke again\" Toast</string>
     <string name="home_big_folder_icon_bg_2x1_n">4*2 background custom</string>
     <string name="home_big_folder_icon_bg_1x2_n">2*2 background custom</string>
     <string name="home_big_folder_icon_bg_n">3*3 &amp; 4*4 background custom</string>
@@ -922,6 +921,7 @@
     <string name="home_other_blur_radius">Blur Radius</string>
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Desktop shortcut management</string>
+    <string name="home_other_toast_slide_again">Prohibit prompts \"please stroke again\" Toast</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_disable_hide_google">Disable hide Google</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
