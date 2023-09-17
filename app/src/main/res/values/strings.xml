@@ -840,6 +840,8 @@
     <string name="home_title_title_title">Title</string>
     <string name="home_title_title_marquee">Text scroll</string>
     <string name="home_title_title_marquee_desc">App names that are too long will be scrolled instead of wrapping</string>
+    <string name="home_title_title_new_install">New Install App Dont show Indicator</string>
+    <string name="home_title_title_new_install_more">Do not display the indicator next to the application title when installing a new application</string>
     <string name="home_title_font_size">Font size</string>
     <string name="home_title_title_color">Title color</string>
     <string name="home_title_animation_speed">Animation speed</string>

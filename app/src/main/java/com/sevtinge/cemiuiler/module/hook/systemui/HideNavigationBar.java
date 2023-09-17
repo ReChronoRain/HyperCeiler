@@ -4,16 +4,23 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.ContentObserver;
+import android.os.Handler;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+
+import java.util.Locale;
 
 import de.robv.android.xposed.XposedHelpers;
 
 public class HideNavigationBar extends BaseHook {
+    boolean run = false;
 
     @Override
     public void init() {
+        /*启用隐藏*/
         if (isAndroidU()) {
             hookAllConstructors("com.android.systemui.statusbar.phone.NavigationModeControllerExt", new MethodHook() {
                 @SuppressLint("PrivateApi")
@@ -35,6 +42,7 @@ public class HideNavigationBar extends BaseHook {
             );
         }
 
+        /*不隐藏时创建手势条*/
         hookAllMethods("com.android.systemui.navigationbar.NavigationBarController",
             "createNavigationBar",
             new MethodHook() {
@@ -42,6 +50,7 @@ public class HideNavigationBar extends BaseHook {
                 protected void before(MethodHookParam param) {
                     if (param.args.length >= 3) {
                         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        ContentObserver(mContext);
                         try {
                             int End = Settings.Global.getInt(mContext.getContentResolver(), "hide_gesture_line");
                             if (End == 1) {
@@ -56,6 +65,8 @@ public class HideNavigationBar extends BaseHook {
                 }
             }
         );
+
+        /*状态更改设置*/
         findAndHookMethod("com.android.systemui.statusbar.phone.MiuiDockIndicatorService",
             "onNavigationModeChanged", int.class,
             new MethodHook() {
@@ -73,4 +84,24 @@ public class HideNavigationBar extends BaseHook {
         );
     }
 
+    /*防呆专用*/
+    public void ContentObserver(Context context) {
+        if (!run) {
+            run = true;
+            ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                @Override
+                public void onChange(boolean z) {
+                    boolean language = false;
+                    Locale locale = Locale.getDefault();
+                    String languageCode = locale.getLanguage();
+                    if (languageCode.equals("zh")) language = true;
+                    Settings.Global.putInt(context.getContentResolver(), "force_fsg_nav_bar", 1);
+                    Toast.makeText(context, language ? "请勿切换经典导航键" : "Don't switch navigation keys", Toast.LENGTH_SHORT).show();
+                    logI("Please don't switch classic navigation keys");
+                }
+            };
+            context.getContentResolver().registerContentObserver(Settings.Global.getUriFor("force_fsg_nav_bar"), false, contentObserver);
+        }
+    }
 }
+
