@@ -24,6 +24,37 @@ object NetworkSpeed : BaseHook() {
     private var rxBytesTotal: Long = 0
     private var txSpeed: Long = 0
     private var rxSpeed: Long = 0
+    private var txArrow = ""
+    private var rxArrow = ""
+
+    //  隐藏慢速
+    private val hideLow by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
+    }
+    // 网速均低于设定值隐藏
+    private val allHideLow by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
+    }
+    //  慢速水平
+    private val lowLevel by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
+    }
+    // 值和单位双排显示
+    private val fakeDualRow by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
+    }
+    // 上下行网速双排显示
+    private val doubleUpDown by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
+    }
+    // 交换图标与网速位置
+    private val swapPlaces by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
+    }
+    // 网速图标
+    private val icons by lazy {
+        mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
+    }
 
     private fun getTrafficBytes(): Pair<Long, Long> {
         var tx = -1L
@@ -67,7 +98,7 @@ object NetworkSpeed : BaseHook() {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
-            Helpers.log(t)
+            logE(t)
             ""
         }
     }
@@ -85,7 +116,7 @@ object NetworkSpeed : BaseHook() {
         }
 
         if (nscCls == null) {
-            Helpers.log("DetailedNetSpeedHook", "Cemiuiler: No NetworkSpeed view or controller")
+            logE("DetailedNetSpeedHook", "No NetworkSpeed view or controller")
         } else {
             nscCls.methodFinder().first {
                 name == "getTotalByte"
@@ -146,30 +177,6 @@ object NetworkSpeed : BaseHook() {
                 nscCls.methodFinder().filterByName("updateText").filterByParamCount(1).first()
             }.createHook {
                 before {
-                    //  隐藏慢速
-                    val hideLow =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
-                    // 网速均低于设定值隐藏
-                    val allHideLow =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
-                    //  慢速水平
-                    val lowLevel =
-                        mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
-                    // 值和单位双排显示
-                    val fakeDualRow =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
-                    // 上下行网速双排显示
-                    val doubleUpDown =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
-                    // 交换图标与网速位置
-                    val swapPlaces =
-                        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
-                    // 网速图标
-                    val icons =
-                        mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
-                    var txArrow = ""
-                    var rxArrow = ""
-
                     when (icons) {
                         2 -> {
                             txArrow = if (txSpeed < lowLevel) "△" else "▲"

@@ -21,6 +21,7 @@ import com.sevtinge.cemiuiler.module.hook.securitycenter.app.AppDefaultSort;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.app.AppRestrict;
+import com.sevtinge.cemiuiler.module.hook.securitycenter.app.OpenByDefaultSetting;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.beauty.BeautyFace;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.beauty.BeautyLightAuto;
 import com.sevtinge.cemiuiler.module.hook.securitycenter.beauty.BeautyPc;
@@ -55,7 +56,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(new DisableReport(), mPrefsMap.getBoolean("security_center_disable_ban"));
-        // initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
 
         // 省电与电池
         // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
