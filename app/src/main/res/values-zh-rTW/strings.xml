@@ -398,7 +398,7 @@
     <string name="system_ui_navigation_title">導航欄</string>
     <string name="system_ui_navigation_handle_title">手勢提示線</string>
     <string name="system_ui_hide_navigation_bar">隱藏導覽列</string>
-    <string name="system_ui_hide_navigation_bar_more">請重新啟動MIUI Home和Systemui</string>
+    <string name="system_ui_hide_navigation_bar_more">請重新啟動 「系統桌面」 和 「系統介面」</string>
     <string name="system_ui_navigation_handle_custom">手勢提示線自訂</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
     <string name="system_ui_navigation_handle_custom_width">豎向螢幕寬度</string>
@@ -905,7 +905,7 @@
     <string name="home_other_blur_radius">模糊半徑</string>
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
     <string name="home_other_app_icon_hide">桌面捷徑管理</string>
-    <string name="home_other_toast_slide_again">不再提示“請再次觸摸”</string>
+    <string name="home_other_toast_slide_again">不再提示 「請再次觸摸」</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
     <string name="home_other_disable_hide_google">禁止隱藏 Google 圖示</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系統桌布黑畫面</string>
