@@ -398,6 +398,7 @@
     <string name="system_ui_navigation_title">導航欄</string>
     <string name="system_ui_navigation_handle_title">手勢提示線</string>
     <string name="system_ui_hide_navigation_bar">隱藏導覽列</string>
+    <string name="system_ui_hide_navigation_bar_more">請重新啟動MIUI Home和Systemui</string>
     <string name="system_ui_navigation_handle_custom">手勢提示線自訂</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
     <string name="system_ui_navigation_handle_custom_width">豎向螢幕寬度</string>
@@ -425,6 +426,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">圖示縮放</string>
     <string name="system_ui_status_bar_mobile_type_single">蜂窩移動網路類型圖示單獨顯示</string>
     <string name="system_ui_status_bar_mobile_type_left">顯示在信號左側</string>
+    <string name="system_ui_status_bar_mobile_type_only_show_network">僅展示網絡卡片</string>
     <string name="system_ui_status_bar_mobile_indicator">隱藏移動網路活動指示器</string>
     <string name="system_ui_status_bar_mobile_type_custom">個性化文本內容</string>
     <string name="system_ui_statusbar_mobile_type_font_size">字體大小</string>
@@ -585,6 +587,8 @@
     <string name="system_ui_control_center_fix_media_control_panel">修正音樂面板背景圖異常</string>
     <string name="system_ui_control_center_compact_notice">緊湊通知</string>
     <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
+    <string name="system_ui_control_center_redirect_notice">重定向通知設置</string>
+    <string name="system_ui_control_center_redirect_notice_desc">打開通知功能表的設置將導航到目標通道設置，而不是應用通知設置</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
@@ -628,6 +632,9 @@
     <string name="system_settings_wifi_password_dlgtitle">WiFi 詳情</string>
     <string name="system_settings_novelty_haptic_title">解鎖新版觸感調節頁面</string>
     <string name="system_settings_novelty_haptic_desc">僅供有「聲音與觸感-觸感」頁面的裝置使用</string>
+    <string name="system_settings_enable_pad_area">解鎖平板（Pad）分區</string>
+    <string name="system_settings_enable_fold_area">解鎖折疊屏（Fold）分區</string>
+    <string name="system_settings_enable_area_desc">不受支援的設備在解鎖后將會導致崩潰</string>
     <string name="system_settings_connection_sharing_title">連接與分享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
@@ -781,6 +788,9 @@
     <string name="home_big_folder_icon_bg_width">背景寬度</string>
     <string name="home_big_folder_icon_bg_height">背景高度</string>
     <string name="home_big_folder_item_max_count">真·九宮格</string>
+    <string name="home_big_folder_icon_bg_2x1_n">4*2 自定義背景</string>
+    <string name="home_big_folder_icon_bg_1x2_n">2*2 自定義背景</string>
+    <string name="home_big_folder_icon_bg_n">3*3 和 4*4 自定義背景</string>
     <string name="home_auto_close_folder_title">自動關閉</string>
     <string name="home_auto_close_folder_summary">應用程式啟動後關閉資料夾</string>
     <string name="home_wallpaper">背景</string>
@@ -816,6 +826,8 @@
     <string name="home_title_title_title">標題</string>
     <string name="home_title_title_marquee">文字滾動</string>
     <string name="home_title_title_marquee_desc">過長的應用程式名稱將以滾動進行顯示，不再使用換行</string>
+    <string name="home_title_title_new_install">新安裝的應用程式不展示指示器</string>
+    <string name="home_title_title_new_install_more">安裝新應用程式時，請勿在應用程式標題旁邊展示指示器</string>
     <string name="home_title_font_size">字體大小</string>
     <string name="home_title_title_color">文本顏色</string>
     <string name="home_title_animation_speed">動畫速度</string>
@@ -893,6 +905,7 @@
     <string name="home_other_blur_radius">模糊半徑</string>
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
     <string name="home_other_app_icon_hide">桌面捷徑管理</string>
+    <string name="home_other_toast_slide_again">不再提示“請再次觸摸”</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
     <string name="home_other_disable_hide_google">禁止隱藏 Google 圖示</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系統桌布黑畫面</string>
@@ -905,6 +918,8 @@
     <string name="home_recent_simple_blur">簡單模糊</string>
     <string name="home_recent_none_blur">無模糊</string>
     <string name="home_recent_none_blur_simple_anim">無模糊（精簡動畫）</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">解鎖更多的桌面設置選項</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">解鎖函數可能不可用，一些函數需要作業系統的底層支援</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">相簿編輯</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
