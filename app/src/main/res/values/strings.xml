@@ -74,10 +74,9 @@
     <string name="about_crwd_desc">Help us translate Cemiuiler into you language</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
-    <string name="restart_app_desc1">Are you sure you want to restart now </string>
-    <string name="restart_app_desc2">\?</string>
+    <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="tip">Tip</string>
-    <string name="hook_failed">Module not activated</string>
+    <string name="hook_failed">The module is not activated yet.\nPlease check whether the Xposed manager is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
     <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
     <string name="expand_button_title">High level</string>

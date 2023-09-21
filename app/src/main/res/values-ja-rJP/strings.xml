@@ -62,8 +62,6 @@
     <string name="about_crwd_desc">Cemiuilerの翻訳にご協力ください</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">再起動 </string>
-    <string name="restart_app_desc1">再起動してもよろしいですか? </string>
-    <string name="restart_app_desc2">\?</string>
     <string name="tip">ヒント</string>
     <string name="hook_failed">モジュールが有効化されていません</string>
     <string name="not_set">未設定</string>

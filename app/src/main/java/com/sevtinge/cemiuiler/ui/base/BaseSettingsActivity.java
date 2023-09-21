@@ -87,10 +87,13 @@ public class BaseSettingsActivity extends AppCompatActivity {
     }
 
     public void showRestartDialog(boolean isRestartSystem, String appLabel, String packagename) {
+        String isSystem = getResources().getString(R.string.restart_app_desc, appLabel);
+        String isOther = getResources().getString(R.string.restart_app_desc," " + appLabel + " ");
+
         new AlertDialog.Builder(this)
             .setCancelable(false)
             .setTitle(getResources().getString(R.string.soft_reboot) + " " + appLabel)
-            .setMessage(getResources().getString(R.string.restart_app_desc1) + appLabel + getResources().getString(R.string.restart_app_desc2))
+            .setMessage(isRestartSystem ? isSystem : isOther)
             .setHapticFeedbackEnabled(true)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> doRestart(packagename, isRestartSystem))
             .setNegativeButton(android.R.string.cancel, null)
@@ -104,7 +107,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
                 .setTitle(R.string.tip)
                 .setMessage(R.string.hook_failed)
                 .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
     }

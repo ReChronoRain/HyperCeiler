@@ -60,8 +60,6 @@
     <string name="about_crwd_desc">Cemiuiler uygulamasını dilinize çevirmemize yardım edin.</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Hızlı yeniden başlat</string>
-    <string name="restart_app_desc1">Şimdi yeniden başlatmak istediğinizden emin misiniz</string>
-    <string name="restart_app_desc2">\?</string>
     <string name="tip">Tip</string>
     <string name="hook_failed">Modül aktif değil</string>
     <string name="preference_default_value_text">Varsayılan</string>

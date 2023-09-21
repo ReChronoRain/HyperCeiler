@@ -62,8 +62,6 @@
     <string name="about_crwd_desc">Помогите нам перевести Cemiuiler на ваш язык</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Перезагрузка </string>
-    <string name="restart_app_desc1">Перезагрузить</string>
-    <string name="restart_app_desc2">\?</string>
     <string name="tip">Совет</string>
     <string name="hook_failed">Модуль не активирован</string>
     <string name="preference_default_value_text">Стандарт</string>

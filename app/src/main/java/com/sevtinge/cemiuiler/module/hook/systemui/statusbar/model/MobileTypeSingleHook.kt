@@ -45,12 +45,30 @@ object MobileTypeSingleHook : BaseHook() {
         mPrefsMap.getInt("system_ui_statusbar_mobile_type_vertical_offset", 8)
     }
 
-
     @SuppressLint("DiscouragedApi")
     override fun init() {
          val statusBarMobileClass by lazy {
              loadClass("com.android.systemui.statusbar.StatusBarMobileView")
          }
+
+        // 兼容图标异常空位的问题，一些机器不需要这两个 hook
+        val showSingleMobileType: MethodHook = object : MethodHook(PRIORITY_HIGHEST) {
+            override fun before(param: MethodHookParam) {
+                val mobileIconState = param.args[0]
+                XposedHelpers.setObjectField(mobileIconState, "showMobileDataTypeSingle", true)
+                XposedHelpers.setObjectField(mobileIconState, "fiveGDrawableId", 0)
+            }
+        }
+        hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "applyMobileState", showSingleMobileType)
+
+        val afterUpdate: MethodHook = object : MethodHook() {
+            override fun after(param: MethodHookParam) {
+                val mMobileLeftContainer =
+                    XposedHelpers.getObjectField(param.thisObject, "mMobileLeftContainer")
+                XposedHelpers.callMethod(mMobileLeftContainer, "setVisibility", 8)
+            }
+        }
+        hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "applyMobileState", afterUpdate)
 
         // 使网络类型单独显示
         statusBarMobileClass.methodFinder().first {

@@ -62,8 +62,7 @@
     <string name="about_crwd_desc">協助我們將這個應用程式翻譯為您的語言</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">重啟 </string>
-    <string name="restart_app_desc1">確定要立即重啟</string>
-    <string name="restart_app_desc2">嗎？</string>
+    <string name="restart_app_desc">確定要立即重啟%1$s嗎？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模組暫未啟用</string>
     <string name="kill_failed">結束進程失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>

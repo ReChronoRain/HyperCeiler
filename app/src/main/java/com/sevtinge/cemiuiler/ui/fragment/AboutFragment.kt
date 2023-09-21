@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment
 import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
 import java.util.Calendar
+import kotlin.math.abs
 
 class AboutFragment : SettingsPreferenceFragment() {
 
@@ -17,10 +18,7 @@ class AboutFragment : SettingsPreferenceFragment() {
 
     override fun initPrefs() {
         val lIIllll = Calendar.getInstance()
-        val lIIlllI: Int = when (val lIIllIl = lIIllll.get(Calendar.HOUR_OF_DAY)) {
-            0 -> 24
-            else -> lIIllIl
-        }
+        val lIIlllI: Int = ((abs(lIIllll.get(Calendar.HOUR_OF_DAY) - 12) * 1.5) + 5).toInt().coerceIn(1, 20)
 
         val lIIllII = findPreference<Preference>("prefs_key_enable_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")

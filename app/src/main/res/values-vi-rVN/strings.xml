@@ -62,8 +62,6 @@
     <string name="about_crwd_desc">Giúp chúng tôi dịch Cemiuiler sang ngôn ngữ của bạn</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Khởi động lại nhanh</string>
-    <string name="restart_app_desc1">Bạn có muốn khởi động lại máy bây giờ </string>
-    <string name="restart_app_desc2">\?</string>
     <string name="tip">Mẹo</string>
     <string name="hook_failed">Mô-đun chưa được kích hoạt</string>
     <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra Cemiuiler đã được cấp quyền Root?</string>

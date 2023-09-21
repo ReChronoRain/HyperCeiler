@@ -62,8 +62,6 @@
     <string name="about_crwd_desc">Ajude-nos a traduzir o Cemiuiler para o seu idioma</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reiniciar </string>
-    <string name="restart_app_desc1">Você tem certeza de que deseja reiniciar agora </string>
-    <string name="restart_app_desc2">\?</string>
     <string name="tip">Dica</string>
     <string name="hook_failed">O módulo não está ativado</string>
     <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su?</string>
