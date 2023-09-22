@@ -62,8 +62,9 @@
     <string name="about_crwd_desc">Ajude-nos a traduzir o Cemiuiler para o seu idioma</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reiniciar </string>
+    <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
-    <string name="hook_failed">O módulo não está ativado</string>
+    <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su?</string>
     <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o Cemiuiler recebeu permissão Root/Su?</string>
     <string name="expand_button_title">Alto nível</string>

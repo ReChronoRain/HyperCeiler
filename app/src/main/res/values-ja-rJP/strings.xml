@@ -17,7 +17,7 @@
     <string name="settings_data_title">バックアップと復元</string>
     <string name="settings_bug_title">トラブルシューティング</string>
     <string name="settings_debug_title">デバッグ</string>
-    <string name="settings_hide_app_icon">デスクトップアイコン</string>
+    <string name="settings_hide_app_icon">ホーム画面のアイコン</string>
     <string name="settings_icon">設定アイコン</string>
     <string name="settings_icon_desc">システム設定でモジュールエントリの場所を設定します</string>
     <string name="settings_icon_disable">無効</string>
@@ -25,7 +25,7 @@
     <string name="settings_icon_medium">中間</string>
     <string name="settings_icon_down">下部</string>
     <string name="settings_icon_mode">アイコンのスタイル</string>
-    <string name="settings_icon_miui_14">Rounded rectangle style</string>
+    <string name="settings_icon_miui_14">丸みを帯びた長方形のスタイル</string>
     <string name="settings_icon_miui_13">背景の切り抜きスタイル</string>
     <string name="settings_reboot">ターゲットアプリを再起動</string>
     <string name="settings_back">モジュールの設定をバックアップ</string>
@@ -44,7 +44,7 @@
     <string name="rest_ask">バックアップを復元しますか？</string>
     <string name="rest_permission">このオプションは手動で許可する必要があります。</string>
     <string name="disable_detailed_log">詳細なログを無効化</string>
-    <string name="disable_detailed_log_desc">再起動して適用する</string>
+    <string name="disable_detailed_log_desc">適用するには再起動してください</string>
     <string name="settings_safe_mode">セーフモード</string>
     <string name="settings_safe_mode_desc">モジュールの機能を停止</string>
     <string name="about_developer_title">開発者</string>
@@ -62,8 +62,9 @@
     <string name="about_crwd_desc">Cemiuilerの翻訳にご協力ください</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">再起動 </string>
+    <string name="restart_app_desc">%1$s を再起動してもよろしいですか?</string>
     <string name="tip">ヒント</string>
-    <string name="hook_failed">モジュールが有効化されていません</string>
+    <string name="hook_failed">モジュールが有効化されていません。\nXposed マネージャーがインストールされているか、モジュールが有効化されているか確認して再起動してください。</string>
     <string name="kill_failed">プロセスの終了に失敗しました。Cemiuiler に root 権限が付与されているか確認してください。</string>
     <string name="reboot_failed">再起動に失敗しました。Cemiuiler に root 権限が付与されているか確認してください。</string>
     <string name="expand_button_title">高レベル</string>
@@ -73,7 +74,7 @@
     <string name="clearable_edittext_clear_description">クリア</string>
     <string name="preference_on">有効</string>
     <string name="preference_off">無効</string>
-    <string name="preference_copied">Copied %1$s to clipboard.</string>
+    <string name="preference_copied"> %1$s をクリップボードにコピーしました</string>
     <string name="preference_default_value_text">デフォルト</string>
     <string name="preference_dialog_color_picker_default_title">色を選択</string>
     <string name="preference_dialog_color_picker_presets">プリセットカラー</string>
@@ -102,12 +103,12 @@
     <string name="feature">機能</string>
     <string name="recommend">おすすめ</string>
     <string name="editor">編集者</string>
-    <string name="record">Record</string>
-    <string name="shot">Shot</string>
-    <string name="portrait">Portrait</string>
+    <string name="record">録画</string>
+    <string name="shot">スクショ</string>
+    <string name="portrait">ポートレート</string>
     <string name="camera_pro">プロ</string>
     <string name="enable">有効化</string>
-    <string name="custom_enable">Custom enable</string>
+    <string name="custom_enable">カスタムを有効化</string>
     <string name="search">検索</string>
     <string name="floating_window">フリーフォーム</string>
     <string name="save_to_screen_title">保存場所の変更</string>
@@ -142,7 +143,7 @@
     <string name="array_global_actions_sleep">画面を閉じる</string>
     <string name="array_global_actions_screenshot">スクリーンショット</string>
     <string name="array_global_actions_menu">メニューを開く</string>
-    <string name="array_global_actions_recents">最近使用した項目を開く</string>
+    <string name="array_global_actions_recents">アプリ履歴を開く</string>
     <string name="array_global_actions_volume">音量ダイアログを開く</string>
     <string name="array_global_actions_volume_up">音量アップ</string>
     <string name="array_global_actions_volume_down">音量ダウン</string>
@@ -169,7 +170,7 @@
     <string name="array_align_bottom">下部</string>
     <string name="array_discrete">分離する</string>
     <string name="array_gradual">低速</string>
-    <string name="array_rainbow">レインボー</string>
+    <string name="array_rainbow">虹</string>
     <string name="various_install_app_info_version_name">バージョン名</string>
     <string name="various_install_app_info_version_code">バージョンコード</string>
     <string name="various_install_app_info_sdk">対応している SDK</string>
@@ -213,7 +214,7 @@
     <string name="system_framework_bubble_title">バブル通知</string>
     <string name="system_framework_freeform_count">複数のフリーフォーム</string>
     <string name="system_framework_disable_freeform_blacklist">小さなフリーフォームを強制的に許可</string>
-    <string name="system_framework_disable_freeform_blacklist_desc">システムのブラックリストとアプリによるフリーフォームの制限を無視する</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">システムのブラックリストとアプリによるフリーフォームの制限を無視します</string>
     <string name="system_framework_freeform_sticky">状態を記憶</string>
     <string name="system_framework_freeform_bubble">バブルフリーフォーム</string>
     <string name="system_framework_freeform_recents_to_small_freeform">すべてをミニフリーフォームに変える</string>
@@ -227,7 +228,7 @@
     <string name="system_framework_volume_disable_safe">大音量の警告を無効化</string>
     <string name="system_framework_volume_separate_slider">通知の音量スライダー</string>
     <string name="system_framework_volume_media_steps">メディアの音量レベル</string>
-    <string name="system_framework_volume_media_steps_desc">オンにすると、ボリュームバーのスクロールがフリーズしたり、Bluetoothの音量が異常になる場合があります</string>
+    <string name="system_framework_volume_media_steps_desc">オンにすると、音量バーのスクロールがフリーズしたり、Bluetooth の音量が異常になったりする場合があります</string>
     <string name="system_framework_volume_steps">音量のステップ数</string>
     <string name="system_ui_display_cutout_title">画面のノッチ</string>
     <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
@@ -245,9 +246,9 @@
     <string name="phone_double_5g_sa_desc">実験的な機能です。セカンダリ SIM カードも SA 対応にします</string>
     <string name="system_framework_phone_band_title">バンド設定</string>
     <string name="phone_n1">N1 バンド</string>
-    <string name="phone_n1_desc">N1 バンド (NR) をサポート</string>
+    <string name="phone_n1_desc">N1 バンド (NR) 対応を有効化します</string>
     <string name="phone_n28">N28 バンド</string>
-    <string name="phone_n28_desc">N28 バンド (NR) をサポート</string>
+    <string name="phone_n28_desc">N28 バンド (NR) 対応を有効化します</string>
     <string name="phone_n5_n8">N5/N8 バンド</string>
     <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して N5/N8 バンド対応を有効化できるようにします。「N5とN8モードを有効化しました」と表示されれば、機能は正常に有効になっています</string>
     <string name="system_framework_screen_all_rotations">この機能は不安定性が高い実験的な機能です</string>
@@ -259,7 +260,7 @@
     <string name="system_framework_clean_share_menu">共有メニューを整理する</string>
     <string name="system_framework_clean_share_apps">選択中のアプリ</string>
     <string name="system_framework_clean_share_apps_desc">選択したアプリは共有メニューに表示されません</string>
-    <string name="system_framework_clean_open_menu">Open with メニューを整理する</string>
+    <string name="system_framework_clean_open_menu">「アプリで開く」メニューを整理する</string>
     <string name="system_framework_clean_open_apps">選択中のアプリ</string>
     <string name="system_framework_clean_open_apps_desc">選択したアプリは「アプリで開く」メニューに表示されません</string>
     <string name="system_other_flag_secure">スクリーンショットを許可</string>
@@ -267,7 +268,7 @@
     <string name="system_other_delete_on_post_notification">オーバーレイアプリの通知を無効化</string>
     <string name="system_other_delete_on_post_notification_desc">「他のアプリの上に表示されています」の通知を無効化します</string>
     <string name="system_framework_share_menu_test">共有メニューをテスト</string>
-    <string name="system_framework_open_with_menu_test">Open with メニューのテスト</string>
+    <string name="system_framework_open_with_menu_test">「アプリで開く」メニューのテスト</string>
     <string name="system_framework_other_use_original_animation">ネイティブスタイルの遷移アニメーションを使用する</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
     <string name="system_framework_other_speed_install_desc">インストール速度を上げるためにメモリへインストールします</string>
@@ -282,15 +283,15 @@
     <string name="system_framework_core_patch_auth_creak_desc">改変されたapkのインストールを許可します(無効なダイジェストエラーを無視)</string>
     <string name="system_framework_disable_integrity">システムの整合性チェックを無効化</string>
     <string name="system_framework_disable_integrity_desc">改ざんされたコンテンツの自動復元を禁止します。「ダイジェスト認証を無効にする」機能をオンにすると、デフォルトで有効になります。\nAndroid 13 以降のみ対応しています</string>
-    <string name="system_framework_core_patch_digest_creak">比較署名を無効にする　</string>
-    <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します。</string>
+    <string name="system_framework_core_patch_digest_creak">比較署名を無効にする</string>
+    <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します</string>
     <string name="system_framework_core_patch_use_pre_signature">インストール済みの署名を使用</string>
-    <string name="system_framework_core_patch_use_pre_signature_desc">この機能は非常に危険で、必要なときにのみ有効にしてください</string>
+    <string name="system_framework_core_patch_use_pre_signature_desc">この機能は非常に危険です。必要なときにのみ有効にしてください</string>
     <string name="system_framework_core_patch_enhanced_mode">エンハンスモード</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">アプリケーションでいくつかの検証に合格する</string>
+    <string name="system_framework_core_patch_enhanced_mode_desc">アプリケーションのいくつかの検証に合格させます</string>
     <!--Browser-->
     <string name="browser">ブラウザー</string>
-    <string name="browser_debug_mode">開発者オプション</string>
+    <string name="browser_debug_mode">開発者オプションの有効化</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx 以降はサポートされていません</string>
     <!--Camera-->
     <string name="camera">カメラ</string>
@@ -374,7 +375,7 @@
     <string name="system_ui_lockscreen_ui_title">UI</string>
     <string name="system_ui_lockscreen_information_title">情報</string>
     <string name="system_ui_lock_screen_scramble_pin">ランダム PIN</string>
-    <string name="system_ui_lock_screen_scramble_pin_desc">PIN キーパッドの順序をランダムにする</string>
+    <string name="system_ui_lock_screen_scramble_pin_desc">PIN キーパッドの順序をランダムにします</string>
     <string name="system_ui_lock_screen_password_free">起動時にパスワードを入力する必要はありません</string>
     <string name="system_ui_lock_screen_password_free_desc">デバイスの暗号化が有効になっていない場合にのみ効果があります</string>
     <string name="system_ui_lock_screen_password_free_tip">デバイスは暗号化されています。この機能は利用できません</string>
@@ -385,7 +386,7 @@
     <string name="system_ui_lock_screen_show_spacing">表示の更新間隔</string>
     <string name="system_ui_lock_screen_hide_camera">カメラを非表示</string>
     <string name="system_ui_lock_screen_hide_smart_screen">スマートスクリーンを非表示</string>
-    <string name="system_ui_lock_screen_current">現在</string>
+    <string name="system_ui_lock_screen_current">電流</string>
     <string name="system_ui_lock_screen_show_second">時計に秒を表示</string>
     <string name="system_ui_lock_screen_blur_button">カメラとサイドパネルのボタンをぼかす</string>
     <string name="system_ui_lock_screen_force_system_fonts">システムフォントを時計に強制使用する</string>
@@ -440,7 +441,7 @@
     <string name="system_ui_statusbar_iconmanage_status_title">ステータスアイコン</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知アイコン</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">バッテリー</string>
-    <string name="system_ui_statusbar_iconmanage_call_title">Call</string>
+    <string name="system_ui_statusbar_iconmanage_call_title">通話</string>
     <string name="system_ui_statusbar_iconmanage_left_title">アイコンを左側に表示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">アイコンを右側に表示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -453,7 +454,7 @@
     <string name="system_ui_status_bar_icon_new_hd">新しい HD アイコン</string>
     <string name="system_ui_status_bar_icon_small_hd">小さな HD アイコン</string>
     <string name="system_ui_status_bar_icon_big_hd">大きな HD アイコン</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">SIM カード未挿入アイコンを非表示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">SIM カード未挿入アイコン</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM カード 1 信号アイコン</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM カード 2 信号アイコン</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">表示ロジック</string>
@@ -486,7 +487,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">インターネットの速度</string>
     <string name="system_ui_status_bar_volume_at_right">サウンドシーン</string>
     <string name="system_ui_status_bar_use_new_hd">新しい HD アイコンを強制的に使用する</string>
-    <string name="system_ui_status_bar_use_new_hd_summary">より新しいシステムバージョンが必要で、一部のデバイスはまだ対応していない可能性があります</string>
+    <string name="system_ui_status_bar_use_new_hd_summary">一部の新しいシステムバージョンでのみ対応しています</string>
     <string name="system_ui_status_bar_no_netspeed_separator_title">ネットワーク速度のセパレーター</string>
     <string name="system_ui_status_bar_no_netspeed_separator_desc">中央カメラのデバイスでは、時間とインターネット速度の間の垂直線は表示されません</string>
     <string name="system_ui_status_bar_hide_icon">スクリーンショット撮影時にステータスバーを非表示にする</string>
@@ -559,10 +560,10 @@
     <string name="system_ui_status_bar_battery_indicator_test">テスト</string>
     <string name="system_ui_controlcenter_title">コントロールセンター</string>
     <string name="system_ui_controlcenter_card_title">カード</string>
-    <string name="system_ui_controlcenter_magnet_title">マグネット</string>
+    <string name="system_ui_controlcenter_magnet_title">便利ツール</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">カード背景の透明度</string>
-    <string name="system_control_center_5g_tile">5G ネットワ ークスイッチ</string>
+    <string name="system_control_center_5g_tile">5G ネットワークスイッチ</string>
     <string name="system_control_center_5g_toggle_label">5G ネットワーク</string>
     <string name="system_control_center_sunshine_mode">太陽光モード</string>
     <string name="system_ui_control_auto_close">タイルを自動的に閉じる</string>
@@ -570,7 +571,7 @@
     <string name="system_control_center_qs_tile_label">タイトルを削除</string>
     <string name="system_control_center_qs_rows">行</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
-    <string name="system_control_center_qs_columns">カラム</string>
+    <string name="system_control_center_qs_columns">列</string>
     <string name="system_control_center_qs_columns_format">%d 件のリスト</string>
     <string name="system_ui_control_center_hide_mi_play_entry">MiPlay エントリ</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi スマートハブのエントリ</string>
@@ -590,7 +591,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">通知メニューの設定を開いたとき、通知設定の適用ではなくターゲットチャンネルの設定に移動します</string>
     <string name="system_ui_control_center_show_weather">天気を表示</string>
     <string name="system_ui_control_center_show_weather_city">都市を表示</string>
-    <string name="system_ui_control_center_mute_visible_notice">画面がON のときはミュートする</string>
+    <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知ドロワーを切り替え</string>
@@ -606,7 +607,7 @@
     <string name="system_ui_other_title">その他</string>
     <string name="system_ui_charge_animation_title">充電時のアニメーション</string>
     <string name="system_ui_charge_animation_style">充電アニメーションのスタイル</string>
-    <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択する</string>
+    <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
     <string name="system_ui_origin_charge_animation">ネイティブ充電アニメーション</string>
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_notification_freeform">他のアプリの通知バーをプルダウンしてフリーフォームを開く</string>
@@ -625,7 +626,7 @@
     <string name="system_settings">設定</string>
     <string name="system_settings_international_build">グローバルバージョンの設定を使用</string>
     <string name="system_settings_safe_wifi">保存された Wi-Fi パスワードを表示</string>
-    <string name="system_settings_safe_wifi_desc">保存されたネットワークの管理をアンロック\nパス: 設定 - Wi-Fi - 詳細設定 - 保存したネットワークを管理</string>
+    <string name="system_settings_safe_wifi_desc">保存したネットワークの管理を有効化します\n場所: 設定 - Wi-Fi - 追加設定 - 保存したネットワークを管理</string>
     <string name="system_settings_wifipassword_btn_title">確認</string>
     <string name="system_settings_wifi_password_label">パスワード</string>
     <string name="system_settings_wifi_password_dlgtitle">Wi-Fi の詳細</string>
@@ -645,7 +646,7 @@
     <string name="system_settings_voip_assistant_controller">VoIP アシスタント</string>
     <string name="system_settings_ai_image_title">AI 画像エンジン</string>
     <string name="system_settings_ai_image_unlock_sr">超解像をアンロック</string>
-    <string name="system_settings_ai_image_unlock_ai">AI による画像補正とHDR 補正機能をアンロックします</string>
+    <string name="system_settings_ai_image_unlock_ai">AI 画像補正と AI HDR 補正機能をアンロック</string>
     <string name="system_settings_ai_image_unlock_memc">MEMC をアンロック</string>
     <string name="system_settings_permission_title">アクセス許可</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
@@ -693,10 +694,10 @@
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">サードパーティーのブラウザーを使用する</string>
     <string name="content_extension_browser_desc">Taplus の検索で MIUI ブラウザーの使用を強制しないようにします。デフォルトのブラウザーを自分で選択する必要があります。</string>
-    <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
+    <string name="content_extension_unlock_taplus_title">Taplus をアンロック</string>
     <string name="content_extension_unlock_taplus_horizontal_title">横向き画面での Taplus の使用を許可</string>
     <string name="content_extension_double_press">ジェスチャー：2本指</string>
-    <string name="content_extension_super_image">保存する画像の画質: 超解像度</string>
+    <string name="content_extension_super_image">最高画質で画像を保存するオプションを有効化</string>
     <string name="content_extension_super_image_summary">デバイスモデルが対応していなければ使用できません</string>
     <string name="content_extension_link_open_mode">リンクの開き方</string>
     <string name="content_extension_link_open_mode_desc">リンクを開く際のブラウザを選択してください</string>
@@ -759,9 +760,9 @@
     <string name="home_layout_show_clock">時計を表示</string>
     <string name="home_layout_show_clock_desc">時計ウィジェットがあるページでも、常に時刻が表示されます</string>
     <string name="home_layout_unlock_grids">レイアウトをアンロック</string>
-    <string name="home_layout_unlock_grids_desc">ホーム画面のアイコンのレイアウトサイズ制限を削除する</string>
+    <string name="home_layout_unlock_grids_desc">ホーム画面のアイコンのレイアウトサイズ制限を削除します</string>
     <string name="home_layout_unlock_grids_no_words">レイアウトをアンロック(テキストなしモード)</string>
-    <string name="home_layout_unlock_grids_no_words_desc">ホーム画面のアイコンのレイアウトサイズ制限を削除する</string>
+    <string name="home_layout_unlock_grids_no_words_desc">ホーム画面のアイコンのレイアウトサイズ制限を削除します</string>
     <string name="home_layout_workspace_padding_bottom_desc">画面下部余白からのホーム画面の距離</string>
     <string name="home_layout_workspace_padding_top_desc">画面上部余白からのホーム画面の距離</string>
     <string name="home_layout_hotseats_height">高さ</string>
@@ -791,7 +792,7 @@
     <string name="home_big_folder_icon_bg_1x2_n">2*2 背景のカスタム</string>
     <string name="home_big_folder_icon_bg_n">3*3 と 4*4 背景のカスタム</string>
     <string name="home_auto_close_folder_title">自動で閉じる</string>
-    <string name="home_auto_close_folder_summary">アプリの起動後にフォルダを自動で閉じるようにする</string>
+    <string name="home_auto_close_folder_summary">アプリの起動後にフォルダを自動で閉じるようにします</string>
     <string name="home_wallpaper">背景</string>
     <string name="home_wallpaper_blur">背景のぼかし</string>
     <string name="home_enable_blur">開始時のぼかし</string>
@@ -928,15 +929,15 @@
     <string name="mishare_disable_mishare_auto_off">Mi シェアの自動オフを無効化</string>
     <!--Wallpaper-->
     <string name="miwallpaper">壁紙</string>
-    <string name="miwallpaper_unlock_super_wallpaper">Super Wallpaper をアンロック</string>
+    <string name="miwallpaper_unlock_super_wallpaper">スーパー壁紙をアンロック</string>
     <!--Package installer-->
     <string name="package_installer">パッケージインストーラー</string>
     <string name="miui_package_installer_modify">ページを簡潔にする</string>
     <string name="miui_package_installer_safe_mode">クリーンモード</string>
     <string name="miui_package_installer_safe_mode_desc">公式セキュリティガードを強制的に開放してロックする</string>
-    <string name="miui_package_installer_disable_ad">プロモーションを無効化する</string>
+    <string name="miui_package_installer_disable_ad">プロモーションを無効化</string>
     <string name="miui_package_installer_install_risk">リスクの検出を無効化</string>
-    <string name="miui_package_installer_safe_model_tip">セキュリティガードプロンプトを無効化する</string>
+    <string name="miui_package_installer_safe_model_tip">セキュリティガードプロンプトを無効化</string>
     <string name="miui_package_installer_count_checking">インストール済みアプリの頻繁なチェックを無効化</string>
     <string name="miui_package_installer_update_system_app">システムアプリのインストール制限を削除</string>
     <string name="miui_package_installer_update_system_app_desc">システム以外のチャネルからのシステムアプリのインストールを許可する</string>
@@ -947,7 +948,7 @@
     <string name="personal_assistant">アプリ保管庫</string>
     <string name="personal_assistant_widget_crack">ウィジェットのパッチ</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold ウィジェット</string>
-    <string name="personal_assistant_fold_widget_enable_desc">Pad/Fold 用のウィジェットを有効にする</string>
+    <string name="personal_assistant_fold_widget_enable_desc">Pad/Fold 用のウィジェットを有効にします</string>
     <string name="personal_assistant_overlap_mode">-1画面を Fold スタイルにする</string>
     <string name="personal_assistant_blur_model">パーソナルアシスタントのぼかしモデル</string>
     <string name="personal_assistant_blur_value">背景のスタイル</string>
@@ -958,13 +959,13 @@
     <string name="music_disable_ad">広告を削除</string>
     <!--Battery and performance-->
     <string name="powerkeeper">バッテリーとパフォーマンス</string>
-    <string name="powerkeeper_custom_refresh_rate">高リフレッシュレートのアプリをカスタム</string>
+    <string name="powerkeeper_custom_refresh_rate">高リフレッシュレートのアプリを指定</string>
     <string name="powerkeeper_lock_max_fps">最大 FPS をロック</string>
     <string name="powerkeeper_do_not_kill_apps">アプリを強制終了しない</string>
     <string name="powerkeeper_do_not_kill_apps_desc">消費電力が増加する可能性があります</string>
     <!--creen Recorder-->
     <string name="screenrecorder">スクリーンレコーダー</string>
-    <string name="screen_recorder_force_support_playback_capture">AOSP のスクリーンレコーディングを強制的に有効化する</string>
+    <string name="screen_recorder_force_support_playback_capture">AOSP の画面録画を強制的に有効化</string>
     <string name="screen_recorder_force_support_playback_capture_desc">スクリーンレコーダーが対応しているバージョンであることが必要です</string>
     <string name="screen_recorder_config">フレームレートとビットレートの選択を追加</string>
     <string name="screen_recorder_config_desc">ハードウェアの状況に応じて選択をしてください</string>
@@ -991,7 +992,7 @@
     <string name="security_center_ai_clipboard">クリップボードの保護</string>
     <string name="security_center_blur_location">おおまかな位置情報</string>
     <string name="security_center_gms_open">GMS サービス</string>
-    <string name="security_center_get_number">電話番号を使ってワンクリックでログインするアプリケーションを管理する</string>
+    <string name="security_center_get_number">電話番号を使って簡単ログインするアプリを管理</string>
     <string name="security_center_applock_pin_scramble">アプリロックのPINの順序をランダムにする</string>
     <string name="security_center_applock_pin_scramble_desc">アプリロックのPINキーパッドの配列をランダムにする</string>
     <string name="security_center_beauty_light_auto">フィルライトの明るさの自動調整をアンロック</string>
@@ -1010,7 +1011,7 @@
     <string name="security_app_summary">アプリ情報に以下の項目を追加します:\n- バージョンコード\n- APK のフルパス\n- データのパス\n- ユーザー ID\n- 最小 SDK バージョン\n- ターゲット SDK バージョン\n- Google Play ストアを開く\n- アプリの起動</string>
     <string name="security_app_sort_title">アプリ管理リストの並び順</string>
     <string name="security_app_sort_summary">アプリ管理リストのデフォルトの並び順を変更します</string>
-    <string name="security_restrict_app_title">最大上限</string>
+    <string name="security_restrict_app_title">フル制限</string>
     <string name="security_restrict_app_summary">システムアプリでのパワーセーバーと Wi-Fi 権限の設定を許可します</string>
     <string name="security_disable_app_title">アプリの状態制御</string>
     <string name="security_disable_app_summary">すべてのアプリの情報ページで、アプリの無効化を許可します</string>
@@ -1020,7 +1021,7 @@
     <string name="app_link_open_never">アプリにリンクを開かせない</string>
     <string name="open_by_default">デフォルトで開く</string>
     <string name="security_score">ヘルスチェックの最適化を無効化</string>
-    <string name="security_score_summary">100 ポイントをロックで最適化を無効化させる</string>
+    <string name="security_score_summary">100 ポイントに固定して、最適化させないようにします</string>
     <string name="security_center_skip_waiting_time">カウントダウン制限をスキップ</string>
     <string name="security_center_skip_waiting_time_desc">危険なオプションの確認カウントダウンをスキップできるようにします</string>
     <string name="security_center_newbox_blur">サイドバーのぼかし</string>
@@ -1090,7 +1091,7 @@
     <string name="market_disable_new_icon_desc">デスクトップをよりクリーンにする</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
-    <string name="mirror_unlock_miui_plus">MIUI+ をアンロックする</string>
+    <string name="mirror_unlock_miui_plus">MIUI+ をアンロック</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi の設定</string>
     <string name="mi_input_settings">入力設定</string>
@@ -1140,19 +1141,19 @@
     <string name="various_open_aosp_app_manage_title">アプリを管理</string>
     <string name="various_open_aosp_language_title">アプリの言語</string>
     <string name="various_open_aosp_extremely_dark_title">さらに輝度を下げる</string>
-    <string name="various_mipad_input_title">Input</string>
+    <string name="various_mipad_input_title">入力</string>
     <string name="various_mipad_input_close_magic_title">Magic Pointer をオフにする</string>
-    <string name="various_mipad_input_close_magic_desc">MIUI for Pad の丸いマウスをオフにし、Android の元のマウスポインターに戻します。</string>
+    <string name="various_mipad_input_close_magic_desc">MIUI for Pad の丸いマウスをオフにし、Android の元のマウスポインターに戻します</string>
     <string name="various_mipad_input_restore_esc_title">ESC キー機能を復元</string>
-    <string name="various_mipad_input_restore_esc_desc">MIUIにより「戻る」機能に強制的に割り当てられたESCキーを復元します。</string>
+    <string name="various_mipad_input_restore_esc_desc">MIUIにより「戻る」機能に強制的に割り当てられたESCキーを復元します</string>
     <string name="various_mipad_input_disable_bluetooth_title">スタイラスの Bluetooth 制限を解除</string>
-    <string name="various_mipad_input_disable_bluetooth_desc">Xiaomi 灵感タッチペンの Bluetooth を接続することなく、互換性のあるスタイラスを使用できます。</string>
+    <string name="various_mipad_input_disable_bluetooth_desc">Xiaomi 公式スタイラスでない、互換性のあるスタイラスでも使用できるようにします</string>
     <string name="various_mipad_input_bluetooth_version_title">ドライバーバージョン</string>
-    <string name="various_mipad_input_bluetooth_version_desc">スタイラスの Bluetooth 制限を解除するために使用されるドライバーのバージョン</string>
+    <string name="various_mipad_input_bluetooth_version_desc">スタイラスの Bluetooth 制限を解除するために使用するドライバーのバージョン</string>
     <string name="various_mipad_input_ingore_gesture_title">スタイラスボタンジェスチャーを無視</string>
-    <string name="various_mipad_input_ingore_gesture_desc">スタイラスボタンの長押しジェスチャーを無視します。</string>
+    <string name="various_mipad_input_ingore_gesture_desc">スタイラスボタンの長押しジェスチャーを無視します</string>
     <string name="various_mipad_input_need_finger_num_title">ジェスチャーに必要な指の数を変更</string>
-    <string name="various_mipad_input_need_finger_num_desc">三本指のスクリーンショット、三本指のエリアスクリーンショット、三本指の横スクリーンジェスチャーを四本指で実行し、アプリの切り替えジェスチャーを三本指で実行するように変更します</string>
+    <string name="various_mipad_input_need_finger_num_desc">三本指のスクリーンショット・部分的なスクリーンショット・横分割ジェスチャーを四本指で実行し、アプリの切り替えジェスチャーを三本指で実行するように変更します</string>
     <string name="custom_background_blur_enabled">背景のぼかし</string>
     <string name="custom_background_blur_radius">ぼかし半径</string>
     <string name="custom_background_color">背景の色</string>
@@ -1229,13 +1230,13 @@
     <string name="location_add">追加</string>
     <string name="location_delete">削除</string>
     <!--Tip-->
-    <string name="tip_0">ヒント：これがヒントです！</string>
+    <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
-    <string name="tip_2">ヒント：開発者に質問したい場合は、Telegram@Sevtinge_PM_bot か Bilibili@绀漓丨Sevtinge までご連絡ください。</string>
+    <string name="tip_2">ヒント: 開発者に質問したい場合は、Telegram@Sevtinge_PM_bot か Bilibili@绀漓丨Sevtinge までご連絡ください。</string>
     <string name="tip_3">ヒント: 公式グループに参加したい場合は、Telegram@cemiuiler か QQ で 247909573 を検索してください。</string>
     <string name="tip_4">ヒント: Cemiuiler = Ceiler + MIUI、Ceiler = Ceil + er</string>
-    <string name="tip_5">ヒント: このヒントを何回見直すか推測しましょうか？</string>
-    <string name="tip_6">ヒント：MIUI を再び偉大な物にしましょう!</string>
+    <string name="tip_5">ヒント: おまえは今まで見たヒントの数をおぼえているのか?</string>
+    <string name="tip_6">ヒント: MIUI を再び偉大な物にしましょう!</string>
     <string name="tip_7">ヒント: Github@sevtinge や Bilibili@绀漓丨Sevtinge をフォローしましょう！</string>
     <string name="tip_8">ヒント: Sevtinge は男の子でしょうか、女の子でしょうか?</string>
     <string name="tip_9">ヒント: 東京タワーは壊されがちです。</string>
@@ -1246,7 +1247,7 @@
     <string name="tip_14">ヒント: Sevtinge は山河大学 三江市キャンパス 情報工程学院出身です。</string>
     <string name="tip_15">ヒント: Sevtinge には第二形態があるらしい…</string>
     <string name="tip_16">ヒント: Sevtinge は子狐です！</string>
-    <string name="tip_17">ヒント: 私は猫耳の女の子の人格とロリの人格を持っています。</string>
+    <string name="tip_17">ヒント: Ling Qiqi は猫耳の女の子の人格とロリの人格を持っています。</string>
     <string name="tip_18">ヒント: Cemiuiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
     <string name="tip_19">ヒント: グレーアウトした機能は、特別な注釈がない場合機能が異常であることを意味しており、当分の間ユーザーに開放される予定はありません</string>
     <string name="tip_20">ヒント: 何もしない場合は Canary の新しいバージョンを追わないでください。壊れている場合は急いでアップデートしないでください。</string>
