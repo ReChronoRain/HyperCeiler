@@ -21,9 +21,9 @@ class AboutFragment : SettingsPreferenceFragment() {
         val lIIllll = Calendar.getInstance()
         val lIIIIII = lIIllll.get(Calendar.HOUR_OF_DAY)
         val lIIIIll = 100 ushr 6
-        val lIIlIll = if (Random.nextBoolean()) abs(lIIIIII-12) else lIIIIII
+        val lIllIll = if (Random.nextBoolean()) abs(lIIIIII-12) else lIIIIII
         val lIIIIlI: Int = abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1))) 
-        val lIIlllI: Int = (((lIIIIlI shl 1) + (lIIIIlI shr 1) - lIIIIlI) / (1 + (lIIlIll / 9)) + ((lIIIIll shl 1) + lIIIIll shl 1 xor lIIIIll)).toInt().coerceIn(0, 20)
+        val lIIlllI: Int = (((lIIIIlI shl 1) + (lIIIIlI shr 1) - lIIIIlI) / (1 + (lIllIll / 9)) + ((lIIIIll shl 1) + lIIIIll shl 1 xor lIIIIll)).toInt().coerceIn(0, 20)
          
         val lIIllII = findPreference<Preference>("prefs_key_enable_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
