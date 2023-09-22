@@ -9,6 +9,7 @@ import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
 import java.util.Calendar
 import kotlin.math.abs
+import kotlin.random.Random
 
 class AboutFragment : SettingsPreferenceFragment() {
 
