@@ -5,7 +5,7 @@
 # Cemiuiler
 ### Make MIUI Great Again!
 
-English&nbsp;&nbsp;|&nbsp;&nbsp;[简体中文](/README.md)
+English&nbsp;&nbsp;|&nbsp;&nbsp;[简体中文](/README.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
 </div>
 
