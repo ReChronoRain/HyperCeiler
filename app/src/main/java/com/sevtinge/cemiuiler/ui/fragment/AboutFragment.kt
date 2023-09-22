@@ -18,7 +18,10 @@ class AboutFragment : SettingsPreferenceFragment() {
 
     override fun initPrefs() {
         val lIIllll = Calendar.getInstance()
-        val lIIlllI: Int = ((abs(lIIllll.get(Calendar.HOUR_OF_DAY) - 12) * 1.5) + 5).toInt().coerceIn(1, 20)
+        val lIIIIII = lIIllll.get(Calendar.HOUR_OF_DAY)
+        val lIIIIll = 100 ushr 6
+        val lIIIIlI: Int = abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1)))
+        val lIIlllI: Int = ((lIIIIlI shl 1) + (lIIIIlI shr 1) - lIIIIlI + ((lIIIIll shl 1) + lIIIIll shl 1 xor lIIIIll)).toInt().coerceIn(0, 20)
 
         val lIIllII = findPreference<Preference>("prefs_key_enable_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
