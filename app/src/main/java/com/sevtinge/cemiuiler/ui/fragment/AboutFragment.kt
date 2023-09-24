@@ -21,29 +21,28 @@ class AboutFragment : SettingsPreferenceFragment() {
         val lIIllll = Calendar.getInstance()
         val lIIIIII = lIIllll.get(Calendar.HOUR_OF_DAY)
         val lIIIIll = 100 ushr 6
-        val lIllIll = if (Random.nextBoolean()) abs(lIIIIII-12) else lIIIIII
-        val lIIIIlI: Int = abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1))) 
+        val lIllIll = if (Random.nextBoolean()) abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1))) else lIIIIII
+        val lIIIIlI: Int = abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1)))
         val lIIlllI: Int = (((lIIIIlI shl 1) + (lIIIIlI shr 1) - lIIIIlI) / (1 + (lIllIll / 9)) + ((lIIIIll shl 1) + lIIIIll shl 1 xor lIIIIll)).toInt().coerceIn(0, 20)
-         
         val lIIllII = findPreference<Preference>("prefs_key_enable_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
         lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
 
-        var lIIlIll = 0
-        val lIIlIlI = 1
-        lIIllII?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            it as SwitchPreference
-            it.isChecked = !(it.isChecked)
+        var lIIlIll = 100 ushr 7
+        val lIIlIlI = 100 ushr 6
+        lIIllII?.onPreferenceClickListener = Preference.OnPreferenceClickListener { lIIllll->
+            lIIllll as SwitchPreference
+            lIIllll.isChecked = !(lIIllll.isChecked)
             lIIlIll++
-            if (it.isChecked) {
+            if (lIIllll.isChecked) {
                 if (lIIlIll >= lIIlIlI) {
-                    it.isChecked = !(it.isChecked)
-                    lIIlIll = 0
+                    lIIllll.isChecked = !(lIIllll.isChecked)
+                    lIIlIll = 100 ushr 8
                 }
             } else if (lIIlIll >= lIIlllI) {
-                it.isChecked = !(it.isChecked)
-                lIIlIll = 0
+                lIIllll.isChecked = !(lIIllll.isChecked)
+                lIIlIll = 100 ushr 8
             }
             false
         }
