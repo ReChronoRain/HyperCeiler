@@ -1032,6 +1032,8 @@
     <!--截屏-->
     <string name="screenshot">截屏</string>
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
+    <string name="screenshot_unlock_privacy_marking_title">解锁智能隐私打码</string>
+    <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 “MiAI引擎” APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
     <string name="screenshot_device_customize_desc">填写请输入 机型代号</string>

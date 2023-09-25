@@ -992,6 +992,8 @@
     <!--Screenshot-->
     <string name="screenshot">Screenshot</string>
     <string name="screenshot_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
+    <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
+    <string name="screenshot_unlock_privacy_marking_desc">A higher version of the \"Mi AI Engine\" APP needs to be pre-installed for normal use</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
     <string name="screenshot_device_customize_desc">Please enter the model code</string>
