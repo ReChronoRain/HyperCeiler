@@ -598,10 +598,7 @@
     <string name="system_ui_controlcenter_new_title">新しいコントロールセンター</string>
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
-    <string name="system_control_center_old_qs_rows_desc">ラベルは縦方向では5列分が隠されます。横方向では3列までになります</string>
-    <string name="system_control_center_old_qs_columns_desc">横向きでは列が1つ増えます\nROM がコンパクトなクイック設定レイアウトに対応している場合は、両方の方向でもう一列が追加されます</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">横方向の場合は1列が追加されます</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth タイルのスタイル</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Bluetooth タイルをネットワークタイルの近くに移動する</string>
     <string name="system_ui_other_title">その他</string>
