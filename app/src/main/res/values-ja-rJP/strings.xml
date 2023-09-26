@@ -571,8 +571,10 @@
     <string name="system_control_center_qs_tile_label">タイトルを削除</string>
     <string name="system_control_center_qs_rows">行</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
+    <string name="system_control_center_qs_rows_horizontal">行数 (横画面)</string>
     <string name="system_control_center_qs_columns">列</string>
     <string name="system_control_center_qs_columns_format">%d 件のリスト</string>
+    <string name="system_control_center_qs_columns_horizontal">列数 (横画面)</string>
     <string name="system_ui_control_center_hide_mi_play_entry">MiPlay エントリ</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi スマートハブのエントリ</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">デバイス制御項目</string>
@@ -599,6 +601,7 @@
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
+    <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth タイルのスタイル</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Bluetooth タイルをネットワークタイルの近くに移動する</string>
     <string name="system_ui_other_title">その他</string>
@@ -960,6 +963,7 @@
     <string name="powerkeeper_lock_max_fps">最大 FPS をロック</string>
     <string name="powerkeeper_do_not_kill_apps">アプリを強制終了しない</string>
     <string name="powerkeeper_do_not_kill_apps_desc">消費電力が増加する可能性があります</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">バッテリー最適化のホワイトリストの復元を防止</string>
     <!--creen Recorder-->
     <string name="screenrecorder">スクリーンレコーダー</string>
     <string name="screen_recorder_force_support_playback_capture">AOSP の画面録画を強制的に有効化</string>
@@ -972,6 +976,8 @@
     <!--Screenshot-->
     <string name="screenshot">スクリーンショット</string>
     <string name="screenshot_unlock_minimum_crop_limit">画像トリミングの最小制限を無効化</string>
+    <string name="screenshot_unlock_privacy_marking_title">プライバシーマークをアンロック</string>
+    <string name="screenshot_unlock_privacy_marking_desc">「Mi AI Engine」のより新しいバージョンがプリインストールされている必要があります</string>
     <string name="screenshot_save_to_pictures_desc">スクリーンショットの保存場所を /Pictures/Screenshots に設定します</string>
     <string name="screenshot_device_customize_title">デバイスフレームに使うモデルをカスタム</string>
     <string name="screenshot_device_customize_desc">モデルコードを入力してください</string>
