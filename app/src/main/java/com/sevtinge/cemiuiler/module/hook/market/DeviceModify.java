@@ -49,10 +49,20 @@ public class DeviceModify extends BaseHook {
             mDevice = "corot";
             mModel = "23078RKD5C";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 332) {
-            // n12t
-            mDevice = "marble";
-            mModel = "23049RAD8C";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 309) {
+            // k70p
+            mDevice = "manet";
+            mModel = "23117RK66C";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 351) {
+            // k70e
+            mDevice = "duchamp";
+            mModel = "23113RKC6C";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 334) {
+            // n13pp
+            mDevice = "zircon";
+            mModel = "23090RA98C";
             mManufacturer = "Redmi";
         }
         findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
