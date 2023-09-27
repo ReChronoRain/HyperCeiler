@@ -571,8 +571,10 @@
     <string name="system_control_center_qs_tile_label">Remover nomes</string>
     <string name="system_control_center_qs_rows">Linhas</string>
     <string name="system_control_center_qs_rows_format">%d linhas</string>
+    <string name="system_control_center_qs_rows_horizontal">Linhas (Paisagem)</string>
     <string name="system_control_center_qs_columns">Colunas</string>
     <string name="system_control_center_qs_columns_format">%d Lista</string>
+    <string name="system_control_center_qs_columns_horizontal">Colunas (Paisagem)</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Entrada do MiPlay</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Mi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entrada de controle do dispositivo</string>
@@ -598,10 +600,8 @@
     <string name="system_ui_controlcenter_new_title">Novo centro de controle</string>
     <string name="system_ui_controlcenter_old_title">Centro de controle antigo</string>
     <string name="system_ui_controlcenter_enable_title">Personalize o número de linhas e colunas</string>
-    <string name="system_control_center_old_qs_rows_desc">Os nomes ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com nomes ocultos na orientação paisagem.</string>
-    <string name="system_control_center_old_qs_columns_desc">A orientação paisagem terá uma coluna adicional\nSe sua ROM tiver uma opção compacta de layout de configurações rápidas, ela adicionará outra coluna em ambas as orientações</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">A orientação de paisagem terá uma coluna adicional</string>
+    <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do ícone bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Mova o ícone do bluetooth para perto do ícone de rede</string>
     <string name="system_ui_other_title">Outros</string>
@@ -963,6 +963,7 @@
     <string name="powerkeeper_lock_max_fps">Bloquear FPS máximo</string>
     <string name="powerkeeper_do_not_kill_apps">Tente não encerrar os apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
@@ -975,6 +976,8 @@
     <!--Screenshot-->
     <string name="screenshot">Captura de tela</string>
     <string name="screenshot_unlock_minimum_crop_limit">Desbloquear limite mínimo de recorte de imagem</string>
+    <string name="screenshot_unlock_privacy_marking_title">Desbloquear marcação de privacidade</string>
+    <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app \"Mi AI Engine\" precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado com shell</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo</string>

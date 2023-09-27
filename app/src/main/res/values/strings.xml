@@ -583,8 +583,10 @@
     <string name="system_control_center_qs_tile_label">Remove title</string>
     <string name="system_control_center_qs_rows">Rows</string>
     <string name="system_control_center_qs_rows_format">%d lines</string>
+    <string name="system_control_center_qs_rows_horizontal">Rows (Landscape)</string>
     <string name="system_control_center_qs_columns">Columns</string>
     <string name="system_control_center_qs_columns_format">%d List</string>
+    <string name="system_control_center_qs_columns_horizontal">Columns (Landscape)</string>
     <string name="system_ui_control_center_hide_mi_play_entry">MiPlay Entry</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi smart hub entry</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Device control entry</string>
@@ -610,10 +612,8 @@
     <string name="system_ui_controlcenter_new_title">New control center</string>
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_enable_title">Customize the number of rows and columns</string>
-    <string name="system_control_center_old_qs_rows_desc">Labels will be hidden for 5 rows in a portrait orientation. Number of rows is limited to 3 with hidden labels in a landscape orientation.</string>
-    <string name="system_control_center_old_qs_columns_desc">Landscape orientation will have one additional column\nIf your ROM has a compact Quick Settings layout option, it will add another column in both orientations</string>
     <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
+    <string name="system_control_center_old_qs_grid_columns_horizontal">Number of columns in collapsed panel (Landscape)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth tile style</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Move the bluetooth tile near the network tile</string>
 
@@ -980,6 +980,7 @@
     <string name="powerkeeper_lock_max_fps">Lock max FPS</string>
     <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
@@ -992,6 +993,8 @@
     <!--Screenshot-->
     <string name="screenshot">Screenshot</string>
     <string name="screenshot_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
+    <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
+    <string name="screenshot_unlock_privacy_marking_desc">A higher version of the \"Mi AI Engine\" APP needs to be pre-installed for normal use</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
     <string name="screenshot_device_customize_desc">Please enter the model code</string>
