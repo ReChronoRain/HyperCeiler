@@ -41,6 +41,12 @@ object UnlockSuperClipboard : BaseHook() {
                 }
             }
 
+            "com.android.mms" -> {
+                if (mPrefsMap.getBoolean("various_super_clipboard_mms")) {
+                    dexKitSuperClipboard()
+                }
+            }
+
             "com.miui.notes" -> {
                 if (mPrefsMap.getBoolean("various_super_clipboard_notes")) {
                     methodSuperClipboard("com.miui.common.tool.Utils")

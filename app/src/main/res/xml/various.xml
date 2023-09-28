@@ -62,7 +62,14 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/mms"
+            android:dependency="prefs_key_various_super_clipboard_enable"
+            android:key="prefs_key_various_super_clipboard_mms"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/browser"
+            android:summary="@string/various_super_clipboard_files_desc"
             android:dependency="prefs_key_various_super_clipboard_enable"
             android:key="prefs_key_various_super_clipboard_browser"
             android:defaultValue="false" />
