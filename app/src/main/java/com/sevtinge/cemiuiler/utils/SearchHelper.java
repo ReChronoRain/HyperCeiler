@@ -15,6 +15,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class SearchHelper {
@@ -42,25 +43,40 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.framework_freeform,
             R.string.system_framework,
             R.string.floating_window,
+            R.string.floating_window,
+            R.string.floating_window,
+            R.string.floating_window,
             "com.sevtinge.cemiuiler.ui.fragment.framework.FreeFormSettings");
 
         parsePrefXml(context, R.xml.framework_volume,
             R.string.system_framework,
+            R.string.system_framework_volume_title,
+            R.string.system_framework_volume_title,
+            R.string.system_framework_volume_title,
             R.string.system_framework_volume_title,
             "com.sevtinge.cemiuiler.ui.fragment.framework.VolumeSettings");
 
         parsePrefXml(context, R.xml.framework_phone,
             R.string.system_framework,
             R.string.system_framework_phone_title,
+            R.string.system_framework_phone_title,
+            R.string.system_framework_phone_title,
+            R.string.system_framework_phone_title,
             "com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings");
 
         parsePrefXml(context, R.xml.framework_display,
             R.string.system_framework,
             R.string.system_framework_display_title,
+            R.string.system_framework_display_title,
+            R.string.system_framework_display_title,
+            R.string.system_framework_display_title,
             "com.sevtinge.cemiuiler.ui.fragment.framework.DisplaySettings");
 
         parsePrefXml(context, R.xml.framework_other,
             R.string.system_framework,
+            R.string.system_framework_other_title,
+            R.string.system_framework_other_title,
+            R.string.system_framework_other_title,
             R.string.system_framework_other_title,
             "com.sevtinge.cemiuiler.ui.fragment.framework.OtherSettings");
 
@@ -68,60 +84,96 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.system_ui_lock_screen,
             R.string.system_ui,
             R.string.system_ui_lockscreen_title,
+            R.string.system_ui_lockscreen_title,
+            R.string.system_ui_lockscreen_title,
+            R.string.system_ui_lockscreen_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.LockScreenSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar,
             R.string.system_ui,
             R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.StatusBarSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_icon_manage,
             R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_statusbar_iconmanage_title,
             R.string.system_ui_statusbar_iconmanage_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.IconManageSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_mobile_network_type,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_title,
             R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_status_bar_mobile_type_single_title,
             R.string.system_ui_status_bar_mobile_type_single_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.MobileNetworkTypeSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_doubleline_network,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_title,
             R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_statusbar_iconmanage_mobile_network_title,
             R.string.system_ui_statusbar_iconmanage_mobile_network_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_battery_styles,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_title,
             R.string.system_ui_statusbar_iconmanage_title,
+            R.string.system_ui_status_bar_battery_style_title,
             R.string.system_ui_status_bar_battery_style_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryStyleSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_network_speed_indicator,
             R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_network_speed_indicator_title,
+            R.string.system_ui_statusbar_network_speed_indicator_title,
             R.string.system_ui_statusbar_network_speed_indicator_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_clock_indicator,
             R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_clock_title,
+            R.string.system_ui_statusbar_clock_title,
             R.string.system_ui_statusbar_clock_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_hardware_detail_indicator,
             R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_device_title,
+            R.string.system_ui_statusbar_device_title,
             R.string.system_ui_statusbar_device_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings");
 
         parsePrefXml(context, R.xml.system_ui_navigation,
             R.string.system_ui,
             R.string.system_ui_navigation_title,
+            R.string.system_ui_navigation_title,
+            R.string.system_ui_navigation_title,
+            R.string.system_ui_navigation_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.NavigationSettings");
 
         parsePrefXml(context, R.xml.system_ui_control_center,
             R.string.system_ui,
             R.string.system_ui_controlcenter_title,
+            R.string.system_ui_controlcenter_title,
+            R.string.system_ui_controlcenter_title,
+            R.string.system_ui_controlcenter_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.ControlCenterSettings");
 
         parsePrefXml(context, R.xml.system_ui_other,
             R.string.system_ui,
+            R.string.system_ui_other_title,
+            R.string.system_ui_other_title,
+            R.string.system_ui_other_title,
             R.string.system_ui_other_title,
             "com.sevtinge.cemiuiler.ui.fragment.systemui.SystemUIOtherSettings");
 
@@ -129,50 +181,80 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.home_gesture,
             R.string.home,
             R.string.home_gesture,
+            R.string.home_gesture,
+            R.string.home_gesture,
+            R.string.home_gesture,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeGestureSettings");
 
         parsePrefXml(context, R.xml.home_layout,
             R.string.home,
+            R.string.home_layout,
+            R.string.home_layout,
+            R.string.home_layout,
             R.string.home_layout,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeLayoutSettings");
 
         parsePrefXml(context, R.xml.home_folder,
             R.string.home,
             R.string.home_folder,
+            R.string.home_folder,
+            R.string.home_folder,
+            R.string.home_folder,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeFolderSettings");
 
         parsePrefXml(context, R.xml.home_drawer,
             R.string.home,
+            R.string.home_drawer,
+            R.string.home_drawer,
+            R.string.home_drawer,
             R.string.home_drawer,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeDrawerSettings");
 
         parsePrefXml(context, R.xml.home_title,
             R.string.home,
             R.string.home_title,
+            R.string.home_title,
+            R.string.home_title,
+            R.string.home_title,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeTitleSettings");
 
         parsePrefXml(context, R.xml.home_recent,
             R.string.home,
+            R.string.home_recent,
+            R.string.home_recent,
+            R.string.home_recent,
             R.string.home_recent,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeRecentSettings");
 
         parsePrefXml(context, R.xml.home_widget,
             R.string.home,
             R.string.home_widget,
+            R.string.home_widget,
+            R.string.home_widget,
+            R.string.home_widget,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeWidgetSettings");
 
         parsePrefXml(context, R.xml.home_dock,
             R.string.home,
+            R.string.home_dock,
+            R.string.home_dock,
+            R.string.home_dock,
             R.string.home_dock,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeDockSettings");
 
         parsePrefXml(context, R.xml.home_other,
             R.string.home,
             R.string.home_other,
+            R.string.home_other,
+            R.string.home_other,
+            R.string.home_other,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeOtherSettings");
 
         // 设置相关
         parsePrefXml(context, R.xml.system_settings,
+            R.string.system_settings,
+            R.string.system_settings,
+            R.string.system_settings,
             R.string.system_settings,
             R.string.system_settings,
             "com.sevtinge.cemiuiler.ui.fragment.SystemSettingsFragment");
@@ -181,9 +263,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.browser,
             R.string.browser,
             R.string.browser,
+            R.string.browser,
+            R.string.browser,
+            R.string.browser,
             "com.sevtinge.cemiuiler.ui.fragment.BrowserFragment");
 
         parsePrefXml(context, R.xml.camera,
+            R.string.camera,
+            R.string.camera,
+            R.string.camera,
             R.string.camera,
             R.string.camera,
             "com.sevtinge.cemiuiler.ui.fragment.CameraFragment");
@@ -191,9 +279,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.clock,
             R.string.clock,
             R.string.clock,
+            R.string.clock,
+            R.string.clock,
+            R.string.clock,
             "com.sevtinge.cemiuiler.ui.fragment.ClockFragment");
 
         parsePrefXml(context, R.xml.fileexplorer,
+            R.string.fileexplorer,
+            R.string.fileexplorer,
+            R.string.fileexplorer,
             R.string.fileexplorer,
             R.string.fileexplorer,
             "com.sevtinge.cemiuiler.ui.fragment.FileExplorerFragment");
@@ -201,9 +295,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.incallui,
             R.string.incallui,
             R.string.incallui,
+            R.string.incallui,
+            R.string.incallui,
+            R.string.incallui,
             "com.sevtinge.cemiuiler.ui.fragment.InCallUiFragment");
 
         parsePrefXml(context, R.xml.mms,
+            R.string.mms,
+            R.string.mms,
+            R.string.mms,
             R.string.mms,
             R.string.mms,
             "com.sevtinge.cemiuiler.ui.fragment.MmsFragment");
@@ -211,9 +311,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.phone,
             R.string.phone,
             R.string.phone,
+            R.string.phone,
+            R.string.phone,
+            R.string.phone,
             "com.sevtinge.cemiuiler.ui.fragment.PhoneFragment");
 
         parsePrefXml(context, R.xml.downloads,
+            R.string.downloads,
+            R.string.downloads,
+            R.string.downloads,
             R.string.downloads,
             R.string.downloads,
             "com.sevtinge.cemiuiler.ui.fragment.DownloadsFragment");
@@ -221,9 +327,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.updater,
             R.string.updater,
             R.string.updater,
+            R.string.updater,
+            R.string.updater,
+            R.string.updater,
             "com.sevtinge.cemiuiler.ui.fragment.UpdaterFragment");
 
         parsePrefXml(context, R.xml.lbe_security,
+            R.string.lbe,
+            R.string.lbe,
+            R.string.lbe,
             R.string.lbe,
             R.string.lbe,
             "com.sevtinge.cemiuiler.ui.fragment.LbeFragment");
@@ -231,9 +343,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.milink,
             R.string.milink,
             R.string.milink,
+            R.string.milink,
+            R.string.milink,
+            R.string.milink,
             "com.sevtinge.cemiuiler.ui.fragment.MiLinkFragment");
 
         parsePrefXml(context, R.xml.aod,
+            R.string.aod,
+            R.string.aod,
+            R.string.aod,
             R.string.aod,
             R.string.aod,
             "com.sevtinge.cemiuiler.ui.fragment.AodFragment");
@@ -241,9 +359,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.content_extension,
             R.string.content_extension,
             R.string.content_extension,
+            R.string.content_extension,
+            R.string.content_extension,
+            R.string.content_extension,
             "com.sevtinge.cemiuiler.ui.fragment.ContentExtensionFragment");
 
         parsePrefXml(context, R.xml.gallery,
+            R.string.gallery,
+            R.string.gallery,
+            R.string.gallery,
             R.string.gallery,
             R.string.gallery,
             "com.sevtinge.cemiuiler.ui.fragment.GalleryFragment");
@@ -251,9 +375,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.guard_provider,
             R.string.guard_provider,
             R.string.guard_provider,
+            R.string.guard_provider,
+            R.string.guard_provider,
+            R.string.guard_provider,
             "com.sevtinge.cemiuiler.ui.fragment.GuardProviderFragment");
 
         parsePrefXml(context, R.xml.mediaeditor,
+            R.string.mediaeditor,
+            R.string.mediaeditor,
+            R.string.mediaeditor,
             R.string.mediaeditor,
             R.string.mediaeditor,
             "com.sevtinge.cemiuiler.ui.fragment.MediaEditorFragment");
@@ -261,9 +391,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.mishare,
             R.string.mishare,
             R.string.mishare,
+            R.string.mishare,
+            R.string.mishare,
+            R.string.mishare,
             "com.sevtinge.cemiuiler.ui.fragment.MiShareFragment");
 
         parsePrefXml(context, R.xml.miwallpaper,
+            R.string.miwallpaper,
+            R.string.miwallpaper,
+            R.string.miwallpaper,
             R.string.miwallpaper,
             R.string.miwallpaper,
             "com.sevtinge.cemiuiler.ui.fragment.MiWallpaperFragment");
@@ -271,9 +407,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.package_installer,
             R.string.package_installer,
             R.string.package_installer,
+            R.string.package_installer,
+            R.string.package_installer,
+            R.string.package_installer,
             "com.sevtinge.cemiuiler.ui.fragment.MiuiPackageInstallerFragment");
 
         parsePrefXml(context, R.xml.music,
+            R.string.music,
+            R.string.music,
+            R.string.music,
             R.string.music,
             R.string.music,
             "com.sevtinge.cemiuiler.ui.fragment.MusicFragment");
@@ -281,9 +423,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.powerkeeper,
             R.string.powerkeeper,
             R.string.powerkeeper,
+            R.string.powerkeeper,
+            R.string.powerkeeper,
+            R.string.powerkeeper,
             "com.sevtinge.cemiuiler.ui.fragment.PowerKeeperFragment");
 
         parsePrefXml(context, R.xml.screenrecorder,
+            R.string.screenrecorder,
+            R.string.screenrecorder,
+            R.string.screenrecorder,
             R.string.screenrecorder,
             R.string.screenrecorder,
             "com.sevtinge.cemiuiler.ui.fragment.ScreenRecorderFragment");
@@ -291,9 +439,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.screenshot,
             R.string.screenshot,
             R.string.screenshot,
+            R.string.screenshot,
+            R.string.screenshot,
+            R.string.screenshot,
             "com.sevtinge.cemiuiler.ui.fragment.ScreenShotFragment");
 
         parsePrefXml(context, R.xml.security_center,
+            !isPad() ? R.string.security_center : R.string.security_center_pad,
+            !isPad() ? R.string.security_center : R.string.security_center_pad,
+            !isPad() ? R.string.security_center : R.string.security_center_pad,
             !isPad() ? R.string.security_center : R.string.security_center_pad,
             !isPad() ? R.string.security_center : R.string.security_center_pad,
             "com.sevtinge.cemiuiler.ui.fragment.SecurityCenterFragment");
@@ -301,9 +455,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.tsmclient,
             R.string.tsmclient,
             R.string.tsmclient,
+            R.string.tsmclient,
+            R.string.tsmclient,
+            R.string.tsmclient,
             "com.sevtinge.cemiuiler.ui.fragment.TsmClientFragment");
 
         parsePrefXml(context, R.xml.weather,
+            R.string.weather,
+            R.string.weather,
+            R.string.weather,
             R.string.weather,
             R.string.weather,
             "com.sevtinge.cemiuiler.ui.fragment.WeatherFragment");
@@ -311,9 +471,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.aiasst,
             R.string.aiasst,
             R.string.aiasst,
+            R.string.aiasst,
+            R.string.aiasst,
+            R.string.aiasst,
             "com.sevtinge.cemiuiler.ui.fragment.AiAsstFragment");
 
         parsePrefXml(context, R.xml.tsmclient,
+            R.string.tsmclient,
+            R.string.tsmclient,
+            R.string.tsmclient,
             R.string.tsmclient,
             R.string.tsmclient,
             "com.sevtinge.cemiuiler.ui.fragment.TsmClientFragment");
@@ -321,9 +487,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.aireco,
             R.string.aireco,
             R.string.aireco,
+            R.string.aireco,
+            R.string.aireco,
+            R.string.aireco,
             "com.sevtinge.cemiuiler.ui.fragment.AirecoFragment");
 
         parsePrefXml(context, R.xml.barrage,
+            R.string.barrage,
+            R.string.barrage,
+            R.string.barrage,
             R.string.barrage,
             R.string.barrage,
             "com.sevtinge.cemiuiler.ui.fragment.BarrageFragment");
@@ -331,9 +503,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.joyose,
             R.string.joyose,
             R.string.joyose,
+            R.string.joyose,
+            R.string.joyose,
+            R.string.joyose,
             "com.sevtinge.cemiuiler.ui.fragment.JoyoseFragment");
 
         parsePrefXml(context, R.xml.market,
+            R.string.market,
+            R.string.market,
+            R.string.market,
             R.string.market,
             R.string.market,
             "com.sevtinge.cemiuiler.ui.fragment.MarketFragment");
@@ -341,9 +519,15 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.mirror,
             R.string.mirror,
             R.string.mirror,
+            R.string.mirror,
+            R.string.mirror,
+            R.string.mirror,
             "com.sevtinge.cemiuiler.ui.fragment.MirrorFragment");
 
         parsePrefXml(context, R.xml.mtb,
+            R.string.mtb,
+            R.string.mtb,
+            R.string.mtb,
             R.string.mtb,
             R.string.mtb,
             "com.sevtinge.cemiuiler.ui.fragment.MtbFragment");
@@ -351,22 +535,50 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.scanner,
             R.string.scanner,
             R.string.scanner,
+            R.string.scanner,
+            R.string.scanner,
+            R.string.scanner,
             "com.sevtinge.cemiuiler.ui.fragment.ScannerFragment");
+
+        parsePrefXml(context, R.xml.creation,
+            R.string.creation,
+            R.string.creation,
+            R.string.creation,
+            R.string.creation,
+            R.string.creation,
+            "com.sevtinge.cemiuiler.ui.fragment.CreationFragment");
 
         parsePrefXml(context, R.xml.various,
             R.string.various,
             R.string.various,
+            R.string.various,
+            R.string.various,
+            R.string.various,
             "com.sevtinge.cemiuiler.ui.fragment.VariousFragment");
+
+        parsePrefXml(context, R.xml.various_aosp,
+            R.string.various,
+            R.string.various,
+            R.string.various_open_aosp_something_title,
+            R.string.various_open_aosp_something_title,
+            R.string.various_open_aosp_something_title,
+            "com.sevtinge.cemiuiler.ui.fragment.various.AOSPSettings");
 
         if (isPad()) {
             parsePrefXml(context, R.xml.various_mipad,
                 R.string.various,
                 R.string.various_mipad_title,
+                R.string.various_mipad_title,
+                R.string.various_mipad_title,
+                R.string.various_mipad_title,
                 "com.sevtinge.cemiuiler.ui.fragment.VariousFragment");
         }
 
         // 实验性
-        /*parsePrefXml(context, R.xml.theme_manager,
+        parsePrefXml(context, R.xml.theme_manager,
+            R.string.theme_manager,
+            R.string.theme_manager,
+            R.string.theme_manager,
             R.string.theme_manager,
             R.string.theme_manager,
             "com.sevtinge.cemiuiler.ui.fragment.ThemeManagerFragment");
@@ -374,10 +586,13 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.personal_assistant,
             R.string.personal_assistant,
             R.string.personal_assistant,
-            "com.sevtinge.cemiuiler.ui.fragment.PersonalAssistantFragment");*/
+            R.string.personal_assistant,
+            R.string.personal_assistant,
+            R.string.personal_assistant,
+            "com.sevtinge.cemiuiler.ui.fragment.PersonalAssistantFragment");
     }
 
-    private static void parsePrefXml(Context context, int xmlResId, int catResId, int catSubResId, String catPrefsFragment) {
+    private static void parsePrefXml(Context context, int xmlResId, int catResId, int catSub1ResId, int catSub2ResId, int catSub3ResId, int catSub4ResId, String catPrefsFragment) {
         Resources res = context.getResources();
         try (XmlResourceParser xml = res.getXml(xmlResId)) {
             int order = 0;
@@ -387,15 +602,22 @@ public class SearchHelper {
                     try {
                         ModData modData = new ModData();
                         modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
+                        if (Objects.equals(modData.title, res.getString(R.string.theme_manager_crack)) || Objects.equals(modData.title, res.getString(R.string.personal_assistant_widget_crack))) modData.title = "";
                         if (!TextUtils.isEmpty(modData.title)) {
-                            if (!res.getString(catResId).equals(res.getString(catSubResId))) {
-                                modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSubResId);
+                            if (!res.getString(catSub3ResId).equals(res.getString(catSub4ResId))) {
+                                modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId) + "/" + res.getString(catSub3ResId) + "/" + res.getString(catSub4ResId);
+                            } else if (!res.getString(catSub2ResId).equals(res.getString(catSub3ResId))) {
+                                modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId) + "/" + res.getString(catSub3ResId);
+                            } else if (!res.getString(catSub1ResId).equals(res.getString(catSub2ResId))) {
+                                modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId);
+                            } else if (!res.getString(catResId).equals(res.getString(catSub1ResId))) {
+                                modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId);
                             } else {
                                 modData.breadcrumbs = res.getString(catResId);
                             }
                             modData.key = xml.getAttributeValue(ANDROID_NS, "key");
                             modData.order = order;
-                            modData.catTitleResId = catSubResId;
+                            modData.catTitleResId = catSub4ResId;
                             modData.fragment = catPrefsFragment;
                             allModsList.add(modData);
                         }
