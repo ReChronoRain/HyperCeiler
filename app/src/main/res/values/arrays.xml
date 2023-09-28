@@ -513,7 +513,9 @@
         <item>Xiaomi MIX Alpha (Draco)</item>
         <item>Xiaomi Pad 6 Max 14</item>
         <item>Redmi K60 Ultra</item>
-        <item>Redmi Note 12 Turbo</item>
+        <item>Redmi K70 Pro</item>
+        <item>Redmi K70E</item>
+        <item>Redmi Note 13 Pro+</item>
     </string-array>
 
     <string-array name="market_device_modify_value">
@@ -525,7 +527,9 @@
         <item>191</item>
         <item>208</item>
         <item>307</item>
-        <item>332</item>
+        <item>309</item>
+        <item>351</item>
+        <item>334</item>
     </string-array>
 
     <string-array name="link_open_mode">

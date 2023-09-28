@@ -64,7 +64,7 @@
     <string name="soft_reboot">重啟 </string>
     <string name="restart_app_desc">確定要立即重啟%1$s嗎？</string>
     <string name="tip">提示</string>
-    <string name="hook_failed">模組暫未啟用</string>
+    <string name="hook_failed">此模組尚未啟動。\n請檢查是否在寄生管理器中啟用。 如果已經啟用，請重新開機或重新最佳化模組。</string>
     <string name="kill_failed">結束進程失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>
     <string name="reboot_failed">重啟失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>
     <string name="expand_button_title">進階</string>
@@ -571,8 +571,10 @@
     <string name="system_control_center_qs_tile_label">移除標題</string>
     <string name="system_control_center_qs_rows">行數</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
+    <string name="system_control_center_qs_rows_horizontal">行（橫向）</string>
     <string name="system_control_center_qs_columns">列數</string>
     <string name="system_control_center_qs_columns_format">%d 列</string>
+    <string name="system_control_center_qs_columns_horizontal">列（橫向）</string>
     <string name="system_ui_control_center_hide_mi_play_entry">妙播入口</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">小米妙享</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">智慧生活</string>
@@ -599,6 +601,7 @@
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_enable_title">自訂行列數</string>
     <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
+    <string name="system_control_center_old_qs_grid_columns_horizontal">折疊面板中的列數（橫向）</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">藍牙磁貼樣式</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">調整藍牙磁貼位置至網路磁貼旁</string>
     <string name="system_ui_other_title">其他</string>
@@ -960,6 +963,7 @@
     <string name="powerkeeper_lock_max_fps">鎖定當前螢幕更新率上限</string>
     <string name="powerkeeper_do_not_kill_apps">嘗試不要殺死後台應用程式</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能使耗電量增加</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">防止恢復電池優化白名單</string>
     <!--creen Recorder-->
     <string name="screenrecorder">螢幕錄製</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>
@@ -972,6 +976,8 @@
     <!--Screenshot-->
     <string name="screenshot">截圖</string>
     <string name="screenshot_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
+    <string name="screenshot_unlock_privacy_marking_title">解锁自动为隐私内容添加馬賽克效果</string>
+    <string name="screenshot_unlock_privacy_marking_desc">需要預先安裝更高版本的「Mi AI Engine」應用程式才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定義帶殼截圖型號</string>
     <string name="screenshot_device_customize_desc">請輸入機型代號</string>
