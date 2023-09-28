@@ -20,6 +20,7 @@ import com.sevtinge.cemiuiler.module.hook.systemui.SwitchControlPanel;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
+import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.FixMediaControlPanel;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
@@ -204,6 +205,7 @@ public class SystemUI extends BaseModule {
         initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
         initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
+        initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
 
         // Actions
         initHook(new StatusBarActions());
