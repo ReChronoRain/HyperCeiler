@@ -27,6 +27,18 @@ object DisableSafeModelTip : BaseHook() {
                 }*/
         }
 
+        // 屏蔽每 30 天提示开启安全守护的弹窗（已知问题：完成和打开按钮无反应）
+        /*val result2 = Objects.requireNonNull(
+            mPackageInstallerResultMethodsMap!!["Disable30DaysDialog"]
+        )
+
+        for (descriptor in result2) {
+            val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
+            mDisableSafeModelTip.createHook {
+                returnConstant(null)
+            }
+        }*/
+
         var letter = 'a'
         for (i in 0..25) {
             try {
