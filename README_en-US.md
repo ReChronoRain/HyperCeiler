@@ -79,6 +79,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 | Mi AI | com.miui.voiceassist |
 | Music | com.miui.player |
 | MIUI+ Beta | com.xiaomi.mirror |
+| com.xiaomi.NetworkBoost | com.xiaomi.NetworkBoost |
 
 </details>
 

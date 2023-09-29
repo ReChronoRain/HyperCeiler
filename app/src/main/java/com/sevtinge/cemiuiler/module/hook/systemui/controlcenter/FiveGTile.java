@@ -3,8 +3,12 @@ package com.sevtinge.cemiuiler.module.hook.systemui.controlcenter;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.os.Build;
+import android.os.Handler;
+import android.provider.Settings;
 import android.util.ArrayMap;
 
 import com.sevtinge.cemiuiler.R;
@@ -75,6 +79,26 @@ public class FiveGTile extends TileUtils {
         manager.setUserFiveGEnabled(!manager.isUserFiveGEnabled());
         // 更新磁贴状态
         XposedHelpers.callMethod(param.thisObject, "refreshState");
+    }
+
+    @Override
+    public void tileListening(MethodHookParam param, String tileName) {
+        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+        boolean mListening = (boolean) param.args[0];
+        if (mListening) {
+            ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
+                @Override
+                public void onChange(boolean z) {
+                    XposedHelpers.callMethod(param.thisObject, "refreshState");
+                }
+            };
+            mContext.getContentResolver().registerContentObserver(Settings.Global.getUriFor("fiveg_user_enable"), false, contentObserver);
+            mContext.getContentResolver().registerContentObserver(Settings.Global.getUriFor("dual_nr_enabled"), false, contentObserver);
+            XposedHelpers.setAdditionalInstanceField(param.thisObject, "tileListener", contentObserver);
+        } else {
+            ContentObserver contentObserver = (ContentObserver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "tileListener");
+            mContext.getContentResolver().unregisterContentObserver(contentObserver);
+        }
     }
 
     @Override

@@ -55,6 +55,7 @@
         <item>com.xiaomi.mirror</item>
         <item>com.xiaomi.misettings</item>
         <item>com.xiaomi.mtb</item>
+        <item>com.xiaomi.NetworkBoost</item>
         <item>com.xiaomi.scanner</item>
     </string-array>
 
@@ -75,6 +76,7 @@
         <item>@string/notes</item>
         <item>@string/powerkeeper</item>
         <item>@string/joyose</item>
+        <item>@string/reboot_networkboost</item>
     </string-array>
 
     <string-array name="restart_apps_packagename">
@@ -86,6 +88,7 @@
         <item>com.miui.notes</item>
         <item>com.miui.powerkeeper</item>
         <item>com.xiaomi.joyose</item>
+        <item>com.xiaomi.NetworkBoost</item>
     </string-array>
 
     <string-array name="miui_core_app_package_name">
@@ -192,6 +195,12 @@
         <item>@string/status_bar_icon_mode_default</item>
         <item>@string/status_bar_icon_mode_on</item>
         <item>@string/status_bar_icon_mode_off</item>
+    </string-array>
+
+    <string-array name="control_center_sunshine_mode">
+        <item>@string/control_center_sunshine_mode_default</item>
+        <item>@string/control_center_sunshine_mode_one</item>
+        <item>@string/control_center_sunshine_mode_two</item>
     </string-array>
 
     <string-array name="status_bar_icon_mode_value">

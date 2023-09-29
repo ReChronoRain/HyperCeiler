@@ -95,6 +95,7 @@ public abstract class TileUtils extends BaseHook {
                                 Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                                 Object o = XposedHelpers.callStaticMethod(findClassIfExists("com.android.systemui.controlcenter.utils.ControlCenterUtils"), "getSettingsSplitIntent", context, intent);
                                 XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mActivityStarter"), "postStartActivityDismissingKeyguard", o, 0, null);
+                                param.setResult(null);
                             }
                         }
                     }

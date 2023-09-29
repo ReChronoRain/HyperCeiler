@@ -29,6 +29,7 @@ import com.sevtinge.cemiuiler.module.app.MiWallpaper;
 import com.sevtinge.cemiuiler.module.app.Mms;
 import com.sevtinge.cemiuiler.module.app.Mtb;
 import com.sevtinge.cemiuiler.module.app.Music;
+import com.sevtinge.cemiuiler.module.app.NetworkBoost;
 import com.sevtinge.cemiuiler.module.app.Notes;
 import com.sevtinge.cemiuiler.module.app.PackageInstaller;
 import com.sevtinge.cemiuiler.module.app.PersonalAssistant;
@@ -117,6 +118,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Aod mAod = new Aod();
     public final Barrage mBarrage = new Barrage();
     public final Notes mNotes = new Notes();
+    public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
 
     @Override
@@ -332,6 +334,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.miui.creation" -> {
                 mCreation.init(lpparam);
                 mVarious.init(lpparam);
+            }
+            case "com.xiaomi.NetworkBoost" -> {
+                networkBoost.init(lpparam);
             }
             case BuildConfig.APPLICATION_ID -> ModuleActiveHook(lpparam);
             default -> mVarious.init(lpparam);

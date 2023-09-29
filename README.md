@@ -79,6 +79,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 | 小爱同学 | com.miui.voiceassist |
 | 音乐 | com.miui.player |
 | MIUI+ Beta 版 | com.xiaomi.mirror |
+| com.xiaomi.NetworkBoost | com.xiaomi.NetworkBoost |
 
 </details>
 

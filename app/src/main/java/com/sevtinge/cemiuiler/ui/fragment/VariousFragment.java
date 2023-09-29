@@ -5,9 +5,13 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
+import android.content.Context;
+
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 
+import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
