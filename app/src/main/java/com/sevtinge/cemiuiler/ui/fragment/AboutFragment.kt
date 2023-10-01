@@ -17,13 +17,20 @@ class AboutFragment : SettingsPreferenceFragment() {
         return R.xml.prefs_about
     }
 
+    private fun lIIllll(lIIIIII: Int): Int {
+        return lIIIIII + 2
+    }
+
+    private fun lIIlllI(lIIllll: Int, lIIIIII: Int): Int {
+        val lIIlllI = (lIIllll shl 2) xor (lIIIIII * 5) + (lIIIIII % 3)
+        return abs(lIIlllI) % 22 + 3
+    }
+
     override fun initPrefs() {
         val lIIllll = Calendar.getInstance()
         val lIIIIII = lIIllll.get(Calendar.HOUR_OF_DAY)
-        val lIIIIll = 100 ushr 6
-        val lIllIll = if (Random.nextBoolean()) abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1))) else lIIIIII
-        val lIIIIlI: Int = abs(lIIIIII - (lIIIIll shl 3 shr 1 xor (lIIIIll shl 2 shl 1)))
-        val lIIlllI: Int = (((lIIIIlI shl 1) + (lIIIIlI shr 1) - lIIIIlI) / (1 + (lIllIll / 9)) + ((lIIIIll shl 1) + lIIIIll shl 1 xor lIIIIll)).toInt().coerceIn(0, 20)
+        val lIIIIll = lIIllll(lIIIIII)
+        val lIIlllI = lIIlllI(lIIIIll, lIIIIII)
         val lIIllII = findPreference<Preference>("prefs_key_enable_hidden_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 

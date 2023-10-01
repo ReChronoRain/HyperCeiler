@@ -12,6 +12,7 @@
     <string name="array_netspeedicons_arrows_long2" translatable="false">⇧ ⇩</string>
     <string name="system_ui_display_toast_title" translatable="false">Toast</string>
     <string name="summary_collapsed_preference_list" translatable="false">%1$s%2$s</string>
+    <string name="networkboost" translatable="false">NetworkBoost</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make MIUI Great Again!</string>
     <!--Cemiuiler Settings/About Page-->
@@ -74,7 +75,6 @@
     <string name="about_crwd_desc">Help us translate Cemiuiler into you language</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
-    <string name="reboot_networkboost">NetworkBoost</string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="tip">Tip</string>
     <string name="hook_failed">The module is not activated yet.\nPlease check whether the Xposed manager is enabled. If so, please restart or re-optimize the module.</string>

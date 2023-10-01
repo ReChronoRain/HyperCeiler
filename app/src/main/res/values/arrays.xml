@@ -76,7 +76,7 @@
         <item>@string/notes</item>
         <item>@string/powerkeeper</item>
         <item>@string/joyose</item>
-        <item>@string/reboot_networkboost</item>
+        <item>@string/networkboost</item>
     </string-array>
 
     <string-array name="restart_apps_packagename">

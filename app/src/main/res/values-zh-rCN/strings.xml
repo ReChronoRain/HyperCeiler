@@ -64,7 +64,6 @@
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
     <!--弹窗/miuix 部分-->
     <string name="soft_reboot">重启 </string>
-    <string name="reboot_networkboost">NetworkBoost</string>
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活，请检查 Xposed 管理器是否启用，如有请重启或重新优化模块</string>
