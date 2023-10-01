@@ -205,6 +205,9 @@
     <string name="array_bluetooth_tile_style_2rows2cols"> Um bloco grande e dois pequenos</string>
     <string name="array_pa_blur_official">Oficial vem com blur</string>
     <string name="array_bpa_blur_customize">Blur de fundo personalizado</string>
+    <string name="control_center_sunshine_mode_default">Fechar</string>
+    <string name="control_center_sunshine_mode_one">Modo padrão do sistema</string>
+    <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -1129,6 +1132,8 @@
     <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_bluetooth_restrict">Impedir que o bluetooth seja desligado temporariamente</string>
+    <string name="various_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
+    <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação de logs do dispositivo de acesso</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
     <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no gerenciador Xposed</string>
