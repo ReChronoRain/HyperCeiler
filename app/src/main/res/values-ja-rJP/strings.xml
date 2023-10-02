@@ -205,6 +205,9 @@
     <string name="array_bluetooth_tile_style_2rows2cols">大きいタイル1枚と小さいタイル2枚</string>
     <string name="array_pa_blur_official">公式のぼかし</string>
     <string name="array_bpa_blur_customize">カスタム背景ぼかし</string>
+    <string name="control_center_sunshine_mode_default">オフ</string>
+    <string name="control_center_sunshine_mode_one">システムのデフォルトモード</string>
+    <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
     <!--System Framework-->
     <string name="system_framework">システムフレームワーク</string>
     <string name="system_framework_volume_title">音量</string>
@@ -599,6 +602,7 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知ドロワーを切り替え</string>
     <string name="system_ui_controlcenter_new_title">新しいコントロールセンター</string>
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
+    <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
     <string name="system_ui_controlcenter_enable_title">行数と列数をカスタマイズ</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
@@ -1128,6 +1132,8 @@
     <string name="settings_notfication_importance">通知の重要度を表示する</string>
     <string name="various_no_overscroll">範囲外のバウンスを無効化</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
+    <string name="various_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
+    <string name="various_disable_link_turbo_toast_more">高速再起動スコープで NetworkBoost を再起動してください</string>
     <string name="various_disable_access_device_logs">デバイスログへのアクセス要求ダイアログを無効化</string>
     <string name="various_unlock_ime">IME をアンロック</string>
     <string name="various_unlock_ime_desc">オンにした後は、Xposed マネージャーでキーボードアプリをスコープに追加してください</string>
