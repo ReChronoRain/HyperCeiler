@@ -13,7 +13,7 @@ import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.BlurUtils;
 import com.sevtinge.cemiuiler.utils.DisplayUtils;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -48,7 +48,7 @@ public class DialogCustom extends BaseHook {
         if (mPrefsMap.getBoolean("various_dialog_window_blur")) {
             hookAllConstructors(mAlertControllerCls, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     Window mWindow = (Window) XposedHelpers.getObjectField(param.thisObject, "mWindow");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
@@ -64,7 +64,7 @@ public class DialogCustom extends BaseHook {
             for (Method method : mAlertControllerCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) {
                     oldMethodFound = true;
-                    LogUtils.log(method.getName());
+                    XposedLogUtils.INSTANCE.logI(TAG, method.getName());
                 }
                 mAllMethodList.add(method);
             }
@@ -80,7 +80,7 @@ public class DialogCustom extends BaseHook {
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
                     mContext = mParentPanel.getContext();
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
@@ -100,7 +100,7 @@ public class DialogCustom extends BaseHook {
             logI("oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
                     mContext = mParentPanel.getContext();
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
@@ -120,7 +120,7 @@ public class DialogCustom extends BaseHook {
         try {
             hookAllMethods(mAlertControllerCls, "updateParentPanelMarginByWindowInsets", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     mParentPanel = (View) XposedHelpers.getObjectField(param.thisObject, "mParentPanel");
 
                     mContext = mParentPanel.getContext();
@@ -139,7 +139,7 @@ public class DialogCustom extends BaseHook {
                 }
             });
         } catch (Exception e) {
-            LogUtils.logXp(TAG, e);
+            XposedLogUtils.INSTANCE.logE(TAG, "", null, e);
         }
 
 

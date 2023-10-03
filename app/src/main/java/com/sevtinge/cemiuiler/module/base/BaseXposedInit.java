@@ -50,10 +50,10 @@ import com.sevtinge.cemiuiler.module.app.Various;
 import com.sevtinge.cemiuiler.module.app.VoiceAssist;
 import com.sevtinge.cemiuiler.module.app.Weather;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -141,7 +141,11 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                     if (allPrefs == null || allPrefs.size() == 0) {
-                        LogUtils.log("[UID " + android.os.Process.myUid() + "] Cannot read module's SharedPreferences, some mods might not work!");
+                        XposedLogUtils.INSTANCE.logE(
+                            "[UID" + android.os.Process.myUid() + "]",
+                            "Cannot read module's SharedPreferences, some mods might not work!",
+                            null, null
+                        );
                     } else {
                         mPrefsMap.putAll(allPrefs);
                     }
@@ -200,23 +204,19 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mUpdater.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.xiaomi.market" -> {
-                mMarket.init(lpparam);
-            }
+            case "com.xiaomi.market" -> mMarket.init(lpparam);
             case "com.miui.packageinstaller" -> {
                 mPackageInstaller.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.miui.powerkeeper" -> {
-                mPowerKeeper.init(lpparam);
-            }
+            case "com.miui.powerkeeper" -> mPowerKeeper.init(lpparam);
+
             case "com.xiaomi.misettings" -> {
                 mMiSettings.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.xiaomi.joyose" -> {
-                mJoyose.init(lpparam);
-            }
+            case "com.xiaomi.joyose" -> mJoyose.init(lpparam);
+
             case "com.miui.screenshot" -> {
                 mScreenShot.init(lpparam);
                 mVarious.init(lpparam);
@@ -257,9 +257,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mAireco.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.xiaomi.barrage" -> {
-                mBarrage.init(lpparam);
-            }
+            case "com.xiaomi.barrage" -> mBarrage.init(lpparam);
+
             case "com.xiaomi.aiasst.vision" -> {
                 mAiAsst.init(lpparam);
                 mVarious.init(lpparam);
@@ -276,12 +275,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mMiShare.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.milink.service" -> {
-                mMiLink.init(lpparam);
-            }
-            case "com.miui.guardprovider" -> {
-                mGuardProvider.init(lpparam);
-            }
+            case "com.milink.service" -> mMiLink.init(lpparam);
+
+            case "com.miui.guardprovider" -> mGuardProvider.init(lpparam);
+
             case "com.lbe.security.miui" -> {
                 mLbe.init(lpparam);
                 mVarious.init(lpparam);
@@ -314,12 +311,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mFileExplorer.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.android.phone" -> {
-                mPhone.init(lpparam);
-            }
-            case "com.xiaomi.mtb" -> {
-                mMtb.init(lpparam);
-            }
+            case "com.android.phone" -> mPhone.init(lpparam);
+
+            case "com.xiaomi.mtb" -> mMtb.init(lpparam);
+
             case "com.android.externalstorage" -> {
                 mExternalStorage.init(lpparam);
                 mVarious.init(lpparam);
@@ -328,16 +323,13 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mCamera.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.android.providers.downloads" -> {
-                mDownloads.init(lpparam);
-            }
+            case "com.android.providers.downloads" -> mDownloads.init(lpparam);
+
             case "com.miui.creation" -> {
                 mCreation.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.xiaomi.NetworkBoost" -> {
-                networkBoost.init(lpparam);
-            }
+            case "com.xiaomi.NetworkBoost" -> networkBoost.init(lpparam);
             case BuildConfig.APPLICATION_ID -> ModuleActiveHook(lpparam);
             default -> mVarious.init(lpparam);
         }

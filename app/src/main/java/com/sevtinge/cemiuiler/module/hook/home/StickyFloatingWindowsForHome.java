@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -29,7 +29,7 @@ public class StickyFloatingWindowsForHome extends BaseHook {
                                 XposedHelpers.callMethod(param.thisObject, "dismissRecentsToLaunchTargetTaskOrHome", pkgName, true);
                             }
                         } catch (Throwable t) {
-                            LogUtils.log(t);
+                            XposedLogUtils.INSTANCE.logW(TAG, "", t);
                         }
                     }
                 }, new IntentFilter(ACTION_PREFIX + "dismissRecentsWhenFreeWindowOpen"));

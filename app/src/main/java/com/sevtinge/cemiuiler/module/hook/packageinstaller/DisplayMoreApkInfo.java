@@ -14,7 +14,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.DisplayUtils;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -36,7 +36,7 @@ public class DisplayMoreApkInfo extends BaseHook {
             Class<?> ViewHolderClass = findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject$ViewHolder");
             Method[] methods = XposedHelpers.findMethodsByExactParameters(mAppInfoViewObject, void.class, ViewHolderClass);
             if (methods.length == 0) {
-                LogUtils.logXp("AppInfoDuringMiuiInstallHook", "Cannot find appropriate method");
+                XposedLogUtils.INSTANCE.logI("AppInfoDuringMiuiInstallHook", "Cannot find appropriate method");
                 return;
             }
 

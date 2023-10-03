@@ -11,10 +11,12 @@ import android.graphics.drawable.shapes.RectShape;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -41,34 +43,16 @@ public class FolderShade extends BaseHook {
                             try {
                                 isLight = (boolean) XposedHelpers.callStaticMethod(mWallpaperUtilsCls, "hasAppliedLightWallpaper");
                             } catch (Throwable tr) {
-                                LogUtils.log(tr);
+                                XposedLogUtils.INSTANCE.logW(TAG, "isLight is abnormal", tr);
                             }
                         }
 
                         Drawable bkg;
                         if (opt == 1) {
-                            int bgcolor = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
-                            bkg = new ColorDrawable(bgcolor);
+                            int bgColor = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
+                            bkg = new ColorDrawable(bgColor);
                         } else if (opt == 2) {
-                            PaintDrawable pd = new PaintDrawable();
-                            pd.setShape(new RectShape());
-                            pd.setShaderFactory(new ShapeDrawable.ShaderFactory() {
-                                @Override
-                                public Shader resize(int width, int height) {
-                                    int bgcolor1 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 / 6f * level / 100f) * 0x1000000);
-                                    int bgcolor2 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
-                                    return new LinearGradient(
-                                        0,
-                                        0,
-                                        0,
-                                        height,
-                                        new int[]{bgcolor1, bgcolor2, bgcolor2, bgcolor1},
-                                        new float[]{0.0f, 0.25f, 0.65f, 1.0f},
-                                        Shader.TileMode.CLAMP
-                                    );
-                                }
-                            });
-                            bkg = pd;
+                            bkg = getPaintDrawable(level);
                         } else {
                             bkg = null;
                         }
@@ -78,7 +62,7 @@ public class FolderShade extends BaseHook {
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {
-                        LogUtils.log(t);
+                        XposedLogUtils.INSTANCE.logW(TAG, "", t);
                     }
                 }).start();
             }
@@ -99,5 +83,25 @@ public class FolderShade extends BaseHook {
                 if (bkg != null) bkg.setAlpha(Math.round((float) param.args[0] * 255));
             }
         });
+    }
+
+    @NonNull
+    private PaintDrawable getPaintDrawable(int level) {
+        PaintDrawable pd = new PaintDrawable();
+        pd.setShape(new RectShape());
+        pd.setShaderFactory(new ShapeDrawable.ShaderFactory() {
+            @Override
+            public Shader resize(int width, int height) {
+                int bgColor1 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 / 6f * level / 100f) * 0x1000000);
+                int bgColor2 = (isLight ? 0x00ffffff : 0x00000000) | (Math.round(255 * level / 100f) * 0x1000000);
+                return new LinearGradient(
+                    0, 0, 0, height,
+                    new int[]{bgColor1, bgColor2, bgColor2, bgColor1},
+                    new float[]{0.0f, 0.25f, 0.65f, 1.0f},
+                    Shader.TileMode.CLAMP
+                );
+            }
+        });
+        return pd;
     }
 }

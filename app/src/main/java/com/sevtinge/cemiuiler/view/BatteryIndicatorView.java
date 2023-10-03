@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -86,7 +85,6 @@ public class BatteryIndicatorView extends ImageView {
             shape.setIntrinsicWidth(9999);
             setImageDrawable(shape);
         } catch (Throwable t) {
-            LogUtils.log(t);
         }
 
         updateParameters();
@@ -100,7 +98,6 @@ public class BatteryIndicatorView extends ImageView {
                         update();
                     }
                 } catch (Throwable t) {
-                    LogUtils.log(t);
                 }
             }
         };
@@ -275,7 +272,6 @@ public class BatteryIndicatorView extends ImageView {
                         }
                     }
                 } catch (Throwable t) {
-                    LogUtils.log(t);
                 }
 
             int mDisplayPadding = Math.round(mPadding / 100f * this.mDisplayWidth);
@@ -335,7 +331,6 @@ public class BatteryIndicatorView extends ImageView {
 
             invalidate();
         } catch (Throwable t) {
-            LogUtils.log(t);
         }
     }
 

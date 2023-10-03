@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.various;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.view.Gravity;
@@ -10,7 +12,7 @@ import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.BlurUtils;
 import com.sevtinge.cemiuiler.utils.DisplayUtils;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -38,7 +40,7 @@ public class DialogGravity extends BaseHook {
             for (Method method : mDialogCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) oldMethodFound = true;
                 methodList.add(method);
-                LogUtils.log(method.getName());
+                LogD(TAG, method.getName());
             }
 
             int mDialogGravity = XposedInit.mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
@@ -80,7 +82,7 @@ public class DialogGravity extends BaseHook {
 
             for (Method method : methodList) {
                 if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE && method.getModifiers() == 2 && method.getParameterCount() == 1) {
-                    LogUtils.log("2222" + method.getName());
+                    XposedLogUtils.INSTANCE.logI(TAG, "2222" + method.getName());
                     XposedHelpers.findAndHookMethod(mDialogCls, method.getName(), new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) throws Throwable {

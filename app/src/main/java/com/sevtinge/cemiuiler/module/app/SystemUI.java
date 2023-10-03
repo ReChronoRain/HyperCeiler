@@ -16,7 +16,6 @@ import com.sevtinge.cemiuiler.module.hook.systemui.NotificationVolumeSeparateSli
 import com.sevtinge.cemiuiler.module.hook.systemui.OriginChargeAnimation;
 import com.sevtinge.cemiuiler.module.hook.systemui.QSDetailBackGround;
 import com.sevtinge.cemiuiler.module.hook.systemui.StatusBarActions;
-import com.sevtinge.cemiuiler.module.hook.systemui.SwitchControlPanel;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
@@ -178,8 +177,8 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0) != 0);
 
         // 实验性功能
-        initHook(new SwitchControlPanel(), false);
-        initHook(new MiuiGxzwSize(), false);
+        // initHook(new SwitchControlPanel(), false);
+        // initHook(new MiuiGxzwSize(), false);
 
         // 控制中心
         initHook(new SmartHome(), false);

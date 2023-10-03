@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.hook.various;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 import miui.app.ActionBar;
@@ -33,7 +32,6 @@ public class CollapseMiuiTitle extends BaseHook {
                         setExpandState(param.thisObject, opt == 1 || opt == 3);
                         setResizable(param.thisObject, opt == 3 || opt == 4);
                     } catch (Throwable ignore) {
-                        LogUtils.log(ignore);
                     }
                 }
             });
