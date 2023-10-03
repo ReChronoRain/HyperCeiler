@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Cemiuiler</string>
+
+
+    <string name="new_permission_storage_desc">用于保存图片至本地的功能</string>
+    <string name="new_permission_location_desc">用于提供经纬度等服务</string>
+    <string name="new_cta_agree_desc">您可随时前往权限管理调整所有权限的授权情况。</string>
+    <string name="new_cta_app_main_purpose">xxx</string>
+    <string name="new_cta_app_all_purpose_title">欢迎使用Cemiuiler，Cemiuiler能xxx。</string>
+
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>
     <string name="location_simulation_gps" translatable="false">GPS</string>

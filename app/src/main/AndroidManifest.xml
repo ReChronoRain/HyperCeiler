@@ -50,11 +50,13 @@
 
     <uses-permission android:name="miui.permission.READ_LOGS" />
     <uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
+    <uses-permission android:name="com.miui.securitycenter.permission.SYSTEM_PERMISSION_DECLARE" />
     <uses-permission android:name="com.miui.securitycenter.permission.ACCESS_SECURITY_CENTER_PROVIDER" />
 
     <uses-permission
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
+
 
     <permission
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -110,6 +112,10 @@
             android:directBootAware="true"
             android:exported="true"
             android:grantUriPermissions="true" />
+
+        <meta-data
+            android:name="required_permissions"
+            android:value=";" />
 
         <meta-data
             android:name="xposedmodule"

@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,7 @@ import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.AboutFragment;
 import com.sevtinge.cemiuiler.ui.fragment.MainFragment;
 import com.sevtinge.cemiuiler.utils.ALPermissionManager;
+import com.sevtinge.cemiuiler.utils.CtaUtils;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.SearchHelper;
@@ -46,10 +49,12 @@ public class MainActivity extends SettingsActivity {
     ModSearchAdapter mSearchAdapter;
     String lastFilter;
     private final MainFragment mMainFrag = new MainFragment();
+    private final int REQUEST_CODE = 2038;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) requestCta();
         new Thread(new Runnable() {
             public void run() {
                 SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null);
@@ -62,6 +67,16 @@ public class MainActivity extends SettingsActivity {
         ALPermissionManager.RootCommand("chmod 0777 " + getPackageCodePath());
         ALPermissionManager.RootCommand("chmod 0777 " + PrefsUtils.mPrefsFile);
         ALPermissionManager.RootCommand("chown root:root " + PrefsUtils.mPrefsFile);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        requestCta();
+    }
+
+    private void requestCta() {
+        CtaUtils.showCtaDialog(this, REQUEST_CODE);
     }
 
     private void initView() {
@@ -218,5 +233,19 @@ public class MainActivity extends SettingsActivity {
 
     private void updateData() {
         mFrameContent.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE -> {
+                if (resultCode == RESULT_CANCELED) {
+                    finish();
+                } else if (resultCode == RESULT_FIRST_USER) {
+
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
