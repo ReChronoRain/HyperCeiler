@@ -6,8 +6,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 
@@ -42,7 +42,7 @@ public class AppDefaultSort extends BaseHook {
                             try {
                                 param.args[0] = checkBundle((Context) XposedHelpers.callMethod(param.thisObject, "getContext"), (Bundle) param.args[0]);
                             } catch (Throwable t) {
-                                LogUtils.log("AppDefaultSortHook", t);
+                                XposedLogUtils.INSTANCE.logE("AppDefaultSortHook", "", t, null);
                             }
                         }
                     });
@@ -53,7 +53,7 @@ public class AppDefaultSort extends BaseHook {
 
     public static Bundle checkBundle(Context context, Bundle bundle) {
         if (context == null) {
-            LogUtils.log("AppDefaultSort" + "Context is null!");
+            XposedLogUtils.INSTANCE.logI("AppDefaultSort", "Context is null!");
             return null;
         }
         if (bundle == null) bundle = new Bundle();

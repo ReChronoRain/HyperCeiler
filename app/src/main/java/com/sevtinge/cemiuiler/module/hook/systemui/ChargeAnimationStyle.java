@@ -3,7 +3,7 @@ package com.sevtinge.cemiuiler.module.hook.systemui;
 import android.util.ArraySet;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.util.Set;
 
@@ -56,7 +56,7 @@ public class ChargeAnimationStyle extends BaseHook {
                             i++;
                         } else {
                             mResult = true;
-                            LogUtils.logXp(TAG, stackElement[i].getClassName());
+                            XposedLogUtils.INSTANCE.logI(TAG, stackElement[i].getClassName());
                             break;
                         }
                     }

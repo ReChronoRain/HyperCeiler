@@ -8,7 +8,7 @@ import android.os.Build;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +90,7 @@ public class PackagePermissions extends BaseHook {
             mySystemApps.addAll(systemPackages);
             XposedHelpers.setStaticObjectField(dpgpiClass, "MIUI_SYSTEM_APPS", mySystemApps.toArray(new String[0]));
         } catch (Throwable t) {
-            LogUtils.log(t);
+            XposedLogUtils.INSTANCE.logW(TAG, "", t);
         }
     }
 }

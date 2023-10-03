@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.BlurUtils;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 
 import java.lang.reflect.Field;
 
@@ -120,7 +119,6 @@ public class NotificationBlur extends BaseHook {
                                         throw new NullPointerException("null cannot be cast to non-null type kotlin.Boolean");
                                     }
                                 } catch (Throwable ignored) {
-                                    LogUtils.log(ignored);
                                 }
                             }
                             if (i2 == childCount2) {

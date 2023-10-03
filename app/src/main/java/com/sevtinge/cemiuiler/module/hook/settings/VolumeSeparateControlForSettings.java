@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.hook.settings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -33,6 +34,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
         mPreferenceCls = findClassIfExists("androidx.preference.Preference");
 
         findAndHookMethod("com.android.settings.MiuiSoundSettings", "onCreate", Bundle.class, new MethodHook() {
+            @SuppressLint("DiscouragedApi")
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 Object fragment = param.thisObject;
@@ -46,7 +48,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                 try {
                     initSeekBar = XposedHelpers.findMethodsByExactParameters(fragment.getClass(), void.class, String.class, int.class, int.class);
                     if (mVsbCls == null || initSeekBar.length == 0) {
-                        LogUtils.logXp(TAG, "Unable to find class/method in Settings to hook");
+                        XposedLogUtils.INSTANCE.logI(TAG, "Unable to find class/method in Settings to hook");
                         return;
                     } else {
                         initSeekBar[0].setAccessible(true);
@@ -60,7 +62,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                         }
                     }
                 } catch (Throwable t) {
-                    LogUtils.logXp(TAG, "Unable to find class/method in Settings to hook");
+                    XposedLogUtils.INSTANCE.logI(TAG, "Unable to find class/method in Settings to hook");
                     return;
                 }
 

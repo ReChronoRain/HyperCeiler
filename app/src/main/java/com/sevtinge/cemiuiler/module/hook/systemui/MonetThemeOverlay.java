@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 public class MonetThemeOverlay extends BaseHook {
 
@@ -33,7 +33,7 @@ public class MonetThemeOverlay extends BaseHook {
                     @Override
                     public void onChange(String name, int defValue) {
                         mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
-                        LogUtils.logXp(TAG, name + "： " + PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
+                        XposedLogUtils.INSTANCE.logI(TAG, name + "： " + PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
                     }
                 };
 

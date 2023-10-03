@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +48,13 @@ public class FreeformShortcutMenu extends BaseHook {
         if (isPad()) {
             hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$MultipleSmallWindowShortcutMenuItem", "isValid", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     returnConstant(true);
                 }
             });
             hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$SmallWindowShortcutMenuItem", "isValid", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     returnConstant(true);
                 }
             });
@@ -75,14 +75,14 @@ public class FreeformShortcutMenu extends BaseHook {
 
             hookAllMethods(mViewDarkModeHelper, "onConfigurationChanged", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     XposedHelpers.callStaticMethod(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems");
                 }
             });
 
             hookAllMethods(mShortcutMenuItem, "getShortTitle", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     if (param.getResult().equals("应用信息")) {
                         param.setResult("信息");
                     }
@@ -94,7 +94,7 @@ public class FreeformShortcutMenu extends BaseHook {
 
             hookAllMethods(mActivity, "onCreate", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     mContext = (Context) param.thisObject;
                 }
             });
@@ -118,14 +118,14 @@ public class FreeformShortcutMenu extends BaseHook {
 
             hookAllMethods(mSystemShortcutMenu, "getMaxShortcutItemCount", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     param.setResult(6);
                 }
             });
 
             hookAllMethods(mAppShortcutMenu, "getMaxShortcutItemCount", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     param.setResult(6);
                 }
             });
@@ -161,7 +161,7 @@ public class FreeformShortcutMenu extends BaseHook {
             });
 
         } catch (Throwable th) {
-            LogUtils.log("FreeformShortcutMenu" + th);
+            XposedLogUtils.INSTANCE.logW(TAG, "FreeformShortcutMenu", th);
         }
     }
 

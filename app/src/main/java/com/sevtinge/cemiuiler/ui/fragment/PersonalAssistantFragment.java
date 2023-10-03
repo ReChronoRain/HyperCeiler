@@ -42,7 +42,7 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
         mBlurRadius = findPreference("prefs_key_personal_assistant_blurradius");
         mBlurColor = findPreference("prefs_key_personal_assistant_color");
 
-        if (!getSharedPreferences().getBoolean("prefs_key_enable_hidden_function", false)) {
+        if (!getSharedPreferences().getBoolean("prefs_key_enable_function", false)) {
             mWidgetCrack.setVisible(false);
         }
 

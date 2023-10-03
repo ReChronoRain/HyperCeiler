@@ -1,9 +1,13 @@
 package com.sevtinge.cemiuiler.module.base;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
+import com.github.kyuubiran.ezxhelper.Log;
 import com.sevtinge.cemiuiler.XposedInit;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 
@@ -14,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseHook {
     public String TAG = getClass().getSimpleName();
-    private boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
+    private final boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public LoadPackageParam lpparam;
     public static final ResourcesHook mResHook = XposedInit.mResHook;
@@ -26,10 +30,11 @@ public abstract class BaseHook {
 
     public void onCreate(LoadPackageParam lpparam) {
         try {
+            // LogI ing
             setLoadPackageParam(lpparam);
             init();
         } catch (Throwable t) {
-            logE(t);
+            XposedLogUtils.INSTANCE.logE(TAG,"Hook Failed", t, null);
         }
     }
 
@@ -79,7 +84,7 @@ public abstract class BaseHook {
         try {
             return findClass(className);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            LogUtils.log("find " + className + " is Null", e);
+            LogD("findClassIfExists", "find " + className + " is Null", e);
             return null;
         }
     }
@@ -88,7 +93,7 @@ public abstract class BaseHook {
         try {
             return findClass(findClassIfExists(newClassName) != null ? newClassName : oldClassName);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            LogUtils.log("find " + newClassName + " and " + oldClassName + " is Null", e);
+            LogD("findClassIfExists", "find " + newClassName + " and " + oldClassName + " is Null", e);
             return null;
         }
     }
@@ -97,7 +102,7 @@ public abstract class BaseHook {
         try {
             return findClass(className, classLoader);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            LogUtils.log("find " + className + " is Null", e);
+            LogD("findClassIfExists", "find " + className + " is Null", e);
             return null;
         }
     }
@@ -124,7 +129,7 @@ public abstract class BaseHook {
             try {
                 this.before(param);
             } catch (Throwable t) {
-                LogUtils.log(t);
+                LogD("BeforeHook","" + t);
             }
         }
 
@@ -133,7 +138,7 @@ public abstract class BaseHook {
             try {
                 this.after(param);
             } catch (Throwable t) {
-                LogUtils.log(t);
+                LogD("AfterHook", "" + t);
             }
         }
     }
@@ -152,7 +157,7 @@ public abstract class BaseHook {
             findAndHookMethod(className, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            LogUtils.log(t);
+            LogD("findAndHookMethodSilently", className + methodName + " is null", t);
             return false;
         }
     }
@@ -162,7 +167,7 @@ public abstract class BaseHook {
             findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            LogUtils.log(t);
+            LogD("findAndHookMethodSilently", clazz + methodName + " is null", t);
             return false;
         }
     }
@@ -187,7 +192,7 @@ public abstract class BaseHook {
             }
 
         } catch (Throwable t) {
-            LogUtils.log(t);
+            LogD("HookAllMethods", className + " is " + methodName + " abnormal", t);
         }
     }
 
@@ -195,7 +200,7 @@ public abstract class BaseHook {
         try {
             XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
         } catch (Throwable t) {
-            LogUtils.log(t);
+            LogD("HookAllMethods", hookClass + " is " + methodName + " abnormal", t);
         }
     }
 
@@ -227,7 +232,7 @@ public abstract class BaseHook {
                 XposedBridge.hookAllConstructors(hookClass, callback).size();
             }
         } catch (Throwable t) {
-            LogUtils.log(t);
+            LogD("hookAllConstructors", className + " is  abnormal", t);
         }
     }
 
@@ -235,7 +240,7 @@ public abstract class BaseHook {
         try {
             XposedBridge.hookAllConstructors(hookClass, callback).size();
         } catch (Throwable t) {
-            LogUtils.log(t);
+            LogD("hookAllConstructors", hookClass + " is  abnormal", t);
         }
     }
 

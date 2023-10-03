@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -112,7 +113,7 @@ public class PrefsUtils {
                 cursor.close();
                 return prefValue;
             } else {
-                LogUtils.logXp("ContentResolver", "[" + name + "] Cursor fail: null");
+                XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: null");
             }
         } catch (Throwable t) {
             XposedBridge.log(t);
@@ -135,7 +136,7 @@ public class PrefsUtils {
                 int prefValue = cursor.getInt(0);
                 cursor.close();
                 return prefValue;
-            } else LogUtils.logXp("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }

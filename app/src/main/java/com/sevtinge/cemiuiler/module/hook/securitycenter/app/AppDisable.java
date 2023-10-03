@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
 import com.sevtinge.cemiuiler.utils.XposedUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -121,7 +121,7 @@ public class AppDisable extends BaseHook {
             }
             new Handler().postDelayed(act::invalidateOptionsMenu, 500);
         } catch (Throwable t) {
-            LogUtils.log(t);
+            XposedLogUtils.INSTANCE.logW(TAG, "", t);
         }
     }
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -50,7 +50,7 @@ public class SeekPoints extends BaseHook {
         boolean isInEditingMode = (boolean) XposedHelpers.callMethod(workspace, "isInNormalEditingMode");
         View mScreenSeekBar = (View) XposedHelpers.getObjectField(workspace, "mScreenSeekBar");
         if (mScreenSeekBar == null) {
-            LogUtils.log("HideSeekPointsHook Cannot find seekbar");
+            XposedLogUtils.INSTANCE.logI("showSeekBar", "HideSeekPointsHook Cannot find seekbar");
             return;
         }
         Context mContext = workspace.getContext();
@@ -72,7 +72,7 @@ public class SeekPoints extends BaseHook {
             XposedHelpers.setAdditionalInstanceField(workspace, "mHandlerEx", mHandler);
         }
         if (mHandler == null) {
-            LogUtils.log("HideSeekPointsHook Cannot create handler");
+            XposedLogUtils.INSTANCE.logI("showSeekBar", "HideSeekPointsHook Cannot create handler");
             return;
         }
         if (mHandler.hasMessages(666)) mHandler.removeMessages(666);

@@ -4,7 +4,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.LogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 
@@ -22,11 +22,11 @@ public class AppRestrict extends BaseHook {
         Method[] mGetAppInfo = XposedHelpers.findMethodsByExactParameters(mAppManageUtils, ApplicationInfo.class, Object.class, PackageManager.class, String.class, int.class, int.class);
 
         if (mGetAppInfo.length == 0) {
-            LogUtils.logXp(TAG, "Cannot find getAppInfo method!");
+            XposedLogUtils.INSTANCE.logI(TAG, "Cannot find getAppInfo method!");
         } else {
             hookMethod(mGetAppInfo[0], new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     if ((int) param.args[3] == 128 && (int) param.args[4] == 0) {
                         ApplicationInfo appInfo = (ApplicationInfo) param.getResult();
                         appInfo.flags &= ~ApplicationInfo.FLAG_SYSTEM;
@@ -38,7 +38,7 @@ public class AppRestrict extends BaseHook {
 
         findAndHookMethod("com.miui.networkassistant.ui.fragment.ShowAppDetailFragment", "initFirewallData", new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 Object mAppInfo = XposedHelpers.getObjectField(param.thisObject, "mAppInfo");
                 if (mAppInfo != null) XposedHelpers.setBooleanField(mAppInfo, "isSystemApp", false);
             }

@@ -31,7 +31,7 @@ class AboutFragment : SettingsPreferenceFragment() {
         val lIIIIII = lIIllll.get(Calendar.HOUR_OF_DAY)
         val lIIIIll = lIIllll(lIIIIII)
         val lIIlllI = lIIlllI(lIIIIll, lIIIIII)
-        val lIIllII = findPreference<Preference>("prefs_key_enable_hidden_function")
+        val lIIllII = findPreference<Preference>("prefs_key_enable_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
         lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
