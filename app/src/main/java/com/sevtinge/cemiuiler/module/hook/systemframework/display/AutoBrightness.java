@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.systemframework.display;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -98,7 +100,7 @@ public class AutoBrightness extends BaseHook {
                                 case "boolean" -> mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
                             }
                         } catch (Throwable t) {
-                            Helpers.log(t);
+                            LogD(TAG, "onChange", t);
                         }
                     }
                 };

@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.base;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.app.AiAsst;
 import com.sevtinge.cemiuiler.module.app.Aireco;
@@ -153,7 +155,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                     mPrefsMap.putAll(allPrefs);
                 }
             } catch (Throwable t) {
-                XposedBridge.log(t);
+                LogD("setXSharedPrefs", t);
             }
         }
     }
@@ -205,6 +207,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.market" -> mMarket.init(lpparam);
+
             case "com.miui.packageinstaller" -> {
                 mPackageInstaller.init(lpparam);
                 mVarious.init(lpparam);
@@ -344,19 +347,19 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
 
     public boolean isSafeModeEnable(String key) {
-        return mPrefsMap.getBoolean(key);
+        return !mPrefsMap.getBoolean(key);
     }
 
     public boolean isSystemUIModuleEnable() {
-        return !isSafeModeEnable("system_ui_safe_mode_enable");
+        return isSafeModeEnable("system_ui_safe_mode_enable");
     }
 
     public boolean isHomeModuleEnable() {
-        return !isSafeModeEnable("home_safe_mode_enable");
+        return isSafeModeEnable("home_safe_mode_enable");
     }
 
     public boolean isSecurityCenterModuleEnable() {
-        return !isSafeModeEnable("security_center_safe_mode_enable");
+        return isSafeModeEnable("security_center_safe_mode_enable");
     }
 
 }

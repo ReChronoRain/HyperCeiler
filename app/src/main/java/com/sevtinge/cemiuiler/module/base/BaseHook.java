@@ -1,8 +1,11 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogI;
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.deLogI;
 
 import com.github.kyuubiran.ezxhelper.Log;
+import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
@@ -18,6 +21,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseHook {
     public String TAG = getClass().getSimpleName();
+    private static final boolean isDebugVersion = !BuildConfig.BUILD_TYPE.contains("release");
     private final boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public LoadPackageParam lpparam;
@@ -30,11 +34,13 @@ public abstract class BaseHook {
 
     public void onCreate(LoadPackageParam lpparam) {
         try {
-            // LogI ing
             setLoadPackageParam(lpparam);
             init();
+            if (detailLog && !isDebugVersion) {
+                deLogI(TAG, "Hook success!");
+            }
         } catch (Throwable t) {
-            XposedLogUtils.INSTANCE.logE(TAG,"Hook Failed", t, null);
+            XposedLogUtils.INSTANCE.logE(TAG, "Hook Failed", t, null);
         }
     }
 
@@ -43,33 +49,33 @@ public abstract class BaseHook {
     }
 
     public void logI(String log) {
-        if (detailLog) {
-            XposedBridge.log("Cemiuiler: " + TAG + " " + log);
+        if (detailLog && !isDebugVersion) {
+            XposedBridge.log("[I/Cemiuiler]: [" + TAG + "] " + log);
         }
     }
 
     public void logE(Exception e) {
-        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + e);
+        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] hook failed by: " + e);
     }
 
     public void logE(Throwable t) {
-        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + t);
+        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] hook failed by: " + t);
     }
 
     public void logE(String log) {
-        XposedBridge.log("Cemiuiler: " + TAG + " hook failed by: " + log);
+        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] hook failed by: " + log);
     }
 
     public void logE(String tag, Exception e) {
-        XposedBridge.log("Cemiuiler: " + TAG + " " + tag + " hook failed by: " + e);
+        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] " + tag + " hook failed by: " + e);
     }
 
     public void logE(String tag, Throwable t) {
-        XposedBridge.log("Cemiuiler: " + TAG + " " + tag + " hook failed by: " + t);
+        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] " + tag + " hook failed by: " + t);
     }
 
     public void logE(String tag, String log) {
-        XposedBridge.log("Cemiuiler: " + TAG + " " + tag + " hook failed by: " + log);
+        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] " + tag + " hook failed by: " + log);
     }
 
     public Class<?> findClass(String className) {
@@ -129,7 +135,7 @@ public abstract class BaseHook {
             try {
                 this.before(param);
             } catch (Throwable t) {
-                LogD("BeforeHook","" + t);
+                LogD("BeforeHook", t);
             }
         }
 
@@ -138,7 +144,7 @@ public abstract class BaseHook {
             try {
                 this.after(param);
             } catch (Throwable t) {
-                LogD("AfterHook", "" + t);
+                LogD("AfterHook",  t);
             }
         }
     }

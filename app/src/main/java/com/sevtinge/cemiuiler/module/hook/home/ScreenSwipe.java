@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.home;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
@@ -72,7 +74,7 @@ public class ScreenSwipe extends BaseHook {
                                         mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(act, key, false));
                                 }
                         } catch (Throwable t) {
-                            Helpers.log(t);
+                            LogD(TAG, "setAction", t);
                         }
                     }
                 };

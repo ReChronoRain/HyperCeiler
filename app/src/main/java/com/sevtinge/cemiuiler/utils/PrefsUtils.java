@@ -91,7 +91,7 @@ public class PrefsUtils {
                 String prefValue = cursor.getString(0);
                 cursor.close();
                 return prefValue;
-            } else Helpers.log("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -155,7 +155,7 @@ public class PrefsUtils {
                 int prefValue = cursor.getInt(0);
                 cursor.close();
                 return prefValue == 1;
-            } else Helpers.log("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }

@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.various;
 
 import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogI;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -40,7 +41,7 @@ public class DialogGravity extends BaseHook {
             for (Method method : mDialogCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) oldMethodFound = true;
                 methodList.add(method);
-                LogD(TAG, method.getName());
+                LogI(TAG, method.getName());
             }
 
             int mDialogGravity = XposedInit.mPrefsMap.getStringAsInt("various_dialog_gravity", 0);

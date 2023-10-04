@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.utils;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Pair;
@@ -94,7 +96,7 @@ public class ResourcesHook {
                 value = XposedHelpers.callMethod(modRes, method, modResId);
             return value;
         } catch (Throwable t) {
-            Helpers.log(t);
+            LogD("getFakeResource", t);
             return null;
         }
     }
@@ -168,7 +170,7 @@ public class ResourcesHook {
                 value = XposedHelpers.callMethod(modRes, method, modResId);
             return value;
         } catch (Throwable t) {
-            Helpers.log(t);
+            LogD("getResourceReplacement", t);
             return null;
         }
     }

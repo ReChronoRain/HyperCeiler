@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.utils
 
 import android.annotation.SuppressLint
-import de.robv.android.xposed.XposedBridge
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import java.lang.reflect.Method
 
 object PropertyUtils {
@@ -15,7 +15,7 @@ object PropertyUtils {
         kotlin.runCatching {
             get.invoke(null, prop, defaultValue) as String?
         }.onFailure {
-            XposedBridge.log(it)
+            logW("", it)
         }.onSuccess {
             return it
         }

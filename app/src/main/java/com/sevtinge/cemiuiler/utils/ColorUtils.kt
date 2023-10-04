@@ -1,7 +1,7 @@
 package com.sevtinge.cemiuiler.utils
 
 import android.graphics.Color
-import com.sevtinge.cemiuiler.utils.Helpers.log
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logI
 
 object ColorUtils {
     // color转换不可靠，加一个默认值
@@ -13,7 +13,7 @@ object ColorUtils {
             originalColor = Color.valueOf(color)
         } catch (e: Throwable) {
             // 颜色转换失败
-            log("ColorUtils colorToHex Hook failed by: $e")
+            logI("colorToHex", "ColorUtils colorToHex Hook failed by: $e")
         }
         val alpha = (originalColor.alpha() * 255).toInt()
         val red = (originalColor.red() * 255).toInt()

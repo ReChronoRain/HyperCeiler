@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.app;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogE;
 import static java.lang.System.currentTimeMillis;
 
 import android.annotation.SuppressLint;
@@ -18,6 +20,7 @@ import android.view.KeyEvent;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -114,7 +117,7 @@ public class GlobalActions extends BaseHook {
                     }
                 }
             } catch (Throwable t) {
-                Helpers.log(t);
+                LogD(TAG, "onReceive", t);
             }
         }
     };
@@ -152,7 +155,7 @@ public class GlobalActions extends BaseHook {
                     forceStopPackage(context, intent.getStringExtra("packageName"));
                 }
             } catch (Exception e) {
-                Helpers.log(e);
+                LogE("GlobalActions", null, e);
             }
         }
     };
@@ -216,7 +219,7 @@ public class GlobalActions extends BaseHook {
             context.sendBroadcast(new Intent(ACTION_PREFIX + action));
             return true;
         } catch (Throwable t) {
-            Helpers.log(t);
+            LogD("GlobalActions", "setAction", t);
             return false;
         }
     }
@@ -327,7 +330,7 @@ public class GlobalActions extends BaseHook {
 
             return intent;
         } catch (Throwable t) {
-            Helpers.log(t);
+            LogD("GlobalActions", "getIntent", t);
             return null;
         }
     }
