@@ -297,6 +297,13 @@
             android:title="@string/mtb" />
 
         <com.sevtinge.cemiuiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.NetworkBoostFragment"
+            android:icon="@drawable/ic_default_icon"
+            android:key="prefs_key_networkboost"
+            android:summary="com.xiaomi.networkboost"
+            android:title="@string/networkboost" />
+
+        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.ScannerFragment"
             android:icon="@drawable/ic_scanner"
             android:key="prefs_key_scanner"

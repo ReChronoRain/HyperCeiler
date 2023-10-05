@@ -1012,6 +1012,10 @@
     <string name="miui_package_installer_install_source">自定义安装来源</string>
     <string name="miui_package_installer_apk_info">显示更多安装包信息</string>
     <string name="miui_package_installer_apk_info_desc">显示安装中应用的更多相关信息</string>
+    <!--networkboost-->
+    <string name="networkboost">NetworkBoost</string>
+    <string name="various_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
+    <string name="various_disable_link_turbo_toast_more">开关后请在快速重启作用域中重启 NetworkBoost</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
     <string name="personal_assistant_widget_crack">小部件破解</string>
@@ -1198,8 +1202,6 @@
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
-    <string name="various_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
-    <string name="various_disable_link_turbo_toast_more">开关后请在快速重启作用域中重启 NetworkBoost</string>
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
     <string name="various_unlock_ime_desc">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
