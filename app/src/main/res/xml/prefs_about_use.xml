@@ -3,11 +3,32 @@
     <PreferenceCategory>
         <Preference android:summary="@string/about_use_desc" />
         <Preference
+            android:title="Accompanist"
+            android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://google.github.io/accompanist" />
+        </Preference>
+        <Preference
+            android:title="Android"
+            android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://source.android.google.cn/license" />
+        </Preference>
+        <Preference
             android:title="AndroidHiddenApiBypass"
             android:summary="LSPosed | Apache-2.0">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LSPosed/AndroidHiddenApiBypass" />
+        </Preference>
+        <Preference
+            android:title="AndroidX"
+            android:summary="Android Open Source Project, Google Inc., androidx | Apache-2.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/androidx/androidx" />
         </Preference>
         <Preference
             android:title="AntiAntiDefraud"
@@ -94,11 +115,25 @@
                 android:data="https://github.com/qqlittleice/FixMiuiMediaControlPanel" />
         </Preference>
         <Preference
+            android:title="Gson"
+            android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/google/gson" />
+        </Preference>
+        <Preference
             android:title="HideMiuiClipboardDialog"
             android:summary="zerorooot | GPL-3.0">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
+        </Preference>
+        <Preference
+            android:title="Kotlin"
+            android:summary="JetBrains | No License">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/JetBrains/kotlin" />
         </Preference>
         <Preference
             android:title="MaxFreeForm"
@@ -227,6 +262,13 @@
                 android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
         </Preference>
         <Preference
+            android:title="Xposed"
+            android:summary="rovo89, Tungstwenty | Apache-2.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/rovo89/XposedBridge" />
+        </Preference>
+        <Preference
             android:title="XposedBridge"
             android:summary="rovo89 | No License">
             <intent
@@ -240,7 +282,7 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Kr328/.xlDownload" />
         </Preference>
-        
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>
