@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:maxWidth="60dp"
+            android:maxWidth="54dp"
             android:paddingEnd="@dimen/preference_icon_padding_end"
             android:layout_marginTop="@dimen/preference_item_padding_inner"
             android:layout_marginBottom="@dimen/preference_item_padding_inner"
