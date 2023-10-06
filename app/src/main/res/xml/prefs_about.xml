@@ -27,7 +27,7 @@
         </Preference>
 
         <Preference
-            android:icon="@drawable/ic_linqiqi"
+            android:icon="@drawable/ic_lingqiqi"
             android:layout="@layout/preference_round_layout"
             android:summary="Hook"
             android:title="Ling Qiqi">
