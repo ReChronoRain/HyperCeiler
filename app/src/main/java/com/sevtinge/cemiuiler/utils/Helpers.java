@@ -167,7 +167,7 @@ public class Helpers {
     }
 
     public static void log(String mod, String line) {
-        XposedBridge.log("Cemiuiler: " + mod + " " + line);
+        XposedBridge.log("[Cemiuiler][I]: " + mod + " " + line);
     }
 
     private static String getCallerMethod() {

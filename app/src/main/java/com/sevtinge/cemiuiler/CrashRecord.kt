@@ -15,11 +15,11 @@ object CrashRecord : Thread.UncaughtExceptionHandler {
         mContext = context
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(this)
-        if (BuildConfig.DEBUG) XposedBridge.log("Cemiuiler: CrashRecord Loaded")
+        if (BuildConfig.DEBUG) XposedBridge.log("[Cemiuiler][I]: CrashRecord Loaded")
     }
 
     override fun uncaughtException(p0: Thread, p1: Throwable) {
-        XposedBridge.log("Cemiuiler: Crash happened")
+        XposedBridge.log("[Cemiuiler][W]: Crash happened")
         mContext?.let {
             val pref = it.createDeviceProtectedStorageContext().getSharedPreferences("Crash_Handler", Context.MODE_PRIVATE)
             if (BuildConfig.DEBUG) {
@@ -28,13 +28,13 @@ object CrashRecord : Thread.UncaughtExceptionHandler {
                 XposedBridge.log("${System.currentTimeMillis() - pref.getLong("last_time", 0L)}")
             }
             if (System.currentTimeMillis() - pref.getLong("last_time", 0L) < 60 * 1000L) {
-                XposedBridge.log("Cemiuiler: Crash happened again in one minute")
+                XposedBridge.log("[Cemiuiler][W]: Crash happened again in one minute")
                 if (pref.getInt("times", 0) >= 5) {
                     it.createDeviceProtectedStorageContext().getSharedPreferences(mPrefsName, Context.MODE_PRIVATE).edit().apply {
                         clear()
                         apply()
                     }
-                    XposedBridge.log("Cemiuiler: More than five times, clear MODULE_CONFIG")
+                    XposedBridge.log("[Cemiuiler][W]: More than five times, clear MODULE_CONFIG")
                     pref.edit().putInt("times", 0).apply()
                 }
                 pref.edit().putInt("times", pref.getInt("times", 0) + 1).apply()

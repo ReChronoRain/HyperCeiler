@@ -8,6 +8,6 @@ public class IsDetailLog extends BaseHook {
     @Override
     public void init() {
         if (mPrefsMap.getBoolean("settings_disable_detailed_log"))
-            XposedBridge.log("Cemiuiler: Detail log is disabled.");
+            XposedBridge.log("[Cemiuiler][I]: Detail log is disabled.");
     }
 }

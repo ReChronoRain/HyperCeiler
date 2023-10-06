@@ -9,7 +9,7 @@ import de.robv.android.xposed.XposedHelpers
 
 object HookUtils {
     fun log(content: Any?) {
-        XposedBridge.log("Cemiuiler: $content")
+        XposedBridge.log("[Cemiuiler][I]: $content")
     }
 
     fun dip2px(context: Context, dpValue: Float): Float {

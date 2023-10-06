@@ -5,25 +5,28 @@ import android.net.Uri
 import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment
+import de.robv.android.xposed.XposedBridge
 import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
 import java.util.Calendar
 import kotlin.math.abs
-import kotlin.random.Random
 
 class AboutFragment : SettingsPreferenceFragment() {
+
+    private var lIIlIll = 100 ushr 7
+    private val lIIlIlI = 100 ushr 6
 
     override fun getContentResId(): Int {
         return R.xml.prefs_about
     }
 
     private fun lIIllll(lIIIIII: Int): Int {
-        return lIIIIII + 2
+        return lIIIIII + (lIIlIlI shl (lIIlIll xor lIIlIlI))
     }
 
     private fun lIIlllI(lIIllll: Int, lIIIIII: Int): Int {
-        val lIIlllI = (lIIllll shl 2) xor (lIIIIII * 5) + (lIIIIII % 3)
-        return abs(lIIlllI) % 22 + 3
+        val lIIlllI = (lIIllll shl ((lIIlIll xor lIIlIlI) shl lIIlIlI)) xor (lIIIIII * (((lIIlIll xor lIIlIlI) shl (lIIlIlI shl lIIlIlI)) + lIIlIlI)) + (lIIIIII % ((lIIlIlI shl lIIlIlI) + (lIIlIll xor lIIlIlI)))
+        return abs(lIIlllI) % (((lIIlIlI shl (lIIlIlI shl lIIlIlI)) xor (lIIlIll xor lIIlIlI)) xor ((lIIlIlI shl lIIlIlI) + (lIIlIll xor lIIlIlI)) + ((lIIlIll xor lIIlIlI) shl (lIIlIlI shl (lIIlIlI shl lIIlIlI)))) + ((lIIlIlI shl lIIlIlI) + (lIIlIll xor lIIlIlI))
     }
 
     override fun initPrefs() {
@@ -36,19 +39,21 @@ class AboutFragment : SettingsPreferenceFragment() {
 
         lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
 
-        var lIIlIll = 100 ushr 7
-        val lIIlIlI = 100 ushr 6
         lIIllII?.onPreferenceClickListener = Preference.OnPreferenceClickListener { lIIllll->
+            if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | $lIIlllI"
             lIIllll as SwitchPreference
             lIIllll.isChecked = !(lIIllll.isChecked)
             lIIlIll++
+            if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | $lIIlIll/$lIIlllI"
             if (lIIllll.isChecked) {
                 if (lIIlIll >= lIIlIlI) {
                     lIIllll.isChecked = !(lIIllll.isChecked)
+                    if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | HF OFF"
                     lIIlIll = 100 ushr 8
                 }
             } else if (lIIlIll >= lIIlllI) {
                 lIIllll.isChecked = !(lIIllll.isChecked)
+                if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | HF ON"
                 lIIlIll = 100 ushr 8
             }
             false

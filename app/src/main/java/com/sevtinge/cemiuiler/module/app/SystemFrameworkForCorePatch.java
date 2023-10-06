@@ -15,7 +15,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    public static final String TAG = "Cemiuiler: CorePatch";
+    public static final String TAG = "[Cemiuiler][I][CorePatch]: ";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
