@@ -2,6 +2,11 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">MIUI を再び偉大な物にしましょう!</string>
+    <string name="new_permission_storage_desc">デバイスの内部ストレージ上のファイルを追加および削除</string>
+    <string name="new_permission_location_desc">緯度や経度などのサービスを提供するために使用</string>
+    <string name="new_cta_agree_desc">アクセス許可の管理に移動すると、いつでもすべてのアクセス許可を変更できます</string>
+    <string name="new_cta_app_main_purpose">システムアプリの変更</string>
+    <string name="new_cta_app_all_purpose_title">Cemiuiler へようこそ。いろいろカスタマイズできます</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Japanese (日本語)</string>
     <string name="translator">Re*Index. (ot_inc)</string>
