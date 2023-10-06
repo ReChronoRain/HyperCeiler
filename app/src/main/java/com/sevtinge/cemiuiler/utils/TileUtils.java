@@ -46,7 +46,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have isAvailable");
+            logE("Don't Have isAvailable: " + e);
         }
         tileName(myTile); // 不需要覆写
         try {
@@ -64,7 +64,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have handleSetListening");
+            logE("Don't Have handleSetListening: " + e);
         }
         try {
             myTile.getDeclaredMethod("getLongClickIntent");
@@ -80,7 +80,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have getLongClickIntent");
+            logE("Don't Have getLongClickIntent: " + e);
         }
         try {
             myTile.getDeclaredMethod("handleLongClick", View.class);
@@ -102,7 +102,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException t) {
-            logI("Don't Have handleLongClick");
+            logE("Don't Have handleLongClick: " + t);
         }
         try {
             myTile.getDeclaredMethod("handleClick", View.class);
@@ -119,7 +119,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have handleClick");
+            logE("Don't Have handleClick: " + e);
         }
         hookAllMethods(myTile, "handleUpdateState", new MethodHook() {
             @Override
@@ -184,7 +184,7 @@ public abstract class TileUtils extends BaseHook {
     private void SystemUiHook() {
         String custom = customName();
         if (custom.equals("")) {
-            logI("Error custom:" + custom);
+            logE("Error custom:" + custom);
             return;
         }
         try {
@@ -207,7 +207,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have onCreate");
+            logE("Don't Have onCreate: " + e);
         }
     }
 
@@ -231,7 +231,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have " + customTileProvider()[1]);
+            logE("Don't Have " + customTileProvider()[1], e);
         }
     }
 
@@ -246,7 +246,7 @@ public abstract class TileUtils extends BaseHook {
         int customValue = customValue();
         String custom = customName();
         if (customValue == -1 || custom.equals("")) {
-            logI("Error customValue:" + customValue);
+            logE("Error customValue:" + customValue);
             return;
         }
         try {
@@ -265,7 +265,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logI("Don't Have getTileLabel");
+            logE("Don't Have getTileLabel: ", e);
         }
     }
 

@@ -166,14 +166,11 @@ public class Helpers {
         });
     }
 
-    public static void log(String mod, String line) {
-        XposedBridge.log("[Cemiuiler][I]: " + mod + " " + line);
-    }
-
     private static String getCallerMethod() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         for (StackTraceElement el : stackTrace)
-            if (el != null && el.getClassName().startsWith(mAppModulePkg + ".module")) return el.getMethodName();
+            if (el != null && el.getClassName().startsWith(mAppModulePkg + ".module"))
+                return el.getMethodName();
         return stackTrace[4].getMethodName();
     }
 
@@ -316,7 +313,8 @@ public class Helpers {
     public static void hookAllMethods(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
         try {
             Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0) ;
+            if (hookClass == null || XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
+                ;
         } catch (Throwable t) {
             LogD("hookAllMethods", className + " is abnormal", t);
         }
@@ -324,8 +322,8 @@ public class Helpers {
 
     public static void hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
-           if (XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
-               LogI(getCallerMethod(), "Failed to hook " + methodName + " method in " + hookClass.getCanonicalName());
+            if (XposedBridge.hookAllMethods(hookClass, methodName, callback).size() == 0)
+                LogI(getCallerMethod(), "Failed to hook " + methodName + " method in " + hookClass.getCanonicalName());
         } catch (Throwable t) {
             LogD("hookAllMethods", hookClass + " is abnormal", t);
         }
@@ -351,7 +349,7 @@ public class Helpers {
                     XposedLogUtils.INSTANCE.logI(getCallerMethod(), "Failed to hook " + hookClass.getPackageName() + "/" + hookClass.getCanonicalName() + " constructor");
                 }
         } catch (Throwable t) {
-            LogD("hookAllMethods", hookClass + " is abnormal",t);
+            LogD("hookAllMethods", hookClass + " is abnormal", t);
         }
     }
 
@@ -443,7 +441,8 @@ public class Helpers {
                 uri = boolPrefToUri(prefName, prefDefValueBool);
             else if (prefType == PrefType.Any)
                 uri = anyPrefToUri();
-            if (uri != null) ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
+            if (uri != null)
+                ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
         }
 
         @Override

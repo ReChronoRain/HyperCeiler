@@ -72,7 +72,7 @@ public class GmsTile extends TileUtils {
             packageManager.getPackageInfo(CheckGms, PackageManager.GET_ACTIVITIES);
             param.setResult(true);
         } catch (PackageManager.NameNotFoundException e) {
-            logI("Not Find GMS App");
+            logE("Not Find GMS App: " + e);
             param.setResult(false);
         }
     }
