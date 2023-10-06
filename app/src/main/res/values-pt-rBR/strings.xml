@@ -2,6 +2,11 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Torne a MIUI ótima novamente!</string>
+    <string name="new_permission_storage_desc">adicione e exclua arquivos no armazenamento interno do dispositivo</string>
+    <string name="new_permission_location_desc">usado para fornecer serviços como latitude e longitude</string>
+    <string name="new_cta_agree_desc">Você pode acessar o Gerenciamento de permissões para ajustar o status de autorização de todas as permissões a qualquer momento.</string>
+    <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao Cemiuiler, Cemiuiler pode xxx.</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -654,7 +659,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
-    <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros aplicativos”</string>
+    <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Use a compilação internacional e vá diretamente para o interruptor de permissão correspondente do app \"exibido sobre outros apps\"</string>
     <string name="system_settings_develop_title">Opções do desenvolvedor</string>
