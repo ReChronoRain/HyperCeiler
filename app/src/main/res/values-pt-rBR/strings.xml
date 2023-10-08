@@ -2,11 +2,11 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Torne a MIUI ótima novamente!</string>
-    <string name="new_permission_storage_desc">adicione e exclua arquivos no armazenamento interno do dispositivo</string>
-    <string name="new_permission_location_desc">usado para fornecer serviços como latitude e longitude</string>
+    <string name="new_permission_storage_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
+    <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Você pode acessar o Gerenciamento de permissões para ajustar o status de autorização de todas as permissões a qualquer momento.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao Cemiuiler, Cemiuiler pode xxx.</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao Cemiuiler, o Cemiuiler pode xxx.</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -108,8 +108,8 @@
     <string name="feature">Função</string>
     <string name="recommend">Recomendado</string>
     <string name="editor">Editor</string>
-    <string name="record">Registro</string>
-    <string name="shot">Tomada</string>
+    <string name="record">Gravação</string>
+    <string name="shot">Disparo</string>
     <string name="portrait">Retrato</string>
     <string name="camera_pro">Pro</string>
     <string name="enable">Ativar</string>
@@ -324,33 +324,33 @@
     <string name="camera_features_unlock_film_delay">Desbloquear Longa exposição</string>
     <string name="camera_features_unlock_film_dollyzoom">Desbloquear Zoom mágico</string>
     <string name="camera_features_unlock_film_dream">Desbloquear Sonho</string>
-    <string name="camera_features_unlock_film_slowshutter">Desbloquear Disparador lento</string>
+    <string name="camera_features_unlock_film_slowshutter">Desbloquear Obturador lento</string>
     <string name="camera_features_unlock_film_timebackflow">Desbloquear Fluxo de tempo</string>
-    <string name="camera_features_unlock_film_timefreeze">Desbloquear Congelamento de tempo</string>
-    <string name="camera_shot_hand_gesture">Desbloquear Disparador de palma</string>
-    <string name="camera_shot_color_enhance">Desbloquear Aprimoramento de cor</string>
+    <string name="camera_features_unlock_film_timefreeze">Desbloquear Congelar o tempo</string>
+    <string name="camera_shot_hand_gesture">Desbloquear Obturador de palma</string>
+    <string name="camera_shot_color_enhance">Desbloquear Cores aprimoradas</string>
     <string name="camera_shot_makeup">Desbloquear Maquiagem</string>
     <string name="camera_shot_makeup_desc">Tem efeito apenas ao usar a câmera frontal</string>
     <string name="camera_record_60fps">Desbloquear 60FPS</string>
     <string name="camera_record_60fps_desc">Não disponível em algumas qualidades, por favor, verifique se o seu dispositivo é compatível</string>
     <string name="camera_record_120fps">Desbloquear 120FPS</string>
-    <string name="camera_record_120fps_desc">Suporte apenas quando as qualidades 4K, por favor, verifique se o seu dispositivo é compatível</string>
-    <string name="camera_record_audio_zoom">Desbloquear Zoom de áudio</string>
+    <string name="camera_record_120fps_desc">Suporta apenas quando houver qualidades 4K, por favor, verifique se o seu dispositivo é compatível</string>
+    <string name="camera_record_audio_zoom">Desbloquear Zoom por áudio</string>
     <string name="camera_record_hdr">Desbloquear HDR</string>
     <string name="camera_record_ai">Desbloquear Aprimoramento de IA</string>
-    <string name="camera_portrait_new_beauty">Desbloquear Nova beleza</string>
+    <string name="camera_portrait_new_beauty">Desbloquear Embelezador</string>
     <string name="camera_portrait_new_beauty_desc">Tem efeito apenas ao usar a câmera frontal</string>
-    <string name="camera_portrait_cvlens">Desbloquear Lente mestre</string>
+    <string name="camera_portrait_cvlens">Desbloquear Lentes Pro</string>
     <string name="camera_portrait_cvlens_desc">Não funciona corretamente em alguns dispositivos</string>
     <string name="camera_pro_raw">Desbloquear RAW</string>
     <string name="camera_pro_log">Desbloquear LOG</string>
     <string name="camera_settings_heic">Desbloquear HEIF</string>
-    <string name="camera_settings_track_focus">Desbloquear Foco da faixa de movimento</string>
-    <string name="camera_settings_predictive">Desbloquear Captura de movimento</string>
+    <string name="camera_settings_track_focus">Desbloquear Rastreamento de foco</string>
+    <string name="camera_settings_predictive">Desbloquear Rastrear movimento</string>
     <string name="camera_settings_nevus">Desbloquear Remover verrugas</string>
-    <string name="camera_settings_men_makeup">Desbloquear Ajuste os efeitos de maquiagem para homens</string>
+    <string name="camera_settings_men_makeup">Desbloquear Ajustar efeitos de maquiagem para homens</string>
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
-    <string name="camera_settings_track_eyes">Desbloquear Olhos de controle</string>
+    <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
     <!--Clock-->
     <string name="clock">Relógio</string>
     <string name="clock_enable_hour_glass">Desbloquear a animação da ampulheta do relógio</string>
@@ -655,7 +655,7 @@
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
-    <string name="system_settings_ai_image_unlock_ai">Desbloquear o Aprimoramento de imagem IA e o Aprimoramento HDR por IA</string>
+    <string name="system_settings_ai_image_unlock_ai">Desbloquear o Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
