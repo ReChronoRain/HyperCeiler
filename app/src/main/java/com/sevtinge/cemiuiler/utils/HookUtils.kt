@@ -3,14 +3,12 @@ package com.sevtinge.cemiuiler.utils
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logE
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
 object HookUtils {
-    fun log(content: Any?) {
-        XposedBridge.log("[Cemiuiler][I]: $content")
-    }
 
     fun dip2px(context: Context, dpValue: Float): Float {
         val scale = context.resources.displayMetrics.density
@@ -23,7 +21,7 @@ object HookUtils {
             classLoader
         )
         if (result == null) {
-            log("'$className' is NOT found.")
+            logE("getClass", "'$className' is NOT found.", null, null)
         }
         return result
     }
@@ -44,7 +42,7 @@ object HookUtils {
                 XC_MethodReplacement.returnConstant(result)
             )
         } catch (e: Throwable) {
-            log(e.message)
+            logW("replaceMethodResult", e)
         }
     }
 
@@ -84,7 +82,7 @@ object HookUtils {
             }
             return blurDrawable
         } catch (e: Throwable) {
-            log("Create BlurDrawable Error:$e")
+            logW("createBlurDrawable", "Create BlurDrawable Error", e)
             return null
         }
     }
