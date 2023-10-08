@@ -2,6 +2,9 @@ package com.sevtinge.cemiuiler.module.base;
 
 import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.app.AiAsst;
 import com.sevtinge.cemiuiler.module.app.Aod;
@@ -54,6 +57,7 @@ import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
+import com.sevtinge.cemiuiler.utils.ShellUtils;
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -120,6 +124,11 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Notes mNotes = new Notes();
     public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
+    // public static String mWildcard = "*";
+    public static String mPrefsNameXml = "cemiuiler_prefs.xml";
+    @SuppressLint("SdCardPath")
+    public static String mPrefsFileUser = "/data/user/0/" + Helpers.mAppModulePkg + "/shared_prefs/";
+    public static String mPrefsFileMisc = "/data/misc/*/prefs/" + Helpers.mAppModulePkg + "/";
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -139,13 +148,35 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 if (allPrefs == null || allPrefs.size() == 0) {
                     mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
                     mXSharedPreferences.makeWorldReadable();
+
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                     if (allPrefs == null || allPrefs.size() == 0) {
-                        XposedLogUtils.INSTANCE.logE(
-                            "[UID" + android.os.Process.myUid() + "]",
-                            "Cannot read module's SharedPreferences, some mods might not work!",
-                            null, null
-                        );
+                        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                            String mCommand = "[ ! -f " + mPrefsFileMisc + mPrefsNameXml + " ] " +
+                                "&& [ -d " + mPrefsFileMisc + " ]" +
+                                " && [ -f " + mPrefsFileUser + mPrefsNameXml + " ] " +
+                                " && cp -f " + mPrefsFileUser + "* " + mPrefsFileMisc +
+                                " && chmod -R 777 " + mPrefsFileMisc + "*";
+                            ShellUtils.CommandResult utils = ShellUtils.execCommand(mCommand, true, false);
+                            if (utils.result == 0) {
+                                mXSharedPreferences = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
+                                mXSharedPreferences.makeWorldReadable();
+
+                                allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
+                                if (allPrefs == null || allPrefs.size() == 0) {
+                                    getSharedPreferencesFail();
+                                } else {
+                                    mPrefsMap.putAll(allPrefs);
+                                }
+                            } else {
+                                XposedLogUtils.INSTANCE.logE("[UID" + android.os.Process.myUid() + "]",
+                                    "Failed to execute shell command: " + utils.result +
+                                        " Cannot read module's SharedPreferences, some mods might not work!",
+                                    null, null);
+                            }
+                        } else {
+                            getSharedPreferencesFail();
+                        }
                     } else {
                         mPrefsMap.putAll(allPrefs);
                     }
@@ -156,6 +187,14 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 LogD("setXSharedPrefs", t);
             }
         }
+    }
+
+    public void getSharedPreferencesFail() {
+        XposedLogUtils.INSTANCE.logE(
+            "[UID" + android.os.Process.myUid() + "]",
+            "Cannot read module's SharedPreferences, some mods might not work!",
+            null, null
+        );
     }
 
     public void init(LoadPackageParam lpparam) {
