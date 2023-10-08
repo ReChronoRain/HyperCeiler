@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -65,12 +66,12 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                                 currentDrawable.alpha = qSControlDetailBackgroundAlpha
                             } catch (e: Throwable) {
                                 // Do Nothings.
-                                HookUtils.log(e.message)
+                                logW(TAG, e)
                             }
                         }
                     })
             } catch (e: Throwable) {
-                HookUtils.log(e.message)
+                logW(TAG, e)
             }
         }
     }
@@ -101,7 +102,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            HookUtils.log(e.message)
+                            logW(TAG, e)
                         }
                     }
                 })
@@ -134,7 +135,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            HookUtils.log(e.message)
+                            logW(TAG, e)
                         }
                     }
                 })

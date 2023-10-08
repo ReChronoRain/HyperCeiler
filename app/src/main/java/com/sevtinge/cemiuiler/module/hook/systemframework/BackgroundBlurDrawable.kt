@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.hook.systemframework
 
 import android.graphics.Canvas
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logI
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -21,7 +22,7 @@ class BackgroundBlurDrawable : IXposedHookZygoteInit {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val canvas = param.args[0] as Canvas
                     if (!canvas.isHardwareAccelerated) {
-                        HookUtils.log("BackgroundBlurDrawable canvas is not HardwareAccelerated.")
+                        logI("BackgroundBlurDrawable canvas is not HardwareAccelerated.")
                         param.result = null
                     }
                 }

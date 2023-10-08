@@ -17,9 +17,9 @@ import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ColorUtils
-import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
@@ -464,7 +464,7 @@ object BlurSecurity : BaseHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val view = HookUtils.getValueByField(param.thisObject, "d") as View
                         val parentView = view.parent
-                        HookUtils.log(parentView)
+                        logI(parentView.toString())
                         if (parentView is ViewGroup) {
                             val lastChild = parentView.getChildAt(parentView.childCount - 1)
                             if (lastChild is ImageView && lastChild.drawable is VectorDrawable) {
@@ -520,7 +520,7 @@ object BlurSecurity : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            HookUtils.log(e.message)
+            logW("$TAG => invertViewColor", e)
         }
     }
 
@@ -556,7 +556,7 @@ object BlurSecurity : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            HookUtils.log(e.message)
+            logW("$TAG => isChildNeedInvertColor", e)
         }
         return true
     }

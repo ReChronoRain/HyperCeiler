@@ -223,7 +223,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                         valueAnimator.start()
 
                         if (editStateChangeReason != null) {
-                            HookUtils.log(editStateChangeReason)
+                            logI(editStateChangeReason.toString())
                         } else {
                             isShortcutMenuLayerBlurred = false
                             XposedHelpers.callMethod(dragView, "remove")

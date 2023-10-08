@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.hook.systemui
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -33,7 +34,7 @@ class EnableVolumeBlur : BaseHook() {
                                         }
                                     } catch (e: Throwable) {
                                         // Do Nothings.
-                                        HookUtils.log(e.message)
+                                        logW(TAG, e)
                                     }
                                 }
                             })
@@ -42,7 +43,7 @@ class EnableVolumeBlur : BaseHook() {
                 }
             } catch (e: Throwable) {
                 // Do Nothings.
-                HookUtils.log(e.message)
+                logW(TAG, e)
             }
         }
     }
@@ -71,7 +72,7 @@ class EnableVolumeBlur : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            HookUtils.log(e.message)
+                            logW("$TAG => hookClassInPlugin", e)
                         }
                     }
                 })
@@ -102,7 +103,7 @@ class EnableVolumeBlur : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            HookUtils.log(e.message)
+                            logW(TAG, e)
                         }
                     }
                 })
