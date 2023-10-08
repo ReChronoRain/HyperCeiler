@@ -30,10 +30,6 @@ public class PrefsUtils {
     public static String mPrefsFile = mPrefsPath + "/" + mPrefsName + ".xml";
 
 
-    /**
-     * @noinspection deprecation
-     */
-    @SuppressLint("WorldReadableFiles")
     public static SharedPreferences getSharedPrefs(Context context, boolean multiProcess) {
         context = Helpers.getProtectedContext(context);
         try {
@@ -95,8 +91,7 @@ public class PrefsUtils {
                 String prefValue = cursor.getString(0);
                 cursor.close();
                 return prefValue;
-            } else
-                XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -141,8 +136,7 @@ public class PrefsUtils {
                 int prefValue = cursor.getInt(0);
                 cursor.close();
                 return prefValue;
-            } else
-                XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -161,8 +155,7 @@ public class PrefsUtils {
                 int prefValue = cursor.getInt(0);
                 cursor.close();
                 return prefValue == 1;
-            } else
-                XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
