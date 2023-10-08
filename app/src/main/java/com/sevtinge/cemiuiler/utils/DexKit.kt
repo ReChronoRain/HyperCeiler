@@ -1,7 +1,10 @@
 package com.sevtinge.cemiuiler.utils
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import io.luckypray.dexkit.DexKitBridge
+import org.luckypray.dexkit.DexKitBridge
+import org.luckypray.dexkit.query.enums.StringMatchType
+import org.luckypray.dexkit.query.matchers.ClassMatcher
+import org.luckypray.dexkit.query.matchers.MethodMatcher
 
 /**
  * DexKit 工具
@@ -28,5 +31,21 @@ object DexKit {
      */
     fun closeDexKit() {
         if (isInitialized) dexKitBridge.close()
+    }
+
+
+    /**
+     * DexKit 封装查找方式
+     */
+    fun MethodMatcher.addUsingStringsEquals(vararg strings: String) {
+        for (string in strings) {
+            addUsingString(string, StringMatchType.Equals)
+        }
+    }
+
+    fun ClassMatcher.addUsingStringsEquals(vararg strings: String) {
+        for (string in strings) {
+            addUsingString(string, StringMatchType.Equals)
+        }
     }
 }

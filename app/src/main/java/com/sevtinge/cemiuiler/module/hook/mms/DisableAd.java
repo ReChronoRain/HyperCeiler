@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.hook.mms;
+/*package com.sevtinge.cemiuiler.module.hook.mms;
 
 import static com.sevtinge.cemiuiler.module.hook.mms.MmsDexKit.mMmsResultClassMap;
 
@@ -36,4 +36,4 @@ public class DisableAd extends BaseHook {
             }
         });
     }
-}
+}*/

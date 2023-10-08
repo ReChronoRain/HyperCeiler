@@ -10,9 +10,7 @@ object LockMaxFps : BaseHook() {
         loadClass("com.miui.powerkeeper.statemachine.DisplayFrameSetting").methodFinder().first {
             name == "setScreenEffect" && parameterCount == 3
         }.createHook {
-            before {
-                it.result = null
-            }
+            returnConstant(null)
         }
     }
 }

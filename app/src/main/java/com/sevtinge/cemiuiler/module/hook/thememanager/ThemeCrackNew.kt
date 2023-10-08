@@ -7,7 +7,8 @@ import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.thememanager.ThemeManagerDexKit.mThemeManagerResultMethodsMap
+import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.setObjectField
@@ -39,7 +40,7 @@ class ThemeCrackNew : BaseHook() {
                 }
             }
 
-            val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
+            /*val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
             for (descriptor in drmResult) {
                 try {
                     // val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
@@ -52,6 +53,18 @@ class ThemeCrackNew : BaseHook() {
                     }
                 } catch (_: Throwable) {
                 }
+            }*/
+
+            dexKitBridge.findMethod {
+                matcher {
+                    addUsingStringsEquals("theme", "ThemeManagerTag", "/system", "check rights isLegal:")
+                }
+            }.forEach {
+                it.getMethodInstance(lpparam.classLoader).createHook {
+                    after { param ->
+                        param.result = DrmManager.DrmResult.DRM_SUCCESS
+                    }
+                }
             }
             /*val drmResult = mThemeManagerResultMethodsMap["DrmResult"]!!
             assert(drmResult.size == 1)
@@ -62,7 +75,7 @@ class ThemeCrackNew : BaseHook() {
                 it.result = DrmManager.DrmResult.DRM_SUCCESS
             }
              */
-            val largeIcon = mThemeManagerResultMethodsMap["LargeIcon"]!!
+            /*val largeIcon = mThemeManagerResultMethodsMap["LargeIcon"]!!
             for (descriptor in largeIcon) {
                 try {
                     // val filterManager: Method = descriptor.getMethodInstance(lpparam.classLoader)
@@ -90,6 +103,35 @@ class ThemeCrackNew : BaseHook() {
                         }
                     }
                 } catch (_: Throwable) {
+                }
+            }*/
+            dexKitBridge.findMethod {
+                matcher {
+                    addUsingStringsEquals(
+                        "apply failed",
+                        "/data/system/theme/large_icons/",
+                        "default_large_icon_product_id",
+                        "largeicons",
+                        "relativePackageList is empty"
+                    )
+                }
+            }.forEach { it ->
+                it.getMethodInstance(lpparam.classLoader).createHook {
+                    before {
+                        val resource = (it.thisObject.javaClass).fieldFinder().first {
+                            type ==
+                                loadClass("com.android.thememanager.basemodule.resource.model.Resource", lpparam.classLoader)
+                        }
+                        val productId =
+                            it.thisObject.getObjectField(resource.name)?.callMethod("getProductId")
+                                .toString()
+                        val strPath =
+                            "/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra"
+                        val file = File(strPath)
+                        val fileParent = file.parentFile!!
+                        if (!fileParent.exists()) fileParent.mkdirs()
+                        file.createNewFile()
+                    }
                 }
             }
             /*val largeIcon = mThemeManagerResultMethodsMap["LargeIcon"]!!

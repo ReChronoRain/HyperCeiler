@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.hook.packageinstaller;
 
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.lang.reflect.Method;
@@ -8,13 +9,12 @@ import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
 
 public class DisableAD extends BaseHook {
 
     @Override
     public void init() {
-        try {
+       /* try {
             List<DexMethodDescriptor> result = Objects.requireNonNull(PackageInstallerDexKit.mPackageInstallerResultMethodsMap.get("EnableAds"));
             for (DexMethodDescriptor descriptor : result) {
                 Method enableAds = descriptor.getMethodInstance(lpparam.classLoader);
@@ -51,6 +51,6 @@ public class DisableAD extends BaseHook {
             }
         } catch (Throwable e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

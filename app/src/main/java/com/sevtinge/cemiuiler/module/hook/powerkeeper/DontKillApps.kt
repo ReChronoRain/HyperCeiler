@@ -10,9 +10,7 @@ object DontKillApps : BaseHook() {
         loadClass("miui.process.ProcessManager").methodFinder().first {
             name == "kill"
         }.createHook {
-            before {
-                it.result = false
-            }
+            returnConstant(false)
         }
     }
 }

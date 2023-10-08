@@ -18,7 +18,7 @@ public class VolumeDefaultStream extends BaseHook {
 
         findAndHookMethod(mAudioService, "getActiveStreamType", int.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
 
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = new Handler(mContext.getMainLooper());

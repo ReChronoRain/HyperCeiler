@@ -50,6 +50,7 @@ import com.sevtinge.cemiuiler.module.app.Updater;
 import com.sevtinge.cemiuiler.module.app.Various;
 import com.sevtinge.cemiuiler.module.app.VoiceAssist;
 import com.sevtinge.cemiuiler.module.app.Weather;
+import com.sevtinge.cemiuiler.utils.DexKit;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
@@ -330,6 +331,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case BuildConfig.APPLICATION_ID -> ModuleActiveHook(lpparam);
             default -> mVarious.init(lpparam);
         }
+        DexKit.INSTANCE.closeDexKit();
     }
 
     public void ModuleActiveHook(LoadPackageParam lpparam) {

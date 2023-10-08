@@ -8,10 +8,8 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
+import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
-import io.luckypray.dexkit.enums.MatchType
 
 object UnlockSuperClipboard : BaseHook() {
     // by StarVoyager
@@ -69,26 +67,26 @@ object UnlockSuperClipboard : BaseHook() {
     }
 
     private fun dexKitSuperClipboard() {
-        initDexKit(lpparam)
-        val sys by lazy {
-            dexKitBridge.findMethodUsingString {
-               usingString = "persist.sys.support_super_clipboard"
-               matchType = MatchType.FULL
-               methodReturnType = "boolean"
-           }.firstOrNull()?.getMethodInstance(safeClassLoader)
+        val ro by lazy {
+            dexKitBridge.findMethod {
+                matcher {
+                    addUsingStringsEquals("ro.miui.support_super_clipboard")
+                    returnType = "boolean"
+                }
+            }.firstOrNull()?.getMethodInstance(safeClassLoader)
         }
 
-        val ro by lazy {
-            dexKitBridge.findMethodUsingString {
-                usingString = "ro.miui.support_super_clipboard"
-                matchType = MatchType.FULL
-                methodReturnType = "boolean"
+        val sys by lazy {
+            dexKitBridge.findMethod {
+                matcher {
+                    addUsingStringsEquals("persist.sys.support_super_clipboard")
+                    returnType = "boolean"
+                }
             }.firstOrNull()?.getMethodInstance(safeClassLoader)
         }
 
         setOf(ro, sys).filterNotNull().createHooks {
             returnConstant(true)
         }
-        closeDexKit()
     }
 }

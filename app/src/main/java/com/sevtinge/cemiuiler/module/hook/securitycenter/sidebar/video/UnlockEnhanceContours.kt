@@ -4,15 +4,50 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.securitycenter.SecurityCenterDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import java.util.Objects
 
 object UnlockEnhanceContours : BaseHook() {
     override fun init() {
-        initDexKit(lpparam)
+        dexKitBridge.findMethod {
+            matcher {
+                usingStrings = listOf("ro.vendor.media.video.frc.support")
+            }
+        }.forEach {
+            val qaq = it.getClassInstance(EzXHelper.classLoader)
+            var counter = 0
+            dexKitBridge.findMethod {
+                matcher {
+                    declaredClass = qaq.name
+                    returnType = "boolean"
+                    paramTypes = listOf("java.lang.String")
+                }
+            }.forEach { methods ->
+                counter++
+                if (counter == 3) {
+                    methods.getMethodInstance(EzXHelper.classLoader).createHook {
+                        returnConstant(true)
+                    }
+                }
+            }
+            val tat = dexKitBridge.findMethod {
+                matcher {
+                    usingStrings = listOf("debug.config.media.video.ais.support")
+                    declaredClass = qaq.name
+                }
+            }.first().getMethodInstance(EzXHelper.classLoader)
+            val newChar = tat.name.toCharArray()
+            for (i in newChar.indices) {
+                newChar[i]++
+            }
+            val newName = String(newChar)
+            tat.declaringClass.methodFinder()
+                .filterByName(newName)
+                .first().createHook {
+                    returnConstant(true)
+                }
+        }
+
+        /*initDexKit(lpparam)
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -58,6 +93,6 @@ object UnlockEnhanceContours : BaseHook() {
         } catch (e: Throwable) {
             logE("AisSupport", e)
         }
-        closeDexKit()
+        closeDexKit()*/
     }
 }

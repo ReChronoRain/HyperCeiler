@@ -49,7 +49,6 @@ public class Helpers {
 
     @SuppressLint("StaticFieldLeak")
     public static Context mModuleContext = null;
-
     public static boolean isModuleActive = false;
     public static int XposedVersion = 0;
 

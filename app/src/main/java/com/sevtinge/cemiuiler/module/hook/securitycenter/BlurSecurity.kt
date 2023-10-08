@@ -163,8 +163,12 @@ object BlurSecurity : BaseHook() {
 
         // if (getPackageVersionCode(lpparam) >= 40000754) {
         dexKitBridge.findMethod {
-            methodReturnType = "Landroid/view/View;"
-            methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")
+            matcher {
+                returnType = "Landroid/view/View;"
+                paramTypes = listOf("Landroid/content/Context;", "Z", "Z")
+            }
+           /* methodReturnType = "Landroid/view/View;"
+            methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")*/
         }.forEach {
             it.getMethodInstance(lpparam.classLoader).createHook {
                 after { param ->
@@ -200,7 +204,6 @@ object BlurSecurity : BaseHook() {
                 }
             }
         }
-        closeDexKit()
 
         /*
 

@@ -1,15 +1,12 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
-import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogI;
 import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.deLogI;
 
-import com.github.kyuubiran.ezxhelper.Log;
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
-import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;

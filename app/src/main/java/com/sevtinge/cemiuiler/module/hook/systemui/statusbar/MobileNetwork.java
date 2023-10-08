@@ -44,34 +44,7 @@ public class MobileNetwork extends BaseHook {
                 int qpt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0);
                 boolean singleMobileType = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable");
                 boolean hideIndicator = mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
-                View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
-                boolean dataConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
-                if (qpt > 0) {
-                    if (qpt == 1) {
-                        if (singleMobileType) {
-                            TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                            mMobileTypeSingle.setVisibility(View.VISIBLE);
-                        } else {
-                            mMobileType.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    if (qpt == 3 && !dataConnected) {
-                        if (singleMobileType) {
-                            TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                            mMobileTypeSingle.setVisibility(View.GONE);
-                        } else {
-                            mMobileType.setVisibility(View.GONE);
-                        }
-                    }
-                    if (qpt == 2) {
-                        if (singleMobileType) {
-                            TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                            mMobileTypeSingle.setVisibility(View.GONE);
-                        } else {
-                            mMobileType.setVisibility(View.GONE);
-                        }
-                    }
-                }
+                View mMobileType = getMobileType(param, qpt, singleMobileType);
                 // 隐藏移动网络活动指示器
                 View mLeftInOut = (View) XposedHelpers.getObjectField(param.thisObject, "mLeftInOut");
                 if (hideIndicator) {
@@ -104,6 +77,38 @@ public class MobileNetwork extends BaseHook {
                 XposedHelpers.callMethod(param.thisObject, "setVisibility", View.GONE);
             }
         });*/
+    }
+
+    private static View getMobileType(MethodHookParam param, int qpt, boolean singleMobileType) {
+        View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
+        boolean dataConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
+        if (qpt > 0) {
+            if (qpt == 1) {
+                if (singleMobileType) {
+                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                    mMobileTypeSingle.setVisibility(View.VISIBLE);
+                } else {
+                    mMobileType.setVisibility(View.VISIBLE);
+                }
+            }
+            if (qpt == 3 && !dataConnected) {
+                if (singleMobileType) {
+                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                    mMobileTypeSingle.setVisibility(View.GONE);
+                } else {
+                    mMobileType.setVisibility(View.GONE);
+                }
+            }
+            if (qpt == 2) {
+                if (singleMobileType) {
+                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
+                    mMobileTypeSingle.setVisibility(View.GONE);
+                } else {
+                    mMobileType.setVisibility(View.GONE);
+                }
+            }
+        }
+        return mMobileType;
     }
 
     private void updateIconState(MethodHookParam param, String fieldName, String key) {

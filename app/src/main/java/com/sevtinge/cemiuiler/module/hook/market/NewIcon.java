@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.hook.market;
 
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import java.lang.reflect.Method;
@@ -8,14 +9,14 @@ import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor;
+
 
 public class NewIcon extends BaseHook {
     static Method isDesktopSupportOperationIcon;
 
     @Override
     public void init() {
-        try {
+       /* try {
             List<DexMethodDescriptor> result = Objects.requireNonNull(MarketDexKit.mMarketResultMethodsMap.get("DesktopSupportOperationIcon"));
             for (DexMethodDescriptor descriptor : result) {
                 isDesktopSupportOperationIcon = descriptor.getMethodInstance(lpparam.classLoader);
@@ -32,6 +33,6 @@ public class NewIcon extends BaseHook {
             protected void before(MethodHookParam param) {
                 param.setResult(false);
             }
-        });
+        });*/
     }
 }

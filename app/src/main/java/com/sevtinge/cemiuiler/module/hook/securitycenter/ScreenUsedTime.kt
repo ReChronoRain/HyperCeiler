@@ -2,7 +2,9 @@ package com.sevtinge.cemiuiler.module.hook.securitycenter
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
@@ -10,50 +12,42 @@ import java.lang.reflect.Method
 import java.util.Objects
 
 object ScreenUsedTime : BaseHook() {
-    private var powerRankHelperHolder: Class<*>? = null
-    private var powerRankHelperHolderSdkHelper: Method? = null
-    override fun init() {
-        initDexKit(lpparam)
-        try {
-            val result = Objects.requireNonNull(
-                SecurityCenterDexKit.mSecurityCenterResultClassMap["PowerRankHelperHolder"]
-            )
-            for (descriptor in result) {
-                powerRankHelperHolder = descriptor.getClassInstance(lpparam.classLoader)
-                logI("powerRankHelperHolder class is $powerRankHelperHolder")
+    private val cls by lazy {
+        dexKitBridge.findClass {
+            matcher {
+                addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
             }
-        } catch (e: Throwable) {
-            logE("PowerRankHelperHolder", e)
-        }
-
-        try {
-            val result = Objects.requireNonNull(
-                SecurityCenterDexKit.mSecurityCenterResultMap["PowerRankHelperHolderSdkHelper"]
-            )
-            for (descriptor in result) {
-                powerRankHelperHolderSdkHelper = descriptor.getMethodInstance(lpparam.classLoader)
-                logI("powerRankHelperHolderSdkHelper method is $powerRankHelperHolderSdkHelper")
-            }
-        } catch (e: Throwable) {
-            logE("PowerRankHelperHolderSdkHelper", e)
-        }
-
+        }.first().getInstance(EzXHelper.classLoader)
+    }
+    private val method1 by lazy {
         dexKitBridge.findMethod {
-            methodDeclareClass = powerRankHelperHolder!!.name
-            methodReturnType = "boolean"
-            methodParamTypes = arrayOf()
-        }.forEach { method ->
-            val methods = method.getMethodInstance(EzXHelper.classLoader)
-            logI("powerRankHelperHolderMethod method is $methods")
-            methods.createHook {
+            matcher {
+                addUsingStringsEquals("ishtar", "nuwa", "fuxi")
+            }
+        }.first().getMethodInstance(EzXHelper.classLoader)
+    }
+    private val method2 by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                declaredClass = cls.name
+                returnType = "boolean"
+                // paramTypes = listOf() 2.0.0-rc3 已经修复此错误，可以使用
+                paramCount = 0
+            }
+        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
+    }
+
+    override fun init() {
+        Log.i("methods2 :${method2}")
+        method2.forEach {
+            it.createHook {
                 returnConstant(
-                    when (methods) {
-                        powerRankHelperHolderSdkHelper -> true
+                    when (it) {
+                        method1 -> true
                         else -> false
                     }
                 )
             }
         }
-        closeDexKit()
     }
 }

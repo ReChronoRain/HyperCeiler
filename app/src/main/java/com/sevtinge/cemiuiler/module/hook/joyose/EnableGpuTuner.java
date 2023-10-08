@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.module.hook.joyose;
 
-import static com.sevtinge.cemiuiler.module.hook.joyose.JoyoseDexKit.mJoyoseResultMethodsMap;
+/*import static com.sevtinge.cemiuiler.module.hook.joyose.JoyoseDexKit.mJoyoseResultMethodsMap;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
@@ -25,7 +25,7 @@ public class EnableGpuTuner extends BaseHook {
                 if (gpuTuner.getReturnType() == boolean.class) {
                     hookMethod(gpuTuner, new MethodHook() {
                         @Override
-                        protected void before(MethodHookParam param) throws Throwable {
+                        protected void before(MethodHookParam param) {
                             param.setResult(true);// 2
                         }
                     });
@@ -35,14 +35,14 @@ public class EnableGpuTuner extends BaseHook {
             e.printStackTrace();
         }
 
-        /*hookMethod(cloudControl, new MethodHook() {
+        *//*hookMethod(cloudControl, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(null);//2
             }
-        });*/
+        });*//*
 
         // mCloud = findClassIfExists("com.xiaomi.joyose.cloud.g$a");
 
     }
-}
+}*/

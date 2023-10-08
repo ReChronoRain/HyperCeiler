@@ -31,7 +31,6 @@ import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSControlDetail
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGridLabels;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
-import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SmartHome;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.cemiuiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen;
@@ -50,7 +49,6 @@ import com.sevtinge.cemiuiler.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.cemiuiler.module.hook.systemui.navigation.HandleLineCustom;
 import com.sevtinge.cemiuiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.cemiuiler.module.hook.systemui.plugin.PluginHelper;
-import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.BigMobileNetworkType;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.DualRowSignalHook;
@@ -116,8 +114,8 @@ public class SystemUI extends BaseModule {
         initHook(new DataSaverIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_data_saver", 0) != 0);
 
         // 移动网络图标
-        initHook(new MobileNetwork(), true);
-        initHook(new BigMobileNetworkType(), false);
+        initHook(new MobileNetwork());
+        // initHook(new BigMobileNetworkType(), false);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
@@ -180,7 +178,7 @@ public class SystemUI extends BaseModule {
         // initHook(new MiuiGxzwSize(), false);
 
         // 控制中心
-        initHook(new SmartHome(), false);
+        // initHook(new SmartHome(), false);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new FiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));

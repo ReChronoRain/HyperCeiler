@@ -16,7 +16,6 @@ import com.sevtinge.cemiuiler.module.hook.systemframework.DisablePinVerifyPer72h
 import com.sevtinge.cemiuiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.cemiuiler.module.hook.systemframework.FreeFormCount;
 import com.sevtinge.cemiuiler.module.hook.systemframework.FreeformBubble;
-import com.sevtinge.cemiuiler.module.hook.systemframework.LocationSimulation;
 import com.sevtinge.cemiuiler.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.cemiuiler.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.cemiuiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
@@ -78,26 +77,6 @@ public class SystemFramework extends BaseModule {
 
         initHook(new ThemeProvider(), mPrefsMap.getBoolean("enable_function") && mPrefsMap.getBoolean("various_theme_crack"));
 
-        // 核心破解
-        /*switch (Build.VERSION.SDK_INT) {
-            case Build.VERSION_CODES.R : // 30
-                initHook(new CorePatchForR(), true);
-                break;
-            case Build.VERSION_CODES.S : // 31
-                initHook(new CorePatchForS(), true);
-                break;
-            case Build.VERSION_CODES.S_V2 : // 32
-                initHook(new CorePatchForSv2(), true);
-                break;
-            case Build.VERSION_CODES.TIRAMISU: // 33
-                initHook(new CorePatchForT(), true);
-                break;
-            default:
-                LogUtils.log(" Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
-                break;
-        }*/
-
-
         // 其他
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
         initHook(new CleanShareMenu(), mPrefsMap.getBoolean("system_framework_clean_share_menu"));
@@ -116,7 +95,7 @@ public class SystemFramework extends BaseModule {
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));
 
         // 位置模拟
-        initHook(new LocationSimulation(), false);
+        // initHook(new LocationSimulation(), false);
 
         // 小米/红米平板设置相关
         if (isPad()) {

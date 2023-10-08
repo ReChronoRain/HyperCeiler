@@ -1,13 +1,30 @@
 package com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.game
 
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.securitycenter.SecurityCenterDexKit.mSecurityCenterResultClassMap
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 
 object UnlockGunService : BaseHook() {
     override fun init() {
-        val gbGameCollimator = mSecurityCenterResultClassMap["GbGameCollimator"]!!
+        dexKitBridge.findClass {
+            matcher {
+                usingStrings = listOf("gb_game_collimator_status")
+            }
+        }.map {
+            val gbGameCollimatorClass = it.getInstance(EzXHelper.classLoader)
+            dexKitBridge.findMethod {
+                matcher {
+                    declaredClass = gbGameCollimatorClass.name
+                    returnType = "boolean"
+                    paramTypes = listOf("java.lang.String")
+                }
+            }.single().getMethodInstance(EzXHelper.classLoader).createHook {
+                returnConstant(true)
+            }
+        }
+
+        /*val gbGameCollimator = mSecurityCenterResultClassMap["GbGameCollimator"]!!
         assert(gbGameCollimator.size == 1)
         val gbGameCollimatorDescriptor = gbGameCollimator.first()
         val gbGameCollimatorClass: Class<*> = gbGameCollimatorDescriptor.getClassInstance(lpparam.classLoader)
@@ -16,6 +33,6 @@ object UnlockGunService : BaseHook() {
         }.createHook {
             logI("GunService class is $gbGameCollimatorClass")
             returnConstant(true)
-        }
+        }*/
     }
 }

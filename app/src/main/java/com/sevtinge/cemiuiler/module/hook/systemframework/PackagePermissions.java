@@ -90,7 +90,7 @@ public class PackagePermissions extends BaseHook {
             mySystemApps.addAll(systemPackages);
             XposedHelpers.setStaticObjectField(dpgpiClass, "MIUI_SYSTEM_APPS", mySystemApps.toArray(new String[0]));
         } catch (Throwable t) {
-            XposedLogUtils.INSTANCE.logW(TAG, "", t);
+            XposedLogUtils.INSTANCE.logW(TAG, t);
         }
     }
 }

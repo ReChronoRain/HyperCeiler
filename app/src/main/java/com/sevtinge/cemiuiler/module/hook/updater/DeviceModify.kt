@@ -1,10 +1,10 @@
 package com.sevtinge.cemiuiler.module.hook.updater
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.updater.UpdaterDexKit.mUpdaterResultMethodsMap
+import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
-import de.robv.android.xposed.XposedBridge
-import java.lang.reflect.Method
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logE
 
 object DeviceModify : BaseHook() {
     private val deviceName: String = mPrefsMap.getString("updater_device", "")
@@ -16,7 +16,7 @@ object DeviceModify : BaseHook() {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
         } catch (e: Throwable) {
-            XposedBridge.log("[Cemiuiler][E][DeviceModify(Updater)]: android.os.SystemProperties hook failed by $e")
+            logE(TAG, "[DeviceModify(Updater)]: android.os.SystemProperties hook failed", e, null)
         }
         try {
             "miuix.core.util.SystemProperties".hookBeforeMethod(
@@ -25,9 +25,20 @@ object DeviceModify : BaseHook() {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
         } catch (e: Throwable) {
-            XposedBridge.log("[Cemiuiler][E][DeviceModify(Updater)]: DeviceModify (Updater) miuix.core.util.SystemProperties hook failed by $e")
+            logE(TAG, "[DeviceModify(Updater)]: DeviceModify (Updater) miuix.core.util.SystemProperties hook failed", e, null)
         }
-        try {
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingStringsEquals("android.os.SystemProperties", "get", "get e")
+            }
+        }.forEach { methodData ->
+            methodData.getMethodInstance(lpparam.classLoader).hookBeforeMethod {
+                if (it.args[0] == "ro.product.mod_device") it.result = deviceName
+            }
+            logI("(Updater) dexkit method is $methodData")
+        }
+
+        /*try {
             val systemProperties = mUpdaterResultMethodsMap["SystemProperties"]!!
             assert(systemProperties.size == 1)
             val systemPropertiesDescriptor = systemProperties.first()
@@ -39,6 +50,6 @@ object DeviceModify : BaseHook() {
             logI("(Updater) dexkit method is $systemPropertiesMethod")
         } catch (e: Throwable) {
             XposedBridge.log("[Cemiuiler][E][DeviceModify(Updater)]: DeviceModify (Updater) dexkit hook failed by $e")
-        }
+        }*/
     }
 }

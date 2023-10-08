@@ -35,12 +35,13 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         // Init EzXHelper
-        EzXHelper.initHandleLoadPackage(lpparam)
-        EzXHelper.setLogTag(TAG)
-        EzXHelper.setToastTag(TAG)
+        EzXHelper.apply {
+            initHandleLoadPackage(lpparam)
+            setLogTag(TAG)
+            setToastTag(TAG)
+        }
 
         init(lpparam)
-        // CrashRecord.init(appContext) 暂停使用，误触率高，等优化
         SystemFrameworkForCorePatch().handleLoadPackage(lpparam)
     }
 

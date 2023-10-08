@@ -3,17 +3,42 @@ package com.sevtinge.cemiuiler.module.hook.securitycenter.sidebar.video
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.securitycenter.SecurityCenterDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
-import java.util.Objects
 
 object UnlockSuperResolution : BaseHook() {
     override fun init() {
-        initDexKit(lpparam)
+        dexKitBridge.findClass {
+            matcher {
+                usingStrings = listOf("ro.vendor.media.video.frc.support")
+            }
+        }.map {
+            val qaq = it.getInstance(EzXHelper.classLoader)
+            var counter = 0
+            dexKitBridge.findMethod {
+                matcher {
+                    declaredClass = qaq.name
+                    returnType = "boolean"
+                    paramTypes = listOf("java.lang.String")
+                }
+            }.forEach { methods ->
+                counter++
+                if (counter == 1) {
+                    methods.getMethodInstance(EzXHelper.classLoader).createHook {
+                        returnConstant(true)
+                    }
+                }
+            }
+            dexKitBridge.findMethod {
+                matcher {
+                    declaredClass = qaq.name
+                    usingStrings = listOf("debug.config.media.video.ais.support")
+                }
+            }.first().getMethodInstance(EzXHelper.classLoader).createHook {
+                returnConstant(true)
+            }
+        }
+
+       /* initDexKit(lpparam)
         try {
             val result = Objects.requireNonNull(
                 SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
@@ -52,6 +77,6 @@ object UnlockSuperResolution : BaseHook() {
         } catch (e: Throwable) {
             logE("AisSupport", e)
         }
-        closeDexKit()
+        closeDexKit()*/
     }
 }

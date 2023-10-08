@@ -1,26 +1,26 @@
 package com.sevtinge.cemiuiler.module.hook.securitycenter.other
 
-import android.annotation.SuppressLint
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.securitycenter.SecurityCenterDexKit
-import com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode
+import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 
 object FuckRiskPkg : BaseHook() {
-    @SuppressLint("SuspiciousIndentation")
+    private val pkg by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingStringsEquals(
+                    "riskPkgList", "key_virus_pkg_list", "show_virus_notification"
+                )
+            }
+        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
+    }
+
     override fun init() {
-        val result = SecurityCenterDexKit.mSecurityCenterResultMap["FuckRiskPkg"]!!
-        val appVersionCode = getPackageVersionCode(lpparam)
-        if (appVersionCode >= 40000774) {
-            for (descriptor in result) {
-                runCatching {
-                    val mRiskPkg = descriptor.getMethodInstance(lpparam.classLoader)
-                    mRiskPkg.createHook {
-                        before {
-                            it.result = null
-                        }
-                    }
-                }
+        pkg.createHooks {
+            before { param ->
+                param.result = null
             }
         }
     }

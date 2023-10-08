@@ -3,6 +3,8 @@ package com.sevtinge.cemiuiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
+import com.sevtinge.cemiuiler.module.base.CloseHostDir;
+import com.sevtinge.cemiuiler.module.base.LoadHostDir;
 import com.sevtinge.cemiuiler.module.hook.screenshot.DeviceShellCustomize;
 import com.sevtinge.cemiuiler.module.hook.screenshot.SaveToPictures;
 import com.sevtinge.cemiuiler.module.hook.screenshot.UnlockMinimumCropLimit;
@@ -19,7 +21,9 @@ public class ScreenShot extends BaseModule {
         initHook(UnlockPrivacyMarking.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_privacy_marking"));
 
         // 超级剪切板
+        initHook(LoadHostDir.INSTANCE);
         initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getBoolean("various_super_clipboard_enable"));
+        initHook(CloseHostDir.INSTANCE);
     }
 }
 

@@ -3,14 +3,14 @@ package com.sevtinge.cemiuiler.module.hook.packageinstaller
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.module.hook.packageinstaller.PackageInstallerDexKit.mPackageInstallerResultMethodsMap
+import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.findClassOrNull
 import com.sevtinge.cemiuiler.utils.setBooleanField
-import java.util.Objects
 
 object DisableSafeModelTip : BaseHook() {
     override fun init() {
-        val result = Objects.requireNonNull(
+        /*val result = Objects.requireNonNull(
             mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
         )
         for (descriptor in result) {
@@ -18,13 +18,17 @@ object DisableSafeModelTip : BaseHook() {
             mDisableSafeModelTip.createHook {
                 returnConstant(false)
             }
-            // val miuiSettingsCompatClass = loadClass("com.android.packageinstaller.compat.MiuiSettingsCompat")
-            /*miuiSettingsCompatClass.methodFinder().filterByName("isPersonalizedAdEnabled")
-                .filterByReturnType(Boolean::class.java).toList().createHooks {
-                    before {
-                        it.result = false
-                    }
-                }*/
+
+        }*/
+
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
+            }
+        }.forEach {
+            it.getMethodInstance(lpparam.classLoader).createHook {
+                returnConstant(false)
+            }
         }
 
         // 屏蔽每 30 天提示开启安全守护的弹窗（已知问题：完成和打开按钮无反应）
