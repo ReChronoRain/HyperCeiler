@@ -741,9 +741,6 @@
     <string name="weather_device_level_title_middle">Orta</string>
     <string name="weather_device_level_title_high">Yüksek</string>
     <!--AI Translate-->
-    <!--AI Reco-->
-    <string name="aireco">Yapay zeka tespiti</string>
-    <string name="aireco_device_modify">Beta kısıtlamalarını kaldır</string>
     <!--Barrage-->
     <!--Joyose-->
     <string name="joyose">Neşeli</string>

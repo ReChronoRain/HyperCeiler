@@ -4,7 +4,6 @@ import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
 
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.app.AiAsst;
-import com.sevtinge.cemiuiler.module.app.Aireco;
 import com.sevtinge.cemiuiler.module.app.Aod;
 import com.sevtinge.cemiuiler.module.app.Barrage;
 import com.sevtinge.cemiuiler.module.app.Browser;
@@ -97,7 +96,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final FileExplorer mFileExplorer = new FileExplorer();
     public final Music mMusic = new Music();
     public final Gallery mGallery = new Gallery();
-    public final Aireco mAireco = new Aireco();
     public final AiAsst mAiAsst = new AiAsst();
     public final Scanner mScanner = new Scanner();
     public final MiShare mMiShare = new MiShare();
@@ -254,10 +252,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.miui.aod" -> {
                 mAod.init(lpparam);
-                mVarious.init(lpparam);
-            }
-            case "com.xiaomi.aireco" -> {
-                mAireco.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.barrage" -> mBarrage.init(lpparam);

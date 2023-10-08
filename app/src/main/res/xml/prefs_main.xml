@@ -248,13 +248,6 @@
             android:title="@string/aiasst" />
 
         <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AirecoFragment"
-            android:icon="@drawable/ic_suggestion"
-            android:key="prefs_key_aireco"
-            android:summary="com.xiaomi.aireco"
-            android:title="@string/aireco" />
-
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.BarrageFragment"
             android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_barrage"

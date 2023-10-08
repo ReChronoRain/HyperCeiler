@@ -1082,9 +1082,6 @@
     <string name="aiasst">AI 翻訳</string>
     <string name="aiasst_ai_captions">AI キャプションを強制的に有効化</string>
     <string name="aiasst_ai_captions_desc">英語と中国語のみ認識・翻訳できます</string>
-    <!--AI Reco-->
-    <string name="aireco">AI Reco</string>
-    <string name="aireco_device_modify">ベータ版の制限を削除する</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">すべてのアプリが弾幕通知を使用できるようにする</string>

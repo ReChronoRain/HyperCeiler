@@ -1082,9 +1082,6 @@
     <string name="aiasst">Tradutor IA</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
     <string name="aiasst_ai_captions_desc">Somente Chinês e Inglês podem ser reconhecidos e traduzidos</string>
-    <!--AI Reco-->
-    <string name="aireco">AI Reco</string>
-    <string name="aireco_device_modify">Remover restrições beta</string>
     <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem barragem</string>

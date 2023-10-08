@@ -1145,9 +1145,6 @@
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
     <string name="aiasst_ai_captions_desc">只能识别翻译中文、英文</string>
-    <!--小爱建议-->
-    <string name="aireco">小爱建议</string>
-    <string name="aireco_device_modify">移除内测限制</string>
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>
     <string name="barrage_any_barrage">允许所有应用使用弹幕通知</string>

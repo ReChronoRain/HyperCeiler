@@ -933,9 +933,6 @@
     <string name="weather_device_level_title_middle">Средний</string>
     <string name="weather_device_level_title_high">Высокий</string>
     <!--AI Translate-->
-    <!--AI Reco-->
-    <string name="aireco">AI Reco</string>
-    <string name="aireco_device_modify">Снять ограничения бета-версии</string>
     <!--Barrage-->
     <!--Joyose-->
     <string name="joyose">Joyose</string>

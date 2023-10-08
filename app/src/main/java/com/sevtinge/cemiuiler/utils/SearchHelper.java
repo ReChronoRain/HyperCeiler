@@ -484,14 +484,6 @@ public class SearchHelper {
             R.string.tsmclient,
             "com.sevtinge.cemiuiler.ui.fragment.TsmClientFragment");
 
-        parsePrefXml(context, R.xml.aireco,
-            R.string.aireco,
-            R.string.aireco,
-            R.string.aireco,
-            R.string.aireco,
-            R.string.aireco,
-            "com.sevtinge.cemiuiler.ui.fragment.AirecoFragment");
-
         parsePrefXml(context, R.xml.barrage,
             R.string.barrage,
             R.string.barrage,
@@ -597,12 +589,13 @@ public class SearchHelper {
         try (XmlResourceParser xml = res.getXml(xmlResId)) {
             int order = 0;
             int eventType = xml.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT ) {
+            while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG && !xml.getName().equals("PreferenceCategory")) {
                     try {
                         ModData modData = new ModData();
                         modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        if (Objects.equals(modData.title, res.getString(R.string.theme_manager_crack)) || Objects.equals(modData.title, res.getString(R.string.personal_assistant_widget_crack))) modData.title = "";
+                        if (Objects.equals(modData.title, res.getString(R.string.theme_manager_crack)) || Objects.equals(modData.title, res.getString(R.string.personal_assistant_widget_crack)))
+                            modData.title = "";
                         if (!TextUtils.isEmpty(modData.title)) {
                             if (!res.getString(catSub3ResId).equals(res.getString(catSub4ResId))) {
                                 modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId) + "/" + res.getString(catSub3ResId) + "/" + res.getString(catSub4ResId);
@@ -634,9 +627,13 @@ public class SearchHelper {
     }
 
     private static String getModTitle(Resources res, String title) {
-        if (title == null) { return null; }
+        if (title == null) {
+            return null;
+        }
         int titleResId = Integer.parseInt(title.substring(1));
-        if (titleResId <= 0) { return null; }
+        if (titleResId <= 0) {
+            return null;
+        }
         return res.getString(titleResId);
     }
 }
