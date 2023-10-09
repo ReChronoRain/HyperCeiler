@@ -131,7 +131,7 @@ dependencies {
 
     compileOnly(roots.XposedApi)
 
-    implementation 'org.luckypray:dexkit:2.0.0-rc4'
+    implementation 'org.luckypray:dexkit:2.0.0-rc5'
     // implementation 'org.luckypray:DexKit:1.1.8'
     implementation 'com.github.kyuubiran:EzXHelper:2.0.7'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
