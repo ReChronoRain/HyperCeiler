@@ -115,6 +115,13 @@
                 android:data="https://github.com/qqlittleice/FixMiuiMediaControlPanel" />
         </Preference>
         <Preference
+            android:title="FuckNFC"
+            android:summary="xiaowine | No License">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/xiaowine/FuckNFC" />
+        </Preference>
+        <Preference
             android:title="Gson"
             android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
             <intent

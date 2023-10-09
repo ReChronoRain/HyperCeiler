@@ -31,6 +31,7 @@ import com.sevtinge.cemiuiler.module.app.Mms;
 import com.sevtinge.cemiuiler.module.app.Mtb;
 import com.sevtinge.cemiuiler.module.app.Music;
 import com.sevtinge.cemiuiler.module.app.NetworkBoost;
+import com.sevtinge.cemiuiler.module.app.Nfc;
 import com.sevtinge.cemiuiler.module.app.Notes;
 import com.sevtinge.cemiuiler.module.app.PackageInstaller;
 import com.sevtinge.cemiuiler.module.app.PersonalAssistant;
@@ -121,6 +122,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Notes mNotes = new Notes();
     public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
+    public final Nfc mNfc = new Nfc();
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -199,6 +201,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.browser" -> {
                 mBrowser.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.android.nfc" -> {
+                mNfc.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.android.updater" -> {

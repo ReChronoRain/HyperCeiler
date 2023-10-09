@@ -1281,4 +1281,7 @@
     <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
     <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
     <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
+    <string name="nfc_disable_sound">Disable sound</string>
+    <string name="nfc_allow_information_screen">Allow recognizable when information screen</string>
+    <string name="nfc">NFC Service</string>
 </resources>

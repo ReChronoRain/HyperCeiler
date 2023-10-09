@@ -80,6 +80,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 | 音乐 | com.miui.player |
 | MIUI+ Beta 版 | com.xiaomi.mirror |
 | com.xiaomi.NetworkBoost | com.xiaomi.NetworkBoost |
+| NFC 服务 | com.android.nfc |
 
 </details>
 

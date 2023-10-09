@@ -53,6 +53,13 @@
             android:title="@string/mms" />
 
         <com.sevtinge.cemiuiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.NfcFragment"
+            android:icon="@drawable/ic_default_icon"
+            android:key="prefs_key_nfc"
+            android:summary="com.android.nfc"
+            android:title="@string/nfc" />
+
+        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.cemiuiler.ui.fragment.PhoneFragment"
             android:icon="@drawable/ic_phone"
             android:key="prefs_key_phone"

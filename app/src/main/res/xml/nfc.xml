@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="@string/nfc_disable_sound"
+            android:key="prefs_key_nfc_disable_sound"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/nfc_allow_information_screen"
+            android:key="prefs_key_nfc_allow_information_screen"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+    <Preference android:enabled="false" />
+
+</PreferenceScreen>

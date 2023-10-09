@@ -1016,6 +1016,10 @@
     <string name="networkboost">NetworkBoost</string>
     <string name="various_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
     <string name="various_disable_link_turbo_toast_more">开关后请在快速重启作用域中重启 NetworkBoost</string>
+    <!--nfc-->
+    <string name="nfc">NFC 服务</string>
+    <string name="nfc_disable_sound">禁用声音</string>
+    <string name="nfc_allow_information_screen">允许息屏时识别</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
     <string name="personal_assistant_widget_crack">小部件破解</string>

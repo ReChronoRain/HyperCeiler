@@ -308,6 +308,14 @@ public class SearchHelper {
             R.string.mms,
             "com.sevtinge.cemiuiler.ui.fragment.MmsFragment");
 
+        parsePrefXml(context, R.xml.nfc,
+            R.string.nfc,
+            R.string.nfc,
+            R.string.nfc,
+            R.string.nfc,
+            R.string.nfc,
+            "com.sevtinge.cemiuiler.ui.fragment.NfcFragment");
+
         parsePrefXml(context, R.xml.phone,
             R.string.phone,
             R.string.phone,
