@@ -228,7 +228,7 @@ public class DisplayHardwareDetail extends BaseHook {
             Handler mBgHandler;
 
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mContext = (Context) param.args[0];
                 final Handler mHandler = new Handler(Looper.getMainLooper()) {
                     public void handleMessage(Message message) {
@@ -412,7 +412,7 @@ public class DisplayHardwareDetail extends BaseHook {
     @SuppressLint("DiscouragedApi")
     private TextView createBatteryDetailView(Context mContext, LinearLayout.LayoutParams lp, TextIcon ti) {
         Resources res = mContext.getResources();
-        TextView batteryView = (TextView) LayoutInflater.from(mContext).inflate(res.getIdentifier("network_speed", "layout", "com.android.systemui"), (ViewGroup) null);
+        TextView batteryView = (TextView) LayoutInflater.from(mContext).inflate(res.getIdentifier("network_speed", "layout", "com.android.systemui"), null);
         batteryView.setTag("slot_text_icon");
         batteryView.setVisibility(View.VISIBLE);
         XposedHelpers.setObjectField(batteryView, "mVisibilityByDisableInfo", 0);
