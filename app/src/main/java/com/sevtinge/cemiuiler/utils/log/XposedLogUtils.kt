@@ -5,7 +5,8 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import de.robv.android.xposed.XposedBridge
 
 object XposedLogUtils {
-    private var isDebugVersion = !BuildConfig.BUILD_TYPE.contains("release")
+    private val isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug")
+    private val isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release")
     private val detailLog = BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log")
 
     // Xposed debug 日志输出

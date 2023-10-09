@@ -18,7 +18,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseHook {
     public String TAG = getClass().getSimpleName();
-    private static final boolean isDebugVersion = !BuildConfig.BUILD_TYPE.contains("release");
+    private static final boolean isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug");
+    private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
     private final boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public LoadPackageParam lpparam;
@@ -33,8 +34,8 @@ public abstract class BaseHook {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (detailLog && !isDebugVersion) {
-                deLogI(TAG, "Hook success!");
+            if (detailLog && isDebugVersion) {
+                XposedLogUtils.INSTANCE.logI(TAG, "Hook Success.");
             }
         } catch (Throwable t) {
             XposedLogUtils.INSTANCE.logE(TAG, "Hook Failed", t, null);
@@ -46,33 +47,33 @@ public abstract class BaseHook {
     }
 
     public void logI(String log) {
-        if (detailLog && !isDebugVersion) {
-            XposedBridge.log("[I/Cemiuiler]: [" + TAG + "] " + log);
+        if (detailLog && isDebugVersion) {
+            XposedBridge.log("[Cemiuiler][I][" + TAG + "]: " + log);
         }
     }
 
     public void logE(Exception e) {
-        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] hook failed by: " + e);
+        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: hook failed by " + e);
     }
 
     public void logE(Throwable t) {
-        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] hook failed by: " + t);
+        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: hook failed by " + t);
     }
 
     public void logE(String log) {
-        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] hook failed by: " + log);
+        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: hook failed by " + log);
     }
 
     public void logE(String tag, Exception e) {
-        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] " + tag + " hook failed by: " + e);
+        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: " + tag + " hook failed by " + e);
     }
 
     public void logE(String tag, Throwable t) {
-        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] " + tag + " hook failed by: " + t);
+        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: " + tag + " hook failed by " + t);
     }
 
     public void logE(String tag, String log) {
-        XposedBridge.log("[E/Cemiuiler]: [" + TAG + "] " + tag + " hook failed by: " + log);
+        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: " + tag + " hook failed by " + log);
     }
 
     public Class<?> findClass(String className) {

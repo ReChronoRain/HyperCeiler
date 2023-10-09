@@ -9,7 +9,8 @@ import de.robv.android.xposed.XposedBridge;
 
 public class AndroidLogUtils {
     private static final String Tag = "Cemiuiler]: ";
-    private static final boolean isDebugVersion = !BuildConfig.BUILD_TYPE.contains("release");
+    private static final boolean isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug");
+    private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
     private static final boolean detailLog = BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");
 
 
