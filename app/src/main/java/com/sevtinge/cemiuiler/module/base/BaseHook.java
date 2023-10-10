@@ -34,7 +34,7 @@ public abstract class BaseHook {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (detailLog && isDebugVersion) {
+            if (detailLog && isNotReleaseVersion) {
                 XposedLogUtils.INSTANCE.logI(TAG, "Hook Success.");
             }
         } catch (Throwable t) {
@@ -47,7 +47,7 @@ public abstract class BaseHook {
     }
 
     public void logI(String log) {
-        if (detailLog && isDebugVersion) {
+        if (detailLog && isNotReleaseVersion) {
             XposedBridge.log("[Cemiuiler][I][" + TAG + "]: " + log);
         }
     }
