@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.app;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.hook.systemui.AutoCollapse;
@@ -55,7 +56,6 @@ import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.HideStatusBarBefore
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.MobileNetwork;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
-import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.StatusResFindHook;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.WifiStandard;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.clock.TimeStyle;
@@ -78,6 +78,7 @@ import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.NetworkSpee
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.NetworkSpeedStyle;
 import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.StatusBarNoNetSpeedSep;
+import com.sevtinge.cemiuiler.module.hook.systemui.statusbar.network.s.NetworkSpeedWidth;
 
 import java.util.Objects;
 
@@ -85,9 +86,6 @@ public class SystemUI extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        // 状态栏资源导入，使用范围：网速指示器、硬件指示器
-        initHook(StatusResFindHook.INSTANCE);
-
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
@@ -133,8 +131,11 @@ public class SystemUI extends BaseModule {
         // initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         // 网速指示器
+        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+            initHook(NetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
+            initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
+        }
         initHook(NetworkSpeedStyle.INSTANCE);
-        initHook(NetworkSpeed.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom"));
         initHook(NetworkSpeedSpacing.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
         initHook(NetworkSpeedSec.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
