@@ -31,8 +31,8 @@ public class CtaUtils {
         intent.putExtra("runtime_perm_desc", mRuntimePermissionsDesc);
         intent.putExtra(KEY_MANDATORY_PERMISSION, false);
         intent.putExtra(KEY_AGREE_DESC, activity.getResources().getString(R.string.new_cta_agree_desc));
-        intent.putExtra("user_agreement", "https://cemiuiler.sevtinge.cc/portal-privacy.html");
-        intent.putExtra("privacy_policy", "https://cemiuiler.sevtinge.cc/privacy/zh-CN.html");
+        intent.putExtra("user_agreement", "https://cemiuiler.sevtinge.cc/Protocol");
+        intent.putExtra("privacy_policy", "https://cemiuiler.sevtinge.cc/Privacy");
         intent.putExtra(KEY_USE_NETWORK, false);
         intent.putExtra(KEY_SHOW_LOCK, false);
         try {
