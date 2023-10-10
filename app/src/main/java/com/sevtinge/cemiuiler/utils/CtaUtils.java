@@ -62,11 +62,11 @@ public class CtaUtils {
     }
 
     private static String[] getRuntimePermission() {
-        return new String[]{"android.permission.CHANGE_WIFI_STATE"};
+        return new String[0];
     }
 
     private static String[] getRuntimePermissionDesc(Activity activity) {
-        return new String[]{activity.getResources().getString(R.string.new_permission_wifi_state_desc)};
+        return new String[0];
     }
 
     private static String[] getOptionalPermission() {
