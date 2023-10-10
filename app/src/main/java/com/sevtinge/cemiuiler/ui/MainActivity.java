@@ -77,7 +77,7 @@ public class MainActivity extends SettingsActivity {
     }
 
     private void requestCta() {
-        if (!PermissionRecord(true)) {
+        if (!CtaUtils.isCtaEnabled(this)) {
             CtaUtils.showCtaDialog(this, REQUEST_CODE);
         }
     }
@@ -240,13 +240,11 @@ public class MainActivity extends SettingsActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE -> {
-                if (resultCode == RESULT_CANCELED) {
-                    finish();
-                } else if (resultCode == RESULT_FIRST_USER) {
-                    PermissionRecord(false);
-                }
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_CANCELED) {
+                finish();
+            } else if (resultCode == RESULT_FIRST_USER) {
+                CtaUtils.setCtaEnabled(this);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

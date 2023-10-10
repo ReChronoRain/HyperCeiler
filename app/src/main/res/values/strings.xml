@@ -16,7 +16,7 @@
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make MIUI Great Again!</string>
 
-    <string name="new_permission_storage_desc">add and delete files on device\'s internal storage</string>
+    <string name="new_permission_wifi_state_desc">add and delete files on device\'s internal storage</string>
     <string name="new_permission_location_desc">used to provide services such as latitude and longitude</string>
     <string name="new_cta_agree_desc">You can go to Permission Management to adjust the authorization status of all permissions at any time.</string>
     <string name="new_cta_app_main_purpose">modify system applications</string>

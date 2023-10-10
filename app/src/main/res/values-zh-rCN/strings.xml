@@ -2,11 +2,11 @@
     <!--Xposed 模块简介-->
     <string name="xposed_description">Make MIUI Great Again!</string>
 
-    <string name="new_permission_storage_desc">用于保存图片至本地的功能</string>
+    <string name="new_permission_wifi_state_desc">用于xxx</string>
     <string name="new_permission_location_desc">用于提供经纬度等服务</string>
     <string name="new_cta_agree_desc">您可随时前往权限管理调整所有权限的授权情况。</string>
     <string name="new_cta_app_main_purpose">修改系统应用</string>
-    <string name="new_cta_app_all_purpose_title">欢迎使用 Cemiuiler，Cemiuiler 能 xxx。</string>
+    <string name="new_cta_app_all_purpose_title">欢迎使用 Cemiuiler，你可使用本应用以实现修改系统应用功能。</string>
     <!--Cemiuiler 设置/关于页-->
     <string name="language">简体中文</string>
     <string name="translator">绀漓 | Sevtinge</string>
