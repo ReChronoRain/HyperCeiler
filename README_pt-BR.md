@@ -12,20 +12,20 @@
 ## Versões suportadas
 MIUI 12.5 ~ 14 para Android 11 ~ 13
 
-> Não suporta ROMs MIUI de terceiros com muitas modificações, software de sistema com muitas modificações e algumas ROMs MIUI estrangeiras
+> Não suporta ROM MIUI de terceiros com muitas modificações, software de sistema com muitas modificações e algumas ROM MIUI estrangeiras.
 >
-> Atualmente, o Cemiuiler é baseado em dispositivos Android 13 MIUI 14 para adaptação, a cobertura não é muito completa, precisa de testes e melhorias contínuas
+> Atualmente, o Cemiuiler é baseado em dispositivos Android 13 MIUI 14 para adaptação, a cobertura não é muito completa, precisa de testes e melhorias contínuas.
 >
 > Tentamos o nosso melhor para oferecer suporte a dispositivos Android 11. Após o lançamento da versão 1.3.130, o branch principal não suportará mais o Android 11, mas ainda fornecerá manutenção e portabilidade de funções de versões antigas.
 >
 ## Apps suportados
 
 <details>
-    <summary>Clique para expandir o conteúdo recolhido</summary>
+    <summary>Clique para ver os apps suportados</summary>
 
 | Nome do app | Nome do pacote |
 | :---- | :---- |
-| Framework do sistema | system |
+| Framework do Sistema | system |
 | Ui do Sistema | com.android.systemui |
 | Launcher do sistema | com.miui.home |
 | Atualizações | com.android.updater |
@@ -33,7 +33,7 @@ MIUI 12.5 ~ 14 para Android 11 ~ 13
 | Configurações | com.xiaomi.misettings |
 | Segurança | com.miui.securitycenter |
 | Notas | com.miui.notes |
-| Papéis de Parede MI | com.miui.miwallpaper |
+| Papéis de Parede Mi | com.miui.miwallpaper |
 | Taplus | com.miui.contentextension |
 | Notificação de mensagem em tela | com.xiaomi.barrage |
 | Baidu IME para MIUI | com.baidu.input_mi |
@@ -80,10 +80,11 @@ MIUI 12.5 ~ 14 para Android 11 ~ 13
 | Músicas | com.miui.player |
 | MIUI+ | com.xiaomi.mirror |
 | com.xiaomi.NetworkBoost | com.xiaomi.NetworkBoost |
+| Serviço NFC | com.android.nfc |
 
 </details>
 
-> Mesmo escopo recomendado no LSPosed
+> Todos os escopos acima estão ativos no LSPosed
 
 ## Chat e Feedback
 
@@ -93,11 +94,11 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 [![badge_qguild]][qguild_url]
 [![badge_telegram]][telegram_url]
 
-## Forneça traduções para o projeto Cemiuiler
+## Tradução
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
-Você pode fornecer traduções para o projeto Cemiuiler [aqui](https://crwd.in/cemiuiler).
+Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
 
 ## Obrigado!
 
@@ -140,8 +141,8 @@ Você pode fornecer traduções para o projeto Cemiuiler [aqui](https://crwd.in/
 
 
 [qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
-[badge_qgroup]: https://img.shields.io/badge/QQ-group-4DB8FF?style=for-the-badge&logo=tencentqq
+[badge_qgroup]: https://img.shields.io/badge/QQ-Grupo-4DB8FF?style=for-the-badge&logo=tencentqq
 [qguild_url]: https://pd.qq.com/s/35ooe0ssj
-[badge_qguild]: https://img.shields.io/badge/QQ-Channel-4991D3?style=for-the-badge&logo=tencentqq
+[badge_qguild]: https://img.shields.io/badge/QQ-Canal-4991D3?style=for-the-badge&logo=tencentqq
 [telegram_url]: https://t.me/cemiuiler
 [badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler
