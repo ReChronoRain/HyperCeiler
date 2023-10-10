@@ -103,7 +103,10 @@ You can provide translations for the Cemiuiler project [here](https://crwd.in/ce
 
 > Cemiuiler I have used some or all of the content of the following open source projects. Thank you for the strong support provided by the developers of these projects (in no particular order).
 
+- [「Accompanist」 by Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
+- [「Android」 by Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
 - [「AndroidHiddenApiBypass」 by LSPosed](https://github.com/LSPosed/AndroidHiddenApiBypass)
+- [「AndroidX」 by Android Open Source Project, Google Inc.](https://github.com/androidx/androidx)
 - [「AntiAntiDefraud」 by MinaMichita](https://github.com/MinaMichita/AntiAntiDefraud)
 - [「Auto NFC」 by GSWXXN](https://github.com/GSWXXN/AutoNFC)
 - [「BypassSignCheck」 by Weverses](https://github.com/Weverses/BypassSignCheck)
@@ -116,7 +119,10 @@ You can provide translations for the Cemiuiler project [here](https://crwd.in/ce
 - [「DisableLogRequest」 by QueallyTech](https://github.com/QueallyTech/DisableLogRequest)
 - [「EzXHelper」 by KyuubiRan](https://github.com/KyuubiRan/EzXHelper)
 - [「FixMiuiMediaControlPanel」 by qqlittleice](https://github.com/qqlittleice/FixMiuiMediaControlPanel)
+- [「FuckNFC」 by xiaowine](https://github.com/xiaowine/FuckNFC)
+- [「Gson」 by Android Open Source Project, Google Inc.](https://github.com/google/gson)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
+- [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
 - [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
 - [「Miui Feature」 by MoralNorm](https://github.com/moralnorm/miui_feature)
 - [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
@@ -135,6 +141,7 @@ You can provide translations for the Cemiuiler project [here](https://crwd.in/ce
 - [「WOMMO」 by YifePlayte](https://github.com/YifePlayte/WOMMO)
 - [「Woobox For MIUI」 by hosizoraru](https://github.com/hosizoraru/WooBoxForMIUI)
 - [「Woobox For MIUI」 by Simplicity-Team](https://github.com/Simplicity-Team/WooBoxForMIUI)
+- [「Xposed」 by rovo89, Tungstwenty](https://github.com/rovo89/XposedBridge)
 - [「XposedBridge」 by rovo89](https://github.com/rovo89/XposedBridge)
 - [「.xlDownload」 by Kr328](https://github.com/Kr328/.xlDownload)
 
