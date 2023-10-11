@@ -33,6 +33,8 @@
     <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of Cemiuiler (in no particular order)</string>
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
+    <string name="about_privacy">Privacy Policy</string>
+    <string name="about_protocol">User Agreement</string>
     <string name="settings_data_title">Backup and Restore</string>
     <string name="settings_bug_title">Troubleshooting</string>
     <string name="settings_debug_title">Debug</string>

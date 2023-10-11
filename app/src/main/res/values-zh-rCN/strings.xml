@@ -65,9 +65,11 @@
     <string name="about_tg_channel">Telegram 频道</string>
     <string name="about_github">项目地址</string>
     <string name="about_github_desc">本项目基于 AGPL-3.0 协议开源</string>
-    <string name="about_offical">官网</string>
+    <string name="about_offical">官方网站</string>
     <string name="about_crwd">翻译</string>
     <string name="about_crwd_desc">帮助我们将应用翻译为您的语言</string>
+    <string name="about_privacy">隐私政策</string>
+    <string name="about_protocol">用户协议</string>
     <!--弹窗/miuix 部分-->
     <string name="soft_reboot">重启 </string>
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>

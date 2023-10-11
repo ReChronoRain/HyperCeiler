@@ -129,6 +129,20 @@
                 android:data="https://www.sevtinge.cc/t/donation.html" />
         </Preference>
 
+        <Preference
+            android:title="@string/about_protocol">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://cemiuiler.sevtinge.cc/Protocol" />
+        </Preference>
+
+        <Preference
+            android:title="@string/about_privacy">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://cemiuiler.sevtinge.cc/Privacy" />
+        </Preference>
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>
