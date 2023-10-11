@@ -848,7 +848,7 @@
     <string name="home_big_folder_icon_bg_height_1x2">背景高度</string>
     <string name="home_big_folder_icon_bg">九宫格背景自定义</string>
     <string name="home_big_folder_icon_bg_2x1_n">八宫格背景自定义</string>
-    <string name="home_big_folder_icon_bg_1x2_n">四宫格背景义</string>
+    <string name="home_big_folder_icon_bg_1x2_n">四宫格背景自定义</string>
     <string name="home_big_folder_icon_bg_n">九、十六宫格背景自定义</string>
     <string name="home_big_folder_icon_bg_custom">自定义</string>
     <string name="home_big_folder_icon_bg_width">背景宽度</string>
