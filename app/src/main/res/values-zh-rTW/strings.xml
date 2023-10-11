@@ -1054,7 +1054,7 @@
     <string name="security_center_unlock_screen_time_desc">在耗電排行中螢幕幕耗電訊息並恢復顯示所有其他應用程式的耗電量和時間</string>
     <string name="security_center_unlock_gun_service">解鎖準星輔助</string>
     <string name="security_center_disable_remove_screen_hold_on">停用移除待機聽劇與關閉螢幕掛機</string>
-    <string name="security_center_unlock_memc">解鎖準星輔助</string>
+    <string name="security_center_unlock_memc">解鎖動態畫面補償</string>
     <string name="security_center_unlock_enhance_contours">解鎖影像輪廓增強</string>
     <string name="security_center_unlock_s_resolution">解鎖極清播放</string>
     <string name="security_center_hide_sidebar">隱藏側邊欄</string>
