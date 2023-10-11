@@ -4,9 +4,9 @@
 
     <string name="new_permission_wifi_state_desc">用于xxx</string>
     <string name="new_permission_location_desc">用于提供经纬度等服务</string>
-    <string name="new_cta_agree_desc">您可随时前往权限管理调整所有权限的授权情况。</string>
+    <string name="new_cta_agree_desc">在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往权限管理调整所有权限的授权情况，Root/Su 权限请前往您的 Root/Su 管理器进行管理.</string>
     <string name="new_cta_app_main_purpose">修改系统应用</string>
-    <string name="new_cta_app_all_purpose_title">欢迎使用 Cemiuiler，你可使用本应用以实现修改系统应用功能。</string>
+    <string name="new_cta_app_all_purpose_title">欢迎使用 Cemiuiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现 MIUI 增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
     <!--Cemiuiler 设置/关于页-->
     <string name="language">简体中文</string>
     <string name="translator">绀漓 | Sevtinge</string>
