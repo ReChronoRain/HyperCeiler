@@ -34,7 +34,7 @@ public class RestartAlertDialog extends AlertDialog {
             dismiss();
             for (int i = 0; i < sparseBooleanArray.size(); i++) {
                 if (sparseBooleanArray.get(i)) {
-                    ALPermissionManager.RootCommand("killall " + mAppPackageNameList.get(i));
+                    ALPermissionManager.RootCommand("pkill -l 9 -f " + mAppPackageNameList.get(i));
                 }
             }
         });
