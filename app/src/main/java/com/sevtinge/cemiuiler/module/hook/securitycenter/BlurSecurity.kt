@@ -164,8 +164,8 @@ object BlurSecurity : BaseHook() {
         // if (getPackageVersionCode(lpparam) >= 40000754) {
         dexKitBridge.findMethod {
             matcher {
-                returnType = "Landroid/view/View;"
-                paramTypes = listOf("Landroid/content/Context;", "Z", "Z")
+                returnType = "android.view.View"
+                paramTypes = listOf("android.content.Context", "boolean", "boolean")
             }
            /* methodReturnType = "Landroid/view/View;"
             methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")*/
