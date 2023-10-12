@@ -145,7 +145,6 @@
             android:defaultValue="-1294740525"
             android:dependency="prefs_key_security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color_default"
-            android:persistent="false"
             android:title="@string/security_center_sidebar_line_color_default"
             app:showAlphaSlider="true" />
 
@@ -153,7 +152,6 @@
             android:defaultValue="-6842473"
             android:dependency="prefs_key_security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color_dark"
-            android:persistent="false"
             android:title="@string/security_center_sidebar_line_color_dark"
             app:showAlphaSlider="true" />
 
@@ -161,7 +159,6 @@
             android:defaultValue="-872415232"
             android:dependency="prefs_key_security_center_sidebar_line_color"
             android:key="prefs_key_security_center_sidebar_line_color_light"
-            android:persistent="false"
             android:title="@string/security_center_sidebar_line_color_light"
             app:showAlphaSlider="true" />
 
@@ -185,7 +182,6 @@
             android:defaultValue="-1"
             android:dependency="prefs_key_se_enable"
             android:key="prefs_key_security_center_color"
-            android:persistent="false"
             android:title="@string/security_center_color"
             app:showAlphaSlider="true" />
 

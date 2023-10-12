@@ -48,7 +48,6 @@
             android:defaultValue="-1"
             android:dependency="prefs_key_home_other_use_edit_color"
             android:key="prefs_key_home_other_your_color_qwq"
-            android:persistent="false"
             android:title="@string/home_other_your_color"
             app:showAlphaSlider="false" />
 
@@ -116,7 +115,6 @@
         <moralnorm.preference.ColorPickerPreference
             android:defaultValue="-1"
             android:key="prefs_key_home_title_title_color"
-            android:persistent="false"
             android:title="@string/home_title_title_color"
             app:showAlphaSlider="false" />
 
