@@ -4,9 +4,9 @@
     <string name="xposed_description">MIUI を再び偉大な物にしましょう!</string>
     <string name="new_permission_wifi_state_desc">デバイスの内部ストレージ上のファイルを追加および削除</string>
     <string name="new_permission_location_desc">緯度や経度などのサービスを提供するために使用</string>
-    <string name="new_cta_agree_desc">アクセス許可の管理に移動すると、いつでもすべてのアクセス許可を変更できます</string>
+    <string name="new_cta_agree_desc">使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。アクセス許可の管理に移動すると、いつでもすべてのアクセス許可を変更できます。root/su 権限については、お使いの root/su マネージャーにアクセスして変更してください。</string>
     <string name="new_cta_app_main_purpose">システムアプリの変更</string>
-    <string name="new_cta_app_all_purpose_title">Cemiuiler へようこそ。いろいろカスタマイズできます</string>
+    <string name="new_cta_app_all_purpose_title">Cemiuiler へようこそ。このアプリは MIUI の機能強化をするために Xposed フレームワークを利用して対応アプリを改変します。使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。お使いの root/su マネージャーにアクセスして許可してください。</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Japanese (日本語)</string>
     <string name="translator">Re*Index. (ot_inc)</string>
@@ -19,6 +19,8 @@
     <string name="about_contributer_desc">Cemiuiler の開発に協力をして頂いた以下の方々に感謝をします。 (順不同)</string>
     <string name="about_donation">スポンサー</string>
     <string name="about_donation_desc">寄付はこちらから</string>
+    <string name="about_privacy">プライバシーポリシー</string>
+    <string name="about_protocol">利用規約</string>
     <string name="settings_data_title">バックアップと復元</string>
     <string name="settings_bug_title">トラブルシューティング</string>
     <string name="settings_debug_title">デバッグ</string>

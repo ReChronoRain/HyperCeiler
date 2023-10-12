@@ -4,9 +4,9 @@
     <string name="xposed_description">Torne a MIUI ótima novamente!</string>
     <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
-    <string name="new_cta_agree_desc">Você pode acessar o Gerenciamento de permissões para ajustar o status de autorização de todas as permissões a qualquer momento.</string>
+    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao Cemiuiler, o Cemiuiler pode xxx.</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao Cemiuiler, este app é executado na estrutura Xposed, você pode usar este app para sequestrar e modificar outros apps suportados para obter melhorias na MIUI. Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -19,6 +19,8 @@
     <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do Cemiuiler (em nenhuma ordem em particular)</string>
     <string name="about_donation">Patrocinadores</string>
     <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
+    <string name="about_privacy">Política de privacidade</string>
+    <string name="about_protocol">Acordo de usuário</string>
     <string name="settings_data_title">Backup e Restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
     <string name="settings_debug_title">Depurar</string>
