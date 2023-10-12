@@ -39,6 +39,13 @@
             android:key="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_notification_blur_model" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_n_enable"
+            android:key="prefs_key_n_enable_fix"
+            android:summary="@string/system_ui_control_center_notification_blur_fix_desc"
+            android:title="@string/system_ui_control_center_notification_blur_fix" />
+
         <SeekBarPreferenceEx
             android:defaultValue="56"
             android:dependency="prefs_key_n_enable"

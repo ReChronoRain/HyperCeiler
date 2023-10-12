@@ -4,10 +4,18 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.callStaticMethod
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidS
+import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidT
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.replaceMethod
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -70,8 +78,8 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
-        // 不懂 mi10u 会无限重启系统界面的原因
-        /*if(isAndroidT()) {
+        // 通知模糊额外修正项，增加一个开关避免使用过程中暴毙
+        if(isAndroidT() && mPrefsMap.getBoolean("n_enable_fix")) {
             val mediaDataFilterClass =
                 findClassIfExists("com.android.systemui.media.MediaDataFilter") ?: return
 
@@ -80,10 +88,10 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     ?: return
 
             // 增加一个锁屏页面判断
-            var OnKeyguard = false
+            var onKeyguard = false
 
             expandableNotificationRowClass.hookAfterMethod("isOnKeyguard") {
-                OnKeyguard = it.result as Boolean
+                onKeyguard = it.result as Boolean
             }
 
             // 增加一个控制中心音乐播放器判断
@@ -95,56 +103,61 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
 
             // 换个方式修改通知上划极限值
-            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getOverExpansion") {
-                val getScreenHeight =
-                    loadClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
-                        .callStaticMethod("getScreenHeight", appContext) as Int
-                val mOverExpansion = it.thisObject.getObjectField("mOverExpansion") as Float
-                val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
-                val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
-                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
-                val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
-                val isScreenLandscape =
-                    loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
-                        .callStaticMethod("isScreenLandscape") as Boolean
+            try {
+                "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getOverExpansion") {
+                    val getScreenHeight =
+                        loadClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
+                            .callStaticMethod("getScreenHeight", appContext) as Int
+                    val mOverExpansion = it.thisObject.getObjectField("mOverExpansion") as Float
+                    val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
+                    val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+                    val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+                    val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
+                    val isScreenLandscape =
+                        loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
+                            .callStaticMethod("isScreenLandscape") as Boolean
 
-                if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching) {
-                    if (hasActiveMediaOrRecommendation) {
-                        if (isScreenLandscape)
-                            return@replaceMethod -getScreenHeight.toFloat()
-                        else
-                            return@replaceMethod -getScreenHeight.toFloat() * 6.0f
+                    if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching) {
+                        if (hasActiveMediaOrRecommendation) {
+                            if (isScreenLandscape)
+                                return@replaceMethod -getScreenHeight.toFloat()
+                            else
+                                return@replaceMethod -getScreenHeight.toFloat() * 6.0f
+                        } else {
+                            if (isScreenLandscape)
+                                return@replaceMethod -getScreenHeight.toFloat() / 3.0f
+                            else
+                                return@replaceMethod -getScreenHeight.toFloat() / 1.2f
+                        }
                     } else {
-                        if (isScreenLandscape)
-                            return@replaceMethod -getScreenHeight.toFloat() / 3.0f
-                        else
-                            return@replaceMethod -getScreenHeight.toFloat() / 1.2f
+                        return@replaceMethod mOverExpansion
                     }
-                } else {
-                    return@replaceMethod mOverExpansion
                 }
+            } catch (t: Throwable){
+                logE(t)
             }
 
-            "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction")
-            {
-                val mExpansionChanging =
-                    it.thisObject.getObjectField("mExpansionChanging") as Boolean
-                val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
-                val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
-                val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
-                val mAppearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
-                val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
-                val isScreenLandscape =
-                    loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
-                        .callStaticMethod("isScreenLandscape") as Boolean
+            try {
+                "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction") {
+                    val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
+                    val isSwipingUp = it.thisObject.getObjectField("mIsSwipingUp") as Boolean
+                    val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
+                    val mAppearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
+                    val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
+                    val isScreenLandscape =
+                        loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
+                            .callStaticMethod("isScreenLandscape") as Boolean
 
-                if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching && hasActiveMediaOrRecommendation && isScreenLandscape) {
-                    return@replaceMethod mAppearFraction * 6.0f
-                } else {
-                    return@replaceMethod mAppearFraction
+                    if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching && hasActiveMediaOrRecommendation && isScreenLandscape) {
+                        return@replaceMethod mAppearFraction * 6.0f
+                    } else {
+                        return@replaceMethod mAppearFraction
+                    }
                 }
+            } catch (t: Throwable){
+                logE(t)
             }
-        }*/
+        }
 
         // 每次设置背景的时候都同时改透明度
         XposedBridge.hookAllMethods(
@@ -413,17 +426,24 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         // 锁屏状态透明度修改的时候同步修改模糊透明度
-        if(!isMoreAndroidVersion(33)) {
-            XposedBridge.hookAllMethods(miuiNotificationPanelViewControllerClass, "updateKeyguardElementAlpha",
+        if (isAndroidS()) {
+            XposedBridge.hookAllMethods(miuiNotificationPanelViewControllerClass,
+                "updateKeyguardElementAlpha",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         if (!isDefaultLockScreenTheme()) return
                         val mNotificationStackScroller =
-                            HookUtils.getValueByField(param.thisObject, "mNotificationStackScroller") ?: return
+                            HookUtils.getValueByField(
+                                param.thisObject,
+                                "mNotificationStackScroller"
+                            ) ?: return
                         mNotificationStackScroller as ViewGroup
 
                         val keyguardContentsAlpha =
-                            XposedHelpers.callMethod(param.thisObject, "getKeyguardContentsAlpha") as Float
+                            XposedHelpers.callMethod(
+                                param.thisObject,
+                                "getKeyguardContentsAlpha"
+                            ) as Float
                         val drawableAlpha = keyguardContentsAlpha * 255
                         for (i in 0..mNotificationStackScroller.childCount) {
                             val childAt =
@@ -456,26 +476,61 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 }
             })
 
-        // 锁屏画报 隐藏模糊
-        XposedBridge.hookAllMethods(
-            lockScreenMagazineControllerClass,
-            "setViewsAlpha",
-            object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    if (!isDefaultLockScreenTheme()) return
-                    val alpha = param.args[0] as Float
-                    val drawableAlpha = alpha * 255
-                    val mNotificationStackScrollLayout = HookUtils.getValueByField(
-                        param.thisObject,
-                        "mNotificationStackScrollLayout"
-                    ) as ViewGroup
-                    for (i in 0..mNotificationStackScrollLayout.childCount) {
-                        val childAt =
-                            mNotificationStackScrollLayout.getChildAt(i) ?: continue
-                        setBlurEffectAlphaForNotificationRow(childAt, drawableAlpha.toInt())
+        if (isMoreAndroidVersion(33)) {
+            // 锁屏画报 隐藏模糊
+            // 修复 Android 13 锁屏画报模糊残留
+            XposedBridge.hookAllMethods(
+                lockScreenMagazineControllerClass,
+                "setPanelViewAlpha",
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!isDefaultLockScreenTheme()) return
+                        val alpha = param.args[0] as Float
+                        val drawableAlpha = alpha * 255
+
+                        val mNotificationStackScrollLayoutController =
+                            HookUtils.getValueByField(
+                                param.thisObject,
+                                "mNotificationStackScrollLayoutController"
+                            )
+                                ?: return
+                        val mView =
+                            HookUtils.getValueByField(
+                                mNotificationStackScrollLayoutController,
+                                "mView"
+                            ) ?: return
+
+                        mView as ViewGroup
+
+                        for (i in 0..mView.childCount) {
+                            val childAt = mView.getChildAt(i) ?: continue
+                            setBlurEffectAlphaForNotificationRow(childAt, drawableAlpha.toInt())
+                        }
                     }
-                }
-            })
+                })
+        } else {
+            // 锁屏画报 隐藏模糊
+            XposedBridge.hookAllMethods(
+                lockScreenMagazineControllerClass,
+                "setViewsAlpha",
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!isDefaultLockScreenTheme()) return
+                        val alpha = param.args[0] as Float
+                        val drawableAlpha = alpha * 255
+                        val mNotificationStackScrollLayout = HookUtils.getValueByField(
+                            param.thisObject,
+                            "mNotificationStackScrollLayout"
+                        ) as ViewGroup
+                        for (i in 0..mNotificationStackScrollLayout.childCount) {
+                            val childAt =
+                                mNotificationStackScrollLayout.getChildAt(i) ?: continue
+                            setBlurEffectAlphaForNotificationRow(childAt, drawableAlpha.toInt())
+                        }
+                    }
+                })
+
+        }
 
         XposedBridge.hookAllMethods(
             notificationStackScrollLayoutClass,

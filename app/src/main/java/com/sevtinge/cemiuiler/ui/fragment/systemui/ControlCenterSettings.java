@@ -3,25 +3,26 @@ package com.sevtinge.cemiuiler.ui.fragment.systemui;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidS;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidSv2;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
+import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import miui.telephony.TelephonyManager;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.SeekBarPreferenceEx;
-import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
-import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
-
 import moralnorm.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment {
 
     SwitchPreference mFixMediaPanel;
     SwitchPreference mNotice;
+    SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
     SwitchPreference mNewCCGridRect;
     SwitchPreference mFiveG;
@@ -46,6 +47,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mNotice = findPreference("prefs_key_n_enable");
+        mNoticex = findPreference("prefs_key_n_enable_fix");
         mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
         mFiveG = findPreference("prefs_key_system_control_center_5g_tile");
 
@@ -53,6 +55,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNewCCGrid.setVisible(!isAndroidR());
         mNewCCGridRect.setVisible(!isAndroidR());
         mNotice.setVisible(!isAndroidR());
+        mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isAndroidR());
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
 
