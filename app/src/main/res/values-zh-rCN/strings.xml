@@ -1024,7 +1024,6 @@
     <string name="miui_package_installer_apk_info">显示更多安装包信息</string>
     <string name="miui_package_installer_apk_info_desc">显示安装中应用的更多相关信息</string>
     <!--networkboost-->
-    <string name="networkboost">NetworkBoost</string>
     <string name="various_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
     <string name="various_disable_link_turbo_toast_more">开关后请在快速重启作用域中重启 NetworkBoost</string>
     <!--nfc-->

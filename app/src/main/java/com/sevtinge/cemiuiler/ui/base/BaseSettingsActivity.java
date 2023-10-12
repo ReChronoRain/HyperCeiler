@@ -125,7 +125,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
         if (isRestartSystem) {
             result = ALPermissionManager.RootCommand("reboot");
         } else {
-            result = ALPermissionManager.RootCommand("killall " + packagename);
+            result = ALPermissionManager.RootCommand("pkill -l 9 -f " + packagename);
         }
         if (!result) {
             new AlertDialog.Builder(this)
