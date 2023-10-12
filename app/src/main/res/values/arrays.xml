@@ -515,6 +515,8 @@
 
     <string-array name="market_device_modify_list">
         <item>@string/array_default</item>
+        <item>Xiaomi 14 Pro</item>
+        <item>Xiaomi 14</item>
         <item>Xiaomi 13 Ultra</item>
         <item>Xiaomi CIVI 3</item>
         <item>Xiaomi MIX Fold 3</item>
@@ -529,6 +531,8 @@
 
     <string-array name="market_device_modify_value">
         <item>0</item>
+        <item>102</item>
+        <item>103</item>
         <item>101</item>
         <item>153</item>
         <item>223</item>
