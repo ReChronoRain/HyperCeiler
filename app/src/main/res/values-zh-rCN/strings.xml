@@ -98,6 +98,7 @@
     <string name="abc_action_bar_up_description">转到上一层级</string>
     <string name="actionbar_button_up_description">返回</string>
     <string name="appcompat_action_mode_select_all">全选</string>
+    <string name="appcompat_action_mode_inverse">反选</string>
     <string name="appcompat_cancel_description">取消</string>
     <string name="appcompat_confirm_description">确认</string>
     <string name="appcompat_select_all_description">全选</string>
@@ -106,6 +107,12 @@
     <string name="appcompat_search_action_mode_cancel">取消</string>
     <string name="appcompat_search_input_description">搜索</string>
     <string name="appcompat_actionbar_immersion_button_more_description">更多</string>
+    <string name="color_picker_alpha_text_transparent">不透明度</string>
+    <string name="color_picker_tab_grid">网格取色</string>
+    <string name="color_picker_tab_slider">滑块取色</string>
+    <string name="color_picker_view_page_text_hue">色相</string>
+    <string name="color_picker_view_page_text_lightness">亮度</string>
+    <string name="color_picker_view_page_text_saturation">饱和度</string>
     <!--字符串复用-->
     <string name="top_margin">顶部边距</string>
     <string name="bottom_margin">底部边距</string>

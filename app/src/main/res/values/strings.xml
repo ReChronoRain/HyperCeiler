@@ -1288,4 +1288,11 @@
     <string name="nfc_disable_sound">Disable sound</string>
     <string name="nfc_allow_information_screen">Allow recognizable when information screen</string>
     <string name="nfc">NFC Service</string>
+    <string name="appcompat_action_mode_inverse">Inverse</string>
+    <string name="color_picker_alpha_text_transparent">Opacity</string>
+    <string name="color_picker_tab_grid">Grid</string>
+    <string name="color_picker_tab_slider">Slider</string>
+    <string name="color_picker_view_page_text_hue">Hue</string>
+    <string name="color_picker_view_page_text_lightness">Lightness</string>
+    <string name="color_picker_view_page_text_saturation">Saturation</string>
 </resources>
