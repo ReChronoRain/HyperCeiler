@@ -169,40 +169,27 @@ object BlurSecurity : BaseHook() {
             }
            /* methodReturnType = "Landroid/view/View;"
             methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")*/
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                after { param ->
-                    val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
-                    mainContent.addOnAttachStateChangeListener(
-                        object :
-                            View.OnAttachStateChangeListener {
-                            @RequiresApi(Build.VERSION_CODES.S)
-                            override fun onViewAttachedToWindow(view: View) {
-                                if (view.background != null) {
-                                    if (HookUtils.isBlurDrawable(view.background)) {
-                                        return
-                                    }
-                                }
-
-                                view.background =
-                                    HookUtils.createBlurDrawable(
-                                        view,
-                                        blurRadius,
-                                        40,
-                                        backgroundColor
-                                    )
-
-                                if (shouldInvertColor) {
-                                    invertViewColor(mainContent)
-                                }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            after { param ->
+                val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
+                mainContent.addOnAttachStateChangeListener(object :
+                    View.OnAttachStateChangeListener {
+                        @RequiresApi(Build.VERSION_CODES.S)
+                        override fun onViewAttachedToWindow(view: View) {
+                            if (view.background != null) {
+                                if (HookUtils.isBlurDrawable(view.background)) return
                             }
+                            view.background =
+                                HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
-                            override fun onViewDetachedFromWindow(view: View) {
-                                view.background = null
-                            }
-                        })
+                            if (shouldInvertColor) invertViewColor(mainContent)
+                        }
+
+                        override fun onViewDetachedFromWindow(view: View) {
+                            view.background = null
+                        }
+                    })
                 }
-            }
         }
 
         /*

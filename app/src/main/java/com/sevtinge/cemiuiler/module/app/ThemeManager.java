@@ -1,8 +1,6 @@
 package com.sevtinge.cemiuiler.module.app;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
-import com.sevtinge.cemiuiler.module.base.CloseHostDir;
-import com.sevtinge.cemiuiler.module.base.LoadHostDir;
 import com.sevtinge.cemiuiler.module.hook.thememanager.DisableThemeAdNew;
 import com.sevtinge.cemiuiler.module.hook.thememanager.EnableFoldTheme;
 import com.sevtinge.cemiuiler.module.hook.thememanager.EnablePadTheme;
@@ -13,8 +11,6 @@ public class ThemeManager extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        // dexKit load
-        initHook(LoadHostDir.INSTANCE);
         initHook(new DisableThemeAdNew(), mPrefsMap.getBoolean("various_theme_diable_ads"));
         initHook(new ThemeCrackNew(), mPrefsMap.getBoolean("enable_function") && mPrefsMap.getBoolean("various_theme_crack"));
         initHook(new EnablePadTheme(), mPrefsMap.getBoolean("various_theme_enable_pad_theme"));
@@ -22,9 +18,6 @@ public class ThemeManager extends BaseModule {
 
         // 修改版本号
         initHook(new VersionCodeModify(), mPrefsMap.getBoolean("theme_manager_version_code_modify"));
-
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
     }
 
 }

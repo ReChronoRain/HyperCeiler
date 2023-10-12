@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module.app;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
+import com.sevtinge.cemiuiler.module.hook.miinput.UnlockKnuckleFunction;
 import com.sevtinge.cemiuiler.module.hook.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.cemiuiler.module.hook.systemsettings.AppsFreezerEnable;
 import com.sevtinge.cemiuiler.module.hook.systemsettings.EnableFoldArea;
@@ -46,9 +47,9 @@ public class SystemSettings extends BaseModule {
 
         if (!isAndroidR()) {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
+        } else {
+            initHook(UnlockKnuckleFunction.INSTANCE, mPrefsMap.getBoolean("system_settings_knuckle_function"));
         }
-
-        // initHook(UnlockKnuckleFunction.INSTANCE, mPrefsMap.getBoolean("system_settings_knuckle_function"));
     }
 }
 

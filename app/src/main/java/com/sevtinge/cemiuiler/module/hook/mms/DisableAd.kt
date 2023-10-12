@@ -6,22 +6,24 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 
 object DisableAd : BaseHook() {
     override fun init() {
         try {
+            initDexKit(lpparam)
             dexKitBridge.findClass {
                 matcher {
                     addUsingStringsEquals("Unknown type of the message: ")
                 }
-            }.forEach {
-                it.getInstance(EzXHelper.classLoader).methodFinder().first {
-                    name == "j"
-                }.createHook {
-                    returnConstant(false)
-                }
+            }.firstOrNull()?.getInstance(EzXHelper.classLoader)?.methodFinder()?.first {
+                name == "j"
+            }?.createHook {
+                returnConstant(false)
             }
+            closeDexKit()
             /*val result: List<DexClassDescriptor> = Objects.requireNonNull<List<DexClassDescriptor>>(
                 MmsDexKit.mMmsResultClassMap["DisableAd"]
             )

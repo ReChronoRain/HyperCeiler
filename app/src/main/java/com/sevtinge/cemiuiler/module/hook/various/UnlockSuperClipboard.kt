@@ -2,14 +2,15 @@ package com.sevtinge.cemiuiler.module.hook.various
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 
 object UnlockSuperClipboard : BaseHook() {
     // by StarVoyager
@@ -50,6 +51,7 @@ object UnlockSuperClipboard : BaseHook() {
                     methodSuperClipboard("com.miui.common.tool.Utils")
                 }
             }
+
             "com.miui.creation" -> {
                 if (mPrefsMap.getBoolean("various_super_clipboard_creation")) {
                     methodSuperClipboard("com.miui.creation.common.tools.ClipUtils")
@@ -67,6 +69,7 @@ object UnlockSuperClipboard : BaseHook() {
     }
 
     private fun dexKitSuperClipboard() {
+        initDexKit(lpparam)
         val ro by lazy {
             dexKitBridge.findMethod {
                 matcher {
@@ -88,5 +91,6 @@ object UnlockSuperClipboard : BaseHook() {
         setOf(ro, sys).filterNotNull().createHooks {
             returnConstant(true)
         }
+        closeDexKit()
     }
 }

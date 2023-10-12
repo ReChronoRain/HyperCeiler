@@ -2,30 +2,22 @@ package com.sevtinge.cemiuiler.module.hook.securitycenter.lab
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
-import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.module.hook.securitycenter.lab.LabUtilsClass.labUtilClass
 import com.sevtinge.cemiuiler.utils.Helpers
 
 object BlurLocationEnable : BaseHook() {
-    private var mLab: Class<*>? = null
-    private var mStableVer: Class<*>? = null
-    private var utilCls: Class<*>? = null
     private var labUtils: Class<*>? = null
 
     override fun init() {
-        dexKitBridge.findClass {
-            matcher {
-                addUsingStringsEquals("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable")
-            }
-        }.forEach {
+        labUtilClass.forEach {
             labUtils = it.getInstance(EzXHelper.classLoader)
             logI("labUtils class is $labUtils")
             findAndHookMethod(
                 "com.miui.permcenter.settings.PrivacyLabActivity",
                 "onCreateFragment",
-                object : BaseHook.MethodHook() {
+                object : MethodHook() {
                     @Throws(Throwable::class)
-                    protected override fun before(param: MethodHookParam) {
+                    override fun before(param: MethodHookParam) {
                         val fm = Helpers.getStaticObjectFieldSilently(labUtils, "b")
                         if (fm != null) {
                             try {

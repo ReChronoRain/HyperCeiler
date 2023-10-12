@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.music;
 
+import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 public class DisableAd extends BaseHook {
@@ -12,17 +14,17 @@ public class DisableAd extends BaseHook {
         try {
             findAndHookMethod("com.tencent.qqmusiclite.activity.SplashAdActivity", "onCreate", android.os.Bundle.class, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     try {
                         Class<?> clazz = findClassIfExists("android.app.Activity");
                         clazz.getMethod("finish").invoke(param.thisObject);
                     } catch (Throwable e) {
-                        e.printStackTrace();
+                        LogD(TAG, e);
                     }
                 }
             });
         } catch (Throwable e) {
-            e.printStackTrace();
+            LogD(TAG, e);
         }
     }
 }

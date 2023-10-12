@@ -41,30 +41,24 @@ object InstallRiskDisable : BaseHook() {
             matcher {
                 addUsingStringsEquals("secure_verify_enable")
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
 
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("installerOpenSafetyModel")
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
 
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
     }
 }

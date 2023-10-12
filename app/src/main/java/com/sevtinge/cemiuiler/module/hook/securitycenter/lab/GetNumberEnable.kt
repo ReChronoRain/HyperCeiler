@@ -2,20 +2,13 @@ package com.sevtinge.cemiuiler.module.hook.securitycenter.lab
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
-import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.module.hook.securitycenter.lab.LabUtilsClass.labUtilClass
 import com.sevtinge.cemiuiler.utils.Helpers
 
 object GetNumberEnable : BaseHook() {
-    private var mLab: Class<*>? = null
-    private var mStableVer: Class<*>? = null
     private var labUtils: Class<*>? = null
     override fun init() {
-        dexKitBridge.findClass {
-            matcher {
-                addUsingStringsEquals("mi_lab_ai_clipboard_enable", "mi_lab_blur_location_enable")
-            }
-        }.forEach {
+        labUtilClass.forEach {
             labUtils = it.getInstance(EzXHelper.classLoader)
             logI("labUtils class is $labUtils")
             findAndHookMethod(

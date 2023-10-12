@@ -1,5 +1,6 @@
 package com.sevtinge.cemiuiler.module.hook.securitycenter
 
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
@@ -13,7 +14,7 @@ object UnlockSuperWirelessCharge : BaseHook() {
                 addUsingStringsEquals("persist.vendor.tx.speed.control")
                 returnType = "boolean"
             }
-        }
+        }.firstOrNull()?.getMethodInstance(EzXHelper.classLoader)
     }
 
     private val superWirelessChargeTip by lazy {
@@ -22,20 +23,16 @@ object UnlockSuperWirelessCharge : BaseHook() {
                 addUsingStringsEquals("key_is_connected_super_wls_tx")
                 returnType = "boolean"
             }
-        }
+        }.firstOrNull()?.getMethodInstance(EzXHelper.classLoader)
     }
 
     override fun init() {
-        superWirelessCharge.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(true)
-            }
+        superWirelessCharge?.createHook {
+            returnConstant(true)
         }
 
-        superWirelessChargeTip.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(true)
-            }
+        superWirelessChargeTip?.createHook {
+            returnConstant(true)
         }
 
         /*try {

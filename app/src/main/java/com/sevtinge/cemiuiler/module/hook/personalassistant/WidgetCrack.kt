@@ -7,95 +7,61 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 
 class WidgetCrack : BaseHook() {
     override fun init() {
-        loadClass("com.miui.maml.widget.edit.MamlutilKt").methodFinder().first {
-            name == "themeManagerSupportPaidWidget"
-        }.createHook {
-            after {
-                it.result = false
+        try {
+            loadClass("com.miui.maml.widget.edit.MamlutilKt").methodFinder().filterByName("themeManagerSupportPaidWidget").first().createHook {
+                returnConstant(false)
             }
-        }
 
-        loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder().first {
-            name == "isCanDirectAddMaMl"
-        }.createHook {
-            after {
-                it.result = true
-            }
-        }
-
-        loadClass("com.miui.personalassistant.picker.business.detail.utils.PickerDetailDownloadManager\$Companion").methodFinder()
-            .first {
-                name == "isCanDownload"
-            }.createHook {
-                before {
-                    it.result = true
+            loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder().filterByName("isCanDirectAddMaMl").first()
+                .createHook {
+                    returnConstant(true)
                 }
-            }
 
-        loadClass("com.miui.personalassistant.picker.business.detail.utils.PickerDetailUtil").methodFinder().first {
-            name == "isCanAutoDownloadMaMl"
-        }.createHook {
-            before {
-                it.result = true
-            }
-        }
-
-        loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse").methodFinder().first {
-            name == "isPay"
-        }.createHook {
-            before {
-                it.result = false
-            }
-        }
-
-        loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse").methodFinder().first {
-            name == "isBought"
-        }.createHook {
-            before {
-                it.result = true
-            }
-        }
-
-        loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper").methodFinder()
-            .first {
-                name == "isPay"
-            }.createHook {
-                before {
-                    it.result = false
+            loadClass("com.miui.personalassistant.picker.business.detail.utils.PickerDetailDownloadManager\$Companion").methodFinder()
+                .filterByName("isCanDownload").first().createHook {
+                    returnConstant(true)
                 }
-            }
 
-        loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper").methodFinder()
-            .first {
-                name == "isBought"
-            }.createHook {
-                before {
-                    it.result = true
+            loadClass("com.miui.personalassistant.picker.business.detail.utils.PickerDetailUtil").methodFinder().filterByName("isCanAutoDownloadMaMl").first()
+                .createHook {
+                    returnConstant(true)
                 }
+
+            loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse").methodFinder().filterByName("isPay").first().createHook {
+                returnConstant(false)
             }
 
-        loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder().first {
-            name == "shouldCheckMamlBoughtState"
-        }.createHook {
-            after {
-                it.result = false
-            }
-        }
+            loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponse").methodFinder().filterByName("isBought").first()
+                .createHook {
+                    returnConstant(true)
+                }
 
-        loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder().first {
-            name == "isTargetPositionMamlPayAndDownloading"
-        }.createHook {
-            after {
-                it.result = false
-            }
-        }
+            loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper").methodFinder().filterByName("isPay").first()
+                .createHook {
+                    returnConstant(false)
+                }
 
-        loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder().first {
-            name == "checkIsIndependentProcessWidgetForPosition"
-        }.createHook {
-            after {
-                it.result = true
-            }
+            loadClass("com.miui.personalassistant.picker.business.detail.bean.PickerDetailResponseWrapper").methodFinder().filterByName("isBought").first()
+                .createHook {
+                    returnConstant(true)
+                }
+
+            loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder().filterByName("shouldCheckMamlBoughtState")
+                .first().createHook {
+                    returnConstant(false)
+                }
+
+            loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder()
+                .filterByName("isTargetPositionMamlPayAndDownloading").first().createHook {
+                    returnConstant(false)
+                }
+
+            loadClass("com.miui.personalassistant.picker.business.detail.PickerDetailViewModel").methodFinder()
+                .filterByName("checkIsIndependentProcessWidgetForPosition").first().createHook {
+                    returnConstant(true)
+                }
+        } catch (t: Throwable) {
+            logE(t)
         }
     }
 }

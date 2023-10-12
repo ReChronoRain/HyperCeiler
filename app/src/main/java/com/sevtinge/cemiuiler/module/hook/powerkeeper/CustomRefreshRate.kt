@@ -1,6 +1,5 @@
 package com.sevtinge.cemiuiler.module.hook.powerkeeper
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.sevtinge.cemiuiler.module.base.BaseHook
@@ -25,11 +24,9 @@ object CustomRefreshRate : BaseHook() {
             matcher {
                 addUsingStringsEquals("custom_mode_switch", "fucSwitch")
             }
-        }.forEach { methodData ->
-            methodData.getMethodInstance(lpparam.classLoader).createHook {
-                before {
-                    ObjectUtils.setObject(it.thisObject, "mIsCustomFpsSwitch", "true")
-                }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            before {
+                ObjectUtils.setObject(it.thisObject, "mIsCustomFpsSwitch", "true")
             }
         }
     }

@@ -25,10 +25,8 @@ object DisableSafeModelTip : BaseHook() {
             matcher {
                 addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
 
         // 屏蔽每 30 天提示开启安全守护的弹窗（已知问题：完成和打开按钮无反应）
@@ -53,7 +51,7 @@ object DisableSafeModelTip : BaseHook() {
                         after { hookParam ->
                             try {
                                 hookParam.thisObject.setBooleanField("m", false)
-                            } catch (t: Throwable) {
+                            } catch (_: Throwable) {
                                 hookParam.thisObject.setBooleanField("l", false)
                             }
                         }

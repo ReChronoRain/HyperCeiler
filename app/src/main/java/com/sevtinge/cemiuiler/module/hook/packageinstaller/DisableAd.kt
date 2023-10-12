@@ -12,10 +12,8 @@ object DisableAd : BaseHook() {
                 addUsingStringsEquals("ads_enable")
                 returnType = "boolean"
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
 
         dexKitBridge.findMethod {
@@ -23,10 +21,8 @@ object DisableAd : BaseHook() {
                 addUsingStringsEquals("app_store_recommend")
                 returnType = "boolean"
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
 
         dexKitBridge.findMethod {
@@ -34,10 +30,8 @@ object DisableAd : BaseHook() {
                 addUsingStringsEquals("virus_scan_install")
                 returnType = "boolean"
             }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
     }
 }

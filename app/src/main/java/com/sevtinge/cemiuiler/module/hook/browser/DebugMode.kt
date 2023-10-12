@@ -3,7 +3,9 @@ package com.sevtinge.cemiuiler.module.hook.browser
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
+import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
@@ -57,7 +59,7 @@ object DebugMode : BaseHook() {
                  }
              }
          }*/
-
+        initDexKit(lpparam)
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("pref_key_debug_mode_new")
@@ -112,5 +114,6 @@ object DebugMode : BaseHook() {
                 }
             }
         }
+        closeDexKit()
     }
 }

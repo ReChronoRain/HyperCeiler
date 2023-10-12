@@ -13,10 +13,8 @@ object BeautyPc : BaseHook() {
               addUsingStringsEquals("persist.vendor.camera.facetracker.support")
               returnType = "boolean"
           }
-       }.forEach {
-           it.getMethodInstance(lpparam.classLoader).createHook {
-               returnConstant(true)
-           }
+       }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+           returnConstant(true)
        }
 
        /* try {

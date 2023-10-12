@@ -14,6 +14,9 @@ import com.sevtinge.cemiuiler.utils.api.sameAs
 import com.sevtinge.cemiuiler.utils.callStaticMethod
 import com.sevtinge.cemiuiler.utils.getObjectFieldAs
 import com.sevtinge.cemiuiler.utils.getStaticObjectField
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogE
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogI
 import com.sevtinge.cemiuiler.utils.setStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -32,7 +35,7 @@ object UnlockIme : BaseHook() {
         if (PropertyUtils["ro.miui.support_miui_ime_bottom", "0"] != "1") return
         EzXHelper.initHandleLoadPackage(lpparam)
         EzXHelper.setLogTag(TAG)
-        Log.i("MiuiIme is supported")
+        LogI(TAG, "MiuiIme is supported")
         startHook(lpparam)
     }
 
@@ -48,7 +51,7 @@ object UnlockIme : BaseHook() {
                 hookSIsImeSupport(it)
                 hookIsXiaoAiEnable(it)
                 setPhraseBgColor(it)
-            } ?: Log.e("Failed:Class not found: InputMethodServiceInjector")
+            } ?: LogE(TAG, "Failed:Class not found: InputMethodServiceInjector", null)
         }
 
         hookDeleteNotSupportIme(
@@ -85,7 +88,7 @@ object UnlockIme : BaseHook() {
             }
         }
 
-        Log.i("Hook MIUI IME Done!")
+        LogI(TAG, "Hook MIUI IME Done!")
     }
 
     /**
@@ -96,10 +99,9 @@ object UnlockIme : BaseHook() {
     private fun hookSIsImeSupport(clazz: Class<*>) {
         runCatching {
             clazz.setStaticObjectField("sIsImeSupport", 1)
-            Log.i("Success:Hook field sIsImeSupport")
+            LogI(TAG, "Success:Hook field sIsImeSupport")
         }.onFailure {
-            Log.i("Failed:Hook field sIsImeSupport ")
-            Log.i(it)
+            LogD(TAG, "Failed:Hook field sIsImeSupport ", it)
         }
     }
 
@@ -114,8 +116,7 @@ object UnlockIme : BaseHook() {
                 returnConstant(false)
             }
         }.onFailure {
-            Log.i("Failed:Hook method isXiaoAiEnable")
-            Log.i(it)
+            LogD(TAG, "Failed:Hook method isXiaoAiEnable", it)
         }
     }
 
@@ -144,8 +145,7 @@ object UnlockIme : BaseHook() {
                 }
             }
         }.onFailure {
-            Log.i("Failed to set the color of the MiuiBottomView")
-            Log.i(it)
+            LogD(TAG, "Failed to set the color of the MiuiBottomView", it)
         }
     }
 
@@ -174,8 +174,7 @@ object UnlockIme : BaseHook() {
             loadClass(className, classLoader).methodFinder().first { name == "deleteNotSupportIme" }
                 .createHook { returnConstant(null) }
         }.onFailure {
-            Log.i("Failed:Hook method deleteNotSupportIme")
-            Log.i(it)
+            LogD(TAG, "Failed:Hook method deleteNotSupportIme", it)
         }
     }
 }

@@ -12,10 +12,8 @@ object DisableReport : BaseHook() {
                 addUsingStringsEquals("android.intent.action.VIEW", "com.xiaomi.market")
                 returnType = "boolean"
             }
-        }.forEach { methodData ->
-            methodData.getMethodInstance(lpparam.classLoader).createHook {
-                returnConstant(false)
-            }
+        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+            returnConstant(false)
         }
 
         /* val result: List<DexMethodDescriptor> =

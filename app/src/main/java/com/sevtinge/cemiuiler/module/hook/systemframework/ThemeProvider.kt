@@ -13,22 +13,14 @@ class ThemeProvider : BaseHook() {
     override fun init() {
         var hook: List<XC_MethodHook.Unhook>? = null
         try {
-            (ThemeReceiver::class.java).methodFinder().first {
-                name == "validateTheme"
-            }.createHook {
+            ThemeReceiver::class.java.methodFinder().filterByName("validateTheme").first().createHook {
                 before {
-                    hook = (DrmManager::class.java).methodFinder().filter {
-                        name == "isLegal"
-                    }.toList().createHooks {
-                        before {
-                            it.result = DrmManager.DrmResult.DRM_SUCCESS
-                        }
+                    hook = DrmManager::class.java.methodFinder().filterByName("isLegal").toList().createHooks {
+                        returnConstant(DrmManager.DrmResult.DRM_SUCCESS)
                     }
                 }
                 after {
-                    hook?.forEach {
-                        it.unhook()
-                    }
+                    hook?.forEach { it.unhook() }
                 }
             }
         } catch (t: Throwable) {
