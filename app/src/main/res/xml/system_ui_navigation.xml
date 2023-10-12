@@ -139,7 +139,6 @@
             android:defaultValue="-872415232"
             android:dependency="prefs_key_system_ui_navigation_handle_custom"
             android:key="prefs_key_system_ui_navigation_handle_custom_color"
-
             android:title="@string/system_ui_navigation_handle_custom_color"
             app:showAlphaSlider="true" />
 
