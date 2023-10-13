@@ -5,7 +5,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 
-object DisableAd : BaseHook() {
+object DisableAD : BaseHook() {
     override fun init() {
         dexKitBridge.findMethod {
             matcher {

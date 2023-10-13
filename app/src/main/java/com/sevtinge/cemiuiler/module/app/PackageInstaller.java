@@ -6,7 +6,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.base.CloseHostDir;
 import com.sevtinge.cemiuiler.module.base.LoadHostDir;
 import com.sevtinge.cemiuiler.module.hook.packageinstaller.AllAsSystemApp;
-import com.sevtinge.cemiuiler.module.hook.packageinstaller.DisableAd;
+import com.sevtinge.cemiuiler.module.hook.packageinstaller.DisableAD;
 import com.sevtinge.cemiuiler.module.hook.packageinstaller.DisableCountChecking;
 import com.sevtinge.cemiuiler.module.hook.packageinstaller.DisableSafeModelTip;
 import com.sevtinge.cemiuiler.module.hook.packageinstaller.DisplayMoreApkInfoNew;
@@ -28,7 +28,7 @@ public class PackageInstaller extends BaseModule {
         initHook(new SafeMode());
 
         // 禁用广告
-        initHook(DisableAd.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_disable_ad"));
+        initHook(DisableAD.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_disable_ad"));
 
         // 禁用风险检测
         initHook(InstallRiskDisable.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_install_risk"));
