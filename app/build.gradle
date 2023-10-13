@@ -89,7 +89,7 @@ android {
         beta {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.cemiuiler
@@ -98,7 +98,7 @@ android {
         canary {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.cemiuiler
