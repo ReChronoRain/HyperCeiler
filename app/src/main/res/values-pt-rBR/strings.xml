@@ -100,6 +100,13 @@
     <string name="appcompat_search_action_mode_cancel">Cancelar</string>
     <string name="appcompat_search_input_description">Pesquisar</string>
     <string name="appcompat_actionbar_immersion_button_more_description">Mais</string>
+    <string name="appcompat_action_mode_inverse">Desmarcar todos</string>
+    <string name="color_picker_alpha_text_transparent">Opacidade</string>
+    <string name="color_picker_tab_grid">Grade</string>
+    <string name="color_picker_tab_slider">Slider</string>
+    <string name="color_picker_view_page_text_hue">Matiz</string>
+    <string name="color_picker_view_page_text_lightness">Luminosidade</string>
+    <string name="color_picker_view_page_text_saturation">Saturação</string>
     <!--String reuse-->
     <string name="top_margin">Margem superior</string>
     <string name="bottom_margin">Margem inferior</string>
@@ -590,6 +597,8 @@
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entrada de controle do dispositivo</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
     <string name="system_ui_control_center_notification_blur_model">Modelo do blur de notificação</string>
+    <string name="system_ui_control_center_notification_blur_fix">Otimização de notificação</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental, disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
     <string name="system_ui_control_center_blur_radius">Raio do blur</string>
     <string name="system_ui_control_center_blur_radius_desc">Sem notificação suspensa</string>
     <string name="system_ui_control_center_corner_radius">Raio do canto</string>
