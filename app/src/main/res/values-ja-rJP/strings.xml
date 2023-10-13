@@ -9,8 +9,8 @@
     <string name="new_cta_app_all_purpose_title">Cemiuiler へようこそ。このアプリは MIUI の機能強化をするために Xposed フレームワークを利用して対応アプリを改変します。使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。お使いの root/su マネージャーにアクセスして許可してください。</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Japanese (日本語)</string>
-    <string name="translator">Re*Index. (ot_inc)</string>
-    <string name="translator_url">https://github.com/reindex-ot</string>
+    <string name="translator">AndroPlus</string>
+    <string name="translator_url">https://github.com/AndroPlus-org</string>
     <string name="settings">設定</string>
     <string name="about">アプリについて</string>
     <string name="about_use">引用</string>
