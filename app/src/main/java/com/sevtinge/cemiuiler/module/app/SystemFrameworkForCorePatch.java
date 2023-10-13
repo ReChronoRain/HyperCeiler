@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.sevtinge.cemiuiler.module.hook.systemframework.corepatch.CorePatchForR;
 import com.sevtinge.cemiuiler.module.hook.systemframework.corepatch.CorePatchForS;
-import com.sevtinge.cemiuiler.module.hook.systemframework.corepatch.CorePatchForSv2;
 import com.sevtinge.cemiuiler.module.hook.systemframework.corepatch.CorePatchForT;
 import com.sevtinge.cemiuiler.module.hook.systemframework.corepatch.CorePatchForU;
 
@@ -27,7 +26,7 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
                 case Build.VERSION_CODES.TIRAMISU -> // 33
                     new CorePatchForT().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.S_V2 -> // 32
-                    new CorePatchForSv2().handleLoadPackage(lpparam);
+                    new CorePatchForS().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.S -> // 31
                     new CorePatchForS().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.R -> // 30
@@ -47,7 +46,7 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
                 case Build.VERSION_CODES.TIRAMISU -> // 33
                     new CorePatchForT().initZygote(startupParam);
                 case Build.VERSION_CODES.S_V2 -> // 32
-                    new CorePatchForSv2().initZygote(startupParam);
+                    new CorePatchForS().initZygote(startupParam);
                 case Build.VERSION_CODES.S -> // 31
                     new CorePatchForS().initZygote(startupParam);
                 case Build.VERSION_CODES.R -> // 30
