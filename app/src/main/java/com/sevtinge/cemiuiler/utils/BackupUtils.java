@@ -1,25 +1,37 @@
 package com.sevtinge.cemiuiler.utils;
 
+import static com.sevtinge.cemiuiler.utils.KS2Utils.decrypted;
+import static com.sevtinge.cemiuiler.utils.KS2Utils.encrypted;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 public class BackupUtils {
@@ -52,7 +64,7 @@ public class BackupUtils {
         for (Map.Entry<String, ?> entry : PrefsUtils.mSharedPreferences.getAll().entrySet()) {
             jsonObject.put(entry.getKey(), entry.getValue());
         }
-        bufferedWriter.write(jsonObject.toString());
+        bufferedWriter.write(encrypted(jsonObject.toString(), "111111"));
         bufferedWriter.close();
     }
 
@@ -60,15 +72,9 @@ public class BackupUtils {
         if (data == null) return;
         SharedPreferences.Editor edit = PrefsUtils.mSharedPreferences.edit();
         InputStream inputStream = activity.getContentResolver().openInputStream(data);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line = bufferedReader.readLine();
-        while (line != null) {
-            stringBuilder.append(line);
-            line = bufferedReader.readLine();
-        }
-        String read = stringBuilder.toString();
-        JSONObject jsonObject = new JSONObject(read);
+        String documentContent = inputStream2String(inputStream);
+        String decryptedContent = decrypted(documentContent, "111111");
+        JSONObject jsonObject = new JSONObject(decryptedContent);
         Iterator<String> keys = jsonObject.keys();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -81,7 +87,17 @@ public class BackupUtils {
                 edit.putInt(key, (Integer) value);
             }
         }
-        bufferedReader.close();
         edit.apply();
+    }
+
+    private static String inputStream2String(InputStream inputStream) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        while ((line = bufferedReader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        bufferedReader.close();
+        return stringBuilder.toString();
     }
 }
