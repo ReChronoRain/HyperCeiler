@@ -100,6 +100,13 @@
     <string name="appcompat_search_action_mode_cancel">キャンセル</string>
     <string name="appcompat_search_input_description">検索</string>
     <string name="appcompat_actionbar_immersion_button_more_description">詳細</string>
+    <string name="appcompat_action_mode_inverse">反転</string>
+    <string name="color_picker_alpha_text_transparent">不透明度</string>
+    <string name="color_picker_tab_grid">グリッド</string>
+    <string name="color_picker_tab_slider">スライダー</string>
+    <string name="color_picker_view_page_text_hue">色相</string>
+    <string name="color_picker_view_page_text_lightness">明度</string>
+    <string name="color_picker_view_page_text_saturation">彩度</string>
     <!--String reuse-->
     <string name="top_margin">上の余白</string>
     <string name="bottom_margin">下の余白</string>
@@ -590,6 +597,8 @@
     <string name="system_ui_control_center_hide_device_ctrl_entry">デバイス制御項目</string>
     <string name="system_ui_control_center_control_detail_background_alpha">コントロールセンター詳細の背景ぼかしの値</string>
     <string name="system_ui_control_center_notification_blur_model">通知のぼかしモデル</string>
+    <string name="system_ui_control_center_notification_blur_fix">通知の最適化</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">実験的な機能で、Android 13以上のモデルでのみ利用可能です。有効にすると、一部の領域での通知のぼかしが最適化されます。\n一部のモデルではシステム UI がクラッシュする場合があります。</string>
     <string name="system_ui_control_center_blur_radius">ぼかしの半径</string>
     <string name="system_ui_control_center_blur_radius_desc">ドロップダウン通知がない場合</string>
     <string name="system_ui_control_center_corner_radius">角の丸み</string>
