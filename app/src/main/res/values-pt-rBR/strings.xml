@@ -189,7 +189,7 @@
     <string name="various_install_app_info_version_code">Código da versão</string>
     <string name="various_install_app_info_sdk">Suporte SDK</string>
     <string name="various_install_app_size">Tamanho</string>
-    <string name="charge_animation_entries_disable">Desativar</string>
+    <string name="charge_animation_entries_disable">Desativado</string>
     <string name="charge_animation_entries_aura">Aura</string>
     <string name="charge_animation_entries_stream">Streamer</string>
     <string name="charge_animation_entries_alpha">Ritmo</string>
@@ -362,7 +362,7 @@
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
     <!--Clock-->
     <string name="clock">Relógio</string>
-    <string name="clock_enable_hour_glass">Desbloquear a animação da ampulheta do relógio</string>
+    <string name="clock_enable_hour_glass">Desbloquear animação da ampulheta do relógio</string>
     <string name="clock_enable_hour_glass_desc">Versão 13.65.0 e superior não são suportadas</string>
     <!--File Manager-->
     <string name="fileexplorer">Arquivos</string>
@@ -409,7 +409,7 @@
     <string name="system_ui_lock_screen_force_system_fonts">Forçar o relógio a usar fontes do sistema</string>
     <string name="system_ui_lock_screen_double_lock">Toque duas vezes na tela de bloqueio</string>
     <string name="system_ui_lock_screen_double_lock_desc">Toque duas vezes em um local vazio para bloquear a tela</string>
-    <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do modo foco</string>
+    <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do Modo foco</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar a solicitação de desbloqueio na parte inferior da tela</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
     <string name="system_ui_navigation_title">Navegação</string>
@@ -500,7 +500,7 @@
     <string name="system_ui_status_bar_battery_indicator_title">Indicador de bateria</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Rede móvel</string>
-    <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Trocar Wi-Fi e Redes Móveis</string>
+    <string name="system_ui_status_bar_swap_wifi_and_mobile_network">Trocar Wi-Fi e Rede móvel</string>
     <string name="system_ui_status_bar_network_speed_at_right">Velocidade da internet</string>
     <string name="system_ui_status_bar_volume_at_right">Cena sonora</string>
     <string name="system_ui_status_bar_use_new_hd">Forçar o uso do novo ícone HD</string>
@@ -590,7 +590,7 @@
     <string name="system_control_center_qs_rows_format">%d linhas</string>
     <string name="system_control_center_qs_rows_horizontal">Linhas (Paisagem)</string>
     <string name="system_control_center_qs_columns">Colunas</string>
-    <string name="system_control_center_qs_columns_format">%d Lista</string>
+    <string name="system_control_center_qs_columns_format">%d colunas</string>
     <string name="system_control_center_qs_columns_horizontal">Colunas (Paisagem)</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Entrada do MiPlay</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Mi Smart Hub</string>
@@ -709,7 +709,7 @@
     <string name="milink_unlock_mishare">Desbloquear Interconexão do dispositivo</string>
     <!--Always-on display-->
     <string name="aod">Tela sempre ativa</string>
-    <string name="aod_unlock_always_on_display">Desbloquear o limite de tempo de exibição da tela sempre ativa</string>
+    <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da tela sempre ativa</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador de terceiros</string>
@@ -727,10 +727,10 @@
     <!--Gallery-->
     <string name="gallery">Galeria</string>
     <string name="gallery_enable_hdr_enhanced">Desbloquear alta faixa dinâmica da tela</string>
-    <string name="gallery_enable_pdf">Desbloquear Gerar PDF</string>
-    <string name="gallery_enable_ocr">Desbloquear OCR</string>
+    <string name="gallery_enable_pdf">Desbloquear Criar PDF</string>
+    <string name="gallery_enable_ocr">Desbloquear Reconhecer texto</string>
     <string name="gallery_enable_ocr_form">Desbloquear tabela de digitalização</string>
-    <string name="gallery_enable_id_photo">Desbloquear ID</string>
+    <string name="gallery_enable_id_photo">Desbloquear Identificação</string>
     <string name="gallery_enable_photo_movie">Desbloquear Clipe</string>
     <string name="gallery_enable_video_post">Desbloquear Efeitos de vídeo</string>
     <string name="gallery_enable_video_editor">Desbloquear Editor de vídeo</string>
@@ -873,7 +873,7 @@
     <string name="home_recent_vertical_task_view_card_size">Tamanho da miniatura para Verticalmente</string>
     <string name="home_recent_text_size">Tamanho do texto das miniaturas</string>
     <string name="home_recent_text_color">Cor do texto das miniaturas</string>
-    <string name="home_recent_freeform_background_color">Cor de fundo do cartão do app janelas flutuantes</string>
+    <string name="home_recent_freeform_background_color">Cor de fundo do cartão do app Janelas flutuantes</string>
     <string name="home_recent_show_real_memory">Exibir memória real</string>
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
@@ -1038,7 +1038,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Margem vertical</string>
     <string name="security">Segurança</string>
     <string name="security_app_title">Exibir detalhes adicionais do app</string>
-    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- Diretório APK\n- Diretório de dados\n- ID do usuário\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar um app</string>
+    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- ID do usuário\n- Diretório de dados\n- Diretório APK\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar um app</string>
     <string name="security_app_sort_title">Classificação da lista de gerenciamento de apps</string>
     <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciamento de apps</string>
     <string name="security_restrict_app_title">Limite total</string>
