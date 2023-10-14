@@ -157,4 +157,6 @@ dependencies {
     implementation files(roots.preference)
     implementation files(roots.smooth)
     implementation files(roots.springback)
+
+    implementation files("libs/cemiuiler_expansion_packs-debug.aar")
 }

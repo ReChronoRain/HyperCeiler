@@ -5,7 +5,7 @@ import android.net.Uri
 import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment
-import de.robv.android.xposed.XposedBridge
+import com.sevtinge.cemiuiler.expansionpacks.utils.ClickCountsUtils;
 import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
 import java.util.Calendar
@@ -20,20 +20,8 @@ class AboutFragment : SettingsPreferenceFragment() {
         return R.xml.prefs_about
     }
 
-    private fun lIIllll(lIIIIII: Int): Int {
-        return lIIIIII + (lIIlIlI shl (lIIlIll xor lIIlIlI))
-    }
-
-    private fun lIIlllI(lIIllll: Int, lIIIIII: Int): Int {
-        val lIIlllI = (lIIllll shl ((lIIlIll xor lIIlIlI) shl lIIlIlI)) xor (lIIIIII * (((lIIlIll xor lIIlIlI) shl (lIIlIlI shl lIIlIlI)) + lIIlIlI)) + (lIIIIII % ((lIIlIlI shl lIIlIlI) + (lIIlIll xor lIIlIlI)))
-        return abs(lIIlllI) % (((lIIlIlI shl (lIIlIlI shl lIIlIlI)) xor (lIIlIll xor lIIlIlI)) xor ((lIIlIlI shl lIIlIlI) + (lIIlIll xor lIIlIlI)) + ((lIIlIll xor lIIlIlI) shl (lIIlIlI shl (lIIlIlI shl lIIlIlI)))) + ((lIIlIlI shl lIIlIlI) + (lIIlIll xor lIIlIlI))
-    }
-
     override fun initPrefs() {
-        val lIIllll = Calendar.getInstance()
-        val lIIIIII = lIIllll.get(Calendar.HOUR_OF_DAY)
-        val lIIIIll = lIIllll(lIIIIII)
-        val lIIlllI = lIIlllI(lIIIIll, lIIIIII)
+        val lIIlllI = ClickCountsUtils.getClickCounts()
         val lIIllII = findPreference<Preference>("prefs_key_enable_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
