@@ -330,7 +330,7 @@
     <string name="system_framework_core_patch_auth_creak">禁用软件包管理器签名验证</string>
     <string name="system_framework_core_patch_auth_creak_desc">关闭安装应用时的签名验证，可以安装被篡改的应用</string>
     <string name="system_framework_disable_integrity">禁用系统完整性校验</string>
-    <string name="system_framework_disable_integrity_desc">禁止自动恢复被篡改的内容，开启 \"禁用软件包管理器签名验证\" 功能时将默认启用\n仅支持 Android 13 及以上版本</string>
+    <string name="system_framework_disable_integrity_desc">禁止自动恢复被篡改的内容，开启 \"禁用软件包管理器签名验证\" 功能时将默认启用。</string>
     <string name="system_framework_core_patch_digest_creak">禁用 APK 签名验证</string>
     <string name="system_framework_core_patch_digest_creak_desc">允许直接覆盖安装同包名不同签名的应用</string>
     <string name="system_framework_core_patch_use_pre_signature">安装时始终使用已安装应用的签名</string>
