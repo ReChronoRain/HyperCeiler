@@ -2,6 +2,11 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Làm cho MIUI tuyệt vời trở lại!</string>
+    <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
+    <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
+    <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào Quản lý quyền bất cứ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để có quyền Root/Su.</string>
+    <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
+    <string name="new_cta_app_all_purpose_title">Chào mừng đến với Cemiuiler, ứng dụng này chạy trên khung Xposed, bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác để đạt được các cải tiến MIUI. Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào trình quản lý Root/Su của mình để có quyền Root/Su.</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">Tiếng Kinh</string>
     <string name="translator">Kimle69</string>
@@ -14,6 +19,8 @@
     <string name="about_contributer_desc">Cảm ơn những người đóng góp sau đây vì sự giúp đỡ của họ trong quá trình phát triển Cemiuiler (Thứ tự ngẫu nhiên)</string>
     <string name="about_donation">Tài trợ</string>
     <string name="about_donation_desc">Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp tại đây</string>
+    <string name="about_privacy">Chính Sách Quyền Riêng Tư</string>
+    <string name="about_protocol">Thoả thuận người dùng</string>
     <string name="settings_data_title">Sao lưu và khôi phục</string>
     <string name="settings_bug_title">Khắc phục sự cố</string>
     <string name="settings_debug_title">Gỡ lỗi</string>
@@ -62,8 +69,9 @@
     <string name="about_crwd_desc">Giúp chúng tôi dịch Cemiuiler sang ngôn ngữ của bạn</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Khởi động lại nhanh</string>
+    <string name="restart_app_desc">Bạn có muốn khởi động lại máy bây giờ %1$s?</string>
     <string name="tip">Mẹo</string>
-    <string name="hook_failed">Mô-đun chưa được kích hoạt</string>
+    <string name="hook_failed">Mô-đun này chưa được kích hoạt.\nVui lòng kiểm tra xem trình quản lý Xpose có được bật hay không. Nếu vậy, vui lòng khởi động lại hoặc tối ưu hóa lại mô-đun.</string>
     <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra Cemiuiler đã được cấp quyền Root?</string>
     <string name="reboot_failed">Reboot không thành công, kiểm tra Cemiuiler đã được cấp quyền Root?</string>
     <string name="expand_button_title">Cấp độ cao</string>
@@ -92,6 +100,13 @@
     <string name="appcompat_search_action_mode_cancel">Hủy</string>
     <string name="appcompat_search_input_description">Tìm kiếm</string>
     <string name="appcompat_actionbar_immersion_button_more_description">Thêm</string>
+    <string name="appcompat_action_mode_inverse">Đảo ngược</string>
+    <string name="color_picker_alpha_text_transparent">Độ mờ</string>
+    <string name="color_picker_tab_grid">Lưới</string>
+    <string name="color_picker_tab_slider">Thanh trượt</string>
+    <string name="color_picker_view_page_text_hue">Tông màu</string>
+    <string name="color_picker_view_page_text_lightness">Nhẹ nhàng</string>
+    <string name="color_picker_view_page_text_saturation">Bão hòa</string>
     <!--String reuse-->
     <string name="top_margin">Lề trên cùng</string>
     <string name="bottom_margin">Lề dưới cùng</string>
@@ -202,6 +217,11 @@
     <string name="app_sort_install">Thời gian cài đặt</string>
     <string name="array_bluetooth_tile_style_3rows">Ba hàng ô lớn</string>
     <string name="array_bluetooth_tile_style_2rows2cols">Một ô lớn và hai ô nhỏ</string>
+    <string name="array_pa_blur_official">Hiệu ứng làm mờ cài sẵn chính thức</string>
+    <string name="array_bpa_blur_customize">Tùy chỉnh làm mờ nền</string>
+    <string name="control_center_sunshine_mode_default">Đóng</string>
+    <string name="control_center_sunshine_mode_one">Mặc định của hệ thống</string>
+    <string name="control_center_sunshine_mode_two">Buộc độ sáng tối đa</string>
     <!--System Framework-->
     <string name="system_framework">Framework hệ thống</string>
     <string name="system_framework_volume_title">Âm lượng</string>
@@ -397,6 +417,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
+    <string name="system_ui_hide_navigation_bar_more">Vui lòng khởi động lại Miui Home và SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Tùy chỉnh thanh ngang</string>
     <string name="system_ui_navigation_handle_custom_height">Chiều cao</string>
     <string name="system_ui_navigation_handle_custom_width">Độ rộng chiều dọc</string>
@@ -424,6 +445,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Tỉ lệ biểu tượng</string>
     <string name="system_ui_status_bar_mobile_type_single">Biểu tượng loại mạng di động tùy chỉnh</string>
     <string name="system_ui_status_bar_mobile_type_left">Hiển thị bên trái tín hiệu</string>
+    <string name="system_ui_status_bar_mobile_type_only_show_network">Chỉ hiển thị thẻ mạng</string>
     <string name="system_ui_status_bar_mobile_indicator">Ẩn chỉ báo hoạt động mạng di động</string>
     <string name="system_ui_status_bar_mobile_type_custom">Tuỳ chỉnh văn bản</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Cỡ chữ</string>
@@ -568,13 +590,17 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_control_center_qs_tile_label">Loại bỏ tiêu đề</string>
     <string name="system_control_center_qs_rows">Hàng</string>
     <string name="system_control_center_qs_rows_format">%d dòng</string>
+    <string name="system_control_center_qs_rows_horizontal">Hàng (màn hình ngang)</string>
     <string name="system_control_center_qs_columns">Cột</string>
     <string name="system_control_center_qs_columns_format">%d Danh sách</string>
+    <string name="system_control_center_qs_columns_horizontal">Cột (màn hình ngang)</string>
     <string name="system_ui_control_center_hide_mi_play_entry">Thẻ Mi Smart Play</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Thẻ Mi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Thẻ Nhà thông minh</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Giá trị mờ của nền</string>
     <string name="system_ui_control_center_notification_blur_model">Thiết lập thông báo</string>
+    <string name="system_ui_control_center_notification_blur_fix">Tối ưu hóa thông báo</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Chức năng thử nghiệm, chỉ khả dụng cho Android 13 trở lên. Sau khi bật, thông báo mờ ở một số khu vực sẽ được tối ưu hóa\nCó thể gặp sự cố giao diện hệ thống trên một số thiết bị.</string>
     <string name="system_ui_control_center_blur_radius">Làm mờ nền thông báo nổi</string>
     <string name="system_ui_control_center_blur_radius_desc">Không có thông báo thả xuống</string>
     <string name="system_ui_control_center_corner_radius">Làm làm mờ các góc thông báo</string>
@@ -584,6 +610,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_fix_media_control_panel">Sửa nút điều chỉnh phương tiện</string>
     <string name="system_ui_control_center_compact_notice">Thu gọn thông báo</string>
     <string name="system_ui_control_center_compact_notice_desc">Giảm khoảng cách thông báo dọc</string>
+    <string name="system_ui_control_center_redirect_notice">Chuyển hướng cài đặt thông báo</string>
+    <string name="system_ui_control_center_redirect_notice_desc">Mở chuyển hướng cài đặt thông báo đích thay vì áp dụng cài đặt thông báo</string>
     <string name="system_ui_control_center_show_weather">Hiển thị thời tiết</string>
     <string name="system_ui_control_center_show_weather_city">Hiện thị thành phố</string>
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình bật</string>
@@ -592,8 +620,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển kiểu mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
+    <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
     <string name="system_ui_controlcenter_enable_title">Tùy chỉnh số lượng hàng và cột</string>
     <string name="system_control_center_old_qs_grid_columns">Hàng trong bảng thu gọn</string>
+    <string name="system_control_center_old_qs_grid_columns_horizontal">Số hàng trong bảng thu gọn (màn hình ngang)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Kiểu ô Bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Ô Bluetooth được di chuyển đến khu vực ô mạng</string>
     <string name="system_ui_other_title">Khác</string>
@@ -624,6 +654,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_wifi_password_dlgtitle">Chi tiết Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Mở khóa phiên bản mới của Tab Chạm</string>
     <string name="system_settings_novelty_haptic_desc">Chỉ dành cho các thiết bị có Âm thanh &amp; Chạm - Tab Chạm</string>
+    <string name="system_settings_enable_pad_area">Mở khóa khu vực máy tính bảng</string>
+    <string name="system_settings_enable_fold_area">Mở khoá khu vực điện thoại gập</string>
+    <string name="system_settings_enable_area_desc">Các thiết bị không được hỗ trợ sẽ khiến cài đặt bị lỗi sau khi được mở khóa</string>
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
@@ -781,6 +814,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_big_folder_icon_bg_width">Chiều rộng nền</string>
     <string name="home_big_folder_icon_bg_height">Chiều cao nền</string>
     <string name="home_big_folder_item_max_count">Thư mục mở rộng</string>
+    <string name="home_big_folder_icon_bg_2x1_n">Tùy chỉnh nền 4*2</string>
+    <string name="home_big_folder_icon_bg_1x2_n">Tùy chỉnh nền 2*2</string>
+    <string name="home_big_folder_icon_bg_n">Tùy chỉnh nền 3*3 &amp; 4*4</string>
     <string name="home_auto_close_folder_title">Tự động đóng thư mục</string>
     <string name="home_auto_close_folder_summary">Đóng thư mục của ứng dụng sau khi mở app bất kì</string>
     <string name="home_wallpaper">Nền</string>
@@ -816,6 +852,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_title_title">Tiêu đề</string>
     <string name="home_title_title_marquee">Cuộn văn bản</string>
     <string name="home_title_title_marquee_desc">Tên ứng dụng quá dài sẽ được cuộn một dòng</string>
+    <string name="home_title_title_new_install">Ứng dụng mới cài đặt Không hiển thị chấm thông báo</string>
+    <string name="home_title_title_new_install_more">Không hiển thị chấm thông báo trên biểu tượng ứng dụng khi cài đặt ứng dụng mới</string>
     <string name="home_title_font_size">Cỡ chữ</string>
     <string name="home_title_title_color">Màu sắc của tiêu đề</string>
     <string name="home_title_animation_speed">Tốc độ của hoạt ảnh</string>
@@ -893,6 +931,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_blur_radius">Bán kính làm mờ</string>
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
+    <string name="home_other_toast_slide_again">Không nhắc \"Vui lòng kéo lần nữa\"</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_disable_hide_google">Không ẩn biểu tượng Google</string>
     <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
@@ -905,6 +944,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent_simple_blur">Làm mờ đơn giản</string>
     <string name="home_recent_none_blur">Không làm mờ</string>
     <string name="home_recent_none_blur_simple_anim">Không làm mờ ( Hoạt ảnh đơn giản )</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">Mở khóa thêm tùy chọn cho cài đặt desktop</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">Các chức năng mở khóa có thể không hoạt động và một số chức năng yêu cầu hỗ trợ hệ thống cơ bản</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Chỉnh sửa thư viện</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
@@ -929,6 +970,13 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="miui_package_installer_install_source">Tùy chỉnh nguồn cài đặt</string>
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
     <string name="miui_package_installer_apk_info_desc">Hiện thông tin về ứng dụng được cài đặt</string>
+    <!--networkboost-->
+    <string name="various_disable_link_turbo_toast">Ẩn LinkTurbo</string>
+    <string name="various_disable_link_turbo_toast_more">Vui lòng khởi động lại NetworkBoost trong khởi động lại nhanh</string>
+    <!--nfc-->
+    <string name="nfc">Dịch vụ NFC</string>
+    <string name="nfc_disable_sound">Tắt tiếng</string>
+    <string name="nfc_allow_information_screen">Cho phép phát hiện khi gần màn hình</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
     <string name="personal_assistant_widget_crack">Vá widget</string>
@@ -936,6 +984,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="personal_assistant_fold_widget_enable_desc">Bật tiện ích kiểu Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Màn hình trợ lý thông minh kiểu Fold</string>
     <string name="personal_assistant_blur_model">Làm mờ nền trợ lý cá nhân</string>
+    <string name="personal_assistant_blur_value">Kiểu nền</string>
     <string name="personal_assistant_blurradius">Giá trị làm mờ nền trợ lý cá nhân</string>
     <string name="personal_assistant_color">Màu trợ lý cá nhân</string>
     <!--Music-->
@@ -947,6 +996,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="powerkeeper_lock_max_fps">Khoá FPS tối đa</string>
     <string name="powerkeeper_do_not_kill_apps">Ngăn chặn tắt ứng dụng nền</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Có thể tăng mức tiêu thụ điện năng</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Trình quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
@@ -959,6 +1009,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Screenshot-->
     <string name="screenshot">Ảnh chụp màn hình</string>
     <string name="screenshot_unlock_minimum_crop_limit">Mở khóa Giới hạn cắt hình</string>
+    <string name="screenshot_unlock_privacy_marking_title">Mở khóa Đánh dấu quyền riêng tư</string>
+    <string name="screenshot_unlock_privacy_marking_desc">Cần cài đặt bản cao hơn của ứng dụng \"Mi AI Engine\"  để sử dụng</string>
     <string name="screenshot_save_to_pictures_desc">Vị trí lưu ảnh chụp màn hình /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Tuỳ chỉnh khung thiết bị</string>
     <string name="screenshot_device_customize_desc">Vui lòng nhập mã</string>
