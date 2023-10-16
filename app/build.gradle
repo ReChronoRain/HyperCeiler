@@ -137,7 +137,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
     implementation "com.google.code.gson:gson:2.10.1"
-    implementation 'commons-codec:commons-codec:1.11'
+    implementation 'commons-codec:commons-codec:1.16.0'
 
     implementation roots.AndroidXCore
     implementation roots.AndroidXCollection
