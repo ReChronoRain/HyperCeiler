@@ -925,7 +925,7 @@
     <string name="home_other_blur_radius">Raio do blur</string>
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
-    <string name="home_other_toast_slide_again">Proibir avisos \"por favor, passe novamente\" brinde</string>
+    <string name="home_other_toast_slide_again">Proibir avisos \"por favor, passe novamente\"</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_disable_hide_google">Desativar ocultar o Google</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
