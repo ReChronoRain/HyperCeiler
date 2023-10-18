@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.weather;
 
+import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -14,7 +16,7 @@ public class SetDeviceLevel extends BaseHook {
 
     @Override
     public void init() {
-        mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils");
+        if (getPackageVersionCode(lpparam) < 15000000) mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils") ; else mUtil = findClassIfExists("d7.a");
         returnIntConstant(mUtil);
     }
 
@@ -32,7 +34,7 @@ public class SetDeviceLevel extends BaseHook {
 
     private void returnIntConstant(Class<?> cls) {
         int order = mPrefsMap.getStringAsInt("weather_device_level", 0);
-        hookAllMethods(cls, "transDeviceLevel", XC_MethodReplacement.returnConstant(order));
+        if (getPackageVersionCode(lpparam) < 15000000) hookAllMethods(cls, "transDeviceLevel", XC_MethodReplacement.returnConstant(order)); else findAndHookMethod(cls, "j", XC_MethodReplacement.returnConstant(order));
     }
 }
 
