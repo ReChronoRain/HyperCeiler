@@ -1,0 +1,86 @@
+name: Android U Action
+
+on:
+  push:
+    branches: [ "Android-U" ]
+  pull_request:
+    branches: [ "Android-U" ]
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/**"
+      - ".idea/"
+      - "doc/*"
+      - "*.md"
+      - ".github/workflows/crowdin.yml"
+      - "crowdin.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build App
+    steps:
+      - name: Checkout Git Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Set up JDK 20
+        uses: actions/setup-java@v3
+        with:
+          java-version: '20'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Create Sign File
+        run: |
+          touch signing.properties
+          echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
+          echo keyAlias=${{ secrets.ALIAS }} >> signing.properties
+          echo keyPassword='${{ secrets.KEY_STORE_PASSWORD }}' >> signing.properties
+          echo storeFile=key.jks >> signing.properties
+          echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
+
+      - name: Build with Gradle
+        if: contains(github.event.head_commit.message, '[skip]') == false
+        shell: bash
+        run: ./gradlew assembleCanary
+
+      - name: Find APKs
+        if: contains(github.event.head_commit.message, '[skip]') == false
+        run: |
+          echo "APK_FILE_CANARY=$(find app/build/outputs/apk/canary -name '*.apk')" >> $GITHUB_ENV
+
+      - name: Show APKs SHA256
+        if: success() && contains(github.event.head_commit.message, '[skip]') == false
+        run: |
+          echo "### Build Success" >> $GITHUB_STEP_SUMMARY
+          echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
+          echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
+          canary=($(sha256sum '${{ env.APK_FILE_CANARY }}'))
+          echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Canary APK
+        if: contains(github.event.head_commit.message, '[upload]') == true
+        uses: actions/upload-artifact@v3
+        with:
+          name: Cemiuiler Canary
+          path: ${{ env.APK_FILE_CANARY }}
+
+      - name: Post to Android 14 Debug Group
+        if: contains(github.event.head_commit.message, '[skip]') == false
+        shell: bash
+        env:
+          GROUP_ID: ${{ secrets.DEBUG_GROUP_ID }}
+          GROUP_ID_TEMPORARY: ${{ secrets.GROUP_TEMPORARY_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CANARY: ${{ env.APK_FILE_CANARY }}
+        run: |
+          mkdir -p ${{ github.workspace }}/git_clone
+          git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
+          cd ${{ github.workspace }}/git_clone
+          { echo -e 'Github CI\n'; git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s"; } > ${{ github.workspace }}/git_log
+          ESCAPED="$(cat ${{ github.workspace }}/git_log | gawk '{gsub(/[_*[\]()~`>#+=\|{}.!-]/,"\\\\\\\\&")}1' | sed -e 's|"|\\"|g' -e 's|^[0-9a-z]\+|__&__|' | hexdump -v -e '/1 "%02X"' | sed 's/\(..\)/%\1/g')"
+          cd ${{ github.workspace }}
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"

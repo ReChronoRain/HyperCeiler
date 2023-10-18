@@ -1041,6 +1041,8 @@
     <string name="security_center_ai_clipboard">Protect clipboard</string>
     <string name="security_center_blur_location">Lower positioning accuracy</string>
     <string name="security_center_gms_open">GMS Service</string>
+    <string name="security_center_flash_light">Flashlight brightness control</string>
+    <string name="security_center_flash_light_more">Allowing you to control the flashlight\'s brightness by dragging the brightness slider</string>
     <string name="security_center_get_number">Manage the application to obtain the mobile phone number and log in with one click</string>
     <string name="security_center_applock_pin_scramble">Applock out of order PIN</string>
     <string name="security_center_applock_pin_scramble_desc">Randomly change app lock PIN keypad sequence</string>

@@ -167,6 +167,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_flash_light"
+            android:summary="@string/security_center_flash_light_more"
+            android:title="@string/security_center_flash_light" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_control_auto_close"
             android:summary="@string/system_ui_control_auto_close_more"
             android:title="@string/system_ui_control_auto_close" />
@@ -191,8 +197,8 @@
         <DropDownPreference
             android:defaultValue="1"
             android:key="prefs_key_system_ui_control_center_cc_bluetooth_tile_style"
-            android:title="@string/system_ui_control_center_cc_bluetooth_tile_style_title"
             android:summary="@string/system_ui_control_center_cc_bluetooth_tile_style_sum"
+            android:title="@string/system_ui_control_center_cc_bluetooth_tile_style_title"
             app:entries="@array/control_center_cc_bluetooth_tile_style"
             app:entryValues="@array/control_center_cc_bluetooth_tile_style_value" />
 

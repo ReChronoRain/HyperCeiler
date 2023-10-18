@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.app;
 
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
-import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.cemiuiler.module.base.BaseModule;
@@ -22,6 +21,7 @@ import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.CompactNotifica
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.FixMediaControlPanel;
+import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.NotificationWeather;
@@ -183,6 +183,7 @@ public class SystemUI extends BaseModule {
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new FiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
+        initHook(new FlashLight(), mPrefsMap.getBoolean("security_flash_light"));
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
@@ -194,7 +195,7 @@ public class SystemUI extends BaseModule {
         initHook(NotificationWeatherOld.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherNew.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
-        initHook(new CCGrid(), mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
+        initHook(CCGrid.INSTANCE, mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
             mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
             mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
@@ -233,6 +234,6 @@ public class SystemUI extends BaseModule {
 
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
 
-        initHook(new PluginHelper(), !isAndroidU());
+        initHook(new PluginHelper());
     }
 }

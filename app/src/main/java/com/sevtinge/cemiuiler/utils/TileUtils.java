@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Switch;
@@ -32,6 +33,9 @@ public abstract class TileUtils extends BaseHook {
         mResourceIcon = findClass("com.android.systemui.qs.tileimpl.QSTileImpl$ResourceIcon");
         SystemUiHook(); // 不需要覆写
         tileAllName(mQSFactory); // 不需要覆写
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            tileAllName14(mQSFactory);
+        }
         try {
             myTile.getDeclaredMethod("isAvailable");
             findAndHookMethod(myTile, "isAvailable", new MethodHook() {
@@ -42,6 +46,9 @@ public abstract class TileUtils extends BaseHook {
                         if (tileName.equals(customName())) {
                             tileCheck(param, tileName);
                         }
+                    } else {
+                        if (!needCustom())
+                            tileCheck(param, tileName);
                     }
                 }
             });
@@ -57,9 +64,17 @@ public abstract class TileUtils extends BaseHook {
                     String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
                     if (tileName != null) {
                         if (tileName.equals(customName())) {
-                            tileListening(param, tileName);
-                            param.setResult(null);
+                            try {
+                                tileListening(param, tileName);
+                                param.setResult(null);
+                            } catch (Throwable e) {
+                                logE("handleSetListening have Throwable: " + e);
+                                param.setResult(null);
+                            }
                         }
+                    } else {
+                        if (!needCustom())
+                            tileListening(param, tileName);
                     }
                 }
             });
@@ -76,6 +91,9 @@ public abstract class TileUtils extends BaseHook {
                         if (tileName.equals(customName())) {
                             tileLongClickIntent(param, tileName);
                         }
+                    } else {
+                        if (!needCustom())
+                            tileLongClickIntent(param, tileName);
                     }
                 }
             });
@@ -88,7 +106,7 @@ public abstract class TileUtils extends BaseHook {
                 @Override
                 protected void before(MethodHookParam param) {
                     String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                    if (tileName != null) {
+                    if (tileName != null && needCustom()) {
                         if (tileName.equals(customName())) {
                             Intent intent = tileHandleLongClick(param, tileName);
                             if (intent != null) {
@@ -112,9 +130,25 @@ public abstract class TileUtils extends BaseHook {
                     String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
                     if (tileName != null) {
                         if (tileName.equals(customName())) {
-                            tileClick(param, tileName);
-                            param.setResult(null);
+                            try {
+                                tileClick(param, tileName);
+                                param.setResult(null);
+                            } catch (Throwable e) {
+                                logE("handleClick have Throwable: " + e);
+                                param.setResult(null);
+                            }
                         }
+                    } else {
+                        if (!needCustom())
+                            tileClick(param, tileName);
+                    }
+                }
+
+                @Override
+                protected void after(MethodHookParam param) {
+                    if (needAfter()) {
+                        String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                        tileClickAfter(param, tileName);
                     }
                 }
             });
@@ -146,6 +180,9 @@ public abstract class TileUtils extends BaseHook {
                         }
                         param.setResult(null);
                     }
+                } else {
+                    if (!needCustom())
+                        tileUpdateState(param, mResourceIcon, tileName);
                 }
             }
         });
@@ -178,36 +215,46 @@ public abstract class TileUtils extends BaseHook {
         return -1;
     }
 
+    public boolean needCustom() {
+        return false;
+    }
+
+    public boolean needAfter() {
+        return false;
+    }
+
     /*
      * 在第一次Hook时把新的快捷方式加载进快捷方式列表中。
      * */
     private void SystemUiHook() {
         String custom = customName();
-        if (custom.equals("")) {
-            logE("Error custom:" + custom);
-            return;
-        }
-        try {
-            findClassIfExists("com.android.systemui.SystemUIApplication").getDeclaredMethod("onCreate");
-            findAndHookMethod("com.android.systemui.SystemUIApplication", "onCreate", new MethodHook() {
-                @Override
-                protected void after(MethodHookParam param) {
-                    if (!isListened[0]) {
-                        isListened[0] = true;
-                        // 获取Context
-                        Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
-                        // 获取miui_quick_settings_tiles_stock字符串的值
-                        @SuppressLint("DiscouragedApi") int stockTilesResId = mContext.getResources().getIdentifier("miui_quick_settings_tiles_stock", "string", lpparam.packageName);
-                        String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
-                        // 将拼接后的字符串分别替换下面原有的字符串。
-                        mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
-                        mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
-                        mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+        if (needCustom()) {
+            if (custom.equals("")) {
+                logE("Error custom:" + custom);
+                return;
+            }
+            try {
+                findClassIfExists("com.android.systemui.SystemUIApplication").getDeclaredMethod("onCreate");
+                findAndHookMethod("com.android.systemui.SystemUIApplication", "onCreate", new MethodHook() {
+                    @Override
+                    protected void after(MethodHookParam param) {
+                        if (!isListened[0]) {
+                            isListened[0] = true;
+                            // 获取Context
+                            Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
+                            // 获取miui_quick_settings_tiles_stock字符串的值
+                            @SuppressLint("DiscouragedApi") int stockTilesResId = mContext.getResources().getIdentifier("miui_quick_settings_tiles_stock", "string", lpparam.packageName);
+                            String stockTiles = mContext.getString(stockTilesResId) + "," + custom; // 追加自定义的磁贴
+                            // 将拼接后的字符串分别替换下面原有的字符串。
+                            mResHook.setObjectReplacement(lpparam.packageName, "string", "miui_quick_settings_tiles_stock", stockTiles);
+                            mResHook.setObjectReplacement("miui.systemui.plugin", "string", "miui_quick_settings_tiles_stock", stockTiles);
+                            mResHook.setObjectReplacement("miui.systemui.plugin", "string", "quick_settings_tiles_stock", stockTiles);
+                        }
                     }
-                }
-            });
-        } catch (NoSuchMethodException e) {
-            logE("Don't Have onCreate: " + e);
+                });
+            } catch (NoSuchMethodException e) {
+                logE("Don't Have onCreate: " + e);
+            }
         }
     }
 
@@ -215,23 +262,55 @@ public abstract class TileUtils extends BaseHook {
      * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上Key，用于定位磁贴。
      */
     private void tileAllName(Class<?> QSFactory) {
-        try {
-            QSFactory.getDeclaredMethod(customTileProvider()[1], String.class);
-            findAndHookMethod(QSFactory, customTileProvider()[1], String.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    String tileName = (String) param.args[0];
-                    if (tileName.equals(customName())) {
-                        String myTileProvider = customTileProvider()[0];
-                        Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
-                        Object tile = XposedHelpers.callMethod(provider, "get");
-                        XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
-                        param.setResult(tile);
+        if (needCustom()) {
+            try {
+                QSFactory.getDeclaredMethod(customTileProvider()[1], String.class);
+                findAndHookMethod(QSFactory, customTileProvider()[1], String.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        String tileName = (String) param.args[0];
+                        if (tileName.equals(customName())) {
+                            String myTileProvider = customTileProvider()[0];
+                            Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
+                            Object tile = XposedHelpers.callMethod(provider, "get");
+                            XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
+                            param.setResult(tile);
+                        }
                     }
-                }
-            });
-        } catch (NoSuchMethodException e) {
-            logE("Don't Have " + customTileProvider()[1], e);
+                });
+            } catch (NoSuchMethodException e) {
+                logE("Don't Have " + customTileProvider()[1], e);
+            }
+        }
+    }
+
+    private void tileAllName14(Class<?> QSFactory) {
+        if (needCustom()) {
+            try {
+                QSFactory.getDeclaredMethod(customTileProvider()[2], String.class);
+                findAndHookMethod(QSFactory, customTileProvider()[2], String.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            String tileName = (String) param.args[0];
+                            if (tileName.equals(customName())) {
+                                String myTileProvider = customTileProvider()[0];
+                                Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
+                                Object tile = XposedHelpers.callMethod(provider, "get");
+                                XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
+                                if (tile != null) {
+                                    Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
+                                    XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
+                                    XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
+                                    param.setResult(tile);
+                                }
+                            }
+                        }
+                    }
+                );
+            } catch (NoSuchMethodException e) {
+                logE("Don't Have " + customTileProvider()[2], e);
+            }
         }
     }
 
@@ -243,29 +322,31 @@ public abstract class TileUtils extends BaseHook {
 
     /*为按键打上自定义名称*/
     private void tileName(Class<?> myTile) {
-        int customValue = customValue();
-        String custom = customName();
-        if (customValue == -1 || custom.equals("")) {
-            logE("Error customValue:" + customValue);
-            return;
-        }
-        try {
-            myTile.getDeclaredMethod("getTileLabel");
-            findAndHookMethod(myTile, "getTileLabel", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                    if (tileName != null) {
-                        if (tileName.equals(custom)) {
-                            Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                            Resources modRes = Helpers.getModuleRes(mContext);
-                            param.setResult(modRes.getString(customValue));
+        if (needCustom()) {
+            int customValue = customValue();
+            String custom = customName();
+            if (customValue == -1 || custom.equals("")) {
+                logE("Error customValue:" + customValue);
+                return;
+            }
+            try {
+                myTile.getDeclaredMethod("getTileLabel");
+                findAndHookMethod(myTile, "getTileLabel", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                        if (tileName != null) {
+                            if (tileName.equals(custom)) {
+                                Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                                Resources modRes = Helpers.getModuleRes(mContext);
+                                param.setResult(modRes.getString(customValue));
+                            }
                         }
                     }
-                }
-            });
-        } catch (NoSuchMethodException e) {
-            logE("Don't Have getTileLabel: ", e);
+                });
+            } catch (NoSuchMethodException e) {
+                logE("Don't Have getTileLabel: ", e);
+            }
         }
     }
 
@@ -289,6 +370,9 @@ public abstract class TileUtils extends BaseHook {
     /*这个方法用于设置单击磁贴的动作
     此方法需要自行覆写*/
     public void tileClick(MethodHookParam param, String tileName) {
+    }
+
+    public void tileClickAfter(MethodHookParam param, String tileName) {
     }
 
     /*这个方法用于设置更新磁贴状态

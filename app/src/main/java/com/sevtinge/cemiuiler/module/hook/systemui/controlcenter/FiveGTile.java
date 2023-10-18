@@ -41,9 +41,10 @@ public class FiveGTile extends TileUtils {
 
     @Override
     public String[] customTileProvider() {
-        String[] TileProvider = new String[2];
+        String[] TileProvider = new String[3];
         TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nfcTileProvider" : "mNfcTileProvider";
-        TileProvider[1] = "createTileInternal";
+        TileProvider[1] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "createTileInternal" : "interceptCreateTile";
+        TileProvider[2] = "createTile";
         return TileProvider;
     }
 
@@ -55,6 +56,16 @@ public class FiveGTile extends TileUtils {
     @Override
     public int customValue() {
         return R.string.system_control_center_5g_toggle_label;
+    }
+
+    @Override
+    public boolean needCustom() {
+        return true;
+    }
+
+    @Override
+    public boolean needAfter() {
+        return false;
     }
 
     @Override

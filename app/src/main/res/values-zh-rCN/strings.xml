@@ -1082,6 +1082,8 @@
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 开关</string>
+    <string name="security_center_flash_light">手电筒亮度控制</string>
+    <string name="security_center_flash_light_more">开启手电筒时劫持亮度条，拖动亮度条即可控制手电筒亮度</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">随机更改应用锁 PIN 键盘顺序</string>
