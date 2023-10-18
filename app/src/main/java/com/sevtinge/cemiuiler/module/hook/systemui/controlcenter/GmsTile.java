@@ -16,10 +16,10 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public class GmsTile extends TileUtils {
-    String CheckGms = "com.google.android.gms";
-    String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
+    public final String CheckGms = "com.google.android.gms";
+    public final String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
         "com.android.systemui.qs.tileimpl.QSFactoryInjectorImpl";
-    String[] GmsAppsSystem = new String[]{
+    public final String[] GmsAppsSystem = new String[]{
         "com.google.android.gms",
         "com.google.android.gsf",
         "com.android.vending",

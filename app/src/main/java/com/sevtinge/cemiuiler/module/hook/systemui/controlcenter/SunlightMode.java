@@ -42,7 +42,8 @@ public class SunlightMode extends TileUtils {
     public static boolean intentListening = false;
     // public static boolean imOpenCustomMode = false;
     public static final String screenBrightness = "screen_brightness";
-    // public static final String screenBrightnessMode = "screen_brightness_mode";
+    public static final String screenBrightnessEnable = "screen_brightness_enable";
+    public static final String screenBrightnessMode = "screen_brightness_mode";
     public static final String screenBrightnessCustomMode = "screen_brightness_custom_mode";
     public static final String sunlightMode = "sunlight_mode";
     String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
@@ -97,7 +98,7 @@ public class SunlightMode extends TileUtils {
         intentListening = true;*/
         if (path == null) {
             useSystem = true;
-            logE("Missing directory, unable to set this mode: " + useSystem);
+            logE("Missing directory, unable to set this mode: true");
         } else {
             ShellUtils.execCommand("chmod 777 " + path, true, false);
             // logI("setPath: im get file: " + path);
@@ -157,6 +158,7 @@ public class SunlightMode extends TileUtils {
         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
         try {
             if (!mMode) {
+                /*系统阳光模式*/
                 int systemMode = Settings.System.getInt(mContext.getContentResolver(), sunlightMode);
                 if (systemMode == 1) {
                     Settings.System.putInt(mContext.getContentResolver(), sunlightMode, 0);
@@ -169,13 +171,13 @@ public class SunlightMode extends TileUtils {
                 }
             } else {
                 if (!useSystem) {
+                    /*强制最高亮度*/
                     if (lastSunlight == 0 || Integer.parseInt(readAndWrit(null, false)) != pathSunlight) {
                         // imOpenCustomMode = true;
                         if (getBrightnessMode(mContext) == 1) {
                             setCustomBrightnessMode(mContext, 1);
                         }
                         setBroadcastReceiver(mContext, param);
-                        // lastSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightness);
                         lastSunlight = Integer.parseInt(readAndWrit(null, false));
                         readAndWrit("" + Integer.MAX_VALUE, true);
                         /*Settings.System.putInt(mContext.getContentResolver(), screenBrightness, Integer.MAX_VALUE);
@@ -194,16 +196,13 @@ public class SunlightMode extends TileUtils {
                             setCustomBrightnessMode(mContext, 0);
                         }
                         // sLog("tileClick: comeback lastSunlight: " + lastSunlight + " pathSunlight: " + pathSunlight);
-                        // readAndWrit(null, false);
-                        BroadcastReceiver broadcastReceiver = (BroadcastReceiver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "broadcastReceiver");
-                        if (broadcastReceiver != null)
-                            mContext.unregisterReceiver(broadcastReceiver);
-                        // Settings.System.putInt(mContext.getContentResolver(), screenBrightness, lastSunlight);
+                        unBroadcastReceiver(mContext, param);
                         readAndWrit("" + lastSunlight, false);
-                        intentListening = false;
+                        lastSunlight = 0; // 重置
                     }
                 } else {
-                    if (lastSunlight == 0 || Settings.System.getInt(mContext.getContentResolver(), screenBrightness) != pathSunlight) {
+                    /*系统Api最高亮度*/
+                    if (lastSunlight == 0) {
                         // imOpenCustomMode = true;
                         if (getBrightnessMode(mContext) == 1) {
                             setCustomBrightnessMode(mContext, 1);
@@ -211,17 +210,17 @@ public class SunlightMode extends TileUtils {
                         setBroadcastReceiver(mContext, param);
                         lastSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightness);
                         Settings.System.putInt(mContext.getContentResolver(), screenBrightness, Integer.MAX_VALUE);
-                        pathSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightness);
+                        Settings.System.putInt(mContext.getContentResolver(), screenBrightnessEnable, 1);
+                        // pathSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightness); // 不稳定
                     } else {
                         // imOpenCustomMode = false;
                         if (getCustomBrightnessMode(mContext) == 1) {
                             setCustomBrightnessMode(mContext, 0);
                         }
-                        BroadcastReceiver broadcastReceiver = (BroadcastReceiver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "broadcastReceiver");
-                        if (broadcastReceiver != null)
-                            mContext.unregisterReceiver(broadcastReceiver);
+                        unBroadcastReceiver(mContext, param);
                         Settings.System.putInt(mContext.getContentResolver(), screenBrightness, lastSunlight);
-                        intentListening = false;
+                        Settings.System.putInt(mContext.getContentResolver(), screenBrightnessEnable, 0);
+                        lastSunlight = 0; // 重置
                     }
                 }
                 refreshState(param.thisObject);
@@ -233,7 +232,7 @@ public class SunlightMode extends TileUtils {
 
     public static int getBrightnessMode(Context context) {
         try {
-            return Settings.System.getInt(context.getContentResolver(), "screen_brightness_mode");
+            return Settings.System.getInt(context.getContentResolver(), screenBrightnessMode);
         } catch (Settings.SettingNotFoundException e) {
             AndroidLogUtils.LogE("No Found Settings: ", e);
             return -1;
@@ -241,12 +240,12 @@ public class SunlightMode extends TileUtils {
     }
 
     public static void setBrightnessMode(Context context, int value) {
-        Settings.System.putInt(context.getContentResolver(), "screen_brightness_mode", value);
+        Settings.System.putInt(context.getContentResolver(), screenBrightnessMode, value);
     }
 
     public static int getCustomBrightnessMode(Context context) {
         try {
-            return Settings.System.getInt(context.getContentResolver(), "screen_brightness_custom_mode");
+            return Settings.System.getInt(context.getContentResolver(), screenBrightnessCustomMode);
         } catch (Settings.SettingNotFoundException e) {
             setCustomBrightnessMode(context, 0);
             AndroidLogUtils.LogE("No Found Settings: ", e);
@@ -255,7 +254,7 @@ public class SunlightMode extends TileUtils {
     }
 
     public static void setCustomBrightnessMode(Context context, int value) {
-        Settings.System.putInt(context.getContentResolver(), "screen_brightness_custom_mode", value);
+        Settings.System.putInt(context.getContentResolver(), screenBrightnessCustomMode, value);
     }
 
     public void setBroadcastReceiver(Context mContext, MethodHookParam param) {
@@ -263,8 +262,19 @@ public class SunlightMode extends TileUtils {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         mContext.registerReceiver(broadcastReceiver, filter);
+        // logE("setBroadcastReceiver: registerReceiver: " + broadcastReceiver + " filter: " + filter);
         XposedHelpers.setAdditionalInstanceField(param.thisObject, "broadcastReceiver", broadcastReceiver);
         intentListening = true;
+    }
+
+    public void unBroadcastReceiver(Context mContext, MethodHookParam param) {
+        BroadcastReceiver broadcastReceiver = (BroadcastReceiver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "broadcastReceiver");
+        // logE("unBroadcastReceiver: broadcastReceiver: " + broadcastReceiver);
+        if (broadcastReceiver != null) {
+            // logE("unBroadcastReceiver: unregisterReceiver: " + broadcastReceiver);
+            mContext.unregisterReceiver(broadcastReceiver);
+            intentListening = false;
+        }
     }
 
     @Override
@@ -332,20 +342,19 @@ public class SunlightMode extends TileUtils {
                 if (!useSystem) {
                     // nowInt = Settings.System.getInt(mContext.getContentResolver(), screenBrightness);
                     nowSunlight = Integer.parseInt(readAndWrit(null, false));
+                    if (nowSunlight == pathSunlight) nowInt = 1;
                     // if (nowInt == maxSunlight) {
                     //     nowInt = 1;
                     // } else
                     // sLog("tileUpdateState: nowInt is: " + nowInt + " pathSunlight: " + pathSunlight + " nowSunlight: " + nowSunlight);
                 } else {
-                    nowSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightness);
+                    nowSunlight = Settings.System.getInt(mContext.getContentResolver(), screenBrightnessEnable);
+                    if (nowSunlight == 1) nowInt = 1;
                 }
-                if (nowSunlight == pathSunlight) nowInt = 1;
             }
             if (nowInt == 1) isEnable = true;
             if (intentListening && !isEnable) {
-                BroadcastReceiver receiver = (BroadcastReceiver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "broadcastReceiver");
-                if (receiver != null) mContext.unregisterReceiver(receiver);
-                intentListening = false;
+                unBroadcastReceiver(mContext, param);
             }
             // sLog("tileUpdateState: isEnable is: " + isEnable);
         } catch (Settings.SettingNotFoundException e) {
@@ -416,20 +425,25 @@ public class SunlightMode extends TileUtils {
             // 息屏还原，按照之前的逻辑写的，如果需要再改
             if (Objects.equals(intent.getAction(), Intent.ACTION_SCREEN_OFF)) {
                 // Log.i("SunlightMode", "onReceive: run 1");
+                // AndroidLogUtils.LogE("SunlightMode", "onReceive 1: " + lastSunlight + " use: " + useSystem, null);
                 if (lastSunlight != 0) {
+                    // AndroidLogUtils.LogE("SunlightMode", "onReceive 2: " + lastSunlight + " use: " + useSystem, null);
                     if (!useSystem) {
                         // Log.i("SunlightMode", "onReceive: run");
                         // Settings.System.putInt(context.getContentResolver(), screenBrightness, lastSunlight);
                         readAndWrit("" + lastSunlight, false);
                     } else {
                         Settings.System.putInt(context.getContentResolver(), screenBrightness, lastSunlight);
+                        Settings.System.putInt(context.getContentResolver(), screenBrightnessEnable, 0);
                     }
+                    lastSunlight = 0; // 重置
                     if (getCustomBrightnessMode(context) == 1) {
                         setBrightnessMode(context, 1);
                         setCustomBrightnessMode(context, 0);
                     }
                 }
             }
+
         }
     }
 }

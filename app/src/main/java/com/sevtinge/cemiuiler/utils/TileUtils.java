@@ -210,15 +210,18 @@ public abstract class TileUtils extends BaseHook {
     }
 
     /*在这里为你的自定义磁贴打上标题
-   需要传入资源Id*/
+    需要传入资源Id*/
     public int customValue() {
         return -1;
     }
 
+    /*是否使用自定义的方式创建磁贴
+    否则为在原有磁贴逻辑上进行修改*/
     public boolean needCustom() {
         return false;
     }
 
+    /*是否需要在after时进行逻辑修改而不是before*/
     public boolean needAfter() {
         return false;
     }
@@ -284,6 +287,7 @@ public abstract class TileUtils extends BaseHook {
         }
     }
 
+    /*安卓14磁贴逻辑被修改，此是解决方法*/
     private void tileAllName14(Class<?> QSFactory) {
         if (needCustom()) {
             try {
@@ -320,7 +324,7 @@ public abstract class TileUtils extends BaseHook {
     }
 
 
-    /*为按键打上自定义名称*/
+    /*为磁贴打上自定义名称*/
     private void tileName(Class<?> myTile) {
         if (needCustom()) {
             int customValue = customValue();
