@@ -13,6 +13,7 @@ import com.sevtinge.cemiuiler.module.hook.systemframework.DeleteOnPostNotificati
 import com.sevtinge.cemiuiler.module.hook.systemframework.DisableCleaner;
 import com.sevtinge.cemiuiler.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.cemiuiler.module.hook.systemframework.DisablePinVerifyPer72h;
+import com.sevtinge.cemiuiler.module.hook.systemframework.DisablePrivateWaterMark;
 import com.sevtinge.cemiuiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.cemiuiler.module.hook.systemframework.FreeFormCount;
 import com.sevtinge.cemiuiler.module.hook.systemframework.FreeformBubble;
@@ -88,6 +89,7 @@ public class SystemFramework extends BaseModule {
         initHook(new SpeedInstall(), mPrefsMap.getBoolean("system_framework_other_speed_install"));
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
+        initHook(new DisablePrivateWaterMark(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("system_framework_disable_private_watermark"));
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
