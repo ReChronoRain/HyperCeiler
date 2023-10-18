@@ -4,6 +4,7 @@ import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.base.CloseHostDir;
 import com.sevtinge.cemiuiler.module.base.LoadHostDir;
 import com.sevtinge.cemiuiler.module.hook.mishare.NoAutoTurnOff;
+import com.sevtinge.cemiuiler.module.hook.mishare.UnlockTurboMode;
 
 public class MiShare extends BaseModule {
 
@@ -12,6 +13,7 @@ public class MiShare extends BaseModule {
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
         initHook(NoAutoTurnOff.INSTANCE, mPrefsMap.getBoolean("disable_mishare_auto_off"));
+        initHook(UnlockTurboMode.INSTANCE, mPrefsMap.getBoolean("unlock_turbo_mode"));
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
     }

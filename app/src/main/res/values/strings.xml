@@ -966,6 +966,7 @@
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic closing of Mi Share</string>
+    <string name="mishare_unlock_turbo_mode">Unlock turbo transfer</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Wallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">Unlock Super wallpaper</string>
