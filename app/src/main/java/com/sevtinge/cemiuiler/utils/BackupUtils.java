@@ -54,7 +54,7 @@ public class BackupUtils {
         for (Map.Entry<String, ?> entry : PrefsUtils.mSharedPreferences.getAll().entrySet()) {
             jsonObject.put(entry.getKey(), entry.getValue());
         }
-        bufferedWriter.write(KS2Utils.encrypted(jsonObject.toString(), "111111"));
+        bufferedWriter.write(KS2Utils.encrypted(jsonObject.toString(), "\u0040\u0037\u0037\u0034\u0039\u0031"));
         bufferedWriter.close();
     }
 
@@ -63,7 +63,7 @@ public class BackupUtils {
         SharedPreferences.Editor edit = PrefsUtils.mSharedPreferences.edit();
         InputStream inputStream = activity.getContentResolver().openInputStream(data);
         String documentContent = inputStream2String(inputStream);
-        String decryptedContent = KS2Utils.decrypted(documentContent, "111111");
+        String decryptedContent = KS2Utils.decrypted(documentContent, "\u0040\u0037\u0037\u0034\u0039\u0031");
         JSONObject jsonObject = new JSONObject(decryptedContent);
         Iterator<String> keys = jsonObject.keys();
         while (keys.hasNext()) {

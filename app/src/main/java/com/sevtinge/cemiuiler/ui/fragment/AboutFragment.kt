@@ -22,7 +22,7 @@ class AboutFragment : SettingsPreferenceFragment() {
 
     override fun initPrefs() {
         val lIIlllI = ClickCountsUtils.getClickCounts()
-        val lIIllII = findPreference<Preference>("prefs_key_enable_function")
+        val lIIllII = findPreference<Preference>("prefs_key_various_enable_super_function")
         val mQQGroup = findPreference<Preference>("prefs_key_about_join_qq_group")
 
         lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE

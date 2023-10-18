@@ -75,7 +75,7 @@ public class SystemFramework extends BaseModule {
         initHook(new VolumeDisableSafe(), mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
         // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
-        initHook(new ThemeProvider(), mPrefsMap.getBoolean("enable_function") && mPrefsMap.getBoolean("various_theme_crack"));
+        initHook(new ThemeProvider(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("various_theme_crack"));
 
         // 其他
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));

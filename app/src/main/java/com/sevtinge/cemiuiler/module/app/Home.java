@@ -243,7 +243,7 @@ public class Home extends BaseModule {
         // Other
         initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("enable_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
+        initHook(new WidgetCrack(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
         initHook(AnimDurationRatio.INSTANCE, true);
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 

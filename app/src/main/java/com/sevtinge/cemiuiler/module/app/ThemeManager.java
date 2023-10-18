@@ -12,7 +12,7 @@ public class ThemeManager extends BaseModule {
     @Override
     public void handleLoadPackage() {
         initHook(new DisableThemeAdNew(), mPrefsMap.getBoolean("various_theme_diable_ads"));
-        initHook(ThemeCrackNew.INSTANCE, mPrefsMap.getBoolean("enable_function") && mPrefsMap.getBoolean("various_theme_crack"));
+        initHook(ThemeCrackNew.INSTANCE, mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("various_theme_crack"));
         initHook(new EnablePadTheme(), mPrefsMap.getBoolean("various_theme_enable_pad_theme"));
         initHook(new EnableFoldTheme(), mPrefsMap.getBoolean("various_theme_enable_fold_theme"));
 
