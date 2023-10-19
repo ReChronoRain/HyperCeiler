@@ -20,7 +20,7 @@
     <string name="about_donation">Patrocinadores</string>
     <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
     <string name="about_privacy">Política de privacidade</string>
-    <string name="about_protocol">Acordo de usuário</string>
+    <string name="about_protocol">Acordo do usuário</string>
     <string name="settings_data_title">Backup e Restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
     <string name="settings_debug_title">Depurar</string>
@@ -72,8 +72,8 @@
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
-    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su?</string>
-    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o Cemiuiler recebeu permissão Root/Su?</string>
+    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su</string>
+    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o Cemiuiler recebeu permissão Root/Su</string>
     <string name="expand_button_title">Alto nível</string>
     <string name="not_set">Não definido</string>
     <string name="copy">Copiar</string>
@@ -151,7 +151,7 @@
     <string name="array_battery_temp">Temperatura da bateria</string>
     <string name="array_cpu_temp">Temperatura da CPU</string>
     <string name="array_global_actions_none">Nenhuma ação</string>
-    <string name="array_global_actions_notif">Abrir centro de notificação</string>
+    <string name="array_global_actions_notif">Abrir central de notificação</string>
     <string name="array_global_actions_eqs">Expandir o painel de configurações rápidas</string>
     <string name="array_global_actions_lock">Tela de bloqueio</string>
     <string name="array_global_actions_sleep">Desligar tela</string>
@@ -220,7 +220,7 @@
     <string name="array_pa_blur_official">Oficial vem com blur</string>
     <string name="array_bpa_blur_customize">Blur de fundo personalizado</string>
     <string name="control_center_sunshine_mode_default">Fechar</string>
-    <string name="control_center_sunshine_mode_one">Modo padrão do sistema</string>
+    <string name="control_center_sunshine_mode_one">Padrão do sistema</string>
     <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
@@ -260,7 +260,7 @@
     <string name="phone_double_5g_nr">Uso de cartão duplo 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
     <string name="phone_double_5g_sa">Uso de cartão duplo SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Recursos experimentais. Faça com que o SIM secundário suporte SA</string>
+    <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA</string>
     <string name="system_framework_phone_band_title">Configurações de banda</string>
     <string name="phone_n1">Banda N1</string>
     <string name="phone_n1_desc">Suporte Banda N1 (NR)</string>
@@ -627,7 +627,7 @@
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
-    <string name="system_ui_charge_animation_style_desc">Selecione o estilo de animação de carregamento da tela de bloqueio</string>
+    <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativo</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação de mais apps para abrir uma janela flutuante</string>
@@ -653,15 +653,15 @@
     <string name="system_settings_novelty_haptic_title">Desbloquear nova versão da página de retorno tátil</string>
     <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno tátil - Página de retorno tátil</string>
     <string name="system_settings_enable_pad_area">Desbloquear área do Pad</string>
-    <string name="system_settings_enable_fold_area">Desbloquear área do Fold</string>
-    <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as configurações travem após serem desbloqueadas</string>
+    <string name="system_settings_enable_fold_area">Desbloquear área Fold</string>
+    <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as Configurações travem após serem desbloqueadas</string>
     <string name="system_settings_connection_sharing_title">Conexão e compartilhamento</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
     <string name="system_settings_accessibility_title">Atalhos de gestos</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_knuckle_function">Desbloquear as funções relacionadas à articulação</string>
-    <string name="system_settings_knuckle_function_desc">Recursos experimentais\nPor favor, reinicie após ativar as Configurações, Escopo das Configurações de Entrada\nNo momento, apenas desbloqueia a interface do usuário</string>
+    <string name="system_settings_knuckle_function_desc">Recurso experimental\nPor favor, reinicie após ativar as Configurações, escopo das Configurações de entrada\nNo momento, apenas desbloqueia a interface do usuário</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>
@@ -717,7 +717,7 @@
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Permitir o uso do taplus em telas de paisagem</string>
     <string name="content_extension_double_press">Gesto: 2 dedos</string>
-    <string name="content_extension_super_image">Qualidade das imagens salvas : Super resolução</string>
+    <string name="content_extension_super_image">Qualidade das imagens salvas: Super resolução</string>
     <string name="content_extension_super_image_summary">A verdadeira preservação requer suporte subjacente do modelo do dispositivo</string>
     <string name="content_extension_link_open_mode">Como abrir o link</string>
     <string name="content_extension_link_open_mode_desc">Escolha um navegador para abrir o link</string>
@@ -743,11 +743,11 @@
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
     <string name="home">Launcher do sistema</string>
-    <string name="home_gesture">Gesto e Navegação</string>
+    <string name="home_gesture">Gestos e Navegação</string>
     <string name="home_navigation_title">Navegação</string>
     <string name="home_navigation_back_area_height">Altura da área do gesto de retorno</string>
     <string name="home_navigation_back_area_width">Largura da área do gesto de retorno</string>
-    <string name="home_gesture_title2">Gesto</string>
+    <string name="home_gesture_title2">Gestos</string>
     <string name="home_gesture_mainscreen_title">Tela principal</string>
     <string name="home_gesture_gesture_title">Gesto em tela cheia</string>
     <string name="home_gesture_double_tap">Duplo clique</string>
@@ -761,11 +761,11 @@
     <string name="home_gesture_up_swipe">Deslize para cima</string>
     <string name="home_gesture_up_swipe_desc">Deslize para cima com um dedo em qualquer tela inicial</string>
     <string name="home_gesture_down_swipe">Deslize para baixo</string>
-    <string name="home_gesture_down_swipe_desc">Deslizar para baixo com um dedo em qualquer tela inicial</string>
+    <string name="home_gesture_down_swipe_desc">Deslize para baixo com um dedo em qualquer tela inicial</string>
     <string name="home_gesture_up_swipe2">Deslize para cima com dois dedos</string>
     <string name="home_gesture_up_swipe2_desc">Deslize para cima com dois dedos em qualquer tela inicial</string>
-    <string name="home_gesture_down_swipe2">Deslizar para baixo com dois dedos</string>
-    <string name="home_gesture_down_swipe2_desc">Deslizar para baixo com dois dedos em qualquer tela inicial</string>
+    <string name="home_gesture_down_swipe2">Deslize para baixo com dois dedos</string>
+    <string name="home_gesture_down_swipe2_desc">Deslize para baixo com dois dedos em qualquer tela inicial</string>
     <string name="home_gesture_pinch">Pince com dois dedos</string>
     <string name="home_gesture_spread">Espalhe com dois dedos</string>
     <string name="home_gesture_swipe_and_stop">Deslize e pare</string>
@@ -807,7 +807,7 @@
     <string name="home_big_folder_icon_bg_custom">Personalizado</string>
     <string name="home_big_folder_icon_bg_width">Largura do fundo</string>
     <string name="home_big_folder_icon_bg_height">Altura do fundo</string>
-    <string name="home_big_folder_item_max_count">Pasta Grande</string>
+    <string name="home_big_folder_item_max_count">Pasta grande</string>
     <string name="home_big_folder_icon_bg_2x1_n">4*2 fundo personalizado</string>
     <string name="home_big_folder_icon_bg_1x2_n">2*2 fundo personalizado</string>
     <string name="home_big_folder_icon_bg_n">3*3 e 4*4 fundo personalizado</string>
@@ -823,7 +823,7 @@
     <string name="home_folder_shade_gradient">Somente meio</string>
     <string name="home_folder_shade_level_title">Intensidade da cor</string>
     <string name="home_folder_cols_title">Número de colunas nas pastas</string>
-    <string name="home_folder_cols_format">%d Coluna</string>
+    <string name="home_folder_cols_format">%d colunas</string>
     <string name="home_folder_vertical_padding_title">Espaçamento horizontal da pasta</string>
     <string name="home_folder_width_title">Use a largura total da pasta</string>
     <string name="home_folder_space_title">Reduzir margens</string>
@@ -860,9 +860,9 @@
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar o escurecimento do papel de parede</string>
-    <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status na visualização de tarefas</string>
-    <string name="home_recent_hide_freeform">Ocultar botão de janelas flutuantes</string>
-    <string name="home_recent_hide_clean_up">Ocultar botão limpar</string>
+    <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
+    <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
+    <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
     <string name="home_recent_remove_icon">Remover ícone</string>
     <string name="home_recent_modify_animation">Modifique a animação para remover apps</string>
     <string name="home_recent_text">Texto exibido quando não há tarefas recentes</string>
@@ -883,7 +883,7 @@
     <string name="home_widget_show_miui_widget">Exibir widgets da MIUI</string>
     <string name="home_widget_show_miui_widget_desc">Exibir widgets da MIUI na página Widgets Android</string>
     <string name="home_widget_corner_radius">Cantos arredondados do widget</string>
-    <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para a tela -1</string>
+    <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para a tela negativa</string>
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>
     <string name="home_widget_resizable">Remover quaisquer limitações de tamanho do widget</string>
     <string name="home_dock">Dock</string>
@@ -909,8 +909,8 @@
     <string name="home_other_home_mode">Modo desktop</string>
     <string name="home_other_infinite_scroll">Rolagem infinita</string>
     <string name="home_other_infinite_scroll_desc">Pule da última página para a primeira e vice-versa</string>
-    <string name="home_other_freeform_shortcut_menu">Modo janelas flutuantes</string>
-    <string name="home_other_freeform_shortcut_menu_desc">Adicionar janela flutuante ao menu de atalhos</string>
+    <string name="home_other_freeform_shortcut_menu">Modo Janelas flutuantes</string>
+    <string name="home_other_freeform_shortcut_menu_desc">Adicionar menu de Janelas flutuantes ao menu de atalho</string>
     <string name="home_other_tasks_shortcut_menu">Modo mais tarefas</string>
     <string name="home_other_tasks_shortcut_menu_desc">Adicionar novo menu de tarefas ao menu de atalho</string>
     <string name="home_other_user_present_animation">Otimizar animação de desbloqueio</string>
@@ -947,6 +947,7 @@
     <!--Mi Share-->
     <string name="mishare">Compartilhamento Mi</string>
     <string name="mishare_disable_mishare_auto_off">Desativar o fechamento automático do Compartilhamento Mi</string>
+    <string name="mishare_unlock_turbo_mode">Desbloquear transferência turbo</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Papéis de Parede Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
@@ -1011,7 +1012,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">Segurança</string>
     <string name="security_center_pad">Central de segurança para tablets</string>
-    <string name="security_center_app_title">Gerenciamento de apps</string>
+    <string name="security_center_app_title">Gerenciar apps</string>
     <string name="security_center_battery_title">Economia de bateria e Bateria</string>
     <string name="security_center_privacy_title">Proteção de privacidade</string>
     <string name="security_center_beauty_title">Assistente da câmera frontal</string>
@@ -1020,13 +1021,15 @@
     <string name="security_center_dolby_open">Feche a janela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Exibir temperatura da bateria</string>
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
-    <string name="security_center_blur_location">Menor precisão de posicionamento</string>
+    <string name="security_center_blur_location">Precisão de localização mais baixa</string>
     <string name="security_center_gms_open">Serviço GMS</string>
+    <string name="security_center_flash_light">Controle de brilho da lanterna</string>
+    <string name="security_center_flash_light_more">Permite que você controle o brilho da lanterna arrastando o controle deslizante de brilho</string>
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_applock_pin_scramble_desc">Alterar aleatoriamente a sequência do PIN do Bloqueio de apps</string>
-    <string name="security_center_beauty_light_auto">Desbloquear Ajustar o brilho do preenchimento da luz automaticamente</string>
-    <string name="security_center_beauty_face">Desbloquear Embelezamento para chamadas de vídeo</string>
+    <string name="security_center_beauty_light_auto">Desbloquear Brilho da luz de preenchimento</string>
+    <string name="security_center_beauty_face">Desbloquear Embelezar para videochamadas</string>
     <string name="security_center_beauty_privacy">Desbloquear Câmera de privacidade</string>
     <string name="security_center_beauty_pc">Desbloquear Mantenha os rostos centralizados</string>
     <string name="security_center_disable_root_check">Desativar detecção de root</string>
@@ -1039,14 +1042,14 @@
     <string name="security">Segurança</string>
     <string name="security_app_title">Exibir detalhes adicionais do app</string>
     <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- ID do usuário\n- Diretório de dados\n- Diretório APK\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar um app</string>
-    <string name="security_app_sort_title">Classificação da lista de gerenciamento de apps</string>
-    <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciamento de apps</string>
-    <string name="security_restrict_app_title">Limite total</string>
+    <string name="security_app_sort_title">Classificação da lista de gerenciar apps</string>
+    <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciar apps</string>
+    <string name="security_restrict_app_title">Restrições completas</string>
     <string name="security_restrict_app_summary">Permite configurar a economia de bateria e acesso ao Wi-Fi para apps do sistema</string>
     <string name="security_disable_app_title">Controle de estado do app</string>
     <string name="security_disable_app_summary">Permite desativar qualquer app na página de informações do app</string>
     <string name="security_disable_app_url_title">Aplicar gerenciamento de link aberto</string>
-    <string name="security_disable_app_url_summary">Altere a configuração \"Remover ação padrão\" para \"Abrir por padrão\" nos detalhes do app</string>
+    <string name="security_disable_app_url_summary">Altere a configuração \"Limpar padrões\" para \"Abrir por padrão\" nas informações do app</string>
     <string name="app_link_open_always">Permite que o app abra links compatíveis</string>
     <string name="app_link_open_never">Não permitir que apps abram links</string>
     <string name="open_by_default">Abrir por padrão</string>
@@ -1088,7 +1091,7 @@
     <string name="tsmclient_auto_nfc">Gerenciar NFC automaticamente</string>
     <string name="tsmclient_auto_nfc_desc">O NFC é ativado automaticamente ao entrar na página de passagem do cartão e é desativado automaticamente ao sair</string>
     <string name="tsmclient_nfc_turning_on">Ativando o NFC automaticamente…</string>
-    <string name="tsmclient_nfc_turn_on_manually">Ativar NFC manualmente</string>
+    <string name="tsmclient_nfc_turn_on_manually">Ative o NFC manualmente</string>
     <string name="tsmclient_nfc_turn_on_failed">Falha ao ativar o NFC automaticamente</string>
     <!--Weather-->
     <string name="weather">Clima</string>
@@ -1106,10 +1109,10 @@
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Controle de nuvem</string>
-    <string name="joyose_disable_cloud_control">Desativar controle de nuvem</string>
+    <string name="joyose_disable_cloud_control">Desativar Controle de nuvem</string>
     <string name="joyose_game_title">Game Space</string>
     <string name="joyose_enable_gpu_tuner">Agendamento de desempenho</string>
-    <string name="joyose_enable_gpu_tuner_desc">Após abrir, adicione as configurações relacionadas à GPU dos jogos na parte inferior do [Game Space]</string>
+    <string name="joyose_enable_gpu_tuner_desc">Após abrir, adicione as configurações relacionadas à GPU dos jogos na parte inferior do Game Space</string>
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">Disfarçar modelo</string>
@@ -1130,13 +1133,13 @@
     <string name="mtb_auth_desc">Este é um recurso de alto risco, quaisquer problemas decorrentes disso será de responsabilidade do usuário. Por favor, tenha cuidado para fazer backup de sua banda base. Digite *#*#MODEMTEST#*#* na interface de discagem para abrir as Configurações do MTB</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
-    <string name="scanner_card">Desbloquear digitalização ID</string>
-    <string name="scanner_translation">Desbloquear tradução</string>
+    <string name="scanner_card">Desbloquear Escanear cartão ID</string>
+    <string name="scanner_translation">Desbloquear Tradução</string>
     <string name="scanner_ocr">Desbloquear OCR</string>
-    <string name="scanner_document">Desbloquear digitalização de documento</string>
-    <string name="scanner_excel">Desbloquear tabela de digitalização</string>
-    <string name="scanner_ppt">Desbloquear digitalização PPT</string>
-    <string name="scanner_doc_ppt">Desbloquear arquivos de digitalização</string>
+    <string name="scanner_document">Desbloquear Escanear documento</string>
+    <string name="scanner_excel">Desbloquear Escanear tabela</string>
+    <string name="scanner_ppt">Desbloquear Escanear PPT</string>
+    <string name="scanner_doc_ppt">Desbloquear Escanear arquivos</string>
     <!--Other-->
     <string name="various">Outros</string>
     <string name="notes">Notas</string>
@@ -1145,9 +1148,9 @@
     <string name="custom_hook">Personalizado</string>
     <string name="app_version_not_supported">Versão não suportada</string>
     <string name="various_location_simulation_title">Localização falsa</string>
-    <string name="various_dialog_title">Diálogo</string>
+    <string name="various_dialog_title">Caixa de diálogo</string>
     <string name="various_mipad_title">MiPad</string>
-    <string name="various_open_aosp_something_title">Propriedades ocultas</string>
+    <string name="various_open_aosp_something_title">Recursos ocultos</string>
     <string name="various_open_aosp_something_desc">Abra a interface AOSP \"oculta\"</string>
     <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
@@ -1166,14 +1169,14 @@
     <string name="various_open_aosp_battery_title">Otimização de bateria</string>
     <string name="various_open_aosp_notification_title">Notificações</string>
     <string name="various_open_aosp_app_manage_title">Gerenciamento de apps</string>
-    <string name="various_open_aosp_language_title">Configurações de Idioma</string>
+    <string name="various_open_aosp_language_title">Idiomas, entrada e gestos</string>
     <string name="various_open_aosp_extremely_dark_title">Extra escuro</string>
     <string name="various_mipad_input_title">Entrada</string>
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
     <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo da MIUI em ponteiro AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Restaurar função ESC</string>
     <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"voltar\" pela MIUI.</string>
-    <string name="various_mipad_input_disable_bluetooth_title">Remover restrição de caneta bluetooth</string>
+    <string name="various_mipad_input_disable_bluetooth_title">Remover restrição da caneta bluetooth</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Faça com que todas as canetas compatíveis funcionem sem a necessidade de conexão bluetooth com a caneta oficial.</string>
     <string name="various_mipad_input_bluetooth_version_title">Versão do driver</string>
     <string name="various_mipad_input_bluetooth_version_desc">Versão do driver para remover a restrição da caneta bluetooth</string>
@@ -1209,7 +1212,7 @@
     <string name="location_simulation_location_custom">Selecionar localização</string>
     <string name="location_simulation_network">Rede</string>
     <string name="location_simulation_operator_fix">Correção de mascaramento da operadora</string>
-    <string name="location_simulation_mac">Endereço Mac</string>
+    <string name="location_simulation_mac">Endereço MAC</string>
     <string name="location_simulation_wifi">Wi-Fi</string>
     <string name="location_simulation_router_mac">Endereço MAC do roteador</string>
     <string name="location_simulation_work_title">Título</string>
@@ -1256,6 +1259,7 @@
     <string name="cemiuiler_restart_quick">Reiniciar apps rapidamente</string>
     <string name="location_add">Adicionar</string>
     <string name="location_delete">Excluir</string>
+    <string name="system_framework_disable_private_watermark">Desativar Marca d\'água privada</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
