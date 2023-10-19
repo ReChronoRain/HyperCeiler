@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.hook.securitycenter
+package com.sevtinge.cemiuiler.module.hook.securitycenter.battery
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook

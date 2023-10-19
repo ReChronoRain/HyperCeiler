@@ -1,9 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.mishare
 
-import android.content.Context
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
@@ -17,12 +15,17 @@ object NoAutoTurnOff : BaseHook() {
         }.map { it.getMethodInstance(classLoader) }.toList()
     }
 
-    private val toastClass by lazy {
-        dexKitBridge.findClass {
+    private val toastMethod by lazy {
+        dexKitBridge.findMethod {
             matcher {
-                addUsingStringsEquals("null context", "cta_agree")
+                declaredClass {
+                    addUsingStringsEquals("null context", "cta_agree")
+                }
+                returnType = "boolean"
+                paramTypes = listOf("android.content.Context", "java.lang.String")
+                paramCount = 2
             }
-        }.map { it.getInstance(classLoader) }.toList()
+        }.map { it.getMethodInstance(classLoader) }.toList()
     }
 
     override fun init() {
@@ -34,18 +37,12 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         // 干掉小米互传十分钟倒计时 Toast
-        toastClass.forEach {
-            it.methodFinder()
-                .filterByReturnType(Boolean::class.java)
-                .filterByParamCount(2)
-                .filterByParamTypes(Context::class.java, String::class.java)
-                .toList().createHooks {
-                    before { param ->
-                        if (param.args[1].equals("security_agree")) {
-                            param.result = false
-                        }
-                    }
+        toastMethod.createHooks {
+            before { param ->
+                if (param.args[1].equals("security_agree")) {
+                    param.result = false
                 }
+            }
         }
     }
 }

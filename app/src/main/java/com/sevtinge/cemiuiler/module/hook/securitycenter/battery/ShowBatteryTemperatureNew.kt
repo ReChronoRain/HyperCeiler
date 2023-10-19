@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.hook.securitycenter
+package com.sevtinge.cemiuiler.module.hook.securitycenter.battery
 
 import android.annotation.SuppressLint
 import android.app.AndroidAppHelper
@@ -27,7 +27,6 @@ import com.sevtinge.cemiuiler.utils.isStatic
 object ShowBatteryTemperatureNew : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {
-
         // if (!getBoolean("securitycenter_show_battery_temperature", false)) return
         val batteryFragmentClass = "com.miui.powercenter.BatteryFragment".findClassOrNull()
         if (batteryFragmentClass != null) {

@@ -1,4 +1,4 @@
-package com.sevtinge.cemiuiler.module.hook.securitycenter;
+package com.sevtinge.cemiuiler.module.hook.securitycenter.battery;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

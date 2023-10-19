@@ -1,15 +1,11 @@
-package com.sevtinge.cemiuiler.module.hook.securitycenter
+package com.sevtinge.cemiuiler.module.hook.securitycenter.battery
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
-import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
-import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import java.lang.reflect.Method
-import java.util.Objects
 
 object ScreenUsedTime : BaseHook() {
     private val cls by lazy {
@@ -38,7 +34,7 @@ object ScreenUsedTime : BaseHook() {
     }
 
     override fun init() {
-        Log.i("methods2 :${method2}")
+        Log.i("methods2 :$method2")
         method2.forEach {
             it.createHook {
                 returnConstant(
