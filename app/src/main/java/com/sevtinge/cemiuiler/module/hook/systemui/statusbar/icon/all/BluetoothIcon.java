@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.systemui.statusbar.icon.all;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -13,7 +15,12 @@ public class BluetoothIcon extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0);
                 int opt_b = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth_battery", 0);
-                boolean isBluetoothConnected = (boolean) XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mBluetooth"), "isBluetoothConnected");
+                boolean isBluetoothConnected;
+                if (isAndroidU()) {
+                    isBluetoothConnected = (int) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mBluetooth"), "mConnectionState") == 2;
+                } else {
+                    isBluetoothConnected = (boolean) XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mBluetooth"), "isBluetoothConnected");
+                }
                 Object mIconController = XposedHelpers.getObjectField(param.thisObject, "mIconController");
                 if (opt == 2 || (opt == 3 && !isBluetoothConnected)) {
                     XposedHelpers.callMethod(mIconController, "setIconVisibility", "bluetooth", false);
