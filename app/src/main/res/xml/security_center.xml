@@ -55,6 +55,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_smart_charge"
+            android:title="@string/security_center_unlock_smart_charge_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_super_wireless_charge"
             android:title="@string/security_center_super_wireless_charge" />
 
