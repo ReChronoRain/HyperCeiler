@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.MainActivity;
-import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 import com.sevtinge.cemiuiler.utils.Helpers;
+import com.sevtinge.cemiuiler.utils.ShellUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
 
     public void showRestartDialog(boolean isRestartSystem, String appLabel, String packagename) {
         String isSystem = getResources().getString(R.string.restart_app_desc, appLabel);
-        String isOther = getResources().getString(R.string.restart_app_desc," " + appLabel + " ");
+        String isOther = getResources().getString(R.string.restart_app_desc, " " + appLabel + " ");
 
         new AlertDialog.Builder(this)
             .setCancelable(false)
@@ -119,13 +119,13 @@ public class BaseSettingsActivity extends AppCompatActivity {
             .commit();
     }
 
-    public void doRestart(String packagename, boolean isRestartSystem) {
+    public void doRestart(String packageName, boolean isRestartSystem) {
         boolean result;
 
         if (isRestartSystem) {
-            result = ALPermissionManager.RootCommand("reboot");
+            result = ShellUtils.getResultBoolean("reboot", true);
         } else {
-            result = ALPermissionManager.RootCommand("pkill -l 9 -f " + packagename);
+            result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
         }
         if (!result) {
             new AlertDialog.Builder(this)

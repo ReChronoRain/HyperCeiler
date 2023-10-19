@@ -26,12 +26,12 @@ import com.sevtinge.cemiuiler.provider.SharedPrefsProvider;
 import com.sevtinge.cemiuiler.ui.base.SettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.AboutFragment;
 import com.sevtinge.cemiuiler.ui.fragment.MainFragment;
-import com.sevtinge.cemiuiler.utils.ALPermissionManager;
 import com.sevtinge.cemiuiler.utils.CtaUtils;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
 import com.sevtinge.cemiuiler.utils.SearchHelper;
 import com.sevtinge.cemiuiler.utils.SettingLauncherHelper;
+import com.sevtinge.cemiuiler.utils.ShellUtils;
 import com.sevtinge.cemiuiler.view.RestartAlertDialog;
 
 import java.util.Set;
@@ -65,9 +65,9 @@ public class MainActivity extends SettingsActivity {
         initData();
         setImmersionMenuEnabled(true);
         setFragment(mMainFrag);
-        ALPermissionManager.RootCommand("chmod 0777 " + getPackageCodePath());
-        ALPermissionManager.RootCommand("chmod 0777 " + PrefsUtils.mPrefsFile);
-        ALPermissionManager.RootCommand("chown root:root " + PrefsUtils.mPrefsFile);
+        ShellUtils.execCommand("chmod 0777 " + getPackageCodePath(), true, false);
+        ShellUtils.execCommand("chmod 0777 " + PrefsUtils.mPrefsFile, true, false);
+        ShellUtils.execCommand("chown root:root " + PrefsUtils.mPrefsFile, true, false);
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.content.res.Resources;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.app.GlobalActions;
-import com.sevtinge.cemiuiler.utils.ALPermissionManager;
+import com.sevtinge.cemiuiler.utils.ShellUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +34,7 @@ public class RestartAlertDialog extends AlertDialog {
             dismiss();
             for (int i = 0; i < sparseBooleanArray.size(); i++) {
                 if (sparseBooleanArray.get(i)) {
-                    ALPermissionManager.RootCommand("pkill -l 9 -f " + mAppPackageNameList.get(i));
+                    ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
                 }
             }
         });
