@@ -28,9 +28,11 @@ import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.NotificationWea
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.NotificationWeatherOld;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QQSGrid;
+import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QQSGridOld;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSControlDetailBackgroundAlpha;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGridLabels;
+import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.QSGridOld;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
@@ -185,7 +187,7 @@ public class SystemUI extends BaseModule {
         initHook(new FiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
         initHook(new FlashLight(), mPrefsMap.getBoolean("security_flash_light"));
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
-        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_rows", 1) > 1 ||
+        initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         initHook(new MuteVisibleNotifications(), mPrefsMap.getBoolean("system_ui_control_center_mute_visible_notice"));
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
@@ -199,8 +201,13 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
             mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
-        initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
-        initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
+        if (isMoreAndroidVersion(33)) {
+            initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
+            initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
+        } else {
+            initHook(new QSGridOld(), mPrefsMap.getBoolean("system_control_center_old_enable_1"));
+            initHook(new QQSGridOld(), mPrefsMap.getBoolean("system_control_center_old_enable_1"));
+        }
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
         initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));

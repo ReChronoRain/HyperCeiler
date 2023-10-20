@@ -28,6 +28,10 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     SwitchPreference mFiveG;
     DropDownPreference mBluetoothSytle;
 
+    // 临时的，旧控制中心
+    SwitchPreference mOldCCGrid;
+    SwitchPreference mOldCCGrid1;
+
     @Override
     public int getContentResId() {
         return R.xml.system_ui_control_center;
@@ -59,6 +63,11 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mBluetoothSytle.setVisible(!isAndroidR());
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
 
+        mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
+        mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");
+
+        mOldCCGrid.setVisible(isMoreAndroidVersion(33));
+        mOldCCGrid1.setVisible(!isMoreAndroidVersion(33));
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

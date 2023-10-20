@@ -521,6 +521,9 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">Сменить центр управления и панель уведомлений</string>
     <string name="system_ui_controlcenter_new_title">Новый центр управления</string>
     <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
+    <string name="system_control_center_old_qs_rows_desc">Надписи будут скрыты для 5 строк в портретной ориентации. Количество строк ограничено тремя со скрытыми надписями в альбомной ориентации.</string>
+    <string name="system_control_center_old_qs_columns_desc">Альбомная ориентация будет иметь один дополнительный столбец\nЕсли в вашем ROM есть опция компактной компоновки быстрых настроек, она добавит еще один столбец в обеих ориентациях</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">Альбомная ориентация + один доп.столбец</string>
     <string name="system_control_center_old_qs_grid_columns">Количество столбцов в свернутой панели</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Стиль плитки Bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Переместить Bluetooth-плитку рядом с сетевой плиткой</string>
