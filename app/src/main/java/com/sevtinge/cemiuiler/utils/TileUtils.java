@@ -33,6 +33,7 @@ public abstract class TileUtils extends BaseHook {
         mResourceIcon = findClass("com.android.systemui.qs.tileimpl.QSTileImpl$ResourceIcon");
         SystemUiHook(); // 不需要覆写
         tileAllName(mQSFactory); // 不需要覆写
+        showStateMessage(myTile);
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             tileAllName14(mQSFactory);
         }
@@ -315,6 +316,24 @@ public abstract class TileUtils extends BaseHook {
             } catch (NoSuchMethodException e) {
                 logE("Don't Have " + customTileProvider()[2], e);
             }
+        }
+    }
+
+    /* 新版系统界面磁贴开启关闭时会显示的文字 */
+    private void showStateMessage(Class<?> myTile) {
+        try {
+            myTile.getDeclaredMethod("handleShowStateMessage");
+            findAndHookMethod(myTile, "handleShowStateMessage", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        XposedHelpers.callMethod(param.thisObject, "showStateMessage",
+                            XposedHelpers.callMethod(param.thisObject, "getStateMessage"));
+                        param.setResult(null);
+                    }
+                }
+            );
+        } catch (NoSuchMethodException e) {
+            logE("Don't Have handleShowStateMessage: " + e);
         }
     }
 

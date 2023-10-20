@@ -12,6 +12,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.MainActivity;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.ShellUtils;
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,11 +83,11 @@ public class BaseSettingsActivity extends AppCompatActivity {
         showRestartDialog(true, "", "");
     }
 
-    public void showRestartDialog(String appLabel, String packagename) {
-        showRestartDialog(false, appLabel, packagename);
+    public void showRestartDialog(String appLabel, String packageName) {
+        showRestartDialog(false, appLabel, packageName);
     }
 
-    public void showRestartDialog(boolean isRestartSystem, String appLabel, String packagename) {
+    public void showRestartDialog(boolean isRestartSystem, String appLabel, String packageName) {
         String isSystem = getResources().getString(R.string.restart_app_desc, appLabel);
         String isOther = getResources().getString(R.string.restart_app_desc, " " + appLabel + " ");
 
@@ -95,7 +96,7 @@ public class BaseSettingsActivity extends AppCompatActivity {
             .setTitle(getResources().getString(R.string.soft_reboot) + " " + appLabel)
             .setMessage(isRestartSystem ? isSystem : isOther)
             .setHapticFeedbackEnabled(true)
-            .setPositiveButton(android.R.string.ok, (dialog, which) -> doRestart(packagename, isRestartSystem))
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> doRestart(packageName, isRestartSystem))
             .setNegativeButton(android.R.string.cancel, null)
             .show();
     }
@@ -125,13 +126,17 @@ public class BaseSettingsActivity extends AppCompatActivity {
         if (isRestartSystem) {
             result = ShellUtils.getResultBoolean("reboot", true);
         } else {
-            ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageName +
-                "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageName +
-                "\"; }; } || { echo \"kill error\"; }", true, true);
-            if (commandResult.result == 0) {
-                if (commandResult.successMsg.equals("kill error")) {
-                    pid = false;
-                } else result = true;
+            if (packageName != null) {
+                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageName +
+                    "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageName +
+                    "\"; }; } || { echo \"kill error\"; }", true, true);
+                if (commandResult.result == 0) {
+                    if (commandResult.successMsg.equals("kill error")) {
+                        pid = false;
+                    } else result = true;
+                }
+            } else {
+                AndroidLogUtils.LogE("doRestart: ", "packageName is null", null);
             }
             // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
         }
@@ -139,7 +144,8 @@ public class BaseSettingsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setTitle(R.string.tip)
-                .setMessage(isRestartSystem ? R.string.reboot_failed : pid ? R.string.kill_failed : R.string.pid_failed)
+                .setMessage(isRestartSystem ? R.string.reboot_failed :
+                    pid ? R.string.kill_failed : R.string.pid_failed)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
