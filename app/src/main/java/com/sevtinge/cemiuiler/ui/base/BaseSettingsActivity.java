@@ -120,18 +120,26 @@ public class BaseSettingsActivity extends AppCompatActivity {
     }
 
     public void doRestart(String packageName, boolean isRestartSystem) {
-        boolean result;
-
+        boolean result = false;
+        boolean pid = true;
         if (isRestartSystem) {
             result = ShellUtils.getResultBoolean("reboot", true);
         } else {
-            result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
+            ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageName +
+                "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageName +
+                "\"; }; } || { echo \"kill error\"; }", true, true);
+            if (commandResult.result == 0) {
+                if (commandResult.successMsg.equals("kill error")) {
+                    pid = false;
+                } else result = true;
+            }
+            // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
         }
         if (!result) {
             new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setTitle(R.string.tip)
-                .setMessage(isRestartSystem ? R.string.reboot_failed : R.string.kill_failed)
+                .setMessage(isRestartSystem ? R.string.reboot_failed : pid ? R.string.kill_failed : R.string.pid_failed)
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();

@@ -76,6 +76,7 @@
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活，请检查 Xposed 管理器是否启用，如有请重启或重新优化模块</string>
     <string name="kill_failed">结束进程失败，请检查是否为 Cemiuiler 授予了 Root/Su 权限?</string>
+    <string name="pid_failed">目标应用未运行，不需要重启。</string>
     <string name="reboot_failed">重启失败，请检查是否为 Cemiuiler 授予了 Root/Su 权限?</string>
 
     <string name="expand_button_title">高级</string>

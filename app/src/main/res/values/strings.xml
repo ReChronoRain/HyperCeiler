@@ -87,6 +87,7 @@
     <string name="tip">Tip</string>
     <string name="hook_failed">The module is not activated yet.\nPlease check whether the Xposed manager is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
+    <string name="pid_failed">The target application is not running and does not need to be restarted.</string>
     <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
     <string name="expand_button_title">High level</string>
     <string name="not_set">Not set</string>
