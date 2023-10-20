@@ -5,8 +5,6 @@ import android.util.Log;
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XposedBridge;
-
 public class AndroidLogUtils {
     private static final String Tag = "Cemiuiler]: ";
     private static final boolean isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug");

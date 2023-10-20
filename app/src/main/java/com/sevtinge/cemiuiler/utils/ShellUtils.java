@@ -8,19 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-/**
- * @noinspection JavadocDeclaration, unused , RedundantSuppression
- */
 public class ShellUtils {
-
     public static final String COMMAND_SU = "su";
     public static final String COMMAND_SH = "sh";
     public static final String COMMAND_EXIT = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
-
-    private ShellUtils() {
-        throw new AssertionError();
-    }
 
     /**
      * check whether has root permission
@@ -32,7 +24,7 @@ public class ShellUtils {
         int exitCode = -1;
         try {
             process = Runtime.getRuntime().exec("su -c true");
-            return exitCode = process.waitFor();
+            return process.waitFor();
         } catch (Exception e) {
             AndroidLogUtils.LogE("checkRootPermission", "check whether has root permission error: ", e);
             return exitCode;
@@ -48,7 +40,6 @@ public class ShellUtils {
      *
      * @param command command
      * @param isRoot  whether need to run with root
-     * @return
      * @see ShellUtils#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(String command, boolean isRoot) {
@@ -60,7 +51,6 @@ public class ShellUtils {
      *
      * @param commands command activity_wifi
      * @param isRoot   whether need to run with root
-     * @return
      * @see ShellUtils#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(List<String> commands, boolean isRoot) {
@@ -72,7 +62,6 @@ public class ShellUtils {
      *
      * @param commands command array
      * @param isRoot   whether need to run with root
-     * @return
      * @see ShellUtils#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(String[] commands, boolean isRoot) {
@@ -85,7 +74,6 @@ public class ShellUtils {
      * @param command         command
      * @param isRoot          whether need to run with root
      * @param isNeedResultMsg whether need result msg
-     * @return
      * @noinspection UnusedReturnValue
      * @see ShellUtils#execCommand(String[], boolean, boolean)
      */
@@ -99,7 +87,6 @@ public class ShellUtils {
      * @param commands        command activity_wifi
      * @param isRoot          whether need to run with root
      * @param isNeedResultMsg whether need result msg
-     * @return
      * @see ShellUtils#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(List<String> commands, boolean isRoot, boolean isNeedResultMsg) {

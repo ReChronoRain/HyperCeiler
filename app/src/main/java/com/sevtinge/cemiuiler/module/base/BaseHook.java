@@ -1,7 +1,6 @@
 package com.sevtinge.cemiuiler.module.base;
 
 import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.LogD;
-import static com.sevtinge.cemiuiler.utils.log.AndroidLogUtils.deLogI;
 
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.XposedInit;
@@ -50,6 +49,14 @@ public abstract class BaseHook {
         if (detailLog && isNotReleaseVersion) {
             XposedBridge.log("[Cemiuiler][I][" + TAG + "]: " + log);
         }
+    }
+
+    public void logD(String tag, String log) {
+        XposedBridge.log("[Cemiuiler][D][" + TAG + "]: " + tag + " debug output: " + log);
+    }
+
+    public void logD(String log) {
+        XposedBridge.log("[Cemiuiler][D][" + TAG + "]: debug output: " + log);
     }
 
     public void logE(Exception e) {
@@ -142,7 +149,7 @@ public abstract class BaseHook {
             try {
                 this.after(param);
             } catch (Throwable t) {
-                LogD("AfterHook",  t);
+                LogD("AfterHook", t);
             }
         }
     }

@@ -134,7 +134,9 @@ public class BaseSettingsActivity extends AppCompatActivity {
                     if (commandResult.successMsg.equals("kill error")) {
                         pid = false;
                     } else result = true;
-                }
+                } else
+                    AndroidLogUtils.LogE("doRestart: ", "result: " + commandResult.result +
+                        " errorMsg: " + commandResult.errorMsg, null);
             } else {
                 AndroidLogUtils.LogE("doRestart: ", "packageName is null", null);
             }
