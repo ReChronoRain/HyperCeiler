@@ -5,6 +5,10 @@ import android.util.Log;
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
+/* 不要在非Xposed代码使用处调用，容易导致闪退
+ * 可能因为 <BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");>
+ * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/cemiuiler/XposedInit;>
+ * */
 public class AndroidLogUtils {
     private static final String Tag = "Cemiuiler]: ";
     private static final boolean isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug");

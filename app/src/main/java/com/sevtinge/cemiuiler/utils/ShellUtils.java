@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
-import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -9,11 +9,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class ShellUtils {
-    public static final String COMMAND_SU = "su";
-    public static final String COMMAND_SH = "sh";
-    public static final String COMMAND_EXIT = "exit\n";
-    public static final String COMMAND_LINE_END = "\n";
-
     /**
      * check whether has root permission
      *
@@ -25,8 +20,8 @@ public class ShellUtils {
         try {
             process = Runtime.getRuntime().exec("su -c true");
             return process.waitFor();
-        } catch (Exception e) {
-            AndroidLogUtils.LogE("checkRootPermission", "check whether has root permission error: ", e);
+        } catch (IOException | InterruptedException e) {
+            Log.e("ShellUtils", "checkRootPermission: " + "check whether has root permission error: ", e);
             return exitCode;
         } finally {
             if (process != null) {
@@ -142,14 +137,14 @@ public class ShellUtils {
         StringBuilder errorMsg = null;
 
         DataOutputStream os = null;
-        if (isRoot) {
-            int exitCode = checkRootPermission();
-            if (exitCode != 0) {
-                return new CommandResult(exitCode, null, null);
-            }
-        }
         try {
-            process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
+            if (isRoot) {
+                int exitCode = checkRootPermission();
+                if (exitCode != 0) {
+                    return new CommandResult(exitCode, null, null);
+                }
+            }
+            process = Runtime.getRuntime().exec(isRoot ? "su" : "sh");
             os = new DataOutputStream(process.getOutputStream());
             for (String command : commands) {
                 if (command == null) {
@@ -158,10 +153,11 @@ public class ShellUtils {
 
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 os.write(command.getBytes());
-                os.writeBytes(COMMAND_LINE_END);
+                // os.writeBytes(command);
+                os.writeBytes("\n");
                 os.flush();
             }
-            os.writeBytes(COMMAND_EXIT);
+            os.writeBytes("exit\n");
             os.flush();
 
             result = process.waitFor();
@@ -179,8 +175,8 @@ public class ShellUtils {
                     errorMsg.append(s);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e) {
+            Log.e("ShellUtils", "execCommand: " + "IOException | InterruptedException: ", e);
         } finally {
             try {
                 if (os != null) {
