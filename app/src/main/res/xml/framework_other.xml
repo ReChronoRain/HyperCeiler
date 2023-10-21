@@ -26,6 +26,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_thermal_brightness"
+            android:summary="@string/system_framework_other_thermal_brightness_more"
+            android:title="@string/system_framework_other_thermal_brightness" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_other_disable_cleaner"
             android:summary="@string/system_framework_other_disable_cleaner_desc"
             android:title="@string/system_framework_other_disable_cleaner" />

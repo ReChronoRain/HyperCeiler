@@ -304,6 +304,8 @@
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_framework_other_speed_install">Speed Install</string>
     <string name="system_framework_other_speed_install_desc">Install to running memory to speed up installation</string>
+    <string name="system_framework_other_thermal_brightness">Prohibit automatic dimming</string>
+    <string name="system_framework_other_thermal_brightness_more">Automatic brightness reduction due to temperature only</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
     <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
     <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>

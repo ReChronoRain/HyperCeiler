@@ -35,7 +35,8 @@ public class PluginHelper extends BaseHook {
                                 // logD("pluginLoader: " + pluginLoader);
                                 setClassLoader(pluginLoader);
                             } else {
-                                logD("appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                if (!isHooked)
+                                    logD("appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
                             }
                         } else {
                             logE("appInfo is null");
@@ -69,7 +70,8 @@ public class PluginHelper extends BaseHook {
                                 // logD("AU pluginLoader: " + pluginLoader);
                                 setClassLoader(pluginLoader);
                             } else {
-                                logD("AU appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                if (!isHooked)
+                                    logD("AU appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
                             }
                         } else {
                             logE("AU appInfo is null");

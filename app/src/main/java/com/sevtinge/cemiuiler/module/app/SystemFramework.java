@@ -24,6 +24,7 @@ import com.sevtinge.cemiuiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.cemiuiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.cemiuiler.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.cemiuiler.module.hook.systemframework.ThemeProvider;
+import com.sevtinge.cemiuiler.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.cemiuiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.cemiuiler.module.hook.systemframework.VolumeDefaultStream;
 import com.sevtinge.cemiuiler.module.hook.systemframework.VolumeDisableSafe;
@@ -125,6 +126,7 @@ public class SystemFramework extends BaseModule {
         initHook(new PackagePermissions());
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new AppDisableService());
+        initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
     }

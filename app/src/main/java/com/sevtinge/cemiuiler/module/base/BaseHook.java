@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -57,6 +58,14 @@ public abstract class BaseHook {
 
     public void logD(String log) {
         XposedBridge.log("[Cemiuiler][D][" + TAG + "]: debug output: " + log);
+    }
+
+    public void logW(String tag, String log) {
+        XposedBridge.log("[Cemiuiler][W][" + TAG + "]: " + tag + " warning output: " + log);
+    }
+
+    public void logW(String log) {
+        XposedBridge.log("[Cemiuiler][W][" + TAG + "]: warning output: " + log);
     }
 
     public void logE(Exception e) {
@@ -261,6 +270,34 @@ public abstract class BaseHook {
             return XposedHelpers.getStaticObjectField(clazz, fieldName);
         } catch (Throwable t) {
             return null;
+        }
+    }
+
+    public void setDeclaredField(XC_MethodHook.MethodHookParam param, String iNeedString, Object iNeedTo) {
+        if (param != null) {
+            try {
+                Field setString = param.thisObject.getClass().getDeclaredField(iNeedString);
+                setString.setAccessible(true);
+                try {
+                    setString.set(param.thisObject, iNeedTo);
+                    Object result = setString.get(param.thisObject);
+                    checkLast("getDeclaredField", iNeedString, iNeedTo, result);
+                } catch (IllegalAccessException e) {
+                    logW("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code:" + e);
+                }
+            } catch (NoSuchFieldException e) {
+                logW("No such the: " + iNeedString + " code: " + e);
+            }
+        } else {
+            logW("Param is null Field: " + iNeedString + " to: " + iNeedTo);
+        }
+    }
+
+    public void checkLast(String setObject, Object fieldName, Object value, Object last) {
+        if (value.equals(last)) {
+            logI(setObject + " Success! set " + fieldName + " to " + value);
+        } else {
+            logW(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
         }
     }
 }
