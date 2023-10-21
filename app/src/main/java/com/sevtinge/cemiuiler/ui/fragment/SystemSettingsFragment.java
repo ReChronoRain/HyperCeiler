@@ -22,7 +22,6 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     PreferenceCategory mNewNfc; // 新版 NFC 界面
     SwitchPreference mHighMode; // 极致模式
     SwitchPreference mAreaScreenshot; // 区域截屏
-    SwitchPreference mKnuckleFunction; // 指关节相关
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
 
@@ -43,14 +42,12 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
         mAreaScreenshot = findPreference("prefs_key_system_settings_area_screenshot");
-        mKnuckleFunction = findPreference("prefs_key_system_settings_knuckle_function");
         mNewNfc = findPreference("prefs_key_system_settings_connection_sharing");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
 
         mHighMode.setVisible(!isAndroidR());
-        mAreaScreenshot.setVisible(isAndroidR());
-        mKnuckleFunction.setVisible(isMoreMiuiVersion(13f));
+        mAreaScreenshot.setVisible(isAndroidR());      
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());
