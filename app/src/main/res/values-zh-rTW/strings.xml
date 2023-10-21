@@ -647,8 +647,6 @@
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
     <string name="system_settings_accessibility_title">快速啟動手勢</string>
     <string name="system_settings_area_screenshot">解鎖區域截圖</string>
-    <string name="system_settings_knuckle_function">解鎖指關節相關功能</string>
-    <string name="system_settings_knuckle_function_desc">實驗性功能</string>
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">網路通話助手</string>
     <string name="system_settings_ai_image_title">AI 大師畫質引擎</string>

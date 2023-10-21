@@ -663,8 +663,6 @@
     <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
     <string name="system_settings_accessibility_title">ジェスチャーショートカット</string>
     <string name="system_settings_area_screenshot">部分的なスクリーンショットをアンロック</string>
-    <string name="system_settings_knuckle_function">ナックル関連機能をアンロック</string>
-    <string name="system_settings_knuckle_function_desc">実験的な機能です\n有効化したあとに設定と入力設定スコープを再起動してください\n現在は UI のみアンロックされます</string>
     <string name="system_settings_lab_title">注目の機能</string>
     <string name="system_settings_voip_assistant_controller">VoIP アシスタント</string>
     <string name="system_settings_ai_image_title">AI 画像エンジン</string>

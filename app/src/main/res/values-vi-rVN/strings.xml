@@ -662,8 +662,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
     <string name="system_settings_accessibility_title">Lối tắt cử chỉ</string>
     <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
-    <string name="system_settings_knuckle_function">Mở khóa Chạm lưng</string>
-    <string name="system_settings_knuckle_function_desc">Chỉ mở khóa giao diện, không chấp nhận báo lỗi chức năng</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
     <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
     <string name="system_settings_ai_image_title">Công cụ hình ảnh AI</string>

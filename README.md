@@ -48,7 +48,6 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 | 屏幕录制 | com.miui.screenrecorder |
 | 权限管理服务 | com.lbe.security.miui |
 | 设置 | com.android.settings
-| 输入设置 | com.miui.miinput |
 | 搜狗输入法小米版 | com.sohu.inputmethod.sogou.xiaomi |
 | 天气 | com.miui.weather2 |
 | 投屏 | com.milink.service |

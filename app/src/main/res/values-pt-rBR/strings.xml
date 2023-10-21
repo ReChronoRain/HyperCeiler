@@ -664,8 +664,6 @@
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
     <string name="system_settings_accessibility_title">Atalhos de gestos</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
-    <string name="system_settings_knuckle_function">Desbloquear as funções relacionadas à articulação</string>
-    <string name="system_settings_knuckle_function_desc">Recurso experimental\nPor favor, reinicie após ativar as Configurações, escopo das Configurações de entrada\nNo momento, apenas desbloqueia a interface do usuário</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>

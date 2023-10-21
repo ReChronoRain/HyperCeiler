@@ -48,7 +48,6 @@ MIUI 12.5 ~ 14 para Android 11 ~ 13
 | Gravador de tela | com.miui.screenrecorder |
 | Permissões | com.lbe.security.miui |
 | Configurações | com.android.settings
-| Configurações de entrada | com.miui.miinput |
 | Teclado Sogou para MIUI | com.sohu.inputmethod.sogou.xiaomi |
 | Clima | com.miui.weather2 |
 | Transmitir | com.milink.service |

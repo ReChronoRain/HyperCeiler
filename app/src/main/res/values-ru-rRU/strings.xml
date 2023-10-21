@@ -556,10 +556,6 @@
     <string name="system_settings_wifi_password_dlgtitle">Сведения сети Wi-Fi</string>
     <string name="system_settings_accessibility_title">Сочетания жестов</string>
     <string name="system_settings_area_screenshot">Скриншот области разблокировки</string>
-    <string name="system_settings_knuckle_function">Разблокировка функций, связанных с костяшками пальцев</string>
-    <string name="system_settings_knuckle_function_desc">Экспериментальные функции
-Перезагрузите устройство после включения Настроек, Область действия параметров ввода
-В настоящее время разблокируется только пользовательский интерфейс</string>
     <string name="system_settings_lab_title">Избранные функции</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
     <string name="system_settings_ai_image_title">AI обработка изображений</string>

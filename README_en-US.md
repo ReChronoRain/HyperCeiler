@@ -48,7 +48,6 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 | Screen Recorder | com.miui.screenrecorder |
 | Permissions | com.lbe.security.miui |
 | Settings | com.android.settings
-| Input Settings | com.miui.miinput |
 | Sogou Keyboard for MIUI | com.sohu.inputmethod.sogou.xiaomi |
 | Weather | com.miui.weather2 |
 | Cast | com.milink.service |

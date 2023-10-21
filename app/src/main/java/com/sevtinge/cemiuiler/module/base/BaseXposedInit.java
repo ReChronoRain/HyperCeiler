@@ -18,7 +18,6 @@ import com.sevtinge.cemiuiler.module.app.Gallery;
 import com.sevtinge.cemiuiler.module.app.GuardProvider;
 import com.sevtinge.cemiuiler.module.app.Home;
 import com.sevtinge.cemiuiler.module.app.InCallUi;
-import com.sevtinge.cemiuiler.module.app.InputSettings;
 import com.sevtinge.cemiuiler.module.app.Joyose;
 import com.sevtinge.cemiuiler.module.app.Lbe;
 import com.sevtinge.cemiuiler.module.app.Market;
@@ -105,7 +104,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final GuardProvider mGuardProvider = new GuardProvider();
     public final Lbe mLbe = new Lbe();
     public final InCallUi mInCallUi = new InCallUi();
-    public final InputSettings mInputSettings = new InputSettings();
     public final TsmClient mTsmClient = new TsmClient();
     public final ContentExtension mContentExtension = new ContentExtension();
     public final VoiceAssist mVoiceAssist = new VoiceAssist();
@@ -269,10 +267,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.scanner" -> {
                 mScanner.init(lpparam);
-                mVarious.init(lpparam);
-            }
-            case "com.miui.miinput" -> {
-                mInputSettings.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.mishare.connectivity" -> {
