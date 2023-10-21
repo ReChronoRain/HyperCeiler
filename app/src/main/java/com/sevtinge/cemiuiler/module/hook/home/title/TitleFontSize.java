@@ -22,17 +22,5 @@ public class TitleFontSize extends BaseHook {
                 }
             }
         );
-
-        /*用于隐藏应用名*/
-        if (mPrefsMap.getInt("home_title_font_size", 12) == 0) {
-            findAndHookMethod("com.miui.home.launcher.ItemIcon", "setTitle",
-                CharSequence.class, new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        param.setResult(null);
-                    }
-                }
-            );
-        }
     }
 }

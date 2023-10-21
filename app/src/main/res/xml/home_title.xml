@@ -102,24 +102,34 @@
     <PreferenceCategory android:title="@string/home_title_title_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_title_title_marquee"
-            android:summary="@string/home_title_title_marquee_desc"
-            android:title="@string/home_title_title_marquee" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_title_title_new_install"
             android:summary="@string/home_title_title_new_install_more"
             android:title="@string/home_title_title_new_install" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="prefs_key_home_drawer_font_hidden"
+            android:summary="@string/home_title_drawer_font_hidden_more"
+            android:title="@string/home_title_drawer_font_hidden" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_drawer_font_hidden"
+            android:key="prefs_key_home_title_title_marquee"
+            android:summary="@string/home_title_title_marquee_desc"
+            android:title="@string/home_title_title_marquee" />
+
         <moralnorm.preference.ColorPickerPreference
             android:defaultValue="-1"
+            android:dependency="prefs_key_home_drawer_font_hidden"
             android:key="prefs_key_home_title_title_color"
             android:title="@string/home_title_title_color"
             app:showAlphaSlider="false" />
 
         <SeekBarPreferenceEx
             android:defaultValue="12"
+            android:dependency="prefs_key_home_drawer_font_hidden"
             android:key="prefs_key_home_title_font_size"
             android:title="@string/home_title_font_size"
             app:defaultValueText="@string/array_default"

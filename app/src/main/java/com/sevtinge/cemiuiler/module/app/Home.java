@@ -89,6 +89,7 @@ import com.sevtinge.cemiuiler.module.hook.home.title.DisableHideTheme;
 import com.sevtinge.cemiuiler.module.hook.home.title.DownloadAnimation;
 import com.sevtinge.cemiuiler.module.hook.home.title.EnableIconMonoChrome;
 import com.sevtinge.cemiuiler.module.hook.home.title.FixAnimation;
+import com.sevtinge.cemiuiler.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.cemiuiler.module.hook.home.title.IconTitleColor;
 import com.sevtinge.cemiuiler.module.hook.home.title.LargeIconCornerRadius;
 import com.sevtinge.cemiuiler.module.hook.home.title.NewInstallIndicator;
@@ -188,6 +189,7 @@ public class Home extends BaseModule {
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
         initHook(new NewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
+        initHook(new HiddenAllTitle(), mPrefsMap.getBoolean("home_drawer_font_hidden"));
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
         initHook(IconTitleColor.INSTANCE);
         initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
