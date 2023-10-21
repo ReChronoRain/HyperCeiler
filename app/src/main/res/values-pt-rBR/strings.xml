@@ -73,6 +73,7 @@
     <string name="tip">Dica</string>
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su</string>
+    <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
     <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o Cemiuiler recebeu permissão Root/Su</string>
     <string name="expand_button_title">Alto nível</string>
     <string name="not_set">Não definido</string>
@@ -622,7 +623,7 @@
     <string name="system_ui_controlcenter_enable_title">Personalize o número de linhas e colunas</string>
     <string name="system_control_center_old_qs_rows_desc">Os nomes ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com nomes ocultos na orientação paisagem.</string>
     <string name="system_control_center_old_qs_columns_desc">A orientação paisagem terá uma coluna adicional\nSe sua ROM tiver uma opção compacta de layout de configurações rápidas, ela adicionará outra coluna em ambas as orientações</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">A orientação de paisagem terá uma coluna adicional</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">A orientação paisagem terá uma coluna adicional</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do ícone bluetooth</string>
@@ -686,7 +687,7 @@
     <string name="system_settings_animator_duration_scale">Escala de duração da animação</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
-    <string name="theme_manager_version_code_modify">Desativar detecção da versão da MIUI</string>
+    <string name="theme_manager_version_code_modify">Desativar detecção de versão da MIUI</string>
     <string name="theme_manager_diable_ads">Desativar anúncios</string>
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
     <string name="theme_manager_crack">Correção do tema</string>
