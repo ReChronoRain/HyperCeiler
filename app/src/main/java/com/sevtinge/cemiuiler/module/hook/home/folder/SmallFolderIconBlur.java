@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.home.folder;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -70,7 +71,9 @@ public class SmallFolderIconBlur extends BaseHook {
 
                 mIconImageView.setVisibility(View.GONE);
                 mDockBlur.addView(view);
-                new BlurUtils(mDockBlur, "home_small_folder_icon_bg_custom");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    new BlurUtils(mDockBlur, "home_small_folder_icon_bg_custom");
+                }
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();
                 lp.gravity = Gravity.CENTER;

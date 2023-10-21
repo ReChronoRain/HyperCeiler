@@ -2,7 +2,9 @@ package com.sevtinge.cemiuiler.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logE
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodReplacement
@@ -64,6 +66,7 @@ object HookUtils {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     fun createBlurDrawable(
         view: View,
         blurRadius: Int,

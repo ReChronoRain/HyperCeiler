@@ -1,7 +1,9 @@
 package com.sevtinge.cemiuiler.ui.fragment.home;
 
 import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
@@ -49,10 +51,26 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
         mFolderWidth = findPreference("prefs_key_home_folder_width");
         mFolderSpace = findPreference("prefs_key_home_folder_space");
         mSmallFolderIconBackgroundCustom = findPreference("prefs_key_home_small_folder_icon_bg_custom");
+        if (mSmallFolderIconBackgroundCustom != null) {
+            mSmallFolderIconBackgroundCustom.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
+            mSmallFolderIconBackgroundCustom.setEnabled(mSmallFolderIconBackgroundCustom.isVisible());
+        }
 
         mSmallFolderIconBackgroundCustom1 = findPreference("prefs_key_home_big_folder_icon_bg_2x1");
+        if (mSmallFolderIconBackgroundCustom1 != null) {
+            mSmallFolderIconBackgroundCustom1.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
+            mSmallFolderIconBackgroundCustom1.setEnabled(mSmallFolderIconBackgroundCustom1.isVisible());
+        }
         mSmallFolderIconBackgroundCustom2 = findPreference("prefs_key_home_big_folder_icon_bg_1x2");
+        if (mSmallFolderIconBackgroundCustom2 != null) {
+            mSmallFolderIconBackgroundCustom2.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
+            mSmallFolderIconBackgroundCustom2.setEnabled(mSmallFolderIconBackgroundCustom2.isVisible());
+        }
         mSmallFolderIconBackgroundCustom3 = findPreference("prefs_key_home_big_folder_icon_bg");
+        if (mSmallFolderIconBackgroundCustom3 != null) {
+            mSmallFolderIconBackgroundCustom3.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.S));
+            mSmallFolderIconBackgroundCustom3.setEnabled(mSmallFolderIconBackgroundCustom3.isVisible());
+        }
 
         setBigFolderTextForPad();
         setFolderShadeLevelEnable(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_home_folder_shade", "0")));

@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.ui.fragment;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import android.view.View;
 
 import com.sevtinge.cemiuiler.R;
@@ -17,9 +19,10 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
     SwitchPreference mWidgetCrack;
+    SwitchPreference mBlurBackground;
     SeekBarPreferenceEx mBlurRadius;
     ColorPickerPreference mBlurColor;
-    DropDownPreference mBlurBackGround;
+    DropDownPreference mBlurBackgroundStyle;
 
     @Override
     public int getContentResId() {
@@ -38,21 +41,24 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     public void initPrefs() {
         int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_personal_assistant_value", "1"));
         mWidgetCrack = findPreference("prefs_key_personal_assistant_widget_crack");
-        mBlurBackGround = findPreference("prefs_key_personal_assistant_value");
+        mBlurBackground = findPreference("prefs_key_pa_enable");
+        mBlurBackgroundStyle = findPreference("prefs_key_personal_assistant_value");
         mBlurRadius = findPreference("prefs_key_personal_assistant_blurradius");
         mBlurColor = findPreference("prefs_key_personal_assistant_color");
+
+        mBlurBackground.setVisible(!isAndroidR()); // 负一屏背景设置
 
         if (!getSharedPreferences().getBoolean("prefs_key_various_enable_super_function", false)) {
             mWidgetCrack.setVisible(false);
         }
 
         setBlurMode(mBlurMode);
-        mBlurBackGround.setOnPreferenceChangeListener(this);
+        mBlurBackgroundStyle.setOnPreferenceChangeListener(this);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference == mBlurBackGround) {
+        if (preference == mBlurBackgroundStyle) {
             setBlurMode(Integer.parseInt((String) o));
         }
         return true;

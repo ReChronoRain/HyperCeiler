@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
 
 import miui.telephony.TelephonyManager;
 import moralnorm.preference.DropDownPreference;
@@ -77,7 +78,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
                 try {
                     Settings.Secure.putInt(requireActivity().getContentResolver(), "sysui_qqs_count", progress);
                 } catch (Throwable t) {
-                    t.printStackTrace();
+                    AndroidLogUtils.LogD("SeekBarPreferenceEx",  "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
                 }
             }
 

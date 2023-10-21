@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -60,7 +61,9 @@ public class DockCustom extends BaseHook {
                 mDockView.setLayoutParams(layoutParams);
                 mSearchEdgeLayout.addView(mDockView, 0);
 
-                new BlurUtils(mDockView, "home_dock_bg_custom");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    new BlurUtils(mDockView, "home_dock_bg_custom");
+                }
 
 
                 findAndHookMethod(mLauncherCls, "isFolderShowing", new MethodHook() {

@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module.hook.home.folder;
 import static com.sevtinge.cemiuiler.utils.api.VoyagerApisKt.isPad;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -53,7 +54,9 @@ public class BigFolderIconBlur2x1 extends BaseHook {
                 mIconImageView.setVisibility(View.GONE);
                 mDockBlur.addView(view);
 
-                new BlurUtils(mDockBlur, "home_big_folder_icon_bg_2x1_custom");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    new BlurUtils(mDockBlur, "home_big_folder_icon_bg_2x1_custom");
+                }
 
                 mIconContainer.addView(mDockBlur, 0);
                 FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) mDockBlur.getLayoutParams();

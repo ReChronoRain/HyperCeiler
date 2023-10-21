@@ -1,5 +1,7 @@
 package com.sevtinge.cemiuiler.module.app;
 
+import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+
 import com.sevtinge.cemiuiler.module.base.BaseModule;
 import com.sevtinge.cemiuiler.module.base.CloseHostDir;
 import com.sevtinge.cemiuiler.module.base.LoadHostDir;
@@ -19,7 +21,7 @@ public class PersonalAssistant extends BaseModule {
         initHook(new BlurOverlay(), false);
         initHook(new EnableFoldWidget(), mPrefsMap.getBoolean("personal_assistant_fold_widget_enable"));
 
-        if (mPrefsMap.getStringAsInt("personal_assistant_value", 1) != 1) {
+        if (mPrefsMap.getStringAsInt("personal_assistant_value", 1) != 1 && !isAndroidR()) {
             initHook(BlurPersonalAssistant.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
         } else {
             initHook(BlurPersonalAssistantBackGround.INSTANCE, mPrefsMap.getBoolean("pa_enable"));

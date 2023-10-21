@@ -23,6 +23,8 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     SwitchPreference mBlurLocation;
     Preference mNewboxBackgroundCustom;
     SwitchPreference mOpenByDefaultSetting;
+    SwitchPreference mSecurityBackground;
+    SwitchPreference mSecurityColor;
 
     @Override
     public int getContentResId() {
@@ -45,6 +47,8 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
         mOpenByDefaultSetting = findPreference("prefs_key_security_center_app_default_setting");
+        mSecurityColor = findPreference("prefs_key_security_center_sidebar_line_color");
+        mSecurityBackground = findPreference("prefs_key_se_enable");
 
         mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
 
@@ -61,6 +65,8 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             mAiClipboard.setChecked(mAiClipboardEnable);
         }
 
+        mSecurityColor.setVisible(!isAndroidR()); // 侧滑栏提示线自定义
+        mSecurityBackground.setVisible(!isAndroidR()); // 侧滑栏背景自定义
         mOpenByDefaultSetting.setVisible(!isAndroidR()); // 应用打开链接管理
 
         boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
@@ -79,16 +85,6 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             return true;
         });
 
-/*         当个示例参考，后面移除
-            mBeautyLight = findPreference("prefs_key_security_center_beauty_light");
-            mBeautyLightAuto = findPreference("prefs_key_security_center_beauty_light_auto");
-
-            mBeautyLight.setOnPreferenceChangeListener((preference, o) -> {
-            if (!(boolean) o) {
-                mBeautyLightAuto.setChecked(false);
-            }
-            return true;
-        });*/
     }
 
     @Override
