@@ -1,53 +1,20 @@
 package com.sevtinge.cemiuiler.module.hook.systemui;
 
-import android.content.pm.ApplicationInfo;
+import static com.sevtinge.cemiuiler.utils.Helpers.hookAllMethods;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.XposedInit;
-import com.sevtinge.cemiuiler.module.base.SystemUIHook;
+import com.sevtinge.cemiuiler.utils.Helpers.MethodHook;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class NotificationVolumeSeparateSlider extends SystemUIHook {
+public class NotificationVolumeSeparateSlider {
+    public static void initHideDeviceControlEntry(ClassLoader pluginLoader) {
+        int notifVolumeOnResId;
+        int notifVolumeOffResId;
 
-    boolean isHooked = false;
-    ClassLoader pluginLoader = null;
-
-    Class<?> mMiuiVolumeDialogImpl;
-
-    int notifVolumeOnResId;
-    int notifVolumeOffResId;
-
-    @Override
-    public void init() {
-        initRes();
-
-        hookAllMethods(mPluginLoaderClass, "getClassLoader", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) {
-                ApplicationInfo appInfo = (ApplicationInfo) param.args[0];
-                if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
-                    isHooked = true;
-                    if (pluginLoader == null) pluginLoader = (ClassLoader) param.getResult();
-
-                    mMiuiVolumeDialogImpl = findClassIfExists("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", pluginLoader);
-
-                    hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) {
-                            if (param.args.length != 4) return;
-                            int streamType = (int) param.args[0];
-                            if (streamType == 4) {
-                                XposedHelpers.callMethod(param.thisObject, "addColumn", 5, notifVolumeOnResId, notifVolumeOffResId, true, false);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    public void initRes() {
+        Class<?> mMiuiVolumeDialogImpl = findClassIfExists("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", pluginLoader);
 
         notifVolumeOnResId = XposedInit.mResHook.addResource("ic_miui_volume_notification", R.drawable.ic_miui_volume_notification);
         notifVolumeOffResId = XposedInit.mResHook.addResource("ic_miui_volume_notification_mute", R.drawable.ic_miui_volume_notification_mute);
@@ -57,5 +24,15 @@ public class NotificationVolumeSeparateSlider extends SystemUIHook {
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
 
+        hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                if (param.args.length != 4) return;
+                int streamType = (int) param.args[0];
+                if (streamType == 4) {
+                    XposedHelpers.callMethod(param.thisObject, "addColumn", 5, notifVolumeOnResId, notifVolumeOffResId, true, false);
+                }
+            }
+        });
     }
 }

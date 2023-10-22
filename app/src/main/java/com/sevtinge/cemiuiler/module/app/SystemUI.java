@@ -11,7 +11,6 @@ import com.sevtinge.cemiuiler.module.hook.systemui.HideNavigationBar;
 import com.sevtinge.cemiuiler.module.hook.systemui.MonetThemeOverlay;
 import com.sevtinge.cemiuiler.module.hook.systemui.NotificationFix;
 import com.sevtinge.cemiuiler.module.hook.systemui.NotificationFreeform;
-import com.sevtinge.cemiuiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.cemiuiler.module.hook.systemui.OriginChargeAnimation;
 import com.sevtinge.cemiuiler.module.hook.systemui.QSDetailBackGround;
 import com.sevtinge.cemiuiler.module.hook.systemui.StatusBarActions;
@@ -216,8 +215,6 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarActions());
 
         // Other
-        boolean mSeparateVolume = mPrefsMap.getBoolean("system_framework_volume_separate_control") && mPrefsMap.getBoolean("system_framework_volume_separate_slider");
-        initHook(new NotificationVolumeSeparateSlider(), mSeparateVolume);
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix"));
 
         // 锁屏

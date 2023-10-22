@@ -6,6 +6,7 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.cemiuiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
 
 public class PluginHelper extends BaseHook {
@@ -93,5 +94,7 @@ public class PluginHelper extends BaseHook {
             HideDeviceControlEntry.initHideDeviceControlEntry(classLoader);
         if (mPrefsMap.getStringAsInt("system_ui_control_center_cc_bluetooth_tile_style", 1) > 1)
             BluetoothTileStyle.initHideDeviceControlEntry(classLoader);
+        if (mPrefsMap.getBoolean("system_framework_volume_separate_control") && mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
+            NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader);
     }
 }
