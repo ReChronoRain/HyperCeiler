@@ -65,9 +65,12 @@ public class MainActivity extends SettingsActivity {
         initData();
         setImmersionMenuEnabled(true);
         setFragment(mMainFrag);
-        ShellUtils.execCommand("chmod 0777 " + getPackageCodePath(), true, false);
-        ShellUtils.execCommand("chmod 0777 " + PrefsUtils.mPrefsFile, true, false);
-        ShellUtils.execCommand("chown root:root " + PrefsUtils.mPrefsFile, true, false);
+        ShellUtils.execCommand("chmod 0777 " + getPackageCodePath()
+                + " ; chmod 0777 " + PrefsUtils.mPrefsFile
+                + " ; chown root:root " + PrefsUtils.mPrefsFile,
+            true, false);
+        // ShellUtils.execCommand("chmod 0777 " + PrefsUtils.mPrefsFile, true, false);
+        // ShellUtils.execCommand("chown root:root " + PrefsUtils.mPrefsFile, true, false);
     }
 
     @Override

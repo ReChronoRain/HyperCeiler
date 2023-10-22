@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
-import android.util.Log;
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,7 +21,7 @@ public class ShellUtils {
             process = Runtime.getRuntime().exec("su -c true");
             return process.waitFor();
         } catch (IOException | InterruptedException e) {
-            Log.e("ShellUtils", "checkRootPermission: " + "check whether has root permission error: ", e);
+            AndroidLogUtils.LogE("checkRootPermission", "check whether has root permission error: ", e);
             return exitCode;
         } finally {
             if (process != null) {
@@ -138,12 +138,12 @@ public class ShellUtils {
 
         DataOutputStream os = null;
         try {
-            if (isRoot) {
-                int exitCode = checkRootPermission();
-                if (exitCode != 0) {
-                    return new CommandResult(exitCode, null, null);
-                }
-            }
+            // if (isRoot) {
+            //     int exitCode = checkRootPermission();
+            //     if (exitCode != 0) {
+            //         return new CommandResult(exitCode, null, null);
+            //     }
+            // }
             process = Runtime.getRuntime().exec(isRoot ? "su" : "sh");
             os = new DataOutputStream(process.getOutputStream());
             for (String command : commands) {
@@ -176,7 +176,7 @@ public class ShellUtils {
                 }
             }
         } catch (IOException | InterruptedException e) {
-            Log.e("ShellUtils", "execCommand: " + "IOException | InterruptedException: ", e);
+            AndroidLogUtils.LogE("execCommand", "IOException | InterruptedException: ", e);
         } finally {
             try {
                 if (os != null) {

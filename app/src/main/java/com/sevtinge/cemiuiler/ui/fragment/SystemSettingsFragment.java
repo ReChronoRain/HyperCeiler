@@ -6,13 +6,13 @@ import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVe
 import static com.sevtinge.cemiuiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
 
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SeekBarPreferenceEx;
@@ -47,7 +47,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
 
         mHighMode.setVisible(!isAndroidR());
-        mAreaScreenshot.setVisible(isAndroidR());      
+        mAreaScreenshot.setVisible(isAndroidR());
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());
@@ -87,7 +87,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         try {
             Settings.Global.putFloat(getContext().getContentResolver(), name, mFloat);
         } catch (Throwable e) {
-            Log.e("setAnimator", "set: " + name + " float: " + mFloat, e);
+            AndroidLogUtils.LogE("setAnimator", "set: " + name + " float: " + mFloat, e);
         }
     }
 }
