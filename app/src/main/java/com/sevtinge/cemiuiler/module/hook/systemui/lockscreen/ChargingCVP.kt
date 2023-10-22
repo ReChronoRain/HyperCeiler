@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
-import android.os.Build
 import android.os.Handler
 import android.os.PowerManager
 import android.widget.TextView
@@ -19,6 +18,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XposedHelpers
@@ -32,7 +32,7 @@ object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
         // 去除单行限制，Android13 以上扩展一个刷新频率，Android12 的后面再看看情况
-        if (isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU)) {
+        if (getAndroidVersion() >= 33) {
             val clazzDependency = loadClass("com.android.systemui.Dependency")
             val clazzKeyguardIndicationController =
                 loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
@@ -157,7 +157,15 @@ object ChargingCVP : BaseHook() {
         val mVoltage = "${String.format("%.1f", abs(voltage / 1000f))} V"
         // 电池温度是否展示
         val mTemp = if (mPrefsMap.getBoolean("system_ui_show_battery_temperature")) " · $temp ℃" else ""
+
+        // 判断充满信息是否归零
+        val showBattery = if (current == 0) {
+            mTemp
+        } else {
+            "$mTemp\n$mCurrent · $mVoltage · $power W"
+        }
+
         // 输出展示信息
-        return "$mTemp\n$mCurrent · $mVoltage · $power W"
+        return showBattery
     }
 }
