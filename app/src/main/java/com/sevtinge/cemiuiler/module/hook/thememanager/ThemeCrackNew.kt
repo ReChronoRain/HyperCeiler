@@ -4,21 +4,23 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.Log
+import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.module.base.BaseXposedInit.mPrefsMap
+import com.sevtinge.cemiuiler.module.base.CloseHostDir.logE
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
-import com.sevtinge.cemiuiler.utils.callMethod
-import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.setObjectField
+import de.robv.android.xposed.callbacks.XC_LoadPackage
 import miui.drm.DrmManager
 import java.io.File
 
-object ThemeCrackNew : BaseHook() {
-    override fun init() {
+class ThemeCrackNew {
+    fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
+        if (mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("various_theme_crack")) return
         initDexKit(lpparam)
         try {
             loadClass("com.android.thememanager.detail.theme.model.OnlineResourceDetail").methodFinder().filterByName("toResource").toList().createHooks {
@@ -78,28 +80,15 @@ object ThemeCrackNew : BaseHook() {
                         "relativePackageList is empty"
                     )
                 }
-            }.forEach { methodData ->
-                val largeIconMethod = methodData.getMethodInstance(lpparam.classLoader)
-                largeIconMethod.createHook {
-                    before {
-                        largeIconMethod.createHook {
-                            before {
-                                val resource =
-                                    it.thisObject.javaClass.fieldFinder().filterByType(loadClass("com.android.thememanager.basemodule.resource.model.Resource", lpparam.classLoader)).first()
-                                 val productId = it.thisObject.getObjectField(resource.name)
-                                    ?.callMethod("getProductId").toString()
-                                // val productId =
-                                //     it.thisObject.objectHelper().getObjectOrNull(resource.name)!!.objectHelper()
-                                //         .invokeMethodBestMatch("getProductId").toString()
-                                val strPath =
-                                    "/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra"
-                                val file = File(strPath)
-                                val fileParent = file.parentFile!!
-                                if (!fileParent.exists()) fileParent.mkdirs()
-                                file.createNewFile()
-                            }
-                        }
-                    }
+            }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+                before {
+                    val resource = it.thisObject.javaClass.fieldFinder().filterByType(loadClass("com.android.thememanager.basemodule.resource.model.Resource", lpparam.classLoader)).first()
+                    val productId = it.thisObject.objectHelper().getObjectOrNull(resource.name)!!.objectHelper().invokeMethodBestMatch("getProductId").toString()
+                    val strPath = "/storage/emulated/0/Android/data/com.android.thememanager/files/MIUI/theme/.data/rights/theme/${productId}-largeicons.mra"
+                    val file = File(strPath)
+                    val fileParent = file.parentFile!!
+                    if (!fileParent.exists()) fileParent.mkdirs()
+                    file.createNewFile()
                 }
             }
             closeDexKit()

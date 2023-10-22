@@ -13,12 +13,14 @@ import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constr
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.callMethod
-import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
-import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.cemiuiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.cemiuiler.utils.getObjectField
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Timer
+import java.util.TimerTask
 
 object TimeCustomization : BaseHook() {
     // 预设模式
@@ -39,18 +41,16 @@ object TimeCustomization : BaseHook() {
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
     private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
 
+    private val mClockClass = when {
+        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
+        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    }
 
     private lateinit var nowTime: Date
     private var str = ""
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        val mClockClass = when {
-            isAndroidR() -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
-            isMoreAndroidVersion(31) -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
-            else -> null
-        }
-
         when (getMode) {
             // 预设模式
             1 -> {

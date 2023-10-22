@@ -5,7 +5,7 @@ import android.util.Log;
 import com.sevtinge.cemiuiler.BuildConfig;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 
-/* 不太建议在非Xposed代码使用处调用，虽然已经做了try处理，但是detailLog将始终为false
+/* 不太建议在非 Xposed 代码使用处调用，虽然已经做了 try 处理，但是 detailLog 将始终为 false
  * 可能因为 <BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");>
  * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/cemiuiler/XposedInit;> 等
  * */
@@ -40,16 +40,12 @@ public class AndroidLogUtils {
     }
 
     public static void LogD(String tag, Throwable tr) {
-        getDisableDetailedLog();
         if (!isDebugVersion) return;
-        if (detailLog) return;
         Log.d(tag, "[D/" + Tag, tr);
     }
 
     public static void LogD(String tag, String msg, Throwable tr) {
-        getDisableDetailedLog();
         if (!isDebugVersion) return;
-        if (detailLog) return;
         Log.d(tag, "[D/" + Tag + msg, tr);
     }
 

@@ -20,8 +20,8 @@ import moralnorm.preference.SwitchPreference;
 
 public class SystemSettingsFragment extends SettingsPreferenceFragment {
     PreferenceCategory mNewNfc; // 新版 NFC 界面
+    PreferenceCategory mAreaScreenshot; // 区域截屏
     SwitchPreference mHighMode; // 极致模式
-    SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
 
@@ -41,7 +41,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
-        mAreaScreenshot = findPreference("prefs_key_system_settings_area_screenshot");
+        mAreaScreenshot = findPreference("prefs_key_system_settings_accessibility");
         mNewNfc = findPreference("prefs_key_system_settings_connection_sharing");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");

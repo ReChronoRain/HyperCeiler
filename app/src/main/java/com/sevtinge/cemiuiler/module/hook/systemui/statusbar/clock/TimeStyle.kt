@@ -11,25 +11,33 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
-import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
-import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
-
+import com.sevtinge.cemiuiler.utils.devicesdk.getAndroidVersion
 
 object TimeStyle : BaseHook() {
+    private val clockBold by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
+    }
+    private val getMode by lazy {
+        mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0)
+    }
+    private val isAlign by lazy {
+        mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode", 0)
+    }
+    private val isGeekAlign by lazy {
+        mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0)
+    }
+    private val verticalOffset by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12)
+    }
+
+    private val mClockClass = when {
+        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
+        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    }
+
     @SuppressLint("RtlHardcoded", "DiscouragedApi")
     override fun init() {
-        val mClockClass = when {
-            isAndroidR() -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
-            isMoreAndroidVersion(31) -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
-            else -> null
-        }
-        val clockBold = mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
-        val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0)
-        val isAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode", 0)
-        val isGeekAlign = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0)
-        val verticalOffset = mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12)
-
-        mClockClass!!.constructorFinder().first {
+        mClockClass.constructorFinder().first {
             paramCount == 3
         }.createHook {
             after {

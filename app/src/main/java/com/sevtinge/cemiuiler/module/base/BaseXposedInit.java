@@ -50,7 +50,7 @@ import com.sevtinge.cemiuiler.module.app.Updater;
 import com.sevtinge.cemiuiler.module.app.Various;
 import com.sevtinge.cemiuiler.module.app.VoiceAssist;
 import com.sevtinge.cemiuiler.module.app.Weather;
-import com.sevtinge.cemiuiler.utils.DexKit;
+import com.sevtinge.cemiuiler.module.hook.thememanager.ThemeCrackNew;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
@@ -194,6 +194,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.android.thememanager" -> {
+                new ThemeCrackNew().init(lpparam);
                 mThemeManager.init(lpparam);
                 mVarious.init(lpparam);
             }
@@ -223,18 +224,14 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.xiaomi.joyose" -> mJoyose.init(lpparam);
 
-            case "com.miui.screenshot" -> {
-                mScreenShot.init(lpparam);
-                mVarious.init(lpparam);
-            }
+            case "com.miui.screenshot" -> mScreenShot.init(lpparam);
+
             case "com.miui.screenrecorder" -> {
                 mScreenRecorder.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.miui.mediaeditor" -> {
-                mMediaEditor.init(lpparam);
-                mVarious.init(lpparam);
-            }
+            case "com.miui.mediaeditor" -> mMediaEditor.init(lpparam);
+
             case "com.miui.miwallpaper" -> {
                 mMiWallpaper.init(lpparam);
                 mVarious.init(lpparam);
@@ -247,10 +244,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mClock.init(lpparam);
                 mVarious.init(lpparam);
             }
-            case "com.miui.player" -> {
-                mMusic.init(lpparam);
-                mVarious.init(lpparam);
-            }
+            case "com.miui.player" -> mMusic.init(lpparam);
+
             case "com.miui.gallery" -> {
                 mGallery.init(lpparam);
                 mVarious.init(lpparam);
@@ -331,7 +326,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case BuildConfig.APPLICATION_ID -> ModuleActiveHook(lpparam);
             default -> mVarious.init(lpparam);
         }
-        DexKit.INSTANCE.closeDexKit();
     }
 
     public void ModuleActiveHook(LoadPackageParam lpparam) {

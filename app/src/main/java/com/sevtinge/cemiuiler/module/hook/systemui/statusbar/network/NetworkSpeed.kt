@@ -4,13 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.TrafficStats
-import android.os.Build
 import android.util.Pair
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
+import com.sevtinge.cemiuiler.utils.devicesdk.getAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
 import kotlin.math.pow
@@ -106,9 +106,8 @@ object NetworkSpeed : BaseHook() {
     override fun init() {
         // 双排网速相关
         val networkClass = when {
-            Build.VERSION.SDK_INT == 30 -> "com.android.systemui.statusbar.NetworkSpeedController"
-            Build.VERSION.SDK_INT >= 31 -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
-            else -> null
+            getAndroidVersion() == 30 -> "com.android.systemui.statusbar.NetworkSpeedController"
+            else -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
         }
 
         val nscCls by lazy {

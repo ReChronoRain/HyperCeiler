@@ -33,7 +33,6 @@ object DexKit {
         if (isInitialized) dexKitBridge.close()
     }
 
-
     /**
      * DexKit 封装查找方式
      */
