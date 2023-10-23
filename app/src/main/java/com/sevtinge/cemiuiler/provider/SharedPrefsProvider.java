@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
@@ -96,7 +97,7 @@ public class SharedPrefsProvider extends ContentProvider {
             if (filename != null) try {
                 afd = getContext().getAssets().openFd(filename);
             } catch (Throwable t) {
-                t.printStackTrace();
+                Log.i("afd", String.valueOf(t));
             }
             return afd;
         } else if (uriMatcher.match(uri) == 6) {
