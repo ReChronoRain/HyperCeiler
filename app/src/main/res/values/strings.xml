@@ -1285,7 +1285,6 @@
     <string name="cemiuiler_restart_quick">Quickly restart apps</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
-    <string name="system_framework_disable_private_watermark">Disable Private Watermark</string>
     <string name="home_title_custom_anim_param">Custom Animation Parameter</string>
     <string name="home_title_custom_anim_param_1_title" translatable="false">BREAK_OPEN</string>
     <string name="home_title_custom_anim_param_2_title" translatable="false">OPEN_FROM_HOME</string>

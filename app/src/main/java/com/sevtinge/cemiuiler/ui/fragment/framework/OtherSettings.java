@@ -18,7 +18,6 @@ public class OtherSettings extends SettingsPreferenceFragment {
     Preference mCleanOpenApps;
     SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
-    SwitchPreference mDisableWaterMark;
 
     @Override
     public int getContentResId() {
@@ -50,11 +49,6 @@ public class OtherSettings extends SettingsPreferenceFragment {
             startActivity(intent);
             return true;
         });
-
-        mDisableWaterMark = findPreference("prefs_key_system_framework_disable_private_watermark");
-        if (!getSharedPreferences().getBoolean("prefs_key_various_enable_super_function", false)) {
-            mDisableWaterMark.setVisible(false);
-        }
     }
 
 

@@ -326,7 +326,6 @@
     <string name="system_framework_other_disable_cleaner">禁止杀后台应用</string>
     <string name="system_framework_other_disable_cleaner_desc">实验性功能，可能导致运行内存占用异常</string>
     <string name="system_framework_disable_72h_verify">禁用每 72 小时验证锁屏密码</string>
-    <string name="system_framework_disable_private_watermark">禁用测试版本水印</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
