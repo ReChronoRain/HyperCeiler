@@ -218,6 +218,78 @@ public class SearchHelper {
             R.string.home_title,
             "com.sevtinge.cemiuiler.ui.fragment.home.HomeTitleSettings");
 
+        parsePrefXml(context, R.xml.home_title_anim,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param,
+            "com.sevtinge.cemiuiler.ui.fragment.home.HomeTitleAnimSettings");
+
+        parsePrefXml(context, R.xml.home_title_anim_1,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_1_title,
+            R.string.home_title_custom_anim_param_1_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim1Settings");
+
+        parsePrefXml(context, R.xml.home_title_anim_2,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_2_title,
+            R.string.home_title_custom_anim_param_2_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim2Settings");
+
+        parsePrefXml(context, R.xml.home_title_anim_3,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_3_title,
+            R.string.home_title_custom_anim_param_3_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim3Settings");
+
+        parsePrefXml(context, R.xml.home_title_anim_4,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_4_title,
+            R.string.home_title_custom_anim_param_4_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim4Settings");
+
+        parsePrefXml(context, R.xml.home_title_anim_5,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_5_title,
+            R.string.home_title_custom_anim_param_5_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim5Settings");
+
+        parsePrefXml(context, R.xml.home_title_anim_6,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_6_title,
+            R.string.home_title_custom_anim_param_6_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnimSettings");
+
+        parsePrefXml(context, R.xml.home_title_anim_7,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_7_title,
+            R.string.home_title_custom_anim_param_7_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim7Settings");
+
+        parsePrefXml(context, R.xml.home_title_anim_8,
+            R.string.home,
+            R.string.home_title,
+            R.string.home_title_custom_anim_param,
+            R.string.home_title_custom_anim_param_8_title,
+            R.string.home_title_custom_anim_param_8_title,
+            "com.sevtinge.cemiuiler.ui.fragment.home.anim.HomeTitleAnim8Settings");
+
         parsePrefXml(context, R.xml.home_recent,
             R.string.home,
             R.string.home_recent,
