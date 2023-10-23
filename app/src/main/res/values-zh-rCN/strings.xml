@@ -321,8 +321,8 @@
     <string name="system_framework_other_use_original_animation">过渡动画使用原生样式</string>
     <string name="system_framework_other_speed_install">快速安装</string>
     <string name="system_framework_other_speed_install_desc">安装至运行内存以提升安装速度，需要系统底层支持</string>
-    <string name="system_framework_other_thermal_brightness">禁止自动降亮度</string>
-    <string name="system_framework_other_thermal_brightness_more">仅限因温度导致的自动降亮度</string>
+    <string name="system_framework_other_thermal_brightness">禁止自动降低屏幕亮度</string>
+    <string name="system_framework_other_thermal_brightness_more">仅限因温度导致的自动降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止杀后台应用</string>
     <string name="system_framework_other_disable_cleaner_desc">实验性功能，可能导致运行内存占用异常</string>
     <string name="system_framework_disable_72h_verify">禁用每 72 小时验证锁屏密码</string>
