@@ -1286,6 +1286,23 @@
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
     <string name="system_framework_disable_private_watermark">Disable Private Watermark</string>
+    <string name="home_title_custom_anim_param">Custom Animation Parameter</string>
+    <string name="home_title_custom_anim_param_1_title" translatable="false">BREAK_OPEN</string>
+    <string name="home_title_custom_anim_param_2_title" translatable="false">OPEN_FROM_HOME</string>
+    <string name="home_title_custom_anim_param_3_title" translatable="false">OPEN_FROM_RECENTS</string>
+    <string name="home_title_custom_anim_param_4_title" translatable="false">CLOSE_TO_RECENTS</string>
+    <string name="home_title_custom_anim_param_5_title" translatable="false">CLOSE_TO_HOME</string>
+    <string name="home_title_custom_anim_param_6_title" translatable="false">CLOSE_FROM_FEED</string>
+    <string name="home_title_custom_anim_param_7_title" translatable="false">APP_TO_APP</string>
+    <string name="home_title_custom_anim_param_8_title" translatable="false">START_FIRST_TASK</string>
+    <string name="home_title_custom_anim_param_RECT_CENTERX_title" translatable="false">RECT_CENTERX</string>
+    <string name="home_title_custom_anim_param_RECT_CENTERY_title" translatable="false">RECT_CENTERY</string>
+    <string name="home_title_custom_anim_param_RECT_WIDTH_title" translatable="false">RECT_WIDTH</string>
+    <string name="home_title_custom_anim_param_RECT_RATIO_title" translatable="false">RECT_RATIO</string>
+    <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
+    <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
+    <string name="home_title_custom_anim_param_damping_title">Damping</string>
+    <string name="home_title_custom_anim_param_stiffness_title">Stiffness</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

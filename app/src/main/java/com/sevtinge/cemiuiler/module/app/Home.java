@@ -83,6 +83,7 @@ import com.sevtinge.cemiuiler.module.hook.home.recent.RemoveCardAnim;
 import com.sevtinge.cemiuiler.module.hook.home.recent.RemoveIcon;
 import com.sevtinge.cemiuiler.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.cemiuiler.module.hook.home.recent.TaskViewVertical;
+import com.sevtinge.cemiuiler.module.hook.home.title.AnimParamCustom;
 import com.sevtinge.cemiuiler.module.hook.home.title.BigIconCorner;
 import com.sevtinge.cemiuiler.module.hook.home.title.DisableHideFile;
 import com.sevtinge.cemiuiler.module.hook.home.title.DisableHideTheme;
@@ -184,6 +185,7 @@ public class Home extends BaseModule {
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
         initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme"));
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
+        initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
         // 标题

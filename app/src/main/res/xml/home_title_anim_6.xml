@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_CENTERX_title">
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_damping_RECT_CENTERX_6"
+            android:title="@string/home_title_custom_anim_param_damping_title"
+            android:defaultValue="950"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERX_6"
+            android:title="@string/home_title_custom_anim_param_stiffness_title"
+            android:defaultValue="378"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_CENTERY_title">
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_damping_RECT_CENTERY_6"
+            android:title="@string/home_title_custom_anim_param_damping_title"
+            android:defaultValue="950"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_CENTERY_6"
+            android:title="@string/home_title_custom_anim_param_stiffness_title"
+            android:defaultValue="378"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_WIDTH_title">
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_damping_RECT_WIDTH_6"
+            android:title="@string/home_title_custom_anim_param_damping_title"
+            android:defaultValue="900"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_WIDTH_6"
+            android:title="@string/home_title_custom_anim_param_stiffness_title"
+            android:defaultValue="405"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_RATIO_title">
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_damping_RECT_RATIO_6"
+            android:title="@string/home_title_custom_anim_param_damping_title"
+            android:defaultValue="950"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_stiffness_RECT_RATIO_6"
+            android:title="@string/home_title_custom_anim_param_stiffness_title"
+            android:defaultValue="333"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_custom_anim_param_RADIUS_title">
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_damping_RADIUS_6"
+            android:title="@string/home_title_custom_anim_param_damping_title"
+            android:defaultValue="990"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_stiffness_RADIUS_6"
+            android:title="@string/home_title_custom_anim_param_stiffness_title"
+            android:defaultValue="180"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_custom_anim_param_ALPHA_title">
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_damping_ALPHA_6"
+            android:title="@string/home_title_custom_anim_param_damping_title"
+            android:defaultValue="990"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_home_title_custom_anim_param_stiffness_ALPHA_6"
+            android:title="@string/home_title_custom_anim_param_stiffness_title"
+            android:defaultValue="378"
+            app:format="%s f"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="999"
+            app:minValue="1"
+            app:stepValue="1"
+            app:displayDividerValue="1000" />
+
+    </PreferenceCategory>
+
+    <Preference android:enabled="false" />
+
+</PreferenceScreen>

@@ -78,6 +78,11 @@
             android:key="prefs_key_home_title_fix_animation"
             android:title="@string/home_title_fix_animation" />
 
+        <Preference
+            android:key="prefs_key_home_title_custom_anim_param"
+            android:title="@string/home_title_custom_anim_param"
+            android:fragment="com.sevtinge.cemiuiler.ui.fragment.home.HomeTitleAnimSettings" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_title_bigicon_title">
