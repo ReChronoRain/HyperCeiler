@@ -269,7 +269,7 @@
     <string name="phone_n28_desc">Suporte Banda N28 (NR)</string>
     <string name="phone_n5_n8">Banda N5/N8</string>
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda N5/N8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
-    <string name="system_framework_screen_all_rotations">Este recurso é um recurso experimental com alta instabilidade</string>
+    <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
     <string name="system_framework_allow_uninstall">Permitir desinstalar alguns apps pré-instalados</string>
     <string name="system_framework_allow_uninstall_desc">Este recurso é perigoso</string>
@@ -290,6 +290,8 @@
     <string name="system_framework_other_use_original_animation">Animações de transição usam estilos nativos</string>
     <string name="system_framework_other_speed_install">Instalação rápida</string>
     <string name="system_framework_other_speed_install_desc">Instale na memória em execução para acelerar a instalação</string>
+    <string name="system_framework_other_thermal_brightness">Proibir escurecimento automático</string>
+    <string name="system_framework_other_thermal_brightness_more">Redução automática do brilho devido apenas à temperatura</string>
     <string name="system_framework_other_disable_cleaner">Desativar o encerramento de apps em segundo plano</string>
     <string name="system_framework_other_disable_cleaner_desc">Recursos experimentais, podem causar uso anormal de memória em execução</string>
     <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio por 72 horas</string>
@@ -849,6 +851,8 @@
     <string name="home_title_title_marquee">Rolagem de texto</string>
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
     <string name="home_title_title_new_install">Não mostrar novo indicador de instalação do app</string>
+    <string name="home_title_drawer_font_hidden">Ocultar todos os nomes dos apps</string>
+    <string name="home_title_drawer_font_hidden_more">O nome do app dentro da gaveta também ficará oculto, caso contrário, use Tamanho da fonte para ajustá-lo</string>
     <string name="home_title_title_new_install_more">Não exiba o indicador próximo ao nome do app ao instalar um novo app</string>
     <string name="home_title_font_size">Tamanho da fonte</string>
     <string name="home_title_title_color">Cor do título</string>
@@ -1068,7 +1072,7 @@
     <string name="security_center_no_permission">Permissões necessárias não concedidas</string>
     <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em janelas flutuantes</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Desbloquear ocultar na lateral em janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o telefone for cortado em segundo plano</string>
-    <string name="security_center_unlock_smart_charge_title">Desbloquear Proteção inteligente contra carga</string>
+    <string name="security_center_unlock_smart_charge_title">Desbloqueie as funções Proteção inteligente contra carga e Carga rápida de bateria fraca</string>
     <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fios</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
     <string name="security_center_blurradius">Valor do blur da barra lateral</string>
