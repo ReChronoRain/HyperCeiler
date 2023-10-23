@@ -1266,7 +1266,6 @@
     <string name="cemiuiler_restart_quick">アプリを素早く再起動する</string>
     <string name="location_add">追加</string>
     <string name="location_delete">削除</string>
-    <string name="system_framework_disable_private_watermark">プライベート透かしを無効化</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
