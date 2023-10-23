@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -79,6 +80,14 @@ public class FlagSecure extends BaseHook {
                     c = XposedHelpers.findClassIfExists("com.android.server.wm.DisplayContent$$ExternalSyntheticLambda" + i, lpparam.classLoader);
                     if (c != null && BiPredicate.class.isAssignableFrom(c)) {
                         deoptimizeMethod(c, "test");
+                    }
+                }
+                c = XposedHelpers.findClass("com.android.server.wm.WindowManagerService", lpparam.classLoader);
+                deoptimizeMethod(c, "relayoutWindow");
+                for (int i = 0; i < 20; i++) {
+                    c = XposedHelpers.findClassIfExists("com.android.server.wm.RootWindowContainer$$ExternalSyntheticLambda" + i, lpparam.classLoader);
+                    if (c != null && BiConsumer.class.isAssignableFrom(c)) {
+                        deoptimizeMethod(c, "accept");
                     }
                 }
             } catch (Throwable t) {
