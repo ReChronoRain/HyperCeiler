@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <PreferenceCategory>
+
         <SwitchPreference
             android:title="@string/barrage_any_barrage"
             android:key="prefs_key_barrage_any_barrage"
             android:defaultValue="false" />
+
+        <SeekBarPreferenceEx
+            android:key="prefs_key_barrage_custom_barrage_length"
+            android:title="@string/barrage_custom_barrage_length"
+            android:defaultValue="36"
+            app:format="%s"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="108"
+            app:minValue="12" />
 
     </PreferenceCategory>
 </PreferenceScreen>

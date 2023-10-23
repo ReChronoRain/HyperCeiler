@@ -1302,6 +1302,7 @@
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
     <string name="home_title_custom_anim_param_damping_title">Damping</string>
     <string name="home_title_custom_anim_param_stiffness_title">Stiffness</string>
+    <string name="barrage_custom_barrage_length">Custom barrage length</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
