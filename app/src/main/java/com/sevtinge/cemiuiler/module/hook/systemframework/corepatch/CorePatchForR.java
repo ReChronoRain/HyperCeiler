@@ -1,5 +1,9 @@
 package com.sevtinge.cemiuiler.module.hook.systemframework.corepatch;
 
+import static com.sevtinge.cemiuiler.module.app.SystemFrameworkForCorePatch.TAG;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
+import static de.robv.android.xposed.XposedHelpers.findMethodExactIfExists;
+
 import android.app.AndroidAppHelper;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -8,9 +12,6 @@ import android.content.pm.Signature;
 import android.util.Log;
 
 import com.sevtinge.cemiuiler.BuildConfig;
-import com.sevtinge.cemiuiler.module.app.SystemFrameworkForCorePatch;
-import com.sevtinge.cemiuiler.utils.Helpers;
-import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -34,23 +35,52 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    XSharedPreferences prefs = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
+    private final static Method deoptimizeMethod;
+    private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
+
+    static {
+        Method m = null;
+        try {
+            m = XposedBridge.class.getDeclaredMethod("deoptimizeMethod", Member.class);
+        } catch (Throwable t) {
+            XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(t));
+        }
+        deoptimizeMethod = m;
+    }
+
+    static void deoptimizeMethod(Class<?> c, String n) throws InvocationTargetException, IllegalAccessException {
+        for (Method m : c.getDeclaredMethods()) {
+            if (deoptimizeMethod != null && m.getName().equals(n)) {
+                deoptimizeMethod.invoke(null, m);
+                if (isNotReleaseVersion)
+                    XposedBridge.log("[D" + TAG + ": Deoptimized " + m.getName());
+            }
+        }
+    }
+
+    final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "conf");
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        if (isNotReleaseVersion) {
+            XposedBridge.log("[D" + TAG + ": downgrade=" + prefs.getBoolean("prefs_key_system_framework_core_patch_downgr", true));
+            XposedBridge.log("[D" + TAG + ": authcreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
+            XposedBridge.log("[D" + TAG + ": digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
+            XposedBridge.log("[D" + TAG + ": UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
+            XposedBridge.log("[D" + TAG + ": enhancedMode=" + prefs.getBoolean("prefs_key_system_framework_core_patch_enhanced_mode", false));
+        }
 
-        Log.d(SystemFrameworkForCorePatch.TAG, "downgrade=" + prefs.getBoolean("prefs_key_system_framework_core_patch_downgr", true));
-        Log.d(SystemFrameworkForCorePatch.TAG, "authCreak" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
-        Log.d(SystemFrameworkForCorePatch.TAG, "digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
-        Log.d(SystemFrameworkForCorePatch.TAG, "UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
-
-        // 允许降级
-        findAndHookMethod("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader,
-            "checkDowngrade",
-            "com.android.server.pm.parsing.pkg.AndroidPackage",
-            "android.content.pm.PackageInfoLite",
-            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", null));
-
+        var pmService = findClassIfExists("com.android.server.pm.PackageManagerService",
+            loadPackageParam.classLoader);
+        if (pmService != null) {
+            var checkDowngrade = findMethodExactIfExists(pmService, "checkDowngrade",
+                "com.android.server.pm.parsing.pkg.AndroidPackage",
+                "android.content.pm.PackageInfoLite");
+            if (checkDowngrade != null) {
+                // 允许降级
+                XposedBridge.hookMethod(checkDowngrade, new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_downgr", null));
+            }
+        }
 
         // apk内文件修改后 digest校验会失败
         hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verifyMessageDigest",
@@ -71,8 +101,12 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         // + " or newer for package " + apkPath
         findAndHookMethod("android.util.apk.ApkSignatureVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
             new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
-        findAndHookMethod("com.android.apksig.ApkVerifier", loadPackageParam.classLoader, "getMinimumSignatureSchemeVersionForTargetSdk", int.class,
-            new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
+        var apkVerifierClass = XposedHelpers.findClassIfExists("com.android.apksig.ApkVerifier",
+            loadPackageParam.classLoader);
+        if (apkVerifierClass != null) {
+            findAndHookMethod(apkVerifierClass,"getMinimumSignatureSchemeVersionForTargetSdk", loadPackageParam.classLoader, int.class,
+                new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
+        }
 
         // Package " + packageName + " signatures do not match previously installed version; ignoring!"
         // public boolean checkCapability(String sha256String, @CertCapabilities int flags) {
@@ -108,7 +142,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         error.setAccessible(true);
         Object[] signingDetailsArgs = new Object[2];
         signingDetailsArgs[1] = 1;
-        Class<?> parseResult = XposedHelpers.findClassIfExists("android.content.pm.parsing.result.ParseResult", loadPackageParam.classLoader);
+        Class<?> parseResult = findClassIfExists("android.content.pm.parsing.result.ParseResult", loadPackageParam.classLoader);
         hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verifyBytes", new XC_MethodHook() {
             public void afterHookedMethod(MethodHookParam param) throws Throwable {
                 super.afterHookedMethod(param);
@@ -141,7 +175,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                             if (prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
                                 PackageManager PM = AndroidAppHelper.currentApplication().getPackageManager();
                                 if (PM == null) {
-                                    XposedBridge.log("E: " + BuildConfig.APPLICATION_ID + " Cannot get the Package Manager... Are you using MiUI?");
+                                    XposedBridge.log("[E" + TAG +"[" + BuildConfig.APPLICATION_ID + "] Cannot get the Package Manager... Are you using MiUI?");
                                 } else {
                                     PackageInfo pI;
                                     if (parseErr != null) {
@@ -177,11 +211,11 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                         Object newInstance = findConstructorExact.newInstance(signingDetailsArgs);
 
                         // 修复 java.lang.ClassCastException: Cannot cast android.content.pm.PackageParser$SigningDetails to android.util.apk.ApkSignatureVerifier$SigningDetailsWithDigests
-                        Class<?> signingDetailsWithDigests = XposedHelpers.findClassIfExists("android.util.apk.ApkSignatureVerifier.SigningDetailsWithDigests", loadPackageParam.classLoader);
+                        Class<?> signingDetailsWithDigests = findClassIfExists("android.util.apk.ApkSignatureVerifier.SigningDetailsWithDigests", loadPackageParam.classLoader);
                         if (signingDetailsWithDigests != null) {
                             Constructor<?> signingDetailsWithDigestsConstructorExact = XposedHelpers.findConstructorExact(signingDetailsWithDigests, signingDetails, Map.class);
                             signingDetailsWithDigestsConstructorExact.setAccessible(true);
-                            newInstance = signingDetailsWithDigestsConstructorExact.newInstance(new Object[]{newInstance, null});
+                            newInstance = signingDetailsWithDigestsConstructorExact.newInstance(newInstance, null);
                         }
                         if (throwable != null) {
                             Throwable cause = throwable.getCause();
@@ -237,14 +271,10 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
 
         var utilClass = findClass("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader);
         if (utilClass != null) {
-            for (var m : utilClass.getDeclaredMethods()) {
-                if ("verifySignatures".equals(m.getName())) {
-                    try {
-                        XposedBridge.class.getDeclaredMethod("deoptimizeMethod", Member.class).invoke(null, m);
-                    } catch (Throwable e) {
-                        Log.e("CorePatch", "deoptimizing failed", e);
-                    }
-                }
+            try {
+                deoptimizeMethod(utilClass, "verifySignatures");
+            } catch (Throwable e) {
+                XposedBridge.log("[E" + TAG + ": deoptimizing failed" + Log.getStackTraceString(e));
             }
         }
 

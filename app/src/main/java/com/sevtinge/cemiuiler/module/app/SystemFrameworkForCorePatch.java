@@ -14,12 +14,12 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    public static final String TAG = "[Cemiuiler][I][CorePatch]: ";
+    public static final String TAG = "/Cemiuiler][CorePatch]";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
-            Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
+            Log.d("[D" + TAG, "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                     new CorePatchForU().handleLoadPackage(lpparam);
@@ -31,7 +31,7 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
                     new CorePatchForS().handleLoadPackage(lpparam);
                 case Build.VERSION_CODES.R -> // 30
                     new CorePatchForR().handleLoadPackage(lpparam);
-                default -> XposedBridge.log(TAG + ": Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                default -> XposedBridge.log("[W" + TAG + ": Unsupported Version of Android " + Build.VERSION.SDK_INT);
             }
         }
     }
@@ -39,7 +39,7 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         if (startupParam.startsSystemServer) {
-            Log.d(TAG, "Current sdk version " + Build.VERSION.SDK_INT);
+            Log.d("[D" + TAG, "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                     new CorePatchForU().initZygote(startupParam);
@@ -51,7 +51,7 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
                     new CorePatchForS().initZygote(startupParam);
                 case Build.VERSION_CODES.R -> // 30
                     new CorePatchForR().initZygote(startupParam);
-                default -> XposedBridge.log(TAG + ": Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                default -> XposedBridge.log("[W" + TAG + ": Unsupported Version of Android " + Build.VERSION.SDK_INT);
             }
         }
     }
