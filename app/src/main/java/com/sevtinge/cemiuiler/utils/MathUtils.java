@@ -227,6 +227,15 @@ public class MathUtils {
         throw new IllegalArgumentException("Addition overflow: " + a + " + " + b);
     }
 
+    public static float convertGammaToLinearFloat(float i, int max, float f, float f2) {
+        float norm = norm(0.0f, max, i);
+        float R = 0.4f;
+        float A = 0.2146f;
+        float B = 0.2847f;
+        float C = 0.4719f;
+        return lerp(f, f2, constrain(norm <= R ? sq(norm / R) : exp((norm - C) / A) + B, 0.0f, 12.0f) / 12.0f);
+    }
+
     public static void fitRect(Rect outToResize, int largestSide) {
         if (outToResize.isEmpty()) {
             return;

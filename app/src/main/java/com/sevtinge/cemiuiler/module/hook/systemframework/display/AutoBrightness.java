@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
+import com.sevtinge.cemiuiler.utils.MathUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -29,8 +30,8 @@ public class AutoBrightness extends BaseHook {
         int max_pct = mPrefsMap.getInt("system_ui_auto_brightness_max", 75);
 
         float min, max;
-        min = Helpers.convertGammaToLinearFloat(min_pct / 100f * backlightMaxLevel, backlightMaxLevel, mMinimumBacklight, mMaximumBacklight);
-        max = Helpers.convertGammaToLinearFloat(max_pct / 100f * backlightMaxLevel, backlightMaxLevel, mMinimumBacklight, mMaximumBacklight);
+        min = MathUtils.convertGammaToLinearFloat(min_pct / 100f * backlightMaxLevel, backlightMaxLevel, mMinimumBacklight, mMaximumBacklight);
+        max = MathUtils.convertGammaToLinearFloat(max_pct / 100f * backlightMaxLevel, backlightMaxLevel, mMinimumBacklight, mMaximumBacklight);
 
         if (limit_min && val < min) val = min;
         if (limit_max && val > max) val = max;
@@ -97,7 +98,8 @@ public class AutoBrightness extends BaseHook {
                                     int defVal = "pref_key_system_control_center_min_brightness".equals(key) ? 25 : 75;
                                     mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, defVal));
                                 }
-                                case "boolean" -> mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
+                                case "boolean" ->
+                                    mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
                             }
                         } catch (Throwable t) {
                             LogD(TAG, "onChange", t);
