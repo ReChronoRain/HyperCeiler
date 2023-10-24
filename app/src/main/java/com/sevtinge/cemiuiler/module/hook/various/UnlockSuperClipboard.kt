@@ -8,9 +8,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
-import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
-import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 
 object UnlockSuperClipboard : BaseHook() {
     // by StarVoyager
@@ -69,7 +67,6 @@ object UnlockSuperClipboard : BaseHook() {
     }
 
     private fun dexKitSuperClipboard() {
-        initDexKit(lpparam)
         val ro by lazy {
             dexKitBridge.findMethod {
                 matcher {
@@ -91,6 +88,5 @@ object UnlockSuperClipboard : BaseHook() {
         setOf(ro, sys).filterNotNull().createHooks {
             returnConstant(true)
         }
-        closeDexKit()
     }
 }

@@ -21,11 +21,10 @@ public class ScreenShot extends BaseModule {
         initHook(SaveToPictures.INSTANCE, mPrefsMap.getBoolean("screenshot_save_to_pictures"));
         initHook(DeviceShellCustomize.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("screenshot_device_customize", "")));
         initHook(UnlockPrivacyMarking.INSTANCE, mPrefsMap.getBoolean("screenshot_unlock_privacy_marking"));
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
-
         // 超级剪切板
         initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getBoolean("various_super_clipboard_enable"));
+        // dexKit finish
+        initHook(CloseHostDir.INSTANCE);
     }
 }
 

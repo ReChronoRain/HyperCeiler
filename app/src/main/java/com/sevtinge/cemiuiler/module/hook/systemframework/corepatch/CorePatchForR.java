@@ -106,7 +106,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         var apkVerifierClass = XposedHelpers.findClassIfExists("com.android.apksig.ApkVerifier",
             loadPackageParam.classLoader);
         if (apkVerifierClass != null) {
-            findAndHookMethod(apkVerifierClass,"getMinimumSignatureSchemeVersionForTargetSdk", loadPackageParam.classLoader, int.class,
+            findAndHookMethod(apkVerifierClass, "getMinimumSignatureSchemeVersionForTargetSdk", loadPackageParam.classLoader, int.class,
                 new ReturnConstant(prefs, "prefs_key_system_framework_core_patch_auth_creak", 0));
         }
 
