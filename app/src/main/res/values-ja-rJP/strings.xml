@@ -863,6 +863,9 @@
     <string name="home_title_icon_scale">アイコンの大きさ</string>
     <string name="home_title_disable_hide_file">「ファイル」アイコンの非表示を無効化</string>
     <string name="home_title_disable_hide_theme">テーママネージャーアイコンを非表示にしない</string>
+    <string name="home_title_custom_anim_param">アニメーションパラメーターのカスタム</string>
+    <string name="home_title_custom_anim_param_damping_title">減衰</string>
+    <string name="home_title_custom_anim_param_stiffness_title">剛性</string>
     <string name="home_recent">アプリ履歴</string>
     <string name="home_recent_animation_speed">アニメーションの速度</string>
     <string name="home_recent_disable_wallpaper_dimming">壁紙の調光を無効化</string>
@@ -1113,6 +1116,7 @@
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">すべてのアプリが弾幕通知を使用できるようにする</string>
+    <string name="barrage_custom_barrage_length">弾幕の長さのカスタム</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">クラウドコントロール</string>
