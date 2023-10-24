@@ -290,8 +290,8 @@
     <string name="system_framework_other_use_original_animation">Animações de transição usam estilos nativos</string>
     <string name="system_framework_other_speed_install">Instalação rápida</string>
     <string name="system_framework_other_speed_install_desc">Instale na memória em execução para acelerar a instalação</string>
-    <string name="system_framework_other_thermal_brightness">Proibir escurecimento automático</string>
-    <string name="system_framework_other_thermal_brightness_more">Redução automática do brilho devido apenas à temperatura</string>
+    <string name="system_framework_other_thermal_brightness">Desativar a redução automática de brilho da tela</string>
+    <string name="system_framework_other_thermal_brightness_more">Reduz automaticamente apenas o brilho da tela não causado pelo controle de temperatura</string>
     <string name="system_framework_other_disable_cleaner">Desativar o encerramento de apps em segundo plano</string>
     <string name="system_framework_other_disable_cleaner_desc">Recursos experimentais, podem causar uso anormal de memória em execução</string>
     <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio por 72 horas</string>
@@ -863,6 +863,9 @@
     <string name="home_title_icon_scale">Dimensionamento de ícones</string>
     <string name="home_title_disable_hide_file">Desative a ocultação do ícone \"arquivo\"</string>
     <string name="home_title_disable_hide_theme">Não esconda o ícone do \"gerenciador de temas\"</string>
+    <string name="home_title_custom_anim_param">Parâmetro de animação personalizado</string>
+    <string name="home_title_custom_anim_param_damping_title">Amortecimento</string>
+    <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar o escurecimento do papel de parede</string>
@@ -1113,6 +1116,7 @@
     <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem barragem</string>
+    <string name="barrage_custom_barrage_length">Comprimento de barragem personalizado</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Controle de nuvem</string>
@@ -1275,7 +1279,7 @@
     <string name="tip_5">Dica: Adivinhe quantas vezes mais você terá que ver essa dica novamente?</string>
     <string name="tip_6">Dica: Torne a MIUI ótima novamente!</string>
     <string name="tip_7">Dica: Seja bem-vindo para seguir no Github: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
-    <string name="tip_8">Dica: Sevtinge é menino ou menina?</string>
+    <string name="tip_8">Dica: A utopia ideal não existe na realidade.</string>
     <string name="tip_9">Dica: A cidade de Sanjiang tende a entrar em colapso.</string>
     <string name="tip_10">Dica: Ah, esse mundo é tão lindo…       Pena que essa beleza não pertença ao Sevtinge.</string>
     <string name="tip_11">Dica: Guardei alguns bugs para que você saiba que está usando o Cemiuiler.</string>
