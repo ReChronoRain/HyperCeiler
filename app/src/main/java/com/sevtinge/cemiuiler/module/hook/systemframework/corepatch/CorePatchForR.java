@@ -12,6 +12,8 @@ import android.content.pm.Signature;
 import android.util.Log;
 
 import com.sevtinge.cemiuiler.BuildConfig;
+import com.sevtinge.cemiuiler.utils.Helpers;
+import com.sevtinge.cemiuiler.utils.PrefsUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -58,7 +60,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         }
     }
 
-    final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, "conf");
+    final XSharedPreferences prefs = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
