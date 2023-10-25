@@ -29,6 +29,7 @@ import com.sevtinge.cemiuiler.module.hook.home.dock.HideSeekPoint;
 import com.sevtinge.cemiuiler.module.hook.home.dock.ShowDockIconTitle;
 import com.sevtinge.cemiuiler.module.hook.home.drawer.AllAppsContainerViewBlur;
 import com.sevtinge.cemiuiler.module.hook.home.drawer.AppDrawer;
+import com.sevtinge.cemiuiler.module.hook.home.drawer.PinyinArrangement;
 import com.sevtinge.cemiuiler.module.hook.home.folder.BigFolderIcon;
 import com.sevtinge.cemiuiler.module.hook.home.folder.BigFolderIconBlur;
 import com.sevtinge.cemiuiler.module.hook.home.folder.BigFolderIconBlur1x2;
@@ -159,6 +160,7 @@ public class Home extends BaseModule {
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||
             mPrefsMap.getBoolean("home_drawer_editor"));
         initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur") && !isAndroidR());
+        initHook(new PinyinArrangement(), mPrefsMap.getBoolean("home_drawer_pinyin"));
 
         // 最近任务
         initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 6);

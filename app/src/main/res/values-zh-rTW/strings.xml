@@ -844,6 +844,8 @@
     <string name="home_drawer_editor_desc">移除抽屜欄內應用程式分頁的「編輯」按鈕</string>
     <string name="home_drawer_blur">抽屜模糊</string>
     <string name="home_drawer_blur_desc">請將應用程式抽屜的背景透明度設定為 100% 以使用此功能</string>
+    <string name="home_drawer_pinyin">按拼音順序排列</string>
+    <string name="home_drawer_pinyin_more">非簡體中文語言時抽屜內應用程式仍按照拼音排列</string>
     <string name="home_title">圖示與標題</string>
     <string name="home_title_icon_title">圖示</string>
     <string name="home_title_bigicon_title">大圖示</string>

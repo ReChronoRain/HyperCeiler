@@ -2,22 +2,28 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
         <SwitchPreference
-            android:title="@string/home_drawer_all"
-            android:summary="@string/home_drawer_all_desc"
+            android:defaultValue="false"
             android:key="prefs_key_home_drawer_all"
-            android:defaultValue="false" />
+            android:summary="@string/home_drawer_all_desc"
+            android:title="@string/home_drawer_all" />
 
         <SwitchPreference
-            android:title="@string/home_drawer_editor"
-            android:summary="@string/home_drawer_editor_desc"
+            android:defaultValue="false"
             android:key="prefs_key_home_drawer_editor"
-            android:defaultValue="false" />
+            android:summary="@string/home_drawer_editor_desc"
+            android:title="@string/home_drawer_editor" />
 
         <SwitchPreference
-            android:title="@string/home_drawer_blur"
-            android:summary="@string/home_drawer_blur_desc"
+            android:defaultValue="false"
             android:key="prefs_key_home_drawer_blur"
-            android:defaultValue="false" />
+            android:summary="@string/home_drawer_blur_desc"
+            android:title="@string/home_drawer_blur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_drawer_pinyin"
+            android:summary="@string/home_drawer_pinyin_more"
+            android:title="@string/home_drawer_pinyin" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />

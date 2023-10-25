@@ -133,6 +133,7 @@ dependencies {
 
     implementation 'org.luckypray:dexkit:2.0.0-rc7'
     // implementation 'org.luckypray:DexKit:1.1.8'
+    implementation 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'
     implementation 'com.github.kyuubiran:EzXHelper:2.0.7'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
     implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
