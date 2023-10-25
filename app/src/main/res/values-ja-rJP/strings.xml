@@ -290,7 +290,7 @@
     <string name="system_framework_other_use_original_animation">ネイティブスタイルの遷移アニメーションを使用する</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
     <string name="system_framework_other_speed_install_desc">インストール速度を上げるためにメモリへインストールします</string>
-    <string name="system_framework_other_thermal_brightness">自動的な明るさ制限を禁止</string>
+    <string name="system_framework_other_thermal_brightness">自動的な明るさ制限を無効化</string>
     <string name="system_framework_other_thermal_brightness_more">高温時でも明るさを減少させないようにします</string>
     <string name="system_framework_other_disable_cleaner">バックグラウンドアプリの強制終了を無効化</string>
     <string name="system_framework_other_disable_cleaner_desc">実験的な機能です。メモリ使用が異常になる可能性があります</string>
@@ -1279,7 +1279,7 @@
     <string name="tip_5">ヒント: おまえは今まで見たヒントの数をおぼえているのか?</string>
     <string name="tip_6">ヒント: MIUI を再び偉大な物にしましょう!</string>
     <string name="tip_7">ヒント: Github@sevtinge や Bilibili@绀漓丨Sevtinge をフォローしましょう！</string>
-    <string name="tip_8">ヒント: Sevtinge は男の子でしょうか、女の子でしょうか?</string>
+    <string name="tip_8">ヒント: 理想的なユートピアは現実には存在しません。</string>
     <string name="tip_9">ヒント: 東京タワーは壊されがちです。</string>
     <string name="tip_10">ヒント: この世界は美しい… この美しさが Sevtinge のものでないのは残念です。</string>
     <string name="tip_11">ヒント: Cemiuiler を使っていることが分かるように、いくつかのバグを残しておきました。</string>
