@@ -270,7 +270,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="phone_n28_desc">Hỗ trợ băng tần N28 (NR)</string>
     <string name="phone_n5_n8">Băng tần N5/N8</string>
     <string name="phone_n5_n8_desc">Trên giao diện quay số bấm *#*#65686633#*#* ấn gọi để bật băng tần N5/N8. Nếu nó hiển thị bật Chế độ N5/N8, tính năng này sẽ bật thành công.</string>
-    <string name="system_framework_screen_all_rotations">Tính năng thử nghiệm độ ổn định không cao</string>
+    <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
     <string name="system_framework_allow_untrusted_touch">Cho phép chạm không tin cậy</string>
     <string name="system_framework_allow_uninstall">Cho phép gỡ cài đặt một số App được cài đặt sẵn</string>
     <string name="system_framework_allow_uninstall_desc">Tính năng này nguy hiểm</string>
