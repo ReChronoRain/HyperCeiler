@@ -11,6 +11,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class ViewWifiPasswordHook extends BaseHook {
@@ -33,7 +34,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         final String[] passwordTitle = new String[1];
         Helpers.findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", lpparam.classLoader, "setTitle", int.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 if (wifiSharedKey[0] != null) {
                     param.args[0] = dlgTitleId;
                 }
@@ -42,7 +43,7 @@ public class ViewWifiPasswordHook extends BaseHook {
 
         Helpers.findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", lpparam.classLoader, "setMessage", CharSequence.class, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 if (wifiSharedKey[0] != null) {
                     CharSequence str = (CharSequence) param.args[0];
                     str = str + "\n" + passwordTitle[0] + ": " + wifiSharedKey[0];
@@ -69,11 +70,7 @@ public class ViewWifiPasswordHook extends BaseHook {
                         Resources modRes = Helpers.getModuleRes((Context) XposedHelpers.callMethod(param.thisObject, "getContext"));
                         passwordTitle[0] = modRes.getString(R.string.system_settings_wifi_password_label);
                     }
-                    Object mWifiManager = XposedHelpers.getObjectField(param.thisObject, "mWifiManager");
-                    Object wifiConfiguration = XposedHelpers.callMethod(wifiEntry, "getWifiConfiguration");
-                    Class<?> WifiDppUtilsClass = XposedHelpers.findClass("com.android.settings.wifi.dpp.WifiDppUtils", lpparam.classLoader);
-                    String sharedKey = (String) XposedHelpers.callStaticMethod(WifiDppUtilsClass, "getPresharedKey", mWifiManager, wifiConfiguration);
-                    sharedKey = (String) XposedHelpers.callStaticMethod(WifiDppUtilsClass, "removeFirstAndLastDoubleQuotes", sharedKey);
+                    String sharedKey = getSharedKey(param, wifiEntry);
                     wifiSharedKey[0] = sharedKey;
                 }
             }
@@ -87,5 +84,14 @@ public class ViewWifiPasswordHook extends BaseHook {
                 }
             }
         });
+    }
+
+    private String getSharedKey(XC_MethodHook.MethodHookParam param, Object wifiEntry) {
+        Object mWifiManager = XposedHelpers.getObjectField(param.thisObject, "mWifiManager");
+        Object wifiConfiguration = XposedHelpers.callMethod(wifiEntry, "getWifiConfiguration");
+        Class<?> WifiDppUtilsClass = XposedHelpers.findClass("com.android.settings.wifi.dpp.WifiDppUtils", lpparam.classLoader);
+        String sharedKey = (String) XposedHelpers.callStaticMethod(WifiDppUtilsClass, "getPresharedKey", mWifiManager, wifiConfiguration);
+        sharedKey = (String) XposedHelpers.callStaticMethod(WifiDppUtilsClass, "removeFirstAndLastDoubleQuotes", sharedKey);
+        return sharedKey;
     }
 }
