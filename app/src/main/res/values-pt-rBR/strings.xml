@@ -213,8 +213,8 @@
     <string name="link_open_mode_mi">Navegador Xiaomi</string>
     <string name="app_sort_running">Classificação padrão</string>
     <string name="app_sort_name">Nome do app</string>
-    <string name="app_sort_frequency">Frequência de uso</string>
-    <string name="app_sort_storage">Uso do armazenamento</string>
+    <string name="app_sort_frequency">Recentemente usado</string>
+    <string name="app_sort_storage">Armazenamento usado</string>
     <string name="app_sort_install">Data de instalação</string>
     <string name="array_bluetooth_tile_style_3rows">Três blocos grandes</string>
     <string name="array_bluetooth_tile_style_2rows2cols"> Um bloco grande e dois pequenos</string>
@@ -1050,7 +1050,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Margem vertical</string>
     <string name="security">Segurança</string>
     <string name="security_app_title">Exibir detalhes adicionais do app</string>
-    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- ID do usuário\n- Diretório de dados\n- Diretório APK\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar um app</string>
+    <string name="security_app_summary">Adicione novos campos à página de informações do app:\n- Número da versão do app\n- ID do usuário\n- Diretório de dados\n- Diretório APK\n- Versão mínima do SDK\n- Versão do SDK de destino\n- Abrir com a Play Store \n- Iniciar</string>
     <string name="security_app_sort_title">Classificação da lista de gerenciar apps</string>
     <string name="security_app_sort_summary">Modifique a classificação padrão da lista de gerenciar apps</string>
     <string name="security_restrict_app_title">Restrições completas</string>

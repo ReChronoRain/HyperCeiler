@@ -652,7 +652,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_plugin_enable_volume_blur_desc">Chỉ dành cho các mẫu Android12+ MTK, có thể có tải GPU cao</string>
     <!--Settings-->
     <string name="system_settings">Cài đặt</string>
-    <string name="system_settings_international_build">Cài đặt kiểu Globall</string>
+    <string name="system_settings_international_build">Cài đặt kiểu quốc tế</string>
     <string name="system_settings_safe_wifi">Xem mật khẩu WiFi đã lưu</string>
     <string name="system_settings_safe_wifi_desc">Xem tại: Cài đặt - WI-FI - Cài đặt nâng cao - Quản lý mạng đã lưu</string>
     <string name="system_settings_wifipassword_btn_title">Kiểm tra</string>
@@ -735,7 +735,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Xoá hạn chế sử dụng điện thoại di động</string>
     <!--Gallery-->
-    <string name="gallery">Thư viện ảnh</string>
+    <string name="gallery">Thư viện</string>
     <string name="gallery_enable_hdr_enhanced">Mở khóa hiển thị Ultra Dynamic</string>
     <string name="gallery_enable_pdf">Mở khóa tạo PDF</string>
     <string name="gallery_enable_ocr">Mở khóa OCR</string>
@@ -1008,7 +1008,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="powerkeeper_do_not_kill_apps_desc">Có thể tăng mức tiêu thụ điện năng</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
     <!--creen Recorder-->
-    <string name="screenrecorder">Trình quay màn hình</string>
+    <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Yêu cầu hỗ trợ phiên bản quay màn hình</string>
     <string name="screen_recorder_config">Mở khoá Tốc độ khung hình và Chất lượng Video cao</string>
@@ -1017,7 +1017,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="screen_recorder_more_volume_desc">Một số phiên bản không hỗ trợ</string>
     <string name="screen_recorder_save_to_movies_desc">Vị trí lưu quay màn hình Movies/ScreenRecorder</string>
     <!--Screenshot-->
-    <string name="screenshot">Ảnh chụp màn hình</string>
+    <string name="screenshot">Chụp ảnh màn hình</string>
     <string name="screenshot_unlock_minimum_crop_limit">Mở khóa Giới hạn cắt hình</string>
     <string name="screenshot_unlock_privacy_marking_title">Mở khóa Đánh dấu quyền riêng tư</string>
     <string name="screenshot_unlock_privacy_marking_desc">Cần cài đặt bản cao hơn của ứng dụng \"Mi AI Engine\"  để sử dụng</string>
@@ -1091,8 +1091,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_smart_charge_title">Mở khóa \"Sạc Thông Minh\" và \"Tăng Tốc Độ Sạc\"</string>
     <string name="security_center_super_wireless_charge">Mở khóa Sạc không dây siêu nhanh</string>
     <string name="security_center_blur_model">Cài đặt nền Sidebar Global</string>
-    <string name="security_center_blurradius">Mức độ mờ nền của thanh bên toàn cầu</string>
-    <string name="security_center_color">Màu lớp phủ nền thanh bên toàn cầu</string>
+    <string name="security_center_blurradius">Độ mờ nền thanh bên</string>
+    <string name="security_center_color">Màu nền thanh bên</string>
     <string name="security_center_other_title">Khác</string>
     <string name="security_center_sidebar_line_color">Tùy chỉnh màu Sidebar</string>
     <string name="security_center_sidebar_line_color_default">Màu Sidebar mặc định</string>
@@ -1104,8 +1104,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_gun_service">Mở khoá Tâm súng ảo</string>
     <string name="security_center_disable_remove_screen_hold_on">Vô hiệu màn hình luôn sáng</string>
     <string name="security_center_unlock_memc">Mở khoá MEMC</string>
-    <string name="security_center_unlock_enhance_contours">Mở khóa Siêu phân giải</string>
-    <string name="security_center_unlock_s_resolution">Mở khóa siêu độ phân giải</string>
+    <string name="security_center_unlock_enhance_contours">Mở khóa Tăng cường đường viền</string>
+    <string name="security_center_unlock_s_resolution">Mở khóa Siêu phân giải</string>
     <string name="security_center_hide_sidebar">Ẩn sidebar</string>
     <string name="security_center_leave_open">Vuốt để mở ra</string>
     <string name="security_center_disable_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>

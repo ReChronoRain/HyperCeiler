@@ -2,6 +2,11 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">讓 MIUI 再次偉大！</string>
+    <string name="new_permission_wifi_state_desc">在裝置的內部儲存空間新增和刪除檔案</string>
+    <string name="new_permission_location_desc">用於提供緯度和經度等服務</string>
+    <string name="new_cta_agree_desc">在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以隨時到權限管理調整所有權限的授權狀態，並請到您的 Root/Su 管理員管理 Root/Su 權限。</string>
+    <string name="new_cta_app_main_purpose">修改系統應用程式</string>
+    <string name="new_cta_app_all_purpose_title">歡迎使用 Cemiuiler，這個應用程式執行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現 MIUI 的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理員管理 Root/Su 權限。</string>
     <!--Cemiuiler Settings/About Page-->
     <string name="language">繁體中文 (台灣)</string>
     <string name="translator">聖小熊</string>
@@ -14,6 +19,8 @@
     <string name="about_contributer_desc">感謝以下貢獻者為 Cemiuiler 的開發提供了不同程度的幫助（排名順序不分先後）</string>
     <string name="about_donation">贊助</string>
     <string name="about_donation_desc">您可以在此處贊助以支援我們</string>
+    <string name="about_privacy">隱私政策</string>
+    <string name="about_protocol">用戶協議</string>
     <string name="settings_data_title">備份與還原</string>
     <string name="settings_bug_title">疑難排解</string>
     <string name="settings_debug_title">除錯模式</string>
@@ -66,6 +73,7 @@
     <string name="tip">提示</string>
     <string name="hook_failed">此模組尚未啟動。\n請檢查是否在寄生管理器中啟用。 如果已經啟用，請重新開機或重新最佳化模組。</string>
     <string name="kill_failed">結束進程失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>
+    <string name="pid_failed">目標應用程式未運行，無需重啓。</string>
     <string name="reboot_failed">重啟失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>
     <string name="expand_button_title">進階</string>
     <string name="not_set">未設定</string>
@@ -93,6 +101,13 @@
     <string name="appcompat_search_action_mode_cancel">取消</string>
     <string name="appcompat_search_input_description">搜索</string>
     <string name="appcompat_actionbar_immersion_button_more_description">更多</string>
+    <string name="appcompat_action_mode_inverse">反選</string>
+    <string name="color_picker_alpha_text_transparent">不透明度</string>
+    <string name="color_picker_tab_grid">網格取色</string>
+    <string name="color_picker_tab_slider">滑塊取色</string>
+    <string name="color_picker_view_page_text_hue">色調</string>
+    <string name="color_picker_view_page_text_lightness">亮度</string>
+    <string name="color_picker_view_page_text_saturation">飽和度</string>
     <!--String reuse-->
     <string name="top_margin">頂部邊距</string>
     <string name="bottom_margin">底部邊距</string>
@@ -275,6 +290,8 @@
     <string name="system_framework_other_use_original_animation">過渡動畫使用原生樣式</string>
     <string name="system_framework_other_speed_install">快速安裝</string>
     <string name="system_framework_other_speed_install_desc">安裝至運行記憶體以提升安裝速度，需要系統底層支援</string>
+    <string name="system_framework_other_thermal_brightness">停用自动降低熒屏亮度</string>
+    <string name="system_framework_other_thermal_brightness_more">僅限非溫控導致的自動降低熒屏亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止關閉背景應用程式</string>
     <string name="system_framework_other_disable_cleaner_desc">實驗性功能，可能導致執行時記憶體使用異常</string>
     <string name="system_framework_disable_72h_verify">停用每 72 小時驗證鎖定螢幕密碼</string>
@@ -583,6 +600,8 @@
     <string name="system_ui_control_center_hide_device_ctrl_entry">智慧生活</string>
     <string name="system_ui_control_center_control_detail_background_alpha">面板詳情背景透明度</string>
     <string name="system_ui_control_center_notification_blur_model">通知設定</string>
+    <string name="system_ui_control_center_notification_blur_fix">通知最佳化</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">實驗性功能，僅向 Android 13 及以上設備使用，啓用後將對部分區域的通知模糊進行優化\n可能會存在部分設備系統介面程式崩潰的問題</string>
     <string name="system_ui_control_center_blur_radius">通知模糊程度</string>
     <string name="system_ui_control_center_blur_radius_desc">不含下拉通知</string>
     <string name="system_ui_control_center_corner_radius">通知模糊區域圓角</string>
@@ -592,8 +611,8 @@
     <string name="system_ui_control_center_fix_media_control_panel">修正音樂面板背景圖異常</string>
     <string name="system_ui_control_center_compact_notice">緊湊通知</string>
     <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
-    <string name="system_ui_control_center_redirect_notice">重定向通知設置</string>
-    <string name="system_ui_control_center_redirect_notice_desc">打開通知功能表的設置將導航到目標通道設置，而不是應用通知設置</string>
+    <string name="system_ui_control_center_redirect_notice">重定向通知設定</string>
+    <string name="system_ui_control_center_redirect_notice_desc">打開通知功能表的設定將導航到目標通道設定，而不是應用通知設定</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
@@ -793,9 +812,9 @@
     <string name="home_big_folder_icon_bg_width">背景寬度</string>
     <string name="home_big_folder_icon_bg_height">背景高度</string>
     <string name="home_big_folder_item_max_count">真·九宮格</string>
-    <string name="home_big_folder_icon_bg_2x1_n">4*2 自定義背景</string>
-    <string name="home_big_folder_icon_bg_1x2_n">2*2 自定義背景</string>
-    <string name="home_big_folder_icon_bg_n">3*3 和 4*4 自定義背景</string>
+    <string name="home_big_folder_icon_bg_2x1_n">八宮格背景自訂</string>
+    <string name="home_big_folder_icon_bg_1x2_n">四宮格背景自訂</string>
+    <string name="home_big_folder_icon_bg_n">八宮格 和 十六宮格 背景自訂</string>
     <string name="home_auto_close_folder_title">自動關閉</string>
     <string name="home_auto_close_folder_summary">應用程式啟動後關閉資料夾</string>
     <string name="home_wallpaper">背景</string>
@@ -832,7 +851,9 @@
     <string name="home_title_title_marquee">文字滾動</string>
     <string name="home_title_title_marquee_desc">過長的應用程式名稱將以滾動進行顯示，不再使用換行</string>
     <string name="home_title_title_new_install">新安裝的應用程式不展示指示器</string>
-    <string name="home_title_title_new_install_more">安裝新應用程式時，請勿在應用程式標題旁邊展示指示器</string>
+    <string name="home_title_drawer_font_hidden">隱藏全部應用程式標題</string>
+    <string name="home_title_drawer_font_hidden_more">抽屜內應用程式標題也會被隱藏，如需保留抽屜文字標題，請使用「文本大小」進行調整</string>
+    <string name="home_title_title_new_install_more">安裝新應用程式時，不在應用程式標題旁邊展示指示器</string>
     <string name="home_title_font_size">字體大小</string>
     <string name="home_title_title_color">文本顏色</string>
     <string name="home_title_animation_speed">動畫速度</string>
@@ -842,6 +863,9 @@
     <string name="home_title_icon_scale">圖示縮放</string>
     <string name="home_title_disable_hide_file">停用隱藏「檔案」圖示</string>
     <string name="home_title_disable_hide_theme">不要隱藏「主題管理」圖示</string>
+    <string name="home_title_custom_anim_param">動畫曲率自訂</string>
+    <string name="home_title_custom_anim_param_damping_title">阻尼</string>
+    <string name="home_title_custom_anim_param_stiffness_title">剛度</string>
     <string name="home_recent">最近任務</string>
     <string name="home_recent_animation_speed">動畫速度</string>
     <string name="home_recent_disable_wallpaper_dimming">取消桌布壓暗</string>
@@ -923,8 +947,8 @@
     <string name="home_recent_simple_blur">簡單模糊</string>
     <string name="home_recent_none_blur">無模糊</string>
     <string name="home_recent_none_blur_simple_anim">無模糊（精簡動畫）</string>
-    <string name="home_other_mi_pad_enable_more_setting_title">解鎖更多的桌面設置選項</string>
-    <string name="home_other_mi_pad_enable_more_setting_desc">解鎖函數可能不可用，一些函數需要作業系統的底層支援</string>
+    <string name="home_other_mi_pad_enable_more_setting_title">解鎖更多的桌面設定選項</string>
+    <string name="home_other_mi_pad_enable_more_setting_desc">解鎖後的功能不一定可用，部分功能需要系統底層支援</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">相簿編輯</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
@@ -932,6 +956,7 @@
     <!--Mi Share-->
     <string name="mishare">小米互傳</string>
     <string name="mishare_disable_mishare_auto_off">停用自動關閉小米互傳</string>
+    <string name="mishare_unlock_turbo_mode">解鎖極速傳輸模式</string>
     <!--Wallpaper-->
     <string name="miwallpaper">桌布</string>
     <string name="miwallpaper_unlock_super_wallpaper">解鎖超級桌布</string>
@@ -949,6 +974,13 @@
     <string name="miui_package_installer_install_source">自訂安裝來源</string>
     <string name="miui_package_installer_apk_info">顯示更多安裝包資訊</string>
     <string name="miui_package_installer_apk_info_desc">顯示安裝中應用程式的更多相關資訊</string>
+    <!--networkboost-->
+    <string name="various_disable_link_turbo_toast">隱藏 正在使用行動網路加速 Toast</string>
+    <string name="various_disable_link_turbo_toast_more">請在快速重啟作用域內重啟 NetworkBoost</string>
+    <!--nfc-->
+    <string name="nfc">NFC 服務</string>
+    <string name="nfc_disable_sound">停用聲音</string>
+    <string name="nfc_allow_information_screen">允许關閉熒屏时识别</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>
     <string name="personal_assistant_widget_crack">小工具破解</string>
@@ -968,7 +1000,7 @@
     <string name="powerkeeper_lock_max_fps">鎖定當前螢幕更新率上限</string>
     <string name="powerkeeper_do_not_kill_apps">嘗試不要殺死後台應用程式</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能使耗電量增加</string>
-    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">防止恢復電池優化白名單</string>
+    <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">停用恢復電池效能最佳化白名單</string>
     <!--creen Recorder-->
     <string name="screenrecorder">螢幕錄製</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>
@@ -1000,6 +1032,8 @@
     <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 服務</string>
+    <string name="security_center_flash_light">手電筒亮度控制</string>
+    <string name="security_center_flash_light_more">啓用手電筒時通過拖動亮度條來控制手電筒亮度</string>
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
@@ -1041,6 +1075,7 @@
     <string name="security_center_no_permission">未授予所需權限</string>
     <string name="security_center_unlock_side_hide_freeform">解鎖貼邊小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">為底層支援但受限制的裝置解鎖貼邊小窗，這將同時影響手機切後台時小窗的行為</string>
+    <string name="security_center_unlock_smart_charge_title">解鎖「智能斷充保護」和「低電疾充」功能</string>
     <string name="security_center_super_wireless_charge">解鎖極速無線充電模式</string>
     <string name="security_center_blur_model">全域側邊欄背景設定</string>
     <string name="security_center_blurradius">全域側邊欄背景模糊程度</string>
@@ -1081,6 +1116,7 @@
     <!--Barrage-->
     <string name="barrage">彈幕通知</string>
     <string name="barrage_any_barrage">允許所有應用程式使用彈幕通知</string>
+    <string name="barrage_custom_barrage_length">自訂彈幕通知長度</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">雲控</string>
@@ -1130,8 +1166,6 @@
     <string name="settings_notfication_importance">顯示通知重要程度</string>
     <string name="various_no_overscroll">停用越界回彈</string>
     <string name="various_disable_bluetooth_restrict">停用藍牙臨時關閉</string>
-    <string name="various_disable_link_turbo_toast">隱藏 正在使用行動網路加速 Toast</string>
-    <string name="various_disable_link_turbo_toast_more">請在快速重啟作用域內重啟 NetworkBoost</string>
     <string name="various_disable_access_device_logs">關閉訪問裝置日誌確認</string>
     <string name="various_unlock_ime">解鎖輸入法全螢幕鍵盤最佳化</string>
     <string name="various_unlock_ime_desc">啟用後請在 Xposed 管理器中勾選對應輸入法作用範圍</string>
@@ -1245,7 +1279,7 @@
     <string name="tip_5">小提示：猜猜這種小提示還會出現多少次？</string>
     <string name="tip_6">小提示：讓 MIUI 再次偉大！</string>
     <string name="tip_7">小提示：歡迎關注 Github@sevtinge 或 Bilibili@绀漓丨Sevtinge。</string>
-    <string name="tip_8">小提示：Sevtinge 是男是女？</string>
+    <string name="tip_8">小提示：理想中的烏托邦在現實中並不存在。</string>
     <string name="tip_9">小提示：三江市常發生倒塌。</string>
     <string name="tip_10">小提示：世間盡是錦繡，遺憾絢麗無緣 Sevtinge。</string>
     <string name="tip_11">小提示：我保留了一部分 bug 的味道，才知道你食的是 Cemiuiler。</string>
