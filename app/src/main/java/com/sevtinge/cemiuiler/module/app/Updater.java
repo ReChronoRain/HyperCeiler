@@ -8,6 +8,7 @@ import com.sevtinge.cemiuiler.module.base.LoadHostDir;
 import com.sevtinge.cemiuiler.module.hook.updater.DeviceModify;
 import com.sevtinge.cemiuiler.module.hook.updater.VabUpdate;
 import com.sevtinge.cemiuiler.module.hook.updater.VersionCodeModify;
+import com.sevtinge.cemiuiler.module.hook.updater.VersionCodeNew;
 
 public class Updater extends BaseModule {
 
@@ -15,7 +16,11 @@ public class Updater extends BaseModule {
     public void handleLoadPackage() {
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
-        initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
+        if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
+            initHook(VersionCodeNew.INSTANCE);
+        } else {
+            initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
+        }
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
         initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         // dexKit finish

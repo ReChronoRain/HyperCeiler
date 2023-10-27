@@ -8,6 +8,19 @@
         android:key="prefs_key_updater_fuck_vab"
         android:defaultValue="false" />
 
+    <DropDownPreference
+        android:key="prefs_key_updater_version_mode"
+        android:title="@string/updater_version_mode"
+        android:defaultValue="1"
+        app:entries="@array/updater_version_mode"
+        app:entryValues="@array/updater_version_mode_value" />
+
+    <EditTextPreference
+        android:defaultValue="V816"
+        android:title="@string/updater_big_version"
+        android:summary="@string/updater_big_version_desc"
+        android:key="prefs_key_various_updater_big_version" />
+
     <EditTextPreference
         android:title="@string/updater_miui_version"
         android:summary="@string/updater_miui_version_desc"
