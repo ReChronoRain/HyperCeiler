@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.util.Locale;
 
@@ -55,10 +56,10 @@ public class HideNavigationBar extends BaseHook {
                             int End = Settings.Global.getInt(mContext.getContentResolver(), "hide_gesture_line");
                             if (End == 1) {
                                 Settings.Global.putInt(mContext.getContentResolver(), "hide_gesture_line", 0);
-                                logI("Settings The hide_gesture_line To 0");
+                                XposedLogUtils.logI("Settings The hide_gesture_line To 0");
                             }
                         } catch (Settings.SettingNotFoundException e) {
-                            logI("Don‘t Have hide_gesture_line");
+                            XposedLogUtils.logI("Don‘t Have hide_gesture_line");
                         }
                         param.setResult(null);
                     }
@@ -97,7 +98,7 @@ public class HideNavigationBar extends BaseHook {
                     if (languageCode.equals("zh")) language = true;
                     Settings.Global.putInt(context.getContentResolver(), "force_fsg_nav_bar", 1);
                     Toast.makeText(context, language ? "请勿切换经典导航键" : "Don't switch navigation keys", Toast.LENGTH_SHORT).show();
-                    logI("Please don't switch classic navigation keys");
+                    XposedLogUtils.logI("Please don't switch classic navigation keys");
                 }
             };
             context.getContentResolver().registerContentObserver(Settings.Global.getUriFor("force_fsg_nav_bar"), false, contentObserver);

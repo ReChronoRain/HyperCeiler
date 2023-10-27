@@ -19,6 +19,7 @@ import com.sevtinge.cemiuiler.utils.Helpers
 import com.sevtinge.cemiuiler.utils.callMethod
 import com.sevtinge.cemiuiler.utils.callMethodOrNull
 import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XposedHelpers
 import java.io.File
 import java.lang.reflect.Method
@@ -37,7 +38,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
         mAppInfoViewObject =
             findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject")//.findClassOrNull()
         if (mAppInfoViewObject != null) {
-            logI("mAppInfoViewObject is $mAppInfoViewObject")
+            XposedLogUtils.logI("mAppInfoViewObject is $mAppInfoViewObject")
             mAppInfoViewObjectViewHolder =
                 findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")//"com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder".findClassOrNull()
             val methods: Array<Method> =

@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.systemui.navigation;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 public class NavigationCustom extends BaseHook {
     @Override
@@ -14,22 +15,22 @@ public class NavigationCustom extends BaseHook {
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_height", mNavigationHeight);
         } catch (Exception e) {
-            logI(String.valueOf(e));
+            XposedLogUtils.logI(String.valueOf(e));
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_height_landscape", mNavigationHeightLand);
         } catch (Exception e) {
-            logI(String.valueOf(e));
+            XposedLogUtils.logI(String.valueOf(e));
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_frame_height", mNavigationFrameHeight);
         } catch (Exception e) {
-            logI(String.valueOf(e));
+            XposedLogUtils.logI(String.valueOf(e));
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_frame_height_landscape", mNavigationFrameHeightLand);
         } catch (Exception e) {
-            logI(String.valueOf(e));
+            XposedLogUtils.logI(String.valueOf(e));
         }
 
     }

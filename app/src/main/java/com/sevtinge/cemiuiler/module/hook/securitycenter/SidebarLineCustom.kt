@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.securitycenter
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object SidebarLineCustom : BaseHook() {
@@ -11,9 +12,9 @@ object SidebarLineCustom : BaseHook() {
         val mSidebarLineColorDefault = mPrefsMap.getInt("security_center_sidebar_line_color_default", -1294740525)
         val mSidebarLineColorDark = mPrefsMap.getInt("security_center_sidebar_line_color_dark", -6842473)
         val mSidebarLineColorLight = mPrefsMap.getInt("security_center_sidebar_line_color_light", -872415232)
-        logI("mSidebarLineColorDefault is $mSidebarLineColorDefault")
-        logI("mSidebarLineColorDark is $mSidebarLineColorDark")
-        logI("mSidebarLineColorLight is $mSidebarLineColorLight")
+        XposedLogUtils.logI("mSidebarLineColorDefault is $mSidebarLineColorDefault")
+        XposedLogUtils.logI("mSidebarLineColorDark is $mSidebarLineColorDark")
+        XposedLogUtils.logI("mSidebarLineColorLight is $mSidebarLineColorLight")
         resParam.res.setReplacement(
             "com.miui.securitycenter",
             "color",

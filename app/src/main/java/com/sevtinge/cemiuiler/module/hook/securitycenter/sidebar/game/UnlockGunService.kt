@@ -31,7 +31,7 @@ object UnlockGunService : BaseHook() {
         gbGameCollimatorClass.methodFinder().first {
             returnType == Boolean::class.java && parameterCount == 1
         }.createHook {
-            logI("GunService class is $gbGameCollimatorClass")
+            XposedLogUtils.logI("GunService class is $gbGameCollimatorClass")
             returnConstant(true)
         }*/
     }

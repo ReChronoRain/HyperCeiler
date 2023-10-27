@@ -8,17 +8,18 @@ import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseXposedInit.mPrefsMap
-import com.sevtinge.cemiuiler.module.base.CloseHostDir.logE
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import miui.drm.DrmManager
 import java.io.File
 
 class ThemeCrackNew {
+    val TAG = "ThemeCrackNew"
     fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("various_theme_crack")) return
         initDexKit(lpparam)
@@ -29,7 +30,7 @@ class ThemeCrackNew {
                 }
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
         try {
             loadClass("com.android.thememanager.basemodule.views.DiscountPriceView").methodFinder().filterByParamCount(2)
@@ -39,7 +40,7 @@ class ThemeCrackNew {
                     }
                 }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
         try {
             loadClass("com.android.thememanager.recommend.view.listview.viewholder.LargeIconDetailRecommendViewHolder").methodFinder().filterByParamCount(1)
@@ -49,14 +50,14 @@ class ThemeCrackNew {
                     }
                 }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
         try {
             loadClass("com.miui.maml.widget.edit.MamlutilKt").methodFinder().filterByName("themeManagerSupportPaidWidget").first().createHook {
                 returnConstant(false)
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
 
         try {

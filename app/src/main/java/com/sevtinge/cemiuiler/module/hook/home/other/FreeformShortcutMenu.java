@@ -161,7 +161,7 @@ public class FreeformShortcutMenu extends BaseHook {
             });
 
         } catch (Throwable th) {
-            XposedLogUtils.INSTANCE.logW(TAG, "FreeformShortcutMenu", th);
+            XposedLogUtils.logW(TAG, "FreeformShortcutMenu", th);
         }
     }
 

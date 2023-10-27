@@ -83,7 +83,7 @@ public class DialogGravity extends BaseHook {
 
             for (Method method : methodList) {
                 if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE && method.getModifiers() == 2 && method.getParameterCount() == 1) {
-                    XposedLogUtils.INSTANCE.logI(TAG, "2222" + method.getName());
+                    XposedLogUtils.logI(TAG, "2222" + method.getName());
                     XposedHelpers.findAndHookMethod(mDialogCls, method.getName(), new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) throws Throwable {

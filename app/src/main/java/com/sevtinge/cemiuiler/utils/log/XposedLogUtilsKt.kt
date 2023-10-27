@@ -4,22 +4,22 @@ import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import de.robv.android.xposed.XposedBridge
 
-object XposedLogUtils {
+object XposedLogUtilsKt {
     private val isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug")
     private val isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release")
     private val detailLog = BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log")
 
     // Xposed debug 日志输出
-    fun logI(tag: String, msg: String) {
+    fun logI(tag: String?, msg: String) {
         if (!isDebugVersion) return
         if (detailLog) return
-        XposedBridge.log("[Cemiuiler][I][$tag]: $msg")
+        if (tag != null) XposedBridge.log("[Cemiuiler][I][$tag]: $msg") else XposedBridge.log("[Cemiuiler][I]: $msg")
+
     }
 
-    fun logI(msg: String) {
-        if (!isDebugVersion) return
+    fun logW(tag: String, msg: String) {
         if (detailLog) return
-        XposedBridge.log("[Cemiuiler][I]: $msg")
+        XposedBridge.log("[Cemiuiler][W][$tag]: $msg")
     }
 
     fun logW(tag: String, log: Throwable) {

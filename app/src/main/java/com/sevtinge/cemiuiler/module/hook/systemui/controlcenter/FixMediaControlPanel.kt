@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.hook.systemui.controlcenter
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.setObjectField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -20,7 +21,7 @@ object FixMediaControlPanel : BaseHook() {
                     }
                 })
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
     }
 }

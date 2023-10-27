@@ -15,7 +15,6 @@ import android.os.Process;
 import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
-import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedBridge;
@@ -127,7 +126,7 @@ public class StatusBarActions extends BaseHook {
             Object mVolumeDialogPlugin = XposedHelpers.getObjectField(mVolumeComponent, "mDialog");
             Object miuiVolumeDialog = XposedHelpers.getObjectField(mVolumeDialogPlugin, "mVolumeDialogImpl");
             if (miuiVolumeDialog == null) {
-                XposedLogUtils.INSTANCE.logI("OpenVolumeDialog", "MIUI volume dialog is NULL!");
+                XposedLogUtils.logI("OpenVolumeDialog", "MIUI volume dialog is NULL!");
                 return;
             }
 

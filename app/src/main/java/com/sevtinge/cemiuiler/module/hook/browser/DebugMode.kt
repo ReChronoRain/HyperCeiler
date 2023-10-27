@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.utils.DexKit.closeDexKit
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.DexKit.initDexKit
 import com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 
@@ -68,7 +69,7 @@ object DebugMode : BaseHook() {
         }.forEach {
             val debugMode = it.getMethodInstance(lpparam.classLoader)
             if (debugMode.toString().contains("getDebugMode")) {
-                logI("DebugMode method is $debugMode")
+                XposedLogUtils.logI("DebugMode method is $debugMode")
                 found = true
                 XposedBridge.hookMethod(
                     debugMode,
@@ -86,7 +87,7 @@ object DebugMode : BaseHook() {
             }.forEach {
                 val debugMode1 = it.getMethodInstance(safeClassLoader)
                 if (debugMode1.toString().contains("getDebugMode")) {
-                    logI("DebugMode1 method is $debugMode1")
+                    XposedLogUtils.logI("DebugMode1 method is $debugMode1")
                     found = true
                     XposedBridge.hookMethod(
                         debugMode1,
@@ -105,7 +106,7 @@ object DebugMode : BaseHook() {
             }.forEach {
                 val debugMode2 = it.getMethodInstance(lpparam.classLoader)
                 if (debugMode2.toString().contains("getDebugMode")) {
-                    logI("DebugMode2 method is $debugMode2")
+                    XposedLogUtils.logI("DebugMode2 method is $debugMode2")
                     found = true
                     XposedBridge.hookMethod(
                         debugMode2,

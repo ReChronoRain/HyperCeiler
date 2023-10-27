@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.camera;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 public class UnlockCvlens extends BaseHook {
     @Override
@@ -31,7 +32,7 @@ public class UnlockCvlens extends BaseHook {
                 }
             });
         } catch (Exception e) {
-            logI("try to hook CvLensVersion failed!\n" + e);
+            XposedLogUtils.logI("try to hook CvLensVersion failed!\n" + e);
             throw new RuntimeException(e);
         }
     }

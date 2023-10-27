@@ -142,10 +142,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                     if (allPrefs == null || allPrefs.size() == 0) {
-                        XposedLogUtils.INSTANCE.logE(
+                        XposedLogUtils.logE(
                             "[UID" + android.os.Process.myUid() + "]",
-                            "Cannot read module's SharedPreferences, some mods might not work!",
-                            null, null
+                            "Cannot read module's SharedPreferences, some mods might not work!"
                         );
                     } else {
                         mPrefsMap.putAll(allPrefs);

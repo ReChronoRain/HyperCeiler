@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -75,7 +76,7 @@ public class IconScaleHook extends BaseHook {
                             mMessage.animate().scaleX(multx).scaleY(multx).setStartDelay(0).start();
                         }
                     } catch (Throwable t) {
-                        logI(String.valueOf(t));
+                        XposedLogUtils.logI(String.valueOf(t));
                     }
                 });
 

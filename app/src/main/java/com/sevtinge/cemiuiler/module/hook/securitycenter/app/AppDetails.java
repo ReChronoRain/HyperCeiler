@@ -71,7 +71,7 @@ public class AppDetails extends BaseHook {
                             Object contentFrag = act.getFragmentManager().findFragmentById(android.R.id.content);
                             Object frag = contentFrag != null ? contentFrag : mSupportFragment;
                             if (frag == null) {
-                                XposedLogUtils.INSTANCE.logI(TAG, "Unable to find fragment");
+                                XposedLogUtils.logI(TAG, "Unable to find fragment");
                                 return;
                             }
 
@@ -82,7 +82,7 @@ public class AppDetails extends BaseHook {
                                 mLastPackageInfo = (PackageInfo) piField.get(frag);
                                 Method[] addPref = XposedHelpers.findMethodsByExactParameters(frag.getClass(), void.class, String.class, String.class, String.class);
                                 if (mLastPackageInfo == null || addPref.length == 0) {
-                                    XposedLogUtils.INSTANCE.logI(TAG, "Unable to find field/class/method in SecurityCenter to hook");
+                                    XposedLogUtils.logI(TAG, "Unable to find field/class/method in SecurityCenter to hook");
                                     return;
                                 } else {
                                     addPref[0].setAccessible(true);
@@ -98,11 +98,11 @@ public class AppDetails extends BaseHook {
                                         addPref[0].invoke(frag, "open_in_market", modRes.getString(R.string.app_details_playstore), "");
                                         addPref[0].invoke(frag, "open_in_app", modRes.getString(R.string.app_details_launch), "");
                                     } catch (Throwable t) {
-                                        XposedLogUtils.INSTANCE.logW(TAG, "1", t);
+                                        XposedLogUtils.logW(TAG, "1", t);
                                     }
                                 });
                             } catch (Throwable t) {
-                                XposedLogUtils.INSTANCE.logW(TAG, "2", t);
+                                XposedLogUtils.logW(TAG, "2", t);
                                 return;
                             }
 
@@ -146,7 +146,7 @@ public class AppDetails extends BaseHook {
                                                     int uid = act.getIntent().getIntExtra("am_app_uid", -1);
                                                     user = (int) XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
                                                 } catch (Throwable t) {
-                                                    XposedLogUtils.INSTANCE.logW(TAG, "3", t);
+                                                    XposedLogUtils.logW(TAG, "3", t);
                                                 }
 
                                                 launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -154,7 +154,7 @@ public class AppDetails extends BaseHook {
                                                     try {
                                                         XposedHelpers.callMethod(act, "startActivityAsUser", launchIntent, XposedHelpers.newInstance(UserHandle.class, user));
                                                     } catch (Throwable t) {
-                                                        XposedLogUtils.INSTANCE.logW(TAG, "4", t);
+                                                        XposedLogUtils.logW(TAG, "4", t);
                                                     }
                                                 } else {
                                                     act.startActivity(launchIntent);
@@ -170,7 +170,7 @@ public class AppDetails extends BaseHook {
                 });
             }
         } else {
-            XposedLogUtils.INSTANCE.logI(TAG, "Cannot find activity class!");
+            XposedLogUtils.logI(TAG, "Cannot find activity class!");
         }
     }
 }

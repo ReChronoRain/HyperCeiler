@@ -51,13 +51,13 @@ public class StickyFloatingWindows extends BaseHook {
                 if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
                     try {
                         if (MiuiMultiWindowUtils == null) {
-                            XposedLogUtils.INSTANCE.logI(TAG, "Cannot find MiuiMultiWindowUtils class");
+                            XposedLogUtils.logI(TAG, "Cannot find MiuiMultiWindowUtils class");
                             return;
                         }
                         options = patchActivityOptions(mContext, options, pkgName, MiuiMultiWindowUtils);
                         param.setResult(options);
                     } catch (Throwable t) {
-                        XposedLogUtils.INSTANCE.logW(TAG, "", t);
+                        XposedLogUtils.logW(TAG, "", t);
                     }
                 } else if (windowingMode == 5 && !fwApps.containsKey(pkgName)) {
                     fwApps.put(pkgName, new Pair<>(0f, null));

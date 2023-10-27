@@ -19,6 +19,7 @@ import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.utils.ShellUtils;
 import com.sevtinge.cemiuiler.utils.TileUtils;
 import com.sevtinge.cemiuiler.utils.log.AndroidLogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -98,10 +99,10 @@ public class SunlightMode extends TileUtils {
         intentListening = true;*/
         if (path == null) {
             useSystem = true;
-            logE("Missing directory, unable to set this mode: true");
+            XposedLogUtils.logE(TAG, "Missing directory, unable to set this mode: true");
         } else {
             ShellUtils.execCommand("chmod 777 " + path, true, false);
-            // logI("setPath: im get file: " + path);
+            // XposedLogUtils.logI("setPath: im get file: " + path);
         }
     }
 
@@ -167,7 +168,7 @@ public class SunlightMode extends TileUtils {
                     Settings.System.putInt(mContext.getContentResolver(), sunlightMode, 1);
                     refreshState(param.thisObject);
                 } else {
-                    logE("ERROR Int For sunlight_mode");
+                    XposedLogUtils.logE(TAG, "ERROR Int For sunlight_mode");
                 }
             } else {
                 if (!useSystem) {
@@ -333,7 +334,7 @@ public class SunlightMode extends TileUtils {
                 }
             }
         } catch (Settings.SettingNotFoundException e) {
-            logE("tileUpdateState: Missing system API: " + sunlightMode);
+            XposedLogUtils.logE(TAG, "tileUpdateState: Missing system API: " + sunlightMode);
         }
         try {
             if (!mMode) {
@@ -358,7 +359,7 @@ public class SunlightMode extends TileUtils {
             }
             // sLog("tileUpdateState: isEnable is: " + isEnable);
         } catch (Settings.SettingNotFoundException e) {
-            logE("tileUpdateState: Not Find sunlight_mode");
+            XposedLogUtils.logE(TAG, "tileUpdateState: Not Find sunlight_mode");
         }
         ArrayMap<String, Integer> tileResMap = new ArrayMap<>();
         tileResMap.put("custom_SUN_Enable", isEnable ? 1 : 0);

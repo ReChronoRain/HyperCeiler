@@ -43,7 +43,7 @@ public class FolderShade extends BaseHook {
                             try {
                                 isLight = (boolean) XposedHelpers.callStaticMethod(mWallpaperUtilsCls, "hasAppliedLightWallpaper");
                             } catch (Throwable tr) {
-                                XposedLogUtils.INSTANCE.logW(TAG, "isLight is abnormal", tr);
+                                XposedLogUtils.logW(TAG, "isLight is abnormal", tr);
                             }
                         }
 
@@ -62,7 +62,7 @@ public class FolderShade extends BaseHook {
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {
-                        XposedLogUtils.INSTANCE.logW(TAG, "", t);
+                        XposedLogUtils.logW(TAG, "", t);
                     }
                 }).start();
             }

@@ -64,7 +64,7 @@ public class DialogCustom extends BaseHook {
             for (Method method : mAlertControllerCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) {
                     oldMethodFound = true;
-                    XposedLogUtils.INSTANCE.logI(TAG, method.getName());
+                    XposedLogUtils.logI(TAG, method.getName());
                 }
                 mAllMethodList.add(method);
             }
@@ -76,7 +76,7 @@ public class DialogCustom extends BaseHook {
         }
 
         if (oldMethodFound) {
-            logI("oldMethod found.");
+            XposedLogUtils.logI(TAG, "oldMethod found.");
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                 @Override
@@ -92,12 +92,14 @@ public class DialogCustom extends BaseHook {
                         layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
                     }
                     mParentPanel.setLayoutParams(layoutParams);
-                    new BlurUtils(mParentPanel, "various_dialog_bg_blur");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        new BlurUtils(mParentPanel, "various_dialog_bg_blur");
+                    }
                 }
             });
 
         } else {
-            logI("oldMethod not found.");
+            XposedLogUtils.logI(TAG, "oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
@@ -112,7 +114,9 @@ public class DialogCustom extends BaseHook {
                         layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dip2px(mContext, mDialogBottomMargin);
                     }
                     mParentPanel.setLayoutParams(layoutParams);
-                    new BlurUtils(mParentPanel, "various_dialog_bg_blur");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        new BlurUtils(mParentPanel, "various_dialog_bg_blur");
+                    }
                 }
             });
         }
@@ -139,7 +143,7 @@ public class DialogCustom extends BaseHook {
                 }
             });
         } catch (Exception e) {
-            XposedLogUtils.INSTANCE.logE(TAG, "", null, e);
+           XposedLogUtils.logE(TAG, e);
         }
 
 

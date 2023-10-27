@@ -4,6 +4,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.module.hook.securitycenter.lab.LabUtilsClass.labUtilClass
 import com.sevtinge.cemiuiler.utils.Helpers
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 
 
 object AiClipboardEnable : BaseHook() {
@@ -11,7 +12,7 @@ object AiClipboardEnable : BaseHook() {
     override fun init() {
         labUtilClass.forEach {
             labUtils = it.getInstance(EzXHelper.classLoader)
-            logI("labUtils class is $labUtils")
+            XposedLogUtils.logI("labUtils class is $labUtils")
             findAndHookMethod(
                 "com.miui.permcenter.settings.PrivacyLabActivity",
                 "onCreateFragment",

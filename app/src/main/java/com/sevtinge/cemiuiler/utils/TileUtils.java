@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Switch;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
@@ -54,7 +55,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logE("Don't Have isAvailable: " + e);
+            XposedLogUtils.logE(TAG, "Don't Have isAvailable: " + e);
         }
         tileName(myTile); // 不需要覆写
         try {
@@ -69,7 +70,7 @@ public abstract class TileUtils extends BaseHook {
                                 tileListening(param, tileName);
                                 param.setResult(null);
                             } catch (Throwable e) {
-                                logE("handleSetListening have Throwable: " + e);
+                                XposedLogUtils.logE(TAG, "handleSetListening have Throwable: " + e);
                                 param.setResult(null);
                             }
                         }
@@ -80,7 +81,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logE("Don't Have handleSetListening: " + e);
+            XposedLogUtils.logE(TAG, "Don't Have handleSetListening: " + e);
         }
         try {
             myTile.getDeclaredMethod("getLongClickIntent");
@@ -99,7 +100,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logE("Don't Have getLongClickIntent: " + e);
+            XposedLogUtils.logE(TAG, "Don't Have getLongClickIntent: " + e);
         }
         try {
             myTile.getDeclaredMethod("handleLongClick", View.class);
@@ -121,7 +122,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException t) {
-            logE("Don't Have handleLongClick: " + t);
+            XposedLogUtils.logE(TAG, "Don't Have handleLongClick: " + t);
         }
         try {
             myTile.getDeclaredMethod("handleClick", View.class);
@@ -135,7 +136,7 @@ public abstract class TileUtils extends BaseHook {
                                 tileClick(param, tileName);
                                 param.setResult(null);
                             } catch (Throwable e) {
-                                logE("handleClick have Throwable: " + e);
+                                XposedLogUtils.logE(TAG, "handleClick have Throwable: " + e);
                                 param.setResult(null);
                             }
                         }
@@ -154,7 +155,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            logE("Don't Have handleClick: " + e);
+            XposedLogUtils.logE(TAG, "Don't Have handleClick: " + e);
         }
         hookAllMethods(myTile, "handleUpdateState", new MethodHook() {
             @Override
@@ -234,7 +235,7 @@ public abstract class TileUtils extends BaseHook {
         String custom = customName();
         if (needCustom()) {
             if (custom.equals("")) {
-                logE("Error custom:" + custom);
+                XposedLogUtils.logE(TAG, "Error custom:" + custom);
                 return;
             }
             try {
@@ -257,7 +258,7 @@ public abstract class TileUtils extends BaseHook {
                     }
                 });
             } catch (NoSuchMethodException e) {
-                logE("Don't Have onCreate: " + e);
+                XposedLogUtils.logE(TAG, "Don't Have onCreate: " + e);
             }
         }
     }
@@ -283,7 +284,7 @@ public abstract class TileUtils extends BaseHook {
                     }
                 });
             } catch (NoSuchMethodException e) {
-                logE("Don't Have " + customTileProvider()[1], e);
+                XposedLogUtils.logE(TAG, "Don't Have " + customTileProvider()[1], e);
             }
         }
     }
@@ -314,7 +315,7 @@ public abstract class TileUtils extends BaseHook {
                     }
                 );
             } catch (NoSuchMethodException e) {
-                logE("Don't Have " + customTileProvider()[2], e);
+                XposedLogUtils.logE(TAG, "Don't Have " + customTileProvider()[2], e);
             }
         }
     }
@@ -333,7 +334,7 @@ public abstract class TileUtils extends BaseHook {
                 }
             );
         } catch (NoSuchMethodException e) {
-            logE("Don't Have handleShowStateMessage: " + e);
+            XposedLogUtils.logE(TAG, "Don't Have handleShowStateMessage: " + e);
         }
     }
 
@@ -349,7 +350,7 @@ public abstract class TileUtils extends BaseHook {
             int customValue = customValue();
             String custom = customName();
             if (customValue == -1 || custom.equals("")) {
-                logE("Error customValue:" + customValue);
+                XposedLogUtils.logE(TAG, "Error customValue:" + customValue);
                 return;
             }
             try {
@@ -368,7 +369,7 @@ public abstract class TileUtils extends BaseHook {
                     }
                 });
             } catch (NoSuchMethodException e) {
-                logE("Don't Have getTileLabel: ", e);
+                XposedLogUtils.logE(TAG, "Don't Have getTileLabel: ", e);
             }
         }
     }

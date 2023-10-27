@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.cemiuiler.utils.MathUtils;
 import com.sevtinge.cemiuiler.utils.ShellUtils;
 import com.sevtinge.cemiuiler.utils.TileUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -82,7 +83,7 @@ public class FlashLight extends TileUtils {
     public ArrayMap<String, Integer> tileUpdateState(XC_MethodHook.MethodHookParam param, Class<?> mResourceIcon, String tileName) {
         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
         ContentObserver contentObserver;
-        // logE("tileUpdateState: args: " + param.args[1]);
+        // XposedLogUtils.logE(TAG, "tileUpdateState: args: " + param.args[1]);
         if (param.args[1] != null) {
             boolean enabled = (boolean) param.args[1];
             Object flash = XposedHelpers.getObjectField(param.thisObject, "flashlightController");
@@ -92,14 +93,14 @@ public class FlashLight extends TileUtils {
                 }
                 if (!isListening) listening(mContext, param, flash, isListening);
                 setFlashLightEnabled(mContext, 1);
-                // logE("tileUpdateState: isListening1: " + isListening);
+                // XposedLogUtils.logE(TAG, "tileUpdateState: isListening1: " + isListening);
             } else if ((boolean) XposedHelpers.callMethod(flash, "isEnabled")) {
                 if (getFlashLightEnabled(mContext) == 1 && !isListening) {
                     setFlashLightEnabled(mContext, 0);
                 }
                 if (!isListening) listening(mContext, param, flash, isListening);
                 setFlashLightEnabled(mContext, 1);
-                // logE("tileUpdateState: isListening2: " + isListening + " call: " + XposedHelpers.callMethod(flash, "isEnabled"));
+                // XposedLogUtils.logE(TAG, "tileUpdateState: isListening2: " + isListening + " call: " + XposedHelpers.callMethod(flash, "isEnabled"));
             } else {
                 setFlashLightEnabled(mContext, 0);
                 if (isListening) {
@@ -109,7 +110,7 @@ public class FlashLight extends TileUtils {
                         mContext.getContentResolver().unregisterContentObserver(contentObserver);
                     }
                 }
-                // logE("tileUpdateState: isListening3: " + isListening);
+                // XposedLogUtils.logE(TAG, "tileUpdateState: isListening3: " + isListening);
             }
         }
         return null;
@@ -123,7 +124,7 @@ public class FlashLight extends TileUtils {
                 public void onChange(boolean selfChange, @Nullable Uri uri) {
                     super.onChange(selfChange, uri);
                     hookFlash(param.thisObject, flash, mContext, readFile());
-                    // logE("listening: listening: selfChange: " + selfChange + " uri: " + uri);
+                    // XposedLogUtils.logE(TAG, "listening: listening: selfChange: " + selfChange + " uri: " + uri);
                 }
             };
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("flash_light_enabled"), false, contentObserver);
@@ -139,10 +140,10 @@ public class FlashLight extends TileUtils {
                 "lambda$onChanged$0", boolean.class, float.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        // logE("MiuiBrightnessController lambda$onChanged$0: " + param.args[0] + " 2: " + param.args[1]);
+                        // XposedLogUtils.logE(TAG, "MiuiBrightnessController lambda$onChanged$0: " + param.args[0] + " 2: " + param.args[1]);
                         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                         int enabled = getFlashLightEnabled(mContext);
-                        // logE("lambda$onChanged$0 enabled: " + enabled);
+                        // XposedLogUtils.logE(TAG, "lambda$onChanged$0 enabled: " + enabled);
                         if (enabled == 1) {
                             param.setResult(null);
                         }
@@ -155,9 +156,9 @@ public class FlashLight extends TileUtils {
                     @Override
                     protected void before(MethodHookParam param) {
                         int enabled = getFlashLightEnabled(context);
-                        // logE("MiuiBrightnessController$5 enabled: " + enabled);
+                        // XposedLogUtils.logE(TAG, "MiuiBrightnessController$5 enabled: " + enabled);
                         if (enabled == 1) {
-                            // logE("MiuiBrightnessController$5 run");
+                            // XposedLogUtils.logE(TAG, "MiuiBrightnessController$5 run");
                             param.setResult(null);
                         }
                     }
@@ -170,7 +171,7 @@ public class FlashLight extends TileUtils {
                     @Override
                     protected void before(MethodHookParam param) {
                         if (getFlashLightEnabled(context) == 1) {
-                            // logE("MiuiBrightnessController$$ExternalSyntheticLambda0 run");
+                            // XposedLogUtils.logE(TAG, "MiuiBrightnessController$$ExternalSyntheticLambda0 run");
                             param.setResult(null);
                         }
                     }
@@ -181,7 +182,7 @@ public class FlashLight extends TileUtils {
                     @Override
                     protected void before(MethodHookParam param) {
                         if (getFlashLightEnabled(context) == 1) {
-                            // logE("MiuiBrightnessController$2 run");
+                            // XposedLogUtils.logE(TAG, "MiuiBrightnessController$2 run");
                             param.setResult(null);
                         }
                     }
@@ -199,9 +200,9 @@ public class FlashLight extends TileUtils {
                         // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat int 1: " + param.args[0]);
                         // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat float 2: " + param.args[1]);
                         // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat float 3: " + param.args[2]);
-                        // logE("convertGammaToLinearFloat int 1: " + param.args[0]);
-                        // logE("convertGammaToLinearFloat float 2: " + param.args[1]);
-                        // logE("convertGammaToLinearFloat float 3: " + param.args[2]);
+                        // XposedLogUtils.logE(TAG, "convertGammaToLinearFloat int 1: " + param.args[0]);
+                        // XposedLogUtils.logE(TAG, "convertGammaToLinearFloat float 2: " + param.args[1]);
+                        // XposedLogUtils.logE(TAG, "convertGammaToLinearFloat float 3: " + param.args[2]);
                         float min = (float) param.args[1];
                         float max = (float) param.args[2];
                         if (min < 0.001f) {
@@ -236,7 +237,7 @@ public class FlashLight extends TileUtils {
                             if (maxPath != -1 && i > maxPath) {
                                 i = maxPath;
                             }
-                            // logE("convertGammaToLinearFloat i: " + i);
+                            // XposedLogUtils.logE(TAG, "convertGammaToLinearFloat i: " + i);
                             writeFile(i);
                         } else {
                             XposedHelpers.callMethod(flash, "setFlashlight", false);
@@ -253,7 +254,7 @@ public class FlashLight extends TileUtils {
         try {
             return Settings.System.getInt(context.getContentResolver(), "flash_light_enabled");
         } catch (Settings.SettingNotFoundException e) {
-            logE("No Found flash_light_enabled: " + e);
+            XposedLogUtils.logE(TAG, "No Found flash_light_enabled: " + e);
             return -1;
         }
     }
@@ -275,18 +276,18 @@ public class FlashLight extends TileUtils {
                     builder.append(line);
                 }
             } catch (IOException e) {
-                logE("Error to read: " + maxFile, e);
+                XposedLogUtils.logE(TAG, "Error to read: " + maxFile, e);
             } finally {
                 try {
                     if (reader != null) {
                         reader.close();
                     }
                 } catch (IOException e) {
-                    logE("Close reader error: ", e);
+                    XposedLogUtils.logE(TAG, "Close reader error: ", e);
                 }
             }
         } else {
-            logE("Not Found FlashLight File: " + maxFile);
+            XposedLogUtils.logE(TAG, "Not Found FlashLight File: " + maxFile);
         }
 
         if (builder != null) {
@@ -309,7 +310,7 @@ public class FlashLight extends TileUtils {
                     writeFileModule(flashFileOther, flashInt);
                 }
             } else
-                logE("Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
+                XposedLogUtils.logE(TAG, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
             // if (file1.exists() && file2.exists()) {
             //     writeFileModule(flashFileTorch, flashInt);
             //     writeFileModule(flashFileSwitch, 1);
@@ -317,7 +318,7 @@ public class FlashLight extends TileUtils {
             // } else if (file1.exists()) {
             //     writeFileModule(flashFileTorch, flashInt);
             // } else
-            //     logE("Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
+            //     XposedLogUtils.logE(TAG, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
         }
     }
 
@@ -334,7 +335,7 @@ public class FlashLight extends TileUtils {
                 writer.write(Integer.toString(flashInt));
                 writer.flush();
             } catch (IOException f) {
-                logE("Write FlashLight File Error: " + f + " File Path: " + filePath);
+                XposedLogUtils.logE(TAG, "Write FlashLight File Error: " + f + " File Path: " + filePath);
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.systemframework;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 public class AppLinkVerify extends BaseHook {
 
@@ -15,7 +16,7 @@ public class AppLinkVerify extends BaseHook {
                 }
             );
         } catch (Throwable t) {
-            logE(t);
+            XposedLogUtils.logE(TAG, t);
         }
     }
 }

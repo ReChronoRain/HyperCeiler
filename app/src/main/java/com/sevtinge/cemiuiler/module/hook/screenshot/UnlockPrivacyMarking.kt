@@ -4,6 +4,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 
 object UnlockPrivacyMarking : BaseHook() {
     override fun init() {
@@ -17,7 +18,7 @@ object UnlockPrivacyMarking : BaseHook() {
             try {
                 returnConstant(true)
             } catch (e: Exception) {
-                logI("UnSupport Privacy Marking")
+                XposedLogUtils.logW("UnSupport Privacy Marking")
             }
         }
     }

@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.hook.various
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -26,7 +27,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                             mLogcatManagerService, "mActivityManagerInternal"
                         )
                     } catch (t: Throwable) {
-                        logE("NoAccessDeviceLogsRequest -> onStart", t)
+                        XposedLogUtils.logE(TAG, "NoAccessDeviceLogsRequest -> onStart", t)
                     }
                 }
             }
@@ -50,11 +51,11 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                             client
                         )
                         // debug 用，取消禁用详细日志输出可进行调试
-                        logI("NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid")
+                        XposedLogUtils.logI("NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid")
                         param.result = null
                     } catch (t: Throwable) {
                         // 输出异常日志
-                        logE("NoAccessDeviceLogsRequest -> processNewLogAccessRequest", t)
+                        XposedLogUtils.logE("NoAccessDeviceLogsRequest -> processNewLogAccessRequest", t)
                     }
                 }
             })
@@ -69,7 +70,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }*/
     }
 }

@@ -91,7 +91,7 @@ public class PrefsUtils {
                 String prefValue = cursor.getString(0);
                 cursor.close();
                 return prefValue;
-            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -113,7 +113,7 @@ public class PrefsUtils {
                 cursor.close();
                 return prefValue;
             } else {
-                XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: null");
+                XposedLogUtils.logI("ContentResolver", "[" + name + "] Cursor fail: null");
             }
         } catch (Throwable t) {
             XposedBridge.log(t);
@@ -136,7 +136,7 @@ public class PrefsUtils {
                 int prefValue = cursor.getInt(0);
                 cursor.close();
                 return prefValue;
-            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -155,7 +155,7 @@ public class PrefsUtils {
                 int prefValue = cursor.getInt(0);
                 cursor.close();
                 return prefValue == 1;
-            } else XposedLogUtils.INSTANCE.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
+            } else XposedLogUtils.logI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
         } catch (Throwable t) {
             XposedBridge.log(t);
         }

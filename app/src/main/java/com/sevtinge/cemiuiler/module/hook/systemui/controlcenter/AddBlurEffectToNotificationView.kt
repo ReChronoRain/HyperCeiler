@@ -14,6 +14,7 @@ import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidU
 import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.cemiuiler.utils.getObjectField
 import com.sevtinge.cemiuiler.utils.hookAfterMethod
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.replaceMethod
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -136,7 +137,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     }
                 }
             } catch (t: Throwable) {
-                logE(t)
+                XposedLogUtils.logE(TAG, t)
             }
 
             try {
@@ -157,7 +158,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     }
                 }
             } catch (t: Throwable) {
-                logE(t)
+                XposedLogUtils.logE(TAG, t)
             }
         }
 

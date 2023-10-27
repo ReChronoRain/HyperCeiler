@@ -19,6 +19,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.ColorUtils
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.HookUtils
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
@@ -77,6 +78,7 @@ object BlurSecurity : BaseHook() {
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
+                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             // 已有背景 避免重复添加
 
@@ -383,7 +385,7 @@ object BlurSecurity : BaseHook() {
                 })
 
 
-            logI("3")
+            XposedLogUtils.logI("3")
 
             XposedHelpers.findAndHookMethod(
                 srsLevelSeekBarProClass,
@@ -451,7 +453,7 @@ object BlurSecurity : BaseHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val view = HookUtils.getValueByField(param.thisObject, "d") as View
                         val parentView = view.parent
-                        logI(parentView.toString())
+                        XposedLogUtils.logI(parentView.toString())
                         if (parentView is ViewGroup) {
                             val lastChild = parentView.getChildAt(parentView.childCount - 1)
                             if (lastChild is ImageView && lastChild.drawable is VectorDrawable) {
@@ -473,7 +475,7 @@ object BlurSecurity : BaseHook() {
                 })
         }
 
-        logI("4")
+        XposedLogUtils.logI("4")
     }
 
     // 尽量给最外层加 RenderEffect 而不是 最内层

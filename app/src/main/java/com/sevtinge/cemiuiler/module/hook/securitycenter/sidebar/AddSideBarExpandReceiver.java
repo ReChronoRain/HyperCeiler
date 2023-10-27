@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 
@@ -30,7 +31,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         }
         Class <?> RegionSamplingHelper = findClassIfExists("com.android.systemui.navigationbar.gestural.RegionSamplingHelper", lpparam.classLoader);
         if (RegionSamplingHelper == null) {
-            logI("failed to find RegionSamplingHelper");
+            XposedLogUtils.logI("failed to find RegionSamplingHelper");
         }
         hookAllConstructors(RegionSamplingHelper, new MethodHook() {
             private int originDockLocation = -1;
@@ -106,7 +107,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         });
         Method[] methods = XposedHelpers.findMethodsByExactParameters(RegionSamplingHelper, void.class, Rect.class);
         if (methods.length == 0) {
-            logI("Cannot find appropriate start method");
+            XposedLogUtils.logI("Cannot find appropriate start method");
             return;
         }
         hookMethod(methods[0], new MethodHook() {

@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module.hook.home.title;
 import android.view.MotionEvent;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 import kotlin.jvm.internal.Intrinsics;
@@ -49,7 +50,7 @@ public class FixAnimation extends BaseHook {
                 Object obj = param.args[0];
                 Intrinsics.checkNotNull(obj, "null cannot be cast to non-null type android.view.MotionEvent");
                 MotionEvent motionEvent = (MotionEvent) obj;
-                logI("onInputConsumerEvent: Action: " + motionEvent.getAction() + ", return " + param.getResult() + ". x: " + motionEvent.getX() + " y: " + motionEvent.getY());
+                XposedLogUtils.logI("onInputConsumerEvent: Action: " + motionEvent.getAction() + ", return " + param.getResult() + ". x: " + motionEvent.getX() + " y: " + motionEvent.getY());
                 if (XposedHelpers.getObjectField(param.thisObject, "mAppToHomeAnim2") != null || getMAppToHomeAnim2Bak() == null) {
                     return;
                 }

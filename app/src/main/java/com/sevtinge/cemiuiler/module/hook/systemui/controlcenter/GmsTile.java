@@ -11,6 +11,7 @@ import android.util.ArrayMap;
 
 import com.sevtinge.cemiuiler.R;
 import com.sevtinge.cemiuiler.utils.TileUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
@@ -83,7 +84,7 @@ public class GmsTile extends TileUtils {
             packageManager.getPackageInfo(CheckGms, PackageManager.GET_ACTIVITIES);
             param.setResult(true);
         } catch (PackageManager.NameNotFoundException e) {
-            logE("Not Find GMS App: " + e);
+            XposedLogUtils.logE(TAG, "Not Find GMS App: " + e);
             param.setResult(false);
         }
     }
@@ -107,9 +108,9 @@ public class GmsTile extends TileUtils {
                 try {
                     packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
                     packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
-                    logI("To Enabled Gms App:" + GmsAppsSystem);
+                    XposedLogUtils.logI("To Enabled Gms App:" + GmsAppsSystem);
                 } catch (PackageManager.NameNotFoundException e) {
-                    logI("Don't have Gms app :" + GmsAppsSystem);
+                    XposedLogUtils.logI("Don't have Gms app :" + GmsAppsSystem);
                 }
             }
             XposedHelpers.callMethod(param.thisObject, "refreshState");
@@ -118,9 +119,9 @@ public class GmsTile extends TileUtils {
                 try {
                     packageManager.getPackageInfo(GmsAppsSystem, PackageManager.GET_ACTIVITIES);
                     packageManager.setApplicationEnabledSetting(GmsAppsSystem, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
-                    logI("To Disabled Gms App:" + GmsAppsSystem);
+                    XposedLogUtils.logI("To Disabled Gms App:" + GmsAppsSystem);
                 } catch (PackageManager.NameNotFoundException e) {
-                    logI("Don't have Gms app :" + GmsAppsSystem);
+                    XposedLogUtils.logI("Don't have Gms app :" + GmsAppsSystem);
                 }
             }
             XposedHelpers.callMethod(param.thisObject, "refreshState");

@@ -48,7 +48,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                 try {
                     initSeekBar = XposedHelpers.findMethodsByExactParameters(fragment.getClass(), void.class, String.class, int.class, int.class);
                     if (mVsbCls == null || initSeekBar.length == 0) {
-                        XposedLogUtils.INSTANCE.logI(TAG, "Unable to find class/method in Settings to hook");
+                        XposedLogUtils.logI(TAG, "Unable to find class/method in Settings to hook");
                         return;
                     } else {
                         initSeekBar[0].setAccessible(true);
@@ -62,7 +62,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                         }
                     }
                 } catch (Throwable t) {
-                    XposedLogUtils.INSTANCE.logI(TAG, "Unable to find class/method in Settings to hook");
+                    XposedLogUtils.logI(TAG, "Unable to find class/method in Settings to hook");
                     return;
                 }
 

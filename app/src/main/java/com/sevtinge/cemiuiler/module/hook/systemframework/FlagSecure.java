@@ -4,6 +4,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -91,7 +92,7 @@ public class FlagSecure extends BaseHook {
                     }
                 }
             } catch (Throwable t) {
-                logE(t);
+                XposedLogUtils.logE(TAG, t);
             }
         }
     }

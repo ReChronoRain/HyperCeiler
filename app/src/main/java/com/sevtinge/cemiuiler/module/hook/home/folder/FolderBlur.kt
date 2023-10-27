@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.*
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")
@@ -28,7 +29,7 @@ object FolderBlur : BaseHook() {
                 it.result = null
             }
         } catch (e: Exception) {
-            logE(e)
+            XposedLogUtils.logE(TAG, e)
         }
         var isShouldBlur = false
 

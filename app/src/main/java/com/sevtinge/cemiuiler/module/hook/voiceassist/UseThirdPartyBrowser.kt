@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module.hook.voiceassist
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import java.lang.reflect.Method
@@ -32,7 +33,7 @@ object UseThirdPartyBrowser : BaseHook() {
         } catch (e: Throwable) {
             e.printStackTrace()
         }*/
-        logI("com.miui.voiceassist browserActivityWithIntent method is $browserActivityWithIntent")
+        XposedLogUtils.logI("com.miui.voiceassist browserActivityWithIntent method is $browserActivityWithIntent")
         // Class<?> clazz = XposedHelpers.findClass("e.D.L.pa.Wa", lpparam.classLoader);
         XposedBridge.hookMethod(browserActivityWithIntent, object : XC_MethodHook() {
             @Throws(Throwable::class)
@@ -40,10 +41,10 @@ object UseThirdPartyBrowser : BaseHook() {
                 super.beforeHookedMethod(param)
                 // XposedBridge.log("0)Hook到Activity启动，开始判断");
                 val intent = param.args[0] as android.content.Intent
-                logI(intent.toString())
+                XposedLogUtils.logI(intent.toString())
                 try {
                     if (intent.getPackage() == "com.android.browser") {
-                        logI("com.miui.voiceassist get URL " + intent.dataString)
+                        XposedLogUtils.logI("com.miui.voiceassist get URL " + intent.dataString)
                         val uri = android.net.Uri.parse(intent.dataString)
                         val newIntent = android.content.Intent()
                         newIntent.setAction("android.intent.action.VIEW")
@@ -51,7 +52,7 @@ object UseThirdPartyBrowser : BaseHook() {
                         param.args[0] = newIntent
                     }
                 } catch (e: Exception) {
-                    logE(e)
+                   XposedLogUtils.logE(TAG, e)
                 }
             }
         })

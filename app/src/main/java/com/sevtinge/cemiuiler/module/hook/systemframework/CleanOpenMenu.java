@@ -15,6 +15,7 @@ import android.view.View;
 import com.sevtinge.cemiuiler.module.base.BaseHook;
 import com.sevtinge.cemiuiler.utils.Helpers;
 import com.sevtinge.cemiuiler.utils.PrefsUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +55,7 @@ public class CleanOpenMenu extends BaseHook {
                                     mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
                             }
                         } catch (Throwable t) {
-                            logE(t);
+                            XposedLogUtils.logE(TAG, t);
                         }
                     }
                 };

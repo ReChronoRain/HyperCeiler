@@ -11,6 +11,7 @@ import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.Helpers
 import com.sevtinge.cemiuiler.utils.devicesdk.getAndroidVersion
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
 import kotlin.math.pow
@@ -71,7 +72,7 @@ object NetworkSpeed : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
             tx = TrafficStats.getTotalTxBytes()
             rx = TrafficStats.getTotalRxBytes()
         }
@@ -98,7 +99,7 @@ object NetworkSpeed : BaseHook() {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
             ""
         }
     }
@@ -115,7 +116,7 @@ object NetworkSpeed : BaseHook() {
         }
 
         if (nscCls == null) {
-            logE("DetailedNetSpeedHook", "No NetworkSpeed view or controller")
+            XposedLogUtils.logE(TAG, "DetailedNetSpeedHook: No NetworkSpeed view or controller")
         } else {
             nscCls.methodFinder().first {
                 name == "getTotalByte"

@@ -5,6 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.getObjectField
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 
 object GetBubbleAppString : BaseHook() {
     override fun init() {
@@ -29,7 +30,7 @@ object GetBubbleAppString : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            logE(e)
+            XposedLogUtils.logE(TAG, e)
         }
     }
 

@@ -28,7 +28,7 @@ object BlurPersonalAssistant : BaseHook() {
         for (descriptor in mScrollStateManager) {
             runCatching {
                 val mScrollStateManagerMethod = descriptor.getMethodInstance(lpparam.classLoader)
-                logI("mScrollStateManager method is $mScrollStateManagerMethod")
+                XposedLogUtils.logI("mScrollStateManager method is $mScrollStateManagerMethod")
                 XposedBridge.hookMethod(mScrollStateManagerMethod,
                     object : XC_MethodHook() {
                         @RequiresApi(Build.VERSION_CODES.S)

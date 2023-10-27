@@ -9,6 +9,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.setObjectField
 import com.sevtinge.cemiuiler.view.WeatherView
 
@@ -81,7 +82,7 @@ object NotificationWeatherOld : BaseHook() {
                         }
                         context.startActivity(intent)
                     } catch (e: Exception) {
-                        logE(e)
+                        XposedLogUtils.logE(TAG, e)
                     }
                 }
             }

@@ -16,49 +16,49 @@ public class LocationSimulation extends BaseHook {
             findAndHookMethod(mTelephonyManager, "getNetworkOperatorName", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getNetworkOperatorName：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getNetworkOperatorName：" + param.getResult());
                 }
             });
 
             findAndHookMethod(mTelephonyManager, "getSimOperatorName", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getSimOperatorName：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getSimOperatorName：" + param.getResult());
                 }
             });
 
             findAndHookMethod(mTelephonyManager, "getSimOperator", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getSimOperator：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getSimOperator：" + param.getResult());
                 }
             });
 
             findAndHookMethod(mTelephonyManager, "getNetworkOperator", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getNetworkOperator：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getNetworkOperator：" + param.getResult());
                 }
             });
 
             findAndHookMethod(mTelephonyManager, "getSimCountryIso", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getSimCountryIso：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getSimCountryIso：" + param.getResult());
                 }
             });
 
             findAndHookMethod(mTelephonyManager, "getNetworkCountryIso", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getNetworkCountryIso：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getNetworkCountryIso：" + param.getResult());
                 }
             });
 
             findAndHookMethod(mTelephonyManager, "getNeighboringCellInfo", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    XposedLogUtils.INSTANCE.logI(TAG, "getNeighboringCellInfo：" + param.getResult());
+                    XposedLogUtils.logI(TAG, "getNeighboringCellInfo：" + param.getResult());
                 }
             });
 

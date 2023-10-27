@@ -33,7 +33,7 @@ public class MonetThemeOverlay extends BaseHook {
                     @Override
                     public void onChange(String name, int defValue) {
                         mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
-                        XposedLogUtils.INSTANCE.logI(TAG, name + "： " + PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
+                        XposedLogUtils.logI(TAG, name + "： " + PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
                     }
                 };
 

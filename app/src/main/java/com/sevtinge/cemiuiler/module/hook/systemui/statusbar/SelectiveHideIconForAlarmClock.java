@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.format.DateFormat;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -105,9 +106,9 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
             mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            logI("Now is " + diffHours + "min remain, show when " + vis + "min remain.");
+            XposedLogUtils.logI("Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
-            logI("updateAlarmVisibility failed by " + t);
+            XposedLogUtils.logI("updateAlarmVisibility failed by " + t);
         }
     }
 
@@ -140,7 +141,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
             nextTime = cal.getTimeInMillis();
         } catch (Throwable t) {
-            logE(t);
+            XposedLogUtils.logE(TAG, t);
         }
         return nextTime;
     }

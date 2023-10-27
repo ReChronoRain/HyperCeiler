@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logE
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodReplacement
@@ -23,7 +24,7 @@ object HookUtils {
             classLoader
         )
         if (result == null) {
-            logE("getClass", "'$className' is NOT found.", null, null)
+            logE("getClass", "'$className' is NOT found.")
         }
         return result
     }

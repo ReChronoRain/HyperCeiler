@@ -4,6 +4,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 
 object MultiFreeFormSupported : BaseHook() {
     override fun init() {
@@ -25,14 +26,14 @@ object MultiFreeFormSupported : BaseHook() {
                         it.result = mResult
                     }
                 }
-                logI("Hook with recents_to_small_freeform success!")
+                XposedLogUtils.logI("Hook with recents_to_small_freeform success!")
             } else {
                 loadClass("android.util.MiuiMultiWindowUtils").methodFinder().first {
                     name == "multiFreeFormSupported"
                 }.createHook {
                     returnConstant(true)
                 }
-                logI("Hook success!")
+                XposedLogUtils.logI("Hook success!")
             }
         }
     }

@@ -49,7 +49,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
                 findAndHookMethodSilently(mRemixRvCls, "setSpringEnabled", boolean.class, hookParam);
             }
         } catch (Exception e) {
-            XposedLogUtils.INSTANCE.logE(TAG,"TAG" + lpparam.packageName, null, e);
+            XposedLogUtils.logE(TAG,"TAG" + lpparam.packageName, e);
         }
     }
 }

@@ -11,6 +11,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import com.sevtinge.cemiuiler.utils.setObjectField
 import de.robv.android.xposed.XposedHelpers
 
@@ -160,7 +161,7 @@ object MobileTypeSingleHook : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
 
         // 显示非上网卡的大图标

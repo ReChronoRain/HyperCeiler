@@ -9,6 +9,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.devicesdk.isAndroidR
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedStyle : BaseHook() {
@@ -48,7 +49,7 @@ object NetworkSpeedStyle : BaseHook() {
                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                            }
                        } catch (e: Exception) {
-                           logE(e)
+                           XposedLogUtils.logE(TAG, e)
                        }
                    }
                }
@@ -75,7 +76,7 @@ object NetworkSpeedStyle : BaseHook() {
                                     meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                                 }
                             } catch (e: Exception) {
-                                logE(e)
+                                XposedLogUtils.logE(TAG, e)
                             }
                         }
 
@@ -134,7 +135,7 @@ object NetworkSpeedStyle : BaseHook() {
                                 meter.setLineSpacing(0f, spacing)
                             }
                         } catch (e: Exception) {
-                            logE(e)
+                            XposedLogUtils.logE(TAG, e)
                         }
                     }
                 }

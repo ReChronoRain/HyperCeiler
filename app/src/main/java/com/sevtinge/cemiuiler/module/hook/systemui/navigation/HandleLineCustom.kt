@@ -1,6 +1,7 @@
 package com.sevtinge.cemiuiler.module.hook.systemui.navigation
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 
 object HandleLineCustom : BaseHook() {
@@ -12,7 +13,7 @@ object HandleLineCustom : BaseHook() {
                 "com.android.systemui", "dimen", "navigation_handle_radius", mNavigationHandleRadius
             )
         } catch (e: Exception) {
-            logI(e.toString())
+            XposedLogUtils.logI(e.toString())
         }
         /*
         val mNavigationHandleHeight =
@@ -58,8 +59,8 @@ object HandleLineCustom : BaseHook() {
             mPrefsMap.getInt("system_ui_navigation_handle_custom_color", -872415232)
         val mNavigationHandleDarkColor =
             mPrefsMap.getInt("system_ui_navigation_handle_custom_color_dark", -1)
-        logI("mNavigationHandleLightColor is $mNavigationHandleLightColor")
-        logI("mNavigationHandleDarkColor is $mNavigationHandleDarkColor")
+        XposedLogUtils.logI("mNavigationHandleLightColor is $mNavigationHandleLightColor")
+        XposedLogUtils.logI("mNavigationHandleDarkColor is $mNavigationHandleDarkColor")
         resParam.res.setReplacement(
             "com.android.systemui",
             "color",

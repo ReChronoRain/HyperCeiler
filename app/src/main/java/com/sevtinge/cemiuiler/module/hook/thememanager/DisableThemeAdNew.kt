@@ -9,6 +9,7 @@ import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.cemiuiler.module.base.BaseHook
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import miui.drm.DrmManager
 
 class DisableThemeAdNew : BaseHook() {
@@ -53,7 +54,7 @@ class DisableThemeAdNew : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            logE(t)
+            XposedLogUtils.logE(TAG, t)
         }
     }
 }

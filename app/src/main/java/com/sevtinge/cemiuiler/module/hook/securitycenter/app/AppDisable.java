@@ -121,7 +121,7 @@ public class AppDisable extends BaseHook {
             }
             new Handler().postDelayed(act::invalidateOptionsMenu, 500);
         } catch (Throwable t) {
-            XposedLogUtils.INSTANCE.logW(TAG, "", t);
+            XposedLogUtils.logW(TAG, "", t);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.sevtinge.cemiuiler.XposedInit;
 import com.sevtinge.cemiuiler.utils.PrefsMap;
 import com.sevtinge.cemiuiler.utils.ResourcesHook;
 import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -35,61 +36,15 @@ public abstract class BaseHook {
             setLoadPackageParam(lpparam);
             init();
             if (detailLog && isNotReleaseVersion) {
-                XposedLogUtils.INSTANCE.logI(TAG, "Hook Success.");
+                XposedLogUtils.logI(TAG, "Hook Success.");
             }
         } catch (Throwable t) {
-            XposedLogUtils.INSTANCE.logE(TAG, "Hook Failed", t, null);
+            XposedLogUtils.logE(TAG, "Hook Failed", t);
         }
     }
 
     public void setLoadPackageParam(LoadPackageParam param) {
         lpparam = param;
-    }
-
-    public void logI(String log) {
-        if (detailLog && isNotReleaseVersion) {
-            XposedBridge.log("[Cemiuiler][I][" + TAG + "]: " + log);
-        }
-    }
-
-    public void logD(String tag, String log) {
-        XposedBridge.log("[Cemiuiler][D][" + TAG + "]: " + tag + " debug output: " + log);
-    }
-
-    public void logD(String log) {
-        XposedBridge.log("[Cemiuiler][D][" + TAG + "]: debug output: " + log);
-    }
-
-    public void logW(String tag, String log) {
-        XposedBridge.log("[Cemiuiler][W][" + TAG + "]: " + tag + " warning output: " + log);
-    }
-
-    public void logW(String log) {
-        XposedBridge.log("[Cemiuiler][W][" + TAG + "]: warning output: " + log);
-    }
-
-    public void logE(Exception e) {
-        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: hook failed by " + e);
-    }
-
-    public void logE(Throwable t) {
-        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: hook failed by " + t);
-    }
-
-    public void logE(String log) {
-        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: hook failed by " + log);
-    }
-
-    public void logE(String tag, Exception e) {
-        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: " + tag + " hook failed by " + e);
-    }
-
-    public void logE(String tag, Throwable t) {
-        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: " + tag + " hook failed by " + t);
-    }
-
-    public void logE(String tag, String log) {
-        XposedBridge.log("[Cemiuiler][E][" + TAG + "]: " + tag + " hook failed by " + log);
     }
 
     public Class<?> findClass(String className) {
@@ -283,21 +238,21 @@ public abstract class BaseHook {
                     Object result = setString.get(param.thisObject);
                     checkLast("getDeclaredField", iNeedString, iNeedTo, result);
                 } catch (IllegalAccessException e) {
-                    logW("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code:" + e);
+                    XposedLogUtils.logW("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code:" + e);
                 }
             } catch (NoSuchFieldException e) {
-                logW("No such the: " + iNeedString + " code: " + e);
+                XposedLogUtils.logW("No such the: " + iNeedString + " code: " + e);
             }
         } else {
-            logW("Param is null Field: " + iNeedString + " to: " + iNeedTo);
+            XposedLogUtils.logW("Param is null Field: " + iNeedString + " to: " + iNeedTo);
         }
     }
 
     public void checkLast(String setObject, Object fieldName, Object value, Object last) {
         if (value.equals(last)) {
-            logI(setObject + " Success! set " + fieldName + " to " + value);
+            XposedLogUtils.logI(setObject + " Success! set " + fieldName + " to " + value);
         } else {
-            logW(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
+            XposedLogUtils.logW(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
         }
     }
 }

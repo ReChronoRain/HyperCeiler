@@ -22,7 +22,7 @@ public class AppRestrict extends BaseHook {
         Method[] mGetAppInfo = XposedHelpers.findMethodsByExactParameters(mAppManageUtils, ApplicationInfo.class, Object.class, PackageManager.class, String.class, int.class, int.class);
 
         if (mGetAppInfo.length == 0) {
-            XposedLogUtils.INSTANCE.logI(TAG, "Cannot find getAppInfo method!");
+            XposedLogUtils.logI(TAG, "Cannot find getAppInfo method!");
         } else {
             hookMethod(mGetAppInfo[0], new MethodHook() {
                 @Override

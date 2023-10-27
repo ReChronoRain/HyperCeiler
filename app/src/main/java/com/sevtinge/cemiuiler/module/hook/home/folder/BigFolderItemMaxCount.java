@@ -26,7 +26,7 @@ public class BigFolderItemMaxCount extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
 
                 mRealPvChildCount = (int) XposedHelpers.callMethod(param.thisObject, "getMRealPvChildCount");
-                XposedLogUtils.INSTANCE.logI(TAG, "getMRealPvChildCount1：" + mRealPvChildCount);
+                XposedLogUtils.logI(TAG, "getMRealPvChildCount1：" + mRealPvChildCount);
 
                 if (mRealPvChildCount < 10) {
                     XposedHelpers.callMethod(param.thisObject, "setMItemsMaxCount", 9);
@@ -43,7 +43,7 @@ public class BigFolderItemMaxCount extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
 
                 mRealPvChildCount = (int) XposedHelpers.callMethod(param.thisObject, "getMRealPvChildCount");
-                XposedLogUtils.INSTANCE.logI(TAG, "getMRealPvChildCount1：" + mRealPvChildCount);
+                XposedLogUtils.logI(TAG, "getMRealPvChildCount1：" + mRealPvChildCount);
 
                 if (mRealPvChildCount < 5) {
                     XposedHelpers.callMethod(param.thisObject, "setMItemsMaxCount", 4);

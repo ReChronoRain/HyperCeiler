@@ -2,6 +2,7 @@ package com.sevtinge.cemiuiler.module.hook.camera
 
 import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.hookBeforeMethod
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 
 object EnableLabOptions : BaseHook() {
     override fun init() {
@@ -12,7 +13,7 @@ object EnableLabOptions : BaseHook() {
                 if (it.args[0] == "camera.lab.options") it.result = true
             }
         } catch (e: Exception) {
-            logE(e)
+           XposedLogUtils.logE(TAG, e)
         }
     }
 }

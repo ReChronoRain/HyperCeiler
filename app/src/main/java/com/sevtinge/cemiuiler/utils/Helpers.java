@@ -341,11 +341,11 @@ public class Helpers {
     public static void hookAllConstructors(Class<?> hookClass, MethodHook callback) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                XposedLogUtils.INSTANCE.logI(getCallerMethod(), "Success to hook " + hookClass.getPackageName() + "/" + hookClass.getCanonicalName() + " constructor");
+                XposedLogUtils.logI(getCallerMethod(), "Success to hook " + hookClass.getPackageName() + "/" + hookClass.getCanonicalName() + " constructor");
             }
             if (XposedBridge.hookAllConstructors(hookClass, callback).size() == 0)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    XposedLogUtils.INSTANCE.logI(getCallerMethod(), "Failed to hook " + hookClass.getPackageName() + "/" + hookClass.getCanonicalName() + " constructor");
+                    XposedLogUtils.logI(getCallerMethod(), "Failed to hook " + hookClass.getPackageName() + "/" + hookClass.getCanonicalName() + " constructor");
                 }
         } catch (Throwable t) {
             LogD("hookAllMethods", hookClass + " is abnormal", t);
@@ -613,10 +613,10 @@ public class Helpers {
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-            XposedLogUtils.INSTANCE.logI("getPackageVersionName", lpparam + " versionName is " + versionName);
+            XposedLogUtils.logI("getPackageVersionName", lpparam + " versionName is " + versionName);
             return versionName;
         } catch (Throwable e) {
-            XposedLogUtils.INSTANCE.logW("getPackageVersionName", e);
+            XposedLogUtils.logW("getPackageVersionName", e);
             return "null";
         }
     }
@@ -628,10 +628,10 @@ public class Helpers {
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            XposedLogUtils.INSTANCE.logI("getPackageVersionCode", lpparam + " versionCode is " + versionCode);
+            XposedLogUtils.logI("getPackageVersionCode", lpparam + " versionCode is " + versionCode);
             return versionCode;
         } catch (Throwable e) {
-            XposedLogUtils.INSTANCE.logW("getPackageVersionCode", e);
+            XposedLogUtils.logW("getPackageVersionCode", e);
             return -1;
         }
     }

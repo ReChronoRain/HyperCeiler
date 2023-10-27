@@ -6,6 +6,7 @@ import com.sevtinge.cemiuiler.module.base.BaseHook
 import com.sevtinge.cemiuiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.cemiuiler.utils.DexKit.dexKitBridge
 import com.sevtinge.cemiuiler.utils.api.BlurDraw.getValueByFields
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils
 import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Modifier
 
@@ -89,19 +90,19 @@ object NoAutoTurnOff : BaseHook() {
                     val fieldNames = ('a'..'z').map { name -> name.toString() }
                     val getField = getValueByFields(it.thisObject, fieldNames) ?: return@after
                     XposedHelpers.callMethod(getField, "removeCallbacks", it.thisObject)
-                    logI("null3Method hook success, $getField")
+                    XposedLogUtils.logI("null3Method hook success, $getField")
                 }
             }
         } catch (t: Throwable) {
-            logE("null3Method Hook failed", t)
+            XposedLogUtils.logE(TAG, "null3Method hook failed", t)
         }
 
         try {
-            logI("$nullField")
+            XposedLogUtils.logI("$nullField")
             XposedHelpers.setStaticIntField(nullClass, nullField.name, 999999999)
-            logI("nullField hook success")
+            XposedLogUtils.logI(TAG, "nullField hook success.")
         } catch (t: Throwable) {
-            logE("nullField hook failed")
+            XposedLogUtils.logE(TAG, "nullField hook failed", t)
         }
 
 

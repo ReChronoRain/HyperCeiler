@@ -3,6 +3,7 @@ package com.sevtinge.cemiuiler.module.hook.clock;
 import static com.sevtinge.cemiuiler.utils.Helpers.getPackageVersionCode;
 
 import com.sevtinge.cemiuiler.module.base.BaseHook;
+import com.sevtinge.cemiuiler.utils.log.XposedLogUtils;
 
 public class EnableHourGlass extends BaseHook {
     @Override
@@ -14,8 +15,8 @@ public class EnableHourGlass extends BaseHook {
                 if (appVersionCode <= 130206400) {
                     param.setResult(true);
                 } else {
-                    logI("Your clock versionCode is " + appVersionCode);
-                    logI("Please revert to a supported version yourself");
+                    XposedLogUtils.logI("Your clock versionCode is " + appVersionCode);
+                    XposedLogUtils.logI("Please revert to a supported version yourself");
                 }
             }
         });
