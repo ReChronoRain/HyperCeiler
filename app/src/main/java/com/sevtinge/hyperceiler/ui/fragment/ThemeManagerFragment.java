@@ -1,9 +1,11 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.view.View;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -24,7 +26,7 @@ public class ThemeManagerFragment extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
             getResources().getString(R.string.theme_manager),
             "com.android.thememanager"
         );
@@ -45,7 +47,9 @@ public class ThemeManagerFragment extends SettingsPreferenceFragment {
 
         mThemeManagerCrack = findPreference("prefs_key_various_theme_crack");
         if (!getSharedPreferences().getBoolean("prefs_key_various_enable_super_function", false)) {
-            mThemeManagerCrack.setVisible(false);
+            if (getBuildType().equals("debug")) {
+                mThemeManagerCrack.setVisible(false);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.module.app;
 
+import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
@@ -27,7 +28,7 @@ public class PersonalAssistant extends BaseModule {
             initHook(BlurPersonalAssistantBackGround.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
         }
 
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack"));
+        initHook(new WidgetCrack(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack") && (getBuildType().equals("debug")));
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
     }

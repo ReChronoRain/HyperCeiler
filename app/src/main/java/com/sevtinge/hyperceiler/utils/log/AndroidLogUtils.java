@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.utils.log;
 
+import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
+
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
@@ -10,9 +12,9 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
  * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/hyperceiler/XposedInit;> 等
  * */
 public class AndroidLogUtils {
-    private static final String Tag = "HyperCeiler]: ";
-    private static final boolean isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug");
-    private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
+    private static final String Tag = "[HyperCeiler]: ";
+    private static final boolean isDebugVersion = (getBuildType().equals("debug"));
+    private static final boolean isNotReleaseVersion = !(getBuildType().equals("release"));
     private static boolean detailLog = false;
     private static boolean run = false;
 
@@ -32,7 +34,7 @@ public class AndroidLogUtils {
         getDisableDetailedLog();
         if (!isDebugVersion) return;
         if (detailLog) return;
-        Log.i(tag, "[I/" + Tag + msg);
+        Log.i(tag, "[I]" + Tag + msg);
     }
 
     public static void deLogI(String tag, String msg) {
@@ -41,21 +43,21 @@ public class AndroidLogUtils {
 
     public static void LogD(String tag, Throwable tr) {
         if (!isDebugVersion) return;
-        Log.d(tag, "[D/" + Tag, tr);
+        Log.d(tag, "[D]" + Tag, tr);
     }
 
     public static void LogD(String tag, String msg, Throwable tr) {
         if (!isDebugVersion) return;
-        Log.d(tag, "[D/" + Tag + msg, tr);
+        Log.d(tag, "[D]" + Tag + msg, tr);
     }
 
     public static void LogE(String tag, Throwable tr) {
         if (!isDebugVersion) return;
-        Log.e(tag, "[E/" + Tag, tr);
+        Log.e(tag, "[E]" + Tag, tr);
     }
 
     public static void LogE(String tag, String msg, Throwable tr) {
         if (!isDebugVersion) return;
-        Log.e(tag, "[E/" + Tag + msg, tr);
+        Log.e(tag, "[E]" + Tag + msg, tr);
     }
 }

@@ -8,6 +8,7 @@ import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.FieldFinder.`-Static`.fieldFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit.mPrefsMap
+import com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.closeDexKit
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
@@ -21,7 +22,7 @@ import java.io.File
 class ThemeCrackNew {
     val TAG = "ThemeCrackNew"
     fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("various_theme_crack")) return
+        if (!mPrefsMap.getBoolean("various_enable_super_function") && !mPrefsMap.getBoolean("various_theme_crack") && !(getBuildType().equals("debug"))) return
         initDexKit(lpparam)
         try {
             loadClass("com.android.thememanager.detail.theme.model.OnlineResourceDetail").methodFinder().filterByName("toResource").toList().createHooks {

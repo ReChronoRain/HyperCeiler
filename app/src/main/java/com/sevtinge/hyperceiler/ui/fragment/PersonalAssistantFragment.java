@@ -1,9 +1,11 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import android.view.View;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -49,7 +51,9 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
         mBlurBackground.setVisible(!isAndroidR()); // 负一屏背景设置
 
         if (!getSharedPreferences().getBoolean("prefs_key_various_enable_super_function", false)) {
-            mWidgetCrack.setVisible(false);
+            if (getBuildType().equals("debug")) {
+                mWidgetCrack.setVisible(false);
+            }
         }
 
         setBlurMode(mBlurMode);

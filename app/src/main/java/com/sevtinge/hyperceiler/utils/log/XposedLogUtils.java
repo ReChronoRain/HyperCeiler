@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.utils.log;
 
+import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
+
 import java.util.Optional;
 
 import com.sevtinge.hyperceiler.BuildConfig;
@@ -10,8 +12,8 @@ import de.robv.android.xposed.XposedBridge;
 
 public class XposedLogUtils {
 
-    private static boolean isDebugVersion = BuildConfig.BUILD_TYPE.contains("debug");
-    private static boolean isReleaseVersion = BuildConfig.BUILD_TYPE.contains("release");
+    private static final boolean isDebugVersion = getBuildType().equals("debug");
+    private static final boolean isReleaseVersion = getBuildType().equals("release");
     private static boolean isDisableDetailLog = BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public static void logI(String msg) {
