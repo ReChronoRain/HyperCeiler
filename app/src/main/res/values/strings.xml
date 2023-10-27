@@ -29,7 +29,7 @@
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Make MIUI Great Again!</string>
+    <string name="xposed_description">Make HyperOS Great Again!</string>
 
     <string name="new_permission_wifi_state_desc">add and delete files on device\'s internal storage</string>
     <string name="new_permission_location_desc">used to provide services such as latitude and longitude</string>
@@ -1314,9 +1314,9 @@
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
     <string name="tip_2">Tip: Want to contact to developer? Telegram@Sevtinge_PM_bot or Bilibili@绀漓丨Sevtinge.</string>
     <string name="tip_3">Tip: Want to join the official group? Telegram@hyperceiler or search 247909573 in QQ.</string>
-    <string name="tip_4">Tip: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_4">Tip: HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
     <string name="tip_5">Tip: Guess how many more times you have to see this tip again?</string>
-    <string name="tip_6">Tip: Make MIUI Great Again!</string>
+    <string name="tip_6">Tip: Make HyperOS Great Again!</string>
     <string name="tip_7">Tip: Welcome to follow Github@sevtinge or Bilibili@绀漓丨Sevtinge.</string>
     <string name="tip_8">Tip: The ideal Utopia does not exist in reality.</string>
     <string name="tip_9">Tip: Sanjiang City tends to collapse.</string>

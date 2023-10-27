@@ -3,7 +3,7 @@
 <img width="" src="/imgs/icon.png" width=160 height=160 align="center">
 
 # HyperCeiler
-### Make MIUI Great Again!
+### Make HyperOS Great Again!
 
 简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
