@@ -22,7 +22,7 @@ public class SetDeviceLevel extends BaseHook {
 
     public static Bundle checkBundle(Context context, Bundle bundle) {
         if (context == null) {
-            XposedLogUtils.logI("SetWeatherDeviceLevel", "Context is null!");
+            XposedLogUtils.logE("SetWeatherDeviceLevel","com.miui.weather2", "Context is null!");
             return null;
         }
         if (bundle == null) bundle = new Bundle();

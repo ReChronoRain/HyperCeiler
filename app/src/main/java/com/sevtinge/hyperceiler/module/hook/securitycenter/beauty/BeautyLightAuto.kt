@@ -19,7 +19,7 @@ object BeautyLightAuto : BaseHook() {
                 val beautyLightAuto: java.lang.reflect.Method =
                     it.getMethodInstance(lpparam.classLoader)
                 if (!java.lang.String.valueOf(it).contains(BeautyFace.beautyFace.toString())) {
-                    XposedLogUtils.logI("beautyLightAuto method is $beautyLightAuto")
+                    XposedLogUtils.logI(TAG, this.lpparam.packageName, "beautyLightAuto method is $beautyLightAuto")
                     XposedBridge.hookMethod(
                         beautyLightAuto,
                         XC_MethodReplacement.returnConstant(true)

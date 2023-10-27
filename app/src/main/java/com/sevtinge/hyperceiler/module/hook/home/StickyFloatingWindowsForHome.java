@@ -29,7 +29,7 @@ public class StickyFloatingWindowsForHome extends BaseHook {
                                 XposedHelpers.callMethod(param.thisObject, "dismissRecentsToLaunchTargetTaskOrHome", pkgName, true);
                             }
                         } catch (Throwable t) {
-                            XposedLogUtils.logW(TAG, t);
+                            XposedLogUtils.logW(TAG, StickyFloatingWindowsForHome.this.lpparam.packageName, t);
                         }
                     }
                 }, new IntentFilter(ACTION_PREFIX + "dismissRecentsWhenFreeWindowOpen"));

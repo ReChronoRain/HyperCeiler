@@ -34,7 +34,7 @@ class EnableVolumeBlur : BaseHook() {
                                         }
                                     } catch (e: Throwable) {
                                         // Do Nothings.
-                                        logW(TAG, e)
+                                        logW(TAG, this@EnableVolumeBlur.lpparam.packageName, e)
                                     }
                                 }
                             })
@@ -43,7 +43,7 @@ class EnableVolumeBlur : BaseHook() {
                 }
             } catch (e: Throwable) {
                 // Do Nothings.
-                logW(TAG, e)
+                logW(TAG, this.lpparam.packageName, e)
             }
         }
     }
@@ -72,7 +72,7 @@ class EnableVolumeBlur : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            logW("$TAG => hookClassInPlugin", e)
+                            logW(TAG, this@EnableVolumeBlur.lpparam.packageName, "hookClassInPlugin failed", e)
                         }
                     }
                 })
@@ -103,7 +103,7 @@ class EnableVolumeBlur : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            logW(TAG, e)
+                            logW(TAG, this@EnableVolumeBlur.lpparam.packageName, e)
                         }
                     }
                 })

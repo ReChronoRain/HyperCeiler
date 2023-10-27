@@ -139,7 +139,7 @@ object BatteryStyle : BaseHook() {
                 mBatteryPercentMarkView.setPaddingRelative(0, topMargin, markRightMargin, 0)
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
         }
     }
 }

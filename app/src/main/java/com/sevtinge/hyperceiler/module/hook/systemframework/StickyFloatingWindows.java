@@ -51,7 +51,7 @@ public class StickyFloatingWindows extends BaseHook {
                 if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
                     try {
                         if (MiuiMultiWindowUtils == null) {
-                            XposedLogUtils.logI(TAG, "Cannot find MiuiMultiWindowUtils class");
+                            XposedLogUtils.logE(TAG, StickyFloatingWindows.this.lpparam.packageName, "Cannot find MiuiMultiWindowUtils class");
                             return;
                         }
                         options = patchActivityOptions(mContext, options, pkgName, MiuiMultiWindowUtils);

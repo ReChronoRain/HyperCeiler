@@ -26,14 +26,14 @@ object MultiFreeFormSupported : BaseHook() {
                         it.result = mResult
                     }
                 }
-                XposedLogUtils.logI("Hook with recents_to_small_freeform success!")
+                XposedLogUtils.logI(TAG, this.lpparam.packageName, "Hook with recents_to_small_freeform success!")
             } else {
                 loadClass("android.util.MiuiMultiWindowUtils").methodFinder().first {
                     name == "multiFreeFormSupported"
                 }.createHook {
                     returnConstant(true)
                 }
-                XposedLogUtils.logI("Hook success!")
+                XposedLogUtils.logI(TAG, this.lpparam.packageName, "Hook success!")
             }
         }
     }

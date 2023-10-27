@@ -56,7 +56,7 @@ public class ChargeAnimationStyle extends BaseHook {
                             i++;
                         } else {
                             mResult = true;
-                            XposedLogUtils.logI(TAG, stackElement[i].getClassName());
+                            XposedLogUtils.logI(TAG, ChargeAnimationStyle.this.lpparam.packageName, stackElement[i].getClassName());
                             break;
                         }
                     }

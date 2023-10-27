@@ -76,7 +76,7 @@ public class IconScaleHook extends BaseHook {
                             mMessage.animate().scaleX(multx).scaleY(multx).setStartDelay(0).start();
                         }
                     } catch (Throwable t) {
-                        XposedLogUtils.logI(String.valueOf(t));
+                        XposedLogUtils.logE(TAG, IconScaleHook.this.lpparam.packageName, "", t);
                     }
                 });
 

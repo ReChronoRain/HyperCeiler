@@ -15,8 +15,8 @@ public class EnableHourGlass extends BaseHook {
                 if (appVersionCode <= 130206400) {
                     param.setResult(true);
                 } else {
-                    XposedLogUtils.logI("Your clock versionCode is " + appVersionCode);
-                    XposedLogUtils.logI("Please revert to a supported version yourself");
+                    XposedLogUtils.logI(TAG, EnableHourGlass.this.lpparam.packageName, "Your clock versionCode is " + appVersionCode);
+                    XposedLogUtils.logI(TAG, EnableHourGlass.this.lpparam.packageName, "Please revert to a supported version yourself");
                 }
             }
         });

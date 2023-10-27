@@ -50,7 +50,7 @@ public class SeekPoints extends BaseHook {
         boolean isInEditingMode = (boolean) XposedHelpers.callMethod(workspace, "isInNormalEditingMode");
         View mScreenSeekBar = (View) XposedHelpers.getObjectField(workspace, "mScreenSeekBar");
         if (mScreenSeekBar == null) {
-            XposedLogUtils.logI("showSeekBar", "HideSeekPointsHook Cannot find seekbar");
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "showSeekBar HideSeekPointsHook Cannot find seekbar");
             return;
         }
         Context mContext = workspace.getContext();
@@ -72,7 +72,7 @@ public class SeekPoints extends BaseHook {
             XposedHelpers.setAdditionalInstanceField(workspace, "mHandlerEx", mHandler);
         }
         if (mHandler == null) {
-            XposedLogUtils.logI("showSeekBar", "HideSeekPointsHook Cannot create handler");
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "showSeekBar HideSeekPointsHook Cannot create handler");
             return;
         }
         if (mHandler.hasMessages(666)) mHandler.removeMessages(666);

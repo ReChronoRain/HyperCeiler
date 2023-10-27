@@ -35,7 +35,7 @@ object DisableAd : BaseHook() {
                 })
             }*/
         } catch (e: Throwable) {
-           XposedLogUtils.logE(TAG, e)
+           XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
         }
         findAndHookMethod("com.miui.smsextra.ui.BottomMenu", "allowMenuMode",
             Context::class.java, object : MethodHook() {

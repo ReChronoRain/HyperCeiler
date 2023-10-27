@@ -53,7 +53,7 @@ public class AppDefaultSort extends BaseHook {
 
     public static Bundle checkBundle(Context context, Bundle bundle) {
         if (context == null) {
-            XposedLogUtils.logI("AppDefaultSort", "Context is null!");
+            XposedLogUtils.logI("AppDefaultSort", "com.miui.securitycenter", "Context is null!");
             return null;
         }
         if (bundle == null) bundle = new Bundle();

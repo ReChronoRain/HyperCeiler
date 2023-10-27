@@ -49,7 +49,7 @@ object NetworkSpeedStyle : BaseHook() {
                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                            }
                        } catch (e: Exception) {
-                           XposedLogUtils.logE(TAG, e)
+                           XposedLogUtils.logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
                        }
                    }
                }
@@ -76,7 +76,7 @@ object NetworkSpeedStyle : BaseHook() {
                                     meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                                 }
                             } catch (e: Exception) {
-                                XposedLogUtils.logE(TAG, e)
+                                XposedLogUtils.logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
                             }
                         }
 
@@ -135,7 +135,7 @@ object NetworkSpeedStyle : BaseHook() {
                                 meter.setLineSpacing(0f, spacing)
                             }
                         } catch (e: Exception) {
-                            XposedLogUtils.logE(TAG, e)
+                            XposedLogUtils.logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
                         }
                     }
                 }

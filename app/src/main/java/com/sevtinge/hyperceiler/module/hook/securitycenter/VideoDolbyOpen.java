@@ -69,7 +69,7 @@ public class VideoDolbyOpen extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            XposedLogUtils.logE(TAG, "NoSuchMethodException: " + e);
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "NoSuchMethodException: " + e);
         }
     }
 }

@@ -161,7 +161,7 @@ object MobileTypeSingleHook : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
         }
 
         // 显示非上网卡的大图标

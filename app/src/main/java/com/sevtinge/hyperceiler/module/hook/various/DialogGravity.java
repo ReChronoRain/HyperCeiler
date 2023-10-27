@@ -5,6 +5,7 @@ import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -74,7 +75,9 @@ public class DialogGravity extends BaseHook {
                         mParentPanel.setLayoutParams(layoutParams);
 
                         /*new BlurUtils(mParentPanel);*/
-                        new BlurUtils(mParentPanel, "default");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            new BlurUtils(mParentPanel, "default");
+                        }
 
                     }
                 });
@@ -83,7 +86,6 @@ public class DialogGravity extends BaseHook {
 
             for (Method method : methodList) {
                 if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE && method.getModifiers() == 2 && method.getParameterCount() == 1) {
-                    XposedLogUtils.logI(TAG, "2222" + method.getName());
                     XposedHelpers.findAndHookMethod(mDialogCls, method.getName(), new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) throws Throwable {
@@ -107,7 +109,9 @@ public class DialogGravity extends BaseHook {
                             mParentPanel.setLayoutParams(layoutParams);
 
                             /*new BlurUtils(mParentPanel);*/
-                            new BlurUtils(mParentPanel, "default");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                new BlurUtils(mParentPanel, "default");
+                            }
                         }
                     });
                 }

@@ -12,7 +12,7 @@ object BypassSignCheckForT : BaseHook() {
                 }
             })
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, e)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
         }
     }
 }

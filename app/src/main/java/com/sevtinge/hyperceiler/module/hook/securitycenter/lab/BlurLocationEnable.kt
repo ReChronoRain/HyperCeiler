@@ -12,7 +12,7 @@ object BlurLocationEnable : BaseHook() {
     override fun init() {
         labUtilClass.forEach {
             labUtils = it.getInstance(EzXHelper.classLoader)
-            XposedLogUtils.logI("labUtils class is $labUtils")
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "labUtils class is $labUtils")
             findAndHookMethod(
                 "com.miui.permcenter.settings.PrivacyLabActivity",
                 "onCreateFragment",

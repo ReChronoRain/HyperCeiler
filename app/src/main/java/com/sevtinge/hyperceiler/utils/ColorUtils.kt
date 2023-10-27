@@ -13,7 +13,7 @@ object ColorUtils {
             originalColor = Color.valueOf(color)
         } catch (e: Throwable) {
             // 颜色转换失败
-            XposedLogUtils.logI("colorToHex", "ColorUtils colorToHex Hook failed by: $e")
+            XposedLogUtils.logI("ColorUtils", "colorToHex", "ColorUtils colorToHex Hook failed by: $e")
         }
         val alpha = (originalColor.alpha() * 255).toInt()
         val red = (originalColor.red() * 255).toInt()

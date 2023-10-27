@@ -50,7 +50,7 @@ public class FixAnimation extends BaseHook {
                 Object obj = param.args[0];
                 Intrinsics.checkNotNull(obj, "null cannot be cast to non-null type android.view.MotionEvent");
                 MotionEvent motionEvent = (MotionEvent) obj;
-                XposedLogUtils.logI("onInputConsumerEvent: Action: " + motionEvent.getAction() + ", return " + param.getResult() + ". x: " + motionEvent.getX() + " y: " + motionEvent.getY());
+                XposedLogUtils.logI(TAG, FixAnimation.this.lpparam.packageName, "onInputConsumerEvent: Action: " + motionEvent.getAction() + ", return " + param.getResult() + ". x: " + motionEvent.getX() + " y: " + motionEvent.getY());
                 if (XposedHelpers.getObjectField(param.thisObject, "mAppToHomeAnim2") != null || getMAppToHomeAnim2Bak() == null) {
                     return;
                 }

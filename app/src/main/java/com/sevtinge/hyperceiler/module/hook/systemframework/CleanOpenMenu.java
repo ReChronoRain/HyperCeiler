@@ -55,7 +55,7 @@ public class CleanOpenMenu extends BaseHook {
                                     mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
                             }
                         } catch (Throwable t) {
-                            XposedLogUtils.logE(TAG, t);
+                            XposedLogUtils.logE(TAG, CleanOpenMenu.this.lpparam.packageName, t);
                         }
                     }
                 };

@@ -90,19 +90,19 @@ object NoAutoTurnOff : BaseHook() {
                     val fieldNames = ('a'..'z').map { name -> name.toString() }
                     val getField = getValueByFields(it.thisObject, fieldNames) ?: return@after
                     XposedHelpers.callMethod(getField, "removeCallbacks", it.thisObject)
-                    XposedLogUtils.logI("null3Method hook success, $getField")
+                    XposedLogUtils.logI(TAG, this@NoAutoTurnOff.lpparam.packageName, "null3Method hook success, $getField")
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, "null3Method hook failed", t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "null3Method hook failed", t)
         }
 
         try {
-            XposedLogUtils.logI("$nullField")
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "$nullField")
             XposedHelpers.setStaticIntField(nullClass, nullField.name, 999999999)
-            XposedLogUtils.logI(TAG, "nullField hook success.")
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "nullField hook success.")
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, "nullField hook failed", t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "nullField hook failed", t)
         }
 
 

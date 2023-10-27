@@ -66,12 +66,12 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                                 currentDrawable.alpha = qSControlDetailBackgroundAlpha
                             } catch (e: Throwable) {
                                 // Do Nothings.
-                                logW(TAG, e)
+                                logW(TAG, this@QSControlDetailBackgroundAlpha.lpparam.packageName, e)
                             }
                         }
                     })
             } catch (e: Throwable) {
-                logW(TAG, e)
+                logW(TAG, this.lpparam.packageName, e)
             }
         }
     }
@@ -102,7 +102,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            logW(TAG, e)
+                            logW(TAG, this@QSControlDetailBackgroundAlpha.lpparam.packageName, e)
                         }
                     }
                 })
@@ -135,7 +135,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                             afterGetClassLoader(classLoader)
                         } catch (e: Throwable) {
                             // Do Nothings.
-                            logW(TAG, e)
+                            logW(TAG, this@QSControlDetailBackgroundAlpha.lpparam.packageName, e)
                         }
                     }
                 })

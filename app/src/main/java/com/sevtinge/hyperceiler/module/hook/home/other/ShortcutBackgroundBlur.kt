@@ -49,8 +49,8 @@ object ShortcutBackgroundBlur : BaseHook() {
         将改公式转换为x=f(y)：x=1-√(1-y)
         */
         val singleLayerAlpha = ((1.0 - sqrt(1.0 - (shortcutMenuBackgroundAlpha / 255.0))) * 255.0).toInt()
-        XposedLogUtils.logI("" + shortcutMenuBackgroundAlpha)
-        XposedLogUtils.logI("" + singleLayerAlpha)
+        XposedLogUtils.logI(TAG, this.lpparam.packageName, "shortcutMenuBackgroundAlpha = $shortcutMenuBackgroundAlpha")
+        XposedLogUtils.logI(TAG, this.lpparam.packageName, "singleLayerAlpha = $singleLayerAlpha")
 
         val mBlurIconAppName = arrayOf("锁屏", "手电筒", "数据", "飞行模式", "蓝牙", "WLAN 热点")
         val allBlurredDrawable: MutableList<Drawable> = ArrayList()

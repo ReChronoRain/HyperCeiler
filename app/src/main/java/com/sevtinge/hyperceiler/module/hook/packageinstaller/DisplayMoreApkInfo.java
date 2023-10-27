@@ -36,7 +36,7 @@ public class DisplayMoreApkInfo extends BaseHook {
             Class<?> ViewHolderClass = findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject$ViewHolder");
             Method[] methods = XposedHelpers.findMethodsByExactParameters(mAppInfoViewObject, void.class, ViewHolderClass);
             if (methods.length == 0) {
-                XposedLogUtils.logI("AppInfoDuringMiuiInstallHook", "Cannot find appropriate method");
+                XposedLogUtils.logI(TAG, this.lpparam.packageName, "Cannot find appropriate method");
                 return;
             }
 

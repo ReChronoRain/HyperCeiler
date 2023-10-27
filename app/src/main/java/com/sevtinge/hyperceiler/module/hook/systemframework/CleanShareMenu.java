@@ -78,7 +78,7 @@ public class CleanShareMenu extends BaseHook {
                     }
                     param.setResult(resolved);
                 } catch (Throwable t) {
-                    if (!(t instanceof BadParcelableException)) XposedLogUtils.logE(TAG, t);
+                    if (!(t instanceof BadParcelableException)) XposedLogUtils.logE(TAG, CleanShareMenu.this.lpparam.packageName, t);
                 }
             }
         };

@@ -12,9 +12,9 @@ object SidebarLineCustom : BaseHook() {
         val mSidebarLineColorDefault = mPrefsMap.getInt("security_center_sidebar_line_color_default", -1294740525)
         val mSidebarLineColorDark = mPrefsMap.getInt("security_center_sidebar_line_color_dark", -6842473)
         val mSidebarLineColorLight = mPrefsMap.getInt("security_center_sidebar_line_color_light", -872415232)
-        XposedLogUtils.logI("mSidebarLineColorDefault is $mSidebarLineColorDefault")
-        XposedLogUtils.logI("mSidebarLineColorDark is $mSidebarLineColorDark")
-        XposedLogUtils.logI("mSidebarLineColorLight is $mSidebarLineColorLight")
+        XposedLogUtils.logI(TAG, "com.miui.securitycenter", "mSidebarLineColorDefault is $mSidebarLineColorDefault")
+        XposedLogUtils.logI(TAG, "com.miui.securitycenter", "mSidebarLineColorDark is $mSidebarLineColorDark")
+        XposedLogUtils.logI(TAG, "com.miui.securitycenter", "mSidebarLineColorLight is $mSidebarLineColorLight")
         resParam.res.setReplacement(
             "com.miui.securitycenter",
             "color",

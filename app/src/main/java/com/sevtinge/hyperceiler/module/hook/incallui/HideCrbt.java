@@ -26,7 +26,7 @@ public class HideCrbt extends BaseHook {
                     Integer.TYPE, Boolean.TYPE, beforeHookedMethod()
             });*/
         } catch (Exception e) {
-            XposedLogUtils.logI("method hooked failed! " + e);
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "method hooked failed! " + e);
         }
     }
     /*public final void beforeHookedMethod(XC_MethodHook.MethodHookParam methodHookParam) {

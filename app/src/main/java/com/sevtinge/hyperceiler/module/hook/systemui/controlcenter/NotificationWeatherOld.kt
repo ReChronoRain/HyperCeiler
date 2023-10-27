@@ -82,7 +82,7 @@ object NotificationWeatherOld : BaseHook() {
                         }
                         context.startActivity(intent)
                     } catch (e: Exception) {
-                        XposedLogUtils.logE(TAG, e)
+                        XposedLogUtils.logE(TAG, this@NotificationWeatherOld.lpparam.packageName, e)
                     }
                 }
             }

@@ -15,7 +15,7 @@ object PropertyUtils {
         kotlin.runCatching {
             get.invoke(null, prop, defaultValue) as String?
         }.onFailure {
-            logW("", it)
+            logW("PropertyUtils", it)
         }.onSuccess {
             return it
         }

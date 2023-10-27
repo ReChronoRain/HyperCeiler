@@ -31,7 +31,7 @@ class ThemeCrackNew {
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, "com.android.thememanager", t)
         }
         try {
             loadClass("com.android.thememanager.basemodule.views.DiscountPriceView").methodFinder().filterByParamCount(2)
@@ -41,7 +41,7 @@ class ThemeCrackNew {
                     }
                 }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, "com.android.thememanager", t)
         }
         try {
             loadClass("com.android.thememanager.recommend.view.listview.viewholder.LargeIconDetailRecommendViewHolder").methodFinder().filterByParamCount(1)
@@ -51,14 +51,14 @@ class ThemeCrackNew {
                     }
                 }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, "com.android.thememanager", t)
         }
         try {
             loadClass("com.miui.maml.widget.edit.MamlutilKt").methodFinder().filterByName("themeManagerSupportPaidWidget").first().createHook {
                 returnConstant(false)
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, "com.android.thememanager", t)
         }
 
         try {

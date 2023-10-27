@@ -126,7 +126,7 @@ public class StatusBarActions extends BaseHook {
             Object mVolumeDialogPlugin = XposedHelpers.getObjectField(mVolumeComponent, "mDialog");
             Object miuiVolumeDialog = XposedHelpers.getObjectField(mVolumeDialogPlugin, "mVolumeDialogImpl");
             if (miuiVolumeDialog == null) {
-                XposedLogUtils.logI("OpenVolumeDialog", "MIUI volume dialog is NULL!");
+                XposedLogUtils.logI("OpenVolumeDialog", "com.android.systemui", "MIUI volume dialog is NULL!");
                 return;
             }
 

@@ -72,7 +72,7 @@ object NetworkSpeed : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
             tx = TrafficStats.getTotalTxBytes()
             rx = TrafficStats.getTotalRxBytes()
         }
@@ -99,7 +99,7 @@ object NetworkSpeed : BaseHook() {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
             ""
         }
     }
@@ -116,7 +116,7 @@ object NetworkSpeed : BaseHook() {
         }
 
         if (nscCls == null) {
-            XposedLogUtils.logE(TAG, "DetailedNetSpeedHook: No NetworkSpeed view or controller")
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "DetailedNetSpeedHook: No NetworkSpeed view or controller")
         } else {
             nscCls.methodFinder().first {
                 name == "getTotalByte"

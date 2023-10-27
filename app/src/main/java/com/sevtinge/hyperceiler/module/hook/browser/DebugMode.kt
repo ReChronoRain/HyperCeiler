@@ -69,7 +69,7 @@ object DebugMode : BaseHook() {
         }.forEach {
             val debugMode = it.getMethodInstance(lpparam.classLoader)
             if (debugMode.toString().contains("getDebugMode")) {
-                XposedLogUtils.logI("DebugMode method is $debugMode")
+                XposedLogUtils.logI(TAG, this.lpparam.packageName, "DebugMode method is $debugMode")
                 found = true
                 XposedBridge.hookMethod(
                     debugMode,
@@ -87,7 +87,7 @@ object DebugMode : BaseHook() {
             }.forEach {
                 val debugMode1 = it.getMethodInstance(safeClassLoader)
                 if (debugMode1.toString().contains("getDebugMode")) {
-                    XposedLogUtils.logI("DebugMode1 method is $debugMode1")
+                    XposedLogUtils.logI(TAG, this.lpparam.packageName, "DebugMode1 method is $debugMode1")
                     found = true
                     XposedBridge.hookMethod(
                         debugMode1,
@@ -106,7 +106,7 @@ object DebugMode : BaseHook() {
             }.forEach {
                 val debugMode2 = it.getMethodInstance(lpparam.classLoader)
                 if (debugMode2.toString().contains("getDebugMode")) {
-                    XposedLogUtils.logI("DebugMode2 method is $debugMode2")
+                    XposedLogUtils.logI(TAG, this.lpparam.packageName, "DebugMode2 method is $debugMode2")
                     found = true
                     XposedBridge.hookMethod(
                         debugMode2,

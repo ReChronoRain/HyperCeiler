@@ -15,22 +15,22 @@ public class NavigationCustom extends BaseHook {
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_height", mNavigationHeight);
         } catch (Exception e) {
-            XposedLogUtils.logI(String.valueOf(e));
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "navigation_bar_height error", e);
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_height_landscape", mNavigationHeightLand);
         } catch (Exception e) {
-            XposedLogUtils.logI(String.valueOf(e));
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "navigation_bar_height_landscape error", e);
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_frame_height", mNavigationFrameHeight);
         } catch (Exception e) {
-            XposedLogUtils.logI(String.valueOf(e));
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "navigation_bar_frame_height error", e);
         }
         try {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "navigation_bar_frame_height_landscape", mNavigationFrameHeightLand);
         } catch (Exception e) {
-            XposedLogUtils.logI(String.valueOf(e));
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "navigation_bar_frame_height_landscape error", e);
         }
 
     }

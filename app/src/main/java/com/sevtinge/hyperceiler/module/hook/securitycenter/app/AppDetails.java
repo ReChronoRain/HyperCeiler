@@ -71,7 +71,7 @@ public class AppDetails extends BaseHook {
                             Object contentFrag = act.getFragmentManager().findFragmentById(android.R.id.content);
                             Object frag = contentFrag != null ? contentFrag : mSupportFragment;
                             if (frag == null) {
-                                XposedLogUtils.logI(TAG, "Unable to find fragment");
+                                XposedLogUtils.logI(TAG, AppDetails.this.lpparam.packageName, "Unable to find fragment");
                                 return;
                             }
 
@@ -82,7 +82,7 @@ public class AppDetails extends BaseHook {
                                 mLastPackageInfo = (PackageInfo) piField.get(frag);
                                 Method[] addPref = XposedHelpers.findMethodsByExactParameters(frag.getClass(), void.class, String.class, String.class, String.class);
                                 if (mLastPackageInfo == null || addPref.length == 0) {
-                                    XposedLogUtils.logI(TAG, "Unable to find field/class/method in SecurityCenter to hook");
+                                    XposedLogUtils.logI(TAG, AppDetails.this.lpparam.packageName, "Unable to find field/class/method in SecurityCenter to hook");
                                     return;
                                 } else {
                                     addPref[0].setAccessible(true);
@@ -170,7 +170,7 @@ public class AppDetails extends BaseHook {
                 });
             }
         } else {
-            XposedLogUtils.logI(TAG, "Cannot find activity class!");
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Cannot find activity class!");
         }
     }
 }

@@ -35,7 +35,7 @@ object DeviceModify : BaseHook() {
             methodData.getMethodInstance(lpparam.classLoader).hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
-            XposedLogUtils.logI("(Updater) dexkit method is $methodData")
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "dexkit method is $methodData")
         }
 
         /*try {

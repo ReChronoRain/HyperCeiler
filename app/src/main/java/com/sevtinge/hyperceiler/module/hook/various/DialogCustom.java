@@ -64,7 +64,7 @@ public class DialogCustom extends BaseHook {
             for (Method method : mAlertControllerCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) {
                     oldMethodFound = true;
-                    XposedLogUtils.logI(TAG, method.getName());
+                    XposedLogUtils.logI(TAG, this.lpparam.packageName, method.getName());
                 }
                 mAllMethodList.add(method);
             }
@@ -76,7 +76,7 @@ public class DialogCustom extends BaseHook {
         }
 
         if (oldMethodFound) {
-            XposedLogUtils.logI(TAG, "oldMethod found.");
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "oldMethod found.");
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                 @Override
@@ -99,7 +99,7 @@ public class DialogCustom extends BaseHook {
             });
 
         } else {
-            XposedLogUtils.logI(TAG, "oldMethod not found.");
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
@@ -143,7 +143,7 @@ public class DialogCustom extends BaseHook {
                 }
             });
         } catch (Exception e) {
-           XposedLogUtils.logE(TAG, e);
+           XposedLogUtils.logE(TAG, this.lpparam.packageName, e);
         }
 
 

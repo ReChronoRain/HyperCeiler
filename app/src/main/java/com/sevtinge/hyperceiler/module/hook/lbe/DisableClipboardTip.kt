@@ -48,7 +48,7 @@ object DisableClipboardTip : BaseHook() {
                         }
                         hideDialog(lpparam, packageName, param)
 
-                        XposedLogUtils.logI(" $packageName -> $appName read clipboard.")
+                        XposedLogUtils.logI(TAG, this@DisableClipboardTip.lpparam.packageName, " $packageName -> $appName read clipboard.")
                     }
                 }
             })

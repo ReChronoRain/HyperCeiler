@@ -13,7 +13,7 @@ object EnableLabOptions : BaseHook() {
                 if (it.args[0] == "camera.lab.options") it.result = true
             }
         } catch (e: Exception) {
-           XposedLogUtils.logE(TAG, e)
+           XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
         }
     }
 }

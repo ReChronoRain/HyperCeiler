@@ -32,7 +32,7 @@ public class UnlockCvlens extends BaseHook {
                 }
             });
         } catch (Exception e) {
-            XposedLogUtils.logI("try to hook CvLensVersion failed!\n" + e);
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "try to hook CvLensVersion failed" + e);
             throw new RuntimeException(e);
         }
     }

@@ -16,7 +16,7 @@ public class AppLinkVerify extends BaseHook {
                 }
             );
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, t);
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t);
         }
     }
 }

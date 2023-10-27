@@ -99,7 +99,7 @@ public class SunlightMode extends TileUtils {
         intentListening = true;*/
         if (path == null) {
             useSystem = true;
-            XposedLogUtils.logE(TAG, "Missing directory, unable to set this mode: true");
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Missing directory, unable to set this mode: true");
         } else {
             ShellUtils.execCommand("chmod 777 " + path, true, false);
             // XposedLogUtils.logI("setPath: im get file: " + path);
@@ -168,7 +168,7 @@ public class SunlightMode extends TileUtils {
                     Settings.System.putInt(mContext.getContentResolver(), sunlightMode, 1);
                     refreshState(param.thisObject);
                 } else {
-                    XposedLogUtils.logE(TAG, "ERROR Int For sunlight_mode");
+                    XposedLogUtils.logE(TAG, this.lpparam.packageName, "ERROR Int For sunlight_mode");
                 }
             } else {
                 if (!useSystem) {
@@ -334,7 +334,7 @@ public class SunlightMode extends TileUtils {
                 }
             }
         } catch (Settings.SettingNotFoundException e) {
-            XposedLogUtils.logE(TAG, "tileUpdateState: Missing system API: " + sunlightMode);
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "tileUpdateState: Missing system API: " + sunlightMode);
         }
         try {
             if (!mMode) {
@@ -359,7 +359,7 @@ public class SunlightMode extends TileUtils {
             }
             // sLog("tileUpdateState: isEnable is: " + isEnable);
         } catch (Settings.SettingNotFoundException e) {
-            XposedLogUtils.logE(TAG, "tileUpdateState: Not Find sunlight_mode");
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, "tileUpdateState: Not Find sunlight_mode");
         }
         ArrayMap<String, Integer> tileResMap = new ArrayMap<>();
         tileResMap.put("custom_SUN_Enable", isEnable ? 1 : 0);

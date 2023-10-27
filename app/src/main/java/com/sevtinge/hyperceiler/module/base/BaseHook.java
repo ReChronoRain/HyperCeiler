@@ -7,7 +7,6 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 import com.sevtinge.hyperceiler.utils.ResourcesHook;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -36,10 +35,10 @@ public abstract class BaseHook {
             setLoadPackageParam(lpparam);
             init();
             if (detailLog && isNotReleaseVersion) {
-                XposedLogUtils.logI(TAG, "Hook Success.");
+                XposedLogUtils.logI(TAG, lpparam.packageName, "Hook Success.");
             }
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, "Hook Failed", t);
+            XposedLogUtils.logE(TAG, lpparam.packageName, "Hook Failed", t);
         }
     }
 

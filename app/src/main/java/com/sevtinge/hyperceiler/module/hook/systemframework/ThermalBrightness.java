@@ -26,7 +26,7 @@ public class ThermalBrightness extends BaseHook {
                 }
             );
         } catch (XposedHelpers.ClassNotFoundError e) {
-            XposedLogUtils.logE(TAG, "No found class: " + e);
+            XposedLogUtils.logE(TAG, "android", "No found class: " + e);
         }
 
         try {
@@ -40,7 +40,7 @@ public class ThermalBrightness extends BaseHook {
                 }
             );
         } catch (XposedHelpers.ClassNotFoundError e) {
-            XposedLogUtils.logE(TAG, "No found class: " + e);
+            XposedLogUtils.logE(TAG, "android", "No found class: " + e);
         }
 
         try {
@@ -54,7 +54,7 @@ public class ThermalBrightness extends BaseHook {
                 }
             );
         } catch (NoSuchMethodException e) {
-            XposedLogUtils.logE(TAG, "Don't Have updateTemperature: " + e);
+            XposedLogUtils.logE(TAG, "android", "Don't Have updateTemperature: " + e);
         }
 
         /*hookAllMethods("com.android.server.display.DisplayPowerControllerImpl",
@@ -77,7 +77,7 @@ public class ThermalBrightness extends BaseHook {
                 }
             );
         } catch (NoSuchMethodException e) {
-            XposedLogUtils.logE(TAG, "Don't Have updateThermalBrightness: " + e);
+            XposedLogUtils.logE(TAG, "android", "Don't Have updateThermalBrightness: " + e);
         }
 
         try {
@@ -91,7 +91,7 @@ public class ThermalBrightness extends BaseHook {
                 }
             );
         } catch (NoSuchMethodException e) {
-            XposedLogUtils.logE(TAG, "Don't Have updateThermalBrightnessIfNeeded: " + e);
+            XposedLogUtils.logE(TAG, "android", "Don't Have updateThermalBrightnessIfNeeded: " + e);
         }
     }
 }

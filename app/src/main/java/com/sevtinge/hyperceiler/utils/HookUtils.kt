@@ -18,17 +18,6 @@ object HookUtils {
         return dpValue * scale + 0.5f
     }
 
-    fun getClass(className: String, classLoader: ClassLoader): Class<*>? {
-        val result = XposedHelpers.findClassIfExists(
-            className,
-            classLoader
-        )
-        if (result == null) {
-            logE("getClass", "'$className' is NOT found.")
-        }
-        return result
-    }
-
     fun replaceMethodResult(
         className: String,
         classLoader: ClassLoader,

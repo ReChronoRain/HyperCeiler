@@ -384,9 +384,6 @@ object BlurSecurity : BaseHook() {
                     }
                 })
 
-
-            XposedLogUtils.logI("3")
-
             XposedHelpers.findAndHookMethod(
                 srsLevelSeekBarProClass,
                 if (appVersionCode >= 40000749) "b" else "a", Context::class.java,
@@ -453,7 +450,6 @@ object BlurSecurity : BaseHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val view = HookUtils.getValueByField(param.thisObject, "d") as View
                         val parentView = view.parent
-                        XposedLogUtils.logI(parentView.toString())
                         if (parentView is ViewGroup) {
                             val lastChild = parentView.getChildAt(parentView.childCount - 1)
                             if (lastChild is ImageView && lastChild.drawable is VectorDrawable) {
@@ -474,8 +470,6 @@ object BlurSecurity : BaseHook() {
                     }
                 })
         }
-
-        XposedLogUtils.logI("4")
     }
 
     // 尽量给最外层加 RenderEffect 而不是 最内层
@@ -509,7 +503,7 @@ object BlurSecurity : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            logW("$TAG => invertViewColor", e)
+            logW(TAG, this.lpparam.packageName, "invertViewColor err", e)
         }
     }
 
@@ -545,7 +539,7 @@ object BlurSecurity : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            logW("$TAG => isChildNeedInvertColor", e)
+            logW(TAG, this.lpparam.packageName, "isChildNeedInvertColor err", e)
         }
         return true
     }

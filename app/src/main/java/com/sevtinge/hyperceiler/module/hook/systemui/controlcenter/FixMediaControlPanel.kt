@@ -21,7 +21,7 @@ object FixMediaControlPanel : BaseHook() {
                     }
                 })
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
         }
     }
 }

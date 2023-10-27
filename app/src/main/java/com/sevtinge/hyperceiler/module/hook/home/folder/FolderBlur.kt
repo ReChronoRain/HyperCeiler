@@ -29,7 +29,7 @@ object FolderBlur : BaseHook() {
                 it.result = null
             }
         } catch (e: Exception) {
-            XposedLogUtils.logE(TAG, e)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
         }
         var isShouldBlur = false
 

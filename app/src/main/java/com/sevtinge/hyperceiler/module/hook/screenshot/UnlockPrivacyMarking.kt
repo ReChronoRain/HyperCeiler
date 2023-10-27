@@ -18,7 +18,7 @@ object UnlockPrivacyMarking : BaseHook() {
             try {
                 returnConstant(true)
             } catch (e: Exception) {
-                XposedLogUtils.logW("UnSupport Privacy Marking")
+                XposedLogUtils.logW(TAG, this@UnlockPrivacyMarking.lpparam.packageName, "UnSupport Privacy Marking")
             }
         }
     }

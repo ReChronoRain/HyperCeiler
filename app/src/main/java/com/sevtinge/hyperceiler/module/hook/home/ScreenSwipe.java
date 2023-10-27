@@ -144,6 +144,6 @@ public class ScreenSwipe extends BaseHook {
                     param.setResult(false);
             }
         })) if (lpparam.packageName.equals("com.miui.home"))
-            XposedLogUtils.logI(TAG, "Cannot disable swipe up search");
+            XposedLogUtils.logI(TAG, this.lpparam.packageName, "Cannot disable swipe up search");
     }
 }

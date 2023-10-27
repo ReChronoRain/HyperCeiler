@@ -62,7 +62,7 @@ class WidgetCrack : BaseHook() {
                     returnConstant(true)
                 }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
         }
     }
 }

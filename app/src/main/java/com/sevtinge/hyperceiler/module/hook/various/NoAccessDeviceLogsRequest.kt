@@ -51,11 +51,11 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                             client
                         )
                         // debug 用，取消禁用详细日志输出可进行调试
-                        XposedLogUtils.logI("NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid")
+                        XposedLogUtils.logI(TAG, this@NoAccessDeviceLogsRequest.lpparam.packageName, "NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid")
                         param.result = null
                     } catch (t: Throwable) {
                         // 输出异常日志
-                        XposedLogUtils.logE("NoAccessDeviceLogsRequest -> processNewLogAccessRequest", t)
+                        XposedLogUtils.logE(TAG, this@NoAccessDeviceLogsRequest.lpparam.packageName, "processNewLogAccessRequest failed", t)
                     }
                 }
             })
@@ -70,7 +70,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, t)
+            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
         }*/
     }
 }
