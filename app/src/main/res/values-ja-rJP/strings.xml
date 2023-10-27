@@ -844,6 +844,8 @@
     <string name="home_drawer_editor_desc">ドロワーのアプリタブから「編集」ボタンを削除します</string>
     <string name="home_drawer_blur">ドロワーのぼかしを有効化</string>
     <string name="home_drawer_blur_desc">この機能を使用するには、アプリドロワー背景の透明度を100%に設定してください</string>
+    <string name="home_drawer_pinyin">ピンイン順に整列</string>
+    <string name="home_drawer_pinyin_more">言語が簡体字中国語でない場合でも、ドロワーのアプリをピンイン順で整列します</string>
     <string name="home_title">アイコンとタイトル</string>
     <string name="home_title_icon_title">アイコン</string>
     <string name="home_title_bigicon_title">大きなアイコン</string>
@@ -852,7 +854,7 @@
     <string name="home_title_title_marquee_desc">長いアプリ名を折り返さずスクロールさせます</string>
     <string name="home_title_title_new_install">新しくインストールしたアプリのインジケーターを非表示</string>
     <string name="home_title_drawer_font_hidden">すべてのアプリのタイトルを隠す</string>
-    <string name="home_title_drawer_font_hidden_more">ドロワー内のアプリタイトルも非表示になります。それが好みでなければ「フォントサイズ」を使用して調整してください</string>
+    <string name="home_title_drawer_font_hidden_more">ドロワー内のアプリタイトルも非表示になります。\n好みでなければ「フォントサイズ」を使用して調整してください</string>
     <string name="home_title_title_new_install_more">新しくアプリをインストールしたとき、アプリタイトルの横にインジケーターを表示させないようにします</string>
     <string name="home_title_font_size">フォントのサイズ</string>
     <string name="home_title_title_color">タイトルの色</string>

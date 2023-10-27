@@ -844,6 +844,8 @@
     <string name="home_drawer_editor_desc">Remover o botão \"Editar\" da guia de apps na gaveta</string>
     <string name="home_drawer_blur">Ativar blur de exibição de contêiner de todos os apps</string>
     <string name="home_drawer_blur_desc">Por favor, defina a transparência da gaveta de apps de fundo para 100% para usar este recurso</string>
+    <string name="home_drawer_pinyin">Organizado em ordem Pinyin</string>
+    <string name="home_drawer_pinyin_more">Quando o idioma não é o Chinês Simplificado, os apps na gaveta ainda são organizados de acordo com o Pinyin</string>
     <string name="home_title">Ícone e título</string>
     <string name="home_title_icon_title">Ícone</string>
     <string name="home_title_bigicon_title">Ícone grande</string>
@@ -852,7 +854,7 @@
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
     <string name="home_title_title_new_install">Não mostrar novo indicador de instalação do app</string>
     <string name="home_title_drawer_font_hidden">Ocultar todos os nomes dos apps</string>
-    <string name="home_title_drawer_font_hidden_more">O nome do app dentro da gaveta também ficará oculto, caso contrário, use Tamanho da fonte para ajustá-lo</string>
+    <string name="home_title_drawer_font_hidden_more">O título do app na gaveta também ficará oculto.\nSe você quiser manter o título do app na gaveta, use Tamanho da fonte para ajustá-lo.</string>
     <string name="home_title_title_new_install_more">Não exiba o indicador próximo ao nome do app ao instalar um novo app</string>
     <string name="home_title_font_size">Tamanho da fonte</string>
     <string name="home_title_title_color">Cor do título</string>
