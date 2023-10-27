@@ -595,4 +595,14 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="updater_version_mode">
+        <item>MIUI</item>
+        <item>Xiaomi HyperOS</item>
+    </string-array>
+
+    <string-array name="updater_version_mode_value">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

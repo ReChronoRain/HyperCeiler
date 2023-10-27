@@ -727,7 +727,10 @@
     <string name="updater">Updater</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
     <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
-    <string name="updater_miui_version">Fake MIUI version for Updater</string>
+    <string name="updater_version_mode">Disguise type</string>
+    <string name="updater_big_version">Fake large version</string>
+    <string name="updater_big_version_desc">Items that need to be filled in when disguising the Xiaomi HyperOS version, the default is V816</string>
+    <string name="updater_miui_version">Fake version for Updater</string>
     <string name="updater_miui_version_desc">Only modify the system update, which can shield the system update to a certain extent</string>
     <string name="updater_device">Fake device for Updater</string>
     <string name="updater_device_desc">Enter the model code of the target device to specify the model, which can be used to obtain ROM packages for other models, which is extremely dangerous</string>
