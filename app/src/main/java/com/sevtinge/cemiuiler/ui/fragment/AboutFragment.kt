@@ -5,7 +5,7 @@ import android.net.Uri
 import com.sevtinge.cemiuiler.BuildConfig
 import com.sevtinge.cemiuiler.R
 import com.sevtinge.cemiuiler.ui.fragment.base.SettingsPreferenceFragment
-import com.sevtinge.cemiuiler.expansionpacks.utils.ClickCountsUtils;
+import com.sevtinge.hyperceiler.expansionpacks.utils.ClickCountsUtils;
 import moralnorm.preference.Preference
 import moralnorm.preference.SwitchPreference
 import java.util.Calendar

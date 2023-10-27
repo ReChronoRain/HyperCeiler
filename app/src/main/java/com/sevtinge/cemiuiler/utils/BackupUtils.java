@@ -1,6 +1,6 @@
 package com.sevtinge.cemiuiler.utils;
 
-import com.sevtinge.cemiuiler.expansionpacks.utils.KS2Utils;
+import com.sevtinge.hyperceiler.expansionpacks.utils.KS2Utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
