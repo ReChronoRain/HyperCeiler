@@ -19,12 +19,10 @@
         <DropDownPreference
             android:defaultValue="0"
             android:dependency="prefs_key_settings_icon"
-            android:enabled="false"
             android:key="prefs_key_settings_icon_mode"
             android:title="@string/settings_icon_mode"
             app:entries="@array/settings_icon_mode"
-            app:entryValues="@array/settings_icon_mode_value"
-            app:isPreferenceVisible="false" />
+            app:entryValues="@array/settings_icon_mode_value" />
 
         <MultiSelectListPreference
             android:enabled="false"

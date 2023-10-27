@@ -25,7 +25,7 @@ public class HyperCeilerSettings extends BaseHook {
 
     private Class<?> mPreferenceHeader;
 
-    int mIconModeInt = mPrefsMap.getStringAsInt("prefs_key_settings_icon_mode", 0);
+    int mIconModeInt = mPrefsMap.getStringAsInt("settings_icon_mode", 0);
 
     @Override
     public void init() {
