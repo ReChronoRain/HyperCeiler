@@ -2,23 +2,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.LockScreenSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.LockScreenSettings"
         android:title="@string/system_ui_lockscreen_title" />
 
     <Preference
-        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.StatusBarSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.StatusBarSettings"
         android:title="@string/system_ui_statusbar_title" />
 
     <Preference
-        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.NavigationSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.NavigationSettings"
         android:title="@string/system_ui_navigation_title" />
 
     <Preference
-        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.ControlCenterSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.ControlCenterSettings"
         android:title="@string/system_ui_controlcenter_title" />
 
     <Preference
-        android:fragment="com.sevtinge.cemiuiler.ui.fragment.systemui.SystemUIOtherSettings"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.SystemUIOtherSettings"
         android:title="@string/system_ui_other_title" />
     <Preference android:enabled="false" />
 

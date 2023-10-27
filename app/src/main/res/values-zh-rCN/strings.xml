@@ -6,8 +6,8 @@
     <string name="new_permission_location_desc">用于提供经纬度等服务</string>
     <string name="new_cta_agree_desc">在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往权限管理调整所有权限的授权情况，Root/Su 权限请前往您的 Root/Su 管理器进行管理.</string>
     <string name="new_cta_app_main_purpose">修改系统应用</string>
-    <string name="new_cta_app_all_purpose_title">欢迎使用 Cemiuiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现 MIUI 增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
-    <!--Cemiuiler 设置/关于页-->
+    <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现 MIUI 增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
+    <!--HyperCeiler 设置/关于页-->
     <string name="language">简体中文</string>
     <string name="translator">绀漓 | Sevtinge</string>
     <string name="translator_url">https://github.com/sevtinge</string>
@@ -15,9 +15,9 @@
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="about_use">引用</string>
-    <string name="about_use_desc">Cemiuiler 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
+    <string name="about_use_desc">HyperCeiler 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
     <string name="about_contributer">贡献者</string>
-    <string name="about_contributer_desc">感谢以下贡献者为 Cemiuiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
+    <string name="about_contributer_desc">感谢以下贡献者为 HyperCeiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
     <string name="about_donation">支持</string>
     <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
 
@@ -75,9 +75,9 @@
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模块暂未激活，请检查 Xposed 管理器是否启用，如有请重启或重新优化模块</string>
-    <string name="kill_failed">结束进程失败，请检查是否为 Cemiuiler 授予了 Root/Su 权限?</string>
+    <string name="kill_failed">结束进程失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限?</string>
     <string name="pid_failed">目标应用未运行，不需要重启。</string>
-    <string name="reboot_failed">重启失败，请检查是否为 Cemiuiler 授予了 Root/Su 权限?</string>
+    <string name="reboot_failed">重启失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限?</string>
 
     <string name="expand_button_title">高级</string>
     <string name="not_set">未设置</string>
@@ -1350,9 +1350,9 @@
     <string name="custom_hook_new">添加 Hook</string>
     <string name="custom_hook_mode">选择模式</string>
 
-    <string name="cemiuiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
+    <string name="hyperceiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
 
-    <string name="cemiuiler_restart_quick">快速重启作用域</string>
+    <string name="hyperceiler_restart_quick">快速重启作用域</string>
 
     <string name="location_add">添加</string>
     <string name="location_delete">删除</string>
@@ -1360,22 +1360,22 @@
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
     <string name="tip_2">Tip: 想要联系开发者？Telegram@Sevtinge_PM_bot 或者 哔哩哔哩@绀漓丨Sevtinge。</string>
-    <string name="tip_3">Tip: 想要加入群聊一起划水？Telegram@cemiuiler 或者在 QQ 搜索 247909573 加入群聊。</string>
-    <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_3">Tip: 想要加入群聊一起划水？Telegram@hyperceiler 或者在 QQ 搜索 247909573 加入群聊。</string>
+    <string name="tip_4">Tip: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
     <string name="tip_5">Tip: 猜猜下一次看到这条 Tip 是什么时候？</string>
     <string name="tip_6">Tip: Make MIUI Great Again!</string>
     <string name="tip_7">Tip: 关注绀漓喵，关注绀漓谢谢喵~ (Github@sevtinge 或者 哔哩哔哩@绀漓丨Sevtinge)</string>
     <string name="tip_8">Tip: 理想中的乌托邦并不存在于现实中。</string>
     <string name="tip_9">Tip: 三江市趋于崩溃。</string>
     <string name="tip_10">Tip: 啊，这个世界真美好......       可惜这份美好不属于绀漓。</string>
-    <string name="tip_11">Tip: 我保留了一些 bug，这样你才知道你用的是 Cemiuiler 。</string>
+    <string name="tip_11">Tip: 我保留了一些 bug，这样你才知道你用的是 HyperCeiler 。</string>
     <string name="tip_12">Tip: 你知道吗？其实 Tips 全是废话。(确信)</string>
-    <string name="tip_13">Tip: 你知道吗？Cemiuiler 的生日在 5 月 1 日，而绀漓的在 2 月 2 日。</string>
+    <string name="tip_13">Tip: 你知道吗？HyperCeiler 的生日在 5 月 1 日，而绀漓的在 2 月 2 日。</string>
     <string name="tip_14">Tip: 绀漓目前就读于山河大学三江市校区信息工程技术学院。</string>
     <string name="tip_15">Tip: 据说绀漓有两种不同的形态。</string>
     <string name="tip_16">Tip: 绀漓是小奶狐！(划掉)</string>
     <string name="tip_17">Tip: 铃柒柒有两种人格，一种是猫娘控，一种是萝莉控（x</string>
-    <string name="tip_18">Tip: Cemiuiler 是电老虎 (暴论)</string>
+    <string name="tip_18">Tip: HyperCeiler 是电老虎 (暴论)</string>
     <string name="tip_19">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
     <string name="tip_20">Tip: 没事不要追新版 Canary，坏了不要催更（</string>
 </resources>

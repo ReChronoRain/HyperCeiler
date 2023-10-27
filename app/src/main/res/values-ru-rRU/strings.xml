@@ -2,16 +2,16 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Сделайте MIUI снова великой!</string>
-    <!--Cemiuiler Settings/About Page-->
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">EvilGoodd</string>
     <string name="translator_url">https://github.com/evilgoodd</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
     <string name="about_use">Цитирование</string>
-    <string name="about_use_desc">Cemiuiler использует некоторые или все из данных проектов с открытым исходным кодом, спасибо разработчикам этих проектов за их поддержку (в произвольном порядке)</string>
+    <string name="about_use_desc">HyperCeiler использует некоторые или все из данных проектов с открытым исходным кодом, спасибо разработчикам этих проектов за их поддержку (в произвольном порядке)</string>
     <string name="about_contributer">Участники</string>
-    <string name="about_contributer_desc">Спасибо данным участникам за их помощь в разработке Cemiuiler (в произвольном порядке)</string>
+    <string name="about_contributer_desc">Спасибо данным участникам за их помощь в разработке HyperCeiler (в произвольном порядке)</string>
     <string name="about_donation">Спонсоры</string>
     <string name="about_donation_desc">Вы можете поддержать нас, сделав пожертвование</string>
     <string name="settings_data_title">Резервное копирование и восстановление</string>
@@ -59,7 +59,7 @@
     <string name="about_github_desc">Этот проект с открытым исходным кодом основан на лицензии AGPL-3.0.</string>
     <string name="about_offical">Официальный сайт</string>
     <string name="about_crwd">Crowdin</string>
-    <string name="about_crwd_desc">Помогите нам перевести Cemiuiler на ваш язык</string>
+    <string name="about_crwd_desc">Помогите нам перевести HyperCeiler на ваш язык</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Перезагрузка </string>
     <string name="tip">Совет</string>
@@ -1053,8 +1053,8 @@
     <string name="operator_fix_2">Метод 2 (рекомендовано)</string>
     <string name="custom_hook_new">Добавить Hook</string>
     <string name="custom_hook_mode">Выбор режима</string>
-    <string name="cemiuiler_notice">Потяните вниз строку состояния для отображения ярлыков и системных уведомлений</string>
-    <string name="cemiuiler_restart_quick">Быстрый перезапуск приложения</string>
+    <string name="hyperceiler_notice">Потяните вниз строку состояния для отображения ярлыков и системных уведомлений</string>
+    <string name="hyperceiler_restart_quick">Быстрый перезапуск приложения</string>
     <string name="location_add">Добавить</string>
     <string name="location_delete">Удалить</string>
     <!--Tip-->

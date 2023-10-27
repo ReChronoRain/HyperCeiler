@@ -34,7 +34,7 @@
         android:paddingBottom="@dimen/preference_item_padding_inner"
         tools:ignore="PrivateResource,RtlSymmetry">
 
-        <com.sevtinge.cemiuiler.view.CircleImageView
+        <com.sevtinge.hyperceiler.view.CircleImageView
             android:id="@android:id/icon"
             android:layout_width="60dp"
             android:layout_height="60dp"

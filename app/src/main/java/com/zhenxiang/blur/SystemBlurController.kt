@@ -9,8 +9,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import com.android.internal.graphics.drawable.BackgroundBlurDrawable
-import com.sevtinge.cemiuiler.module.base.BaseHook.mPrefsMap
-import com.sevtinge.cemiuiler.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.module.base.BaseHook.mPrefsMap
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.zhenxiang.blur.model.CornersRadius
 import java.util.function.Consumer
 

@@ -1,5 +1,5 @@
 <resources>
-    <style name="Base.Theme.Cemiuiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="Base.Theme.HyperCeiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Light</item>
         <item name="rebootIconColor">@color/black</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -7,7 +7,7 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.Cemiuiler.DayNight"/>
+    <style name="AppTheme" parent="Base.Theme.HyperCeiler.DayNight"/>
 
     <style name="AppTheme.Translucent" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:windowBackground">@color/transparent</item>

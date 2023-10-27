@@ -29,9 +29,9 @@ body:
       value: |
         1. 前往 '...'
         2. 点击 '....'
-        
+
         ....
-        出现问题  
+        出现问题
       render: bash
     validations:
       required: false
@@ -80,10 +80,10 @@ body:
     validations:
       required: true
   - type: input
-    id: cemiuiler_version
+    id: hyperceiler_version
     attributes:
-      label: "Cemiuiler 版本"
-      description: 填写您的 Cemiuiler 版本.
+      label: "HyperCeiler 版本"
+      description: 填写您的 HyperCeiler 版本.
       placeholder: x.y.z-YYYYMMDD
     validations:
       required: true

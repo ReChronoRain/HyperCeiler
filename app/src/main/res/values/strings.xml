@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Cemiuiler</string>
+    <string name="app_name" translatable="false">HyperCeiler</string>
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>
     <string name="location_simulation_gps" translatable="false">GPS</string>
@@ -35,17 +35,17 @@
     <string name="new_permission_location_desc">used to provide services such as latitude and longitude</string>
     <string name="new_cta_agree_desc">During use, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your Root/Su manager for Root/Su permissions.</string>
     <string name="new_cta_app_main_purpose">modify system applications</string>
-    <string name="new_cta_app_all_purpose_title">Welcome to Cemiuiler, this application runs on the Xposed framework, you can use this application to hijack and modify other supported applications to achieve MIUI enhancements. During use, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to your Root/Su manager for Root/Su permissions.</string>
-    <!--Cemiuiler Settings/About Page-->
+    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler, this application runs on the Xposed framework, you can use this application to hijack and modify other supported applications to achieve MIUI enhancements. During use, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to your Root/Su manager for Root/Su permissions.</string>
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
     <string name="translator">Ling Qiqi</string>
     <string name="translator_url">https://github.com/mu7220</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="about_use">Quote</string>
-    <string name="about_use_desc">Cemiuiler uses some or all of the following open source projects, thanks to the developers of these projects for their support (in no particular order)</string>
+    <string name="about_use_desc">HyperCeiler uses some or all of the following open source projects, thanks to the developers of these projects for their support (in no particular order)</string>
     <string name="about_contributer">Contributor</string>
-    <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of Cemiuiler (in no particular order)</string>
+    <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of HyperCeiler (in no particular order)</string>
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
     <string name="about_privacy">Privacy Policy</string>
@@ -95,15 +95,15 @@
     <string name="about_github_desc">This project is open source based on the AGPL-3.0 license</string>
     <string name="about_offical">Official website</string>
     <string name="about_crwd">Crowdin</string>
-    <string name="about_crwd_desc">Help us translate Cemiuiler into you language</string>
+    <string name="about_crwd_desc">Help us translate HyperCeiler into you language</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="tip">Tip</string>
     <string name="hook_failed">The module is not activated yet.\nPlease check whether the Xposed manager is enabled. If so, please restart or re-optimize the module.</string>
-    <string name="kill_failed">Failed to end process, please check if Cemiuiler has been granted Root/Su permissions?</string>
+    <string name="kill_failed">Failed to end process, please check if HyperCeiler has been granted Root/Su permissions?</string>
     <string name="pid_failed">The target application is not running and does not need to be restarted.</string>
-    <string name="reboot_failed">Reboot failed, please check if Cemiuiler is granted Root/Su permission?</string>
+    <string name="reboot_failed">Reboot failed, please check if HyperCeiler is granted Root/Su permission?</string>
     <string name="expand_button_title">High level</string>
     <string name="not_set">Not set</string>
     <string name="copy">Copy</string>
@@ -1305,30 +1305,30 @@
     <string name="operator_fix_2">Method 2 (recommended)</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
-    <string name="cemiuiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="cemiuiler_restart_quick">Quickly restart apps</string>
+    <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
+    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
     <string name="tip_2">Tip: Want to contact to developer? Telegram@Sevtinge_PM_bot or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Tip: Want to join the official group? Telegram@cemiuiler or search 247909573 in QQ.</string>
-    <string name="tip_4">Tip: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_3">Tip: Want to join the official group? Telegram@hyperceiler or search 247909573 in QQ.</string>
+    <string name="tip_4">Tip: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
     <string name="tip_5">Tip: Guess how many more times you have to see this tip again?</string>
     <string name="tip_6">Tip: Make MIUI Great Again!</string>
     <string name="tip_7">Tip: Welcome to follow Github@sevtinge or Bilibili@绀漓丨Sevtinge.</string>
     <string name="tip_8">Tip: The ideal Utopia does not exist in reality.</string>
     <string name="tip_9">Tip: Sanjiang City tends to collapse.</string>
     <string name="tip_10">Tip: Ah, this world is so beautiful…       It\'s a pity that this beauty does not belong to Sevtinge.</string>
-    <string name="tip_11">Tip: I\'ve kept some bugs so you know you\'re using Cemiuiler.</string>
+    <string name="tip_11">Tip: I\'ve kept some bugs so you know you\'re using HyperCeiler.</string>
     <string name="tip_12">Tip: Do you know? In fact, Tips is all nonsense. (Convinced)</string>
-    <string name="tip_13">Tip: Do you know? Cemiuiler\'s birthday is on May 1, and Sevtinge\'s birthday is on February 2.</string>
+    <string name="tip_13">Tip: Do you know? HyperCeiler\'s birthday is on May 1, and Sevtinge\'s birthday is on February 2.</string>
     <string name="tip_14">Tip: Sevtinge studied at the School of Information Engineering and Technology of Sanjiang City Campus of Shanhe University.</string>
     <string name="tip_15">Tip: I heard that Sevtinge has two different forms.</string>
     <string name="tip_16">Tip: Sevtinge is a little fox! (Cross out)</string>
     <string name="tip_17">Tip: Ling Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
-    <string name="tip_18">Tip: Cemiuiler is the fastest battery draining system app (grumpy speech)</string>
+    <string name="tip_18">Tip: HyperCeiler is the fastest battery draining system app (grumpy speech)</string>
     <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
     <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>
 </resources>

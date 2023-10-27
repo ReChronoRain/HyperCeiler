@@ -1,5 +1,5 @@
 <resources>
-    <style name="Base.Theme.Cemiuiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="Base.Theme.HyperCeiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Dark</item>
         <item name="android:forceDarkAllowed">false</item>
         <item name="rebootIconColor">@color/white</item>

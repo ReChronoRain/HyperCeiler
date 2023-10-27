@@ -11,13 +11,13 @@
             android:key="prefs_key_home_small_folder_icon_bg_custom"
             android:title="@string/home_small_folder_icon_bg_custom"
             android:dependency="prefs_key_home_small_folder_icon_bg"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.CustomBackgroundSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"/>
 
-        <SeekBarPreferenceEx 
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_small_folder_icon_bg_size"
             android:dependency="prefs_key_home_small_folder_icon_bg"
             android:title="@string/home_small_folder_icon_bg_size"
-            android:defaultValue="56"   
+            android:defaultValue="56"
             app:defaultValueText="@string/array_default"
             app:maxValue="100"
             app:stepValue="1"
@@ -36,24 +36,24 @@
             android:key="prefs_key_home_big_folder_icon_bg_2x1_custom"
             android:title="@string/home_big_folder_icon_bg_2x1_custom"
             android:dependency="prefs_key_home_big_folder_icon_bg_2x1"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.CustomBackgroundSettings"/>
-                  
-        <SeekBarPreferenceEx 
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"/>
+
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_big_folder_icon_bg_width_2x1"
             android:dependency="prefs_key_home_big_folder_icon_bg_2x1"
-            android:title="@string/home_big_folder_icon_bg_width_2x1"           
-            android:defaultValue="145"   
+            android:title="@string/home_big_folder_icon_bg_width_2x1"
+            android:defaultValue="145"
             app:defaultValueText="@string/array_default"
             app:maxValue="200"
             app:stepValue="1"
             app:format="%d dp"
             app:showSeekBarValue="true" />
-        
-        <SeekBarPreferenceEx 
+
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_big_folder_icon_bg_height_2x1"
             android:dependency="prefs_key_home_big_folder_icon_bg_2x1"
             android:title="@string/home_big_folder_icon_bg_height_2x1"
-            android:defaultValue="62"   
+            android:defaultValue="62"
             app:defaultValueText="@string/array_default"
             app:maxValue="200"
             app:stepValue="1"
@@ -69,24 +69,24 @@
             android:key="prefs_key_home_big_folder_icon_bg_1x2_custom"
             android:title="@string/home_big_folder_icon_bg_1x2_custom"
             android:dependency="prefs_key_home_big_folder_icon_bg_1x2"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.CustomBackgroundSettings"/>
-            
-        <SeekBarPreferenceEx 
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"/>
+
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_big_folder_icon_bg_width_1x2"
             android:dependency="prefs_key_home_big_folder_icon_bg_1x2"
             android:title="@string/home_big_folder_icon_bg_width_1x2"
-            android:defaultValue="62"   
+            android:defaultValue="62"
             app:defaultValueText="@string/array_default"
             app:maxValue="200"
             app:stepValue="1"
             app:format="%d dp"
             app:showSeekBarValue="true" />
-            
-        <SeekBarPreferenceEx 
+
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_big_folder_icon_bg_height_1x2"
             android:dependency="prefs_key_home_big_folder_icon_bg_1x2"
-            android:title="@string/home_big_folder_icon_bg_height_1x2"           
-            android:defaultValue="145"   
+            android:title="@string/home_big_folder_icon_bg_height_1x2"
+            android:defaultValue="145"
             app:defaultValueText="@string/array_default"
             app:maxValue="200"
             app:stepValue="1"
@@ -102,28 +102,28 @@
             android:key="prefs_key_home_big_folder_icon_bg_custom"
             android:title="@string/home_big_folder_icon_bg_custom"
             android:dependency="prefs_key_home_big_folder_icon_bg"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.CustomBackgroundSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"/>
 
         <SeekBarPreferenceEx
             android:dependency="prefs_key_home_big_folder_icon_bg"
             android:key="prefs_key_home_big_folder_icon_bg_width"
-            android:title="@string/home_big_folder_icon_bg_width"            
+            android:title="@string/home_big_folder_icon_bg_width"
             android:defaultValue="145"
             app:defaultValueText="@string/array_default"
             app:maxValue="200"
-            app:stepValue="1"     
-            app:format="%d dp" 
+            app:stepValue="1"
+            app:format="%d dp"
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceEx
             android:dependency="prefs_key_home_big_folder_icon_bg"
             android:key="prefs_key_home_big_folder_icon_bg_height"
-            android:title="@string/home_big_folder_icon_bg_height"           
+            android:title="@string/home_big_folder_icon_bg_height"
             android:defaultValue="145"
             app:defaultValueText="@string/array_default"
             app:maxValue="200"
             app:format="%d dp"
-            app:stepValue="1" 
+            app:stepValue="1"
             app:showSeekBarValue="true" />
 
         <SwitchPreference
@@ -157,9 +157,9 @@
             android:title="@string/home_folder_anim_title"
             android:defaultValue="false" />
 
-        <SeekBarPreferenceEx          
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_folder_anim_1"
-            android:title="@string/home_folder_anim_1"        
+            android:title="@string/home_folder_anim_1"
             android:dependency="prefs_key_home_folder_animation"
             android:defaultValue="110"
             app:defaultValueText="@string/array_default"
@@ -169,22 +169,22 @@
             app:format="%d / 100 f"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_folder_anim_2"
-            android:title="@string/home_folder_anim_2"          
+            android:title="@string/home_folder_anim_2"
             android:dependency="prefs_key_home_folder_animation"
             android:defaultValue="30"
             app:defaultValueText="@string/array_default"
             app:maxValue="60"
             app:minValue="10"
             app:stepValue="1"
-            app:format="%d / 30 f" 
+            app:format="%d / 30 f"
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceEx
             android:key="prefs_key_home_folder_anim_3"
-            android:title="@string/home_folder_anim_3"         
-            android:dependency="prefs_key_home_folder_animation"              
+            android:title="@string/home_folder_anim_3"
+            android:dependency="prefs_key_home_folder_animation"
             android:defaultValue="101"
             app:defaultValueText="@string/array_default"
             app:maxValue="150"
@@ -193,16 +193,16 @@
             app:format="%d / 100 f"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_folder_anim_4"
             android:title="@string/home_folder_anim_4"
-            android:dependency="prefs_key_home_folder_animation"        
+            android:dependency="prefs_key_home_folder_animation"
             android:defaultValue="24"
             app:defaultValueText="@string/array_default"
             app:maxValue="60"
             app:minValue="10"
             app:format="%d / 30 f"
-            app:stepValue="1" 
+            app:stepValue="1"
             app:showSeekBarValue="true" />
 
         <SwitchPreference
@@ -221,21 +221,21 @@
             android:title="@string/home_folder_blur_title"
             android:defaultValue="false" />
 
-        <SeekBarPreferenceEx 
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_folder_columns"
             android:title="@string/home_folder_cols_title"
-            android:defaultValue="3"   
+            android:defaultValue="3"
             app:defaultValueText="@string/array_default"
             app:maxValue="6"
             app:minValue="1"
             app:stepValue="1"
             app:format="@string/home_folder_cols_format"
             app:showSeekBarValue="true" />
-            
-        <SeekBarPreferenceEx 
+
+        <SeekBarPreferenceEx
             android:key="prefs_key_home_folder_vertical_padding"
             android:title="@string/home_folder_vertical_padding_title"
-            android:defaultValue="0"   
+            android:defaultValue="0"
             app:defaultValueText="@string/array_default"
             app:maxValue="100"
             app:stepValue="1"

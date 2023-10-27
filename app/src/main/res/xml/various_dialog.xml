@@ -9,13 +9,13 @@
         app:entryValues="@array/dialog_gravity_value" />
 
     <SeekBarPreferenceEx
-        android:key="prefs_key_various_dialog_margin_horizontal"        
+        android:key="prefs_key_various_dialog_margin_horizontal"
         android:title="@string/various_dialog_margin_horizontal"
         android:summary="@string/various_dialog_margin_horizontal_desc"
         android:defaultValue="0"
         app:defaultValueText="@string/array_default"
         app:maxValue="100"
-        app:format="%d dp"                
+        app:format="%d dp"
         app:showSeekBarValue="true" />
 
     <SeekBarPreferenceEx
@@ -23,7 +23,7 @@
         android:title="@string/various_dialog_margin_bottom"
         android:summary="@string/various_dialog_margin_bottom_desc"
         android:defaultValue="0"
-        app:format="%d dp"      
+        app:format="%d dp"
         app:maxValue="100"
         app:showSeekBarValue="true" />
 
@@ -35,7 +35,7 @@
 
         <SeekBarPreferenceEx
             android:key="prefs_key_various_dialog_window_blur_radius"
-            android:dependency="prefs_key_various_dialog_window_blur"                    
+            android:dependency="prefs_key_various_dialog_window_blur"
             android:title="@string/various_dialog_window_blur_radius"
             android:defaultValue="60"
             app:format="%d dp"
@@ -43,7 +43,7 @@
             app:showSeekBarValue="true" />
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.sub.CustomBackgroundSettings"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
             android:key="prefs_key_various_dialog_bg_blur"
             android:title="@string/custom_background_blur_enabled" />
     </PreferenceCategory>

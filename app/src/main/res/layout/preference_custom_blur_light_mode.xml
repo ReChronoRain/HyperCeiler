@@ -5,7 +5,7 @@
         android:id="@+id/image_view"
         android:layout_width="160dp"
         android:layout_height="100dp"
-        android:contentDescription="@string/cemiuiler_notice"
+        android:contentDescription="@string/hyperceiler_notice"
         android:importantForAccessibility="yes"
         android:src="@drawable/ic_launcher_foreground" />
 </merge>

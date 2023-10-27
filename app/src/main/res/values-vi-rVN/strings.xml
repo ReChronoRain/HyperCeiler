@@ -6,17 +6,17 @@
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
     <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào Quản lý quyền bất cứ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để có quyền Root/Su.</string>
     <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
-    <string name="new_cta_app_all_purpose_title">Chào mừng đến với Cemiuiler, ứng dụng này chạy trên khung Xposed, bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác để đạt được các cải tiến MIUI. Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào trình quản lý Root/Su của mình để có quyền Root/Su.</string>
-    <!--Cemiuiler Settings/About Page-->
+    <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler, ứng dụng này chạy trên khung Xposed, bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác để đạt được các cải tiến MIUI. Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào trình quản lý Root/Su của mình để có quyền Root/Su.</string>
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Kinh</string>
     <string name="translator">Kimle69</string>
     <string name="translator_url">https://t.me/Kimle69</string>
     <string name="settings">Cài đặt</string>
     <string name="about">Giới thiệu</string>
     <string name="about_use">Trích dẫn</string>
-    <string name="about_use_desc">Cemiuiler sử dụng một số hoặc tất cả các dự án mã nguồn mở sau, cảm ơn các nhà phát triển của các dự án này đã hỗ trợ (Thứ tự ngẫu nhiên)</string>
+    <string name="about_use_desc">HyperCeiler sử dụng một số hoặc tất cả các dự án mã nguồn mở sau, cảm ơn các nhà phát triển của các dự án này đã hỗ trợ (Thứ tự ngẫu nhiên)</string>
     <string name="about_contributer">Người đóng góp</string>
-    <string name="about_contributer_desc">Cảm ơn những người đóng góp sau đây vì sự giúp đỡ của họ trong quá trình phát triển Cemiuiler (Thứ tự ngẫu nhiên)</string>
+    <string name="about_contributer_desc">Cảm ơn những người đóng góp sau đây vì sự giúp đỡ của họ trong quá trình phát triển HyperCeiler (Thứ tự ngẫu nhiên)</string>
     <string name="about_donation">Tài trợ</string>
     <string name="about_donation_desc">Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp tại đây</string>
     <string name="about_privacy">Chính Sách Quyền Riêng Tư</string>
@@ -66,15 +66,15 @@
     <string name="about_github_desc">Dự án này là mã nguồn mở dựa trên giấy phép AGPL-3.0</string>
     <string name="about_offical">Website chính thức</string>
     <string name="about_crwd">Crowdin</string>
-    <string name="about_crwd_desc">Giúp chúng tôi dịch Cemiuiler sang ngôn ngữ của bạn</string>
+    <string name="about_crwd_desc">Giúp chúng tôi dịch HyperCeiler sang ngôn ngữ của bạn</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Khởi động lại nhanh</string>
     <string name="restart_app_desc">Bạn có muốn khởi động lại máy bây giờ %1$s?</string>
     <string name="tip">Mẹo</string>
     <string name="hook_failed">Mô-đun này chưa được kích hoạt.\nVui lòng kiểm tra xem trình quản lý Xpose có được bật hay không. Nếu vậy, vui lòng khởi động lại hoặc tối ưu hóa lại mô-đun.</string>
-    <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra Cemiuiler đã được cấp quyền Root?</string>
+    <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
     <string name="pid_failed">Ứng dụng đích không chạy và không cần khởi động lại.</string>
-    <string name="reboot_failed">Reboot không thành công, kiểm tra Cemiuiler đã được cấp quyền Root?</string>
+    <string name="reboot_failed">Reboot không thành công, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
     <string name="expand_button_title">Cấp độ cao</string>
     <string name="not_set">Chưa đặt</string>
     <string name="copy">Sao Chép</string>
@@ -1280,16 +1280,16 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="operator_fix_2">Phương pháp 2 (khuyên dùng)</string>
     <string name="custom_hook_new">Thêm Hook</string>
     <string name="custom_hook_mode">Chọn chế độ</string>
-    <string name="cemiuiler_notice">Kéo thanh trạng thái xuống để hiển thị đồng thời các công tắc phím tắt và thông báo hệ thống</string>
-    <string name="cemiuiler_restart_quick">Phạm vi khởi động lại nhanh</string>
+    <string name="hyperceiler_notice">Kéo thanh trạng thái xuống để hiển thị đồng thời các công tắc phím tắt và thông báo hệ thống</string>
+    <string name="hyperceiler_restart_quick">Phạm vi khởi động lại nhanh</string>
     <string name="location_add">Thêm</string>
     <string name="location_delete">Xóa</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
     <string name="tip_2">Mẹo: Bạn muốn liên hệ với nhà phát triển? Telegram@Sevtinge_PM_bot Hoặc Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Mẹo: Bạn muốn tham gia nhóm chính thức? Telegram@cemiuiler Hoặc tìm 247909573 trong QQ.</string>
-    <string name="tip_4">Mẹo: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_3">Mẹo: Bạn muốn tham gia nhóm chính thức? Telegram@hyperceiler Hoặc tìm 247909573 trong QQ.</string>
+    <string name="tip_4">Mẹo: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
     <string name="tip_5">Mẹo: Đoán xem bạn phải xem lại mẹo này bao nhiêu lần nữa?</string>
     <string name="tip_6">Mẹo: Làm cho MIUI tuyệt vời trở lại!</string>
     <string name="tip_7">Mẹo: Chào mừng bạn theo dõi trên Github@sevtinge Hoặc Bilibili@绀漓丨Sevtinge.</string>
@@ -1298,12 +1298,12 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="tip_10">Mẹo: Sanjiang news: Sevtinge được xác nhận đã ngồi trên toa thứ 13 của đoàn tàu GL3625.</string>
     <string name="tip_11">Mẹo: Sanjiang news: Người dân cho biết họ đã quen với việc đoàn tàu GL3625 biến mất.</string>
     <string name="tip_12">Mẹo: Bạn có biết? Trong thực tế, Tất cả Mẹo là vô nghĩa.</string>
-    <string name="tip_13">Mẹo: Bạn có biết? Sinh nhật của Cemiuiler vào ngày 1/5, sinh nhật của Sevtinge vào ngày 2/2.</string>
+    <string name="tip_13">Mẹo: Bạn có biết? Sinh nhật của HyperCeiler vào ngày 1/5, sinh nhật của Sevtinge vào ngày 2/2.</string>
     <string name="tip_14">Mẹo: Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
     <string name="tip_15">Mẹo: Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
     <string name="tip_16">Mẹo: Sevtinge là một con cáo!</string>
     <string name="tip_17">Mẹo: Ling Qiqi có hai nhân cách, một là catgirl, hai là loli (x</string>
-    <string name="tip_18">Mẹo: Cemiuiler là ứng dụng tiêu hao pin nhanh nhất</string>
+    <string name="tip_18">Mẹo: HyperCeiler là ứng dụng tiêu hao pin nhanh nhất</string>
     <string name="tip_19">Mẹo: Nếu không có chú thích đặc biệt cho chức năng chuyển sang màu xám, điều đó có nghĩa là chức năng đó không bình thường và nó không được lên kế hoạch mở cho người dùng trong thời điểm hiện tại</string>
     <string name="tip_20">Mẹo: Đừng chạy theo phiên bản Canary nếu bạn không có việc gì làm và đừng vội cập nhật nếu nó bị hỏng (</string>
 </resources>

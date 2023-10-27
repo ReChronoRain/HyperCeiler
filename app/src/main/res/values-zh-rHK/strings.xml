@@ -6,17 +6,17 @@
     <string name="new_permission_location_desc">用於提供緯度和經度等服務</string>
     <string name="new_cta_agree_desc">在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以隨時到權限管理調整所有權限的授權狀態，並請到您的 Root/Su 管理器管理 Root/Su 權限。</string>
     <string name="new_cta_app_main_purpose">修改系統應用程式</string>
-    <string name="new_cta_app_all_purpose_title">歡迎使用 Cemiuiler，這個應用程式運行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現 MIUI 的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理器管理 Root/Su 權限。</string>
-    <!--Cemiuiler Settings/About Page-->
+    <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，這個應用程式運行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現 MIUI 的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理器管理 Root/Su 權限。</string>
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">繁體中文 (香港)</string>
     <string name="translator">聖小熊</string>
     <string name="translator_url">https://github.com/a406010503</string>
     <string name="settings">設定</string>
     <string name="about">關於</string>
     <string name="about_use">項目引用</string>
-    <string name="about_use_desc">Cemiuiler 使用了以下開源項目的部分或全部內容，感謝這些項目的開發者提供的大力支援（排名順序不分先後）</string>
+    <string name="about_use_desc">HyperCeiler 使用了以下開源項目的部分或全部內容，感謝這些項目的開發者提供的大力支援（排名順序不分先後）</string>
     <string name="about_contributer">貢獻者</string>
-    <string name="about_contributer_desc">感謝以下貢獻者為 Cemiuiler 的開發提供了不同程度的幫助（排名順序不分先後）</string>
+    <string name="about_contributer_desc">感謝以下貢獻者為 HyperCeiler 的開發提供了不同程度的幫助（排名順序不分先後）</string>
     <string name="about_donation">贊助</string>
     <string name="about_donation_desc">您可以在此處贊助以支援我們</string>
     <string name="about_privacy">隱私政策</string>
@@ -72,9 +72,9 @@
     <string name="restart_app_desc">確定要立即重啟%1$s嗎？</string>
     <string name="tip">提示</string>
     <string name="hook_failed">模組尚未啟動。\n請檢查是否在寄生管理器中啟用。 如果是，請重新啟動或重新優化模組。</string>
-    <string name="kill_failed">結束進程失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>
+    <string name="kill_failed">結束進程失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限？</string>
     <string name="pid_failed">目標應用程式未運行，不需要重新啟動。</string>
-    <string name="reboot_failed">重啟失敗，請檢查是否為 Cemiuiler 授予了 Root/Su 權限？</string>
+    <string name="reboot_failed">重啟失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限？</string>
     <string name="expand_button_title">進階</string>
     <string name="not_set">未設定</string>
     <string name="copy">複製</string>
@@ -1268,30 +1268,30 @@
     <string name="operator_fix_2">方法二（推薦）</string>
     <string name="custom_hook_new">增加 Hook</string>
     <string name="custom_hook_mode">選擇模式</string>
-    <string name="cemiuiler_notice">下拉狀態欄，同時顯示快捷開關和系统通知</string>
-    <string name="cemiuiler_restart_quick">快速重啟作用域</string>
+    <string name="hyperceiler_notice">下拉狀態欄，同時顯示快捷開關和系统通知</string>
+    <string name="hyperceiler_restart_quick">快速重啟作用域</string>
     <string name="location_add">增加</string>
     <string name="location_delete">刪除</string>
     <!--Tip-->
     <string name="tip_0">小提示：這是一個提示 (tip) ！</string>
     <string name="tip_1">小提示：您可以在「關於-赞助」中贊助支援我們。</string>
     <string name="tip_2">小提示：想要聯繫開發者？這裡可以找到我 Telegram@Sevtinge_PM_bot 或 Bilibili@绀漓丨Sevtinge。</string>
-    <string name="tip_3">小提示：想要加入官方群組嗎？可以通過 Telegram@cemiuiler 或在 QQ 中搜索 247909573。</string>
-    <string name="tip_4">小提示：Cemiuiler = Ceiler + MIUI ⇒ Ceiler = Ceil + er。</string>
+    <string name="tip_3">小提示：想要加入官方群組嗎？可以通過 Telegram@hyperceiler 或在 QQ 中搜索 247909573。</string>
+    <string name="tip_4">小提示：HyperCeiler = Ceiler + MIUI ⇒ Ceiler = Ceil + er。</string>
     <string name="tip_5">小提示：猜猜這種小提示還會出現多少次？</string>
     <string name="tip_6">小提示：讓 MIUI 再次偉大！</string>
     <string name="tip_7">小提示：歡迎關注 Github@sevtinge 或 Bilibili@绀漓丨Sevtinge。</string>
     <string name="tip_8">小提示：理想中的烏托邦在現實中並不存在。</string>
     <string name="tip_9">小提示：三江市常發生倒塌。</string>
     <string name="tip_10">小提示：世間盡是錦繡，遺憾絢麗無緣 Sevtinge。</string>
-    <string name="tip_11">小提示：我保留了一部分 bug 的味道，才知道你食的是 Cemiuiler。</string>
+    <string name="tip_11">小提示：我保留了一部分 bug 的味道，才知道你食的是 HyperCeiler。</string>
     <string name="tip_12">小提示：你知道嗎？提示都是廢話。(歪頭燦笑)</string>
-    <string name="tip_13">小提示：誰懂啊？Cemiuiler 的生日 5 月 1 號，Sevtinge 的生日卻在 2 月 2 號。</string>
+    <string name="tip_13">小提示：誰懂啊？HyperCeiler 的生日 5 月 1 號，Sevtinge 的生日卻在 2 月 2 號。</string>
     <string name="tip_14">小提示：Sevtinge 曾就讀於山河大學三江市校區的資訊工程與技術學院。</string>
     <string name="tip_15">小提示：聽說…… Sevtinge 有兩種不同的形態。</string>
     <string name="tip_16">小提示：Sevtinge 是隻小狐娘！(小心福瑞控)</string>
     <string name="tip_17">小提示：鈴柒柒有兩種愛好，是個貓娘控也是個蘿莉控 (x</string>
-    <string name="tip_18">小提示：Cemiuiler 是最會噴電的的系统內建 (喂！)</string>
+    <string name="tip_18">小提示：HyperCeiler 是最會噴電的的系统內建 (喂！)</string>
     <string name="tip_19">小提示：變灰功能沒有特別註釋，代表功能異常，目前不計劃開放。</string>
     <string name="tip_20">小提示：沒事兒，別找 Canary 追新，有問題也別急著更新。(扶額</string>
 </resources>

@@ -14,13 +14,13 @@ android {
     compileSdk 34
 
     defaultConfig {
-        namespace 'com.sevtinge.cemiuiler'
+        namespace 'com.sevtinge.hyperceiler'
         applicationId namespace
         minSdk 30
         targetSdk 34
-        versionCode 129
-        versionName "1.2.129"
-        project.archivesBaseName = "Cemiuiler"
+        versionCode 132
+        versionName "2.3.132"
+        project.archivesBaseName = "HyperCeiler"
         ndk {
             // noinspection ChromeOsAbiSupport
             abiFilters 'arm64-v8a', 'armeabi-v7a'
@@ -66,7 +66,7 @@ android {
     def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
 
     signingConfigs {
-        cemiuiler {
+        hyperceiler {
             if (keyStoreFile != null) {
                 storeFile keyStoreFile
                 storePassword getString('storePassword', 'STORE_PASSWORD', 'Store password')
@@ -83,7 +83,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             if (keyStoreFile != null) {
-                signingConfig signingConfigs.cemiuiler
+                signingConfig signingConfigs.hyperceiler
             }
         }
         beta {
@@ -92,7 +92,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             if (keyStoreFile != null) {
-                signingConfig signingConfigs.cemiuiler
+                signingConfig signingConfigs.hyperceiler
             }
         }
         canary {
@@ -101,13 +101,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
             if (keyStoreFile != null) {
-                signingConfig signingConfigs.cemiuiler
+                signingConfig signingConfigs.hyperceiler
             }
         }
         debug {
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
             if (keyStoreFile != null) {
-                signingConfig signingConfigs.cemiuiler
+                signingConfig signingConfigs.hyperceiler
             }
         }
     }

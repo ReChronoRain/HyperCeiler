@@ -19,6 +19,6 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "Cemiuiler"
+rootProject.name = "HyperCeiler"
 include ':app'
 include ':hidden-api'

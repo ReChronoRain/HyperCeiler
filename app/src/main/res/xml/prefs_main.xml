@@ -3,322 +3,322 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemFrameworkFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemFrameworkFragment"
             android:icon="@drawable/ic_system_framework"
             android:key="prefs_key_system_framework"
             android:summary="android"
             android:title="@string/system_framework" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.BrowserFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.BrowserFragment"
             android:icon="@drawable/ic_browser"
             android:key="prefs_key_browser"
             android:summary="com.android.browser"
             android:title="@string/browser" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.CameraFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraFragment"
             android:icon="@drawable/ic_camera"
             android:key="prefs_key_camera"
             android:summary="com.android.camera"
             android:title="@string/camera" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ClockFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ClockFragment"
             android:icon="@drawable/ic_clock"
             android:key="prefs_key_clock"
             android:summary="com.android.deskclock"
             android:title="@string/clock" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.FileExplorerFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.FileExplorerFragment"
             android:icon="@drawable/ic_fileexplorer"
             android:key="prefs_key_file_explorer"
             android:summary="com.android.fileexplorer"
             android:title="@string/fileexplorer" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.InCallUiFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.InCallUiFragment"
             android:icon="@drawable/ic_call"
             android:key="prefs_key_incallui"
             android:summary="com.android.incallui"
             android:title="@string/incallui" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MmsFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MmsFragment"
             android:icon="@drawable/ic_mms"
             android:key="prefs_key_mms"
             android:summary="com.android.mms"
             android:title="@string/mms" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.NfcFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.NfcFragment"
             android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_nfc"
             android:summary="com.android.nfc"
             android:title="@string/nfc" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.PhoneFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.PhoneFragment"
             android:icon="@drawable/ic_phone"
             android:key="prefs_key_phone"
             android:summary="com.android.phone"
             android:title="@string/phone" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.DownloadsFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DownloadsFragment"
             android:icon="@drawable/ic_downloads"
             android:key="prefs_key_downloads"
             android:summary="com.android.providers.downloads"
             android:title="@string/downloads" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemUIFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemUIFragment"
             android:icon="@drawable/ic_system_ui"
             android:key="prefs_key_system_ui"
             android:summary="com.android.systemui"
             android:title="@string/system_ui" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SystemSettingsFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemSettingsFragment"
             android:icon="@drawable/ic_system_settings"
             android:key="prefs_key_system_settings"
             android:summary="com.android.settings"
             android:title="@string/system_settings" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ThemeManagerFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ThemeManagerFragment"
             android:icon="@drawable/ic_theme_manager"
             android:key="prefs_key_various_theme"
             android:summary="com.android.thememanager"
             android:title="@string/theme_manager" />
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.UpdaterFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.UpdaterFragment"
             android:icon="@drawable/ic_updater"
             android:key="prefs_key_updater"
             android:summary="com.android.updater"
             android:title="@string/updater" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.LbeFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.LbeFragment"
             android:icon="@drawable/ic_lbe"
             android:key="prefs_key_lbe"
             android:summary="com.lbe.security.miui"
             android:title="@string/lbe" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MiLinkFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiLinkFragment"
             android:icon="@drawable/ic_milink"
             android:key="prefs_key_milink"
             android:summary="com.milink.service"
             android:title="@string/milink" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AodFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
             android:icon="@drawable/ic_aod"
             android:key="prefs_key_aod"
             android:summary="com.miui.aod"
             android:title="@string/aod" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ContentExtensionFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment"
             android:icon="@drawable/ic_contentextension"
             android:key="prefs_key_content_extension"
             android:summary="com.miui.contentextension"
             android:title="@string/content_extension" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.CreationFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CreationFragment"
             android:icon="@drawable/ic_creation"
             android:key="prefs_key_creation"
             android:summary="com.miui.creation"
             android:title="@string/creation" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.GalleryFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.GalleryFragment"
             android:icon="@drawable/ic_gallery"
             android:key="prefs_key_gallery"
             android:summary="com.miui.gallery"
             android:title="@string/gallery" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.GuardProviderFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.GuardProviderFragment"
             android:icon="@drawable/ic_guard_provider_new"
             android:key="prefs_key_guardprovider"
             android:summary="com.miui.guardprovider"
             android:title="@string/guard_provider" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.HomeFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.HomeFragment"
             android:icon="@drawable/ic_home"
             android:key="prefs_key_home"
             android:summary="com.miui.home"
             android:title="@string/home" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MediaEditorFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MediaEditorFragment"
             android:icon="@drawable/ic_mediaeditor"
             android:key="prefs_key_mediaeditor"
             android:summary="com.miui.mediaeditor"
             android:title="@string/mediaeditor" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MiShareFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiShareFragment"
             android:icon="@drawable/ic_mishare"
             android:key="prefs_key_mishare"
             android:summary="com.miui.mishare.connectivity"
             android:title="@string/mishare" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MiWallpaperFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiWallpaperFragment"
             android:icon="@drawable/ic_miwallpaper"
             android:key="prefs_key_miwallpaper"
             android:summary="com.miui.miwallpaper"
             android:title="@string/miwallpaper" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MiuiPackageInstallerFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiuiPackageInstallerFragment"
             android:icon="@drawable/ic_package_installer"
             android:key="prefs_key_package_installer"
             android:summary="com.miui.packageinstaller"
             android:title="@string/package_installer" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.PersonalAssistantFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.PersonalAssistantFragment"
             android:icon="@drawable/ic_personal_assistant"
             android:key="prefs_key_home_personal_assistant"
             android:summary="com.miui.personalassistant"
             android:title="@string/personal_assistant" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MusicFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MusicFragment"
             android:icon="@drawable/ic_music"
             android:key="prefs_key_music"
             android:summary="com.miui.player"
             android:title="@string/music" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.PowerKeeperFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.PowerKeeperFragment"
             android:icon="@drawable/ic_powerkeeper"
             android:key="prefs_key_powerkeeper"
             android:summary="com.miui.powerkeeper"
             android:title="@string/powerkeeper" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ScreenRecorderFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ScreenRecorderFragment"
             android:icon="@drawable/ic_screenrecorder"
             android:key="prefs_key_screen_recorder"
             android:summary="com.miui.screenrecorder"
             android:title="@string/screenrecorder" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ScreenShotFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ScreenShotFragment"
             android:icon="@drawable/ic_screenshot"
             android:key="prefs_key_screenshot"
             android:summary="com.miui.screenshot"
             android:title="@string/screenshot" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SecurityCenterFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment"
             android:icon="@drawable/ic_security_center"
             android:key="prefs_key_security_center"
             android:summary="com.miui.securitycenter"
             android:title="@string/security_center" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.SecurityCenterFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment"
             android:icon="@drawable/ic_security_center"
             android:key="prefs_key_security_center_pad"
             android:summary="com.miui.securitycenter"
             android:title="@string/security_center_pad" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.TsmClientFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment"
             android:icon="@drawable/ic_tsmclient"
             android:key="prefs_key_tsmclient"
             android:summary="com.miui.tsmclient"
             android:title="@string/tsmclient" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.WeatherFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.WeatherFragment"
             android:icon="@drawable/ic_weather"
             android:key="prefs_key_weather"
             android:summary="com.miui.weather2"
             android:title="@string/weather" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.AiAsstFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.AiAsstFragment"
             android:icon="@drawable/ic_aiasst"
             android:key="prefs_key_aiasst"
             android:summary="com.xiaomi.aiasst.vision"
             android:title="@string/aiasst" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.BarrageFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.BarrageFragment"
             android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_barrage"
             android:summary="com.xiaomi.barrage"
             android:title="@string/barrage" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.JoyoseFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.JoyoseFragment"
             android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_joyose"
             android:summary="com.xiaomi.joyose"
             android:title="@string/joyose" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MarketFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MarketFragment"
             android:icon="@drawable/ic_market"
             android:key="prefs_key_market"
             android:summary="com.xiaomi.market"
             android:title="@string/market" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MirrorFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MirrorFragment"
             android:icon="@drawable/ic_miui_plus"
             android:key="prefs_key_mirror"
             android:summary="com.xiaomi.mirror"
             android:title="@string/mirror" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MiSettingsFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiSettingsFragment"
             android:icon="@drawable/ic_misettings"
             android:key="prefs_key_mi_settings"
             android:summary="com.xiaomi.misettings"
             android:title="@string/mi_settings" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.MtbFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MtbFragment"
             android:icon="@drawable/ic_mtb"
             android:key="prefs_key_mtb"
             android:summary="com.xiaomi.mtb"
             android:title="@string/mtb" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.NetworkBoostFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.NetworkBoostFragment"
             android:icon="@drawable/ic_default_icon"
             android:key="prefs_key_networkboost"
             android:summary="com.xiaomi.networkboost"
             android:title="@string/networkboost" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.ScannerFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.ScannerFragment"
             android:icon="@drawable/ic_scanner"
             android:key="prefs_key_scanner"
             android:summary="com.xiaomi.scanner"
             android:title="@string/scanner" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:enabled="false"
             android:icon="@drawable/ic_custom"
             android:key="prefs_key_custom_hook"
             android:title="@string/custom_hook"
             app:isPreferenceVisible="false" />
 
-        <com.sevtinge.cemiuiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.VariousFragment"
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.VariousFragment"
             android:icon="@drawable/ic_various_new"
             android:key="prefs_key_various"
             android:title="@string/various" />

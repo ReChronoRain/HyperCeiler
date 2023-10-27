@@ -6,17 +6,17 @@
     <string name="new_permission_location_desc">緯度や経度などのサービスを提供するために使用</string>
     <string name="new_cta_agree_desc">使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。アクセス許可の管理に移動すると、いつでもすべてのアクセス許可を変更できます。root/su 権限については、お使いの root/su マネージャーにアクセスして変更してください。</string>
     <string name="new_cta_app_main_purpose">システムアプリの変更</string>
-    <string name="new_cta_app_all_purpose_title">Cemiuiler へようこそ。このアプリは MIUI の機能強化をするために Xposed フレームワークを利用して対応アプリを改変します。使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。お使いの root/su マネージャーにアクセスして許可してください。</string>
-    <!--Cemiuiler Settings/About Page-->
+    <string name="new_cta_app_all_purpose_title">HyperCeiler へようこそ。このアプリは MIUI の機能強化をするために Xposed フレームワークを利用して対応アプリを改変します。使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。お使いの root/su マネージャーにアクセスして許可してください。</string>
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">Japanese (日本語)</string>
     <string name="translator">AndroPlus</string>
     <string name="translator_url">https://github.com/AndroPlus-org</string>
     <string name="settings">設定</string>
     <string name="about">アプリについて</string>
     <string name="about_use">引用</string>
-    <string name="about_use_desc">Cemiuiler は、以下のオープンソースプロジェクトのソースを一部または全部使用しています。これらのプロジェクトの開発者の方々に感謝をします。 (順不同)</string>
+    <string name="about_use_desc">HyperCeiler は、以下のオープンソースプロジェクトのソースを一部または全部使用しています。これらのプロジェクトの開発者の方々に感謝をします。 (順不同)</string>
     <string name="about_contributer">貢献者</string>
-    <string name="about_contributer_desc">Cemiuiler の開発に協力をして頂いた以下の方々に感謝をします。 (順不同)</string>
+    <string name="about_contributer_desc">HyperCeiler の開発に協力をして頂いた以下の方々に感謝をします。 (順不同)</string>
     <string name="about_donation">スポンサー</string>
     <string name="about_donation_desc">寄付はこちらから</string>
     <string name="about_privacy">プライバシーポリシー</string>
@@ -66,15 +66,15 @@
     <string name="about_github_desc">このプロジェクトは、AGPL-3.0ライセンスに基づいたオープンソースです</string>
     <string name="about_offical">公式 Web サイト</string>
     <string name="about_crwd">Crowdin</string>
-    <string name="about_crwd_desc">Cemiuilerの翻訳にご協力ください</string>
+    <string name="about_crwd_desc">HyperCeilerの翻訳にご協力ください</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">再起動 </string>
     <string name="restart_app_desc">%1$s を再起動してもよろしいですか?</string>
     <string name="tip">ヒント</string>
     <string name="hook_failed">モジュールが有効化されていません。\nXposed マネージャーがインストールされているか、モジュールが有効化されているか確認して再起動してください。</string>
-    <string name="kill_failed">プロセスの終了に失敗しました。Cemiuiler に root 権限が付与されているか確認してください。</string>
+    <string name="kill_failed">プロセスの終了に失敗しました。HyperCeiler に root 権限が付与されているか確認してください。</string>
     <string name="pid_failed">対象のアプリは現在実行されていないため、再起動する必要はありません。</string>
-    <string name="reboot_failed">再起動に失敗しました。Cemiuiler に root 権限が付与されているか確認してください。</string>
+    <string name="reboot_failed">再起動に失敗しました。HyperCeiler に root 権限が付与されているか確認してください。</string>
     <string name="expand_button_title">高レベル</string>
     <string name="not_set">未設定</string>
     <string name="copy">コピー</string>
@@ -1268,30 +1268,30 @@
     <string name="operator_fix_2">方式 2 (推奨)</string>
     <string name="custom_hook_new">フックを追加</string>
     <string name="custom_hook_mode">モードを選択</string>
-    <string name="cemiuiler_notice">ステータスバーをプルダウンして、ショートカットスイッチとシステム通知を表示します</string>
-    <string name="cemiuiler_restart_quick">アプリを素早く再起動する</string>
+    <string name="hyperceiler_notice">ステータスバーをプルダウンして、ショートカットスイッチとシステム通知を表示します</string>
+    <string name="hyperceiler_restart_quick">アプリを素早く再起動する</string>
     <string name="location_add">追加</string>
     <string name="location_delete">削除</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
     <string name="tip_2">ヒント: 開発者に質問したい場合は、Telegram@Sevtinge_PM_bot か Bilibili@绀漓丨Sevtinge までご連絡ください。</string>
-    <string name="tip_3">ヒント: 公式グループに参加したい場合は、Telegram@cemiuiler か QQ で 247909573 を検索してください。</string>
-    <string name="tip_4">ヒント: Cemiuiler = Ceiler + MIUI、Ceiler = Ceil + er</string>
+    <string name="tip_3">ヒント: 公式グループに参加したい場合は、Telegram@hyperceiler か QQ で 247909573 を検索してください。</string>
+    <string name="tip_4">ヒント: HyperCeiler = Ceiler + MIUI、Ceiler = Ceil + er</string>
     <string name="tip_5">ヒント: おまえは今まで見たヒントの数をおぼえているのか?</string>
     <string name="tip_6">ヒント: MIUI を再び偉大な物にしましょう!</string>
     <string name="tip_7">ヒント: Github@sevtinge や Bilibili@绀漓丨Sevtinge をフォローしましょう！</string>
     <string name="tip_8">ヒント: 理想的なユートピアは現実には存在しません。</string>
     <string name="tip_9">ヒント: 東京タワーは壊されがちです。</string>
     <string name="tip_10">ヒント: この世界は美しい… この美しさが Sevtinge のものでないのは残念です。</string>
-    <string name="tip_11">ヒント: Cemiuiler を使っていることが分かるように、いくつかのバグを残しておきました。</string>
+    <string name="tip_11">ヒント: HyperCeiler を使っていることが分かるように、いくつかのバグを残しておきました。</string>
     <string name="tip_12">ヒント：ご存知ですか？実際にはヒントは全てナンセンスです。</string>
-    <string name="tip_13">ヒント: Cemiuiler の誕生日は5月1日、Sevtinge の誕生日は2月2日です。</string>
+    <string name="tip_13">ヒント: HyperCeiler の誕生日は5月1日、Sevtinge の誕生日は2月2日です。</string>
     <string name="tip_14">ヒント: Sevtinge は山河大学 三江市キャンパス 情報工程学院出身です。</string>
     <string name="tip_15">ヒント: Sevtinge には第二形態があるらしい…</string>
     <string name="tip_16">ヒント: Sevtinge は子狐です！</string>
     <string name="tip_17">ヒント: Ling Qiqi は猫耳の女の子の人格とロリの人格を持っています。</string>
-    <string name="tip_18">ヒント: Cemiuiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
+    <string name="tip_18">ヒント: HyperCeiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
     <string name="tip_19">ヒント: グレーアウトした機能は、特別な注釈がない場合機能が異常であることを意味しており、当分の間ユーザーに開放される予定はありません</string>
     <string name="tip_20">ヒント: 何もしない場合は Canary の新しいバージョンを追わないでください。壊れている場合は急いでアップデートしないでください。</string>
 </resources>

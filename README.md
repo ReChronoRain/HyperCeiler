@@ -2,7 +2,7 @@
 
 <img width="" src="/imgs/icon.png" width=160 height=160 align="center">
 
-# Cemiuiler
+# HyperCeiler
 ### Make MIUI Great Again!
 
 简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
@@ -14,7 +14,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
 > 不支持 修改较多的第三方 MIUI Rom、修改较多的系统软件，以及部分国外 MIUI Rom，
 >
-> 目前 Cemiuiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进，
+> 目前 HyperCeiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进，
 >
 > 对于 Android 11 的设备，已尽力做好支持，在 1.3.130 版本发布后，主线分支将不再支持 Android 11，但依旧会提供老版本功能维护与移植。
 
@@ -93,15 +93,15 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 [![badge_qguild]][qguild_url]
 [![badge_telegram]][telegram_url]
 
-## 为 Cemiuiler 贡献翻译
+## 为 HyperCeiler 贡献翻译
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+[![Crowdin](https://badges.crowdin.net/hyperceiler/localized.svg)](https://crowdin.com/project/hyperceiler)
 
-您可以在[这里](https://crwd.in/cemiuiler)为 Cemiuiler 项目贡献翻译。
+您可以在[这里](https://crwd.in/hyperceiler)为 HyperCeiler 项目贡献翻译。
 
 ## 感谢
 
-> Cemiuiler 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）。
+> HyperCeiler 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）。
 
 - [「Accompanist」 by Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 by Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
@@ -149,6 +149,6 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 [badge_qgroup]: https://img.shields.io/badge/QQ-群组-4DB8FF?style=for-the-badge&logo=tencentqq
 [qguild_url]: https://pd.qq.com/s/35ooe0ssj
 [badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
-[telegram_url]: https://t.me/cemiuiler
-[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler
+[telegram_url]: https://t.me/hyperceiler
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dhyperceiler
 

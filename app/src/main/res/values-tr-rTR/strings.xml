@@ -2,16 +2,16 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">MIUI\'yi Yeniden Harika Hale Getirin!</string>
-    <!--Cemiuiler Settings/About Page-->
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>
     <string name="translator_url">https://github.com/can1gulle</string>
     <string name="settings">Ayarlar</string>
     <string name="about">Hakkında</string>
     <string name="about_use">Alıntı</string>
-    <string name="about_use_desc">Cemiuiler, destekleri için bu projelerin geliştiricilerine teşekkürler (belirli bir sıra olmadan) aşağıdaki açık kaynak projelerinin bir kısmını veya tamamını kullanır</string>
+    <string name="about_use_desc">HyperCeiler, destekleri için bu projelerin geliştiricilerine teşekkürler (belirli bir sıra olmadan) aşağıdaki açık kaynak projelerinin bir kısmını veya tamamını kullanır</string>
     <string name="about_contributer">Katkıda Bulunan</string>
-    <string name="about_contributer_desc">Cemiuiler\'in geliştirilmesindeki yardımları için aşağıdaki katkıda bulunanlara teşekkürler (belirli bir sıra olmadan)</string>
+    <string name="about_contributer_desc">HyperCeiler\'in geliştirilmesindeki yardımları için aşağıdaki katkıda bulunanlara teşekkürler (belirli bir sıra olmadan)</string>
     <string name="about_donation">Katkıda Bulunanlar</string>
     <string name="about_donation_desc">Buradan bağış yaparak bize destek olabilirsiniz</string>
     <string name="settings_data_title">Yedekle ve geri yükle.</string>
@@ -57,7 +57,7 @@
     <string name="about_tg_channel">Telegram kanalı.</string>
     <string name="about_github">Kaynak kod.</string>
     <string name="about_crwd">Crowdin.</string>
-    <string name="about_crwd_desc">Cemiuiler uygulamasını dilinize çevirmemize yardım edin.</string>
+    <string name="about_crwd_desc">HyperCeiler uygulamasını dilinize çevirmemize yardım edin.</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Hızlı yeniden başlat</string>
     <string name="tip">Tip</string>
@@ -851,8 +851,8 @@
     <string name="operator_fix_2">Yöntem 2 (önerilir)</string>
     <string name="custom_hook_new">Kanca ekle</string>
     <string name="custom_hook_mode">Modu seç</string>
-    <string name="cemiuiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
-    <string name="cemiuiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
+    <string name="hyperceiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
+    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
     <string name="location_add">Ekle</string>
     <string name="location_delete">Sil</string>
     <!--Tip-->

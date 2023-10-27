@@ -5,24 +5,24 @@
 
         <Preference
             android:title="@string/floating_window"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.FreeFormSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.FreeFormSettings"/>
 
         <Preference
             android:title="@string/system_framework_volume_title"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.VolumeSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.VolumeSettings"/>
 
         <Preference
             android:title="@string/system_framework_display_title"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.DisplaySettings" />
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.DisplaySettings" />
 
         <Preference
             android:title="@string/system_framework_phone_title"
             android:key="prefs_key_system_framework_network"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.NetworkSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.NetworkSettings"/>
 
         <Preference
             android:title="@string/system_framework_other_title"
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.framework.OtherSettings"/>
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings"/>
 
     </PreferenceCategory>
 

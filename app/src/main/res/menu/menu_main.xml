@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/restart"
-        android:title="@string/cemiuiler_restart_quick" />
+        android:title="@string/hyperceiler_restart_quick" />
 
     <item
         android:id="@+id/settings"

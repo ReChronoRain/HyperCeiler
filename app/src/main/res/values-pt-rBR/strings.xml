@@ -6,17 +6,17 @@
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao Cemiuiler, este app é executado na estrutura Xposed, você pode usar este app para sequestrar e modificar outros apps suportados para obter melhorias na MIUI. Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
-    <!--Cemiuiler Settings/About Page-->
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler, este app é executado na estrutura Xposed, você pode usar este app para sequestrar e modificar outros apps suportados para obter melhorias na MIUI. Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
+    <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
     <string name="translator_url">https://github.com/igormiguell</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
     <string name="about_use">Citar</string>
-    <string name="about_use_desc">O Cemiuiler usa alguns ou todos os seguintes projetos de código aberto, graças aos desenvolvedores desses projetos por seu apoio (em nenhuma ordem em particular)</string>
+    <string name="about_use_desc">O HyperCeiler usa alguns ou todos os seguintes projetos de código aberto, graças aos desenvolvedores desses projetos por seu apoio (em nenhuma ordem em particular)</string>
     <string name="about_contributer">Colaboradores</string>
-    <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do Cemiuiler (em nenhuma ordem em particular)</string>
+    <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do HyperCeiler (em nenhuma ordem em particular)</string>
     <string name="about_donation">Patrocinadores</string>
     <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
     <string name="about_privacy">Política de privacidade</string>
@@ -66,15 +66,15 @@
     <string name="about_github_desc">Este projeto é de código aberto baseado na licença AGPL-3.0</string>
     <string name="about_offical">Site oficial</string>
     <string name="about_crwd">Crowdin</string>
-    <string name="about_crwd_desc">Ajude-nos a traduzir o Cemiuiler para o seu idioma</string>
+    <string name="about_crwd_desc">Ajude-nos a traduzir o HyperCeiler para o seu idioma</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reiniciar </string>
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
-    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o Cemiuiler recebeu permissões Root/Su</string>
+    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o HyperCeiler recebeu permissões Root/Su</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
-    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o Cemiuiler recebeu permissão Root/Su</string>
+    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o HyperCeiler recebeu permissão Root/Su</string>
     <string name="expand_button_title">Alto nível</string>
     <string name="not_set">Não definido</string>
     <string name="copy">Copiar</string>
@@ -1268,30 +1268,30 @@
     <string name="operator_fix_2">Método 2 (recomendado)</string>
     <string name="custom_hook_new">Adicionar gancho</string>
     <string name="custom_hook_mode">Selecionar modo</string>
-    <string name="cemiuiler_notice">Puxe a barra de status para baixo para exibir os interruptores de atalho e as notificações do sistema</string>
-    <string name="cemiuiler_restart_quick">Reiniciar apps rapidamente</string>
+    <string name="hyperceiler_notice">Puxe a barra de status para baixo para exibir os interruptores de atalho e as notificações do sistema</string>
+    <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
     <string name="location_add">Adicionar</string>
     <string name="location_delete">Excluir</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
     <string name="tip_2">Dica: Quer entrar em contato com o desenvolvedor? Telegram: @Sevtinge_PM_bot ou Bilibili: @绀漓丨Sevtinge.</string>
-    <string name="tip_3">Dica: Quer entrar no grupo oficial? Telegram: @cemiuiler ou pesquise 247909573 no QQ.</string>
-    <string name="tip_4">Dica: Cemiuiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_3">Dica: Quer entrar no grupo oficial? Telegram: @hyperceiler ou pesquise 247909573 no QQ.</string>
+    <string name="tip_4">Dica: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
     <string name="tip_5">Dica: Adivinhe quantas vezes mais você terá que ver essa dica novamente?</string>
     <string name="tip_6">Dica: Torne a MIUI ótima novamente!</string>
     <string name="tip_7">Dica: Seja bem-vindo para seguir no Github: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
     <string name="tip_8">Dica: A utopia ideal não existe na realidade.</string>
     <string name="tip_9">Dica: A cidade de Sanjiang tende a entrar em colapso.</string>
     <string name="tip_10">Dica: Ah, esse mundo é tão lindo…       Pena que essa beleza não pertença ao Sevtinge.</string>
-    <string name="tip_11">Dica: Guardei alguns bugs para que você saiba que está usando o Cemiuiler.</string>
+    <string name="tip_11">Dica: Guardei alguns bugs para que você saiba que está usando o HyperCeiler.</string>
     <string name="tip_12">Dica: Você sabe? Na verdade, Dicas é tudo bobagem. (Convencido)</string>
-    <string name="tip_13">Dica: Você sabe? O aniversário do Cemiuiler é em 1 de maio e o aniversário de Sevtinge é em 2 de fevereiro.</string>
+    <string name="tip_13">Dica: Você sabe? O aniversário do HyperCeiler é em 1 de maio e o aniversário de Sevtinge é em 2 de fevereiro.</string>
     <string name="tip_14">Dica: Sevtinge estudou na Escola de Engenharia e Tecnologia da Informação do Campus da cidade de Sanjiang da Universidade de Shanhe.</string>
     <string name="tip_15">Dica: Eu ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
     <string name="tip_16">Dica: Sevtinge é uma raposinha! (Descartar)</string>
     <string name="tip_17">Dica: Ling Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
-    <string name="tip_18">Dica: Cemiuiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
+    <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
     <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que fica cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto</string>
     <string name="tip_20">Dica: Não persiga a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizar se ela estiver quebrada</string>
 </resources>

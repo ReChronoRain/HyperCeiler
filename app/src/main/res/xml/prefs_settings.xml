@@ -56,7 +56,7 @@
 
     <PreferenceCategory android:title="@string/settings_bug_title">
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.settings.SafeModeFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.SafeModeFragment"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
@@ -66,8 +66,8 @@
     <!--<PreferenceCategory>
         <Preference android:title="@string/settings_debug_title>
             <intent
-                android:targetPackage="com.sevtinge.cemiuiler"
-                android:targetClass="com.sevtinge.cemiuiler.ui.common.DebugActivity"/>
+                android:targetPackage="com.sevtinge.hyperceiler"
+                android:targetClass="com.sevtinge.hyperceiler.ui.common.DebugActivity"/>
         </Preference>
     </PreferenceCategory>-->
     <Preference android:enabled="false" />

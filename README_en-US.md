@@ -2,7 +2,7 @@
 
 <img width="" src="/imgs/icon.png" width=160 height=160 align="center">
 
-# Cemiuiler
+# HyperCeiler
 ### Make MIUI Great Again!
 
 English&nbsp;&nbsp;|&nbsp;&nbsp;[简体中文](/README.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
@@ -14,7 +14,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 
 > Does not support third-party MIUI ROMs with many modifications, system software with many modifications, and some foreign MIUI ROMs
 >
-> At present, Cemiuiler is based on Android 13 MIUI 14 mobile phone devices for adaptation, the coverage is not very complete, it needs continuous testing and improvement
+> At present, HyperCeiler is based on Android 13 MIUI 14 mobile phone devices for adaptation, the coverage is not very complete, it needs continuous testing and improvement
 >
 > We have tried our best to support Android 11 devices. After the release of version 1.3.130, the mainline branch will no longer support Android 11, but it will still provide maintenance and porting of old version functions.
 
@@ -92,15 +92,15 @@ Join our group to report issues or get the latest updates.
 [![badge_qguild]][qguild_url]
 [![badge_telegram]][telegram_url]
 
-## Provide translations for the Cemiuiler project
+## Provide translations for the HyperCeiler project
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+[![Crowdin](https://badges.crowdin.net/hyperceiler/localized.svg)](https://crowdin.com/project/hyperceiler)
 
-You can provide translations for the Cemiuiler project [here](https://crwd.in/cemiuiler).
+You can provide translations for the HyperCeiler project [here](https://crwd.in/hyperceiler).
 
 ## Thank!
 
-> Cemiuiler I have used some or all of the content of the following open source projects. Thank you for the strong support provided by the developers of these projects (in no particular order).
+> HyperCeiler I have used some or all of the content of the following open source projects. Thank you for the strong support provided by the developers of these projects (in no particular order).
 
 - [「Accompanist」 by Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 by Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
@@ -149,5 +149,5 @@ You can provide translations for the Cemiuiler project [here](https://crwd.in/ce
 [badge_qgroup]: https://img.shields.io/badge/QQ-group-4DB8FF?style=for-the-badge&logo=tencentqq
 [qguild_url]: https://pd.qq.com/s/35ooe0ssj
 [badge_qguild]: https://img.shields.io/badge/QQ-Channel-4991D3?style=for-the-badge&logo=tencentqq
-[telegram_url]: https://t.me/cemiuiler
-[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler
+[telegram_url]: https://t.me/hyperceiler
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dhyperceiler

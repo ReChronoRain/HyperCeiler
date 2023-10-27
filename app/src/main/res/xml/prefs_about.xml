@@ -57,7 +57,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.about.AboutContributerFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.about.AboutContributerFragment"
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer" />
     </PreferenceCategory>
@@ -99,7 +99,7 @@
             android:title="@string/about_github">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/sevtinge/Cemiuiler" />
+                android:data="https://github.com/sevtinge/HyperCeiler" />
         </Preference>
 
         <Preference
@@ -107,17 +107,17 @@
             android:title="@string/about_crwd">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://crwd.in/cemiuiler" />
+                android:data="https://crwd.in/hyperceiler" />
         </Preference>
 
         <Preference android:title="@string/about_offical">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://cemiuiler.sevtinge.cc" />
+                android:data="https://hyperceiler.sevtinge.cc" />
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.cemiuiler.ui.fragment.about.AboutUseFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.about.AboutUseFragment"
             android:key="prefs_key_about_use"
             android:title="@string/about_use" />
 
@@ -133,14 +133,14 @@
             android:title="@string/about_protocol">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://cemiuiler.sevtinge.cc/Protocol" />
+                android:data="https://hyperceiler.sevtinge.cc/Protocol" />
         </Preference>
 
         <Preference
             android:title="@string/about_privacy">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://cemiuiler.sevtinge.cc/Privacy" />
+                android:data="https://hyperceiler.sevtinge.cc/Privacy" />
         </Preference>
 
     </PreferenceCategory>
