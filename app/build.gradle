@@ -159,5 +159,5 @@ dependencies {
     implementation files(roots.smooth)
     implementation files(roots.springback)
 
-    implementation files("libs/cemiuiler_expansion_packs-debug.aar")
+    implementation files("libs/hyperceiler_expansion_packs-debug.aar")
 }
