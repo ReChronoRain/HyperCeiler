@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.various;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI;
 
 import android.content.Context;
@@ -14,7 +13,6 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.BlurUtils;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

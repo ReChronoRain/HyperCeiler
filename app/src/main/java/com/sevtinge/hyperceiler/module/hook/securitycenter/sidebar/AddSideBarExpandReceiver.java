@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 
@@ -29,19 +28,21 @@ public class AddSideBarExpandReceiver extends BaseHook {
             mResHook.setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_default", 8);
             mResHook.setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_vertical", 8);
         }
-        Class <?> RegionSamplingHelper = findClassIfExists("com.android.systemui.navigationbar.gestural.RegionSamplingHelper", lpparam.classLoader);
+        Class<?> RegionSamplingHelper = findClassIfExists("com.android.systemui.navigationbar.gestural.RegionSamplingHelper", lpparam.classLoader);
         if (RegionSamplingHelper == null) {
-            XposedLogUtils.logW(TAG, this.lpparam.packageName, "failed to find RegionSamplingHelper");
+            logW(TAG, this.lpparam.packageName, "failed to find RegionSamplingHelper");
         }
         hookAllConstructors(RegionSamplingHelper, new MethodHook() {
             private int originDockLocation = -1;
+
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 if (!isHooked[0]) {
                     isHooked[0] = true;
                     View view = (View) param.args[0];
                     if (originDockLocation == -1) {
-                        originDockLocation = view.getContext().getSharedPreferences("sp_video_box", 0).getInt("dock_line_location", 0);;
+                        originDockLocation = view.getContext().getSharedPreferences("sp_video_box", 0).getInt("dock_line_location", 0);
+                        ;
                     }
                     BroadcastReceiver showReceiver = new BroadcastReceiver() {
                         @Override
@@ -78,7 +79,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
                                         }
                                     });
                                 }
-                                Class <?> bgDrawable = view.getBackground().getClass();
+                                Class<?> bgDrawable = view.getBackground().getClass();
                                 findAndHookMethod(bgDrawable, "draw", Canvas.class, new MethodHook() {
                                     @Override
                                     protected void before(MethodHookParam param) throws Throwable {
@@ -107,7 +108,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         });
         Method[] methods = XposedHelpers.findMethodsByExactParameters(RegionSamplingHelper, void.class, Rect.class);
         if (methods.length == 0) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Cannot find appropriate start method");
+            logE(TAG, this.lpparam.packageName, "Cannot find appropriate start method");
             return;
         }
         hookMethod(methods[0], new MethodHook() {
@@ -125,11 +126,10 @@ public class AddSideBarExpandReceiver extends BaseHook {
         long uptimeMillis = SystemClock.uptimeMillis();
         MotionEvent downEvent, moveEvent, upEvent;
         if (dockLocation == 0) { // left
-            downEvent = MotionEvent.obtain(uptimeMillis, uptimeMillis, MotionEvent.ACTION_DOWN,  4, y + 15, 0);
+            downEvent = MotionEvent.obtain(uptimeMillis, uptimeMillis, MotionEvent.ACTION_DOWN, 4, y + 15, 0);
             moveEvent = MotionEvent.obtain(uptimeMillis, uptimeMillis + 20, MotionEvent.ACTION_MOVE, 160, y + 15, 0);
             upEvent = MotionEvent.obtain(uptimeMillis, uptimeMillis + 21, MotionEvent.ACTION_UP, 160, y + 15, 0);
-        }
-        else {
+        } else {
             int x = location[0];
             downEvent = MotionEvent.obtain(uptimeMillis, uptimeMillis, MotionEvent.ACTION_DOWN, x - 4, y + 15, 0);
             moveEvent = MotionEvent.obtain(uptimeMillis, uptimeMillis + 20, MotionEvent.ACTION_MOVE, x - 160, y + 15, 0);

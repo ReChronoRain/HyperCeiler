@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat.animate
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.HookUtils
 import com.sevtinge.hyperceiler.utils.getObjectField
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -224,7 +224,11 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                         valueAnimator.start()
 
                         if (editStateChangeReason != null) {
-                            XposedLogUtils.logI(TAG, this@BlurWhenShowShortcutMenu.lpparam.packageName, editStateChangeReason.toString())
+                            logI(
+                                TAG,
+                                this@BlurWhenShowShortcutMenu.lpparam.packageName,
+                                editStateChangeReason.toString()
+                            )
                         } else {
                             isShortcutMenuLayerBlurred = false
                             XposedHelpers.callMethod(dragView, "remove")
@@ -286,7 +290,11 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedLogUtils.logE(TAG, this@BlurWhenShowShortcutMenu.lpparam.packageName, "BlurWhenShowShortcutMenu get mAppShortcutMenu failed by: $e")
+                            logE(
+                                TAG,
+                                this@BlurWhenShowShortcutMenu.lpparam.packageName,
+                                "BlurWhenShowShortcutMenu get mAppShortcutMenu failed by: $e"
+                            )
                         }
                         try {
                             mSystemShortcutMenu = param.thisObject.getObjectField("mSystemShortcutMenu") as ViewGroup
@@ -303,7 +311,11 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedLogUtils.logE(TAG, this@BlurWhenShowShortcutMenu.lpparam.packageName, "BlurWhenShowShortcutMenu get mSystemShortcutMenu failed by: $e")
+                            logE(
+                                TAG,
+                                this@BlurWhenShowShortcutMenu.lpparam.packageName,
+                                "BlurWhenShowShortcutMenu get mSystemShortcutMenu failed by: $e"
+                            )
                         }
                         try {
                             mAppPersonaliseShortcutMenu =
@@ -321,7 +333,11 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedLogUtils.logE(TAG, this@BlurWhenShowShortcutMenu.lpparam.packageName, "BlurWhenShowShortcutMenu get mAppPersonaliseShortcutMenu failed by: $e")
+                            logE(
+                                TAG,
+                                this@BlurWhenShowShortcutMenu.lpparam.packageName,
+                                "BlurWhenShowShortcutMenu get mAppPersonaliseShortcutMenu failed by: $e"
+                            )
                         }
                         try {
                             mFolderShortcutMenu = param.thisObject.getObjectField("mFolderShortcutMenu") as ViewGroup
@@ -338,7 +354,11 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                                 }
                             }
                         } catch (e: Exception) {
-                            XposedLogUtils.logE(TAG, this@BlurWhenShowShortcutMenu.lpparam.packageName, "BlurWhenShowShortcutMenu get mFolderShortcutMenu failed by: $e")
+                            logE(
+                                TAG,
+                                this@BlurWhenShowShortcutMenu.lpparam.packageName,
+                                "BlurWhenShowShortcutMenu get mFolderShortcutMenu failed by: $e"
+                            )
                         }
                         /*try {
                              mWidgetShortcutMenu = param.thisObject.getObjectField("mWidgetShortcutMenu") as ViewGroup

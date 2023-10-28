@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.settings;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;

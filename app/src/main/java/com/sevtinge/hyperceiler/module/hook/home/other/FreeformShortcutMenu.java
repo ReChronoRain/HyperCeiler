@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,7 +160,7 @@ public class FreeformShortcutMenu extends BaseHook {
             });
 
         } catch (Throwable th) {
-            XposedLogUtils.logW(TAG, "FreeformShortcutMenu", th);
+            logW(TAG, "FreeformShortcutMenu", th);
         }
     }
 

@@ -13,7 +13,6 @@ import android.view.View;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -78,7 +77,8 @@ public class CleanShareMenu extends BaseHook {
                     }
                     param.setResult(resolved);
                 } catch (Throwable t) {
-                    if (!(t instanceof BadParcelableException)) XposedLogUtils.logE(TAG, CleanShareMenu.this.lpparam.packageName, t);
+                    if (!(t instanceof BadParcelableException))
+                        logE(TAG, CleanShareMenu.this.lpparam.packageName, t);
                 }
             }
         };

@@ -6,7 +6,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.api.BlurDraw.getValueByFields
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Modifier
 
@@ -90,19 +90,23 @@ object NoAutoTurnOff : BaseHook() {
                     val fieldNames = ('a'..'z').map { name -> name.toString() }
                     val getField = getValueByFields(it.thisObject, fieldNames) ?: return@after
                     XposedHelpers.callMethod(getField, "removeCallbacks", it.thisObject)
-                    XposedLogUtils.logI(TAG, this@NoAutoTurnOff.lpparam.packageName, "null3Method hook success, $getField")
+                    logI(
+                        TAG,
+                        this@NoAutoTurnOff.lpparam.packageName,
+                        "null3Method hook success, $getField"
+                    )
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "null3Method hook failed", t)
+            logE(TAG, this.lpparam.packageName, "null3Method hook failed", t)
         }
 
         try {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "$nullField")
+            logI(TAG, this.lpparam.packageName, "$nullField")
             XposedHelpers.setStaticIntField(nullClass, nullField.name, 999999999)
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "nullField hook success.")
+            logI(TAG, this.lpparam.packageName, "nullField hook success.")
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "nullField hook failed", t)
+            logE(TAG, this.lpparam.packageName, "nullField hook failed", t)
         }
 
 

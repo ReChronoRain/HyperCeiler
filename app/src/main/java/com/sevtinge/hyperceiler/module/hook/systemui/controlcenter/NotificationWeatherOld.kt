@@ -9,7 +9,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import com.sevtinge.hyperceiler.utils.setObjectField
 import com.sevtinge.hyperceiler.view.WeatherView
 
@@ -82,7 +82,7 @@ object NotificationWeatherOld : BaseHook() {
                         }
                         context.startActivity(intent)
                     } catch (e: Exception) {
-                        XposedLogUtils.logE(TAG, this@NotificationWeatherOld.lpparam.packageName, e)
+                        logE(TAG, this@NotificationWeatherOld.lpparam.packageName, e)
                     }
                 }
             }

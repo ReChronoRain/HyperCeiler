@@ -11,7 +11,7 @@ import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
 import kotlin.math.pow
@@ -72,7 +72,7 @@ object NetworkSpeed : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
+            logE(TAG, this.lpparam.packageName, t)
             tx = TrafficStats.getTotalTxBytes()
             rx = TrafficStats.getTotalRxBytes()
         }
@@ -99,7 +99,7 @@ object NetworkSpeed : BaseHook() {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
+            logE(TAG, this.lpparam.packageName, t)
             ""
         }
     }
@@ -116,7 +116,11 @@ object NetworkSpeed : BaseHook() {
         }
 
         if (nscCls == null) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "DetailedNetSpeedHook: No NetworkSpeed view or controller")
+            logE(
+                TAG,
+                this.lpparam.packageName,
+                "DetailedNetSpeedHook: No NetworkSpeed view or controller"
+            )
         } else {
             nscCls.methodFinder().first {
                 name == "getTotalByte"

@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.camera;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 
 public class UnlockCvlens extends BaseHook {
     @Override
@@ -32,7 +32,7 @@ public class UnlockCvlens extends BaseHook {
                 }
             });
         } catch (Exception e) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "try to hook CvLensVersion failed" + e);
+            logE(TAG, this.lpparam.packageName, "try to hook CvLensVersion failed" + e);
             throw new RuntimeException(e);
         }
     }

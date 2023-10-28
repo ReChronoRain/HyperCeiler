@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -76,7 +75,7 @@ public class IconScaleHook extends BaseHook {
                             mMessage.animate().scaleX(multx).scaleY(multx).setStartDelay(0).start();
                         }
                     } catch (Throwable t) {
-                        XposedLogUtils.logE(TAG, IconScaleHook.this.lpparam.packageName, "", t);
+                        logE(TAG, IconScaleHook.this.lpparam.packageName, "", t);
                     }
                 });
 

@@ -7,7 +7,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.field
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 
 object RemoveSmallWindowRestrictions : BaseHook() {
     private val mSettingsClass = loadClass("com.android.server.wm.WindowManagerService\$SettingsObserver")
@@ -25,7 +25,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook retrieveSettings failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook retrieveSettings failed by: $e")
         }
 
         try {
@@ -39,7 +39,11 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook updateDevEnableNonResizableMultiWindow failed by: $e")
+            logE(
+                TAG,
+                this.lpparam.packageName,
+                "Hook updateDevEnableNonResizableMultiWindow failed by: $e"
+            )
         }
 
         try {
@@ -53,7 +57,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook onChange failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook onChange failed by: $e")
         }
 
         try {
@@ -63,7 +67,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(true)
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook isForceResizeable failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook isForceResizeable failed by: $e")
         }
 
         // Author: LittleTurtle2333
@@ -74,7 +78,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(true)
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook isResizeable failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook isResizeable failed by: $e")
         }
 
         try {
@@ -84,7 +88,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(mutableListOf<String>())
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook getFreeformBlackList failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook getFreeformBlackList failed by: $e")
         }
 
         try {
@@ -94,7 +98,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(mutableListOf<String>())
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook getFreeformBlackListFromCloud failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook getFreeformBlackListFromCloud failed by: $e")
         }
 
         try {
@@ -104,7 +108,11 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(mutableListOf<String>())
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook getStartFromFreeformBlackListFromCloud failed by: $e")
+            logE(
+                TAG,
+                this.lpparam.packageName,
+                "Hook getStartFromFreeformBlackListFromCloud failed by: $e"
+            )
         }
 
         try {
@@ -114,7 +122,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 returnConstant(true)
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Hook supportFreeform failed by: $e")
+            logE(TAG, this.lpparam.packageName, "Hook supportFreeform failed by: $e")
         }
 
     }

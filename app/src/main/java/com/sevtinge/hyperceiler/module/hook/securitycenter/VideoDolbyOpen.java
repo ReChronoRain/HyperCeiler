@@ -6,7 +6,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory;
 import com.github.kyuubiran.ezxhelper.interfaces.IMethodHookCallback;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.DexKit;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
@@ -25,12 +24,12 @@ public class VideoDolbyOpen extends BaseHook {
         //     findAndHookMethod("com.miui.gamebooster.service.DockWindowManagerService", "N", new MethodHook() {
         //         @Override
         //         protected void before(MethodHookParam param) {
-        //             XposedLogUtils.logI("Hook N");
+        //             logI("Hook N");
         //             param.setResult(null);
         //         }
         //     });
         // } catch (NoSuchMethodException e) {
-        //     XposedLogUtils.logI("Don't Find DockWindowManagerService$N");
+        //     logI("Don't Find DockWindowManagerService$N");
         // }
 
         // 查找类
@@ -69,7 +68,7 @@ public class VideoDolbyOpen extends BaseHook {
                 }
             });
         } catch (NoSuchMethodException e) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "NoSuchMethodException: " + e);
+            logE(TAG, this.lpparam.packageName, "NoSuchMethodException: " + e);
         }
     }
 }

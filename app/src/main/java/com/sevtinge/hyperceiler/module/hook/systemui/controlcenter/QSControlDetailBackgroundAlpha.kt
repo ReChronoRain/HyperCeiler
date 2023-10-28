@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.HookUtils
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers

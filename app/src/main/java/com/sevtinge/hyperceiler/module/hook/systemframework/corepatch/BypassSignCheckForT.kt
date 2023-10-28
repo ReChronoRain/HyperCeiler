@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch
 
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 
 object BypassSignCheckForT : BaseHook() {
     override fun init() {
@@ -12,7 +12,7 @@ object BypassSignCheckForT : BaseHook() {
                 }
             })
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
+            logE(TAG, this.lpparam.packageName, e)
         }
     }
 }

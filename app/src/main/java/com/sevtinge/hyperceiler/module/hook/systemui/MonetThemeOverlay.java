@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 
 public class MonetThemeOverlay extends BaseHook {
 
@@ -33,7 +33,7 @@ public class MonetThemeOverlay extends BaseHook {
                     @Override
                     public void onChange(String name, int defValue) {
                         mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
-                        XposedLogUtils.logI(TAG, MonetThemeOverlay.this.lpparam.packageName, name + "： " + PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
+                        logI(TAG, MonetThemeOverlay.this.lpparam.packageName, name + "： " + PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
                     }
                 };
 

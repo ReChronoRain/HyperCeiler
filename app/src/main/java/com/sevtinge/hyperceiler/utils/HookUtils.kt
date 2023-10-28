@@ -5,8 +5,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers

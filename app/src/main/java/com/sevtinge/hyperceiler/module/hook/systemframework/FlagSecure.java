@@ -4,7 +4,6 @@ import android.os.Build;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -92,7 +91,7 @@ public class FlagSecure extends BaseHook {
                     }
                 }
             } catch (Throwable t) {
-                XposedLogUtils.logE(TAG, this.lpparam.packageName, t);
+                logE(TAG, this.lpparam.packageName, t);
             }
         }
     }

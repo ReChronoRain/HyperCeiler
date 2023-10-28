@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.utils.log;
 import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 
 import de.robv.android.xposed.XposedBridge;
@@ -18,9 +17,12 @@ public class XposedLogUtils {
         mLoadPackageParam = lpparam;
     }
 
-    private static final boolean isDebugVersion = getBuildType().equals("debug");
-    private static final boolean isReleaseVersion = getBuildType().equals("release");
-    private static boolean isDisableDetailLog = BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");
+    public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
+    public static final boolean isDebugVersion = getBuildType().equals("debug");
+    public static final boolean isNotReleaseVersion = !getBuildType().equals("release");
+    public static final boolean isReleaseVersion = getBuildType().equals("release");
+    public final boolean detailLog = !mPrefsMap.getBoolean("settings_disable_detailed_log");
+    public static final boolean isDisableDetailLog = mPrefsMap.getBoolean("settings_disable_detailed_log");
 
     public static void logI(String msg) {
         if (!isDebugVersion) return;
@@ -90,6 +92,14 @@ public class XposedLogUtils {
 
     public static void logE(String tag, String msg) {
         XposedBridge.log("[HyperCeiler][E][" + tag + "]: " + msg);
+    }
+
+    public static void logE(String msg) {
+        XposedBridge.log("[HyperCeiler][E]: " + msg);
+    }
+
+    public static void logE(String tag, Throwable log) {
+        XposedBridge.log("[HyperCeiler][E][" + tag + "]: " + log);
     }
 
     public static void logE(String tag, String pkg, String msg) {

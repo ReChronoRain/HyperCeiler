@@ -4,7 +4,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.hookBeforeMethod
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 
 object DeviceModify : BaseHook() {
     private val deviceName: String = mPrefsMap.getString("updater_device", "")
@@ -16,7 +16,7 @@ object DeviceModify : BaseHook() {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, "[DeviceModify(Updater)]: android.os.SystemProperties hook failed", e)
+            logE(TAG, "[DeviceModify(Updater)]: android.os.SystemProperties hook failed", e)
         }
         try {
             "miuix.core.util.SystemProperties".hookBeforeMethod(
@@ -25,7 +25,11 @@ object DeviceModify : BaseHook() {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
         } catch (e: Throwable) {
-            XposedLogUtils.logE(TAG, "[DeviceModify(Updater)]: DeviceModify (Updater) miuix.core.util.SystemProperties hook failed", e)
+            logE(
+                TAG,
+                "[DeviceModify(Updater)]: DeviceModify (Updater) miuix.core.util.SystemProperties hook failed",
+                e
+            )
         }
         dexKitBridge.findMethod {
             matcher {
@@ -35,7 +39,7 @@ object DeviceModify : BaseHook() {
             methodData.getMethodInstance(lpparam.classLoader).hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "dexkit method is $methodData")
+            logI(TAG, this.lpparam.packageName, "dexkit method is $methodData")
         }
 
         /*try {
@@ -47,7 +51,7 @@ object DeviceModify : BaseHook() {
             systemPropertiesMethod.hookBeforeMethod {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }
-            XposedLogUtils.logI("(Updater) dexkit method is $systemPropertiesMethod")
+            logI("(Updater) dexkit method is $systemPropertiesMethod")
         } catch (e: Throwable) {
             XposedBridge.log("[HyperCeiler][E][DeviceModify(Updater)]: DeviceModify (Updater) dexkit hook failed by $e")
         }*/

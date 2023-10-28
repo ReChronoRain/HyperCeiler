@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 
 public class AppLinkVerify extends BaseHook {
 
@@ -16,7 +16,7 @@ public class AppLinkVerify extends BaseHook {
                 }
             );
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, t);
+            logE(TAG, this.lpparam.packageName, t);
         }
     }
 }

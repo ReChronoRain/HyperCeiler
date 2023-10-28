@@ -15,7 +15,6 @@ import android.view.View;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +54,7 @@ public class CleanOpenMenu extends BaseHook {
                                     mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
                             }
                         } catch (Throwable t) {
-                            XposedLogUtils.logE(TAG, CleanOpenMenu.this.lpparam.packageName, t);
+                            logE(TAG, CleanOpenMenu.this.lpparam.packageName, t);
                         }
                     }
                 };

@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.module.hook.various
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -27,7 +27,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                             mLogcatManagerService, "mActivityManagerInternal"
                         )
                     } catch (t: Throwable) {
-                        XposedLogUtils.logE(TAG, "NoAccessDeviceLogsRequest -> onStart", t)
+                        logE(TAG, "NoAccessDeviceLogsRequest -> onStart", t)
                     }
                 }
             }
@@ -51,11 +51,20 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                             client
                         )
                         // debug 用，取消禁用详细日志输出可进行调试
-                        XposedLogUtils.logI(TAG, this@NoAccessDeviceLogsRequest.lpparam.packageName, "NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid")
+                        logI(
+                            TAG,
+                            this@NoAccessDeviceLogsRequest.lpparam.packageName,
+                            "NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid"
+                        )
                         param.result = null
                     } catch (t: Throwable) {
                         // 输出异常日志
-                        XposedLogUtils.logE(TAG, this@NoAccessDeviceLogsRequest.lpparam.packageName, "processNewLogAccessRequest failed", t)
+                        logE(
+                            TAG,
+                            this@NoAccessDeviceLogsRequest.lpparam.packageName,
+                            "processNewLogAccessRequest failed",
+                            t
+                        )
                     }
                 }
             })
@@ -70,7 +79,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
+            logE(TAG, this.lpparam.packageName, t)
         }*/
     }
 }

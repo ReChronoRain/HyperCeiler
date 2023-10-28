@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.text.format.DateFormat;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -106,9 +105,9 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
             mIconController = XposedHelpers.getObjectField(thisObject, "miuiDripLeftStatusBarIconController");
             XposedHelpers.callMethod(mIconController, "setIconVisibility", "alarm_clock", vis);
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "Now is " + diffHours + "min remain, show when " + vis + "min remain.");
+            logI(TAG, this.lpparam.packageName, "Now is " + diffHours + "min remain, show when " + vis + "min remain.");
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "updateAlarmVisibility failed", t);
+            logE(TAG, this.lpparam.packageName, "updateAlarmVisibility failed", t);
         }
     }
 
@@ -141,7 +140,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
             nextTime = cal.getTimeInMillis();
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, t);
+            logE(TAG, this.lpparam.packageName, t);
         }
         return nextTime;
     }

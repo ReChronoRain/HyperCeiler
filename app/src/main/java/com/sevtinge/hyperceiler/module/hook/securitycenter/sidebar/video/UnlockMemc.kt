@@ -37,7 +37,7 @@ object UnlockMemc : BaseHook() {
             )
             for (descriptor in result) {
                 val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
-                XposedLogUtils.logI("frcSupport class is $frcSupport")
+                logI("frcSupport class is $frcSupport")
                 var counter = 0
                 dexKitBridge.findMethod {
                     methodDeclareClass = frcSupport.name

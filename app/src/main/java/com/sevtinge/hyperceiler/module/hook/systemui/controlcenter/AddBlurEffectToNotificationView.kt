@@ -14,7 +14,7 @@ import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import com.sevtinge.hyperceiler.utils.replaceMethod
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -137,7 +137,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     }
                 }
             } catch (t: Throwable) {
-                XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
+                logE(TAG, this.lpparam.packageName, t)
             }
 
             try {
@@ -158,7 +158,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     }
                 }
             } catch (t: Throwable) {
-                XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
+                logE(TAG, this.lpparam.packageName, t)
             }
         }
 

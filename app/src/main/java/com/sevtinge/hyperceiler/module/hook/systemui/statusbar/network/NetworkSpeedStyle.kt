@@ -9,7 +9,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidR
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedStyle : BaseHook() {
@@ -49,7 +49,7 @@ object NetworkSpeedStyle : BaseHook() {
                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                            }
                        } catch (e: Exception) {
-                           XposedLogUtils.logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
+                           logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
                        }
                    }
                }
@@ -76,7 +76,7 @@ object NetworkSpeedStyle : BaseHook() {
                                     meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
                                 }
                             } catch (e: Exception) {
-                                XposedLogUtils.logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
+                                logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
                             }
                         }
 
@@ -135,7 +135,7 @@ object NetworkSpeedStyle : BaseHook() {
                                 meter.setLineSpacing(0f, spacing)
                             }
                         } catch (e: Exception) {
-                            XposedLogUtils.logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
+                            logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
                         }
                     }
                 }

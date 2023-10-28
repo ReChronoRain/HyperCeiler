@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.incallui;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 
 public class HideCrbt extends BaseHook {
     Class<?> loadClass;
@@ -26,7 +26,7 @@ public class HideCrbt extends BaseHook {
                     Integer.TYPE, Boolean.TYPE, beforeHookedMethod()
             });*/
         } catch (Exception e) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "method hooked failed! " + e);
+            logE(TAG, this.lpparam.packageName, "method hooked failed! " + e);
         }
     }
     /*public final void beforeHookedMethod(XC_MethodHook.MethodHookParam methodHookParam) {

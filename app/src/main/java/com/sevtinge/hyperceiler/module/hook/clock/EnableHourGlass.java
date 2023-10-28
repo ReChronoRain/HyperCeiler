@@ -3,7 +3,7 @@ package com.sevtinge.hyperceiler.module.hook.clock;
 import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 
 public class EnableHourGlass extends BaseHook {
     @Override
@@ -15,8 +15,8 @@ public class EnableHourGlass extends BaseHook {
                 if (appVersionCode <= 130206400) {
                     param.setResult(true);
                 } else {
-                    XposedLogUtils.logI(TAG, EnableHourGlass.this.lpparam.packageName, "Your clock versionCode is " + appVersionCode);
-                    XposedLogUtils.logI(TAG, EnableHourGlass.this.lpparam.packageName, "Please revert to a supported version yourself");
+                    logI(TAG, EnableHourGlass.this.lpparam.packageName, "Your clock versionCode is " + appVersionCode);
+                    logI(TAG, EnableHourGlass.this.lpparam.packageName, "Please revert to a supported version yourself");
                 }
             }
         });

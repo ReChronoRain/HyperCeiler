@@ -8,7 +8,7 @@ import android.content.pm.ApplicationInfo;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
 
 public class PluginHelper extends BaseHook {
 
@@ -34,14 +34,14 @@ public class PluginHelper extends BaseHook {
                                 if (pluginLoader == null) {
                                     pluginLoader = (ClassLoader) param.getResult();
                                 }
-                                // XposedLogUtils.logD("pluginLoader: " + pluginLoader);
+                                // logD("pluginLoader: " + pluginLoader);
                                 setClassLoader(pluginLoader);
                             } else {
                                 if (!isHooked)
-                                    XposedLogUtils.logD("appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                    logD("appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
                             }
                         } else {
-                            XposedLogUtils.logE(TAG, "appInfo is null");
+                            logE(TAG, "appInfo is null");
                         }
                     }
                 }
@@ -69,14 +69,14 @@ public class PluginHelper extends BaseHook {
                                 if (pluginLoader == null) {
                                     pluginLoader = (ClassLoader) pathClassLoader;
                                 }
-                                // XposedLogUtils.logD("AU pluginLoader: " + pluginLoader);
+                                // logD("AU pluginLoader: " + pluginLoader);
                                 setClassLoader(pluginLoader);
                             } else {
                                 if (!isHooked)
-                                    XposedLogUtils.logD("AU appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                    logD("AU appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
                             }
                         } else {
-                            XposedLogUtils.logE(TAG, "AU appInfo is null");
+                            logE(TAG, "AU appInfo is null");
                         }
                     }
                 }

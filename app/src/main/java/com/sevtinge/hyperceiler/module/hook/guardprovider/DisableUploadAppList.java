@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.guardprovider;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,7 +18,7 @@ public class DisableUploadAppList extends BaseHook {
     @Override
     public void init(/*final XC_LoadPackage.LoadPackageParam lpparam*/) {
         if (lpparam.packageName.equals("com.miui.guardprovider")) {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "Start to hook package " + lpparam.packageName);
+            logI(TAG, this.lpparam.packageName, "Start to hook package " + lpparam.packageName);
 
             // Debug mode flag process
             final Class<?> guardApplication = XposedHelpers.findClass("com.miui.guardprovider.GuardApplication", lpparam.classLoader);
@@ -28,21 +27,21 @@ public class DisableUploadAppList extends BaseHook {
                 for (Field field : guardApplicationFields) {
                     if (field.getName().equals("c")) {
                         XposedHelpers.setStaticBooleanField(guardApplication, "c", true);
-                        XposedLogUtils.logI(TAG, this.lpparam.packageName, "GuardProvider will work as debug mode!");
+                        logI(TAG, this.lpparam.packageName, "GuardProvider will work as debug mode!");
                     }
-                    XposedLogUtils.logW(TAG, this.lpparam.packageName, "GuardProvider debug mode flag not found!");
+                    logW(TAG, this.lpparam.packageName, "GuardProvider debug mode flag not found!");
                 }
             } else {
-                XposedLogUtils.logW(TAG, this.lpparam.packageName, "GuardApplication class not found. GuardProvider will not work as debug mode! ");
+                logW(TAG, this.lpparam.packageName, "GuardApplication class not found. GuardProvider will not work as debug mode! ");
             }
 
             // Prevent miui from uploading app list
             final Class<?> antiDefraudAppManager = XposedHelpers.findClassIfExists("com.miui.guardprovider.engine.mi.antidefraud.AntiDefraudAppManager", lpparam.classLoader);
             if (antiDefraudAppManager == null) {
-                XposedLogUtils.logI(TAG, this.lpparam.packageName, "Skip: AntiDefraudAppManager class not found.");
+                logI(TAG, this.lpparam.packageName, "Skip: AntiDefraudAppManager class not found.");
                 return;
             } else {
-                XposedLogUtils.logI(TAG, this.lpparam.packageName, "AntiDefraudAppManager class found.");
+                logI(TAG, this.lpparam.packageName, "AntiDefraudAppManager class found.");
             }
 
             final Method[] methods = antiDefraudAppManager.getDeclaredMethods();
@@ -54,10 +53,10 @@ public class DisableUploadAppList extends BaseHook {
                 }
             }
             if (getAllUnSystemAppsStatus == null) {
-                XposedLogUtils.logI(TAG, this.lpparam.packageName, "Skip: getAllUnSystemAppsStatus method not found.");
+                logI(TAG, this.lpparam.packageName, "Skip: getAllUnSystemAppsStatus method not found.");
                 return;
             } else {
-                XposedLogUtils.logI(TAG, this.lpparam.packageName, "getAllUnSystemAppsStatus method found.");
+                logI(TAG, this.lpparam.packageName, "getAllUnSystemAppsStatus method found.");
             }
 
             XposedBridge.hookMethod(getAllUnSystemAppsStatus, new XC_MethodHook() {
@@ -73,7 +72,7 @@ public class DisableUploadAppList extends BaseHook {
                         }
                     }
                     if (MIUI_VERSION == null) {
-                        XposedLogUtils.logW(TAG, DisableUploadAppList.this.lpparam.packageName, "Can't get MIUI_VERSION.");
+                        logW(TAG, DisableUploadAppList.this.lpparam.packageName, "Can't get MIUI_VERSION.");
                     }
 
                     String uuid = null;
@@ -91,10 +90,10 @@ public class DisableUploadAppList extends BaseHook {
                             getUUID.setAccessible(true);
                             uuid = (String) getUUID.invoke(methodHookParam);
                         } else {
-                            XposedLogUtils.logW(TAG, DisableUploadAppList.this.lpparam.packageName, "getUUID method not found.");
+                            logW(TAG, DisableUploadAppList.this.lpparam.packageName, "getUUID method not found.");
                         }
                     } else {
-                        XposedLogUtils.logW(TAG, DisableUploadAppList.this.lpparam.packageName, "uuidHelper class not found.");
+                        logW(TAG, DisableUploadAppList.this.lpparam.packageName, "uuidHelper class not found.");
                     }
 
                     JSONObject jSONObject = new JSONObject();
@@ -137,7 +136,7 @@ public class DisableUploadAppList extends BaseHook {
                     }
                     jSONObject.put("content", jSONArray);
 
-                    XposedLogUtils.logI(TAG, DisableUploadAppList.this.lpparam.packageName, "Info: Intercept=" + jSONObject.toString());
+                    logI(TAG, DisableUploadAppList.this.lpparam.packageName, "Info: Intercept=" + jSONObject.toString());
 
                     methodHookParam.setResult(null);
                 }

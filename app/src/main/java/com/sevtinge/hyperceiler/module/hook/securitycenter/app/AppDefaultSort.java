@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 
@@ -42,7 +41,7 @@ public class AppDefaultSort extends BaseHook {
                             try {
                                 param.args[0] = checkBundle((Context) XposedHelpers.callMethod(param.thisObject, "getContext"), (Bundle) param.args[0]);
                             } catch (Throwable t) {
-                                XposedLogUtils.logE("AppDefaultSortHook", "", t);
+                                logE("AppDefaultSortHook", "", t);
                             }
                         }
                     });
@@ -53,7 +52,7 @@ public class AppDefaultSort extends BaseHook {
 
     public static Bundle checkBundle(Context context, Bundle bundle) {
         if (context == null) {
-            XposedLogUtils.logI("AppDefaultSort", "com.miui.securitycenter", "Context is null!");
+            logI("AppDefaultSort", "com.miui.securitycenter", "Context is null!");
             return null;
         }
         if (bundle == null) bundle = new Bundle();

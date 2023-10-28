@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -48,7 +48,11 @@ object DisableClipboardTip : BaseHook() {
                         }
                         hideDialog(lpparam, packageName, param)
 
-                        XposedLogUtils.logI(TAG, this@DisableClipboardTip.lpparam.packageName, " $packageName -> $appName read clipboard.")
+                        logI(
+                            TAG,
+                            this@DisableClipboardTip.lpparam.packageName,
+                            " $packageName -> $appName read clipboard."
+                        )
                     }
                 }
             })

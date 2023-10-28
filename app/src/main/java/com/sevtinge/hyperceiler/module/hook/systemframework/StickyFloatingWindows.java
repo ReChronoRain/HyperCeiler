@@ -12,7 +12,6 @@ import android.util.Pair;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +50,13 @@ public class StickyFloatingWindows extends BaseHook {
                 if (windowingMode != 5 && fwApps.containsKey(pkgName)) {
                     try {
                         if (MiuiMultiWindowUtils == null) {
-                            XposedLogUtils.logE(TAG, StickyFloatingWindows.this.lpparam.packageName, "Cannot find MiuiMultiWindowUtils class");
+                            logE(TAG, StickyFloatingWindows.this.lpparam.packageName, "Cannot find MiuiMultiWindowUtils class");
                             return;
                         }
                         options = patchActivityOptions(mContext, options, pkgName, MiuiMultiWindowUtils);
                         param.setResult(options);
                     } catch (Throwable t) {
-                        XposedLogUtils.logW(TAG, "", t);
+                        logW(TAG, "", t);
                     }
                 } else if (windowingMode == 5 && !fwApps.containsKey(pkgName)) {
                     fwApps.put(pkgName, new Pair<>(0f, null));

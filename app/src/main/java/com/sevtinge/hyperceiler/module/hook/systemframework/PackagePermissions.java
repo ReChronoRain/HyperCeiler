@@ -8,7 +8,6 @@ import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +89,7 @@ public class PackagePermissions extends BaseHook {
             mySystemApps.addAll(systemPackages);
             XposedHelpers.setStaticObjectField(dpgpiClass, "MIUI_SYSTEM_APPS", mySystemApps.toArray(new String[0]));
         } catch (Throwable t) {
-            XposedLogUtils.logW(TAG, this.lpparam.packageName, t);
+            logW(TAG, this.lpparam.packageName, t);
         }
     }
 }
