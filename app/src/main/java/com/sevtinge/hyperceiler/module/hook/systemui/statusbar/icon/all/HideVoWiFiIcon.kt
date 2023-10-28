@@ -11,14 +11,14 @@ object HideVoWiFiIcon : BaseHook() {
     override fun init() {
         var hide_vowifi = mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi")
         var hide_volte = mPrefsMap.getBoolean("system_ui_status_bar_icon_volte")
-        if(isAndroidU()) {
+        if (isAndroidU()) {
             loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").constructors[0].createHook {
                 after {
                     it.thisObject.setBooleanField("hideVowifi", hide_vowifi)
                     it.thisObject.setBooleanField("hideVolte", hide_volte)
                 }
             }
-        }else if(hide_vowifi){
+        } else if (hide_vowifi) {
             loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").methodFinder().first {
                 name == "getHideVowifi"
             }.createHook { returnConstant(true) }
