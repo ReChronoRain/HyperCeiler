@@ -1306,4 +1306,5 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="tip_18">Mẹo: HyperCeiler là ứng dụng tiêu hao pin nhanh nhất</string>
     <string name="tip_19">Mẹo: Nếu không có chú thích đặc biệt cho chức năng chuyển sang màu xám, điều đó có nghĩa là chức năng đó không bình thường và nó không được lên kế hoạch mở cho người dùng trong thời điểm hiện tại</string>
     <string name="tip_20">Mẹo: Đừng chạy theo phiên bản Canary nếu bạn không có việc gì làm và đừng vội cập nhật nếu nó bị hỏng (</string>
+    <string name="system_ui_status_bar_icon_volte">Ẩn biểu tượng VoLTE</string>
 </resources>
