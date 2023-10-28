@@ -1294,4 +1294,5 @@
     <string name="tip_18">ヒント: HyperCeiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
     <string name="tip_19">ヒント: グレーアウトした機能は、特別な注釈がない場合機能が異常であることを意味しており、当分の間ユーザーに開放される予定はありません</string>
     <string name="tip_20">ヒント: 何もしない場合は Canary の新しいバージョンを追わないでください。壊れている場合は急いでアップデートしないでください。</string>
+    <string name="system_ui_status_bar_icon_volte">VoLTE アイコンを非表示</string>
 </resources>
