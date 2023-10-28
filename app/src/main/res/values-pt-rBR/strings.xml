@@ -697,7 +697,10 @@
     <string name="updater">Atualizações</string>
     <string name="updater_fuck_vab">Remover verificação OTA</string>
     <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados, por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão\n- Não suporta nenhum uso de ROM não oficial\n- Esta função é perigosa, por favor, avalie se deve ativá-la após entender a operação do Fastboot</string>
-    <string name="updater_miui_version">Versão da MIUI falsa para Atualizações</string>
+    <string name="updater_version_mode">Tipo de disfarce</string>
+    <string name="updater_big_version">Versão grande falsa</string>
+    <string name="updater_big_version_desc">Itens que precisam ser preenchidos ao disfarçar a versão Xiaomi HyperOS, o padrão é V816</string>
+    <string name="updater_miui_version">Versão falsa para Atualizações</string>
     <string name="updater_miui_version_desc">Modifique apenas a atualização do sistema, que pode proteger a atualização do sistema até certo ponto</string>
     <string name="updater_device">Dispositivo falso para Atualizações</string>
     <string name="updater_device_desc">Insira o código do modelo do dispositivo de destino para especificar o modelo, que pode ser usado para obter pacotes de ROM para outros modelos, o que é extremamente perigoso</string>
