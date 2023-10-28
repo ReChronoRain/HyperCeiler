@@ -94,6 +94,14 @@ public class XposedLogUtils {
         XposedBridge.log("[HyperCeiler][E][" + tag + "]: " + msg);
     }
 
+    public static void logE(String msg) {
+        XposedBridge.log("[HyperCeiler][E]: " + msg);
+    }
+
+    public static void logE(String tag, Throwable log) {
+        XposedBridge.log("[HyperCeiler][E][" + tag + "]: " + log);
+    }
+
     public static void logE(String tag, String pkg, String msg) {
         XposedBridge.log("[HyperCeiler][E][" + pkg + "][" + tag + "]: " + msg);
     }

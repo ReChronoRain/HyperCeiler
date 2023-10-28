@@ -50,7 +50,7 @@ public abstract class BaseHook extends XposedLogUtils {
         try {
             return findClass(className);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            logW("findClassIfExists", "find " + className + " is Null: " + e);
+            logE("findClassIfExists", "find " + className + " is Null: " + e);
             return null;
         }
     }
@@ -59,7 +59,7 @@ public abstract class BaseHook extends XposedLogUtils {
         try {
             return findClass(findClassIfExists(newClassName) != null ? newClassName : oldClassName);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            logW("findClassIfExists", "find " + newClassName + " and " + oldClassName + " is Null: " + e);
+            logE("findClassIfExists", "find " + newClassName + " and " + oldClassName + " is Null: " + e);
             return null;
         }
     }
@@ -68,7 +68,7 @@ public abstract class BaseHook extends XposedLogUtils {
         try {
             return findClass(className, classLoader);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            logW("findClassIfExists", "find " + className + " is Null: " + e);
+            logE("findClassIfExists", "find " + className + " is Null: " + e);
             return null;
         }
     }
@@ -95,7 +95,7 @@ public abstract class BaseHook extends XposedLogUtils {
             try {
                 this.before(param);
             } catch (Throwable t) {
-                logW("BeforeHook", t);
+                logE("BeforeHook", t);
             }
         }
 
@@ -104,7 +104,7 @@ public abstract class BaseHook extends XposedLogUtils {
             try {
                 this.after(param);
             } catch (Throwable t) {
-                logW("AfterHook", t);
+                logE("AfterHook", t);
             }
         }
     }
@@ -123,7 +123,7 @@ public abstract class BaseHook extends XposedLogUtils {
             findAndHookMethod(className, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            logW("findAndHookMethodSilently", className + methodName + " is null: " + t);
+            logE("findAndHookMethodSilently", className + methodName + " is null: " + t);
             return false;
         }
     }
@@ -133,7 +133,7 @@ public abstract class BaseHook extends XposedLogUtils {
             findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            logW("findAndHookMethodSilently", clazz + methodName + " is null: " + t);
+            logE("findAndHookMethodSilently", clazz + methodName + " is null: " + t);
             return false;
         }
     }
@@ -158,7 +158,7 @@ public abstract class BaseHook extends XposedLogUtils {
             }
 
         } catch (Throwable t) {
-            logW("HookAllMethods", className + " is " + methodName + " abnormal: " + t);
+            logE("HookAllMethods", className + " is " + methodName + " abnormal: " + t);
         }
     }
 
@@ -166,7 +166,7 @@ public abstract class BaseHook extends XposedLogUtils {
         try {
             XposedBridge.hookAllMethods(hookClass, methodName, callback).size();
         } catch (Throwable t) {
-            logW("HookAllMethods", hookClass + " is " + methodName + " abnormal: " + t);
+            logE("HookAllMethods", hookClass + " is " + methodName + " abnormal: " + t);
         }
     }
 
@@ -198,7 +198,7 @@ public abstract class BaseHook extends XposedLogUtils {
                 XposedBridge.hookAllConstructors(hookClass, callback).size();
             }
         } catch (Throwable t) {
-            logW("hookAllConstructors", className + " is  abnormal: " + t);
+            logE("hookAllConstructors", className + " is  abnormal: " + t);
         }
     }
 
@@ -206,7 +206,7 @@ public abstract class BaseHook extends XposedLogUtils {
         try {
             XposedBridge.hookAllConstructors(hookClass, callback).size();
         } catch (Throwable t) {
-            logW("hookAllConstructors", hookClass + " is  abnormal: " + t);
+            logE("hookAllConstructors", hookClass + " is  abnormal: " + t);
         }
     }
 
@@ -229,13 +229,13 @@ public abstract class BaseHook extends XposedLogUtils {
                     Object result = setString.get(param.thisObject);
                     checkLast("getDeclaredField", iNeedString, iNeedTo, result);
                 } catch (IllegalAccessException e) {
-                    logW("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code:" + e);
+                    logE("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code: " + e);
                 }
             } catch (NoSuchFieldException e) {
-                logW("No such the: " + iNeedString + " code: " + e);
+                logE("No such the: " + iNeedString + " code: " + e);
             }
         } else {
-            logW("Param is null Field: " + iNeedString + " to: " + iNeedTo);
+            logE("Param is null Field: " + iNeedString + " to: " + iNeedTo);
         }
     }
 
@@ -243,7 +243,7 @@ public abstract class BaseHook extends XposedLogUtils {
         if (value.equals(last)) {
             logI(setObject + " Success! set " + fieldName + " to " + value);
         } else {
-            logW(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
+            logE(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
         }
     }
 }
