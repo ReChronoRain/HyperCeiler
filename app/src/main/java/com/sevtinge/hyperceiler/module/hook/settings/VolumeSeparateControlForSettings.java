@@ -9,7 +9,6 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -48,7 +47,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                 try {
                     initSeekBar = XposedHelpers.findMethodsByExactParameters(fragment.getClass(), void.class, String.class, int.class, int.class);
                     if (mVsbCls == null || initSeekBar.length == 0) {
-                        XposedLogUtils.logE(TAG, VolumeSeparateControlForSettings.this.lpparam.packageName, "Unable to find class/method in Settings to hook");
+                        logE(TAG, VolumeSeparateControlForSettings.this.lpparam.packageName, "Unable to find class/method in Settings to hook");
                         return;
                     } else {
                         initSeekBar[0].setAccessible(true);
@@ -62,7 +61,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
                         }
                     }
                 } catch (Throwable t) {
-                    XposedLogUtils.logE(TAG, VolumeSeparateControlForSettings.this.lpparam.packageName, "Unable to find class/method in Settings to hook", t);
+                    logE(TAG, VolumeSeparateControlForSettings.this.lpparam.packageName, "Unable to find class/method in Settings to hook", t);
                     return;
                 }
 

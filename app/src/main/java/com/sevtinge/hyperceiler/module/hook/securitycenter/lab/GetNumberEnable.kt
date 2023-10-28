@@ -4,14 +4,14 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.LabUtilsClass.labUtilClass
 import com.sevtinge.hyperceiler.utils.Helpers
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 
 object GetNumberEnable : BaseHook() {
     private var labUtils: Class<*>? = null
     override fun init() {
         labUtilClass.forEach {
             labUtils = it.getInstance(EzXHelper.classLoader)
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "labUtils class is $labUtils")
+            logI(TAG, this.lpparam.packageName, "labUtils class is $labUtils")
             findAndHookMethod(
                 "com.miui.permcenter.settings.PrivacyLabActivity",
                 "onCreateFragment",

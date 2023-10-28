@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -43,7 +42,7 @@ public class FolderShade extends BaseHook {
                             try {
                                 isLight = (boolean) XposedHelpers.callStaticMethod(mWallpaperUtilsCls, "hasAppliedLightWallpaper");
                             } catch (Throwable tr) {
-                                XposedLogUtils.logW(TAG, "isLight is abnormal", tr);
+                                logW(TAG, "isLight is abnormal", tr);
                             }
                         }
 
@@ -62,7 +61,7 @@ public class FolderShade extends BaseHook {
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {
-                        XposedLogUtils.logW(TAG, "", t);
+                        logW(TAG, "", t);
                     }
                 }).start();
             }

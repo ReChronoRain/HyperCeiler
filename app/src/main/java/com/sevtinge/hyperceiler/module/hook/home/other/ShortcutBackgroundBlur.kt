@@ -19,7 +19,7 @@ import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -48,9 +48,14 @@ object ShortcutBackgroundBlur : BaseHook() {
         x与y在图层透明度这种情况下永远为正值
         将改公式转换为x=f(y)：x=1-√(1-y)
         */
-        val singleLayerAlpha = ((1.0 - sqrt(1.0 - (shortcutMenuBackgroundAlpha / 255.0))) * 255.0).toInt()
-        XposedLogUtils.logI(TAG, this.lpparam.packageName, "shortcutMenuBackgroundAlpha = $shortcutMenuBackgroundAlpha")
-        XposedLogUtils.logI(TAG, this.lpparam.packageName, "singleLayerAlpha = $singleLayerAlpha")
+        val singleLayerAlpha =
+            ((1.0 - sqrt(1.0 - (shortcutMenuBackgroundAlpha / 255.0))) * 255.0).toInt()
+        logI(
+            TAG,
+            this.lpparam.packageName,
+            "shortcutMenuBackgroundAlpha = $shortcutMenuBackgroundAlpha"
+        )
+        logI(TAG, this.lpparam.packageName, "singleLayerAlpha = $singleLayerAlpha")
 
         val mBlurIconAppName = arrayOf("锁屏", "手电筒", "数据", "飞行模式", "蓝牙", "WLAN 热点")
         val allBlurredDrawable: MutableList<Drawable> = ArrayList()

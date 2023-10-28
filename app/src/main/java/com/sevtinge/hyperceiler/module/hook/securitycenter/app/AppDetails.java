@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.XposedUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -71,7 +70,7 @@ public class AppDetails extends BaseHook {
                             Object contentFrag = act.getFragmentManager().findFragmentById(android.R.id.content);
                             Object frag = contentFrag != null ? contentFrag : mSupportFragment;
                             if (frag == null) {
-                                XposedLogUtils.logI(TAG, AppDetails.this.lpparam.packageName, "Unable to find fragment");
+                                logI(TAG, AppDetails.this.lpparam.packageName, "Unable to find fragment");
                                 return;
                             }
 
@@ -82,7 +81,7 @@ public class AppDetails extends BaseHook {
                                 mLastPackageInfo = (PackageInfo) piField.get(frag);
                                 Method[] addPref = XposedHelpers.findMethodsByExactParameters(frag.getClass(), void.class, String.class, String.class, String.class);
                                 if (mLastPackageInfo == null || addPref.length == 0) {
-                                    XposedLogUtils.logI(TAG, AppDetails.this.lpparam.packageName, "Unable to find field/class/method in SecurityCenter to hook");
+                                    logI(TAG, AppDetails.this.lpparam.packageName, "Unable to find field/class/method in SecurityCenter to hook");
                                     return;
                                 } else {
                                     addPref[0].setAccessible(true);
@@ -98,11 +97,11 @@ public class AppDetails extends BaseHook {
                                         addPref[0].invoke(frag, "open_in_market", modRes.getString(R.string.app_details_playstore), "");
                                         addPref[0].invoke(frag, "open_in_app", modRes.getString(R.string.app_details_launch), "");
                                     } catch (Throwable t) {
-                                        XposedLogUtils.logW(TAG, "1", t);
+                                        logW(TAG, "1", t);
                                     }
                                 });
                             } catch (Throwable t) {
-                                XposedLogUtils.logW(TAG, "2", t);
+                                logW(TAG, "2", t);
                                 return;
                             }
 
@@ -146,7 +145,7 @@ public class AppDetails extends BaseHook {
                                                     int uid = act.getIntent().getIntExtra("am_app_uid", -1);
                                                     user = (int) XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
                                                 } catch (Throwable t) {
-                                                    XposedLogUtils.logW(TAG, "3", t);
+                                                    logW(TAG, "3", t);
                                                 }
 
                                                 launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -154,7 +153,7 @@ public class AppDetails extends BaseHook {
                                                     try {
                                                         XposedHelpers.callMethod(act, "startActivityAsUser", launchIntent, XposedHelpers.newInstance(UserHandle.class, user));
                                                     } catch (Throwable t) {
-                                                        XposedLogUtils.logW(TAG, "4", t);
+                                                        logW(TAG, "4", t);
                                                     }
                                                 } else {
                                                     act.startActivity(launchIntent);
@@ -170,7 +169,7 @@ public class AppDetails extends BaseHook {
                 });
             }
         } else {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Cannot find activity class!");
+            logE(TAG, this.lpparam.packageName, "Cannot find activity class!");
         }
     }
 }

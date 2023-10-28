@@ -14,7 +14,6 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -36,7 +35,7 @@ public class DisplayMoreApkInfo extends BaseHook {
             Class<?> ViewHolderClass = findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject$ViewHolder");
             Method[] methods = XposedHelpers.findMethodsByExactParameters(mAppInfoViewObject, void.class, ViewHolderClass);
             if (methods.length == 0) {
-                XposedLogUtils.logI(TAG, this.lpparam.packageName, "Cannot find appropriate method");
+                logI(TAG, this.lpparam.packageName, "Cannot find appropriate method");
                 return;
             }
 

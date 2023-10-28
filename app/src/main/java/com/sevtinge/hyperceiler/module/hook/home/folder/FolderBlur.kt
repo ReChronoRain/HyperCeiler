@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")
@@ -29,7 +29,7 @@ object FolderBlur : BaseHook() {
                 it.result = null
             }
         } catch (e: Exception) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
+            logE(TAG, this.lpparam.packageName, e)
         }
         var isShouldBlur = false
 

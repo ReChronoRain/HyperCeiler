@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.sevtinge.hyperceiler.module.app.GlobalActions;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -144,6 +143,6 @@ public class ScreenSwipe extends BaseHook {
                     param.setResult(false);
             }
         })) if (lpparam.packageName.equals("com.miui.home"))
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "Cannot disable swipe up search");
+            logI(TAG, this.lpparam.packageName, "Cannot disable swipe up search");
     }
 }

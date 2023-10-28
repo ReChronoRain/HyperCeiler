@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.module.hook.systemui;
 import android.util.ArraySet;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.Set;
 
@@ -56,7 +55,7 @@ public class ChargeAnimationStyle extends BaseHook {
                             i++;
                         } else {
                             mResult = true;
-                            XposedLogUtils.logI(TAG, ChargeAnimationStyle.this.lpparam.packageName, stackElement[i].getClassName());
+                            logI(TAG, ChargeAnimationStyle.this.lpparam.packageName, stackElement[i].getClassName());
                             break;
                         }
                     }

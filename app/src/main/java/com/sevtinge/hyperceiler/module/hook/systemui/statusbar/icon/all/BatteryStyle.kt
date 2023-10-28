@@ -11,7 +11,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidR
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -139,7 +139,7 @@ object BatteryStyle : BaseHook() {
                 mBatteryPercentMarkView.setPaddingRelative(0, topMargin, markRightMargin, 0)
             }
         } catch (t: Throwable) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, t)
+            logE(TAG, this.lpparam.packageName, t)
         }
     }
 }

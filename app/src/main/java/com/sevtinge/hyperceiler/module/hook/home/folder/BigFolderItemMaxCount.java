@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.home.folder;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -26,7 +25,7 @@ public class BigFolderItemMaxCount extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
 
                 mRealPvChildCount = (int) XposedHelpers.callMethod(param.thisObject, "getMRealPvChildCount");
-                XposedLogUtils.logI(TAG, BigFolderItemMaxCount.this.lpparam.packageName, "getMRealPvChildCount1：" + mRealPvChildCount);
+                logI(TAG, BigFolderItemMaxCount.this.lpparam.packageName, "getMRealPvChildCount1：" + mRealPvChildCount);
 
                 if (mRealPvChildCount < 10) {
                     XposedHelpers.callMethod(param.thisObject, "setMItemsMaxCount", 9);
@@ -43,7 +42,7 @@ public class BigFolderItemMaxCount extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
 
                 mRealPvChildCount = (int) XposedHelpers.callMethod(param.thisObject, "getMRealPvChildCount");
-                XposedLogUtils.logI(TAG, BigFolderItemMaxCount.this.lpparam.packageName, "getMRealPvChildCount1：" + mRealPvChildCount);
+                logI(TAG, BigFolderItemMaxCount.this.lpparam.packageName, "getMRealPvChildCount1：" + mRealPvChildCount);
 
                 if (mRealPvChildCount < 5) {
                     XposedHelpers.callMethod(param.thisObject, "setMItemsMaxCount", 4);

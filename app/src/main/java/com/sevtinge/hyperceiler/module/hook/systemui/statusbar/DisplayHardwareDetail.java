@@ -22,7 +22,6 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -279,7 +278,7 @@ public class DisplayHardwareDetail extends BaseHook {
                                                 try {
                                                     cpuReader = new RandomAccessFile("/sys/devices/virtual/thermal/thermal_zone" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + "/temp", "r");
                                                 } catch (FileNotFoundException e) {
-                                                    XposedLogUtils.logI(TAG, DisplayHardwareDetail.this.lpparam.packageName, "get /sys/devices/virtual/thermal/thermal_zone*/temp (" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + ") failed: " + e);
+                                                    logI(TAG, DisplayHardwareDetail.this.lpparam.packageName, "get /sys/devices/virtual/thermal/thermal_zone*/temp (" + mPrefsMap.getString("system_ui_statusbar_temp_fix_cpu_get", "0") + ") failed: " + e);
                                                 }
                                             }
                                             cpuProps = cpuReader.readLine();
@@ -303,7 +302,7 @@ public class DisplayHardwareDetail extends BaseHook {
                                     try {
                                         rawCurr = -1 * Math.round(Integer.parseInt(props.getProperty("POWER_SUPPLY_CURRENT_NOW")) / 1000f);// 概率fc
                                     } catch (NumberFormatException e) {
-                                        XposedLogUtils.logE(TAG, DisplayHardwareDetail.this.lpparam.packageName, "get POWER_SUPPLY_CURRENT_NOW failed", e);
+                                        logE(TAG, DisplayHardwareDetail.this.lpparam.packageName, "get POWER_SUPPLY_CURRENT_NOW failed", e);
                                     }
                                     String preferred = "mA";
                                     if (mPrefsMap.getBoolean("system_ui_statusbar_battery_electric_current")) { // 电流始终显示正值
@@ -433,7 +432,7 @@ public class DisplayHardwareDetail extends BaseHook {
         if (!mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show") || mPrefsMap.getStringAsInt("system_ui_statusbar_" + subKey + "_show", 1) != 1) {
             fontSize = (float) (fontSize * 0.5);
         }
-        XposedLogUtils.logI(TAG, this.lpparam.packageName, "fontsize = " + fontSize);
+        logI(TAG, this.lpparam.packageName, "fontsize = " + fontSize);
         int align = mPrefsMap.getStringAsInt("system_ui_status_bar_" + subKey + "_align", 1);
         int fixedWidth = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fixedcontent_width", 10);
         int leftMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_left_margin", 4);

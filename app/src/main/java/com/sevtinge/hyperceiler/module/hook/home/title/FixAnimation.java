@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.module.hook.home.title;
 import android.view.MotionEvent;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 import kotlin.jvm.internal.Intrinsics;
@@ -50,7 +49,7 @@ public class FixAnimation extends BaseHook {
                 Object obj = param.args[0];
                 Intrinsics.checkNotNull(obj, "null cannot be cast to non-null type android.view.MotionEvent");
                 MotionEvent motionEvent = (MotionEvent) obj;
-                XposedLogUtils.logI(TAG, FixAnimation.this.lpparam.packageName, "onInputConsumerEvent: Action: " + motionEvent.getAction() + ", return " + param.getResult() + ". x: " + motionEvent.getX() + " y: " + motionEvent.getY());
+                logI(TAG, FixAnimation.this.lpparam.packageName, "onInputConsumerEvent: Action: " + motionEvent.getAction() + ", return " + param.getResult() + ". x: " + motionEvent.getX() + " y: " + motionEvent.getY());
                 if (XposedHelpers.getObjectField(param.thisObject, "mAppToHomeAnim2") != null || getMAppToHomeAnim2Bak() == null) {
                     return;
                 }

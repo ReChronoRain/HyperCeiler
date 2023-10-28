@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.utils.MathUtils;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.TileUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -83,7 +82,7 @@ public class FlashLight extends TileUtils {
     public ArrayMap<String, Integer> tileUpdateState(XC_MethodHook.MethodHookParam param, Class<?> mResourceIcon, String tileName) {
         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
         ContentObserver contentObserver;
-        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "tileUpdateState: args: " + param.args[1]);
+        // logE(TAG, this.lpparam.packageName, "tileUpdateState: args: " + param.args[1]);
         if (param.args[1] != null) {
             boolean enabled = (boolean) param.args[1];
             Object flash = XposedHelpers.getObjectField(param.thisObject, "flashlightController");
@@ -93,14 +92,14 @@ public class FlashLight extends TileUtils {
                 }
                 if (!isListening) listening(mContext, param, flash, isListening);
                 setFlashLightEnabled(mContext, 1);
-                // XposedLogUtils.logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening1: " + isListening);
+                // logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening1: " + isListening);
             } else if ((boolean) XposedHelpers.callMethod(flash, "isEnabled")) {
                 if (getFlashLightEnabled(mContext) == 1 && !isListening) {
                     setFlashLightEnabled(mContext, 0);
                 }
                 if (!isListening) listening(mContext, param, flash, isListening);
                 setFlashLightEnabled(mContext, 1);
-                // XposedLogUtils.logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening2: " + isListening + " call: " + XposedHelpers.callMethod(flash, "isEnabled"));
+                // logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening2: " + isListening + " call: " + XposedHelpers.callMethod(flash, "isEnabled"));
             } else {
                 setFlashLightEnabled(mContext, 0);
                 if (isListening) {
@@ -110,7 +109,7 @@ public class FlashLight extends TileUtils {
                         mContext.getContentResolver().unregisterContentObserver(contentObserver);
                     }
                 }
-                // XposedLogUtils.logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening3: " + isListening);
+                // logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening3: " + isListening);
             }
         }
         return null;
@@ -124,7 +123,7 @@ public class FlashLight extends TileUtils {
                 public void onChange(boolean selfChange, @Nullable Uri uri) {
                     super.onChange(selfChange, uri);
                     hookFlash(param.thisObject, flash, mContext, readFile());
-                    // XposedLogUtils.logE(TAG, this.lpparam.packageName, "listening: listening: selfChange: " + selfChange + " uri: " + uri);
+                    // logE(TAG, this.lpparam.packageName, "listening: listening: selfChange: " + selfChange + " uri: " + uri);
                 }
             };
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("flash_light_enabled"), false, contentObserver);
@@ -140,10 +139,10 @@ public class FlashLight extends TileUtils {
                 "lambda$onChanged$0", boolean.class, float.class, new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "MiuiBrightnessController lambda$onChanged$0: " + param.args[0] + " 2: " + param.args[1]);
+                        // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController lambda$onChanged$0: " + param.args[0] + " 2: " + param.args[1]);
                         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                         int enabled = getFlashLightEnabled(mContext);
-                        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "lambda$onChanged$0 enabled: " + enabled);
+                        // logE(TAG, this.lpparam.packageName, "lambda$onChanged$0 enabled: " + enabled);
                         if (enabled == 1) {
                             param.setResult(null);
                         }
@@ -156,9 +155,9 @@ public class FlashLight extends TileUtils {
                     @Override
                     protected void before(MethodHookParam param) {
                         int enabled = getFlashLightEnabled(context);
-                        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$5 enabled: " + enabled);
+                        // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$5 enabled: " + enabled);
                         if (enabled == 1) {
-                            // XposedLogUtils.logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$5 run");
+                            // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$5 run");
                             param.setResult(null);
                         }
                     }
@@ -171,7 +170,7 @@ public class FlashLight extends TileUtils {
                     @Override
                     protected void before(MethodHookParam param) {
                         if (getFlashLightEnabled(context) == 1) {
-                            // XposedLogUtils.logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$$ExternalSyntheticLambda0 run");
+                            // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$$ExternalSyntheticLambda0 run");
                             param.setResult(null);
                         }
                     }
@@ -182,7 +181,7 @@ public class FlashLight extends TileUtils {
                     @Override
                     protected void before(MethodHookParam param) {
                         if (getFlashLightEnabled(context) == 1) {
-                            // XposedLogUtils.logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$2 run");
+                            // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$2 run");
                             param.setResult(null);
                         }
                     }
@@ -200,9 +199,9 @@ public class FlashLight extends TileUtils {
                         // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat int 1: " + param.args[0]);
                         // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat float 2: " + param.args[1]);
                         // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat float 3: " + param.args[2]);
-                        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat int 1: " + param.args[0]);
-                        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 2: " + param.args[1]);
-                        // XposedLogUtils.logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 3: " + param.args[2]);
+                        // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat int 1: " + param.args[0]);
+                        // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 2: " + param.args[1]);
+                        // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 3: " + param.args[2]);
                         float min = (float) param.args[1];
                         float max = (float) param.args[2];
                         if (min < 0.001f) {
@@ -237,7 +236,7 @@ public class FlashLight extends TileUtils {
                             if (maxPath != -1 && i > maxPath) {
                                 i = maxPath;
                             }
-                            // XposedLogUtils.logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat i: " + i);
+                            // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat i: " + i);
                             writeFile(i);
                         } else {
                             XposedHelpers.callMethod(flash, "setFlashlight", false);
@@ -254,7 +253,7 @@ public class FlashLight extends TileUtils {
         try {
             return Settings.System.getInt(context.getContentResolver(), "flash_light_enabled");
         } catch (Settings.SettingNotFoundException e) {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "No Found flash_light_enabled: " + e);
+            logE(TAG, this.lpparam.packageName, "No Found flash_light_enabled: " + e);
             return -1;
         }
     }
@@ -276,18 +275,18 @@ public class FlashLight extends TileUtils {
                     builder.append(line);
                 }
             } catch (IOException e) {
-                XposedLogUtils.logE(TAG, this.lpparam.packageName, "Error to read: " + maxFile, e);
+                logE(TAG, this.lpparam.packageName, "Error to read: " + maxFile, e);
             } finally {
                 try {
                     if (reader != null) {
                         reader.close();
                     }
                 } catch (IOException e) {
-                    XposedLogUtils.logE(TAG, this.lpparam.packageName, "Close reader error: ", e);
+                    logE(TAG, this.lpparam.packageName, "Close reader error: ", e);
                 }
             }
         } else {
-            XposedLogUtils.logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + maxFile);
+            logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + maxFile);
         }
 
         if (builder != null) {
@@ -310,7 +309,7 @@ public class FlashLight extends TileUtils {
                     writeFileModule(flashFileOther, flashInt);
                 }
             } else
-                XposedLogUtils.logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
+                logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
             // if (file1.exists() && file2.exists()) {
             //     writeFileModule(flashFileTorch, flashInt);
             //     writeFileModule(flashFileSwitch, 1);
@@ -318,7 +317,7 @@ public class FlashLight extends TileUtils {
             // } else if (file1.exists()) {
             //     writeFileModule(flashFileTorch, flashInt);
             // } else
-            //     XposedLogUtils.logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
+            //     logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
         }
     }
 
@@ -335,7 +334,7 @@ public class FlashLight extends TileUtils {
                 writer.write(Integer.toString(flashInt));
                 writer.flush();
             } catch (IOException f) {
-                XposedLogUtils.logE(TAG, this.lpparam.packageName, "Write FlashLight File Error: " + f + " File Path: " + filePath);
+                logE(TAG, this.lpparam.packageName, "Write FlashLight File Error: " + f + " File Path: " + filePath);
             }
         }
     }

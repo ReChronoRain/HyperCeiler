@@ -3,7 +3,7 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 
@@ -19,7 +19,11 @@ object BeautyLightAuto : BaseHook() {
                 val beautyLightAuto: java.lang.reflect.Method =
                     it.getMethodInstance(lpparam.classLoader)
                 if (!java.lang.String.valueOf(it).contains(BeautyFace.beautyFace.toString())) {
-                    XposedLogUtils.logI(TAG, this.lpparam.packageName, "beautyLightAuto method is $beautyLightAuto")
+                    logI(
+                        TAG,
+                        this.lpparam.packageName,
+                        "beautyLightAuto method is $beautyLightAuto"
+                    )
                     XposedBridge.hookMethod(
                         beautyLightAuto,
                         XC_MethodReplacement.returnConstant(true)

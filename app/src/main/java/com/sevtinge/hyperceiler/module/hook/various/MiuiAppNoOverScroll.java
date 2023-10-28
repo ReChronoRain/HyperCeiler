@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.module.hook.various;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -49,7 +48,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
                 findAndHookMethodSilently(mRemixRvCls, "setSpringEnabled", boolean.class, hookParam);
             }
         } catch (Exception e) {
-            XposedLogUtils.logE(TAG,"TAG" + lpparam.packageName, e);
+            logE(TAG, "TAG" + lpparam.packageName, e);
         }
     }
 }

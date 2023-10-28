@@ -19,8 +19,6 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.ColorUtils
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.HookUtils
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge

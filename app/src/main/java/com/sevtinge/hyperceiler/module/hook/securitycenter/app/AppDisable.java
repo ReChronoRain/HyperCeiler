@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.XposedUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -121,7 +120,7 @@ public class AppDisable extends BaseHook {
             }
             new Handler().postDelayed(act::invalidateOptionsMenu, 500);
         } catch (Throwable t) {
-            XposedLogUtils.logW(TAG, "", t);
+            logW(TAG, "", t);
         }
     }
 }

@@ -13,7 +13,6 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.BlurUtils;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -64,7 +63,7 @@ public class DialogCustom extends BaseHook {
             for (Method method : mAlertControllerCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) {
                     oldMethodFound = true;
-                    XposedLogUtils.logI(TAG, this.lpparam.packageName, method.getName());
+                    logI(TAG, this.lpparam.packageName, method.getName());
                 }
                 mAllMethodList.add(method);
             }
@@ -76,7 +75,7 @@ public class DialogCustom extends BaseHook {
         }
 
         if (oldMethodFound) {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "oldMethod found.");
+            logI(TAG, this.lpparam.packageName, "oldMethod found.");
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new MethodHook() {
                 @Override
@@ -99,7 +98,7 @@ public class DialogCustom extends BaseHook {
             });
 
         } else {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "oldMethod not found.");
+            logI(TAG, this.lpparam.packageName, "oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
@@ -143,7 +142,7 @@ public class DialogCustom extends BaseHook {
                 }
             });
         } catch (Exception e) {
-           XposedLogUtils.logE(TAG, this.lpparam.packageName, e);
+            logE(TAG, this.lpparam.packageName, e);
         }
 
 

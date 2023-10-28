@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -50,7 +49,7 @@ public class SeekPoints extends BaseHook {
         boolean isInEditingMode = (boolean) XposedHelpers.callMethod(workspace, "isInNormalEditingMode");
         View mScreenSeekBar = (View) XposedHelpers.getObjectField(workspace, "mScreenSeekBar");
         if (mScreenSeekBar == null) {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "showSeekBar HideSeekPointsHook Cannot find seekbar");
+            logI(TAG, this.lpparam.packageName, "showSeekBar HideSeekPointsHook Cannot find seekbar");
             return;
         }
         Context mContext = workspace.getContext();
@@ -72,7 +71,7 @@ public class SeekPoints extends BaseHook {
             XposedHelpers.setAdditionalInstanceField(workspace, "mHandlerEx", mHandler);
         }
         if (mHandler == null) {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "showSeekBar HideSeekPointsHook Cannot create handler");
+            logI(TAG, this.lpparam.packageName, "showSeekBar HideSeekPointsHook Cannot create handler");
             return;
         }
         if (mHandler.hasMessages(666)) mHandler.removeMessages(666);

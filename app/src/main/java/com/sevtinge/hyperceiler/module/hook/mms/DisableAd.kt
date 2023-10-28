@@ -7,7 +7,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 
 object DisableAd : BaseHook() {
     override fun init() {
@@ -35,7 +35,7 @@ object DisableAd : BaseHook() {
                 })
             }*/
         } catch (e: Throwable) {
-           XposedLogUtils.logE(TAG, this.lpparam.packageName, e)
+            logE(TAG, this.lpparam.packageName, e)
         }
         findAndHookMethod("com.miui.smsextra.ui.BottomMenu", "allowMenuMode",
             Context::class.java, object : MethodHook() {

@@ -19,7 +19,7 @@ import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.callMethodOrNull
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils
+
 import de.robv.android.xposed.XposedHelpers
 import java.io.File
 import java.lang.reflect.Method
@@ -38,7 +38,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
         mAppInfoViewObject =
             findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject")//.findClassOrNull()
         if (mAppInfoViewObject != null) {
-            XposedLogUtils.logI(TAG, this.lpparam.packageName, "mAppInfoViewObject is $mAppInfoViewObject")
+            logI(TAG, this.lpparam.packageName, "mAppInfoViewObject is $mAppInfoViewObject")
             mAppInfoViewObjectViewHolder =
                 findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")//"com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder".findClassOrNull()
             val methods: Array<Method> =

@@ -15,7 +15,6 @@ import android.os.Process;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -126,7 +125,7 @@ public class StatusBarActions extends BaseHook {
             Object mVolumeDialogPlugin = XposedHelpers.getObjectField(mVolumeComponent, "mDialog");
             Object miuiVolumeDialog = XposedHelpers.getObjectField(mVolumeDialogPlugin, "mVolumeDialogImpl");
             if (miuiVolumeDialog == null) {
-                XposedLogUtils.logI("OpenVolumeDialog", "com.android.systemui", "MIUI volume dialog is NULL!");
+                logI("OpenVolumeDialog", "com.android.systemui", "MIUI volume dialog is NULL!");
                 return;
             }
 

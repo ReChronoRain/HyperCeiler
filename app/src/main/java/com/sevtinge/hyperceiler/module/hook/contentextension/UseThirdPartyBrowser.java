@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -24,7 +23,7 @@ public class UseThirdPartyBrowser extends BaseHook {
         XposedHelpers.findAndHookMethod(clazz, "getIntentWithBrowser", String.class, new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                XposedLogUtils.logI(TAG, UseThirdPartyBrowser.this.lpparam.packageName, "hooked url " + param.args[0].toString());
+                logI(TAG, UseThirdPartyBrowser.this.lpparam.packageName, "hooked url " + param.args[0].toString());
                 Uri uri = Uri.parse(param.args[0].toString());
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -36,7 +35,7 @@ public class UseThirdPartyBrowser extends BaseHook {
         XposedHelpers.findAndHookMethod(clazz, "openGlobalSearch", Context.class, String.class, String.class, new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                XposedLogUtils.logI(TAG, UseThirdPartyBrowser.this.lpparam.packageName, "hooked all-search on, word is " + param.args[1].toString() + ", from " + param.args[2].toString());
+                logI(TAG, UseThirdPartyBrowser.this.lpparam.packageName, "hooked all-search on, word is " + param.args[1].toString() + ", from " + param.args[2].toString());
                 try {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_WEB_SEARCH);
@@ -44,7 +43,7 @@ public class UseThirdPartyBrowser extends BaseHook {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ((Context) param.args[0]).startActivity(intent);
                 } catch (Exception e) {
-                    XposedLogUtils.logE(TAG, UseThirdPartyBrowser.this.lpparam.packageName, e);
+                    logE(TAG, UseThirdPartyBrowser.this.lpparam.packageName, e);
                 }
                 return null;
             }

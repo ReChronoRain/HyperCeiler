@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.XC_MethodReplacement;
 
@@ -22,7 +21,7 @@ public class SetDeviceLevel extends BaseHook {
 
     public static Bundle checkBundle(Context context, Bundle bundle) {
         if (context == null) {
-            XposedLogUtils.logE("SetWeatherDeviceLevel","com.miui.weather2", "Context is null!");
+            logE("SetWeatherDeviceLevel", "com.miui.weather2", "Context is null!");
             return null;
         }
         if (bundle == null) bundle = new Bundle();
