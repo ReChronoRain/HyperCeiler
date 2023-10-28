@@ -145,15 +145,15 @@ public class StatusBarIconPositionAdjust extends BaseHook {
             findAndHookConstructor(mStatusBarIconList, String[].class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    boolean isRightController = "StatusBarIconControllerImpl".equals(param.thisObject.getClass().getSimpleName());
+                    boolean isRightController = "StatusBarIconList".equals(param.thisObject.getClass().getSimpleName());
                     ArrayList<String> allStatusIcons = new ArrayList<>(Arrays.asList((String[]) param.args[0]));
                     if (isRightController) {
-                        int startIndex = allStatusIcons.indexOf("no_sim");
+                        int startIndex = allStatusIcons.indexOf("mobile");
                         int endIndex = allStatusIcons.indexOf("demo_wifi") + 1;
                         List<String> removedIcons = allStatusIcons.subList(startIndex, endIndex);
                         removedIcons.clear();
                         if (!isMoveLeft) {
-                            startIndex = allStatusIcons.indexOf("ethernet");
+                            startIndex = allStatusIcons.indexOf("hd");
                             allStatusIcons.addAll(startIndex + 1, mSignalRelatedIcons);
                         }
                         param.args[0] = allStatusIcons.toArray(new String[0]);
