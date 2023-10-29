@@ -5,7 +5,7 @@
 # HyperCeiler
 ### Make HyperOS Great Again!
 
-简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
+English&nbsp;&nbsp;|&nbsp;&nbsp;[简体中文](/README.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
 </div>
 
