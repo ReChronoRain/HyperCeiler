@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.lab
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.LabUtilsClass.labUtilClass
-import com.sevtinge.hyperceiler.utils.Helpers
 
 
 object GetNumberEnable : BaseHook() {
@@ -18,7 +17,7 @@ object GetNumberEnable : BaseHook() {
                 object : MethodHook() {
                     @Throws(Throwable::class)
                     override fun before(param: MethodHookParam) {
-                        val fm = Helpers.getStaticObjectFieldSilently(labUtils, "b")
+                        val fm = getStaticObjectFieldSilently(labUtils, "b")
                         if (fm != null) {
                             try {
                                 val featMap = fm as MutableMap<String, Int>

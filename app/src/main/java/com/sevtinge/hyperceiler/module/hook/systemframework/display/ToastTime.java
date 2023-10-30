@@ -14,44 +14,45 @@ import de.robv.android.xposed.XposedHelpers;
 public class ToastTime extends BaseHook {
     @Override
     public void init() {
-        Helpers.findAndHookMethod("com.android.server.notification.NotificationManagerService", lpparam.classLoader, "showNextToastLocked",
+        findAndHookMethod("com.android.server.notification.NotificationManagerService", lpparam.classLoader, "showNextToastLocked",
             new MethodHook() {
-            @Override
-            @SuppressWarnings("unchecked")
-            protected void after(MethodHookParam param) {
-                Context mContext = (Context)XposedHelpers.callMethod(param.thisObject, "getContext");
-                Handler mHandler = (Handler)XposedHelpers.getObjectField(param.thisObject, "mHandler");
-                ArrayList<Object> mToastQueue = (ArrayList<Object>)XposedHelpers.getObjectField(param.thisObject, "mToastQueue");
-                if (mContext == null || mHandler == null || mToastQueue == null || mToastQueue.size() == 0) return;
-                int mod = (Helpers.getSharedIntPref(mContext, "system_ui_display_toast_times", 0) - 4) * 1000;
-                for (Object record: mToastQueue)
-                    if (record != null && mHandler.hasMessages(2, record)) {
-                        mHandler.removeCallbacksAndMessages(record);
-                        int duration = XposedHelpers.getIntField(record, "duration");
-                        int delay = Math.max(1000, (duration == 1 ? 3500 : 2000) + mod);
-                        mHandler.sendMessageDelayed(Message.obtain(mHandler, 2, record), delay);
-                    }
-            }
-        });
+                @Override
+                @SuppressWarnings("unchecked")
+                protected void after(MethodHookParam param) {
+                    Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getContext");
+                    Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
+                    ArrayList<Object> mToastQueue = (ArrayList<Object>) XposedHelpers.getObjectField(param.thisObject, "mToastQueue");
+                    if (mContext == null || mHandler == null || mToastQueue == null || mToastQueue.size() == 0)
+                        return;
+                    int mod = (Helpers.getSharedIntPref(mContext, "system_ui_display_toast_times", 0) - 4) * 1000;
+                    for (Object record : mToastQueue)
+                        if (record != null && mHandler.hasMessages(2, record)) {
+                            mHandler.removeCallbacksAndMessages(record);
+                            int duration = XposedHelpers.getIntField(record, "duration");
+                            int delay = Math.max(1000, (duration == 1 ? 3500 : 2000) + mod);
+                            mHandler.sendMessageDelayed(Message.obtain(mHandler, 2, record), delay);
+                        }
+                }
+            });
 
-        Helpers.findAndHookMethod("com.android.server.policy.PhoneWindowManager", lpparam.classLoader, "systemReady",
+        findAndHookMethod("com.android.server.policy.PhoneWindowManager", lpparam.classLoader, "systemReady",
             new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) {
-                Context mContext = (Context)XposedHelpers.getObjectField(param.thisObject, "mContext");
-                Handler mHandler = (Handler)XposedHelpers.getObjectField(param.thisObject, "mHandler");
+                @Override
+                protected void after(MethodHookParam param) {
+                    Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
 
-                new Helpers.SharedPrefObserver(mContext, mHandler, "system_ui_display_toast_times", 0) {
-                    @Override
-                    public void onChange(String name, int defValue) {
-                        mPrefsMap.put(name, Helpers.getSharedIntPref(mContext, name, defValue));
-                    }
-                };
-            }
-        });
+                    new Helpers.SharedPrefObserver(mContext, mHandler, "system_ui_display_toast_times", 0) {
+                        @Override
+                        public void onChange(String name, int defValue) {
+                            mPrefsMap.put(name, Helpers.getSharedIntPref(mContext, name, defValue));
+                        }
+                    };
+                }
+            });
 
         String windowClass = "com.android.server.wm.DisplayPolicy";
-        Helpers.hookAllMethods(windowClass, lpparam.classLoader, "adjustWindowParamsLw", new MethodHook() {
+        hookAllMethods(windowClass, lpparam.classLoader, "adjustWindowParamsLw", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 Object lp = param.args.length == 1 ? param.args[0] : param.args[1];
@@ -61,7 +62,7 @@ public class ToastTime extends BaseHook {
             @Override
             protected void after(MethodHookParam param) {
                 Object lp = param.args.length == 1 ? param.args[0] : param.args[1];
-                long mPrevHideTimeout = (long)XposedHelpers.getAdditionalInstanceField(param.thisObject, "mPrevHideTimeout");
+                long mPrevHideTimeout = (long) XposedHelpers.getAdditionalInstanceField(param.thisObject, "mPrevHideTimeout");
                 long mHideTimeout = XposedHelpers.getLongField(lp, "hideTimeoutMilliseconds");
                 if (mPrevHideTimeout == -1 || mHideTimeout == -1) return;
 

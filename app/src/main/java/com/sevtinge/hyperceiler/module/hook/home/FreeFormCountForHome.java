@@ -2,8 +2,6 @@ package com.sevtinge.hyperceiler.module.hook.home;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodReplacement;
-
 public class FreeFormCountForHome extends BaseHook {
 
     Class<?> mRecentsAndFSGesture;
@@ -14,10 +12,10 @@ public class FreeFormCountForHome extends BaseHook {
 
         hookAllMethods(mRecentsAndFSGesture,
             "canTaskEnterMiniSmallWindow",
-            XC_MethodReplacement.returnConstant(true));
+            MethodHook.returnConstant(true));
 
         hookAllMethods(mRecentsAndFSGesture,
             "canTaskEnterSmallWindow",
-            XC_MethodReplacement.returnConstant(true));
+            MethodHook.returnConstant(true));
     }
 }

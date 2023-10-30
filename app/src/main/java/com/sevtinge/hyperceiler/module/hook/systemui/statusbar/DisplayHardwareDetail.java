@@ -21,7 +21,6 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -224,7 +223,7 @@ public class DisplayHardwareDetail extends BaseHook {
             }
         });
 
-        Helpers.hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, new Helpers.MethodHook() {
+        hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, new MethodHook() {
             Handler mBgHandler;
 
             @Override
@@ -253,7 +252,7 @@ public class DisplayHardwareDetail extends BaseHook {
                             String deviceInfo = "";
                             boolean showBatteryInfo = showBatteryDetail;
                             if (showBatteryInfo && mPrefsMap.getBoolean("system_ui_statusbar_battery_only_changing_show") && mFinalChargeUtils != null) {
-                                Object batteryStatus = Helpers.getStaticObjectFieldSilently(mFinalChargeUtils, "sBatteryStatus");
+                                Object batteryStatus = getStaticObjectFieldSilently(mFinalChargeUtils, "sBatteryStatus");
                                 if (batteryStatus == null) {
                                     showBatteryInfo = false;
                                 } else {

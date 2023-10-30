@@ -107,7 +107,7 @@ public class CleanOpenMenu extends BaseHook {
         };
 
         String ActQueryService = isMoreAndroidVersion(33) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService$ComputerEngine";
-        Helpers.hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
+        hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
 
         // if (!findAndHookMethodSilently(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, int.class, boolean.class, boolean.class, hook))
         // findAndHookMethod(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, hook);//error
@@ -175,7 +175,7 @@ public class CleanOpenMenu extends BaseHook {
     }
 
     public static void initRes() {
-        Helpers.hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new Helpers.MethodHook() {
+        hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 Intent mOriginalIntent = (Intent) XposedHelpers.getObjectField(param.thisObject, "mOriginalIntent");

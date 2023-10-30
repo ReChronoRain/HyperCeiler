@@ -5,14 +5,12 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import com.github.kyuubiran.ezxhelper.ClassUtils;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodHook;
-
 public class AnimParamCustom extends BaseHook {
     @Override
     public void init() {
-        hookAllMethods("com.miui.home.recents.util.RectFSpringAnim", "setAnimParamByType", new XC_MethodHook() {
+        hookAllMethods("com.miui.home.recents.util.RectFSpringAnim", "setAnimParamByType", new MethodHook() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws NoSuchFieldException, ClassNotFoundException {
+            protected void before(MethodHookParam param) throws NoSuchFieldException, ClassNotFoundException {
                 Class<?> clazzRectFSpringAnim = ClassUtils.loadClass("com.miui.home.recents.util.RectFSpringAnim", null);
                 Object RECT_CENTERX = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnim, "RECT_CENTERX");
                 Object RECT_CENTERY = ClassUtils.getStaticObjectOrNull(clazzRectFSpringAnim, "RECT_CENTERY");

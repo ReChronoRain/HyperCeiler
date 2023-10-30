@@ -20,7 +20,7 @@ public class ViewWifiPasswordHook extends BaseHook {
     public void init() {
         int titleId = mResHook.addResource("system_wifipassword_btn_title", R.string.system_settings_wifipassword_btn_title);
         int dlgTitleId = mResHook.addResource("system_wifi_password_dlgtitle", R.string.system_settings_wifi_password_dlgtitle);
-        Helpers.hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", lpparam.classLoader, "onBindViewHolder", new MethodHook() {
+        hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", lpparam.classLoader, "onBindViewHolder", new MethodHook() {
             @Override
             @SuppressLint("DiscouragedApi")
             protected void after(MethodHookParam param) throws Throwable {
@@ -32,7 +32,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         });
         final String[] wifiSharedKey = new String[1];
         final String[] passwordTitle = new String[1];
-        Helpers.findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", lpparam.classLoader, "setTitle", int.class, new MethodHook() {
+        findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", lpparam.classLoader, "setTitle", int.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 if (wifiSharedKey[0] != null) {
@@ -41,7 +41,7 @@ public class ViewWifiPasswordHook extends BaseHook {
             }
         });
 
-        Helpers.findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", lpparam.classLoader, "setMessage", CharSequence.class, new MethodHook() {
+        findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", lpparam.classLoader, "setMessage", CharSequence.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 if (wifiSharedKey[0] != null) {
@@ -51,7 +51,7 @@ public class ViewWifiPasswordHook extends BaseHook {
                 }
             }
         });
-        Helpers.hookAllMethods("miuix.appcompat.app.AlertDialog", lpparam.classLoader, "onCreate", new MethodHook() {
+        hookAllMethods("miuix.appcompat.app.AlertDialog", lpparam.classLoader, "onCreate", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 if (wifiSharedKey[0] != null) {
@@ -60,7 +60,7 @@ public class ViewWifiPasswordHook extends BaseHook {
                 }
             }
         });
-        Helpers.hookAllMethods("com.android.settings.wifi.MiuiSavedAccessPointsWifiSettings", lpparam.classLoader, "showDeleteDialog", new MethodHook() {
+        hookAllMethods("com.android.settings.wifi.MiuiSavedAccessPointsWifiSettings", lpparam.classLoader, "showDeleteDialog", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Object wifiEntry = param.args[0];

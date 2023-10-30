@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import java.util.ArrayList;
 
@@ -47,7 +46,7 @@ public class UnlockGrids extends BaseHook {
          */
 
 
-        hookAllMethodsSilently("com.miui.home.launcher.compat.LauncherCellCountCompatDevice", "shouldUseDeviceValue", XC_MethodReplacement.returnConstant(false));
+        hookAllMethodsSilently("com.miui.home.launcher.compat.LauncherCellCountCompatDevice", "shouldUseDeviceValue", MethodHook.returnConstant(false));
         findAndHookMethod("com.miui.home.settings.MiuiHomeSettings", "onCreatePreferences", Bundle.class, String.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
@@ -55,7 +54,7 @@ public class UnlockGrids extends BaseHook {
             }
         });
         Class<?> DeviceConfigClass = XposedHelpers.findClass("com.miui.home.launcher.DeviceConfig", lpparam.classLoader);
-        Helpers.findAndHookMethod(DeviceConfigClass, "loadCellsCountConfig", Context.class, boolean.class, new MethodHook() {
+        findAndHookMethod(DeviceConfigClass, "loadCellsCountConfig", Context.class, boolean.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 int sCellCountY = (int) XposedHelpers.getStaticObjectField(DeviceConfigClass, "sCellCountY");
@@ -83,19 +82,19 @@ public class UnlockGrids extends BaseHook {
             }
         });
 
-        Helpers.findAndHookMethod("com.miui.home.launcher.compat.LauncherCellCountCompatNoWord", lpparam.classLoader, "setLoadResCellConfig", boolean.class, new MethodHook() {
+        findAndHookMethod("com.miui.home.launcher.compat.LauncherCellCountCompatNoWord", lpparam.classLoader, "setLoadResCellConfig", boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.args[0] = true;
             }
         });
 
-        Helpers.hookAllMethods("com.miui.home.launcher.DeviceConfig", lpparam.classLoader, "isCellSizeChangedByTheme", new MethodHook() {
+        hookAllMethods("com.miui.home.launcher.DeviceConfig", lpparam.classLoader, "isCellSizeChangedByTheme", new MethodHook() {
             XC_MethodHook.Unhook nowordHook;
 
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                nowordHook = Helpers.findAndHookMethodUseUnhook("com.miui.home.launcher.common.Utilities", lpparam.classLoader, "isNoWordModel", XC_MethodReplacement.returnConstant(false));
+                nowordHook = findAndHookMethodUseUnhook("com.miui.home.launcher.common.Utilities", lpparam.classLoader, "isNoWordModel", XC_MethodReplacement.returnConstant(false));
             }
 
             @Override

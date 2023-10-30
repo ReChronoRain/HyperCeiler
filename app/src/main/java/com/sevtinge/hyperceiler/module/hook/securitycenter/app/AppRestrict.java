@@ -7,7 +7,6 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 import java.lang.reflect.Method;
 
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
 public class AppRestrict extends BaseHook {
@@ -43,6 +42,6 @@ public class AppRestrict extends BaseHook {
             }
         });
 
-        hookAllMethods("com.miui.networkassistant.service.FirewallService", "setSystemAppWifiRuleAllow", XC_MethodReplacement.DO_NOTHING);
+        hookAllMethods("com.miui.networkassistant.service.FirewallService", "setSystemAppWifiRuleAllow", MethodHook.DO_NOTHING);
     }
 }

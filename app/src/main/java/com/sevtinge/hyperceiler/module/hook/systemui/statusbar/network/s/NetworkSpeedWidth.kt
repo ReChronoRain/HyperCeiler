@@ -2,14 +2,13 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.s
 
 import android.widget.TextView
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedWidth : BaseHook() {
     override fun init() {
         // 固定宽度以防相邻元素左右防抖
         if (mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10) {
-            Helpers.hookAllMethods(
+            hookAllMethods(
                 "com.android.systemui.statusbar.views.NetworkSpeedView",
                 lpparam.classLoader,
                 "applyNetworkSpeedState",

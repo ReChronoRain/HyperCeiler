@@ -48,9 +48,10 @@ public class GmsTile extends TileUtils {
 
     @Override
     public String[] customTileProvider() {
-        String[] TileProvider = new String[3];
+        String[] TileProvider = new String[4];
         TileProvider[0] = "screenLockTileProvider";
-        TileProvider[1] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "createTileInternal" : "interceptCreateTile";
+        TileProvider[1] = "createTileInternal";
+        TileProvider[2] = "interceptCreateTile";
         TileProvider[2] = "createTile";
         return TileProvider;
     }

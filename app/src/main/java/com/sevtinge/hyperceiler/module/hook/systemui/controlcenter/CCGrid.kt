@@ -39,7 +39,7 @@ object CCGrid : BaseHook() {
                 cols
             )
         }
-        Helpers.findAndHookMethod(
+        findAndHookMethod(
             "com.android.systemui.SystemUIApplication",
             lpparam.classLoader,
             "onCreate",
@@ -110,16 +110,17 @@ object CCGrid : BaseHook() {
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {
                         appInfo = param.args[1] as ApplicationInfo
-                        ClassUtils.loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
-                            name == "get"
-                        }.createHook {
-                            after { getClassLoader ->
-                                if (appInfo!!.packageName == "miui.systemui.plugin") {
-                                    val classLoader = getClassLoader.result as ClassLoader
-                                    loadCCGrid(classLoader)
+                        ClassUtils.loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
+                            .first {
+                                name == "get"
+                            }.createHook {
+                                after { getClassLoader ->
+                                    if (appInfo!!.packageName == "miui.systemui.plugin") {
+                                        val classLoader = getClassLoader.result as ClassLoader
+                                        loadCCGrid(classLoader)
+                                    }
                                 }
                             }
-                        }
                     }
                 }
             )
@@ -140,7 +141,8 @@ object CCGrid : BaseHook() {
 
     private fun loadCCGrid(pluginLoader: ClassLoader) {
         if (cols > 4) {
-            Helpers.findAndHookConstructor("miui.systemui.controlcenter.qs.QSPager", pluginLoader,
+            findAndHookConstructor(
+                "miui.systemui.controlcenter.qs.QSPager", pluginLoader,
                 Context::class.java,
                 AttributeSet::class.java,
                 object : MethodHook() {
@@ -153,7 +155,9 @@ object CCGrid : BaseHook() {
                     }
                 })
             if (!label) {
-                Helpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.StandardTileView", pluginLoader,
+                findAndHookMethod(
+                    "miui.systemui.controlcenter.qs.tileview.StandardTileView",
+                    pluginLoader,
                     "createLabel",
                     Boolean::class.javaPrimitiveType,
                     object : MethodHook() {
@@ -179,7 +183,7 @@ object CCGrid : BaseHook() {
             }
         }
         if (rows != 4) {
-            Helpers.findAndHookMethod(
+            findAndHookMethod(
                 "miui.systemui.controlcenter.qs.QSPager",
                 pluginLoader,
                 "distributeTiles",
@@ -322,7 +326,7 @@ object CCGrid : BaseHook() {
             "miui.systemui.controlcenter.qs.tileview.StandardTileView",
             pluginLoader
         )
-        Helpers.hookAllMethods(mQSController, "init", object : MethodHook() {
+        hookAllMethods(mQSController, "init", object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 if (param.args.size != 1) return
                 val mLabelContainer = XposedHelpers.getObjectField(
@@ -337,7 +341,7 @@ object CCGrid : BaseHook() {
     }
 
     private fun mCCTileCornerHook(pluginLoader: ClassLoader?) {
-        Helpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.ExpandableIconView",
+        findAndHookMethod("miui.systemui.controlcenter.qs.tileview.ExpandableIconView",
             pluginLoader,
             "setCornerRadius",
             Float::class.javaPrimitiveType,
@@ -354,7 +358,8 @@ object CCGrid : BaseHook() {
                     param.args[0] = mContext.resources.displayMetrics.density * radius
                 }
             })
-        Helpers.findAndHookMethod("miui.systemui.dagger.PluginComponentFactory",
+        findAndHookMethod(
+            "miui.systemui.dagger.PluginComponentFactory",
             pluginLoader,
             "create",
             Context::class.java,
@@ -384,11 +389,11 @@ object CCGrid : BaseHook() {
                             }
                         }
                     }
-                    Helpers.findAndHookMethod(
+                    findAndHookMethod(
                         "android.content.res.Resources", pluginLoader, "getDrawable",
                         Int::class.javaPrimitiveType, imgHook
                     )
-                    Helpers.findAndHookMethod(
+                    findAndHookMethod(
                         "android.content.res.Resources.Theme",
                         pluginLoader,
                         "getDrawable",

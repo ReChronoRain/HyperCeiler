@@ -4,7 +4,6 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Paint;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -23,7 +22,7 @@ public class QSDetailBackGround extends BaseHook {
                         mPluginLoader = (ClassLoader) param.getResult();
                     }
 
-                    Helpers.hookAllMethods("miui.systemui.widget.SmoothRoundDrawable", mPluginLoader, "inflate", new MethodHook() {
+                    hookAllMethods("miui.systemui.widget.SmoothRoundDrawable", mPluginLoader, "inflate", new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) throws Throwable {
                             Paint mPaint = (Paint) XposedHelpers.getObjectField(param.thisObject, "mPaint");
