@@ -485,6 +485,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 時間</string>
     <string name="system_ui_status_bar_icon_airplane">機内モード</string>
     <string name="system_ui_status_bar_icon_vowifi">VoWiFi アイコンを非表示</string>
+    <string name="system_ui_status_bar_icon_volte">VoLTE アイコンを非表示</string>
     <string name="system_ui_status_bar_icon_headset">ヘッドセット</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_data_saver">データセーバー</string>
@@ -697,7 +698,10 @@
     <string name="updater">アップデーター</string>
     <string name="updater_fuck_vab">OTA の認証を削除する</string>
     <string name="updater_fuck_vab_desc">VAB デバイスのみ対応です。VAB 以外のデバイスでは有効にしないでください！\n- 内部テスト権限がなくても内部テスト版のインストールができるようになります\n- 異なるバージョンをインストールした後はデータを消去することをおすすめします\n- 非公式 ROM は非対応です\n- この機能は危険なため、Fastboot の使い方を理解している場合のみ有効化してください</string>
-    <string name="updater_miui_version">MIUIバージョンを偽装する</string>
+    <string name="updater_version_mode">偽装の種類</string>
+    <string name="updater_big_version">大型バージョンに偽装</string>
+    <string name="updater_big_version_desc">Xiaomi HyperOS バージョンを偽装するときに記入する必要がある項目です。デフォルトは V816 です</string>
+    <string name="updater_miui_version">アップデーターのバージョンを偽装する</string>
     <string name="updater_miui_version_desc">システムアップデートを変更し、一定期間システムアップデートを防止できます</string>
     <string name="updater_device">アップデーターでデバイスを偽装</string>
     <string name="updater_device_desc">ターゲットデバイスの ROM パッケージを取得するためのモデルコードを入力してください。この機能は非常に危険です</string>
@@ -1294,5 +1298,4 @@
     <string name="tip_18">ヒント: HyperCeiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
     <string name="tip_19">ヒント: グレーアウトした機能は、特別な注釈がない場合機能が異常であることを意味しており、当分の間ユーザーに開放される予定はありません</string>
     <string name="tip_20">ヒント: 何もしない場合は Canary の新しいバージョンを追わないでください。壊れている場合は急いでアップデートしないでください。</string>
-    <string name="system_ui_status_bar_icon_volte">VoLTE アイコンを非表示</string>
 </resources>
