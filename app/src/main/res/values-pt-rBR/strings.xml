@@ -485,6 +485,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
     <string name="system_ui_status_bar_icon_airplane">Modo avião</string>
     <string name="system_ui_status_bar_icon_vowifi">Ocultar ícone VoWiFi</string>
+    <string name="system_ui_status_bar_icon_volte">Ocultar ícone VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Fone de ouvido</string>
     <string name="system_ui_status_bar_icon_volume">Volume</string>
     <string name="system_ui_status_bar_icon_data_saver">Economia de dados</string>
@@ -771,7 +772,7 @@
     <string name="home_gesture_down_swipe_desc">Deslize para baixo com um dedo em qualquer tela inicial</string>
     <string name="home_gesture_up_swipe2">Deslize para cima com dois dedos</string>
     <string name="home_gesture_up_swipe2_desc">Deslize para cima com dois dedos em qualquer tela inicial</string>
-    <string name="home_gesture_down_swipe2">Deslize para baixo com dois dedos</string>
+    <string name="home_gesture_down_swipe2">Deslizar para baixo com dois dedos</string>
     <string name="home_gesture_down_swipe2_desc">Deslize para baixo com dois dedos em qualquer tela inicial</string>
     <string name="home_gesture_pinch">Pince com dois dedos</string>
     <string name="home_gesture_spread">Espalhe com dois dedos</string>
@@ -857,7 +858,7 @@
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
     <string name="home_title_title_new_install">Não mostrar novo indicador de instalação do app</string>
     <string name="home_title_drawer_font_hidden">Ocultar todos os nomes dos apps</string>
-    <string name="home_title_drawer_font_hidden_more">O título do app na gaveta também ficará oculto.\nSe você quiser manter o título do app na gaveta, use Tamanho da fonte para ajustá-lo.</string>
+    <string name="home_title_drawer_font_hidden_more">O nome do app na gaveta também ficará oculto.\nSe você quiser manter o nome do app na gaveta, use Tamanho da fonte para ajustá-lo.</string>
     <string name="home_title_title_new_install_more">Não exiba o indicador próximo ao nome do app ao instalar um novo app</string>
     <string name="home_title_font_size">Tamanho da fonte</string>
     <string name="home_title_title_color">Cor do título</string>
@@ -1297,5 +1298,4 @@
     <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
     <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que fica cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto</string>
     <string name="tip_20">Dica: Não persiga a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizar se ela estiver quebrada</string>
-    <string name="system_ui_status_bar_icon_volte">Ocultar ícone VoLTE</string>
 </resources>

@@ -487,6 +487,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d phút</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>
     <string name="system_ui_status_bar_icon_vowifi">Ẩn biểu tượng VoWiFi</string>
+    <string name="system_ui_status_bar_icon_volte">Ẩn biểu tượng VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Tai nghe</string>
     <string name="system_ui_status_bar_icon_volume">Tắt chuông</string>
     <string name="system_ui_status_bar_icon_data_saver">Tiết kiệm dữ liệu</string>
@@ -703,6 +704,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
 - Những người có quyền thử nghiệm nội bộ sẽ không thể nhận được bản cập nhật thử nghiệm nội bộ và có thể được sử dụng để chặn cập nhật hệ thống.
 - Sau khi nâng cấp loại phiên bản khác nhau, bạn nên xóa dữ liệu.
 - Không hỗ trợ ROM không chính thức.</string>
+    <string name="updater_version_mode">Kiểu giả mạo</string>
+    <string name="updater_big_version">Giả mạo phiên bản lớn</string>
+    <string name="updater_big_version_desc">Cần điền khi giả mạo phiên bản Xiaomi HyperOS, mặc định là V816</string>
     <string name="updater_miui_version">Giả mạo phiên bản cập nhật</string>
     <string name="updater_miui_version_desc">Chỉ sửa đổi bản cập nhật hệ thống, điều này có thể bảo vệ bản cập nhật hệ thống ở một mức độ nhất định</string>
     <string name="updater_device">Giả mạo thiết bị để cập nhật</string>
@@ -850,6 +854,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_drawer_editor_desc">Xoá nút \"Sửa\" trong ngăn kéo</string>
     <string name="home_drawer_blur">Bật chế độ làm mờ Ngăn chứa ứng dụng</string>
     <string name="home_drawer_blur_desc">Vui lòng đặt độ trong suốt của nền ngăn kéo ứng dụng thành 100% để sử dụng tính năng này</string>
+    <string name="home_drawer_pinyin">Sắp xếp thứ tự theo bính âm</string>
+    <string name="home_drawer_pinyin_more">Khi ngôn ngữ không phải là tiếng Trung giản thể, các ứng dụng trong ngăn vẫn được sắp xếp theo bính âm</string>
     <string name="home_title">Biểu tượng và tiêu đề</string>
     <string name="home_title_icon_title">Biểu tượng</string>
     <string name="home_title_bigicon_title">Siêu biểu tượng</string>
@@ -1306,5 +1312,4 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="tip_18">Mẹo: HyperCeiler là ứng dụng tiêu hao pin nhanh nhất</string>
     <string name="tip_19">Mẹo: Nếu không có chú thích đặc biệt cho chức năng chuyển sang màu xám, điều đó có nghĩa là chức năng đó không bình thường và nó không được lên kế hoạch mở cho người dùng trong thời điểm hiện tại</string>
     <string name="tip_20">Mẹo: Đừng chạy theo phiên bản Canary nếu bạn không có việc gì làm và đừng vội cập nhật nếu nó bị hỏng (</string>
-    <string name="system_ui_status_bar_icon_volte">Ẩn biểu tượng VoLTE</string>
 </resources>
