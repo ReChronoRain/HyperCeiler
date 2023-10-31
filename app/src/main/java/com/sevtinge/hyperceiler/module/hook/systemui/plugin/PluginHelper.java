@@ -3,8 +3,6 @@ package com.sevtinge.hyperceiler.module.hook.systemui.plugin;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 
-import android.content.pm.ApplicationInfo;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
@@ -14,7 +12,7 @@ public class PluginHelper extends BaseHook {
 
     private static ClassLoader pluginLoader = null;
 
-    private static ApplicationInfo appInfo = null;
+    // private static ApplicationInfo appInfo = null;
 
     @Override
     public void init() {
@@ -23,61 +21,75 @@ public class PluginHelper extends BaseHook {
                 ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
                 : "com.android.systemui.shared.plugins.PluginManagerImpl";
             hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
-                    private boolean isHooked = false;
+                private boolean isHooked = false;
+                private boolean run = false;
 
                     @Override
                     protected void after(MethodHookParam param) {
-                        appInfo = (ApplicationInfo) param.args[0];
-                        if (appInfo != null) {
-                            if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
+                        // appInfo = (ApplicationInfo) param.args[0];
+                        // if (appInfo != null) {"miui.systemui.plugin".equals(appInfo.packageName) &&
+                        if (!isHooked) {
+                            if (pluginLoader == null) {
+                                pluginLoader = (ClassLoader) param.getResult();
+                            }
+                            if (pluginLoader.toString().contains("MIUISystemUIPlugin")) {
                                 isHooked = true;
-                                if (pluginLoader == null) {
-                                    pluginLoader = (ClassLoader) param.getResult();
-                                }
-                                // logD("pluginLoader: " + pluginLoader);
+                                run = true;
                                 setClassLoader(pluginLoader);
                             } else {
-                                if (!isHooked)
-                                    logD("appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                logW("PluginHelper", "im not get ClassLoader: " + pluginLoader);
                             }
+                            // logD("pluginLoader: " + pluginLoader);
+                            // setClassLoader(pluginLoader);
+                            // logE("PluginHelper", "im get ClassLoader: " + pluginLoader);
                         } else {
-                            logE(TAG, "appInfo is null");
+                            if (!run)
+                                logW("get classloader miui.systemui.plugin error");
                         }
+                        // } else {
+                        //     logE(TAG, "appInfo is null");
+                        // }
                     }
                 }
             );
         } else {
-            hookAllMethods("com.android.systemui.shared.plugins.PluginInstance$Factory",
-                "create", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        appInfo = (ApplicationInfo) param.args[1];
-                    }
-                }
-            );
+            // hookAllMethods("com.android.systemui.shared.plugins.PluginInstance$Factory",
+            //     "create", new MethodHook() {
+            //         @Override
+            //         protected void before(MethodHookParam param) {
+            //             appInfo = (ApplicationInfo) param.args[1];
+            //         }
+            //     }
+            // );
 
             findAndHookMethod("com.android.systemui.shared.plugins.PluginInstance$Factory$$ExternalSyntheticLambda0",
                 "get", new MethodHook() {
                     private boolean isHooked = false;
+                    private boolean run = false;
 
                     @Override
                     protected void after(MethodHookParam param) {
                         Object pathClassLoader = param.getResult();
-                        if (appInfo != null) {
-                            if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
+                        // if (appInfo != null) {
+                        if (!isHooked) {
+                            if (pluginLoader == null) {
+                                pluginLoader = (ClassLoader) pathClassLoader;
+                            }
+                            if (pluginLoader.toString().contains("MIUISystemUIPlugin")) {
                                 isHooked = true;
-                                if (pluginLoader == null) {
-                                    pluginLoader = (ClassLoader) pathClassLoader;
-                                }
-                                // logD("AU pluginLoader: " + pluginLoader);
+                                run = true;
                                 setClassLoader(pluginLoader);
                             } else {
-                                if (!isHooked)
-                                    logD("AU appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                logW("PluginHelper", "im not get ClassLoader: " + pluginLoader);
                             }
+                            // logD("AU pluginLoader: " + pluginLoader);
                         } else {
-                            logE(TAG, "AU appInfo is null");
+                            if (!run)
+                                logW("Au get classloader miui.systemui.plugin error");
                         }
+                        // } else {
+                        //     logE(TAG, "AU appInfo is null");
+                        // }
                     }
                 }
             );

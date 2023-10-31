@@ -52,7 +52,7 @@ public class GmsTile extends TileUtils {
         TileProvider[0] = "screenLockTileProvider";
         TileProvider[1] = "createTileInternal";
         TileProvider[2] = "interceptCreateTile";
-        TileProvider[2] = "createTile";
+        TileProvider[3] = "createTile";
         return TileProvider;
     }
 
