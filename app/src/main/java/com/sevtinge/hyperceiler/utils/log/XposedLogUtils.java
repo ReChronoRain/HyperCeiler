@@ -30,6 +30,12 @@ public class XposedLogUtils {
         XposedBridge.log("[HyperCeiler][I]: " + msg);
     }
 
+    public static void logI(String tag, String msg) {
+        if (!isDebugVersion) return;
+        if (isDisableDetailLog) return;
+        XposedBridge.log("[HyperCeiler][I][" + tag + "]: " + msg);
+    }
+
     public static void logI(String tag, String pkg, String msg) {
         if (!isDebugVersion) return;
         if (isDisableDetailLog) return;
@@ -57,19 +63,13 @@ public class XposedLogUtils {
     public static void logW(String tag, String pkg, String msg, Exception exp) {
         if (isReleaseVersion) return;
         if (isDisableDetailLog) return;
-        XposedBridge.log("[HyperCeiler][W][" + pkg + "][" + tag + "]: " + msg + ", by" + exp);
+        XposedBridge.log("[HyperCeiler][W][" + pkg + "][" + tag + "]: " + msg + ", by: " + exp);
     }
 
     public static void logW(String tag, String pkg, String msg, Throwable log) {
         if (isReleaseVersion) return;
         if (isDisableDetailLog) return;
-        XposedBridge.log("[HyperCeiler][W][" + pkg + "][" + tag + "]: " + msg + ", by" + log);
-    }
-
-    public static void logI(String tag, String msg) {
-        if (!isDebugVersion) return;
-        if (isDisableDetailLog) return;
-        XposedBridge.log("[HyperCeiler][I][" + tag + "]: " + msg);
+        XposedBridge.log("[HyperCeiler][W][" + pkg + "][" + tag + "]: " + msg + ", by: " + log);
     }
 
     public static void logW(String tag, String msg) {
@@ -87,7 +87,7 @@ public class XposedLogUtils {
     public static void logW(String tag, String msg, Exception exp) {
         if (isReleaseVersion) return;
         if (isDisableDetailLog) return;
-        XposedBridge.log("[HyperCeiler][W][" + tag + "]: " + msg + ", by" + exp);
+        XposedBridge.log("[HyperCeiler][W][" + tag + "]: " + msg + ", by: " + exp);
     }
 
     public static void logE(String tag, String msg) {
@@ -115,11 +115,11 @@ public class XposedLogUtils {
     }
 
     public static void logE(String tag, String pkg, String msg, Throwable log) {
-        XposedBridge.log("[HyperCeiler][E][" + pkg + "][" + tag + "]: " + msg + ", by" + log);
+        XposedBridge.log("[HyperCeiler][E][" + pkg + "][" + tag + "]: " + msg + ", by: " + log);
     }
 
     public static void logE(String tag, String pkg, String msg, Exception exp) {
-        XposedBridge.log("[HyperCeiler][E][" + pkg + "][" + tag + "]: " + msg + ", by" + exp);
+        XposedBridge.log("[HyperCeiler][E][" + pkg + "][" + tag + "]: " + msg + ", by: " + exp);
     }
 
     public static void logD(String msg) {
