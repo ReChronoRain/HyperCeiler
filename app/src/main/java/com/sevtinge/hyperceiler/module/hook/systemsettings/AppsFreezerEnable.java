@@ -1,12 +1,11 @@
 package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 public class AppsFreezerEnable extends BaseHook {
     @Override
     public void init() {
-        Helpers.findAndHookMethod("com.android.settings.development.CachedAppsFreezerPreferenceController",
+        findAndHookMethod("com.android.settings.development.CachedAppsFreezerPreferenceController",
             lpparam.classLoader,
             "isAvailable",
             new MethodHook() {

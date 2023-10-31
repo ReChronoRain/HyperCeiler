@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import java.util.Iterator;
@@ -84,7 +83,7 @@ public class CleanShareMenu extends BaseHook {
         };
 
         String ActQueryService = isMoreAndroidVersion(33) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService$ComputerEngine";
-        Helpers.hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
+        hookAllMethods(ActQueryService, lpparam.classLoader, "queryIntentActivitiesInternal", hook);
 
         // if (!findAndHookMethodSilently(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, int.class, boolean.class, boolean.class, hook))
         // findAndHookMethod(mPackageManagerService, "queryIntentActivitiesInternal", Intent.class, String.class, int.class, int.class, hook);//error
@@ -95,7 +94,7 @@ public class CleanShareMenu extends BaseHook {
 
     public static void initRes() {
 
-        Helpers.hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new Helpers.MethodHook() {
+        hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 Intent mOriginalIntent = (Intent) XposedHelpers.getObjectField(param.thisObject, "mOriginalIntent");
@@ -104,7 +103,8 @@ public class CleanShareMenu extends BaseHook {
                 if (action == null) return;
                 if (!action.equals(Intent.ACTION_SEND) && !action.equals(Intent.ACTION_SENDTO) && !action.equals(Intent.ACTION_SEND_MULTIPLE))
                     return;
-                if (mOriginalIntent.getDataString() != null && mOriginalIntent.getDataString().contains(":")) return;
+                if (mOriginalIntent.getDataString() != null && mOriginalIntent.getDataString().contains(":"))
+                    return;
 
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 String mAimPackageName = (String) XposedHelpers.getObjectField(param.thisObject, "mAimPackageName");

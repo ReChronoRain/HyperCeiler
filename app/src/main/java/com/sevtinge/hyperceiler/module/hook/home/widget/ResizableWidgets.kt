@@ -2,12 +2,11 @@ package com.sevtinge.hyperceiler.module.hook.home.widget
 
 import android.appwidget.AppWidgetProviderInfo
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 
 
 object ResizableWidgets : BaseHook() {
     override fun init() {
-        Helpers.hookAllMethods(
+        hookAllMethods(
             "android.appwidget.AppWidgetHostView",
             null,
             "getAppWidgetInfo",

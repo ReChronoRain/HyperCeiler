@@ -269,31 +269,42 @@ public abstract class TileUtils extends BaseHook {
         if (needCustom()) {
             try {
                 QSFactory.getDeclaredMethod(customTileProvider()[1], String.class);
-                findAndHookMethod(QSFactory, customTileProvider()[1], String.class, new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        String tileName = (String) param.args[0];
-                        if (tileName.equals(customName())) {
-                            String myTileProvider = customTileProvider()[0];
-                            Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
-                            Object tile = XposedHelpers.callMethod(provider, "get");
-                            XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
-                            param.setResult(tile);
-                        }
-                    }
-                });
+                tileAllNameMode(QSFactory, 1);
             } catch (NoSuchMethodException e) {
+                try {
+                    QSFactory.getDeclaredMethod(customTileProvider()[2], String.class);
+                    tileAllNameMode(QSFactory, 2);
+                } catch (NoSuchMethodException f) {
+                    logE(TAG, "com.android.systemui", "Don't Have " + customTileProvider()[2], f);
+                }
                 logE(TAG, "com.android.systemui", "Don't Have " + customTileProvider()[1], e);
             }
         }
+    }
+
+    /*这是上面方法的模组*/
+    private void tileAllNameMode(Class<?> QSFactory, int num) {
+        findAndHookMethod(QSFactory, customTileProvider()[num], String.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                String tileName = (String) param.args[0];
+                if (tileName.equals(customName())) {
+                    String myTileProvider = customTileProvider()[0];
+                    Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
+                    Object tile = XposedHelpers.callMethod(provider, "get");
+                    XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
+                    param.setResult(tile);
+                }
+            }
+        });
     }
 
     /*安卓14磁贴逻辑被修改，此是解决方法*/
     private void tileAllName14(Class<?> QSFactory) {
         if (needCustom()) {
             try {
-                QSFactory.getDeclaredMethod(customTileProvider()[2], String.class);
-                findAndHookMethod(QSFactory, customTileProvider()[2], String.class,
+                QSFactory.getDeclaredMethod(customTileProvider()[3], String.class);
+                findAndHookMethod(QSFactory, customTileProvider()[3], String.class,
                     new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) {

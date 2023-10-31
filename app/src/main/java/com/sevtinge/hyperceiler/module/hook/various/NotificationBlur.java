@@ -194,7 +194,7 @@ public class NotificationBlur extends BaseHook {
 
 
 
-        /*Helpers.hookAllMethods(mCls,"setHighSamplingFrequency",new MethodHook() {
+        /*hookAllMethods(mCls,"setHighSamplingFrequency",new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 View view = (View) param.thisObject;
@@ -202,7 +202,7 @@ public class NotificationBlur extends BaseHook {
             }
         });
 
-        Helpers.hookAllMethods(mCls2,"setCustomBackground",new MethodHook() {
+        hookAllMethods(mCls2,"setCustomBackground",new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 super.after(param);
@@ -210,7 +210,7 @@ public class NotificationBlur extends BaseHook {
             }
         });
 
-        Helpers.hookAllMethods(mCls2,"draw",new MethodHook() {
+        hookAllMethods(mCls2,"draw",new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 super.after(param);
@@ -226,7 +226,7 @@ public class NotificationBlur extends BaseHook {
 
 
 
-        Helpers.hookAllMethods(mCls3,"startEnterAndLaunchMiniWindow",new MethodHook() {
+        hookAllMethods(mCls3,"startEnterAndLaunchMiniWindow",new MethodHook() {
 
             @Override
             protected void before(MethodHookParam param) throws Throwable {
@@ -247,7 +247,7 @@ public class NotificationBlur extends BaseHook {
         Class<?> mCls5 = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow", lpparam.classLoader);
 
 
-        Helpers.hookAllMethods(mCls,"updateBackgroundBg",new MethodHook() {
+        hookAllMethods(mCls,"updateBackgroundBg",new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 View view = (View) XposedHelpers.getObjectField(param.thisObject,"mBackgroundNormal");

@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -29,7 +28,7 @@ public class ClockCenterHook extends BaseHook {
 
         mStatusBarView = findClassIfExists("com.android.systemui.statusbar.phone.CollapsedStatusBarFragment");
 
-        Helpers.findAndHookMethod(mStatusBarView, "onViewCreated", View.class, Bundle.class, new MethodHook() {
+        findAndHookMethod(mStatusBarView, "onViewCreated", View.class, Bundle.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 ViewGroup miuiPhoneStatusBarView = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mStatusBar");

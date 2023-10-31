@@ -8,13 +8,12 @@ import android.content.IntentFilter;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 public class HideStatusBarBeforeScreenshot extends BaseHook {
 
     @Override
     public void init() {
-        Helpers.findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
+        findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", lpparam.classLoader, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
             @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
             protected void after(MethodHookParam param) throws Throwable {

@@ -33,7 +33,9 @@ public class SetDeviceLevel extends BaseHook {
 
     private void returnIntConstant(Class<?> cls) {
         int order = mPrefsMap.getStringAsInt("weather_device_level", 0);
-        if (getPackageVersionCode(lpparam) < 15000000) hookAllMethods(cls, "transDeviceLevel", XC_MethodReplacement.returnConstant(order)); else findAndHookMethod(cls, "j", XC_MethodReplacement.returnConstant(order));
+        if (getPackageVersionCode(lpparam) < 15000000)
+            hookAllMethods(cls, "transDeviceLevel", MethodHook.returnConstant(order));
+        else findAndHookMethod(cls, "j", XC_MethodReplacement.returnConstant(order));
     }
 }
 

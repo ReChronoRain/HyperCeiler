@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.util.Pair;
 import android.util.SparseIntArray;
 
+import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 import de.robv.android.xposed.XposedBridge;
@@ -28,7 +30,7 @@ public class ResourcesHook {
         return 0x7e00f000 | (resourceName.hashCode() & 0x00ffffff);
     }
 
-    private final Helpers.MethodHook mReplaceHook = new Helpers.MethodHook() {
+    private final HookUtils.MethodHook mReplaceHook = new HookUtils.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
             Context mContext = Helpers.findContext();
@@ -52,20 +54,20 @@ public class ResourcesHook {
     private void applyHooks() {
         if (hooksApplied) return;
         hooksApplied = true;
-        Helpers.findAndHookMethod(Resources.class, "getInteger", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getLayout", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getFraction", int.class, int.class, int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getBoolean", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getDimension", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getDimensionPixelOffset", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getDimensionPixelSize", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getText", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getString", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getDrawableForDensity", int.class, int.class, Resources.Theme.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getIntArray", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getStringArray", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getTextArray", int.class, mReplaceHook);
-        Helpers.findAndHookMethod(Resources.class, "getAnimation", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getInteger", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getLayout", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getFraction", int.class, int.class, int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getBoolean", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getDimension", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getDimensionPixelOffset", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getDimensionPixelSize", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getText", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getString", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getDrawableForDensity", int.class, int.class, Resources.Theme.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getIntArray", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getStringArray", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getTextArray", int.class, mReplaceHook);
+        HookUtils.findAndHookMethod(Resources.class, "getAnimation", int.class, mReplaceHook);
     }
 
     public int addResource(String resName, int resId) {

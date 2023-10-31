@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 
 
 object OpenByDefaultSetting : BaseHook() {
@@ -24,7 +23,7 @@ object OpenByDefaultSetting : BaseHook() {
         }
 
         val defaultViewId = intArrayOf(-1)
-        Helpers.findAndHookMethod(
+        findAndHookMethod(
             "com.miui.appmanager.ApplicationsDetailsActivity",
             lpparam.classLoader,
             "initView",
@@ -34,7 +33,8 @@ object OpenByDefaultSetting : BaseHook() {
                 override fun before(param: MethodHookParam) {
                     if (defaultViewId[0] == -1) {
                         val act = param.thisObject as Activity
-                        val pkgName = (param.thisObject as Activity).intent.getStringExtra("package_name")!!
+                        val pkgName =
+                            (param.thisObject as Activity).intent.getStringExtra("package_name")!!
                         val isLinkHandlingAllowed =
                             domainVerificationManager.getDomainVerificationUserState(
                                 pkgName
@@ -70,7 +70,8 @@ object OpenByDefaultSetting : BaseHook() {
                 }
             })
 
-        Helpers.findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity",
+        findAndHookMethod(
+            "com.miui.appmanager.ApplicationsDetailsActivity",
             lpparam.classLoader,
             "onClick",
             View::class.java,

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import java.util.ArrayList;
 
@@ -16,14 +15,14 @@ import de.robv.android.xposed.XposedHelpers;
 public class QSGridLabels extends BaseHook {
     @Override
     public void init() {
-        Helpers.hookAllMethods("com.android.systemui.qs.MiuiTileLayout", lpparam.classLoader, "addTile", new MethodHook() {
+        hookAllMethods("com.android.systemui.qs.MiuiTileLayout", lpparam.classLoader, "addTile", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 updateLabelsVisibility(param.args[0], XposedHelpers.getIntField(param.thisObject, "mRows"), ((ViewGroup) param.thisObject).getResources().getConfiguration().orientation);
             }
         });
 
-        Helpers.hookAllMethods("com.android.systemui.qs.MiuiPagedTileLayout", lpparam.classLoader, "addTile", new MethodHook() {
+        hookAllMethods("com.android.systemui.qs.MiuiPagedTileLayout", lpparam.classLoader, "addTile", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
             protected void before(MethodHookParam param) throws Throwable {
@@ -39,7 +38,7 @@ public class QSGridLabels extends BaseHook {
             ? mPrefsMap.getInt("system_control_center_old_qs_rows", 1)
             : mPrefsMap.getInt("system_control_center_old_qs_row", 1);
         if (rows == 4) {
-            Helpers.findAndHookMethod("com.android.systemui.qs.tileimpl.MiuiQSTileView", lpparam.classLoader, "createLabel", new MethodHook() {
+            findAndHookMethod("com.android.systemui.qs.tileimpl.MiuiQSTileView", lpparam.classLoader, "createLabel", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
                     ViewGroup mLabelContainer = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mLabelContainer");

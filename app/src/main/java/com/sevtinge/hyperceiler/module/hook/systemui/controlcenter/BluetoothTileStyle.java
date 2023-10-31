@@ -10,9 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.Helpers.MethodHook;
 import com.sevtinge.hyperceiler.utils.ResourcesHook;
+import com.sevtinge.hyperceiler.utils.hook.HookUtils;
 
 import java.util.ArrayList;
 
@@ -25,14 +24,15 @@ public class BluetoothTileStyle {
         if (styleId == 1) return;
 
         final int[] tileResIds = {0};
-        Helpers.findAndHookMethod("miui.systemui.dagger.PluginComponentFactory", pluginLoader, "create", Context.class, Context.class, new MethodHook() {
+        HookUtils.findAndHookMethod("miui.systemui.dagger.PluginComponentFactory", pluginLoader, "create", Context.class, Context.class, new HookUtils.MethodHook() {
             @SuppressLint("DiscouragedApi")
+            @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 Context pluginContext = (Context) param.args[1];
                 tileResIds[0] = pluginContext.getResources().getIdentifier("big_tile", "layout", "miui.systemui.plugin");
             }
         });
-        Helpers.hookAllMethods("miui.systemui.controlcenter.dagger.ControlCenterViewModule", pluginLoader, "createBigTileGroup", new MethodHook() {
+        HookUtils.hookAllMethods("miui.systemui.controlcenter.dagger.ControlCenterViewModule", pluginLoader, "createBigTileGroup", new HookUtils.MethodHook() {
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 ViewGroup mView = (ViewGroup) param.getResult();
@@ -42,8 +42,9 @@ public class BluetoothTileStyle {
                 btTileView.setTag("big_tile_bt");
             }
         });
-        MethodHook updateStyleHook = new MethodHook() {
+        HookUtils.MethodHook updateStyleHook = new HookUtils.MethodHook() {
             boolean United = false;
+
             @Override
             @SuppressLint("DiscouragedApi")
             protected void after(XC_MethodHook.MethodHookParam param) throws Throwable {
@@ -78,8 +79,7 @@ public class BluetoothTileStyle {
                         layoutParams.leftMargin = (int) dp2px2(3);
                         layoutParams = (LinearLayout.LayoutParams) btTileView.findViewById(iconResId).getLayoutParams();
                         layoutParams.leftMargin = (int) dp2px2(3);
-                    }
-                    else {
+                    } else {
                         XposedHelpers.callMethod(constraintSet, "connect", bigTileB.getId(), 4, btTileId, 3);
                         XposedHelpers.callMethod(constraintSet, "connect", btTileId, 6, bigTileA.getId(), 6);
                         XposedHelpers.callMethod(constraintSet, "connect", btTileId, 7, bigTileA.getId(), 7);
@@ -98,8 +98,8 @@ public class BluetoothTileStyle {
                 }
             }
         };
-        Helpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "updateResources", updateStyleHook);
-        Helpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "setListening", boolean.class, new MethodHook() {
+        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "updateResources", updateStyleHook);
+        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "setListening", boolean.class, new HookUtils.MethodHook() {
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 Object btController = XposedHelpers.getAdditionalInstanceField(param.thisObject, "btController");
@@ -108,22 +108,23 @@ public class BluetoothTileStyle {
                 }
             }
         });
-        Helpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getRowViews", int.class, new MethodHook() {
+        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getRowViews", int.class, new HookUtils.MethodHook() {
             @Override
+
             protected void after(XC_MethodHook.MethodHookParam param) {
                 int row = (int) param.args[0];
                 Object btTileView;
                 if (row == 1 && (btTileView = XposedHelpers.getAdditionalInstanceField(param.thisObject, "btTileView")) != null) {
-                    ((ArrayList<Object>)param.getResult()).add(btTileView);
+                    ((ArrayList<Object>) param.getResult()).add(btTileView);
                 }
             }
         });
-        Helpers.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getChildControllers", new MethodHook() {
+        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getChildControllers", new HookUtils.MethodHook() {
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 Object btController = XposedHelpers.getAdditionalInstanceField(param.thisObject, "btController");
                 if (btController != null) {
-                    ((ArrayList<Object>)param.getResult()).add(btController);
+                    ((ArrayList<Object>) param.getResult()).add(btController);
                 }
             }
         });
