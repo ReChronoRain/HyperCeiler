@@ -32,3 +32,12 @@ fun getMiuiVersion(): Float = when (getProp("ro.miui.ui.version.name")) {
 fun isMoreMiuiVersion(version: Float): Boolean {
     return getMiuiVersion() >= version
 }
+
+fun getHyperOSVersion(): Float = when (getProp("ro.mi.os.version.name")) {
+    "OS1.0" -> 1f
+    else -> 0f
+}
+
+fun isMoreHyperOSVersion(version: Float): Boolean {
+    return getHyperOSVersion() >= version
+}

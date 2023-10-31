@@ -16,8 +16,6 @@ MIUI 12.5 ~ 14 para Android 11 ~ 13
 >
 > Atualmente, o HyperCeiler é baseado em dispositivos Android 13 MIUI 14 para adaptação, a cobertura não é muito completa, precisa de testes e melhorias contínuas.
 >
-> Tentamos o nosso melhor para oferecer suporte a dispositivos Android 11. Após o lançamento da versão 1.3.130, o branch principal não suportará mais o Android 11, mas ainda fornecerá manutenção e portabilidade de funções de versões antigas.
->
 ## Apps suportados
 
 <details>
