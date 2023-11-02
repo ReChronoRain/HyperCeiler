@@ -31,7 +31,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             return findClass(className);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            logE("findClassIfExists", "find " + className + " is Null: " + e);
+            //logE("findClassIfExists", "find " + className + " is Null: " + e);
             return null;
         }
     }
@@ -40,7 +40,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             return findClass(findClassIfExists(newClassName) != null ? newClassName : oldClassName);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            logE("findClassIfExists", "find " + newClassName + " and " + oldClassName + " is Null: " + e);
+            //logE("findClassIfExists", "find " + newClassName + " and " + oldClassName + " is Null: " + e);
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             return findClass(className, classLoader);
         } catch (XposedHelpers.ClassNotFoundError e) {
-            logE("findClassIfExists", "find " + className + " is Null: " + e);
+            //logE("findClassIfExists", "find " + className + " is Null: " + e);
             return null;
         }
     }
@@ -91,7 +91,7 @@ public class HookUtils extends XposedLogUtils {
             try {
                 this.before(param);
             } catch (Throwable t) {
-                logE("BeforeHook", t);
+                //logE("BeforeHook", t);
             }
         }
 
@@ -100,7 +100,7 @@ public class HookUtils extends XposedLogUtils {
             try {
                 this.after(param);
             } catch (Throwable t) {
-                logE("AfterHook", t);
+                //logE("AfterHook", t);
             }
         }
     }
@@ -109,7 +109,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             XposedBridge.hookMethod(method, callback);
         } catch (Throwable t) {
-            logE("hookMethod", "Failed to hook " + method.getName() + " method");
+            //logE("hookMethod", "Failed to hook " + method.getName() + " method");
         }
     }
 
@@ -125,7 +125,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
         } catch (Throwable t) {
-            logE("findAndHookMethod", "Failed to hook " + methodName + " method in " + className);
+            //logE("findAndHookMethod", "Failed to hook " + methodName + " method in " + className);
         }
     }
 
@@ -133,7 +133,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             return XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
         } catch (Throwable t) {
-            logE("findAndHookMethodUseUnhook", "Failed to hook " + methodName + " method in " + className);
+            //logE("findAndHookMethodUseUnhook", "Failed to hook " + methodName + " method in " + className);
             return null;
         }
     }
@@ -142,7 +142,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             return XposedHelpers.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
         } catch (Throwable t) {
-            logE("findAndHookMethodUseUnhook", "Failed to hook " + methodName + " method in " + clazz.getCanonicalName());
+            //logE("findAndHookMethodUseUnhook", "Failed to hook " + methodName + " method in " + clazz.getCanonicalName());
             return null;
         }
     }
@@ -152,7 +152,7 @@ public class HookUtils extends XposedLogUtils {
             findAndHookMethod(className, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            logE("findAndHookMethodSilently", className + methodName + " is null: " + t);
+            //logE("findAndHookMethodSilently", className + methodName + " is null: " + t);
             return false;
         }
     }
@@ -162,7 +162,7 @@ public class HookUtils extends XposedLogUtils {
             XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            logE("findAndHookMethodSilently", className + methodName + " is null: " + t);
+            //logE("findAndHookMethodSilently", className + methodName + " is null: " + t);
             return false;
         }
     }
@@ -172,7 +172,7 @@ public class HookUtils extends XposedLogUtils {
             findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
             return true;
         } catch (Throwable t) {
-            logE("findAndHookMethodSilently", clazz + methodName + " is null: " + t);
+            //logE("findAndHookMethodSilently", clazz + methodName + " is null: " + t);
             return false;
         }
     }
@@ -200,7 +200,7 @@ public class HookUtils extends XposedLogUtils {
                 XposedBridge.hookAllMethods(hookClass, methodName, callback);
             }
         } catch (Throwable t) {
-            logE("HookAllMethods", className + " is " + methodName + " abnormal: " + t);
+            //logE("HookAllMethods", className + " is " + methodName + " abnormal: " + t);
         }
     }
 
@@ -208,7 +208,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             XposedBridge.hookAllMethods(hookClass, methodName, callback);
         } catch (Throwable t) {
-            logE("HookAllMethods", hookClass + " is " + methodName + " abnormal: " + t);
+            //logE("HookAllMethods", hookClass + " is " + methodName + " abnormal: " + t);
         }
     }
 
@@ -219,7 +219,7 @@ public class HookUtils extends XposedLogUtils {
                 XposedBridge.hookAllMethods(hookClass, methodName, callback);
             }
         } catch (Throwable t) {
-            logE("hookAllMethods", className + " is abnormal", t);
+            //logE("hookAllMethods", className + " is abnormal", t);
         }
     }
 
@@ -251,7 +251,7 @@ public class HookUtils extends XposedLogUtils {
                 XposedBridge.hookAllConstructors(hookClass, callback);
             }
         } catch (Throwable t) {
-            logE("hookAllConstructors", className + " is  abnormal: " + t);
+            //logE("hookAllConstructors", className + " is  abnormal: " + t);
         }
     }
 
@@ -259,7 +259,7 @@ public class HookUtils extends XposedLogUtils {
         try {
             XposedBridge.hookAllConstructors(hookClass, callback);
         } catch (Throwable t) {
-            logE("hookAllConstructors", hookClass + " is  abnormal: " + t);
+            //logE("hookAllConstructors", hookClass + " is  abnormal: " + t);
         }
     }
 
@@ -270,7 +270,7 @@ public class HookUtils extends XposedLogUtils {
                 XposedBridge.hookAllConstructors(hookClass, callback);
             }
         } catch (Throwable t) {
-            logE("hookAllConstructors", className + " is abnormal", t);
+            //logE("hookAllConstructors", className + " is abnormal", t);
         }
     }
 
@@ -297,13 +297,13 @@ public class HookUtils extends XposedLogUtils {
                     Object result = setString.get(param.thisObject);
                     checkLast("getDeclaredField", iNeedString, iNeedTo, result);
                 } catch (IllegalAccessException e) {
-                    logE("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code: " + e);
+                    //logE("IllegalAccessException to: " + iNeedString + " need to: " + iNeedTo + " code: " + e);
                 }
             } catch (NoSuchFieldException e) {
-                logE("No such the: " + iNeedString + " code: " + e);
+                //logE("No such the: " + iNeedString + " code: " + e);
             }
         } else {
-            logE("Param is null Field: " + iNeedString + " to: " + iNeedTo);
+            //logE("Param is null Field: " + iNeedString + " to: " + iNeedTo);
         }
     }
 
@@ -311,7 +311,7 @@ public class HookUtils extends XposedLogUtils {
         if (value.equals(last)) {
             logI(setObject + " Success! set " + fieldName + " to " + value);
         } else {
-            logE(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
+            //logE(setObject + " Failed! set " + fieldName + " to " + value + " hope: " + value + " but: " + last);
         }
     }
 }

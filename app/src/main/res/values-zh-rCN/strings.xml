@@ -665,6 +665,8 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">蓝牙磁贴样式</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">蓝牙磁贴移至网络磁贴区域</string>
+    <string name="system_ui_control_center_notifrowmenu">扩展通知菜单</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">从通知菜单打开应用信息、强制关闭应用和浮窗打开</string>
 
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
@@ -1329,6 +1331,10 @@
     <string name="notification_volume">通知</string>
     <string name="freeform_notification">通知悬浮窗</string>
     <string name="share_app">分享至三方应用</string>
+
+    <string name="system_notifrowmenu_appinfo">应用信息</string>
+    <string name="system_notifrowmenu_openinfw">浮窗</string>
+    <string name="system_notifrowmenu_forceclose">强制关闭</string>
 
     <string name="show_newmods_title">标记新模块</string>
 

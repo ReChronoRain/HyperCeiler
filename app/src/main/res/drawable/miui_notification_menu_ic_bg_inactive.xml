@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="@dimen/miui_notification_modal_menu_icon_bg_size" android:width="@dimen/miui_notification_modal_menu_icon_bg_size" android:viewportWidth="156" android:viewportHeight="156">
+	<path android:fillColor="#26ffffff" android:pathData="M78,78m-78,0a78,78 0,1 1,156 0a78,78 0,1 1,-156 0"/>
+</vector>

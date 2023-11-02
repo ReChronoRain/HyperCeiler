@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixMediaContr
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherOld;
@@ -210,6 +211,7 @@ public class SystemUI extends BaseModule {
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
         initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
+        initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
 
         // Actions
         initHook(new StatusBarActions());

@@ -2,12 +2,14 @@ package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
@@ -21,6 +23,7 @@ import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.UserHandle;
 import android.util.LruCache;
 import android.widget.TextView;
 
@@ -316,6 +319,28 @@ public class Helpers {
         }
     }
 
+    public static void openAppInfo(Context context, String pkg, int user) {
+        try {
+            Intent intent = new Intent("miui.intent.action.APP_MANAGER_APPLICATION_DETAIL");
+            intent.setPackage("com.miui.securitycenter");
+            intent.putExtra("package_name", pkg);
+            if (user != 0) intent.putExtra("miui.intent.extra.USER_ID", user);
+            context.startActivity(intent);
+        } catch (Throwable t) {
+            try {
+                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                intent.setData(Uri.parse("package:" + pkg));
+                if (user != 0)
+                    XposedHelpers.callMethod(context, "startActivityAsUser", intent, XposedHelpers.newInstance(UserHandle.class, user));
+                else
+                    context.startActivity(intent);
+            } catch (Throwable t2) {
+                logE(TAG, "openAppInfo" + t2);
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static Set<String> getSharedStringSetPref(Context context, String name) {
         Uri uri = stringSetPrefToUri(name);
@@ -412,10 +437,10 @@ public class Helpers {
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-            XposedLogUtils.logI("getPackageVersionName", lpparam + " versionName is " + versionName);
+            //XposedLogUtils.logI("getPackageVersionName", lpparam.packageName + " versionName is " + versionName);
             return versionName;
         } catch (Throwable e) {
-            XposedLogUtils.logW("getPackageVersionName", e);
+            //XposedLogUtils.logW("getPackageVersionName", e);
             return "null";
         }
     }
@@ -427,10 +452,10 @@ public class Helpers {
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
             int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            XposedLogUtils.logI("getPackageVersionCode", lpparam + " versionCode is " + versionCode);
+            //XposedLogUtils.logI("getPackageVersionCode", lpparam.packageName + " versionCode is " + versionCode);
             return versionCode;
         } catch (Throwable e) {
-            XposedLogUtils.logW("getPackageVersionCode", e);
+            //XposedLogUtils.logW("getPackageVersionCode", e);
             return -1;
         }
     }
