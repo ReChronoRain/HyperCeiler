@@ -97,6 +97,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/lswlc33" />
         </Preference>
+        <Preference android:title="Zach Carroll">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/zcarroll4" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 
