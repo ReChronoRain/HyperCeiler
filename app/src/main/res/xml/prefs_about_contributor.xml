@@ -7,6 +7,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YuKongA" />
         </Preference>
+        <Preference android:title="Voyager">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/hosizoraru" />
+        </Preference>
         <Preference android:title="黑弩">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -76,11 +81,6 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Meetingfate" />
-        </Preference>
-        <Preference android:title="焕晨HChen">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HChenX" />
         </Preference>
         <Preference android:title="雨中走过">
             <intent
