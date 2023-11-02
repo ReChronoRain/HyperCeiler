@@ -1,11 +1,14 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen.isDefaultLockScreenTheme
 import com.sevtinge.hyperceiler.utils.HookUtils
 import com.sevtinge.hyperceiler.utils.callStaticMethod
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidS
@@ -27,9 +30,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
     var blurRadius: Int = mPrefsMap.getInt("system_ui_control_center_blur_radius", 99)
     var defaultBackgroundAlpha: Int =
         mPrefsMap.getInt("system_ui_control_center_default_background_alpha", 200)
-    val fixNotification by lazy {
-        mPrefsMap.getBoolean("n_enable_fix")
-    }
 
     fun setDrawableAlpha(thiz: Any?, alpha: Int) {
         if (isAndroidU()) {
@@ -82,7 +82,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             ) ?: return
 
         // 通知模糊额外修正项，增加一个开关避免使用过程中暴毙
-        if (isAndroidT() && fixNotification) {
+        if(isAndroidT() && mPrefsMap.getBoolean("n_enable_fix")) {
             val mediaDataFilterClass =
                 findClassIfExists("com.android.systemui.media.MediaDataFilter") ?: return
 
@@ -109,7 +109,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             try {
                 "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getOverExpansion") {
                     val getScreenHeight =
-                        findClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
+                        loadClass("com.android.systemui.fsgesture.AppQuickSwitchActivity")
                             .callStaticMethod("getScreenHeight", appContext) as Int
                     val mOverExpansion = it.thisObject.getObjectField("mOverExpansion") as Float
                     val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
@@ -117,7 +117,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     val isFlinging = it.thisObject.getObjectField("mIsFlinging") as Boolean
                     val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
                     val isScreenLandscape =
-                        findClass("com.android.systemui.statusbar.notification.NotificationUtil")
+                        loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
                             .callStaticMethod("isScreenLandscape") as Boolean
 
                     if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching) {
@@ -139,7 +139,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
             } catch (t: Throwable) {
                 logE(TAG, this.lpparam.packageName, t)
             }
-
             try {
                 "com.android.systemui.statusbar.notification.stack.AmbientState".replaceMethod("getAppearFraction") {
                     val isNCSwitching = it.thisObject.getObjectField("isNCSwitching") as Boolean
@@ -148,7 +147,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     val mAppearFraction = it.thisObject.getObjectField("mAppearFraction") as Float
                     val isAppearing = it.thisObject.getObjectField("mAppearing") as Boolean
                     val isScreenLandscape =
-                        findClass("com.android.systemui.statusbar.notification.NotificationUtil")
+                        loadClass("com.android.systemui.statusbar.notification.NotificationUtil")
                             .callStaticMethod("isScreenLandscape") as Boolean
 
                     if (isAppearing && (isSwipingUp || isFlinging) && !isNCSwitching && hasActiveMediaOrRecommendation && isScreenLandscape) {
@@ -198,22 +197,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val notificationBackground = param.thisObject as View
                     val backgroundDrawable = notificationBackground.background ?: return
-
-                    // 适配游戏模式及横屏全屏视频半透明通知(可以做个开关)
-                    if (isTransparentAble() && fixNotification) {
-                        XposedHelpers.callMethod(
-                            notificationBackground.background,
-                            "setVisible",
-                            false, false
-                        )
-                    } else {
-                        XposedHelpers.callMethod(
-                            notificationBackground.background,
-                            "setVisible",
-                            true, false
-                        )
-                    }
-
                     if (HookUtils.isBlurDrawable(backgroundDrawable)) {
                         val drawable = param.args[1] as Drawable
                         backgroundDrawable.bounds = drawable.bounds
@@ -283,6 +266,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             miuiExpandableNotificationRowClass,
             "setHeadsUp",
             object : XC_MethodHook() {
+                @SuppressLint("NewApi")
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val isHeadsUp = param.args[0] as Boolean
                     val miuiNotificationBackgroundView = param.thisObject as View
@@ -663,18 +647,6 @@ object AddBlurEffectToNotificationView : BaseHook() {
         ) as Boolean
     }
 
-    // 增加一个游戏模式跟全屏视频判断，用以增加透明通知适配
-    fun isTransparentAble(): Boolean {
-        val notificationContentInflaterInjectorClass = findClassIfExists(
-            "com.android.systemui.statusbar.notification.row.NotificationContentInflaterInjector"
-        ) ?: return true
-        return XposedHelpers.callStaticMethod(
-            notificationContentInflaterInjectorClass,
-            "isTransparentAble"
-        ) as Boolean
-    }
-
-
     fun hideBlurEffectForNotificationRow(notificationRow: View) {
         if (notificationRow.javaClass.name.contains("ZenModeView")) {
             val zenModeContentContainer =
@@ -753,6 +725,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
         }
     }
 
+    @SuppressLint("NewApi")
     fun showBlurEffectForNotificationRow(notificationRow: View) {
         if (notificationRow.javaClass.name.contains("ZenModeView")) {
             val zenModeContentContainer =
