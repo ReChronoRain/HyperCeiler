@@ -3,6 +3,8 @@ package com.sevtinge.hyperceiler.module.hook.systemui.plugin;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
 
+import android.content.pm.ApplicationInfo;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
@@ -12,7 +14,7 @@ public class PluginHelper extends BaseHook {
 
     private static ClassLoader pluginLoader = null;
 
-    // private static ApplicationInfo appInfo = null;
+    private static ApplicationInfo appInfo = null;
 
     @Override
     public void init() {
@@ -21,34 +23,30 @@ public class PluginHelper extends BaseHook {
                 ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
                 : "com.android.systemui.shared.plugins.PluginManagerImpl";
             hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
-                private boolean isHooked = false;
-                private boolean run = false;
+                    private boolean isHooked = false;
+                    // private boolean run = false;
 
                     @Override
                     protected void after(MethodHookParam param) {
-                        // appInfo = (ApplicationInfo) param.args[0];
-                        // if (appInfo != null) {"miui.systemui.plugin".equals(appInfo.packageName) &&
-                        if (!isHooked) {
-                            if (pluginLoader == null) {
-                                pluginLoader = (ClassLoader) param.getResult();
-                            }
-                            if (pluginLoader.toString().contains("MIUISystemUIPlugin")) {
+                        appInfo = (ApplicationInfo) param.args[0];
+                        if (appInfo != null) {
+                            if (("miui.systemui.plugin".equals(appInfo.packageName) || pluginLoader.toString().contains("MIUISystemUIPlugin")) && !isHooked) {
+                                if (pluginLoader == null) {
+                                    pluginLoader = (ClassLoader) param.getResult();
+                                }
                                 isHooked = true;
-                                run = true;
                                 setClassLoader(pluginLoader);
+                                logW("PluginHelper", "im get ClassLoader: " + pluginLoader);
+                                // logD("pluginLoader: " + pluginLoader);
+                                // setClassLoader(pluginLoader);
+                                // logE("PluginHelper", "im get ClassLoader: " + pluginLoader);
                             } else {
-                                logW("PluginHelper", "im not get ClassLoader: " + pluginLoader);
+                                if (!isHooked)
+                                    logW("get classloader miui.systemui.plugin error");
                             }
-                            // logD("pluginLoader: " + pluginLoader);
-                            // setClassLoader(pluginLoader);
-                            // logE("PluginHelper", "im get ClassLoader: " + pluginLoader);
                         } else {
-                            if (!run)
-                                logW("get classloader miui.systemui.plugin error");
+                            logE(TAG, "appInfo is null");
                         }
-                        // } else {
-                        //     logE(TAG, "appInfo is null");
-                        // }
                     }
                 }
             );
@@ -75,7 +73,7 @@ public class PluginHelper extends BaseHook {
                             if (pluginLoader == null) {
                                 pluginLoader = (ClassLoader) pathClassLoader;
                             }
-                            if (pluginLoader.toString().contains("MIUISystemUIPlugin")) {
+                            if (pluginLoader.toString().contains("MIUISystemUIPlugin") || pluginLoader.toString().contains("miui.systemui.plugin")) {
                                 isHooked = true;
                                 run = true;
                                 setClassLoader(pluginLoader);
