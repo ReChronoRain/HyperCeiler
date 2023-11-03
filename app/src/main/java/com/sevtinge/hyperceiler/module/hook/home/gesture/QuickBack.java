@@ -102,7 +102,7 @@ public class QuickBack extends BaseHook {
                             param.setResult(task);
                             return;
                         } catch (Exception e) {
-                            logE(TAG, "Error :" + e);
+                            logE(TAG, "Error: " + e);
                             param.setResult(task);
                             return;
                         }
