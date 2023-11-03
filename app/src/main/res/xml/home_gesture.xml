@@ -2,78 +2,84 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/home_navigation_title">
-        <SeekBarPreferenceEx
-            android:title="@string/home_navigation_back_area_height"
-            android:key="prefs_key_home_navigation_back_area_height"
-            app:maxValue="100"
-            app:minValue="10"
-            android:defaultValue="60"
-            app:defaultValueText="@string/array_default"
-            app:format="%d %%"
-            app:stepValue="5"
-            app:showSeekBarValue="true"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_navigation_quick_back"
+            android:summary="@string/home_navigation_quick_back_more"
+            android:title="@string/home_navigation_quick_back" />
 
         <SeekBarPreferenceEx
-            android:title="@string/home_navigation_back_area_width"
-            android:key="prefs_key_home_navigation_back_area_width"
-            app:maxValue="400"
-            app:minValue="100"
-            android:defaultValue="100"
+            android:defaultValue="60"
+            android:key="prefs_key_home_navigation_back_area_height"
+            android:title="@string/home_navigation_back_area_height"
             app:defaultValueText="@string/array_default"
             app:format="%d %%"
-            app:stepValue="5"
-            app:showSeekBarValue="true"/>
+            app:maxValue="100"
+            app:minValue="10"
+            app:showSeekBarValue="true"
+            app:stepValue="5" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="100"
+            android:key="prefs_key_home_navigation_back_area_width"
+            android:title="@string/home_navigation_back_area_width"
+            app:defaultValueText="@string/array_default"
+            app:format="%d %%"
+            app:maxValue="400"
+            app:minValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="5" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_gesture_title2">
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_double_tap"
-            android:title="@string/home_gesture_double_tap"
             android:summary="@string/home_gesture_double_tap_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_double_tap" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_shake"
-            android:title="@string/home_gesture_shake"
             android:summary="@string/home_gesture_shake_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_shake" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_left_swipe"
-            android:title="@string/home_gesture_left_swipe"
             android:summary="@string/home_gesture_left_swipe_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_left_swipe" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_right_swipe"
-            android:title="@string/home_gesture_right_swipe"
             android:summary="@string/home_gesture_right_swipe_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_right_swipe" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_up_swipe"
-            android:title="@string/home_gesture_up_swipe"
             android:summary="@string/home_gesture_up_swipe_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_up_swipe" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_down_swipe"
-            android:title="@string/home_gesture_down_swipe"
             android:summary="@string/home_gesture_down_swipe_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_down_swipe" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_up_swipe2"
-            android:title="@string/home_gesture_up_swipe2"
             android:summary="@string/home_gesture_up_swipe2_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_up_swipe2" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_down_swipe2"
-            android:title="@string/home_gesture_down_swipe2"
             android:summary="@string/home_gesture_down_swipe2_desc"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"/>
+            android:title="@string/home_gesture_down_swipe2" />
 
         <!--Preference
             android:key="prefs_key_home_gesture_swipe_and_stop"

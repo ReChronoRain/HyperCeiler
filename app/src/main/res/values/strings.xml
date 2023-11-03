@@ -790,6 +790,8 @@
     <string name="home">System launcher</string>
     <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_navigation_title">Navigation</string>
+    <string name="home_navigation_quick_back">Go back to previous app</string>
+    <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
     <string name="home_gesture_title2">Gesture</string>
