@@ -70,20 +70,12 @@ public class QuickBack extends BaseHook {
                     int i = (int) param.args[2];
                     if (i == 0) {
                         activityOptions = ActivityOptions.makeCustomAnimation(context,
-                            (int) XposedHelpers.callStaticMethod(
-                                findClass("com.miui.home.recents.GestureStubView"),
-                                "getAnimId", context, "recents_quick_switch_left_enter"),
-                            (int) XposedHelpers.callStaticMethod(
-                                findClass("com.miui.home.recents.GestureStubView"),
-                                "getAnimId", context, "recents_quick_switch_left_exit"));
+                            getAnimId(context, "recents_quick_switch_left_enter"),
+                            getAnimId(context, "recents_quick_switch_left_exit"));
                     } else if (i == 1) {
                         activityOptions = ActivityOptions.makeCustomAnimation(context,
-                            (int) XposedHelpers.callStaticMethod(
-                                findClass("com.miui.home.recents.GestureStubView"),
-                                "getAnimId", context, "recents_quick_switch_right_enter"),
-                            (int) XposedHelpers.callStaticMethod(
-                                findClass("com.miui.home.recents.GestureStubView"),
-                                "getAnimId", context, "recents_quick_switch_right_exit"));
+                            getAnimId(context, "recents_quick_switch_right_enter"),
+                            getAnimId(context, "recents_quick_switch_right_exit"));
                     }
                     Object iActivityManager = XposedHelpers.callStaticMethod(findClass("android.app.ActivityManagerNative"), "getDefault");
                     if (iActivityManager != null) {
@@ -112,5 +104,9 @@ public class QuickBack extends BaseHook {
             }
         );
 
+    }
+
+    public static int getAnimId(Context context, String str) {
+        return context.getResources().getIdentifier(str, "anim", context.getPackageName());
     }
 }
