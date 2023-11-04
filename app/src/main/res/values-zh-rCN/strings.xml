@@ -755,6 +755,7 @@
     <string name="updater_big_version">伪装大版本</string>
     <string name="updater_big_version_desc">伪装 Xiaomi HyperOS 版本时需要填写的项目，默认为 V816</string>
     <string name="updater_miui_version">伪装版本</string>
+    <string name="updater_android_version">伪装 Android 版本</string>
     <string name="updater_miui_version_desc">仅对系统更新修改，可在一定程度上屏蔽系统更新</string>
     <string name="updater_device">伪装机型</string>
     <string name="updater_device_desc">输入目标设备的机型代号以指定机型，可用于获取其他机型的 ROM 包，该功能极度危险</string>

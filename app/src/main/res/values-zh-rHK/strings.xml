@@ -697,7 +697,8 @@
     <string name="updater">系统更新</string>
     <string name="updater_fuck_vab">移除 OTA 驗證</string>
     <string name="updater_fuck_vab_desc">僅支援 VAB 設備，其他非 VAB 設備請不要開啟！\n功能特點：無需內測權限即可刷入完整內測卡刷包\n注意事項：\n- 跨不同版本類型刷入後建議清除數據\n- 不支援任何非官方 ROM 使用\n- 此功能有一定危險性，請在了解 Fastboot 操作後再評估是否開啟</string>
-    <string name="updater_miui_version">偽裝 MIUI 版本</string>
+    <string name="updater_miui_version">偽裝版本</string>
+    <string name="updater_android_version">偽裝 Android 版本</string>
     <string name="updater_miui_version_desc">僅對系统更新修改，可在一定程度上遮罩系统更新</string>
     <string name="updater_device">偽裝機型</string>
     <string name="updater_device_desc">輸入目標設備代號以指定設備，可用於獲取其他機型的 ROM 包，此功能極度危險</string>
