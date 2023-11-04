@@ -10,6 +10,13 @@ import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import de.robv.android.xposed.XposedHelpers
 
 object VersionCodeNew : BaseHook() {
+    private val mBigMethod by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingStringsEquals("ro.miui.ui.version.name")
+            }
+        }.map { it.getMethodInstance(EzXHelper.classLoader) }.first()
+    }
     private val mOSMethod by lazy {
         dexKitBridge.findMethod {
             matcher {
@@ -47,6 +54,15 @@ object VersionCodeNew : BaseHook() {
                 }
             }
         })
+
+        // 大版本名字修改
+        mBigMethod.createHook {
+            before {
+                if (!TextUtils.isEmpty(mOldVersionCode)) {
+                    it.result = mOldVersionCode
+                }
+            }
+        }
 
         // OS 版本名修改
         mOSMethod.createHook {
