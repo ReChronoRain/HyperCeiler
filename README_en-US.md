@@ -15,12 +15,11 @@
 
 MIUI 12.5 ~ 14 for Android 11 ~ 13
 
-> Does not support third-party MIUI ROMs with many modifications, system software with many
-> modifications, and some foreign MIUI ROMs
+> Does not support heavily modified third-party MIUI/Xiaomi HyperOS Rom, heavily modified system software, and some foreign MIUI/Xiaomi HyperOS Rom;
 >
-> At present, HyperCeiler is based on Android 13 MIUI 14 mobile phone devices for adaptation, the
-> coverage is not very complete, it needs continuous testing and improvement
+> Currently, HyperCeiler is adapted for mobile devices based on Android 13 and MIUI 14. The coverage is not very complete and requires continuous testing and improvement;
 >
+> HyperCeiler has stopped maintaining MIUI Rom for Android 11-12. If you want to use it, please stay at [this version](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
 
 ## Supported Applications
 
@@ -158,6 +157,6 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 
 [badge_qguild]: https://img.shields.io/badge/QQ-Channel-4991D3?style=for-the-badge&logo=tencentqq
 
-[telegram_url]: https://t.me/hyperceiler
+[telegram_url]: https://t.me/cemiuiler
 
-[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dhyperceiler
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler
