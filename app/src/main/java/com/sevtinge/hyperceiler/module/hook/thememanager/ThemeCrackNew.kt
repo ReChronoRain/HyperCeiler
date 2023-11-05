@@ -14,6 +14,7 @@ import com.sevtinge.hyperceiler.utils.DexKit.closeDexKit
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.DexKit.initDexKit
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI
 import com.sevtinge.hyperceiler.utils.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import miui.drm.DrmManager
@@ -23,6 +24,7 @@ class ThemeCrackNew {
     val TAG = "ThemeCrackNew"
     fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (!mPrefsMap.getBoolean("various_enable_super_function") && !mPrefsMap.getBoolean("various_theme_crack") && !(getBuildType().equals("debug"))) return
+        logI(TAG, "com.android.thememanager", "Hooked.")
         initDexKit(lpparam)
         try {
             loadClass("com.android.thememanager.detail.theme.model.OnlineResourceDetail").methodFinder().filterByName("toResource").toList().createHooks {

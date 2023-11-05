@@ -69,6 +69,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
+    public static boolean isSafeModeOn = false;
+
     public static ResourcesHook mResHook;
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
@@ -159,6 +161,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     }
 
     public void init(LoadPackageParam lpparam) {
+        if (isSafeModeOn) return;
         String packageName = lpparam.packageName;
         switch (packageName) {
             case "android" -> {

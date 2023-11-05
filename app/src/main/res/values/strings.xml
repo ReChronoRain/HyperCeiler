@@ -1320,6 +1320,8 @@
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
+    <string name="development">Developer Options</string>
+    <string name="development_ui">UI</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
