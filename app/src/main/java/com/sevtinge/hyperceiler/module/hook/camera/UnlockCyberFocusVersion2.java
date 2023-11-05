@@ -5,7 +5,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 public class UnlockCyberFocusVersion2 extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.camera2.CameraCapabilities", "isCyberFocusVersion2", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilities", "isCyberFocusVersion2", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);

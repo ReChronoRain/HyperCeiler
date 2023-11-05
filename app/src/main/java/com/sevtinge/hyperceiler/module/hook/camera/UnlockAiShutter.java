@@ -5,7 +5,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 public class UnlockAiShutter extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.camera2.CameraCapabilities", "isSupportAiShutter", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilities", "isSupportAiShutter", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);

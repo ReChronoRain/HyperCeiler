@@ -10,6 +10,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.invokeMethod
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidT
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.view.WeatherData
 
@@ -89,6 +90,7 @@ object NotificationWeatherNew : BaseHook() {
     }
 
     fun mainPanelHeader(pluginClassLoader: ClassLoader) {
+        if (isMoreHyperOSVersion(1f)) return;
         val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
         loadClass(
             "miui.systemui.controlcenter.windowview.MainPanelHeaderController",

@@ -5,7 +5,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 public class UnlockHdr extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.camera2.CameraCapabilities", "isSupportVideoHdr", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilities", "isSupportVideoHdr", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);
@@ -17,7 +17,7 @@ public class UnlockHdr extends BaseHook {
                 param.setResult(true);
             }
         });
-        findAndHookMethod("com.android.camera2.CameraCapabilities", "isSupportQcomVideoHdr", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilities", "isSupportQcomVideoHdr", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);
