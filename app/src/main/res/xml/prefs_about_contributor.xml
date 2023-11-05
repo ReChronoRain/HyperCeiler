@@ -102,6 +102,11 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/zcarroll4" />
         </Preference>
+        <Preference android:title="MonetCarlos">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.coolapk.com/u/9021855" />
+        </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />
 
