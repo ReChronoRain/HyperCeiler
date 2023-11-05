@@ -220,6 +220,13 @@
                 android:data="https://github.com/Haocen2004/PortalHook" />
         </Preference>
         <Preference
+            android:title="起源架构"
+            android:summary="MonetCarlos | Unknown">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.coolapk.com/u/9021855" />
+        </Preference>
+        <Preference
             android:title="RemoveMiuiSystemSelfProtection"
             android:summary="gfbjngjibn | GPL-3.0">
             <intent
@@ -289,7 +296,6 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Kr328/.xlDownload" />
         </Preference>
-
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>
