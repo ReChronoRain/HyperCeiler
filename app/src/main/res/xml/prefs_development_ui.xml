@@ -51,7 +51,4 @@
             android:layout="@layout/preference_radiobutton_two_state" />
 
     </moralnorm.preference.RadioSetPreferenceCategory>
-
-
-
 </PreferenceScreen>

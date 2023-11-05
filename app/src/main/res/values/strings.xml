@@ -152,6 +152,7 @@
     <string name="portrait">Portrait</string>
     <string name="camera_pro">Pro</string>
     <string name="enable">Activate</string>
+    <string name="disable">Disable</string>
     <string name="custom_enable">Custom enable</string>
     <string name="search">Search</string>
     <string name="floating_window">Freeform</string>
@@ -1221,10 +1222,11 @@
     <string name="various_collapse_miui_title_desc">Adjust top bar title in MIUI apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
     <string name="various_super_clipboard_title">Super Clipboard</string>
-    <string name="various_unlock_super_clipboard">Unlock Super Clipboard</string>
+    <string name="various_unlock_super_clipboard">Super clipboard behavior</string>
     <string name="various_super_clipboard_summary">Only apps containing is_support_miui_super_clipboard metadata are supported</string>
     <string name="various_super_clipboard_picture_desc">Allow copy image to clipboard</string>
     <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
+    <string name="various_super_clipboard_picture_share_desc">Allow copying and pasting images to the clipboard</string>
     <string name="various_open_aosp_battery_title">Battery Optimization</string>
     <string name="various_open_aosp_notification_title">Notification Settings</string>
     <string name="various_open_aosp_app_manage_title">App Management</string>

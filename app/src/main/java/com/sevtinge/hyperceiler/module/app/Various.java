@@ -10,12 +10,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class Various extends BaseModule {
-
     Class<?> mHelpers;
-
     String mPackageName;
     boolean isMiuiApps;
-
 
     @Override
     public void handleLoadPackage() {
@@ -31,7 +28,6 @@ public class Various extends BaseModule {
 
 
     }
-
 
     private boolean isMiuiOverScrollApps() {
         return mPrefsMap.getBoolean("various_no_overscroll") && miuiOverScrollApps.contains(mPackageName);

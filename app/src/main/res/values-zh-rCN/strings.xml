@@ -130,6 +130,7 @@
     <string name="portrait">人像</string>
     <string name="camera_pro">专业</string>
     <string name="enable">启用</string>
+    <string name="disable">禁用</string>
     <string name="custom_enable">启用自定义</string>
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
@@ -1246,10 +1247,11 @@
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="various_super_clipboard_title">超级剪切板</string>
-    <string name="various_unlock_super_clipboard">解锁超级剪切板</string>
+    <string name="various_unlock_super_clipboard">超级剪切板行为</string>
     <string name="various_super_clipboard_summary">仅支持包含 is_support_miui_super_clipboard 元数据的应用</string>
     <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
     <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
+    <string name="various_super_clipboard_picture_share_desc">允许复制和粘贴图片至剪贴板</string>
 
     <string name="various_open_aosp_battery_title">电池优化</string>
     <string name="various_open_aosp_notification_title">通知设置</string>

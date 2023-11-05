@@ -123,6 +123,7 @@
     <string name="portrait">人像</string>
     <string name="camera_pro">專業</string>
     <string name="enable">啟用</string>
+    <string name="disable">停用</string>
     <string name="custom_enable">啟用自訂</string>
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
@@ -1178,6 +1179,7 @@
     <string name="various_super_clipboard_summary">僅支援具有 is_support_miui_super_clipboard 的元數據的應用程式</string>
     <string name="various_super_clipboard_picture_desc">允許將圖片複製到剪貼簿</string>
     <string name="various_super_clipboard_files_desc">允許複製檔案至剪貼簿</string>
+    <string name="various_super_clipboard_picture_share_desc">允許複製及貼上圖片至剪貼簿</string>
     <string name="various_open_aosp_battery_title">電池效能最佳化</string>
     <string name="various_open_aosp_notification_title">通知設定</string>
     <string name="various_open_aosp_app_manage_title">應用程式管理</string>
