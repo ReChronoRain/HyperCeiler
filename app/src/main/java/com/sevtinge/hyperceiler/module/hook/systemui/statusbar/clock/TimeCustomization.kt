@@ -55,7 +55,7 @@ object TimeCustomization : BaseHook() {
             // 预设模式
             1 -> {
                 var c: Context? = null
-                mClockClass!!.constructorFinder().first {
+                mClockClass.constructorFinder().first {
                     paramCount == 3
                 }.createHook {
                     after {
@@ -120,7 +120,7 @@ object TimeCustomization : BaseHook() {
             2 -> {
                 var c: Context? = null
 
-                mClockClass!!.constructorFinder().first {
+                mClockClass.constructorFinder().first {
                     paramCount == 3
                 }.createHook {
                     after {

@@ -27,6 +27,11 @@
         android:key="prefs_key_various_updater_miui_version" />
 
     <EditTextPreference
+        android:title="@string/updater_android_version"
+        android:summary="@string/updater_miui_version_desc"
+        android:key="prefs_key_various_updater_android_version" />
+
+    <EditTextPreference
         android:title="@string/updater_device"
         android:summary="@string/updater_device_desc"
         android:key="prefs_key_updater_device"

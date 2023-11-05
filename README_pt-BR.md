@@ -158,6 +158,6 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/hyperceile
 
 [badge_qguild]: https://img.shields.io/badge/QQ-Canal-4991D3?style=for-the-badge&logo=tencentqq
 
-[telegram_url]: https://t.me/hyperceiler
+[telegram_url]: https://t.me/cemiuiler
 
-[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dhyperceiler
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler

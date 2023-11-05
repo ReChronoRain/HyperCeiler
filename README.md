@@ -15,10 +15,11 @@
 
 Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
-> 不支持 修改较多的第三方 MIUI Rom、修改较多的系统软件，以及部分国外 MIUI Rom，
+> 不支持 修改较多的第三方 MIUI/Xiaomi HyperOS Rom、修改较多的系统软件，以及部分国外 MIUI/Xiaomi HyperOS Rom；
 >
-> 目前 HyperCeiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进，
+> 目前 HyperCeiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进；
 >
+> HyperCeiler 已停止维护 Android 11-12 的 MIUI Rom，如需使用请停留[此版本](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
 
 ## 作用域包含的应用
 
@@ -155,7 +156,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
 [badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
 
-[telegram_url]: https://t.me/hyperceiler
+[telegram_url]: https://t.me/cemiuiler
 
-[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dhyperceiler
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler
 
