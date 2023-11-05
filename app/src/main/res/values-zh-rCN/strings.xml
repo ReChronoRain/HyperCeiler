@@ -6,7 +6,7 @@
     <string name="new_permission_location_desc">用于提供经纬度等服务</string>
     <string name="new_cta_agree_desc">在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往权限管理调整所有权限的授权情况，Root/Su 权限请前往您的 Root/Su 管理器进行管理.</string>
     <string name="new_cta_app_main_purpose">修改系统应用</string>
-    <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现 MIUI 增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
+    <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现对系统的增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
     <!--HyperCeiler 设置/关于页-->
     <string name="language">简体中文</string>
     <string name="translator">绀漓 | Sevtinge</string>
@@ -522,6 +522,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
+    <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_data_saver">流量节省</string>
@@ -1387,5 +1388,4 @@
     <string name="tip_18">Tip: HyperCeiler 是电老虎 (暴论)</string>
     <string name="tip_19">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
     <string name="tip_20">Tip: 没事不要追新版 Canary，坏了不要催更（</string>
-    <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
 </resources>
