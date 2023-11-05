@@ -61,13 +61,28 @@ object NotificationWeatherNew : BaseHook() {
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {
                         appInfo = param.args[1] as ApplicationInfo
+
                         loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
                             name == "get"
                         }.createHook {
                             after { getClassLoader ->
-                                if (appInfo!!.packageName == "miui.systemui.plugin") {
-                                    val classLoader = getClassLoader.result as ClassLoader
-                                    mainPanelHeader(classLoader)
+                                val classLoader = getClassLoader.result as ClassLoader
+                                if (appInfo != null) {
+                                    if ("miui.systemui.plugin" == appInfo!!.packageName) {
+                                        mainPanelHeader(classLoader)
+                                        logW(TAG, "im get ClassLoader: $classLoader")
+                                    } else {
+                                        logW(TAG, "Au get classloader miui.systemui.plugin error: $classLoader")
+                                    }
+                                } else {
+                                    if (
+                                        classLoader.toString().contains("MIUISystemUIPlugin") ||
+                                        classLoader.toString().contains("miui.systemui.plugin")
+                                    ) {
+                                        mainPanelHeader(classLoader)
+                                    } else {
+                                        logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null")
+                                    }
                                 }
                             }
                         }
@@ -90,7 +105,7 @@ object NotificationWeatherNew : BaseHook() {
     }
 
     fun mainPanelHeader(pluginClassLoader: ClassLoader) {
-        if (isMoreHyperOSVersion(1f)) return;
+        if (isMoreHyperOSVersion(1f)) return
         val isDisplayCity = mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
         loadClass(
             "miui.systemui.controlcenter.windowview.MainPanelHeaderController",

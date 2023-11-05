@@ -110,17 +110,31 @@ object CCGrid : BaseHook() {
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {
                         appInfo = param.args[1] as ApplicationInfo
-                        ClassUtils.loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
-                            .first {
-                                name == "get"
-                            }.createHook {
-                                after { getClassLoader ->
-                                    if (appInfo!!.packageName == "miui.systemui.plugin") {
-                                        val classLoader = getClassLoader.result as ClassLoader
+
+                        ClassUtils.loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
+                            name == "get"
+                        }.createHook {
+                            after { getClassLoader ->
+                                val classLoader = getClassLoader.result as ClassLoader
+                                if (appInfo != null) {
+                                    if ("miui.systemui.plugin" == appInfo!!.packageName) {
                                         loadCCGrid(classLoader)
+                                        logW(TAG, "im get ClassLoader: $classLoader")
+                                    } else {
+                                        logW(TAG, "Au get classloader miui.systemui.plugin error: $classLoader")
+                                    }
+                                } else {
+                                    if (
+                                        classLoader.toString().contains("MIUISystemUIPlugin") ||
+                                        classLoader.toString().contains("miui.systemui.plugin")
+                                    ) {
+                                        loadCCGrid(classLoader)
+                                    } else {
+                                        logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null")
                                     }
                                 }
                             }
+                        }
                     }
                 }
             )
@@ -364,6 +378,7 @@ object CCGrid : BaseHook() {
             "create",
             Context::class.java,
             object : MethodHook() {
+                @SuppressLint("DiscouragedApi")
                 override fun before(param: MethodHookParam) {
                     val mContext = param.args[0] as Context
                     val res = mContext.resources
