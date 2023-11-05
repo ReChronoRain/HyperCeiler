@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -17,7 +16,7 @@ public class VolumeTimerValuesHook extends BaseHook {
         /*VolumeTimerValuesRes();*/
 
         final boolean[] isHooked = {false};
-        Helpers.findAndHookMethod("com.android.systemui.shared.plugins.PluginManagerImpl", lpparam.classLoader, "getClassLoader", ApplicationInfo.class, new MethodHook() {
+        findAndHookMethod("com.android.systemui.shared.plugins.PluginManagerImpl", lpparam.classLoader, "getClassLoader", ApplicationInfo.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 ApplicationInfo appInfo = (ApplicationInfo) param.args[0];
@@ -27,7 +26,7 @@ public class VolumeTimerValuesHook extends BaseHook {
                         pluginLoader = (ClassLoader) param.getResult();
                     }
 
-                    Helpers.findAndHookMethod("com.android.systemui.miui.volume.MiuiVolumeTimerDrawableHelper", pluginLoader, "initTimerString", new MethodHook() {
+                    findAndHookMethod("com.android.systemui.miui.volume.MiuiVolumeTimerDrawableHelper", pluginLoader, "initTimerString", new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) throws Throwable {
                             Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
@@ -49,7 +48,7 @@ public class VolumeTimerValuesHook extends BaseHook {
                             XposedHelpers.setObjectField(param.thisObject, "mTimeSegmentTitle", mTimeSegmentTitle);
                         }
                     });
-                    Helpers.findAndHookMethod("com.android.systemui.miui.volume.TimerItem", pluginLoader, "getTimePos", int.class, new MethodHook() {
+                    findAndHookMethod("com.android.systemui.miui.volume.TimerItem", pluginLoader, "getTimePos", int.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
                             Object timer = XposedHelpers.getObjectField(param.thisObject, "mTimerTime");

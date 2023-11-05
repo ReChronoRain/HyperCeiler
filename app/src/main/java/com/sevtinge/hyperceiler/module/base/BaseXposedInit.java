@@ -50,7 +50,6 @@ import com.sevtinge.hyperceiler.module.app.Updater;
 import com.sevtinge.hyperceiler.module.app.Various;
 import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
-import com.sevtinge.hyperceiler.module.hook.thememanager.ThemeCrackNew;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
@@ -68,6 +67,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+
+    public static boolean isSafeModeOn = false;
 
     public static ResourcesHook mResHook;
     public static String mModulePath = null;
@@ -159,6 +160,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     }
 
     public void init(LoadPackageParam lpparam) {
+        if (isSafeModeOn) return;
         String packageName = lpparam.packageName;
         switch (packageName) {
             case "android" -> {
@@ -193,7 +195,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.android.thememanager" -> {
-                new ThemeCrackNew().init(lpparam);
                 mThemeManager.init(lpparam);
                 mVarious.init(lpparam);
             }

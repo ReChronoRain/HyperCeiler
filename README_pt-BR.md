@@ -6,6 +6,7 @@
 
 ### Torne o HyperOS ótimo novamente!
 
+
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
 
 </div>
@@ -13,6 +14,7 @@
 ## Versões suportadas
 
 MIUI 12.5 ~ 14 para Android 11 ~ 13
+
 
 > Não suporta ROM MIUI/HyperOS de terceiros fortemente modificadas, software de sistema fortemente modificado e algumas ROM MIUI/HyperOS estrangeiras.
 >
@@ -103,7 +105,8 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 
 ## Obrigado!
 
-> Usei parte ou todo o conteúdo dos seguintes projetos de código aberto. Obrigado pelo forte apoio fornecido pelos desenvolvedores desses projetos (em nenhuma ordem em particular).
+> Usei parte ou todo o conteúdo dos seguintes projetos de código aberto. Obrigado pelo forte apoio
+> fornecido pelos desenvolvedores desses projetos (em nenhuma ordem em particular).
 
 - [「Accompanist」 por Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 por Android Open Source Project, Google Inc.](https://source.android.google.cn/license)

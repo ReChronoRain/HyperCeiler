@@ -34,7 +34,7 @@ public class DualRowSignalHook extends BaseHook {
 //        String[] iconStyles = {"", "thick", "theme"};
         String selectedIconStyle = mPrefsMap.getString("system_ui_status_mobile_network_icon_style", ""); // 图标样式
 
-        Helpers.findAndHookMethod("com.android.systemui.SystemUIApplication", lpparam.classLoader, "onCreate", new MethodHook() {
+        findAndHookMethod("com.android.systemui.SystemUIApplication", lpparam.classLoader, "onCreate", new MethodHook() {
             private boolean isHooked = false;
 
             @Override
@@ -63,7 +63,7 @@ public class DualRowSignalHook extends BaseHook {
         // 移动网络和WiFi网络都移动到左侧
         boolean moveSignalLeft = (mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left") || mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left"));
         String ControllerImplName = moveSignalLeft ? "MiuiDripLeftStatusBarIconControllerImpl" : "StatusBarIconControllerImpl";
-        Helpers.hookAllMethods("com.android.systemui.statusbar.phone." + ControllerImplName, lpparam.classLoader, "setMobileIcons", new MethodHook() {
+        hookAllMethods("com.android.systemui.statusbar.phone." + ControllerImplName, lpparam.classLoader, "setMobileIcons", new MethodHook() {
             private boolean isHooked = false;
 
             @Override
@@ -134,8 +134,8 @@ public class DualRowSignalHook extends BaseHook {
                 XposedHelpers.callMethod(mSmallRoaming, "setVisibility", 0);
             }
         };
-        Helpers.hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", beforeUpdate);
-        Helpers.hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", afterUpdate);
+        hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", beforeUpdate);
+        hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", afterUpdate);
 
         MethodHook resetImageDrawable = new MethodHook() {
             @Override
@@ -169,13 +169,13 @@ public class DualRowSignalHook extends BaseHook {
                 XposedHelpers.callMethod(mSmallRoaming, "setImageResource", sim2ResId);
             }
         };
-        Helpers.findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyDarknessInternal", resetImageDrawable);
+        findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyDarknessInternal", resetImageDrawable);
         int rightMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 0);
         int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 0);
         int iconScale = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10); // 图标缩放
         int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8);
         if (rightMargin > 0 || leftMargin > 0 || iconScale != 10 || verticalOffset != 8) {
-            Helpers.findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "init", new MethodHook() {
+            findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "init", new MethodHook() {
                 @Override
                 protected void after(final MethodHookParam param) throws Throwable {
                     LinearLayout mobileView = (LinearLayout) param.thisObject;

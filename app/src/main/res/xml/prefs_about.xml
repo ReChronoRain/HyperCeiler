@@ -37,13 +37,13 @@
         </Preference>
 
         <Preference
-            android:icon="@drawable/ic_voyager"
+            android:icon="@drawable/ic_hchenx"
             android:layout="@layout/preference_round_layout"
             android:summary="Hook"
-            android:title="Voyager">
+            android:title="焕晨HChen">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/hosizoraru" />
+                android:data="https://github.com/HChenX" />
         </Preference>
 
         <Preference

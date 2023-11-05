@@ -21,7 +21,6 @@ import com.sevtinge.hyperceiler.module.hook.home.ToastSlideAgain;
 import com.sevtinge.hyperceiler.module.hook.home.UnlockHotseatIcon;
 import com.sevtinge.hyperceiler.module.hook.home.UserPresentAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.WidgetCornerRadius;
-import com.sevtinge.hyperceiler.module.hook.home.WidgetCrack;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DisableRecentsIcon;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DockCustom;
 import com.sevtinge.hyperceiler.module.hook.home.dock.FoldDeviceDock;
@@ -45,6 +44,7 @@ import com.sevtinge.hyperceiler.module.hook.home.folder.FolderVerticalPadding;
 import com.sevtinge.hyperceiler.module.hook.home.folder.SmallFolderIconBlur;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.module.hook.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.module.hook.home.layout.HotSeatsMarginBottom;
@@ -116,6 +116,7 @@ public class Home extends BaseModule {
         initHook(LoadHostDir.INSTANCE);
 
         // 手势
+        initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
         initHook(new DoubleTap(), mPrefsMap.getInt("home_gesture_double_tap_action", 0) > 0);
         initHook(new ScreenSwipe(), mPrefsMap.getInt("home_gesture_up_swipe_action", 0) > 0 ||
             mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0 ||
@@ -250,7 +251,6 @@ public class Home extends BaseModule {
         // Other
         initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack") && (getBuildType().equals("debug")));
         initHook(AnimDurationRatio.INSTANCE, true);
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 

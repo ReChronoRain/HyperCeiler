@@ -25,60 +25,73 @@
             android:title="@string/various_mipad_title"
             app:isPreferenceVisible="true" />
 
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_e"
+            android:summary="@string/various_super_clipboard_summary"
+            android:title="@string/various_unlock_super_clipboard"
+            app:entries="@array/super_clipboard"
+            app:entryValues="@array/super_clipboard_value" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/various_super_clipboard_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_various_super_clipboard_enable"
-            android:summary="@string/various_super_clipboard_summary"
-            android:title="@string/various_unlock_super_clipboard" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_gallery"
+    <PreferenceCategory
+        android:key="prefs_key_various_super_clipboard_key"
+        android:title="@string/various_super_clipboard_title">
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_gallery_int"
             android:summary="@string/various_super_clipboard_picture_desc"
-            android:title="@string/gallery" />
+            android:title="@string/gallery"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_notes"
-            android:title="@string/notes" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_creation"
-            android:title="@string/creation" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_screenshot"
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_screenshot_int"
             android:summary="@string/various_super_clipboard_picture_desc"
-            android:title="@string/screenshot" />
+            android:title="@string/screenshot"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_mms"
-            android:title="@string/mms" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_browser"
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_fileexplorer_int"
             android:summary="@string/various_super_clipboard_files_desc"
-            android:title="@string/browser" />
+            android:title="@string/fileexplorer"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_various_super_clipboard_enable"
-            android:key="prefs_key_various_super_clipboard_fileexplorer"
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_browser_int"
             android:summary="@string/various_super_clipboard_files_desc"
-            android:title="@string/fileexplorer" />
+            android:title="@string/browser"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_notes_int"
+            android:summary="@string/various_super_clipboard_picture_share_desc"
+            android:title="@string/notes"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_creation_int"
+            android:summary="@string/various_super_clipboard_picture_share_desc"
+            android:title="@string/creation"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_various_super_clipboard_mms_int"
+            android:title="@string/mms"
+            app:entries="@array/super_clipboard_switch"
+            app:entryValues="@array/super_clipboard_switch_value" />
 
     </PreferenceCategory>
 

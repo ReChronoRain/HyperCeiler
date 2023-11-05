@@ -2,8 +2,6 @@ package com.sevtinge.hyperceiler.module.hook.systemframework;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodReplacement;
-
 public class VolumeDisableSafe extends BaseHook {
 
     Class<?> mAudioService;
@@ -15,6 +13,6 @@ public class VolumeDisableSafe extends BaseHook {
     }
 
     private void returnIntConstant(Class<?> cls, String methodName) {
-        hookAllMethods(cls, methodName, XC_MethodReplacement.returnConstant(2147483646));
+        hookAllMethods(cls, methodName, MethodHook.returnConstant(2147483646));
     }
 }

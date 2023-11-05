@@ -13,7 +13,7 @@ public class Browser extends BaseModule {
         initHook(DebugMode.INSTANCE, mPrefsMap.getBoolean("browser_debug_mode"));
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
-        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getBoolean("various_super_clipboard_enable"));
+        initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
     }

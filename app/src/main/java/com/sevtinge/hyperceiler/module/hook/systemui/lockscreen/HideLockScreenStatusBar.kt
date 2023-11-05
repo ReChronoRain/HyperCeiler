@@ -2,7 +2,6 @@ package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import android.view.View
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 
@@ -13,7 +12,8 @@ object HideLockScreenStatusBar : BaseHook() {
         else
             "com.android.systemui.statusbar.phone.StatusBar"
 
-        Helpers.hookAllMethods(statusBarClass, lpparam.classLoader, "makeStatusBarView",
+        hookAllMethods(
+            statusBarClass, lpparam.classLoader, "makeStatusBarView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     val mKeyguardStatusBar = XposedHelpers.getObjectField(

@@ -15,58 +15,65 @@ object UnlockSuperClipboard : BaseHook() {
     override fun init() {
         when (EzXHelper.hostPackageName) {
             "com.miui.gallery" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_gallery")) {
-                    methodSuperClipboard("com.miui.gallery.util.MiscUtil")
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_gallery_int", 0)) {
+                    1 -> methodSuperClipboard("com.miui.gallery.util.MiscUtil", true)
+                    2 -> methodSuperClipboard("com.miui.gallery.util.MiscUtil", false)
                 }
             }
 
             "com.android.fileexplorer" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_fileexplorer")) {
-                    methodSuperClipboard("com.android.fileexplorer.model.Util")
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_fileexplorer_int", 0)) {
+                    1 -> methodSuperClipboard("com.android.fileexplorer.model.Util", true)
+                    2 -> methodSuperClipboard("com.android.fileexplorer.model.Util", false)
                 }
             }
 
             "com.miui.screenshot" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_screenshot")) {
-                    dexKitSuperClipboard()
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_screenshot_int", 0)) {
+                    1 -> dexKitSuperClipboard(true)
+                    2 -> dexKitSuperClipboard(false)
                 }
             }
 
             "com.android.browser" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_browser")) {
-                    dexKitSuperClipboard()
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_browser_int", 0)) {
+                    1 -> dexKitSuperClipboard(true)
+                    2 -> dexKitSuperClipboard(false)
                 }
             }
 
             "com.android.mms" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_mms")) {
-                    dexKitSuperClipboard()
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_mms_int", 0)) {
+                    1 -> dexKitSuperClipboard(true)
+                    2 -> dexKitSuperClipboard(false)
                 }
             }
 
             "com.miui.notes" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_notes")) {
-                    methodSuperClipboard("com.miui.common.tool.Utils")
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_notes_int", 0)) {
+                    1 -> methodSuperClipboard("com.miui.common.tool.Utils", true)
+                    2 -> methodSuperClipboard("com.miui.common.tool.Utils", false)
                 }
             }
 
             "com.miui.creation" -> {
-                if (mPrefsMap.getBoolean("various_super_clipboard_creation")) {
-                    methodSuperClipboard("com.miui.creation.common.tools.ClipUtils")
+                when (mPrefsMap.getStringAsInt("various_super_clipboard_creation_int", 0)) {
+                    1 -> methodSuperClipboard("com.miui.creation.common.tools.ClipUtils", true)
+                    2 -> methodSuperClipboard("com.miui.creation.common.tools.ClipUtils", false)
                 }
             }
         }
     }
 
-    private fun methodSuperClipboard(clsName: String) {
+    private fun methodSuperClipboard(clsName: String, switch: Boolean) {
         loadClass(clsName).methodFinder()
             .filterByName("isSupportSuperClipboard")
             .first().createHook {
-                returnConstant(true)
+                returnConstant(switch)
             }
     }
 
-    private fun dexKitSuperClipboard() {
+    private fun dexKitSuperClipboard(switch: Boolean) {
         val ro by lazy {
             dexKitBridge.findMethod {
                 matcher {
@@ -86,7 +93,7 @@ object UnlockSuperClipboard : BaseHook() {
         }
 
         setOf(ro, sys).filterNotNull().createHooks {
-            returnConstant(true)
+            returnConstant(switch)
         }
     }
 }

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 import de.robv.android.xposed.XposedHelpers
 import kotlin.math.roundToInt
 
@@ -17,14 +16,35 @@ object CompactNotificationsHook : BaseHook() {
         val abHeight = 39.0f
 
         if (mPrefsMap.getBoolean("system_ui_control_center_compact_notice")) {
-            mResHook.setDensityReplacement("android", "dimen", "notification_action_height", abHeight)
-            mResHook.setDensityReplacement("android", "dimen", "android_notification_action_height", abHeight)
-            mResHook.setDensityReplacement("android", "dimen", "notification_action_list_height", abHeight)
-            mResHook.setDensityReplacement("com.android.systemui", "dimen", "notification_row_extra_padding", 0F)
+            mResHook.setDensityReplacement(
+                "android",
+                "dimen",
+                "notification_action_height",
+                abHeight
+            )
+            mResHook.setDensityReplacement(
+                "android",
+                "dimen",
+                "android_notification_action_height",
+                abHeight
+            )
+            mResHook.setDensityReplacement(
+                "android",
+                "dimen",
+                "notification_action_list_height",
+                abHeight
+            )
+            mResHook.setDensityReplacement(
+                "com.android.systemui",
+                "dimen",
+                "notification_row_extra_padding",
+                0F
+            )
         }
 
-        Helpers.hookAllMethods(
-            "com.android.systemui.statusbar.notification.row.wrapper.NotificationViewWrapper", lpparam.classLoader,
+        hookAllMethods(
+            "com.android.systemui.statusbar.notification.row.wrapper.NotificationViewWrapper",
+            lpparam.classLoader,
             "wrap",
             object : MethodHook() {
                 @Throws(Throwable::class)

@@ -56,10 +56,11 @@ public class FlashLight extends TileUtils {
 
     @Override
     public String[] customTileProvider() {
-        String[] TileProvider = new String[3];
+        String[] TileProvider = new String[4];
         TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "flashlightTileProvider" : "mFlashlightTileProvider";
-        TileProvider[1] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "createTileInternal" : "interceptCreateTile";
-        TileProvider[2] = "createTile";
+        TileProvider[1] = "createTileInternal";
+        TileProvider[2] = "interceptCreateTile";
+        TileProvider[3] = "createTile";
         return TileProvider;
     }
 
@@ -191,8 +192,22 @@ public class FlashLight extends TileUtils {
     }
 
     public void setBrightnessUtils(Object o, Object flash, Context context, int maxPath) {
+        try {
+            findClass("com.android.systemui.controlcenter.policy.BrightnessUtils").getDeclaredMethod("convertGammaToLinearFloat", int.class, float.class, float.class);
+            convertGammaToLinearFloat(o, flash, context, maxPath, true);
+        } catch (NoSuchMethodException e) {
+            try {
+                findClass("com.android.systemui.controlcenter.policy.BrightnessUtils").getDeclaredMethod("convertGammaToLinearFloat", float.class, float.class, int.class);
+                convertGammaToLinearFloat(o, flash, context, maxPath, false);
+            } catch (NoSuchMethodException f) {
+                logE(TAG, "No such: " + e + " and: " + f);
+            }
+        }
+    }
+
+    public void convertGammaToLinearFloat(Object o, Object flash, Context context, int maxPath, boolean isWhat) {
         findAndHookMethod("com.android.systemui.controlcenter.policy.BrightnessUtils",
-            "convertGammaToLinearFloat", int.class, float.class, float.class, new MethodHook() {
+            "convertGammaToLinearFloat", isWhat ? int.class : float.class, float.class, isWhat ? float.class : int.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     if (getFlashLightEnabled(context) == 1) {
@@ -202,8 +217,8 @@ public class FlashLight extends TileUtils {
                         // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat int 1: " + param.args[0]);
                         // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 2: " + param.args[1]);
                         // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 3: " + param.args[2]);
-                        float min = (float) param.args[1];
-                        float max = (float) param.args[2];
+                        float min = (float) param.args[isWhat ? 1 : 0];
+                        float max = (float) param.args[isWhat ? 2 : 1];
                         if (min < 0.001f) {
                             min = 0.00114514f;
                         }
@@ -216,7 +231,7 @@ public class FlashLight extends TileUtils {
                         float A = XposedHelpers.getStaticFloatField(BrightnessUtils, "A");
                         float B = XposedHelpers.getStaticFloatField(BrightnessUtils, "B");
                         float C = XposedHelpers.getStaticFloatField(BrightnessUtils, "C");
-                        float norm = MathUtils.norm(0.0f, GAMMA_SPACE_MAX, (int) param.args[0]);
+                        float norm = MathUtils.norm(0.0f, GAMMA_SPACE_MAX, (int) param.args[isWhat ? 0 : 2]);
                         if (norm <= R) {
                             exp = MathUtils.sq(norm / R);
                         } else {

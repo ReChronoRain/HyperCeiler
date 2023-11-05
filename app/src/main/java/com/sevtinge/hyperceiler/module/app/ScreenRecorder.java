@@ -6,7 +6,7 @@ import com.sevtinge.hyperceiler.module.base.LoadHostDir;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.ForceSupportPlaybackCapture;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.SaveToMovies;
 import com.sevtinge.hyperceiler.module.hook.screenrecorder.ScreenRecorderConfig;
-import com.sevtinge.hyperceiler.module.hook.screenrecorder.UnlockMoreVolumeFrom;
+import com.sevtinge.hyperceiler.module.hook.screenrecorder.UnlockMoreVolumeFromNew;
 
 public class ScreenRecorder extends BaseModule {
 
@@ -15,7 +15,7 @@ public class ScreenRecorder extends BaseModule {
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
         initHook(new ForceSupportPlaybackCapture(), mPrefsMap.getBoolean("screenrecorder_force_support_playback_capture"));
-        initHook(new UnlockMoreVolumeFrom(), mPrefsMap.getBoolean("screenrecorder_more_volume"));
+        initHook(UnlockMoreVolumeFromNew.INSTANCE, mPrefsMap.getBoolean("screenrecorder_more_volume"));
         initHook(ScreenRecorderConfig.INSTANCE, mPrefsMap.getBoolean("screenrecorder_config"));
         initHook(SaveToMovies.INSTANCE, mPrefsMap.getBoolean("screenrecorder_save_to_movies"));
         // dexKit finish

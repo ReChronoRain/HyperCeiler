@@ -55,14 +55,14 @@ body:
   - type: dropdown
     id: miui_version
     attributes:
-      label: "MIUI 版本"
-      description: 您当前正在使用的 MIUI 版本
+      label: "MIUI/HyperOS 版本"
+      description: 您当前正在使用的 MIUI/HyperOS 版本
       multiple: true
       options:
         - MIUI12 / MIUI12.5
         - MIUI13
         - MIUI14
-        - MIUI15
+        - Xiaomi HyperOS 1.0
         - 其它
     validations:
       required: true

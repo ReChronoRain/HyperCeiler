@@ -46,7 +46,7 @@ object TimeStyle : BaseHook() {
 
                 if (textV.resources.getResourceEntryName(textV.id) == "clock") {
                     // 时钟加粗
-                    if (clockBold) {
+                    if (mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")) {
                         textV.typeface = Typeface.DEFAULT_BOLD
                     }
                     // 时钟对齐方式

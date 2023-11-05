@@ -40,6 +40,10 @@ class StatusBarIcon : BaseHook() {
 
     companion object {
         private fun checkSlot(slotName: String): Int {
+            // stat_sys_data_connected_roam_small
+            // stat_sys_data_connected_roam_small_darkmode
+            // stat_sys_data_connected_roam_small_tint
+            // 漫游的r标
             val vpn = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_vpn", 0)
             val alarmClock = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0)
             val nfc = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_nfc", 0)

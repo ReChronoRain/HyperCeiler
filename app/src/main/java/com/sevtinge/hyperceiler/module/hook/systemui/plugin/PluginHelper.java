@@ -24,21 +24,25 @@ public class PluginHelper extends BaseHook {
                 : "com.android.systemui.shared.plugins.PluginManagerImpl";
             hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {
                     private boolean isHooked = false;
+                    // private boolean run = false;
 
                     @Override
                     protected void after(MethodHookParam param) {
                         appInfo = (ApplicationInfo) param.args[0];
                         if (appInfo != null) {
                             if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
-                                isHooked = true;
                                 if (pluginLoader == null) {
                                     pluginLoader = (ClassLoader) param.getResult();
                                 }
-                                // logD("pluginLoader: " + pluginLoader);
+                                isHooked = true;
                                 setClassLoader(pluginLoader);
+                                logW(TAG, "im get ClassLoader: " + pluginLoader);
+                                // logD("pluginLoader: " + pluginLoader);
+                                // setClassLoader(pluginLoader);
+                                // logE("PluginHelper", "im get ClassLoader: " + pluginLoader);
                             } else {
                                 if (!isHooked)
-                                    logD("appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                    logW(TAG, "get classloader miui.systemui.plugin error");
                             }
                         } else {
                             logE(TAG, "appInfo is null");
@@ -63,20 +67,28 @@ public class PluginHelper extends BaseHook {
                     @Override
                     protected void after(MethodHookParam param) {
                         Object pathClassLoader = param.getResult();
-                        if (appInfo != null) {
-                            if ("miui.systemui.plugin".equals(appInfo.packageName) && !isHooked) {
-                                isHooked = true;
-                                if (pluginLoader == null) {
-                                    pluginLoader = (ClassLoader) pathClassLoader;
+                        if (pluginLoader == null) {
+                            pluginLoader = (ClassLoader) pathClassLoader;
+                        }
+                        if (!isHooked) {
+                            if (appInfo != null) {
+                                if ("miui.systemui.plugin".equals(appInfo.packageName)) {
+                                    isHooked = true;
+                                    setClassLoader(pluginLoader);
+                                    logW(TAG, "im get ClassLoader: " + pluginLoader);
+                                    // logD("AU pluginLoader: " + pluginLoader);
+                                } else {
+                                    logW(TAG, "Au get classloader miui.systemui.plugin error: " + pluginLoader);
                                 }
-                                // logD("AU pluginLoader: " + pluginLoader);
-                                setClassLoader(pluginLoader);
                             } else {
-                                if (!isHooked)
-                                    logD("AU appInfo is not miui.systemui.plugin is: " + appInfo.packageName + " isHooked: " + isHooked);
+                                if (pluginLoader.toString().contains("MIUISystemUIPlugin") ||
+                                    pluginLoader.toString().contains("miui.systemui.plugin")) {
+                                    isHooked = true;
+                                    setClassLoader(pluginLoader);
+                                } else {
+                                    logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null");
+                                }
                             }
-                        } else {
-                            logE(TAG, "AU appInfo is null");
                         }
                     }
                 }

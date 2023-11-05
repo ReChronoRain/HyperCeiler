@@ -6,7 +6,7 @@
     <string name="new_permission_location_desc">用于提供经纬度等服务</string>
     <string name="new_cta_agree_desc">在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往权限管理调整所有权限的授权情况，Root/Su 权限请前往您的 Root/Su 管理器进行管理.</string>
     <string name="new_cta_app_main_purpose">修改系统应用</string>
-    <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现 MIUI 增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
+    <string name="new_cta_app_all_purpose_title">欢迎使用 HyperCeiler，本应用依赖 Xposed 框架运行，你可以使用本应用劫持并修改其他受支持的应用以实现对系统的增强功能。在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往您的 Root/Su 管理器进行管理。</string>
     <!--HyperCeiler 设置/关于页-->
     <string name="language">简体中文</string>
     <string name="translator">绀漓 | Sevtinge</string>
@@ -130,6 +130,7 @@
     <string name="portrait">人像</string>
     <string name="camera_pro">专业</string>
     <string name="enable">启用</string>
+    <string name="disable">禁用</string>
     <string name="custom_enable">启用自定义</string>
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
@@ -522,6 +523,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
+    <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_data_saver">流量节省</string>
@@ -625,6 +627,8 @@
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
+    <string name="quick_settings_state_change_message_on_my">%1$s已开启</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s已关闭</string>
     <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_control_center_5g_toggle_label">5G网络</string>
     <string name="system_control_center_sunshine_mode">阳光模式</string>
@@ -663,6 +667,8 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">蓝牙磁贴样式</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">蓝牙磁贴移至网络磁贴区域</string>
+    <string name="system_ui_control_center_notifrowmenu">扩展通知菜单</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">从通知菜单打开应用信息、强制关闭应用和浮窗打开</string>
 
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
@@ -740,7 +746,6 @@
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
     <string name="theme_manager_diable_ads_desc">将 “猜你喜欢” 的广告替换为空白卡片，其余位置的广告将完全移除</string>
-    <string name="theme_manager_crack">主题破解</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
     <!--系统更新-->
@@ -751,6 +756,7 @@
     <string name="updater_big_version">伪装大版本</string>
     <string name="updater_big_version_desc">伪装 Xiaomi HyperOS 版本时需要填写的项目，默认为 V816</string>
     <string name="updater_miui_version">伪装版本</string>
+    <string name="updater_android_version">伪装 Android 版本</string>
     <string name="updater_miui_version_desc">仅对系统更新修改，可在一定程度上屏蔽系统更新</string>
     <string name="updater_device">伪装机型</string>
     <string name="updater_device_desc">输入目标设备的机型代号以指定机型，可用于获取其他机型的 ROM 包，该功能极度危险</string>
@@ -802,6 +808,8 @@
     <string name="home">系统桌面</string>
     <string name="home_gesture">手势与导航</string>
     <string name="home_navigation_title">导航</string>
+    <string name="home_navigation_quick_back">切换上一个应用</string>
+    <string name="home_navigation_quick_back_more">从屏幕两侧向内滑动并停顿，快速切换上一个应用</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
     <string name="home_navigation_back_area_width">返回手势区域宽度</string>
     <string name="home_gesture_title2">手势</string>
@@ -1047,7 +1055,6 @@
     <string name="nfc_allow_information_screen">允许息屏时识别</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
-    <string name="personal_assistant_widget_crack">小部件破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
     <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
     <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>
@@ -1240,10 +1247,11 @@
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>
 
     <string name="various_super_clipboard_title">超级剪切板</string>
-    <string name="various_unlock_super_clipboard">解锁超级剪切板</string>
+    <string name="various_unlock_super_clipboard">超级剪切板行为</string>
     <string name="various_super_clipboard_summary">仅支持包含 is_support_miui_super_clipboard 元数据的应用</string>
     <string name="various_super_clipboard_picture_desc">允许复制图片至剪贴板</string>
     <string name="various_super_clipboard_files_desc">允许复制文件至剪贴板</string>
+    <string name="various_super_clipboard_picture_share_desc">允许复制和粘贴图片至剪贴板</string>
 
     <string name="various_open_aosp_battery_title">电池优化</string>
     <string name="various_open_aosp_notification_title">通知设置</string>
@@ -1328,6 +1336,10 @@
     <string name="freeform_notification">通知悬浮窗</string>
     <string name="share_app">分享至三方应用</string>
 
+    <string name="system_notifrowmenu_appinfo">应用信息</string>
+    <string name="system_notifrowmenu_openinfw">浮窗</string>
+    <string name="system_notifrowmenu_forceclose">强制关闭</string>
+
     <string name="show_newmods_title">标记新模块</string>
 
     <string name="default_volume_stream_ring">铃声</string>
@@ -1356,6 +1368,9 @@
 
     <string name="location_add">添加</string>
     <string name="location_delete">删除</string>
+
+    <string name="development">开发者选项</string>
+    <string name="development_ui">界面元素测试</string>
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
@@ -1378,5 +1393,4 @@
     <string name="tip_18">Tip: HyperCeiler 是电老虎 (暴论)</string>
     <string name="tip_19">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
     <string name="tip_20">Tip: 没事不要追新版 Canary，坏了不要催更（</string>
-    <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
 </resources>

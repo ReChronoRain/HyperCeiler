@@ -59,7 +59,7 @@ object VersionCodeNew : BaseHook() {
         mBigMethod.createHook {
             before {
                 if (!TextUtils.isEmpty(mOldVersionCode)) {
-                    it.result = mOldVersionCode
+                    it.result = mOldVersionCode.substringAfter("V")
                 }
             }
         }

@@ -1,10 +1,18 @@
-name: Android U Action
+name: Android-R CI
 
 on:
   push:
-    branches: [ "Android-U" ]
+    branches: [ "Android_R" ]
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/**"
+      - ".idea/"
+      - "doc/*"
+      - "*.md"
+      - ".github/workflows/crowdin.yml"
+      - "crowdin.yml"
   pull_request:
-    branches: [ "Android-U" ]
+    branches: [ "Android_R" ]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"
@@ -65,22 +73,21 @@ jobs:
         if: contains(github.event.head_commit.message, '[upload]') == true
         uses: actions/upload-artifact@v3
         with:
-          name: HyperCeiler Canary
+          name: Cemiler Canary
           path: ${{ env.APK_FILE_CANARY }}
 
-      - name: Post to Android 14 Debug Group
-        if: contains(github.event.head_commit.message, '[skip]') == false
+      - name: Post to Android R/S Channel
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
         env:
-          GROUP_ID: ${{ secrets.DEBUG_GROUP_ID }}
-          GROUP_ID_TEMPORARY: ${{ secrets.GROUP_TEMPORARY_ID }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN_TWO }}
           CANARY: ${{ env.APK_FILE_CANARY }}
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
           cd ${{ github.workspace }}/git_clone
-          { echo -e 'Github CI\n'; git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s"; } > ${{ github.workspace }}/git_log
+          { echo -e 'Github Action for Android_R\n'; git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s"; } > ${{ github.workspace }}/git_log
           ESCAPED="$(cat ${{ github.workspace }}/git_log | gawk '{gsub(/[_*[\]()~`>#+=\|{}.!-]/,"\\\\\\\\&")}1' | sed -e 's|"|\\"|g' -e 's|^[0-9a-z]\+|__&__|' | hexdump -v -e '/1 "%02X"' | sed 's/\(..\)/%\1/g')"
           cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2Fcanary%22%2C%22parse_mode%22%3A%22MarkdownV2%22%2C%22caption%22%3A%22${ESCAPED}%22%7D%5D" -F canary="@${CANARY}"

@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
@@ -23,7 +22,6 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRes
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
-import com.sevtinge.hyperceiler.module.hook.systemframework.ThemeProvider;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
@@ -76,8 +74,6 @@ public class SystemFramework extends BaseModule {
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
         initHook(new VolumeDisableSafe(), mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
         // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
-
-        initHook(new ThemeProvider(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("various_theme_crack") && (getBuildType().equals("debug")));
 
         // 其他
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));

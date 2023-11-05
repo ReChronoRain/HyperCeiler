@@ -2,7 +2,6 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
 import android.provider.Settings
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 
 object NoLowBatteryWarning : BaseHook() {
     override fun init() {
@@ -13,7 +12,7 @@ object NoLowBatteryWarning : BaseHook() {
                 else if ("low_battery_sound" == key) param.result = null
             }
         }
-        Helpers.hookAllMethods(Settings.System::class.java, "getInt", settingHook)
-        Helpers.hookAllMethods(Settings.Global::class.java, "getString", settingHook)
+        hookAllMethods(Settings.System::class.java, "getInt", settingHook)
+        hookAllMethods(Settings.Global::class.java, "getString", settingHook)
     }
 }

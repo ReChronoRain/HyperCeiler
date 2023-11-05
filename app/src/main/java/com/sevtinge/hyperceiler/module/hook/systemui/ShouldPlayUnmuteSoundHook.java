@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.module.hook.systemui;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -14,7 +13,7 @@ public class ShouldPlayUnmuteSoundHook extends BaseHook {
 
     @Override
     public void init() {
-        Helpers.findAndHookMethod(mQuietModeTile, "handleClick", View.class, new MethodHook() {
+        findAndHookMethod(mQuietModeTile, "handleClick", View.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 XposedHelpers.setBooleanField(mZenModeController, "isZenModeOn", true);

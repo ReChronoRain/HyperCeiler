@@ -35,7 +35,7 @@
     <string name="new_permission_location_desc">used to provide services such as latitude and longitude</string>
     <string name="new_cta_agree_desc">During use, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to Permission Management at any time to adjust the authorization status of all permissions, and please go to your Root/Su manager for Root/Su permissions.</string>
     <string name="new_cta_app_main_purpose">modify system applications</string>
-    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler, this application runs on the Xposed framework, you can use this application to hijack and modify other supported applications to achieve MIUI enhancements. During use, in order to provide you with more features, we may apply for Root/Su permission from you. You can go to your Root/Su manager for Root/Su permissions.</string>
+    <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler. This application relies on the Xposed framework to run. You can use this application to hijack and modify other supported applications to enhance the system. During use, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
     <string name="translator">Ling Qiqi</string>
@@ -152,6 +152,7 @@
     <string name="portrait">Portrait</string>
     <string name="camera_pro">Pro</string>
     <string name="enable">Activate</string>
+    <string name="disable">Disable</string>
     <string name="custom_enable">Custom enable</string>
     <string name="search">Search</string>
     <string name="floating_window">Freeform</string>
@@ -613,6 +614,8 @@
     <string name="system_ui_controlcenter_magnet_title">Magnet</string>
     <string name="system_ui_control_center_notification_blur_title">Notification</string>
     <string name="system_control_center_qs_detail_bg">Card background transparency</string>
+    <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
     <string name="system_control_center_5g_tile">5G network switch</string>
     <string name="system_control_center_5g_toggle_label">5G Network</string>
     <string name="system_control_center_sunshine_mode">Sunshine Mode</string>
@@ -660,6 +663,11 @@
     <string name="system_control_center_old_qs_grid_columns_horizontal">Number of columns in collapsed panel (Landscape)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth tile style</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Move the bluetooth tile near the network tile</string>
+    <string name="system_ui_control_center_notifrowmenu">Extended notification menu</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">Open app info, force close app and open in floating window from notification menu (swipe notification to the left to open it)</string>
+    <string name="system_notifrowmenu_appinfo">App info</string>
+    <string name="system_notifrowmenu_openinfw">Floating window</string>
+    <string name="system_notifrowmenu_forceclose">Force close</string>
 
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_charge_animation_title">Charge animation</string>
@@ -721,7 +729,6 @@
     <string name="theme_manager_version_code_modify">Disable MIUI version detection</string>
     <string name="theme_manager_diable_ads">Disable ads</string>
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
-    <string name="theme_manager_crack">Theme patch</string>
     <string name="theme_manager_enable_pad_theme">Enable Pad theme</string>
     <string name="theme_manager_enable_fold_theme">Enable Fold theme</string>
     <!--Updater-->
@@ -732,6 +739,7 @@
     <string name="updater_big_version">Fake large version</string>
     <string name="updater_big_version_desc">Items that need to be filled in when disguising the Xiaomi HyperOS version, the default is V816</string>
     <string name="updater_miui_version">Fake version for Updater</string>
+    <string name="updater_android_version">Fake version for Android</string>
     <string name="updater_miui_version_desc">Only modify the system update, which can shield the system update to a certain extent</string>
     <string name="updater_device">Fake device for Updater</string>
     <string name="updater_device_desc">Enter the model code of the target device to specify the model, which can be used to obtain ROM packages for other models, which is extremely dangerous</string>
@@ -783,6 +791,8 @@
     <string name="home">System launcher</string>
     <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_navigation_title">Navigation</string>
+    <string name="home_navigation_quick_back">Go back to previous app</string>
+    <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
     <string name="home_gesture_title2">Gesture</string>
@@ -1023,7 +1033,6 @@
     <string name="nfc_allow_information_screen">Allow recognizable when information screen</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_widget_crack">Widget patch</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold weight</string>
     <string name="personal_assistant_fold_widget_enable_desc">Enable Pad/Fold style widgets</string>
     <string name="personal_assistant_overlap_mode">Negative one screen Fold style</string>
@@ -1213,10 +1222,11 @@
     <string name="various_collapse_miui_title_desc">Adjust top bar title in MIUI apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
     <string name="various_super_clipboard_title">Super Clipboard</string>
-    <string name="various_unlock_super_clipboard">Unlock Super Clipboard</string>
+    <string name="various_unlock_super_clipboard">Super clipboard behavior</string>
     <string name="various_super_clipboard_summary">Only apps containing is_support_miui_super_clipboard metadata are supported</string>
     <string name="various_super_clipboard_picture_desc">Allow copy image to clipboard</string>
     <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
+    <string name="various_super_clipboard_picture_share_desc">Allow copying and pasting images to the clipboard</string>
     <string name="various_open_aosp_battery_title">Battery Optimization</string>
     <string name="various_open_aosp_notification_title">Notification Settings</string>
     <string name="various_open_aosp_app_manage_title">App Management</string>
@@ -1310,6 +1320,8 @@
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
+    <string name="development">Developer Options</string>
+    <string name="development_ui">UI</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

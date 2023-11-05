@@ -3,83 +3,86 @@
 <img width="" src="/imgs/icon.png" width=160 height=160 align="center">
 
 # HyperCeiler
+
 ### Make HyperOS Great Again!
 
-简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
+简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)
+|&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
 </div>
 
 ## 支持的版本
+
 Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
-> 不支持 修改较多的第三方 MIUI Rom、修改较多的系统软件，以及部分国外 MIUI Rom，
+> 不支持 修改较多的第三方 MIUI/Xiaomi HyperOS Rom、修改较多的系统软件，以及部分国外 MIUI/Xiaomi HyperOS Rom；
 >
-> 目前 HyperCeiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进，
+> 目前 HyperCeiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进；
 >
-> 对于 Android 11 的设备，已尽力做好支持，在 1.3.130 版本发布后，主线分支将不再支持 Android 11，但依旧会提供老版本功能维护与移植。
+> HyperCeiler 已停止维护 Android 11-12 的 MIUI Rom，如需使用请停留[此版本](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
 
 ## 作用域包含的应用
 
 <details>
     <summary>点击展开折叠的内容</summary>
 
-| 应用名 | 包名 |
-| :---- | :---- |
-| 系统框架 | system |
-| 系统界面 | com.android.systemui |
-| 系统桌面 | com.miui.home |
-| 系统更新 | com.android.updater |
-| Joyose | com.xiaomi.joyose |
-| 小米设置 | com.xiaomi.misettings |
-| 手机管家 | com.miui.securitycenter |
-| 笔记 | com.miui.notes |
-| 壁纸 | com.miui.miwallpaper |
-| 传送门 | com.miui.contentextension |
-| 弹幕通知 | com.xiaomi.barrage |
-| 百度输入法小米版 | com.baidu.input_mi |
-| 电话 | com.android.incallui |
-| 电话服务 | com.android.phone |
-| 电量与性能 | com.miui.powerkeeper |
-| 短信 | com.android.mms |
-| 截屏 | com.miui.screenshot |
-| 垃圾清理 | com.miui.cleanmaster |
-| 浏览器 | com.android.browser |
-| 鲁班（MTB） | com.xiaomi.mtb |
-| 屏幕录制 | com.miui.screenrecorder |
-| 权限管理服务 | com.lbe.security.miui |
-| 设置 | com.android.settings
-| 搜狗输入法小米版 | com.sohu.inputmethod.sogou.xiaomi |
-| 天气 | com.miui.weather2 |
-| 投屏 | com.milink.service |
-| 外部存储设备 | com.android.externalstorage |
-| 万象息屏 | com.miui.aod |
-| 文件管理 | com.android.fileexplorer |
-| 系统服务组件 | com.miui.securityadd |
-| 下载管理 | com.android.providers.downloads.ui |
-| 下载管理程序 | com.android.providers.downloads |
-| 相册 | com.miui.gallery |
-| 小米创作 | com.miui.creation |
-| 小米互传 | com.miui.mishare.connectivity |
-| 小米相册 - 编辑 | com.miui.mediaeditor |
-| 小米云服务 | com.miui.cloudservice |
-| 小米智能卡 | com.miui.tsmclient |
-| 讯飞输入法小米版 | com.iflytek.inputmethod.miui |
-| 应用包管理组件 | com.miui.packageinstaller |
-| 应用商店 | com.xiaomi.market |
-| 智能助理 | com.miui.personalassistant |
-| 主题壁纸 | com.android.thememanager |
-| com.miui.rom | com.miui.rom |
-| MIUI 安全组件 | com.miui.guardprovider |
-| 时钟 | com.android.deskclock |
-| 相机 | com.android.camera |
-| 小爱翻译 | com.xiaomi.aiasst.vision |
-| 小爱建议 | com.xiaomi.aireco |
-| 小爱视觉 | com.xiaomi.scanner |
-| 小爱同学 | com.miui.voiceassist |
-| 音乐 | com.miui.player |
-| MIUI+ Beta 版 | com.xiaomi.mirror |
-| com.xiaomi.NetworkBoost | com.xiaomi.NetworkBoost |
-| NFC 服务 | com.android.nfc |
+| 应用名          | 包名                                 |
+|:-------------|:-----------------------------------|
+| 系统框架         | system                             |
+| 系统界面         | com.android.systemui               |
+| 系统桌面         | com.miui.home                      |
+| 系统更新         | com.android.updater                |
+| Joyose       | com.xiaomi.joyose                  |
+| 小米设置         | com.xiaomi.misettings              |
+| 手机管家         | com.miui.securitycenter            |
+| 笔记           | com.miui.notes                     |
+| 壁纸           | com.miui.miwallpaper               |
+| 传送门          | com.miui.contentextension          |
+| 弹幕通知         | com.xiaomi.barrage                 |
+| 百度输入法小米版     | com.baidu.input_mi                 |
+| 电话           | com.android.incallui               |
+| 电话服务         | com.android.phone                  |
+| 电量与性能        | com.miui.powerkeeper               |
+| 短信           | com.android.mms                    |
+| 截屏           | com.miui.screenshot                |
+| 垃圾清理         | com.miui.cleanmaster               |
+| 浏览器          | com.android.browser                |
+| 鲁班（MTB）      | com.xiaomi.mtb                     |
+| 屏幕录制         | com.miui.screenrecorder            |
+| 权限管理服务       | com.lbe.security.miui              |
+| 设置           | com.android.settings               |
+| 搜狗输入法小米版     | com.sohu.inputmethod.sogou.xiaomi  |
+| 天气           | com.miui.weather2                  |
+| 投屏           | com.milink.service                 |
+| 外部存储设备       | com.android.externalstorage        |
+| 万象息屏         | com.miui.aod                       |
+| 文件管理         | com.android.fileexplorer           |
+| 系统服务组件       | com.miui.securityadd               |
+| 下载管理         | com.android.providers.downloads.ui |
+| 下载管理程序       | com.android.providers.downloads    |
+| 相册           | com.miui.gallery                   |
+| 小米创作         | com.miui.creation                  |
+| 小米互传         | com.miui.mishare.connectivity      |
+| 小米相册 - 编辑    | com.miui.mediaeditor               |
+| 小米云服务        | com.miui.cloudservice              |
+| 小米智能卡        | com.miui.tsmclient                 |
+| 讯飞输入法小米版     | com.iflytek.inputmethod.miui       |
+| 应用包管理组件      | com.miui.packageinstaller          |
+| 应用商店         | com.xiaomi.market                  |
+| 智能助理         | com.miui.personalassistant         |
+| 主题壁纸         | com.android.thememanager           |
+| com.miui.rom | com.miui.rom                       |
+| MIUI 安全组件    | com.miui.guardprovider             |
+| 时钟           | com.android.deskclock              |
+| 相机           | com.android.camera                 |
+| 小爱翻译         | com.xiaomi.aiasst.vision           |
+| 小爱建议         | com.xiaomi.aireco                  |
+| 小爱视觉         | com.xiaomi.scanner                 |
+| 小爱同学         | com.miui.voiceassist               |
+| 音乐           | com.miui.player                    |
+| MIUI+ Beta 版 | com.xiaomi.mirror                  |
+| NetworkBoost | com.xiaomi.NetworkBoost            |
+| NFC 服务       | com.android.nfc                    |
 
 </details>
 
@@ -95,9 +98,9 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
 ## 为 HyperCeiler 贡献翻译
 
-[![Crowdin](https://badges.crowdin.net/hyperceiler/localized.svg)](https://crowdin.com/project/hyperceiler)
+[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
-您可以在[这里](https://crwd.in/hyperceiler)为 HyperCeiler 项目贡献翻译。
+您可以在[这里](https://crwd.in/cemiuiler)为 HyperCeiler 项目贡献翻译。
 
 ## 感谢
 
@@ -146,9 +149,14 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 - [「.xlDownload」 by Kr328](https://github.com/Kr328/.xlDownload)
 
 [qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
+
 [badge_qgroup]: https://img.shields.io/badge/QQ-群组-4DB8FF?style=for-the-badge&logo=tencentqq
+
 [qguild_url]: https://pd.qq.com/s/35ooe0ssj
+
 [badge_qguild]: https://img.shields.io/badge/QQ-频道-4991D3?style=for-the-badge&logo=tencentqq
-[telegram_url]: https://t.me/hyperceiler
-[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dhyperceiler
+
+[telegram_url]: https://t.me/cemiuiler
+
+[badge_telegram]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&color=2CA5E0&label=Telegram&logo=telegram&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dtelegram%26queryKey%3Dcemiuiler
 

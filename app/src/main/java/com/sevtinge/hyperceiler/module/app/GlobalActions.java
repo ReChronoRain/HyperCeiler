@@ -18,7 +18,6 @@ import android.provider.Settings;
 import android.view.KeyEvent;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -52,11 +51,6 @@ public class GlobalActions extends BaseHook {
         });
     }
 
-    public static void proxySystemProperties(String method, String prop, String val, ClassLoader classLoader) {
-        XposedHelpers.callStaticMethod(XposedHelpers.findClassIfExists("android.os.SystemProperties", classLoader),
-            method, prop, val);
-    }
-
     @SuppressLint("UnsafeIntentLaunch")
     private final BroadcastReceiver mGlobalReceiver = new BroadcastReceiver() {
         @Override
@@ -70,8 +64,8 @@ public class GlobalActions extends BaseHook {
                 switch (action) {
                     case ACTION_PREFIX + "ToggleColorInversion" -> {
                         int opt = Settings.Secure.getInt(context.getContentResolver(), "accessibility_display_inversion_enabled");
-                        int conflictProp = (int) Helpers.proxySystemProperties("getInt", "ro.df.effect.conflict", 0, null);
-                        int conflictProp2 = (int) Helpers.proxySystemProperties("getInt", "ro.vendor.df.effect.conflict", 0, null);
+                        int conflictProp = (int) proxySystemProperties("getInt", "ro.df.effect.conflict", 0, null);
+                        int conflictProp2 = (int) proxySystemProperties("getInt", "ro.vendor.df.effect.conflict", 0, null);
                         boolean hasConflict = conflictProp == 1 || conflictProp2 == 1;
                         Object dfMgr = XposedHelpers.callStaticMethod(XposedHelpers.findClass("miui.hardware.display.DisplayFeatureManager", null), "getInstance");
                         if (hasConflict && opt == 0) {

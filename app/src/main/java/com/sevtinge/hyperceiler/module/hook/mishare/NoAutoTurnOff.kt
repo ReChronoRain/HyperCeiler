@@ -6,7 +6,6 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.api.BlurDraw.getValueByFields
-
 import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Modifier
 
@@ -102,9 +101,10 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         try {
-            logI(TAG, this.lpparam.packageName, "$nullField")
-            XposedHelpers.setStaticIntField(nullClass, nullField.name, 999999999)
-            logI(TAG, this.lpparam.packageName, "nullField hook success.")
+            findAndHookConstructor(nullClass, object : MethodHook() {
+                override fun after(param: MethodHookParam) {
+                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 999999999)
+                } })
         } catch (t: Throwable) {
             logE(TAG, this.lpparam.packageName, "nullField hook failed", t)
         }

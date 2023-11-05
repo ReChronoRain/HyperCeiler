@@ -59,6 +59,11 @@
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
 
+        <Preference
+            android:key="prefs_key_development"
+            android:title="@string/development"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentFragment" />
+
     </PreferenceCategory>
 
     <!--<PreferenceCategory>

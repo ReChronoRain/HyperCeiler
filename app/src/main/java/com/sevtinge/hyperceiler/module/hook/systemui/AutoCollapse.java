@@ -3,14 +3,13 @@ package com.sevtinge.hyperceiler.module.hook.systemui;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import de.robv.android.xposed.XposedHelpers;
 
 public class AutoCollapse extends BaseHook {
     @Override
     public void init() {
-        Helpers.findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click", View.class, new MethodHook() {
+        findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", lpparam.classLoader, "click", View.class, new MethodHook() {
             @Override
             protected void after(MethodHookParam param) {
                 Object mState = XposedHelpers.callMethod(param.thisObject, "getState");

@@ -123,6 +123,7 @@
     <string name="portrait">人像</string>
     <string name="camera_pro">專業</string>
     <string name="enable">啟用</string>
+    <string name="disable">停用</string>
     <string name="custom_enable">啟用自訂</string>
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
@@ -690,14 +691,14 @@
     <string name="theme_manager_version_code_modify">停用 MIUI 版本檢測</string>
     <string name="theme_manager_diable_ads">停用廣告</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
-    <string name="theme_manager_crack">主題破解</string>
     <string name="theme_manager_enable_pad_theme">啟用 Pad 主題</string>
     <string name="theme_manager_enable_fold_theme">啟用 Fold 主題</string>
     <!--Updater-->
     <string name="updater">系統更新</string>
     <string name="updater_fuck_vab">移除 OTA 驗證</string>
     <string name="updater_fuck_vab_desc">僅支援 VAB 裝置，其他非 VAB 裝置請不要開啟！\n功能特點：無需內測權限即可刷入完整內測卡刷包\n注意事項：\n- 跨不同版本類型刷入後建議清除數據\n- 不支援任何非官方 ROM 使用\n- 此功能有一定危險性，請在了解 Fastboot 操作後再評估是否開啟</string>
-    <string name="updater_miui_version">偽裝 MIUI 版本</string>
+    <string name="updater_miui_version">偽裝版本</string>
+    <string name="updater_android_version">偽裝 Android 版本</string>
     <string name="updater_miui_version_desc">僅對系統更新修改，可在一定程度上遮罩系統更新</string>
     <string name="updater_device">偽裝機型</string>
     <string name="updater_device_desc">輸入目標機型代號以指定機型，可用於獲取其他機型的 ROM 包，此功能極度危險</string>
@@ -985,7 +986,6 @@
     <string name="nfc_allow_information_screen">允许關閉熒屏时识别</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>
-    <string name="personal_assistant_widget_crack">小工具破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小工具</string>
     <string name="personal_assistant_fold_widget_enable_desc">啟用 Pad/Fold 樣式的小工具</string>
     <string name="personal_assistant_overlap_mode">智慧助理 Fold 樣式</string>
@@ -1179,6 +1179,7 @@
     <string name="various_super_clipboard_summary">僅支援具有 is_support_miui_super_clipboard 的元數據的應用程式</string>
     <string name="various_super_clipboard_picture_desc">允許將圖片複製到剪貼簿</string>
     <string name="various_super_clipboard_files_desc">允許複製檔案至剪貼簿</string>
+    <string name="various_super_clipboard_picture_share_desc">允許複製及貼上圖片至剪貼簿</string>
     <string name="various_open_aosp_battery_title">電池效能最佳化</string>
     <string name="various_open_aosp_notification_title">通知設定</string>
     <string name="various_open_aosp_app_manage_title">應用程式管理</string>
