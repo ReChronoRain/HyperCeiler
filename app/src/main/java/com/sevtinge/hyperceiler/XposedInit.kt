@@ -41,6 +41,7 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         }
 
         init(lpparam)
+        //CrashRecord.init(EzXHelper.appContext)
         SystemFrameworkForCorePatch().handleLoadPackage(lpparam)
     }
 

@@ -605,4 +605,15 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="development_test">
+        <item>Test1</item>
+        <item>Test2</item>
+    </string-array>
+
+    <string-array name="development_test_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.sevtinge.hyperceiler.module.base.BaseXposedInit.isSafeModeOn
 import com.sevtinge.hyperceiler.utils.PrefsUtils.mPrefsName
 import de.robv.android.xposed.XposedBridge
 
@@ -29,12 +30,9 @@ object CrashRecord : Thread.UncaughtExceptionHandler {
             }
             if (System.currentTimeMillis() - pref.getLong("last_time", 0L) < 60 * 1000L) {
                 XposedBridge.log("[HyperCeiler][W]: Crash happened again in one minute")
-                if (pref.getInt("times", 0) >= 5) {
-                    it.createDeviceProtectedStorageContext().getSharedPreferences(mPrefsName, Context.MODE_PRIVATE).edit().apply {
-                        clear()
-                        apply()
-                    }
-                    XposedBridge.log("[HyperCeiler][W]: More than five times, clear MODULE_CONFIG")
+                if (pref.getInt("times", 0) >= 3) {
+                    isSafeModeOn = true
+                    XposedBridge.log("[HyperCeiler][W]: More than 3 times, clear MODULE_CONFIG")
                     pref.edit().putInt("times", 0).apply()
                 }
                 pref.edit().putInt("times", pref.getInt("times", 0) + 1).apply()

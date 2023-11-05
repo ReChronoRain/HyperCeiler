@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Torne a MIUI ótima novamente!</string>
+    <string name="xposed_description">Torne o HyperOS ótimo novamente!</string>
     <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler, este app é executado na estrutura Xposed, você pode usar este app para sequestrar e modificar outros apps suportados para obter melhorias na MIUI. Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler, este app é executado na estrutura Xposed, você pode usar este app para sequestrar e modificar outros apps suportados para obter melhorias no HyperOS. Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -584,6 +584,8 @@
     <string name="system_ui_controlcenter_magnet_title">Magnético</string>
     <string name="system_ui_control_center_notification_blur_title">Notificação</string>
     <string name="system_control_center_qs_detail_bg">Transparência do fundo do cartão</string>
+    <string name="quick_settings_state_change_message_on_my">%1$s está ativado</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>
     <string name="system_control_center_5g_tile">Interruptor de rede 5G</string>
     <string name="system_control_center_5g_toggle_label">Rede 5G</string>
     <string name="system_control_center_sunshine_mode">Modo luz solar</string>
@@ -631,6 +633,11 @@
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do ícone bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Mova o ícone do bluetooth para perto do ícone de rede</string>
+    <string name="system_ui_control_center_notifrowmenu">Menu de notificação estendido</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">Abra as informações do app, force a parada do app e abra em uma janela flutuante no menu de notificação (deslize a notificação para a esquerda para abri-la)</string>
+    <string name="system_notifrowmenu_appinfo">Informações do app</string>
+    <string name="system_notifrowmenu_openinfw">Janela flutuante</string>
+    <string name="system_notifrowmenu_forceclose">Forçar parada</string>
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
@@ -701,6 +708,7 @@
     <string name="updater_big_version">Versão grande falsa</string>
     <string name="updater_big_version_desc">Itens que precisam ser preenchidos ao disfarçar a versão Xiaomi HyperOS, o padrão é V816</string>
     <string name="updater_miui_version">Versão falsa para Atualizações</string>
+    <string name="updater_android_version">Versão falsa para Android</string>
     <string name="updater_miui_version_desc">Modifique apenas a atualização do sistema, que pode proteger a atualização do sistema até certo ponto</string>
     <string name="updater_device">Dispositivo falso para Atualizações</string>
     <string name="updater_device_desc">Insira o código do modelo do dispositivo de destino para especificar o modelo, que pode ser usado para obter pacotes de ROM para outros modelos, o que é extremamente perigoso</string>
@@ -752,6 +760,8 @@
     <string name="home">Launcher do sistema</string>
     <string name="home_gesture">Gestos e Navegação</string>
     <string name="home_navigation_title">Navegação</string>
+    <string name="home_navigation_quick_back">Voltar ao app anterior</string>
+    <string name="home_navigation_quick_back_more">Deslize pela tela começando pela borda para voltar ao app anterior</string>
     <string name="home_navigation_back_area_height">Altura da área do gesto de retorno</string>
     <string name="home_navigation_back_area_width">Largura da área do gesto de retorno</string>
     <string name="home_gesture_title2">Gestos</string>
@@ -1270,7 +1280,7 @@
     <string name="operator_fix_2">Método 2 (recomendado)</string>
     <string name="custom_hook_new">Adicionar gancho</string>
     <string name="custom_hook_mode">Selecionar modo</string>
-    <string name="hyperceiler_notice">Puxe a barra de status para baixo para exibir os interruptores de atalho e as notificações do sistema</string>
+    <string name="hyperceiler_notice">Puxe para baixo a barra de status para exibir as opções de atalho e notificações do sistema</string>
     <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
     <string name="location_add">Adicionar</string>
     <string name="location_delete">Excluir</string>
@@ -1279,9 +1289,9 @@
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
     <string name="tip_2">Dica: Quer entrar em contato com o desenvolvedor? Telegram: @Sevtinge_PM_bot ou Bilibili: @绀漓丨Sevtinge.</string>
     <string name="tip_3">Dica: Quer entrar no grupo oficial? Telegram: @hyperceiler ou pesquise 247909573 no QQ.</string>
-    <string name="tip_4">Dica: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
+    <string name="tip_4">Dica: HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
     <string name="tip_5">Dica: Adivinhe quantas vezes mais você terá que ver essa dica novamente?</string>
-    <string name="tip_6">Dica: Torne a HyperCeiler ótima novamente!</string>
+    <string name="tip_6">Dica: Torne o HyperOS ótimo novamente!</string>
     <string name="tip_7">Dica: Seja bem-vindo para seguir no Github: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
     <string name="tip_8">Dica: A utopia ideal não existe na realidade.</string>
     <string name="tip_9">Dica: A cidade de Sanjiang tende a entrar em colapso.</string>
