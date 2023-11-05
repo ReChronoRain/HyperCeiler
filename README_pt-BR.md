@@ -99,9 +99,9 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 
 ## Tradução
 
-[![Crowdin](https://badges.crowdin.net/hyperceiler/localized.svg)](https://crowdin.com/project/hyperceiler)
+[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
-Você pode fornecer traduções para o projeto [aqui](https://crwd.in/hyperceiler).
+Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
 
 ## Obrigado!
 

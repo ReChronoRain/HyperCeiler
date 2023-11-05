@@ -1,12 +1,10 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.CloseHostDir;
 import com.sevtinge.hyperceiler.module.base.LoadHostDir;
-import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurOverlay;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistantBackGround;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.EnableFoldWidget;
@@ -18,7 +16,7 @@ public class PersonalAssistant extends BaseModule {
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
 
-        initHook(new BlurOverlay(), false);
+        // initHook(new BlurOverlay(), false);
         initHook(new EnableFoldWidget(), mPrefsMap.getBoolean("personal_assistant_fold_widget_enable"));
 
         if (mPrefsMap.getStringAsInt("personal_assistant_value", 1) != 1 && !isAndroidR()) {

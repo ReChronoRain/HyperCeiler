@@ -1,11 +1,9 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
 
 import android.view.View;
 
-import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -20,7 +18,6 @@ import moralnorm.preference.SwitchPreference;
 public class PersonalAssistantFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
-    SwitchPreference mWidgetCrack;
     SwitchPreference mBlurBackground;
     SeekBarPreferenceEx mBlurRadius;
     ColorPickerPreference mBlurColor;

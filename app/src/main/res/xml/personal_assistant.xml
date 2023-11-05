@@ -2,7 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
-
         <SwitchPreference
             android:key="prefs_key_personal_assistant_fold_widget_enable"
             android:title="@string/personal_assistant_fold_widget_enable"
@@ -38,5 +37,4 @@
             app:showAlphaSlider="true" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 </PreferenceScreen>

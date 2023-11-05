@@ -25,9 +25,26 @@ import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.utils.isStatic
 
 object ShowBatteryTemperatureNew : BaseHook() {
-    @SuppressLint("DiscouragedApi")
     override fun init() {
-        // if (!getBoolean("securitycenter_show_battery_temperature", false)) return
+        try {
+            newBatteryTemperature()
+        } catch (t: Throwable) {
+            oldBatteryTemperature()
+        }
+    }
+
+    private fun newBatteryTemperature() {
+        loadClass("com.miui.powercenter.nightcharge.SmartChargeFragment").methodFinder().first {
+            paramCount == 1 && returnType == String::class.java && isStatic
+        }.createHook {
+            after {
+                it.result = getBatteryTemperature(it.args[0] as Context).toString() + " ℃"
+            }
+        }
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private fun oldBatteryTemperature() {
         val batteryFragmentClass = "com.miui.powercenter.BatteryFragment".findClassOrNull()
         if (batteryFragmentClass != null) {
             loadClass("com.miui.powercenter.BatteryFragment").methodFinder().first {
@@ -57,7 +74,11 @@ object ShowBatteryTemperatureNew : BaseHook() {
                 val isDarkMode =
                     context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
                 val currentTemperatureState =
-                    context.resources.getIdentifier("current_temperature_state", "id", "com.miui.securitycenter")
+                    context.resources.getIdentifier(
+                        "current_temperature_state",
+                        "id",
+                        "com.miui.securitycenter"
+                    )
                 val view = hookParam.thisObject.getObjectFieldAs<View>("a")
 
                 val textView = view.findViewById<TextView>(currentTemperatureState)
@@ -76,20 +97,27 @@ object ShowBatteryTemperatureNew : BaseHook() {
                 }
 
                 val temperatureContainer =
-                    context.resources.getIdentifier("temperature_container", "id", "com.miui.securitycenter")
-                when (val childView = view.findViewById<LinearLayout>(temperatureContainer).getChildAt(1)) {
+                    context.resources.getIdentifier(
+                        "temperature_container",
+                        "id",
+                        "com.miui.securitycenter"
+                    )
+                when (val childView =
+                    view.findViewById<LinearLayout>(temperatureContainer).getChildAt(1)) {
                     is LinearLayout -> {
                         childView.orientation = LinearLayout.VERTICAL
                         val l1 = childView.getChildAt(0)
                         val l2 = childView.getChildAt(1)
                         val linearLayout = LinearLayout(context)
-                        val linearLayout1 = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
+                        val linearLayout1 =
+                            LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
                         val tempView = TextView(context).apply {
                             layoutParams = LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                             )
-                            (layoutParams as LinearLayout.LayoutParams).marginStart = dip2px(context, 3.6f)
+                            (layoutParams as LinearLayout.LayoutParams).marginStart =
+                                dip2px(context, 3.6f)
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.1f)
                             setTextColor(Color.parseColor(if (isDarkMode) "#e6e6e6" else "#333333"))
                             setPadding(0, dip2px(context, 26f), 0, 0)
@@ -117,7 +145,8 @@ object ShowBatteryTemperatureNew : BaseHook() {
                                 it.addRule(RelativeLayout.BELOW, l1.id)
                                 it.addRule(RelativeLayout.ALIGN_START, l1.id)
                             }
-                            (layoutParams as RelativeLayout.LayoutParams).topMargin = -dip2px(context, 0.78f)
+                            (layoutParams as RelativeLayout.LayoutParams).topMargin =
+                                -dip2px(context, 0.78f)
                         }
                         val tempView = TextView(context).apply {
                             layoutParams = RelativeLayout.LayoutParams(
