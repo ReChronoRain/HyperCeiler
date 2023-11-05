@@ -21,11 +21,6 @@
             android:key="prefs_key_various_theme_diable_ads"
             android:defaultValue="false" />
 
-        <SwitchPreference
-            android:title="@string/theme_manager_crack"
-            android:key="prefs_key_various_theme_crack"
-            android:defaultValue="false" />
-
     </PreferenceCategory>
 
     <PreferenceCategory>

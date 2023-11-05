@@ -21,7 +21,6 @@ import com.sevtinge.hyperceiler.module.hook.home.ToastSlideAgain;
 import com.sevtinge.hyperceiler.module.hook.home.UnlockHotseatIcon;
 import com.sevtinge.hyperceiler.module.hook.home.UserPresentAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.WidgetCornerRadius;
-import com.sevtinge.hyperceiler.module.hook.home.WidgetCrack;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DisableRecentsIcon;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DockCustom;
 import com.sevtinge.hyperceiler.module.hook.home.dock.FoldDeviceDock;
@@ -252,7 +251,6 @@ public class Home extends BaseModule {
         // Other
         initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));
         initHook(new StickyFloatingWindowsForHome(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack") && (getBuildType().equals("debug")));
         initHook(AnimDurationRatio.INSTANCE, true);
         initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
 

@@ -42,19 +42,12 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     @Override
     public void initPrefs() {
         int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_personal_assistant_value", "1"));
-        mWidgetCrack = findPreference("prefs_key_personal_assistant_widget_crack");
         mBlurBackground = findPreference("prefs_key_pa_enable");
         mBlurBackgroundStyle = findPreference("prefs_key_personal_assistant_value");
         mBlurRadius = findPreference("prefs_key_personal_assistant_blurradius");
         mBlurColor = findPreference("prefs_key_personal_assistant_color");
 
         mBlurBackground.setVisible(!isAndroidR()); // 负一屏背景设置
-
-        if (!getSharedPreferences().getBoolean("prefs_key_various_enable_super_function", false)) {
-            if (getBuildType().equals("debug")) {
-                mWidgetCrack.setVisible(false);
-            }
-        }
 
         setBlurMode(mBlurMode);
         mBlurBackgroundStyle.setOnPreferenceChangeListener(this);

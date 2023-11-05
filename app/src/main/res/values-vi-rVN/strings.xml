@@ -693,7 +693,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="theme_manager_version_code_modify">Tắt phát hiện phiên bản MIUI</string>
     <string name="theme_manager_diable_ads">Vô hiệu quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
-    <string name="theme_manager_crack">Vá chủ đề</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
     <string name="theme_manager_enable_fold_theme">Kích hoạt chủ đề FOLD</string>
     <!--Updater-->
@@ -995,7 +994,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="nfc_allow_information_screen">Cho phép phát hiện khi gần màn hình</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_widget_crack">Vá widget</string>
     <string name="personal_assistant_fold_widget_enable">Tiện ích Pad/Fold</string>
     <string name="personal_assistant_fold_widget_enable_desc">Bật tiện ích kiểu Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Màn hình trợ lý thông minh kiểu Fold</string>

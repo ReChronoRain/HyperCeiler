@@ -5,13 +5,13 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 public class UnlockTrackFocus extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.camera2.CameraCapabilities", "isSupportTrackFocus", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilities", "isSupportTrackFocus", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);
             }
         });
-        findAndHookMethod("com.android.camera2.CameraCapabilities", "isTrackFocusDefined", new BaseHook.MethodHook() {
+        hookAllMethods("com.android.camera2.CameraCapabilities", "isTrackFocusDefined", new BaseHook.MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.setResult(true);

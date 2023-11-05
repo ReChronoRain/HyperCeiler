@@ -10,7 +10,6 @@ import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurOverlay;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistant;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.BlurPersonalAssistantBackGround;
 import com.sevtinge.hyperceiler.module.hook.personalassistant.EnableFoldWidget;
-import com.sevtinge.hyperceiler.module.hook.personalassistant.WidgetCrack;
 
 public class PersonalAssistant extends BaseModule {
 
@@ -28,7 +27,6 @@ public class PersonalAssistant extends BaseModule {
             initHook(BlurPersonalAssistantBackGround.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
         }
 
-        initHook(new WidgetCrack(), mPrefsMap.getBoolean("various_enable_super_function") && mPrefsMap.getBoolean("personal_assistant_widget_crack") && (getBuildType().equals("debug")));
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
     }

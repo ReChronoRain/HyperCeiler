@@ -576,7 +576,6 @@
     <string name="theme_manager">Темы</string>
     <string name="theme_manager_version_code_modify">Отключить определение версии MIUI</string>
     <string name="theme_manager_diable_ads">Отключить рекламу</string>
-    <string name="theme_manager_crack">Патч тем</string>
     <string name="theme_manager_enable_pad_theme">Темы Pad</string>
     <string name="theme_manager_enable_fold_theme">Темы Mix Fold</string>
     <!--Updater-->
@@ -826,7 +825,6 @@
     <string name="miui_package_installer_apk_info_desc">Показать доп.информацию об устанавливаемом приложении</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
-    <string name="personal_assistant_widget_crack">Патч виджета</string>
     <string name="personal_assistant_fold_widget_enable">Виджеты Pad/Mix Fold</string>
     <string name="personal_assistant_fold_widget_enable_desc">Включить виджеты в стиле Pad/Mix Fold</string>
     <string name="personal_assistant_overlap_mode">Негатив на один экран в сложенном виде</string>

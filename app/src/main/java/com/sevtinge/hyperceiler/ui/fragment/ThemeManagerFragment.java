@@ -45,11 +45,5 @@ public class ThemeManagerFragment extends SettingsPreferenceFragment {
             mVersionCodeModifyPreference.setEnabled(false);
         }
 
-        mThemeManagerCrack = findPreference("prefs_key_various_theme_crack");
-        if (!getSharedPreferences().getBoolean("prefs_key_various_enable_super_function", false)) {
-            if (getBuildType().equals("debug")) {
-                mThemeManagerCrack.setVisible(false);
-            }
-        }
     }
 }

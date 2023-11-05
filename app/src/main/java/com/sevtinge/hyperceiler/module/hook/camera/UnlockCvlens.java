@@ -6,20 +6,20 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 public class UnlockCvlens extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.camera.CameraSettings", "isSupportCvLensDevice", new MethodHook() {
+        hookAllMethods("com.android.camera.CameraSettings", "isSupportCvLensDevice", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 param.setResult(true);
             }
         });
         try {
-            findAndHookMethod("com.android.camera.CameraSettings", "getCvLensVersion", new MethodHook() {
+            hookAllMethods("com.android.camera.CameraSettings", "getCvLensVersion", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     param.setResult(2);
                 }
             });
-            findAndHookMethod("com.android.camera2.CameraCapabilities", "getCvLensVersion", new MethodHook() {
+            hookAllMethods("com.android.camera2.CameraCapabilities", "getCvLensVersion", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     param.setResult(2);

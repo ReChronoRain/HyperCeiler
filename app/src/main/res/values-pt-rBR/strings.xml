@@ -698,7 +698,6 @@
     <string name="theme_manager_version_code_modify">Desativar detecção de versão da MIUI</string>
     <string name="theme_manager_diable_ads">Desativar anúncios</string>
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
-    <string name="theme_manager_crack">Correção do tema</string>
     <string name="theme_manager_enable_pad_theme">Ativar tema Pad</string>
     <string name="theme_manager_enable_fold_theme">Ativar tema Fold</string>
     <!--Updater-->
@@ -999,7 +998,6 @@
     <string name="nfc_allow_information_screen">Permitir reconhecível quando a tela de informações</string>
     <!--App vault-->
     <string name="personal_assistant">Assistente</string>
-    <string name="personal_assistant_widget_crack">Correção do widget</string>
     <string name="personal_assistant_fold_widget_enable">Peso Pad/Fold</string>
     <string name="personal_assistant_fold_widget_enable_desc">Ativar widgets de estilo Pad/Fold</string>
     <string name="personal_assistant_overlap_mode">Estilo de dobra da tela negativa</string>
