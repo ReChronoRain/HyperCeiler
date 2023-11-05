@@ -3,6 +3,7 @@
 <img width="" src="/imgs/icon.png" width=160 height=160 align="center">
 
 # HyperCeiler
+
 ### Torne o HyperOS ótimo novamente!
 
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
@@ -10,6 +11,7 @@
 </div>
 
 ## Versões suportadas
+
 MIUI 12.5 ~ 14 para Android 11 ~ 13
 
 > Não suporta ROM MIUI/HyperOS de terceiros fortemente modificadas, software de sistema fortemente modificado e algumas ROM MIUI/HyperOS estrangeiras.
@@ -17,69 +19,69 @@ MIUI 12.5 ~ 14 para Android 11 ~ 13
 > Atualmente, o HyperCeiler está adaptado para dispositivos baseados em Android 13 e MIUI 14. A cobertura não é muito completa e requer testes e melhorias contínuas.
 >
 > O HyperCeiler deixou de ser mantido em ROM MIUI para Android 11-12. Se você quiser usá-lo, fique [nesta versão](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130).
->
+
 ## Apps suportados
 
 <details>
     <summary>Clique para ver os apps suportados</summary>
 
-| Nome do app | Nome do pacote |
-| :---- | :---- |
-| Framework do Sistema | system |
-| Ui do Sistema | com.android.systemui |
-| Launcher do sistema | com.miui.home |
-| Atualizações | com.android.updater |
-| Joyose | com.xiaomi.joyose |
-| Configurações | com.xiaomi.misettings |
-| Segurança | com.miui.securitycenter |
-| Notas | com.miui.notes |
-| Papéis de Parede Mi | com.miui.miwallpaper |
-| Taplus | com.miui.contentextension |
-| Notificação de mensagem em tela | com.xiaomi.barrage |
-| Baidu IME para MIUI | com.baidu.input_mi |
-| Ui de chamadas | com.android.incallui |
-| Serviços do smartphone | com.android.phone |
-| Bateria e desempenho | com.miui.powerkeeper |
-| Mensagens | com.android.mms |
-| Captura de tela | com.miui.screenshot |
-| Limpeza | com.miui.cleanmaster |
-| Navegador | com.android.browser |
-| Rueban (MTB) | com.xiaomi.mtb |
-| Gravador de tela | com.miui.screenrecorder |
-| Permissões | com.lbe.security.miui |
-| Configurações | com.android.settings
-| Teclado Sogou para MIUI | com.sohu.inputmethod.sogou.xiaomi |
-| Clima | com.miui.weather2 |
-| Transmitir | com.milink.service |
-| Armazenamento externo | com.android.externalstorage |
-| Tela ambiente | com.miui.aod |
-| Arquivos | com.android.fileexplorer |
-| Plugin de serviço de sistema | com.miui.securityadd |
-| Downloads | com.android.providers.downloads.ui |
-| Downloads | com.android.providers.downloads |
-| Galeria | com.miui.gallery |
-| Mi Canvas | com.miui.creation |
-| Compartilhamento Mi | com.miui.mishare.connectivity |
-| Editor da Galeria | com.miui.mediaeditor |
-| MiCloud | com.miui.cloudservice |
-| Cartões inteligentes | com.miui.tsmclient |
-| iFlytek IME para MIUI | com.iflytek.inputmethod.miui |
-| Instalador de Pacotes | com.miui.packageinstaller |
-| GetApps | com.xiaomi.market |
-| Assistente | com.miui.personalassistant |
-| Temas | com.android.thememanager |
-| com.miui.rom | com.miui.rom |
-| Componentes de segurança da MIUI | com.miui.guardprovider |
-| Relógio | com.android.deskclock |
-| Câmera | com.android.camera |
-| Tradutor IA | com.xiaomi.aiasst.vision |
-| AI Reco | com.xiaomi.aireco |
-| Scanner | com.xiaomi.scanner |
-| Mi IA | com.miui.voiceassist |
-| Músicas | com.miui.player |
-| MIUI+ | com.xiaomi.mirror |
-| com.xiaomi.NetworkBoost | com.xiaomi.NetworkBoost |
-| Serviço NFC | com.android.nfc |
+| Nome do app                      | Nome do pacote                     |
+|:---------------------------------|:-----------------------------------|
+| Framework do Sistema             | system                             |
+| Ui do Sistema                    | com.android.systemui               |
+| Launcher do sistema              | com.miui.home                      |
+| Atualizações                     | com.android.updater                |
+| Joyose                           | com.xiaomi.joyose                  |
+| Configurações                    | com.xiaomi.misettings              |
+| Segurança                        | com.miui.securitycenter            |
+| Notas                            | com.miui.notes                     |
+| Papéis de Parede Mi              | com.miui.miwallpaper               |
+| Taplus                           | com.miui.contentextension          |
+| Notificação de mensagem em tela  | com.xiaomi.barrage                 |
+| Baidu IME para MIUI              | com.baidu.input_mi                 |
+| Ui de chamadas                   | com.android.incallui               |
+| Serviços do smartphone           | com.android.phone                  |
+| Bateria e desempenho             | com.miui.powerkeeper               |
+| Mensagens                        | com.android.mms                    |
+| Captura de tela                  | com.miui.screenshot                |
+| Limpeza                          | com.miui.cleanmaster               |
+| Navegador                        | com.android.browser                |
+| Rueban (MTB)                     | com.xiaomi.mtb                     |
+| Gravador de tela                 | com.miui.screenrecorder            |
+| Permissões                       | com.lbe.security.miui              |
+| Configurações                    | com.android.settings               |
+| Teclado Sogou para MIUI          | com.sohu.inputmethod.sogou.xiaomi  |
+| Clima                            | com.miui.weather2                  |
+| Transmitir                       | com.milink.service                 |
+| Armazenamento externo            | com.android.externalstorage        |
+| Tela ambiente                    | com.miui.aod                       |
+| Arquivos                         | com.android.fileexplorer           |
+| Plugin de serviço de sistema     | com.miui.securityadd               |
+| Downloads                        | com.android.providers.downloads.ui |
+| Downloads                        | com.android.providers.downloads    |
+| Galeria                          | com.miui.gallery                   |
+| Mi Canvas                        | com.miui.creation                  |
+| Compartilhamento Mi              | com.miui.mishare.connectivity      |
+| Editor da Galeria                | com.miui.mediaeditor               |
+| MiCloud                          | com.miui.cloudservice              |
+| Cartões inteligentes             | com.miui.tsmclient                 |
+| iFlytek IME para MIUI            | com.iflytek.inputmethod.miui       |
+| Instalador de Pacotes            | com.miui.packageinstaller          |
+| GetApps                          | com.xiaomi.market                  |
+| Assistente                       | com.miui.personalassistant         |
+| Temas                            | com.android.thememanager           |
+| com.miui.rom                     | com.miui.rom                       |
+| Componentes de segurança da MIUI | com.miui.guardprovider             |
+| Relógio                          | com.android.deskclock              |
+| Câmera                           | com.android.camera                 |
+| Tradutor IA                      | com.xiaomi.aiasst.vision           |
+| AI Reco                          | com.xiaomi.aireco                  |
+| Scanner                          | com.xiaomi.scanner                 |
+| Mi IA                            | com.miui.voiceassist               |
+| Músicas                          | com.miui.player                    |
+| MIUI+                            | com.xiaomi.mirror                  |
+| NetworkBoost                     | com.xiaomi.NetworkBoost            |
+| Serviço NFC                      | com.android.nfc                    |
 
 </details>
 
@@ -97,7 +99,7 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
-Você pode fornecer traduções para o projeto [aqui](https://crwd.in/hyperceiler).
+Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
 
 ## Obrigado!
 
@@ -144,7 +146,6 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/hyperceile
 - [「Xposed」 por rovo89, Tungstwenty](https://github.com/rovo89/XposedBridge)
 - [「XposedBridge」 por rovo89](https://github.com/rovo89/XposedBridge)
 - [「.xlDownload」 por Kr328](https://github.com/Kr328/.xlDownload)
-
 
 [qgroup_url]: https://jq.qq.com/?_wv=1027&k=TedCJq8V
 
