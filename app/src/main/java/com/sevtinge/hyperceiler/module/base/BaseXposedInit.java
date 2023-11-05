@@ -50,7 +50,6 @@ import com.sevtinge.hyperceiler.module.app.Updater;
 import com.sevtinge.hyperceiler.module.app.Various;
 import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
-import com.sevtinge.hyperceiler.module.hook.thememanager.ThemeCrackNew;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
@@ -196,7 +195,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mVarious.init(lpparam);
             }
             case "com.android.thememanager" -> {
-                new ThemeCrackNew().init(lpparam);
                 mThemeManager.init(lpparam);
                 mVarious.init(lpparam);
             }

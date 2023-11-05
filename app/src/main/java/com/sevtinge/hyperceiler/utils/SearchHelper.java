@@ -15,7 +15,6 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class SearchHelper {
@@ -674,8 +673,6 @@ public class SearchHelper {
                     try {
                         ModData modData = new ModData();
                         modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        if (Objects.equals(modData.title, res.getString(R.string.theme_manager_crack)) || Objects.equals(modData.title, res.getString(R.string.personal_assistant_widget_crack)))
-                            modData.title = "";
                         if (!TextUtils.isEmpty(modData.title)) {
                             if (!res.getString(catSub3ResId).equals(res.getString(catSub4ResId))) {
                                 modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId) + "/" + res.getString(catSub3ResId) + "/" + res.getString(catSub4ResId);
