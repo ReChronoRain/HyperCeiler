@@ -98,9 +98,9 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 
 ## 为 HyperCeiler 贡献翻译
 
-[![Crowdin](https://badges.crowdin.net/hyperceiler/localized.svg)](https://crowdin.com/project/hyperceiler)
+[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
-您可以在[这里](https://crwd.in/hyperceiler)为 HyperCeiler 项目贡献翻译。
+您可以在[这里](https://crwd.in/cemiuiler)为 HyperCeiler 项目贡献翻译。
 
 ## 感谢
 

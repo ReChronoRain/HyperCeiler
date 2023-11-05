@@ -98,9 +98,9 @@ Join our group to report issues or get the latest updates.
 
 ## Provide translations for the HyperCeiler project
 
-[![Crowdin](https://badges.crowdin.net/hyperceiler/localized.svg)](https://crowdin.com/project/hyperceiler)
+[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
-You can provide translations for the HyperCeiler project [here](https://crwd.in/hyperceiler).
+You can provide translations for the HyperCeiler project [here](https://crwd.in/cemiuiler).
 
 ## Thank!
 

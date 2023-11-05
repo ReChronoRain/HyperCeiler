@@ -744,7 +744,6 @@
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
     <string name="theme_manager_diable_ads_desc">将 “猜你喜欢” 的广告替换为空白卡片，其余位置的广告将完全移除</string>
-    <string name="theme_manager_crack">主题破解</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
     <!--系统更新-->
@@ -1054,7 +1053,6 @@
     <string name="nfc_allow_information_screen">允许息屏时识别</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
-    <string name="personal_assistant_widget_crack">小部件破解</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold 小部件</string>
     <string name="personal_assistant_fold_widget_enable_desc">启用 Pad/Fold 样式的小部件</string>
     <string name="personal_assistant_overlap_mode">负一屏 Fold 样式</string>

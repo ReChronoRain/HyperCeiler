@@ -25,7 +25,6 @@ class XposedInit : BaseXposedInit(), IXposedHookInitPackageResources {
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes()
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes()
-        // if (mPrefsMap.getBoolean("various_theme_crack")) ThemeCrack.initRes()
         if (startupParam != null) {
             BackgroundBlurDrawable().initZygote(startupParam)
             SystemFrameworkForCorePatch().initZygote(startupParam)

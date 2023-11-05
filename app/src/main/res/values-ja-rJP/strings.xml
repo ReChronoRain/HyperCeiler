@@ -691,7 +691,6 @@
     <string name="theme_manager_version_code_modify">MIUI のバージョン検出を無効にする</string>
     <string name="theme_manager_diable_ads">広告を無効化</string>
     <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
-    <string name="theme_manager_crack">テーマパッチ</string>
     <string name="theme_manager_enable_pad_theme">Pad テーマを有効化</string>
     <string name="theme_manager_enable_fold_theme">Fold テーマを有効化</string>
     <!--Updater-->
@@ -989,7 +988,6 @@
     <string name="nfc_allow_information_screen">ロック画面でも認識できるようにする</string>
     <!--App vault-->
     <string name="personal_assistant">アプリ保管庫</string>
-    <string name="personal_assistant_widget_crack">ウィジェットのパッチ</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold ウィジェット</string>
     <string name="personal_assistant_fold_widget_enable_desc">Pad/Fold 用のウィジェットを有効にします</string>
     <string name="personal_assistant_overlap_mode">-1画面を Fold スタイルにする</string>
