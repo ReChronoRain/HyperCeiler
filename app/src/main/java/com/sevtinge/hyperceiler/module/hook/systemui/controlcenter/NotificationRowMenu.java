@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -36,7 +38,7 @@ public class NotificationRowMenu extends BaseHook {
         mResHook.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_inactive", R.drawable.miui_notification_menu_ic_bg_inactive);
 
         Class<?> MiuiNotificationMenuItem = findClass("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow.MiuiNotificationMenuItem", lpparam.classLoader);
-        findAndHookMethod("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "createMenuViews", boolean.class, boolean.class, new MethodHook() {
+        hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "createMenuViews", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
             protected void after(final MethodHookParam param) throws Throwable {
