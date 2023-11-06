@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.module.hook.home.UserPresentAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.WidgetCornerRadius;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DisableRecentsIcon;
 import com.sevtinge.hyperceiler.module.hook.home.dock.DockCustom;
+import com.sevtinge.hyperceiler.module.hook.home.dock.DockCustomNew;
 import com.sevtinge.hyperceiler.module.hook.home.dock.FoldDeviceDock;
 import com.sevtinge.hyperceiler.module.hook.home.dock.FoldDock;
 import com.sevtinge.hyperceiler.module.hook.home.dock.HideSeekPoint;
@@ -209,7 +210,8 @@ public class Home extends BaseModule {
         initHook(ResizableWidgets.INSTANCE, mPrefsMap.getBoolean("home_widget_resizable"));
 
         // 底栏
-        initHook(new DockCustom(), mPrefsMap.getBoolean("home_dock_bg_custom_enable"));
+        initHook(new DockCustom(), mPrefsMap.getBoolean("home_dock_bg_custom_enable") && mPrefsMap.getStringAsInt("home_dock_add_blur", 0) == 2);
+        initHook(DockCustomNew.INSTANCE, mPrefsMap.getBoolean("home_dock_bg_custom_enable") && mPrefsMap.getStringAsInt("home_dock_add_blur", 0) == 1);
         initHook(new SeekPoints(), mPrefsMap.getStringAsInt("home_other_seek_points", 0) > 0);
         initHook(FoldDeviceDock.INSTANCE, mPrefsMap.getBoolean("home_dock_fold"));
         initHook(HideSeekPoint.INSTANCE, mPrefsMap.getBoolean("home_dock_hide_seekpoint"));

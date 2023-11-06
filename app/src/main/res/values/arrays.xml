@@ -638,4 +638,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="blur_switch">
+        <item>@string/no_blur</item>
+        <item>@string/miui_blur</item>
+        <item>@string/android_blur</item>
+    </string-array>
+
+    <string-array name="blur_switch_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

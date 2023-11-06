@@ -983,6 +983,7 @@
     <string name="home_dock_hide_seekpoint">移除页面指示器</string>
     <string name="home_dock_icon_title">显示应用标题</string>
     <string name="home_dock_disable_recents_icon">隐藏 Dock 栏最近应用的图标</string>
+    <string name="home_dock_add_blur">添加 Dock 栏背景模糊</string>
 
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷菜单</string>
@@ -1371,6 +1372,11 @@
 
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>
+
+    <string name="no_blur">无模糊</string>
+    <string name="miui_blur">系统模糊</string>
+    <string name="android_blur">原生模糊</string>
+
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>

@@ -33,6 +33,14 @@
             android:key="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/home_dock_bg_enable" />
 
+        <DropDownPreference
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:title="@string/home_dock_add_blur"
+            android:key="prefs_key_home_dock_add_blur"
+            android:defaultValue="0"
+            app:entries="@array/blur_switch"
+            app:entryValues="@array/blur_switch_value" />
+
         <Preference
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.CustomBackgroundSettings"
@@ -63,7 +71,7 @@
             app:format="%d dp"
             app:showSeekBarValue="true" />
 
-        <SeekBarPreferenceEx
+        <!--SeekBarPreferenceEx
             android:key="prefs_key_home_dock_bg_margin_top"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/top_margin"
@@ -73,7 +81,7 @@
             app:maxValue="150"
             app:stepValue="1"
             app:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true" /-->
 
         <SeekBarPreferenceEx
             android:key="prefs_key_home_dock_bg_margin_bottom"
@@ -85,6 +93,16 @@
             app:maxValue="150"
             app:stepValue="1"
             app:format="%d dp"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="30"
+            app:defaultValueText="@string/array_default"
+            app:stepValue="1"
+            app:format="%d dp"
+            android:key="prefs_key_home_dock_bg_radius"
+            app:maxValue="60"
+            android:title="@string/custom_background_corner_radius"
             app:showSeekBarValue="true" />
 
         <!--<SeekBarPreferenceEx
