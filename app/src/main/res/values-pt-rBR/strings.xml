@@ -74,7 +74,7 @@
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o HyperCeiler recebeu permissões Root/Su</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
-    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o HyperCeiler recebeu permissão Root/Su</string>
+    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o HyperCeiler recebeu permissões Root/Su</string>
     <string name="expand_button_title">Alto nível</string>
     <string name="not_set">Não definido</string>
     <string name="copy">Copiar</string>
@@ -123,6 +123,7 @@
     <string name="portrait">Retrato</string>
     <string name="camera_pro">Pro</string>
     <string name="enable">Ativar</string>
+    <string name="disable">Desabilitado</string>
     <string name="custom_enable">Ativar personalização</string>
     <string name="search">Pesquisar</string>
     <string name="floating_window">Janelas flutuantes</string>
@@ -1187,10 +1188,11 @@
     <string name="various_collapse_miui_title_desc">Ajuste o título da barra superior em apps da MIUI</string>
     <string name="various_disable_folder_cantuse">Remover limite de pastas indisponíveis</string>
     <string name="various_super_clipboard_title">Super Área de Transferência</string>
-    <string name="various_unlock_super_clipboard">Desbloquear Super área de transferência</string>
+    <string name="various_unlock_super_clipboard">Comportamento da super área de transferência</string>
     <string name="various_super_clipboard_summary">Somente apps que contêm metadados is_support_miui_super_clipboard são suportados</string>
     <string name="various_super_clipboard_picture_desc">Permitir copiar imagem para a área de transferência</string>
     <string name="various_super_clipboard_files_desc">Permitir copiar arquivos para a área de transferência</string>
+    <string name="various_super_clipboard_picture_share_desc">Permite copiar e colar imagens na área de transferência</string>
     <string name="various_open_aosp_battery_title">Otimização de bateria</string>
     <string name="various_open_aosp_notification_title">Notificações</string>
     <string name="various_open_aosp_app_manage_title">Gerenciamento de apps</string>
@@ -1284,6 +1286,8 @@
     <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
     <string name="location_add">Adicionar</string>
     <string name="location_delete">Excluir</string>
+    <string name="development">Opções do desenvolvedor</string>
+    <string name="development_ui">UI</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
