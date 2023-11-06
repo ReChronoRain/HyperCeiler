@@ -16,7 +16,7 @@ import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.findClass
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
 import com.sevtinge.hyperceiler.utils.hookBeforeMethod
-import com.yuk.hyperOS_XXL.blur.BlurView
+import com.sevtinge.hyperceiler.utils.blur.BlurView
 import de.robv.android.xposed.XposedHelpers
 
 object DockCustomNew : BaseHook() {

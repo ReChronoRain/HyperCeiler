@@ -1,4 +1,4 @@
-package com.yuk.hyperOS_XXL.blur
+package com.sevtinge.hyperceiler.utils.blur
 
 import android.graphics.Outline
 import android.util.Log
