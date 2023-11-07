@@ -57,6 +57,7 @@
         <item>com.xiaomi.NetworkBoost</item>
         <item>com.xiaomi.scanner</item>
         <item>com.sohu.inputmethod.sogou.xiaomi</item>
+        <item>com.sohu.inputmethod.sogou</item>
     </string-array>
 
     <string-array name="app_module_support">

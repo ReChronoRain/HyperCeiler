@@ -27,11 +27,11 @@ public class Clipboard extends BaseHook {
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()
                         .usingStrings("sogou_clipboard_tmp"))
-                    .usingNumbers(150)
+                    .usingNumbers("com.sohu.inputmethod.sogou.xiaomi".equals(lpparam.packageName) ? 150 : 80064)
                 )
         ).firstOrThrow(() -> new IllegalStateException("Clipboard: No class found MethodData"));
 
-        // logE("find class: " + methodData);
+        // logE("find class: " + lpparam.packageName);
 
         try {
             HookFactory.createMethodHook(methodData.getMethodInstance(lpparam.classLoader), new Consumer<HookFactory>() {

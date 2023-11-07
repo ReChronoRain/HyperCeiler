@@ -80,14 +80,18 @@ public class BaseSettingsActivity extends AppCompatActivity {
     }
 
     public void showRestartSystemDialog() {
-        showRestartDialog(true, "", "");
+        showRestartDialog(true, "", new String[]{""});
     }
 
     public void showRestartDialog(String appLabel, String packageName) {
+        showRestartDialog(false, appLabel, new String[]{packageName});
+    }
+
+    public void showRestartDialog(String appLabel, String[] packageName) {
         showRestartDialog(false, appLabel, packageName);
     }
 
-    public void showRestartDialog(boolean isRestartSystem, String appLabel, String packageName) {
+    public void showRestartDialog(boolean isRestartSystem, String appLabel, String[] packageName) {
         String isSystem = getResources().getString(R.string.restart_app_desc, appLabel);
         String isOther = getResources().getString(R.string.restart_app_desc, " " + appLabel + " ");
 
@@ -120,23 +124,28 @@ public class BaseSettingsActivity extends AppCompatActivity {
             .commit();
     }
 
-    public void doRestart(String packageName, boolean isRestartSystem) {
+    public void doRestart(String[] packageName, boolean isRestartSystem) {
         boolean result = false;
         boolean pid = true;
         if (isRestartSystem) {
             result = ShellUtils.getResultBoolean("reboot", true);
         } else {
             if (packageName != null) {
-                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageName +
-                    "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageName +
-                    "\"; }; } || { echo \"kill error\"; }", true, true);
-                if (commandResult.result == 0) {
-                    if (commandResult.successMsg.equals("kill error")) {
-                        pid = false;
-                    } else result = true;
-                } else
-                    AndroidLogUtils.LogE("doRestart: ", "result: " + commandResult.result +
-                        " errorMsg: " + commandResult.errorMsg, null);
+                for (String packageGet : packageName) {
+                    if (packageGet == null) {
+                        continue;
+                    }
+                    ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
+                        "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
+                        "\"; }; } || { echo \"kill error\"; }", true, true);
+                    if (commandResult.result == 0) {
+                        if (commandResult.successMsg.equals("kill error")) {
+                            pid = false;
+                        } else result = true;
+                    } else
+                        AndroidLogUtils.LogE("doRestart: ", "result: " + commandResult.result +
+                            " errorMsg: " + commandResult.errorMsg + " package: " + packageGet, null);
+                }
             } else {
                 AndroidLogUtils.LogE("doRestart: ", "packageName is null", null);
             }

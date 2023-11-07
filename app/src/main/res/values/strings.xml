@@ -405,7 +405,7 @@
     <string name="incallui">Phone</string>
     <string name="incallui_hide_crbt">Hide personalized colorful ring back tone</string>
     <string name="incallui_answer_in_head_up">Answer in head up</string>
-    <!--Sogou input method Xiaomi version-->
+    <!--Sogou input method-->
     <string name="sogou_xiaomi_clipboard">Remove the 150 clipboard limit</string>
     <!--Message-->
     <string name="mms">Message</string>
@@ -1193,8 +1193,8 @@
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Bypass MTB authentication</string>
     <string name="mtb_auth_desc">This is a high-risk feature, any problems arising from this will be borne by the user, please be careful to back up your baseband. Enter *#*#MODEMTEST#*#* on the dial interface to open the MTB Settings</string>
-    <!--Sogou input method Xiaomi version-->
-    <string name="sogou_xiaomi">Sogou input method Xiaomi version</string>
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi">Sogou input method</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_card">Unlock scan ID card</string>

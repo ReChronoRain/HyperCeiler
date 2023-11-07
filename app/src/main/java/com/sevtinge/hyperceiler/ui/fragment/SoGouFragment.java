@@ -7,6 +7,11 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 public class SoGouFragment extends SettingsPreferenceFragment {
+    String[] all = new String[]{
+        "com.sohu.inputmethod.sogou.xiaomi",
+        "com.sohu.inputmethod.sogou"
+    };
+
     @Override
     public int getContentResId() {
         return R.xml.sogou_xiaomi;
@@ -16,7 +21,7 @@ public class SoGouFragment extends SettingsPreferenceFragment {
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
             getResources().getString(R.string.sogou_xiaomi),
-            "com.sohu.inputmethod.sogou.xiaomi"
+            all
         );
     }
 }
