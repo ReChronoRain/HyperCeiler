@@ -967,8 +967,6 @@
     <!--Package installer-->
     <string name="package_installer">パッケージインストーラー</string>
     <string name="miui_package_installer_modify">ページを簡潔にする</string>
-    <string name="miui_package_installer_safe_mode">クリーンモード</string>
-    <string name="miui_package_installer_safe_mode_desc">公式セキュリティガードを強制的に開放してロックする</string>
     <string name="miui_package_installer_disable_ad">プロモーションを無効化</string>
     <string name="miui_package_installer_install_risk">リスクの検出を無効化</string>
     <string name="miui_package_installer_safe_model_tip">セキュリティガードプロンプトを無効化</string>

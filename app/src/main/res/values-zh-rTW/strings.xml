@@ -965,8 +965,6 @@
     <!--Package installer-->
     <string name="package_installer">應用程式檔案管理元件</string>
     <string name="miui_package_installer_modify">淨化頁面</string>
-    <string name="miui_package_installer_safe_mode">純淨模式</string>
-    <string name="miui_package_installer_safe_mode_desc">強制開啟並鎖定官方安全防護</string>
     <string name="miui_package_installer_disable_ad">停用推廣</string>
     <string name="miui_package_installer_install_risk">停用風險檢測</string>
     <string name="miui_package_installer_safe_model_tip">停用安全守護提示</string>

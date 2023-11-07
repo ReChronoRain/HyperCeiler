@@ -979,8 +979,6 @@
     <!--Package installer-->
     <string name="package_installer">Instalador de Pacotes</string>
     <string name="miui_package_installer_modify">Purificar a página</string>
-    <string name="miui_package_installer_safe_mode">Modo limpo</string>
-    <string name="miui_package_installer_safe_mode_desc">Forçar a abertura e bloquear a segurança oficial</string>
     <string name="miui_package_installer_disable_ad">Desativar promoção</string>
     <string name="miui_package_installer_install_risk">Desativar detecção de risco</string>
     <string name="miui_package_installer_safe_model_tip">Desativar alerta de segurança</string>

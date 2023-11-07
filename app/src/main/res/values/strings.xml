@@ -1015,8 +1015,6 @@
     <!--Package installer-->
     <string name="package_installer">Package installer</string>
     <string name="miui_package_installer_modify">Purify the page</string>
-    <string name="miui_package_installer_safe_mode">Clean mode</string>
-    <string name="miui_package_installer_safe_mode_desc">Force open and lock the official security guard</string>
     <string name="miui_package_installer_disable_ad">Disable promotion</string>
     <string name="miui_package_installer_install_risk">Disable risk detection</string>
     <string name="miui_package_installer_safe_model_tip">Disable the security guard prompt</string>

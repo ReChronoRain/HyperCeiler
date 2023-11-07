@@ -984,8 +984,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Package installer-->
     <string name="package_installer">Trình cài đặt gói</string>
     <string name="miui_package_installer_modify">Lọc trang</string>
-    <string name="miui_package_installer_safe_mode">Chế độ thu gọn</string>
-    <string name="miui_package_installer_safe_mode_desc">Buộc mở và khóa trạng thái bảo vệ</string>
     <string name="miui_package_installer_disable_ad">Tắt quảng cáo</string>
     <string name="miui_package_installer_install_risk">Tắt phát hiện rủi ro</string>
     <string name="miui_package_installer_safe_model_tip">Tắt quét bảo mật</string>

@@ -812,7 +812,6 @@
     <!--Package installer-->
     <string name="package_installer">Установщик приложений</string>
     <string name="miui_package_installer_modify">Очистить страницу</string>
-    <string name="miui_package_installer_safe_mode">Безопасный режим</string>
     <string name="miui_package_installer_disable_ad">Отключить рекламу</string>
     <string name="miui_package_installer_install_risk">Отключить отслеживание рисков</string>
     <string name="miui_package_installer_safe_model_tip">Отключение запросов безопасности</string>
