@@ -72,9 +72,9 @@
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
-    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o HyperCeiler recebeu permissões Root/Su</string>
+    <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
-    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o HyperCeiler recebeu permissões Root/Su</string>
+    <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="expand_button_title">Alto nível</string>
     <string name="not_set">Não definido</string>
     <string name="copy">Copiar</string>
@@ -123,7 +123,7 @@
     <string name="portrait">Retrato</string>
     <string name="camera_pro">Pro</string>
     <string name="enable">Ativar</string>
-    <string name="disable">Desabilitado</string>
+    <string name="disable">Desativado</string>
     <string name="custom_enable">Ativar personalização</string>
     <string name="search">Pesquisar</string>
     <string name="floating_window">Janelas flutuantes</string>
@@ -313,6 +313,7 @@
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
+    <string name="browser_debug_mode_desc">17.5.xxxxx e superior não são entradas</string>
     <!--Camera-->
     <string name="camera">Câmera</string>
     <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente</string>
@@ -706,7 +707,7 @@
     <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados, por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão\n- Não suporta nenhum uso de ROM não oficial\n- Esta função é perigosa, por favor, avalie se deve ativá-la após entender a operação do Fastboot</string>
     <string name="updater_version_mode">Tipo de disfarce</string>
     <string name="updater_big_version">Versão grande falsa</string>
-    <string name="updater_big_version_desc">Itens que precisam ser preenchidos ao disfarçar a versão Xiaomi HyperOS, o padrão é V816</string>
+    <string name="updater_big_version_desc">Itens que precisam ser preenchidos ao disfarçar a versão Xiaomi HyperOS, o padrão é V816.</string>
     <string name="updater_miui_version">Versão falsa para Atualizações</string>
     <string name="updater_android_version">Versão falsa para Android</string>
     <string name="updater_miui_version_desc">Modifique apenas a atualização do sistema, que pode proteger a atualização do sistema até certo ponto</string>
@@ -858,7 +859,7 @@
     <string name="home_drawer_blur">Ativar blur de exibição de contêiner de todos os apps</string>
     <string name="home_drawer_blur_desc">Por favor, defina a transparência da gaveta de apps de fundo para 100% para usar este recurso</string>
     <string name="home_drawer_pinyin">Organizado em ordem Pinyin</string>
-    <string name="home_drawer_pinyin_more">Quando o idioma não é o Chinês Simplificado, os apps na gaveta ainda são organizados de acordo com o Pinyin</string>
+    <string name="home_drawer_pinyin_more">Quando o idioma não é o Chinês Simplificado, os apps na gaveta ainda são organizados de acordo com o Pinyin.</string>
     <string name="home_title">Ícone e título</string>
     <string name="home_title_icon_title">Ícone</string>
     <string name="home_title_bigicon_title">Ícone grande</string>
@@ -911,7 +912,7 @@
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>
     <string name="home_widget_resizable">Remover quaisquer limitações de tamanho do widget</string>
     <string name="home_dock">Dock</string>
-    <string name="home_dock_bg_enable">Adicionar blur do fundo na dock</string>
+    <string name="home_dock_bg_enable">Adicionar blur de fundo na dock</string>
     <string name="home_dock_bg_height">Altura</string>
     <string name="home_dock_bg_height_desc">Altura da dock</string>
     <string name="home_dock_bg_margin_horizontal">Margem vertical</string>
@@ -1212,7 +1213,7 @@
     <string name="various_mipad_input_need_finger_num_desc">Altere o gesto de captura de tela, o gesto de captura de tela parcial e o gesto de tela dividida horizontal para serem acionados por quatro dedos e mude o gesto de apps para ser acionado por três dedos</string>
     <string name="custom_background_blur_enabled">Blur do fundo</string>
     <string name="custom_background_blur_radius">Raio do blur</string>
-    <string name="custom_background_color">Cor do fundo</string>
+    <string name="custom_background_color">Cor de fundo</string>
     <string name="custom_background_color_alpha">Transparência da cor do fundo</string>
     <string name="custom_background_corner_radius">Cantos arredondados do fundo</string>
     <string name="custom_blur_enabled">Blur do fundo</string>
@@ -1287,6 +1288,10 @@
     <string name="location_delete">Excluir</string>
     <string name="development">Opções do desenvolvedor</string>
     <string name="development_ui">UI</string>
+    <string name="no_blur">Sem blur</string>
+    <string name="miui_blur">Blur do HyperOS</string>
+    <string name="android_blur">Blur do Android</string>
+    <string name="home_dock_add_blur">Blur de fundo personalizado</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
