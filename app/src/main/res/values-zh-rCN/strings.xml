@@ -411,6 +411,8 @@
     <string name="mms">短信</string>
     <string name="mms_disable_ad">禁用推广</string>
     <string name="mms_disable_ad_desc">移除屏幕下方快捷按钮与短信内容下方推广</string>
+    <!--搜狗输入法小米版-->
+    <string name="sogou_xiaomi_clipboard">解除剪贴板150条限制</string>
     <!--电话服务-->
     <string name="phone">电话服务</string>
     <string name="phone_smart_dual_sim">解锁智能双卡切换</string>
@@ -1214,6 +1216,8 @@
     <string name="mtb">鲁班 (MTB)</string>
     <string name="mtb_auth">绕过鲁班 (MTB) 鉴权</string>
     <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
+    <!--搜狗输入法小米版-->
+    <string name="sogou_xiaomi">搜狗输入法小米版</string>
     <!--小爱视觉-->
     <string name="scanner">小爱视觉</string>
     <string name="scanner_card">解锁扫名片</string>

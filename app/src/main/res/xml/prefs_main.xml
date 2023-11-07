@@ -310,6 +310,13 @@
             android:title="@string/scanner" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SoGouFragment"
+            android:icon="@drawable/ic_sogou"
+            android:key="prefs_key_sogou"
+            android:summary="com.sohu.inputmethod.sogou.xiaomi"
+            android:title="@string/sogou_xiaomi" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:enabled="false"
             android:icon="@drawable/ic_custom"
             android:key="prefs_key_custom_hook"

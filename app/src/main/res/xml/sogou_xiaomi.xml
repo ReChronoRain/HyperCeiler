@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_sogou_xiaomi_clipboard"
+        android:title="@string/sogou_xiaomi_clipboard" />
+
+    <Preference android:enabled="false" />
+
+</PreferenceScreen>
