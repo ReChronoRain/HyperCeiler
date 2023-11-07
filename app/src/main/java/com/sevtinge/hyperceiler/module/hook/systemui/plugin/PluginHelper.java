@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.plugin;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.content.pm.ApplicationInfo;
 
@@ -18,8 +17,8 @@ public class PluginHelper extends BaseHook {
 
     @Override
     public void init() {
-        if (!isAndroidU()) {
-            String pluginLoaderClass = isAndroidT()
+        if (!isAndroidVersion(34)) {
+            String pluginLoaderClass = isAndroidVersion(33)
                 ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
                 : "com.android.systemui.shared.plugins.PluginManagerImpl";
             hookAllMethods(pluginLoaderClass, "getClassLoader", new MethodHook() {

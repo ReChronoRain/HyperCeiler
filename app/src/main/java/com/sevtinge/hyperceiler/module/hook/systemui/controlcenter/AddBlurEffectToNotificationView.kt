@@ -11,9 +11,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen.isDefaultLockScreenTheme
 import com.sevtinge.hyperceiler.utils.HookUtils
 import com.sevtinge.hyperceiler.utils.callStaticMethod
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidS
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidT
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
@@ -32,7 +30,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
         mPrefsMap.getInt("system_ui_control_center_default_background_alpha", 200)
 
     fun setDrawableAlpha(thiz: Any?, alpha: Int) {
-        if (isAndroidU()) {
+        if (isAndroidVersion(34)) {
             XposedHelpers.setObjectField(thiz, "mDrawableAlpha", alpha)
         } else {
             XposedHelpers.callMethod(
@@ -59,7 +57,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         val miuiNotificationPanelViewControllerClass =
             findClassIfExists(
-                if (isAndroidU())
+                if (isAndroidVersion(34))
                     "com.android.systemui.shade.MiuiNotificationPanelViewController"
                 else
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
@@ -75,14 +73,14 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
         val blurRatioChangedListener =
             findClassIfExists(
-                if (isAndroidU())
+                if (isAndroidVersion(34))
                     "com.android.systemui.shade.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
                 else
                     "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController\$mBlurRatioChangedListener\$1"
             ) ?: return
 
         // 通知模糊额外修正项，增加一个开关避免使用过程中暴毙
-        if(isAndroidT() && mPrefsMap.getBoolean("n_enable_fix")) {
+        if(isAndroidVersion(33) && mPrefsMap.getBoolean("n_enable_fix")) {
             val mediaDataFilterClass =
                 findClassIfExists("com.android.systemui.media.MediaDataFilter") ?: return
 
@@ -399,7 +397,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
                     val isExpanding =
                         XposedHelpers.callMethod(
                             mPanelViewController,
-                            if (isAndroidU()) "isExpandingOrCollapsing" else "isExpanding"
+                            if (isAndroidVersion(34)) "isExpandingOrCollapsing" else "isExpanding"
                         ) as Boolean
                     if (isExpanding) return
 
@@ -429,7 +427,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
             })
 
         // 锁屏状态透明度修改的时候同步修改模糊透明度
-        if (isAndroidS()) {
+        if (isAndroidVersion(31)) {
             XposedBridge.hookAllMethods(miuiNotificationPanelViewControllerClass,
                 "updateKeyguardElementAlpha",
                 object : XC_MethodHook() {
@@ -636,7 +634,7 @@ object AddBlurEffectToNotificationView : BaseHook() {
 
     fun isDefaultLockScreenTheme(): Boolean {
         val miuiKeyguardUtilsClass = findClassIfExists(
-            if (isAndroidU())
+            if (isAndroidVersion(34))
                 "com.miui.systemui.util.CommonUtil"
             else
                 "com.android.keyguard.utils.MiuiKeyguardUtils"

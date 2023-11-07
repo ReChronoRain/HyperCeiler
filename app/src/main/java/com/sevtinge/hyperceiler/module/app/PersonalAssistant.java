@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.CloseHostDir;
@@ -19,9 +19,9 @@ public class PersonalAssistant extends BaseModule {
         // initHook(new BlurOverlay(), false);
         initHook(new EnableFoldWidget(), mPrefsMap.getBoolean("personal_assistant_fold_widget_enable"));
 
-        if (mPrefsMap.getStringAsInt("personal_assistant_value", 1) != 1 && !isAndroidR()) {
+        if (mPrefsMap.getStringAsInt("personal_assistant_value", 0) == 2 && !isAndroidVersion(30)) {
             initHook(BlurPersonalAssistant.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
-        } else {
+        } else if (mPrefsMap.getStringAsInt("personal_assistant_value", 0) == 1 && !isAndroidVersion(30)) {
             initHook(BlurPersonalAssistantBackGround.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
         }
 

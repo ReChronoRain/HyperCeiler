@@ -8,8 +8,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.invokeMethod
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidT
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.view.WeatherData
@@ -50,13 +49,13 @@ object NotificationWeatherNew : BaseHook() {
         }
 
         val pluginLoaderClass =
-            if (isAndroidU()) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
-            else if (isAndroidT()) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
+            if (isAndroidVersion(34)) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
+            else if (isAndroidVersion(33)) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
             else "com.android.systemui.shared.plugins.PluginManagerImpl"
 
         var appInfo: ApplicationInfo?
 
-        if (isAndroidU()) {
+        if (isAndroidVersion(34)) {
             hookAllMethods("com.android.systemui.shared.plugins.PluginInstance\$Factory",
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {

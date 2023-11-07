@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.HookUtils
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -14,7 +14,7 @@ import de.robv.android.xposed.XposedHelpers
 object AddBlurEffectToLockScreen : BaseHook() {
     override fun init() {
         val miuiNotificationPanelViewControllerClass = findClassIfExists(
-            if (isAndroidU())
+            if (isAndroidVersion(34))
                 "com.android.systemui.shade.MiuiNotificationPanelViewController"
             else
                 "com.android.systemui.statusbar.phone.MiuiNotificationPanelViewController"
@@ -456,7 +456,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
 
     fun isDefaultLockScreenTheme(): Boolean {
         val miuiKeyguardUtilsClass = findClassIfExists(
-            if (isAndroidU())
+            if (isAndroidVersion(34))
                 "com.miui.systemui.util.CommonUtil"
             else
                 "com.android.keyguard.utils.MiuiKeyguardUtils"

@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.view.View;
 
@@ -30,6 +30,6 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mNetworkSpeedWidth = findPreference("prefs_key_system_ui_statusbar_network_speed_fixedcontent_width");
-        mNetworkSpeedWidth.setVisible(!isAndroidR());
+        mNetworkSpeedWidth.setVisible(!isAndroidVersion(30));
     }
 }

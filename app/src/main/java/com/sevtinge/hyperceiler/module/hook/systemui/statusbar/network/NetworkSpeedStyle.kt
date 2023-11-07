@@ -8,7 +8,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidR
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 
 import de.robv.android.xposed.XposedHelpers
 
@@ -31,7 +31,7 @@ object NetworkSpeedStyle : BaseHook() {
     }
 
     override fun init() {
-        if (isAndroidR()) {
+        if (isAndroidVersion(30)) {
             // Android 11 or MIUI12.5 Need to hook Statusbar in Screen Lock interface, to set front size
             // Thanks for CustoMIUIzerMod
             loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder().first {

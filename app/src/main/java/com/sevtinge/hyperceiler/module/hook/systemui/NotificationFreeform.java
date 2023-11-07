@@ -1,13 +1,14 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class NotificationFreeform extends BaseHook {
     @Override
     public void init() {
-        if (isAndroidU()) {
+        if (isAndroidVersion(34)) {
             findAndHookMethod(findClassIfExists("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow"), "updateMiniWindowBar", new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {

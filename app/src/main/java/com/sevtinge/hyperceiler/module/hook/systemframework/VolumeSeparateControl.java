@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.os.Build;
@@ -32,7 +32,7 @@ public class VolumeSeparateControl extends BaseHook {
                 mStreamVolumeAlias[1] = 1;
                 mStreamVolumeAlias[5] = 5;
 
-                if (isAndroidT()) {
+                if (isAndroidVersion(33)) {
                     XposedHelpers.setStaticObjectField(mAudioService, "mStreamVolumeAlias", mStreamVolumeAlias);
                 } else {
                     XposedHelpers.setObjectField(param.thisObject, "mStreamVolumeAlias", mStreamVolumeAlias);

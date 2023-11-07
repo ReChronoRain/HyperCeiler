@@ -10,7 +10,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidR
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -31,7 +31,7 @@ object BatteryStyle : BaseHook() {
     private lateinit var mBatteryPercentMarkView: TextView
 
     override fun init() {
-        if (isAndroidR()) {
+        if (isAndroidVersion(30)) {
             mBatteryMeterViewClass.methodFinder().first {
                 name == "updateResources"
             }

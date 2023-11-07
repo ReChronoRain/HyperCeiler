@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
@@ -40,7 +40,7 @@ public class VariousFragment extends SettingsPreferenceFragment
         mMipad = findPreference("prefs_key_various_mipad");
 
         mDisableBluetoothRestrict.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
-        mDisableDeviceLog.setVisible(isAndroidT());
+        mDisableDeviceLog.setVisible(isAndroidVersion(33));
         mMipad.setVisible(isPad());
 
         mDisableBluetoothRestrict.setOnPreferenceChangeListener((preference, o) -> true);

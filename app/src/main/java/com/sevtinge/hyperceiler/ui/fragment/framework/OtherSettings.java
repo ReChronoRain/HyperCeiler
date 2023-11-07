@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.framework;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.content.Intent;
 
@@ -29,10 +28,10 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
-        mAppLinkVerify.setVisible(!isAndroidR());
+        mAppLinkVerify.setVisible(!isAndroidVersion(30));
         mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> true);
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
-        mUseOriginalAnim.setVisible(!isAndroidT());
+        mUseOriginalAnim.setVisible(!isAndroidVersion(33));
 
         mCleanShareApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);

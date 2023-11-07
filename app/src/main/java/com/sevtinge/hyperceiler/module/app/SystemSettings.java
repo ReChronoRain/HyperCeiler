@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
@@ -44,7 +44,7 @@ public class SystemSettings extends BaseModule {
         initHook(new EnablePadArea(),mPrefsMap.getBoolean("system_settings_enable_pad_area"));
         initHook(new EnableFoldArea(),mPrefsMap.getBoolean("system_settings_enable_fold_area"));
 
-        if (!isAndroidR()) {
+        if (!isAndroidVersion(30)) {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
         }
     }

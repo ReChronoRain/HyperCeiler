@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.view.View;
 
@@ -22,7 +22,7 @@ public class ContentExtensionFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         mUnlockTaplus= findPreference("prefs_key_content_extension_unlock_taplus");
 
-        mUnlockTaplus.setVisible(!isAndroidR());
+        mUnlockTaplus.setVisible(!isAndroidVersion(30));
     }
 
     @Override

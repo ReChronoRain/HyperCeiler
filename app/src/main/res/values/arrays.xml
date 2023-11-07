@@ -586,16 +586,6 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="personal_assistant_blur">
-        <item>@string/array_pa_blur_official</item>
-        <item>@string/array_bpa_blur_customize</item>
-    </string-array>
-
-    <string-array name="personal_assistant_blur_value">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string-array name="updater_version_mode">
         <item>MIUI</item>
         <item>Xiaomi HyperOS</item>

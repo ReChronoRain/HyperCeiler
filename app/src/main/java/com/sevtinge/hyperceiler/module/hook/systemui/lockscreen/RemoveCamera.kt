@@ -6,14 +6,14 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 
 object RemoveCamera : BaseHook() {
     override fun init() {
         // 屏蔽右下角组件显示
         loadClass(
-            if (isAndroidU())
+            if (isAndroidVersion(34))
                 "com.android.keyguard.injector.KeyguardBottomAreaInjector"
             else
                 "com.android.systemui.statusbar.phone.KeyguardBottomAreaView").methodFinder().first {

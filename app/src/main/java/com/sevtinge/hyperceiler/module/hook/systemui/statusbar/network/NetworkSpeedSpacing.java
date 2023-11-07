@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.os.Build;
@@ -88,7 +88,7 @@ public class NetworkSpeedSpacing extends BaseHook {
             }
         }
 
-        if (isAndroidR()) {
+        if (isAndroidVersion(30)) {
             findAndHookMethod("com.android.systemui.statusbar.NetworkSpeedController",
                 "postUpdateNetworkSpeedDelay", long.class, new MethodHook() {
                     @Override

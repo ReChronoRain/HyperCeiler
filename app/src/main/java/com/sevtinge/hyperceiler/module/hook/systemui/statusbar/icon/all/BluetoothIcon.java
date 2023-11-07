@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -16,7 +16,7 @@ public class BluetoothIcon extends BaseHook {
                 int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0);
                 int opt_b = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth_battery", 0);
                 boolean isBluetoothConnected;
-                if (isAndroidU()) {
+                if (isAndroidVersion(34)) {
                     isBluetoothConnected = (int) XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, "mBluetooth"), "mConnectionState") == 2;
                 } else {
                     isBluetoothConnected = (boolean) XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mBluetooth"), "isBluetoothConnected");

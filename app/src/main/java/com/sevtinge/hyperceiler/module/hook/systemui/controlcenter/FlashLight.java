@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.Context;
@@ -134,7 +134,7 @@ public class FlashLight extends TileUtils {
     }
 
     public void hookFlash(Object o, Object flash, Context context, int max) {
-        if (!isAndroidU()) {
+        if (!isAndroidVersion(34)) {
             setBrightnessUtils(o, flash, context, max);
             findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
                 "lambda$onChanged$0", boolean.class, float.class, new MethodHook() {

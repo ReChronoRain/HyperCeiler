@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.view.View;
 
@@ -30,6 +30,6 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mMonetOverlay = findPreference("prefs_key_system_ui_monet");
-        mMonetOverlay.setVisible(!isAndroidR());
+        mMonetOverlay.setVisible(!isAndroidVersion(30));
     }
 }

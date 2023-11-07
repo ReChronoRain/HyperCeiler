@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,7 +21,7 @@ public class HideNavigationBar extends BaseHook {
     @Override
     public void init() {
         /*启用隐藏*/
-        if (isAndroidU()) {
+        if (isAndroidVersion(34)) {
             hookAllConstructors("com.android.systemui.statusbar.phone.NavigationModeControllerExt", new MethodHook() {
                 @SuppressLint("PrivateApi")
                 @Override

@@ -7,18 +7,12 @@
             android:title="@string/personal_assistant_fold_widget_enable"
             android:summary="@string/personal_assistant_fold_widget_enable_desc" />
 
-        <SwitchPreference
-            android:title="@string/personal_assistant_blur_model"
-            android:key="prefs_key_pa_enable"
-            android:defaultValue="false" />
-
         <DropDownPreference
+            android:title="@string/personal_assistant_blur_model"
             android:key="prefs_key_personal_assistant_value"
-            android:title="@string/personal_assistant_blur_value"
-            android:defaultValue="1"
-            android:dependency="prefs_key_pa_enable"
-            app:entries="@array/personal_assistant_blur"
-            app:entryValues="@array/personal_assistant_blur_value" />
+            android:defaultValue="0"
+            app:entries="@array/blur_switch"
+            app:entryValues="@array/blur_switch_value" />
 
         <SeekBarPreferenceEx
             android:title="@string/personal_assistant_blurradius"

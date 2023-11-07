@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.view.View;
 
@@ -30,7 +30,7 @@ public class HomeDrawerSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mAllAppsContainerViewBlur = findPreference("prefs_key_home_drawer_blur");
-        mAllAppsContainerViewBlur.setVisible(!isAndroidR());
+        mAllAppsContainerViewBlur.setVisible(!isAndroidVersion(30));
 
         mAllAppsContainerViewBlur.setOnPreferenceChangeListener((preference, o) -> true);
     }

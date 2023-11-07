@@ -5,7 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 
 class StatusBarIcon : BaseHook() {
     override fun init() {
@@ -22,7 +22,7 @@ class StatusBarIcon : BaseHook() {
         }
 
 
-        loadClass(if (isAndroidU())
+        loadClass(if (isAndroidVersion(34))
             "com.android.systemui.statusbar.phone.StatusBarIconControllerImpl"
         else
             "com.android.systemui.statusbar.phone.MiuiDripLeftStatusBarIconControllerImpl").methodFinder().first {

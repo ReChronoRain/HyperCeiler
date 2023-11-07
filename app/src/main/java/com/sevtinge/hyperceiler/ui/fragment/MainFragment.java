@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -59,8 +59,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         mSecurityCenterPad = findPreference("prefs_key_security_center_pad");
         mTip = findPreference("prefs_key_tip");
 
-        mPowerSetting.setVisible(!isAndroidR());
-        mMTB.setVisible(!isAndroidR());
+        mPowerSetting.setVisible(!isAndroidVersion(30));
+        mMTB.setVisible(!isAndroidVersion(30));
 
         mSecurityCenter.setVisible(!isPad());
         mSecurityCenterPad.setVisible(isPad());

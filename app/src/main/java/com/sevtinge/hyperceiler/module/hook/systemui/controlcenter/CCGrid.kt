@@ -13,8 +13,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidT
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 
 object CCGrid : BaseHook() {
@@ -99,13 +98,13 @@ object CCGrid : BaseHook() {
             })
 
         val pluginLoaderClass =
-            if (isAndroidU()) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
-            else if (isAndroidT()) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
+            if (isAndroidVersion(34)) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
+            else if (isAndroidVersion(33)) "com.android.systemui.shared.plugins.PluginInstance\$Factory"
             else "com.android.systemui.shared.plugins.PluginManagerImpl"
 
         var appInfo: ApplicationInfo?
 
-        if (isAndroidU()) {
+        if (isAndroidVersion(34)) {
             hookAllMethods("com.android.systemui.shared.plugins.PluginInstance\$Factory",
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {

@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.CloseHostDir;
@@ -162,7 +162,7 @@ public class Home extends BaseModule {
         // 抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||
             mPrefsMap.getBoolean("home_drawer_editor"));
-        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur") && !isAndroidR());
+        initHook(AllAppsContainerViewBlur.INSTANCE, mPrefsMap.getBoolean("home_drawer_blur") && !isAndroidVersion(30));
         initHook(new PinyinArrangement(), mPrefsMap.getBoolean("home_drawer_pinyin"));
 
         // 最近任务
@@ -236,10 +236,10 @@ public class Home extends BaseModule {
         initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
 
         // 实验性功能
-        initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur") && !isAndroidR());
-        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur") && !isAndroidR());
+        initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur") && !isAndroidVersion(30));
+        initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur") && !isAndroidVersion(30));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
-        initHook(new AllAppsBlur(), !isAndroidR());
+        initHook(new AllAppsBlur(), !isAndroidVersion(30));
         initHook(new FixAnimation(), mPrefsMap.getBoolean("home_title_fix_animation"));
         initHook(new LargeIconCornerRadius(), mPrefsMap.getBoolean("home_large_icon_enable"));
 
@@ -248,7 +248,7 @@ public class Home extends BaseModule {
         initHook(new MaxFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_count"));
 
         // Fold2样式负一屏
-        initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode") && !isAndroidR());
+        initHook(new OverlapMode(), mPrefsMap.getBoolean("personal_assistant_overlap_mode") && !isAndroidVersion(30));
 
         // Other
         initHook(new ToastSlideAgain(), mPrefsMap.getBoolean("home_other_toast_slide_again"));

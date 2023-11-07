@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isDeviceEncrypted;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.os.Build;
@@ -32,8 +32,8 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
         mPasswordFree = findPreference("prefs_key_system_ui_lock_screen_password_free");
         mChangingCVTime = findPreference("prefs_key_system_ui_lock_screen_show_spacing");
 
-        mBlurButton.setVisible(!isAndroidR());
-        mForceSystemFonts.setVisible(!isAndroidR());
+        mBlurButton.setVisible(!isAndroidVersion(30));
+        mForceSystemFonts.setVisible(!isAndroidVersion(30));
         mChangingCVTime.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU));
 
         if (isDeviceEncrypted(getContext())) {

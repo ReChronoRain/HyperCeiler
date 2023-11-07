@@ -35,7 +35,7 @@ public abstract class TileUtils extends BaseHook {
         SystemUiHook(); // 不需要覆写
         tileAllName(mQSFactory); // 不需要覆写
         showStateMessage(myTile);
-        if (SystemSDKKt.isAndroidU()) {
+        if (SystemSDKKt.isAndroidVersion(34)) {
             tileAllName14(mQSFactory);
         }
         try {

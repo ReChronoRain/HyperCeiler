@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
@@ -46,8 +46,8 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
 
-        mHighMode.setVisible(!isAndroidR());
-        mAreaScreenshot.setVisible(isAndroidR());
+        mHighMode.setVisible(!isAndroidVersion(30));
+        mAreaScreenshot.setVisible(isAndroidVersion(30));
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());

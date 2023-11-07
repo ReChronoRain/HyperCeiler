@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.base.CloseHostDir;
@@ -95,7 +95,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
         // 全局侧边栏
-        if (!isAndroidR()) {
+        if (!isAndroidVersion(30)) {
             initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
             initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));

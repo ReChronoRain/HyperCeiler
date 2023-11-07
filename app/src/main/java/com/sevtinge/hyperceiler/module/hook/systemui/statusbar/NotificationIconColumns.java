@@ -1,8 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.ContentResolver;
@@ -27,10 +25,10 @@ public class NotificationIconColumns extends BaseHook {
 
     @Override
     public void init() {
-        if (!isAndroidR()) {
+        if (!isAndroidVersion(30)) {
             int maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
             int maxDotsNum = mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 3);
-            if (isAndroidU() && isMoreHyperOSVersion(1f)) {
+            if (isAndroidVersion(34) && isMoreHyperOSVersion(1f)) {
                 mAndroidU(maxIconsNum, maxDotsNum);
                 // logE(TAG, "is hyper");
             } else {
@@ -150,7 +148,7 @@ public class NotificationIconColumns extends BaseHook {
                     if ((boolean) param.args[0]) {
                         XposedHelpers.setObjectField(param.thisObject, "MAX_DOTS", maxDotsNum);
                         XposedHelpers.setObjectField(param.thisObject, "MAX_STATIC_ICONS", maxIconsNum);
-                        if (isAndroidT()) {
+                        if (isAndroidVersion(33)) {
                             XposedHelpers.setObjectField(param.thisObject, "MAX_ICONS_ON_LOCKSCREEN", maxIconsNum);
                         } else {
                             XposedHelpers.setObjectField(param.thisObject, "MAX_VISIBLE_ICONS_ON_LOCK", maxIconsNum);
@@ -158,7 +156,7 @@ public class NotificationIconColumns extends BaseHook {
                     } else {
                         XposedHelpers.setObjectField(param.thisObject, "MAX_DOTS", 0);
                         XposedHelpers.setObjectField(param.thisObject, "MAX_STATIC_ICONS", 0);
-                        if (isAndroidT()) {
+                        if (isAndroidVersion(33)) {
                             XposedHelpers.setObjectField(param.thisObject, "MAX_ICONS_ON_LOCKSCREEN", 0);
                         } else {
                             XposedHelpers.setObjectField(param.thisObject, "MAX_VISIBLE_ICONS_ON_LOCK", 0);

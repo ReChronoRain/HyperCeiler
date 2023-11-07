@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidU;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.view.MotionEvent;
@@ -24,7 +24,7 @@ public class SwitchCCAndNotification extends BaseHook {
                         FrameLayout bar = (FrameLayout) param.thisObject;
                         Object mControlPanelWindowManager = XposedHelpers.getObjectField(param.thisObject, "mControlPanelWindowManager");
                         boolean dispatchToControlPanel = (boolean) XposedHelpers.callMethod(mControlPanelWindowManager, "dispatchToControlPanel", param.args[0], bar.getWidth());
-                        if (isAndroidU()) {
+                        if (isAndroidVersion(34)) {
                             XposedHelpers.setObjectField(mControlPanelWindowManager, "mTransToControlPanel", dispatchToControlPanel);
                         } else {
                             XposedHelpers.callMethod(mControlPanelWindowManager, "setTransToControlPanel", dispatchToControlPanel);

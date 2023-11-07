@@ -1,8 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidS;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidSv2;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.provider.Settings;
@@ -56,12 +54,12 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
         mFiveG = findPreference("prefs_key_system_control_center_5g_tile");
 
-        mFixMediaPanel.setVisible(isAndroidS() || isAndroidSv2());
-        mNewCCGrid.setVisible(!isAndroidR());
-        mNewCCGridRect.setVisible(!isAndroidR());
-        mNotice.setVisible(!isAndroidR());
+        mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
+        mNewCCGrid.setVisible(!isAndroidVersion(30));
+        mNewCCGridRect.setVisible(!isAndroidVersion(30));
+        mNotice.setVisible(!isAndroidVersion(30));
         mNoticex.setVisible(isMoreAndroidVersion(33));
-        mBluetoothSytle.setVisible(!isAndroidR());
+        mBluetoothSytle.setVisible(!isAndroidVersion(30));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
 
         mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");

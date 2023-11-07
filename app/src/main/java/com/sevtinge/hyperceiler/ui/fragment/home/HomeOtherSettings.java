@@ -1,8 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidR;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidT;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.view.View;
 
@@ -37,8 +36,8 @@ public class HomeOtherSettings extends SettingsPreferenceFragment {
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
         mEnableFold = findPreference("prefs_key_personal_assistant_overlap_mode");
 
-        mFixAndroidRS.setVisible(!isAndroidT());
+        mFixAndroidRS.setVisible(!isAndroidVersion(33));
         mEnableMoreSettings.setVisible(isPad());
-        mEnableFold.setVisible(!isAndroidR());
+        mEnableFold.setVisible(!isAndroidVersion(30));
     }
 }

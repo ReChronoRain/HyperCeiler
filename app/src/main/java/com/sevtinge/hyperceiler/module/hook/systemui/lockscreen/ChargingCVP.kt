@@ -19,7 +19,7 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidU
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 import java.io.BufferedReader
@@ -42,14 +42,14 @@ object ChargingCVP : BaseHook() {
                     (param.thisObject as TextView).isSingleLine = false
                     val screenOnOffReceiver = @SuppressLint("ServiceCast")
                     object : BroadcastReceiver() {
-                        val keyguardIndicationController = if (isAndroidU())
+                        val keyguardIndicationController = if (isAndroidVersion(34))
                             loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
                         else invokeStaticMethodBestMatch(
                             clazzDependency, "get", null, clazzKeyguardIndicationController)!!
                         val handler = Handler((param.thisObject as TextView).context.mainLooper)
                         val runnable = object : Runnable {
                             override fun run() {
-                                if (isAndroidU())
+                                if (isAndroidVersion(34))
                                     XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")
                                 else
                                     invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
