@@ -254,7 +254,6 @@
     <!--Browser-->
     <string name="browser">Браузер</string>
     <string name="browser_debug_mode">Параметры разработчика</string>
-    <string name="browser_debug_mode_desc">17.5.xxxxx и выше не поддерживается</string>
     <!--Camera-->
     <string name="camera">Камера</string>
     <string name="camera_features_unlock_aiwatermark">Умный водяной знак</string>

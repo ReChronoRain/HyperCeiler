@@ -312,7 +312,6 @@
     <!--Browser-->
     <string name="browser">ブラウザー</string>
     <string name="browser_debug_mode">開発者オプションの有効化</string>
-    <string name="browser_debug_mode_desc">17.5.xxxxx 以降はサポートされていません</string>
     <!--Camera-->
     <string name="camera">カメラ</string>
     <string name="camera_features_unlock_aiwatermark">AI の透かしをアンロック</string>

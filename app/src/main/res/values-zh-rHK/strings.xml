@@ -313,7 +313,6 @@
     <!--Browser-->
     <string name="browser">瀏覽器</string>
     <string name="browser_debug_mode">開發者選項</string>
-    <string name="browser_debug_mode_desc">不支援 17.5.xxxxx 及以上版本</string>
     <!--Camera-->
     <string name="camera">相機</string>
     <string name="camera_features_unlock_aiwatermark">解鎖 AI 浮水印</string>
