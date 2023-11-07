@@ -12,7 +12,6 @@ import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableSafeModelTip
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisplayMoreApkInfoNew;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallSource;
-import com.sevtinge.hyperceiler.module.hook.packageinstaller.SafeMode;
 
 public class PackageInstaller extends BaseModule {
 
@@ -23,9 +22,6 @@ public class PackageInstaller extends BaseModule {
 
         //
         /*initHook(new MiuiPackageInstallModify(), mPrefsMap.getBoolean("miui_package_installer_modify"));*/
-
-        // 纯净模式
-        initHook(new SafeMode());
 
         // 禁用广告
         initHook(DisableAD.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_disable_ad"));
