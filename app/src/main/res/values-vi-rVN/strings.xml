@@ -315,7 +315,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Browser-->
     <string name="browser">Trình duyệt</string>
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
-    <string name="browser_debug_mode_desc">17.5.xxxxx trở lên không được hỗ trợ</string>
     <!--Camera-->
     <string name="camera">Máy ảnh</string>
     <string name="camera_features_unlock_aiwatermark">Mở khóa Dấu chìm AI</string>

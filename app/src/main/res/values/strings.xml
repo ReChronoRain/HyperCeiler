@@ -342,7 +342,7 @@
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
-    <string name="browser_debug_mode_desc">17.5.xxxxx and above are not supported</string>
+    <string name="browser_debug_mode_desc">17.5.xxxxx and above are no entry</string>
     <!--Camera-->
     <string name="camera">Camera</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>

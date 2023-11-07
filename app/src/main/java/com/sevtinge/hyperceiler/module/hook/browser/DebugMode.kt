@@ -61,6 +61,21 @@ object DebugMode : BaseHook() {
              }
          }*/
         initDexKit(lpparam)
+
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingStringsEquals("environment_flag")
+                returnType = "java.lang.String"
+            }
+        }.forEach {
+            val environmentFlag = it.getMethodInstance(lpparam.classLoader)
+                logI(TAG, this.lpparam.packageName, "environmentFlag method is $environmentFlag")
+                XposedBridge.hookMethod(
+                    environmentFlag,
+                    XC_MethodReplacement.returnConstant("1")
+                )
+        }
+
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("pref_key_debug_mode_new")

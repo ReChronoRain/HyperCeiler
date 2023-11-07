@@ -313,7 +313,6 @@
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
-    <string name="browser_debug_mode_desc">17.5.xxxxx e acima não são suportados</string>
     <!--Camera-->
     <string name="camera">Câmera</string>
     <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente</string>
