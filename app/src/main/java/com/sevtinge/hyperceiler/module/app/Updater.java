@@ -11,8 +11,6 @@ import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VersionCodeNew;
 
-import java.util.Objects;
-
 public class Updater extends BaseModule {
 
     @Override
@@ -24,7 +22,7 @@ public class Updater extends BaseModule {
         } else {
             initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
         }
-        initHook(AndroidVersionCode.INSTANCE, !Objects.equals(mPrefsMap.getString("various_updater_android_version", "14"), ""));
+        initHook(AndroidVersionCode.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("various_updater_android_version", "")));
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
         initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         // dexKit finish

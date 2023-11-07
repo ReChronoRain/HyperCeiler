@@ -179,7 +179,6 @@ object ShowBatteryTemperatureNew : BaseHook() {
         return context.registerReceiver(
             null as BroadcastReceiver?,
             IntentFilter("android.intent.action.BATTERY_CHANGED")
-        )!!
-            .getIntExtra("temperature", 0) / 10
+        )!!.getIntExtra("temperature", 0) / 10
     }
 }
