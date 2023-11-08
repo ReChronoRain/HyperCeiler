@@ -3,12 +3,6 @@ name: Android Main CI
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - ".github/**"
-      - "!.github/workflows/**"
-      - ".idea/"
-      - "doc/*"
-      - "*.md"
   pull_request:
     branches: [ "main" ]
     paths-ignore:
@@ -73,7 +67,7 @@ jobs:
           name: HyperCeiler Canary
           path: ${{ env.APK_FILE_CANARY }}
 
-      - name: Post to Beta Channel & Canary Group
+      - name: Post to Canary Channel
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
         env:

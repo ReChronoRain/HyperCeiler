@@ -3,14 +3,6 @@ name: Android-R CI
 on:
   push:
     branches: [ "Android_R" ]
-    paths-ignore:
-      - ".github/**"
-      - "!.github/workflows/**"
-      - ".idea/"
-      - "doc/*"
-      - "*.md"
-      - ".github/workflows/crowdin.yml"
-      - "crowdin.yml"
   pull_request:
     branches: [ "Android_R" ]
     paths-ignore:
