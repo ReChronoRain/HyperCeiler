@@ -376,6 +376,8 @@
     <string name="incallui">Ui de chamadas</string>
     <string name="incallui_hide_crbt">Ocultar tom de toque colorido personalizado</string>
     <string name="incallui_answer_in_head_up">Responda de cabeça erguida</string>
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi_clipboard">Remover limite de 150 da área de transferência</string>
     <!--Message-->
     <string name="mms">Mensagens</string>
     <string name="mms_disable_ad">Desativar anúncios</string>
@@ -1155,6 +1157,8 @@
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Ignorar autenticação MTB</string>
     <string name="mtb_auth_desc">Este é um recurso de alto risco, quaisquer problemas decorrentes disso será de responsabilidade do usuário. Por favor, tenha cuidado para fazer backup de sua banda base. Digite *#*#MODEMTEST#*#* na interface de discagem para abrir as Configurações do MTB</string>
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi">Método de entrada Sogou</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_card">Desbloquear Escanear cartão ID</string>
