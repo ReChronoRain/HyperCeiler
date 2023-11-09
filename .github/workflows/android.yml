@@ -82,7 +82,6 @@ jobs:
           echo -e "Github Action for Main\n";
           git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:"%h %s";
           echo -e "\nby ${{ github.event.head_commit.author.name }}\n";
-          echo "See more [here](${{ github.event.head_commit.url }})";
           } > ${{ github.workspace }}/git_log
           ESCAPED="$(cat ${{ github.workspace }}/git_log | gawk '{gsub(/[_*[\]()~`>#+=\|{}.!-]/,"\\\\\\\\&")}1' | sed -e 's|"|\\"|g' -e 's|^[0-9a-z]\+|__&__|' | hexdump -v -e '/1 "%02X"' | sed 's/\(..\)/%\1/g')"
           cd ${{ github.workspace }}
