@@ -19,37 +19,37 @@ public class AllowUninstall implements IXposedHookZygoteInit {
 
     @Override
     public void initZygote(StartupParam startupParam) {
-        XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: hook all PathClassLoader Constructors");
+        // XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: hook all PathClassLoader Constructors");
         pathClassLoaderHook =
             XposedBridge.hookAllConstructors(PathClassLoader.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     String path = param.args[0].toString();
                     if (path.contains("/system/framework/services.jar")) {
-                        XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: find services.jar ClassLoader");
+                        // XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: find services.jar ClassLoader");
                         try {
                             servicesClassLoader = (PathClassLoader) param.thisObject;
                             SecurityManagerServiceClazz = XposedHelpers.findClass(
                                 SecurityManagerServiceName,
                                 servicesClassLoader);
-                            XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: findClass SecurityManagerService$1");
+                            // XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: findClass SecurityManagerService$1");
                             XposedHelpers.findAndHookMethod(SecurityManagerServiceClazz,
                                 "run", new XC_MethodReplacement() {
                                     @Override
                                     protected Object replaceHookedMethod(MethodHookParam unused) {
-                                        XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: hooked checkSystemSelfProtection invoke");
+                                        // XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: hooked checkSystemSelfProtection invoke");
                                         return null;
                                     }
                                 });
-                            XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: hook method 'SecurityManagerService$1.run()'");
+                            // XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: hook method 'SecurityManagerService$1.run()'");
                         } catch (Exception e) {
-                            XposedBridge.log("[HyperCeiler][E][android][AllowUninstall]: AllowUninstall Exception!");
-                            e.printStackTrace();
+                            XposedBridge.log("[HyperCeiler][E][android][AllowUninstall]: AllowUninstall Exception! " + e);
+                            // e.printStackTrace();
                         } finally {
                             for (Unhook hook : pathClassLoaderHook) {
                                 hook.unhook();
                             }
-                            XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: unhook all PathClassLoader Constructors");
+                            // XposedBridge.log("[HyperCeiler][I][android][AllowUninstall]: unhook all PathClassLoader Constructors");
                         }
                     }
                 }

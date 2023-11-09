@@ -412,7 +412,7 @@
     <string name="mms_disable_ad">禁用推广</string>
     <string name="mms_disable_ad_desc">移除屏幕下方快捷按钮与短信内容下方推广</string>
     <!--搜狗输入法-->
-    <string name="sogou_xiaomi_clipboard">解除剪贴板150条限制</string>
+    <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
     <!--电话服务-->
     <string name="phone">电话服务</string>
     <string name="phone_smart_dual_sim">解锁智能双卡切换</string>

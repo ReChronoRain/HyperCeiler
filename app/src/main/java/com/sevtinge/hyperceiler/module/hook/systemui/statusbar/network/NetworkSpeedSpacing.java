@@ -64,9 +64,8 @@ public class NetworkSpeedSpacing extends BaseHook {
                                         "mNetworkSpeedState"), "visible");
                                     logE(TAG, "100002: " + z2 + " :" + mBgHandler);
                                     handleMessage(mBgHandler, z2);*/
-                                case 200001:
-                                    handleMessage(mBgHandler, true);
-                                    // logE(TAG, "200001: " + mBgHandler);
+                                case 200001 -> handleMessage(mBgHandler, true);
+                                // logE(TAG, "200001: " + mBgHandler);
                             }
                         }
                     }

@@ -163,6 +163,7 @@ public class NotificationIconColumns extends BaseHook {
                         }
                     }
                     XposedHelpers.callMethod(param.thisObject, "updateState");
+                    param.setResult(null);
                 }
             }
         );

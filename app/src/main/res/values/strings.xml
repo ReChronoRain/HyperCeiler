@@ -406,7 +406,7 @@
     <string name="incallui_hide_crbt">Hide personalized colorful ring back tone</string>
     <string name="incallui_answer_in_head_up">Answer in head up</string>
     <!--Sogou input method-->
-    <string name="sogou_xiaomi_clipboard">Remove the 150 clipboard limit</string>
+    <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
     <!--Message-->
     <string name="mms">Message</string>
     <string name="mms_disable_ad">Disable ads</string>
