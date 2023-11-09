@@ -14,6 +14,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
@@ -164,7 +165,11 @@ object TimeCustomization : BaseHook() {
                                 val mMiuiStatusBarClockController =
                                     textV.getObjectField("mMiuiStatusBarClockController")
                                 val mCalendar =
-                                    mMiuiStatusBarClockController?.callMethod("getCalendar")
+                                    if (isAndroidVersion(34)) {
+                                        mMiuiStatusBarClockController?.getObjectField("mCalendar")
+                                    } else {
+                                        mMiuiStatusBarClockController?.callMethod("getCalendar")
+                                    }
                                 mCalendar?.callMethod("setTimeInMillis", System.currentTimeMillis())
                                 val textSb = StringBuilder()
                                 val formatSb = StringBuilder(getGeekFormat.toString())
