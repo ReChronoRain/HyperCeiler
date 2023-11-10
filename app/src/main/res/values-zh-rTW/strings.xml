@@ -630,6 +630,9 @@
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解鎖控制中心樣式</string>
     <string name="system_ui_controlcenter_enable_title">自訂行列數</string>
+    <string name="system_control_center_old_qs_rows_desc">豎向螢幕顯示 5 行時會隱藏標籤，橫向螢幕時則限制為 3 行</string>
+    <string name="system_control_center_old_qs_columns_desc">豎向螢幕時會額外增加一列\n如果您的 ROM 具有快速設置緊湊佈局選項，不管是橫向螢幕還是豎向螢幕都會增加其他列</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">橫向螢幕時將會額外增加一列</string>
     <string name="system_control_center_old_qs_grid_columns">折疊面板中的列數</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折疊面板中的列數（橫向）</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">藍牙磁貼樣式</string>
@@ -643,6 +646,7 @@
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
     <string name="system_ui_charge_animation_style_desc">選擇鎖定螢幕充電動畫樣式</string>
+    <string name="system_ui_origin_charge_animation">原生充電動畫</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_notification_freeform">更多應用程式通知攔下拉打開小窗</string>
     <string name="system_ui_notification_freeform_desc">可能不支援 Mi Push 推送的通知</string>
@@ -672,6 +676,8 @@
     <string name="system_settings_connection_sharing_title">連接與分享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
+    <string name="system_settings_accessibility_title">快速啟動手勢</string>
+    <string name="system_settings_area_screenshot">解鎖區域截圖</string>
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">網路通話助手</string>
     <string name="system_settings_ai_image_title">AI 大師畫質引擎</string>
@@ -951,6 +957,7 @@
     <string name="home_other_toast_slide_again">不再提示 「請再次觸摸」</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
     <string name="home_other_disable_hide_google">禁止隱藏 Google 圖示</string>
+    <string name="home_other_fix_android_r_s">修復相容性問題導致系統桌布黑畫面</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
     <string name="home_other_high_models">強制識別為高端機型</string>
     <string name="home_recent_blur_level">模糊等級</string>

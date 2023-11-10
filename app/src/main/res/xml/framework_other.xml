@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
@@ -49,6 +50,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_clean_share_menu"
@@ -75,11 +77,13 @@
 
 
     <PreferenceCategory>
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_other_flag_secure"
             android:summary="@string/system_other_flag_secure_desc"
             android:title="@string/system_other_flag_secure" />
+
 
         <SwitchPreference
             android:defaultValue="false"
@@ -93,5 +97,7 @@
             android:title="@string/system_other_delete_on_post_notification" />
 
     </PreferenceCategory>
+
     <Preference android:enabled="false" />
+
 </PreferenceScreen>

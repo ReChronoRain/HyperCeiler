@@ -1,5 +1,9 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
+import android.os.Build;
 import android.os.Message;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -11,26 +15,27 @@ public class NetworkSpeedSpacing extends BaseHook {
 
     @Override
     public void init() {
-        try {
-            findClass("com.android.systemui.statusbar.policy.NetworkSpeedController").getDeclaredMethod("postUpdateNetworkSpeedDelay", long.class);
-            findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController",
-                "postUpdateNetworkSpeedDelay", long.class, new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        long originInterval = (long) param.args[0];
-                        if (originInterval == 4000L) {
-                            originInterval = mPrefsMap.getInt(
-                                "system_ui_statusbar_network_speed_update_spacing",
-                                4
-                            ) * 1000L;
-                            param.args[0] = originInterval;
+        if (isMoreAndroidVersion(Build.VERSION_CODES.S)) {
+            try {
+                findClass("com.android.systemui.statusbar.policy.NetworkSpeedController").getDeclaredMethod("postUpdateNetworkSpeedDelay", long.class);
+                findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController",
+                    "postUpdateNetworkSpeedDelay", long.class, new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            long originInterval = (long) param.args[0];
+                            if (originInterval == 4000L) {
+                                originInterval = mPrefsMap.getInt(
+                                    "system_ui_statusbar_network_speed_update_spacing",
+                                    4
+                                ) * 1000L;
+                                param.args[0] = originInterval;
+                            }
                         }
                     }
-                }
-            );
-        } catch (NoSuchMethodException e) {
-            findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController$4",
-                "handleMessage", Message.class, new MethodHook() {
+                );
+            } catch (NoSuchMethodException e) {
+                findAndHookMethod("com.android.systemui.statusbar.policy.NetworkSpeedController$4",
+                    "handleMessage", Message.class, new MethodHook() {
                        /* @Override
                         protected void before(MethodHookParam param) {
                             Message message = (Message) param.args[0];
@@ -43,31 +48,61 @@ public class NetworkSpeedSpacing extends BaseHook {
                             }
                         }*/
 
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            Message message = (Message) param.args[0];
+                            Object handleMessage = XposedHelpers.getObjectField(param.thisObject, "this$0");
+                            Object mBgHandler = XposedHelpers.getObjectField(handleMessage, "mBgHandler");
+                            switch (message.what) {
+                               /* case 100001:
+                                    boolean z = (boolean) XposedHelpers.getObjectField(XposedHelpers.getObjectField(handleMessage,
+                                        "mNetworkSpeedState"), "visible");
+                                    logE(TAG, "100001: " + z + " :" + mBgHandler);
+                                    handleMessage(mBgHandler, z);
+                                case 100002:
+                                    boolean z2 = (boolean) XposedHelpers.getObjectField(XposedHelpers.getObjectField(handleMessage,
+                                        "mNetworkSpeedState"), "visible");
+                                    logE(TAG, "100002: " + z2 + " :" + mBgHandler);
+                                    handleMessage(mBgHandler, z2);*/
+                                case 200001 -> handleMessage(mBgHandler, true);
+                                // logE(TAG, "200001: " + mBgHandler);
+                            }
+                        }
+                    }
+                );
+
+                /*findAndHookMethod("android.os.Handler",
+                    "sendEmptyMessageDelayed", int.class, long.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (handler) {
+                                param.setResult(true);
+                                logE(TAG, "sendEmptyMessageDelayed im run");
+                                handler = false;
+                            }
+                        }
+                    }
+                );*/
+            }
+        }
+
+        if (isAndroidVersion(30)) {
+            findAndHookMethod("com.android.systemui.statusbar.NetworkSpeedController",
+                "postUpdateNetworkSpeedDelay", long.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) {
-                        Message message = (Message) param.args[0];
-                        Object handleMessage = XposedHelpers.getObjectField(param.thisObject, "this$0");
-                        Object mBgHandler = XposedHelpers.getObjectField(handleMessage, "mBgHandler");
-                        if (message.what == 200001) {
-                            handleMessage(mBgHandler, true);
-                            // logE(TAG, "200001: " + mBgHandler);
+                    protected void before(MethodHookParam param) {
+                        long originInterval = (long) param.args[0];
+                        if (originInterval != 0L) {
+                            originInterval = mPrefsMap.getInt(
+                                "system_ui_statusbar_network_speed_update_spacing",
+                                4
+                            ) * 1000L;
+                            param.args[0] = originInterval;
                         }
                     }
                 }
             );
-            /*findAndHookMethod("android.os.Handler",
-                 "sendEmptyMessageDelayed", int.class, long.class,
-                 new MethodHook() {
-                     @Override
-                     protected void before(MethodHookParam param) {
-                         if (handler) {
-                             param.setResult(true);
-                             logE(TAG, "sendEmptyMessageDelayed im run");
-                             handler = false;
-                         }
-                     }
-                 }
-             );*/
         }
     }
 

@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
@@ -11,6 +12,9 @@ import java.util.Random;
 import moralnorm.preference.Preference;
 
 public class MainFragment extends SettingsPreferenceFragment {
+
+    Preference mPowerSetting;
+    Preference mMTB;
     Preference mSecurityCenter;
     Preference mSecurityCenterPad;
     Preference mMiLink;
@@ -58,6 +62,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         int randomTip = r.nextInt(tips.length);
         // log("tip id is" + randomTip);
 
+        mPowerSetting = findPreference("prefs_key_powerkeeper");
+        mMTB = findPreference("prefs_key_mtb");
         mSecurityCenter = findPreference("prefs_key_security_center");
         mSecurityCenterPad = findPreference("prefs_key_security_center_pad");
         mMiLink = findPreference("prefs_key_milink");
@@ -69,6 +75,9 @@ public class MainFragment extends SettingsPreferenceFragment {
         mMirror = findPreference("prefs_key_mirror");
         mMirrorHyperOS = findPreference("prefs_key_mirror_hyperos");
         mTip = findPreference("prefs_key_tip");
+
+        mPowerSetting.setVisible(!isAndroidVersion(30));
+        mMTB.setVisible(!isAndroidVersion(30));
 
         mSecurityCenter.setVisible(!isPad());
         mSecurityCenterPad.setVisible(isPad());

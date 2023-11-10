@@ -630,6 +630,9 @@
     <string name="system_ui_controlcenter_old_title">Centro de controle antigo</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos do centro de controle</string>
     <string name="system_ui_controlcenter_enable_title">Personalize o número de linhas e colunas</string>
+    <string name="system_control_center_old_qs_rows_desc">Os nomes ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com nomes ocultos na orientação paisagem.</string>
+    <string name="system_control_center_old_qs_columns_desc">A orientação paisagem terá uma coluna adicional.\nSe sua ROM tiver uma opção compacta de layout das configurações rápidas, ela adicionará outra coluna em ambas as orientações.</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">A orientação paisagem terá uma coluna adicional</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do ícone Bluetooth</string>
@@ -643,6 +646,7 @@
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
+    <string name="system_ui_origin_charge_animation">Animação de carregamento nativo</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação para abrir uma Janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
@@ -672,6 +676,8 @@
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
+    <string name="system_settings_accessibility_title">Atalhos de gestos</string>
+    <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>
@@ -951,6 +957,7 @@
     <string name="home_other_toast_slide_again">Proibir avisos \"por favor, passe novamente\"</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_disable_hide_google">Desativar ocultar o Google</string>
+    <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
     <string name="home_other_high_models">Reconhecimento obrigatório como modelo high-end</string>
     <string name="home_recent_blur_level">Nível do blur</string>

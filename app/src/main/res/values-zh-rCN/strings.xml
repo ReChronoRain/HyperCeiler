@@ -678,6 +678,9 @@
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解锁控制中心样式</string>
     <string name="system_ui_controlcenter_enable_title">自定义行列数</string>
+    <string name="system_control_center_old_qs_rows_desc">竖屏显示 5 行时会隐藏标签，横屏时则限制为 3 行</string>
+    <string name="system_control_center_old_qs_columns_desc">竖屏时会额外增加一列\n如果您的 ROM 具有快速设置紧凑布局选项，不管是横屏还是竖屏都会增加其他列</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">横屏时将会额外增加一列</string>
     <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折叠面板中的列数（横屏）</string>
 
@@ -685,6 +688,7 @@
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
+    <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
@@ -715,6 +719,9 @@
     <string name="system_settings_connection_sharing_title">连接与共享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包\n</string>
+
+    <string name="system_settings_accessibility_title">快捷手势</string>
+    <string name="system_settings_area_screenshot">解锁区域截屏</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
@@ -1009,6 +1016,7 @@
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
     <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
     <string name="home_other_disable_hide_google">禁止隐藏 Google 图标</string>
+    <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
     <string name="home_other_high_models">强制识别为高端机型</string>
     <string name="home_other_mi_pad_enable_more_setting_title">解锁桌面设置更多选项</string>
