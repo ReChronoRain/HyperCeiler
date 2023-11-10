@@ -192,7 +192,7 @@
     <string name="various_install_app_info_sdk">支援 SDK</string>
     <string name="various_install_app_size">應用程式大小</string>
     <string name="charge_animation_entries_disable">停用</string>
-    <string name="charge_animation_entries_aura">光韻</string>
+    <string name="charge_animation_entries_aura">光韵</string>
     <string name="charge_animation_entries_stream">流光</string>
     <string name="charge_animation_entries_alpha">律動</string>
     <string name="status_bar_icon_mode_default">預設</string>
@@ -226,7 +226,7 @@
     <string name="control_center_sunshine_mode_two">強制最大亮度</string>
     <string name="no_blur">無模糊</string>
     <string name="miui_blur">系統模糊 (僅適用 HyperOS)</string>
-    <string name="android_blur">原生模糊</string>
+    <string name="android_blur">ASOP 模糊</string>
     <!--System Framework-->
     <string name="system_framework">系統框架</string>
     <string name="system_framework_volume_title">音量</string>
