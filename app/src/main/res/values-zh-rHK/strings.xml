@@ -192,7 +192,7 @@
     <string name="various_install_app_info_sdk">支援 SDK</string>
     <string name="various_install_app_size">應用程式大小</string>
     <string name="charge_animation_entries_disable">禁用</string>
-    <string name="charge_animation_entries_aura">光暈</string>
+    <string name="charge_animation_entries_aura">光韻</string>
     <string name="charge_animation_entries_stream">流光</string>
     <string name="charge_animation_entries_alpha">律動</string>
     <string name="status_bar_icon_mode_default">預設</string>
@@ -979,7 +979,7 @@
     <string name="various_disable_link_turbo_toast_more">請在快速重啟作用域內重啟 NetworkBoost</string>
     <!--nfc-->
     <string name="nfc">NFC 服務</string>
-    <string name="nfc_disable_sound">禁用聲音</string>
+    <string name="nfc_disable_sound">停用 NFC 提示音</string>
     <string name="nfc_allow_information_screen">允许關閉屏幕时识别</string>
     <!--App vault-->
     <string name="personal_assistant">智慧助理</string>

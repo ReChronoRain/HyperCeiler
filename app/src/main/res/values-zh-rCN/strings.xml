@@ -250,6 +250,10 @@
     <string name="control_center_sunshine_mode_default">关闭</string>
     <string name="control_center_sunshine_mode_one">系统默认模式</string>
     <string name="control_center_sunshine_mode_two">强制最高亮度</string>
+
+    <string name="no_blur">无模糊</string>
+    <string name="miui_blur">系统模糊</string>
+    <string name="android_blur">原生模糊</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -411,8 +415,6 @@
     <string name="mms">短信</string>
     <string name="mms_disable_ad">禁用推广</string>
     <string name="mms_disable_ad_desc">移除屏幕下方快捷按钮与短信内容下方推广</string>
-    <!--搜狗输入法-->
-    <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
     <!--电话服务-->
     <string name="phone">电话服务</string>
     <string name="phone_smart_dual_sim">解锁智能双卡切换</string>
@@ -1052,7 +1054,7 @@
     <string name="various_disable_link_turbo_toast_more">开关后请在快速重启作用域中重启 NetworkBoost</string>
     <!--nfc-->
     <string name="nfc">NFC 服务</string>
-    <string name="nfc_disable_sound">禁用声音</string>
+    <string name="nfc_disable_sound">禁用 NFC 提示音</string>
     <string name="nfc_allow_information_screen">允许息屏时识别</string>
     <!--智能助理-->
     <string name="personal_assistant">智能助理</string>
@@ -1216,6 +1218,7 @@
     <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
     <!--搜狗输入法-->
     <string name="sogou_xiaomi">搜狗输入法</string>
+    <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
     <!--小爱视觉-->
     <string name="scanner">小爱视觉</string>
     <string name="scanner_card">解锁扫名片</string>
@@ -1374,11 +1377,6 @@
 
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>
-
-    <string name="no_blur">无模糊</string>
-    <string name="miui_blur">系统模糊</string>
-    <string name="android_blur">原生模糊</string>
-
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
