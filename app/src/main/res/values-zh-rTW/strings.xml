@@ -6,7 +6,7 @@
     <string name="new_permission_location_desc">用於提供緯度和經度等服務</string>
     <string name="new_cta_agree_desc">在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以隨時到權限管理調整所有權限的授權狀態，並請到您的 Root/Su 管理員管理 Root/Su 權限。</string>
     <string name="new_cta_app_main_purpose">修改系統應用程式</string>
-    <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，這個應用程式執行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現 MIUI 的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理員管理 Root/Su 權限。</string>
+    <string name="new_cta_app_all_purpose_title">歡迎使用 HyperCeiler，這個應用程式執行在 Xposed 框架上，您可以使用這個應用程式來劫持和修改其他支援的應用程式，以實現系統的增強功能。在使用過程中，為了提供您更多功能，我們可能會向您申請 Root/Su 權限。您可以到您的 Root/Su 管理員管理 Root/Su 權限。</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">繁體中文 (台灣)</string>
     <string name="translator">聖小熊</string>
@@ -313,6 +313,7 @@
     <!--Browser-->
     <string name="browser">瀏覽器</string>
     <string name="browser_debug_mode">開發者選項</string>
+    <string name="browser_debug_mode_desc">17.5.xxxxx 及以上版本無入口</string>
     <!--Camera-->
     <string name="camera">相機</string>
     <string name="camera_features_unlock_aiwatermark">解鎖 AI 浮水印</string>
@@ -375,6 +376,8 @@
     <string name="incallui">電話</string>
     <string name="incallui_hide_crbt">隱藏電話答鈴</string>
     <string name="incallui_answer_in_head_up">從浮動通知接聽電話時不進入全螢幕</string>
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi_clipboard">解除剪貼簿數量限制</string>
     <!--Message-->
     <string name="mms">簡訊</string>
     <string name="mms_disable_ad">停用推廣</string>
@@ -485,6 +488,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分鐘</string>
     <string name="system_ui_status_bar_icon_airplane">飛行模式</string>
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
+    <string name="system_ui_status_bar_icon_volte">隱藏 VoLTE 圖示</string>
     <string name="system_ui_status_bar_icon_headset">耳機</string>
     <string name="system_ui_status_bar_icon_volume">音量</string>
     <string name="system_ui_status_bar_icon_data_saver">數據節省模式</string>
@@ -583,6 +587,8 @@
     <string name="system_ui_controlcenter_magnet_title">磁貼</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
+    <string name="quick_settings_state_change_message_on_my">%1$s已開啟</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s已關閉</string>
     <string name="system_control_center_5g_tile">5G 網路開關</string>
     <string name="system_control_center_5g_toggle_label">5G 網路</string>
     <string name="system_control_center_sunshine_mode">陽光模式</string>
@@ -630,6 +636,11 @@
     <string name="system_control_center_old_qs_grid_columns_horizontal">折疊面板中的列數（橫向）</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">藍牙磁貼樣式</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">調整藍牙磁貼位置至網路磁貼旁</string>
+    <string name="system_ui_control_center_notifrowmenu">擴展通知選單</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">從通知選單中打開應用程式信息、強制關閉應用程式和視窗打開</string>
+    <string name="system_notifrowmenu_appinfo">應用程式信息</string>
+    <string name="system_notifrowmenu_openinfw">浮動視窗</string>
+    <string name="system_notifrowmenu_forceclose">強制關閉</string>
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
@@ -696,6 +707,9 @@
     <string name="updater">系統更新</string>
     <string name="updater_fuck_vab">移除 OTA 驗證</string>
     <string name="updater_fuck_vab_desc">僅支援 VAB 裝置，其他非 VAB 裝置請不要開啟！\n功能特點：無需內測權限即可刷入完整內測卡刷包\n注意事項：\n- 跨不同版本類型刷入後建議清除數據\n- 不支援任何非官方 ROM 使用\n- 此功能有一定危險性，請在了解 Fastboot 操作後再評估是否開啟</string>
+    <string name="updater_version_mode">偽裝類型</string>
+    <string name="updater_big_version">偽裝大版本</string>
+    <string name="updater_big_version_desc">偽裝 Xiaomi HyperOS 版本時需要填寫的欄目，預設為 V816</string>
     <string name="updater_miui_version">偽裝版本</string>
     <string name="updater_android_version">偽裝 Android 版本</string>
     <string name="updater_miui_version_desc">僅對系統更新修改，可在一定程度上遮罩系統更新</string>
@@ -749,6 +763,8 @@
     <string name="home">系統桌面</string>
     <string name="home_gesture">手勢與導覽列</string>
     <string name="home_navigation_title">導航</string>
+    <string name="home_navigation_quick_back">切換至上一個應用程式</string>
+    <string name="home_navigation_quick_back_more">从熒幕兩側向熒幕內滑動以退回至上一個應用程式</string>
     <string name="home_navigation_back_area_height">返回手勢區域高度</string>
     <string name="home_navigation_back_area_width">返回手勢區域寬度</string>
     <string name="home_gesture_title2">手勢</string>
@@ -1141,6 +1157,8 @@
     <string name="mtb">魯班 (MTB)</string>
     <string name="mtb_auth">繞過魯班 (MTB) 鑒權</string>
     <string name="mtb_auth_desc">這是一個高危險性的功能，由此引發的後果全部由使用者本人承擔，請及時備份基帶。</string>
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi">搜狗輸入法</string>
     <!--Scanner-->
     <string name="scanner">小愛視覺</string>
     <string name="scanner_card">解鎖掃名片</string>
@@ -1270,6 +1288,12 @@
     <string name="hyperceiler_restart_quick">快速重啟作用域</string>
     <string name="location_add">增加</string>
     <string name="location_delete">刪除</string>
+    <string name="development">開發者選定</string>
+    <string name="development_ui">UI</string>
+    <string name="no_blur">無模糊</string>
+    <string name="miui_blur">系統模糊 (僅適用 HyperOS)</string>
+    <string name="android_blur">原生模糊</string>
+    <string name="home_dock_add_blur">自訂背景模糊</string>
     <!--Tip-->
     <string name="tip_0">小提示：這是一個提示 (tip) ！</string>
     <string name="tip_1">小提示：你可以在「關於-贊助」中贊助以支援我們。</string>
@@ -1292,5 +1316,4 @@
     <string name="tip_18">小提示：HyperCeiler 是最會噴電的的系統內建 (喂！)</string>
     <string name="tip_19">小提示：變灰功能沒有特別註釋，代表功能異常，目前不計劃開放。</string>
     <string name="tip_20">小提示：沒事兒，別找 Canary 追新，有問題也別急著更新。(扶額</string>
-    <string name="system_ui_status_bar_icon_volte">隱藏 VoLTE 圖示</string>
 </resources>
