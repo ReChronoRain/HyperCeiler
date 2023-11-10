@@ -6,14 +6,12 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.RenderEffect
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.VectorDrawable
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.ColorUtils
@@ -32,7 +30,6 @@ object BlurSecurity : BaseHook() {
     private var appVersionCode = 40000727
 
     // 反色 同时保持红蓝色变化不大
-    @RequiresApi(Build.VERSION_CODES.S)
     val invertColorRenderEffect = RenderEffect.createColorFilterEffect(
         ColorMatrixColorFilter(
             floatArrayOf(
@@ -76,7 +73,6 @@ object BlurSecurity : BaseHook() {
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             // 已有背景 避免重复添加
 
@@ -103,7 +99,6 @@ object BlurSecurity : BaseHook() {
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             val viewPaernt = view.parent as ViewGroup
                             val gameContentLayout = viewPaernt.parent as ViewGroup
@@ -174,7 +169,6 @@ object BlurSecurity : BaseHook() {
                 val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
                 mainContent.addOnAttachStateChangeListener(object :
                     View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             if (view.background != null) {
                                 if (HookUtils.isBlurDrawable(view.background)) return
@@ -206,7 +200,6 @@ object BlurSecurity : BaseHook() {
                     mainContent.addOnAttachStateChangeListener(
                         object :
                             View.OnAttachStateChangeListener {
-                            @RequiresApi(Build.VERSION_CODES.S)
                             override fun onViewAttachedToWindow(view: View) {
                                 if (view.background != null) {
                                     if (HookUtils.isBlurDrawable(view.background)) {
@@ -241,7 +234,6 @@ object BlurSecurity : BaseHook() {
                     mainContent.addOnAttachStateChangeListener(
                         object :
                             View.OnAttachStateChangeListener {
-                            @RequiresApi(Build.VERSION_CODES.S)
                             override fun onViewAttachedToWindow(view: View) {
                                 if (view.background != null) {
                                     if (HookUtils.isBlurDrawable(view.background)) {
@@ -342,7 +334,6 @@ object BlurSecurity : BaseHook() {
                             listViewAdapterInnerClass,
                             "a",
                             object : XC_MethodHook() {
-                                @RequiresApi(Build.VERSION_CODES.S)
                                 override fun afterHookedMethod(param: MethodHookParam) {
                                     val isSetupFunction =
                                         param.args[0].toString().contains("BaseModel")
@@ -431,7 +422,6 @@ object BlurSecurity : BaseHook() {
                 secondViewMethodName,
                 View::class.java,
                 object : XC_MethodHook() {
-                    @RequiresApi(Build.VERSION_CODES.S)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val view = param.args[0] as View
                         invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
@@ -444,7 +434,6 @@ object BlurSecurity : BaseHook() {
                 if (appVersionCode >= 40000749) "M" else "a",
                 Context::class.java,
                 object : XC_MethodHook() {
-                    @RequiresApi(Build.VERSION_CODES.S)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val view = HookUtils.getValueByField(param.thisObject, "d") as View
                         val parentView = view.parent
@@ -473,7 +462,6 @@ object BlurSecurity : BaseHook() {
     // 尽量给最外层加 RenderEffect 而不是 最内层
     // whiteList 不在名单内的子视图依旧反转
     // keepList 本身及子视图均不反转
-    @RequiresApi(Build.VERSION_CODES.S)
     fun invertViewColor(
         view: View,
         whiteList: Array<String> = invertColorWhiteList,

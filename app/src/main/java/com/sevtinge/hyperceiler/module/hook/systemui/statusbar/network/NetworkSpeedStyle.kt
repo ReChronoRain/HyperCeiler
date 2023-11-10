@@ -4,13 +4,7 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-
-import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedStyle : BaseHook() {
     private val doubleLine by lazy {
@@ -31,31 +25,6 @@ object NetworkSpeedStyle : BaseHook() {
     }
 
     override fun init() {
-        if (isAndroidVersion(30)) {
-            // Android 11 or MIUI12.5 Need to hook Statusbar in Screen Lock interface, to set front size
-            // Thanks for CustoMIUIzerMod
-            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder().first {
-                name == "onDensityOrFontScaleChanged"
-            }.createHook {
-               after { params ->
-                   val meter = XposedHelpers.getObjectField(params.thisObject, "mNetworkSpeedView") as TextView
-
-                   // 网速字体大小调整
-                   if (fontSizeEnable) {
-                       try {
-                           if (doubleLine || dualRow) {
-                               meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
-                           } else {
-                               meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
-                           }
-                       } catch (e: Exception) {
-                           logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
-                       }
-                   }
-               }
-            }
-        }
-
         hookAllConstructors("com.android.systemui.statusbar.views.NetworkSpeedView",
             object : MethodHook() {
                 override fun after(param: MethodHookParam) {

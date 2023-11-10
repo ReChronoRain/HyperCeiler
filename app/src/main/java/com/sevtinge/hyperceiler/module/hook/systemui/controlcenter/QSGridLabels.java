@@ -1,8 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
-import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,9 +31,7 @@ public class QSGridLabels extends BaseHook {
             }
         });
 
-        int rows = isMoreAndroidVersion(33)
-            ? mPrefsMap.getInt("system_control_center_old_qs_rows", 1)
-            : mPrefsMap.getInt("system_control_center_old_qs_row", 1);
+        int rows = mPrefsMap.getInt("system_control_center_old_qs_rows", 1);
         if (rows == 4) {
             findAndHookMethod("com.android.systemui.qs.tileimpl.MiuiQSTileView", lpparam.classLoader, "createLabel", new MethodHook() {
                 @Override
@@ -64,17 +59,9 @@ public class QSGridLabels extends BaseHook {
             }
 
             if (mLabelContainer != null) {
-                if (isMoreAndroidVersion(33)) {
-                    mLabelContainer.setVisibility(
-                        mPrefsMap.getBoolean("system_control_center_qs_tile_label") ? View.GONE : View.VISIBLE
-                    );
-                } else {
-                    mLabelContainer.setVisibility(
-                        mPrefsMap.getBoolean("system_control_center_qs_tile_label") ||
-                            orientation == Configuration.ORIENTATION_PORTRAIT && mRows >= 5 ||
-                            orientation == Configuration.ORIENTATION_LANDSCAPE && mRows >= 3 ? View.GONE : View.VISIBLE
-                    );
-                }
+                mLabelContainer.setVisibility(
+                    mPrefsMap.getBoolean("system_control_center_qs_tile_label") ? View.GONE : View.VISIBLE
+                );
             }
         }
     }

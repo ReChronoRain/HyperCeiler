@@ -12,14 +12,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.annotation.RequiresApi
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.*
-
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -27,7 +24,6 @@ import kotlin.math.sqrt
 
 
 object ShortcutBackgroundBlur : BaseHook() {
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
 
         // if (!mPrefsMap.getBoolean("home_shortcut_blur")) return

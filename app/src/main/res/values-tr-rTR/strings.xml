@@ -406,7 +406,6 @@
     <string name="system_ui_charge_animation_title">Şarj animasyonu</string>
     <string name="system_ui_charge_animation_style">Şarj animasyon stili</string>
     <string name="system_ui_charge_animation_style_desc">Şarj animasyon stili</string>
-    <string name="system_ui_origin_charge_animation">Yerel şarj animasyonu</string>
     <string name="system_ui_another_title">Diğer</string>
     <string name="system_ui_notification_freeform">Ücretsiz bir form açmak için daha fazla uygulamanın bildirim çubuğunu aşağı çekin</string>
     <string name="system_ui_notification_freeform_desc">Mi Push\'tan gelen bildirimler desteklenmeyebilir</string>
@@ -625,7 +624,6 @@
     <string name="home_other_app_icon_hide">Masaüstü kısayol yönetimi</string>
     <string name="home_other_shortcut_remove_restrictions">Kısayollardaki kısıtlamaları kaldırın</string>
     <string name="home_other_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
-    <string name="home_other_fix_android_r_s">Masaüstünün kararmasına neden olan bir uyumluluk sorununu düzeltin</string>
     <string name="home_other_shortcut_background_blur_custom">Kısayol menüsü bulanıklık değeri</string>
     <string name="home_recent_blur_level">Bulanıklık seviyesi</string>
     <string name="home_recent_complete_blur_plus">Tam Bulanıklık Artı</string>

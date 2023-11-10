@@ -628,9 +628,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
     <string name="system_ui_controlcenter_enable_title">Tùy chỉnh số lượng hàng và cột</string>
-    <string name="system_control_center_old_qs_rows_desc">Nhãn sẽ bị ẩn khi hiển thị 5 dòng ở chế độ dọc và giới hạn 3 dòng ở chế độ ngang.</string>
-    <string name="system_control_center_old_qs_columns_desc">Hướng ngang sẽ có thêm một cột\nNếu ROM của bạn có tùy chọn bố cục Phiên bản cũ, nó sẽ thêm một cột khác theo cả hai hướng</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Một cột bổ sung sẽ được thêm vào hướng ngang</string>
     <string name="system_control_center_old_qs_grid_columns">Hàng trong bảng thu gọn</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Số hàng trong bảng thu gọn (màn hình ngang)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Kiểu ô Bluetooth</string>
@@ -644,7 +641,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
-    <string name="system_ui_origin_charge_animation">Hiệu ứng sạc</string>
     <string name="system_ui_another_title">Khác</string>
     <string name="system_ui_notification_freeform">Kéo thanh thông báo của ứng dụng xuống để mở cửa sổ nổi</string>
     <string name="system_ui_notification_freeform_desc">Thông báo từ Mi Push có thể không được hỗ trợ</string>
@@ -674,8 +670,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
-    <string name="system_settings_accessibility_title">Lối tắt cử chỉ</string>
-    <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
     <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
     <string name="system_settings_ai_image_title">Công cụ hình ảnh AI</string>
@@ -958,7 +952,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_toast_slide_again">Không nhắc \"Vui lòng kéo lần nữa\"</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_disable_hide_google">Không ẩn biểu tượng Google</string>
-    <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
     <string name="home_other_high_models">Giả dạng thiết bị cao cấp</string>
     <string name="home_recent_blur_level">Làm mờ</string>

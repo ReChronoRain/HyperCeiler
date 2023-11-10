@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.AppsFreezerEnable;
@@ -13,7 +11,6 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.ViewWifiPasswordHook;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.VoipAssistantController;
@@ -38,15 +35,11 @@ public class SystemSettings extends BaseModule {
         initHook(new UnlockSuperResolution(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_sr"));
         initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));
         initHook(new UnlockMemc(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_memc"));
-        initHook(UnLockAreaScreenshot.INSTANCE, mPrefsMap.getBoolean("system_settings_area_screenshot"));
         initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
 
         initHook(new EnablePadArea(),mPrefsMap.getBoolean("system_settings_enable_pad_area"));
         initHook(new EnableFoldArea(),mPrefsMap.getBoolean("system_settings_enable_fold_area"));
-
-        if (!isAndroidVersion(30)) {
-            initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
-        }
+        initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
     }
 }
 

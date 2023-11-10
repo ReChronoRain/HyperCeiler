@@ -5,16 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.net.Uri
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 
 
 object OpenByDefaultSetting : BaseHook() {
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         val domainVerificationManager: DomainVerificationManager by lazy {
             appContext.getSystemService(

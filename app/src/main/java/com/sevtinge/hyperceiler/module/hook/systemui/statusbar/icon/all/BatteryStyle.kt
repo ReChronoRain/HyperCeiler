@@ -5,13 +5,10 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -21,43 +18,37 @@ object BatteryStyle : BaseHook() {
         mPrefsMap.getInt("system_ui_status_bar_battery_style_vertical_offset_mark", 27)
     }
 
-    private val mBatteryMeterViewClass = when {
-        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
-        else -> loadClass("com.android.systemui.MiuiBatteryMeterView")
-    }
+    private val mBatteryMeterViewClass = loadClassOrNull("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
 
     private lateinit var batteryView: LinearLayout
     private lateinit var mBatteryPercentView: TextView
     private lateinit var mBatteryPercentMarkView: TextView
 
     override fun init() {
-        if (isAndroidVersion(30)) {
-            mBatteryMeterViewClass.methodFinder().first {
-                name == "updateResources"
-            }
-        } else {
-            mBatteryMeterViewClass.methodFinder().first {
-                name == "updateAll"
-            }
-        }.createHook {
-            after { param ->
-                batteryView = param.thisObject as LinearLayout
-                mBatteryPercentView =
-                    XposedHelpers.getObjectField(param.thisObject, "mBatteryPercentView") as TextView
-                mBatteryPercentMarkView =
-                    XposedHelpers.getObjectField(param.thisObject, "mBatteryPercentMarkView") as TextView
+       mBatteryMeterViewClass!!.methodFinder().first {
+           name == "updateAll"
+       }.createHook {
+           after { param ->
+               batteryView = param.thisObject as LinearLayout
+               mBatteryPercentView =
+                   XposedHelpers.getObjectField(param.thisObject, "mBatteryPercentView") as TextView
+               mBatteryPercentMarkView =
+                   XposedHelpers.getObjectField(
+                       param.thisObject,
+                       "mBatteryPercentMarkView"
+                   ) as TextView
 
-                // 交换电池图标与电量位置（电量外显下才能正常交换）
-                if (mPrefsMap.getBoolean("system_ui_status_bar_battery_style_change_location")) {
-                    batteryView.removeView(mBatteryPercentView)
-                    batteryView.removeView(mBatteryPercentMarkView)
-                    batteryView.addView(mBatteryPercentMarkView, 0)
-                    batteryView.addView(mBatteryPercentView, 0)
-                }
-                // 自定义部分
-                enableCustom(param)
-            }
-        }
+               // 交换电池图标与电量位置（电量外显下才能正常交换）
+               if (mPrefsMap.getBoolean("system_ui_status_bar_battery_style_change_location")) {
+                   batteryView.removeView(mBatteryPercentView)
+                   batteryView.removeView(mBatteryPercentMarkView)
+                   batteryView.addView(mBatteryPercentMarkView, 0)
+                   batteryView.addView(mBatteryPercentView, 0)
+               }
+               // 自定义部分
+               enableCustom(param)
+           }
+       }
     }
 
     private fun enableCustom(param: XC_MethodHook.MethodHookParam) {
