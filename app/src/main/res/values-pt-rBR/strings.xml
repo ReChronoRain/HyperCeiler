@@ -226,7 +226,7 @@
     <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
     <string name="no_blur">Sem blur</string>
     <string name="miui_blur">Blur do HyperOS</string>
-    <string name="android_blur">Blur do Android</string>
+    <string name="android_blur">Blur AOSP</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -990,8 +990,8 @@
     <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida</string>
     <!--nfc-->
     <string name="nfc">Serviço NFC</string>
-    <string name="nfc_disable_sound">Desativar som</string>
-    <string name="nfc_allow_information_screen">Permitir reconhecível quando a tela de informações</string>
+    <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>
+    <string name="nfc_allow_information_screen">Permitir reconhecimento quando a tela estiver desligada</string>
     <!--App vault-->
     <string name="personal_assistant">Assistente</string>
     <string name="personal_assistant_fold_widget_enable">Peso Pad/Fold</string>
