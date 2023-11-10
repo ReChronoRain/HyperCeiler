@@ -1067,6 +1067,7 @@
     <string name="powerkeeper_do_not_kill_apps">尝试不要杀死后台应用</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能使耗电量增加</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">禁止恢复电池优化白名单</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">禁止获取显示控制码</string>
     <!--屏幕录制-->
     <string name="screenrecorder">屏幕录制</string>
     <string name="screen_recorder_force_support_playback_capture">强制启用原生屏幕录制支持</string>

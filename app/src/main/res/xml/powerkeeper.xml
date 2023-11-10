@@ -12,6 +12,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/powerkeeper_disable_get_display_ctrl_code"
+            android:key="prefs_key_powerkeeper_disable_get_display_ctrl_code"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/powerkeeper_do_not_kill_apps"
             android:summary="@string/powerkeeper_do_not_kill_apps_desc"
             android:key="prefs_key_powerkeeper_do_not_kill_apps"

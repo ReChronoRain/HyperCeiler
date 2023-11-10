@@ -40,6 +40,6 @@ object DockCustomNew : BaseHook() {
             mHotSeats.addView(mDockBlurParent, 0)
             mDockBlurParent.addView(mDockBlur, 0)
         }
-        
+
     }
 }
