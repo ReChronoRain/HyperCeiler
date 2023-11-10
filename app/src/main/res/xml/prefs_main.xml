@@ -4,7 +4,7 @@
     <PreferenceCategory>
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemFrameworkFragment"
-            android:icon="@drawable/ic_system_framework"
+            android:icon="@drawable/ic_android"
             android:key="prefs_key_system_framework"
             android:summary="android"
             android:title="@string/system_framework" />
@@ -92,6 +92,7 @@
             android:key="prefs_key_various_theme"
             android:summary="com.android.thememanager"
             android:title="@string/theme_manager" />
+
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.UpdaterFragment"
             android:icon="@drawable/ic_updater"
@@ -114,11 +115,25 @@
             android:title="@string/milink" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiLinkFragment"
+            android:icon="@drawable/ic_milink"
+            android:key="prefs_key_milink_hyperos"
+            android:summary="com.milink.service"
+            android:title="@string/milink_hyperos" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
             android:icon="@drawable/ic_aod"
             android:key="prefs_key_aod"
             android:summary="com.miui.aod"
             android:title="@string/aod" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
+            android:icon="@drawable/ic_aod"
+            android:key="prefs_key_aod_hyperos"
+            android:summary="com.miui.aod"
+            android:title="@string/aod_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment"
@@ -147,6 +162,13 @@
             android:key="prefs_key_guardprovider"
             android:summary="com.miui.guardprovider"
             android:title="@string/guard_provider" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.GuardProviderFragment"
+            android:icon="@drawable/ic_guard_provider_new"
+            android:key="prefs_key_guardprovider_hyperos"
+            android:summary="com.miui.guardprovider"
+            android:title="@string/guard_provider_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.HomeFragment"
@@ -247,6 +269,13 @@
             android:title="@string/weather" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SoGouFragment"
+            android:icon="@drawable/ic_sogou"
+            android:key="prefs_key_sogou"
+            android:summary="com.sohu.inputmethod.sogou.xiaomi"
+            android:title="@string/sogou_xiaomi" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.AiAsstFragment"
             android:icon="@drawable/ic_aiasst"
             android:key="prefs_key_aiasst"
@@ -282,6 +311,13 @@
             android:title="@string/mirror" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MirrorFragment"
+            android:icon="@drawable/ic_miui_plus"
+            android:key="prefs_key_mirror_hyperos"
+            android:summary="com.xiaomi.mirror"
+            android:title="@string/mirror_hyperos" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiSettingsFragment"
             android:icon="@drawable/ic_misettings"
             android:key="prefs_key_mi_settings"
@@ -308,13 +344,6 @@
             android:key="prefs_key_scanner"
             android:summary="com.xiaomi.scanner"
             android:title="@string/scanner" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SoGouFragment"
-            android:icon="@drawable/ic_sogou"
-            android:key="prefs_key_sogou"
-            android:summary="com.sohu.inputmethod.sogou(.xiaomi)"
-            android:title="@string/sogou_xiaomi" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:enabled="false"

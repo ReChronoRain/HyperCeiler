@@ -81,7 +81,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 13
 | Scanner                    | com.xiaomi.scanner                 |
 | Mi AI                      | com.miui.voiceassist               |
 | Music                      | com.miui.player                    |
-| MIUI+ Beta                 | com.xiaomi.mirror                  |
+| MIUI+                      | com.xiaomi.mirror                  |
 | NetworkBoost               | com.xiaomi.NetworkBoost            |
 | NFC Service                | com.android.nfc                    |
 

@@ -766,9 +766,11 @@
     <string name="lbe_clipboard_tip">读取了剪贴板</string>
     <!--投屏-->
     <string name="milink">投屏</string>
+    <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>
     <!--万象息屏-->
     <string name="aod">万象息屏</string>
+    <string name="aod_hyperos">息屏与锁屏编辑</string>
     <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>
     <!--传送门-->
     <string name="content_extension">传送门</string>
@@ -800,6 +802,7 @@
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
     <!--MIUI 安全组件-->
     <string name="guard_provider">MIUI 安全组件</string>
+    <string name="guard_provider_hyperos">系统安全组件</string>
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
     <!--系统桌面-->
     <string name="home">系统桌面</string>
@@ -1199,6 +1202,7 @@
     <string name="market_disable_new_icon_desc">使桌面更加整洁</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
+    <string name="mirror_hyperos">跨屏协同服务</string>
     <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
@@ -1210,7 +1214,7 @@
     <string name="mtb_auth">绕过鲁班 (MTB) 鉴权</string>
     <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
     <!--搜狗输入法-->
-    <string name="sogou_xiaomi">搜狗输入法</string>
+    <string name="sogou_xiaomi">搜狗输入法小米版</string>
     <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
     <!--小爱视觉-->
     <string name="scanner">小爱视觉</string>

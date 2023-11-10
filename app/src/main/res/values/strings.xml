@@ -783,6 +783,7 @@
     <string name="gallery_enable_magic_sky">Unlock Sky</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI security components</string>
+    <string name="guard_provider_hyperos">System Security Components</string>
     <string name="guard_provider_disable_upload_applist">Prevent automatic upload of installed app list</string>
     <!--System launcher-->
     <string name="home">System launcher</string>
@@ -1321,6 +1322,9 @@
     <string name="development">Developer Options</string>
     <string name="development_ui">UI</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable to Get Display Control Code</string>
+    <string name="milink_hyperos">Interconnectivity Services</string>
+    <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
+    <string name="mirror_hyperos">Device Interconnectivity Services</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
