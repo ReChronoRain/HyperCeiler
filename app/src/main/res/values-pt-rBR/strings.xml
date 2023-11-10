@@ -377,7 +377,7 @@
     <string name="incallui_hide_crbt">Ocultar tom de toque colorido personalizado</string>
     <string name="incallui_answer_in_head_up">Responda de cabeça erguida</string>
     <!--Sogou input method-->
-    <string name="sogou_xiaomi_clipboard">Remover limite de 150 da área de transferência</string>
+    <string name="sogou_xiaomi_clipboard">Remover limite do número de áreas de transferência</string>
     <!--Message-->
     <string name="mms">Mensagens</string>
     <string name="mms_disable_ad">Desativar anúncios</string>
