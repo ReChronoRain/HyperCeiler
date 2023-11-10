@@ -224,6 +224,9 @@
     <string name="control_center_sunshine_mode_default">關閉</string>
     <string name="control_center_sunshine_mode_one">系統預設模式</string>
     <string name="control_center_sunshine_mode_two">強制最大亮度</string>
+    <string name="no_blur">無模糊</string>
+    <string name="miui_blur">系統模糊 (僅適用 HyperOS)</string>
+    <string name="android_blur">原生模糊</string>
     <!--System Framework-->
     <string name="system_framework">系統框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -376,8 +379,6 @@
     <string name="incallui">電話</string>
     <string name="incallui_hide_crbt">隱藏電話答鈴</string>
     <string name="incallui_answer_in_head_up">從浮動通知接聽電話時不進入全螢幕</string>
-    <!--Sogou input method-->
-    <string name="sogou_xiaomi_clipboard">解除剪貼簿數量限制</string>
     <!--Message-->
     <string name="mms">簡訊</string>
     <string name="mms_disable_ad">停用推廣</string>
@@ -931,6 +932,7 @@
     <string name="home_dock_hide_seekpoint">移除頁面指示器</string>
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_dock_disable_recents_icon">在 Dock 欄中隱藏最近應用圖示</string>
+    <string name="home_dock_add_blur">背景模糊自訂</string>
     <string name="home_other">其他</string>
     <string name="home_other_shortcut_title">快捷選單</string>
     <string name="home_other_home_mode">桌面模式</string>
@@ -1159,6 +1161,7 @@
     <string name="mtb_auth_desc">這是一個高危險性的功能，由此引發的後果全部由使用者本人承擔，請及時備份基帶。</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">搜狗輸入法</string>
+    <string name="sogou_xiaomi_clipboard">解除剪貼簿數量限制</string>
     <!--Scanner-->
     <string name="scanner">小愛視覺</string>
     <string name="scanner_card">解鎖掃名片</string>
@@ -1290,10 +1293,6 @@
     <string name="location_delete">刪除</string>
     <string name="development">開發者選定</string>
     <string name="development_ui">UI</string>
-    <string name="no_blur">無模糊</string>
-    <string name="miui_blur">系統模糊 (僅適用 HyperOS)</string>
-    <string name="android_blur">原生模糊</string>
-    <string name="home_dock_add_blur">自訂背景模糊</string>
     <!--Tip-->
     <string name="tip_0">小提示：這是一個提示 (tip) ！</string>
     <string name="tip_1">小提示：你可以在「關於-贊助」中贊助以支援我們。</string>
