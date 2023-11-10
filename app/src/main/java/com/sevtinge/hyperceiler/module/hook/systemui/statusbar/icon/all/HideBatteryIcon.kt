@@ -4,26 +4,23 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 
 object HideBatteryIcon : BaseHook() {
     override fun init() {
-        val mBatteryMeterViewClass = when {
-            isMoreAndroidVersion(31) -> loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
-            else -> loadClass("com.android.systemui.MiuiBatteryMeterView")
-        }
+        val mBatteryMeterViewClass = loadClassOrNull("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
+
         try {
-            mBatteryMeterViewClass.methodFinder().first {
+            mBatteryMeterViewClass!!.methodFinder().first {
                 name == "updateResources"
             }
         } catch(t: Throwable) {
-            mBatteryMeterViewClass.methodFinder().first {
+            mBatteryMeterViewClass!!.methodFinder().first {
                 name == "updateAll"
             }
         }.createHook {
@@ -54,7 +51,7 @@ object HideBatteryIcon : BaseHook() {
             }
         }
 
-        mBatteryMeterViewClass.methodFinder().first {
+        mBatteryMeterViewClass!!.methodFinder().first {
             name == "updateChargeAndText"
         }.createHook {
             after { param ->

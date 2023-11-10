@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.Manifest;
 import android.provider.Settings;
@@ -22,9 +21,6 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
     Preference mNewboxBackgroundCustom;
-    SwitchPreference mOpenByDefaultSetting;
-    SwitchPreference mSecurityBackground;
-    SwitchPreference mSecurityColor;
 
     @Override
     public int getContentResId() {
@@ -46,9 +42,6 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
-        mOpenByDefaultSetting = findPreference("prefs_key_security_center_app_default_setting");
-        mSecurityColor = findPreference("prefs_key_security_center_sidebar_line_color");
-        mSecurityBackground = findPreference("prefs_key_se_enable");
 
         mNewboxBackgroundCustom = findPreference("prefs_key_security_center_newbox_bg_custom");
 
@@ -64,10 +57,6 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             mBlurLocation.setChecked(mBlurLocationEnable);
             mAiClipboard.setChecked(mAiClipboardEnable);
         }
-
-        mSecurityColor.setVisible(!isAndroidVersion(30)); // 侧滑栏提示线自定义
-        mSecurityBackground.setVisible(!isAndroidVersion(30)); // 侧滑栏背景自定义
-        mOpenByDefaultSetting.setVisible(!isAndroidVersion(30)); // 应用打开链接管理
 
         boolean mBlurLocationEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_blur_location_enable", 0) == 1;
         boolean mAiClipboardEnable = Settings.Secure.getInt(getContext().getContentResolver(), "mi_lab_ai_clipboard_enable", 0) == 1;

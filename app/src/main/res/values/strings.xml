@@ -253,6 +253,9 @@
     <string name="control_center_sunshine_mode_default">Close</string>
     <string name="control_center_sunshine_mode_one">System default mode</string>
     <string name="control_center_sunshine_mode_two">Force maximum brightness</string>
+    <string name="no_blur">No blur</string>
+    <string name="miui_blur">HyperOS blur</string>
+    <string name="android_blur">ASOP blur</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -405,8 +408,6 @@
     <string name="incallui">Phone</string>
     <string name="incallui_hide_crbt">Hide personalized colorful ring back tone</string>
     <string name="incallui_answer_in_head_up">Answer in head up</string>
-    <!--Sogou input method-->
-    <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
     <!--Message-->
     <string name="mms">Message</string>
     <string name="mms_disable_ad">Disable ads</string>
@@ -658,9 +659,6 @@
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>
     <string name="system_ui_controlcenter_enable_title">Customize the number of rows and columns</string>
-    <string name="system_control_center_old_qs_rows_desc">Labels will be hidden for 5 rows in a portrait orientation. Number of rows is limited to 3 with hidden labels in a landscape orientation.</string>
-    <string name="system_control_center_old_qs_columns_desc">Landscape orientation will have one additional column\nIf your ROM has a compact Quick Settings layout option, it will add another column in both orientations</string>
-    <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
     <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Number of columns in collapsed panel (Landscape)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth tile style</string>
@@ -675,7 +673,6 @@
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_charge_animation_style">Charging animation style</string>
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
-    <string name="system_ui_origin_charge_animation">Native charging animation</string>
     <string name="system_ui_another_title">Other</string>
     <string name="system_ui_notification_freeform">Pull down the notification bar of more apps to open a freeform</string>
     <string name="system_ui_notification_freeform_desc">Notifications from Mi Push may not be supported</string>
@@ -705,8 +702,6 @@
     <string name="system_settings_connection_sharing_title">Connetion &amp; sharing</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
-    <string name="system_settings_accessibility_title">Gesture shortcuts</string>
-    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
     <string name="system_settings_ai_image_title">Ai Image Engine</string>
@@ -964,6 +959,7 @@
     <string name="home_dock_hide_seekpoint">Hide seekpoint</string>
     <string name="home_dock_icon_title">Show icon title in dock</string>
     <string name="home_dock_disable_recents_icon">Hide recent app icons from the Dock</string>
+    <string name="home_dock_add_blur">Custom background blur</string>
 
     <string name="home_other">Other</string>
     <string name="home_other_shortcut_title">Shortcut</string>
@@ -989,7 +985,6 @@
     <string name="home_other_toast_slide_again">Prohibit prompts \"please stroke again\" Toast</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_disable_hide_google">Disable hide Google</string>
-    <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
     <string name="home_other_high_models">Mandatory recognition as a high-end model</string>
     <string name="home_recent_blur_level">Blur level</string>
@@ -1029,8 +1024,8 @@
     <string name="various_disable_link_turbo_toast_more">Please restart NetworkBoost in the fast restart scope</string>
     <!--nfc-->
     <string name="nfc">NFC Service</string>
-    <string name="nfc_disable_sound">Disable sound</string>
-    <string name="nfc_allow_information_screen">Allow recognizable when information screen</string>
+    <string name="nfc_disable_sound">Disable NFC notification sound</string>
+    <string name="nfc_allow_information_screen">Allow recognition when screen is off</string>
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold weight</string>
@@ -1193,6 +1188,7 @@
     <string name="mtb_auth_desc">This is a high-risk feature, any problems arising from this will be borne by the user, please be careful to back up your baseband. Enter *#*#MODEMTEST#*#* on the dial interface to open the MTB Settings</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
+    <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
     <!--Scanner-->
     <string name="scanner">Scanner</string>
     <string name="scanner_card">Unlock scan ID card</string>
@@ -1324,10 +1320,6 @@
     <string name="location_delete">Delete</string>
     <string name="development">Developer Options</string>
     <string name="development_ui">UI</string>
-    <string name="no_blur">No blur</string>
-    <string name="miui_blur">HyperOS blur</string>
-    <string name="android_blur">Android blur</string>
-    <string name="home_dock_add_blur">Custom background blur</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

@@ -4,19 +4,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import androidx.annotation.RequiresApi;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
-@RequiresApi(Build.VERSION_CODES.S)
 public class BlurFrameLayout {
 
     int mBgColor;

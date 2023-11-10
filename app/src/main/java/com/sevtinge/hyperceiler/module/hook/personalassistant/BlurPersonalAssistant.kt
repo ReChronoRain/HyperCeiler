@@ -1,9 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.personalassistant
 
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.view.Window
-import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
@@ -19,7 +17,6 @@ object BlurPersonalAssistant : BaseHook() {
         mPrefsMap.getInt("personal_assistant_color", -1)
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         // val appVersionName = Helpers.getPackageVersionName(lpparam)
         var lastBlurRadius = -1
@@ -31,7 +28,6 @@ object BlurPersonalAssistant : BaseHook() {
                 logI("mScrollStateManager method is $mScrollStateManagerMethod")
                 XposedBridge.hookMethod(mScrollStateManagerMethod,
                     object : XC_MethodHook() {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun afterHookedMethod(param: MethodHookParam) {
                             val scrollX = param.args[0] as Float
                             val window: Any?
@@ -96,7 +92,6 @@ object BlurPersonalAssistant : BaseHook() {
             "a",
             Float::class.java,
             object : XC_MethodHook() {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val scrollX = param.args[0] as Float
                     val window = HookUtils.getValueByField(param.thisObject, "b") ?: return

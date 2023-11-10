@@ -4,17 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
-import android.os.Build
 import android.view.View
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import com.android.internal.graphics.drawable.BackgroundBlurDrawable
 import com.sevtinge.hyperceiler.module.base.BaseHook.mPrefsMap
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.zhenxiang.blur.model.CornersRadius
 import java.util.function.Consumer
 
-@RequiresApi(Build.VERSION_CODES.S)
 class SystemBlurController(
     private val view: View,
     backgroundColour: Int = if (mPrefsMap.getInt("blur_view_color", -1) != -1) mPrefsMap.getInt("blur_view_color", -1)

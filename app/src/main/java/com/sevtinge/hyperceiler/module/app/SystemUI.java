@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
@@ -28,11 +27,9 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationW
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherOld;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGrid;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGridOld;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSControlDetailBackgroundAlpha;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGridLabels;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGridOld;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
@@ -89,6 +86,8 @@ public class SystemUI extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new PluginHelper());
+
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
@@ -201,13 +200,7 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
             mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
-        if (isMoreAndroidVersion(33)) {
-            initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
-            initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
-        } else {
-            initHook(new QSGridOld(), mPrefsMap.getBoolean("system_control_center_old_enable_1"));
-            initHook(new QQSGridOld(), mPrefsMap.getBoolean("system_control_center_old_enable_1"));
-        }
+        initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));initHook(new QQSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
         initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
@@ -232,14 +225,10 @@ public class SystemUI extends BaseModule {
         initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
 
-        if (!isAndroidVersion(30)) {
-            initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
-            initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
-            initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
-        }
+        initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
+        initHook(AddBlurEffectToNotificationView.INSTANCE, mPrefsMap.getBoolean("n_enable"));
+        initHook(BlurButton.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
 
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
-
-        initHook(new PluginHelper());
     }
 }

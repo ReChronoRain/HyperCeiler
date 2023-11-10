@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
@@ -27,7 +25,7 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
         mDisableIntegrity = findPreference("prefs_key_system_framework_core_patch_disable_integrity");
         mNetwork = findPreference("prefs_key_system_framework_network");
 
-        mDisableIntegrity.setVisible(isMoreAndroidVersion(33) && !mCreak);
+        mDisableIntegrity.setVisible(!mCreak);
         mNetwork.setVisible(TelephonyManager.getDefault().isFiveGCapable());
 
         mDisableCreak.setOnPreferenceChangeListener((preference, o) -> {
@@ -35,7 +33,7 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
                 mDisableIntegrity.setChecked(false);
                 mDisableIntegrity.setVisible(false);
             } else {
-                mDisableIntegrity.setVisible(isMoreAndroidVersion(33));
+                mDisableIntegrity.setVisible(true);
             }
             return true;
         });

@@ -34,7 +34,6 @@ public class NotificationIconColumns extends BaseHook {
             } else {
                 mAndroidS(maxIconsNum, maxDotsNum);
             }
-            // mAndroidU(maxIconsNum, maxDotsNum);
         }
     }
 

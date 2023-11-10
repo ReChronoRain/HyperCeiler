@@ -8,16 +8,13 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat.animate
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.HookUtils
 import com.sevtinge.hyperceiler.utils.getObjectField
-
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -61,7 +58,6 @@ object BlurWhenShowShortcutMenu : BaseHook() {
             shortcutMenuLayerClass,
             "showShortcutMenu",
             object : XC_MethodHook() {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val dragObject = param.args[0]
                     val dragViewInfo = XposedHelpers.callMethod(dragObject, "getDragInfo")
@@ -175,7 +171,6 @@ object BlurWhenShowShortcutMenu : BaseHook() {
             shortcutMenuLayerClass,
             "hideShortcutMenu",
             object : XC_MethodHook() {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     if (isShortcutMenuLayerBlurred) {
                         val editStateChangeReason = param.args[0]

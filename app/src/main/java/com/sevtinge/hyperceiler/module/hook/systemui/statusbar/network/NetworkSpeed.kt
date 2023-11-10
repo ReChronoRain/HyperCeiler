@@ -10,8 +10,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
 import kotlin.math.pow
@@ -106,13 +104,8 @@ object NetworkSpeed : BaseHook() {
 
     override fun init() {
         // 双排网速相关
-        val networkClass = when {
-            getAndroidVersion() == 30 -> "com.android.systemui.statusbar.NetworkSpeedController"
-            else -> "com.android.systemui.statusbar.policy.NetworkSpeedController"
-        }
-
         val nscCls by lazy {
-            findClassIfExists(networkClass, lpparam.classLoader)
+            findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
         }
 
         if (nscCls == null) {
