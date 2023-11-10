@@ -224,6 +224,9 @@
     <string name="control_center_sunshine_mode_default">オフ</string>
     <string name="control_center_sunshine_mode_one">システムのデフォルトモード</string>
     <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
+    <string name="no_blur">ぼかしなし</string>
+    <string name="miui_blur">HyperOS のぼかし</string>
+    <string name="android_blur">Android のぼかし</string>
     <!--System Framework-->
     <string name="system_framework">システムフレームワーク</string>
     <string name="system_framework_volume_title">音量</string>
@@ -376,8 +379,6 @@
     <string name="incallui">電話</string>
     <string name="incallui_hide_crbt">パーソナライズされたカラーバックトーンを非表示</string>
     <string name="incallui_answer_in_head_up">ヘッドアップ通知で応答</string>
-    <!--Sogou input method-->
-    <string name="sogou_xiaomi_clipboard">クリップボードの150個上限を削除</string>
     <!--Message-->
     <string name="mms">メッセージ</string>
     <string name="mms_disable_ad">広告を無効化</string>
@@ -931,6 +932,7 @@
     <string name="home_dock_hide_seekpoint">シークポイントを非表示</string>
     <string name="home_dock_icon_title">ドックにアイコンのタイトルを表示</string>
     <string name="home_dock_disable_recents_icon">最近使ったアプリのアイコンをドックに表示しない</string>
+    <string name="home_dock_add_blur">カスタム背景ぼかし</string>
     <string name="home_other">その他</string>
     <string name="home_other_shortcut_title">ショートカット</string>
     <string name="home_other_home_mode">デスクトップモード</string>
@@ -1159,6 +1161,7 @@
     <string name="mtb_auth_desc">これはリスクの高い機能であり、これによって発生する問題は自己責任となります。ベースバンドを必ずバックアップしてください。電話アプリで *#*#MODEMTEST#*#* と入力して MTB 設定を開けるようにします</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou 入力方法</string>
+    <string name="sogou_xiaomi_clipboard">クリップボードの150個上限を削除</string>
     <!--Scanner-->
     <string name="scanner">スキャナー</string>
     <string name="scanner_card">ID カードのスキャンをアンロック</string>
@@ -1290,10 +1293,6 @@
     <string name="location_delete">削除</string>
     <string name="development">開発者向けオプション</string>
     <string name="development_ui">UI</string>
-    <string name="no_blur">ぼかしなし</string>
-    <string name="miui_blur">HyperOS のぼかし</string>
-    <string name="android_blur">Android のぼかし</string>
-    <string name="home_dock_add_blur">カスタム背景ぼかし</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
