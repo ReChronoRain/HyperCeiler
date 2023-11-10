@@ -17,90 +17,29 @@ import com.sevtinge.hyperceiler.utils.findClass
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
 import com.sevtinge.hyperceiler.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.utils.blur.BlurView
+import com.sevtinge.hyperceiler.utils.getObjectField
 import de.robv.android.xposed.XposedHelpers
 
 object DockCustomNew : BaseHook() {
     override fun init() {
 
-        var isShowEditPanel = false
         val launcherClass = "com.miui.home.launcher.Launcher".findClass()
-        val folderInfo = "com.miui.home.launcher.FolderInfo".findClass()
 
-        Application::class.java.hookBeforeMethod("attach", Context::class.java) { hookParam ->
-            EzXHelper.initAppContext(hookParam.args[0] as Context)
-
+        launcherClass.hookAfterMethod("setupViews") {
+            val mHotSeats = it.thisObject.getObjectField("mHotSeats") as FrameLayout
+            val mDockBlurParent = FrameLayout(appContext)
+            val mDockBlur = BlurView(appContext, mPrefsMap.getInt("home_dock_bg_radius", 30))
             val mDockHeight = dp2px(appContext, mPrefsMap.getInt("home_dock_bg_height", 80).toFloat())
-            val mDockMargin = dp2px(appContext, mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30).toFloat())
-            val mDockBottomMargin = dp2px(appContext, mPrefsMap.getInt("home_dock_bg_margin_bottom", 30).toFloat())
-
-            // DockBlur WIP
-            "com.miui.home.launcher.Launcher".findClass().declaredConstructors.createHooks {
-                after {
-                    var mDockBlurParent = XposedHelpers.getAdditionalInstanceField(it.thisObject, "mDockBlurParent")
-                    var mDockBlur = XposedHelpers.getAdditionalInstanceField(it.thisObject, "mDockBlur")
-                    if (mDockBlurParent != null && mDockBlur != null) return@after
-                    mDockBlurParent = FrameLayout(appContext)
-                    mDockBlur = BlurView(appContext, mPrefsMap.getInt("home_dock_bg_radius", 30))
-                    XposedHelpers.setAdditionalInstanceField(it.thisObject, "mDockBlur", mDockBlur)
-                    XposedHelpers.setAdditionalInstanceField(it.thisObject, "mDockBlurParent", mDockBlurParent)
-                }
-                launcherClass.hookAfterMethod("onCreate", Bundle::class.java) {
-                    val mSearchBarContainer = it.thisObject.callMethod("getSearchBarContainer") as FrameLayout
-                    val mSearchEdgeLayout = mSearchBarContainer.parent as FrameLayout
-                    val mDockBlurParent = XposedHelpers.getAdditionalInstanceField(it.thisObject, "mDockBlurParent") as FrameLayout
-                    val mDockBlur = XposedHelpers.getAdditionalInstanceField(it.thisObject, "mDockBlur") as BlurView
-                    val lp = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mDockHeight)
-                    lp.gravity = Gravity.BOTTOM
-                    lp.setMargins(mDockMargin, 0, mDockMargin, mDockBottomMargin)
-                    mDockBlurParent.layoutParams = lp
-                    mDockBlur.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-                    mSearchEdgeLayout.addView(mDockBlurParent, 0)
-                    mDockBlurParent.addView(mDockBlur, 0)
-                    launcherClass.hookAfterMethod("showEditPanel", Boolean::class.java) { hookParam ->
-                        isShowEditPanel = hookParam.args[0] as Boolean
-                        if (isShowEditPanel) {
-                            val valueAnimator = ValueAnimator.ofFloat(mDockBlurParent.alpha, 0f)
-                            valueAnimator.addUpdateListener { animator ->
-                                val value = animator.animatedValue as Float
-                                mDockBlurParent.alpha = value
-                            }
-                            valueAnimator.duration = 150
-                            valueAnimator.start()
-                        } else {
-                            val valueAnimator = ValueAnimator.ofFloat(mDockBlurParent.alpha, 1f)
-                            valueAnimator.addUpdateListener { animator ->
-                                val value = animator.animatedValue as Float
-                                mDockBlurParent.alpha = value
-                            }
-                            valueAnimator.duration = 150
-                            valueAnimator.start()
-                        }
-                    }
-                    launcherClass.hookAfterMethod("openFolder", folderInfo, View::class.java) {
-                        if (!isShowEditPanel) {
-                            val valueAnimator = ValueAnimator.ofFloat(mDockBlurParent.alpha, 0f)
-                            valueAnimator.addUpdateListener { animator ->
-                                val value = animator.animatedValue as Float
-                                mDockBlurParent.alpha = value
-                            }
-                            valueAnimator.duration = 150
-                            valueAnimator.start()
-                        }
-                    }
-                    launcherClass.hookAfterMethod("closeFolder", Boolean::class.java) {
-                        if (!isShowEditPanel) {
-                            val valueAnimator = ValueAnimator.ofFloat(mDockBlurParent.alpha, 1f)
-                            valueAnimator.addUpdateListener { animator ->
-                                val value = animator.animatedValue as Float
-                                mDockBlurParent.alpha = value
-                            }
-                            valueAnimator.duration = 150
-                            valueAnimator.start()
-                        }
-                    }
-                }
+            val mDockMargin = dp2px(appContext, (mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30) - 6).toFloat())
+            val mDockBottomMargin = dp2px(appContext, (mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92).toFloat())
+            mDockBlurParent.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mDockHeight).also { layoutParams ->
+                layoutParams.gravity = Gravity.BOTTOM
+                layoutParams.setMargins(mDockMargin, 0, mDockMargin, mDockBottomMargin)
             }
+            mDockBlur.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+            mHotSeats.addView(mDockBlurParent, 0)
+            mDockBlurParent.addView(mDockBlur, 0)
         }
-
+        
     }
 }
