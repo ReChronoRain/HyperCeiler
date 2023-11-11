@@ -5,7 +5,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
-import com.sevtinge.hyperceiler.module.hook.systemframework.AppDisableService;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
@@ -13,6 +12,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotifica
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
@@ -120,10 +120,10 @@ public class SystemFramework extends BaseModule {
         // Other
         initHook(new PackagePermissions());
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
-        initHook(new AppDisableService());
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
+        initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
     }
 
 }
