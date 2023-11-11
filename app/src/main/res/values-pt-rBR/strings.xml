@@ -646,7 +646,7 @@
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
-    <string name="system_ui_origin_charge_animation">Animação de carregamento nativo</string>
+    <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação para abrir uma Janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
@@ -759,6 +759,7 @@
     <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de segurança da MIUI</string>
+    <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
     <string name="home">Launcher do sistema</string>
@@ -1293,6 +1294,10 @@
     <string name="location_delete">Excluir</string>
     <string name="development">Opções do desenvolvedor</string>
     <string name="development_ui">UI</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">Desative para obter código de controle de exibição</string>
+    <string name="milink_hyperos">Serviços de interconectividade</string>
+    <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
+    <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
