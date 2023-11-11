@@ -103,6 +103,21 @@ public class HookUtils extends XposedLogUtils {
         }
     }
 
+    /*用于替换方法*/
+    public abstract static class replaceHookedMethod extends MethodHook {
+        protected abstract Object replace(MethodHookParam param) throws Throwable;
+
+        @Override
+        protected void before(MethodHookParam param) throws Throwable {
+            try {
+                Object result = replace(param);
+                param.setResult(result);
+            } catch (Throwable t) {
+                param.setThrowable(t);
+            }
+        }
+    }
+
     public void hookMethod(Method method, MethodHook callback) {
         try {
             XposedBridge.hookMethod(method, callback);
