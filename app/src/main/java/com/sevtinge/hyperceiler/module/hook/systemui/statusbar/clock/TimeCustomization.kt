@@ -6,13 +6,14 @@ import android.os.Handler
 import android.provider.Settings
 import android.util.TypedValue
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.callMethod
+import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import java.lang.reflect.Method
@@ -41,7 +42,10 @@ object TimeCustomization : BaseHook() {
     private val getGeekClockSize = mPrefsMap.getInt("system_ui_statusbar_clock_size_geek", 0)
     private val getGeekFormat = mPrefsMap.getString("system_ui_statusbar_clock_editor", "HH:mm:ss")
 
-    private val mClockClass = loadClassOrNull("com.android.systemui.statusbar.views.MiuiClock")
+    private val mClockClass = when {
+        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
+        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    }
 
     private lateinit var nowTime: Date
     private var str = ""
@@ -52,7 +56,7 @@ object TimeCustomization : BaseHook() {
             // 预设模式
             1 -> {
                 var c: Context? = null
-                mClockClass!!.constructorFinder().first {
+                mClockClass.constructorFinder().first {
                     paramCount == 3
                 }.createHook {
                     after {
@@ -94,7 +98,7 @@ object TimeCustomization : BaseHook() {
                     }
                 }
 
-                mClockClass!!.methodFinder().first {
+                mClockClass.methodFinder().first {
                     name == "updateTime"
                 }.createHook {
                     after {
@@ -117,7 +121,7 @@ object TimeCustomization : BaseHook() {
             2 -> {
                 var c: Context? = null
 
-                mClockClass!!.constructorFinder().first {
+                mClockClass.constructorFinder().first {
                     paramCount == 3
                 }.createHook {
                     after {
@@ -151,7 +155,7 @@ object TimeCustomization : BaseHook() {
                     }
                 }
 
-                mClockClass!!.methodFinder().first {
+                mClockClass.methodFinder().first {
                     name == "updateTime"
                 }.createHook {
                     before {

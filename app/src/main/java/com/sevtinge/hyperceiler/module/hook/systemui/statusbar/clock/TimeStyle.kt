@@ -6,11 +6,12 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 
 object TimeStyle : BaseHook() {
     private val clockBold by lazy {
@@ -29,11 +30,14 @@ object TimeStyle : BaseHook() {
         mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12)
     }
 
-    private val mClockClass = loadClassOrNull("com.android.systemui.statusbar.views.MiuiClock")
+    private val mClockClass = when {
+        getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
+        else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
+    }
 
     @SuppressLint("RtlHardcoded", "DiscouragedApi")
     override fun init() {
-        mClockClass!!.constructorFinder().first {
+        mClockClass.constructorFinder().first {
             paramCount == 3
         }.createHook {
             after {

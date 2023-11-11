@@ -226,7 +226,7 @@
     <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
     <string name="no_blur">Sem blur</string>
     <string name="miui_blur">Blur do HyperOS</string>
-    <string name="android_blur">Blur do Android</string>
+    <string name="android_blur">Blur AOSP</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -630,6 +630,9 @@
     <string name="system_ui_controlcenter_old_title">Centro de controle antigo</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos do centro de controle</string>
     <string name="system_ui_controlcenter_enable_title">Personalize o número de linhas e colunas</string>
+    <string name="system_control_center_old_qs_rows_desc">Os nomes ficarão ocultos por 5 linhas na orientação retrato. O número de linhas é limitado a 3 com nomes ocultos na orientação paisagem.</string>
+    <string name="system_control_center_old_qs_columns_desc">A orientação paisagem terá uma coluna adicional.\nSe sua ROM tiver uma opção compacta de layout das configurações rápidas, ela adicionará outra coluna em ambas as orientações.</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">A orientação paisagem terá uma coluna adicional</string>
     <string name="system_control_center_old_qs_grid_columns">Número de colunas no painel recolhido</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Número de colunas no painel recolhido (Paisagem)</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Estilo do ícone Bluetooth</string>
@@ -643,6 +646,7 @@
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
+    <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação para abrir uma Janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
@@ -672,6 +676,8 @@
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
+    <string name="system_settings_accessibility_title">Atalhos de gestos</string>
+    <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>
@@ -753,6 +759,7 @@
     <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de segurança da MIUI</string>
+    <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
     <string name="home">Launcher do sistema</string>
@@ -951,6 +958,7 @@
     <string name="home_other_toast_slide_again">Proibir avisos \"por favor, passe novamente\"</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_disable_hide_google">Desativar ocultar o Google</string>
+    <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
     <string name="home_other_high_models">Reconhecimento obrigatório como modelo high-end</string>
     <string name="home_recent_blur_level">Nível do blur</string>
@@ -990,8 +998,8 @@
     <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida</string>
     <!--nfc-->
     <string name="nfc">Serviço NFC</string>
-    <string name="nfc_disable_sound">Desativar som</string>
-    <string name="nfc_allow_information_screen">Permitir reconhecível quando a tela de informações</string>
+    <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>
+    <string name="nfc_allow_information_screen">Permitir reconhecimento quando a tela estiver desligada</string>
     <!--App vault-->
     <string name="personal_assistant">Assistente</string>
     <string name="personal_assistant_fold_widget_enable">Peso Pad/Fold</string>
@@ -1286,6 +1294,10 @@
     <string name="location_delete">Excluir</string>
     <string name="development">Opções do desenvolvedor</string>
     <string name="development_ui">UI</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">Desative para obter código de controle de exibição</string>
+    <string name="milink_hyperos">Serviços de interconectividade</string>
+    <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
+    <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>

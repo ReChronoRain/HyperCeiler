@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
@@ -15,7 +17,7 @@ public class GuardProviderFragment extends SettingsPreferenceFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.guard_provider),
+            getResources().getString(!isMoreHyperOSVersion(1f) ? R.string.guard_provider : R.string.guard_provider_hyperos),
             "com.miui.guardprovider"
         );
     }

@@ -678,6 +678,9 @@
     <string name="system_ui_controlcenter_old_title">经典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解锁控制中心样式</string>
     <string name="system_ui_controlcenter_enable_title">自定义行列数</string>
+    <string name="system_control_center_old_qs_rows_desc">竖屏显示 5 行时会隐藏标签，横屏时则限制为 3 行</string>
+    <string name="system_control_center_old_qs_columns_desc">竖屏时会额外增加一列\n如果您的 ROM 具有快速设置紧凑布局选项，不管是横屏还是竖屏都会增加其他列</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">横屏时将会额外增加一列</string>
     <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折叠面板中的列数（横屏）</string>
 
@@ -685,6 +688,7 @@
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
+    <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
@@ -715,6 +719,9 @@
     <string name="system_settings_connection_sharing_title">连接与共享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包\n</string>
+
+    <string name="system_settings_accessibility_title">快捷手势</string>
+    <string name="system_settings_area_screenshot">解锁区域截屏</string>
 
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
@@ -766,9 +773,11 @@
     <string name="lbe_clipboard_tip">读取了剪贴板</string>
     <!--投屏-->
     <string name="milink">投屏</string>
+    <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>
     <!--万象息屏-->
     <string name="aod">万象息屏</string>
+    <string name="aod_hyperos">息屏与锁屏编辑</string>
     <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>
     <!--传送门-->
     <string name="content_extension">传送门</string>
@@ -800,6 +809,7 @@
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
     <!--MIUI 安全组件-->
     <string name="guard_provider">MIUI 安全组件</string>
+    <string name="guard_provider_hyperos">系统安全组件</string>
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
     <!--系统桌面-->
     <string name="home">系统桌面</string>
@@ -1006,6 +1016,7 @@
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
     <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
     <string name="home_other_disable_hide_google">禁止隐藏 Google 图标</string>
+    <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
     <string name="home_other_high_models">强制识别为高端机型</string>
     <string name="home_other_mi_pad_enable_more_setting_title">解锁桌面设置更多选项</string>
@@ -1067,6 +1078,7 @@
     <string name="powerkeeper_do_not_kill_apps">尝试不要杀死后台应用</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能使耗电量增加</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">禁止恢复电池优化白名单</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">禁止获取显示控制码</string>
     <!--屏幕录制-->
     <string name="screenrecorder">屏幕录制</string>
     <string name="screen_recorder_force_support_playback_capture">强制启用原生屏幕录制支持</string>
@@ -1198,6 +1210,7 @@
     <string name="market_disable_new_icon_desc">使桌面更加整洁</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
+    <string name="mirror_hyperos">跨屏协同服务</string>
     <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
@@ -1209,7 +1222,7 @@
     <string name="mtb_auth">绕过鲁班 (MTB) 鉴权</string>
     <string name="mtb_auth_desc">这是一个高危险性的功能，由此引发的后果全部由用户本人承担，请及时备份基带。</string>
     <!--搜狗输入法-->
-    <string name="sogou_xiaomi">搜狗输入法</string>
+    <string name="sogou_xiaomi">搜狗输入法小米版</string>
     <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
     <!--小爱视觉-->
     <string name="scanner">小爱视觉</string>

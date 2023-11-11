@@ -18,7 +18,9 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 import java.io.BufferedReader
 import java.io.FileReader
@@ -29,78 +31,76 @@ import kotlin.math.abs
 object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
-        // 去除单行限制
-        val clazzDependency = loadClass("com.android.systemui.Dependency")
-        val clazzKeyguardIndicationController =
-            loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
-        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors
+        // 去除单行限制，Android13 以上扩展一个刷新频率，Android12 的后面再看看情况
+        if (getAndroidVersion() >= 33) {
+            val clazzDependency = loadClass("com.android.systemui.Dependency")
+            val clazzKeyguardIndicationController =
+                loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors
              ?.createHooks {
-                 after { param ->
-                     (param.thisObject as TextView).isSingleLine = false
-                     val screenOnOffReceiver = @SuppressLint("ServiceCast")
-                     object : BroadcastReceiver() {
-                         val keyguardIndicationController = if (isAndroidVersion(34))
-                             loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
-                         else invokeStaticMethodBestMatch(
-                             clazzDependency, "get", null, clazzKeyguardIndicationController
-                         )!!
-                         val handler = Handler((param.thisObject as TextView).context.mainLooper)
-                         val runnable = object : Runnable {
-                             override fun run() {
-                                 if (isAndroidVersion(34))
-                                     XposedHelpers.callStaticMethod(
-                                         loadClass("com.android.systemui.statusbar.KeyguardIndicationController"),
-                                         "updatePowerIndication"
-                                     )
-                                 else
-                                     invokeMethodBestMatch(
-                                         keyguardIndicationController,
-                                         "updatePowerIndication"
-                                     )
+                after { param ->
+                    (param.thisObject as TextView).isSingleLine = false
+                    val screenOnOffReceiver = @SuppressLint("ServiceCast")
+                    object : BroadcastReceiver() {
+                        val keyguardIndicationController = if (isAndroidVersion(34))
+                            loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
+                        else invokeStaticMethodBestMatch(
+                            clazzDependency, "get", null, clazzKeyguardIndicationController)!!
+                        val handler = Handler((param.thisObject as TextView).context.mainLooper)
+                        val runnable = object : Runnable {
+                            override fun run() {
+                                if (isAndroidVersion(34))
+                                    XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")
+                                else
+                                    invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
 
-                                 handler.postDelayed(
-                                     this,
-                                     mPrefsMap.getInt(
-                                         "system_ui_statusbar_lock_screen_show_spacing",
-                                         6
-                                     ) / 2 * 1000L
-                                 )
-                             }
-                         }
+                                handler.postDelayed(
+                                    this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
+                                )
+                            }
+                        }
 
-                         init {
-                             if (((param.thisObject as TextView).context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
-                                 handler.post(runnable)
-                             }
-                         }
+                        init {
+                            if (((param.thisObject as TextView).context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
+                                handler.post(runnable)
+                            }
+                        }
 
-                         override fun onReceive(context: Context, intent: Intent) {
-                             when (intent.action) {
-                                 Intent.ACTION_SCREEN_ON -> {
-                                     handler.post(runnable)
-                                 }
+                        override fun onReceive(context: Context, intent: Intent) {
+                            when (intent.action) {
+                                Intent.ACTION_SCREEN_ON -> {
+                                    handler.post(runnable)
+                                }
 
-                                 Intent.ACTION_SCREEN_OFF -> {
-                                     handler.removeCallbacks(runnable)
-                                 }
-                             }
-                         }
-                     }
+                                Intent.ACTION_SCREEN_OFF -> {
+                                    handler.removeCallbacks(runnable)
+                                }
+                            }
+                        }
+                    }
 
-                     with(param.thisObject as TextView) {
-                         val filter = IntentFilter().apply {
-                             addAction(Intent.ACTION_SCREEN_ON)
-                             addAction(Intent.ACTION_SCREEN_OFF)
-                         }
-                         context.registerReceiver(screenOnOffReceiver, filter)
-                     }
-                 }
-             }
+                    with(param.thisObject as TextView) {
+                        val filter = IntentFilter().apply {
+                            addAction(Intent.ACTION_SCREEN_ON)
+                            addAction(Intent.ACTION_SCREEN_OFF)
+                        }
+                        context.registerReceiver(screenOnOffReceiver, filter)
+                    }
+                }
+            }
+        } else {
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors
+                ?.createHooks {
+                after {
+                    (it.thisObject as TextView).isSingleLine = false
+                }
+            }
+        }
 
         // 修改底部文本信息
         val mBottomChargeClass by lazy {
             when {
-                isAndroidVersion(34) -> "com.miui.charge.ChargeUtils"
+                isMoreAndroidVersion(34) -> "com.miui.charge.ChargeUtils"
                 else -> "com.android.keyguard.charge.ChargeUtils"
             }
         }

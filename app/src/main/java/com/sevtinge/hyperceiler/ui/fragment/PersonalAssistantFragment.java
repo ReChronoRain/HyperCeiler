@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
@@ -15,6 +17,7 @@ import moralnorm.preference.SeekBarPreferenceEx;
 public class PersonalAssistantFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
+    DropDownPreference mBlurBackground;
     SeekBarPreferenceEx mBlurRadius;
     ColorPickerPreference mBlurColor;
     DropDownPreference mBlurBackgroundStyle;
@@ -35,9 +38,14 @@ public class PersonalAssistantFragment extends SettingsPreferenceFragment
     @Override
     public void initPrefs() {
         int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_personal_assistant_value", "0"));
+        mBlurBackground = findPreference("prefs_key_personal_assistant_value");
         mBlurBackgroundStyle = findPreference("prefs_key_personal_assistant_value");
         mBlurRadius = findPreference("prefs_key_personal_assistant_blurradius");
         mBlurColor = findPreference("prefs_key_personal_assistant_color");
+
+        mBlurBackground.setVisible(!isAndroidVersion(30)); // 负一屏背景设置
+        mBlurRadius.setVisible(!isAndroidVersion(30));
+        mBlurColor.setVisible(!isAndroidVersion(30));
 
         setBlurMode(mBlurMode);
         mBlurBackgroundStyle.setOnPreferenceChangeListener(this);

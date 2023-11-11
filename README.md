@@ -80,7 +80,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 | 小爱视觉         | com.xiaomi.scanner                 |
 | 小爱同学         | com.miui.voiceassist               |
 | 音乐           | com.miui.player                    |
-| MIUI+ Beta 版 | com.xiaomi.mirror                  |
+| MIUI+        | com.xiaomi.mirror                  |
 | NetworkBoost | com.xiaomi.NetworkBoost            |
 | NFC 服务       | com.android.nfc                    |
 

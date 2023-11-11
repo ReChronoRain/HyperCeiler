@@ -520,6 +520,9 @@
     <string name="system_ui_control_center_switch_cc_and_notification_title">Сменить центр управления и панель уведомлений</string>
     <string name="system_ui_controlcenter_new_title">Новый центр управления</string>
     <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
+    <string name="system_control_center_old_qs_rows_desc">Надписи будут скрыты для 5 строк в портретной ориентации. Количество строк ограничено тремя со скрытыми надписями в альбомной ориентации.</string>
+    <string name="system_control_center_old_qs_columns_desc">Альбомная ориентация будет иметь один дополнительный столбец\nЕсли в вашем ROM есть опция компактной компоновки быстрых настроек, она добавит еще один столбец в обеих ориентациях</string>
+    <string name="system_control_center_old_qs_grid_columns_desc">Альбомная ориентация + один доп.столбец</string>
     <string name="system_control_center_old_qs_grid_columns">Количество столбцов в свернутой панели</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Стиль плитки Bluetooth</string>
     <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Переместить Bluetooth-плитку рядом с сетевой плиткой</string>
@@ -527,6 +530,7 @@
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>
     <string name="system_ui_charge_animation_style_desc">Выберите стиль анимации зарядки на экране блокировки</string>
+    <string name="system_ui_origin_charge_animation">Встроенная анимация зарядки</string>
     <string name="system_ui_another_title">Другое</string>
     <string name="system_ui_notification_freeform">Потяните за низ всплывающее уведомление для открытия плавающего окна</string>
     <string name="system_ui_notification_freeform_desc">Уведомления от Mi Push могут не поддерживаться</string>
@@ -549,6 +553,8 @@
     <string name="system_settings_wifipassword_btn_title">Посмотреть</string>
     <string name="system_settings_wifi_password_label">Пароль</string>
     <string name="system_settings_wifi_password_dlgtitle">Сведения сети Wi-Fi</string>
+    <string name="system_settings_accessibility_title">Сочетания жестов</string>
+    <string name="system_settings_area_screenshot">Скриншот области разблокировки</string>
     <string name="system_settings_lab_title">Избранные функции</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
     <string name="system_settings_ai_image_title">AI обработка изображений</string>
@@ -783,6 +789,7 @@
     <string name="home_other_app_icon_hide">Управление значками раб.стола</string>
     <string name="home_other_shortcut_remove_restrictions">Разблокировать ограничение на количество контекстных меню</string>
     <string name="home_other_disable_hide_google">Отключить скрытие Google</string>
+    <string name="home_other_fix_android_r_s">Исправлена проблема совместимости, из-за которой рабочий стол становился черным</string>
     <string name="home_other_shortcut_background_blur_custom">Уровень размытия контекстного меню</string>
     <string name="home_other_high_models">Принудительная идентификация как модели высокого класса</string>
     <string name="home_recent_blur_level">Уровень размытия</string>

@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.provider.Settings;
 import android.view.View;
@@ -12,12 +13,23 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import miui.telephony.TelephonyManager;
+import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class ControlCenterSettings extends SettingsPreferenceFragment {
+
+    SwitchPreference mFixMediaPanel;
+    SwitchPreference mNotice;
     SwitchPreference mNoticex;
+    SeekBarPreferenceEx mNewCCGrid;
+    SwitchPreference mNewCCGridRect;
     SwitchPreference mFiveG;
+    DropDownPreference mBluetoothSytle;
+
+    // 临时的，旧控制中心
+    SwitchPreference mOldCCGrid;
+    SwitchPreference mOldCCGrid1;
 
     @Override
     public int getContentResId() {
@@ -34,11 +46,27 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
+        mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
+        mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
+        mNotice = findPreference("prefs_key_n_enable");
         mNoticex = findPreference("prefs_key_n_enable_fix");
+        mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
         mFiveG = findPreference("prefs_key_system_control_center_5g_tile");
 
-        mNoticex.setVisible(isAndroidVersion(33));
+        mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
+        mNewCCGrid.setVisible(!isAndroidVersion(30));
+        mNewCCGridRect.setVisible(!isAndroidVersion(30));
+        mNotice.setVisible(!isAndroidVersion(30));
+        mNoticex.setVisible(isMoreAndroidVersion(33));
+        mBluetoothSytle.setVisible(!isAndroidVersion(30));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
+
+        mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
+        mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");
+
+        mOldCCGrid.setVisible(isMoreAndroidVersion(33));
+        mOldCCGrid1.setVisible(!isMoreAndroidVersion(33));
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

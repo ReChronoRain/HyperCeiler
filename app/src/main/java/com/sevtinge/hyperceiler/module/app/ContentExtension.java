@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.contentextension.DoublePress;
 import com.sevtinge.hyperceiler.module.hook.contentextension.HorizontalContentExtension;
@@ -18,7 +20,9 @@ public class ContentExtension extends BaseModule {
         initHook(new LinkOpenMode());
         initHook(HorizontalContentExtension.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus_horizontal"));
 
-        initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
+        if (!isAndroidVersion(30)){
+            initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
+        }
     }
 }
 

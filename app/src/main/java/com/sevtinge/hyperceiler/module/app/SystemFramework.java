@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
@@ -22,6 +23,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
+import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDisableSafe;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeFirstPress;
@@ -80,6 +82,7 @@ public class SystemFramework extends BaseModule {
         initHook(new AllowUntrustedTouch(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
         initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
+        initHook(new UseOriginalAnimation(), mPrefsMap.getBoolean("system_framework_other_use_original_animation"));
         initHook(new SpeedInstall(), mPrefsMap.getBoolean("system_framework_other_speed_install"));
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
@@ -102,8 +105,10 @@ public class SystemFramework extends BaseModule {
         }
 
         // 核心破解
-        initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") ||
+        if (isMoreAndroidVersion(33)) {
+            initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") ||
                 mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
+        }
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
