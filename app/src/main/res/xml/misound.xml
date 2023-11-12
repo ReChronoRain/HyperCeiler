@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="@string/misound_increase_sampling_rate"
+        android:key="prefs_key_misound_increase_sampling_rate"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

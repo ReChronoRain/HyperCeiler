@@ -1213,6 +1213,9 @@
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">跨屏协同服务</string>
     <string name="mirror_unlock_miui_plus">解锁 MIUI+</string>
+    <!--音质音效-->
+    <string name="misound">音质音效</string>
+    <string name="misound_increase_sampling_rate">提高音频采样率</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
     <string name="mi_input_settings">输入设置</string>

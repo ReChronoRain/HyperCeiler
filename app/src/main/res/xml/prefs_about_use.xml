@@ -234,6 +234,13 @@
                 android:data="https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection" />
         </Preference>
         <Preference
+            android:title="SetoHook"
+            android:summary="SetoSkins | GPL-3.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/SetoSkins/SetoHook" />
+        </Preference>
+        <Preference
             android:title="SettingsDontThroughTheList"
             android:summary="weixiansen574 | No License">
             <intent
