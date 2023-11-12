@@ -192,6 +192,13 @@
             android:title="@string/mishare" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiSoundFragment"
+            android:icon="@drawable/ic_misound"
+            android:key="prefs_key_misound"
+            android:summary="com.miui.misound"
+            android:title="@string/misound" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiWallpaperFragment"
             android:icon="@drawable/ic_miwallpaper"
             android:key="prefs_key_miwallpaper"

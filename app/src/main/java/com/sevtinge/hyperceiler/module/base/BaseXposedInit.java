@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.module.app.MediaEditor;
 import com.sevtinge.hyperceiler.module.app.MiLink;
 import com.sevtinge.hyperceiler.module.app.MiSettings;
 import com.sevtinge.hyperceiler.module.app.MiShare;
+import com.sevtinge.hyperceiler.module.app.MiSound;
 import com.sevtinge.hyperceiler.module.app.MiWallpaper;
 import com.sevtinge.hyperceiler.module.app.Mms;
 import com.sevtinge.hyperceiler.module.app.Mtb;
@@ -124,6 +125,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
     public final Nfc mNfc = new Nfc();
+    public final MiSound mMiSound = new MiSound();
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -271,6 +273,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.miui.mishare.connectivity" -> {
                 mMiShare.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.miui.misound" -> {
+                mMiSound.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.milink.service" -> mMiLink.init(lpparam);
