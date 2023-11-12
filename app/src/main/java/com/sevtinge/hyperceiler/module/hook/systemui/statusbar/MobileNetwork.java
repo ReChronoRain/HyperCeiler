@@ -22,13 +22,31 @@ public class MobileNetwork extends BaseHook {
 
         mHDController = findClassIfExists("com.android.systemui.statusbar.policy.HDController");
 
-        findAndHookMethod(mStatusBarMobileView, "initViewState", mMobileIconState, new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) {
-                updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
-                updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
+        try {
+            mStatusBarMobileView.getDeclaredMethod("initViewState", mMobileIconState);
+            findAndHookMethod(mStatusBarMobileView, "initViewState", mMobileIconState, new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
+                    updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
+                }
+            });
+        } catch (NoSuchMethodException e) {
+            try {
+                mStatusBarMobileView.getDeclaredMethod("applyMobileState", mMobileIconState);
+                findAndHookMethod(mStatusBarMobileView,
+                    "applyMobileState", mMobileIconState, new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");
+                            updateIconState(param, "mVolte", "system_ui_status_bar_icon_big_hd");
+                        }
+                    }
+                );
+            } catch (NoSuchMethodException f) {
+                logE(TAG, "initViewState and applyMobileState dont have");
             }
-        });
+        }
 
         findAndHookMethod(mStatusBarMobileView, "updateState", mMobileIconState, new MethodHook() {
             @Override

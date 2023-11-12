@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.view.View;
 
@@ -49,7 +50,7 @@ public class IconManageSettings extends SettingsPreferenceFragment {
         UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
         IconNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
         UseNewHD.setVisible(isAndroidVersion(33));
-        IconNewHD.setVisible(isAndroidVersion(33));
+        IconNewHD.setVisible(isMoreAndroidVersion(33));
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 
