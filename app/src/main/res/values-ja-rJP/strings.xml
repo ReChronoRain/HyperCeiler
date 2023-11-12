@@ -226,7 +226,7 @@
     <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
     <string name="no_blur">ぼかしなし</string>
     <string name="miui_blur">HyperOS のぼかし</string>
-    <string name="android_blur">Android のぼかし</string>
+    <string name="android_blur">AOSP のぼかし</string>
     <!--System Framework-->
     <string name="system_framework">システムフレームワーク</string>
     <string name="system_framework_volume_title">音量</string>
@@ -759,6 +759,7 @@
     <string name="gallery_enable_magic_sky">空の合成をアンロック</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI セキュリティコンポーネント</string>
+    <string name="guard_provider_hyperos">システムセキュリティコンポーネント</string>
     <string name="guard_provider_disable_upload_applist">インストール済みアプリリストの自動アップロードを防止</string>
     <!--System launcher-->
     <string name="home">システムランチャー</string>
@@ -1293,6 +1294,11 @@
     <string name="location_delete">削除</string>
     <string name="development">開発者向けオプション</string>
     <string name="development_ui">UI</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">ディスプレイ制御コードへのアクセスを無効化</string>
+    <string name="milink_hyperos">相互接続サービス</string>
+    <string name="aod_hyperos">常時表示とロック画面エディター</string>
+    <string name="mirror_hyperos">デバイス相互接続サービス</string>
+    <string name="system_framework_disable_verify_can_ve_disabled">アプリ検証の無効化を許可</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
