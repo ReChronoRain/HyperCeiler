@@ -2,6 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/system_framework_allow_all_dark_mode"
+            android:key="prefs_key_system_framework_allow_all_dark_mode" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/system_ui_display_cutout_title">
         <SwitchPreference
             android:defaultValue="false"
