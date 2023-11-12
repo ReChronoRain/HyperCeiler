@@ -1298,6 +1298,7 @@
     <string name="milink_hyperos">Serviços de interconectividade</string>
     <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
     <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
+    <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
