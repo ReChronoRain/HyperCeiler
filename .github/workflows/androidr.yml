@@ -77,7 +77,7 @@ jobs:
           CANARY: ${{ env.APK_FILE_CANARY }}
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
-          git clone ${{ github.event.repository.url }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
+          git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
           cd ${{ github.workspace }}/git_clone
           {
           echo -e "Github Action for Android_R\n";
