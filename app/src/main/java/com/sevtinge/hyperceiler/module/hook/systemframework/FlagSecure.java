@@ -48,6 +48,7 @@ public class FlagSecure extends BaseHook {
         if (lpparam.packageName.equals("android")) {
             try {
                 Class<?> windowsState = XposedHelpers.findClass("com.android.server.wm.WindowState", lpparam.classLoader);
+                Class<?> windowsManagerServiceImpl = XposedHelpers.findClass("com.android.server.wm.WindowManagerServiceImpl", lpparam.classLoader);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     XposedHelpers.findAndHookMethod(
                         windowsState,
@@ -61,8 +62,14 @@ public class FlagSecure extends BaseHook {
                         windowsState,
                         XC_MethodReplacement.returnConstant(false));
                 }
+                hookAllMethods(windowsManagerServiceImpl, "notAllowCaptureDisplay", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(false);
+                    }
+                });
             } catch (Throwable t) {
-                XposedBridge.log(t);
+                logE(TAG, this.lpparam.packageName, t);
             }
             try {
                 deoptimizeMethod(XposedHelpers.findClass("com.android.server.wm.WindowStateAnimator", lpparam.classLoader), "createSurfaceLocked");
