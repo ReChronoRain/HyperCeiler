@@ -8,30 +8,40 @@
         android:key="prefs_key_updater_fuck_vab"
         android:defaultValue="false" />
 
+    <SwitchPreference
+        android:title="@string/updater_enable_miui_version"
+        android:key="prefs_key_updater_enable_miui_version"
+        android:defaultValue="false" />
+
     <DropDownPreference
         android:key="prefs_key_updater_version_mode"
         android:title="@string/updater_version_mode"
         android:defaultValue="1"
         app:entries="@array/updater_version_mode"
-        app:entryValues="@array/updater_version_mode_value" />
+        app:entryValues="@array/updater_version_mode_value"
+        android:dependency="prefs_key_updater_enable_miui_version" />
 
     <EditTextPreference
         android:defaultValue="V816"
         android:title="@string/updater_big_version"
         android:summary="@string/updater_big_version_desc"
+        android:dependency="prefs_key_updater_enable_miui_version"
         android:key="prefs_key_various_updater_big_version" />
 
     <EditTextPreference
+        android:dependency="prefs_key_updater_enable_miui_version"
         android:title="@string/updater_miui_version"
         android:summary="@string/updater_miui_version_desc"
         android:key="prefs_key_various_updater_miui_version" />
 
     <EditTextPreference
+        android:dependency="prefs_key_updater_enable_miui_version"
         android:title="@string/updater_android_version"
         android:summary="@string/updater_miui_version_desc"
         android:key="prefs_key_various_updater_android_version" />
 
     <EditTextPreference
+        android:dependency="prefs_key_updater_enable_miui_version"
         android:title="@string/updater_device"
         android:summary="@string/updater_device_desc"
         android:key="prefs_key_updater_device"
