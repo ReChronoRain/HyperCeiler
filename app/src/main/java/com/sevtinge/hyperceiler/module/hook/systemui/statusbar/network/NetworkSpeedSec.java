@@ -7,7 +7,7 @@ public class NetworkSpeedSec extends BaseHook {
     public void init() {
         try {
             findClass("com.android.systemui.statusbar.views.NetworkSpeedView").getDeclaredMethod("setNetworkSpeed", String.class);
-            findAndHookMethod("",
+            findAndHookMethod("com.android.systemui.statusbar.views.NetworkSpeedView",
                 "setNetworkSpeed", String.class,
                 new MethodHook() {
                     @Override

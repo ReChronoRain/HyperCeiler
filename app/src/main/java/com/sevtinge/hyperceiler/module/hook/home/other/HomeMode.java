@@ -15,7 +15,7 @@ public class HomeMode extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 int mHomeMode = mPrefsMap.getStringAsInt("home_other_home_mode", 0);
-                boolean isHomeMode = !(mHomeMode == 2);
+                boolean isHomeMode = (mHomeMode == 2);
                 param.setResult(isHomeMode);
             }
         });

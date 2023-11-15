@@ -55,7 +55,7 @@ object NotificationWeatherNew : BaseHook() {
 
         var appInfo: ApplicationInfo?
 
-        if (isAndroidVersion(34)) {
+        if (isAndroidVersion(34) && !isMoreHyperOSVersion(1f)) {
             hookAllMethods("com.android.systemui.shared.plugins.PluginInstance\$Factory",
                 "create", object : MethodHook() {
                     override fun before(param: MethodHookParam) {
@@ -69,9 +69,9 @@ object NotificationWeatherNew : BaseHook() {
                                 if (appInfo != null) {
                                     if ("miui.systemui.plugin" == appInfo!!.packageName) {
                                         mainPanelHeader(classLoader)
-                                        logW(TAG, "im get ClassLoader: $classLoader")
+                                        logW(TAG, "com.android.systemui", "im get ClassLoader: $classLoader")
                                     } else {
-                                        logW(TAG, "Au get classloader miui.systemui.plugin error: $classLoader")
+                                        logW(TAG, "com.android.systemui", "Au get classloader miui.systemui.plugin error: $classLoader")
                                     }
                                 } else {
                                     if (
@@ -80,7 +80,7 @@ object NotificationWeatherNew : BaseHook() {
                                     ) {
                                         mainPanelHeader(classLoader)
                                     } else {
-                                        logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null")
+                                        logW(TAG, "com.android.systemui", "Au get classloader miui.systemui.plugin error & appInfo is null")
                                     }
                                 }
                             }

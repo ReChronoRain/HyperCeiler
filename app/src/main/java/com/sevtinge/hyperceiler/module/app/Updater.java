@@ -17,14 +17,16 @@ public class Updater extends BaseModule {
     public void handleLoadPackage() {
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
-        if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
-            initHook(VersionCodeNew.INSTANCE);
-        } else {
-            initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
+        if (mPrefsMap.getBoolean("updater_enable_miui_version")) {
+            if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
+                initHook(VersionCodeNew.INSTANCE);
+            } else {
+                initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
+            }
+            initHook(AndroidVersionCode.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("various_updater_android_version", "")));
+            initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         }
-        initHook(AndroidVersionCode.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("various_updater_android_version", "")));
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
-        initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
     }

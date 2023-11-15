@@ -9,6 +9,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableSpeedMode;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.InternationalBuild;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.ModifySystemVersion;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
@@ -43,6 +44,8 @@ public class SystemSettings extends BaseModule {
 
         initHook(new EnablePadArea(),mPrefsMap.getBoolean("system_settings_enable_pad_area"));
         initHook(new EnableFoldArea(),mPrefsMap.getBoolean("system_settings_enable_fold_area"));
+
+        initHook(new ModifySystemVersion(), mPrefsMap.getBoolean("updater_enable_miui_version") && mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1);
 
         if (!isAndroidVersion(30)) {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));

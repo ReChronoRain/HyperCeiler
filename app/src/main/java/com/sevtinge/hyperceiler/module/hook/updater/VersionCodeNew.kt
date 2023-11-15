@@ -4,6 +4,7 @@ import android.os.Build
 import android.text.TextUtils
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
@@ -20,9 +21,9 @@ object VersionCodeNew : BaseHook() {
     private val mOSMethod by lazy {
         dexKitBridge.findMethod {
             matcher {
-                addUsingStringsEquals("ro.mi.os.version.incremental", "version:")
+                addUsingStringsEquals("ro.mi.os.version.incremental")
             }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.first()
+        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
     }
     private val mOSCode by lazy {
         dexKitBridge.findMethod {
@@ -65,7 +66,7 @@ object VersionCodeNew : BaseHook() {
         }
 
         // OS 版本名修改
-        mOSMethod.createHook {
+        mOSMethod.createHooks {
             before {
                 if (!TextUtils.isEmpty(mVersionCode)) {
                     it.result = mVersionCode

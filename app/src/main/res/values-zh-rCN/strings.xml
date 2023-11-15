@@ -756,6 +756,7 @@
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
     <!--系统更新-->
     <string name="updater">系统更新</string>
+    <string name="updater_enable_miui_version">启用伪装版本</string>
     <string name="updater_fuck_vab">移除 OTA 验证</string>
     <string name="updater_fuck_vab_desc">仅支持 VAB 设备，其他非 VAB 设备请不要开启！\n- 无需内测权限即可刷入完整内测卡刷包\n- 跨不同版本类型刷入后建议清除数据\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
     <string name="updater_version_mode">伪装类型</string>

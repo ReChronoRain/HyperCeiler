@@ -1299,6 +1299,9 @@
     <string name="aod_hyperos">常時表示とロック画面エディター</string>
     <string name="mirror_hyperos">デバイス相互接続サービス</string>
     <string name="system_framework_disable_verify_can_ve_disabled">アプリ検証の無効化を許可</string>
+    <string name="misound">Mi サウンド</string>
+    <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>
+    <string name="system_framework_allow_all_dark_mode">すべてのアプリにダークモードの使用を許可</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
