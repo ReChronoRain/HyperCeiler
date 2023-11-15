@@ -43,7 +43,7 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="about_use">Quote</string>
-    <string name="about_use_desc">HyperCeiler uses some or all of the following open source projects, thanks to the developers of these projects for their support (in no particular order)</string>
+    <string name="about_use_desc">HyperCeiler uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order)</string>
     <string name="about_contributer">Contributor</string>
     <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of HyperCeiler (in no particular order)</string>
     <string name="about_donation">Sponsor</string>
@@ -1337,6 +1337,8 @@
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
     <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
+    <string name="open_source">Open Source Projects</string>
+    <string name="close_source">Close Source Projects</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

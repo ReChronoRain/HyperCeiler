@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory>
-        <Preference android:summary="@string/about_use_desc" />
+    <Preference android:summary="@string/about_use_desc" />
+    <PreferenceCategory android:title="@string/open_source">
         <Preference
             android:title="Accompanist"
             android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
@@ -150,13 +150,6 @@
                 android:data="https://github.com/YifePlayte/MaxFreeForm" />
         </Preference>
         <Preference
-            android:title="Miui Feature"
-            android:summary="MoralNorm | GPL-3.0">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/moralnorm/miui_feature" />
-        </Preference>
-        <Preference
             android:title="MiuiHomeR"
             android:summary="qqlittleice | GPL-3.0">
             <intent
@@ -218,13 +211,6 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Haocen2004/PortalHook" />
-        </Preference>
-        <Preference
-            android:title="Origin Architecture"
-            android:summary="MonetCarlos | Unknown">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://www.coolapk.com/u/9021855" />
         </Preference>
         <Preference
             android:title="RemoveMiuiSystemSelfProtection"
@@ -302,6 +288,29 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Kr328/.xlDownload" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/close_source">
+        <Preference
+            android:title="IWanSetting"
+            android:summary="Green Yang">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.coolapk.com/apk/com.byyoung.setting" />
+        </Preference>
+        <Preference
+            android:title="Miui Feature"
+            android:summary="MoralNorm">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/moralnorm" />
+        </Preference>
+        <Preference
+            android:title="Origin Architecture"
+            android:summary="MonetCarlos">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.coolapk.com/u/9021855" />
         </Preference>
     </PreferenceCategory>
     <Preference android:enabled="false" />

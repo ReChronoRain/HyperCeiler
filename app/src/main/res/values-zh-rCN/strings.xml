@@ -15,7 +15,7 @@
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="about_use">引用</string>
-    <string name="about_use_desc">HyperCeiler 使用了以下开源项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
+    <string name="about_use_desc">HyperCeiler 使用了以下项目的部分或全部内容，感谢这些项目的开发者提供的大力支持（排名顺序不分先后）</string>
     <string name="about_contributer">贡献者</string>
     <string name="about_contributer_desc">感谢以下贡献者为 HyperCeiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
     <string name="about_donation">支持</string>
@@ -1388,6 +1388,10 @@
 
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>
+
+    <string name="open_source">开源项目</string>
+    <string name="close_source">闭源项目</string>
+
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
