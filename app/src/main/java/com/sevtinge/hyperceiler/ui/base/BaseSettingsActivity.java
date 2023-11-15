@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.ui.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
@@ -41,10 +40,6 @@ public abstract class BaseSettingsActivity extends BaseActivity {
             targetFragment.setArguments(mProxy.getArguments(intent));
             setFragment(targetFragment);
         }
-    }
-
-    public void setRestartView(View.OnClickListener listener) {
-        if (listener != null) setActionBarEndIcon(R.drawable.ic_reboot_small, listener);
     }
 
     public void showRestartSystemDialog() {

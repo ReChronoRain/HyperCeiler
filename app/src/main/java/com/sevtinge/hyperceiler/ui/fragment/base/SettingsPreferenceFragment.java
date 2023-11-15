@@ -8,7 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
+import com.sevtinge.hyperceiler.ui.base.BaseActivity;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
@@ -51,7 +51,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
             setPreferencesFromResource(mContentResId, s);
             initPrefs();
         }
-        /*((BaseSettingsActivity)getActivity()).setRestartView(addRestartListener());*/
+        ((BaseActivity) getActivity()).setRestartView(addRestartListener());
     }
 
     @Override

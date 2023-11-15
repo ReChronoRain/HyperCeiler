@@ -37,6 +37,13 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/hyperceiler_restart_quick">
+        <Preference
+            android:key="prefs_key_restart_quick"
+            android:title="@string/hyperceiler_restart_quick" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_data_title">
         <Preference
             android:key="prefs_key_back"
@@ -60,9 +67,9 @@
             android:title="@string/settings_safe_mode" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentFragment"
             android:key="prefs_key_development"
-            android:title="@string/development"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentFragment" />
+            android:title="@string/development" />
 
     </PreferenceCategory>
 

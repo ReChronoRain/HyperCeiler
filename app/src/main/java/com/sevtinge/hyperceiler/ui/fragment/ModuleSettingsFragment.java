@@ -11,6 +11,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;
@@ -22,6 +23,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
     MultiSelectListPreference mReboot;
+    Preference mRestartQuick;
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
 
@@ -58,6 +60,14 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
 
         mReboot = findPreference("prefs_key_settings_reboot");
         mReboot.setVisible(false);
+
+        mRestartQuick = findPreference("prefs_key_restart_quick");
+        mRestartQuick.setOnPreferenceClickListener(preference -> {
+            RestartAlertDialog dialog = new RestartAlertDialog(getContext());
+            dialog.setTitle(R.string.hyperceiler_restart_quick);
+            dialog.show();
+            return true;
+        });
         /*String[] mRestartAllScopes = getResources().getStringArray(R.array.xposed_scope);
         List<String> mItemList = Arrays.asList(mRestartAllScopes);
         String[] mItems = new String[0];
