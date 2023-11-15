@@ -9,9 +9,9 @@ import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
 public class SubPickerActivity extends SettingsActivity {
     AppPicker mAppSelectFragment = new AppPicker();
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initCreate() {
         mAppSelectFragment.setAppSelectCallback(new IAppSelectCallback() {
             @Override
             public void sendMsgToActivity(byte[] appIcon, String appName, String appPackageName, String appVersion, String appActivityName) {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/search_view"
+            layout="@layout/miuix_appcompat_search_stub" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/frame_page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        android:checkedButton="@id/navigation_home"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="10dp">
+
+        <RadioButton
+            android:id="@+id/navigation_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_navigation_home"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="首页"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/navigation_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_navigation_settings"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="设置"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/navigation_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_navigation_about"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="关于"
+            android:textSize="12sp" />
+
+    </RadioGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_result_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

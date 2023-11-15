@@ -1,7 +1,10 @@
 package com.sevtinge.hyperceiler.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+
+import com.sevtinge.hyperceiler.R;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -35,6 +38,17 @@ public class DialogHelper {
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(android.R.string.ok, onClickListener)
+            .show();
+    }
+
+    public static void showXposedActivateDialog(Context context) {
+        new AlertDialog.Builder(context)
+            .setCancelable(false)
+            .setTitle(R.string.tip)
+            .setMessage(R.string.hook_failed)
+            .setHapticFeedbackEnabled(true)
+            .setPositiveButton("退出", (dialogInterface, i) -> System.exit(0))
+            .setNegativeButton("忽略", null)
             .show();
     }
 }

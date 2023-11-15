@@ -46,12 +46,10 @@
     <uses-permission
         android:name="android.permission.MODIFY_DAY_NIGHT_MODE"
         tools:ignore="ProtectedPermissions" />
-
     <uses-permission android:name="miui.permission.READ_LOGS" />
     <uses-permission android:name="miui.permission.DUMP_CACHED_LOG" />
     <uses-permission android:name="com.miui.securitycenter.permission.SYSTEM_PERMISSION_DECLARE" />
     <uses-permission android:name="com.miui.securitycenter.permission.ACCESS_SECURITY_CENTER_PROVIDER" />
-
     <uses-permission
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
@@ -67,40 +65,48 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <!--<activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
-        </activity>
+        </activity>-->
+
+        <activity-alias
+            android:name=".ui.LauncherActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:targetActivity=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name=".ui.SubSettings"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.ModuleSettingsActivity"
             android:label="@string/settings" />
-
-        <activity-alias
-            android:name=".ui.HideAppActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:targetActivity=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-
         <activity android:name=".ui.SubPickerActivity" />
 
         <provider
@@ -114,7 +120,6 @@
         <meta-data
             android:name="required_permissions"
             android:value=";" />
-
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -130,7 +135,6 @@
         <meta-data
             android:name="xposedscope"
             android:resource="@array/xposed_scope" />
-
     </application>
 
 </manifest>

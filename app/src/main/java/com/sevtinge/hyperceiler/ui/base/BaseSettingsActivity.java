@@ -4,79 +4,47 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.MainActivity;
-import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import moralnorm.appcompat.app.ActionBar;
 import moralnorm.appcompat.app.AlertDialog;
-import moralnorm.appcompat.app.AppCompatActivity;
 
-public class BaseSettingsActivity extends AppCompatActivity {
+public abstract class BaseSettingsActivity extends BaseActivity {
 
     private String initialFragmentName;
-    public BaseSettingsProxy mProxy;
-
-    public ActionBar mActionBar;
+    public Fragment mFragment;
     public static List<BaseSettingsActivity> mActivityList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        mProxy = new SettingsProxy(this);
         initialFragmentName = mProxy.getInitialFragmentName(intent);
         if (TextUtils.isEmpty(initialFragmentName)) {
             initialFragmentName = intent.getStringExtra(":android:show_fragment");
         }
-        super.onCreate(savedInstanceState);
         createUiFromIntent(savedInstanceState, intent);
     }
 
     protected void createUiFromIntent(Bundle savedInstanceState, Intent intent) {
         mProxy.setupContentView();
-        initActionBar();
         mActivityList.add(this);
         Fragment targetFragment = mProxy.getTargetFragment(this, initialFragmentName, savedInstanceState);
         if (targetFragment != null) {
             targetFragment.setArguments(mProxy.getArguments(intent));
             setFragment(targetFragment);
         }
-        if (!(this instanceof MainActivity)) {
-            findViewById(R.id.search_view).setVisibility(View.GONE);
-        }
-        showXposedActiveDialog();
     }
 
-    private void initActionBar() {
-        setDisplayHomeAsUpEnabled();
-    }
-
-    private void setDisplayHomeAsUpEnabled() {
-        if (this instanceof MainActivity) {
-            getAppCompatActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-    }
-
-    public void setActionBarEndView(View view) {
-        getAppCompatActionBar().setEndView(view);
-    }
-
-    public void setRestartView(View.OnClickListener l) {
-        if (l != null) {
-            ImageView mRestartView = new ImageView(this);
-            mRestartView.setImageResource(R.drawable.ic_reboot_small);
-            mRestartView.setOnClickListener(l);
-            setActionBarEndView(mRestartView);
-        }
+    public void setRestartView(View.OnClickListener listener) {
+        if (listener != null) setActionBarEndIcon(R.drawable.ic_reboot_small, listener);
     }
 
     public void showRestartSystemDialog() {
@@ -105,23 +73,16 @@ public class BaseSettingsActivity extends AppCompatActivity {
             .show();
     }
 
-    public void showXposedActiveDialog() {
-        if (!Helpers.isModuleActive) {
-            new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle(R.string.tip)
-                .setMessage(R.string.hook_failed)
-                .setHapticFeedbackEnabled(true)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
-        }
-    }
-
     public void setFragment(Fragment fragment) {
+        mFragment = fragment;
         getSupportFragmentManager()
             .beginTransaction()
             .replace(R.id.frame_content, fragment)
             .commit();
+    }
+
+    public Fragment getFragment() {
+        return mFragment;
     }
 
     public void doRestart(String[] packageName, boolean isRestartSystem) {

@@ -30,7 +30,7 @@ public class SettingsProxy extends BaseSettingsProxy {
 
     @Override
     public void setupContentView() {
-        mActivity.setContentView(R.layout.settings_main);
+        mActivity.setContentView(R.layout.settings_sub);
     }
 
     @Override

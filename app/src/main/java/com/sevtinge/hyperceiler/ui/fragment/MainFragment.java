@@ -76,6 +76,7 @@ public class MainFragment extends SettingsPreferenceFragment {
         mMirrorHyperOS = findPreference("prefs_key_mirror_hyperos");
         mTip = findPreference("prefs_key_tip");
 
+
         mPowerSetting.setVisible(!isAndroidVersion(30));
         mMTB.setVisible(!isAndroidVersion(30));
 

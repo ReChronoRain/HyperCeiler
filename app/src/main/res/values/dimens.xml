@@ -30,5 +30,8 @@
     <dimen name="miui_volume_column_margin_horizontal_expanded">19.5dp</dimen>
     <dimen name="miui_notification_modal_menu_icon_size">26dp</dimen>
     <dimen name="miui_notification_modal_menu_icon_bg_size">50dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
 </resources>

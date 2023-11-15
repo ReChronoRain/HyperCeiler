@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.base;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.ui.SubSettings;
@@ -12,9 +14,16 @@ import com.sevtinge.hyperceiler.ui.fragment.various.AlertDialogSettings;
 
 import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceFragmentCompat;
-import moralnorm.preference.compat.PreferenceFragment;
 
-public class SettingsActivity extends BaseSettingsActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+public abstract class SettingsActivity extends BaseSettingsActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initCreate();
+    }
+
+    public void initCreate() {}
 
     public void onStartSettingsForArguments(Preference preference, boolean isBundleEnable) {
         mProxy.onStartSettingsForArguments(SubSettings.class, preference, isBundleEnable);

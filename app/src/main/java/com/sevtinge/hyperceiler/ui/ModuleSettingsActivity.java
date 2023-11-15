@@ -21,8 +21,7 @@ public class ModuleSettingsActivity extends SettingsActivity {
     ModuleSettingsFragment mModuleSettingsFragment = new ModuleSettingsFragment();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initCreate() {
         setFragment(mModuleSettingsFragment);
     }
 

@@ -28,6 +28,7 @@ import android.util.LruCache;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
@@ -41,6 +42,7 @@ import java.util.concurrent.Executors;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.internal.utils.ReflectUtils;
 
 public class Helpers {
@@ -458,5 +460,9 @@ public class Helpers {
             //XposedLogUtils.logW("getPackageVersionCode", e);
             return -1;
         }
+    }
+
+    public static void checkXposedActivateState(Context context) {
+        if (!isModuleActive) DialogHelper.showXposedActivateDialog(context);
     }
 }

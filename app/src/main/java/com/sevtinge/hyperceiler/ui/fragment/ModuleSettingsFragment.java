@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.HideAppActivity;
+import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
@@ -51,7 +51,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                 mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
             }
 
-            pm.setComponentEnabledSetting(new ComponentName(getActivity(), HideAppActivity.class), mComponentEnabledState, PackageManager.DONT_KILL_APP);
+            pm.setComponentEnabledSetting(new ComponentName(getActivity(), LauncherActivity.class), mComponentEnabledState, PackageManager.DONT_KILL_APP);
 
             return true;
         });
