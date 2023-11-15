@@ -105,10 +105,19 @@ public class HookUtils extends XposedLogUtils {
 
     /*用于替换方法*/
     public abstract static class replaceHookedMethod extends MethodHook {
+
+        public replaceHookedMethod() {
+            super();
+        }
+
+        public replaceHookedMethod(int priority) {
+            super(priority);
+        }
+
         protected abstract Object replace(MethodHookParam param) throws Throwable;
 
         @Override
-        protected void before(MethodHookParam param) throws Throwable {
+        public void beforeHookedMethod(MethodHookParam param) throws Throwable {
             try {
                 Object result = replace(param);
                 param.setResult(result);
@@ -119,11 +128,7 @@ public class HookUtils extends XposedLogUtils {
     }
 
     public void hookMethod(Method method, MethodHook callback) {
-        try {
-            XposedBridge.hookMethod(method, callback);
-        } catch (Throwable t) {
-            // logE("hookMethod", "Failed to hook " + method.getName() + " method");
-        }
+        XposedBridge.hookMethod(method, callback);
     }
 
     public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
@@ -135,11 +140,7 @@ public class HookUtils extends XposedLogUtils {
     }
 
     public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
-        } catch (Throwable t) {
-            // logE("findAndHookMethod", "Failed to hook " + methodName + " method in " + className);
-        }
+        XposedHelpers.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
     }
 
     public XC_MethodHook.Unhook findAndHookMethodUseUnhook(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
@@ -199,40 +200,24 @@ public class HookUtils extends XposedLogUtils {
     }
 
     public void findAndHookConstructor(String className, ClassLoader classLoader, Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
-        } catch (Throwable t) {
-            // LogI("findAndHookConstructor", "Failed to hook constructor in " + className + " Error: " + t);
-        }
+        XposedHelpers.findAndHookConstructor(className, classLoader, parameterTypesAndCallback);
     }
 
     public void hookAllMethods(String className, String methodName, MethodHook callback) {
-        try {
-            Class<?> hookClass = findClassIfExists(className);
-            if (hookClass != null) {
-                XposedBridge.hookAllMethods(hookClass, methodName, callback);
-            }
-        } catch (Throwable t) {
-            // logE("HookAllMethods", className + " is " + methodName + " abnormal: " + t);
+        Class<?> hookClass = findClassIfExists(className);
+        if (hookClass != null) {
+            XposedBridge.hookAllMethods(hookClass, methodName, callback);
         }
     }
 
     public static void hookAllMethods(Class<?> hookClass, String methodName, MethodHook callback) {
-        try {
-            XposedBridge.hookAllMethods(hookClass, methodName, callback);
-        } catch (Throwable t) {
-            // logE("HookAllMethods", hookClass + " is " + methodName + " abnormal: " + t);
-        }
+        XposedBridge.hookAllMethods(hookClass, methodName, callback);
     }
 
     public static void hookAllMethods(String className, ClassLoader classLoader, String methodName, MethodHook callback) {
-        try {
-            Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            if (hookClass != null) {
-                XposedBridge.hookAllMethods(hookClass, methodName, callback);
-            }
-        } catch (Throwable t) {
-            // logE("hookAllMethods", className + " is abnormal", t);
+        Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
+        if (hookClass != null) {
+            XposedBridge.hookAllMethods(hookClass, methodName, callback);
         }
     }
 
@@ -258,32 +243,20 @@ public class HookUtils extends XposedLogUtils {
     }
 
     public void hookAllConstructors(String className, MethodHook callback) {
-        try {
-            Class<?> hookClass = findClassIfExists(className);
-            if (hookClass != null) {
-                XposedBridge.hookAllConstructors(hookClass, callback);
-            }
-        } catch (Throwable t) {
-            // logE("hookAllConstructors", className + " is  abnormal: " + t);
+        Class<?> hookClass = findClassIfExists(className);
+        if (hookClass != null) {
+            XposedBridge.hookAllConstructors(hookClass, callback);
         }
     }
 
     public void hookAllConstructors(Class<?> hookClass, MethodHook callback) {
-        try {
-            XposedBridge.hookAllConstructors(hookClass, callback);
-        } catch (Throwable t) {
-            // logE("hookAllConstructors", hookClass + " is  abnormal: " + t);
-        }
+        XposedBridge.hookAllConstructors(hookClass, callback);
     }
 
     public void hookAllConstructors(String className, ClassLoader classLoader, MethodHook callback) {
-        try {
-            Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
-            if (hookClass != null) {
-                XposedBridge.hookAllConstructors(hookClass, callback);
-            }
-        } catch (Throwable t) {
-            // logE("hookAllConstructors", className + " is abnormal", t);
+        Class<?> hookClass = XposedHelpers.findClassIfExists(className, classLoader);
+        if (hookClass != null) {
+            XposedBridge.hookAllConstructors(hookClass, callback);
         }
     }
 
