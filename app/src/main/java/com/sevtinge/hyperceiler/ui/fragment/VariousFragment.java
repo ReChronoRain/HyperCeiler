@@ -40,7 +40,7 @@ public class VariousFragment extends SettingsPreferenceFragment
         mMipad = findPreference("prefs_key_various_mipad");
 
         mDisableBluetoothRestrict.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
-        mDisableDeviceLog.setVisible(isAndroidVersion(33));
+        mDisableDeviceLog.setVisible(isMoreAndroidVersion(33));
         mMipad.setVisible(isPad());
 
         mDisableBluetoothRestrict.setOnPreferenceChangeListener((preference, o) -> true);
