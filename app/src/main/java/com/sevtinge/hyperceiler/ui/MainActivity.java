@@ -4,9 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import androidx.annotation.Nullable;
+
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
+import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.SearchHelper;
+
+import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
 
@@ -31,6 +37,39 @@ public class MainActivity extends NavigationActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         requestCta();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        try {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            switch (requestCode) {
+                case BackupUtils.CREATE_DOCUMENT_CODE -> {
+                    BackupUtils.handleCreateDocument(this, data.getData());
+                    alert.setTitle(R.string.backup_success);
+                }
+                case BackupUtils.OPEN_DOCUMENT_CODE -> {
+                    BackupUtils.handleReadDocument(this, data.getData());
+                    alert.setTitle(R.string.rest_success);
+                }
+                default -> { return; }
+            }
+            alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            });
+            alert.show();
+        } catch (Exception e) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            switch (requestCode) {
+                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(R.string.backup_failed);
+                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(R.string.rest_failed);
+            }
+            alert.setMessage(e.toString());
+            alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            });
+            alert.show();
+        }
     }
 
 }

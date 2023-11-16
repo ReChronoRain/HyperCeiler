@@ -22,8 +22,6 @@ import moralnorm.preference.SwitchPreference;
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
-    MultiSelectListPreference mReboot;
-    Preference mRestartQuick;
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
@@ -59,41 +57,6 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                 return true;
             });
         }
-
-        mReboot = findPreference("prefs_key_settings_reboot");
-        mReboot.setVisible(false);
-
-        mRestartQuick = findPreference("prefs_key_restart_quick");
-        mRestartQuick.setOnPreferenceClickListener(preference -> {
-            RestartAlertDialog dialog = new RestartAlertDialog(getContext());
-            dialog.setTitle(R.string.hyperceiler_restart_quick);
-            dialog.show();
-            return true;
-        });
-        /*String[] mRestartAllScopes = getResources().getStringArray(R.array.xposed_scope);
-        List<String> mItemList = Arrays.asList(mRestartAllScopes);
-        String[] mItems = new String[0];
-        if (mItemList.contains("android")) {
-            List<String> mItemList2 = new ArrayList<>(mItemList);
-            mItemList2.remove("android");
-            mItems = mItemList2.toArray(new String[mItemList2.size()]);
-        }
-
-        mReboot = findPreference("prefs_key_settings_reboot");
-        mReboot.setEntries(mItems);
-        mReboot.setEntryValues(mItems);
-        mReboot.setOnPreferenceChangeListener((preference, o) -> {
-            List<String> mShellPackageName = new ArrayList<>();
-            CharSequence[] extras = mReboot.getEntries();
-            Set<String> options = (Set<String>) o;
-            for (String op : options) {
-                int index = mReboot.findIndexOfValue(op);
-                mShellPackageName.add("killall " + extras[index]);
-                Toast.makeText(getActivity(), "killall " + extras[index], Toast.LENGTH_SHORT).show();
-            }
-            ShellUtils.execCommand(mShellPackageName, true);
-            return false;
-        });*/
 
         findPreference("prefs_key_back").setOnPreferenceClickListener(preference -> {
             final AppCompatActivity activity = (AppCompatActivity) getActivity();

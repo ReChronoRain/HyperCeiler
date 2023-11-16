@@ -117,6 +117,10 @@
             android:exported="true"
             android:grantUriPermissions="true" />
 
+        <property
+            android:name="miui.blurRelaunch"
+            android:value="true" />
+
         <meta-data
             android:name="required_permissions"
             android:value=";" />

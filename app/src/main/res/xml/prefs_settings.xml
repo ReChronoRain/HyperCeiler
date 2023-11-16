@@ -32,18 +32,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/module_scope_settings">
-        <Preference
-            android:key="prefs_key_restart_quick"
-            android:title="@string/hyperceiler_restart_quick" />
-
-        <MultiSelectListPreference
-            android:enabled="false"
-            android:key="prefs_key_settings_reboot"
-            android:title="@string/settings_reboot" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/settings_data_title">
         <Preference
             android:key="prefs_key_back"
