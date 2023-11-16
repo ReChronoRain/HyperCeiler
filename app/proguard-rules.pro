@@ -4,9 +4,8 @@
 -keep class com.sevtinge.hyperceiler.utils.Helpers{boolean isModuleActive;}
 -keep class com.sevtinge.hyperceiler.utils.Helpers{int XposedVersion;}
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook
--keep class com.sevtinge.hyperceiler.ui.HideAppActivity
+-keep class com.sevtinge.hyperceiler.ui.LauncherActivity
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
--keep class miui.drm.**{*;}
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
 -dontwarn com.android.internal.view.menu.MenuBuilder
