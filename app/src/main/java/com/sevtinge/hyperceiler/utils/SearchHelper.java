@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
@@ -30,7 +32,7 @@ public class SearchHelper {
     );
 
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-    public static final String MIUIZER_NS = "http://schemas.android.com/apk/res-auto";
+    public static final String APP_NS = "http://schemas.android.com/apk/res-auto";
 
     public static void getAllMods(Context context, boolean force) {
         if (force) {
@@ -673,7 +675,9 @@ public class SearchHelper {
                     try {
                         ModData modData = new ModData();
                         modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        if (!TextUtils.isEmpty(modData.title)) {
+                        boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
+
+                        if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
                             if (!res.getString(catSub3ResId).equals(res.getString(catSub4ResId))) {
                                 modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId) + "/" + res.getString(catSub3ResId) + "/" + res.getString(catSub4ResId);
                             } else if (!res.getString(catSub2ResId).equals(res.getString(catSub3ResId))) {
