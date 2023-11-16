@@ -998,7 +998,7 @@
     <string name="various_disable_link_turbo_toast_more">高速再起動スコープで NetworkBoost を再起動してください</string>
     <!--nfc-->
     <string name="nfc">NFC サービス</string>
-    <string name="nfc_disable_sound">サウンドを無効化</string>
+    <string name="nfc_disable_sound">NFC 通知音を無効化</string>
     <string name="nfc_allow_information_screen">ロック画面でも認識できるようにする</string>
     <!--App vault-->
     <string name="personal_assistant">アプリ保管庫</string>
@@ -1299,9 +1299,10 @@
     <string name="aod_hyperos">常時表示とロック画面エディター</string>
     <string name="mirror_hyperos">デバイス相互接続サービス</string>
     <string name="system_framework_disable_verify_can_ve_disabled">アプリ検証の無効化を許可</string>
-    <string name="misound">Mi サウンド</string>
+    <string name="misound">Xiaomi サウンド</string>
     <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>
     <string name="system_framework_allow_all_dark_mode">すべてのアプリにダークモードの使用を許可</string>
+    <string name="updater_enable_miui_version">アップデーターのバージョン偽装を有効化</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
