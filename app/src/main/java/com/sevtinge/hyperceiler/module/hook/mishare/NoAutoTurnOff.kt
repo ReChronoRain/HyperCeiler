@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.mishare
 
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
@@ -22,12 +23,12 @@ object NoAutoTurnOff : BaseHook() {
         dexKitBridge.findMethod {
             matcher {
                 declaredClass {
-                    addUsingStringsEquals("mishare:advertise_lock", "power")
+                    addUsingStringsEquals("mishare:advertise_lock")
                 }
                 paramCount = 2
                 modifiers = Modifier.STATIC
             }
-        }.map { it.getMethodInstance(classLoader) }.toList()
+        }.map { it.getMethodInstance(classLoader) }.first()
     }
 
     private val null3Method by lazy {
@@ -53,6 +54,17 @@ object NoAutoTurnOff : BaseHook() {
         }.map { it.getMethodInstance(classLoader) }.toList()
     }
 
+    // 比较激进的移除 Toast 方式
+    /*private val toast2Method by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                returnType = "void"
+                paramTypes = listOf("android.content.Context", "java.lang.CharSequence","int")
+                modifiers = Modifier.STATIC
+            }
+        }.map { it.getMethodInstance(classLoader) }.toList()
+    }*/
+
     override fun init() {
         val nullClass = dexKitBridge.findClass {
             matcher {
@@ -68,19 +80,20 @@ object NoAutoTurnOff : BaseHook() {
         }.map { it.getFieldInstance(classLoader) }.first()
 
         // 禁用小米互传功能自动关闭部分
+        try {
         nullMethod.createHooks {
-            before {
-                it.result = null
-            }
+            returnConstant(null)
+        }
+        } catch (t: Throwable) {
+            logE(TAG, this.lpparam.packageName, "nullMethod hook failed", t)
         }
 
         try {
-            null2Method.createHooks {
-                before {
-                    it.result = null
-                }
+            null2Method.createHook {
+                returnConstant(null)
             }
-        } catch (_: Throwable) {
+        } catch (t: Throwable) {
+            logE(TAG, this.lpparam.packageName, "null2Method hook failed", t)
         }
 
         try {
@@ -90,8 +103,7 @@ object NoAutoTurnOff : BaseHook() {
                     val getField = getValueByFields(it.thisObject, fieldNames) ?: return@after
                     XposedHelpers.callMethod(getField, "removeCallbacks", it.thisObject)
                     logI(
-                        TAG,
-                        this@NoAutoTurnOff.lpparam.packageName,
+                        TAG, this@NoAutoTurnOff.lpparam.packageName,
                         "null3Method hook success, $getField"
                     )
                 }
@@ -104,6 +116,7 @@ object NoAutoTurnOff : BaseHook() {
             findAndHookConstructor(nullClass, object : MethodHook() {
                 override fun after(param: MethodHookParam) {
                     XposedHelpers.setObjectField(param.thisObject, nullField.name, 999999999)
+                    logI(nullField.name)
                 } })
         } catch (t: Throwable) {
             logE(TAG, this.lpparam.packageName, "nullField hook failed", t)
