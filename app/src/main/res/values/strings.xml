@@ -50,7 +50,6 @@
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
     <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="module_scope_settings">Module scope</string>
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
