@@ -26,6 +26,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     Preference mRestartQuick;
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
+    SwitchPreference mHideAppIcon;
 
     @Override
     public int getContentResId() {
@@ -37,26 +38,27 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
         int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_settings_icon", "0"));
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
-        SwitchPreference mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
 
-        mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
+        if (mHideAppIcon != null) {
+            mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
 
-            PackageManager pm = getActivity().getPackageManager();
-            int mComponentEnabledState;
+                PackageManager pm = requireActivity().getPackageManager();
+                int mComponentEnabledState;
 
-            if ((Boolean) o) {
-                mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-            } else {
-                mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-            }
+                if ((Boolean) o) {
+                    mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+                } else {
+                    mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                }
 
-            pm.setComponentEnabledSetting(new ComponentName(getActivity(), LauncherActivity.class), mComponentEnabledState, PackageManager.DONT_KILL_APP);
-
-            return true;
-        });
+                pm.setComponentEnabledSetting(new ComponentName(requireActivity(), LauncherActivity.class), mComponentEnabledState, PackageManager.DONT_KILL_APP);
+                return true;
+            });
+        }
 
         mReboot = findPreference("prefs_key_settings_reboot");
         mReboot.setVisible(false);
