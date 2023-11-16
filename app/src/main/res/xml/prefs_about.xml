@@ -30,7 +30,7 @@
             android:icon="@drawable/ic_lingqiqi"
             android:layout="@layout/preference_round_layout"
             android:summary="Hook"
-            android:title="Ling Qiqi">
+            android:title="Neko Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/mu7220" />

@@ -175,7 +175,7 @@
             android:icon="@drawable/ic_home"
             android:key="prefs_key_home"
             android:summary="com.miui.home"
-            android:title="@string/home" />
+            android:title="@string/mihome" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MediaEditorFragment"

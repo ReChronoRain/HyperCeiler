@@ -631,7 +631,7 @@
     <string name="guard_provider">Безопасность MIUI</string>
     <string name="guard_provider_disable_upload_applist">Запретить автозагрузку списка установленных приложений</string>
     <!--System launcher-->
-    <string name="home">Системный раб.стол</string>
+    <string name="mihome">Системный раб.стол</string>
     <string name="home_gesture">Жесты</string>
     <string name="home_gesture_mainscreen_title">Главный экран</string>
     <string name="home_gesture_gesture_title">Полноэкранные жесты</string>

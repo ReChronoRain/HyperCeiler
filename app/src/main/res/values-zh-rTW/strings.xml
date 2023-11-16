@@ -11,6 +11,7 @@
     <string name="language">繁體中文 (台灣)</string>
     <string name="translator">聖小熊</string>
     <string name="translator_url">https://github.com/a406010503</string>
+    <string name="home">首頁</string>
     <string name="settings">設定</string>
     <string name="about">關於</string>
     <string name="about_use">項目引用</string>
@@ -761,7 +762,7 @@
     <string name="guard_provider">MIUI 安全性群組件</string>
     <string name="guard_provider_disable_upload_applist">阻止自動上傳已安裝的應用程式列表</string>
     <!--System launcher-->
-    <string name="home">系統桌面</string>
+    <string name="mihome">系統桌面</string>
     <string name="home_gesture">手勢與導覽列</string>
     <string name="home_navigation_title">導航</string>
     <string name="home_navigation_quick_back">切換至上一個應用程式</string>
