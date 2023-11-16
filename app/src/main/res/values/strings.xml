@@ -38,8 +38,9 @@
     <string name="new_cta_app_all_purpose_title">Welcome to HyperCeiler. This application relies on the Xposed framework to run. You can use this application to hijack and modify other supported applications to enhance the system. During use, in order to provide you with more functions, we may apply for Root/Su permissions from you. You can manage it at any time by going to your Root/Su Manager.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">English</string>
-    <string name="translator">Ling Qiqi</string>
+    <string name="translator">Neko Qiqi</string>
     <string name="translator_url">https://github.com/mu7220</string>
+    <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="about_use">Quote</string>
@@ -48,6 +49,13 @@
     <string name="about_contributer_desc">Thanks to the following contributors for their help in the development of HyperCeiler (in no particular order)</string>
     <string name="about_donation">Sponsor</string>
     <string name="about_donation_desc">You can support us by donating here</string>
+    <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
+    <string name="module_scope_settings">Module scope</string>
+    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
+    <string name="location_add">Add</string>
+    <string name="location_delete">Delete</string>
+    <string name="development">Developer Options</string>
+    <string name="development_ui">UI</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
     <string name="settings_data_title">Backup and Restore</string>
@@ -328,6 +336,8 @@
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
     <string name="system_framework_other_disable_cleaner_desc">Experimental features, may cause running memory usage abnormally</string>
     <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
+    <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
+    <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
@@ -736,6 +746,7 @@
     <string name="theme_manager_enable_fold_theme">Enable Fold theme</string>
     <!--Updater-->
     <string name="updater">Updater</string>
+    <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
     <string name="updater_fuck_vab">Remove OTA verification</string>
     <string name="updater_fuck_vab_desc">Only VAB devices are supported, please do not enable other non-VAB devices!\n- You can swipe into the complete internal test card swiping package without internal test permissions\n- It is recommended to clear data after flashing across different version types\n- Does not support any unofficial ROM usage\n- This function is dangerous, please evaluate whether to enable it after understanding the operation of Fastboot</string>
     <string name="updater_version_mode">Disguise type</string>
@@ -755,9 +766,11 @@
     <string name="lbe_clipboard_tip">Read clipboard</string>
     <!--Cast-->
     <string name="milink">Cast</string>
+    <string name="milink_hyperos">Interconnectivity Services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <!--Always-on display-->
     <string name="aod">Always-on display</string>
+    <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
@@ -792,7 +805,7 @@
     <string name="guard_provider_hyperos">System Security Components</string>
     <string name="guard_provider_disable_upload_applist">Prevent automatic upload of installed app list</string>
     <!--System launcher-->
-    <string name="home">System launcher</string>
+    <string name="mihome">System launcher</string>
     <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_navigation_title">Navigation</string>
     <string name="home_navigation_quick_back">Go back to previous app</string>
@@ -1053,6 +1066,7 @@
     <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">Disable to Get Display Control Code</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
@@ -1184,7 +1198,11 @@
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
+    <string name="mirror_hyperos">Device Interconnectivity Services</string>
     <string name="mirror_unlock_miui_plus">Unlock MIUI+</string>
+    <!--Mi sound-->
+    <string name="misound">Mi Sound</string>
+    <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
     <string name="mi_input_settings">Input settings</string>
@@ -1322,22 +1340,6 @@
     <string name="operator_fix_2">Method 2 (recommended)</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
-    <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="module_scope_settings">Module scope</string>
-    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
-    <string name="location_add">Add</string>
-    <string name="location_delete">Delete</string>
-    <string name="development">Developer Options</string>
-    <string name="development_ui">UI</string>
-    <string name="powerkeeper_disable_get_display_ctrl_code">Disable to Get Display Control Code</string>
-    <string name="milink_hyperos">Interconnectivity Services</string>
-    <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
-    <string name="mirror_hyperos">Device Interconnectivity Services</string>
-    <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
-    <string name="misound">Mi Sound</string>
-    <string name="misound_increase_sampling_rate">Increase sampling rate</string>
-    <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
-    <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
@@ -1356,7 +1358,7 @@
     <string name="tip_14">Tip: Sevtinge studied at the School of Information Engineering and Technology of Sanjiang City Campus of Shanhe University.</string>
     <string name="tip_15">Tip: I heard that Sevtinge has two different forms.</string>
     <string name="tip_16">Tip: Sevtinge is a little fox! (Cross out)</string>
-    <string name="tip_17">Tip: Ling Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
+    <string name="tip_17">Tip: Neko Qiqi has two personalities, one is a cat girl control, and the other is a loli control (x</string>
     <string name="tip_18">Tip: HyperCeiler is the fastest battery draining system app (grumpy speech)</string>
     <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
     <string name="tip_20">Tip: Don’t chase the new version of Canary if you have nothing to do, and don’t rush to update if it’s broken (</string>

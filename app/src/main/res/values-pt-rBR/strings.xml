@@ -762,7 +762,7 @@
     <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
-    <string name="home">Launcher do sistema</string>
+    <string name="mihome">Launcher do sistema</string>
     <string name="home_gesture">Gestos e navegação</string>
     <string name="home_navigation_title">Navegação</string>
     <string name="home_navigation_quick_back">Voltar ao app anterior</string>
@@ -1321,7 +1321,7 @@
     <string name="tip_14">Dica: Sevtinge estudou na Escola de Engenharia e Tecnologia da Informação do Campus da cidade de Sanjiang da Universidade de Shanhe.</string>
     <string name="tip_15">Dica: Eu ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
     <string name="tip_16">Dica: Sevtinge é uma raposinha! (Descartar)</string>
-    <string name="tip_17">Dica: Ling Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
+    <string name="tip_17">Dica: Neko Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
     <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
     <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que fica cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto</string>
     <string name="tip_20">Dica: Não persiga a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizar se ela estiver quebrada.</string>

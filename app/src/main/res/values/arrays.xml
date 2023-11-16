@@ -64,14 +64,14 @@
     <string-array name="app_module_support">
         <item>@string/system_framework</item>
         <item>@string/system_ui</item>
-        <item>@string/home</item>
+        <item>@string/mihome</item>
         <item>@string/security_center</item>
         <item>@string/various</item>
     </string-array>
 
     <string-array name="restart_apps_name">
         <item>@string/system_ui</item>
-        <item>@string/home</item>
+        <item>@string/mihome</item>
         <item>@string/security_center</item>
         <item>@string/personal_assistant</item>
         <item>@string/notes</item>

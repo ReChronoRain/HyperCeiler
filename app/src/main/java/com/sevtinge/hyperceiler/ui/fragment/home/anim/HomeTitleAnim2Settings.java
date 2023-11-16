@@ -15,7 +15,7 @@ public class HomeTitleAnim2Settings extends SettingsPreferenceFragment {
     @Override
     public View.OnClickListener addRestartListener() {
         return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
-            getResources().getString(R.string.home),
+            getResources().getString(R.string.mihome),
             "com.miui.home"
         );
     }

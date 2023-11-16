@@ -762,7 +762,7 @@
     <string name="guard_provider_hyperos">システムセキュリティコンポーネント</string>
     <string name="guard_provider_disable_upload_applist">インストール済みアプリリストの自動アップロードを防止</string>
     <!--System launcher-->
-    <string name="home">システムランチャー</string>
+    <string name="mihome">システムランチャー</string>
     <string name="home_gesture">ジェスチャーとナビゲーション</string>
     <string name="home_navigation_title">ナビゲーション</string>
     <string name="home_navigation_quick_back">前のアプリに戻る</string>
@@ -1321,7 +1321,7 @@
     <string name="tip_14">ヒント: Sevtinge は山河大学 三江市キャンパス 情報工程学院出身です。</string>
     <string name="tip_15">ヒント: Sevtinge には第二形態があるらしい…</string>
     <string name="tip_16">ヒント: Sevtinge は子狐です！</string>
-    <string name="tip_17">ヒント: Ling Qiqi は猫耳の女の子の人格とロリの人格を持っています。</string>
+    <string name="tip_17">ヒント: Neko Qiqi は猫耳の女の子の人格とロリの人格を持っています。</string>
     <string name="tip_18">ヒント: HyperCeiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
     <string name="tip_19">ヒント: グレーアウトした機能は、特別な注釈がない場合機能が異常であることを意味しており、当分の間ユーザーに開放される予定はありません</string>
     <string name="tip_20">ヒント: 何もしない場合は Canary の新しいバージョンを追わないでください。壊れている場合は急いでアップデートしないでください。</string>
