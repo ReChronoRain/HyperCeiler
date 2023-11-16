@@ -24,11 +24,6 @@
             app:entries="@array/settings_icon_mode"
             app:entryValues="@array/settings_icon_mode_value" />
 
-        <MultiSelectListPreference
-            android:enabled="false"
-            android:key="prefs_key_settings_reboot"
-            android:title="@string/settings_reboot" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_settings_disable_detailed_log"
@@ -37,10 +32,15 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/hyperceiler_restart_quick">
+    <PreferenceCategory android:title="@string/module_scope_settings">
         <Preference
             android:key="prefs_key_restart_quick"
             android:title="@string/hyperceiler_restart_quick" />
+
+        <MultiSelectListPreference
+            android:enabled="false"
+            android:key="prefs_key_settings_reboot"
+            android:title="@string/settings_reboot" />
 
     </PreferenceCategory>
 
@@ -72,14 +72,5 @@
             android:title="@string/development" />
 
     </PreferenceCategory>
-
-    <!--<PreferenceCategory>
-        <Preference android:title="@string/settings_debug_title>
-            <intent
-                android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.sevtinge.hyperceiler.ui.common.DebugActivity"/>
-        </Preference>
-    </PreferenceCategory>-->
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

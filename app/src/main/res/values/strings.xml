@@ -1323,6 +1323,7 @@
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
     <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
+    <string name="module_scope_settings">Module scope</string>
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
     <string name="location_add">Add</string>
     <string name="location_delete">Delete</string>
