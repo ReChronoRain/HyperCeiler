@@ -1289,7 +1289,6 @@
     <string name="custom_hook_new">增加 Hook</string>
     <string name="custom_hook_mode">選擇模式</string>
     <string name="hyperceiler_notice">下拉狀態欄，同時顯示快捷開關和系統通知</string>
-    <string name="module_scope_settings">模組作用域</string>
     <string name="hyperceiler_restart_quick">快速重啟作用域</string>
     <string name="location_add">增加</string>
     <string name="location_delete">刪除</string>
