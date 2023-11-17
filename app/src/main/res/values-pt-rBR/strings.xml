@@ -11,6 +11,7 @@
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
     <string name="translator_url">https://github.com/igormiguell</string>
+    <string name="home">Início</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
     <string name="about_use">Citar</string>
@@ -19,6 +20,12 @@
     <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do HyperCeiler (em nenhuma ordem em particular)</string>
     <string name="about_donation">Patrocinadores</string>
     <string name="about_donation_desc">Você pode nos apoiar doando aqui</string>
+    <string name="hyperceiler_notice">Puxe para baixo a barra de status para exibir as opções de atalho e notificações do sistema</string>
+    <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
+    <string name="location_add">Adicionar</string>
+    <string name="location_delete">Excluir</string>
+    <string name="development">Opções do desenvolvedor</string>
+    <string name="development_ui">UI</string>
     <string name="about_privacy">Política de privacidade</string>
     <string name="about_protocol">Acordo do usuário</string>
     <string name="settings_data_title">Backup e Restauração</string>
@@ -299,6 +306,8 @@
     <string name="system_framework_other_disable_cleaner">Desativar o encerramento de apps em segundo plano</string>
     <string name="system_framework_other_disable_cleaner_desc">Recurso experimental. Pode causar uso anormal de memória em execução.</string>
     <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio por 72 horas</string>
+    <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
+    <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -706,6 +715,7 @@
     <string name="theme_manager_enable_fold_theme">Ativar tema Fold</string>
     <!--Updater-->
     <string name="updater">Atualizações</string>
+    <string name="updater_enable_miui_version">Ativar Versão falsa para Atualizações</string>
     <string name="updater_fuck_vab">Remover verificação OTA</string>
     <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados, por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno.\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão.\n- Não suporta nenhum uso de ROM não oficial.\n- Esta função é perigosa, por favor, avalie se deve ativá-la após entender a operação do Fastboot.</string>
     <string name="updater_version_mode">Tipo de disfarce</string>
@@ -725,10 +735,12 @@
     <string name="lbe_clipboard_tip">Ler área de transferência</string>
     <!--Cast-->
     <string name="milink">Transmitir</string>
+    <string name="milink_hyperos">Serviços de interconectividade</string>
     <string name="milink_unlock_mishare">Desbloquear Interconexão do dispositivo</string>
     <!--Always-on display-->
-    <string name="aod">Tela sempre ativa</string>
-    <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da tela sempre ativa</string>
+    <string name="aod">Tela ambiente</string>
+    <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
+    <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da tela ambiente</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador de terceiros</string>
@@ -762,7 +774,7 @@
     <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
-    <string name="home">Launcher do sistema</string>
+    <string name="mihome">Launcher do sistema</string>
     <string name="home_gesture">Gestos e navegação</string>
     <string name="home_navigation_title">Navegação</string>
     <string name="home_navigation_quick_back">Voltar ao app anterior</string>
@@ -1019,6 +1031,7 @@
     <string name="powerkeeper_do_not_kill_apps">Tente não encerrar os apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">Desative para obter código de controle de exibição</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
@@ -1150,7 +1163,11 @@
     <string name="market_disable_new_icon_desc">Deixe a tela inicial mais limpa</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
+    <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
     <string name="mirror_unlock_miui_plus">Desbloquear MIUI+</string>
+    <!--Mi sound-->
+    <string name="misound">Fones de ouvido</string>
+    <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>
     <!--Mi Settings-->
     <string name="mi_settings">Configurações Mi</string>
     <string name="mi_input_settings">Configurações de entrada</string>
@@ -1288,21 +1305,6 @@
     <string name="operator_fix_2">Método 2 (recomendado)</string>
     <string name="custom_hook_new">Adicionar gancho</string>
     <string name="custom_hook_mode">Selecionar modo</string>
-    <string name="hyperceiler_notice">Puxe para baixo a barra de status para exibir as opções de atalho e notificações do sistema</string>
-    <string name="hyperceiler_restart_quick">Reiniciar apps rapidamente</string>
-    <string name="location_add">Adicionar</string>
-    <string name="location_delete">Excluir</string>
-    <string name="development">Opções do desenvolvedor</string>
-    <string name="development_ui">UI</string>
-    <string name="powerkeeper_disable_get_display_ctrl_code">Desative para obter código de controle de exibição</string>
-    <string name="milink_hyperos">Serviços de interconectividade</string>
-    <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
-    <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
-    <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
-    <string name="misound">Fones de ouvido</string>
-    <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>
-    <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
-    <string name="updater_enable_miui_version">Ativar Versão falsa para Atualizações</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
@@ -1321,7 +1323,7 @@
     <string name="tip_14">Dica: Sevtinge estudou na Escola de Engenharia e Tecnologia da Informação do Campus da cidade de Sanjiang da Universidade de Shanhe.</string>
     <string name="tip_15">Dica: Eu ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
     <string name="tip_16">Dica: Sevtinge é uma raposinha! (Descartar)</string>
-    <string name="tip_17">Dica: Ling Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
+    <string name="tip_17">Dica: Neko Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
     <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
     <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que fica cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto</string>
     <string name="tip_20">Dica: Não persiga a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizar se ela estiver quebrada.</string>

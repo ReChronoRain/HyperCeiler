@@ -7,7 +7,7 @@
         android:defaultValue="false" />
 
     <SwitchPreference
-        android:title="@string/home"
+        android:title="@string/mihome"
         android:key="prefs_key_home_safe_mode_enable"
         android:defaultValue="false" />
 

@@ -763,7 +763,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="guard_provider">Bảo mật MIUI</string>
     <string name="guard_provider_disable_upload_applist">Ngăn tự động tải lên danh sách ứng dụng đã cài đặt</string>
     <!--System launcher-->
-    <string name="home">Trình khởi chạy hệ thống</string>
+    <string name="mihome">Trình khởi chạy hệ thống</string>
     <string name="home_gesture">Cử chỉ</string>
     <string name="home_navigation_title">Điều hướng</string>
     <string name="home_navigation_quick_back">Quay lại ứng dụng trước</string>
@@ -1317,7 +1317,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="tip_14">Mẹo: Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
     <string name="tip_15">Mẹo: Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
     <string name="tip_16">Mẹo: Sevtinge là một con cáo!</string>
-    <string name="tip_17">Mẹo: Ling Qiqi có hai nhân cách, một là catgirl, hai là loli (x</string>
+    <string name="tip_17">Mẹo: Neko Qiqi có hai nhân cách, một là catgirl, hai là loli (x</string>
     <string name="tip_18">Mẹo: HyperCeiler là ứng dụng tiêu hao pin nhanh nhất</string>
     <string name="tip_19">Mẹo: Nếu không có chú thích đặc biệt cho chức năng chuyển sang màu xám, điều đó có nghĩa là chức năng đó không bình thường và nó không được lên kế hoạch mở cho người dùng trong thời điểm hiện tại</string>
     <string name="tip_20">Mẹo: Đừng chạy theo phiên bản Canary nếu bạn không có việc gì làm và đừng vội cập nhật nếu nó bị hỏng (</string>

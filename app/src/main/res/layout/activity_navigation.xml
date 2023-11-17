@@ -27,7 +27,7 @@
         android:checkedButton="@id/navigation_home"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingVertical="10dp">
+        android:paddingVertical="12dp">
 
         <RadioButton
             android:id="@+id/navigation_home"
@@ -36,9 +36,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/ic_navigation_home"
-            android:drawablePadding="3dp"
+            android:drawablePadding="2dp"
             android:gravity="center"
-            android:text="首页"
+            android:text="@string/home"
             android:textSize="12sp" />
 
         <RadioButton
@@ -48,9 +48,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/ic_navigation_settings"
-            android:drawablePadding="3dp"
+            android:drawablePadding="2dp"
             android:gravity="center"
-            android:text="设置"
+            android:text="@string/settings"
             android:textSize="12sp" />
 
         <RadioButton
@@ -60,9 +60,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/ic_navigation_about"
-            android:drawablePadding="3dp"
+            android:drawablePadding="2dp"
             android:gravity="center"
-            android:text="关于"
+            android:text="@string/about"
             android:textSize="12sp" />
 
     </RadioGroup>
@@ -71,5 +71,6 @@
         android:id="@+id/search_result_view"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="?android:attr/windowBackground"/>
 </FrameLayout>

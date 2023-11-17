@@ -2,7 +2,9 @@
     <style name="Base.Theme.HyperCeiler.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Light</item>
         <item name="rebootIconColor">@color/black</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
     </style>
 

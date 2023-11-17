@@ -22,8 +22,10 @@ import com.sevtinge.hyperceiler.ui.SubSettings;
 import com.sevtinge.hyperceiler.ui.fragment.AboutFragment;
 import com.sevtinge.hyperceiler.ui.fragment.MainFragment;
 import com.sevtinge.hyperceiler.ui.fragment.ModuleSettingsFragment;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.SearchModeHelper;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
+import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         setContentView(R.layout.activity_navigation);
         initSearchView();
         initNavigationView();
+        setRestartView(view -> DialogHelper.showRestartDialog(this));
     }
 
     private void initSearchView() {

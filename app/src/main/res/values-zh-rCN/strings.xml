@@ -12,6 +12,7 @@
     <string name="translator">绀漓 | Sevtinge</string>
     <string name="translator_url">https://github.com/sevtinge</string>
 
+    <string name="home">主页</string>
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="about_use">引用</string>
@@ -20,6 +21,15 @@
     <string name="about_contributer_desc">感谢以下贡献者为 HyperCeiler 的开发提供了不同程度的帮助（排名顺序不分先后）</string>
     <string name="about_donation">支持</string>
     <string name="about_donation_desc">您可以在此处捐赠以支持我们</string>
+
+    <string name="hyperceiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
+    <string name="hyperceiler_restart_quick">快速重启作用域</string>
+
+    <string name="location_add">添加</string>
+    <string name="location_delete">删除</string>
+
+    <string name="development">开发者选项</string>
+    <string name="development_ui">界面元素测试</string>
 
     <string name="settings_data_title">备份与恢复</string>
     <string name="settings_bug_title">故障排查</string>
@@ -815,7 +825,7 @@
     <string name="guard_provider_hyperos">系统安全组件</string>
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>
     <!--系统桌面-->
-    <string name="home">系统桌面</string>
+    <string name="mihome">系统桌面</string>
     <string name="home_gesture">手势与导航</string>
     <string name="home_navigation_title">导航</string>
     <string name="home_navigation_quick_back">切换上一个应用</string>
@@ -1391,7 +1401,7 @@
 
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
-
+    
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>

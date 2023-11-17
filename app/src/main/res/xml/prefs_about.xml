@@ -30,7 +30,7 @@
             android:icon="@drawable/ic_lingqiqi"
             android:layout="@layout/preference_round_layout"
             android:summary="Hook"
-            android:title="Ling Qiqi">
+            android:title="Neko Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/mu7220" />
@@ -84,13 +84,13 @@
         <Preference android:title="@string/about_tg_group">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://t.me/sevtinge_nest" />
+                android:data="https://t.me/cemiuiler" />
         </Preference>
 
         <Preference android:title="@string/about_tg_channel">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://t.me/sevtinge_mod" />
+                android:data="https://t.me/cemiuiler_release" />
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about_other_title">

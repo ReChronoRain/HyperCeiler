@@ -477,7 +477,7 @@
     <string name="guard_provider">MIUI güvenlik bileşenleri</string>
     <string name="guard_provider_disable_upload_applist">Yüklü uygulama listesinin otomatik olarak yüklenmesini engelle</string>
     <!--System launcher-->
-    <string name="home">Sistem başlatıcı</string>
+    <string name="mihome">Sistem başlatıcı</string>
     <string name="home_gesture">Hareket</string>
     <string name="home_gesture_double_tap">Çift tıklayın</string>
     <string name="home_gesture_double_tap_desc">Ana ekranda herhangi bir yere çift dokunun</string>

@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.utils;
 
-import com.sevtinge.hyperceiler.expansionpacks.utils.KS2Utils;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;

@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
@@ -30,7 +32,7 @@ public class SearchHelper {
     );
 
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-    public static final String MIUIZER_NS = "http://schemas.android.com/apk/res-auto";
+    public static final String APP_NS = "http://schemas.android.com/apk/res-auto";
 
     public static void getAllMods(Context context, boolean force) {
         if (force) {
@@ -178,7 +180,7 @@ public class SearchHelper {
 
         // 系统桌面相关
         parsePrefXml(context, R.xml.home_gesture,
-            R.string.home,
+            R.string.mihome,
             R.string.home_gesture,
             R.string.home_gesture,
             R.string.home_gesture,
@@ -186,7 +188,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeGestureSettings");
 
         parsePrefXml(context, R.xml.home_layout,
-            R.string.home,
+            R.string.mihome,
             R.string.home_layout,
             R.string.home_layout,
             R.string.home_layout,
@@ -194,7 +196,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeLayoutSettings");
 
         parsePrefXml(context, R.xml.home_folder,
-            R.string.home,
+            R.string.mihome,
             R.string.home_folder,
             R.string.home_folder,
             R.string.home_folder,
@@ -202,7 +204,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeFolderSettings");
 
         parsePrefXml(context, R.xml.home_drawer,
-            R.string.home,
+            R.string.mihome,
             R.string.home_drawer,
             R.string.home_drawer,
             R.string.home_drawer,
@@ -210,7 +212,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeDrawerSettings");
 
         parsePrefXml(context, R.xml.home_title,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title,
             R.string.home_title,
@@ -218,7 +220,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleSettings");
 
         parsePrefXml(context, R.xml.home_title_anim,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param,
@@ -226,7 +228,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings");
 
         parsePrefXml(context, R.xml.home_title_anim_1,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_1_title,
@@ -234,7 +236,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim1Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_2,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_2_title,
@@ -242,7 +244,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim2Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_3,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_3_title,
@@ -250,7 +252,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim3Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_4,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_4_title,
@@ -258,7 +260,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim4Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_5,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_5_title,
@@ -266,7 +268,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim5Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_6,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_6_title,
@@ -274,7 +276,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnimSettings");
 
         parsePrefXml(context, R.xml.home_title_anim_7,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_7_title,
@@ -282,7 +284,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim7Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_8,
-            R.string.home,
+            R.string.mihome,
             R.string.home_title,
             R.string.home_title_custom_anim_param,
             R.string.home_title_custom_anim_param_8_title,
@@ -290,7 +292,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim8Settings");
 
         parsePrefXml(context, R.xml.home_recent,
-            R.string.home,
+            R.string.mihome,
             R.string.home_recent,
             R.string.home_recent,
             R.string.home_recent,
@@ -298,7 +300,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeRecentSettings");
 
         parsePrefXml(context, R.xml.home_widget,
-            R.string.home,
+            R.string.mihome,
             R.string.home_widget,
             R.string.home_widget,
             R.string.home_widget,
@@ -306,7 +308,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeWidgetSettings");
 
         parsePrefXml(context, R.xml.home_dock,
-            R.string.home,
+            R.string.mihome,
             R.string.home_dock,
             R.string.home_dock,
             R.string.home_dock,
@@ -314,7 +316,7 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.home.HomeDockSettings");
 
         parsePrefXml(context, R.xml.home_other,
-            R.string.home,
+            R.string.mihome,
             R.string.home_other,
             R.string.home_other,
             R.string.home_other,
@@ -673,7 +675,9 @@ public class SearchHelper {
                     try {
                         ModData modData = new ModData();
                         modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
-                        if (!TextUtils.isEmpty(modData.title)) {
+                        boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
+
+                        if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
                             if (!res.getString(catSub3ResId).equals(res.getString(catSub4ResId))) {
                                 modData.breadcrumbs = res.getString(catResId) + "/" + res.getString(catSub1ResId) + "/" + res.getString(catSub2ResId) + "/" + res.getString(catSub3ResId) + "/" + res.getString(catSub4ResId);
                             } else if (!res.getString(catSub2ResId).equals(res.getString(catSub3ResId))) {

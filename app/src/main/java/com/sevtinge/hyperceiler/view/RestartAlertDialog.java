@@ -20,6 +20,7 @@ public class RestartAlertDialog extends AlertDialog {
 
     public RestartAlertDialog(Context context) {
         super(context);
+        setTitle(R.string.hyperceiler_restart_quick);
         setView(createMultipleChoiceView(context));
     }
 

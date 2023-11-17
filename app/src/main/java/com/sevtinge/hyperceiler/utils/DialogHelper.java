@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -51,4 +52,9 @@ public class DialogHelper {
             .setNegativeButton("忽略", null)
             .show();
     }
+
+    public static void showRestartDialog(Context context) {
+        new RestartAlertDialog(context).show();
+    }
+
 }
