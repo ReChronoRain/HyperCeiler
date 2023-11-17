@@ -1341,6 +1341,8 @@
     <string name="custom_hook_mode">Select mode</string>
     <string name="open_source">Open Source Projects</string>
     <string name="close_source">Close Source Projects</string>
+    <string name="exit">Exit</string>
+    <string name="ignore">Ignore</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

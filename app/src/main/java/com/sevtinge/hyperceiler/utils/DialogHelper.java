@@ -48,8 +48,8 @@ public class DialogHelper {
             .setTitle(R.string.tip)
             .setMessage(R.string.hook_failed)
             .setHapticFeedbackEnabled(true)
-            .setPositiveButton("退出", (dialogInterface, i) -> System.exit(0))
-            .setNegativeButton("忽略", null)
+            .setPositiveButton(R.string.exit, (dialogInterface, i) -> System.exit(0))
+            .setNegativeButton(R.string.ignore, null)
             .show();
     }
 

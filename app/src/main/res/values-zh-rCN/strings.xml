@@ -1392,6 +1392,9 @@
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
 
+    <string name="exit">退出</string>
+    <string name="ignore">忽略</string>
+
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
