@@ -1339,21 +1339,6 @@
     <string name="operator_fix_2">Method 2 (recommended)</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
-    <string name="hyperceiler_notice">Pull down the status bar to display shortcut switches and system notifications</string>
-    <string name="hyperceiler_restart_quick">Quickly restart apps</string>
-    <string name="location_add">Add</string>
-    <string name="location_delete">Delete</string>
-    <string name="development">Developer Options</string>
-    <string name="development_ui">UI</string>
-    <string name="powerkeeper_disable_get_display_ctrl_code">Disable to Get Display Control Code</string>
-    <string name="milink_hyperos">Interconnectivity Services</string>
-    <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
-    <string name="mirror_hyperos">Device Interconnectivity Services</string>
-    <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
-    <string name="misound">Mi Sound</string>
-    <string name="misound_increase_sampling_rate">Increase sampling rate</string>
-    <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
-    <string name="updater_enable_miui_version">Enable Fake version for Updater</string>
     <string name="open_source">Open Source Projects</string>
     <string name="close_source">Close Source Projects</string>
     <!--Tip-->
