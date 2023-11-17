@@ -67,10 +67,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Base.Theme.HyperCeiler.DayNight.SystemBarBackgrounds">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
