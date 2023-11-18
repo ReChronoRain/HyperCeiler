@@ -50,7 +50,7 @@ object ChargingCVP : BaseHook() {
                         val runnable = object : Runnable {
                             override fun run() {
                                 if (isAndroidVersion(34))
-                                    XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")
+                                    XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")//无线调试崩溃
                                 else
                                     invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
 

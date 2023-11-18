@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
@@ -199,7 +200,7 @@ public class SystemUI extends BaseModule {
         initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
         initHook(CCGrid.INSTANCE, mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
             mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
-            mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") ||
+            (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && !isMoreHyperOSVersion(1f))||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         if (isMoreAndroidVersion(33)) {
             initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));

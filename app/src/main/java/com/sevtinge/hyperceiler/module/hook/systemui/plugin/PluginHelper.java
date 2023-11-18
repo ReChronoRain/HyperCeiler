@@ -1,12 +1,14 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.plugin;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
 
 
 public class PluginHelper extends BaseHook {
@@ -17,7 +19,7 @@ public class PluginHelper extends BaseHook {
 
     @Override
     public void init() {
-        if (!isAndroidVersion(34)) {
+        if (!isAndroidVersion(34) || !isMoreHyperOSVersion(1f)) {
             String pluginLoaderClass = isAndroidVersion(33)
                 ? "com.android.systemui.shared.plugins.PluginInstance$Factory"
                 : "com.android.systemui.shared.plugins.PluginManagerImpl";
@@ -74,7 +76,7 @@ public class PluginHelper extends BaseHook {
                                 if ("miui.systemui.plugin".equals(appInfo.packageName)) {
                                     isHooked = true;
                                     setClassLoader(pluginLoader);
-                                    logW(TAG, "im get ClassLoader: " + pluginLoader);
+                                    logI(TAG, "im get ClassLoader: " + pluginLoader);
                                     // logD("AU pluginLoader: " + pluginLoader);
                                 } else {
                                     logW(TAG, "Au get classloader miui.systemui.plugin error: " + pluginLoader);
@@ -108,5 +110,7 @@ public class PluginHelper extends BaseHook {
             BluetoothTileStyle.initHideDeviceControlEntry(classLoader);
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control") && mPrefsMap.getBoolean("system_framework_volume_separate_slider"))
             NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader);
+        if (isMoreHyperOSVersion(1f) && mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
+            CCGridForHyperOS.initCCGridForHyperOS(classLoader);
     }
 }

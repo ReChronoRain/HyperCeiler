@@ -14,6 +14,7 @@ import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import de.robv.android.xposed.XposedHelpers
 
 object CCGrid : BaseHook() {
@@ -305,7 +306,7 @@ object CCGrid : BaseHook() {
         }
 
         // 新控制中心矩形圆角
-        if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect")) {
+        if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && !isMoreHyperOSVersion(1f)) {
             mResHook.setResReplacement(
                 "miui.systemui.plugin",
                 "drawable",
