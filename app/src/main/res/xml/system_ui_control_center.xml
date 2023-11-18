@@ -200,6 +200,11 @@
             android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
             android:title="@string/system_ui_control_center_switch_cc_and_notification_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_hide_delimiter"
+            android:title="@string/system_ui_control_center_hide_delimiter" />
+
         <DropDownPreference
             android:defaultValue="1"
             android:key="prefs_key_system_ui_control_center_cc_bluetooth_tile_style"
