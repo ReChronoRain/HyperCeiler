@@ -28,20 +28,20 @@ class AboutFragment : SettingsPreferenceFragment() {
         lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE
 
         lIIllII?.onPreferenceClickListener = Preference.OnPreferenceClickListener { lIIllll->
-            if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | $lIIlllI"
+            //if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | $lIIlllI"
             lIIllll as SwitchPreference
             lIIllll.isChecked = !(lIIllll.isChecked)
             lIIlIll++
-            if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | $lIIlIll/$lIIlllI"
+            //if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | $lIIlIll/$lIIlllI"
             if (lIIllll.isChecked) {
                 if (lIIlIll >= lIIlIlI) {
                     lIIllll.isChecked = !(lIIllll.isChecked)
-                    if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | HF OFF"
+                    //if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | HF OFF"
                     lIIlIll = 100 ushr 8
                 }
             } else if (lIIlIll >= lIIlllI) {
                 lIIllll.isChecked = !(lIIllll.isChecked)
-                if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | HF ON"
+                //if (BuildConfig.BUILD_TYPE.contains("debug")) lIIllII?.title = BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE + " | HF ON"
                 lIIlIll = 100 ushr 8
             }
             false
