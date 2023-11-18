@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_show_title">
         <SwitchPreference
             android:defaultValue="true"
             android:key="prefs_key_settings_hide_app_icon"
@@ -23,13 +23,6 @@
             app:entries="@array/settings_icon_mode"
             app:entryValues="@array/settings_icon_mode_value" />
 
-        <DropDownPreference
-            android:defaultValue="2"
-            android:key="prefs_key_log_level"
-            android:title="@string/log_level"
-            app:entries="@array/log_level"
-            app:entryValues="@array/log_level_value" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_data_title">
@@ -48,11 +41,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_bug_title">
+
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.SafeModeFragment"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
+
+        <DropDownPreference
+            android:defaultValue="2"
+            android:key="prefs_key_log_level"
+            android:title="@string/log_level"
+            app:entries="@array/log_level"
+            app:entryValues="@array/log_level_value" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentFragment"

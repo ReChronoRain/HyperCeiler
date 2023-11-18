@@ -31,6 +31,7 @@
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>
 
+    <string name="settings_show_title">显示</string>
     <string name="settings_data_title">备份与恢复</string>
     <string name="settings_bug_title">故障排查</string>
     <string name="settings_debug_title">调试模式</string>

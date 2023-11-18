@@ -86,7 +86,9 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
 
     public void initPrefs() {
         mLogLevel = findPreference("prefs_key_log_level");
-        mLogLevel.setOnPreferenceChangeListener(this);
+        if (mLogLevel != null) {
+            mLogLevel.setOnPreferenceChangeListener(this);
+        }
     }
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
