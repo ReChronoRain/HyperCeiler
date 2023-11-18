@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.content.Context;
 import android.os.Handler;
 
@@ -16,6 +18,8 @@ public class MonetThemeOverlay extends BaseHook {
     @Override
     public void init() {
         THEME_CLASS_AOSP = findClassIfExists("com.android.systemui.theme.ThemeOverlayController");
+        String mMethodName;
+        if (isMoreAndroidVersion(33)) mMethodName ="createOverlays"; else mMethodName = "getOverlay";
 
         hookAllConstructors(THEME_CLASS_AOSP, new MethodHook() {
             @Override
@@ -25,7 +29,7 @@ public class MonetThemeOverlay extends BaseHook {
             }
         });
 
-        hookAllMethods(THEME_CLASS_AOSP, "getOverlay", new MethodHook() {
+        hookAllMethods(THEME_CLASS_AOSP, mMethodName, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 mHandler = new Handler(mContext.getMainLooper());
