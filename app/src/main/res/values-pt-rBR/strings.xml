@@ -15,7 +15,7 @@
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
     <string name="about_use">Citar</string>
-    <string name="about_use_desc">O HyperCeiler usa alguns ou todos os seguintes projetos de código aberto, graças aos desenvolvedores desses projetos por seu apoio (em nenhuma ordem em particular)</string>
+    <string name="about_use_desc">O HyperCeiler usa alguns ou todos os projetos a seguir, graças ao apoio dos desenvolvedores desses projetos (em nenhuma ordem em particular)</string>
     <string name="about_contributer">Colaboradores</string>
     <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do HyperCeiler (em nenhuma ordem em particular)</string>
     <string name="about_donation">Patrocinadores</string>
@@ -1305,6 +1305,10 @@
     <string name="operator_fix_2">Método 2 (recomendado)</string>
     <string name="custom_hook_new">Adicionar gancho</string>
     <string name="custom_hook_mode">Selecionar modo</string>
+    <string name="open_source">Projetos de código aberto</string>
+    <string name="close_source">Projetos de código fechado</string>
+    <string name="exit">Sair</string>
+    <string name="ignore">Ignorar</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
