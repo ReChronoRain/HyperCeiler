@@ -1344,6 +1344,7 @@
     <string name="close_source">Close Source Projects</string>
     <string name="exit">Exit</string>
     <string name="ignore">Ignore</string>
+    <string name="browser_disable_blacklist">Disable URL Blacklist</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

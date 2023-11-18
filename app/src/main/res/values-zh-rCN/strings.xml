@@ -361,6 +361,7 @@
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx 及以上版本没有入口</string>
+    <string name="browser_disable_blacklist">禁用网址黑名单</string>
     <!--相机-->
     <string name="camera">相机</string>
     <string name="camera_features_unlock_aiwatermark">解锁 AI 水印</string>
