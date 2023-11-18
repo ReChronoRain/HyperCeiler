@@ -1345,6 +1345,12 @@
     <string name="exit">Exit</string>
     <string name="ignore">Ignore</string>
     <string name="browser_disable_blacklist">Disable URL Blacklist</string>
+    <string name="log_level">Log level</string>
+    <string name="log_level_none">Disable log</string>
+    <string name="log_level_error" translatable="false">Error</string>
+    <string name="log_level_warn" translatable="false">Warn</string>
+    <string name="log_level_info" translatable="false">Info</string>
+    <string name="log_level_debug" translatable="false">Debug</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

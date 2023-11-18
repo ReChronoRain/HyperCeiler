@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.base;
 
+import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevel;
+
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ResourcesHook;
 import com.sevtinge.hyperceiler.utils.hook.HookUtils;
@@ -18,7 +20,7 @@ public abstract class BaseHook extends HookUtils {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (detailLog && isNotReleaseVersion) {
+            if (logLevel < 3) {
                 logI(TAG, lpparam.packageName, "Hook Success.");
             }
         } catch (Throwable t) {

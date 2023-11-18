@@ -23,11 +23,12 @@
             app:entries="@array/settings_icon_mode"
             app:entryValues="@array/settings_icon_mode_value" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_settings_disable_detailed_log"
-            android:summary="@string/disable_detailed_log_desc"
-            android:title="@string/disable_detailed_log" />
+        <DropDownPreference
+            android:defaultValue="2"
+            android:key="prefs_key_log_level"
+            android:title="@string/log_level"
+            app:entries="@array/log_level"
+            app:entryValues="@array/log_level_value" />
 
     </PreferenceCategory>
 

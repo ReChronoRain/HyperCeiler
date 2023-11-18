@@ -2,49 +2,15 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouch;
-import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
-import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
-import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotification;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
-import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
-import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
-import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
-import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
-import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupported;
-import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
-import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
-import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
-import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
-import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
-import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
-import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDisableSafe;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeFirstPress;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeMediaSteps;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSeparateControl;
-import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeSteps;
-import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassSignCheckForT;
-import com.sevtinge.hyperceiler.module.hook.systemframework.display.AllDarkMode;
-import com.sevtinge.hyperceiler.module.hook.systemframework.display.DisplayCutout;
-import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
-import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.NoMagicPointer;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RemoveStylusBluetoothRestriction;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.RestoreEsc;
-import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
-import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualNRSupport;
-import com.sevtinge.hyperceiler.module.hook.systemframework.network.DualSASupport;
-import com.sevtinge.hyperceiler.module.hook.systemframework.network.N1Band;
-import com.sevtinge.hyperceiler.module.hook.systemframework.network.N28Band;
-import com.sevtinge.hyperceiler.module.hook.systemframework.network.N5N8Band;
+import com.sevtinge.hyperceiler.module.hook.systemframework.*;
+import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.*;
+import com.sevtinge.hyperceiler.module.hook.systemframework.display.*;
+import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.*;
+import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.*;
+import com.sevtinge.hyperceiler.module.hook.systemframework.network.*;
 import com.sevtinge.hyperceiler.module.hook.various.NoAccessDeviceLogsRequest;
 
 import de.robv.android.xposed.XposedBridge;
@@ -54,8 +20,7 @@ public class SystemFramework extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        if (mPrefsMap.getBoolean("settings_disable_detailed_log"))
-            XposedBridge.log("[HyperCeiler][I]: Detail log is disabled.");
+        XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
 
         // 小窗
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));

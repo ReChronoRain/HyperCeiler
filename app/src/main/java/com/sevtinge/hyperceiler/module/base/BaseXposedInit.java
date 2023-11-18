@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.base;
 
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
+import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
@@ -344,6 +345,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
         XposedHelpers.setStaticBooleanField(mHelpers, "isModuleActive", true);
         XposedHelpers.setStaticIntField(mHelpers, "XposedVersion", XposedBridge.getXposedVersion());
+        XposedBridge.log("[HyperCeiler][I]: Log level is " + logLevelDesc());
     }
 
 
