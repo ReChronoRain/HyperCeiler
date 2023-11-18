@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Làm cho MIUI tuyệt vời trở lại!</string>
+    <string name="xposed_description">Làm cho HyperOS tuyệt vời trở lại!</string>
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
     <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào Quản lý quyền bất cứ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để có quyền Root/Su.</string>
     <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
-    <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler, ứng dụng này chạy trên khung Xposed, bạn có thể sử dụng ứng dụng này để chiếm quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác để đạt được các cải tiến MIUI. Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào trình quản lý Root/Su của mình để có quyền Root/Su.</string>
+    <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này phụ thuộc vào khung Xposed để chạy. Bạn có thể sử dụng ứng dụng này để nâng quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống. Trong quá trình sử dụng, để cung cấp nhiều chức năng hơn, chúng tôi có thể yêu cầu quyền Root/Su của bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách truy cập trình quản lý Root/Su của mình.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Kinh</string>
     <string name="translator">Kimle69</string>
     <string name="translator_url">https://t.me/Kimle69</string>
+    <string name="home">Trang chủ</string>
     <string name="settings">Cài đặt</string>
     <string name="about">Giới thiệu</string>
     <string name="about_use">Trích dẫn</string>
@@ -19,6 +20,12 @@
     <string name="about_contributer_desc">Cảm ơn những người đóng góp sau đây vì sự giúp đỡ của họ trong quá trình phát triển HyperCeiler (Thứ tự ngẫu nhiên)</string>
     <string name="about_donation">Tài trợ</string>
     <string name="about_donation_desc">Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp tại đây</string>
+    <string name="hyperceiler_notice">Kéo thanh trạng thái xuống để hiển thị đồng thời các công tắc phím tắt và thông báo hệ thống</string>
+    <string name="hyperceiler_restart_quick">Phạm vi khởi động lại nhanh</string>
+    <string name="location_add">Thêm</string>
+    <string name="location_delete">Xóa</string>
+    <string name="development">Tùy chọn nhà phát triển</string>
+    <string name="development_ui">Giao diện</string>
     <string name="about_privacy">Chính Sách Quyền Riêng Tư</string>
     <string name="about_protocol">Thoả thuận người dùng</string>
     <string name="settings_data_title">Sao lưu và khôi phục</string>
@@ -179,7 +186,7 @@
     <string name="array_global_actions_onehanded_left">Chế độ một tay (trái)</string>
     <string name="array_global_actions_onehanded_right">Chế độ một tay (phải)</string>
     <string name="array_global_actions_scrolltotop">Cuộn lên đầu</string>
-    <string name="array_global_actions_expandsidebar">Hiển thị sidebar</string>
+    <string name="array_global_actions_expandsidebar">Hiển thị Thanh bên</string>
     <string name="array_global_actions_floatingwindow">Cửa sổ nổi</string>
     <string name="array_global_actions_pinningwindow">Ghim cửa sổ</string>
     <string name="array_align_top">Trên</string>
@@ -224,6 +231,9 @@
     <string name="control_center_sunshine_mode_default">Đóng</string>
     <string name="control_center_sunshine_mode_one">Mặc định của hệ thống</string>
     <string name="control_center_sunshine_mode_two">Buộc độ sáng tối đa</string>
+    <string name="no_blur">Không làm mờ</string>
+    <string name="miui_blur">Làm mờ của HyperOS</string>
+    <string name="android_blur">Làm mờ của AOSP</string>
     <!--System Framework-->
     <string name="system_framework">Framework hệ thống</string>
     <string name="system_framework_volume_title">Âm lượng</string>
@@ -297,6 +307,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_other_disable_cleaner">Ngăn chặn tắt ứng dụng nền</string>
     <string name="system_framework_other_disable_cleaner_desc">Tính năng thử nghiệm, có thể gây ra việc sử dụng bộ nhớ bất thường</string>
     <string name="system_framework_disable_72h_verify">Tắt xác minh khóa màn hình sau 72 giờ</string>
+    <string name="system_framework_disable_verify_can_ve_disabled">Cho phép tắt xác minh ứng dụng</string>
+    <string name="system_framework_allow_all_dark_mode">Cho phép tất cả ứng dụng sử dụng chế độ tối</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -315,6 +327,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Browser-->
     <string name="browser">Trình duyệt</string>
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
+    <string name="browser_debug_mode_desc">17.5.xxxxx trở lên không được hỗ trợ</string>
     <!--Camera-->
     <string name="camera">Máy ảnh</string>
     <string name="camera_features_unlock_aiwatermark">Mở khóa Dấu chìm AI</string>
@@ -371,8 +384,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="clock_enable_hour_glass_desc">Phiên bản 13.65.0 trở lên không được hỗ trợ</string>
     <!--File Manager-->
     <string name="fileexplorer">Tập tin</string>
-    <string name="file_explorer_can_selectable">File Explorer dạng table</string>
-    <string name="file_explorer_is_single_line">File Explorer 1 hàng</string>
+    <string name="file_explorer_can_selectable">Trình quản lý tập tin có thể lựa chọn</string>
+    <string name="file_explorer_is_single_line">Trình quản lý tập tin một dòng</string>
     <!--Phone-->
     <string name="incallui">Điện thoại</string>
     <string name="incallui_hide_crbt">Ẩn nhạc chuông</string>
@@ -411,7 +424,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_current">Hiện tại</string>
     <string name="system_ui_lock_screen_show_second">Đồng hồ hiển thị giây</string>
     <string name="system_ui_lock_screen_blur_button">Làm mờ phím tắt và thông báo</string>
-    <string name="system_ui_lock_screen_force_system_fonts">Buộc đồng hồ dùng phông chữ hệ thống</string>
+    <string name="system_ui_lock_screen_force_system_fonts">Buộc đồng hồ dùng phông hệ thống</string>
     <string name="system_ui_lock_screen_double_lock">Nhấn đúp để khoá màn hình</string>
     <string name="system_ui_lock_screen_double_lock_desc">Nhấn đúp vào vị trí trống để khóa màn hình</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ẩn thông báo chế độ không làm phiền</string>
@@ -591,7 +604,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_control_center_5g_tile">Nút bật 5G nhanh</string>
     <string name="system_control_center_5g_toggle_label">Mạng 5G</string>
     <string name="system_control_center_sunshine_mode">Chế độ ngoài trời</string>
-    <string name="system_ui_control_auto_close">Nam Châm Tự Động Thu Gọn</string>
+    <string name="system_ui_control_auto_close">Tự Động Thu Gọn</string>
     <string name="system_ui_control_auto_close_more">Sau khi bật, bấm vào biểu tượng thanh trạng thái sẽ tự động thu gọn thanh trạng thái</string>
     <string name="system_control_center_qs_tile_label">Loại bỏ tiêu đề</string>
     <string name="system_control_center_qs_rows">Hàng</string>
@@ -683,12 +696,12 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_ai_image_unlock_ai">Mở khóa Tăng cường hình ảnh AI và Tăng cường HDR AI</string>
     <string name="system_settings_ai_image_unlock_memc">Mở khoá MEMC</string>
     <string name="system_settings_permission_title">Quyền</string>
-    <string name="system_settings_permission_show_app_up">Quyền truy cập ứng dụng đặc biệt nhanh</string>
+    <string name="system_settings_permission_show_app_up">Truy cập quyền đặc biệt nhanh</string>
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
-    <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng từ nguồn không xác định nhanh</string>
+    <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_develop_title">Tùy chọn nhà phát triển</string>
-    <string name="system_settings_apps_freezer">Hiển thị bắt buộc các ứng dụng bộ nhớ cache bị tạm dừng</string>
+    <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
     <string name="system_settings_develop_speed_mode">Mở khoá Speed mode</string>
     <string name="system_settings_develop_speed_mode_desc">Không hiển thị trên các máy không được hỗ trợ</string>
@@ -704,6 +717,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="theme_manager_enable_fold_theme">Kích hoạt chủ đề FOLD</string>
     <!--Updater-->
     <string name="updater">Trình cập nhật</string>
+    <string name="updater_enable_miui_version">Cho phép giả mạo phiên bản cập nhật</string>
     <string name="updater_fuck_vab">Xóa xác thực OTA</string>
     <string name="updater_fuck_vab_desc">Chỉ hỗ trợ sử dụng sê-ri VAB, vui lòng không mở sê-ri khác.
 - Không cần đủ điều kiện thử nghiệm nội bộ để sử dụng gói thử nghiệm nội bộ.
@@ -727,9 +741,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="lbe_clipboard_tip">Đọc clipboard</string>
     <!--Cast-->
     <string name="milink">Truyền</string>
+    <string name="milink_hyperos">Dịch vụ kết nối</string>
     <string name="milink_unlock_mishare">Mở khóa Kết nối thiết bị</string>
     <!--Always-on display-->
     <string name="aod">Màn hình Ambient</string>
+    <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
     <string name="aod_unlock_always_on_display">Mở khóa Giới hạn thời gian</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
@@ -761,6 +777,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="gallery_enable_magic_sky">Mở khóa Bầu trời</string>
     <!--MIUI security components-->
     <string name="guard_provider">Bảo mật MIUI</string>
+    <string name="guard_provider_hyperos">Thành phần bảo mật hệ thống</string>
     <string name="guard_provider_disable_upload_applist">Ngăn tự động tải lên danh sách ứng dụng đã cài đặt</string>
     <!--System launcher-->
     <string name="mihome">Trình khởi chạy hệ thống</string>
@@ -934,6 +951,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_dock_hide_seekpoint">Xóa chỉ báo trang</string>
     <string name="home_dock_icon_title">Hiển thị tiêu đề ứng dụng</string>
     <string name="home_dock_disable_recents_icon">Ẩn ứng dụng gần đây khỏi thanh Dock</string>
+    <string name="home_dock_add_blur">Tùy chỉnh làm mờ nền</string>
     <string name="home_other">Khác</string>
     <string name="home_other_shortcut_title">Phím tắt</string>
     <string name="home_other_home_mode">Chế độ máy tính</string>
@@ -984,11 +1002,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Package installer-->
     <string name="package_installer">Trình cài đặt gói</string>
     <string name="miui_package_installer_modify">Lọc trang</string>
-    <string name="miui_package_installer_disable_ad">Tắt quảng cáo</string>
+    <string name="miui_package_installer_disable_ad">Tắt đề xuất</string>
     <string name="miui_package_installer_install_risk">Tắt phát hiện rủi ro</string>
-    <string name="miui_package_installer_safe_model_tip">Tắt quét bảo mật</string>
+    <string name="miui_package_installer_safe_model_tip">Tắt lời nhắc bảo vệ an ninh</string>
     <string name="miui_package_installer_count_checking">Tắt kiểm tra ứng dụng thường xuyên</string>
-    <string name="miui_package_installer_update_system_app">Loại bỏ cảnh báo cài đặt ứng dụng hệ thống</string>
+    <string name="miui_package_installer_update_system_app">Xóa hạn chế cài đặt ứng dụng hệ thống</string>
     <string name="miui_package_installer_update_system_app_desc">Cho phép cài đặt ứng dụng hệ thống từ kênh không chính thống</string>
     <string name="miui_package_installer_install_source">Tùy chỉnh nguồn cài đặt</string>
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
@@ -1014,11 +1032,12 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="music_disable_ad">Loại bỏ quảng cáo</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Pin và hiệu suất</string>
-    <string name="powerkeeper_custom_refresh_rate">Tùy chỉnh ứng dụng tốc độ làm mới cao</string>
+    <string name="powerkeeper_custom_refresh_rate">Tùy chỉnh tốc độ làm mới cao</string>
     <string name="powerkeeper_lock_max_fps">Khoá FPS tối đa</string>
     <string name="powerkeeper_do_not_kill_apps">Ngăn chặn tắt ứng dụng nền</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Có thể tăng mức tiêu thụ điện năng</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">Vô hiệu hóa quyền truy cập để hiển thị mã điều khiển</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
@@ -1055,7 +1074,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_get_number">Quản lý ứng dụng truy cập số điện thoại</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
-    <string name="security_center_beauty_light_auto">Mở khóa Chỉnh độ sáng Flash tự động</string>
+    <string name="security_center_beauty_light_auto">Mở khóa Độ sáng Flash tự động</string>
     <string name="security_center_beauty_face">Làm đẹp cho cuộc gọi video</string>
     <string name="security_center_beauty_privacy">Mở khóa Bảo mật máy ảnh</string>
     <string name="security_center_beauty_pc">Mở khóa Chân dung luôn ở giữa</string>
@@ -1088,37 +1107,37 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="app_link_open_never">Không cho phép ứng dụng mở liên kết</string>
     <string name="open_by_default">Mở theo mặc định</string>
     <string name="security_score">Tắt tối ưu hóa kiểm tra sức khỏe</string>
-    <string name="security_score_summary">Khóa 100 điểm và vô hiệu hóa tối ưu hóa</string>
+    <string name="security_score_summary">Khóa 100 điểm và tắt tối ưu</string>
     <string name="security_center_skip_waiting_time">Bỏ qua giới hạn đếm ngược</string>
     <string name="security_center_skip_waiting_time_desc">Bỏ qua thời gian đếm ngược chờ xác nhận cho tính năng không an toàn</string>
     <string name="security_center_newbox_blur">Làm mờ thanh bên</string>
     <string name="security_center_remove_conversation_bubble_settings_restriction">Xóa giới hạn ứng dụng bong bóng hội thoại</string>
     <string name="security_center_remove_low_battery_reminder_title">Ẩn cảnh báo pin yếu</string>
     <string name="security_center_remove_low_battery_reminder_summary">Khi pin dưới 20%, hộp thoại cảnh báo bật chế độ tiết kiệm pin không còn hiện lên nữa</string>
-    <string name="security_center_remove_open_app_confirmation_popup">Xóa cửa sổ bật lên ứng dụng đang mở</string>
+    <string name="security_center_remove_open_app_confirmation_popup">Xóa cửa sổ đang mở ứng dụng</string>
     <string name="security_center_remove_open_app_confirmation_popup_summary">Gỡ pop-up \"Cho phép XXX mở XXX\"</string>
     <string name="security_center_no_permission">Quyền yêu cầu chưa được cấp</string>
     <string name="security_center_unlock_side_hide_freeform">Mở khóa biểu mẫu tự do ẩn bên</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Mở khóa cửa sổ nổi cho các thiết bị bị hạn chế nhưng được hỗ trợ cơ bản, điều này cũng sẽ ảnh hưởng đến hoạt động của cửa sổ nổi khi điện thoại được chuyển sang chế độ nền</string>
     <string name="security_center_unlock_smart_charge_title">Mở khóa \"Sạc Thông Minh\" và \"Tăng Tốc Độ Sạc\"</string>
     <string name="security_center_super_wireless_charge">Mở khóa Sạc không dây siêu nhanh</string>
-    <string name="security_center_blur_model">Cài đặt nền Sidebar Global</string>
+    <string name="security_center_blur_model">Cài đặt nền Thanh bên toàn cầu</string>
     <string name="security_center_blurradius">Độ mờ nền thanh bên</string>
     <string name="security_center_color">Màu nền thanh bên</string>
     <string name="security_center_other_title">Khác</string>
-    <string name="security_center_sidebar_line_color">Tùy chỉnh màu Sidebar</string>
+    <string name="security_center_sidebar_line_color">Tùy chỉnh màu Thanh bên</string>
     <string name="security_center_sidebar_line_color_default">Màu Sidebar mặc định</string>
     <string name="security_center_sidebar_line_color_dark">Màu Sidebar chế độ tối</string>
     <string name="security_center_sidebar_line_color_light">Màu Sidebar chế độ sáng</string>
     <string name="security_center_disable_ban">Xóa nút báo cáo</string>
-    <string name="security_center_unlock_screen_time">Hiển thị \"Màn hình\" trong pin</string>
+    <string name="security_center_unlock_screen_time">Hiển thị dữ liệu màn hình</string>
     <string name="security_center_unlock_screen_time_desc">Hiển thị phần \"Màn hình\" trên cùng trong mục pin và các ứng dụng &amp; thời gian sử dụng</string>
     <string name="security_center_unlock_gun_service">Mở khoá Tâm súng ảo</string>
     <string name="security_center_disable_remove_screen_hold_on">Vô hiệu màn hình luôn sáng</string>
     <string name="security_center_unlock_memc">Mở khoá MEMC</string>
     <string name="security_center_unlock_enhance_contours">Mở khóa Tăng cường đường viền</string>
     <string name="security_center_unlock_s_resolution">Mở khóa Siêu phân giải</string>
-    <string name="security_center_hide_sidebar">Ẩn sidebar</string>
+    <string name="security_center_hide_sidebar">Ẩn Thanh bên</string>
     <string name="security_center_leave_open">Vuốt để mở ra</string>
     <string name="security_center_disable_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>
     <!--Smart cards-->
@@ -1157,7 +1176,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="market_disable_new_icon_desc">Không thêm biểu tượng ra màn hình Desktop</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
+    <string name="mirror_hyperos">Dịch vụ kết nối thiết bị</string>
     <string name="mirror_unlock_miui_plus">Mở khóa MIUI+</string>
+    <!--Mi sound-->
+    <string name="misound">Mi Sound</string>
+    <string name="misound_increase_sampling_rate">Tăng tốc độ lấy mẫu</string>
     <!--Mi Settings-->
     <string name="mi_settings">Cài đặt Mi</string>
     <string name="mi_input_settings">Input settings</string>
@@ -1167,6 +1190,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Bỏ xác thực MTB</string>
     <string name="mtb_auth_desc">Đây là một tính năng có rủi ro cao, bất kỳ vấn đề nào phát sinh từ việc này sẽ do người dùng chịu, vui lòng sao lưu baseband của bạn cẩn thận. Nhập *#*#MODEMTEST#*#* trên giao diện quay số để mở Cài đặt MTB</string>
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi">Phương thức nhập Sogou</string>
+    <string name="sogou_xiaomi_clipboard">Xóa giới hạn số lượng bảng ghi tạm</string>
     <!--Scanner-->
     <string name="scanner">Máy quét</string>
     <string name="scanner_card">Mở khóa Scan danh thiếp</string>
@@ -1293,12 +1319,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="operator_fix_2">Phương pháp 2 (khuyên dùng)</string>
     <string name="custom_hook_new">Thêm Hook</string>
     <string name="custom_hook_mode">Chọn chế độ</string>
-    <string name="hyperceiler_notice">Kéo thanh trạng thái xuống để hiển thị đồng thời các công tắc phím tắt và thông báo hệ thống</string>
-    <string name="hyperceiler_restart_quick">Phạm vi khởi động lại nhanh</string>
-    <string name="location_add">Thêm</string>
-    <string name="location_delete">Xóa</string>
-    <string name="development">Tùy chọn nhà phát triển</string>
-    <string name="development_ui">Giao diện</string>
+    <string name="open_source">Dự án mã nguồn mở</string>
+    <string name="close_source">Dự án mã nguồn đóng</string>
+    <string name="exit">Thoát</string>
+    <string name="ignore">Bỏ qua</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
@@ -1317,7 +1341,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="tip_14">Mẹo: Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
     <string name="tip_15">Mẹo: Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
     <string name="tip_16">Mẹo: Sevtinge là một con cáo!</string>
-    <string name="tip_17">Mẹo: Neko Qiqi có hai nhân cách, một là catgirl, hai là loli (x</string>
+    <string name="tip_17">Mẹo: Neko Qiqi có hai nhân cách, một là cô gái yêu mèo và hai là người yêu lolita (x</string>
     <string name="tip_18">Mẹo: HyperCeiler là ứng dụng tiêu hao pin nhanh nhất</string>
     <string name="tip_19">Mẹo: Nếu không có chú thích đặc biệt cho chức năng chuyển sang màu xám, điều đó có nghĩa là chức năng đó không bình thường và nó không được lên kế hoạch mở cho người dùng trong thời điểm hiện tại</string>
     <string name="tip_20">Mẹo: Đừng chạy theo phiên bản Canary nếu bạn không có việc gì làm và đừng vội cập nhật nếu nó bị hỏng (</string>
