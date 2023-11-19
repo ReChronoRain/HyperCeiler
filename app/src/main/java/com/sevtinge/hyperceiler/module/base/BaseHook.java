@@ -14,17 +14,17 @@ public abstract class BaseHook extends HookUtils {
     public static final ResourcesHook mResHook = XposedInit.mResHook;
     public static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
 
-    public abstract void init();
+    public abstract void init() throws NoSuchMethodException;
 
     public void onCreate(LoadPackageParam lpparam) {
         try {
             setLoadPackageParam(lpparam);
             init();
-            if (logLevel < 3) {
+            if (logLevel >= 3) {
                 logI(TAG, lpparam.packageName, "Hook Success.");
             }
         } catch (Throwable t) {
-            logE(TAG, lpparam.packageName, "Hook Failed", t);
+            if (logLevel >= 1) logE(TAG, lpparam.packageName, "Hook Failed", t);
         }
     }
 
