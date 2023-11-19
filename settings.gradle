@@ -1,10 +1,10 @@
 pluginManagement {
     repositories {
         // 添加阿里云 maven 地址
-        maven{ url 'https://maven.aliyun.com/repository/google'}
-        maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
-        maven{ url 'https://maven.aliyun.com/repository/public'}
-        maven{ url 'https://maven.aliyun.com/repository/jcenter'}
+//        maven{ url 'https://maven.aliyun.com/repository/google'}
+//        maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
+//        maven{ url 'https://maven.aliyun.com/repository/public'}
+//        maven{ url 'https://maven.aliyun.com/repository/jcenter'}
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -16,10 +16,10 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         // 添加阿里云 maven 地址
-        maven{ url 'https://maven.aliyun.com/repository/google'}
-        maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
-        maven{ url 'https://maven.aliyun.com/repository/public'}
-        maven{ url 'https://maven.aliyun.com/repository/jcenter'}
+//        maven{ url 'https://maven.aliyun.com/repository/google'}
+//        maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}
+//        maven{ url 'https://maven.aliyun.com/repository/public'}
+//        maven{ url 'https://maven.aliyun.com/repository/jcenter'}
         google()
         mavenCentral()
         maven {
