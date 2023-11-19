@@ -1,6 +1,9 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.CloseHostDir;
+import com.sevtinge.hyperceiler.module.base.LoadHostDir;
+import com.sevtinge.hyperceiler.module.hook.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.camera.EnableLabOptions;
 import com.sevtinge.hyperceiler.module.hook.camera.Unlock120Fps;
 import com.sevtinge.hyperceiler.module.hook.camera.Unlock60Fps;
@@ -46,11 +49,13 @@ import com.sevtinge.hyperceiler.module.hook.camera.UnlockTrackFocus;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVideosky;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVlog;
 import com.sevtinge.hyperceiler.module.hook.camera.UnlockVlogPro;
+import com.sevtinge.hyperceiler.utils.DexKit;
 
 public class Camera extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(LoadHostDir.INSTANCE);
         // 功能
         initHook(new UnlockAiWatermark(), mPrefsMap.getBoolean("camera_features_unlock_aiwatermark"));
         initHook(new UnlockAmbilight(), mPrefsMap.getBoolean("camera_features_unlock_ambilight"));
@@ -81,6 +86,7 @@ public class Camera extends BaseModule {
         initHook(new UnlockMakeup(), mPrefsMap.getBoolean("camera_shot_makeup"));
         initHook(new UnlockColorEnhance(), mPrefsMap.getBoolean("camera_shot_color_enhance"));
         initHook(new UnlockHandGesture(), mPrefsMap.getBoolean("camera_shot_hand_gesture"));
+        initHook(new CustomWatermark(), mPrefsMap.getBoolean("camera_custom_watermark"));
 
         // 录像
         initHook(new Unlock60Fps(), mPrefsMap.getBoolean("camera_record_60fps"));
@@ -107,5 +113,7 @@ public class Camera extends BaseModule {
         initHook(new UnlockMenMakeup(), mPrefsMap.getBoolean("camera_settings_men_makeup"));
         initHook(EnableLabOptions.INSTANCE, mPrefsMap.getBoolean("camera_settings_lab_options"));
         initHook(new UnlockTrackEyes(), mPrefsMap.getBoolean("camera_settings_track_eyes"));
+
+        initHook(CloseHostDir.INSTANCE);
     }
 }

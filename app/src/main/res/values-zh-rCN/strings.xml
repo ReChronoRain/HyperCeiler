@@ -365,6 +365,9 @@
     <string name="browser_disable_blacklist">禁用网址黑名单</string>
     <!--相机-->
     <string name="camera">相机</string>
+    <string name="camera_custom_watermark">自定义机型水印</string>
+    <string name="camera_custom_watermark_manufacturer">厂商信息</string>
+    <string name="camera_custom_watermark_device">机型信息</string>
     <string name="camera_features_unlock_aiwatermark">解锁 AI 水印</string>
     <string name="camera_features_unlock_ambilight">解锁长曝光</string>
     <string name="camera_features_unlock_clone">解锁魔法分身</string>

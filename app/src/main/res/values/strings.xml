@@ -1352,6 +1352,9 @@
     <string name="log_level_info" translatable="false">Info</string>
     <string name="log_level_debug" translatable="false">Debug</string>
     <string name="settings_show_title">Show</string>
+    <string name="camera_custom_watermark">Custom device watermark</string>
+    <string name="camera_custom_watermark_manufacturer">Manufacturer Information</string>
+    <string name="camera_custom_watermark_device">Device Information</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
