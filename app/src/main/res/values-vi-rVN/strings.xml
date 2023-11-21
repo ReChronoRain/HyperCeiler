@@ -637,6 +637,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
+    <string name="system_ui_control_center_hide_delimiter">Ẩn dấu phân cách giữa tên nhà mạng</string>
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển kiểu mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
@@ -1323,6 +1324,13 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="close_source">Dự án mã nguồn đóng</string>
     <string name="exit">Thoát</string>
     <string name="ignore">Bỏ qua</string>
+    <string name="browser_disable_blacklist">Tắt URL danh sách đen</string>
+    <string name="log_level">Mức độ nhật ký</string>
+    <string name="log_level_none">Tắt nhật ký</string>
+    <string name="settings_show_title">Hiện</string>
+    <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
+    <string name="camera_custom_watermark_manufacturer">Thông tin nhà sản xuất</string>
+    <string name="camera_custom_watermark_device">Thông tin thiết bị</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>

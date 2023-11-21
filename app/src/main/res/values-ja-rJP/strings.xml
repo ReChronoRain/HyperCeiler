@@ -635,6 +635,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知ドロワーを切り替え</string>
+    <string name="system_ui_control_center_hide_delimiter">通信事業者名の区切り文字を非表示</string>
     <string name="system_ui_controlcenter_new_title">新しいコントロールセンター</string>
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
@@ -1305,6 +1306,17 @@
     <string name="operator_fix_2">方式 2 (推奨)</string>
     <string name="custom_hook_new">フックを追加</string>
     <string name="custom_hook_mode">モードを選択</string>
+    <string name="open_source">オープンソースプロジェクト</string>
+    <string name="close_source">クローズドソースプロジェクト</string>
+    <string name="exit">終了</string>
+    <string name="ignore">無視</string>
+    <string name="browser_disable_blacklist">URL ブラックリストを無効化</string>
+    <string name="log_level">ログレベル</string>
+    <string name="log_level_none">ログを無効化</string>
+    <string name="settings_show_title">表示</string>
+    <string name="camera_custom_watermark">デバイス透かしのカスタム</string>
+    <string name="camera_custom_watermark_manufacturer">メーカー情報</string>
+    <string name="camera_custom_watermark_device">デバイス情報</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
