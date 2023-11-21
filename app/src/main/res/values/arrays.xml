@@ -203,6 +203,12 @@
         <item>@string/control_center_sunshine_mode_two</item>
     </string-array>
 
+    <string-array name="control_center_5g_mode">
+        <item>@string/control_center_5g_off</item>
+        <item>@string/control_center_5g_v1</item>
+        <item>@string/control_center_5g_v2</item>
+    </string-array>
+
     <string-array name="status_bar_icon_mode_value">
         <item>0</item>
         <item>1</item>

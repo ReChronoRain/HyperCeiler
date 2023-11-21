@@ -187,7 +187,7 @@ public class SystemUI extends BaseModule {
         initHook(new HideDelimiter(), mPrefsMap.getBoolean("system_ui_control_center_hide_delimiter"));
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
-        initHook(new FiveGTile(), mPrefsMap.getBoolean("system_control_center_5g_tile"));
+        initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
         initHook(new FlashLight(), mPrefsMap.getBoolean("security_flash_light"));
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
@@ -202,7 +202,7 @@ public class SystemUI extends BaseModule {
         initHook(CompactNotificationsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_compact_notice"));
         initHook(CCGrid.INSTANCE, mPrefsMap.getInt("system_control_center_cc_rows", 4) > 4 ||
             mPrefsMap.getInt("system_control_center_cc_columns", 4) > 4 ||
-            (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && !isMoreHyperOSVersion(1f))||
+            (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && !isMoreHyperOSVersion(1f)) ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));
         if (isMoreAndroidVersion(33)) {
             initHook(new QSGrid(), mPrefsMap.getBoolean("system_control_center_old_enable"));

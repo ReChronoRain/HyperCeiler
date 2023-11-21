@@ -263,6 +263,10 @@
     <string name="control_center_sunshine_mode_one">系统默认模式</string>
     <string name="control_center_sunshine_mode_two">强制最高亮度</string>
 
+    <string name="control_center_5g_off">关闭</string>
+    <string name="control_center_5g_v1">5G样式一</string>
+    <string name="control_center_5g_v2">5G样式二</string>
+
     <string name="no_blur">无模糊</string>
     <string name="miui_blur">系统模糊</string>
     <string name="android_blur">原生模糊</string>
