@@ -22,7 +22,7 @@ public class UnlockHMind extends BaseHook {
         logD(TAG, lpparam.packageName, "isHMindAble() method is " + method);
         hookMethod(method, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) throws Throwable {
                 param.setResult(true);
             }
         });
