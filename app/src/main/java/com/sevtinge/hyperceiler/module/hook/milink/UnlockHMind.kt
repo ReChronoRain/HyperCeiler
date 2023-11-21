@@ -5,6 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
+import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Modifier
 
 object UnlockHMind : BaseHook() {
@@ -14,7 +15,8 @@ object UnlockHMind : BaseHook() {
                 declaredClass {
                     addUsingStringsEquals("habitInfoList")
                 }
-                addUsingStringsEquals("isHMindAble() isSupport: ")
+                addUsingString("isHMindAble()", StringMatchType.Contains) // 换了个更广的匹配方式
+                // addUsingStringsEquals("isHMindAble() isSupport: ")
                 modifiers = Modifier.FINAL
                 returnType = "boolean"
             }
