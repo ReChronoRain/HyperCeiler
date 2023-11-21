@@ -18,7 +18,6 @@ import java.lang.reflect.Modifier;
 public class CustomWatermark extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        logD("0");
         MethodDataList methodDataList = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .returnType(SparseArray.class)

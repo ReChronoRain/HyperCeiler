@@ -794,6 +794,7 @@
     <string name="milink">投屏</string>
     <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>
+    <string name="milink_unlock_hmind">解锁 HyperMind</string>
     <!--万象息屏-->
     <string name="aod">万象息屏</string>
     <string name="aod_hyperos">息屏与锁屏编辑</string>
