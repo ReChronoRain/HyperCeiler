@@ -107,6 +107,7 @@
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="tip">Tip</string>
+    <string name="root">Some features are not available without Root/Su permission</string>
     <string name="hook_failed">The module is not activated yet.\nPlease check whether the Xposed manager is enabled. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process, please check if HyperCeiler has been granted Root/Su permissions?</string>
     <string name="pid_failed">The target application is not running and does not need to be restarted.</string>

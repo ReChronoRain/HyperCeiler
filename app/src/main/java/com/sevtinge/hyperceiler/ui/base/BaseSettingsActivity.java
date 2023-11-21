@@ -91,9 +91,18 @@ public abstract class BaseSettingsActivity extends BaseActivity {
                     if (packageGet == null) {
                         continue;
                     }
-                    ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
-                        "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
-                        "\"; }; } || { echo \"kill error\"; }", true, true);
+                    // String test = "XX";
+                    // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
+                    //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
+                    //     "\"; }; } || { echo \"kill error\"; }", true, true);
+                    ShellUtils.CommandResult commandResult =
+                        ShellUtils.execCommand("{ pid=$(pgrep -f '" + packageGet + "' | grep -v $$);" +
+                                " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + packageGet + "\";" +
+                                " { [[ $? != 0 ]] && { killall -s 9 \"" + packageGet + "\" &>/dev/null;};}" +
+                                " || { { for i in $pid; do kill -s 9 \"$i\";done;};}" +
+                                " || { echo \"kill error\"; };};}" +
+                                " || { echo \"kill error\";}",
+                            true, true);
                     if (commandResult.result == 0) {
                         if (commandResult.successMsg.equals("kill error")) {
                             pid = false;

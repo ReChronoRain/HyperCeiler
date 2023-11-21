@@ -35,7 +35,16 @@ public class RestartAlertDialog extends AlertDialog {
             dismiss();
             for (int i = 0; i < sparseBooleanArray.size(); i++) {
                 if (sparseBooleanArray.get(i)) {
-                    ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
+                    // ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
+                    // String test = "XX";
+                    String packageGet = mAppPackageNameList.get(i);
+                    ShellUtils.execCommand("{ pid=$(pgrep -f '" + packageGet + "' | grep -v $$);" +
+                            " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + packageGet + "\";" +
+                            " { [[ $? != 0 ]] && { killall -s 9 \"" + packageGet + "\" &>/dev/null;};}" +
+                            " || { { for i in $pid; do kill -s 9 \"$i\";done;};}" +
+                            " || { echo \"kill error\"; };};}" +
+                            " || { echo \"kill error\";}",
+                        true, false);
                 }
             }
         });

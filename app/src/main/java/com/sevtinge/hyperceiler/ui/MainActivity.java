@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.ui;
 import android.content.Intent;
 import android.os.Bundle;
 
-
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
@@ -11,6 +10,7 @@ import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.SearchHelper;
+import com.sevtinge.hyperceiler.utils.ShellUtils;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -25,6 +25,15 @@ public class MainActivity extends NavigationActivity {
             }
         }).start();
         Helpers.checkXposedActivateState(this);
+        if (ShellUtils.checkRootPermission() != 0) {
+            new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(getResources().getString(R.string.tip))
+                .setMessage(getResources().getString(R.string.root))
+                .setHapticFeedbackEnabled(true)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+        }
     }
 
     private void requestCta() {
@@ -54,7 +63,9 @@ public class MainActivity extends NavigationActivity {
                     BackupUtils.handleReadDocument(this, data.getData());
                     alert.setTitle(R.string.rest_success);
                 }
-                default -> { return; }
+                default -> {
+                    return;
+                }
             }
             alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
             });
