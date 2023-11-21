@@ -12,7 +12,7 @@ public class MiLink extends BaseModule {
     public void handleLoadPackage() {
         initHook(LoadHostDir.INSTANCE);
         initHook(new UnlockMiShare(), mPrefsMap.getBoolean("milink_unlock_mishare"));
-        initHook(new UnlockHMind(), mPrefsMap.getBoolean("milink_unlock_hmind"));
+        initHook(UnlockHMind.INSTANCE, mPrefsMap.getBoolean("milink_unlock_hmind"));
         initHook(CloseHostDir.INSTANCE);
     }
 }

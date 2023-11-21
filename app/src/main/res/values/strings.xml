@@ -768,6 +768,7 @@
     <string name="milink">Cast</string>
     <string name="milink_hyperos">Interconnectivity Services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
+    <string name="milink_unlock_hmind">Unlock Xiaomi HyperMind</string>
     <!--Always-on display-->
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
@@ -1355,7 +1356,6 @@
     <string name="camera_custom_watermark">Custom device watermark</string>
     <string name="camera_custom_watermark_manufacturer">Manufacturer Information</string>
     <string name="camera_custom_watermark_device">Device Information</string>
-    <string name="milink_unlock_hmind">Unlock HyperMind</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
