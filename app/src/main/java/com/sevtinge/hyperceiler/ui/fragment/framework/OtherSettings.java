@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.framework;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 
@@ -17,6 +18,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
     Preference mCleanOpenApps;
     SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
+    SwitchPreference mVerifyDisable;
 
     @Override
     public int getContentResId() {
@@ -28,7 +30,9 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
+        mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
         mAppLinkVerify.setVisible(!isAndroidVersion(30));
+        mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
         mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> true);
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
         mUseOriginalAnim.setVisible(!isAndroidVersion(33));
