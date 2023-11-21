@@ -19,7 +19,7 @@ public class MonetThemeOverlay extends BaseHook {
     public void init() {
         THEME_CLASS_AOSP = findClassIfExists("com.android.systemui.theme.ThemeOverlayController");
         String mMethodName;
-        if (isMoreAndroidVersion(33)) mMethodName ="createOverlays"; else mMethodName = "getOverlay";
+        if (isMoreAndroidVersion(34)) mMethodName ="createOverlays"; else mMethodName = "getOverlay";
 
         hookAllConstructors(THEME_CLASS_AOSP, new MethodHook() {
             @Override
