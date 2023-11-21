@@ -6,11 +6,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.DexKit;
 
 import org.luckypray.dexkit.query.FindMethod;
-import org.luckypray.dexkit.query.MethodDataList;
 import org.luckypray.dexkit.query.matchers.AnnotationMatcher;
 import org.luckypray.dexkit.query.matchers.AnnotationsMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.MethodData;
+import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
