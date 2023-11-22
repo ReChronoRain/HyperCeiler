@@ -6,7 +6,7 @@
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
     <string name="new_cta_app_main_purpose">modificar apps do sistema</string>
-    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler, este app é executado na estrutura Xposed, você pode usar este app para sequestrar e modificar outros apps suportados para obter melhorias no HyperOS. Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler. Este app depende da estrutura Xposed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões Root/Su. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador Root/Su.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Português (Brasil)</string>
     <string name="translator">Igor</string>
@@ -78,6 +78,7 @@
     <string name="soft_reboot">Reiniciar </string>
     <string name="restart_app_desc">Você tem certeza que deseja reiniciar agora %1$s?</string>
     <string name="tip">Dica</string>
+    <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
@@ -89,7 +90,7 @@
     <string name="clearable_edittext_clear_description">Limpar</string>
     <string name="preference_on">Ativado</string>
     <string name="preference_off">Desativado</string>
-    <string name="preference_copied">%1$s copiados para a área de transferência.</string>
+    <string name="preference_copied">%1$s copiado para a área de transferência</string>
     <string name="preference_default_value_text">Padrão</string>
     <string name="preference_dialog_color_picker_default_title">Escolha a cor</string>
     <string name="preference_dialog_color_picker_presets">Cor predefinida</string>
@@ -130,7 +131,7 @@
     <string name="portrait">Retrato</string>
     <string name="camera_pro">Pro</string>
     <string name="enable">Ativar</string>
-    <string name="disable">Desativado</string>
+    <string name="disable">Desativar</string>
     <string name="custom_enable">Ativar personalização</string>
     <string name="search">Pesquisar</string>
     <string name="floating_window">Janelas flutuantes</string>
@@ -231,6 +232,9 @@
     <string name="control_center_sunshine_mode_default">Fechar</string>
     <string name="control_center_sunshine_mode_one">Padrão do sistema</string>
     <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
+    <string name="control_center_5g_off">Desligado</string>
+    <string name="control_center_5g_v1">Estilo 5G um</string>
+    <string name="control_center_5g_v2">Estilo 5G dois</string>
     <string name="no_blur">Sem blur</string>
     <string name="miui_blur">Blur do HyperOS</string>
     <string name="android_blur">Blur AOSP</string>
@@ -289,7 +293,7 @@
     <string name="system_framework_clean_share_menu">Limpar menu de compartilhamento</string>
     <string name="system_framework_clean_share_apps">Apps selecionados</string>
     <string name="system_framework_clean_share_apps_desc">O app selecionado não aparecerá no menu de compartilhamento</string>
-    <string name="system_framework_clean_open_menu">Limpar o menu Abrir com</string>
+    <string name="system_framework_clean_open_menu">Limpar menu Abrir com</string>
     <string name="system_framework_clean_open_apps">Apps selecionados</string>
     <string name="system_framework_clean_open_apps_desc">O app selecionado não aparecerá no menu Abrir com</string>
     <string name="system_other_flag_secure">Permitir captura de tela</string>
@@ -738,6 +742,7 @@
     <string name="milink">Transmitir</string>
     <string name="milink_hyperos">Serviços de interconectividade</string>
     <string name="milink_unlock_mishare">Desbloquear Interconexão do dispositivo</string>
+    <string name="milink_unlock_hmind">Desbloquear Xiaomi HyperMind</string>
     <!--Always-on display-->
     <string name="aod">Tela ambiente</string>
     <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
@@ -869,12 +874,12 @@
     <string name="home_folder_anim_3">Velocidade de encerramento 1</string>
     <string name="home_folder_anim_4">Velocidade de encerramento 2</string>
     <string name="home_drawer">Gaveta de apps</string>
-    <string name="home_drawer_all">Remover aba \"Todos\"</string>
-    <string name="home_drawer_all_desc">Remover a aba \"Todos\" para agrupar apps na gaveta</string>
+    <string name="home_drawer_all">Remover aba Todos os apps</string>
+    <string name="home_drawer_all_desc">Remover a aba Todos os apps para agrupar apps na gaveta</string>
     <string name="home_drawer_editor">Ocultar botão \"Editar\"</string>
-    <string name="home_drawer_editor_desc">Remover o botão \"Editar\" da guia de apps na gaveta</string>
+    <string name="home_drawer_editor_desc">Remover o botão Editar da guia de apps na gaveta</string>
     <string name="home_drawer_blur">Ativar blur de exibição de contêiner de todos os apps</string>
-    <string name="home_drawer_blur_desc">Por favor, defina a transparência da gaveta de apps de fundo para 100% para usar este recurso</string>
+    <string name="home_drawer_blur_desc">Por favor, defina a transparência do fundo da Gaveta de apps para 100% para usar este recurso.</string>
     <string name="home_drawer_pinyin">Organizado em ordem Pinyin</string>
     <string name="home_drawer_pinyin_more">Quando o idioma não é o Chinês Simplificado, os apps na gaveta ainda são organizados de acordo com o Pinyin.</string>
     <string name="home_title">Ícone e título</string>
@@ -1281,7 +1286,7 @@
     <string name="app_details_sdk">Versão do SDK de destino</string>
     <string name="app_details_min_sdk">Versão mínima do SDK</string>
     <string name="disable_app_settings">É uma má ideia!</string>
-    <string name="disable_app_title">Você tem certeza de que deseja desativar este app?</string>
+    <string name="disable_app_title">Você tem certeza que deseja desativar este app?</string>
     <string name="disable_app_text">Se este for um app de sistema necessário, desativá-lo poderá causar danos.</string>
     <string name="disable_app_fail">Falha ao alterar o estado do app</string>
     <string name="unlimited">Ilimitado</string>
