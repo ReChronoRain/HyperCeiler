@@ -48,19 +48,19 @@ public class HomeDockSettings extends SettingsPreferenceFragment implements Pref
         mDockBackgroundBlurRadius = findPreference("prefs_key_home_dock_bg_radius");
         int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_home_dock_add_blur", "0"));
         mDockBackgroundBlurEnable = findPreference("prefs_key_home_dock_add_blur");
-        setBlurMode(mBlurMode);
+        setCanBeVisible(mBlurMode);
         mDockBackgroundBlurEnable.setOnPreferenceChangeListener(this);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
         if (preference == mDockBackgroundBlurEnable) {
-            setBlurMode(Integer.parseInt((String) o));
+            setCanBeVisible(Integer.parseInt((String) o));
         }
         return true;
     }
 
-    private void setBlurMode(int mode) {
+    private void setCanBeVisible(int mode) {
         mDockBackgroundBlur.setVisible(mode == 2);
         mDockBackgroundBlurRadius.setVisible(mode == 1);
     }

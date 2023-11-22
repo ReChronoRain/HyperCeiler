@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+	android:viewportWidth="60"
+	android:viewportHeight="56"
+	android:width="60dp"
+	android:height="56dp">
+	<path
+		android:pathData="M10.4 24H5.6C4.716 24 4 24.5594 4 25.25V32.75C4 33.4406 4.716 34 5.6 34H10.4C11.284 34 12 33.4406 12 32.75V25.25C12 24.5594 11.284 24 10.4 24Z"
+		android:fillColor="@color/light_mode_icon_color_single_tone" />
+	<path
+		android:pathData="M16.6 20H21.4C22.284 20 23 20.4475 23 21V33C23 33.5525 22.284 34 21.4 34H16.6C15.716 34 15 33.5525 15 33V21C15 20.4475 15.716 20 16.6 20Z"
+		android:fillColor="@color/light_mode_icon_color_single_tone" />
+	<path
+		android:pathData="M27.6 16H32.4C33.284 16 34 16.4027 34 16.9V33.1C34 33.5972 33.284 34 32.4 34H27.6C26.716 34 26 33.5972 26 33.1V16.9C26 16.4027 26.716 16 27.6 16Z"
+		android:fillColor="@color/light_mode_icon_color_single_tone" />
+	<path
+		android:pathData="M38.6 12H43.4C44.284 12 45 12.3787 45 12.8462V33.1538C45 33.6213 44.284 34 43.4 34H38.6C37.716 34 37 33.6213 37 33.1538V12.8462C37 12.3787 37.716 12 38.6 12Z"
+		android:fillColor="@color/light_mode_icon_transparent_color_single_tone" />
+	<path
+		android:pathData="M49.6 8H54.4C55.284 8 56 8.36359 56 8.8125V33.1875C56 33.6364 55.284 34 54.4 34H49.6C48.716 34 48 33.6364 48 33.1875V8.8125C48 8.36359 48.716 8 49.6 8Z"
+		android:fillColor="@color/light_mode_icon_transparent_color_single_tone" />
+</vector>

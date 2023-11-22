@@ -33,6 +33,7 @@ public class DualRowSignalHook extends BaseHook {
         String[] colorModeList = {"", "dark", "tint"};
 //        String[] iconStyles = {"", "thick", "theme"};
         String selectedIconStyle = mPrefsMap.getString("system_ui_status_mobile_network_icon_style", ""); // 图标样式
+        int selectedIconTheme = mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1); //图标主题
 
         findAndHookMethod("com.android.systemui.SystemUIApplication", lpparam.classLoader, "onCreate", new MethodHook() {
             private boolean isHooked = false;
@@ -47,10 +48,16 @@ public class DualRowSignalHook extends BaseHook {
                     for (int slot = 1; slot <= 2; slot++) {
                         for (int lvl = 0; lvl <= 5; lvl++) {
                             for (String colorMode : colorModeList) {
-                                if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint")) {
-                                    String dualIconResName = "statusbar_signal_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "") + (!selectedIconStyle.equals("") ? ("_" + selectedIconStyle) : "");
+                                if (selectedIconTheme == 1) {
+                                    String dualIconResName = "statusbar_signal_classic_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "");
                                     int iconResId = modRes.getIdentifier(dualIconResName, "drawable", Helpers.mAppModulePkg);
                                     dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
+                                } else if (selectedIconTheme == 2) {
+                                    if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint")) {
+                                        String dualIconResName = "statusbar_signal_oa_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "") + (!selectedIconStyle.equals("") ? ("_" + selectedIconStyle) : "");
+                                        int iconResId = modRes.getIdentifier(dualIconResName, "drawable", Helpers.mAppModulePkg);
+                                        dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
+                                    }
                                 }
                             }
                         }
@@ -161,8 +168,17 @@ public class DualRowSignalHook extends BaseHook {
                 if (!selectedIconStyle.equals("")) {
                     iconStyle = "_" + selectedIconStyle;
                 }
-                String sim1IconId = "statusbar_signal_1_" + level1 + colorMode + iconStyle;
-                String sim2IconId = "statusbar_signal_2_" + subStrengthId + colorMode + iconStyle;
+                String sim1IconId;
+                String sim2IconId;
+                if (selectedIconTheme == 1) {
+                    sim1IconId = "statusbar_signal_classic_1_" + level1 + colorMode;
+                    sim2IconId = "statusbar_signal_classic_2_" + subStrengthId + colorMode;
+                } else if (selectedIconTheme == 2) {
+                    sim1IconId = "statusbar_signal_oa_1_" + level1 + colorMode + iconStyle;
+                    sim2IconId = "statusbar_signal_oa_2_" + subStrengthId + colorMode + iconStyle;
+                } else {
+                    throw new RuntimeException("Cannot get selectedIconTheme.");
+                }
                 int sim1ResId = dualSignalResMap.get(sim1IconId);
                 int sim2ResId = dualSignalResMap.get(sim2IconId);
                 XposedHelpers.callMethod(mMobile, "setImageResource", sim1ResId);
