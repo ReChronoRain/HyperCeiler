@@ -42,7 +42,7 @@ public class RestartAlertDialog extends AlertDialog {
                             " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + packageGet + "\";" +
                             " { [[ $? != 0 ]] && { killall -s 9 \"" + packageGet + "\" &>/dev/null;};}" +
                             " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
-                            " || { echo \"kill error\"; };};}" +
+                            " || { echo \"kill error\";};};}" +
                             " || { echo \"kill error\";}",
                         true, false);
                 }

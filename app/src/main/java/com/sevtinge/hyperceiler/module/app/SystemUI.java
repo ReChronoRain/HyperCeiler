@@ -184,7 +184,7 @@ public class SystemUI extends BaseModule {
 
         // 控制中心
         // initHook(new SmartHome(), false);
-        initHook(new HideDelimiter(), mPrefsMap.getBoolean("system_ui_control_center_hide_delimiter"));
+        initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);

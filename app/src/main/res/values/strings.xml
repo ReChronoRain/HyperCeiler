@@ -668,7 +668,9 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
-    <string name="system_ui_control_center_hide_delimiter">Hide delimiter between carrier name</string>
+    <string name="system_ui_control_center_hide_operator">Carrier name customization</string>
+    <string name="system_ui_control_center_hide_delimiter">Only dividers are hidden</string>
+    <string name="system_ui_control_center_hide_name">Hide all names</string>
     <string name="system_ui_controlcenter_new_title">New control center</string>
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>
