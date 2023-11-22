@@ -24,7 +24,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
     SwitchPreference mNewCCGridRect;
-    SwitchPreference mFiveG;
+    DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
 
     // 临时的，旧控制中心
@@ -52,7 +52,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNotice = findPreference("prefs_key_n_enable");
         mNoticex = findPreference("prefs_key_n_enable_fix");
         mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
-        mFiveG = findPreference("prefs_key_system_control_center_5g_tile");
+        mFiveG = findPreference("prefs_key_system_control_center_5g_new_tile");
 
         mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
         mNewCCGrid.setVisible(!isAndroidVersion(30));

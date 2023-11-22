@@ -24,6 +24,8 @@ public class FiveGTile extends TileUtils {
     String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
         "com.android.systemui.qs.tileimpl.QSFactoryImpl";
 
+    boolean Style = mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) == 1;
+
     @Override
     public void init() {
         super.init();
@@ -120,8 +122,14 @@ public class FiveGTile extends TileUtils {
         isEnable = manager.isUserFiveGEnabled();
         ArrayMap<String, Integer> tileResMap = new ArrayMap<>();
         tileResMap.put("custom_5G_Enable", isEnable ? 1 : 0);
-        tileResMap.put("custom_5G_ON", mResHook.addResource("ic_control_center_5g_toggle_on", R.drawable.ic_control_center_5g_toggle_on));
-        tileResMap.put("custom_5G_OFF", mResHook.addResource("ic_control_center_5g_toggle_off", R.drawable.ic_control_center_5g_toggle_off));
+        tileResMap.put("custom_5G_ON", mResHook.addResource(Style ?
+                "ic_control_center_5g_toggle_on" : "ic_control_center_5g_toggle_v2_on",
+            Style ?
+                R.drawable.ic_control_center_5g_toggle_on : R.drawable.ic_control_center_5g_toggle_v2_on));
+        tileResMap.put("custom_5G_OFF", mResHook.addResource(Style ?
+                "ic_control_center_5g_toggle_off" : "ic_control_center_5g_toggle_v2_off",
+            Style ?
+                R.drawable.ic_control_center_5g_toggle_off : R.drawable.ic_control_center_5g_toggle_v2_off));
         return tileResMap;
     }
 }
