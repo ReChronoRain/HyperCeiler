@@ -31,6 +31,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_disablt_miuilite_check"
+            android:title="@string/system_framework_disablt_miuilite_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_other_thermal_brightness"
             android:summary="@string/system_framework_other_thermal_brightness_more"
             android:title="@string/system_framework_other_thermal_brightness" />

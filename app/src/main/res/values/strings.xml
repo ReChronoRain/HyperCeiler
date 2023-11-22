@@ -1365,6 +1365,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Icon themes</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Classic</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Origin Architecture</string>
+    <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
