@@ -99,7 +99,7 @@
             android:title="@string/about_github">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/sevtinge/HyperCeiler" />
+                android:data="https://github.com/ReChronoRain/HyperCeiler" />
         </Preference>
 
         <Preference
