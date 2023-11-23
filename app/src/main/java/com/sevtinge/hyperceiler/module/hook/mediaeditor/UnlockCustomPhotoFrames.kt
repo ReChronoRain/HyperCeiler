@@ -6,7 +6,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
-import org.luckypray.dexkit.query.matchers.MethodMatcher
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -16,14 +15,13 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val isPOCO = mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) == 3
 
     override fun init() {
-        // find 徕卡定制相框 && redmi 定制相框 && poco 定制相框 && disney 迪斯尼定制相框
+        // find 徕卡定制相框 && redmi 定制相框 && poco 定制相框 && 迪斯尼定制相框
         val publicA = dexKitBridge.findMethod {
             matcher {
                 // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 a() c() e() g() h()）
                 // g() 是 Redmi 中的 其中一个联名定制相框
                 // 如果都返回 true 的话，按照原代码逻辑，只会解锁徕卡定制相框
                 addCall {
-                    MethodMatcher().usingStrings("getString(R.string.photo…allery_frame_device_only)")
                     modifiers = Modifier.FINAL or Modifier.STATIC
                     paramCount = 2
                     returnType("java.util.List")
