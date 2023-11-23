@@ -4,6 +4,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 import org.luckypray.dexkit.query.matchers.MethodMatcher
 import java.lang.reflect.Method
@@ -18,13 +19,14 @@ object UnlockCustomPhotoFrames : BaseHook() {
         // find 徕卡定制相框 && redmi 定制相框 && poco 定制相框 && disney 迪斯尼定制相框
         val publicA = dexKitBridge.findMethod {
             matcher {
-                // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 a() c() e() g() h() 和其他的一些方法）
+                // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 a() c() e() g() h()）
                 // g() 是 Redmi 中的 其中一个联名定制相框
                 // 如果都返回 true 的话，按照原代码逻辑，只会解锁徕卡定制相框
                 addCall {
                     MethodMatcher().usingStrings("getString(R.string.photo…allery_frame_device_only)")
-                    modifiers = Modifier.FINAL
-                    returnType = "void"
+                    modifiers = Modifier.FINAL or Modifier.STATIC
+                    paramCount = 2
+                    returnType("java.util.List")
                 }
                 modifiers = Modifier.FINAL or Modifier.STATIC
                 returnType = "boolean"
@@ -37,11 +39,14 @@ object UnlockCustomPhotoFrames : BaseHook() {
             matcher {
                 // 定位指定类名
                 // declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
-                // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 b(c cVar) d(c cVar) f(c cVar) 和其他的一些方法）
+                // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 b(c cVar) d(c cVar) f(c cVar)）
                 addCall {
-                    MethodMatcher().usingStrings("getString(R.string.photo…allery_frame_device_only)")
+                    declaredClass {
+                        addUsingStringsEquals("appContext()", "OffsetTime")
+                    }
                     modifiers = Modifier.FINAL
-                    returnType = "void"
+                    returnType = "boolean"
+                    paramCount = 1
                 }
                 modifiers = Modifier.FINAL
                 returnType = "boolean"
@@ -61,6 +66,10 @@ object UnlockCustomPhotoFrames : BaseHook() {
             }
         }
 
+        // debug 用
+        for (b in publicB) {
+            logI("Public B name is $b")
+        }
         publicB.createHooks {
             returnConstant(true)
         }
