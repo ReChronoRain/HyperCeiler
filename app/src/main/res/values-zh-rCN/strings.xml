@@ -1063,7 +1063,7 @@
     <!--小米相册-编辑-->
     <string name="mediaeditor">小米相册-编辑</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">定制相框类型</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">定制画框类型</string>
     <string name="mediaeditor_filter_manager">解锁大师滤镜</string>
     <!--小米互传-->
     <string name="mishare">小米互传</string>
