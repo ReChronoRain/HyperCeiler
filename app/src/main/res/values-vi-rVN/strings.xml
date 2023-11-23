@@ -8,7 +8,7 @@
     <string name="new_cta_app_main_purpose">sửa đổi ứng dụng hệ thống</string>
     <string name="new_cta_app_all_purpose_title">Chào mừng đến với HyperCeiler. Ứng dụng này phụ thuộc vào khung Xposed để chạy. Bạn có thể sử dụng ứng dụng này để nâng quyền điều khiển và sửa đổi các ứng dụng được hỗ trợ khác nhằm nâng cao hệ thống. Trong quá trình sử dụng, để cung cấp nhiều chức năng hơn, chúng tôi có thể yêu cầu quyền Root/Su của bạn. Bạn có thể quản lý nó bất kỳ lúc nào bằng cách truy cập trình quản lý Root/Su của mình.</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="language">Tiếng Kinh</string>
+    <string name="language">Tiếng Việt</string>
     <string name="translator">Kimle69</string>
     <string name="translator_url">https://t.me/Kimle69</string>
     <string name="home">Trang chủ</string>
@@ -78,6 +78,7 @@
     <string name="soft_reboot">Khởi động lại nhanh</string>
     <string name="restart_app_desc">Bạn có muốn khởi động lại máy bây giờ %1$s?</string>
     <string name="tip">Mẹo</string>
+    <string name="root">Một số tính năng không khả dụng nếu không được cấp quyền Root/Su</string>
     <string name="hook_failed">Mô-đun này chưa được kích hoạt.\nVui lòng kiểm tra xem trình quản lý Xpose có được bật hay không. Nếu vậy, vui lòng khởi động lại hoặc tối ưu hóa lại mô-đun.</string>
     <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
     <string name="pid_failed">Ứng dụng đích không chạy và không cần khởi động lại.</string>
@@ -231,6 +232,9 @@
     <string name="control_center_sunshine_mode_default">Đóng</string>
     <string name="control_center_sunshine_mode_one">Mặc định của hệ thống</string>
     <string name="control_center_sunshine_mode_two">Buộc độ sáng tối đa</string>
+    <string name="control_center_5g_off">Tắt</string>
+    <string name="control_center_5g_v1">5G kiểu 1</string>
+    <string name="control_center_5g_v2">5G kiểu 2</string>
     <string name="no_blur">Không làm mờ</string>
     <string name="miui_blur">Làm mờ của HyperOS</string>
     <string name="android_blur">Làm mờ của AOSP</string>
@@ -268,7 +272,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_display_min_brightness">Độ sáng tự động tối thiểu</string>
     <string name="system_ui_display_max_brightness">Độ sáng tự động tối đa</string>
     <string name="system_ui_display_toast_times_title">Điều chỉnh thời lượng hiển thị</string>
-    <string name="system_ui_display_toast_times_desc">Điều chỉnh thời lượng hiển thị của Toast, thời lượng hiển thị phải lớn hơn 1 giây</string>
+    <string name="system_ui_display_toast_times_desc">Điều chỉnh thời lượng hiển thị của hộp thông báo nhanh, thời lượng hiển thị phải lớn hơn 1 giây</string>
     <string name="system_framework_phone_network_title">Cài đặt mạng</string>
     <string name="phone_double_5g_nr">Sử dụng 5G kép (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">SIM chính và phụ hỗ trợ 5G cùng lúc (SIM phụ chỉ hỗ trợ NSA)</string>
@@ -637,7 +641,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
+    <string name="system_ui_control_center_hide_operator">Tùy chỉnh tên nhà mạng</string>
     <string name="system_ui_control_center_hide_delimiter">Ẩn dấu phân cách giữa tên nhà mạng</string>
+    <string name="system_ui_control_center_hide_name">Ẩn tên tất cả</string>
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển kiểu mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
@@ -736,14 +742,15 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Permissions-->
     <string name="lbe">Quyền</string>
     <string name="clipboard">Clipboard</string>
-    <string name="lbe_disable_clipboard_tip">Bỏ quyền đọc ghi tạm</string>
-    <string name="lbe_clipboard_tip_toast">Đọc clipboard bằng cách sử dụng gợi ý Toast</string>
-    <string name="lbe_clipboard_tip_toast_desc">Ẩn hộp thoại và cho phép ứng dụng đọc clipboard theo mặc định</string>
+    <string name="lbe_disable_clipboard_tip">Ẩn mẹo nhanh</string>
+    <string name="lbe_clipboard_tip_toast">Đọc bảng ghi tạm bằng cách sử dụng hộp gợi ý thông báo</string>
+    <string name="lbe_clipboard_tip_toast_desc">Ẩn hộp thoại và cho phép ứng dụng đọc bảng ghi tạm theo mặc định</string>
     <string name="lbe_clipboard_tip">Đọc clipboard</string>
     <!--Cast-->
     <string name="milink">Truyền</string>
     <string name="milink_hyperos">Dịch vụ kết nối</string>
     <string name="milink_unlock_mishare">Mở khóa Kết nối thiết bị</string>
+    <string name="milink_unlock_hmind">Mở khóa Xiaomi HyperMind</string>
     <!--Always-on display-->
     <string name="aod">Màn hình Ambient</string>
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
@@ -767,7 +774,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="gallery_enable_hdr_enhanced">Mở khóa hiển thị Ultra Dynamic</string>
     <string name="gallery_enable_pdf">Mở khóa tạo PDF</string>
     <string name="gallery_enable_ocr">Mở khóa OCR</string>
-    <string name="gallery_enable_ocr_form">Mở khóa bảng quét</string>
+    <string name="gallery_enable_ocr_form">Mở khóa quét biểu mẫu</string>
     <string name="gallery_enable_id_photo">Mở khóa ID</string>
     <string name="gallery_enable_photo_movie">Mở khóa Clip</string>
     <string name="gallery_enable_video_post">Mở khóa Hiệu ứng video</string>
@@ -974,7 +981,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_blur_radius">Bán kính làm mờ</string>
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
-    <string name="home_other_toast_slide_again">Không nhắc \"Vui lòng kéo lần nữa\"</string>
+    <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_disable_hide_google">Không ẩn biểu tượng Google</string>
     <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
@@ -1013,8 +1020,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
     <string name="miui_package_installer_apk_info_desc">Hiện thông tin về ứng dụng được cài đặt</string>
     <!--networkboost-->
-    <string name="various_disable_link_turbo_toast">Ẩn LinkTurbo</string>
-    <string name="various_disable_link_turbo_toast_more">Vui lòng khởi động lại NetworkBoost trong khởi động lại nhanh</string>
+    <string name="various_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
+    <string name="various_disable_link_turbo_toast_more">Vui lòng khởi động lại Tăng tốc mạng trong khởi động lại nhanh</string>
     <!--nfc-->
     <string name="nfc">Dịch vụ NFC</string>
     <string name="nfc_disable_sound">Tắt tiếng</string>
@@ -1058,7 +1065,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="screenshot_device_customize_desc">Vui lòng nhập mã</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Bảo mật</string>
-    <string name="security_center_pad">Trung tâm bảo mật Tablet</string>
+    <string name="security_center_pad">Trung tâm bảo mật dạng máy tính bảng</string>
     <string name="security_center_app_title">Quản lý ứng dụng</string>
     <string name="security_center_battery_title">Pin và hiệu suất</string>
     <string name="security_center_privacy_title">Bảo vệ riêng tư</string>
@@ -1200,7 +1207,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="scanner_translation">Mở khóa Phiên dịch</string>
     <string name="scanner_ocr">Mở khóa OCR</string>
     <string name="scanner_document">Mở khóa Scan tạo file PDF</string>
-    <string name="scanner_excel">Mở khóa Scan tạo file Excel XLSM </string>
+    <string name="scanner_excel">Mở khóa quét biểu mẫu</string>
     <string name="scanner_ppt">Mở khoá Scan tạo file PowerPoint PPT</string>
     <string name="scanner_doc_ppt">Mở khóa Scan chữ</string>
     <!--Other-->
@@ -1331,6 +1338,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
     <string name="camera_custom_watermark_manufacturer">Thông tin nhà sản xuất</string>
     <string name="camera_custom_watermark_device">Thông tin thiết bị</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Chủ đề biểu tượng</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Cổ điển</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Kiến trúc gốc</string>
+    <string name="system_framework_disablt_miuilite_check">Tắt kiểm tra MIUI Lite</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
