@@ -681,4 +681,19 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="customize_frame_type">
+        <item>@string/array_default</item>
+        <item>Laica</item>
+        <item>Redmi</item>
+        <item>POCO</item>
+        <item>Disney</item>
+    </string-array>
+
+    <string-array name="customize_frame_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

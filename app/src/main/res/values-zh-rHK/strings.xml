@@ -955,6 +955,7 @@
     <!--Gallery Editor-->
     <string name="mediaeditor">相簿編輯</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">自訂相框類型</string>
     <string name="mediaeditor_filter_manager">解鎖大師濾鏡</string>
     <!--Mi Share-->
     <string name="mishare">小米互傳</string>

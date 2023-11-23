@@ -1027,6 +1027,7 @@
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">Customize the frame type</string>
     <string name="mediaeditor_filter_manager">Unlock the filter manager</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/mediaeditor_unlock_minimum_crop_limit"
             android:key="prefs_key_mediaeditor_unlock_minimum_crop_limit"
@@ -12,8 +12,12 @@
             android:key="prefs_key_mediaeditor_filter_manager"
             android:defaultValue="false" />
 
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_mediaeditor_unlock_custom_photo_frames"
+            android:title="@string/mediaeditor_unlock_custom_photo_frames_title"
+            app:entries="@array/customize_frame_type"
+            app:entryValues="@array/customize_frame_type_value" />
+
     </PreferenceCategory>
-
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>
