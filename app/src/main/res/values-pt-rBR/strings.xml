@@ -233,8 +233,8 @@
     <string name="control_center_sunshine_mode_one">Padrão do sistema</string>
     <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
     <string name="control_center_5g_off">Desligado</string>
-    <string name="control_center_5g_v1">Estilo 5G um</string>
-    <string name="control_center_5g_v2">Estilo 5G dois</string>
+    <string name="control_center_5g_v1">Estilo um</string>
+    <string name="control_center_5g_v2">Estilo dois</string>
     <string name="no_blur">Sem blur</string>
     <string name="miui_blur">Blur do HyperOS</string>
     <string name="android_blur">Blur AOSP</string>
@@ -993,6 +993,7 @@
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor da Galeria</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear limite mínimo de corte de imagem</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">Personalize o tipo de moldura</string>
     <string name="mediaeditor_filter_manager">Desbloquear gerenciador de filtros</string>
     <!--Mi Share-->
     <string name="mishare">Compartilhamento Mi</string>
