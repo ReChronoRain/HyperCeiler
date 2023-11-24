@@ -10,7 +10,7 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockCustomPhotoFrames : BaseHook() {
-    private val isLaica = mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) == 1
+    private val isLeica = mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) == 1
     private val isRedmi = mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) == 2
     private val isPOCO = mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) == 3
 
@@ -75,7 +75,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     private fun xiaomi(name: Method) {
         name.createHook {
-           returnConstant(isLaica)
+           returnConstant(isLeica)
         }
     }
 
