@@ -19,8 +19,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
         val publicA = dexKitBridge.findMethod {
             matcher {
                 // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 a() c() e() g() h()）
-                // g() 是 Redmi 中的 其中一个联名定制相框
-                // 如果都返回 true 的话，按照原代码逻辑，只会解锁徕卡定制相框
+                // g() 是 Redmi 中的 其中一个联名定制画框
+                // 如果都返回 true 的话，按照原代码逻辑，只会解锁徕卡定制画框
                 addCall {
                     modifiers = Modifier.FINAL or Modifier.STATIC
                     paramCount = 2
@@ -55,8 +55,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
         for (a in publicA) {
             logI("Public A name is $a")
             when(a.name) {
-                // 猫猫并不想筛选，但是木得办法找出能让 dexKit 筛选的法子
-                // 仅适配 1.6.0.0.5 版本，其他版本不保证能用
+                // 猫猫并不想这么搞，但是木得办法找出能让 dexKit 筛选的法子
+                // 仅针对 1.6.0.0.5 版本进行适配，其他版本不保证能用
                 "a" -> xiaomi(a)
                 "c" -> poco(a)
                 "e" -> redmi(a)

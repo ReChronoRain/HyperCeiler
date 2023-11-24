@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/mediaeditor_foundation">
         <SwitchPreference
-            android:title="@string/mediaeditor_unlock_minimum_crop_limit"
+            android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_minimum_crop_limit"
-            android:defaultValue="false" />
+            android:title="@string/mediaeditor_unlock_minimum_crop_limit" />
 
         <SwitchPreference
-            android:title="@string/mediaeditor_filter_manager"
+            android:defaultValue="false"
             android:key="prefs_key_mediaeditor_filter_manager"
-            android:defaultValue="false" />
+            android:title="@string/mediaeditor_filter_manager" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/mediaeditor_ai_authoring">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mediaeditor_unlock_disney"
+            android:summary="@string/mediaeditor_unlock_disney_desc"
+            android:title="@string/mediaeditor_unlock_disney_title" />
 
         <DropDownPreference
             android:defaultValue="0"

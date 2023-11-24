@@ -972,8 +972,12 @@
     <string name="home_other_mi_pad_enable_more_setting_desc">解鎖後的功能不一定可用，部分功能需要系統底層支援</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">相簿編輯</string>
+    <string name="mediaeditor_foundation">基礎</string>
+    <string name="mediaeditor_ai_authoring">AI 創作</string>
+    <string name="mediaeditor_unlock_disney_title">解鎖迪士尼客製功能</string>
+    <string name="mediaeditor_unlock_disney_desc">解鎖包括以下功能：\n- 訂製畫框-迪士尼定製畫框（與其他訂製畫框衝突）\n- 背景虛化-米奇虛化\n- 貼紙-迪士尼貼紙</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">自訂画框類型</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">訂製画框類型</string>
     <string name="mediaeditor_filter_manager">解鎖大師濾鏡</string>
     <!--Mi Share-->
     <string name="mishare">小米互傳</string>
