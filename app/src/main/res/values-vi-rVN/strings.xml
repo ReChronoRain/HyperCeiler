@@ -999,6 +999,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Gallery Editor-->
     <string name="mediaeditor">Chỉnh sửa thư viện</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">Tùy chỉnh loại khung hình</string>
     <string name="mediaeditor_filter_manager">Mở khóa bộ lọc chính</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
