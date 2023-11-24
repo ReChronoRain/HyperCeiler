@@ -24,7 +24,7 @@ object UnlockDisney : BaseHook() {
 
         // debug 用
         for (d in disney) {
-            logI("disney name is $d")
+            logI(TAG,"disney name is $d")
         }
         disney.createHooks {
             returnConstant(true)
