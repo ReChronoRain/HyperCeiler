@@ -1032,6 +1032,8 @@
     <string name="mediaeditor_unlock_disney_desc">Unlocks include the following features:\n- Custom Frames - Disney Custom Frames (in conflict with other custom frames)\n- Bokeh Background - Mickey Mokeh\n- Stickers - Disney Stickers</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Customize the frame type</string>
+    <string name="mediaeditor_unlock_leica_filter_title">Unlock the Leica filter</string>
+    <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_filter_manager">Unlock the filter manager</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
