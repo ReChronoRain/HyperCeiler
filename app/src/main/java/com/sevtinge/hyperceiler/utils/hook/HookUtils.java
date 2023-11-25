@@ -231,10 +231,31 @@ public class HookUtils extends XposedLogUtils {
         }
     }
 
-    public boolean hookAllMethodsSilently(Class<?> hookClass, String methodName, MethodHook callback) {
+    public void hookAllMethodsSilently(Class<?> hookClass, String methodName, MethodHook callback) {
         try {
             if (hookClass != null) {
                 XposedBridge.hookAllMethods(hookClass, methodName, callback);
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
+    public boolean hookAllMethodsBoolean(String className, String methodName, MethodHook callback) {
+        try {
+            Class<?> hookClass = findClassIfExists(className);
+            if (hookClass != null) {
+                return XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
+            }
+        } catch (Throwable ignored) {
+            return false;
+        }
+        return false;
+    }
+
+    public boolean hookAllMethodsBoolean(Class<?> hookClass, String methodName, MethodHook callback) {
+        try {
+            if (hookClass != null) {
+                return XposedBridge.hookAllMethods(hookClass, methodName, callback).size() > 0;
             }
             return false;
         } catch (Throwable t) {
