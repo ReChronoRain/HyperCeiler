@@ -4,7 +4,6 @@ import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.various.CollapseMiuiTitle;
 import com.sevtinge.hyperceiler.module.hook.various.DialogCustom;
 import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
-import com.sevtinge.hyperceiler.module.hook.various.NoBrightness;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class Various extends BaseModule {
 
         initHook(UnlockIme.INSTANCE, mPrefsMap.getBoolean("various_unlock_ime"));
 
-        initHook(new NoBrightness(), isPay(mPackageName));
+        // initHook(new NoBrightness(), isPay(mPackageName));
 
     }
 
