@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.utils.hook;
 
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.XposedUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,7 +10,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookUtils extends XposedLogUtils {
+public class HookUtils extends XposedUtils {
 
     public XC_LoadPackage.LoadPackageParam lpparam;
 

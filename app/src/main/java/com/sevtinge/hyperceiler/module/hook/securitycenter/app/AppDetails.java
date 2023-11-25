@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.XposedUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -76,7 +75,7 @@ public class AppDetails extends BaseHook {
 
                             final Resources modRes;
                             try {
-                                modRes = XposedUtils.getModuleRes(act);
+                                modRes = getModuleRes(act);
                                 Field piField = XposedHelpers.findFirstFieldByExactType(frag.getClass(), PackageInfo.class);
                                 mLastPackageInfo = (PackageInfo) piField.get(frag);
                                 Method[] addPref = XposedHelpers.findMethodsByExactParameters(frag.getClass(), void.class, String.class, String.class, String.class);

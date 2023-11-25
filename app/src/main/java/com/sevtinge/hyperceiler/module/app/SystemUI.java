@@ -7,6 +7,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.module.hook.systemui.BluetoothRestrict;
+import com.sevtinge.hyperceiler.module.hook.systemui.BrightnessPct;
 import com.sevtinge.hyperceiler.module.hook.systemui.ChargeAnimationStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
@@ -221,6 +222,7 @@ public class SystemUI extends BaseModule {
 
         // Other
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix"));
+        initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));

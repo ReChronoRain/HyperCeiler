@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.NotificationVolumeSeparateSlider;
+import com.sevtinge.hyperceiler.module.hook.systemui.ShowVolumePct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
 
@@ -112,5 +113,7 @@ public class PluginHelper extends BaseHook {
             NotificationVolumeSeparateSlider.initHideDeviceControlEntry(classLoader);
         if (isMoreHyperOSVersion(1f) && mPrefsMap.getBoolean("system_ui_control_center_rounded_rect"))
             CCGridForHyperOS.initCCGridForHyperOS(classLoader);
+        if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
+            ShowVolumePct.init(classLoader);
     }
 }

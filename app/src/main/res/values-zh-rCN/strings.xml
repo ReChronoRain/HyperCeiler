@@ -720,6 +720,8 @@
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
+    <string name="system_showpct_title">显示亮度百分比</string>
+    <string name="system_cc_volume_showpct_title">显示声音百分比</string>
     <string name="system_ui_notification_freeform_desc">可能不支持 Mi Push 推送的通知</string>
     <string name="system_ui_monet_title">主题色</string>
     <string name="system_ui_monet_overlay_custom">自定义主题色</string>

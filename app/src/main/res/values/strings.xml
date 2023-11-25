@@ -694,6 +694,8 @@
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
     <string name="system_ui_origin_charge_animation">Native charging animation</string>
     <string name="system_ui_another_title">Other</string>
+    <string name="system_showpct_title">Displays the brightness percentage</string>
+    <string name="system_cc_volume_showpct_title">Displays the percentage of sound</string>
     <string name="system_ui_notification_freeform">Pull down the notification bar of more apps to open a freeform</string>
     <string name="system_ui_notification_freeform_desc">Notifications from Mi Push may not be supported</string>
     <string name="system_ui_monet_title">Monet</string>

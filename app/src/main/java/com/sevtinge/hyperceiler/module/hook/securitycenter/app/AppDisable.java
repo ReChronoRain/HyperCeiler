@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.XposedUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class AppDisable extends BaseHook {
 
                 if (item != null && item.getItemId() == 666) {
                     Activity act = (Activity) param.thisObject;
-                    Resources modRes = XposedUtils.getModuleRes(act);
+                    Resources modRes = getModuleRes(act);
                     Field piField = XposedHelpers.findFirstFieldByExactType(act.getClass(), PackageInfo.class);
                     PackageInfo mPackageInfo = (PackageInfo) piField.get(act);
 
@@ -116,7 +115,7 @@ public class AppDisable extends BaseHook {
                 item.setTitle(act.getResources().getIdentifier(enable ? "app_manager_disable_text" : "app_manager_enable_text", "string", "com.miui.securitycenter"));
                 Toast.makeText(act, act.getResources().getIdentifier(enable ? "app_manager_enabled" : "app_manager_disabled", "string", "com.miui.securitycenter"), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(act, XposedUtils.getModuleRes(act).getString(R.string.disable_app_fail), Toast.LENGTH_LONG).show();
+                Toast.makeText(act, getModuleRes(act).getString(R.string.disable_app_fail), Toast.LENGTH_LONG).show();
             }
             new Handler().postDelayed(act::invalidateOptionsMenu, 500);
         } catch (Throwable t) {
