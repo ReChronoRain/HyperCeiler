@@ -992,8 +992,14 @@
     <string name="home_other_mi_pad_enable_more_setting_desc">As funções desbloqueadas podem não estar disponíveis e algumas funções requerem suporte do sistema subjacente</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor da Galeria</string>
+    <string name="mediaeditor_foundation">Fundação</string>
+    <string name="mediaeditor_ai_authoring">Autoria de IA</string>
+    <string name="mediaeditor_unlock_disney_title">Desbloquear recursos de personalização da Disney</string>
+    <string name="mediaeditor_unlock_disney_desc">Os desbloqueios incluem os seguintes recursos:\n- Molduras personalizadas - Molduras personalizadas da Disney (em conflito com outras molduras personalizadas)\n- Fundo Bokeh - Mickey Mokeh\n- Adesivos - Adesivos da Disney</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear limite mínimo de corte de imagem</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalize o tipo de moldura</string>
+    <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtro Leica</string>
+    <string name="mediaeditor_unlock_leica_filter_desc">Apenas algumas versões são suportadas</string>
     <string name="mediaeditor_filter_manager">Desbloquear gerenciador de filtros</string>
     <!--Mi Share-->
     <string name="mishare">Compartilhamento Mi</string>
