@@ -1378,6 +1378,7 @@
     <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
     <string name="system_ui_others_showpct_top">Top of percentage</string>
     <string name="system_ui_others_showpct_top_desc">Percentage distance from the top of the screen</string>
+    <string name="system_ui_others_pct_title">Data display</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

@@ -47,7 +47,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_another_title">
+    <PreferenceCategory android:title="@string/system_ui_others_pct_title">
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_cc_volume_showpct_title"
@@ -68,6 +69,10 @@
             app:stepValue="1"
             app:format="%d dp"
             app:showSeekBarValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_another_title">
 
         <SwitchPreference
             android:defaultValue="false"
