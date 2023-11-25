@@ -1,25 +1,17 @@
 package com.sevtinge.hyperceiler.module.hook.home.dock
 
-import android.animation.ValueAnimator
-import android.app.Application
-import android.content.Context
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.view.Gravity
-import android.view.View
 import android.widget.FrameLayout
-import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.dp2px
-import com.sevtinge.hyperceiler.utils.callMethod
-import com.sevtinge.hyperceiler.utils.findClass
-import com.sevtinge.hyperceiler.utils.hookAfterMethod
-import com.sevtinge.hyperceiler.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.utils.blur.BlurView
+import com.sevtinge.hyperceiler.utils.findClass
 import com.sevtinge.hyperceiler.utils.getObjectField
-import de.robv.android.xposed.XposedHelpers
+import com.sevtinge.hyperceiler.utils.hookAfterMethod
 
+@SuppressLint("StaticFieldLeak")
 object DockCustomNew : BaseHook() {
     override fun init() {
 
