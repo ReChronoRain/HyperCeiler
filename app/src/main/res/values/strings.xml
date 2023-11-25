@@ -1250,6 +1250,7 @@
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Hide Properties</string>
     <string name="various_open_aosp_something_desc">Open AOSP interface \"hidden\"</string>
+    <string name="various_nobrightness">Reject forced brightness</string>
     <string name="settings_notfication_importance">Show notification importance</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>

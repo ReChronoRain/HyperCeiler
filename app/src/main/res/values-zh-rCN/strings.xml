@@ -1288,6 +1288,7 @@
     <string name="various_mipad_title">Pad 相关</string>
     <string name="various_open_aosp_something_title">隐藏特性</string>
     <string name="various_open_aosp_something_desc">便捷打开被隐藏的原生界面</string>
+    <string name="various_nobrightness">拒绝强制亮度</string>
     <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>

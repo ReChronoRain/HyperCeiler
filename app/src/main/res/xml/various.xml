@@ -98,6 +98,11 @@
     <PreferenceCategory android:title="@string/various">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_various_nobrightness"
+            android:title="@string/various_nobrightness" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_settings_notfication_importance"
             android:title="@string/settings_notfication_importance" />
 
