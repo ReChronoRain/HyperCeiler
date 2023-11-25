@@ -46,8 +46,8 @@ public class XposedUtils extends XposedLogUtils {
             mPct.setGravity(Gravity.CENTER);
             float density = res.getDisplayMetrics().density;
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-            // lp.topMargin = Math.round(mPrefsMap.getInt("system_showpct_top", 28) * density);
-            lp.topMargin = Math.round(28 * density);
+            lp.topMargin = Math.round(mPrefsMap.getInt("system_ui_others_showpct_top", 54) * density);
+            // lp.topMargin = Math.round(54 * density);
             lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
             mPct.setPadding(Math.round(20 * density), Math.round(10 * density), Math.round(18 * density), Math.round(12 * density));
             mPct.setLayoutParams(lp);

@@ -58,6 +58,17 @@
             android:key="prefs_key_system_showpct_title"
             android:title="@string/system_showpct_title" />
 
+        <SeekBarPreferenceEx
+            android:key="prefs_key_system_ui_others_showpct_top"
+            android:title="@string/system_ui_others_showpct_top"
+            android:summary="@string/system_ui_others_showpct_top_desc"
+            android:defaultValue="54"
+            app:defaultValueText="@string/array_default"
+            app:maxValue="1024"
+            app:stepValue="1"
+            app:format="%d dp"
+            app:showSeekBarValue="true" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_notification_freeform"
