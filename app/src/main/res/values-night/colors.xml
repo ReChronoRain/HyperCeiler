@@ -2,6 +2,6 @@
 <resources>
     <color name="navigation_icon_light">#FF000000</color>
     <color name="navigation_icon_dark">#FFFFFFFF</color>
-    <color name="color_on_surface_variant">#C5C7C9</color>
-    <color name="color_surface_variant">#40484D</color>
+    <color name="color_on_surface_variant">#FAABABAD</color>
+    <color name="color_surface_variant">#DC2E2E30</color>
 </resources>
