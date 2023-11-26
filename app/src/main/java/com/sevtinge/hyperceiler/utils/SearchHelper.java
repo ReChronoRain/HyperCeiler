@@ -7,8 +7,6 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
@@ -612,6 +610,14 @@ public class SearchHelper {
             R.string.scanner,
             R.string.scanner,
             "com.sevtinge.hyperceiler.ui.fragment.ScannerFragment");
+
+        parsePrefXml(context, R.xml.micloud_service,
+            R.string.micloud_service,
+            R.string.micloud_service,
+            R.string.micloud_service,
+            R.string.micloud_service,
+            R.string.micloud_service,
+            "com.sevtinge.hyperceiler.ui.fragment.MiCloudServiceFragment");
 
         parsePrefXml(context, R.xml.creation,
             R.string.creation,

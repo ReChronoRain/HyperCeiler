@@ -741,6 +741,10 @@
     <string name="content_extension_super_image_summary">需要系統底層支援</string>
     <string name="content_extension_link_open_mode">連結開啟方式</string>
     <string name="content_extension_link_open_mode_desc">選擇一個瀏覽器以打開連結</string>
+    <!--Xiaomi Cloud Service-->
+    <string name="micloud_service">小米雲服務</string>
+    <string name="micloud_service_list">應用程式數據雲同步補全</string>
+    <string name="micloud_service_list_summary">補全功能如下：\n- 手機設備可以同步小米創作\n- 國內國際版小米瀏覽器可以同時同步\n\n注：小米創作的首次同步必須從小米創作的設定中啟用授權，否則會提示網路不可用或系統忙請稍後再試</string>
     <!--Mi Canvas-->
     <string name="creation">小米創作</string>
     <string name="creation_unlock">移除限制手機使用規則</string>
