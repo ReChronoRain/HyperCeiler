@@ -1228,11 +1228,11 @@
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <!--MIUI+-->
-    <string name="mirror">MIUI+</string>
+    <string name="mirror">MIUI+ Beta</string>
     <string name="mirror_hyperos">Device Interconnectivity Services</string>
     <string name="mirror_unlock_miui_plus">Unlock MIUI+</string>
     <!--Mi sound-->
-    <string name="misound">Mi Sound</string>
+    <string name="misound">Earphones</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
