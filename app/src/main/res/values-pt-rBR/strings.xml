@@ -664,6 +664,8 @@
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
+    <string name="system_showpct_title">Exibir porcentagem do brilho</string>
+    <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação para abrir uma Janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -1216,6 +1218,7 @@
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Recursos ocultos</string>
     <string name="various_open_aosp_something_desc">Abra a interface AOSP \"oculta\"</string>
+    <string name="various_nobrightness">Rejeitar brilho forçado</string>
     <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
@@ -1335,6 +1338,9 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Clássico</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Elegante</string>
     <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
+    <string name="system_ui_others_showpct_top">Topo da porcentagem</string>
+    <string name="system_ui_others_showpct_top_desc">Distância percentual do topo da tela</string>
+    <string name="system_ui_others_pct_title">Exibição de dados</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
