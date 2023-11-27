@@ -28,6 +28,7 @@
     <string name="development_ui">UI</string>
     <string name="about_privacy">Política de privacidade</string>
     <string name="about_protocol">Acordo do usuário</string>
+    <string name="settings_show_title">Mostrar</string>
     <string name="settings_data_title">Backup e Restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
     <string name="settings_debug_title">Depurar</string>
@@ -312,6 +313,7 @@
     <string name="system_framework_disable_72h_verify">Desativar verificação da tela de bloqueio por 72 horas</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
+    <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -332,6 +334,9 @@
     <string name="browser_debug_mode_desc">17.5.xxxxx e superior não são entradas</string>
     <!--Camera-->
     <string name="camera">Câmera</string>
+    <string name="camera_custom_watermark">Marca d’água do dispositivo personalizada</string>
+    <string name="camera_custom_watermark_manufacturer">Informações do fabricante</string>
+    <string name="camera_custom_watermark_device">Informação do dispositivo</string>
     <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente</string>
     <string name="camera_features_unlock_ambilight">Desbloquear Longa exposição</string>
     <string name="camera_features_unlock_clone">Desbloquear modo Clonar</string>
@@ -459,6 +464,9 @@
     <string name="system_ui_statusbar_layout_mode_title">Modo de layout</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Toque duas vezes para desligar a tela</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Barra de sinal de duas linhas</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema do ícone</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Clássico</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Elegante</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilos de ícones</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Dimensionamento de ícone</string>
     <string name="system_ui_status_bar_mobile_type_single">O ícone do tipo de rede móvel é exibido separadamente</string>
@@ -664,8 +672,11 @@
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
+    <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
+    <string name="system_ui_others_showpct_top">Topo da porcentagem</string>
+    <string name="system_ui_others_showpct_top_desc">Distância percentual do topo da tela</string>
     <string name="system_ui_notification_freeform">Puxe para baixo a barra de notificação para abrir uma Janela flutuante</string>
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -762,6 +773,10 @@
     <string name="content_extension_super_image_summary">A verdadeira preservação requer suporte subjacente do modelo do dispositivo</string>
     <string name="content_extension_link_open_mode">Como abrir o link</string>
     <string name="content_extension_link_open_mode_desc">Escolha um navegador para abrir o link</string>
+    <!--Xiaomi Cloud Service-->
+    <string name="micloud_service">MiCloud</string>
+    <string name="micloud_service_list">Aplicar conclusão da sincronização da nuvem de dados</string>
+    <string name="micloud_service_list_summary">As funções de conclusão são as seguintes:\n- O celular pode ser sincronizado com o Mi Creation.\n- As versões nacional e internacional do Navegador Mi podem ser sincronizadas ao mesmo tempo.\n\nObservação: A primeira sincronização do Mi Creation deve ser ativado nas configurações do Mi Creation, caso contrário, será avisado que a rede está indisponível ou o sistema está ocupado, por favor, tente novamente mais tarde.</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remover restrições sobre o uso de telefones móveis</string>
@@ -1330,17 +1345,6 @@
     <string name="browser_disable_blacklist">Desativar lista negra de URL</string>
     <string name="log_level">Nível de registro</string>
     <string name="log_level_none">Desativar registro</string>
-    <string name="settings_show_title">Mostrar</string>
-    <string name="camera_custom_watermark">Marca d’água do dispositivo personalizada</string>
-    <string name="camera_custom_watermark_manufacturer">Informações do fabricante</string>
-    <string name="camera_custom_watermark_device">Informação do dispositivo</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema do ícone</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Clássico</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Elegante</string>
-    <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
-    <string name="system_ui_others_showpct_top">Topo da porcentagem</string>
-    <string name="system_ui_others_showpct_top_desc">Distância percentual do topo da tela</string>
-    <string name="system_ui_others_pct_title">Exibição de dados</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
