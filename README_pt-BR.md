@@ -13,12 +13,12 @@
 
 ## Versões suportadas
 
-MIUI 12.5 ~ 14 para Android 11 ~ 13
+MIUI 12.5 ~ 14 para Android 11 ~ 14/Xiaomi HyperOS 1.0
 
 
 > Não suporta ROM MIUI/HyperOS de terceiros fortemente modificadas, software de sistema fortemente modificado e algumas ROM MIUI/HyperOS estrangeiras.
 >
-> Atualmente, o HyperCeiler está adaptado para dispositivos baseados em Android 13 e MIUI 14. A cobertura não é muito completa e requer testes e melhorias contínuas.
+> Atualmente, o HyperCeiler está adaptado para dispositivos baseado em Xiaomi Android 14 e HyperOS 1.0. A cobertura não é muito completa e requer testes e melhorias contínuas.
 >
 > O HyperCeiler deixou de ser mantido em ROM MIUI para Android 11-12. Se você quiser usá-lo, fique [nesta versão](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130).
 
@@ -84,6 +84,7 @@ MIUI 12.5 ~ 14 para Android 11 ~ 13
 | MIUI+                            | com.xiaomi.mirror                  |
 | NetworkBoost                     | com.xiaomi.NetworkBoost            |
 | Serviço NFC                      | com.android.nfc                    |
+| Fones de ouvido                  | com.miui.misound                   |
 
 </details>
 

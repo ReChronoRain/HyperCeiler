@@ -826,6 +826,10 @@
     <string name="content_extension_super_image_summary">需要系统底层支持</string>
     <string name="content_extension_link_open_mode">链接打开方式</string>
     <string name="content_extension_link_open_mode_desc">选择一个浏览器以打开链接</string>
+    <!--小米云服务-->
+    <string name="micloud_service">小米云服务</string>
+    <string name="micloud_service_list">应用数据云同步补全</string>
+    <string name="micloud_service_list_summary">补全功能如下：\n- 手机可以同步小米创作\n- 国内国际版小米浏览器可以同时同步\n\n注：小米创作的首次同步必须从小米创作的设置中启用授权，否则会提示网络不可用或系统忙请稍后再试</string>
     <!--小米创作-->
     <string name="creation">小米创作</string>
     <string name="creation_unlock">解除手机端使用限制</string>
@@ -1428,7 +1432,6 @@
 
     <string name="log_level">日志输出等级</string>
     <string name="log_level_none">禁用日志输出</string>
-
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>

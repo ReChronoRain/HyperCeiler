@@ -13,11 +13,11 @@
 
 ## 支持的版本
 
-Android 11 ~ 13 的 MIUI 12.5 ~ 14
+Android 11 ~ 14 的 MIUI 12.5 ~ 14/Xiaomi HyperOS1.0
 
 > 不支持 修改较多的第三方 MIUI/Xiaomi HyperOS Rom、修改较多的系统软件，以及部分国外 MIUI/Xiaomi HyperOS Rom；
 >
-> 目前 HyperCeiler 是基于 Android 13 的 MIUI 14 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进；
+> 目前 HyperCeiler 是基于 Android 14 的 Xiaomi HyperOS1.0 的手机端设备进行适配，覆盖不是很完整，需要不断测试和改进；
 >
 > HyperCeiler 已停止维护 Android 11-12 的 MIUI Rom，如需使用请停留[此版本](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
 
@@ -83,6 +83,7 @@ Android 11 ~ 13 的 MIUI 12.5 ~ 14
 | MIUI+        | com.xiaomi.mirror                  |
 | NetworkBoost | com.xiaomi.NetworkBoost            |
 | NFC 服务       | com.android.nfc                    |
+| 音质音效         | com.miui.misound                   |
 
 </details>
 

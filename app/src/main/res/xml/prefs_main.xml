@@ -143,6 +143,13 @@
             android:title="@string/content_extension" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiCloudServiceFragment"
+            android:icon="@drawable/ic_micloud_service"
+            android:key="prefs_key_micloud_service"
+            android:summary="com.miui.cloudservice"
+            android:title="@string/micloud_service" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.CreationFragment"
             android:icon="@drawable/ic_creation"
             android:key="prefs_key_creation"

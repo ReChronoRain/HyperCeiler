@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.module.app.Joyose;
 import com.sevtinge.hyperceiler.module.app.Lbe;
 import com.sevtinge.hyperceiler.module.app.Market;
 import com.sevtinge.hyperceiler.module.app.MediaEditor;
+import com.sevtinge.hyperceiler.module.app.MiCloudService;
 import com.sevtinge.hyperceiler.module.app.MiLink;
 import com.sevtinge.hyperceiler.module.app.MiSettings;
 import com.sevtinge.hyperceiler.module.app.MiShare;
@@ -104,6 +105,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final AiAsst mAiAsst = new AiAsst();
     public final Scanner mScanner = new Scanner();
     public final MiShare mMiShare = new MiShare();
+    public final MiCloudService miCloudService = new MiCloudService();
     public final MiLink mMiLink = new MiLink();
     public final GuardProvider mGuardProvider = new GuardProvider();
     public final Lbe mLbe = new Lbe();
@@ -330,6 +332,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.providers.downloads" -> mDownloads.init(lpparam);
 
+            case "com.miui.cloudservice" -> {
+                miCloudService.init(lpparam);
+                mVarious.init(lpparam);
+            }
             case "com.miui.creation" -> {
                 mCreation.init(lpparam);
                 mVarious.init(lpparam);

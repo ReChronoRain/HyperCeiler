@@ -57,6 +57,7 @@
     <string name="development_ui">UI</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
+    <string name="settings_show_title">Show</string>
     <string name="settings_data_title">Backup and Restore</string>
     <string name="settings_bug_title">Troubleshooting</string>
     <string name="settings_debug_title">Debug</string>
@@ -341,6 +342,7 @@
     <string name="system_framework_disable_72h_verify">Disable lock screen verify when per 72 hours</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
+    <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
@@ -361,6 +363,9 @@
     <string name="browser_debug_mode_desc">17.5.xxxxx and above are no entry</string>
     <!--Camera-->
     <string name="camera">Camera</string>
+    <string name="camera_custom_watermark">Custom device watermark</string>
+    <string name="camera_custom_watermark_manufacturer">Manufacturer Information</string>
+    <string name="camera_custom_watermark_device">Device Information</string>
     <string name="camera_features_unlock_aiwatermark">Unlock AI watermark</string>
     <string name="camera_features_unlock_ambilight">Unlock Long exposure</string>
     <string name="camera_features_unlock_clone">Unlock Clone mode</string>
@@ -488,6 +493,9 @@
     <string name="system_ui_statusbar_layout_mode_title">Layout mode</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Double tap to sleep</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Icon themes</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Classic</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Origin Architecture</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Icon styles</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
     <string name="system_ui_status_bar_mobile_type_single">Mobile network type icon display separately</string>
@@ -694,8 +702,11 @@
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
     <string name="system_ui_origin_charge_animation">Native charging animation</string>
     <string name="system_ui_another_title">Other</string>
+    <string name="system_ui_others_pct_title">Data display</string>
     <string name="system_showpct_title">Displays the brightness percentage</string>
     <string name="system_cc_volume_showpct_title">Displays the percentage of sound</string>
+    <string name="system_ui_others_showpct_top">Top of percentage</string>
+    <string name="system_ui_others_showpct_top_desc">Percentage distance from the top of the screen</string>
     <string name="system_ui_notification_freeform">Pull down the notification bar of more apps to open a freeform</string>
     <string name="system_ui_notification_freeform_desc">Notifications from Mi Push may not be supported</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -792,6 +803,10 @@
     <string name="content_extension_super_image_summary">True preservation requires underlying support from the device model</string>
     <string name="content_extension_link_open_mode">How to open link</string>
     <string name="content_extension_link_open_mode_desc">Choose a browser to open link</string>
+    <!--Xiaomi Cloud Service-->
+    <string name="micloud_service">Xiaomi Cloud Service</string>
+    <string name="micloud_service_list">Apply data cloud synchronization completion</string>
+    <string name="micloud_service_list_summary">The completion functions are as follows:\n- The mobile phone can be synchronized with Mi Creation\n- The domestic and international versions of Mi Browser can be synchronized at the same time\n\nNote: The first synchronization of Mi Creation must be enabled from the settings of Mi Creation, otherwise it will prompt that the network is unavailable or the system is busy, please try again later</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
@@ -1213,11 +1228,11 @@
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <!--MIUI+-->
-    <string name="mirror">MIUI+</string>
+    <string name="mirror">MIUI+ Beta</string>
     <string name="mirror_hyperos">Device Interconnectivity Services</string>
     <string name="mirror_unlock_miui_plus">Unlock MIUI+</string>
     <!--Mi sound-->
-    <string name="misound">Mi Sound</string>
+    <string name="misound">Earphones</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>
@@ -1368,17 +1383,6 @@
     <string name="log_level_warn" translatable="false">Warn</string>
     <string name="log_level_info" translatable="false">Info</string>
     <string name="log_level_debug" translatable="false">Debug</string>
-    <string name="settings_show_title">Show</string>
-    <string name="camera_custom_watermark">Custom device watermark</string>
-    <string name="camera_custom_watermark_manufacturer">Manufacturer Information</string>
-    <string name="camera_custom_watermark_device">Device Information</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Icon themes</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Classic</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Origin Architecture</string>
-    <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
-    <string name="system_ui_others_showpct_top">Top of percentage</string>
-    <string name="system_ui_others_showpct_top_desc">Percentage distance from the top of the screen</string>
-    <string name="system_ui_others_pct_title">Data display</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
