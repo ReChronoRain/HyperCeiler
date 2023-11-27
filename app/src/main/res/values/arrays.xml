@@ -696,4 +696,38 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+
+    <string-array name="card_style_tiles_more">
+        <item>wifi</item>
+        <item>cell</item>
+        <item>bt</item>
+        <item>flashlight</item>
+    </string-array>
+
+    <string-array name="card_style_tiles_most">
+        <item>wifi</item>
+        <item>cell</item>
+        <item>bt</item>
+        <item>flashlight</item>
+        <item>vowifi1</item>
+        <item>vowifi2</item>
+    </string-array>
+
+    <string-array name="card_style_tiles_less">
+    </string-array>
+
+    <string-array name="card_style_tile">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_control_center_more_card_tiles_less</item>
+        <item>@string/system_ui_control_center_more_card_tiles_more</item>
+        <item>@string/system_ui_control_center_more_card_tiles_most</item>
+    </string-array>
+
+    <string-array name="card_style_tiles_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>

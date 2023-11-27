@@ -712,6 +712,10 @@
     <string name="system_control_center_old_qs_grid_columns_desc">横屏时将会额外增加一列</string>
     <string name="system_control_center_old_qs_grid_columns">折叠面板中的列数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折叠面板中的列数（横屏）</string>
+    <string name="system_ui_control_center_more_card_tiles">卡片磁贴数量</string>
+    <string name="system_ui_control_center_more_card_tiles_less">无</string>
+    <string name="system_ui_control_center_more_card_tiles_more">多</string>
+    <string name="system_ui_control_center_more_card_tiles_most">更多</string>
 
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_charge_animation_title">充电动画</string>

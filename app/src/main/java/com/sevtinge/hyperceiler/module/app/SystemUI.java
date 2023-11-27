@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixMediaContr
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MoreCardTiles;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
@@ -212,6 +213,7 @@ public class SystemUI extends BaseModule {
             initHook(new QSGridOld(), mPrefsMap.getBoolean("system_control_center_old_enable_1"));
             initHook(new QQSGridOld(), mPrefsMap.getBoolean("system_control_center_old_enable_1"));
         }
+        initHook(new MoreCardTiles(), mPrefsMap.getStringAsInt("system_ui_control_center_more_card_tiles", 0) != 0);
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
         initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));

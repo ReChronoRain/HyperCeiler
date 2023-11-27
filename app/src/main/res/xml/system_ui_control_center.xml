@@ -199,6 +199,13 @@
             android:key="prefs_key_system_ui_control_center_rounded_rect"
             android:title="@string/system_ui_control_center_rounded_rect" />
 
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_control_center_more_card_tiles"
+            android:title="@string/system_ui_control_center_more_card_tiles"
+            app:entries="@array/card_style_tile"
+            app:entryValues="@array/card_style_tiles_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_control_center_switch_cc_and_notification"
