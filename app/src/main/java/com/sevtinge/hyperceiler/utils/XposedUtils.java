@@ -17,6 +17,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 public class XposedUtils extends XposedLogUtils {
+    @SuppressLint("StaticFieldLeak")
     public static TextView mPct = null;
 
     @SuppressLint("StaticFieldLeak")
