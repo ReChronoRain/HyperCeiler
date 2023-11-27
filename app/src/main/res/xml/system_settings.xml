@@ -5,6 +5,11 @@
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_settings_linkturbo"
+            android:title="@string/system_settings_linkturbo" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_international_build"
             android:title="@string/system_settings_international_build" />
 

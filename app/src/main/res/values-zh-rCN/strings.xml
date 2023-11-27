@@ -738,6 +738,7 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">仅供 Android 12 及以上的 MTK 机型使用，可能存在 GPU 负载较高的情况</string>
     <!--系统设置-->
     <string name="system_settings">设置</string>
+    <string name="system_settings_linkturbo">解除网络加速应用限制</string>
     <string name="system_settings_international_build">国际版本设置页面</string>
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
     <string name="system_settings_safe_wifi_desc">解锁管理已保存网络\n路径：设置-WLAN-高级设置-管理保存的网络</string>

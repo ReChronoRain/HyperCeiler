@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -15,6 +16,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+
+import de.robv.android.xposed.XposedHelpers;
 
 public class XposedUtils extends XposedLogUtils {
     @SuppressLint("StaticFieldLeak")
@@ -37,6 +40,21 @@ public class XposedUtils extends XposedLogUtils {
         Configuration config = context.getResources().getConfiguration();
         Context moduleContext = getModuleContext(context);
         return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
+    }
+
+    public static Context findContext() {
+        Context context;
+        try {
+            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
+            if (context == null) {
+                Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
+                if (currentActivityThread != null)
+                    context = (Context) XposedHelpers.callMethod(currentActivityThread, "getSystemContext");
+            }
+            return context;
+        } catch (Throwable ignore) {
+        }
+        return null;
     }
 
     public static void initPct(ViewGroup container, int source, Context context) {

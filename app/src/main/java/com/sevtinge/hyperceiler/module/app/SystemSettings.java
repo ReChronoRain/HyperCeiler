@@ -9,6 +9,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableSpeedMode;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.InternationalBuild;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.LinkTurbo;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.ModifySystemVersion;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
@@ -26,6 +27,7 @@ public class SystemSettings extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new LinkTurbo(), mPrefsMap.getBoolean("system_settings_linkturbo"));
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));
         initHook(new VoipAssistantController(), mPrefsMap.getBoolean("system_settings_voip_assistant_controller"));
         initHook(new AddMiuiPlusEntry(), mPrefsMap.getBoolean("mirror_unlock_miui_plus"));
@@ -42,8 +44,8 @@ public class SystemSettings extends BaseModule {
         initHook(UnLockAreaScreenshot.INSTANCE, mPrefsMap.getBoolean("system_settings_area_screenshot"));
         initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
 
-        initHook(new EnablePadArea(),mPrefsMap.getBoolean("system_settings_enable_pad_area"));
-        initHook(new EnableFoldArea(),mPrefsMap.getBoolean("system_settings_enable_fold_area"));
+        initHook(new EnablePadArea(), mPrefsMap.getBoolean("system_settings_enable_pad_area"));
+        initHook(new EnableFoldArea(), mPrefsMap.getBoolean("system_settings_enable_fold_area"));
 
         initHook(new ModifySystemVersion(), mPrefsMap.getBoolean("updater_enable_miui_version") && mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1);
 

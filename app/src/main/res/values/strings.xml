@@ -721,6 +721,7 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">Only for Android12+ MTK models, there may be high GPU load</string>
     <!--Settings-->
     <string name="system_settings">Settings</string>
+    <string name="system_settings_linkturbo">Remove restrictions on network acceleration applications</string>
     <string name="system_settings_international_build">International version of settings</string>
     <string name="system_settings_safe_wifi">View your saved WiFi passwords</string>
     <string name="system_settings_safe_wifi_desc">Unlock Manage Saved Networks\nPath: Settings - WLAN - Advanced Settings - Manage Saved Networks</string>
