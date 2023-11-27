@@ -19,6 +19,11 @@
             android:key="prefs_key_home_other_shortcut_background_blur"
             android:title="@string/home_other_shortcut_background_blur" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_allow_share_apk"
+            android:title="@string/home_other_allow_share_apk" />
+
         <SeekBarPreferenceEx
             android:defaultValue="200"
             android:dependency="prefs_key_home_other_shortcut_background_blur"

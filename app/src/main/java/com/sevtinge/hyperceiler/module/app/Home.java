@@ -57,6 +57,7 @@ import com.sevtinge.hyperceiler.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaWidth;
+import com.sevtinge.hyperceiler.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.module.hook.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.hyperceiler.module.hook.home.other.AlwaysShowStatusClock;
 import com.sevtinge.hyperceiler.module.hook.home.other.BlurRadius;
@@ -234,6 +235,7 @@ public class Home extends BaseModule {
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_other_disable_hide_google"));
         initHook(ShowAllHideApp.INSTANCE); // 桌面快捷方式管理
         initHook(FixAndroidRS.INSTANCE, mPrefsMap.getBoolean("home_other_fix_android_r_s"));
+        initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
 
         // 实验性功能
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur") && !isAndroidVersion(30));
