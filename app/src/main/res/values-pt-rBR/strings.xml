@@ -691,6 +691,7 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">Somente para modelos Android12+ MTK. Pode haver alta carga na GPU.</string>
     <!--Settings-->
     <string name="system_settings">Configurações</string>
+    <string name="system_settings_linkturbo">Remover restrições em apps de aceleração de rede</string>
     <string name="system_settings_international_build">Versão internacional das configurações</string>
     <string name="system_settings_safe_wifi">Ver suas senhas de Wi-Fi salvas</string>
     <string name="system_settings_safe_wifi_desc">Caminho: Configurações - Wi-Fi - Configurações adicionais - Gerenciar redes salvas</string>
@@ -1345,6 +1346,11 @@
     <string name="browser_disable_blacklist">Desativar lista negra de URL</string>
     <string name="log_level">Nível de registro</string>
     <string name="log_level_none">Desativar registro</string>
+    <string name="system_ui_control_center_more_card_tiles">Mostrar blocos de cartão</string>
+    <string name="system_ui_control_center_more_card_tiles_less">Nenhum</string>
+    <string name="system_ui_control_center_more_card_tiles_more">Mais</string>
+    <string name="system_ui_control_center_more_card_tiles_most">Maioria</string>
+    <string name="home_other_allow_share_apk">Permitir compartilhar app</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
