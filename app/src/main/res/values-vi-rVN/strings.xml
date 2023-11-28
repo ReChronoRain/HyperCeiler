@@ -28,6 +28,7 @@
     <string name="development_ui">Giao diện</string>
     <string name="about_privacy">Chính Sách Quyền Riêng Tư</string>
     <string name="about_protocol">Thoả thuận người dùng</string>
+    <string name="settings_show_title">Hiện</string>
     <string name="settings_data_title">Sao lưu và khôi phục</string>
     <string name="settings_bug_title">Khắc phục sự cố</string>
     <string name="settings_debug_title">Gỡ lỗi</string>
@@ -313,6 +314,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_72h_verify">Tắt xác minh khóa màn hình sau 72 giờ</string>
     <string name="system_framework_disable_verify_can_ve_disabled">Cho phép tắt xác minh ứng dụng</string>
     <string name="system_framework_allow_all_dark_mode">Cho phép tất cả ứng dụng sử dụng chế độ tối</string>
+    <string name="system_framework_disablt_miuilite_check">Tắt kiểm tra MIUI Lite</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -334,6 +336,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="browser_debug_mode_desc">17.5.xxxxx trở lên không được hỗ trợ</string>
     <!--Camera-->
     <string name="camera">Máy ảnh</string>
+    <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
+    <string name="camera_custom_watermark_manufacturer">Thông tin nhà sản xuất</string>
+    <string name="camera_custom_watermark_device">Thông tin thiết bị</string>
     <string name="camera_features_unlock_aiwatermark">Mở khóa Dấu chìm AI</string>
     <string name="camera_features_unlock_ambilight">Mở khóa Phơi sáng lâu</string>
     <string name="camera_features_unlock_clone">Mở khóa Bản sao</string>
@@ -461,6 +466,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_layout_mode_title">Bố cục thanh trạng thái</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Nhấn đúp để khoá màn hình</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Cột sóng đôi</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Chủ đề biểu tượng</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Cổ điển</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Kiến trúc gốc</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Kiểu biểu tượng cột sóng</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Tỉ lệ biểu tượng</string>
     <string name="system_ui_status_bar_mobile_type_single">Biểu tượng loại mạng di động tùy chỉnh</string>
@@ -666,6 +674,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
     <string name="system_ui_origin_charge_animation">Hiệu ứng sạc</string>
     <string name="system_ui_another_title">Khác</string>
+    <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
+    <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
+    <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
+    <string name="system_ui_others_showpct_top">Phần trăm cao nhất</string>
+    <string name="system_ui_others_showpct_top_desc">Khoảng cách phần trăm từ đầu màn hình</string>
     <string name="system_ui_notification_freeform">Kéo thanh thông báo của ứng dụng xuống để mở cửa sổ nổi</string>
     <string name="system_ui_notification_freeform_desc">Thông báo từ Mi Push có thể không được hỗ trợ</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -680,6 +693,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_plugin_enable_volume_blur_desc">Chỉ dành cho các mẫu Android12+ MTK, có thể có tải GPU cao</string>
     <!--Settings-->
     <string name="system_settings">Cài đặt</string>
+    <string name="system_settings_linkturbo">Loại bỏ các hạn chế trên các ứng dụng tăng tốc mạng</string>
     <string name="system_settings_international_build">Cài đặt kiểu quốc tế</string>
     <string name="system_settings_safe_wifi">Xem mật khẩu WiFi đã lưu</string>
     <string name="system_settings_safe_wifi_desc">Xem tại: Cài đặt - WI-FI - Cài đặt nâng cao - Quản lý mạng đã lưu</string>
@@ -766,6 +780,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="content_extension_super_image_summary">Yêu cầu hỗ trợ cơ bản từ thiết bị</string>
     <string name="content_extension_link_open_mode">Cách mở liên kết</string>
     <string name="content_extension_link_open_mode_desc">Chọn trình duyệt để mở liên kết</string>
+    <!--Xiaomi Cloud Service-->
+    <string name="micloud_service">Dịch vụ đám mây Xiaomi</string>
+    <string name="micloud_service_list">Hoàn thành đồng bộ hóa đám mây dữ liệu ứng dụng</string>
+    <string name="micloud_service_list_summary">Các chức năng hoàn thiện như sau:\n- Thiết bị di động có thể đồng bộ hóa Xiaomi Creations\n- Phiên bản trong nước và quốc tế của Trình duyệt Mi có thể được đồng bộ hóa cùng lúc\n\nLưu ý: Lần đồng bộ hóa đầu tiên của Xiaomi Creations phải kích hoạt ủy quyền trong cài đặt của Xiaomi Creations, nếu không nó sẽ nhắc rằng mạng không khả dụng hoặc hệ thống đang bận. Vui lòng thử lại sau.</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Xoá hạn chế sử dụng điện thoại di động</string>
@@ -998,8 +1016,14 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_mi_pad_enable_more_setting_desc">Các chức năng mở khóa có thể không hoạt động và một số chức năng yêu cầu hỗ trợ hệ thống cơ bản</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Chỉnh sửa thư viện</string>
+    <string name="mediaeditor_foundation">Nền tảng</string>
+    <string name="mediaeditor_ai_authoring">Sáng tạo AI</string>
+    <string name="mediaeditor_unlock_disney_title">Mở khóa các tính năng tùy chỉnh của Disney</string>
+    <string name="mediaeditor_unlock_disney_desc">Các tính năng được mở khóa bao gồm:\n- Khung tùy chỉnh – Khung tùy chỉnh của Disney (xung đột với các khung tùy chỉnh khác)\n- Làm mờ nền – Làm mờ Mickey\n- Hình dán – Hình dán Disney</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Tùy chỉnh loại khung hình</string>
+    <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
+    <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
     <string name="mediaeditor_filter_manager">Mở khóa bộ lọc chính</string>
     <!--Mi Share-->
     <string name="mishare">Mi Share</string>
@@ -1223,6 +1247,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Tính năng ẩn</string>
     <string name="various_open_aosp_something_desc">Mở giao diện AOSP \"tính năng ẩn\"</string>
+    <string name="various_nobrightness">Từ chối độ sáng bắt buộc</string>
     <string name="settings_notfication_importance">Hiện thông báo quan trọng</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
@@ -1335,14 +1360,11 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="browser_disable_blacklist">Tắt URL danh sách đen</string>
     <string name="log_level">Mức độ nhật ký</string>
     <string name="log_level_none">Tắt nhật ký</string>
-    <string name="settings_show_title">Hiện</string>
-    <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
-    <string name="camera_custom_watermark_manufacturer">Thông tin nhà sản xuất</string>
-    <string name="camera_custom_watermark_device">Thông tin thiết bị</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Chủ đề biểu tượng</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Cổ điển</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Kiến trúc gốc</string>
-    <string name="system_framework_disablt_miuilite_check">Tắt kiểm tra MIUI Lite</string>
+    <string name="system_ui_control_center_more_card_tiles">Hiện các ô thẻ</string>
+    <string name="system_ui_control_center_more_card_tiles_less">Không</string>
+    <string name="system_ui_control_center_more_card_tiles_more">Nhiều hơn</string>
+    <string name="system_ui_control_center_more_card_tiles_most">Nhiều nhất</string>
+    <string name="home_other_allow_share_apk">Đồng ý chia sẻ ứng dụng</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
