@@ -13,6 +13,7 @@ import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constr
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 
+@SuppressLint("StaticFieldLeak")
 object TimeStyle : BaseHook() {
     private val clockBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
@@ -46,7 +47,7 @@ object TimeStyle : BaseHook() {
 
                 if (textV.resources.getResourceEntryName(textV.id) == "clock") {
                     // 时钟加粗
-                    if (mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")) {
+                    if (clockBold) {
                         textV.typeface = Typeface.DEFAULT_BOLD
                     }
                     // 时钟对齐方式

@@ -64,6 +64,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.DisableAnim;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BatteryStyle;
@@ -148,6 +149,12 @@ public class SystemUI extends BaseModule {
         initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         // 时钟指示器
+        if (isMoreHyperOSVersion(1f)) initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_statusbar_clock_bold") ||
+            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0 ||
+            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode", 0) != 0 ||
+            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0) != 0 ||
+            mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12) != 12 ||
+            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
         initHook(TimeStyle.INSTANCE);
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
