@@ -110,7 +110,7 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resolution"));
         initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
         initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
-        initHook(new DockSuggest(), mPrefsMap.getStringAsInt("security_center_sidebar_show_suggest", 0) != 0);
+        // initHook(new DockSuggest(), mPrefsMap.getStringAsInt("security_center_sidebar_show_suggest", 0) != 0);
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
         initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
