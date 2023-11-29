@@ -2,117 +2,163 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
         <Preference android:summary="@string/about_contributer_desc" />
-        <Preference android:title="Green Yang">
+        <Preference
+            android:summary="CoolApk@潇风残月"
+            android:title="Green Yang">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/666190" />
         </Preference>
-        <Preference android:title="GSWXXN">
+        <Preference
+            android:summary="GitHub@GSWXXN / CoolApk@迷璐"
+            android:title="GSWXXN">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/GSWXXN" />
         </Preference>
-        <Preference android:title="hamjin">
+        <Preference
+            android:summary="GitHub@hamjin / CoolApk@HamJin"
+            android:title="hamjin">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/hamjin" />
         </Preference>
-        <Preference android:title="Nahida">
+        <Preference
+            android:summary="GitHub@CHxCOOH"
+            android:title="Nahida">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/CHxCOOH" />
         </Preference>
-        <Preference android:title="nakixii">
+        <Preference
+            android:summary="GitHub@nakixii / CoolApk@nakixii"
+            android:title="nakixii">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/nakixii" />
         </Preference>
-        <Preference android:title="Naomi">
+        <Preference
+            android:summary="GitHub@Henvy-Mango"
+            android:title="Naomi">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Henvy-Mango" />
         </Preference>
-        <Preference android:title="MonetCarlos">
+        <Preference
+            android:summary="CoolApk@MonetCarlos"
+            android:title="MonetCarlos">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/9021855" />
         </Preference>
-        <Preference android:title="Next Alone">
+        <Preference
+            android:summary="GitHub@NextAlone"
+            android:title="Next Alone">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/NextAlone" />
         </Preference>
-        <Preference android:title="Qe_xr">
+        <Preference
+            android:summary="CoolApk@Qe_xr"
+            android:title="Qe_xr">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="http://www.coolapk.com/u/2919503" />
         </Preference>
-        <Preference android:title="v5u87">
+        <Preference
+            android:summary="GitHub@v5u871 / CoolApk@v5u87"
+            android:title="v5u87">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="http://www.coolapk.com/u/5816741" />
         </Preference>
-        <Preference android:title="Voyager">
+        <Preference
+            android:summary="GitHub@hosizoraru"
+            android:title="Voyager">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/hosizoraru" />
         </Preference>
-        <Preference android:title="Wansn">
+        <Preference
+            android:summary="GitHub@Wansn-w"
+            android:title="Wansn">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Wansn-w" />
         </Preference>
-        <Preference android:title="Weverses">
+        <Preference
+            android:summary="GitHub@Weverses / CoolApk@Weverse"
+            android:title="Weverse">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Weverses" />
         </Preference>
-        <Preference android:title="wushidi">
+        <Preference
+            android:summary="GitHub@wushidia"
+            android:title="wushidi">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/wushidia" />
         </Preference>
-        <Preference android:title="YuKongA">
+        <Preference
+            android:summary="GitHub@YuKongA"
+            android:title="YuKongA">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YuKongA" />
         </Preference>
-        <Preference android:title="Zach Carroll">
+        <Preference
+            android:summary="GitHub@zcarroll4"
+            android:title="Zach Carroll">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/zcarroll4" />
         </Preference>
-        <Preference android:title="淡い夏">
+        <Preference
+            android:summary="GitHub@lightsummer233"
+            android:title="淡い夏">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/lightsummer233" />
         </Preference>
-        <Preference android:title="黑弩">
+        <Preference
+            android:summary="GitHub@heinu123"
+            android:title="黑弩">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/heinu123" />
         </Preference>
-        <Preference android:title="柚稚的孩纸">
+        <Preference
+            android:summary="GitHub@zjw2017 / CoolApk@柚稚的孩纸"
+            android:title="柚稚的孩纸">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/zjw2017" />
         </Preference>
-        <Preference android:title="欧瓯烨">
+        <Preference
+            android:summary="CoolApk@欧瓯烨"
+            android:title="欧瓯烨">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="http://www.coolapk.com/u/12223114" />
         </Preference>
-        <Preference android:title="相见即是缘">
+        <Preference
+            android:summary="GitHub@Meetingfate / CoolApk@相见即是缘"
+            android:title="相见即是缘">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Meetingfate" />
         </Preference>
-        <Preference android:title="雪中明月">
+        <Preference
+            android:summary="GitHub@lswlc33 / CoolApk@雪中明月_Official"
+            android:title="雪中明月">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/lswlc33" />
         </Preference>
-        <Preference android:title="雨中走过">
+        <Preference
+            android:summary="GitHub@pomelohan"
+            android:title="雨中走过">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/pomelohan" />

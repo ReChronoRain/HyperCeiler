@@ -9,7 +9,7 @@
         <Preference
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
-            android:summary="Hook、App Icon"
+            android:summary="\@Sevtinge | Main design &amp; Hook"
             android:title="绀漓 | Sevtinge">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -19,7 +19,7 @@
         <Preference
             android:icon="@drawable/ic_moralnorm"
             android:layout="@layout/preference_round_layout"
-            android:summary="UI Design、Hook"
+            android:summary="\@MoralNorm | UI &amp; Hook"
             android:title="MoralNorm">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -29,7 +29,7 @@
         <Preference
             android:icon="@drawable/ic_lingqiqi"
             android:layout="@layout/preference_round_layout"
-            android:summary="Hook"
+            android:summary="\@mu7220 | Hook"
             android:title="Neko Qiqi">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -39,7 +39,7 @@
         <Preference
             android:icon="@drawable/ic_hchenx"
             android:layout="@layout/preference_round_layout"
-            android:summary="Hook"
+            android:summary="\@HChenX | Hook"
             android:title="焕晨HChen">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -49,7 +49,7 @@
         <Preference
             android:icon="@drawable/ic_yifeplayte"
             android:layout="@layout/preference_round_layout"
-            android:summary="Hook"
+            android:summary="\@YifePlayte | Hook"
             android:title="Yife Playte">
             <intent
                 android:action="android.intent.action.VIEW"
