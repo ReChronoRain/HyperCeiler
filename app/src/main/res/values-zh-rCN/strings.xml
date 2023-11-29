@@ -1229,6 +1229,7 @@
     <string name="security_center_leave_open">保留侧滑展开</string>
     <string name="security_center_disable_sidebar_show_suggest">禁止展示推荐应用</string>
     <string name="security_center_unlock_new_vb">解锁新版视频工具箱</string>
+    <string name="security_center_game_performance_wild_mode">解锁游戏加速狂暴模式</string>
     <!--小米智能卡-->
     <string name="tsmclient">小米智能卡</string>
     <string name="tsmclient_auto_nfc">自动管理 NFC</string>

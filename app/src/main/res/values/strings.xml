@@ -1391,6 +1391,7 @@
     <string name="home_other_allow_share_apk">Allow share app</string>
     <string name="system_ui_unlock_super_volume">Unlock Super Volume</string>
     <string name="security_center_unlock_new_vb">Unlock New Video-box</string>
+    <string name="security_center_game_performance_wild_mode">Unlock Game Performance Wild Mode</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
