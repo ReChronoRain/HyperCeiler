@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
@@ -36,6 +37,7 @@ public class ShowVolumePct extends XposedUtils {
             "onProgressChanged", new XC_MethodHook() {
                 private int nowLevel = -233;
 
+                @SuppressLint("SetTextI18n")
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (nowLevel == (int) param.args[1]) return;
@@ -71,7 +73,7 @@ public class ShowVolumePct extends XposedUtils {
                         int i3 = maxLevel - 1;
                         currentLevel = currentLevel == max ? maxLevel : (currentLevel * i3 / max) + 1;
                     }
-                    mPct.setText(((currentLevel * 100) / maxLevel) + "%");
+                    if (((currentLevel * 100) / maxLevel) == 100 && mPrefsMap.getBoolean("system_ui_unlock_super_volume")) mPct.setText("200%"); else mPct.setText(((currentLevel * 100) / maxLevel) + "%");
                 }
             }
         );

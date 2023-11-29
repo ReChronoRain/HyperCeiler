@@ -81,6 +81,11 @@
             android:title="@string/system_ui_notification_freeform" />
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_unlock_super_volume"
+            android:title="@string/system_ui_unlock_super_volume" />
+
+        <SwitchPreference
             android:title="@string/system_ui_plugin_enable_volume_blur"
             android:summary="@string/system_ui_plugin_enable_volume_blur_desc"
             android:key="prefs_key_system_ui_plugin_enable_volume_blur"
@@ -94,11 +99,6 @@
             android:defaultValue="false"
             android:key="prefs_key_system_ui_volume_timer"
             android:title="@string/system_ui_volume_timer" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_unlock_super_volume"
-            android:title="@string/system_ui_unlock_super_volume" />
 
         <SwitchPreference
             android:defaultValue="false"
