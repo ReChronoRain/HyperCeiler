@@ -192,6 +192,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_new_vb"
+            android:title="@string/security_center_unlock_new_vb" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_dolby_open"
             android:title="@string/security_center_dolby_open" />
 

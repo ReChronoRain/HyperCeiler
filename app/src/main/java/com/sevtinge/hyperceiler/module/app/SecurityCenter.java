@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLi
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGunService;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockEnhanceContours;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockMemc;
@@ -109,6 +110,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
         // initHook(new DisableDockSuggest(), mPrefsMap.getBoolean("security_center_disable_sidebar_show_suggest"));
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
+        initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
 
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
