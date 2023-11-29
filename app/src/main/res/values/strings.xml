@@ -1389,6 +1389,7 @@
     <string name="system_ui_control_center_more_card_tiles_more">More</string>
     <string name="system_ui_control_center_more_card_tiles_most">Most</string>
     <string name="home_other_allow_share_apk">Allow share app</string>
+    <string name="system_ui_unlock_super_volume">Unlock Super Volume</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

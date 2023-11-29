@@ -115,5 +115,7 @@ public class PluginHelper extends BaseHook {
             CCGridForHyperOS.initCCGridForHyperOS(classLoader);
         if (mPrefsMap.getBoolean("system_cc_volume_showpct_title"))
             ShowVolumePct.init(classLoader);
+        if (mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
+            SuperVolume.initSuperVolume(classLoader);
     }
 }
