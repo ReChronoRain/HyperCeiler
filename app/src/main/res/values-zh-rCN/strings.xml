@@ -1227,7 +1227,7 @@
     <string name="security_center_unlock_s_resolution">解锁极清播放</string>
     <string name="security_center_hide_sidebar">隐藏侧边栏</string>
     <string name="security_center_leave_open">保留侧滑展开</string>
-    <string name="security_center_disable_sidebar_show_suggest">禁止展示推荐应用</string>
+    <string name="security_center_sidebar_show_suggest">禁止展示推荐应用</string>
     <string name="security_center_unlock_new_vb">解锁新版视频工具箱</string>
     <string name="security_center_game_performance_wild_mode">解锁游戏加速狂暴模式</string>
     <!--小米智能卡-->
@@ -1441,6 +1441,9 @@
 
     <string name="log_level">日志输出等级</string>
     <string name="log_level_none">禁用日志输出</string>
+
+    <string name="disable_suggest">禁用推荐</string>
+    <string name="enable_suggest">启用推荐</string>
     <!--Tip-->
     <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
     <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>

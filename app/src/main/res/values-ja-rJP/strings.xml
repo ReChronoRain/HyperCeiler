@@ -1127,7 +1127,7 @@
     <string name="security_center_unlock_s_resolution">超解像をアンロック</string>
     <string name="security_center_hide_sidebar">サイドバーを非表示</string>
     <string name="security_center_leave_open">スライドを展開したままにする</string>
-    <string name="security_center_disable_sidebar_show_suggest">アプリの提案の表示を無効化</string>
+    <string name="security_center_sidebar_show_suggest">アプリの提案の表示を無効化</string>
     <!--Smart cards-->
     <string name="tsmclient">スマートカード</string>
     <string name="tsmclient_auto_nfc">NFCを自動的に管理</string>

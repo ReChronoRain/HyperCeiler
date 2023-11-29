@@ -1106,7 +1106,7 @@
     <string name="security_center_unlock_s_resolution">解鎖極清播放</string>
     <string name="security_center_hide_sidebar">隱藏側邊欄</string>
     <string name="security_center_leave_open">保留側滑展開</string>
-    <string name="security_center_disable_sidebar_show_suggest">禁止展示推薦應用程式</string>
+    <string name="security_center_sidebar_show_suggest">禁止展示推薦應用程式</string>
     <!--Smart cards-->
     <string name="tsmclient">小米智慧卡</string>
     <string name="tsmclient_auto_nfc">自動管理 NFC</string>

@@ -37,10 +37,11 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredP
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.DockSuggest;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.GamePerformanceWildMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGunService;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.VBVideoMode;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockEnhanceContours;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockMemc;
@@ -109,7 +110,7 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resolution"));
         initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
         initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
-        // initHook(new DisableDockSuggest(), mPrefsMap.getBoolean("security_center_disable_sidebar_show_suggest"));
+        initHook(new DockSuggest(), mPrefsMap.getStringAsInt("security_center_sidebar_show_suggest", 0) != 0);
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
         initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));

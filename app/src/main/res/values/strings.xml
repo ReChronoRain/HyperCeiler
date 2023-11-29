@@ -1193,7 +1193,7 @@
     <string name="security_center_unlock_s_resolution">Unlock Super resolution</string>
     <string name="security_center_hide_sidebar">Hide sidebar</string>
     <string name="security_center_leave_open">Leave the slide unfolded</string>
-    <string name="security_center_disable_sidebar_show_suggest">Disable show suggest apps</string>
+    <string name="security_center_sidebar_show_suggest">Disable show suggest apps</string>
     <!--Smart cards-->
     <string name="tsmclient">Smart cards</string>
     <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
@@ -1392,6 +1392,8 @@
     <string name="system_ui_unlock_super_volume">Unlock Super Volume</string>
     <string name="security_center_unlock_new_vb">Unlock New Video-box</string>
     <string name="security_center_game_performance_wild_mode">Unlock Game Performance Wild Mode</string>
+    <string name="disable_suggest">Disable Suggest</string>
+    <string name="enable_suggest">Enable Suggest</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

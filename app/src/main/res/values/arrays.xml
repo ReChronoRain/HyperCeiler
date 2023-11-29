@@ -730,4 +730,16 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="security_center_suggest">
+        <item>@string/array_default</item>
+        <item>@string/disable_suggest</item>
+        <item>@string/enable_suggest</item>
+    </string-array>
+
+    <string-array name="security_center_suggest_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

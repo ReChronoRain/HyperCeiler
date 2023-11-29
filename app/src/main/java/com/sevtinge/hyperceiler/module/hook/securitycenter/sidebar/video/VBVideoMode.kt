@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game
+package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook

@@ -205,11 +205,18 @@
             android:key="prefs_key_security_center_dolby_open"
             android:title="@string/security_center_dolby_open" />
 
-        <SwitchPreference
+        <DropDownPreference
             app:isPreferenceVisible="false"
+            android:key="prefs_key_security_center_sidebar_show_suggest"
+            android:title="@string/security_center_sidebar_show_suggest"
+            app:entries="@array/security_center_suggest"
+            app:entryValues="@array/security_center_suggest_value"
+            android:defaultValue="0" />
+
+        <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_security_center_disable_sidebar_show_suggest"
-            android:title="@string/security_center_disable_sidebar_show_suggest" />
+            android:key="prefs_key_disable_security_center_sidebar_show_suggest"
+            android:title="@string/security_center_sidebar_show_suggest" />
 
         <SwitchPreference
             android:defaultValue="false"

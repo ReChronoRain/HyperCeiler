@@ -1172,7 +1172,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_s_resolution">Mở khóa Siêu phân giải</string>
     <string name="security_center_hide_sidebar">Ẩn Thanh bên</string>
     <string name="security_center_leave_open">Vuốt để mở ra</string>
-    <string name="security_center_disable_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>
+    <string name="security_center_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>
     <!--Smart cards-->
     <string name="tsmclient">Thẻ thông minh</string>
     <string name="tsmclient_auto_nfc">NFC tự động</string>
