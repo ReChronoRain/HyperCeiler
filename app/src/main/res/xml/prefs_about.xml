@@ -107,7 +107,7 @@
             android:title="@string/about_crwd">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://crwd.in/hyperceiler" />
+                android:data="https://crowdin.com/project/cemiuiler" />
         </Preference>
 
         <Preference android:title="@string/about_offical">
