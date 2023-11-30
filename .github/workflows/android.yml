@@ -76,14 +76,11 @@ jobs:
           CANARY: ${{ env.APK_FILE_CANARY }}
           COMMIT_MESSAGE: |+
             **New push to github\!**
-            
+
             ```
             ${{ github.event.head_commit.message }}
-            ```
-            
-            by ${{ github.event.head_commit.author.name }}
+            ```by ${{ github.event.head_commit.author.name }}
             See commit detail [here](${{ github.event.head_commit.url }})
-
         run: |
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
