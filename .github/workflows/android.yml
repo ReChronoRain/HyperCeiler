@@ -88,18 +88,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/git_clone
           git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
           cd ${{ github.workspace }}/git_clone
-          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
+          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"].replace(".", r"\."))))')
           cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "chat_id": "'"${CHANNEL_ID}"'",
-            "media": [
-              {
-                "type": "document",
-                "media": "'"${CANARY}"'",
-                "parse_mode": "MarkdownV2",
-                "caption": "'"${ESCAPED}"'"
-              }
-            ]
-          }'
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
