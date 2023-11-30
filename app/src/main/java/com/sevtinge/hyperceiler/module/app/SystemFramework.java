@@ -46,6 +46,7 @@ public class SystemFramework extends BaseModule {
         initHook(new CleanShareMenu(), mPrefsMap.getBoolean("system_framework_clean_share_menu"));
         initHook(new CleanOpenMenu(), mPrefsMap.getBoolean("system_framework_clean_open_menu"));
         initHook(new AllowUntrustedTouch(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
+        if (isMoreAndroidVersion(34)) initHook(new AllowUntrustedTouchForU(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
         initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
         initHook(new UseOriginalAnimation(), mPrefsMap.getBoolean("system_framework_other_use_original_animation"));
