@@ -133,8 +133,6 @@ dependencies {
     compileOnly(roots.XposedApi)
 
     implementation 'org.luckypray:dexkit:2.0.0-rc9'
-    // implementation 'org.luckypray:DexKit:1.1.8'
-    //noinspection GradleDependency
     implementation 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'
     implementation 'com.github.kyuubiran:EzXHelper:2.0.8'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
