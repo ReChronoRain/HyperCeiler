@@ -1394,6 +1394,7 @@
     <string name="security_center_game_performance_wild_mode">Unlock Game Performance Wild Mode</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
+    <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
