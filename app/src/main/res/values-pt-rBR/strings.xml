@@ -1351,6 +1351,12 @@
     <string name="system_ui_control_center_more_card_tiles_more">Mais</string>
     <string name="system_ui_control_center_more_card_tiles_most">Maioria</string>
     <string name="home_other_allow_share_apk">Permitir compartilhar app</string>
+    <string name="system_ui_unlock_super_volume">Desbloquear Super volume</string>
+    <string name="security_center_unlock_new_vb">Desbloquear nova caixa de vídeo</string>
+    <string name="security_center_game_performance_wild_mode">Desbloquear Modo agressivo de desempenho de jogos</string>
+    <string name="disable_suggest">Desativar sugestão</string>
+    <string name="enable_suggest">Ativar sugestão</string>
+    <string name="milink_allow_camera_devices">Suporte forçado para streaming de câmera</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
