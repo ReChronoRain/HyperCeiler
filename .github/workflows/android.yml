@@ -83,7 +83,7 @@ jobs:
             **New push to github\!**
 
             ```
-            ${{ github.event.head_commit.message }}
+            ${{ env.commit }}
             ```by ${{ github.event.head_commit.author.name }}
             See commit detail [here](${{ github.event.head_commit.url }})
         run: |
