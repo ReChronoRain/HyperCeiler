@@ -361,6 +361,7 @@
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx and above are no entry</string>
+    <string name="browser_disable_blacklist">Disable URL Blacklist</string>
     <!--Camera-->
     <string name="camera">Camera</string>
     <string name="camera_custom_watermark">Custom device watermark</string>
@@ -679,6 +680,11 @@
     <string name="system_ui_control_center_hide_operator">Carrier name customization</string>
     <string name="system_ui_control_center_hide_delimiter">Only dividers are hidden</string>
     <string name="system_ui_control_center_hide_name">Hide all names</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth tile style</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Move the bluetooth tile near the network tile</string>
+    <string name="system_ui_control_center_notifrowmenu">Extended notification menu</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">Open app info, force close app and open in floating window from notification menu (swipe notification to the left to open it)</string>
+    <string name="system_ui_unlock_super_volume">Unlock Super Volume</string>
     <string name="system_ui_controlcenter_new_title">New control center</string>
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>
@@ -688,13 +694,10 @@
     <string name="system_control_center_old_qs_grid_columns_desc">Landscape orientation will have one additional column</string>
     <string name="system_control_center_old_qs_grid_columns">Number of columns in collapsed panel</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Number of columns in collapsed panel (Landscape)</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth tile style</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Move the bluetooth tile near the network tile</string>
-    <string name="system_ui_control_center_notifrowmenu">Extended notification menu</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Open app info, force close app and open in floating window from notification menu (swipe notification to the left to open it)</string>
-    <string name="system_notifrowmenu_appinfo">App info</string>
-    <string name="system_notifrowmenu_openinfw">Floating window</string>
-    <string name="system_notifrowmenu_forceclose">Force close</string>
+    <string name="system_ui_control_center_more_card_tiles">Show Card Tiles</string>
+    <string name="system_ui_control_center_more_card_tiles_less">None</string>
+    <string name="system_ui_control_center_more_card_tiles_more">More</string>
+    <string name="system_ui_control_center_more_card_tiles_most">Most</string>
 
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_charge_animation_title">Charge animation</string>
@@ -789,6 +792,7 @@
     <string name="milink_hyperos">Interconnectivity Services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <string name="milink_unlock_hmind">Unlock Xiaomi HyperMind</string>
+    <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
     <!--Always-on display-->
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
@@ -1015,6 +1019,7 @@
     <string name="home_other_freeform_shortcut_menu_desc">Add freeform menu to the shortcut menu</string>
     <string name="home_other_tasks_shortcut_menu">More tasks mode</string>
     <string name="home_other_tasks_shortcut_menu_desc">Add new tasks menu to the shortcut menu</string>
+    <string name="home_other_allow_share_apk">Allow share app</string>
     <string name="home_other_user_present_animation">Optimize unlock animation</string>
     <string name="home_other_always_blur_launcher_wallpaper">Always blur launcher wallpaper</string>
     <string name="home_other_perfect_icon">Perfect Icon Priority</string>
@@ -1194,6 +1199,8 @@
     <string name="security_center_hide_sidebar">Hide sidebar</string>
     <string name="security_center_leave_open">Leave the slide unfolded</string>
     <string name="security_center_sidebar_show_suggest">Disable show suggest apps</string>
+    <string name="security_center_unlock_new_vb">Unlock New Video-box</string>
+    <string name="security_center_game_performance_wild_mode">Unlock Game Performance Wild Mode</string>
     <!--Smart cards-->
     <string name="tsmclient">Smart cards</string>
     <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
@@ -1357,6 +1364,9 @@
     <string name="notification_volume">Notification</string>
     <string name="freeform_notification">Notification floating window</string>
     <string name="share_app">Share to third-party apps</string>
+    <string name="system_notifrowmenu_appinfo">App info</string>
+    <string name="system_notifrowmenu_openinfw">Floating window</string>
+    <string name="system_notifrowmenu_forceclose">Force close</string>
     <string name="show_newmods_title">Mark new module</string>
     <string name="default_volume_stream_ring">Ring</string>
     <string name="default_volume_stream_media">Media</string>
@@ -1377,24 +1387,10 @@
     <string name="close_source">Close Source Projects</string>
     <string name="exit">Exit</string>
     <string name="ignore">Ignore</string>
-    <string name="browser_disable_blacklist">Disable URL Blacklist</string>
     <string name="log_level">Log level</string>
     <string name="log_level_none">Disable log</string>
-    <string name="log_level_error" translatable="false">Error</string>
-    <string name="log_level_warn" translatable="false">Warn</string>
-    <string name="log_level_info" translatable="false">Info</string>
-    <string name="log_level_debug" translatable="false">Debug</string>
-    <string name="system_ui_control_center_more_card_tiles">Show Card Tiles</string>
-    <string name="system_ui_control_center_more_card_tiles_less">None</string>
-    <string name="system_ui_control_center_more_card_tiles_more">More</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Most</string>
-    <string name="home_other_allow_share_apk">Allow share app</string>
-    <string name="system_ui_unlock_super_volume">Unlock Super Volume</string>
-    <string name="security_center_unlock_new_vb">Unlock New Video-box</string>
-    <string name="security_center_game_performance_wild_mode">Unlock Game Performance Wild Mode</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

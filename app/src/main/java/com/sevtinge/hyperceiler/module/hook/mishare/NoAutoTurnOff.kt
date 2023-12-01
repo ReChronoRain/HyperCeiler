@@ -1,6 +1,8 @@
 package com.sevtinge.hyperceiler.module.hook.mishare
 
+import android.annotation.SuppressLint
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
+import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
@@ -10,13 +12,14 @@ import com.sevtinge.hyperceiler.utils.api.BlurDraw.getValueByFields
 import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Modifier
 
+@SuppressLint("StaticFieldLeak")
 object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy {
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("EnabledState", "mishare_enabled")
             }
-        }.map { it.getMethodInstance(classLoader) }.toList()
+        }.firstOrNull()?.getMethodInstance(safeClassLoader)
     }
 
     private val null2Method by lazy {
@@ -28,7 +31,7 @@ object NoAutoTurnOff : BaseHook() {
                 paramCount = 2
                 modifiers = Modifier.STATIC
             }
-        }.map { it.getMethodInstance(classLoader) }.first()
+        }.firstOrNull()?.getMethodInstance(safeClassLoader)
     }
 
     private val null3Method by lazy {
@@ -74,14 +77,20 @@ object NoAutoTurnOff : BaseHook() {
 
         val nullField = dexKitBridge.findField {
             matcher {
-                declaredClass(nullClass)
-                modifiers = Modifier.STATIC
+                addReadMethod {
+                    addUsingStringsEquals("NfcShareTaskManager")
+                    returnType = "void"
+                    paramCount = 1
+                    modifiers = Modifier.PRIVATE
+                }
+                modifiers = Modifier.STATIC or Modifier.FINAL
+                type = "int"
             }
-        }.map { it.getFieldInstance(classLoader) }.first()
+        }.firstOrNull()?.getFieldInstance(safeClassLoader)
 
         // 禁用小米互传功能自动关闭部分
         try {
-        nullMethod.createHooks {
+        nullMethod!!.createHook {
             returnConstant(null)
         }
         } catch (t: Throwable) {
@@ -89,7 +98,7 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         try {
-            null2Method.createHook {
+            null2Method!!.createHook {
                 returnConstant(null)
             }
         } catch (t: Throwable) {
@@ -115,7 +124,7 @@ object NoAutoTurnOff : BaseHook() {
         try {
             findAndHookConstructor(nullClass, object : MethodHook() {
                 override fun after(param: MethodHookParam) {
-                    XposedHelpers.setObjectField(param.thisObject, nullField.name, 999999999)
+                    XposedHelpers.setObjectField(param.thisObject, nullField!!.name, 999999999)
                     logI(nullField.name)
                 } })
         } catch (t: Throwable) {

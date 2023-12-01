@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
-import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
@@ -20,13 +20,11 @@ object UnlockDisney : BaseHook() {
                 returnType = "boolean"
                 paramCount = 0
             }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
+        }.firstOrNull()?.getMethodInstance(safeClassLoader)
 
         // debug 用
-        for (d in disney) {
-            logI(TAG,"disney name is $d")
-        }
-        disney.createHooks {
+        logI(TAG,"disney name is $disney")
+        disney!!.createHook {
             returnConstant(true)
         }
     }
