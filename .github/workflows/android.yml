@@ -54,10 +54,6 @@ jobs:
       - name: Show APKs SHA256
         if: success()
         run: |
-          mkdir -p ${{ github.workspace }}/git_clone
-          git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
-          cd ${{ github.workspace }}/git_clone
-          echo "commit=$(git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }})" >> $GITHUB_ENV
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
@@ -72,6 +68,13 @@ jobs:
           name: HyperCeiler Canary
           path: ${{ env.APK_FILE_CANARY }}
 
+      - name: commit
+      run: |
+        mkdir -p ${{ github.workspace }}/git_clone
+        git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
+        cd ${{ github.workspace }}/git_clone
+        echo "commit=$(git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }})" >> $GITHUB_ENV
+
       - name: Post to Canary Channel
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
@@ -84,6 +87,10 @@ jobs:
 
             ```
             ${{ env.commit }}
+            ```
+            sha256:
+            ```
+            ${{ env.SHA256 }}
             ```by ${{ github.event.head_commit.author.name }}
             See commit detail [here](${{ github.event.head_commit.url }})
         run: |
