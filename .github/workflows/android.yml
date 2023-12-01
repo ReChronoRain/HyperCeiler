@@ -69,11 +69,11 @@ jobs:
           path: ${{ env.APK_FILE_CANARY }}
 
       - name: commit
-      run: |
-        mkdir -p ${{ github.workspace }}/git_clone
-        git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
-        cd ${{ github.workspace }}/git_clone
-        echo "commit=$(git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }})" >> $GITHUB_ENV
+        run: |
+          mkdir -p ${{ github.workspace }}/git_clone
+          git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
+          cd ${{ github.workspace }}/git_clone
+          echo "commit=$(git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }})" >> $GITHUB_ENV
 
       - name: Post to Canary Channel
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
