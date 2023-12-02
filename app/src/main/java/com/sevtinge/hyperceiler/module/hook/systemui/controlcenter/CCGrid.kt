@@ -33,7 +33,7 @@ object CCGrid : BaseHook() {
 
     @SuppressLint("DiscouragedApi")
     override fun init() {
-        if (cols > 4 && !isHyperOSVersion(1f)) {
+        if (cols > 4) {
             mResHook.setObjectReplacement(
                 lpparam.packageName,
                 "dimen",
@@ -157,21 +157,15 @@ object CCGrid : BaseHook() {
 
     private fun loadCCGrid(pluginLoader: ClassLoader) {
         if (cols > 4) {
-            if (!isHyperOSVersion(1f)) {
-                findAndHookConstructor(
-                    "miui.systemui.controlcenter.qs.QSPager", pluginLoader,
-                    Context::class.java,
-                    AttributeSet::class.java,
-                    object : MethodHook() {
-                        override fun after(param: MethodHookParam) {
-                            XposedHelpers.setObjectField(
-                                param.thisObject,
-                                "columns",
-                                cols
-                            )
-                        }
-                    })
-            }
+            findAndHookConstructor(
+                "miui.systemui.controlcenter.qs.QSPager", pluginLoader,
+                Context::class.java,
+                AttributeSet::class.java,
+                object : MethodHook() {
+                    override fun after(param: MethodHookParam) {
+                        XposedHelpers.setObjectField(param.thisObject, "columns", cols)
+                    }
+                })
             if (!label) {
                 findAndHookMethod(
                     "miui.systemui.controlcenter.qs.tileview.StandardTileView", pluginLoader,
