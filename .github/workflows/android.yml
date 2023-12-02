@@ -78,7 +78,7 @@ jobs:
             cd ${{ github.workspace }}/git_clone
             text="$(git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:'%h %s')"
           fi
-          echo "commit=$(echo $text | gawk '{gsub(/[_*[\]()~`>#+=\|{}.!-]/,"\\\\\\\\&")}1' | sed -e 's|"|\\"|g' -e 's|^[0-9a-z]\+|__&__|' | sed 's/\(..\)/%\1/g')" >> $GITHUB_ENV
+          echo "commit=$(echo $text | gawk '{gsub(/[_*[\]()~`>#+=\|{}.!-]/,"\\\\\\\\&")}1' | sed -e 's|"|\\"|g' -e 's|^[0-9a-z]\+|__&__|')" >> $GITHUB_ENV
 
 
       - name: Post to Canary Channel
