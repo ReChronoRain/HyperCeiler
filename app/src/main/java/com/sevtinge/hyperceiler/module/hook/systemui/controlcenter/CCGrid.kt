@@ -7,13 +7,14 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
-import com.github.kyuubiran.ezxhelper.ClassUtils
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import de.robv.android.xposed.XposedHelpers
 
@@ -32,7 +33,7 @@ object CCGrid : BaseHook() {
 
     @SuppressLint("DiscouragedApi")
     override fun init() {
-        if (cols > 4) {
+        if (cols > 4 && !isHyperOSVersion(1f)) {
             mResHook.setObjectReplacement(
                 lpparam.packageName,
                 "dimen",
@@ -112,7 +113,7 @@ object CCGrid : BaseHook() {
                     override fun before(param: MethodHookParam) {
                         appInfo = param.args[1] as ApplicationInfo
 
-                        ClassUtils.loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
+                        loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
                             name == "get"
                         }.createHook {
                             after { getClassLoader ->
@@ -140,7 +141,7 @@ object CCGrid : BaseHook() {
                 }
             )
         } else {
-            ClassUtils.loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
+            loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
                 name == "getClassLoader"
             }.createHook {
                 after { getClassLoader ->
@@ -156,26 +157,28 @@ object CCGrid : BaseHook() {
 
     private fun loadCCGrid(pluginLoader: ClassLoader) {
         if (cols > 4) {
-            findAndHookConstructor(
-                "miui.systemui.controlcenter.qs.QSPager", pluginLoader,
-                Context::class.java,
-                AttributeSet::class.java,
-                object : MethodHook() {
-                    override fun after(param: MethodHookParam) {
-                        XposedHelpers.setObjectField(
-                            param.thisObject,
-                            "columns",
-                            cols
-                        )
-                    }
-                })
+            if (!isHyperOSVersion(1f)) {
+                findAndHookConstructor(
+                    "miui.systemui.controlcenter.qs.QSPager", pluginLoader,
+                    Context::class.java,
+                    AttributeSet::class.java,
+                    object : MethodHook() {
+                        override fun after(param: MethodHookParam) {
+                            XposedHelpers.setObjectField(
+                                param.thisObject,
+                                "columns",
+                                cols
+                            )
+                        }
+                    })
+            }
             if (!label) {
                 findAndHookMethod(
-                    "miui.systemui.controlcenter.qs.tileview.StandardTileView",
-                    pluginLoader,
+                    "miui.systemui.controlcenter.qs.tileview.StandardTileView", pluginLoader,
                     "createLabel",
                     Boolean::class.javaPrimitiveType,
                     object : MethodHook() {
+                        @Throws(Throwable::class)
                         override fun after(param: MethodHookParam) {
                             val label = XposedHelpers.getObjectField(
                                 param.thisObject,
@@ -197,7 +200,7 @@ object CCGrid : BaseHook() {
                     })
             }
         }
-        if (rows != 4) {
+        if (rows != 4 && !isHyperOSVersion(1f)) {
             findAndHookMethod(
                 "miui.systemui.controlcenter.qs.QSPager",
                 pluginLoader,
@@ -380,8 +383,7 @@ object CCGrid : BaseHook() {
                 }
             })
         findAndHookMethod(
-            "miui.systemui.dagger.PluginComponentFactory",
-            pluginLoader,
+            "miui.systemui.dagger.PluginComponentFactory", pluginLoader,
             "create",
             Context::class.java,
             object : MethodHook() {
