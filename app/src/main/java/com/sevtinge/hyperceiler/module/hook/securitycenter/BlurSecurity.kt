@@ -30,6 +30,7 @@ import de.robv.android.xposed.XposedHelpers
 object BlurSecurity : BaseHook() {
     val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
     val backgroundColor = mPrefsMap.getInt("security_center_color", -1)
+    val isInvertColor = mPrefsMap.getBoolean("security_center_invert_color")
     val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
 
     private var appVersionCode = 40000727
@@ -79,7 +80,6 @@ object BlurSecurity : BaseHook() {
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             // 已有背景 避免重复添加
 
@@ -119,7 +119,7 @@ object BlurSecurity : BaseHook() {
                                 HookUtils.createBlurDrawable(gameContentLayout, blurRadius, 40, backgroundColor)
 
                             if (shouldInvertColor) {
-                                invertViewColor(gameContentLayout)
+                               if (isInvertColor) invertViewColor(gameContentLayout)
 
                                 // 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
                                 val performanceTextView = XposedHelpers.callMethod(
@@ -181,7 +181,7 @@ object BlurSecurity : BaseHook() {
                             view.background =
                                 HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
-                            if (shouldInvertColor) invertViewColor(mainContent)
+                            if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
@@ -233,17 +233,19 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            val gameManagerMethod = dexKitBridge.findMethod {
-                searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
-                matcher {
-                    usingStrings = listOf("addView error")
-                }
-            }.firstOrNull()?.getMethodInstance(safeClassLoader)
+            if (isInvertColor) {
+                val gameManagerMethod = dexKitBridge.findMethod {
+                    searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
+                    matcher {
+                        usingStrings = listOf("addView error")
+                    }
+                }.firstOrNull()?.getMethodInstance(safeClassLoader)
 
-            gameManagerMethod!!.createHook {
-                after {
-                    val view = it.args[0] as View
-                    invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
+                gameManagerMethod!!.createHook {
+                    after {
+                        val view = it.args[0] as View
+                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
+                    }
                 }
             }
 
@@ -296,11 +298,13 @@ object BlurSecurity : BaseHook() {
                                                 }
                                             }
                                             if (currentObject is View) {
-                                                invertViewColor(
-                                                    currentObject,
-                                                    videoBoxWhiteList,
-                                                    videoBoxKeepList
-                                                )
+                                                if (isInvertColor) {
+                                                    invertViewColor(
+                                                        currentObject,
+                                                        videoBoxWhiteList,
+                                                        videoBoxKeepList
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -379,7 +383,7 @@ object BlurSecurity : BaseHook() {
                                 lastChild.setImageDrawable(newDrawable)
                             }
                         }
-                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
+                        if (isInvertColor) invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
                     }
                 })
         }

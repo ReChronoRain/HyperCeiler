@@ -1181,6 +1181,8 @@
     <string name="security_center_unlock_smart_charge_title">Unlock the “Smart Charge Off Protection” and “Low Battery Quick Charge” functions</string>
     <string name="security_center_super_wireless_charge">Unlock Super wireless charge</string>
     <string name="security_center_blur_model">Sidebar blur model</string>
+    <string name="security_center_invert_color">Icon inverted</string>
+    <string name="security_center_invert_color_summary">Invert the selected colors of icons in some backgrounds for better visibility\nThis function may have abnormal color inversions, please enable it as appropriate</string>
     <string name="security_center_blurradius">Sidebar blur value</string>
     <string name="security_center_color">Sidebar color</string>
     <string name="security_center_other_title">Other</string>

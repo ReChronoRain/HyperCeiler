@@ -1089,6 +1089,8 @@
     <string name="security_center_unlock_smart_charge_title">解鎖「智能斷充保護」和「低電疾充」功能</string>
     <string name="security_center_super_wireless_charge">解鎖極速無線充電模式</string>
     <string name="security_center_blur_model">全域側邊欄背景設定</string>
+    <string name="security_center_invert_color">圖示反色</string>
+    <string name="security_center_invert_color_summary">對某些背景下的圖示選中顏色進行反色，以達到更好的可視效果\n該功能可能會有反色異常的情況，請酌情開啟</string>
     <string name="security_center_blurradius">全域側邊欄背景模糊程度</string>
     <string name="security_center_color">全域側邊欄背景疊加層顏色</string>
     <string name="security_center_other_title">其他</string>
