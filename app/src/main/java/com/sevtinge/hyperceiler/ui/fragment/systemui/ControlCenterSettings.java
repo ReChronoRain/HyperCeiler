@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.provider.Settings;
@@ -24,6 +25,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
     SwitchPreference mNewCCGridRect;
+    SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
 
@@ -49,14 +51,16 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
+        mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mNotice = findPreference("prefs_key_n_enable");
         mNoticex = findPreference("prefs_key_n_enable_fix");
         mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
         mFiveG = findPreference("prefs_key_system_control_center_5g_new_tile");
 
         mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
-        mNewCCGrid.setVisible(!isAndroidVersion(30));
+        mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mNewCCGridRect.setVisible(!isAndroidVersion(30));
+        mNewCCGridLabel.setVisible(!isHyperOSVersion(1f));
         mNotice.setVisible(!isAndroidVersion(30));
         mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isAndroidVersion(30));
