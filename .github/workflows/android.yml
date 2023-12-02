@@ -57,7 +57,7 @@ jobs:
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
-          canary=($(sha256sum '${{ env.APK_FILE_CANARY }}'))
+          canary=$(sha256sum "${{ env.APK_FILE_CANARY }}")
           echo "SHA256=$canary" >> $GITHUB_ENV
           echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
 
@@ -70,10 +70,14 @@ jobs:
 
       - name: commit
         run: |
-          mkdir -p ${{ github.workspace }}/git_clone
-          git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
-          cd ${{ github.workspace }}/git_clone
-          echo "commit=$(git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:'%h %s')" >> $GITHUB_ENV
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "commit=${{ github.event.head_commit.message }}" >> $GITHUB_ENV
+          else
+            mkdir -p ${{ github.workspace }}/git_clone
+            git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
+            cd ${{ github.workspace }}/git_clone
+            echo "commit=$(git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:'%h %s')" >> $GITHUB_ENV
+          fi
 
       - name: Post to Canary Channel
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
