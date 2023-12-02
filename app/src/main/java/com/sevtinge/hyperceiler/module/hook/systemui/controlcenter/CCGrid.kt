@@ -17,6 +17,7 @@ import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import de.robv.android.xposed.XposedHelpers
 
+@SuppressLint("StaticFieldLeak")
 object CCGrid : BaseHook() {
     private val cols by lazy {
         mPrefsMap.getInt("system_control_center_cc_columns", 4)
@@ -307,6 +308,12 @@ object CCGrid : BaseHook() {
 
         // 新控制中心矩形圆角
         if (mPrefsMap.getBoolean("system_ui_control_center_rounded_rect") && !isMoreHyperOSVersion(1f)) {
+            mResHook.setResReplacement(
+                "miui.systemui.plugin",
+                "drawable",
+                "qs_background_restricted",
+                R.drawable.ic_qs_tile_bg_temporary_closure
+            )
             mResHook.setResReplacement(
                 "miui.systemui.plugin",
                 "drawable",
