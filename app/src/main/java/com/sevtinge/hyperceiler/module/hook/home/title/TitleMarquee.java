@@ -26,5 +26,18 @@ public class TitleMarquee extends BaseHook {
                 mTitle.setHorizontallyScrolling(true);
             }
         });
+        findAndHookMethod(mItemIcon, "setTitle", new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                TextView mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitle");
+
+                mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                mTitle.setHorizontalFadingEdgeEnabled(true);
+                mTitle.setSingleLine();
+                mTitle.setMarqueeRepeatLimit(-1);
+                mTitle.setSelected(true);
+                mTitle.setHorizontallyScrolling(true);
+            }
+        });
     }
 }
