@@ -1160,6 +1160,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_smart_charge_title">Mở khóa \"Sạc Thông Minh\" và \"Tăng Tốc Độ Sạc\"</string>
     <string name="security_center_super_wireless_charge">Mở khóa Sạc không dây siêu nhanh</string>
     <string name="security_center_blur_model">Cài đặt nền Thanh bên toàn cầu</string>
+    <string name="security_center_invert_color">Đảo màu biểu tượng</string>
+    <string name="security_center_invert_color_summary">Đảo ngược màu đã chọn của các biểu tượng trong một số nền nhất định để đạt được hiệu ứng hình ảnh tốt hơn\nChức năng này có thể gây ra hiện tượng đảo màu bất thường, vui lòng bật chức năng này nếu thích hợp</string>
     <string name="security_center_blurradius">Độ mờ nền thanh bên</string>
     <string name="security_center_color">Màu nền thanh bên</string>
     <string name="security_center_other_title">Khác</string>
