@@ -837,6 +837,12 @@
     <string name="micloud_service">小米云服务</string>
     <string name="micloud_service_list">应用数据云同步补全</string>
     <string name="micloud_service_list_summary">补全功能如下：\n- 手机可以同步小米创作\n- 国内国际版小米浏览器可以同时同步\n\n注：小米创作的首次同步必须从小米创作的设置中启用授权，否则会提示网络不可用或系统忙请稍后再试</string>
+    <!--小米换机-->
+    <string name="huanji">小米换机</string>
+    <string name="huanji_allow_all_apps">允许迁移所有应用</string>
+    <!--备份-->
+    <string name="backup">备份</string>
+    <string name="backup_allow_all_apps">允许备份所有应用</string>
     <!--小米创作-->
     <string name="creation">小米创作</string>
     <string name="creation_unlock">解除手机端使用限制</string>

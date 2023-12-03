@@ -1395,6 +1395,10 @@
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
     <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
+    <string name="huanji">Mi Mover</string>
+    <string name="backup">Backup</string>
+    <string name="huanji_allow_all_apps">Allow move all apps</string>
+    <string name="backup_allow_all_apps">Allow backup all apps</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

@@ -136,6 +136,13 @@
             android:title="@string/aod_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.BackupFragment"
+            android:icon="@drawable/ic_backup"
+            android:key="prefs_key_backup"
+            android:summary="com.miui.backup"
+            android:title="@string/backup" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment"
             android:icon="@drawable/ic_contentextension"
             android:key="prefs_key_content_extension"
@@ -183,6 +190,13 @@
             android:key="prefs_key_home"
             android:summary="com.miui.home"
             android:title="@string/mihome" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.HuanjiFragment"
+            android:icon="@drawable/ic_huanji"
+            android:key="prefs_key_huanji"
+            android:summary="com.miui.huanji"
+            android:title="@string/huanji" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MediaEditorFragment"

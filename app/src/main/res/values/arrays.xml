@@ -30,6 +30,7 @@
         <item>com.miui.gallery</item>
         <item>com.miui.guardprovider</item>
         <item>com.miui.home</item>
+        <item>com.miui.huanji</item>
         <item>com.miui.mediaeditor</item>
         <item>com.miui.mishare.connectivity</item>
         <item>com.miui.misound</item>
@@ -58,7 +59,6 @@
         <item>com.xiaomi.NetworkBoost</item>
         <item>com.xiaomi.scanner</item>
         <item>com.sohu.inputmethod.sogou.xiaomi</item>
-        <item>com.sohu.inputmethod.sogou</item>
     </string-array>
 
     <string-array name="app_module_support">
