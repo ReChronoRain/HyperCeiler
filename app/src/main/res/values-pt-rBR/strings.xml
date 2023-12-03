@@ -1147,6 +1147,8 @@
     <string name="security_center_unlock_smart_charge_title">Desbloquear Proteção inteligente contra carga e Carga rápida de bateria fraca</string>
     <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fio</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
+    <string name="security_center_invert_color">Ícone invertido</string>
+    <string name="security_center_invert_color_summary">Inverta as cores selecionadas dos ícones em alguns planos de fundo para melhor visibilidade.\nEsta função pode ter inversões de cores anormais, por favor, ative-a conforme apropriado.</string>
     <string name="security_center_blurradius">Valor do blur da barra lateral</string>
     <string name="security_center_color">Cor da barra lateral</string>
     <string name="security_center_other_title">Outros</string>
