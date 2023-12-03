@@ -13,12 +13,11 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    public static final String TAG = "][Cemiuiler][CorePatch]";
+    public static final String TAG = "][HyperCeiler][CorePatch]";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
-            XposedLogUtils.logI("CorePatch", "android", "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                     new CorePatchForU().handleLoadPackage(lpparam);
@@ -38,7 +37,6 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
     @Override
     public void initZygote(StartupParam startupParam) {
         if (startupParam.startsSystemServer) {
-            XposedLogUtils.logI("CorePatch", "android", "Current sdk version " + Build.VERSION.SDK_INT);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                     new CorePatchForU().initZygote(startupParam);

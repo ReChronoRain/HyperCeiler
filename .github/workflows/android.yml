@@ -57,7 +57,8 @@ jobs:
           echo "### Build Success" >> $GITHUB_STEP_SUMMARY
           echo "|Artifact|SHA256|" >> $GITHUB_STEP_SUMMARY
           echo "|:--------:|:----------|" >> $GITHUB_STEP_SUMMARY
-          canary=($(sha256sum '${{ env.APK_FILE_CANARY }}'))
+          canary=$(sha256sum "${{ env.APK_FILE_CANARY }}")
+          echo "SHA256=$canary" >> $GITHUB_ENV
           echo "|Canary|$canary" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Canary APK
@@ -66,6 +67,19 @@ jobs:
         with:
           name: HyperCeiler Canary
           path: ${{ env.APK_FILE_CANARY }}
+
+      - name: commit
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            text="${{ github.event.head_commit.message }}"
+          else
+            mkdir -p ${{ github.workspace }}/git_clone
+            git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
+            cd ${{ github.workspace }}/git_clone
+            text="$(git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:'%h %s')"
+          fi
+          echo "commit=$(echo $text | sed 's/\([][\\`.*^$\/+?{}()=!|:-]\)/\\\1/g')" >> $GITHUB_ENV
+
 
       - name: Post to Canary Channel
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
@@ -77,14 +91,11 @@ jobs:
           COMMIT_MESSAGE: |+
             **New push to github\!**
 
-            ```
-            ${{ github.event.head_commit.message }}
-            ```by ${{ github.event.head_commit.author.name }}
+            `${{ env.commit }}`
+            
+            by ${{ github.event.head_commit.author.name }}
             See commit detail [here](${{ github.event.head_commit.url }})
         run: |
-          mkdir -p ${{ github.workspace }}/git_clone
-          git clone ${{ github.server_url }}/${{ github.repository }} ${{ github.workspace }}/git_clone -b ${{ github.ref_name }}
-          cd ${{ github.workspace }}/git_clone
-          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"].replace(".", r"\."))))')
+          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           cd ${{ github.workspace }}
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"

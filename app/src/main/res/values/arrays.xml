@@ -657,10 +657,10 @@
 
     <string-array name="log_level">
         <item>@string/log_level_none</item>
-        <item>@string/log_level_error</item>
-        <item>@string/log_level_warn</item>
-        <item>@string/log_level_info</item>
-        <item>@string/log_level_debug</item>
+        <item>Error</item>
+        <item>Warn</item>
+        <item>Info</item>
+        <item>Debug</item>
     </string-array>
 
     <string-array name="log_level_value">

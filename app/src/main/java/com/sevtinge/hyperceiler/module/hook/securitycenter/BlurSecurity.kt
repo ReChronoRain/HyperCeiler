@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.ColorMatrixColorFilter
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.ColorUtils
@@ -24,9 +26,11 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
+@SuppressLint("StaticFieldLeak")
 object BlurSecurity : BaseHook() {
     val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
     val backgroundColor = mPrefsMap.getInt("security_center_color", -1)
+    val isInvertColor = mPrefsMap.getBoolean("security_center_invert_color")
     val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
 
     private var appVersionCode = 40000727
@@ -51,8 +55,8 @@ object BlurSecurity : BaseHook() {
     // keepList 列表内元素及其子元素不会反色
     private val keepColorList = arrayOf("rv_information")
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
-        // if (getPackageVersionCode(lpparam) >= 40000790) return //暂时屏蔽高版本启用模糊，待修复后移除  //我觉得更像是傻逼miui的反色炸了
         val turboLayoutClass = findClassIfExists(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
         ) ?: return
@@ -76,7 +80,6 @@ object BlurSecurity : BaseHook() {
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             // 已有背景 避免重复添加
 
@@ -103,7 +106,6 @@ object BlurSecurity : BaseHook() {
                 view.addOnAttachStateChangeListener(
                     object :
                         View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             val viewPaernt = view.parent as ViewGroup
                             val gameContentLayout = viewPaernt.parent as ViewGroup
@@ -117,7 +119,7 @@ object BlurSecurity : BaseHook() {
                                 HookUtils.createBlurDrawable(gameContentLayout, blurRadius, 40, backgroundColor)
 
                             if (shouldInvertColor) {
-                                invertViewColor(gameContentLayout)
+                               if (isInvertColor) invertViewColor(gameContentLayout)
 
                                 // 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
                                 val performanceTextView = XposedHelpers.callMethod(
@@ -167,14 +169,11 @@ object BlurSecurity : BaseHook() {
                 returnType = "android.view.View"
                 paramTypes = listOf("android.content.Context", "boolean", "boolean")
             }
-           /* methodReturnType = "Landroid/view/View;"
-            methodParamTypes = arrayOf("Landroid/content/Context;", "Z", "Z")*/
         }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
             after { param ->
                 val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
                 mainContent.addOnAttachStateChangeListener(object :
                     View.OnAttachStateChangeListener {
-                        @RequiresApi(Build.VERSION_CODES.S)
                         override fun onViewAttachedToWindow(view: View) {
                             if (view.background != null) {
                                 if (HookUtils.isBlurDrawable(view.background)) return
@@ -182,7 +181,7 @@ object BlurSecurity : BaseHook() {
                             view.background =
                                 HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
-                            if (shouldInvertColor) invertViewColor(mainContent)
+                            if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
@@ -191,81 +190,6 @@ object BlurSecurity : BaseHook() {
                     })
                 }
         }
-
-        /*
-
-        XposedHelpers.findAndHookMethod(
-            videoBoxViewClass,
-            videoBoxViewMethodName,
-            Context::class.java,
-            Boolean::class.java,
-            Boolean::class.java,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
-                    mainContent.addOnAttachStateChangeListener(
-                        object :
-                            View.OnAttachStateChangeListener {
-                            @RequiresApi(Build.VERSION_CODES.S)
-                            override fun onViewAttachedToWindow(view: View) {
-                                if (view.background != null) {
-                                    if (HookUtils.isBlurDrawable(view.background)) {
-                                        return
-                                    }
-                                }
-
-                                view.background =
-                                    HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
-
-                                if (shouldInvertColor) {
-                                    invertViewColor(mainContent)
-                                }
-                            }
-
-                            override fun onViewDetachedFromWindow(view: View) {
-                                view.background = null
-                            }
-                        })
-                }
-            })
-    } else {
-
-        XposedHelpers.findAndHookMethod(
-            videoBoxViewClass,
-            videoBoxViewMethodName,
-            Context::class.java,
-            Boolean::class.java,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
-                    mainContent.addOnAttachStateChangeListener(
-                        object :
-                            View.OnAttachStateChangeListener {
-                            @RequiresApi(Build.VERSION_CODES.S)
-                            override fun onViewAttachedToWindow(view: View) {
-                                if (view.background != null) {
-                                    if (HookUtils.isBlurDrawable(view.background)) {
-                                        return
-                                    }
-                                }
-
-                                view.background =
-                                    HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
-
-                                if (shouldInvertColor) {
-                                    invertViewColor(mainContent)
-                                }
-                            }
-
-                            override fun onViewDetachedFromWindow(view: View) {
-                                view.background = null
-                            }
-                        })
-                }
-            })
-    }
-    */
-
 
         if (shouldInvertColor) {
             val detailSettingsLayoutClass = findClassIfExists(
@@ -309,16 +233,22 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_speed"
             )
 
-            var secondViewClass =
-                findClassIfExists("com.miui.gamebooster.windowmanager.newbox.n")
-            var secondViewMethodName = "b"
+            if (isInvertColor) {
+                val gameManagerMethod = dexKitBridge.findMethod {
+                    searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
+                    matcher {
+                        usingStrings = listOf("addView error")
+                    }
+                }.firstOrNull()?.getMethodInstance(safeClassLoader)
 
-            if (appVersionCode >= 40000749) {
-                secondViewClass = findClassIfExists(
-                    "com.miui.gamebooster.windowmanager.newbox.j"
-                ) ?: return
-                secondViewMethodName = "B"
+                gameManagerMethod!!.createHook {
+                    after {
+                        val view = it.args[0] as View
+                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
+                    }
+                }
             }
+
             val auditionViewClass =
                 findClassIfExists("com.miui.gamebooster.customview.AuditionView")
                     ?: return
@@ -342,7 +272,6 @@ object BlurSecurity : BaseHook() {
                             listViewAdapterInnerClass,
                             "a",
                             object : XC_MethodHook() {
-                                @RequiresApi(Build.VERSION_CODES.S)
                                 override fun afterHookedMethod(param: MethodHookParam) {
                                     val isSetupFunction =
                                         param.args[0].toString().contains("BaseModel")
@@ -369,11 +298,13 @@ object BlurSecurity : BaseHook() {
                                                 }
                                             }
                                             if (currentObject is View) {
-                                                invertViewColor(
-                                                    currentObject,
-                                                    videoBoxWhiteList,
-                                                    videoBoxKeepList
-                                                )
+                                                if (isInvertColor) {
+                                                    invertViewColor(
+                                                        currentObject,
+                                                        videoBoxWhiteList,
+                                                        videoBoxKeepList
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -426,18 +357,6 @@ object BlurSecurity : BaseHook() {
                 }
             )
 
-            XposedHelpers.findAndHookMethod(
-                secondViewClass,
-                secondViewMethodName,
-                View::class.java,
-                object : XC_MethodHook() {
-                    @RequiresApi(Build.VERSION_CODES.S)
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        val view = param.args[0] as View
-                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
-                    }
-                })
-
             // 让图标颜色更深一点
             XposedHelpers.findAndHookMethod(
                 auditionViewClass,
@@ -464,7 +383,7 @@ object BlurSecurity : BaseHook() {
                                 lastChild.setImageDrawable(newDrawable)
                             }
                         }
-                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
+                        if (isInvertColor) invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
                     }
                 })
         }

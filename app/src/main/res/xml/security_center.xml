@@ -172,6 +172,13 @@
             android:key="prefs_key_se_enable"
             android:title="@string/security_center_blur_model" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_se_enable"
+            android:key="prefs_key_security_center_invert_color"
+            android:summary="@string/security_center_invert_color_summary"
+            android:title="@string/security_center_invert_color" />
+
         <SeekBarPreferenceEx
             android:defaultValue="60"
             android:dependency="prefs_key_se_enable"

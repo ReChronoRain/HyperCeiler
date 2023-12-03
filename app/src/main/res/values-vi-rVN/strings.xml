@@ -334,6 +334,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="browser">Trình duyệt</string>
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx trở lên không được hỗ trợ</string>
+    <string name="browser_disable_blacklist">Tắt URL danh sách đen</string>
     <!--Camera-->
     <string name="camera">Máy ảnh</string>
     <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
@@ -652,6 +653,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_hide_operator">Tùy chỉnh tên nhà mạng</string>
     <string name="system_ui_control_center_hide_delimiter">Ẩn dấu phân cách giữa tên nhà mạng</string>
     <string name="system_ui_control_center_hide_name">Ẩn tên tất cả</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Kiểu ô Bluetooth</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Ô Bluetooth được di chuyển đến khu vực ô mạng</string>
+    <string name="system_ui_control_center_notifrowmenu">Menu thông báo mở rộng</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">Mở thông tin ứng dụng, buộc đóng ứng dụng và mở trong cửa sổ nổi từ menu thông báo (vuốt thông báo sang trái để mở)</string>
+    <string name="system_ui_unlock_super_volume">Mở khóa siêu âm lượng</string>
     <string name="system_ui_controlcenter_new_title">Trung tâm điều khiển kiểu mới</string>
     <string name="system_ui_controlcenter_old_title">Trung tâm điều khiển kiểu cũ</string>
     <string name="system_ui_controlcenter_unlock_old_title">Mở khóa các kiểu trung tâm điều khiển</string>
@@ -661,13 +667,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_control_center_old_qs_grid_columns_desc">Một cột bổ sung sẽ được thêm vào hướng ngang</string>
     <string name="system_control_center_old_qs_grid_columns">Hàng trong bảng thu gọn</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Số hàng trong bảng thu gọn (màn hình ngang)</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Kiểu ô Bluetooth</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Ô Bluetooth được di chuyển đến khu vực ô mạng</string>
-    <string name="system_ui_control_center_notifrowmenu">Menu thông báo mở rộng</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">Mở thông tin ứng dụng, buộc đóng ứng dụng và mở trong cửa sổ nổi từ menu thông báo (vuốt thông báo sang trái để mở)</string>
-    <string name="system_notifrowmenu_appinfo">Thông tin ứng dụng</string>
-    <string name="system_notifrowmenu_openinfw">Cửa sổ nổi</string>
-    <string name="system_notifrowmenu_forceclose">Buộc đóng</string>
+    <string name="system_ui_control_center_more_card_tiles">Hiện các ô thẻ</string>
+    <string name="system_ui_control_center_more_card_tiles_less">Không</string>
+    <string name="system_ui_control_center_more_card_tiles_more">Nhiều hơn</string>
+    <string name="system_ui_control_center_more_card_tiles_most">Nhiều nhất</string>
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
@@ -765,6 +768,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="milink_hyperos">Dịch vụ kết nối</string>
     <string name="milink_unlock_mishare">Mở khóa Kết nối thiết bị</string>
     <string name="milink_unlock_hmind">Mở khóa Xiaomi HyperMind</string>
+    <string name="milink_allow_camera_devices">Hỗ trợ bắt buộc cho việc truyền phát camera</string>
     <!--Always-on display-->
     <string name="aod">Màn hình Ambient</string>
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
@@ -987,6 +991,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_freeform_shortcut_menu_desc">Thêm menu cửa sổ nổi vào menu tắt</string>
     <string name="home_other_tasks_shortcut_menu">Thêm nút nhiệm vụ mới</string>
     <string name="home_other_tasks_shortcut_menu_desc">Thêm menu nhiệm vụ mới vào menu phím tắt</string>
+    <string name="home_other_allow_share_apk">Đồng ý chia sẻ ứng dụng</string>
     <string name="home_other_user_present_animation">Tối ưu hoạt ảnh mở khóa</string>
     <string name="home_other_always_blur_launcher_wallpaper">Luôn làm mờ hình nền</string>
     <string name="home_other_perfect_icon">Ưu tiên biểu tượng hoàn hảo</string>
@@ -1155,6 +1160,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_smart_charge_title">Mở khóa \"Sạc Thông Minh\" và \"Tăng Tốc Độ Sạc\"</string>
     <string name="security_center_super_wireless_charge">Mở khóa Sạc không dây siêu nhanh</string>
     <string name="security_center_blur_model">Cài đặt nền Thanh bên toàn cầu</string>
+    <string name="security_center_invert_color">Đảo màu biểu tượng</string>
+    <string name="security_center_invert_color_summary">Đảo ngược màu đã chọn của các biểu tượng trong một số nền nhất định để đạt được hiệu ứng hình ảnh tốt hơn\nChức năng này có thể gây ra hiện tượng đảo màu bất thường, vui lòng bật chức năng này nếu thích hợp</string>
     <string name="security_center_blurradius">Độ mờ nền thanh bên</string>
     <string name="security_center_color">Màu nền thanh bên</string>
     <string name="security_center_other_title">Khác</string>
@@ -1173,6 +1180,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_hide_sidebar">Ẩn Thanh bên</string>
     <string name="security_center_leave_open">Vuốt để mở ra</string>
     <string name="security_center_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>
+    <string name="security_center_unlock_new_vb">Mở khóa hộp video mới</string>
+    <string name="security_center_game_performance_wild_mode">Mở khóa chế độ siêu hiệu suất</string>
     <!--Smart cards-->
     <string name="tsmclient">Thẻ thông minh</string>
     <string name="tsmclient_auto_nfc">NFC tự động</string>
@@ -1337,6 +1346,9 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="notification_volume">Thông báo</string>
     <string name="freeform_notification">Thông báo cửa sổ nổi</string>
     <string name="share_app">Chia sẻ với các ứng dụng bên thứ ba</string>
+    <string name="system_notifrowmenu_appinfo">Thông tin ứng dụng</string>
+    <string name="system_notifrowmenu_openinfw">Cửa sổ nổi</string>
+    <string name="system_notifrowmenu_forceclose">Buộc đóng</string>
     <string name="show_newmods_title">Đánh dấu module mới</string>
     <string name="default_volume_stream_ring">Nhạc chuông</string>
     <string name="default_volume_stream_media">Đa phương tiện</string>
@@ -1357,14 +1369,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="close_source">Dự án mã nguồn đóng</string>
     <string name="exit">Thoát</string>
     <string name="ignore">Bỏ qua</string>
-    <string name="browser_disable_blacklist">Tắt URL danh sách đen</string>
     <string name="log_level">Mức độ nhật ký</string>
     <string name="log_level_none">Tắt nhật ký</string>
-    <string name="system_ui_control_center_more_card_tiles">Hiện các ô thẻ</string>
-    <string name="system_ui_control_center_more_card_tiles_less">Không</string>
-    <string name="system_ui_control_center_more_card_tiles_more">Nhiều hơn</string>
-    <string name="system_ui_control_center_more_card_tiles_most">Nhiều nhất</string>
-    <string name="home_other_allow_share_apk">Đồng ý chia sẻ ứng dụng</string>
+    <string name="disable_suggest">Tắt đề xuất</string>
+    <string name="enable_suggest">Bật đề xuất</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>

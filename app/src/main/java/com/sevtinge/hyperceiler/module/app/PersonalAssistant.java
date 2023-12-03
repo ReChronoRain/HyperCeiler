@@ -20,9 +20,9 @@ public class PersonalAssistant extends BaseModule {
         initHook(new EnableFoldWidget(), mPrefsMap.getBoolean("personal_assistant_fold_widget_enable"));
 
         if (mPrefsMap.getStringAsInt("personal_assistant_value", 0) == 2 && !isAndroidVersion(30)) {
-            initHook(BlurPersonalAssistant.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
+            initHook(BlurPersonalAssistant.INSTANCE);
         } else if (mPrefsMap.getStringAsInt("personal_assistant_value", 0) == 1 && !isAndroidVersion(30)) {
-            initHook(BlurPersonalAssistantBackGround.INSTANCE, mPrefsMap.getBoolean("pa_enable"));
+            initHook(BlurPersonalAssistantBackGround.INSTANCE);
         }
 
         // dexKit finish

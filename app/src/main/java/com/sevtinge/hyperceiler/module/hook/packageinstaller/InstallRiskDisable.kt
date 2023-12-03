@@ -1,47 +1,20 @@
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
+import android.annotation.SuppressLint
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
 
+@SuppressLint("StaticFieldLeak")
 object InstallRiskDisable : BaseHook() {
     override fun init() {
-        /*val result = Objects.requireNonNull(
-            mPackageInstallerResultMethodsMap!!["SecureVerifyEnable"]
-        )
-        for (descriptor in result) {
-            val mSecureVerifyEnable = descriptor.getMethodInstance(lpparam.classLoader)
-            mSecureVerifyEnable.createHook {
-                returnConstant(false)
-            }
-        }
-
-        val result2 = Objects.requireNonNull(
-            mPackageInstallerResultMethodsMap!!["isInstallRiskEnabled"]
-        )
-        for (descriptor2 in result2) {
-            val isInstallRiskEnabled = descriptor2.getMethodInstance(lpparam.classLoader)
-            isInstallRiskEnabled.createHook {
-                returnConstant(false)
-            }
-        }
-
-        val result3 = Objects.requireNonNull(
-            mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
-        )
-          for (descriptor in result3) {
-            val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
-            mDisableSafeModelTip.createHook {
-                 returnConstant(false)
-            }
-        }*/
-
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("secure_verify_enable")
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.map { it.getMethodInstance(lpparam.classLoader) }.toList().createHooks {
             returnConstant(false)
         }
 
@@ -49,7 +22,7 @@ object InstallRiskDisable : BaseHook() {
             matcher {
                 addUsingStringsEquals("installerOpenSafetyModel")
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.map { it.getMethodInstance(lpparam.classLoader) }.toList().createHooks {
             returnConstant(false)
         }
 

@@ -17,7 +17,7 @@ ext {
     AndroidXCoreVersion = '1.12.0'
     AndroidXCollectionVersion = '1.3.0'
     AndroidXRecyclerviewVersion = '1.3.2'
-    AndroidXFragmentVersion = '1.7.0-alpha06'
+    AndroidXFragmentVersion = '1.7.0-alpha07'
     AndroidXLifecycleVersion = '2.6.2'
     AndroidXVectorDrawableVersion = '1.2.0-beta01'
     AndroidXVectorDrawableAnimatedVersion = '1.1.0'

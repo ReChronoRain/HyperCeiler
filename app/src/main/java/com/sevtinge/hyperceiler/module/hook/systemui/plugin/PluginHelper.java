@@ -11,7 +11,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.ShowVolumePct;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.BluetoothTileStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGridForHyperOS;
 
-
 public class PluginHelper extends BaseHook {
 
     private static ClassLoader pluginLoader = null;

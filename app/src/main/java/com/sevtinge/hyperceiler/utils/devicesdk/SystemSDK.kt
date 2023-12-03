@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.utils.devicesdk
 
 import android.os.Build
-import com.sevtinge.hyperceiler.R
 
 /**
 获取设备 Android 版本 、MIUI 版本 、HyperOS 版本
@@ -13,7 +12,7 @@ import com.sevtinge.hyperceiler.R
 fun getAndroidVersion(): Int = Build.VERSION.SDK_INT
 
 fun isAndroidVersion(versioncode: Int): Boolean{
-    var result: Boolean = when (versioncode) {
+    val result: Boolean = when (versioncode) {
         30 -> (getAndroidVersion() == Build.VERSION_CODES.R)
         31 -> (getAndroidVersion() == Build.VERSION_CODES.S)
         32 -> (getAndroidVersion() == Build.VERSION_CODES.S_V2)
@@ -42,7 +41,7 @@ fun getMiuiVersion(): Float = when (getProp("ro.miui.ui.version.name")) {
 }
 
 fun isMiuiVersion(versioncode: Float): Boolean{
-    var result: Boolean = when (versioncode) {
+    val result: Boolean = when (versioncode) {
         10f -> (getProp("ro.miui.ui.version.name") == "V10")
         11f -> (getProp("ro.miui.ui.version.name") == "V11")
         12f -> (getProp("ro.miui.ui.version.name") == "V12")
@@ -67,7 +66,7 @@ fun getHyperOSVersion(): Float = when (getProp("ro.mi.os.version.name")) {
 }
 
 fun isHyperOSVersion(versioncode: Float): Boolean{
-    var result: Boolean = when (versioncode) {
+    val result: Boolean = when (versioncode) {
         1f -> (getProp("ro.mi.os.version.name") == "OS1.0")
         else -> false
     };
