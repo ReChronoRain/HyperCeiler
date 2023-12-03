@@ -8,6 +8,7 @@ import com.sevtinge.hyperceiler.module.base.BaseHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class TitleMarquee extends BaseHook {
+    TextView mTitle;
 
     @Override
     public void init() {
@@ -16,20 +17,11 @@ public class TitleMarquee extends BaseHook {
         findAndHookMethod(mItemIcon, "onFinishInflate", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                TextView mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitle");
-
-                mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                mTitle.setHorizontalFadingEdgeEnabled(true);
-                mTitle.setSingleLine();
-                mTitle.setMarqueeRepeatLimit(-1);
-                mTitle.setSelected(true);
-                mTitle.setHorizontallyScrolling(true);
-            }
-        });
-        findAndHookMethod(mItemIcon, "setTitle", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                TextView mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitle");
+                try {
+                    mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitleView");
+                } catch (Throwable t) {
+                    mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitle");
+                }
 
                 mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 mTitle.setHorizontalFadingEdgeEnabled(true);
