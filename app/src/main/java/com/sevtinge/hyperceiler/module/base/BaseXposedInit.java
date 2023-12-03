@@ -6,6 +6,7 @@ import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
 import com.sevtinge.hyperceiler.module.app.Aod;
+import com.sevtinge.hyperceiler.module.app.Backup;
 import com.sevtinge.hyperceiler.module.app.Barrage;
 import com.sevtinge.hyperceiler.module.app.Browser;
 import com.sevtinge.hyperceiler.module.app.Camera;
@@ -18,6 +19,7 @@ import com.sevtinge.hyperceiler.module.app.FileExplorer;
 import com.sevtinge.hyperceiler.module.app.Gallery;
 import com.sevtinge.hyperceiler.module.app.GuardProvider;
 import com.sevtinge.hyperceiler.module.app.Home;
+import com.sevtinge.hyperceiler.module.app.Huanji;
 import com.sevtinge.hyperceiler.module.app.InCallUi;
 import com.sevtinge.hyperceiler.module.app.Joyose;
 import com.sevtinge.hyperceiler.module.app.Lbe;
@@ -129,6 +131,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Creation mCreation = new Creation();
     public final Nfc mNfc = new Nfc();
     public final MiSound mMiSound = new MiSound();
+    public final Backup mBackup = new Backup();
+    public final Huanji mHuanji = new Huanji();
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -338,6 +342,14 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.miui.creation" -> {
                 mCreation.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.miui.backup" -> {
+                mBackup.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.miui.huanji" -> {
+                mHuanji.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.NetworkBoost" -> networkBoost.init(lpparam);

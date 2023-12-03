@@ -1393,7 +1393,6 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
     <string name="huanji">Mi Mover</string>
     <string name="backup">Backup</string>
     <string name="huanji_allow_all_apps">Allow move all apps</string>
