@@ -812,6 +812,12 @@
     <string name="micloud_service">Xiaomi Cloud Service</string>
     <string name="micloud_service_list">Apply data cloud synchronization completion</string>
     <string name="micloud_service_list_summary">The completion functions are as follows:\n- The mobile phone can be synchronized with Mi Creation\n- The domestic and international versions of Mi Browser can be synchronized at the same time\n\nNote: The first synchronization of Mi Creation must be enabled from the settings of Mi Creation, otherwise it will prompt that the network is unavailable or the system is busy, please try again later</string>
+    <!--Mi Mover-->
+    <string name="huanji">Mi Mover</string>
+    <string name="huanji_allow_all_apps">Allow move all apps</string>
+    <!--Backup-->
+    <string name="backup">Backup</string>
+    <string name="backup_allow_all_apps">Allow backup all apps</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>

@@ -69,17 +69,17 @@ object TimeStyle : BaseHook() {
                             }
                         }
                     }
-                }
 
-                // 时钟边距调整
-                if (verticalOffset != 12) {
-                    val marginTop =
-                        TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            (verticalOffset - 12) * 0.5f,
-                            res.displayMetrics
-                        )
-                    textV.translationY = marginTop
+                    // 时钟边距调整
+                    if (verticalOffset != 12) {
+                        val marginTop =
+                            TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP,
+                                (verticalOffset - 12) * 0.5f,
+                                res.displayMetrics
+                            )
+                        textV.translationY = marginTop
+                    }
                 }
             }
         }

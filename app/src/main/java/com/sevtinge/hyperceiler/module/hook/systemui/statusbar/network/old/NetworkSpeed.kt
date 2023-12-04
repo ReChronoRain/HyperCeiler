@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network
+package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old
 
 import android.content.Context
 import android.net.ConnectivityManager

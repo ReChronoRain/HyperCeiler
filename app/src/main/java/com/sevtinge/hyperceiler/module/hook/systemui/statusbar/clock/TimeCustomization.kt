@@ -161,6 +161,7 @@ object TimeCustomization : BaseHook() {
                     before {
                         try {
                             val textV = it.thisObject as TextView
+                            // HyperOS 下选择 12 小时格式会读不到 id 为 clock，且只有 updateTime 这个方法读不到，等后续再找找
                             if (textV.resources.getResourceEntryName(textV.id) == "clock") {
                                 val mMiuiStatusBarClockController =
                                     textV.getObjectField("mMiuiStatusBarClockController")
