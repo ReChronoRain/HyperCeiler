@@ -782,6 +782,12 @@
     <string name="micloud_service">MiCloud</string>
     <string name="micloud_service_list">Aplicar conclusão da sincronização da nuvem de dados</string>
     <string name="micloud_service_list_summary">As funções de conclusão são as seguintes:\n- O celular pode ser sincronizado com o Mi Creation.\n- As versões nacional e internacional do Navegador Mi podem ser sincronizadas ao mesmo tempo.\n\nObservação: A primeira sincronização do Mi Creation deve ser ativado nas configurações do Mi Creation, caso contrário, será avisado que a rede está indisponível ou o sistema está ocupado, por favor, tente novamente mais tarde.</string>
+    <!--Mi Mover-->
+    <string name="huanji">Mi Mover</string>
+    <string name="huanji_allow_all_apps">Permitir mover todos os apps</string>
+    <!--Backup-->
+    <string name="backup">Backup</string>
+    <string name="backup_allow_all_apps">Permitir backup de todos os apps</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remover restrições sobre o uso de telefones móveis</string>
@@ -1359,10 +1365,6 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="huanji">Mi Mover</string>
-    <string name="backup">Backup</string>
-    <string name="huanji_allow_all_apps">Permitir mover todos os apps</string>
-    <string name="backup_allow_all_apps">Permitir backup de todos os apps</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
