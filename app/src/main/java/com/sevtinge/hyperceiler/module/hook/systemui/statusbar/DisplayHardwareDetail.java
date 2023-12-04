@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
+import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
@@ -80,6 +81,7 @@ public class DisplayHardwareDetail extends BaseHook {
 
     @Override
     public void init() {
+        if (isNewNetworkStyle()) return; // 新版网速指示器暂时拦截显示
         showBatteryDetail = mPrefsMap.getBoolean("system_ui_statusbar_battery_enable"); // 电池相关
         showDeviceTemp = mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"); // 温度相关
 

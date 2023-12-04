@@ -53,18 +53,8 @@ public class NetworkSpeedSpacing extends BaseHook {
                             Message message = (Message) param.args[0];
                             Object handleMessage = XposedHelpers.getObjectField(param.thisObject, "this$0");
                             Object mBgHandler = XposedHelpers.getObjectField(handleMessage, "mBgHandler");
-                            switch (message.what) {
-                               /* case 100001:
-                                    boolean z = (boolean) XposedHelpers.getObjectField(XposedHelpers.getObjectField(handleMessage,
-                                        "mNetworkSpeedState"), "visible");
-                                    logE(TAG, "100001: " + z + " :" + mBgHandler);
-                                    handleMessage(mBgHandler, z);
-                                case 100002:
-                                    boolean z2 = (boolean) XposedHelpers.getObjectField(XposedHelpers.getObjectField(handleMessage,
-                                        "mNetworkSpeedState"), "visible");
-                                    logE(TAG, "100002: " + z2 + " :" + mBgHandler);
-                                    handleMessage(mBgHandler, z2);*/
-                                case 200001 -> handleMessage(mBgHandler, true);
+                            if (message.what == 200001) {
+                                handleMessage(mBgHandler, true);
                                 // logE(TAG, "200001: " + mBgHandler);
                             }
                         }

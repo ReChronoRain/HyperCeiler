@@ -2,8 +2,12 @@ package com.sevtinge.hyperceiler.utils.api
 
 import android.app.admin.DevicePolicyManager
 import android.content.Context
+import android.widget.LinearLayout
+import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.MemberExtensions.isStatic
+import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Method
+
 
 /**
  * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
@@ -118,4 +122,20 @@ fun isDeviceEncrypted(context: Context): Boolean {
     val encryption = policyMgr.storageEncryptionStatus
     return encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE ||
         encryption == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_PER_USER
+}
+
+/**
+ * 判断是否为新网速指示器
+ * @return 返回一个 Boolean 值，true 为新布局，false 为旧布局
+ */
+
+fun isNewNetworkStyle(): Boolean {
+    val networkSpeedViewCls = XposedHelpers.findClassIfExists(
+        "com.android.systemui.statusbar.views.NetworkSpeedView", EzXHelper.classLoader
+    )
+    return if (networkSpeedViewCls != null) {
+        LinearLayout::class.java.isAssignableFrom(networkSpeedViewCls);
+    } else {
+        false
+    }
 }

@@ -1,5 +1,6 @@
-package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network
+package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
@@ -12,6 +13,7 @@ import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 
 import de.robv.android.xposed.XposedHelpers
 
+@SuppressLint("StaticFieldLeak")
 object NetworkSpeedStyle : BaseHook() {
     private val doubleLine by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_detailed") &&

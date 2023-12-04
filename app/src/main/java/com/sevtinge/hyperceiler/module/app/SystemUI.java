@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.module.app;
 
+import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -81,17 +82,16 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeed;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedStyle;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.StatusBarNoNetSpeedSep;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeed;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeedStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.StatusBarNoNetSpeedSep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.s.NetworkSpeedWidth;
 
 import java.util.Objects;
 
 public class SystemUI extends BaseModule {
-
     @Override
     public void handleLoadPackage() {
         // 充电动画
@@ -139,14 +139,16 @@ public class SystemUI extends BaseModule {
         // initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         // 网速指示器
-        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
-            initHook(NetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
-            initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
+        if (!isNewNetworkStyle()) {
+            if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+                initHook(NetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
+                initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
+            }
+            initHook(NetworkSpeedStyle.INSTANCE);
+            initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
         }
-        initHook(NetworkSpeedStyle.INSTANCE);
         initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
         initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
-        initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
 
         // 时钟指示器
         if (isMoreHyperOSVersion(1f)) initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_statusbar_clock_bold") ||
