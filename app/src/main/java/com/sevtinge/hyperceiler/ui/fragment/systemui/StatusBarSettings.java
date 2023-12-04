@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
-import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import android.view.View;
@@ -31,6 +30,6 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mDeviceStatus = findPreference("prefs_key_system_ui_status_bar_device");
-        mDeviceStatus.setVisible(!isAndroidVersion(30) && !isNewNetworkStyle());
+        mDeviceStatus.setVisible(!isAndroidVersion(30));
     }
 }
