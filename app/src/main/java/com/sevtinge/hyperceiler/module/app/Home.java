@@ -71,6 +71,7 @@ import com.sevtinge.hyperceiler.module.hook.home.other.OverlapMode;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.module.hook.home.other.ShowAllHideApp;
 import com.sevtinge.hyperceiler.module.hook.home.recent.AlwaysShowCleanUp;
+import com.sevtinge.hyperceiler.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.module.hook.home.recent.BlurLevel;
 import com.sevtinge.hyperceiler.module.hook.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.module.hook.home.recent.CardTextSize;
@@ -185,6 +186,7 @@ public class Home extends BaseModule {
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
         initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info") && isPad());
         initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
+        initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
 
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
