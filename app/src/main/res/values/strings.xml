@@ -986,6 +986,7 @@
     <string name="home_recent_show_memory_info_sum">For tablet use only</string>
     <string name="home_recent_show_memory_info">Show memory info</string>
     <string name="home_recent_always_show_clean_up">Prohibit hiding the cleanup icon when there is no card</string>
+    <string name="home_recent_blur">Background blur</string>
 
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
@@ -1399,11 +1400,6 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="huanji">Mi Mover</string>
-    <string name="backup">Backup</string>
-    <string name="huanji_allow_all_apps">Allow move all apps</string>
-    <string name="backup_allow_all_apps">Allow backup all apps</string>
-    <string name="home_recent_blur">Background blur</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
