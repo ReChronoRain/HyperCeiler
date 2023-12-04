@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Làm cho HyperOS tuyệt vời trở lại!</string>
+    <string name="xposed_description">Làm cho HyperOS trở nên vĩ đại!</string>
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
     <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào Quản lý quyền bất cứ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để có quyền Root/Su.</string>
@@ -140,7 +140,7 @@
     <string name="system_ui_statusbar_indicator_default_title">Mặc định</string>
     <string name="system_ui_statusbar_indicator_expand_title">Mở rộng</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Sửa nội dung ngang</string>
-    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Ngăn chặn jitter ngang</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Ngăn các phần tử liền kề chuyển sang hai bên</string>
     <string name="system_ui_statusbar_indicator_bold">Chữ đậm</string>
     <!--Multi-list Array-->
     <string name="array_close">Đóng</string>
@@ -153,7 +153,7 @@
     <string name="array_theme">Theo chủ đề</string>
     <string name="array_clock_center">Đồng hồ ở giữa</string>
     <string name="array_clock_right">Đồng hồ bên phải</string>
-    <string name="array_clock_center_and_icon_left">Đồng hồ ở giữa &amp; Icon bên trái</string>
+    <string name="array_clock_center_and_icon_left">Đồng hồ ở giữa và biểu tượng ở bên trái</string>
     <string name="array_clock_default">Mặc định</string>
     <string name="array_clock_geek">Tuỳ chỉnh</string>
     <string name="array_battery_both">Cả hai</string>
@@ -402,7 +402,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="incallui_answer_in_head_up">Trả lời khi đưa lên tai</string>
     <!--Message-->
     <string name="mms">Tin nhắn</string>
-    <string name="mms_disable_ad">Vô hiệu quảng cáo</string>
+    <string name="mms_disable_ad">Tắt quảng cáo</string>
     <string name="mms_disable_ad_desc">Bỏ nút tắt cuối màn hình và khuyến mãi cuối nội dung tin nhắn</string>
     <!--Phone Service-->
     <string name="phone">Dịch vụ điện thoại</string>
@@ -466,7 +466,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Buộc kích hoạt bố cục toàn màn hình cho các màn hình có hình dạng đặc biệt</string>
     <string name="system_ui_statusbar_layout_mode_title">Bố cục thanh trạng thái</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Nhấn đúp để khoá màn hình</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_title">Cột sóng đôi</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_title">Cột sóng kép</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Chủ đề biểu tượng</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Cổ điển</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Kiến trúc gốc</string>
@@ -727,7 +727,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_develop_title">Tùy chọn nhà phát triển</string>
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
-    <string name="system_settings_develop_speed_mode">Mở khoá Speed mode</string>
+    <string name="system_settings_develop_speed_mode">Chế độ siêu tốc</string>
     <string name="system_settings_develop_speed_mode_desc">Không hiển thị trên các máy không được hỗ trợ</string>
     <string name="system_settings_window_animation_scale">Tỷ lệ ảnh động cửa sổ</string>
     <string name="system_settings_transition_animation_scale">Tỷ lệ ảnh động chuyển tiếp</string>
@@ -735,7 +735,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
     <string name="theme_manager_version_code_modify">Tắt phát hiện phiên bản MIUI</string>
-    <string name="theme_manager_diable_ads">Vô hiệu quảng cáo</string>
+    <string name="theme_manager_diable_ads">Tắt quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
     <string name="theme_manager_enable_fold_theme">Kích hoạt chủ đề FOLD</string>
@@ -776,11 +776,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Sử dụng trình duyệt của bên thứ ba</string>
-    <string name="content_extension_browser_desc">Làm cho Taplus không yêu cầu sử dụng trình duyệt MIUI, Cách mở liên kết để ở Mặc định</string>
+    <string name="content_extension_browser_desc">Làm cho Taplus không bắt buộc phải sử dụng Trình duyệt MIUI để tìm kiếm. Bạn cần phải tự mình chọn trình duyệt mặc định.</string>
     <string name="content_extension_unlock_taplus_title">Mở khoá Taplus</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Cho phép sử dụng Taplus trên màn hình ngang</string>
-    <string name="content_extension_double_press">Mở khoá Cử chỉ : 2 Ngón</string>
-    <string name="content_extension_super_image">Mở khoá Chất lượng lưu hình ảnh : Siêu phân giải</string>
+    <string name="content_extension_double_press">Mở khóa cử chỉ 2 ngón</string>
+    <string name="content_extension_super_image">Bật tùy chọn lưu ảnh ở chất lượng cao nhất</string>
     <string name="content_extension_super_image_summary">Yêu cầu hỗ trợ cơ bản từ thiết bị</string>
     <string name="content_extension_link_open_mode">Cách mở liên kết</string>
     <string name="content_extension_link_open_mode_desc">Chọn trình duyệt để mở liên kết</string>
@@ -801,7 +801,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="gallery_enable_photo_movie">Mở khóa Clip</string>
     <string name="gallery_enable_video_post">Mở khóa Hiệu ứng video</string>
     <string name="gallery_enable_video_editor">Mở khóa Chỉnh sửa video</string>
-    <string name="gallery_enable_text_yanhua">Mở khóa Pháo hoa văn bản</string>
+    <string name="gallery_enable_text_yanhua">Mở khóa văn bản pháo hoa</string>
     <string name="gallery_enable_remover_2">Mở khóa Xóa vật thể</string>
     <string name="gallery_enable_magic_matting">Mở khóa Cắt</string>
     <string name="gallery_enable_magic_sky">Mở khóa Bầu trời</string>
@@ -1373,6 +1373,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
+    <string name="huanji">Mi Mover</string>
+    <string name="backup">Sao lưu</string>
+    <string name="huanji_allow_all_apps">Cho phép di chuyển tất cả ứng dụng</string>
+    <string name="backup_allow_all_apps">Cho phép sao lưu tất cả ứng dụng</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
@@ -1380,7 +1384,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="tip_3">Mẹo: Bạn muốn tham gia nhóm chính thức? Telegram@hyperceiler Hoặc tìm 247909573 trong QQ.</string>
     <string name="tip_4">Mẹo: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
     <string name="tip_5">Mẹo: Đoán xem bạn phải xem lại mẹo này bao nhiêu lần nữa?</string>
-    <string name="tip_6">Mẹo: Làm cho HyperCeiler tuyệt vời trở lại!</string>
+    <string name="tip_6">Mẹo: Làm cho HyperOS trở nên vĩ đại!</string>
     <string name="tip_7">Mẹo: Chào mừng bạn theo dõi trên Github@sevtinge Hoặc Bilibili@绀漓丨Sevtinge.</string>
     <string name="tip_8">Mẹo: Sevtinge là con trai hay con gái?</string>
     <string name="tip_9">Mẹo: Tin tức Sanjiang: Chuyến tàu GL3625 bị mất tích được tìm thấy vào lúc 5 giờ sáng ngày 7 tháng 4 năm 1404 trên chuyến Haimen-Jincheng xuất phát từ Haimen đến Jincheng của công ty vận tải đường sắt Har-Jincheng, toa thứ 13 đã biến mất một cách bí ẩn.</string>

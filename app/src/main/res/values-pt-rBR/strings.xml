@@ -277,7 +277,7 @@
     <string name="phone_double_5g_nr">Uso de cartão duplo 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
     <string name="phone_double_5g_sa">Uso de cartão duplo SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA</string>
+    <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA.</string>
     <string name="system_framework_phone_band_title">Configurações de banda</string>
     <string name="phone_n1">Banda N1</string>
     <string name="phone_n1_desc">Suporte Banda N1 (NR)</string>
@@ -924,7 +924,7 @@
     <string name="home_title_fix_animation">Animação de interrupção otimizada</string>
     <string name="home_title_icon_scale">Dimensionamento de ícones</string>
     <string name="home_title_disable_hide_file">Desative a ocultação do ícone \"arquivo\"</string>
-    <string name="home_title_disable_hide_theme">Não esconda o ícone do \"gerenciador de temas\"</string>
+    <string name="home_title_disable_hide_theme">Não oculte o ícone \"gerenciador de temas\"</string>
     <string name="home_title_custom_anim_param">Parâmetro de animação personalizado</string>
     <string name="home_title_custom_anim_param_damping_title">Amortecimento</string>
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
@@ -982,9 +982,9 @@
     <string name="home_other_infinite_scroll">Rolagem infinita</string>
     <string name="home_other_infinite_scroll_desc">Pule da última página para a primeira e vice-versa</string>
     <string name="home_other_freeform_shortcut_menu">Modo Janelas flutuantes</string>
-    <string name="home_other_freeform_shortcut_menu_desc">Adicionar menu de Janelas flutuantes ao menu de atalho</string>
-    <string name="home_other_tasks_shortcut_menu">Modo mais tarefas</string>
-    <string name="home_other_tasks_shortcut_menu_desc">Adicionar novo menu de tarefas ao menu de atalho</string>
+    <string name="home_other_freeform_shortcut_menu_desc">Adicione o menu de Janelas flutuantes ao menu de atalho</string>
+    <string name="home_other_tasks_shortcut_menu">Modo Nova tarefa</string>
+    <string name="home_other_tasks_shortcut_menu_desc">Adicione o menu de Nova tarefa ao menu de atalho</string>
     <string name="home_other_allow_share_apk">Permitir compartilhar app</string>
     <string name="home_other_user_present_animation">Otimizar animação de desbloqueio</string>
     <string name="home_other_always_blur_launcher_wallpaper">Sempre desfocar o papel de parede na launcher</string>
@@ -998,7 +998,7 @@
     <string name="home_other_blur_radius">Raio do blur</string>
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
-    <string name="home_other_toast_slide_again">Proibir avisos \"por favor, passe novamente\"</string>
+    <string name="home_other_toast_slide_again">Proibir solicitações \"por favor, passe novamente\"</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_disable_hide_google">Desativar ocultar o Google</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
@@ -1027,7 +1027,7 @@
     <!--Mi Share-->
     <string name="mishare">Compartilhamento Mi</string>
     <string name="mishare_disable_mishare_auto_off">Desativar fechamento automático do Compartilhamento Mi</string>
-    <string name="mishare_unlock_turbo_mode">Desbloquear transferência turbo</string>
+    <string name="mishare_unlock_turbo_mode">Desbloquear Transferência turbo</string>
     <!--Wallpaper-->
     <string name="miwallpaper">Papéis de Parede Mi</string>
     <string name="miwallpaper_unlock_super_wallpaper">Desbloquear Super plano de fundo</string>
@@ -1042,10 +1042,10 @@
     <string name="miui_package_installer_update_system_app_desc">Permite que qualquer canal que não seja do sistema instale apps do sistema</string>
     <string name="miui_package_installer_install_source">Fonte de instalação personalizada</string>
     <string name="miui_package_installer_apk_info">Exibir mais informações do pacote</string>
-    <string name="miui_package_installer_apk_info_desc">Exibir mais informações sobre o app que está sendo instalado</string>
+    <string name="miui_package_installer_apk_info_desc">Exibe mais informações sobre o app que está sendo instalado</string>
     <!--networkboost-->
     <string name="various_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
-    <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida</string>
+    <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida.</string>
     <!--nfc-->
     <string name="nfc">Serviço NFC</string>
     <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>
@@ -1075,7 +1075,7 @@
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requer suporte a versão de gravação de tela</string>
     <string name="screen_recorder_config">Adicionar mais opções de taxa de quadros e taxa de bits</string>
-    <string name="screen_recorder_config_desc">Por favor, escolha de acordo com a situação do hardware</string>
+    <string name="screen_recorder_config_desc">Por favor, escolha de acordo com a situação do hardware.</string>
     <string name="screen_recorder_more_volume">Desbloquear mais volume de</string>
     <string name="screen_recorder_more_volume_desc">Algumas versões não são suportadas</string>
     <string name="screen_recorder_save_to_movies_desc">Especifique o local para salvar gravações de tela Movies/ScreenRecorder</string>
@@ -1086,7 +1086,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app \"Mi AI Engine\" precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado com shell</string>
-    <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo</string>
+    <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo.</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Segurança</string>
     <string name="security_center_pad">Central de segurança para tablets</string>
@@ -1101,11 +1101,11 @@
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Precisão de localização mais baixa</string>
     <string name="security_center_gms_open">Serviço GMS</string>
-    <string name="security_center_flash_light">Controle de brilho da lanterna</string>
+    <string name="security_center_flash_light">Controle do brilho da lanterna</string>
     <string name="security_center_flash_light_more">Permite que você controle o brilho da lanterna arrastando o controle deslizante de brilho</string>
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
-    <string name="security_center_applock_pin_scramble_desc">Alterar aleatoriamente a sequência do PIN do Bloqueio de apps</string>
+    <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Brilho da luz de preenchimento</string>
     <string name="security_center_beauty_face">Desbloquear Embelezar para videochamadas</string>
     <string name="security_center_beauty_privacy">Desbloquear Câmera de privacidade</string>
@@ -1140,7 +1140,7 @@
     <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre nível de bateria fraca</string>
     <string name="security_center_remove_low_battery_reminder_summary">Quando a bateria estiver abaixo de 20%, a caixa de diálogo de aviso para ativar o modo de economia de bateria não aparecerá mais.</string>
     <string name="security_center_remove_open_app_confirmation_popup">Remover pop-up de app aberto</string>
-    <string name="security_center_remove_open_app_confirmation_popup_summary">Remover o pop-up \"Permitir que XXX abra XXX\" do início da cadeia</string>
+    <string name="security_center_remove_open_app_confirmation_popup_summary">Remova o pop-up \"Permitir que XXX abra XXX\" do início da cadeia</string>
     <string name="security_center_no_permission">Permissões necessárias não concedidas</string>
     <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em Janelas flutuantes</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Desbloquear ocultar na lateral em Janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o telefone for cortado em segundo plano.</string>
@@ -1158,7 +1158,7 @@
     <string name="security_center_sidebar_line_color_light">Cor da linha da barra lateral clara</string>
     <string name="security_center_disable_ban">Remover botão de relatório</string>
     <string name="security_center_unlock_screen_time">Exibir dados detalhados do consumo de energia</string>
-    <string name="security_center_unlock_screen_time_desc">Exibir informações do uso de energia da tela na parte superior da bateria e retomar a exibição do consumo de energia e do tempo de todos os outros apps</string>
+    <string name="security_center_unlock_screen_time_desc">Exibe informações do uso de energia da tela na parte superior da bateria e retomar a exibição do consumo de energia e do tempo de todos os outros apps</string>
     <string name="security_center_unlock_gun_service">Desbloquear Serviço de armas</string>
     <string name="security_center_disable_remove_screen_hold_on">Desativar remover tela em espera</string>
     <string name="security_center_unlock_memc">Desbloquear MEMC</string>
@@ -1256,8 +1256,8 @@
     <string name="various_super_clipboard_title">Super Área de Transferência</string>
     <string name="various_unlock_super_clipboard">Comportamento da super área de transferência</string>
     <string name="various_super_clipboard_summary">Somente apps que contêm metadados is_support_miui_super_clipboard são suportados</string>
-    <string name="various_super_clipboard_picture_desc">Permitir copiar imagem para a área de transferência</string>
-    <string name="various_super_clipboard_files_desc">Permitir copiar arquivos para a área de transferência</string>
+    <string name="various_super_clipboard_picture_desc">Permite copiar imagem para a área de transferência</string>
+    <string name="various_super_clipboard_files_desc">Permite copiar arquivos para a área de transferência</string>
     <string name="various_super_clipboard_picture_share_desc">Permite copiar e colar imagens na área de transferência</string>
     <string name="various_open_aosp_battery_title">Otimização de bateria</string>
     <string name="various_open_aosp_notification_title">Notificações</string>
@@ -1280,7 +1280,7 @@
     <string name="custom_background_blur_enabled">Blur de fundo</string>
     <string name="custom_background_blur_radius">Raio do blur</string>
     <string name="custom_background_color">Cor de fundo</string>
-    <string name="custom_background_color_alpha">Transparência da cor do fundo</string>
+    <string name="custom_background_color_alpha">Transparência da cor de fundo</string>
     <string name="custom_background_corner_radius">Cantos arredondados do fundo</string>
     <string name="custom_blur_enabled">Blur de fundo</string>
     <string name="various_blur_radius">Raio do blur</string>
@@ -1289,9 +1289,9 @@
     <string name="various_background_color">Cor de fundo</string>
     <string name="various_dialog_window_blur_title">Blur</string>
     <string name="various_dialog_gravity">Localização da janela pop-up</string>
-    <string name="various_dialog_margin_horizontal">Janela pop-up para margem vertical</string>
+    <string name="various_dialog_margin_horizontal">Janela pop-up na margem vertical</string>
     <string name="various_dialog_margin_horizontal_desc">A distância entre a janela pop-up e as laterais da tela</string>
-    <string name="various_dialog_margin_bottom">Janela pop-up para margem vertical</string>
+    <string name="various_dialog_margin_bottom">Janela pop-up na margem inferior</string>
     <string name="various_dialog_margin_bottom_desc">A distância da janela pop-up até a parte inferior da tela</string>
     <string name="various_dialog_window_blur">Blur da janela</string>
     <string name="various_dialog_window_blur_radius">Raio do blur da janela</string>
@@ -1359,6 +1359,10 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="huanji">Mi Mover</string>
+    <string name="backup">Backup</string>
+    <string name="huanji_allow_all_apps">Permitir mover todos os apps</string>
+    <string name="backup_allow_all_apps">Permitir backup de todos os apps</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
@@ -1367,18 +1371,18 @@
     <string name="tip_4">Dica: HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
     <string name="tip_5">Dica: Adivinhe quantas vezes mais você terá que ver essa dica novamente?</string>
     <string name="tip_6">Dica: Torne o HyperOS ótimo novamente!</string>
-    <string name="tip_7">Dica: Seja bem-vindo para seguir no Github: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
+    <string name="tip_7">Dica: Seja bem-vindo para seguir no GitHub: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
     <string name="tip_8">Dica: A utopia ideal não existe na realidade.</string>
     <string name="tip_9">Dica: A cidade de Sanjiang tende a entrar em colapso.</string>
-    <string name="tip_10">Dica: Ah, esse mundo é tão lindo…       Pena que essa beleza não pertença ao Sevtinge.</string>
+    <string name="tip_10">Dica: Ah, esse mundo é tão lindo…       É uma pena que esta beleza não pertença a Sevtinge.</string>
     <string name="tip_11">Dica: Guardei alguns bugs para que você saiba que está usando o HyperCeiler.</string>
-    <string name="tip_12">Dica: Você sabe? Na verdade, Dicas é tudo bobagem. (Convencido)</string>
+    <string name="tip_12">Dica: Você sabe? Na verdade, as dicas são tudo bobagem.</string>
     <string name="tip_13">Dica: Você sabe? O aniversário do HyperCeiler é em 1 de maio e o aniversário de Sevtinge é em 2 de fevereiro.</string>
     <string name="tip_14">Dica: Sevtinge estudou na Escola de Engenharia e Tecnologia da Informação do Campus da cidade de Sanjiang da Universidade de Shanhe.</string>
     <string name="tip_15">Dica: Eu ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
-    <string name="tip_16">Dica: Sevtinge é uma raposinha! (Descartar)</string>
-    <string name="tip_17">Dica: Neko Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli</string>
-    <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido (fala mal-humorada)</string>
-    <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que fica cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto</string>
-    <string name="tip_20">Dica: Não persiga a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizar se ela estiver quebrada.</string>
+    <string name="tip_16">Dica: Sevtinge é uma raposinha!</string>
+    <string name="tip_17">Dica: Neko Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli.</string>
+    <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido.</string>
+    <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que está cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto.</string>
+    <string name="tip_20">Dica: Não use a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizá-la se ela estiver quebrada.</string>
 </resources>
