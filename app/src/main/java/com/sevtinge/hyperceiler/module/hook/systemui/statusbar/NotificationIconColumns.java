@@ -26,12 +26,13 @@ public class NotificationIconColumns extends BaseHook {
     @Override
     public void init() {
         if (!isAndroidVersion(30)) {
-            int maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
             int maxDotsNum = mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 3);
             if (isAndroidVersion(34) && isMoreHyperOSVersion(1f)) {
+                int maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 1);
                 mAndroidU(maxIconsNum, maxDotsNum);
                 // logE(TAG, "is hyper");
             } else {
+                int maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
                 mAndroidS(maxIconsNum, maxDotsNum);
             }
         }
