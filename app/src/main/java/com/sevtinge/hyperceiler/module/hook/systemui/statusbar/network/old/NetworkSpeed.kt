@@ -93,7 +93,7 @@ object NetworkSpeed : BaseHook() {
                 f /= 1024.0f
             }
             val pre = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
-            if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")) {
+            if (fakeDualRow) {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
             } else {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)

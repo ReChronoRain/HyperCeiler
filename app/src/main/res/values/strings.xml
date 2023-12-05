@@ -591,6 +591,7 @@
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
+    <string name="system_ui_statusbar_clock_mode_summary">For Xiaomi HyperOS users:\nIf you want to customize, please first adjust the time display of the system clock to 24-hour format</string>
     <string name="system_ui_statusbar_clock_editor">Clock format</string>
     <string name="system_ui_statusbar_clock_year">Show year</string>
     <string name="system_ui_statusbar_clock_month">Show month</string>
