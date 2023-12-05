@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
 
@@ -22,6 +23,7 @@ public class IconManageSettings extends SettingsPreferenceFragment {
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceEx mAlarmClockIconN;
     SeekBarPreferenceEx mNotificationIconMaximum;
+    SeekBarPreferenceEx mNotificationIconColumns;
     SwitchPreference mBatteryNumber;
     SwitchPreference mBatteryPercentage;
 
@@ -32,7 +34,7 @@ public class IconManageSettings extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
             getResources().getString(R.string.system_ui),
             "com.android.systemui"
         );
@@ -46,11 +48,14 @@ public class IconManageSettings extends SettingsPreferenceFragment {
 
         mBatteryNumber = findPreference("prefs_key_system_ui_status_bar_battery_percent");
         mBatteryPercentage = findPreference("prefs_key_system_ui_status_bar_battery_percent_mark");
+        mNotificationIconColumns = findPreference("prefs_key_system_ui_status_bar_notification_icon_maximum");
 
         UseNewHD = findPreference("prefs_key_system_ui_status_bar_use_new_hd");
         IconNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
         UseNewHD.setVisible(isAndroidVersion(33));
         IconNewHD.setVisible(isMoreAndroidVersion(33));
+
+        mNotificationIconColumns.setDefaultValue(isAndroidVersion(34) && isMoreHyperOSVersion(1f) ? 1 : 3);
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

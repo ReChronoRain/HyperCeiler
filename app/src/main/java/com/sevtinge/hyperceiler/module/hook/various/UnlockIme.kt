@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.module.hook.various
 
+import android.annotation.SuppressLint
 import android.view.inputmethod.InputMethodManager
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
@@ -20,6 +21,7 @@ import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI
 import com.sevtinge.hyperceiler.utils.setStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
+@SuppressLint("StaticFieldLeak")
 object UnlockIme : BaseHook() {
     private val miuiImeList: List<String> = listOf(
         "com.iflytek.inputmethod.miui",
