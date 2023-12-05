@@ -27,7 +27,7 @@ public class ShowVolumePct extends XposedUtils {
         XposedHelpers.findAndHookMethod(MiuiVolumeDialogImpl, "dismissH", int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                removePct(mPct);
+                removePct(getTextView());
             }
 
         });
@@ -42,10 +42,10 @@ public class ShowVolumePct extends XposedUtils {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (nowLevel == (int) param.args[1]) return;
                     int pctTag = 0;
-                    if (mPct != null && mPct.getTag() != null) {
-                        pctTag = (int) mPct.getTag();
+                    if (getTextView() != null && getTextView().getTag() != null) {
+                        pctTag = (int) getTextView().getTag();
                     }
-                    if (pctTag != 3 || mPct == null) return;
+                    if (pctTag != 3 || getTextView() == null) return;
                     Object mColumn = XposedHelpers.getObjectField(param.thisObject, "mColumn");
                     Object ss = XposedHelpers.getObjectField(mColumn, "ss");
                     if (ss == null) return;
@@ -61,7 +61,7 @@ public class ShowVolumePct extends XposedUtils {
                         currentLevel = XposedHelpers.getIntField(mColumn, "animTargetProgress");
                     }
                     nowLevel = currentLevel;
-                    mPct.setVisibility(View.VISIBLE);
+                    getTextView().setVisibility(View.VISIBLE);
                     int levelMin = XposedHelpers.getIntField(ss, "levelMin");
                     if (levelMin > 0 && currentLevel < levelMin * 1000) {
                         currentLevel = levelMin * 1000;
@@ -73,7 +73,9 @@ public class ShowVolumePct extends XposedUtils {
                         int i3 = maxLevel - 1;
                         currentLevel = currentLevel == max ? maxLevel : (currentLevel * i3 / max) + 1;
                     }
-                    if (((currentLevel * 100) / maxLevel) == 100 && mPrefsMap.getBoolean("system_ui_unlock_super_volume")) mPct.setText("200%"); else mPct.setText(((currentLevel * 100) / maxLevel) + "%");
+                    if (((currentLevel * 100) / maxLevel) == 100 && mPrefsMap.getBoolean("system_ui_unlock_super_volume"))
+                        getTextView().setText("200%");
+                    else getTextView().setText(((currentLevel * 100) / maxLevel) + "%");
                 }
             }
         );

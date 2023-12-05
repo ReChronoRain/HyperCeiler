@@ -24,14 +24,14 @@ public class BrightnessPct extends BaseHook {
                         return;
                     }
                     initPct(mStatusBarWindow, 1, mStatusBarWindow.getContext());
-                    mPct.setVisibility(View.VISIBLE);
+                    getTextView().setVisibility(View.VISIBLE);
                 }
             });
 
             findAndHookMethod("com.android.systemui.statusbar.policy.BrightnessMirrorController", "hideMirror", new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
-                        removePct(mPct);
+                        removePct(getTextView());
                     }
                 }
             );
@@ -53,14 +53,14 @@ public class BrightnessPct extends BaseHook {
                     return;
                 }
                 initPct((ViewGroup) windowView, 2, mContext);
-                mPct.setVisibility(View.VISIBLE);
+                getTextView().setVisibility(View.VISIBLE);
             }
         });
 
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStop", new MethodHook() {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
-                removePct(mPct);
+                removePct(getTextView());
             }
         });
 
@@ -69,14 +69,14 @@ public class BrightnessPct extends BaseHook {
             @Override
             protected void after(MethodHookParam param) throws Throwable {
                 int pctTag = 0;
-                if (mPct != null && mPct.getTag() != null) {
-                    pctTag = (int) mPct.getTag();
+                if (getTextView() != null && getTextView().getTag() != null) {
+                    pctTag = (int) getTextView().getTag();
                 }
-                if (pctTag == 0 || mPct == null) return;
+                if (pctTag == 0 || getTextView() == null) return;
                 int currentLevel = (int) param.args[3];
                 if (BrightnessUtils != null) {
                     int maxLevel = (int) XposedHelpers.getStaticObjectField(BrightnessUtils, "GAMMA_SPACE_MAX");
-                    mPct.setText(((currentLevel * 100) / maxLevel) + "%");
+                    getTextView().setText(((currentLevel * 100) / maxLevel) + "%");
                 }
             }
         });
