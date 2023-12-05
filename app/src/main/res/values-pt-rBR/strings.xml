@@ -955,6 +955,7 @@
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
     <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza quando não houver apps em segundo plano</string>
+    <string name="home_recent_blur">Blur de fundo</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
     <string name="home_widget_show_miui_widget">Exibir widgets da MIUI</string>
