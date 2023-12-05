@@ -55,7 +55,7 @@ public class IconManageSettings extends SettingsPreferenceFragment {
         UseNewHD.setVisible(isAndroidVersion(33));
         IconNewHD.setVisible(isMoreAndroidVersion(33));
 
-        mNotificationIconColumns.setDefaultValue(isAndroidVersion(34) && isMoreHyperOSVersion(1f) ? 1 : 3);
+        mNotificationIconColumns.setDefaultValue(isMoreHyperOSVersion(1f) ? 1 : 3);
 
         mAlarmClockIconN.setVisible(Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
 

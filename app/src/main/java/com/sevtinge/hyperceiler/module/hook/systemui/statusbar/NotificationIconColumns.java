@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.ContentResolver;
@@ -28,12 +29,15 @@ public class NotificationIconColumns extends BaseHook {
         int maxIconsNum;
         if (!isAndroidVersion(30)) {
             int maxDotsNum = mPrefsMap.getInt("system_ui_status_bar_notification_dots_maximum", 3);
-            if (isAndroidVersion(34) && isMoreHyperOSVersion(1f)) {
+            if (isMoreHyperOSVersion(1f)) {
                 maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 1);
+            } else {
+                maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
+            }
+            if (isMoreAndroidVersion(34)) {
                 mAndroidU(maxIconsNum, maxDotsNum);
                 // logE(TAG, "is hyper");
             } else {
-                maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 3);
                 mAndroidS(maxIconsNum, maxDotsNum);
             }
         }

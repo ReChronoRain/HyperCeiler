@@ -15,6 +15,8 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
@@ -46,6 +48,7 @@ object TimeCustomization : BaseHook() {
         getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
         else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
     }
+    private val mNewClockClass = loadClass("com.android.systemui.statusbar.views.MiuiStatusBarClock")
 
     private lateinit var nowTime: Date
     private var str = ""
@@ -155,27 +158,55 @@ object TimeCustomization : BaseHook() {
                     }
                 }
 
+                if (isHyperOSVersion(1f) && isAndroidVersion(33)) {
+                    mNewClockClass.methodFinder().first {
+                        name == "formatTimeWithoutAMPM"
+                    }.createHook {
+                        before {
+                            try {
+                                val textV = it.thisObject as TextView
+                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                                    mNewClockClass.methodFinder().first {
+                                        name == "updateTime"
+                                    }.createHook {
+                                        before { re ->
+                                            try {
+                                                setClock(c, textV)
+                                                re.result = null
+                                            } catch (_: Exception) {
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (_: Exception) {
+                            }
+                        }
+                    }
+                } else if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
+                    mNewClockClass.methodFinder().first {
+                        name == "updateTime"
+                    }.createHook {
+                        before {
+                            try {
+                                val textV = it.thisObject as TextView
+                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                                    setClock(c, textV)
+                                    it.result = null
+                                }
+                            } catch (_: Exception) {
+                            }
+                        }
+                    }
+                }
+
                 mClockClass.methodFinder().first {
                     name == "updateTime"
                 }.createHook {
                     before {
                         try {
                             val textV = it.thisObject as TextView
-                            // HyperOS 下选择 12 小时格式会读不到 id 为 clock，且只有 updateTime 这个方法读不到，等后续再找找
                             if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                                val mMiuiStatusBarClockController =
-                                    textV.getObjectField("mMiuiStatusBarClockController")
-                                val mCalendar =
-                                    if (isAndroidVersion(34)) {
-                                        mMiuiStatusBarClockController?.getObjectField("mCalendar")
-                                    } else {
-                                        mMiuiStatusBarClockController?.callMethod("getCalendar")
-                                    }
-                                mCalendar?.callMethod("setTimeInMillis", System.currentTimeMillis())
-                                val textSb = StringBuilder()
-                                val formatSb = StringBuilder(getGeekFormat.toString())
-                                mCalendar?.callMethod("format", c, textSb, formatSb)
-                                textV.text = textSb.toString()
+                                setClock(c, textV)
                                 it.result = null
                             }
                         } catch (_: Exception) {
@@ -184,6 +215,25 @@ object TimeCustomization : BaseHook() {
                 }
             }
         }
+    }
+
+    private fun setClock(c: Context?, textV: TextView) {
+        val mMiuiStatusBarClockController =
+            textV.getObjectField("mMiuiStatusBarClockController")
+        val mCalendar =
+            if (isAndroidVersion(34)) {
+                mMiuiStatusBarClockController?.getObjectField("mCalendar")
+            } else {
+                mMiuiStatusBarClockController?.callMethod("getCalendar")
+            }
+        mCalendar?.callMethod(
+            "setTimeInMillis",
+            System.currentTimeMillis()
+        )
+        val textSb = StringBuilder()
+        val formatSb = StringBuilder(getGeekFormat.toString())
+        mCalendar?.callMethod("format", c, textSb, formatSb)
+        textV.text = textSb.toString()
     }
 
     @SuppressLint("SimpleDateFormat")
