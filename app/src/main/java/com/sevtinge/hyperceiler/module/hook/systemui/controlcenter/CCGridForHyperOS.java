@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
+import static com.sevtinge.hyperceiler.module.base.BaseXposedInit.mPrefsMap;
+
 import com.sevtinge.hyperceiler.utils.hook.HookUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -11,7 +13,7 @@ public class CCGridForHyperOS {
         XposedHelpers.findAndHookMethod(clazz, "getCornerRadius", new HookUtils.MethodHook() {
             @Override
             protected void before(XC_MethodHook.MethodHookParam param) {
-                param.setResult(72f);
+                param.setResult((float) mPrefsMap.getInt("system_ui_control_center_rounded_rect_radius", 72));
             }
         });
     }

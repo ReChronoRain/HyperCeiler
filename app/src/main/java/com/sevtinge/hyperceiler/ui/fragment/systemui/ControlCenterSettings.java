@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler.ui.fragment.systemui;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.provider.Settings;
 import android.view.View;
@@ -11,14 +12,16 @@ import android.widget.SeekBar;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import miui.telephony.TelephonyManager;
 import moralnorm.preference.DropDownPreference;
+import moralnorm.preference.Preference;
 import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
-public class ControlCenterSettings extends SettingsPreferenceFragment {
+public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     SwitchPreference mFixMediaPanel;
     SwitchPreference mNotice;
@@ -28,6 +31,8 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
     SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
     DropDownPreference mBluetoothSytle;
+    SwitchPreference mRoundedRect;
+    SeekBarPreferenceEx mRoundedRectRadius;
 
     // 临时的，旧控制中心
     SwitchPreference mOldCCGrid;
@@ -56,6 +61,8 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNoticex = findPreference("prefs_key_n_enable_fix");
         mBluetoothSytle = findPreference("prefs_key_system_ui_control_center_cc_bluetooth_tile_style");
         mFiveG = findPreference("prefs_key_system_control_center_5g_new_tile");
+        mRoundedRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
+        mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
 
         mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
         mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
@@ -65,12 +72,15 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
         mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
+        mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
 
         mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
         mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");
 
         mOldCCGrid.setVisible(isMoreAndroidVersion(33));
         mOldCCGrid1.setVisible(!isMoreAndroidVersion(33));
+
+        mRoundedRect.setOnPreferenceChangeListener(this);
 
         ((SeekBarPreferenceEx) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -92,5 +102,17 @@ public class ControlCenterSettings extends SettingsPreferenceFragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object o) {
+        if (preference == mRoundedRect) {
+            setCanBeVisible((Boolean) o);
+        }
+        return true;
+    }
+
+    private void setCanBeVisible(boolean mode) {
+        mRoundedRectRadius.setVisible(mode && isMoreHyperOSVersion(1f));
     }
 }
