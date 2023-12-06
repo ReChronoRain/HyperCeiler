@@ -564,6 +564,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Tùy chỉnh đồng hồ</string>
+    <string name="system_ui_statusbar_clock_mode_summary">Đối với người sử dụng HyperOS: \nNếu bạn cần tùy chỉnh, trước tiên hãy điều chỉnh hiển thị thời gian của đồng hồ hệ thống sang định dạng 24 giờ.</string>
     <string name="system_ui_statusbar_clock_editor">Định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_year">Hiển thị năm</string>
     <string name="system_ui_statusbar_clock_month">Hiện tháng</string>

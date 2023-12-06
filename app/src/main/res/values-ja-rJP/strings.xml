@@ -28,6 +28,7 @@
     <string name="development_ui">UI</string>
     <string name="about_privacy">プライバシーポリシー</string>
     <string name="about_protocol">利用規約</string>
+    <string name="settings_show_title">表示</string>
     <string name="settings_data_title">バックアップと復元</string>
     <string name="settings_bug_title">トラブルシューティング</string>
     <string name="settings_debug_title">デバッグ</string>
@@ -78,6 +79,7 @@
     <string name="soft_reboot">再起動 </string>
     <string name="restart_app_desc">%1$s を再起動してもよろしいですか?</string>
     <string name="tip">ヒント</string>
+    <string name="root">一部の機能は root / su 権限がないと利用できません</string>
     <string name="hook_failed">モジュールが有効化されていません。\nXposed マネージャーがインストールされているか、モジュールが有効化されているか確認して再起動してください。</string>
     <string name="kill_failed">プロセスの終了に失敗しました。HyperCeiler に root 権限が付与されているか確認してください。</string>
     <string name="pid_failed">対象のアプリは現在実行されていないため、再起動する必要はありません。</string>
@@ -231,6 +233,9 @@
     <string name="control_center_sunshine_mode_default">オフ</string>
     <string name="control_center_sunshine_mode_one">システムのデフォルトモード</string>
     <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
+    <string name="control_center_5g_off">オフ</string>
+    <string name="control_center_5g_v1">5G スタイル 1</string>
+    <string name="control_center_5g_v2">5G スタイル 2</string>
     <string name="no_blur">ぼかしなし</string>
     <string name="miui_blur">HyperOS のぼかし</string>
     <string name="android_blur">AOSP のぼかし</string>
@@ -308,6 +313,7 @@
     <string name="system_framework_disable_72h_verify">72時間ごとのロック画面の認証を無効化</string>
     <string name="system_framework_disable_verify_can_ve_disabled">アプリ検証の無効化を許可</string>
     <string name="system_framework_allow_all_dark_mode">すべてのアプリにダークモードの使用を許可</string>
+    <string name="system_framework_disablt_miuilite_check">MIUI Lite チェックを無効化</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">ダウングレードを許可</string>
@@ -326,8 +332,12 @@
     <string name="browser">ブラウザー</string>
     <string name="browser_debug_mode">開発者オプションの有効化</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx 以上では入れません</string>
+    <string name="browser_disable_blacklist">URL ブラックリストを無効化</string>
     <!--Camera-->
     <string name="camera">カメラ</string>
+    <string name="camera_custom_watermark">デバイス透かしのカスタム</string>
+    <string name="camera_custom_watermark_manufacturer">メーカー情報</string>
+    <string name="camera_custom_watermark_device">デバイス情報</string>
     <string name="camera_features_unlock_aiwatermark">AI の透かしをアンロック</string>
     <string name="camera_features_unlock_ambilight">長時間露出をアンロック</string>
     <string name="camera_features_unlock_clone">クローンモードをアンロック</string>
@@ -455,6 +465,9 @@
     <string name="system_ui_statusbar_layout_mode_title">レイアウトモード</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">ダブルタップでスリープ</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">二行のシグナルバー</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">アイコンテーマ</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">クラシック</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Origin アーキテクチャ</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">アイコンのスタイル</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">アイコンの大きさ</string>
     <string name="system_ui_status_bar_mobile_type_single">モバイルネットワークタイプのアイコンを別々に表示</string>
@@ -549,6 +562,7 @@
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">カスタムクロックモード</string>
+    <string name="system_ui_statusbar_clock_mode_summary">Xiaomi HyperOS ユーザーへ:\nカスタマイズしたい場合は、まずシステムの時刻表示を 24 時間形式に調整してください</string>
     <string name="system_ui_statusbar_clock_editor">時計のフォーマット</string>
     <string name="system_ui_statusbar_clock_year">年を表示</string>
     <string name="system_ui_statusbar_clock_month">月を表示</string>
@@ -635,7 +649,14 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知ドロワーを切り替え</string>
-    <string name="system_ui_control_center_hide_delimiter">通信事業者名の区切り文字を非表示</string>
+    <string name="system_ui_control_center_hide_operator">キャリア名のカスタマイズ</string>
+    <string name="system_ui_control_center_hide_delimiter">区切り文字のみ非表示</string>
+    <string name="system_ui_control_center_hide_name">すべての名前を非表示</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth タイルのスタイル</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Bluetooth タイルをネットワークタイルの近くに移動する</string>
+    <string name="system_ui_control_center_notifrowmenu">拡張通知メニュー</string>
+    <string name="system_ui_control_center_notifrowmenu_desc">アプリ情報を開く、強制停止、フローティングウィンドウで開く機能を通知メニューに追加します (通知を左にスワイプすると開けます)</string>
+    <string name="system_ui_unlock_super_volume">スーパーボリュームをアンロック</string>
     <string name="system_ui_controlcenter_new_title">新しいコントロールセンター</string>
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
@@ -645,19 +666,21 @@
     <string name="system_control_center_old_qs_grid_columns_desc">横向き時は1列追加されます</string>
     <string name="system_control_center_old_qs_grid_columns">折りたたまれたパネルの行数</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">折りたたまれたパネル内の列数 (横画面)</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Bluetooth タイルのスタイル</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Bluetooth タイルをネットワークタイルの近くに移動する</string>
-    <string name="system_ui_control_center_notifrowmenu">拡張通知メニュー</string>
-    <string name="system_ui_control_center_notifrowmenu_desc">アプリ情報を開く、強制停止、フローティングウィンドウで開く機能を通知メニューに追加します (通知を左にスワイプすると開けます)</string>
-    <string name="system_notifrowmenu_appinfo">アプリ情報</string>
-    <string name="system_notifrowmenu_openinfw">フローティングウィンドウ</string>
-    <string name="system_notifrowmenu_forceclose">強制停止</string>
+    <string name="system_ui_control_center_more_card_tiles">カードのタイルを表示</string>
+    <string name="system_ui_control_center_more_card_tiles_less">なし</string>
+    <string name="system_ui_control_center_more_card_tiles_more">さらに表示</string>
+    <string name="system_ui_control_center_more_card_tiles_most">最多</string>
     <string name="system_ui_other_title">その他</string>
     <string name="system_ui_charge_animation_title">充電時のアニメーション</string>
     <string name="system_ui_charge_animation_style">充電アニメーションのスタイル</string>
     <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
     <string name="system_ui_origin_charge_animation">ネイティブ充電アニメーション</string>
     <string name="system_ui_another_title">その他</string>
+    <string name="system_ui_others_pct_title">データ表示</string>
+    <string name="system_showpct_title">明るさのパーセンテージを表示</string>
+    <string name="system_cc_volume_showpct_title">音のパーセンテージを表示</string>
+    <string name="system_ui_others_showpct_top">パーセンテージの上余白</string>
+    <string name="system_ui_others_showpct_top_desc">画面上部からの距離を指定します</string>
     <string name="system_ui_notification_freeform">他のアプリの通知バーをプルダウンしてフリーフォームを開く</string>
     <string name="system_ui_notification_freeform_desc">Mi Push からの通知では機能しない可能性があります</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -672,6 +695,7 @@
     <string name="system_ui_plugin_enable_volume_blur_desc">Android 12 以降の MTKモデルのみ対応です。GPU 負荷が高くなる可能性があります</string>
     <!--Settings-->
     <string name="system_settings">設定</string>
+    <string name="system_settings_linkturbo">ネットワークアクセラレーションアプリの制限を解除</string>
     <string name="system_settings_international_build">グローバルバージョンの設定を使用</string>
     <string name="system_settings_safe_wifi">保存された Wi-Fi パスワードを表示</string>
     <string name="system_settings_safe_wifi_desc">保存したネットワークの管理を有効化します\n場所: 設定 - Wi-Fi - 追加設定 - 保存したネットワークを管理</string>
@@ -738,6 +762,8 @@
     <string name="milink">キャスト</string>
     <string name="milink_hyperos">相互接続サービス</string>
     <string name="milink_unlock_mishare">デバイスの相互接続をアンロック</string>
+    <string name="milink_unlock_hmind">Xiaomi HyperMind をアンロック</string>
+    <string name="milink_allow_camera_devices">カメラストリーミングの強制サポート</string>
     <!--Always-on display-->
     <string name="aod">常時オンディスプレイ</string>
     <string name="aod_hyperos">常時表示とロック画面エディター</string>
@@ -753,6 +779,16 @@
     <string name="content_extension_super_image_summary">デバイスモデルが対応していなければ使用できません</string>
     <string name="content_extension_link_open_mode">リンクの開き方</string>
     <string name="content_extension_link_open_mode_desc">リンクを開く際のブラウザを選択してください</string>
+    <!--Xiaomi Cloud Service-->
+    <string name="micloud_service">Xiaomi クラウドサービス</string>
+    <string name="micloud_service_list">データクラウド同期の補完</string>
+    <string name="micloud_service_list_summary">以下の補完をします:\n- Mi Creation での同期\n- 中国版とグローバル版 Mi ブラウザーを同時に同期\n\n注意: Mi Creationの最初の同期は、Mi Creationの設定から有効にする必要があります。その操作をしていないと「ネットワークが利用できません」「システムがビジーです、後で再試行してください」といったメッセージが表示されます</string>
+    <!--Mi Mover-->
+    <string name="huanji">Mi Mover</string>
+    <string name="huanji_allow_all_apps">すべてのアプリの移動を許可</string>
+    <!--Backup-->
+    <string name="backup">バックアップ</string>
+    <string name="backup_allow_all_apps">すべてのアプリのバックアップを許可</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">デバイスの使用制限を解除</string>
@@ -920,6 +956,7 @@
     <string name="home_recent_show_memory_info_sum">タブレットでのみ使用できます</string>
     <string name="home_recent_show_memory_info">メモリ情報を表示</string>
     <string name="home_recent_always_show_clean_up">カードがないとき、クリーンアップアイコンを隠さないようにする</string>
+    <string name="home_recent_blur">背景のぼかし</string>
     <string name="home_widget">ウィジェット</string>
     <string name="home_widget_all_widget_animation">ウィジェットのアニメーション</string>
     <string name="home_widget_show_miui_widget">MIUI ウィジェットを表示</string>
@@ -956,6 +993,7 @@
     <string name="home_other_freeform_shortcut_menu_desc">ショートカットメニューにフリーフォームメニューを追加</string>
     <string name="home_other_tasks_shortcut_menu">更なるタスクモード</string>
     <string name="home_other_tasks_shortcut_menu_desc">新しいタスクメニューをショートカットメニューに追加</string>
+    <string name="home_other_allow_share_apk">共有アプリを許可</string>
     <string name="home_other_user_present_animation">ロック解除時のアニメーションを最適化</string>
     <string name="home_other_always_blur_launcher_wallpaper">常にデスクトップ壁紙をぼかす</string>
     <string name="home_other_perfect_icon">完全なアイコンの優先度</string>
@@ -985,7 +1023,14 @@
     <string name="home_other_mi_pad_enable_more_setting_desc">アンロックしても機能が利用できない場合があります。一部の機能ではシステムのサポートが必要です</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">ギャラリーの編集機能</string>
+    <string name="mediaeditor_foundation">基本</string>
+    <string name="mediaeditor_ai_authoring">AI オーサリング</string>
+    <string name="mediaeditor_unlock_disney_title">ディズニーのカスタマイズ機能をアンロック</string>
+    <string name="mediaeditor_unlock_disney_desc">以下の機能をアンロックします:\n- カスタムフレーム - ディズニーカスタムフレーム (他のカスタムフレームと競合します)\n- ボケ背景 - ミッキーモチーフ\n- ステッカー - ディズニーステッカー</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">画像トリミングの最小制限を無効化</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_title">フレームの種類をカスタマイズ</string>
+    <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>
+    <string name="mediaeditor_unlock_leica_filter_desc">一部のバージョンにのみ対応しています</string>
     <string name="mediaeditor_filter_manager">フィルターマネージャーをアンロック</string>
     <!--Mi Share-->
     <string name="mishare">Mi シェア</string>
@@ -1110,6 +1155,8 @@
     <string name="security_center_unlock_smart_charge_title">最適化された充電と低バッテリー急速充電機能をアンロック</string>
     <string name="security_center_super_wireless_charge">スーパーワイヤレス充電をアンロック</string>
     <string name="security_center_blur_model">サイドバーぼかしのモデル</string>
+    <string name="security_center_invert_color">アイコンを反転</string>
+    <string name="security_center_invert_color_summary">一部の背景でアイコンの色を反転させ、見やすくします\n色の反転が異常になる場合があるため、適宜有効化してください</string>
     <string name="security_center_blurradius">サイドバーぼかしの値</string>
     <string name="security_center_color">サイドバーの色</string>
     <string name="security_center_other_title">その他</string>
@@ -1128,6 +1175,8 @@
     <string name="security_center_hide_sidebar">サイドバーを非表示</string>
     <string name="security_center_leave_open">スライドを展開したままにする</string>
     <string name="security_center_sidebar_show_suggest">アプリの提案の表示を無効化</string>
+    <string name="security_center_unlock_new_vb">新しいビデオボックスをアンロック</string>
+    <string name="security_center_game_performance_wild_mode">ゲームパフォーマンスのワイルドモードをアンロック</string>
     <!--Smart cards-->
     <string name="tsmclient">スマートカード</string>
     <string name="tsmclient_auto_nfc">NFCを自動的に管理</string>
@@ -1202,6 +1251,7 @@
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">隠しオプション</string>
     <string name="various_open_aosp_something_desc">隠された AOSP インターフェースを開きます</string>
+    <string name="various_nobrightness">明るさの強制を拒否</string>
     <string name="settings_notfication_importance">通知の重要度を表示する</string>
     <string name="various_no_overscroll">範囲外のバウンスを無効化</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
@@ -1290,6 +1340,9 @@
     <string name="notification_volume">通知</string>
     <string name="freeform_notification">通知フローティングウィンドウ</string>
     <string name="share_app">サードパーティのアプリに共有</string>
+    <string name="system_notifrowmenu_appinfo">アプリ情報</string>
+    <string name="system_notifrowmenu_openinfw">フローティングウィンドウ</string>
+    <string name="system_notifrowmenu_forceclose">強制停止</string>
     <string name="show_newmods_title">新しいモジュールをマーク</string>
     <string name="default_volume_stream_ring">着信音</string>
     <string name="default_volume_stream_media">メディア</string>
@@ -1310,13 +1363,10 @@
     <string name="close_source">クローズドソースプロジェクト</string>
     <string name="exit">終了</string>
     <string name="ignore">無視</string>
-    <string name="browser_disable_blacklist">URL ブラックリストを無効化</string>
     <string name="log_level">ログレベル</string>
     <string name="log_level_none">ログを無効化</string>
-    <string name="settings_show_title">表示</string>
-    <string name="camera_custom_watermark">デバイス透かしのカスタム</string>
-    <string name="camera_custom_watermark_manufacturer">メーカー情報</string>
-    <string name="camera_custom_watermark_device">デバイス情報</string>
+    <string name="disable_suggest">サジェストを無効化</string>
+    <string name="enable_suggest">サジェストを有効化</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
