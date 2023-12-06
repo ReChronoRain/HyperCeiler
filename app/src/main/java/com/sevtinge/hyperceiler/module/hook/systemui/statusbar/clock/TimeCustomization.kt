@@ -119,6 +119,25 @@ object TimeCustomization : BaseHook() {
                         }
                     }
                 }
+
+                if (isMoreHyperOSVersion(1f)) {
+                    mNewClockClass.methodFinder().first {
+                        name == "updateTime"
+                    }.createHook {
+                        after {
+                            try {
+                                val textV = it.thisObject as TextView
+                                val t = Settings.System.getString(
+                                    c!!.contentResolver, Settings.System.TIME_12_24
+                                )
+                                val is24 = t == "24"
+                                nowTime = Calendar.getInstance().time
+                                textV.text = getDate(c!!) + str + getTime(c!!, is24)
+                            } catch (_: Exception) {
+                            }
+                        }
+                    }
+                }
             }
             // 极客模式
             2 -> {
@@ -165,7 +184,7 @@ object TimeCustomization : BaseHook() {
                         before {
                             try {
                                 val textV = it.thisObject as TextView
-                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                                if (textV != null) {
                                     mNewClockClass.methodFinder().first {
                                         name == "updateTime"
                                     }.createHook {
@@ -177,6 +196,8 @@ object TimeCustomization : BaseHook() {
                                             }
                                         }
                                     }
+                                } else {
+                                    return@before
                                 }
                             } catch (_: Exception) {
                             }
@@ -189,9 +210,11 @@ object TimeCustomization : BaseHook() {
                         before {
                             try {
                                 val textV = it.thisObject as TextView
-                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                                if (textV != null) {
                                     setClock(c, textV)
                                     it.result = null
+                                } else {
+                                    return@before
                                 }
                             } catch (_: Exception) {
                             }

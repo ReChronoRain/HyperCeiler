@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
@@ -42,9 +40,6 @@ public class ClockIndicatorSettings extends SettingsPreferenceFragment
 
         setClockMode(mClockMode);
         mClockModePreference.setOnPreferenceChangeListener(this);
-        if (isMoreHyperOSVersion(1f)) {
-            mClockModePreference.setSummary(R.string.system_ui_statusbar_clock_mode_summary);
-        }
     }
 
     @Override

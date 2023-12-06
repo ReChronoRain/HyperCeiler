@@ -562,7 +562,6 @@
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">カスタムクロックモード</string>
-    <string name="system_ui_statusbar_clock_mode_summary">Xiaomi HyperOS ユーザーへ:\nカスタマイズしたい場合は、まずシステムの時刻表示を 24 時間形式に調整してください</string>
     <string name="system_ui_statusbar_clock_editor">時計のフォーマット</string>
     <string name="system_ui_statusbar_clock_year">年を表示</string>
     <string name="system_ui_statusbar_clock_month">月を表示</string>
