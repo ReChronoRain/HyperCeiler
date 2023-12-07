@@ -12,6 +12,7 @@ import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
@@ -47,7 +48,6 @@ object TimeCustomization : BaseHook() {
         getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
         else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
     }
-    private val mNewClockClass = loadClass("com.android.systemui.statusbar.views.MiuiStatusBarClock")
 
     private lateinit var nowTime: Date
     private var str = ""
