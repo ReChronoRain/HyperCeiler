@@ -123,6 +123,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_various_phrase_clipboardlist"
+            android:title="@string/various_phrase_clipboardlist"
+            android:summary="@string/various_phrase_clipboardlist_more" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_various_unlock_ime"
             android:summary="@string/various_unlock_ime_desc"
             android:title="@string/various_unlock_ime" />

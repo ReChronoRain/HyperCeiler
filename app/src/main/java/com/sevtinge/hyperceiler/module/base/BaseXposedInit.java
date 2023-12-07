@@ -215,6 +215,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.sohu.inputmethod.sogou.xiaomi", "com.sohu.inputmethod.sogou" -> {
                 mSoGou.init(lpparam);
+                mVarious.init(lpparam);
             }
             case "com.android.nfc" -> {
                 mNfc.init(lpparam);

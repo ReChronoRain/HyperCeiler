@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
 import com.sevtinge.hyperceiler.module.hook.various.CollapseMiuiTitle;
 import com.sevtinge.hyperceiler.module.hook.various.DialogCustom;
 import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
@@ -24,7 +25,9 @@ public class Various extends BaseModule {
 
         initHook(new CollapseMiuiTitle(), isCollapseMiuiTitleApps());
 
-        initHook(UnlockIme.INSTANCE, mPrefsMap.getBoolean("various_unlock_ime"));
+        initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime"));
+
+        initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist"));
 
         // initHook(new NoBrightness(), isPay(mPackageName));
 

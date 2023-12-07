@@ -54,16 +54,42 @@ public class XposedUtils extends XposedLogUtils {
     public static Context findContext() {
         Context context;
         try {
-            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
+            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass(
+                    "android.app.ActivityThread", null),
+                "currentApplication");
             if (context == null) {
-                Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
+                Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread",
+                        null),
+                    "currentActivityThread");
                 if (currentActivityThread != null)
-                    context = (Context) XposedHelpers.callMethod(currentActivityThread, "getSystemContext");
+                    context = (Context) XposedHelpers.callMethod(currentActivityThread,
+                        "getSystemContext");
             }
             return context;
         } catch (Throwable ignore) {
         }
         return null;
+    }
+
+    public static String getProp(String key, String defaultValue) {
+        try {
+            return (String) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.os.SystemProperties",
+                    null),
+                "get", key, defaultValue);
+        } catch (Throwable throwable) {
+            logE("getProp", "key get e: " + key + " will return default: " + defaultValue + " e:" + throwable);
+            return defaultValue;
+        }
+    }
+
+    public static void setProp(String key, String val) {
+        try {
+            XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.os.SystemProperties",
+                    null),
+                "set", key, val);
+        } catch (Throwable throwable) {
+            logE("setProp", "set key e: " + key + " e:" + throwable);
+        }
     }
 
     public static void initPct(ViewGroup container, int source, Context context) {
