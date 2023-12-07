@@ -1,10 +1,10 @@
 package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
 import android.annotation.SuppressLint
-import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.utils.hook.LazyClass.SystemProperties
+import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.api.LazyClass.SystemProperties
 
 @SuppressLint("StaticFieldLeak")
 object CustomWatermark : BaseHook() {

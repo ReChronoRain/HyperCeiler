@@ -5,6 +5,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.api.LazyClass.SystemProperties
 import com.sevtinge.hyperceiler.utils.findClass
 import com.sevtinge.hyperceiler.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.utils.replaceMethod
@@ -12,7 +13,6 @@ import com.sevtinge.hyperceiler.utils.replaceMethod
 object SetDeviceLevel : BaseHook() {
     override fun init() {
         val mDeviceLevelUtilsClass = loadClass("com.miui.home.launcher.common.DeviceLevelUtils")
-        val mSystemPropertiesClass = loadClass("android.os.SystemProperties")
         val mDeviceConfigClass = loadClass("com.miui.home.launcher.DeviceConfig")
 
         try {
@@ -67,7 +67,7 @@ object SetDeviceLevel : BaseHook() {
         }
 
         runCatching {
-            mSystemPropertiesClass.methodFinder().filter {
+            SystemProperties.methodFinder().filter {
                 name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java
             }.toList().createHooks {
                 before {
