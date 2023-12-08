@@ -3,6 +3,8 @@ package com.sevtinge.hyperceiler.module.hook.various;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -21,9 +23,9 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class ClipboardList extends BaseHook {
     public ArrayList<?> lastArray = null;
-    /*public ArrayList<?> mClipboardList;
+    public ArrayList<?> mClipboardList;
 
-    public int num;*/
+    // public int num;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -81,8 +83,16 @@ public class ClipboardList extends BaseHook {
                         return;
                     }
                     if (jsonToBean.size() == 0) {
-                        resetFile();
+                        /*防止在数据为空时误删数据库数据*/
+                        // resetFile();
                         lastArray = null;
+                        if (!checkFile()) {
+                            mArray = jsonToLIst(classLoader);
+                            if (!mArray.isEmpty()) {
+                                param.setResult(mArray);
+                                return;
+                            }
+                        }
                         param.setResult(new ArrayList<>());
                         logD(TAG + ": get saved clipboard list size is 0.");
                         return;
@@ -92,36 +102,60 @@ public class ClipboardList extends BaseHook {
                         // logE(TAG, "re: " + readFile());
                         mArray = jsonToLIst(classLoader);
                         if (lastArray != null) {
+                            if (mArray == null) {
+                                logE(TAG, "mArray is null it's bad");
+                                param.setResult(new ArrayList<>());
+                                return;
+                            }
+                            Object oneLast = getContent(lastArray, 0);
+                            /*防止在只复制一个元素时重复开关界面引发的null*/
+                            if (jsonToBean.size() < 2) {
+                                if (!getContent(jsonToBean, 0).equals(getContent(mArray, 0))) {
+                                    // mArray.add(0, jsonToBean.get(0));
+                                    addOrHw(mArray, getContent(jsonToBean, 0), jsonToBean);
+                                }
+                                // logE(TAG, "ppp");
+                                param.setResult(mArray);
+                                return;
+                            }
                             Object oneArray = getContent(jsonToBean, 0);
                             Object twoArray = getContent(jsonToBean, 1);
-                            Object oneLast = getContent(lastArray, 0);
+                            if (oneArray == null || twoArray == null || oneLast == null) {
+                                logE(TAG, "oneArray or twoArray or oneLast is null");
+                                param.setResult(new ArrayList<>());
+                                return;
+                            }
                             // Object twoLast = getContent(lastArray, 1);
                             if (!oneArray.equals(oneLast) && twoArray.equals(oneLast)) {
-                                boolean needAdd = false;
-                                boolean needHw = false;
-                                int run = 0;
-                                for (int i = 0; i < mArray.size(); i++) {
-                                    run++;
-                                    needAdd = true;
-                                    if (getContent(jsonToBean, 0).equals(getContent(mArray, i))) {
-                                        needHw = true;
-                                        needAdd = false;
+                                mArray = addOrHw(mArray, oneArray, jsonToBean);
+                                // logE(TAG, "tttt");
+                            } else if (!oneArray.equals(oneLast) && !twoArray.equals(oneLast)) {
+                                // logE(TAG, "size: " + jsonToBean.size());
+                                /*if (jsonToBean.size() >= 20) {
+                                    for (int i = 0; i < jsonToBean.size(); i++) {
+                                        oneArray = getContent(jsonToBean, i);
+                                        if (oneArray != null && !oneArray.equals(oneLast)) {
+                                            mArray.add(i, jsonToBean.get(i));
+                                        }
+                                    }
+                                } else {
+
+                                }*/
+                                int have = 0;
+                                for (int i = 0; i < jsonToBean.size(); i++) {
+                                    ++have;
+                                    // logE(TAG, "rr: " + getContent(jsonToBean, i) + " have: " + have);
+                                    if (getContent(jsonToBean, i).equals(oneLast)) {
                                         break;
                                     }
                                 }
-                                if (needHw) {
-                                    mArray.add(0, mArray.get(run - 1));
-                                    mArray.remove(run);
+                                for (int i = 0; i < have - 1; i++) {
+                                    mArray.add(i, jsonToBean.get(i));
                                 }
-                                if (needAdd)
-                                    mArray.add(0, jsonToBean.get(0));
-                            } else if (!oneArray.equals(oneLast) && !twoArray.equals(oneLast)) {
-                                for (int i = 0; i < jsonToBean.size(); i++) {
-                                    oneArray = getContent(jsonToBean, i);
-                                    if (oneArray != null && !oneArray.equals(oneLast)) {
-                                        mArray.add(i, jsonToBean.get(i));
-                                    }
-                                }
+                                // for (int i = 0; i < mArray.size(); i++) {
+                                //     logE(TAG, "mm: " + getContent(mArray, i));
+                                // }
+                                // logE(TAG, "ikk");
                             }
 
                         }
@@ -182,19 +216,20 @@ public class ClipboardList extends BaseHook {
     }
 
     public void getView(ClassLoader classLoader) {
-        /*findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter",
+        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter",
             classLoader,
             "getView", int.class, View.class, ViewGroup.class,
             new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
-                    num = (int) param.args[0];
-                    logE(TAG, "runfff: " + num);
+                    // num = (int) param.args[0];
+                    mClipboardList = (ArrayList<?>)
+                        XposedHelpers.getObjectField(param.thisObject, "mClipboardList");
                 }
             }
         );
 
-        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter", classLoader,
+        /*findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter", classLoader,
             "getCount",
             new MethodHook() {
                 @Override
@@ -217,10 +252,10 @@ public class ClipboardList extends BaseHook {
             }
         );*/
 
-        findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter$3$1", classLoader,
+        /*findAndHookMethod("com.miui.inputmethod.InputMethodClipboardAdapter$3$1", classLoader,
             "onClickDelete",
             new MethodHook() {
-                /*@Override
+                *//*@Override
                 protected void after(MethodHookParam param) throws Throwable {
                     logE(TAG, "rnn: " + num + " nn :" + getContent(mClipboardList, num));
                     ArrayList mArray = jsonToLIst(classLoader);
@@ -228,14 +263,33 @@ public class ClipboardList extends BaseHook {
                     if (resetFile()) {
                         writeFile(listToJson(mArray));
                     }
-                }*/
+                }*//*
 
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    param.setResult(null);
+                protected void after(MethodHookParam param) throws Throwable {
+                    for (int i = 0; i < mClipboardList.size(); i++) {
+                        logE(TAG, "gg: " + getContent(mClipboardList, i));
+                    }
+                    // param.setResult(null);
+                }
+            }
+        );*/
+
+        hookAllMethods("com.miui.inputmethod.InputMethodUtil", classLoader,
+            "setClipboardModelList", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) throws Throwable {
+                    ArrayList<?> arrayList = (ArrayList<?>) param.args[1];
+                    if (arrayList.isEmpty()) {
+                        lastArray = null;
+                    } else lastArray = arrayList;
+                    if (resetFile()) {
+                        writeFile(listToJson(arrayList));
+                    }
                 }
             }
         );
+
     }
 
     public void clearArray(ClassLoader classLoader) {
@@ -246,10 +300,32 @@ public class ClipboardList extends BaseHook {
                 protected void before(MethodHookParam param) {
                     /*点击清除全部按键，清理所有数据*/
                     lastArray = null;
-                    resetFile();
+                    // resetFile();
                 }
             }
         );
+    }
+
+    public ArrayList addOrHw(ArrayList mArray, Object oneArray, ArrayList<?> jsonToBean) {
+        boolean needAdd = false;
+        boolean needHw = false;
+        int run = 0;
+        for (int i = 0; i < mArray.size(); i++) {
+            run++;
+            needAdd = true;
+            if (oneArray.equals(getContent(mArray, i))) {
+                needHw = true;
+                needAdd = false;
+                break;
+            }
+        }
+        if (needHw) {
+            mArray.add(0, mArray.get(run - 1));
+            mArray.remove(run);
+        }
+        if (needAdd)
+            mArray.add(0, jsonToBean.get(0));
+        return mArray;
     }
 
     public void writeFile(JSONArray jsonArray) {
@@ -268,6 +344,10 @@ public class ClipboardList extends BaseHook {
         } catch (IOException e) {
             logE(TAG, "writeFile: " + e);
         }*/
+        if (jsonArray == null) {
+            logE(TAG, "write json is null");
+            return;
+        }
         try (BufferedWriter writer = new BufferedWriter(new
             FileWriter("/data/user/0/" +
             lpparam.packageName + "/files/array_list.dat"))) {
@@ -345,6 +425,10 @@ public class ClipboardList extends BaseHook {
             JSONArray mJson;
             ArrayList mArray = new ArrayList<>();
             mJson = readFile();
+            if (mJson == null) {
+                logE(TAG, "jsonToLIst readFile is null");
+                return null;
+            }
             for (int i = 0; i < mJson.length(); i++) {
                 JSONObject jSONObject = mJson.getJSONObject(i);
                 if (jSONObject != null) {
