@@ -21,21 +21,5 @@ object BeautyFace : BaseHook() {
         beautyFace!!.createHook {
             returnConstant(true)
         }
-
-        /*try {
-            val result: List<DexMethodDescriptor> =
-                Objects.requireNonNull<List<DexMethodDescriptor>>(
-                    SecurityCenterDexKit.mSecurityCenterResultMap.get("BeautyFace")
-                )
-            for (descriptor in result) {
-                beautyFace = descriptor.getMethodInstance(lpparam.classLoader)
-                log("beautyFace method is " + beautyFace)
-                if (beautyFace!!.returnType == Boolean::class.javaPrimitiveType) {
-                    XposedBridge.hookMethod(beautyFace, XC_MethodReplacement.returnConstant(true))
-                }
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }*/
     }
 }

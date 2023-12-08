@@ -13,14 +13,14 @@ object ScreenUsedTime : BaseHook() {
             matcher {
                 addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
             }
-        }.first().getInstance(EzXHelper.classLoader)
+        }.single().getInstance(EzXHelper.classLoader)
     }
     private val method1 by lazy {
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("ishtar", "nuwa", "fuxi")
             }
-        }.first().getMethodInstance(EzXHelper.classLoader)
+        }.single().getMethodInstance(EzXHelper.classLoader)
     }
     private val method2 by lazy {
         dexKitBridge.findMethod {

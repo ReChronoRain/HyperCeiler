@@ -1223,7 +1223,8 @@
     <string name="security_center_no_permission">未取得所需权限</string>
     <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
-    <string name="security_center_unlock_smart_charge_title">解锁 “智能断充保护” 和 “低电疾充” 功能</string>
+    <string name="security_center_unlock_smart_charge_title">补全充电与电池功能</string>
+    <string name="security_center_unlock_smart_charge_title_summary">已补全功能：\n- 电池保护-导航断充保护\n- 更多电池功能-低电急充</string>
     <string name="security_center_super_wireless_charge">解锁极速无线充电模式</string>
     <string name="security_center_blur_model">全局侧边栏背景自定义</string>
     <string name="security_center_invert_color">图标反色</string>

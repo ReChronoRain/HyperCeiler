@@ -10,22 +10,11 @@ import com.sevtinge.hyperceiler.utils.setBooleanField
 
 object DisableSafeModelTip : BaseHook() {
     override fun init() {
-        /*val result = Objects.requireNonNull(
-            mPackageInstallerResultMethodsMap!!["DisableSafeModelTip"]
-        )
-        for (descriptor in result) {
-            val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
-            mDisableSafeModelTip.createHook {
-                returnConstant(false)
-            }
-
-        }*/
-
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
             returnConstant(false)
         }
 

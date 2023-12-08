@@ -15,13 +15,13 @@ object UnlockMoreVolumeFromNew : BaseHook() {
             matcher {
                 addUsingStringsEquals("support_a2dp_inner_record")
             }
-        }.firstOrNull()?.getInstance(safeClassLoader)
+        }.single().getInstance(safeClassLoader)
     }
 
     override fun init() {
         val fieldData = dexKitBridge.findField {
             matcher {
-                getClass?.let { declaredClass(it) }
+                declaredClass(getClass)
                 type = "boolean"
             }
         }.map { it.getFieldInstance(EzXHelper.classLoader) }.toList()

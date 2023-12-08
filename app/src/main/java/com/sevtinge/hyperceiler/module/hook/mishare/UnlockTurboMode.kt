@@ -12,7 +12,7 @@ object UnlockTurboMode : BaseHook() {
             matcher {
                 addUsingStringsEquals("DeviceUtil", "xiaomi.hardware.p2p_160m")
             }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.first()
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
 
     override fun init() {

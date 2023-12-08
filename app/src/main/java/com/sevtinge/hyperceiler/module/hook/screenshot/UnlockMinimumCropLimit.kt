@@ -17,7 +17,7 @@ object UnlockMinimumCropLimit : BaseHook() {
                 paramCount = 0
                 modifiers = Modifier.PRIVATE
             }
-        }.firstOrNull()?.getMethodInstance(EzXHelper.safeClassLoader)
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
 
 

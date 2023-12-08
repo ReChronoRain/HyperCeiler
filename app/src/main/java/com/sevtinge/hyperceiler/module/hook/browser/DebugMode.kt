@@ -15,53 +15,6 @@ object DebugMode : BaseHook() {
     private var found = false
 
     override fun init() {
-        /* val result: List<DexMethodDescriptor> =
-             Objects.requireNonNull(mBrowserResultMethodsMap.get("DebugMode"))
-         for (descriptor in result) {
-             val DebugMode: Method = descriptor.getMethodInstance(lpparam.classLoader)
-             if (DebugMode.returnType == Boolean::class.javaPrimitiveType && DebugMode.toString()
-                     .contains("getDebugMode")
-             ) {
-                 log("DebugMode method is $DebugMode")
-                 found = true
-                 XposedBridge.hookMethod(DebugMode, XC_MethodReplacement.returnConstant(true))
-             }
-         }
-         if (!found) {
-             val result1: List<DexMethodDescriptor> =
-                 Objects.requireNonNull(mBrowserResultMethodsMap.get("DebugMode1"))
-             for (descriptor1 in result1) {
-                 val DebugMode1: Method = descriptor1.getMethodInstance(lpparam.classLoader)
-                 if (DebugMode1.returnType == Boolean::class.javaPrimitiveType && DebugMode1.toString()
-                         .contains("getDebugMode")
-                 ) {
-                     log("DebugMode1 method is $DebugMode1")
-                     found = true
-                     XposedBridge.hookMethod(
-                         DebugMode1,
-                         XC_MethodReplacement.returnConstant(true)
-                     )
-                 }
-             }
-         }
-         if (!found) {
-             val result2: List<DexMethodDescriptor> =
-                 Objects.requireNonNull(mBrowserResultMethodsMap.get("DebugMode2"))
-             for (descriptor2 in result2) {
-                 val DebugMode2: Method = descriptor2.getMethodInstance(lpparam.classLoader)
-                 if (DebugMode2.returnType == Boolean::class.javaPrimitiveType && DebugMode2.toString()
-                         .contains("getDebugMode")
-                 ) {
-                     log("DebugMode2 method is $DebugMode2")
-                     XposedBridge.hookMethod(
-                         DebugMode2,
-                         XC_MethodReplacement.returnConstant(true)
-                     )
-                 }
-             }
-         }*/
-        initDexKit(lpparam)
-
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("environment_flag")
@@ -130,6 +83,5 @@ object DebugMode : BaseHook() {
                 }
             }
         }
-        closeDexKit()
     }
 }

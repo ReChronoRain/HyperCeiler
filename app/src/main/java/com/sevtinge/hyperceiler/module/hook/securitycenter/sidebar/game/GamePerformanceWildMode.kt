@@ -14,7 +14,7 @@ class GamePerformanceWildMode : BaseHook() {
             matcher {
                 usingStrings = listOf("support_wild_boost")
             }
-        }.first().getMethodInstance(safeClassLoader).createHook {
+        }.single().getMethodInstance(safeClassLoader).createHook {
             returnConstant(true)
         }
     }

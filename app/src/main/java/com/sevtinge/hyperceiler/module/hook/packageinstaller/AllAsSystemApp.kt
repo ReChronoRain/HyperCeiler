@@ -20,19 +20,6 @@ object AllAsSystemApp : BaseHook() {
     }
 
     override fun init() {
-        /*dexKitBridge.findMethod {
-            matcher {
-                methodParamTypes = arrayOf("Landroid/content/pm/ApplicationInfo;")
-                methodReturnType = "boolean"
-            }
-        }.forEach {
-            it.getMethodInstance(lpparam.classLoader).createHook {
-                before { param ->
-                    (param.args[0] as ApplicationInfo).flags =
-                        (param.args[0] as ApplicationInfo).flags.or(ApplicationInfo.FLAG_SYSTEM)
-                }
-            }
-        }*/
         systemMethod.createHooks {
             before { param ->
                 (param.args[0] as ApplicationInfo).flags =

@@ -32,17 +32,15 @@ object UnlockMinimumCropLimitNew : BaseHook() {
                 returnType = "int"
                 modifiers = Modifier.FINAL
             }
-        }.firstOrNull()?.getMethodInstance(EzXHelper.safeClassLoader)
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
 
     override fun init() {
         mScreenCropViewMethodToNew.createHooks {
             returnConstant(0)
         }
-        if (mScreenCropViewMethodToOld != null) {
-            mScreenCropViewMethodToOld!!.createHook {
-                returnConstant(0)
-            }
+        mScreenCropViewMethodToOld.createHook {
+            returnConstant(0)
         }
     }
 }

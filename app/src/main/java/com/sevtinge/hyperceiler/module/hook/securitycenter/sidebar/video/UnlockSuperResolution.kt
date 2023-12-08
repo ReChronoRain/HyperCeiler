@@ -37,46 +37,5 @@ object UnlockSuperResolution : BaseHook() {
                 returnConstant(true)
             }
         }
-
-       /* initDexKit(lpparam)
-        try {
-            val result = Objects.requireNonNull(
-                SecurityCenterDexKit.mSecurityCenterResultClassMap["FrcSupport"]
-            )
-            for (descriptor in result) {
-                val frcSupport = descriptor.getClassInstance(lpparam.classLoader)
-                logI("frcSupport class is $frcSupport")
-                var counter = 0
-                dexKitBridge.findMethod {
-                    methodDeclareClass = frcSupport.name
-                    methodReturnType = "boolean"
-                    methodParamTypes = arrayOf("java.lang.String")
-                }.forEach { methods ->
-                    counter++
-                    if (counter == 1) {
-                        methods.getMethodInstance(EzXHelper.classLoader).createHook {
-                            returnConstant(true)
-                        }
-                    }
-                }
-            }
-        } catch (e: Throwable) {
-            logE("FrcSupport", e)
-        }
-        try {
-            val result = Objects.requireNonNull(
-                SecurityCenterDexKit.mSecurityCenterResultMap["AisSupport"]
-            )
-            for (descriptor in result) {
-                val aisSupport = descriptor.getMethodInstance(lpparam.classLoader)
-                logI("aisSupport method is $aisSupport")
-                if (aisSupport.returnType == Boolean::class.javaPrimitiveType) {
-                    XposedBridge.hookMethod(aisSupport, XC_MethodReplacement.returnConstant(true))
-                }
-            }
-        } catch (e: Throwable) {
-            logE("AisSupport", e)
-        }
-        closeDexKit()*/
     }
 }

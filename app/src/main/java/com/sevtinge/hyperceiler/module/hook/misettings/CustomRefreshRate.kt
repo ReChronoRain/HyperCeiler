@@ -17,28 +17,17 @@ object CustomRefreshRate : BaseHook() {
            matcher {
                addUsingStringsEquals("btn_preferce_category")
            }
-        }
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
     override fun init() {
-        /*val result1 = MiSettingsDexKit.mMiSettingsResultMethodsMap!!["category"]
-        val result2 = MiSettingsDexKit.mMiSettingsResultClassMap!!["refresh"]*/
         val resultClass = loadClass("com.xiaomi.misettings.display.RefreshRate.RefreshRateActivity")
 
-        resultMethod.first().getMethodInstance(EzXHelper.classLoader).createHook {
+        resultMethod.createHook {
             before {
                 it.args[0] = true
             }
         }
 
-        /*resultClass.map {
-            it.getClassInstance(EzXHelper.classLoader).fieldFinder()
-                .toList().forEach { field ->
-                    if (field.isFinal && field.isStatic) {
-                        field.isAccessible = true
-                        field.set(null, true)
-                    }
-                }
-        }*/
         resultClass.declaredFields.first { field ->
             field.isFinal && field.isStatic
         }.apply { isAccessible = true }.set(null, true)

@@ -20,11 +20,11 @@ object UnlockDisney : BaseHook() {
                 returnType = "boolean"
                 paramCount = 0
             }
-        }.firstOrNull()?.getMethodInstance(safeClassLoader)
+        }.single().getMethodInstance(safeClassLoader)
 
         // debug 用
         logI(TAG,"disney name is $disney")
-        disney!!.createHook {
+        disney.createHook {
             returnConstant(true)
         }
     }

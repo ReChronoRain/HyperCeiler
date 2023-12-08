@@ -31,31 +31,5 @@ object BeautyLightAuto : BaseHook() {
                 }
             }
         }
-
-
-        /*try {
-            val result: List<DexMethodDescriptor> =
-                java.util.Objects.requireNonNull<List<DexMethodDescriptor>>(
-                    SecurityCenterDexKit.mSecurityCenterResultMap.get("BeautyLightAuto")
-                )
-            for (descriptor in result) {
-                if (!java.lang.String.valueOf(descriptor).contains("<clinit>")) {
-                    val beautyLightAuto: java.lang.reflect.Method =
-                        descriptor.getMethodInstance(lpparam.classLoader)
-                    if (beautyLightAuto.returnType == Boolean::class.javaPrimitiveType && !java.lang.String.valueOf(
-                            descriptor
-                        ).contains(BeautyFace.beautyFace.toString())
-                    ) {
-                        log("beautyLightAuto method is $beautyLightAuto")
-                        XposedBridge.hookMethod(
-                            beautyLightAuto,
-                            XC_MethodReplacement.returnConstant(true)
-                        )
-                    }
-                }
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }*/
     }
 }
