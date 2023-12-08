@@ -541,11 +541,7 @@
     <string name="system_ui_status_bar_mobile_type_single_title">Ícone do tipo de rede móvel</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Intervalo de atualização da velocidade da rede</string>
     <string name="system_ui_statusbar_network_speed_font_size">Tamanho da fonte da velocidade da rede</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">Valor e unidade serão exibidos em duas linhas</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">Exibir velocidade de rede para cima e para baixo</string>
-    <string name="system_ui_statusbar_network_speed_detailed">A velocidade de upload e download é exibida em duas linhas</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Trocar velocidades de uplink e downlink e posições de ícones</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">Exibir velocidades de rede de entrada e saída separadamente</string>
     <string name="system_ui_statusbar_network_speed_hide">Ocultar velocidade de rede lenta</string>
     <string name="system_ui_statusbar_network_speed_hide_all">Ocultar quando o uplink e o downlink estiverem lentos</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">O indicador não é mais exibido quando a velocidade da rede é baixa</string>
@@ -1255,6 +1251,8 @@
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação de logs do dispositivo de acesso</string>
+    <string name="various_phrase_clipboardlist">Remover o número de frases da área de transferência e limites de tempo</string>
+    <string name="various_phrase_clipboardlist_more">Após ativado, selecione o escopo do método de entrada e reinicie-o, o que fará com que a exclusão de um único conteúdo seja inválida.</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
     <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no gerenciador Xposed.</string>
     <string name="various_collapse_miui_title">Título MIUI</string>
@@ -1366,6 +1364,7 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
     <!--Tip-->
     <string name="tip_0">Dica: Aqui vai uma dica!</string>
     <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>

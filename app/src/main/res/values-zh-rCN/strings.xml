@@ -161,6 +161,10 @@
     <string name="array_align_center">居中</string>
     <string name="array_netspeedicons_no">无图标</string>
 
+    <string name="array_default_official">官方预设字体</string>
+    <string name="array_default_thin">默认字体</string>
+    <string name="array_default_bold">默认字体-粗</string>
+
     <string name="array_bold">加粗</string>
     <string name="array_theme">跟随主题</string>
     <string name="array_clock_center">时钟居中</string>
@@ -270,6 +274,11 @@
     <string name="no_blur">无模糊</string>
     <string name="miui_blur">系统模糊</string>
     <string name="android_blur">原生模糊</string>
+
+    <string name="system_ui_statusbar_network_speed_style_1">值和单位单行显示</string>
+    <string name="system_ui_statusbar_network_speed_style_2">值和单位双排显示</string>
+    <string name="system_ui_statusbar_network_speed_style_3">上下行网速单行显示</string>
+    <string name="system_ui_statusbar_network_speed_style_4">上下行网速双排显示</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -584,11 +593,9 @@
 
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">网速字体大小</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">值和单位双排显示</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">显示上下行网速</string>
-    <string name="system_ui_statusbar_network_speed_detailed">双排显示上下行网速</string>
+    <string name="system_ui_statusbar_network_speed_font_style">网速字体样式</string>
+    <string name="system_ui_statusbar_network_speed_style">网速指示器样式</string>
     <string name="system_ui_statusbar_network_speed_swap_places">交换上下行网速与图标位置</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">分别显示传入和传出的网络速度</string>
     <string name="system_ui_statusbar_network_speed_hide">隐藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_all">当上下行均为慢速时隐藏</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">当网速低时不再显示指示器</string>

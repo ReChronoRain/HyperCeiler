@@ -84,6 +84,8 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeS
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeed;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeed;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeedStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.StatusBarNoNetSpeedSep;
@@ -146,6 +148,11 @@ public class SystemUI extends BaseModule {
             }
             initHook(NetworkSpeedStyle.INSTANCE);
             initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
+        } else {
+            if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+                initHook(NewNetworkSpeed.INSTANCE);
+            }
+            initHook(NewNetworkSpeedStyle.INSTANCE);
         }
         initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
         initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));

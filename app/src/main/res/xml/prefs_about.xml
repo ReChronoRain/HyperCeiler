@@ -126,7 +126,7 @@
             android:title="@string/about_donation">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://www.sevtinge.cc/t/donation.html" />
+                android:data="https://blog.sevtinge.cc/donation" />
         </Preference>
 
         <Preference

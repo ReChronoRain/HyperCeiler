@@ -743,4 +743,32 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="network_speed_style">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_statusbar_network_speed_style_1</item>
+        <item>@string/system_ui_statusbar_network_speed_style_2</item>
+        <item>@string/system_ui_statusbar_network_speed_style_3</item>
+        <item>@string/system_ui_statusbar_network_speed_style_4</item>
+    </string-array>
+
+    <string-array name="network_speed_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="network_speed_font_style">
+        <item>@string/array_default_official</item>
+        <item>@string/array_default_thin</item>
+        <item>@string/array_default_bold</item>
+    </string-array>
+
+    <string-array name="network_speed_font_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>
