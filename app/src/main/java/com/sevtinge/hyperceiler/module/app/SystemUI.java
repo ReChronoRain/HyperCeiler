@@ -150,7 +150,7 @@ public class SystemUI extends BaseModule {
             initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
         } else {
             if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
-                initHook(NewNetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
+                initHook(NewNetworkSpeed.INSTANCE);
             }
             initHook(NewNetworkSpeedStyle.INSTANCE);
         }
