@@ -3,9 +3,11 @@ package com.sevtinge.hyperceiler.utils.api
 import android.content.Context
 import android.util.TypedValue
 import android.view.Window
+import com.github.kyuubiran.ezxhelper.ClassHelper.Companion.classHelper
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.sevtinge.hyperceiler.utils.api.LazyClass.SystemProperties
 import com.sevtinge.hyperceiler.utils.api.LazyClass.clazzMiuiBuild
 import com.sevtinge.hyperceiler.utils.isStatic
 import java.lang.reflect.Field
@@ -70,6 +72,11 @@ fun isPad() =
  */
 val IS_INTERNATIONAL_BUILD by lazy {
     getStaticObjectOrNullAs<Boolean>(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD") ?: false
+}
+
+val IS_HYPER_OS by lazy {
+    SystemProperties.classHelper()
+        .invokeStaticMethodBestMatch("get", null, "ro.mi.os.version.code", null) != null
 }
 
 fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
