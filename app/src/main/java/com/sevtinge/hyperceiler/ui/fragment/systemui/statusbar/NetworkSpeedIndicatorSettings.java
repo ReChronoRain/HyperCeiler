@@ -21,6 +21,7 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
     SeekBarPreferenceEx mNetworkSpeedWidth; // 固定宽度
     SwitchPreference mNetworkSwapIcon;
     SwitchPreference mNetworkSpeedSeparator;
+    DropDownPreference mNetworkAlign;
     DropDownPreference mNetworkStyle;
     DropDownPreference mNetworkIcon;
 
@@ -42,6 +43,7 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
         int mNetworkMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_statusbar_network_speed_style", "0"));
         mNetworkSpeedWidth = findPreference("prefs_key_system_ui_statusbar_network_speed_fixedcontent_width");
         mNetworkStyle = findPreference("prefs_key_system_ui_statusbar_network_speed_style");
+        mNetworkAlign = findPreference("prefs_key_system_ui_statusbar_network_speed_align");
         mNetworkIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_icon");
         mNetworkSwapIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_swap_places");
         mNetworkSpeedSeparator = findPreference("prefs_key_system_ui_status_bar_no_netspeed_separator");
@@ -63,5 +65,6 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
     private void setNetworkMode(int mode) {
         mNetworkIcon.setVisible(mode == 3 || mode == 4);
         mNetworkSwapIcon.setVisible(mode == 3 || mode == 4);
+        mNetworkAlign.setVisible(mode == 2 || mode == 4);
     }
 }

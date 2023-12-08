@@ -7,13 +7,6 @@
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
             android:title="@string/system_ui_statusbar_network_speed_font_size" />
 
-        <DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_statusbar_network_speed_font_style"
-            android:title="@string/system_ui_statusbar_network_speed_font_style"
-            app:entries="@array/network_speed_font_style"
-            app:entryValues="@array/network_speed_font_style_value" />
-
         <SeekBarPreferenceEx
             android:defaultValue="13"
             android:dependency="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
@@ -26,6 +19,13 @@
             app:minValue="8"
             app:showSeekBarValue="true"
             app:stepValue="1" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_network_speed_font_style"
+            android:title="@string/system_ui_statusbar_network_speed_font_style"
+            app:entries="@array/network_speed_font_style"
+            app:entryValues="@array/network_speed_font_style_value" />
 
         <SwitchPreference
             android:defaultValue="false"
