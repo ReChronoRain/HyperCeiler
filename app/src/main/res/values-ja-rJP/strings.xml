@@ -1255,6 +1255,8 @@
     <string name="various_no_overscroll">範囲外のバウンスを無効化</string>
     <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="various_disable_access_device_logs">デバイスログへのアクセス要求ダイアログを無効化</string>
+    <string name="various_phrase_clipboardlist">クリップボードの数と時間の制限を削除</string>
+    <string name="various_phrase_clipboardlist_more">有効化した後、入力メソッドのスコープを選択して再起動してください。1つのコンテンツの削除が無効になります</string>
     <string name="various_unlock_ime">IME をアンロック</string>
     <string name="various_unlock_ime_desc">オンにした後は、Xposed マネージャーでキーボードアプリをスコープに追加してください</string>
     <string name="various_collapse_miui_title">MIUI のタイトル</string>
@@ -1366,6 +1368,7 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
+    <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>

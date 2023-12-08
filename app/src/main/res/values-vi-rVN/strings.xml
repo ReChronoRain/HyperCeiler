@@ -1268,6 +1268,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="various_disable_access_device_logs">Bỏ qua thông báo yêu cầu truy cập nhật ký thiết bị</string>
+    <string name="various_phrase_clipboardlist">Đã xóa số bảng ghi tạm và giới hạn thời gian</string>
+    <string name="various_phrase_clipboardlist_more">Sau khi kích hoạt, chọn phạm vi phương thức nhập và khởi động lại. Việc xóa một nội dung bị vô hiệu hóa</string>
     <string name="various_unlock_ime">Mở khóa IME</string>
     <string name="various_unlock_ime_desc">Sau khi mở, vui lòng kiểm tra phương thức nhập liệu tương ứng trong trình quản lý Xposed</string>
     <string name="various_collapse_miui_title">Tiêu đề MIUI</string>
@@ -1380,6 +1382,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
+    <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
