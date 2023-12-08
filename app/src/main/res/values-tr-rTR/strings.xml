@@ -336,9 +336,6 @@
     <string name="system_ui_status_bar_mobile_type_single_title">Mobil ağ türü simgesi</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Ağ hızı güncelleme aralığı</string>
     <string name="system_ui_statusbar_network_speed_font_size">Ağ hızı yazı tipi boyutu</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">Değer ve birim çift sıra halinde görüntülenir</string>
-    <string name="system_ui_statusbar_network_speed_detailed">Yükleme ve indirme hızı çift sıra halinde görüntülenir</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">Gelen ve giden ağ hızlarını ayrı göster</string>
     <string name="system_ui_statusbar_network_speed_hide">Yavaş ağ hızını gizle</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Ağ hızı düşük olduğunda gösterge artık gösterilmiyor</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Yavaş ağ hızı seviyesi</string>

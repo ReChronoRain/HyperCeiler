@@ -543,11 +543,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_mobile_type_single_title">Biểu tượng mạng di động</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Thời gian cập nhật tốc độ mạng</string>
     <string name="system_ui_statusbar_network_speed_font_size">Cỡ chữ</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">Giá trị và đơn vị được hiển thị trong hàng kép</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">Hiển thị tốc độ mạng kép</string>
-    <string name="system_ui_statusbar_network_speed_detailed">Tốc độ tải lên và tải xuống được hiển thị trong hàng kép</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Hoán đổi vị trí download và upload</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">Hiển thị tốc độ mạng đến và đi riêng biệt</string>
     <string name="system_ui_statusbar_network_speed_hide">Ẩn khi tốc độ mạng chậm</string>
     <string name="system_ui_statusbar_network_speed_hide_all">Ẩn khi download và upload đều chậm</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Chỉ báo không còn hiển thị khi tốc độ internet thấp</string>

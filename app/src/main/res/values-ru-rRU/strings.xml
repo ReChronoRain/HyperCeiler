@@ -431,10 +431,6 @@
     <string name="system_ui_status_bar_mobile_type_single_title">Значок типа мобильной сети</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Интервал обновления скорости сети</string>
     <string name="system_ui_statusbar_network_speed_font_size">Размер шрифта скорости сети</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">Значение и единица измерения отображаются в двух строках</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">Показывать увеличение и уменьшение скорости сети</string>
-    <string name="system_ui_statusbar_network_speed_detailed">Скорость загрузки и скачивания отображаются в две строки</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">Показывать скорость загрузки и скачивания отдельно</string>
     <string name="system_ui_statusbar_network_speed_hide">Скрыть низкую скорость сети</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Индикатор не отображается при низкой скорости сети</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Низкий уровень скорости сети</string>

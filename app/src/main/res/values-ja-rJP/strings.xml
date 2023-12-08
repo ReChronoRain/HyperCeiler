@@ -541,11 +541,7 @@
     <string name="system_ui_status_bar_mobile_type_single_title">モバイルネットワークタイプのアイコン</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">ネットワーク速度の更新間隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">ネットワーク速度のフォントサイズ</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">値と単位を二行で表示</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">上下のネットワーク速度を表示</string>
-    <string name="system_ui_statusbar_network_speed_detailed">アップロードとダウンロードの速度を二行で表示します</string>
     <string name="system_ui_statusbar_network_speed_swap_places">アップリンク・ダウンリンク速度とアイコンの位置を入れ替える</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">受信と送信のネットワーク速度を個別に表示します</string>
     <string name="system_ui_statusbar_network_speed_hide">遅いネットワーク速度を非表示</string>
     <string name="system_ui_statusbar_network_speed_hide_all">アップリンクとダウンリンクの両方が遅いときは非表示にする</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">ネットワーク速度が遅い場合、インジケーターを表示しないようにします</string>

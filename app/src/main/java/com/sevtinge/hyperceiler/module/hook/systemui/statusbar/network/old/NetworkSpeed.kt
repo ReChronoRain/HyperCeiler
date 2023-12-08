@@ -11,7 +11,6 @@ import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
 import kotlin.math.pow
@@ -40,14 +39,6 @@ object NetworkSpeed : BaseHook() {
     private val lowLevel by lazy {
         mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
     }
-    // 值和单位双排显示
-    private val fakeDualRow by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_fakedualrow")
-    }
-    // 上下行网速双排显示
-    private val doubleUpDown by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_show_up_down")
-    }
     // 交换图标与网速位置
     private val swapPlaces by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
@@ -55,6 +46,10 @@ object NetworkSpeed : BaseHook() {
     // 网速图标
     private val icons by lazy {
         mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
+    }
+    // 网速指示器样式
+    private val networkStyle by lazy {
+        mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
 
     private fun getTrafficBytes(): Pair<Long, Long> {
@@ -93,7 +88,7 @@ object NetworkSpeed : BaseHook() {
                 f /= 1024.0f
             }
             val pre = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)[expIndex]
-            if (fakeDualRow) {
+            if (networkStyle == 2) {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + "\n" + String.format("%s$unitSuffix", pre)
             } else {
                 (if (f < 100.0f) String.format("%.1f", f) else String.format("%.0f", f)) + String.format("%s$unitSuffix", pre)
@@ -240,22 +235,31 @@ object NetworkSpeed : BaseHook() {
                         hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
 
                     when {
-                        // 如果显示上下行网速并且不开值和单位双排显示，返回上下行网速的字符串
-                        doubleUpDown && !fakeDualRow -> {
+                        // 如果开启值和单位单双排显示，返回总网速的字符串
+                        (networkStyle == 1 || networkStyle == 2) -> {
+                            if (isLowSpeed) {
+                                it.result = ""
+                            } else {
+                                it.result = ax
+                            }
+                        }
+                        // 如果显示上下行网速显示，返回上下行网速的字符串
+                        networkStyle == 3 -> {
+                            if (isLowSpeed && !isAllLowSpeed) {
+                                it.result = ""
+                            } else if (isAllLowSpeed) {
+                                it.result = ""
+                            } else {
+                                it.result = "$tx $rx"
+                            }
+                        }
+                        networkStyle == 4 -> {
                             if (isLowSpeed && !isAllLowSpeed) {
                                 it.result = ""
                             } else if (isAllLowSpeed) {
                                 it.result = ""
                             } else {
                                 it.result = "$tx\n$rx"
-                            }
-                        }
-                        // 如果开启值和单位双排显示，返回总网速的字符串
-                        fakeDualRow -> {
-                            if (isLowSpeed) {
-                                it.result = ""
-                            } else {
-                                it.result = ax
                             }
                         }
                         // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回

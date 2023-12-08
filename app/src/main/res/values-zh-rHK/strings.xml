@@ -141,6 +141,9 @@
     <string name="array_align_right">右側</string>
     <string name="array_align_center">置中</string>
     <string name="array_netspeedicons_no">無圖示</string>
+    <string name="array_default_official">官方預設字體</string>
+    <string name="array_default_thin">預設字體</string>
+    <string name="array_default_bold">預設字體-粗</string>
     <string name="array_bold">加粗</string>
     <string name="array_theme">跟隨主題</string>
     <string name="array_clock_center">時鐘置中</string>
@@ -225,6 +228,13 @@
     <string name="control_center_sunshine_mode_default">關閉</string>
     <string name="control_center_sunshine_mode_one">系統預設模式</string>
     <string name="control_center_sunshine_mode_two">強制最大亮度</string>
+    <string name="no_blur">無模糊</string>
+    <string name="miui_blur">系統模糊 (僅適用 HyperOS)</string>
+    <string name="android_blur">ASOP 模糊</string>
+    <string name="system_ui_statusbar_network_speed_style_1">值和單位單行顯示</string>
+    <string name="system_ui_statusbar_network_speed_style_2">值和單位雙排顯示</string>
+    <string name="system_ui_statusbar_network_speed_style_3">上下行網速單行顯示</string>
+    <string name="system_ui_statusbar_network_speed_style_4">上下行網速雙排顯示</string>
     <!--System Framework-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -515,11 +525,9 @@
     <string name="system_ui_status_bar_mobile_type_single_title">蜂窩移動網絡類型圖示</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">網速更新間隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">網速字體大小</string>
-    <string name="system_ui_statusbar_network_speed_fakedualrow">值和單位雙排顯示</string>
-    <string name="system_ui_statusbar_network_speed_show_up_down">顯示上下行網速</string>
-    <string name="system_ui_statusbar_network_speed_detailed">上下行網速雙排顯示</string>
+    <string name="system_ui_statusbar_network_speed_font_style">網速字體樣式</string>
+    <string name="system_ui_statusbar_network_speed_style">網速指示器樣式</string>
     <string name="system_ui_statusbar_network_speed_swap_places">交換上下行速度顯示位置</string>
-    <string name="system_ui_statusbar_network_speed_detailed_desc">分別顯示傳入和傳出的網絡速度</string>
     <string name="system_ui_statusbar_network_speed_hide">隱藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_all">上下行網速緩慢時隱藏</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">當網速低時不再顯示指示器</string>
