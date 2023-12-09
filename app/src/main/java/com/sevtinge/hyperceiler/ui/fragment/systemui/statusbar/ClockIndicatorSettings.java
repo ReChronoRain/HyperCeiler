@@ -44,7 +44,7 @@ public class ClockIndicatorSettings extends SettingsPreferenceFragment
         mDisableAnim = findPreference("prefs_key_system_ui_disable_clock_anim");
 
         if (mDisableAnim != null) {
-            mDisableAnim.setVisible(!isMoreHyperOSVersion(1f));
+            mDisableAnim.setVisible(isMoreHyperOSVersion(1f));
         }
         setClockMode(mClockMode);
         setIsEnableClockMode(mClockMode);
