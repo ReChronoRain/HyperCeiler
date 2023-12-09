@@ -93,11 +93,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_swap_places"
             android:title="@string/system_ui_statusbar_network_speed_swap_places" />
 
         <DropDownPreference
             android:defaultValue="2"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_icon"
             android:title="@string/system_ui_statusbar_network_speed_icon"
             app:entries="@array/system_ui_status_bar_network_icon"

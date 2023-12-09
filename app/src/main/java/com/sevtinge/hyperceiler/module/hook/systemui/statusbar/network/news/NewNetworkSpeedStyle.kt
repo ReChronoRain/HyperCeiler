@@ -19,6 +19,9 @@ object NewNetworkSpeedStyle : BaseHook() {
     private val networkStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
+    private val mNetworkCostomEnable by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")
+    }
 
     override fun init() {
         hookAllConstructors("com.android.systemui.statusbar.views.NetworkSpeedView", lpparam.classLoader,
@@ -46,7 +49,7 @@ object NewNetworkSpeedStyle : BaseHook() {
                             val unit = meter.getObjectField("mNetworkSpeedUnitText") as TextView
 
                             // 隐藏单位控件
-                            if (networkStyle != 0) {
+                            if (mNetworkCostomEnable && networkStyle != 0) {
                                 unit.visibility = View.GONE
                                 if (networkStyle == 2 || networkStyle == 4) {
                                     number.isSingleLine = false
@@ -70,8 +73,10 @@ object NewNetworkSpeedStyle : BaseHook() {
                                 textFont(unit)
 
                                 // 偏移量设置
-                                margin(number)
-                                margin(unit)
+                                if (mNetworkCostomEnable) {
+                                    margin(number)
+                                    margin(unit)
+                                }
 
                                 // 水平对齐官方的寄，改不了
 
