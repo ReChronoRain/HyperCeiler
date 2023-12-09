@@ -627,6 +627,7 @@
     <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小</string>
     <string name="system_ui_statusbar_clock_double_size">双排时钟大小</string>
+    <string name="system_ui_disable_clock_anim">禁用通知中心下滑时钟过渡动画</string>
 
     <string name="system_ui_statusbar_indicator_battery_title">功耗相关</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度相关</string>

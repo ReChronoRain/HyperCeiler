@@ -1409,6 +1409,7 @@
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
+    <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

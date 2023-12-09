@@ -14,6 +14,11 @@
             app:entries="@array/system_ui_status_bar_clock_mode"
             app:entryValues="@array/system_ui_status_bar_clock_mode_value" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_clock_anim"
+            android:title="@string/system_ui_disable_clock_anim" />
+
         <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
             android:title="@string/vertical_offset"
