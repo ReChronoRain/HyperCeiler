@@ -47,7 +47,7 @@ object NetworkSpeedStyle : BaseHook() {
                    // 网速字体大小调整
                    if (fontSizeEnable) {
                        try {
-                           if (networkStyle == 2 || networkStyle == 4) {
+                           if (mNetworkCostomEnable && (networkStyle == 2 || networkStyle == 4)) {
                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
                            } else {
                                meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
