@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch;
 
-import static com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch.TAG;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.findMethodExactIfExists;
 
@@ -39,13 +38,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private final static Method deoptimizeMethod;
     private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
+    public static final String TAG = "CorePatchForR";
 
     static {
         Method m = null;
         try {
             m = XposedBridge.class.getDeclaredMethod("deoptimizeMethod", Member.class);
         } catch (Throwable t) {
-            XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(t));
+            XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(t));
         }
         deoptimizeMethod = m;
     }
@@ -55,7 +55,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
             if (deoptimizeMethod != null && m.getName().equals(n)) {
                 deoptimizeMethod.invoke(null, m);
                 if (isNotReleaseVersion)
-                    XposedBridge.log("[D" + TAG + ": Deoptimized " + m.getName());
+                    XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": Deoptimized " + m.getName());
             }
         }
     }
@@ -65,11 +65,11 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         if (isNotReleaseVersion) {
-            XposedBridge.log("[D" + TAG + ": downgrade=" + prefs.getBoolean("prefs_key_system_framework_core_patch_downgr", true));
-            XposedBridge.log("[D" + TAG + ": authcreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
-            XposedBridge.log("[D" + TAG + ": digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
-            XposedBridge.log("[D" + TAG + ": UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
-            XposedBridge.log("[D" + TAG + ": enhancedMode=" + prefs.getBoolean("prefs_key_system_framework_core_patch_enhanced_mode", false));
+            XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": downgrade=" + prefs.getBoolean("prefs_key_system_framework_core_patch_downgr", true));
+            XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": authcreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
+            XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
+            XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
+            XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": enhancedMode=" + prefs.getBoolean("prefs_key_system_framework_core_patch_enhanced_mode", false));
         }
 
         var pmService = findClassIfExists("com.android.server.pm.PackageManagerService",
@@ -177,7 +177,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                             if (prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
                                 PackageManager PM = AndroidAppHelper.currentApplication().getPackageManager();
                                 if (PM == null) {
-                                    XposedBridge.log("[E" + TAG +"[" + BuildConfig.APPLICATION_ID + "] Cannot get the Package Manager... Are you using MiUI?");
+                                    XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": [" + BuildConfig.APPLICATION_ID + "] Cannot get the Package Manager... Are you using MiUI?");
                                 } else {
                                     PackageInfo pI;
                                     if (parseErr != null) {
@@ -276,7 +276,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
             try {
                 deoptimizeMethod(utilClass, "verifySignatures");
             } catch (Throwable e) {
-                XposedBridge.log("[E" + TAG + ": deoptimizing failed" + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": deoptimizing failed" + Log.getStackTraceString(e));
             }
         }
 

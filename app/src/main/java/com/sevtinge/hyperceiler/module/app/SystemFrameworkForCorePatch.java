@@ -13,7 +13,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    public static final String TAG = "][HyperCeiler][CorePatch]";
+    public static final String TAG = "CorePatch";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
