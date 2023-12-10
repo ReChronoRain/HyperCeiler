@@ -88,8 +88,8 @@ public class AppPicker extends Fragment {
         } else {
             key = args.getString("key");
         }
-        mHandler = new Handler();
-        initData();
+        // mHandler = new Handler();
+        // initData();
     }
 
     private void initView() {
