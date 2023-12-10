@@ -27,6 +27,7 @@
 
     <string name="location_add">添加</string>
     <string name="location_delete">删除</string>
+    <string name="edit">请输入文本</string>
 
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>

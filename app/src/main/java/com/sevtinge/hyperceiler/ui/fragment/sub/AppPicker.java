@@ -146,14 +146,14 @@ public class AppPicker extends Fragment {
         input.setText(defaultText);
 
         new AlertDialog.Builder(getActivity())
-            .setTitle("请输入文本")
+            .setTitle(R.string.edit)
             .setView(view)
-            .setPositiveButton("确定", (dialog, which) -> {
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                 String userInput = input.getText().toString();
                 callback.onInputReceived(userInput);
                 dialog.dismiss();
             })
-            .setNegativeButton("取消", (dialog, which) -> {
+            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 dialog.dismiss();
             })
             .show();

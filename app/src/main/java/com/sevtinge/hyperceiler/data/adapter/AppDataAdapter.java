@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.data.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,7 +191,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
 
     public void getShared() {
         selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
-        Log.e(TAG, "getShared: " + mKey, null);
+        // Log.e(TAG, "getShared: " + mKey, null);
     }
 
     public void putShared() {
