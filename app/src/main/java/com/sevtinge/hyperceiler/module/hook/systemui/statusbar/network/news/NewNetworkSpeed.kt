@@ -20,12 +20,16 @@ import kotlin.math.roundToLong
 @SuppressLint("StaticFieldLeak")
 object NewNetworkSpeed : BaseHook() {
     private var measureTime: Long = 0
+
     private var newTxBytesFixed: Long = 0
     private var newRxBytesFixed: Long = 0
+
     private var txBytesTotal: Long = 0
     private var rxBytesTotal: Long = 0
+
     private var txSpeed: Long = 0
     private var rxSpeed: Long = 0
+
     private var txArrow = ""
     private var rxArrow = ""
 
@@ -104,9 +108,6 @@ object NewNetworkSpeed : BaseHook() {
     private val nscCls by lazy {
         findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
     }
-    private val networkView by lazy {
-        findClassIfExists("com.android.systemui.statusbar.views.NetworkSpeedView", lpparam.classLoader)
-    }
 
     override fun init() {
         if (nscCls == null) {
@@ -136,13 +137,17 @@ object NewNetworkSpeed : BaseHook() {
                         }
                     }
             }
-            updateNetworkSpeed()
+
             nscCls.methodFinder().filterByName("updateText").filterByParamCount(1).first().createHook {
                 before {
+                    // 初始化字符串数组和获取该方法中的 Context
                     val strArr = arrayOfNulls<String>(2)
                     val mContext =
                         XposedHelpers.getObjectField(it.thisObject, "mContext") as Context
 
+                    // 更新网速
+                    updateNetworkSpeed(mContext)
+                    // 设置上下行网速图标
                     when (icons) {
                         2 -> {
                             txArrow = if (txSpeed < lowLevel) "△" else "▲"
@@ -260,53 +265,56 @@ object NewNetworkSpeed : BaseHook() {
         }
     }
 
-    private fun updateNetworkSpeed() {
-        if (isAndroidVersion(33)) {
-            nscCls.methodFinder().first {
-                name == "updateNetworkSpeed"
+    private fun updateNetworkSpeed(mContext: Context) {
+        // 声明一个布尔变量，表示网络是否连接
+        var isConnected = false
+        // 通过 mContext 获取一个 ConnectivityManager 对象，用来管理网络连接状态
+        val mConnectivityManager =
+            mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        // 通过 ConnectivityManager 获取当前活跃的网络对象
+        val nw = mConnectivityManager.activeNetwork
+        // 如果 nw 不为空，说明有网络连接
+        if (nw != null) {
+            // 获取网络的能力对象
+            val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
+            // 如果能力对象不为空，并且支持无线或者蜂窝网络，那么将 isConnected 设为 true
+            if (capabilities != null && (!(!
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
+                    !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)))
+            ) {
+                isConnected = true
             }
+        }
+        // 如果 isConnected 为 true，说明网络已连接
+        if (isConnected) {
+            // 获取系统的纳秒时间
+            val nanoTime = System.nanoTime()
+            // 计算两次获取时间的差值
+            var newTime = nanoTime - measureTime
+            measureTime = nanoTime
+            // 如果 newTime 为 0，说明时间间隔太短，那么将 newTime 设为 4 秒
+            if (newTime == 0L) newTime = (4 * 10.0.pow(9.0)).roundToLong()
+            // 调用一个函数，返回一个包含两个元素的列表，第一个元素是发送的字节数，第二个元素是接收的字节数
+            val bytes = getTrafficBytes()
+            val newTxBytes = bytes.first
+            val newRxBytes = bytes.second
+            // 计算两次获取字节数的差值
+            newTxBytesFixed = newTxBytes - txBytesTotal
+            newRxBytesFixed = newRxBytes - rxBytesTotal
+            // 如果 newTxBytesFixed 小于 0 或者 txBytesTotal 等于 0，说明发送的字节数有误，那么将 newTxBytesFixed 设为 0
+            if (newTxBytesFixed < 0 || txBytesTotal == 0L) newTxBytesFixed = 0
+            // 如果 newRxBytesFixed 小于 0 或者 rxBytesTotal 等于 0，说明接收的字节数有误，那么将 newRxBytesFixed 设为 0
+            if (newRxBytesFixed < 0 || rxBytesTotal == 0L) newRxBytesFixed = 0
+            // 计算发送和接收的速度，单位是字节每秒，用差值除以时间再取整数
+            txSpeed = (newTxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
+            rxSpeed = (newRxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
+            // 更新总的发送和接收的字节数
+            txBytesTotal = newTxBytes
+            rxBytesTotal = newRxBytes
         } else {
-            networkView.methodFinder().first {
-                name == "updateNetworkSpeed"
-            }
-        }.createHook {
-            before {
-                var isConnected = false
-                val mContext =
-                    XposedHelpers.getObjectField(it.thisObject, "mContext") as Context
-                val mConnectivityManager =
-                    mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                val nw = mConnectivityManager.activeNetwork
-                if (nw != null) {
-                    val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
-                    if (capabilities != null && (!(!
-                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
-                            !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)))
-                    ) {
-                        isConnected = true
-                    }
-                }
-                if (isConnected) {
-                    val nanoTime = System.nanoTime()
-                    var newTime = nanoTime - measureTime
-                    measureTime = nanoTime
-                    if (newTime == 0L) newTime = (4 * 10.0.pow(9.0)).roundToLong()
-                    val bytes = getTrafficBytes()
-                    val newTxBytes = bytes.first
-                    val newRxBytes = bytes.second
-                    newTxBytesFixed = newTxBytes - txBytesTotal
-                    newRxBytesFixed = newRxBytes - rxBytesTotal
-                    if (newTxBytesFixed < 0 || txBytesTotal == 0L) newTxBytesFixed = 0
-                    if (newRxBytesFixed < 0 || rxBytesTotal == 0L) newRxBytesFixed = 0
-                    txSpeed = (newTxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
-                    rxSpeed = (newRxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
-                    txBytesTotal = newTxBytes
-                    rxBytesTotal = newRxBytes
-                } else {
-                    txSpeed = 0
-                    rxSpeed = 0
-                }
-            }
+            // 如果 isConnected 为 false，说明网络未连接，那么将发送和接收的速度设为 0
+            txSpeed = 0
+            rxSpeed = 0
         }
     }
  }
