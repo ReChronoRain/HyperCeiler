@@ -12,6 +12,7 @@
     <string name="translator">Kimle69</string>
     <string name="translator_url">https://t.me/Kimle69</string>
     <string name="home">Trang chủ</string>
+    <string name="edit">Vui lòng nhập văn bản</string>
     <string name="settings">Cài đặt</string>
     <string name="about">Giới thiệu</string>
     <string name="about_use">Trích dẫn</string>
@@ -930,6 +931,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_title_marquee">Cuộn văn bản</string>
     <string name="home_title_title_marquee_desc">Tên ứng dụng quá dài sẽ được cuộn một dòng</string>
     <string name="home_title_title_new_install">Ứng dụng mới cài đặt Không hiển thị chấm thông báo</string>
+    <string name="home_title_title_icontitlecustomization">Tùy chỉnh tên ứng dụng</string>
     <string name="home_title_drawer_font_hidden">Ẩn tất cả tiêu đề ứng dụng</string>
     <string name="home_title_drawer_font_hidden_more">Tiêu đề ứng dụng trong ngăn kéo cũng sẽ bị ẩn, nếu không hãy điều chỉnh \"Kích thước chữ\" để sử dụng</string>
     <string name="home_title_title_new_install_more">Không hiển thị chấm thông báo trên biểu tượng ứng dụng khi cài đặt ứng dụng mới</string>
@@ -1389,6 +1391,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
     <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
+    <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
     <!--Tip-->
     <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
     <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>

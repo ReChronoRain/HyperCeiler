@@ -12,6 +12,7 @@
     <string name="translator">Igor</string>
     <string name="translator_url">https://github.com/igormiguell</string>
     <string name="home">Início</string>
+    <string name="edit">Por favor, insira o texto</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
     <string name="about_use">Citar</string>
@@ -924,6 +925,7 @@
     <string name="home_title_title_marquee">Rolagem de texto</string>
     <string name="home_title_title_marquee_desc">Nomes de apps muito longos serão rolados em vez de agrupados</string>
     <string name="home_title_title_new_install">Ocultar novo indicador de instalação do app</string>
+    <string name="home_title_title_icontitlecustomization">Personalizar o nome do app</string>
     <string name="home_title_drawer_font_hidden">Ocultar todos os nomes dos apps</string>
     <string name="home_title_drawer_font_hidden_more">O nome do app na gaveta também ficará oculto.\nSe você quiser manter o nome do app na gaveta, use Tamanho da fonte para ajustá-lo.</string>
     <string name="home_title_title_new_install_more">Não exiba o indicador próximo ao nome do app ao instalar um novo app</string>
