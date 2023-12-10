@@ -79,9 +79,9 @@
             android:title="@string/home_title_fix_animation" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings"
             android:key="prefs_key_home_title_custom_anim_param"
-            android:title="@string/home_title_custom_anim_param"
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings" />
+            android:title="@string/home_title_custom_anim_param" />
 
     </PreferenceCategory>
 
@@ -105,7 +105,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_title_title_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_title_icontitlecustomization_onoff"
+            android:title="@string/home_title_title_icontitlecustomization" />
+
         <Preference
+            android:dependency="prefs_key_home_title_title_icontitlecustomization_onoff"
             android:key="prefs_key_home_title_title_icontitlecustomization"
             android:title="@string/home_title_title_icontitlecustomization" />
 

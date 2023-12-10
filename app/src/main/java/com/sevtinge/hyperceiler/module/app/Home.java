@@ -199,7 +199,7 @@ public class Home extends BaseModule {
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
         initHook(new NewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
-        initHook(new IconTitleCustomization(), true);
+        initHook(new IconTitleCustomization(), mPrefsMap.getBoolean("home_title_title_icontitlecustomization_onoff"));
         initHook(new HiddenAllTitle(), mPrefsMap.getBoolean("home_drawer_font_hidden"));
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
         initHook(IconTitleColor.INSTANCE);
