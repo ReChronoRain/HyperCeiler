@@ -12,7 +12,7 @@ object DisableAD : BaseHook() {
                 addUsingStringsEquals("ads_enable")
                 returnType = "boolean"
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
             returnConstant(false)
         }
 
@@ -21,7 +21,7 @@ object DisableAD : BaseHook() {
                 addUsingStringsEquals("app_store_recommend")
                 returnType = "boolean"
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
             returnConstant(false)
         }
 
@@ -30,7 +30,7 @@ object DisableAD : BaseHook() {
                 addUsingStringsEquals("virus_scan_install")
                 returnType = "boolean"
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
             returnConstant(false)
         }
     }

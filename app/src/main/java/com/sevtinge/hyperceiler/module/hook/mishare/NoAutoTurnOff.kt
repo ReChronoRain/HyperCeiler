@@ -19,7 +19,7 @@ object NoAutoTurnOff : BaseHook() {
             matcher {
                 addUsingStringsEquals("EnabledState", "mishare_enabled")
             }
-        }.firstOrNull()?.getMethodInstance(safeClassLoader)
+        }.single().getMethodInstance(safeClassLoader)
     }
 
     private val null2Method by lazy {
@@ -31,7 +31,7 @@ object NoAutoTurnOff : BaseHook() {
                 paramCount = 2
                 modifiers = Modifier.STATIC
             }
-        }.firstOrNull()?.getMethodInstance(safeClassLoader)
+        }.single().getMethodInstance(safeClassLoader)
     }
 
     private val null3Method by lazy {
@@ -90,7 +90,7 @@ object NoAutoTurnOff : BaseHook() {
 
         // 禁用小米互传功能自动关闭部分
         try {
-        nullMethod!!.createHook {
+        nullMethod.createHook {
             returnConstant(null)
         }
         } catch (t: Throwable) {
@@ -98,7 +98,7 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         try {
-            null2Method!!.createHook {
+            null2Method.createHook {
                 returnConstant(null)
             }
         } catch (t: Throwable) {

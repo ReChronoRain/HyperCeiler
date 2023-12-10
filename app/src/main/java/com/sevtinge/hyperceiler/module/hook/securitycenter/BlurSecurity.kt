@@ -169,7 +169,7 @@ object BlurSecurity : BaseHook() {
                 returnType = "android.view.View"
                 paramTypes = listOf("android.content.Context", "boolean", "boolean")
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader).createHook {
             after { param ->
                 val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
                 mainContent.addOnAttachStateChangeListener(object :
@@ -239,9 +239,9 @@ object BlurSecurity : BaseHook() {
                     matcher {
                         usingStrings = listOf("addView error")
                     }
-                }.firstOrNull()?.getMethodInstance(safeClassLoader)
+                }.single().getMethodInstance(safeClassLoader)
 
-                gameManagerMethod!!.createHook {
+                gameManagerMethod.createHook {
                     after {
                         val view = it.args[0] as View
                         invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)

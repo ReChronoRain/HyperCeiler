@@ -20,7 +20,7 @@ public class XposedHelper {
             }
         } catch (Throwable e) {
             if (BuildConfig.DEBUG)
-                XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
         }
     }
     public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
@@ -30,7 +30,7 @@ public class XposedHelper {
             }
         } catch (Throwable e) {
             if (BuildConfig.DEBUG)
-                XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
         }
     }
     public static void hookAllMethods(String className, ClassLoader classLoader, String methodName, XC_MethodHook callback) {
@@ -39,7 +39,7 @@ public class XposedHelper {
             XposedBridge.hookAllMethods(packageParser, methodName, callback);
         } catch (Throwable e) {
             if (BuildConfig.DEBUG)
-                XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
         }
 
     }
@@ -49,7 +49,7 @@ public class XposedHelper {
             XposedBridge.hookAllMethods(hookClass, methodName, callback);
         } catch (Throwable e) {
             if (BuildConfig.DEBUG)
-                XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
         }
     }
 
@@ -58,7 +58,7 @@ public class XposedHelper {
             return Class.forName(className, false, classLoader);
         } catch (Throwable e) {
             if (BuildConfig.DEBUG)
-                XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
         }
         return null;
     }
@@ -69,7 +69,7 @@ public class XposedHelper {
             XposedBridge.hookAllConstructors(packageParser, callback);
         } catch (Throwable e) {
             if (BuildConfig.DEBUG)
-                XposedBridge.log("[E" + TAG + ": " + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": " + Log.getStackTraceString(e));
         }
     }
 }

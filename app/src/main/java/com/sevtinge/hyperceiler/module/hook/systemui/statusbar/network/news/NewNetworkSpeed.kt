@@ -105,7 +105,7 @@ object NewNetworkSpeed : BaseHook() {
         findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
     }
     private val networkView by lazy {
-        findClassIfExists("com.android.systemui.statusbar.policy.NetworkSpeedController\$4", lpparam.classLoader)
+        findClassIfExists("com.android.systemui.statusbar.views.NetworkSpeedView", lpparam.classLoader)
     }
 
     override fun init() {
@@ -267,7 +267,7 @@ object NewNetworkSpeed : BaseHook() {
             }
         } else {
             networkView.methodFinder().first {
-                name == "handleMessage"
+                name == "updateNetworkSpeed"
             }
         }.createHook {
             before {

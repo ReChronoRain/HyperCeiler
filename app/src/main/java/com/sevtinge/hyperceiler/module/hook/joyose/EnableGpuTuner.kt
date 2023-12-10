@@ -13,7 +13,7 @@ object EnableGpuTuner : BaseHook() {
                 addUsingStringsEquals("GPUTUNER_SWITCH")
                 returnType = "boolean"
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
             returnConstant(true)
         }
     }

@@ -12,26 +12,8 @@ object DisableRootCheck : BaseHook() {
                 addUsingStringsEquals("key_check_item_root")
                 returnType = "boolean"
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
             returnConstant(false)
         }
-
-        /*try {
-            val result: List<DexMethodDescriptor> =
-                Objects.requireNonNull<List<DexMethodDescriptor>>(
-                    SecurityCenterDexKit.mSecurityCenterResultMap["rootCheck"]
-                )
-            for (descriptor in result) {
-                val checkIsRooted: Method = descriptor.getMethodInstance(lpparam.classLoader)
-                if (checkIsRooted.returnType == Boolean::class.javaPrimitiveType) {
-                    XposedBridge.hookMethod(
-                        checkIsRooted,
-                        XC_MethodReplacement.returnConstant(false)
-                    )
-                }
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }*/
     }
 }

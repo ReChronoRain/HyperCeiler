@@ -16,7 +16,7 @@ object VersionCodeNew : BaseHook() {
             matcher {
                 addUsingStringsEquals("ro.miui.ui.version.name")
             }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.first()
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
     private val mOSMethod by lazy {
         dexKitBridge.findMethod {
@@ -30,7 +30,7 @@ object VersionCodeNew : BaseHook() {
             matcher {
                 addUsingStringsEquals("ro.mi.os.version.name", "OS")
             }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.first()
+        }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
 
     private val mOldVersionCode =

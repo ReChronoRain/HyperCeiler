@@ -1191,7 +1191,8 @@
     <string name="security_center_no_permission">Required permissions not granted</string>
     <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Unlock the side-hide freeform for lowly-supported but restricted devices. This will also affect the behavior of the widget when the phone cuts to the background</string>
-    <string name="security_center_unlock_smart_charge_title">Unlock the “Smart Charge Off Protection” and “Low Battery Quick Charge” functions</string>
+    <string name="security_center_unlock_smart_charge_title">Complete charging and battery functions</string>
+    <string name="security_center_unlock_smart_charge_title_summary">Completed Functions:\n- Battery Protection -> Navigation Charge Break Protection\n- More Battery Features -> Low Charge Emergency</string>
     <string name="security_center_super_wireless_charge">Unlock Super wireless charge</string>
     <string name="security_center_blur_model">Sidebar blur model</string>
     <string name="security_center_invert_color">Icon inverted</string>
@@ -1409,6 +1410,7 @@
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
+    <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <!--Tip-->
     <string name="tip_0">Tip: Here\'s a tip!</string>
     <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>

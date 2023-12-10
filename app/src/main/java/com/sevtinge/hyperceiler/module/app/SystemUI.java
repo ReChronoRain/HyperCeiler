@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MoreCardTiles;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
@@ -158,12 +159,7 @@ public class SystemUI extends BaseModule {
         initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
 
         // 时钟指示器
-        if (isMoreHyperOSVersion(1f)) initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_statusbar_clock_bold") ||
-            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0 ||
-            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode", 0) != 0 ||
-            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_mode_geek", 0) != 0 ||
-            mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12) != 12 ||
-            mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
+        initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim") && isMoreHyperOSVersion(1f));
         initHook(TimeStyle.INSTANCE);
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
@@ -233,6 +229,7 @@ public class SystemUI extends BaseModule {
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
         initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
+        initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("settings_notfication_importance"));
         initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
 
         // Actions

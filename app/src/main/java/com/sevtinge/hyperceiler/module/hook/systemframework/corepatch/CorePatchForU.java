@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch;
 
-import static com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch.TAG;
-
 import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +10,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatchForU extends CorePatchForT {
+    public static final String TAG = "CorePatchForU";
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
@@ -21,7 +20,7 @@ public class CorePatchForU extends CorePatchForT {
             try {
                 deoptimizeMethod(utilClass, "reconcilePackages");
             } catch (Throwable e) {
-                XposedBridge.log("[E" + TAG + " deoptimizing failed" + Log.getStackTraceString(e));
+                XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": deoptimizing failed" + Log.getStackTraceString(e));
             }
         }
 

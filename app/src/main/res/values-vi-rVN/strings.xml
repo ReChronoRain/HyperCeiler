@@ -149,6 +149,9 @@
     <string name="array_align_right">Bên phải</string>
     <string name="array_align_center">Trung tâm</string>
     <string name="array_netspeedicons_no">Không biểu tượng</string>
+    <string name="array_default_official">Phông chữ mặc định chính thức</string>
+    <string name="array_default_thin">Phông chữ mặc định</string>
+    <string name="array_default_bold">Phông chữ mặc định - Đậm</string>
     <string name="array_bold">Đậm</string>
     <string name="array_theme">Theo chủ đề</string>
     <string name="array_clock_center">Đồng hồ ở giữa</string>
@@ -239,6 +242,10 @@
     <string name="no_blur">Không làm mờ</string>
     <string name="miui_blur">Làm mờ của HyperOS</string>
     <string name="android_blur">Làm mờ của AOSP</string>
+    <string name="system_ui_statusbar_network_speed_style_1">Giá trị và đơn vị hiển thị trên một dòng</string>
+    <string name="system_ui_statusbar_network_speed_style_2">Giá trị và đơn vị hiển thị theo hàng đôi</string>
+    <string name="system_ui_statusbar_network_speed_style_3">Tốc độ mạng up và down được hiển thị trên một dòng duy nhất</string>
+    <string name="system_ui_statusbar_network_speed_style_4">Tốc độ mạng up và down được hiển thị trên dòng đôi</string>
     <!--System Framework-->
     <string name="system_framework">Framework hệ thống</string>
     <string name="system_framework_volume_title">Âm lượng</string>
@@ -543,6 +550,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_mobile_type_single_title">Biểu tượng mạng di động</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Thời gian cập nhật tốc độ mạng</string>
     <string name="system_ui_statusbar_network_speed_font_size">Cỡ chữ</string>
+    <string name="system_ui_statusbar_network_speed_font_style">Kiểu phông chữ tốc độ mạng</string>
+    <string name="system_ui_statusbar_network_speed_style">Kiểu chỉ báo tốc độ mạng</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Hoán đổi vị trí download và upload</string>
     <string name="system_ui_statusbar_network_speed_hide">Ẩn khi tốc độ mạng chậm</string>
     <string name="system_ui_statusbar_network_speed_hide_all">Ẩn khi download và upload đều chậm</string>
@@ -1161,6 +1170,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_unlock_side_hide_freeform">Mở khóa biểu mẫu tự do ẩn bên</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Mở khóa cửa sổ nổi cho các thiết bị bị hạn chế nhưng được hỗ trợ cơ bản, điều này cũng sẽ ảnh hưởng đến hoạt động của cửa sổ nổi khi điện thoại được chuyển sang chế độ nền</string>
     <string name="security_center_unlock_smart_charge_title">Mở khóa \"Sạc Thông Minh\" và \"Tăng Tốc Độ Sạc\"</string>
+    <string name="security_center_unlock_smart_charge_title_summary">Các chức năng đã hoàn thiện:\n-Bảo vệ pin-Bảo vệ sạc khi ngắt kết nối điều hướng\n-Các chức năng khác của pin-Sạc pin khẩn cấp khi pin yếu</string>
     <string name="security_center_super_wireless_charge">Mở khóa Sạc không dây siêu nhanh</string>
     <string name="security_center_blur_model">Cài đặt nền Thanh bên toàn cầu</string>
     <string name="security_center_invert_color">Đảo màu biểu tượng</string>

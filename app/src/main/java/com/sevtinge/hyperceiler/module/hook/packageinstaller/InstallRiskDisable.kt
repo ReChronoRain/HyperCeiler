@@ -30,7 +30,7 @@ object InstallRiskDisable : BaseHook() {
             matcher {
                 addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
             }
-        }.firstOrNull()?.getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader).createHook {
             returnConstant(false)
         }
     }
