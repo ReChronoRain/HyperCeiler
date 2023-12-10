@@ -20,13 +20,13 @@
 
     <RadioGroup
         android:id="@+id/navigation"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         android:checkedButton="@id/navigation_home"
         android:gravity="center"
-        android:orientation="horizontal"
         android:paddingVertical="12dp">
 
         <RadioButton
@@ -66,6 +66,7 @@
             android:textSize="12sp" />
 
     </RadioGroup>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_result_view"

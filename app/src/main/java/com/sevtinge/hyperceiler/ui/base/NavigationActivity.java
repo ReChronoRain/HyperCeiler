@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui.base;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +26,7 @@ import com.sevtinge.hyperceiler.ui.fragment.ModuleSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.SearchModeHelper;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
-import com.sevtinge.hyperceiler.view.RestartAlertDialog;
+import com.sevtinge.hyperceiler.utils.MiuiBlurUtils;
 
 import java.util.ArrayList;
 
@@ -83,6 +84,11 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mFragmentList.add(new AboutFragment());
         mNavigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mFragmentPage.setAdapter(mNavigationPagerAdapter);
+
+        MiuiBlurUtils.setContainerPassBlur(mNavigationView, 60);
+        MiuiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
+        MiuiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
+        MiuiBlurUtils.addMiBackgroundBlendColor(mNavigationView, Color.argb(60, 0, 0, 0), 105);
 
         mNavigationView.setOnCheckedChangeListener((radioGroup, checkedId) -> {
             if (checkedId == R.id.navigation_home) {
