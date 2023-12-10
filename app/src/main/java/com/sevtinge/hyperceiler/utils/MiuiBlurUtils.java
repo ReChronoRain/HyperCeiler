@@ -35,6 +35,12 @@ public class MiuiBlurUtils {
     }
 
     public static void addMiBackgroundBlendColor(View view, int i, int i2) {
+        /*
+        i2 =
+        101 子view模糊
+        103 当前view模糊
+        105 当前view和子view都模糊
+       */
         ReflectUtils.invokeObject(View.class, view, "addMiBackgroundBlendColor", Void.TYPE, new Class[]{Integer.TYPE, Integer.TYPE}, new Object[]{Integer.valueOf(i), Integer.valueOf(i2)});
     }
 
