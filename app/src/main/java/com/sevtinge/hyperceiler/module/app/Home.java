@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
@@ -97,6 +96,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonoChrome;
 import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleColor;
+import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
 import com.sevtinge.hyperceiler.module.hook.home.title.NewInstallIndicator;
 import com.sevtinge.hyperceiler.module.hook.home.title.PerfectIcon;
@@ -199,6 +199,7 @@ public class Home extends BaseModule {
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
         initHook(new NewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
+        initHook(new IconTitleCustomization(), true);
         initHook(new HiddenAllTitle(), mPrefsMap.getBoolean("home_drawer_font_hidden"));
         initHook(new TitleFontSize(), mPrefsMap.getInt("home_title_font_size", 12) != 12);
         initHook(IconTitleColor.INSTANCE);

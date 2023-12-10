@@ -11,15 +11,17 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
+import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.data.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
@@ -31,21 +33,36 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import moralnorm.appcompat.app.AlertDialog;
+
 public class AppPicker extends Fragment {
 
     private Bundle args;
+    private String TAG = "AppPicker";
     private String key = null;
     private boolean appSelector;
+    private int modeSelection;
     private View mRootView;
     private ProgressBar mAmProgress;
-    private RecyclerView mAppListRv;
+    private ListView mAppListRv;
     private AppDataAdapter mAppListAdapter;
     private List<AppData> appDataList;
     public Handler mHandler;
     private Set<String> selectedApps;
     private IAppSelectCallback mAppSelectCallback;
+
+    public static IEditCallback iEditCallback;
+
     public void setAppSelectCallback(IAppSelectCallback callback) {
         mAppSelectCallback = callback;
+    }
+
+    public interface EditDialogCallback {
+        void onInputReceived(String userInput);
+    }
+
+    public static void setEditCallback(IEditCallback editCallback) {
+        iEditCallback = editCallback;
     }
 
     @Override
@@ -62,43 +79,84 @@ public class AppPicker extends Fragment {
         args = requireActivity().getIntent().getExtras();
         assert args != null;
         appSelector = args.getBoolean("is_app_selector");
+        modeSelection = args.getInt("need_mode");
         if (appSelector) {
-            key = args.getString("app_selector_key");
+            if (modeSelection == 3) {
+                key = args.getString("key");
+            } else
+                key = args.getString("app_selector_key");
         } else {
             key = args.getString("key");
         }
+        mHandler = new Handler();
         initData();
     }
 
     private void initView() {
         mAmProgress = mRootView.findViewById(R.id.am_progressBar);
         mAppListRv = mRootView.findViewById(R.id.app_list_rv);
-        mAppListRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAppListAdapter = new AppDataAdapter(getActivity(), key, appSelector ? 1 : 0);
-        mHandler = new Handler();
+        // mAppListRv.set(new LinearLayoutManager(getContext()));
+        mAppListAdapter = new AppDataAdapter(getActivity(), R.layout.item_app_list, getAppInfo(getContext()), key, modeSelection);
+        mAppListRv.setAdapter(mAppListAdapter);
 
-        mAppListAdapter.setOnItemClickListener((view, position, appData, isCheck) -> {
-            if (appSelector) {
-                mAppSelectCallback.sendMsgToActivity(BitmapUtils.Bitmap2Bytes(appData.icon),
-                    appData.label,
-                    appData.packageName,
-                    appData.versionName + "(" + appData.versionCode + ")",
-                    appData.activityName);
-                requireActivity().finish();
-            } else {
-                CheckBox checkBox = view.findViewById(android.R.id.checkbox);
+        mAppListRv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppData appData = getAppInfo(getContext()).get((int) id);
+                // Log.e(TAG, "onItemClick: " + appData.packageName, null);
+                switch (modeSelection) {
+                    case 1 -> {
+                        mAppSelectCallback.sendMsgToActivity(BitmapUtils.Bitmap2Bytes(appData.icon),
+                            appData.label,
+                            appData.packageName,
+                            appData.versionName + "(" + appData.versionCode + ")",
+                            appData.activityName);
+                        requireActivity().finish();
+                    }
+                    case 2 -> {
+                        CheckBox checkBox = view.findViewById(android.R.id.checkbox);
 //                String key = "prefs_key_system_framework_clean_share_apps";
-                selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
-                if (checkBox.isChecked()) {
-                    checkBox.setChecked(false);
-                    selectedApps.remove(appData.packageName);
-                } else {
-                    checkBox.setChecked(true);
-                    selectedApps.add(appData.packageName);
+                        selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
+                        if (checkBox.isChecked()) {
+                            checkBox.setChecked(false);
+                            selectedApps.remove(appData.packageName);
+                        } else {
+                            checkBox.setChecked(true);
+                            selectedApps.add(appData.packageName);
+                        }
+                        PrefsUtils.mSharedPreferences.edit().putStringSet(key, selectedApps).apply();
+                    }
+                    case 3 -> {
+                        showEditDialog(appData.label, new EditDialogCallback() {
+                                @Override
+                                public void onInputReceived(String userInput) {
+                                    iEditCallback.editCallback(appData.label, appData.packageName, userInput);
+                                }
+                            }
+                        );
+                    }
                 }
-                PrefsUtils.mSharedPreferences.edit().putStringSet(key, selectedApps).apply();
             }
         });
+    }
+
+    private void showEditDialog(String defaultText, EditDialogCallback callback) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_dialog, null);
+        EditText input = view.findViewById(R.id.title);
+        input.setText(defaultText);
+
+        new AlertDialog.Builder(getActivity())
+            .setTitle("请输入文本")
+            .setView(view)
+            .setPositiveButton("确定", (dialog, which) -> {
+                String userInput = input.getText().toString();
+                callback.onInputReceived(userInput);
+                dialog.dismiss();
+            })
+            .setNegativeButton("取消", (dialog, which) -> {
+                dialog.dismiss();
+            })
+            .show();
     }
 
     private void initData() {

@@ -987,6 +987,7 @@
     <string name="home_title_title_marquee_desc">过长的应用名称将以滚动进行显示，不再使用换行</string>
     <string name="home_title_title_new_install">禁止新安装软件显示指示标</string>
     <string name="home_title_drawer_font_hidden">隐藏所有应用标题</string>
+    <string name="home_title_title_icontitlecustomization">自定义应用标题</string>
     <string name="home_title_drawer_font_hidden_more">抽屉内应用标题也会被隐藏，如需保留抽屉内应用标题，请使用 “文本大小” 进行调整</string>
     <string name="home_title_title_new_install_more">安装新应用时不显示应用标题旁边的指示标</string>
     <string name="home_title_font_size">文本大小</string>

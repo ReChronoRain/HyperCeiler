@@ -40,6 +40,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mCleanShareApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("is_app_selector", false);
+            intent.putExtra("need_mode", 2);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -48,6 +49,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mCleanOpenApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("is_app_selector", false);
+            intent.putExtra("need_mode", 2);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
