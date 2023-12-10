@@ -9,19 +9,22 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Handler
 import android.os.PowerManager
+import android.util.ArrayMap
 import android.widget.TextView
+import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNull
 import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadFirstClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.ObjectUtils.getObjectOrNull
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
+import com.github.kyuubiran.ezxhelper.ObjectUtils.setObject
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.api.IS_HYPER_OS
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
-import de.robv.android.xposed.XposedHelpers
 import java.io.BufferedReader
 import java.io.FileReader
 import java.math.BigDecimal
@@ -31,32 +34,62 @@ import kotlin.math.abs
 object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
-        // 去除单行限制，Android13 以上扩展一个刷新频率，Android12 的后面再看看情况
+        // 去除单行限制，Android13 以上扩展一个刷新频率
         if (getAndroidVersion() >= 33) {
             val clazzDependency = loadClass("com.android.systemui.Dependency")
             val clazzKeyguardIndicationController =
                 loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
-            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors
-             ?.createHooks {
+            loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
                 after { param ->
                     (param.thisObject as TextView).isSingleLine = false
-                    val screenOnOffReceiver = @SuppressLint("ServiceCast")
-                    object : BroadcastReceiver() {
-                        val keyguardIndicationController = if (isAndroidVersion(34))
-                            loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
-                        else invokeStaticMethodBestMatch(
-                            clazzDependency, "get", null, clazzKeyguardIndicationController)!!
+                    val screenOnOffReceiver = object : BroadcastReceiver() {
+                        val keyguardIndicationController = runCatching {
+                            invokeStaticMethodBestMatch(
+                                clazzDependency, "get", null, clazzKeyguardIndicationController
+                            )!!
+                        }.getOrElse {
+                            val clazzMiuiStub = loadClass("miui.stub.MiuiStub")
+                            val instanceMiuiStub = getStaticObjectOrNull(clazzMiuiStub, "INSTANCE")!!
+                            val mSysUIProvider = getObjectOrNull(instanceMiuiStub, "mSysUIProvider")!!
+                            val mKeyguardIndicationController =
+                                getObjectOrNull(mSysUIProvider, "mKeyguardIndicationController")!!
+                            invokeMethodBestMatch(mKeyguardIndicationController, "get")!!
+                        }
                         val handler = Handler((param.thisObject as TextView).context.mainLooper)
                         val runnable = object : Runnable {
-                            override fun run() {
-                                if (isAndroidVersion(34))
-                                    XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")//无线调试崩溃
-                                else
-                                    invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
+                            val clazzMiuiDependency = loadClass("com.miui.systemui.MiuiDependency")
+                            val clazzMiuiChargeController =
+                                loadClass("com.miui.charge.MiuiChargeController")
+                            val sDependency =
+                                getStaticObjectOrNull(clazzMiuiDependency, "sDependency")!!
+                            val mProviders =
+                                getObjectOrNull(sDependency, "mProviders") as ArrayMap<*, *>
+                            val mMiuiChargeControllerProvider = mProviders[clazzMiuiChargeController]!!
+                            val instanceMiuiChargeController = invokeMethodBestMatch(
+                                mMiuiChargeControllerProvider, "createDependency"
+                            )!!
 
-                                handler.postDelayed(
-                                    this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
-                                )
+                            override fun run() {
+                                if (IS_HYPER_OS) {
+                                    doUpdateForHyperOS()
+                                } else {
+                                    invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
+                                }
+                                handler.postDelayed(this, mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L)
+                            }
+
+                            fun doUpdateForHyperOS() {
+                                val mBatteryStatus = getObjectOrNull(
+                                    instanceMiuiChargeController, "mBatteryStatus"
+                                )!!
+                                val level = getObjectOrNull(mBatteryStatus, "level")
+                                val isPluggedIn = invokeMethodBestMatch(mBatteryStatus, "isPluggedIn")
+                                val mContext = getObjectOrNull(instanceMiuiChargeController, "mContext")
+                                val clazzChargeUtils = loadClass("com.miui.charge.ChargeUtils")
+                                val chargingHintText =
+                                    invokeStaticMethodBestMatch(clazzChargeUtils, "getChargingHintText", null, level, isPluggedIn, mContext)
+                                setObject(keyguardIndicationController, "mComputePowerIndication", chargingHintText)
+                                invokeMethodBestMatch(keyguardIndicationController, "updateDeviceEntryIndication", null, false)
                             }
                         }
 
@@ -79,13 +112,13 @@ object ChargingCVP : BaseHook() {
                         }
                     }
 
-                    with(param.thisObject as TextView) {
-                        val filter = IntentFilter().apply {
-                            addAction(Intent.ACTION_SCREEN_ON)
-                            addAction(Intent.ACTION_SCREEN_OFF)
-                        }
-                        context.registerReceiver(screenOnOffReceiver, filter)
+                    val filter = IntentFilter().apply {
+                        addAction(Intent.ACTION_SCREEN_ON)
+                        addAction(Intent.ACTION_SCREEN_OFF)
                     }
+                    (param.thisObject as TextView).context.registerReceiver(
+                        screenOnOffReceiver, filter
+                    )
                 }
             }
         } else {
@@ -98,27 +131,15 @@ object ChargingCVP : BaseHook() {
         }
 
         // 修改底部文本信息
-        val mBottomChargeClass by lazy {
-            when {
-                isMoreAndroidVersion(34) -> "com.miui.charge.ChargeUtils"
-                else -> "com.android.keyguard.charge.ChargeUtils"
-            }
-        }
-
-        loadClass(mBottomChargeClass).methodFinder()
-            .filterByName("getChargingHintText")
-            /*.filterByParamTypes(
-                Context::class.java,
-                Boolean::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType
-            )*/
-            .first().createHook {
-                after {
-                    it.result?.let { result ->
-                        it.result = result as String + getCVP()
-                    }
+        loadFirstClass(
+            "com.miui.charge.ChargeUtils", "com.android.keyguard.charge.ChargeUtils"
+        ).methodFinder().filterByName("getChargingHintText").filterByParamCount(3).first()
+            .createHook {
+                after { param ->
+                    param.result = param.result?.let { "$it${getCVP()}" }
                 }
-        }
+            }
+
     }
 
     private fun getCVP(): String {
