@@ -30,15 +30,15 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
     private String TAG = "AppDataAdapter";
     public ArrayList<AppArrayList> appLists = new ArrayList<>();
     private static List<AppData> appInfoList;
-    private static Set<String> selectedApps;
+    private Set<String> selectedApps;
     private ImageView appIcon;
     private TextView appName;
 
     private TextView appEdit;
     private CheckBox mSelecte;
     private final int resourceId;
-    private static String mKey;
-    private static int mMode;
+    private final String mKey;
+    private final int mMode;
 
     public AppDataAdapter(@NonNull Context context, int resource, List<AppData> appInfoList, String key, int mode) {
         super(context, resource, appInfoList);
@@ -224,7 +224,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         }
     }
 
-    private static String generateRandomString(int length) {
+    private String generateRandomString(int length) {
         // 定义包含所有可能字符的字符串
         String possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

@@ -1298,7 +1298,7 @@
     <string name="various_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="various_phrase_clipboardlist">Remove the number of phrases clipboard and time limits</string>
-    <string name="various_phrase_clipboardlist_more">After enabled, select the scope of the input method and restart it, which will cause the deletion of a single piece of content to be invalid</string>
+    <string name="various_phrase_clipboardlist_more">After it is enabled, select the input method scope and restart it</string>
     <string name="various_unlock_ime">Unlock IME</string>
     <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager</string>
     <string name="various_collapse_miui_title">MIUI Title</string>
