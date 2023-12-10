@@ -1,23 +1,25 @@
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.utils.blur;
 
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
-public class MiuiBlurUtils {
+import com.sevtinge.hyperceiler.utils.ReflectUtils;
+
+public class MiBlurUtils {
 
     public static void setContainerPassBlur(View view, int i) {
         if (view == null) {
-            Log.d("MiuiBlurUtils", "setPassBlur view is null");
+            Log.d("MiBlurUtils", "setPassBlur view is null");
             return;
         }
         try {
             boolean passWindowBlurEnabled = setPassWindowBlurEnabled(view, false);
             setMiBackgroundBlurMode(view, 1);
             setMiBackgroundBlurRadius(view, i);
-            Log.i("MiuiBlurUtils", "setContainerPassBlur result :" + passWindowBlurEnabled + ",view : " + view);
+            Log.i("MiBlurUtils", "setContainerPassBlur result :" + passWindowBlurEnabled + ",view : " + view);
         } catch (Exception e) {
-            Log.e("MiuiBlurUtils", "setContainerPassBlur error , view :" + view);
+            Log.e("MiBlurUtils", "setContainerPassBlur error , view :" + view);
             e.printStackTrace();
         }
     }
@@ -58,15 +60,15 @@ public class MiuiBlurUtils {
 
     public static void clearContainerPassBlur(View view) {
         if (view == null) {
-            Log.d("MiuiBlurUtils", "clearContainerMiBackgroundBlur view is null");
+            Log.d("MiBlurUtils", "clearContainerMiBackgroundBlur view is null");
             return;
         }
         try {
             setMiBackgroundBlurMode(view, 0);
             boolean passWindowBlurEnabled = setPassWindowBlurEnabled(view, false);
-            Log.d("MiuiBlurUtils", "clearContainerPassBlur result :" + passWindowBlurEnabled + ", view: " + view);
+            Log.d("MiBlurUtils", "clearContainerPassBlur result :" + passWindowBlurEnabled + ", view: " + view);
         } catch (Exception e) {
-            Log.e("MiuiBlurUtils", "clearContainerMiBackgroundBlur error , view :" + view);
+            Log.e("MiBlurUtils", "clearContainerMiBackgroundBlur error , view :" + view);
             e.printStackTrace();
         }
     }
@@ -77,7 +79,7 @@ public class MiuiBlurUtils {
 
     public static void setMemberBlendColor(View view, boolean z, int i, int i2) {
         if (view == null) {
-            Log.d("MiuiBlurUtils", "setMemberBlendColor view is null");
+            Log.d("MiBlurUtils", "setMemberBlendColor view is null");
             return;
         }
         try {
@@ -91,24 +93,24 @@ public class MiuiBlurUtils {
             } else {
                 addMiBackgroundBlendColor(view, argb2, 103);
             }
-            Log.i("MiuiBlurUtils", "setMemberBlendColor: view:" + view + ",colorDark:" + z + ",color:" + Integer.toHexString(argb) + ",labColor:" + Integer.toHexString(argb2));
+            Log.i("MiBlurUtils", "setMemberBlendColor: view:" + view + ",colorDark:" + z + ",color:" + Integer.toHexString(argb) + ",labColor:" + Integer.toHexString(argb2));
         } catch (Exception e) {
-            Log.e("MiuiBlurUtils", "setMemberBlendColor error , view :" + view);
+            Log.e("MiBlurUtils", "setMemberBlendColor error , view :" + view);
             e.printStackTrace();
         }
     }
 
     public static void clearMemberBlendColor(View view) {
         if (view == null) {
-            Log.d("MiuiBlurUtils", "clearMemberBlendColor view is null");
+            Log.d("MiBlurUtils", "clearMemberBlendColor view is null");
             return;
         }
         try {
             setMiViewBlurMode(view, 0);
             clearMiBackgroundBlendColor(view);
-            Log.d("MiuiBlurUtils", "clearMemberBlendColor view :" + view);
+            Log.d("MiBlurUtils", "clearMemberBlendColor view :" + view);
         } catch (Exception e) {
-            Log.e("MiuiBlurUtils", "clearMemberBlendColor error , view :" + view);
+            Log.e("MiBlurUtils", "clearMemberBlendColor error , view :" + view);
             e.printStackTrace();
         }
     }
