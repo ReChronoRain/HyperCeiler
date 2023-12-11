@@ -27,14 +27,14 @@ public class UnlockIme extends BaseHook {
 
     private void startHook(XC_LoadPackage.LoadPackageParam param) {
         // 检查是否为小米定制输入法
-        boolean isNonCustomize = false;
+        boolean isNonCustomize = true;
         for (String isMiui : miuiImeList) {
-            if (isMiui.contains(param.packageName)) {
-                isNonCustomize = true;
+            if (isMiui.equals(param.packageName)) {
+                isNonCustomize = false;
                 break;
             }
         }
-        if (!isNonCustomize) {
+        if (isNonCustomize) {
             Class<?> sInputMethodServiceInjector = findClassIfExists("android.inputmethodservice.InputMethodServiceInjector");
             if (sInputMethodServiceInjector == null)
                 sInputMethodServiceInjector = findClassIfExists("android.inputmethodservice.InputMethodServiceStubImpl");
@@ -52,30 +52,29 @@ public class UnlockIme extends BaseHook {
 
         // 获取常用语的ClassLoader
         boolean finalIsNonCustomize = isNonCustomize;
-        findAndHookMethod(findClassIfExists("android.inputmethodservice.InputMethodModuleManager"),
+        findAndHookMethod("android.inputmethodservice.InputMethodModuleManager",
             "loadDex", ClassLoader.class, String.class,
             new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    logE(TAG, "im get class: " + param.args[0]);
+                protected void after(MethodHookParam param) {
                     hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", (ClassLoader) param.args[0]);
                     Class<?> InputMethodBottomManager = findClassIfExists("com.miui.inputmethod.InputMethodBottomManager", (ClassLoader) param.args[0]);
                     if (InputMethodBottomManager != null) {
-                        if (!finalIsNonCustomize) {
+                        if (finalIsNonCustomize) {
                             hookSIsImeSupport(InputMethodBottomManager);
                             hookIsXiaoAiEnable(InputMethodBottomManager);
                         }
                         try {
                             // 针对A11的修复切换输入法列表
-                            findAndHookMethod(InputMethodBottomManager, "getSupportIme",
-                                new replaceHookedMethod() {
+                            hookAllMethods(InputMethodBottomManager, "getSupportIme",
+                                new MethodHook() {
                                     @Override
-                                    protected Object replace(MethodHookParam param) throws Throwable {
-                                        return ((InputMethodManager) XposedHelpers.getObjectField(
+                                    protected void before(MethodHookParam param) {
+                                        param.setResult(((InputMethodManager) XposedHelpers.getObjectField(
                                             XposedHelpers.getStaticObjectField(
                                                 InputMethodBottomManager,
                                                 "sBottomViewHelper"),
-                                            "mImm")).getEnabledInputMethodList();
+                                            "mImm")).getEnabledInputMethodList());
                                     }
                                 }
                             );
@@ -127,7 +126,7 @@ public class UnlockIme extends BaseHook {
                 "setNavigationBarColor", int.class,
                 new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         if ((int) param.args[0] == 0) return;
                         navBarColor = (int) param.args[0];
                         customizeBottomViewColor(clazz);
@@ -137,7 +136,7 @@ public class UnlockIme extends BaseHook {
             hookAllMethods(clazz, "addMiuiBottomView",
                 new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         customizeBottomViewColor(clazz);
                     }
                 }
