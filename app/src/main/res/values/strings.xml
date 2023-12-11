@@ -964,6 +964,7 @@
     <string name="home_title_animation_speed">Animation speed</string>
     <string name="home_title_big_icon_corner">Medium icon round corner follow</string>
     <string name="home_title_download_animation">Download animation</string>
+    <string name="home_title_unlock_blur_supported">Remove the advanced material folder blur restriction</string>
     <string name="home_title_fix_animation">Optimized interrupt animation</string>
     <string name="home_title_icon_scale">Icons scaling</string>
     <string name="home_title_disable_hide_file">Disable hiding the \"file\" icon</string>

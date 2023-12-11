@@ -997,6 +997,7 @@
     <string name="home_title_animation_speed">动画速度</string>
     <string name="home_title_big_icon_corner">中等图标圆角跟随</string>
     <string name="home_title_download_animation">下载动画</string>
+    <string name="home_title_unlock_blur_supported">解除高级材质文件夹模糊限制</string>
     <string name="home_title_fix_animation">优化打断动画</string>
     <string name="home_title_icon_scale">图标缩放</string>
     <string name="home_title_disable_hide_file">禁止隐藏 \"文件\" 图标</string>

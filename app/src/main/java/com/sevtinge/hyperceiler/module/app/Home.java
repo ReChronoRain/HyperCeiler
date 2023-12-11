@@ -102,6 +102,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.NewInstallIndicator;
 import com.sevtinge.hyperceiler.module.hook.home.title.PerfectIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleMarquee;
+import com.sevtinge.hyperceiler.module.hook.home.title.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AlwaysShowMiuiWidget;
@@ -191,6 +192,7 @@ public class Home extends BaseModule {
         // 图标
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
+        initHook(new UnlockBlurSupported(), mPrefsMap.getBoolean("home_title_unlock_blur_supported"));
         initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme"));
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));

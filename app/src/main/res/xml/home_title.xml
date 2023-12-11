@@ -24,6 +24,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_title_unlock_blur_supported"
+            android:title="@string/home_title_unlock_blur_supported" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_title_download_animation"
             android:title="@string/home_title_download_animation" />
 
