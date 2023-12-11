@@ -7,10 +7,12 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
+import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class NavigationSettings extends SettingsPreferenceFragment {
     SwitchPreference customNav;
+    PreferenceCategory mNav;
 
     @Override
     public int getContentResId() {
@@ -35,9 +37,10 @@ public class NavigationSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         customNav = findPreference("prefs_key_system_ui_navigation_custom");
+        mNav = findPreference("prefs_key_system_ui_navigation");
         if (customNav != null) {
-            customNav.setEnabled(!isGestureNavigationEnabled());
-            customNav.setVisible(customNav.isEnabled());
+            mNav.setEnabled(!isGestureNavigationEnabled());
+            mNav.setVisible(mNav.isEnabled());
         }
 
     }

@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.base;
 
+import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,7 +28,7 @@ import com.sevtinge.hyperceiler.ui.fragment.ModuleSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.SearchModeHelper;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
-import com.sevtinge.hyperceiler.utils.MiuiBlurUtils;
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtils;
 
 import java.util.ArrayList;
 
@@ -85,10 +87,15 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mNavigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mFragmentPage.setAdapter(mNavigationPagerAdapter);
 
-        MiuiBlurUtils.setContainerPassBlur(mNavigationView, 60);
-        MiuiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
-        MiuiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
-        MiuiBlurUtils.addMiBackgroundBlendColor(mNavigationView, Color.argb(60, 0, 0, 0), 105);
+
+        int i;
+        if (isDarkMode(this)) i = 140; else i = 180;
+        int a;
+        if (isDarkMode(this)) a = 80; else a = 100;
+        MiBlurUtils.setContainerPassBlur(mNavigationView, i);
+        MiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
+        MiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
+        MiBlurUtils.addMiBackgroundBlendColor(mNavigationView, Color.argb(a, 0, 0, 0), 103);
 
         mNavigationView.setOnCheckedChangeListener((radioGroup, checkedId) -> {
             if (checkedId == R.id.navigation_home) {

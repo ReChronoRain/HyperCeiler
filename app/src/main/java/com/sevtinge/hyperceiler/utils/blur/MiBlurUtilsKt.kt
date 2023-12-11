@@ -7,7 +7,7 @@ import android.view.ViewOutlineProvider
 import com.sevtinge.hyperceiler.utils.devicesdk.isDarkMode
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
-object MiBlurUtilities {
+object MiBlurUtilsKt {
     var mSupportedMiBlur: Boolean = true
 
     fun setViewBackgroundBlur(view: View?, i: Int) {
@@ -20,7 +20,7 @@ object MiBlurUtilities {
 
     fun setBlurRadius(view: View, i: Int) {
         if (i < 0 || i > 200) {
-            Log.e("MiBlurUtilities", "setMiBackgroundBlurRadius error radius is " + i + " " + view.javaClass.getName() + " hashcode " + view.hashCode())
+            Log.e("MiBlurUtilsKt", "setMiBackgroundBlurRadius error radius is " + i + " " + view.javaClass.getName() + " hashcode " + view.hashCode())
             return
         }
         HiddenApiBypass.invoke(View::class.java, view, "setMiBackgroundBlurRadius", i)

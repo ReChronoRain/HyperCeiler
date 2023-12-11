@@ -96,7 +96,7 @@ public class Helpers {
         public static int ALL = IMAGE | AUDIO | VIDEO | DOCUMENT | ARCHIVE | LINK | OTHERS;
     }
 
-    public static boolean isDackMode(Context context) {
+    public static boolean isDarkMode(Context context) {
         return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
@@ -109,7 +109,7 @@ public class Helpers {
             white = context.getResources().getColor(context.getResources().getIdentifier("white", "color", "miui"), context.getTheme());
         } catch (Throwable ignore) {
         }
-        return isDackMode(context) ? black : white;
+        return isDarkMode(context) ? black : white;
     }
 
     public static void applyShimmer(TextView title) {
