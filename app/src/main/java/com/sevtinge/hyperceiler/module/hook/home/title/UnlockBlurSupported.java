@@ -35,6 +35,7 @@ public class UnlockBlurSupported extends BaseHook {
                             "getMContainerPaddingTop") + rect.top,
                         rect.right, rect.bottom
                     );
+                    param.setResult(null);
                 }
             }
         );
