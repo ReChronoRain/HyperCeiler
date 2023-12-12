@@ -12,6 +12,7 @@
     <string name="translator">AndroPlus</string>
     <string name="translator_url">https://github.com/AndroPlus-org</string>
     <string name="home">ホーム</string>
+    <string name="edit">テキストを入力してください</string>
     <string name="settings">設定</string>
     <string name="about">アプリについて</string>
     <string name="about_use">引用</string>
@@ -149,6 +150,9 @@
     <string name="array_align_right">右</string>
     <string name="array_align_center">中央</string>
     <string name="array_netspeedicons_no">アイコンなし</string>
+    <string name="array_default_official">公式プリセットフォント</string>
+    <string name="array_default_thin">デフォルトフォント</string>
+    <string name="array_default_bold">デフォルト太字フォント</string>
     <string name="array_bold">太字</string>
     <string name="array_theme">テーマに従う</string>
     <string name="array_clock_center">時計を中央に表示</string>
@@ -239,6 +243,10 @@
     <string name="no_blur">ぼかしなし</string>
     <string name="miui_blur">HyperOS のぼかし</string>
     <string name="android_blur">AOSP のぼかし</string>
+    <string name="system_ui_statusbar_network_speed_style_1">値と単位を1行で表示</string>
+    <string name="system_ui_statusbar_network_speed_style_2">値と単位を2行で表示</string>
+    <string name="system_ui_statusbar_network_speed_style_3">アップリンクとダウンリンクのネットワーク速度を1行で表示</string>
+    <string name="system_ui_statusbar_network_speed_style_4">アップリンクとダウンリンクのネットワーク速度を2行で表示</string>
     <!--System Framework-->
     <string name="system_framework">システムフレームワーク</string>
     <string name="system_framework_volume_title">音量</string>
@@ -541,6 +549,8 @@
     <string name="system_ui_status_bar_mobile_type_single_title">モバイルネットワークタイプのアイコン</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">ネットワーク速度の更新間隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">ネットワーク速度のフォントサイズ</string>
+    <string name="system_ui_statusbar_network_speed_font_style">ネットワーク速度のフォントスタイル</string>
+    <string name="system_ui_statusbar_network_speed_style">ネットワーク速度インジケーターのスタイル</string>
     <string name="system_ui_statusbar_network_speed_swap_places">アップリンク・ダウンリンク速度とアイコンの位置を入れ替える</string>
     <string name="system_ui_statusbar_network_speed_hide">遅いネットワーク速度を非表示</string>
     <string name="system_ui_statusbar_network_speed_hide_all">アップリンクとダウンリンクの両方が遅いときは非表示にする</string>
@@ -915,6 +925,7 @@
     <string name="home_title_title_marquee">テキストスクロール</string>
     <string name="home_title_title_marquee_desc">長いアプリ名を折り返さずスクロールさせます</string>
     <string name="home_title_title_new_install">新しくインストールしたアプリのインジケーターを非表示</string>
+    <string name="home_title_title_icontitlecustomization">アプリのタイトルを編集</string>
     <string name="home_title_drawer_font_hidden">すべてのアプリのタイトルを隠す</string>
     <string name="home_title_drawer_font_hidden_more">ドロワー内のアプリタイトルも非表示になります。\n好みでなければ「フォントサイズ」を使用して調整してください</string>
     <string name="home_title_title_new_install_more">新しくアプリをインストールしたとき、アプリタイトルの横にインジケーターを表示させないようにします</string>
@@ -923,6 +934,7 @@
     <string name="home_title_animation_speed">アニメーションの速度</string>
     <string name="home_title_big_icon_corner">中程度のアイコン角丸をフォロー</string>
     <string name="home_title_download_animation">ダウンロードアニメーション</string>
+    <string name="home_title_unlock_blur_supported">高度なマテリアルフォルダのぼかし制限を削除</string>
     <string name="home_title_fix_animation">最適化した割込みアニメーション</string>
     <string name="home_title_icon_scale">アイコンの大きさ</string>
     <string name="home_title_disable_hide_file">「ファイル」アイコンの非表示を無効化</string>
@@ -1148,6 +1160,7 @@
     <string name="security_center_unlock_side_hide_freeform">サイドハイドフリーフォームをアンロック</string>
     <string name="security_center_unlock_side_hide_freeform_desc">制限のあるデバイスのために、サイドハイドフリーフォームをアンロックします。デバイスがバックグラウンドに切り替わったときのウィジェットの動作にも影響します</string>
     <string name="security_center_unlock_smart_charge_title">最適化された充電と低バッテリー急速充電機能をアンロック</string>
+    <string name="security_center_unlock_smart_charge_title_summary">アンロックされる機能:\n- バッテリー保護 -&gt; ナビ中の自動切断\n- その他のバッテリー機能 -&gt; 緊急省電力モード</string>
     <string name="security_center_super_wireless_charge">スーパーワイヤレス充電をアンロック</string>
     <string name="security_center_blur_model">サイドバーぼかしのモデル</string>
     <string name="security_center_invert_color">アイコンを反転</string>
@@ -1252,7 +1265,7 @@
     <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="various_disable_access_device_logs">デバイスログへのアクセス要求ダイアログを無効化</string>
     <string name="various_phrase_clipboardlist">クリップボードの数と時間の制限を削除</string>
-    <string name="various_phrase_clipboardlist_more">有効化した後、入力メソッドのスコープを選択して再起動してください。1つのコンテンツの削除が無効になります</string>
+    <string name="various_phrase_clipboardlist_more">有効化した後、入力メソッドのスコープを選択して再起動してください</string>
     <string name="various_unlock_ime">IME をアンロック</string>
     <string name="various_unlock_ime_desc">オンにした後は、Xposed マネージャーでキーボードアプリをスコープに追加してください</string>
     <string name="various_collapse_miui_title">MIUI のタイトル</string>
@@ -1365,6 +1378,7 @@
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
     <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
+    <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
     <!--Tip-->
     <string name="tip_0">ヒント: これがヒントです！</string>
     <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
