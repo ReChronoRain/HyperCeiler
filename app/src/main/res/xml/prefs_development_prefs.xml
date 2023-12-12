@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <DropDownPreference
+        android:defaultValue="0"
+        android:key="prefs_key_development_prefs_type"
+        android:title="@string/prefs_5"
+        app:entries="@array/development_prefs"
+        app:entryValues="@array/development_prefs_value" />
+
+    <Preference
+        android:key="prefs_key_development_prefs_check"
+        android:title="@string/prefs_6" />
+
+    <Preference
+        android:key="prefs_key_development_prefs_clean"
+        android:title="@string/prefs_7" />
+
+</PreferenceScreen>

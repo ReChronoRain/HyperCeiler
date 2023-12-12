@@ -6,4 +6,9 @@
         android:title="@string/development_ui"
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentUIFragment" />
 
+    <Preference
+        android:key="prefs_key_development_prefs"
+        android:title="@string/development_prefs"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentPrefsFragment" />
+
 </PreferenceScreen>

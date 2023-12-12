@@ -45,6 +45,15 @@
     <string name="translator_url">https://github.com/mu7220</string>
     <string name="home">Home</string>
     <string name="edit">Please enter text</string>
+    <string name="edit_out">Get the results</string>
+    <string name="edit_key">Enter a value for the Key</string>
+    <string name="prefs_1">This key does not exist: </string>
+    <string name="prefs_2">Successfully removed Key: </string>
+    <string name="prefs_3">Removing Key failed, may not exist: </string>
+    <string name="prefs_4">Please check the return value type that requires obtaining the Key!</string>
+    <string name="prefs_5">Select type</string>
+    <string name="prefs_6">Check sharing preferences</string>
+    <string name="prefs_7">Remove specified Key</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="about_use">Quote</string>
@@ -59,6 +68,7 @@
     <string name="location_delete">Delete</string>
     <string name="development">Developer Options</string>
     <string name="development_ui">UI</string>
+    <string name="development_prefs">Share preference</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>
     <string name="settings_show_title">Show</string>
