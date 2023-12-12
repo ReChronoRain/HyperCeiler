@@ -28,10 +28,20 @@
     <string name="location_add">添加</string>
     <string name="location_delete">删除</string>
     <string name="edit">请输入文本</string>
+    <string name="edit_key">输入Key值</string>
+    <string name="edit_out">获取结果</string>
+    <string name="prefs_1">不存在此Key: </string>
+    <string name="prefs_2">成功移除Key: </string>
+    <string name="prefs_3">移除Key失败,可能不存在: </string>
+    <string name="prefs_4">请检查需要获取Key的返回值类型！</string>
+    <string name="prefs_5">选择类型</string>
+    <string name="prefs_6">检查共享首选项</string>
+    <string name="prefs_7">移除指定Key</string>
 
     <string name="development">开发者选项</string>
     <string name="development_ui">界面元素测试</string>
     <string name="development_debug_info">调试信息</string>
+    <string name="development_prefs">共享首选项</string>
 
     <string name="settings_show_title">显示</string>
     <string name="settings_data_title">备份与恢复</string>
