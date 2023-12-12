@@ -29,7 +29,10 @@
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Make HyperOS Great Again!</string>
+    <string name="xposed_description">Make HyperOS/MIUI Great Again!</string>
+
+    <string name="description_hyperos" translatable="false">Make HyperOS Great Again!</string>
+    <string name="description_miui" translatable="false">Make MIUI Great Again!</string>
 
     <string name="new_permission_wifi_state_desc">add and delete files on device\'s internal storage</string>
     <string name="new_permission_location_desc">used to provide services such as latitude and longitude</string>
