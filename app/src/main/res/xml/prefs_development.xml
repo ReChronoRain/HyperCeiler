@@ -7,13 +7,13 @@
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.development.DevelopmentDebugInfoFragment" />
 
     <Preference
-        android:key="prefs_key_development_ui"
-        android:title="@string/development_ui"
-        android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.development.DevelopmentUIFragment" />
-
-    <Preference
         android:key="prefs_key_development_prefs"
         android:title="@string/development_prefs"
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.development.DevelopmentPrefsFragment" />
+
+    <Preference
+        android:key="prefs_key_development_ui"
+        android:title="@string/development_ui"
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.development.DevelopmentUIFragment" />
 
 </PreferenceScreen>
