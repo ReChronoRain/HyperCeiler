@@ -3,9 +3,15 @@ package com.sevtinge.hyperceiler.utils.devicesdk
 import android.os.Build
 
 /**
-获取设备 Android 版本 、MIUI 版本 、HyperOS 版本
+获取设备 Android 版本 、MIUI 版本 、HyperOS 版本 等
 并判断设备指定类型
  */
+
+fun getSystemVersionIncremental(): String = getProp("ro.system.build.version.incremental")
+fun getHost(): String = android.os.Build.HOST
+fun getBuilder(): String = getProp("ro.build.user")
+fun getBaseOs(): String = getProp("ro.build.version.base_os")
+fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
 
 // ----- Android ----------------------------------------------------------------------------------
 

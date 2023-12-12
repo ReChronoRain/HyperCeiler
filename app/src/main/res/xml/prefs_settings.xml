@@ -57,7 +57,7 @@
             android:summary="@string/disable_detailed_log_desc"/>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.DevelopmentFragment"
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.settings.development.DevelopmentFragment"
             android:key="prefs_key_development"
             android:title="@string/development" />
 
