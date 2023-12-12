@@ -38,7 +38,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private final static Method deoptimizeMethod;
     private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
-    public static final String TAG = "CorePatchForR";
+    public static final String TAG = "[CorePatchForR]";
 
     static {
         Method m = null;

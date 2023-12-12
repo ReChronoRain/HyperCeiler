@@ -9,7 +9,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatchForS extends CorePatchForR {
-    public static final String TAG = "CorePatchForS";
+    public static final String TAG = "[CorePatchForS]";
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         super.handleLoadPackage(loadPackageParam);
