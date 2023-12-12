@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.ui.fragment;
+package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
 import android.view.LayoutInflater;
 import android.view.View;
