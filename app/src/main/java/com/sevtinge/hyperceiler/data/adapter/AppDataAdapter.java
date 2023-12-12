@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallback {
-    private String TAG = "AppDataAdapter";
+    private final String TAG = "AppDataAdapter";
     public ArrayList<AppArrayList> appLists = new ArrayList<>();
     private static List<AppData> appInfoList;
     private Set<String> selectedApps;
@@ -84,10 +84,10 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         String string1 = "";
         String string2 = "";
         Pattern pattern = Pattern.compile(".*฿(.*)฿.*");
-        ArrayList<String> have = new ArrayList<>();
+        // ArrayList<String> have = new ArrayList<>();
         for (String edit : selectedApps) {
             if (edit.contains(packageName + "฿")) {
-                have.add(edit);
+                // have.add(edit);
                 Matcher matcher = pattern.matcher(edit);
                 if (matcher.find()) {
                     string2 = matcher.group(1);
@@ -97,7 +97,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         if (string2 != null && !string2.equals("")) {
             for (int i = 0; i < appLists.size(); i++) {
                 AppArrayList arrayList = appLists.get(i);
-                if (arrayList.mPackageName.contains(packageName)) {
+                if (arrayList.mPackageName.equals(packageName)) {
                     arrayList.mEdit = string2;
                 }
             }
@@ -133,7 +133,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         } else {
             for (int i = 0; i < appLists.size(); i++) {
                 AppArrayList appList = appLists.get(i);
-                if (appList.mPackageName.contains(appData.packageName)) {
+                if (appList.mPackageName.equals(appData.packageName)) {
                     if (!appList.mAppName.equals(appName)) {
                         appList.mAppName = appName;
                     }
@@ -159,7 +159,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         String isOriginal = null;
         for (int i = 0; i < appLists.size(); i++) {
             AppArrayList arrayList = appLists.get(i);
-            if (arrayList.mPackageName.contains(packageName)) {
+            if (arrayList.mPackageName.equals(packageName)) {
                 if (arrayList.mEdit != null) {
                     mLastEdit = arrayList.mEdit;
                 }
