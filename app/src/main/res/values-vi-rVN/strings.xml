@@ -940,6 +940,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_title_big_icon_corner">Bo tròn góc biểu tượng hình viên thuốc</string>
     <string name="home_title_download_animation">Hoạt ảnh tải về</string>
+    <string name="home_title_unlock_blur_supported">Loại bỏ hạn chế làm mờ trong thư mục nâng cao</string>
     <string name="home_title_fix_animation">Tối ưu hiệu ứng chuyển cảnh</string>
     <string name="home_title_icon_scale">Tỷ lệ biểu tượng</string>
     <string name="home_title_disable_hide_file">Không ẩn biểu tượng \"Tệp\"</string>

@@ -934,6 +934,7 @@
     <string name="home_title_animation_speed">Velocidade da animação</string>
     <string name="home_title_big_icon_corner">Siga o canto redondo do ícone médio</string>
     <string name="home_title_download_animation">Baixar animação</string>
+    <string name="home_title_unlock_blur_supported">Remover restrição do blur da pasta de materiais avançados</string>
     <string name="home_title_fix_animation">Animação de interrupção otimizada</string>
     <string name="home_title_icon_scale">Dimensionamento de ícones</string>
     <string name="home_title_disable_hide_file">Desative a ocultação do ícone \"arquivo\"</string>
