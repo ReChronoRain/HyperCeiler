@@ -39,7 +39,9 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         try {
             propertiesModule.put("VersionName", BuildConfig.VERSION_NAME);
             propertiesModule.put("VersionCode", String.valueOf(BuildConfig.VERSION_CODE));
+            propertiesModule.put("BuildTime", "(UTC+0:00) " + BuildConfig.BUILD_TIME);
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
+            propertiesModule.put("Debug", String.valueOf(BuildConfig.DEBUG));
             propertiesModule.put("ApplicationId", BuildConfig.APPLICATION_ID);
         } catch (Exception ignored) {
         }
@@ -63,6 +65,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("RomAuthor", getRomAuthor());
             propertiesSystem.put("BaseOs", getBaseOs());
             propertiesSystem.put("Host", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHost());
+            propertiesSystem.put("BuildDate", getBuildDate());
         } catch (Exception ignored) {
         }
         try {

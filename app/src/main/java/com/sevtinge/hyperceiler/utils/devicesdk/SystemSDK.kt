@@ -8,7 +8,8 @@ import android.os.Build
  */
 
 fun getSystemVersionIncremental(): String = getProp("ro.system.build.version.incremental")
-fun getHost(): String = android.os.Build.HOST
+fun getBuildDate(): String = getProp("ro.system.build.date")
+fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
 fun getBaseOs(): String = getProp("ro.build.version.base_os")
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
