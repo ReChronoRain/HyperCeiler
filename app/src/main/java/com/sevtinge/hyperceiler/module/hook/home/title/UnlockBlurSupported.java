@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.home.title;
 
 import android.graphics.Rect;
-import android.widget.FrameLayout;
+import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -29,8 +29,8 @@ public class UnlockBlurSupported extends BaseHook {
                 @Override
                 protected void before(MethodHookParam param) {
                     Rect rect = (Rect) param.args[0];
-                    FrameLayout frameLayout = (FrameLayout) param.thisObject;
-                    XposedHelpers.callMethod(frameLayout, "setPadding", rect.left,
+                    View view = (View) param.thisObject;
+                    XposedHelpers.callMethod(view, "setPadding", rect.left,
                         (int) XposedHelpers.callMethod(param.thisObject,
                             "getMContainerPaddingTop") + rect.top,
                         rect.right, rect.bottom
