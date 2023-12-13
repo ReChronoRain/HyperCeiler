@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Torne o HyperOS ótimo novamente!</string>
+    <string name="xposed_description">Torne o HyperOS/MIUI ótimo novamente!</string>
     <string name="new_permission_wifi_state_desc">adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
     <string name="new_permission_location_desc">ser usado para fornecer serviços como latitude e longitude</string>
     <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciamento de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
@@ -13,6 +13,15 @@
     <string name="translator_url">https://github.com/igormiguell</string>
     <string name="home">Início</string>
     <string name="edit">Por favor, insira o texto</string>
+    <string name="edit_out">Obtenha os resultados</string>
+    <string name="edit_key">Insira um valor para a chave</string>
+    <string name="prefs_1">Esta chave não existe: </string>
+    <string name="prefs_2">Chave removida com sucesso: </string>
+    <string name="prefs_3">Falha ao remover a chave, pode não existir: </string>
+    <string name="prefs_4">Por favor, verifique o tipo de valor de retorno que requer a obtenção da chave!</string>
+    <string name="prefs_5">Selecionar tipo</string>
+    <string name="prefs_6">Verifique as preferências de compartilhamento</string>
+    <string name="prefs_7">Remover chave especificada</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
     <string name="about_use">Citar</string>
@@ -27,6 +36,8 @@
     <string name="location_delete">Excluir</string>
     <string name="development">Opções do desenvolvedor</string>
     <string name="development_ui">UI</string>
+    <string name="development_debug_info">Informações de depuração</string>
+    <string name="development_prefs">Preferência de compartilhamento</string>
     <string name="about_privacy">Política de privacidade</string>
     <string name="about_protocol">Acordo do usuário</string>
     <string name="settings_show_title">Mostrar</string>
