@@ -31,7 +31,7 @@ public class StatusBarIcon extends BaseHook {
                     }
                 }
             );
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
 
         findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",

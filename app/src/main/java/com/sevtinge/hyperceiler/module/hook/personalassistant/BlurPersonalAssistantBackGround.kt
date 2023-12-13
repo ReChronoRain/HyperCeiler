@@ -12,7 +12,9 @@ import com.sevtinge.hyperceiler.utils.replaceMethod
 import com.sevtinge.hyperceiler.utils.setObjectField
 
 object BlurPersonalAssistantBackGround : BaseHook() {
-    private val deviceAdapter = loadClass("com.miui.personalassistant.device.DeviceAdapter")
+    private val deviceAdapter by lazy {
+        loadClass("com.miui.personalassistant.device.DeviceAdapter")
+    }
     private val foldableDeviceAdapter by lazy {
         loadClass("com.miui.personalassistant.device.FoldableDeviceAdapter")
     }

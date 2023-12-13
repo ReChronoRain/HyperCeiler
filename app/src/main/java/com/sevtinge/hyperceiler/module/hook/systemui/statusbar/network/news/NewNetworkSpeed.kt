@@ -114,17 +114,6 @@ object NewNetworkSpeed : BaseHook() {
             logE(TAG, this.lpparam.packageName, "DetailedNetSpeedHook: No NetworkSpeed view or controller")
         } else {
             if (isAndroidVersion(33)) {
-                nscCls.methodFinder().first {
-                    name == "getTotalByte"
-                }.createHook {
-                    after {
-                        val bytes = getTrafficBytes()
-                        txBytesTotal = bytes.first
-                        rxBytesTotal = bytes.second
-                        measureTime = System.nanoTime()
-                    }
-                }
-
                 nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first()
                     .createHook {
                         before {
@@ -219,11 +208,7 @@ object NewNetworkSpeed : BaseHook() {
                             }
                             // 如果显示上下行网速显示，返回上下行网速的字符串
                             networkStyle == 3 -> {
-                                if (isLowSpeed && !isAllLowSpeed) {
-                                    strArr[0] = ""
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                } else if (isAllLowSpeed) {
+                                if (isAllLowSpeed) {
                                     strArr[0] = ""
                                     strArr[1] = ""
                                     it.args[0] = strArr
@@ -234,11 +219,7 @@ object NewNetworkSpeed : BaseHook() {
                                 }
                             }
                             networkStyle == 4 -> {
-                                if (isLowSpeed && !isAllLowSpeed) {
-                                    strArr[0] = ""
-                                    strArr[1] = ""
-                                    it.args[0] = strArr
-                                } else if (isAllLowSpeed) {
+                                if (isAllLowSpeed) {
                                     strArr[0] = ""
                                     strArr[1] = ""
                                     it.args[0] = strArr

@@ -170,11 +170,7 @@ object NetworkSpeed : BaseHook() {
                 }
             }
 
-            try {
-                nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first()
-            } catch (t: Throwable) {
-                nscCls.methodFinder().filterByName("updateText").filterByParamCount(1).first()
-            }.createHook {
+            nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first().createHook {
                 before {
                     when (icons) {
                         2 -> {
@@ -245,18 +241,14 @@ object NetworkSpeed : BaseHook() {
                         }
                         // 如果显示上下行网速显示，返回上下行网速的字符串
                         networkStyle == 3 -> {
-                            if (isLowSpeed && !isAllLowSpeed) {
-                                it.result = ""
-                            } else if (isAllLowSpeed) {
+                            if (isAllLowSpeed) {
                                 it.result = ""
                             } else {
                                 it.result = "$tx $rx"
                             }
                         }
                         networkStyle == 4 -> {
-                            if (isLowSpeed && !isAllLowSpeed) {
-                                it.result = ""
-                            } else if (isAllLowSpeed) {
+                            if (isAllLowSpeed) {
                                 it.result = ""
                             } else {
                                 it.result = "$tx\n$rx"

@@ -9,16 +9,20 @@ import com.sevtinge.hyperceiler.utils.setBooleanField
 
 object HideVoWiFiIcon : BaseHook() {
     override fun init() {
-        var hide_vowifi = mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi")
-        var hide_volte = mPrefsMap.getBoolean("system_ui_status_bar_icon_volte")
+        val hideVoWifi by lazy {
+            mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi")
+        }
+        val hideVolte by lazy {
+            mPrefsMap.getBoolean("system_ui_status_bar_icon_volte")
+        }
         if (isAndroidVersion(34)) {
             loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").constructors[0].createHook {
                 after {
-                    it.thisObject.setBooleanField("hideVowifi", hide_vowifi)
-                    it.thisObject.setBooleanField("hideVolte", hide_volte)
+                    it.thisObject.setBooleanField("hideVowifi", hideVoWifi)
+                    it.thisObject.setBooleanField("hideVolte", hideVolte)
                 }
             }
-        } else if (hide_vowifi) {
+        } else if (hideVoWifi) {
             loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").methodFinder().first {
                 name == "getHideVowifi"
             }.createHook { returnConstant(true) }
