@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.RedirectToNot
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlockEditor;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ClockDisplaySeconds;
@@ -251,6 +252,7 @@ public class SystemUI extends BaseModule {
         initHook(HideLockscreenZenMode.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_not_disturb_mode"));
         initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
+        initHook(new BlockEditor(),mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
 
         if (!isAndroidVersion(30)) {
             initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));

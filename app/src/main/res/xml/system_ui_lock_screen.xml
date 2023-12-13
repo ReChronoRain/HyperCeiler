@@ -38,6 +38,11 @@
             android:key="prefs_key_system_ui_lock_screen_unlock_tip"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_unlock_tip_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_block_editor"
+            android:title="@string/system_ui_lock_screen_block_editor_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_information_title">
@@ -65,12 +70,12 @@
             android:title="@string/system_ui_lock_screen_show_battery_temperature"
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
 
-        <SeekBarPreferenceEx            
+        <SeekBarPreferenceEx
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
             android:key="prefs_key_system_ui_lock_screen_show_spacing"
             android:title="@string/system_ui_lock_screen_show_spacing"
             android:defaultValue="6"
-            app:defaultValueText="@string/array_default"           
+            app:defaultValueText="@string/array_default"
             app:maxValue="10"
             app:minValue="2"
             app:stepValue="1"

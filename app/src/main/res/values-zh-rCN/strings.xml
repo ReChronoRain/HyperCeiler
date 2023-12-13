@@ -500,6 +500,7 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">隐藏勿扰模式通知</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
+    <string name="system_ui_lock_screen_block_editor_title">禁用长按进入锁屏编辑</string>
 
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
