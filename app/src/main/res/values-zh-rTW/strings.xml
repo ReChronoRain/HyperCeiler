@@ -1395,7 +1395,7 @@
     <string name="tip_1">小提示：你可以在「關於-贊助」中贊助以支援我們。</string>
     <string name="tip_2">小提示：想要聯繫開發者？這裡可以找到我 Telegram@Sevtinge_PM_bot 或 Bilibili@紺漓丨Sevtinge。</string>
     <string name="tip_3">小提示：想要加入官方群組嗎？可以通過 Telegram@hyperceiler 或在 QQ 中搜尋 247909573。</string>
-    <string name="tip_4">小提示：HyperCeiler = Ceiler + MIUI ⇒ Ceiler = Ceil + er。</string>
+    <string name="tip_4">小提示：HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
     <string name="tip_5">小提示：猜猜這種小提示還會出現多少次？</string>
     <string name="tip_6">小提示：讓 HyperCeiler 再次偉大！</string>
     <string name="tip_7">小提示：歡迎關注 Github@sevtinge 或 Bilibili@紺漓丨Sevtinge。</string>
@@ -1411,5 +1411,5 @@
     <string name="tip_17">小提示：鈴柒柒有兩種愛好，是個貓娘控也是個蘿莉控 (x</string>
     <string name="tip_18">小提示：HyperCeiler 是最會噴電的的系統內建 (喂！)</string>
     <string name="tip_19">小提示：變灰功能沒有特別註釋，代表功能異常，目前不計劃開放。</string>
-    <string name="tip_20">小提示：沒事，別找 Canary 追新，有問題也別急著更新。(扶額</string>
+    <string name="tip_20">小提示：沒事別找 Canary 追新，有問題也別急著更新。(扶額</string>
 </resources>
