@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.data;
 import android.graphics.Bitmap;
 
 public class AppData {
-
     public int user = 0;
     public Bitmap icon;
     public String label;

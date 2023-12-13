@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="prefs_key_development_kill_check"
+        android:title="@string/kill_2" />
+
+    <Preference
+        android:key="prefs_key_development_kill_package"
+        android:title="@string/kill_3" />
+
+    <Preference
+        android:key="prefs_key_development_kill_name"
+        android:title="@string/kill_4" />
+
+</PreferenceScreen>

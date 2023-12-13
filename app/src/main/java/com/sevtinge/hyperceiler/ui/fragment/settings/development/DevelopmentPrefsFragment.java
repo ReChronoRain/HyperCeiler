@@ -72,7 +72,6 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
                 return true;
             }
         );
-        super.initPrefs();
     }
 
     private int getType(String key) {

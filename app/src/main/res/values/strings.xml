@@ -45,6 +45,11 @@
     <string name="translator_url">https://github.com/mu7220</string>
     <string name="home">Home</string>
     <string name="edit">Please enter text</string>
+    <string name="kill">Kill tool</string>
+    <string name="kill_1">Enter package/software name</string>
+    <string name="kill_2">Find Process</string>
+    <string name="kill_3">Package name kill</string>
+    <string name="kill_4">Software name kill</string>
     <string name="edit_out">Get the results</string>
     <string name="edit_key">Enter a value for the Key</string>
     <string name="prefs_1">This key does not exist: </string>
