@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">MIUI\'yi Yeniden Harika Hale Getirin!</string>
+    <string name="xposed_description">HyperOS/MIUI\'yi Yeniden Harika Hale Getirin!</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>
