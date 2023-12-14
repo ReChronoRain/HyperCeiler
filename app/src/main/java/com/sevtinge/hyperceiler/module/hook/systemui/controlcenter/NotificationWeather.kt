@@ -1,7 +1,10 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.ComponentName
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +12,21 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.DisplayUtils
 import com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px
 import com.sevtinge.hyperceiler.utils.SystemProperties
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.setObjectField
 import com.sevtinge.hyperceiler.view.WeatherView
 
 
 object NotificationWeather : BaseHook() {
-    @SuppressLint("DiscouragedApi")
+    @SuppressLint("DiscouragedApi", "ServiceCast")
     override fun init() {
         var mWeatherView: TextView? = null
         var mConstraintLayout: ConstraintLayout? = null
@@ -35,8 +39,9 @@ object NotificationWeather : BaseHook() {
                 val context = viewGroup.context
 
                 // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
-                if (SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 &&
-                    !SystemProperties[context, "ro.build.version.incremental"].endsWith("XM")
+                if ((SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 &&
+                    !SystemProperties[context, "ro.build.version.incremental"].endsWith("XM")) &&
+                    !isMoreHyperOSVersion(1f)
                 ) {
                     // 获取原组件
                     val bigTimeId =
@@ -126,6 +131,7 @@ object NotificationWeather : BaseHook() {
                     (mWeatherView as WeatherView).layoutParams = mweatherviewLp
 
                 } else {
+
                     val layoutParam =
                         loadClass("androidx.constraintlayout.widget.ConstraintLayout\$LayoutParams").getConstructor(
                             Int::class.java,
@@ -134,6 +140,8 @@ object NotificationWeather : BaseHook() {
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
                         ) as ViewGroup.MarginLayoutParams
+
+
                     layoutParam.setObjectField(
                         "bottomToTop",
                         context.resources.getIdentifier("date_time", "id", context.packageName)
@@ -142,6 +150,8 @@ object NotificationWeather : BaseHook() {
                         "startToEnd",
                         context.resources.getIdentifier("big_time", "id", context.packageName)
                     )
+
+
                     layoutParam.marginStart = context.resources.getDimensionPixelSize(
                         context.resources.getIdentifier(
                             "notification_panel_time_date_space",
