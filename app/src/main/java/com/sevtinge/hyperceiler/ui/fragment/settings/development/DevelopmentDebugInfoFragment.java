@@ -5,11 +5,14 @@ import static com.sevtinge.hyperceiler.utils.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.*;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.*;
 
+import android.widget.TextView;
+
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.Preference;
+import moralnorm.preference.TextPreference;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,6 +20,8 @@ import java.util.Map;
 public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
 
     private Preference mDebugInfo;
+    TextView m;
+
 
     @Override
     public int getContentResId() {
@@ -27,7 +32,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         mDebugInfo = findPreference("prefs_key_debug_info");
         if (mDebugInfo != null) {
-            mDebugInfo.setSummary(getDebugInfo());
+            mDebugInfo.setTitle(getDebugInfo());
         }
     }
 
@@ -61,7 +66,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("AndroidVersion", String.valueOf(getAndroidVersion()));
             propertiesSystem.put("MiuiVersion", String.valueOf(getMiuiVersion()));
             propertiesSystem.put("HyperOsVersion", String.valueOf(getHyperOSVersion()));
-            propertiesSystem.put("SystemVersionIncremental", getSystemVersionIncremental());
+            propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("Builder", getBuilder());
             propertiesSystem.put("RomAuthor", getRomAuthor());
             propertiesSystem.put("BaseOs", getBaseOs());

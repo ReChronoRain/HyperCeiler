@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="textview_white">#FF000000</color>
+    <color name="textview_black">#BEFFFFFF</color>
+
     <color name="navigation_icon_light">#FF000000</color>
     <color name="navigation_icon_dark">#FFFFFFFF</color>
     <color name="color_on_surface_variant">#FAABABAD</color>
