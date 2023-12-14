@@ -198,63 +198,10 @@
             android:title="@string/security_center_color"
             app:showAlphaSlider="true" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_new_vb"
-            android:title="@string/security_center_unlock_new_vb" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_game_performance_wild_mode"
-            android:title="@string/security_center_game_performance_wild_mode" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_dolby_open"
-            android:title="@string/security_center_dolby_open" />
-
-        <DropDownPreference
-            app:isPreferenceVisible="false"
-            android:key="prefs_key_security_center_sidebar_show_suggest"
-            android:title="@string/security_center_sidebar_show_suggest"
-            app:entries="@array/security_center_suggest"
-            app:entryValues="@array/security_center_suggest_value"
-            android:defaultValue="0" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_disable_security_center_sidebar_show_suggest"
-            android:title="@string/security_center_sidebar_show_suggest" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_remove_macro_black_list"
-            android:title="@string/security_center_remove_macro_black_list" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_gun_service"
-            android:title="@string/security_center_unlock_gun_service" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_disable_remove_screen_hold_on"
-            android:title="@string/security_center_disable_remove_screen_hold_on" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_memc"
-            android:title="@string/security_center_unlock_memc" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_enhance_contours"
-            android:title="@string/security_center_unlock_enhance_contours" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_s_resolution"
-            android:title="@string/security_center_unlock_s_resolution" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SecurityCenterSidebarFunctionFragment"
+            android:key="prefs_key_security_center_sidebar_function_title"
+            android:title="@string/security_center_sidebar_function_title" />
 
     </PreferenceCategory>
 

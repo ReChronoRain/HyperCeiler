@@ -1272,6 +1272,9 @@
     <string name="security_center_unlock_new_vb">解锁新版视频工具箱</string>
     <string name="security_center_game_performance_wild_mode">解锁游戏加速狂暴模式</string>
     <string name="security_center_unlock_fbo">解锁焕新存储</string>
+    <string name="security_center_sidebar_videobox_title">视频工具箱</string>
+    <string name="security_center_sidebar_gamebox_title">游戏工具箱</string>
+    <string name="security_center_sidebar_function_title">全局侧边栏功能</string>
     <!--小米智能卡-->
     <string name="tsmclient">小米智能卡</string>
     <string name="tsmclient_auto_nfc">自动管理 NFC</string>
