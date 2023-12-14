@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Làm cho HyperOS trở nên vĩ đại!</string>
+    <string name="xposed_description">Làm cho HyperOS/MIUI trở nên vĩ đại!</string>
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
     <string name="new_permission_location_desc">được sử dụng để cung cấp các dịch vụ như vĩ độ và kinh độ</string>
     <string name="new_cta_agree_desc">Trong quá trình sử dụng, để cung cấp cho bạn nhiều tính năng hơn, chúng tôi có thể xin phép Root/Su từ bạn. Bạn có thể vào Quản lý quyền bất cứ lúc nào để điều chỉnh trạng thái ủy quyền của tất cả các quyền và vui lòng truy cập trình quản lý Root/Su của bạn để có quyền Root/Su.</string>
@@ -13,6 +13,20 @@
     <string name="translator_url">https://t.me/Kimle69</string>
     <string name="home">Trang chủ</string>
     <string name="edit">Vui lòng nhập văn bản</string>
+    <string name="kill">Tắt công cụ</string>
+    <string name="kill_1">Nhập tên gói/ ứng dụng</string>
+    <string name="kill_2">Tìm tiến trình</string>
+    <string name="kill_3">Tên gói cần cắt</string>
+    <string name="kill_4">Tên ứng dụng cần tắt</string>
+    <string name="edit_out">Nhận kết quả</string>
+    <string name="edit_key">Nhập giá trị cho khóa</string>
+    <string name="prefs_1">Khóa này không tồn tại: </string>
+    <string name="prefs_2">Xóa khóa thành công: </string>
+    <string name="prefs_3">Không thể xóa khóa, có thể không tồn tại: </string>
+    <string name="prefs_4">Vui lòng kiểm tra loại giá trị trả về yêu cầu lấy khóa!</string>
+    <string name="prefs_5">Chọn loại</string>
+    <string name="prefs_6">Kiểm tra tùy chọn chia sẻ</string>
+    <string name="prefs_7">Xóa khóa được chỉ định</string>
     <string name="settings">Cài đặt</string>
     <string name="about">Giới thiệu</string>
     <string name="about_use">Trích dẫn</string>
@@ -27,6 +41,8 @@
     <string name="location_delete">Xóa</string>
     <string name="development">Tùy chọn nhà phát triển</string>
     <string name="development_ui">Giao diện</string>
+    <string name="development_debug_info">Thông tin gỡ lỗi</string>
+    <string name="development_prefs">Tùy chọn chia sẻ</string>
     <string name="about_privacy">Chính Sách Quyền Riêng Tư</string>
     <string name="about_protocol">Thoả thuận người dùng</string>
     <string name="settings_show_title">Hiện</string>
@@ -448,6 +464,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ẩn thông báo chế độ không làm phiền</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ẩn dòng \"Trượt lên để mở khoá\"</string>
     <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái ở màn hình khóa</string>
+    <string name="system_ui_lock_screen_block_editor_title">Tắt thao tác nhấn và giữ để vào chỉnh sửa màn hình khóa</string>
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
@@ -1011,7 +1028,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_always_blur_launcher_wallpaper">Luôn làm mờ hình nền</string>
     <string name="home_other_perfect_icon">Ưu tiên biểu tượng hoàn hảo</string>
     <string name="home_other_icon_mono_chrome">Màu nền biểu tượng</string>
-    <string name="home_other_icon_monet_color">Công cụ chọn màu monet</string>
+    <string name="home_other_icon_monet_color">Sử dụng Monet để chọn màu</string>
     <string name="home_other_use_edit_color">Sửa màu</string>
     <string name="home_other_your_color">Chỉnh sửa màu sắc</string>
     <string name="home_other_portrait_reverse">Đảo ngược màn hình dọc</string>

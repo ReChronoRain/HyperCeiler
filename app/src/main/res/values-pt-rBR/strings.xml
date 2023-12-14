@@ -13,6 +13,11 @@
     <string name="translator_url">https://github.com/igormiguell</string>
     <string name="home">Início</string>
     <string name="edit">Por favor, insira o texto</string>
+    <string name="kill">Ferramenta kill</string>
+    <string name="kill_1">Insira o nome do pacote/software</string>
+    <string name="kill_2">Encontrar processo</string>
+    <string name="kill_3">Nome do pacote kill</string>
+    <string name="kill_4">Nome do software kill</string>
     <string name="edit_out">Obtenha os resultados</string>
     <string name="edit_key">Insira um valor para a chave</string>
     <string name="prefs_1">Esta chave não existe: </string>
@@ -457,6 +462,7 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Ocultar notificação do Modo foco</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar a solicitação de desbloqueio na parte inferior da tela</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
+    <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para acessar a edição da tela de bloqueio</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Linha de manuseio</string>
     <string name="system_ui_hide_navigation_bar">Ocultar barra de navegação</string>
@@ -967,13 +973,13 @@
     <string name="home_recent_horizontal_task_view_card_size1">Tamanho da miniatura para Horizontalmente-Vertical</string>
     <string name="home_recent_horizontal_task_view_card_size2">Tamanho da miniatura para Horizontalmente-Horizontal</string>
     <string name="home_recent_vertical_task_view_card_size">Tamanho da miniatura para Verticalmente</string>
-    <string name="home_recent_text_size">Tamanho do texto das miniaturas</string>
-    <string name="home_recent_text_color">Cor do texto das miniaturas</string>
+    <string name="home_recent_text_size">Tamanho do nome dos apps</string>
+    <string name="home_recent_text_color">Cor do nome dos apps</string>
     <string name="home_recent_freeform_background_color">Cor de fundo do cartão do app Janelas flutuantes</string>
     <string name="home_recent_show_real_memory">Exibir memória real</string>
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
-    <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza quando não houver apps em segundo plano</string>
+    <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza quando não houver nenhum app</string>
     <string name="home_recent_blur">Blur de fundo</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>

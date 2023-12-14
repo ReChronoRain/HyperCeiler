@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">Сделайте MIUI снова великой!</string>
+    <string name="xposed_description">Сделайте HyperOS/MIUI снова великой!</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">EvilGoodd</string>
