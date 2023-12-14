@@ -29,11 +29,11 @@
     <string name="location_delete">删除</string>
     <string name="edit">请输入文本</string>
     <string name="edit_key">输入 Key 值</string>
-    <string name="kill">Kill工具</string>
+    <string name="kill">Kill 工具</string>
     <string name="kill_1">输入包名/软件名</string>
     <string name="kill_2">查找进程</string>
-    <string name="kill_3">包名kill</string>
-    <string name="kill_4">软件名kill</string>
+    <string name="kill_3">包名 kill</string>
+    <string name="kill_4">软件名 kill</string>
     <string name="edit_out">获取结果</string>
     <string name="prefs_1">不存在此 Key: </string>
     <string name="prefs_2">成功移除 Key: </string>
