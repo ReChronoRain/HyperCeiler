@@ -311,7 +311,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform">Turn all freeform into mini freeform</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Turn all freeform into mini freeform in recent tasks\nThis feature is an experimental feature with high instability</string>
     <string name="system_framework_freeform_jump">Open with freeform when jump to another app</string>
-    <string name="system_framework_freeform_foreground_pin">Default front desk for freeform</string>
+    <string name="system_framework_freeform_foreground_pin">Welt windows force the front desk</string>
     <string name="system_framework_freeform_title_desc">In the following scenarios, when you need to jump to other apps, you will use the freeform to open</string>
     <string name="system_framework_freeform_content_extension_desc">Only supports links</string>
     <string name="system_framework_default_volume_stream">Adjust volume by default</string>
