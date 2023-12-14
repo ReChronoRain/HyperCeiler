@@ -1347,11 +1347,4 @@
     <string name="enable_suggest">Activar sugerencias</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radio de redondeo</string>
     <string name="system_ui_disable_clock_anim">Deshabilite la animación de transición del reloj deslizante en el Centro de notificaciones</string>
-    <!--Tip-->
-    <string name="tip_0">Consejo: ¡Aquí tienes un consejo!</string>
-    <string name="tip_1">Consejo: Puedes apoyarnos donando en \"Acerca de - Soporte\".</string>
-    <string name="tip_2">Consejo: ¿Quieres contactar con el desarrollador? Telegram@Sevtinge_PM_bot o Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Consejo: ¿Quieres unirte al grupo oficial? Telegram@hyperceiler o busque 247909573 en QQ.</string>
-    <string name="tip_4">Consejo: HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Consejo: ¿Adivina cuántas veces más tendrás que volver a ver este consejo?</string>
 </resources>

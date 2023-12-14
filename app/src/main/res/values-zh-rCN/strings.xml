@@ -1487,26 +1487,6 @@
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
-    <!--Tip-->
-    <string name="tip_0">Tip: 叮咚~ 来了一条消息！      哦，是 Tip 啊，那没事了（</string>
-    <string name="tip_1">Tip: 您可以在 \"关于-支持\" 中捐赠以支持和维护我们的开发。</string>
-    <string name="tip_2">Tip: 想要联系开发者？Telegram@Sevtinge_PM_bot 或者 哔哩哔哩@绀漓丨Sevtinge。</string>
-    <string name="tip_3">Tip: 想要加入群聊一起划水？Telegram@hyperceiler 或者在 QQ 搜索 247909573 加入群聊。</string>
-    <string name="tip_4">Tip: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Tip: 猜猜下一次看到这条 Tip 是什么时候？</string>
-    <string name="tip_6">Tip: Make HyperOS Great Again!</string>
-    <string name="tip_7">Tip: 关注绀漓喵，关注绀漓谢谢喵~ (Github@sevtinge 或者 哔哩哔哩@绀漓丨Sevtinge)</string>
-    <string name="tip_8">Tip: 理想中的乌托邦并不存在于现实中。</string>
-    <string name="tip_9">Tip: 但行善事，莫问前程。</string>
-    <string name="tip_10">Tip: 开发者不会占卜。</string>
-    <string name="tip_11">Tip: 我保留了一些 bug，这样你才知道你用的是 HyperCeiler 。</string>
-    <string name="tip_12">Tip: 你知道吗？其实 Tips 全是废话。(确信)</string>
-    <string name="tip_13">Tip: 你知道吗？HyperCeiler 的生日在 5 月 1 日，而绀漓的在 2 月 2 日。</string>
-    <string name="tip_14">Tip: HyperCeiler 被玩坏了！     一定不是 HyperCeiler 的问题！一定不是！</string>
-    <string name="tip_15">Tip: 又是想用 Rust 重构的一天。</string>
-    <string name="tip_16">Tip: 有本事你开源啊~</string>
-    <string name="tip_17">Tip: 60800220501180233</string>
-    <string name="tip_18">Tip: HyperCeiler 是电老虎 (暴论)</string>
-    <string name="tip_19">Tip: 变成灰色的功能，如果没有特别注译的话，就是功能存在异常，暂时不打算开放给用户使用，简称饼</string>
-    <string name="tip_20">Tip: Canary 版本从来没有 bug。</string>
+
+    <string name="tip_default">Tip: 这里是默认 tip ~ 如果你能看见我，就说明 HyperCeiler 出现了问题，请及时且有效的反馈给开发者。</string>
 </resources>

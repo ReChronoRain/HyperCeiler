@@ -1435,26 +1435,5 @@
     <string name="enable_suggest">Enable Suggest</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
-    <!--Tip-->
-    <string name="tip_0">Tip: Here\'s a tip!</string>
-    <string name="tip_1">Tip: You can support us by donating in \"About - Support\".</string>
-    <string name="tip_2">Tip: Want to contact to developer? Telegram@Sevtinge_PM_bot or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Tip: Want to join the official group? Telegram@hyperceiler or search 247909573 in QQ.</string>
-    <string name="tip_4">Tip: HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Tip: Guess how many more times you have to see this tip again?</string>
-    <string name="tip_6">Tip: Make HyperOS Great Again!</string>
-    <string name="tip_7">Tip: Welcome to follow Github@sevtinge or Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_8">Tip: The ideal Utopia does not exist in reality.</string>
-    <string name="tip_9">Tip: Do good deeds, and don\'t ask about the future.</string>
-    <string name="tip_10">Tip: The developer does not do divination.</string>
-    <string name="tip_11">Tip: I\'ve kept some bugs so you know you\'re using HyperCeiler.</string>
-    <string name="tip_12">Tip: Do you know? In fact, Tips is all nonsense. (Convinced)</string>
-    <string name="tip_13">Tip: Do you know? HyperCeiler\'s birthday is on May 1, and Sevtinge\'s birthday is on February 2.</string>
-    <string name="tip_14">Tip: HyperCeiler is broken! It must not be a problem with HyperCeiler!</string>
-    <string name="tip_15">Tip: It\'s another day of wanting to refactor in RUST.</string>
-    <string name="tip_16">Tip: If you are a man, open source.</string>
-    <string name="tip_17">Tip: 60800220501180233</string>
-    <string name="tip_18">Tip: HyperCeiler is the fastest battery draining system app (grumpy speech)</string>
-    <string name="tip_19">Tip: If there is no special annotation for the function that turns gray, it means that the function is abnormal, and it is not planned to be opened to users for the time being</string>
-    <string name="tip_20">Tip: There has never been a bug in the Canary version.</string>
+    <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>

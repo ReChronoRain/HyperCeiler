@@ -1049,5 +1049,4 @@
     <string name="hyperceiler_restart_quick">Быстрый перезапуск приложения</string>
     <string name="location_add">Добавить</string>
     <string name="location_delete">Удалить</string>
-    <!--Tip-->
 </resources>

@@ -1391,26 +1391,4 @@
     <string name="enable_suggest">啟用推薦</string>
     <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
     <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
-    <!--Tip-->
-    <string name="tip_0">小提示：這是一個提示 (tip) ！</string>
-    <string name="tip_1">小提示：您可以在「關於-赞助」中贊助支援我們。</string>
-    <string name="tip_2">小提示：想要聯繫開發者？這裡可以找到我 Telegram@Sevtinge_PM_bot 或 Bilibili@绀漓丨Sevtinge。</string>
-    <string name="tip_3">小提示：想要加入官方群組嗎？可以通過 Telegram@hyperceiler 或在 QQ 中搜索 247909573。</string>
-    <string name="tip_4">小提示：HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
-    <string name="tip_5">小提示：猜猜這種小提示還會出現多少次？</string>
-    <string name="tip_6">小提示：讓 HyperOS 再次偉大！</string>
-    <string name="tip_7">小提示：歡迎關注 Github@sevtinge 或 Bilibili@绀漓丨Sevtinge。</string>
-    <string name="tip_8">小提示：理想中的烏托邦在現實中並不存在。</string>
-    <string name="tip_9">小提示：三江市常發生倒塌。</string>
-    <string name="tip_10">小提示：世間盡是錦繡，遺憾絢麗無緣 Sevtinge。</string>
-    <string name="tip_11">小提示：我保留了一部分 bug 的味道，才知道你食的是 HyperCeiler。</string>
-    <string name="tip_12">小提示：你知道嗎？提示都是廢話。(歪頭燦笑)</string>
-    <string name="tip_13">小提示：誰懂啊？HyperCeiler 的生日 5 月 1 號，Sevtinge 的生日卻在 2 月 2 號。</string>
-    <string name="tip_14">小提示：Sevtinge 曾就讀於山河大學三江市校區的資訊工程與技術學院。</string>
-    <string name="tip_15">小提示：聽說…… Sevtinge 有兩種不同的形態。</string>
-    <string name="tip_16">小提示：Sevtinge 是隻小狐娘！(小心福瑞控)</string>
-    <string name="tip_17">小提示：鈴柒柒有兩種愛好，是個貓娘控也是個蘿莉控 (x</string>
-    <string name="tip_18">小提示：HyperCeiler 是最會噴電的的系统內建 (喂！)</string>
-    <string name="tip_19">小提示：變灰功能沒有特別註釋，代表功能異常，目前不計劃開放。</string>
-    <string name="tip_20">小提示：沒事別找 Canary 追新，有問題也別急著更新。(扶額</string>
 </resources>

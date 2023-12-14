@@ -1379,26 +1379,4 @@
     <string name="enable_suggest">サジェストを有効化</string>
     <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
     <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
-    <!--Tip-->
-    <string name="tip_0">ヒント: これがヒントです！</string>
-    <string name="tip_1">ヒント: 「アプリについて - スポンサー」で寄付すると、私たちを支援できます。</string>
-    <string name="tip_2">ヒント: 開発者に質問したい場合は、Telegram@Sevtinge_PM_bot か Bilibili@绀漓丨Sevtinge までご連絡ください。</string>
-    <string name="tip_3">ヒント: 公式グループに参加したい場合は、Telegram@hyperceiler か QQ で 247909573 を検索してください。</string>
-    <string name="tip_4">ヒント: HyperCeiler = HyperOS + Ceiler、Ceiler = Ceil + er</string>
-    <string name="tip_5">ヒント: おまえは今まで見たヒントの数をおぼえているのか?</string>
-    <string name="tip_6">ヒント: HyperCeiler を再び偉大な物にしましょう!</string>
-    <string name="tip_7">ヒント: Github@sevtinge や Bilibili@绀漓丨Sevtinge をフォローしましょう！</string>
-    <string name="tip_8">ヒント: 理想的なユートピアは現実には存在しません。</string>
-    <string name="tip_9">ヒント: 東京タワーは壊されがちです。</string>
-    <string name="tip_10">ヒント: この世界は美しい… この美しさが Sevtinge のものでないのは残念です。</string>
-    <string name="tip_11">ヒント: HyperCeiler を使っていることが分かるように、いくつかのバグを残しておきました。</string>
-    <string name="tip_12">ヒント：ご存知ですか？実際にはヒントは全てナンセンスです。</string>
-    <string name="tip_13">ヒント: HyperCeiler の誕生日は5月1日、Sevtinge の誕生日は2月2日です。</string>
-    <string name="tip_14">ヒント: Sevtinge は山河大学 三江市キャンパス 情報工程学院出身です。</string>
-    <string name="tip_15">ヒント: Sevtinge には第二形態があるらしい…</string>
-    <string name="tip_16">ヒント: Sevtinge は子狐です！</string>
-    <string name="tip_17">ヒント: Neko Qiqi は猫耳の女の子の人格とロリの人格を持っています。</string>
-    <string name="tip_18">ヒント: HyperCeiler は一番バッテリーを消費するシステムアプリです（ヘ、ヘイトスピーチ…）</string>
-    <string name="tip_19">ヒント: グレーアウトした機能は、特別な注釈がない場合機能が異常であることを意味しており、当分の間ユーザーに開放される予定はありません</string>
-    <string name="tip_20">ヒント: 何もしない場合は Canary の新しいバージョンを追わないでください。壊れている場合は急いでアップデートしないでください。</string>
 </resources>

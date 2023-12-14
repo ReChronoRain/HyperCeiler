@@ -1410,26 +1410,4 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="enable_suggest">Bật đề xuất</string>
     <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
     <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
-    <!--Tip-->
-    <string name="tip_0">Mẹo: Đây là một số mẹo!</string>
-    <string name="tip_1">Mẹo: Bạn có thể hỗ trợ chúng tôi bằng cách quyên góp : Giới thiệu - Tài trợ.</string>
-    <string name="tip_2">Mẹo: Bạn muốn liên hệ với nhà phát triển? Telegram@Sevtinge_PM_bot Hoặc Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_3">Mẹo: Bạn muốn tham gia nhóm chính thức? Telegram@hyperceiler Hoặc tìm 247909573 trong QQ.</string>
-    <string name="tip_4">Mẹo: HyperCeiler = Ceiler + MIUI, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Mẹo: Đoán xem bạn phải xem lại mẹo này bao nhiêu lần nữa?</string>
-    <string name="tip_6">Mẹo: Làm cho HyperOS trở nên vĩ đại!</string>
-    <string name="tip_7">Mẹo: Chào mừng bạn theo dõi trên Github@sevtinge Hoặc Bilibili@绀漓丨Sevtinge.</string>
-    <string name="tip_8">Mẹo: Sevtinge là con trai hay con gái?</string>
-    <string name="tip_9">Mẹo: Tin tức Sanjiang: Chuyến tàu GL3625 bị mất tích được tìm thấy vào lúc 5 giờ sáng ngày 7 tháng 4 năm 1404 trên chuyến Haimen-Jincheng xuất phát từ Haimen đến Jincheng của công ty vận tải đường sắt Har-Jincheng, toa thứ 13 đã biến mất một cách bí ẩn.</string>
-    <string name="tip_10">Mẹo: Sanjiang news: Sevtinge được xác nhận đã ngồi trên toa thứ 13 của đoàn tàu GL3625.</string>
-    <string name="tip_11">Mẹo: Sanjiang news: Người dân cho biết họ đã quen với việc đoàn tàu GL3625 biến mất.</string>
-    <string name="tip_12">Mẹo: Bạn có biết? Trong thực tế, Tất cả Mẹo là vô nghĩa.</string>
-    <string name="tip_13">Mẹo: Bạn có biết? Sinh nhật của HyperCeiler vào ngày 1/5, sinh nhật của Sevtinge vào ngày 2/2.</string>
-    <string name="tip_14">Mẹo: Sevtinge học tại Trường Đại học công nghệ thông tin Shanhe tại Thành Phố Sanjiang.</string>
-    <string name="tip_15">Mẹo: Tôi nghe nói Sevtinge có hai dạng phát hành khác nhau.</string>
-    <string name="tip_16">Mẹo: Sevtinge là một con cáo!</string>
-    <string name="tip_17">Mẹo: Neko Qiqi có hai nhân cách, một là cô gái yêu mèo và hai là người yêu lolita (x</string>
-    <string name="tip_18">Mẹo: HyperCeiler là ứng dụng tiêu hao pin nhanh nhất</string>
-    <string name="tip_19">Mẹo: Nếu không có chú thích đặc biệt cho chức năng chuyển sang màu xám, điều đó có nghĩa là chức năng đó không bình thường và nó không được lên kế hoạch mở cho người dùng trong thời điểm hiện tại</string>
-    <string name="tip_20">Mẹo: Đừng chạy theo phiên bản Canary nếu bạn không có việc gì làm và đừng vội cập nhật nếu nó bị hỏng (</string>
 </resources>

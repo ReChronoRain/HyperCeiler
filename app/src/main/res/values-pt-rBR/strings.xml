@@ -1396,26 +1396,4 @@
     <string name="enable_suggest">Ativar sugestão</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
-    <!--Tip-->
-    <string name="tip_0">Dica: Aqui vai uma dica!</string>
-    <string name="tip_1">Dica: Você pode nos apoiar doando em \"Sobre - Patrocinadores\".</string>
-    <string name="tip_2">Dica: Quer entrar em contato com o desenvolvedor? Telegram: @Sevtinge_PM_bot ou Bilibili: @绀漓丨Sevtinge.</string>
-    <string name="tip_3">Dica: Quer entrar no grupo oficial? Telegram: @hyperceiler ou pesquise 247909573 no QQ.</string>
-    <string name="tip_4">Dica: HyperCeiler = HyperOS + Ceiler, Ceiler = Ceil + er.</string>
-    <string name="tip_5">Dica: Adivinhe quantas vezes mais você terá que ver essa dica novamente?</string>
-    <string name="tip_6">Dica: Torne o HyperOS ótimo novamente!</string>
-    <string name="tip_7">Dica: Seja bem-vindo para seguir no GitHub: @sevtinge ou Bilibili: @绀漓丨Sevtinge.</string>
-    <string name="tip_8">Dica: A utopia ideal não existe na realidade.</string>
-    <string name="tip_9">Dica: A cidade de Sanjiang tende a entrar em colapso.</string>
-    <string name="tip_10">Dica: Ah, esse mundo é tão lindo…       É uma pena que esta beleza não pertença a Sevtinge.</string>
-    <string name="tip_11">Dica: Guardei alguns bugs para que você saiba que está usando o HyperCeiler.</string>
-    <string name="tip_12">Dica: Você sabe? Na verdade, as dicas são tudo bobagem.</string>
-    <string name="tip_13">Dica: Você sabe? O aniversário do HyperCeiler é em 1 de maio e o aniversário de Sevtinge é em 2 de fevereiro.</string>
-    <string name="tip_14">Dica: Sevtinge estudou na Escola de Engenharia e Tecnologia da Informação do Campus da cidade de Sanjiang da Universidade de Shanhe.</string>
-    <string name="tip_15">Dica: Eu ouvi dizer que o Sevtinge tem duas formas diferentes.</string>
-    <string name="tip_16">Dica: Sevtinge é uma raposinha!</string>
-    <string name="tip_17">Dica: Neko Qiqi tem duas personalidades, uma é um controle de garota-gato e a outra é um controle de loli.</string>
-    <string name="tip_18">Dica: HyperCeiler é o app de sistema com consumo de bateria mais rápido.</string>
-    <string name="tip_19">Dica: Se não houver nenhuma anotação especial para a função que está cinza, significa que a função está anormal e não está planejada para ser aberta aos usuários por enquanto.</string>
-    <string name="tip_20">Dica: Não use a nova versão do Canary se não tiver nada para fazer e não se apresse em atualizá-la se ela estiver quebrada.</string>
 </resources>
