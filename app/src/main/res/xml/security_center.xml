@@ -279,6 +279,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_fbo"
+            android:title="@string/security_center_unlock_fbo" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_remove_low_battery_reminder"
             android:summary="@string/security_center_remove_low_battery_reminder_summary"
             android:title="@string/security_center_remove_low_battery_reminder_title" />

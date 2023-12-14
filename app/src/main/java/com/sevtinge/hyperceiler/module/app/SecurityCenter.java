@@ -14,6 +14,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveOpenAppConfirmationPopup;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.UnlockFbo;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.VideoDolbyOpen;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDefaultSort;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
@@ -88,6 +89,7 @@ public class SecurityCenter extends BaseModule {
         initHook(DisableRootCheck.INSTANCE, mPrefsMap.getBoolean("security_center_disable_root_check"));
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
+        initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));

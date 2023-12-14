@@ -1435,5 +1435,6 @@
     <string name="enable_suggest">Enable Suggest</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
+    <string name="security_center_unlock_fbo">Unlock FBO</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>
