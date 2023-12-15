@@ -60,6 +60,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("Soc", getSoc());
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
+            propertiesDevice.put("Language", getLanguage());
         } catch (Exception ignored) {
         }
         try {

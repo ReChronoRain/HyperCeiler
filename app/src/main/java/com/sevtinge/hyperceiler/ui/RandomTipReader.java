@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.*;
 
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import de.robv.android.xposed.XposedBridge;
+
 public class RandomTipReader {
 
     private Context context;
@@ -24,16 +27,15 @@ public class RandomTipReader {
 
     public String getRandomTip() {
         AssetManager assetManager = context.getAssets();
-        String fileName = "tips/tips_" + getLocale();
+        String fileName = "tips/tips-" + getLanguage();
         List<String> tipsList = new ArrayList<>();
 
         try {
             InputStream inputStream;
             try {
                 inputStream = assetManager.open(fileName);
-            } catch (Exception e) {
+            } catch (IOException ex) {
                 inputStream = assetManager.open("tips/tips");
-                logW("RandomTipReader", "Cannot found assets/" + fileName + " file, use default file.");
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
