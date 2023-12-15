@@ -1,13 +1,16 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.*;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.RandomTipReader;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
+import java.util.Objects;
 import java.util.Random;
 
 import moralnorm.preference.Preference;
@@ -27,7 +30,7 @@ public class MainFragment extends SettingsPreferenceFragment {
     Preference mMirror;
     Preference mMirrorHyperOS;
     Preference mTip;
-    Random r = new Random();
+    Preference mHeadtipWarn;
     RandomTipReader randomTipReader;
 
     @Override
@@ -50,7 +53,7 @@ public class MainFragment extends SettingsPreferenceFragment {
         mMirror = findPreference("prefs_key_mirror");
         mMirrorHyperOS = findPreference("prefs_key_mirror_hyperos");
         mTip = findPreference("prefs_key_tip");
-
+        mHeadtipWarn = findPreference("prefs_key_headtip_warn");
 
         mPowerSetting.setVisible(!isAndroidVersion(30));
         mMTB.setVisible(!isAndroidVersion(30));
@@ -73,5 +76,16 @@ public class MainFragment extends SettingsPreferenceFragment {
         randomTipReader = new RandomTipReader(requireContext());
         String randomTip = randomTipReader.getRandomTip();
         mTip.setSummary("Tip: " + randomTip);
+
+        isOfficialRom();
+    }
+
+    public void isOfficialRom() {
+        mHeadtipWarn.setTitle(R.string.headtip_warn_not_offical_rom);
+        mHeadtipWarn.setVisible(getIsOfficialRom());
+    }
+
+    public boolean getIsOfficialRom() {
+        return !getBaseOs().isEmpty() || !getRomAuthor().isEmpty() || Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") || !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
     }
 }

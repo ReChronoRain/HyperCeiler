@@ -1441,5 +1441,6 @@
     <string name="enable_suggest">Enable Suggest</string>
     <string name="system_settings_network_title">Network</string>
     <string name="phone_disable_remove_network_mode">Disable Remove Network Mode</string>
+    <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>
