@@ -633,6 +633,7 @@
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
+    <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
     <string name="system_ui_statusbar_battery_size">Font size</string>
@@ -704,6 +705,7 @@
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
+    <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
     <string name="system_ui_control_center_hide_operator">Carrier name customization</string>
     <string name="system_ui_control_center_hide_delimiter">Only dividers are hidden</string>
@@ -1241,6 +1243,10 @@
     <string name="security_center_sidebar_show_suggest">Disable show suggest apps</string>
     <string name="security_center_unlock_new_vb">Unlock New Video-box</string>
     <string name="security_center_game_performance_wild_mode">Unlock Game Performance Wild Mode</string>
+    <string name="security_center_unlock_fbo">Unlock FBO</string>
+    <string name="security_center_sidebar_videobox_title">Video Box</string>
+    <string name="security_center_sidebar_gamebox_title">Game Box</string>
+    <string name="security_center_sidebar_function_title">Sidebar Function</string>
     <!--Smart cards-->
     <string name="tsmclient">Smart cards</string>
     <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
@@ -1433,11 +1439,5 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
-    <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
-    <string name="security_center_unlock_fbo">Unlock FBO</string>
-    <string name="security_center_sidebar_videobox_title">Video Box</string>
-    <string name="security_center_sidebar_gamebox_title">Game Box</string>
-    <string name="security_center_sidebar_function_title">Sidebar Function</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>
