@@ -341,12 +341,12 @@
     <string name="phone_double_5g_sa">双卡 SA (SA+SA)</string>
     <string name="phone_double_5g_sa_desc">实验性功能。使卡 2 支持 SA</string>
     <string name="system_framework_phone_band_title">频段设置</string>
-    <string name="phone_n1">解锁 N1 频段</string>
-    <string name="phone_n1_desc">支持 N1 频段 (NR)</string>
-    <string name="phone_n28">解锁 N28 频段</string>
-    <string name="phone_n28_desc">支持 N28 频段 (NR)</string>
-    <string name="phone_n5_n8">解锁 N5/N8 频段</string>
-    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 N5/N8 频段，若显示 \"enable N5 and N8 Mode\"，则开启成功</string>
+    <string name="phone_n1">解锁 n1 频段</string>
+    <string name="phone_n1_desc">支持 n1 频段 (NR)</string>
+    <string name="phone_n28">解锁 n28 频段</string>
+    <string name="phone_n28_desc">支持 n28 频段 (NR)</string>
+    <string name="phone_n5_n8">解锁 n5/n8 频段</string>
+    <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 n5/n8 频段，若显示 \"enable N5 and N8 Mode\"，则开启成功</string>
 
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>

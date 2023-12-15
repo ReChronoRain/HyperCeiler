@@ -305,11 +305,11 @@
     <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA.</string>
     <string name="system_framework_phone_band_title">Configurações de banda</string>
     <string name="phone_n1">Banda N1</string>
-    <string name="phone_n1_desc">Suporte Banda N1 (NR)</string>
+    <string name="phone_n1_desc">Suporte Banda n1 (NR)</string>
     <string name="phone_n28">Banda N28</string>
-    <string name="phone_n28_desc">Suporte Banda N28 (NR)</string>
-    <string name="phone_n5_n8">Banda N5/N8</string>
-    <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda N5/N8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
+    <string name="phone_n28_desc">Suporte Banda n28 (NR)</string>
+    <string name="phone_n5_n8">Banda n5/n8</string>
+    <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
     <string name="system_framework_allow_uninstall">Permitir desinstalar alguns apps pré-instalados</string>
