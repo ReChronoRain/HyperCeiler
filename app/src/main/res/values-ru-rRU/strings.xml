@@ -2,6 +2,8 @@
 <resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Сделайте HyperOS/MIUI снова великой!</string>
+    <string name="new_permission_wifi_state_desc">добавление и удаление файлов в памяти устройства</string>
+    <string name="new_permission_location_desc">используется для предоставления таких услуг, как широта и долгота</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">EvilGoodd</string>
@@ -14,6 +16,10 @@
     <string name="about_contributer_desc">Спасибо данным участникам за их помощь в разработке HyperCeiler (в произвольном порядке)</string>
     <string name="about_donation">Спонсоры</string>
     <string name="about_donation_desc">Вы можете поддержать нас, сделав пожертвование</string>
+    <string name="hyperceiler_notice">Потяните вниз строку состояния для отображения ярлыков и системных уведомлений</string>
+    <string name="hyperceiler_restart_quick">Быстрый перезапуск приложения</string>
+    <string name="location_add">Добавить</string>
+    <string name="location_delete">Удалить</string>
     <string name="settings_data_title">Резервное копирование и восстановление</string>
     <string name="settings_bug_title">Диагностика</string>
     <string name="settings_debug_title">Отладка</string>
@@ -62,9 +68,14 @@
     <string name="about_crwd_desc">Помогите нам перевести HyperCeiler на ваш язык</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Перезагрузка </string>
+    <string name="restart_app_desc">Перезапустить %1$s?</string>
     <string name="tip">Совет</string>
     <string name="hook_failed">Модуль не активирован</string>
     <string name="preference_default_value_text">Стандарт</string>
+    <string name="appcompat_delete_description">Удалить</string>
+    <string name="appcompat_search_action_mode_cancel">Отмена</string>
+    <string name="appcompat_search_input_description">Поиск</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">Еще</string>
     <!--String reuse-->
     <string name="top_margin">Верхняя граница</string>
     <string name="bottom_margin">Нижняя граница</string>
@@ -98,6 +109,9 @@
     <string name="array_netspeedicons_no">Без значков</string>
     <string name="array_bold">Жирный</string>
     <string name="array_theme">Отслеживать тему</string>
+    <string name="array_clock_center">Часы по центру</string>
+    <string name="array_clock_right">Часы справа</string>
+    <string name="array_clock_center_and_icon_left">Часы по центру &amp; Иконка слева</string>
     <string name="array_clock_default">По умолчанию</string>
     <string name="array_clock_geek">Для гиков</string>
     <string name="array_battery_both">Обе</string>
@@ -172,6 +186,7 @@
     <string name="app_sort_install">Время установки</string>
     <string name="array_bluetooth_tile_style_3rows">Три большие плитки</string>
     <string name="array_bluetooth_tile_style_2rows2cols">Одна большая и две маленькие плитки</string>
+    <string name="array_bpa_blur_customize">Своё значение размытия фона</string>
     <!--System Framework-->
     <string name="system_framework">Системный фреймворк</string>
     <string name="system_framework_volume_title">Громкость</string>
@@ -333,6 +348,7 @@
     <string name="system_ui_lockscreen_title">Экран блокировки</string>
     <string name="system_ui_lockscreen_safe_title">Безопасность</string>
     <string name="system_ui_lockscreen_ui_title">Интерфейс</string>
+    <string name="system_ui_lockscreen_information_title">Информация</string>
     <string name="system_ui_lock_screen_scramble_pin">Случайный PIN</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Случайный порядок ввода PIN с клавиатуры</string>
     <string name="system_ui_lock_screen_password_free">Без ввода пароля при загрузке</string>
@@ -340,6 +356,7 @@
     <string name="system_ui_lock_screen_default_theme">Поддерживает только тему по умолчанию</string>
     <string name="system_ui_lock_screen_show_charging_cv">Отображение информации о заряде в нижней части экрана блокировки</string>
     <string name="system_ui_lock_screen_show_charging_c_more">Показывать подробную информацию о токах</string>
+    <string name="system_ui_lock_screen_show_battery_temperature">Показывать температуру батареи</string>
     <string name="system_ui_lock_screen_hide_camera">Скрыть камеру</string>
     <string name="system_ui_lock_screen_hide_smart_screen">Скрыть умный экран</string>
     <string name="system_ui_lock_screen_current">Ток</string>
@@ -352,6 +369,7 @@
     <string name="system_ui_lock_screen_hide_status_bar">Удаляет строку состояния с экрана блокировки</string>
     <string name="system_ui_navigation_title">Навигация</string>
     <string name="system_ui_navigation_handle_title">Строка подсказки жеста</string>
+    <string name="system_ui_hide_navigation_bar">Скрыть панель навигации</string>
     <string name="system_ui_navigation_handle_custom">Строка подсказки пользовательского жеста</string>
     <string name="system_ui_navigation_handle_custom_height">Высота</string>
     <string name="system_ui_navigation_handle_custom_width">Ширина портретной ориентации</string>
@@ -369,6 +387,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Управление индикатором скорости сети</string>
     <string name="system_ui_statusbar_clock_title">Управление индикатором часов</string>
     <string name="system_ui_statusbar_device_title">Индикаторы оборудования</string>
+    <string name="system_ui_statusbar_layout_compatibility_mode_title">Режим совместимости</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Блокировка двойным касанием</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Двухрядная индикаторная панель</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Стили значков</string>
@@ -408,15 +427,21 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n">Показывать значок будильника только перед его отключением</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d час</string>
     <string name="system_ui_status_bar_icon_airplane">Режим полета</string>
+    <string name="system_ui_status_bar_icon_vowifi">Скрыть значок VoWiFi</string>
     <string name="system_ui_status_bar_icon_headset">Наушники</string>
     <string name="system_ui_status_bar_icon_volume">Громкость</string>
+    <string name="system_ui_status_bar_icon_data_saver">Экономия трафика</string>
     <string name="system_ui_status_bar_icon_zen">Режим \"Не беспокоить\"</string>
+    <string name="system_ui_status_bar_icon_stealth">Скрыть иконку режима инкогнито</string>
+    <string name="system_ui_status_bar_icon_mute">Скрыть значок выключенного микрофона</string>
+    <string name="system_ui_status_bar_icon_call_record">Скрыть значок записи</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Максимальное количество пунктов уведомлений</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Максимальное количество значков уведомлений</string>
     <string name="system_ui_status_bar_battery_percent">Скрыть процент заряда</string>
     <string name="system_ui_status_bar_battery_percent_mark">Скрыть процент заряда батареи</string>
     <string name="system_ui_status_bar_battery_charging">Скрыть индикатор зарядки</string>
     <string name="system_ui_status_bar_battery_icon">Скрыть значок батареи</string>
+    <string name="system_ui_status_bar_battery_style_title">Настройка значка батареи в строке состояния</string>
     <string name="system_ui_status_bar_battery_indicator_title">Индикатор батареи</string>
     <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
     <string name="system_ui_status_bar_mobile_network_at_left">Мобильная сеть</string>
@@ -438,6 +463,7 @@
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (*b/с)</string>
     <string name="system_ui_statusbar_network_speed_icon">Значок индикатора</string>
     <string name="system_ui_statusbar_network_speed_enable_custom">Настроить</string>
+    <string name="system_ui_statusbar_network_speed_format_d_ms">%d мс</string>
     <string name="system_ui_statusbar_clock_mode">Свой режим часов</string>
     <string name="system_ui_statusbar_clock_editor">Формат часов</string>
     <string name="system_ui_statusbar_clock_year">Показывать год</string>
@@ -514,14 +540,14 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">Когда экран включен, всплывающее уведомление отображается без звукового сопровождения</string>
     <string name="system_ui_control_center_rounded_rect">Плитка с закругленными углами</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Сменить центр управления и панель уведомлений</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Стиль плитки Bluetooth</string>
+    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Переместить Bluetooth-плитку рядом с сетевой плиткой</string>
     <string name="system_ui_controlcenter_new_title">Новый центр управления</string>
     <string name="system_ui_controlcenter_old_title">Старый центр управления</string>
     <string name="system_control_center_old_qs_rows_desc">Надписи будут скрыты для 5 строк в портретной ориентации. Количество строк ограничено тремя со скрытыми надписями в альбомной ориентации.</string>
     <string name="system_control_center_old_qs_columns_desc">Альбомная ориентация будет иметь один дополнительный столбец\nЕсли в вашем ROM есть опция компактной компоновки быстрых настроек, она добавит еще один столбец в обеих ориентациях</string>
     <string name="system_control_center_old_qs_grid_columns_desc">Альбомная ориентация + один доп.столбец</string>
     <string name="system_control_center_old_qs_grid_columns">Количество столбцов в свернутой панели</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_title">Стиль плитки Bluetooth</string>
-    <string name="system_ui_control_center_cc_bluetooth_tile_style_sum">Переместить Bluetooth-плитку рядом с сетевой плиткой</string>
     <string name="system_ui_other_title">Другое</string>
     <string name="system_ui_charge_animation_title">Анимация заряда</string>
     <string name="system_ui_charge_animation_style">Стиль анимации зарядки</string>
@@ -549,6 +575,7 @@
     <string name="system_settings_wifipassword_btn_title">Посмотреть</string>
     <string name="system_settings_wifi_password_label">Пароль</string>
     <string name="system_settings_wifi_password_dlgtitle">Сведения сети Wi-Fi</string>
+    <string name="system_settings_new_nfc_page">Новая страница NFC</string>
     <string name="system_settings_accessibility_title">Сочетания жестов</string>
     <string name="system_settings_area_screenshot">Скриншот области разблокировки</string>
     <string name="system_settings_lab_title">Избранные функции</string>
@@ -608,6 +635,9 @@
     <string name="content_extension_super_image_summary">Для оригинального сохранения требуется базовая поддержка со стороны модели устройства</string>
     <string name="content_extension_link_open_mode">Браузер</string>
     <string name="content_extension_link_open_mode_desc">Выберите браузер для открытия ссылок</string>
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
     <!--Mi Canvas-->
     <!--Gallery-->
     <string name="gallery">Галерея</string>
@@ -741,6 +771,7 @@
     <string name="home_recent_text_color">Цвет текста подписи к миниатюрам</string>
     <string name="home_recent_freeform_background_color">Цвет фона миниатюры приложения в малом окне</string>
     <string name="home_recent_show_real_memory">Показать фактическую память</string>
+    <string name="home_recent_show_memory_info">Показывать состояние ОЗУ</string>
     <string name="home_widget">Виджет</string>
     <string name="home_widget_all_widget_animation">Анимация виджета</string>
     <string name="home_widget_show_miui_widget">Отобразить виджеты MIUI</string>
@@ -817,12 +848,15 @@
     <string name="miui_package_installer_install_source">Свой источник установки</string>
     <string name="miui_package_installer_apk_info">Показать дополнительную информацию о пакете</string>
     <string name="miui_package_installer_apk_info_desc">Показать доп.информацию об устанавливаемом приложении</string>
+    <!--networkboost-->
+    <!--nfc-->
     <!--App vault-->
     <string name="personal_assistant">App vault</string>
     <string name="personal_assistant_fold_widget_enable">Виджеты Pad/Mix Fold</string>
     <string name="personal_assistant_fold_widget_enable_desc">Включить виджеты в стиле Pad/Mix Fold</string>
     <string name="personal_assistant_overlap_mode">Негатив на один экран в сложенном виде</string>
     <string name="personal_assistant_blur_model">Настройка размытия персонального помощника</string>
+    <string name="personal_assistant_blur_value">Стиль фона</string>
     <string name="personal_assistant_blurradius">Значение размытия персонального помощника</string>
     <string name="personal_assistant_color">Цвет персонального помощника</string>
     <!--Music-->
@@ -941,6 +975,7 @@
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_unlock_miui_plus">Разблокировать MIUI+</string>
+    <!--Mi sound-->
     <!--Mi Settings-->
     <string name="mi_settings">Mi Настройки</string>
     <string name="mi_settings_show_fps">Показать расширенный список FPS</string>
@@ -948,6 +983,7 @@
     <string name="mtb">MTB</string>
     <string name="mtb_auth">Обход аутентификации MTB</string>
     <string name="mtb_auth_desc">Эта функция с высоким риском, любые проблемы, возникающие из-за этого, ложатся на пользователя, сделайте резервную копию вашей основной полосы частот. Введите *#*#MODEMTEST#*#* в интерфейсе набора номера, чтобы открыть настройки MTB.</string>
+    <!--Sogou input method-->
     <!--Scanner-->
     <string name="scanner">Сканер</string>
     <string name="scanner_card">Сканировать ID-карты</string>
@@ -1045,8 +1081,4 @@
     <string name="operator_fix_2">Метод 2 (рекомендовано)</string>
     <string name="custom_hook_new">Добавить Hook</string>
     <string name="custom_hook_mode">Выбор режима</string>
-    <string name="hyperceiler_notice">Потяните вниз строку состояния для отображения ярлыков и системных уведомлений</string>
-    <string name="hyperceiler_restart_quick">Быстрый перезапуск приложения</string>
-    <string name="location_add">Добавить</string>
-    <string name="location_delete">Удалить</string>
 </resources>

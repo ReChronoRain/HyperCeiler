@@ -14,6 +14,10 @@
     <string name="about_contributer_desc">HyperCeiler\'in geliştirilmesindeki yardımları için aşağıdaki katkıda bulunanlara teşekkürler (belirli bir sıra olmadan)</string>
     <string name="about_donation">Katkıda Bulunanlar</string>
     <string name="about_donation_desc">Buradan bağış yaparak bize destek olabilirsiniz</string>
+    <string name="hyperceiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
+    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
+    <string name="location_add">Ekle</string>
+    <string name="location_delete">Sil</string>
     <string name="settings_data_title">Yedekle ve geri yükle.</string>
     <string name="settings_bug_title">Sorun gider.</string>
     <string name="settings_debug_title">Hata.</string>
@@ -440,7 +444,7 @@
     <string name="updater_miui_version">Güncelleyici için sahte MIUI sürümü</string>
     <string name="updater_miui_version_desc">Sistem güncellemesini yalnızca belirli bir ölçüde koruyabilen sistem güncellemesini değiştirin</string>
     <string name="updater_device">Güncelleyici için sahte cihaz</string>
-    <string name="updater_device_desc">Bu özellik gerçekten tehlikeli, lütfen günlük olarak kullanmayın.</string>
+    <string name="updater_device_desc">Bu özellik gerçekten tehlikeli, lütfen günlük olarak kullanmayın</string>
     <!--Permissions-->
     <string name="lbe">İzinler</string>
     <string name="lbe_disable_clipboard_tip">Tost İpuçlarını Gizle</string>
@@ -455,6 +459,9 @@
     <string name="content_extension_double_press">Jest: 2 parmak</string>
     <string name="content_extension_super_image">Görüntü kaydetme kalitesi: Süper çözünürlük</string>
     <string name="content_extension_super_image_summary">Gerçek koruma, cihaz modelinden temel destek gerektirir</string>
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
     <!--Mi Canvas-->
     <!--Gallery-->
     <string name="gallery">Galeri</string>
@@ -651,6 +658,8 @@
     <string name="miui_package_installer_install_source">Özel yükleme kaynağı</string>
     <string name="miui_package_installer_apk_info">Daha fazla paket bilgisi göster</string>
     <string name="miui_package_installer_apk_info_desc">Yüklenmekte olan uygulama hakkında daha fazla bilgi göster</string>
+    <!--networkboost-->
+    <!--nfc-->
     <!--App vault-->
     <string name="personal_assistant">Uygulama kasası</string>
     <string name="personal_assistant_fold_widget_enable">Pad/Fold ağırlığı</string>
@@ -750,8 +759,10 @@
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_unlock_miui_plus">MIUI + \'nın kilidini aç</string>
+    <!--Mi sound-->
     <!--Mi Settings-->
     <!--MTB-->
+    <!--Sogou input method-->
     <!--Scanner-->
     <string name="scanner">Tarayıcı</string>
     <string name="scanner_card">Tarama kimlik kartının kilidini aç</string>
@@ -845,8 +856,4 @@
     <string name="operator_fix_2">Yöntem 2 (önerilir)</string>
     <string name="custom_hook_new">Kanca ekle</string>
     <string name="custom_hook_mode">Modu seç</string>
-    <string name="hyperceiler_notice">Kısayol anahtarlarını ve sistem bildirimlerini görüntülemek için durum çubuğunu aşağı çekin</string>
-    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
-    <string name="location_add">Ekle</string>
-    <string name="location_delete">Sil</string>
 </resources>

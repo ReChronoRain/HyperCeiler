@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">영어</string>
+    <string name="settings">설정</string>
+    <string name="about">앱에 대하여</string>
+    <string name="about_contributer">기여자</string>
+    <string name="about_donation">후원자</string>
+    <string name="about_donation_desc">여기다 가부하시면 저희를 지원할수 있어요</string>
+    <string name="about_developer_title">개발자</string>
+    <!--Pop-up window/miuix part-->
+    <!--String reuse-->
+    <!--Multi-list Array-->
+    <!--System Framework-->
+    <string name="system_framework">시스템 프레임워크</string>
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <string name="browser">브라우저</string>
+    <!--Camera-->
+    <string name="camera">카메라</string>
+    <!--Clock-->
+    <string name="clock">시계</string>
+    <!--File Manager-->
+    <!--Phone-->
+    <string name="incallui">휴대전화</string>
+    <!--Message-->
+    <string name="mms">메세지</string>
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <string name="system_ui">시스템 UI</string>
+    <!--Settings-->
+    <string name="system_settings">설정</string>
+    <!--Themes-->
+    <string name="theme_manager">테마</string>
+    <!--Updater-->
+    <string name="updater">엡데이터</string>
+    <!--Permissions-->
+    <string name="lbe">사용 권한</string>
+    <!--Cast-->
+    <string name="milink">출연</string>
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <string name="gallery">앨범</string>
+    <!--MIUI security components-->
+    <string name="guard_provider">MIUI 보안 구성요소</string>
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <string name="mediaeditor">갤러리 편집자</string>
+    <!--Mi Share-->
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <string name="package_installer">패키지 설치 프로그램</string>
+    <!--networkboost-->
+    <!--nfc-->
+    <!--App vault-->
+    <string name="personal_assistant">앱 서랍</string>
+    <!--Music-->
+    <string name="music">음악</string>
+    <!--Battery and performance-->
+    <string name="powerkeeper">배터리 및 성능</string>
+    <!--creen Recorder-->
+    <string name="screenrecorder">화면 녹화기</string>
+    <!--Screenshot-->
+    <string name="screenshot">화면캡쳐</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center">보안</string>
+    <!--Smart cards-->
+    <!--Weather-->
+    <string name="weather">날씨</string>
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <!--GetApps-->
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <string name="scanner">스캐너</string>
+    <!--Other-->
+    <string name="various">기타</string>
+    <string name="custom_hook">사용자 지정</string>
+</resources>

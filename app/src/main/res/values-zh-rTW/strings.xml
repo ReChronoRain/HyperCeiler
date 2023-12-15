@@ -13,6 +13,11 @@
     <string name="translator_url">https://github.com/a406010503</string>
     <string name="home">首頁</string>
     <string name="edit">請輸入文字</string>
+    <string name="kill">Kill 工具</string>
+    <string name="kill_1">輸入包名/軟體名</string>
+    <string name="kill_2">尋找進程</string>
+    <string name="kill_3">包名 kill</string>
+    <string name="kill_4">軟體名 kill</string>
     <string name="edit_out">獲取結果</string>
     <string name="edit_key">輸入 Key 值</string>
     <string name="prefs_1">不存在此 Key: </string>
@@ -273,6 +278,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform">將所有小窗轉為迷你小窗</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">在最近任務中將所有小窗轉為迷你小窗顯示\n此功能為實驗性功能，具有較高不穩定性</string>
     <string name="system_framework_freeform_jump">跳轉應用程式使用小視窗開啟</string>
+    <string name="system_framework_freeform_foreground_pin">貼邊小窗強制前台</string>
     <string name="system_framework_freeform_title_desc">在下列場景中，需要跳轉至其他應用程式時將使用小視窗開啟</string>
     <string name="system_framework_freeform_content_extension_desc">僅支援連結</string>
     <string name="system_framework_default_volume_stream">預設調整音量</string>
@@ -594,6 +600,7 @@
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
+    <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
     <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
     <string name="system_ui_statusbar_indicator_temperature_title">溫度相關</string>
     <string name="system_ui_statusbar_battery_size">字體大小</string>
@@ -665,6 +672,7 @@
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">開啟螢幕時彈出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
+    <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">交換控制中心與通知中心位置</string>
     <string name="system_ui_control_center_hide_operator">運營商名稱自訂</string>
     <string name="system_ui_control_center_hide_delimiter">只隱藏分隔線</string>
@@ -975,6 +983,7 @@
     <string name="home_recent_show_memory_info_sum">平板裝置專用</string>
     <string name="home_recent_show_memory_info">顯示記憶體資訊</string>
     <string name="home_recent_always_show_clean_up">禁止卡片不存在時隱藏清理圖示</string>
+    <string name="home_recent_blur">背景模糊</string>
     <string name="home_widget">小工具</string>
     <string name="home_widget_all_widget_animation">小工具動畫</string>
     <string name="home_widget_show_miui_widget">顯示 MIUI 小工具</string>
@@ -1388,6 +1397,4 @@
     <string name="log_level_none">停用日誌輸出</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
-    <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
-    <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
 </resources>
