@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_linkturbo"
-            android:title="@string/system_settings_linkturbo" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -27,12 +23,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_safe_wifi"
-            android:summary="@string/system_settings_safe_wifi_desc"
-            android:title="@string/system_settings_safe_wifi" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_settings_novelty_haptic"
             android:summary="@string/system_settings_novelty_haptic_desc"
             android:title="@string/system_settings_novelty_haptic_title" />
@@ -47,6 +37,21 @@
             android:key="prefs_key_system_settings_new_nfc_page"
             android:summary="@string/system_settings_new_nfc_page_desc"
             android:title="@string/system_settings_new_nfc_page" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_settings_network_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_safe_wifi"
+            android:summary="@string/system_settings_safe_wifi_desc"
+            android:title="@string/system_settings_safe_wifi" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_linkturbo"
+            android:title="@string/system_settings_linkturbo" />
 
     </PreferenceCategory>
 

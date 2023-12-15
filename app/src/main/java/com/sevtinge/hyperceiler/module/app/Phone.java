@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.phone.DisableRemoveNetworkMode;
 import com.sevtinge.hyperceiler.module.hook.phone.DualNrSupport;
 import com.sevtinge.hyperceiler.module.hook.phone.DualSaSupport;
 import com.sevtinge.hyperceiler.module.hook.phone.ModemFeature;
@@ -14,6 +15,7 @@ public class Phone extends BaseModule {
     public void handleLoadPackage() {
         initHook(ModemFeature.INSTANCE, mPrefsMap.getBoolean("phone_smart_dual_sim"));
         initHook(ViceSlotVolteButton.INSTANCE, mPrefsMap.getBoolean("phone_vice_slot_volte"));
+        initHook(new DisableRemoveNetworkMode(), mPrefsMap.getBoolean("phone_disable_remove_network_mode"));
 
         initHook(DualNrSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
         initHook(DualSaSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_sa"));

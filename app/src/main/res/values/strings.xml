@@ -1439,5 +1439,7 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
+    <string name="system_settings_network_title">Network</string>
+    <string name="phone_disable_remove_network_mode">Disable Remove Network Mode</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>

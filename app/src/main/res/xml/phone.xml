@@ -6,6 +6,11 @@
         android:defaultValue="false" />
 
     <SwitchPreference
+        android:title="@string/phone_disable_remove_network_mode"
+        android:key="prefs_key_phone_disable_remove_network_mode"
+        android:defaultValue="false" />
+
+    <SwitchPreference
         android:title="@string/phone_vice_slot_volte"
         android:summary="@string/phone_vice_slot_volte_desc"
         android:key="prefs_key_phone_vice_slot_volte"
