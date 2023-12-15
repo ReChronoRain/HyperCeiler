@@ -279,6 +279,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Biến tất cả tiện ích thành tiện ích nhỏ trong các tác vụ gần đây
 Chức năng này là chức năng thử nghiệm có độ ổn định cao</string>
     <string name="system_framework_freeform_jump">Giữ ở dạng cửa sổ nổi khi chuyển sang ứng dụng khác</string>
+    <string name="system_framework_freeform_foreground_pin">Buộc cửa sổ nhỏ về phía trước</string>
     <string name="system_framework_freeform_title_desc">Trong các trường hợp sau, khi bạn cần chuyển sang các ứng dụng khác, bạn sẽ sử dụng cửa sổ nổi</string>
     <string name="system_framework_freeform_content_extension_desc">Chỉ hỗ trợ các liên kết</string>
     <string name="system_framework_default_volume_stream">Điều chỉnh âm lượng mặc định</string>
@@ -601,6 +602,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_desc">Ví dụ về định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_size">Kích thước đồng hồ (0 là giá trị gốc)</string>
     <string name="system_ui_statusbar_clock_double_size">Kích thước hàng đôi (0 là giá trị gốc)</string>
+    <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
     <string name="system_ui_statusbar_indicator_battery_title">Về năng lượng</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Về nhiệt độ</string>
     <string name="system_ui_statusbar_battery_size">Cỡ chữ</string>
@@ -672,6 +674,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_mute_visible_notice">Tắt âm thông báo khi màn hình bật</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
+    <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
     <string name="system_ui_control_center_hide_operator">Tùy chỉnh tên nhà mạng</string>
     <string name="system_ui_control_center_hide_delimiter">Ẩn dấu phân cách giữa tên nhà mạng</string>
@@ -1215,6 +1218,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_sidebar_show_suggest">Tắt đề xuất ứng dụng</string>
     <string name="security_center_unlock_new_vb">Mở khóa hộp video mới</string>
     <string name="security_center_game_performance_wild_mode">Mở khóa chế độ siêu hiệu suất</string>
+    <string name="security_center_unlock_fbo">Mở khóa FBO</string>
+    <string name="security_center_sidebar_videobox_title">Hộp công cụ video</string>
+    <string name="security_center_sidebar_gamebox_title">Phím tắt trong trò chơi</string>
+    <string name="security_center_sidebar_function_title">Chức năng thanh bên</string>
     <!--Smart cards-->
     <string name="tsmclient">Thẻ thông minh</string>
     <string name="tsmclient_auto_nfc">NFC tự động</string>
@@ -1408,6 +1415,5 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
-    <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
+    <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
 </resources>
