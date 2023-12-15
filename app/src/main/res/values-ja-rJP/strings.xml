@@ -13,6 +13,20 @@
     <string name="translator_url">https://github.com/AndroPlus-org</string>
     <string name="home">ホーム</string>
     <string name="edit">テキストを入力してください</string>
+    <string name="kill">キルツール</string>
+    <string name="kill_1">パッケージ/ソフトウェア名を入力</string>
+    <string name="kill_2">プロセスを検索</string>
+    <string name="kill_3">パッケージ名で強制終了</string>
+    <string name="kill_4">ソフトウェア名で強制終了</string>
+    <string name="edit_out">結果を取得</string>
+    <string name="edit_key">キーの値を入力</string>
+    <string name="prefs_1">このキーは存在しません： </string>
+    <string name="prefs_2">キーを削除しました： </string>
+    <string name="prefs_3">キーの削除に失敗しました。存在しない可能性があります： </string>
+    <string name="prefs_4">キーの取得が必要な戻り値の種類を確認してください！</string>
+    <string name="prefs_5">種類を選択</string>
+    <string name="prefs_6">共有設定を確認</string>
+    <string name="prefs_7">指定したキーを削除</string>
     <string name="settings">設定</string>
     <string name="about">アプリについて</string>
     <string name="about_use">引用</string>
@@ -27,6 +41,8 @@
     <string name="location_delete">削除</string>
     <string name="development">開発者向けオプション</string>
     <string name="development_ui">UI</string>
+    <string name="development_debug_info">デバッグ情報</string>
+    <string name="development_prefs">共有設定</string>
     <string name="about_privacy">プライバシーポリシー</string>
     <string name="about_protocol">利用規約</string>
     <string name="settings_show_title">表示</string>
@@ -262,6 +278,7 @@
     <string name="system_framework_freeform_recents_to_small_freeform">すべてをミニフリーフォームに変える</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">アプリ履歴で、すべてのフリーフォームをミニフリーフォームにします\nこの機能は実験的で不安定です</string>
     <string name="system_framework_freeform_jump">別のアプリに移動したときにフリーフォームで開く</string>
+    <string name="system_framework_freeform_foreground_pin">スモールウィンドウを強制的に前面化</string>
     <string name="system_framework_freeform_title_desc">以下の選択したアクション時に、他のアプリに移動する必要がある場合はフリーフォームを使用して開きます</string>
     <string name="system_framework_freeform_content_extension_desc">リンクのみ対応</string>
     <string name="system_framework_default_volume_stream">デフォルトで音量を調整</string>
@@ -446,6 +463,7 @@
     <string name="system_ui_lock_screen_not_disturb_mode_title">Zen モードの通知を非表示</string>
     <string name="system_ui_lock_screen_unlock_tip_title">画面下部のロック解除プロンプトを非表示</string>
     <string name="system_ui_lock_screen_hide_status_bar">ロック画面からステータスバーを削除</string>
+    <string name="system_ui_lock_screen_block_editor_title">長押しでのロック画面の編集を無効化</string>
     <string name="system_ui_navigation_title">ナビゲーション</string>
     <string name="system_ui_navigation_handle_title">ハンドルライン</string>
     <string name="system_ui_hide_navigation_bar">ナビゲーションバーを非表示</string>
@@ -582,6 +600,7 @@
     <string name="system_ui_statusbar_clock_desc">時計形式の例</string>
     <string name="system_ui_statusbar_clock_size">時計のサイズ</string>
     <string name="system_ui_statusbar_clock_double_size">二行の時計のサイズ</string>
+    <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
     <string name="system_ui_statusbar_indicator_battery_title">電源関連</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度関連</string>
     <string name="system_ui_statusbar_battery_size">フォントのサイズ</string>
@@ -653,6 +672,7 @@
     <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
+    <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知ドロワーを切り替え</string>
     <string name="system_ui_control_center_hide_operator">キャリア名のカスタマイズ</string>
     <string name="system_ui_control_center_hide_delimiter">区切り文字のみ非表示</string>
@@ -1185,6 +1205,10 @@
     <string name="security_center_sidebar_show_suggest">アプリの提案の表示を無効化</string>
     <string name="security_center_unlock_new_vb">新しいビデオボックスをアンロック</string>
     <string name="security_center_game_performance_wild_mode">ゲームパフォーマンスのワイルドモードをアンロック</string>
+    <string name="security_center_unlock_fbo">FBO をアンロック</string>
+    <string name="security_center_sidebar_videobox_title">ビデオボックス</string>
+    <string name="security_center_sidebar_gamebox_title">ゲームボックス</string>
+    <string name="security_center_sidebar_function_title">サイドバー機能</string>
     <!--Smart cards-->
     <string name="tsmclient">スマートカード</string>
     <string name="tsmclient_auto_nfc">NFCを自動的に管理</string>
@@ -1377,6 +1401,5 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
-    <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
-    <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
+    <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
 </resources>
