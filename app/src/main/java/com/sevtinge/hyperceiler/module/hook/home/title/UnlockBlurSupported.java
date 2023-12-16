@@ -28,13 +28,12 @@ public class UnlockBlurSupported extends BaseHook {
             "resolveTopPadding", Rect.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    Rect rect = (Rect) param.args[0];
+                    // Rect rect = (Rect) param.args[0];
                     View view = (View) param.thisObject;
-                    XposedHelpers.callMethod(view, "setPadding", rect.left,
-                        (int) XposedHelpers.callMethod(param.thisObject,
-                            "getMContainerPaddingTop") + rect.top,
-                        rect.right, rect.bottom
-                    );
+                    XposedHelpers.callMethod(view,
+                        "setPadding", 0,
+                        XposedHelpers.callMethod(param.thisObject,
+                            "getMContainerPaddingTop"), 0, 0);
                     param.setResult(null);
                 }
             }
