@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <Preference
             android:layout="@layout/headtip_warn"
             android:key="prefs_key_headtip_warn"
             android:enabled="false"
             android:title="This is warn of headtip."
-            app:isPreferenceVisible="false"
-            />
+            app:isPreferenceVisible="false" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SystemFrameworkFragment"
@@ -125,25 +122,11 @@
             android:title="@string/milink" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiLinkFragment"
-            android:icon="@drawable/ic_milink"
-            android:key="prefs_key_milink_hyperos"
-            android:summary="com.milink.service"
-            android:title="@string/milink_hyperos" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
             android:icon="@drawable/ic_aod"
             android:key="prefs_key_aod"
             android:summary="com.miui.aod"
             android:title="@string/aod" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.AodFragment"
-            android:icon="@drawable/ic_aod"
-            android:key="prefs_key_aod_hyperos"
-            android:summary="com.miui.aod"
-            android:title="@string/aod_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.BackupFragment"
@@ -186,13 +169,6 @@
             android:key="prefs_key_guardprovider"
             android:summary="com.miui.guardprovider"
             android:title="@string/guard_provider" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.GuardProviderFragment"
-            android:icon="@drawable/ic_guard_provider_new"
-            android:key="prefs_key_guardprovider_hyperos"
-            android:summary="com.miui.guardprovider"
-            android:title="@string/guard_provider_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.HomeFragment"
@@ -286,13 +262,6 @@
             android:title="@string/security_center" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment"
-            android:icon="@drawable/ic_security_center"
-            android:key="prefs_key_security_center_pad"
-            android:summary="com.miui.securitycenter"
-            android:title="@string/security_center_pad" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment"
             android:icon="@drawable/ic_tsmclient"
             android:key="prefs_key_tsmclient"
@@ -347,13 +316,6 @@
             android:key="prefs_key_mirror"
             android:summary="com.xiaomi.mirror"
             android:title="@string/mirror" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.MirrorFragment"
-            android:icon="@drawable/ic_miui_plus"
-            android:key="prefs_key_mirror_hyperos"
-            android:summary="com.xiaomi.mirror"
-            android:title="@string/mirror_hyperos" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.MiSettingsFragment"
