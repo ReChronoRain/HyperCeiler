@@ -25,6 +25,8 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.IS_HYPER_OS
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import de.robv.android.xposed.XposedHelpers
 import java.io.BufferedReader
 import java.io.FileReader
 import java.math.BigDecimal
@@ -72,6 +74,8 @@ object ChargingCVP : BaseHook() {
                             override fun run() {
                                 if (IS_HYPER_OS) {
                                     doUpdateForHyperOS()
+                                } else if (!IS_HYPER_OS && isAndroidVersion(34)) {
+                                    XposedHelpers.callStaticMethod(loadClass("com.android.systemui.statusbar.KeyguardIndicationController"), "updatePowerIndication")
                                 } else {
                                     invokeMethodBestMatch(keyguardIndicationController, "updatePowerIndication")
                                 }
