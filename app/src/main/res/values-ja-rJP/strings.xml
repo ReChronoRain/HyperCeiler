@@ -701,6 +701,7 @@
     <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
     <string name="system_ui_origin_charge_animation">ネイティブ充電アニメーション</string>
     <string name="system_ui_another_title">その他</string>
+    <string name="system_ui_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="system_ui_others_pct_title">データ表示</string>
     <string name="system_showpct_title">明るさのパーセンテージを表示</string>
     <string name="system_cc_volume_showpct_title">音のパーセンテージを表示</string>
@@ -735,7 +736,6 @@
     <string name="system_settings_connection_sharing_title">接続と共有</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
     <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
-    <string name="system_settings_accessibility_title">ジェスチャーショートカット</string>
     <string name="system_settings_area_screenshot">部分的なスクリーンショットをアンロック</string>
     <string name="system_settings_lab_title">注目の機能</string>
     <string name="system_settings_voip_assistant_controller">VoIP アシスタント</string>
@@ -744,6 +744,7 @@
     <string name="system_settings_ai_image_unlock_ai">AI 画像補正と AI HDR 補正機能をアンロック</string>
     <string name="system_settings_ai_image_unlock_memc">MEMC をアンロック</string>
     <string name="system_settings_permission_title">アクセス許可</string>
+    <string name="system_settings_notfication_importance">通知の重要度を表示する</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
@@ -1284,9 +1285,7 @@
     <string name="various_open_aosp_something_title">隠しオプション</string>
     <string name="various_open_aosp_something_desc">隠された AOSP インターフェースを開きます</string>
     <string name="various_nobrightness">明るさの強制を拒否</string>
-    <string name="settings_notfication_importance">通知の重要度を表示する</string>
     <string name="various_no_overscroll">範囲外のバウンスを無効化</string>
-    <string name="various_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="various_disable_access_device_logs">デバイスログへのアクセス要求ダイアログを無効化</string>
     <string name="various_phrase_clipboardlist">クリップボードの数と時間の制限を削除</string>
     <string name="various_phrase_clipboardlist_more">有効化した後、入力メソッドのスコープを選択して再起動してください</string>

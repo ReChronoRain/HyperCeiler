@@ -103,23 +103,8 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_settings_notfication_importance"
-            android:title="@string/settings_notfication_importance" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_various_no_overscroll"
             android:title="@string/various_no_overscroll" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_various_disable_bluetooth_restrict"
-            android:title="@string/various_disable_bluetooth_restrict" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_various_disable_access_device_logs"
-            android:title="@string/various_disable_access_device_logs" />
 
         <SwitchPreference
             android:defaultValue="false"

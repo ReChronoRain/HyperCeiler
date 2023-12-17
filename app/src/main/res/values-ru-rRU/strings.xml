@@ -528,6 +528,7 @@
     <string name="system_ui_charge_animation_style_desc">Выберите стиль анимации зарядки на экране блокировки</string>
     <string name="system_ui_origin_charge_animation">Встроенная анимация зарядки</string>
     <string name="system_ui_another_title">Другое</string>
+    <string name="system_ui_disable_bluetooth_restrict">Предотвратить временное отключение Bluetooth</string>
     <string name="system_ui_notification_freeform">Потяните за низ всплывающее уведомление для открытия плавающего окна</string>
     <string name="system_ui_notification_freeform_desc">Уведомления от Mi Push могут не поддерживаться</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -549,7 +550,6 @@
     <string name="system_settings_wifipassword_btn_title">Посмотреть</string>
     <string name="system_settings_wifi_password_label">Пароль</string>
     <string name="system_settings_wifi_password_dlgtitle">Сведения сети Wi-Fi</string>
-    <string name="system_settings_accessibility_title">Сочетания жестов</string>
     <string name="system_settings_area_screenshot">Скриншот области разблокировки</string>
     <string name="system_settings_lab_title">Избранные функции</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
@@ -558,6 +558,7 @@
     <string name="system_settings_ai_image_unlock_ai">Улучшение изображения с помощью AI и AI HDR</string>
     <string name="system_settings_ai_image_unlock_memc">MEMC</string>
     <string name="system_settings_permission_title">Разрешение</string>
+    <string name="system_settings_notfication_importance">Показывать важность уведомления</string>
     <string name="system_settings_permission_show_app_up">Разрешения верхнего уровня без поиска в списке приложений</string>
     <string name="system_settings_permission_show_app_up_desc">Верните старое действие, перейдите непосредственно к переключателю разрешений соответствующего приложения, \"Отображать поверх других приложений\"</string>
     <string name="system_settings_permission_unknown_origin_app">Установите неизвестные разрешения приложения без поиска в списке приложений</string>
@@ -964,9 +965,7 @@
     <string name="app_version_not_supported">Неподдерживаемая версия</string>
     <string name="various_location_simulation_title">Поддельное местоположение</string>
     <string name="various_dialog_title">Всплывающее окно</string>
-    <string name="settings_notfication_importance">Показывать важность уведомления</string>
     <string name="various_no_overscroll">Отключить отскок за пределы поля</string>
-    <string name="various_disable_bluetooth_restrict">Предотвратить временное отключение Bluetooth</string>
     <string name="various_disable_access_device_logs">Отключить диалог запроса журнала доступа устройства</string>
     <string name="various_unlock_ime">Разблокировать IME</string>
     <string name="various_unlock_ime_desc">После открытия, проверьте соответствующую область метода ввода в Xposed manager</string>

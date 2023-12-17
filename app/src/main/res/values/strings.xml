@@ -343,6 +343,10 @@
     <string name="phone_n28_desc">Support n28 Band (NR)</string>
     <string name="phone_n5_n8">n5/n8 Band</string>
     <string name="phone_n5_n8_desc">Enter *#*#65686633#*#* on the dial interface to Support n5/n8 Band. If it shows \"enable N5 and N8 Mode\", the feature will enable successfully.</string>
+
+    <string name="system_framework_screen_title">Display &amp; Notifications</string>
+    <string name="system_framework_core_title">Core underneath</string>
+    <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>
     <string name="system_framework_allow_uninstall">Allow uninstall some preinstall apps</string>
@@ -463,6 +467,7 @@
     <!--Phone Service-->
     <string name="phone">Phone Service</string>
     <string name="phone_smart_dual_sim">Unlock Smart dual SIM</string>
+    <string name="phone_disable_remove_network_mode">Disable Remove Network Mode</string>
     <string name="phone_vice_slot_volte">Unlock Vice slot volte</string>
     <string name="phone_vice_slot_volte_desc">Use mobile data during VoLTE calls on the secondary SIM</string>
     <!--Download management program-->
@@ -735,6 +740,7 @@
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
     <string name="system_ui_origin_charge_animation">Native charging animation</string>
     <string name="system_ui_another_title">Other</string>
+    <string name="system_ui_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="system_ui_others_pct_title">Data display</string>
     <string name="system_showpct_title">Displays the brightness percentage</string>
     <string name="system_cc_volume_showpct_title">Displays the percentage of sound</string>
@@ -766,18 +772,23 @@
     <string name="system_settings_enable_pad_area">Unlock Pad area</string>
     <string name="system_settings_enable_fold_area">Unlock Fold area</string>
     <string name="system_settings_enable_area_desc">Unsupported devices will cause the settings to crash after being unlocked</string>
-    <string name="system_settings_connection_sharing_title">Connetion &amp; sharing</string>
+    <string name="system_settings_connection_sharing_title">Network Connection &amp; sharing</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
-    <string name="system_settings_accessibility_title">Gesture shortcuts</string>
-    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
+
     <string name="system_settings_lab_title">Featured functions</string>
+    <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
+    <string name="system_settings_display_title">Display &amp; Brightness</string>
+    <string name="system_settings_display_unlock_background_blur">Unlock Background blur</string>
+    <string name="system_settings_display_unlock_background_blur_desc">There may be cases where the GPU load is high</string>
     <string name="system_settings_ai_image_title">Ai Image Engine</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
     <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
     <string name="system_settings_permission_title">Permission</string>
+    <string name="system_settings_notfication_importance">Show notification importance</string>
+    <string name="system_settings_notfication_importance_summary">Show notification importance</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>
@@ -1322,9 +1333,8 @@
     <string name="various_open_aosp_something_title">Hide Properties</string>
     <string name="various_open_aosp_something_desc">Open AOSP interface \"hidden\"</string>
     <string name="various_nobrightness">Reject forced brightness</string>
-    <string name="settings_notfication_importance">Show notification importance</string>
+
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
-    <string name="various_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="various_phrase_clipboardlist">Remove the number of phrases clipboard and time limits</string>
     <string name="various_phrase_clipboardlist_more">After it is enabled, select the input method scope and restart it</string>
@@ -1439,8 +1449,6 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="system_settings_network_title">Network</string>
-    <string name="phone_disable_remove_network_mode">Disable Remove Network Mode</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>

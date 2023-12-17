@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory android:title="@string/system_ui_charge_animation_title">
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_charge_animation_style"
@@ -39,7 +37,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_notification_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_other_notification_fix"
@@ -73,6 +70,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_another_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_bluetooth_restrict"
+            android:title="@string/system_ui_disable_bluetooth_restrict" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -94,7 +95,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:isPreferenceVisible="false">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_volume_timer"
@@ -104,7 +104,7 @@
             android:defaultValue="false"
             android:key="prefs_key_system_ui_qs_label"
             android:title="@string/system_ui_qs_label" />
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

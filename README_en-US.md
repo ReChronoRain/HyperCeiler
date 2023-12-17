@@ -84,7 +84,9 @@ MIUI 12.5 ~ 14 for Android 11 ~ 14/Xiaomi HyperOS1.0
 | MIUI+                      | com.xiaomi.mirror                  |
 | NetworkBoost               | com.xiaomi.NetworkBoost            |
 | NFC Service                | com.android.nfc                    |
-| Earphones        | com.miui.misound                   |
+| Earphones                  | com.miui.misound                   |
+| Backup                     | com.miui.backup                    |
+| Mi Mover                   | com.miui.huanji                    |
 
 </details>
 

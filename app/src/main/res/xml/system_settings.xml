@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <PreferenceCategory>
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_international_build"
@@ -30,18 +28,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="prefs_key_system_settings_connection_sharing"
         android:title="@string/system_settings_connection_sharing_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_new_nfc_page"
-            android:summary="@string/system_settings_new_nfc_page_desc"
-            android:title="@string/system_settings_new_nfc_page" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/system_settings_network_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_safe_wifi"
@@ -56,12 +43,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="prefs_key_system_settings_accessibility"
-        android:title="@string/system_settings_accessibility_title">
+        android:key="prefs_key_system_settings_display"
+        android:title="@string/system_settings_display_title">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_settings_area_screenshot"
-            android:title="@string/system_settings_area_screenshot" />
+            android:key="prefs_key_system_settings_display_unlock_background_blur"
+            android:title="@string/system_settings_display_unlock_background_blur"
+            android:summary="@string/system_settings_display_unlock_background_blur_desc"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_new_nfc_page"
+            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:title="@string/system_settings_new_nfc_page" />
 
     </PreferenceCategory>
 
@@ -70,6 +64,11 @@
             android:defaultValue="false"
             android:key="prefs_key_system_settings_voip_assistant_controller"
             android:title="@string/system_settings_voip_assistant_controller" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_area_screenshot"
+            android:title="@string/system_settings_area_screenshot" />
 
     </PreferenceCategory>
 
@@ -92,6 +91,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_settings_permission_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_settings_notfication_importance"
+            android:title="@string/system_settings_notfication_importance" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_permission_show_app_up"

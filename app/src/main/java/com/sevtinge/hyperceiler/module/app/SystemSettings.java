@@ -3,25 +3,8 @@ package com.sevtinge.hyperceiler.module.app;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.AppsFreezerEnable;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableSpeedMode;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.InternationalBuild;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.LinkTurbo;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.ModifySystemVersion;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.ViewWifiPasswordHook;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.VoipAssistantController;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockAi;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockMemc;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockSuperResolution;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.*;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.*;
 
 public class SystemSettings extends BaseModule {
 
@@ -52,6 +35,8 @@ public class SystemSettings extends BaseModule {
         if (!isAndroidVersion(30)) {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
         }
+
+        initHook(new UnlockBackgroundBlur(), mPrefsMap.getBoolean("system_settings_display_unlock_background_blur"));
     }
 }
 

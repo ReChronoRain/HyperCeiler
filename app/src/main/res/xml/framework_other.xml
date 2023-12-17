@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/system_framework_screen_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_screen_all_rotations"
             android:title="@string/system_framework_screen_all_rotations" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_allow_uninstall"
-            android:summary="@string/system_framework_allow_uninstall_desc"
-            android:title="@string/system_framework_allow_uninstall" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -20,9 +14,58 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_thermal_brightness"
+            android:summary="@string/system_framework_other_thermal_brightness_more"
+            android:title="@string/system_framework_other_thermal_brightness" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_app_link_verify"
+            android:summary="@string/system_framework_disable_app_link_verify_desc"
+            android:title="@string/system_framework_disable_app_link_verify" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_use_original_animation"
+            android:title="@string/system_framework_other_use_original_animation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_various_disable_access_device_logs"
+            android:title="@string/various_disable_access_device_logs" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_other_flag_secure"
+            android:summary="@string/system_other_flag_secure_desc"
+            android:title="@string/system_other_flag_secure" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_allow_untrusted_touch"
+            android:title="@string/system_framework_allow_untrusted_touch" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_other_delete_on_post_notification"
+            android:summary="@string/system_other_delete_on_post_notification_desc"
+            android:title="@string/system_other_delete_on_post_notification" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/system_framework_core_title">
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_other_speed_install"
             android:summary="@string/system_framework_other_speed_install_desc"
             android:title="@string/system_framework_other_speed_install" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_disable_cleaner"
+            android:summary="@string/system_framework_other_disable_cleaner_desc"
+            android:title="@string/system_framework_other_disable_cleaner" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -36,31 +79,14 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_framework_other_thermal_brightness"
-            android:summary="@string/system_framework_other_thermal_brightness_more"
-            android:title="@string/system_framework_other_thermal_brightness" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_other_disable_cleaner"
-            android:summary="@string/system_framework_other_disable_cleaner_desc"
-            android:title="@string/system_framework_other_disable_cleaner" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_disable_app_link_verify"
-            android:summary="@string/system_framework_disable_app_link_verify_desc"
-            android:title="@string/system_framework_disable_app_link_verify" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_other_use_original_animation"
-            android:title="@string/system_framework_other_use_original_animation" />
+            android:key="prefs_key_system_framework_allow_uninstall"
+            android:summary="@string/system_framework_allow_uninstall_desc"
+            android:title="@string/system_framework_allow_uninstall" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory>
-
+    <PreferenceCategory
+        android:title="@string/system_framework_shortcut_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_clean_share_menu"
@@ -84,30 +110,5 @@
             android:title="@string/system_framework_clean_open_apps" />
 
     </PreferenceCategory>
-
-
-    <PreferenceCategory>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_other_flag_secure"
-            android:summary="@string/system_other_flag_secure_desc"
-            android:title="@string/system_other_flag_secure" />
-
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_allow_untrusted_touch"
-            android:title="@string/system_framework_allow_untrusted_touch" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_other_delete_on_post_notification"
-            android:summary="@string/system_other_delete_on_post_notification_desc"
-            android:title="@string/system_other_delete_on_post_notification" />
-
-    </PreferenceCategory>
-
     <Preference android:enabled="false" />
-
 </PreferenceScreen>

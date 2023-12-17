@@ -348,6 +348,9 @@
     <string name="phone_n5_n8">解锁 n5/n8 频段</string>
     <string name="phone_n5_n8_desc">在拨号界面输入 *#*#65686633#*#* 以打开 n5/n8 频段，若显示 \"enable N5 and N8 Mode\"，则开启成功</string>
 
+    <string name="system_framework_screen_title">显示与通知</string>
+    <string name="system_framework_core_title">底层</string>
+    <string name="system_framework_shortcut_title">分享快捷方式</string>
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>
     <string name="system_framework_allow_uninstall">允许卸载部分预装 APP</string>
@@ -753,6 +756,7 @@
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
+    <string name="system_ui_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_others_pct_title">数据显示</string>
     <string name="system_showpct_title">显示亮度百分比</string>
@@ -779,15 +783,23 @@
     <string name="system_settings_enable_fold_area">解锁折叠屏专区</string>
     <string name="system_settings_enable_area_desc">不支持的设备解锁后会导致设置闪退</string>
 
-    <string name="system_settings_connection_sharing_title">连接与共享</string>
+    <string name="system_settings_connection_sharing_title">网络连接与共享</string>
+    <string name="system_settings_linkturbo">解除网络加速应用限制</string>
+    <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
+    <string name="system_settings_safe_wifi_desc">解锁管理已保存网络\n路径：设置-WLAN-高级设置-管理保存的网络</string>
+    <string name="system_settings_wifipassword_btn_title">查看</string>
+    <string name="system_settings_wifi_password_label">密码</string>
+    <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包\n</string>
 
-    <string name="system_settings_accessibility_title">快捷手势</string>
-    <string name="system_settings_area_screenshot">解锁区域截屏</string>
-
     <string name="system_settings_lab_title">特色功能</string>
+    <string name="system_settings_area_screenshot">解锁区域截屏</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
+
+    <string name="system_settings_display_title">显示与亮度</string>
+    <string name="system_settings_display_unlock_background_blur">解锁高级材质</string>
+    <string name="system_settings_display_unlock_background_blur_desc">可能存在 GPU 负载较高的情况</string>
 
     <string name="system_settings_ai_image_title">AI 大师画质引擎</string>
     <string name="system_settings_ai_image_unlock_sr">解锁超分辨率增强</string>
@@ -795,6 +807,8 @@
     <string name="system_settings_ai_image_unlock_memc">解锁动态画面补偿</string>
 
     <string name="system_settings_permission_title">权限</string>
+    <string name="system_settings_notfication_importance">显示通知重要程度</string>
+    <string name="system_settings_notfication_importance_summary">Xiaomi HyperOS 设备需要重启 \"系统界面\" 和 \"设置\" 两个作用域才能生效</string>
     <string name="system_settings_permission_show_app_up">显示在其他应用上层权限直达</string>
     <string name="system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
     <string name="system_settings_permission_unknown_origin_app">安装未知应用权限直达</string>
@@ -808,14 +822,6 @@
     <string name="system_settings_window_animation_scale">窗口动画缩放</string>
     <string name="system_settings_transition_animation_scale">过渡动画缩放</string>
     <string name="system_settings_animator_duration_scale">Animator 时长缩放</string>
-
-    <string name="system_settings_network_title">网络</string>
-    <string name="system_settings_linkturbo">解除网络加速应用限制</string>
-    <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
-    <string name="system_settings_safe_wifi_desc">解锁管理已保存网络\n路径：设置-WLAN-高级设置-管理保存的网络</string>
-    <string name="system_settings_wifipassword_btn_title">查看</string>
-    <string name="system_settings_wifi_password_label">密码</string>
-    <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
     <!--主题壁纸-->
     <string name="theme_manager">主题壁纸</string>
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
@@ -1355,9 +1361,8 @@
     <string name="various_open_aosp_something_title">隐藏特性</string>
     <string name="various_open_aosp_something_desc">便捷打开被隐藏的原生界面</string>
     <string name="various_nobrightness">拒绝强制亮度</string>
-    <string name="settings_notfication_importance">显示通知重要程度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
-    <string name="various_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
+
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
     <string name="various_phrase_clipboardlist">解除常用语剪贴板数量和时间限制</string>
     <string name="various_phrase_clipboardlist_more">开启后勾选输入法作用域并重启</string>

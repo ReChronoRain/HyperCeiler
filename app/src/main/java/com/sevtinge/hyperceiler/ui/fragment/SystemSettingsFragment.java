@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler.ui.fragment;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.provider.Settings;
@@ -19,11 +20,13 @@ import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class SystemSettingsFragment extends SettingsPreferenceFragment {
-    PreferenceCategory mNewNfc; // 新版 NFC 界面
-    PreferenceCategory mAreaScreenshot; // 区域截屏
+    PreferenceCategory mDisplay; // 显示与亮度
+    SwitchPreference mNewNfc; // 新版 NFC 界面
+    SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mHighMode; // 极致模式
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
+    SwitchPreference mNotice; // 重要通知程度
 
     @Override
     public int getContentResId() {
@@ -41,16 +44,24 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
-        mAreaScreenshot = findPreference("prefs_key_system_settings_accessibility");
-        mNewNfc = findPreference("prefs_key_system_settings_connection_sharing");
+        mDisplay = findPreference("prefs_key_system_settings_display");
+        mAreaScreenshot = findPreference("prefs_key_system_settings_area_screenshot");
+        mNewNfc = findPreference("prefs_key_system_settings_new_nfc_page");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
+        mNotice = findPreference("prefs_key_settings_notfication_importance");
 
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
+        mDisplay.setVisible(isMoreHyperOSVersion(1f));
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());
+
+        if (isMoreHyperOSVersion(1f)) {
+            mNotice.setSummary(R.string.system_settings_notfication_importance_summary);
+        }
+
         animationScale();
     }
 
