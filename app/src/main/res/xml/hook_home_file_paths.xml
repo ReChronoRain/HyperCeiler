@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path
+        name="share_images"
+        path="images/" />
+    <files-path
+        name="home_preview.png"
+        path="." />
+    <files-path
+        name="pa_header"
+        path="/images/assistant" />
+    <root-path
+        name="data_app"
+        path="/data/app/" />
+    <root-path
+        name="product_app"
+        path="/product/data-app/" />
+    <root-path
+        name="data_app_recommend"
+        path="/data/miui/recommend/" />
+    <root-path
+        name="cust_app"
+        path="/cust/app/" />
+    <root-path
+        name="cust_data_app"
+        path="/cust/data-app/" />
+    <files-path
+        name="maml_config"
+        path="/maml/config" />
+    <files-path
+        name="maml_res"
+        path="/maml/res" />
+    <root-path
+        name="system_app"
+        path="/system/app" />
+    <root-path
+        name="system_priv_app"
+        path="/system/priv-app" />
+    <root-path
+        name="system_product_app"
+        path="/system/product/app" />
+    <root-path
+        name="system_ext_app"
+        path="/system_ext/priv-app" />
+</paths>
