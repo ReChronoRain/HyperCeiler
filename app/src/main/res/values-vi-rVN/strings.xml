@@ -307,10 +307,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_phone_band_title">Cài đặt băng tần</string>
     <string name="phone_n1">Băng tần N1</string>
     <string name="phone_n1_desc">Hỗ trợ băng tần n1 (NR)</string>
-    <string name="phone_n28">Băng tần N28</string>
+    <string name="phone_n28">Băng tần n28</string>
     <string name="phone_n28_desc">Hỗ trợ băng tần n28 (NR)</string>
     <string name="phone_n5_n8">Băng tần n5/n8</string>
-    <string name="phone_n5_n8_desc">Trên giao diện quay số bấm *#*#65686633#*#* ấn gọi để bật băng tần n5/n8. Nếu nó hiển thị bật Chế độ n5/n8, tính năng này sẽ bật thành công.</string>
+    <string name="phone_n5_n8_desc">Nhập *#*#65686633#*#* trên giao diện quay số để bật băng tần n5/n8. Nếu hiển thị Đã bật chế độ N5 và N8 nghĩa là đã bật thành công.</string>
     <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
     <string name="system_framework_allow_untrusted_touch">Cho phép chạm không tin cậy</string>
     <string name="system_framework_allow_uninstall">Cho phép gỡ cài đặt một số App được cài đặt sẵn</string>
