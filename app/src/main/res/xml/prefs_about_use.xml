@@ -108,6 +108,13 @@
                 android:data="https://github.com/KyuubiRan/EzXHelper" />
         </Preference>
         <Preference
+            android:title="ForegroundPin"
+            android:summary="焕晨HChen | GPL-3.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/ForegroundPin" />
+        </Preference>
+        <Preference
             android:title="FixMiuiMediaControlPanel"
             android:summary="qqlittleice | GPL-3.0">
             <intent

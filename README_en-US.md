@@ -126,6 +126,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 - [「EzXHelper」 by KyuubiRan](https://github.com/KyuubiRan/EzXHelper)
 - [「FixMiuiMediaControlPanel」 by qqlittleice](https://github.com/qqlittleice/FixMiuiMediaControlPanel)
 - [「FuckNFC」 by xiaowine](https://github.com/xiaowine/FuckNFC)
+- [「ForegroundPin」 by 焕晨HChen](https://github.com/HChenX/ForegroundPin)
 - [「Gson」 by Android Open Source Project, Google Inc.](https://github.com/google/gson)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
