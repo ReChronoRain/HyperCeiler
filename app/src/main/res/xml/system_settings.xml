@@ -56,6 +56,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="prefs_key_system_settings_display"
+        android:title="@string/system_settings_display_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_display_unlock_background_blur"
+            android:title="@string/system_settings_display_unlock_background_blur"
+            android:summary="@string/system_settings_display_unlock_background_blur_desc"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="prefs_key_system_settings_accessibility"
         android:title="@string/system_settings_accessibility_title">
         <SwitchPreference

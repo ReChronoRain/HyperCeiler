@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler.ui.fragment;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.provider.Settings;
@@ -21,6 +22,7 @@ import moralnorm.preference.SwitchPreference;
 public class SystemSettingsFragment extends SettingsPreferenceFragment {
     PreferenceCategory mNewNfc; // 新版 NFC 界面
     PreferenceCategory mAreaScreenshot; // 区域截屏
+    PreferenceCategory mDisplay; // 显示与亮度
     SwitchPreference mHighMode; // 极致模式
     SwitchPreference mNoveltyHaptic; // 新版触感调节页面
     SwitchPreference mPad; // 解锁平板分区
@@ -42,12 +44,14 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
         mAreaScreenshot = findPreference("prefs_key_system_settings_accessibility");
+        mDisplay = findPreference("prefs_key_system_settings_display");
         mNewNfc = findPreference("prefs_key_system_settings_connection_sharing");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
 
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
+        mDisplay.setVisible(isMoreHyperOSVersion(1f));
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());

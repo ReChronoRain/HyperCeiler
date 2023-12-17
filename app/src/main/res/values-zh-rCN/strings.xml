@@ -789,6 +789,10 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
 
+    <string name="system_settings_display_title">显示与亮度</string>
+    <string name="system_settings_display_unlock_background_blur">解锁高级材质</string>
+    <string name="system_settings_display_unlock_background_blur_desc">可能存在 GPU 负载较高的情况</string>
+
     <string name="system_settings_ai_image_title">AI 大师画质引擎</string>
     <string name="system_settings_ai_image_unlock_sr">解锁超分辨率增强</string>
     <string name="system_settings_ai_image_unlock_ai">解锁 AI 智能场景优化与视频画质增强</string>
