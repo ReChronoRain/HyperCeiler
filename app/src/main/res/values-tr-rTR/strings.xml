@@ -405,6 +405,7 @@
     <string name="system_ui_charge_animation_style_desc">Şarj animasyon stili</string>
     <string name="system_ui_origin_charge_animation">Yerel şarj animasyonu</string>
     <string name="system_ui_another_title">Diğer</string>
+    <string name="system_ui_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
     <string name="system_ui_notification_freeform">Ücretsiz bir form açmak için daha fazla uygulamanın bildirim çubuğunu aşağı çekin</string>
     <string name="system_ui_notification_freeform_desc">Mi Push\'tan gelen bildirimler desteklenmeyebilir</string>
     <string name="system_ui_monet_title">Monet</string>
@@ -420,6 +421,7 @@
     <string name="system_settings_lab_title">Öne çıkan işlevler</string>
     <string name="system_settings_voip_assistant_controller">VoIP asistanı</string>
     <string name="system_settings_permission_title">İzin</string>
+    <string name="system_settings_notfication_importance">Bildirim önemini göster</string>
     <string name="system_settings_permission_show_app_up">Uygulama listesinde arama yapmadan üst düzey izinler</string>
     <string name="system_settings_permission_show_app_up_desc">Eski davranışı geri yükleyin, doğrudan \"diğer uygulamaların üstünde görüntülenen” ilgili uygulamanın izin anahtarına atlayın</string>
     <string name="system_settings_develop_title">Geliştirici seçenekleri</string>
@@ -766,9 +768,7 @@
     <string name="custom_hook">Özelleştir</string>
     <string name="various_location_simulation_title">Sahte konum</string>
     <string name="various_dialog_title">Diyalog</string>
-    <string name="settings_notfication_importance">Bildirim önemini göster</string>
     <string name="various_no_overscroll">Sınır dışı sekmeyi devre dışı bırak</string>
-    <string name="various_disable_bluetooth_restrict">Bluetooth\'un geçici olarak kapatılmasını önleyin</string>
     <string name="various_disable_access_device_logs">Erişim cihazı günlükleri isteği iletişim kutusunu kapat</string>
     <string name="various_unlock_ime">IME\'nin kilidini aç</string>
     <string name="various_collapse_miui_title">MIUI başlığı</string>

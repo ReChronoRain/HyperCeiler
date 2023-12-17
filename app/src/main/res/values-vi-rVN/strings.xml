@@ -703,6 +703,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
     <string name="system_ui_origin_charge_animation">Hiệu ứng sạc</string>
     <string name="system_ui_another_title">Khác</string>
+    <string name="system_ui_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
     <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
@@ -737,7 +738,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
-    <string name="system_settings_accessibility_title">Lối tắt cử chỉ</string>
     <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
     <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
@@ -746,6 +746,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_ai_image_unlock_ai">Mở khóa Tăng cường hình ảnh AI và Tăng cường HDR AI</string>
     <string name="system_settings_ai_image_unlock_memc">Mở khoá MEMC</string>
     <string name="system_settings_permission_title">Quyền</string>
+    <string name="system_settings_notfication_importance">Hiện thông báo quan trọng</string>
     <string name="system_settings_permission_show_app_up">Truy cập quyền đặc biệt nhanh</string>
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
@@ -1297,9 +1298,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_open_aosp_something_title">Tính năng ẩn</string>
     <string name="various_open_aosp_something_desc">Mở giao diện AOSP \"tính năng ẩn\"</string>
     <string name="various_nobrightness">Từ chối độ sáng bắt buộc</string>
-    <string name="settings_notfication_importance">Hiện thông báo quan trọng</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
-    <string name="various_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="various_disable_access_device_logs">Bỏ qua thông báo yêu cầu truy cập nhật ký thiết bị</string>
     <string name="various_phrase_clipboardlist">Đã xóa số bảng ghi tạm và giới hạn thời gian</string>
     <string name="various_phrase_clipboardlist_more">Sau khi kích hoạt, chọn phạm vi phương thức nhập và khởi động lại. Việc xóa một nội dung bị vô hiệu hóa</string>
@@ -1415,7 +1414,6 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="system_settings_network_title">Mạng</string>
     <string name="phone_disable_remove_network_mode">Tắt xóa chế độ mạng</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>

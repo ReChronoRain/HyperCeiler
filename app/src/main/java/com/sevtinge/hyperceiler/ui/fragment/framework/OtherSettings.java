@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.framework;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
@@ -19,6 +20,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
     SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
     SwitchPreference mVerifyDisable;
+    SwitchPreference mDisableDeviceLog; // 关闭访问设备日志确认
 
     @Override
     public int getContentResId() {
@@ -31,11 +33,14 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
+        mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
+
+        mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
+
         mAppLinkVerify.setVisible(!isAndroidVersion(30));
         mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
-        mAppLinkVerify.setOnPreferenceChangeListener((preference, o) -> true);
-        mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
         mUseOriginalAnim.setVisible(!isAndroidVersion(33));
+        mDisableDeviceLog.setVisible(isMoreAndroidVersion(33));
 
         mCleanShareApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);

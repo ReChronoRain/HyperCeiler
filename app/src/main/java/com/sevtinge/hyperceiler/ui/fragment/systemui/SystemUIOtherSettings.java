@@ -1,6 +1,8 @@
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.view.View;
 
@@ -9,10 +11,12 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.PreferenceCategory;
+import moralnorm.preference.SwitchPreference;
 
 public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
     PreferenceCategory mMonetOverlay;
+    SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
 
     @Override
     public int getContentResId() {
@@ -30,6 +34,9 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mMonetOverlay = findPreference("prefs_key_system_ui_monet");
+        mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
+
         mMonetOverlay.setVisible(!isAndroidVersion(30));
+        mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
     }
 }

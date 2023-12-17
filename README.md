@@ -84,6 +84,8 @@ Android 11 ~ 14 的 MIUI 12.5 ~ 14/Xiaomi HyperOS1.0
 | NetworkBoost | com.xiaomi.NetworkBoost            |
 | NFC 服务       | com.android.nfc                    |
 | 音质音效         | com.miui.misound                   |
+| 备份           | com.miui.backup                    |
+| 小米换机         | com.miui.huanji                    |
 
 </details>
 

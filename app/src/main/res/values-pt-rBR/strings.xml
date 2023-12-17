@@ -701,6 +701,7 @@
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
+    <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
@@ -735,7 +736,6 @@
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
-    <string name="system_settings_accessibility_title">Atalhos de gestos</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
@@ -744,6 +744,7 @@
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
+    <string name="system_settings_notfication_importance">Exibir importância da notificação</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
@@ -1284,9 +1285,7 @@
     <string name="various_open_aosp_something_title">Recursos ocultos</string>
     <string name="various_open_aosp_something_desc">Abra a interface AOSP \"oculta\"</string>
     <string name="various_nobrightness">Rejeitar brilho forçado</string>
-    <string name="settings_notfication_importance">Exibir importância da notificação</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
-    <string name="various_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação de logs do dispositivo de acesso</string>
     <string name="various_phrase_clipboardlist">Remover o número de frases da área de transferência e limites de tempo</string>
     <string name="various_phrase_clipboardlist_more">Após ativado, selecione o escopo do método de entrada e reinicie-o, o que fará com que a exclusão de um único conteúdo seja inválida.</string>
@@ -1401,7 +1400,6 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="system_settings_network_title">Redes móveis</string>
     <string name="phone_disable_remove_network_mode">Desativar remoção do modo de rede</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
