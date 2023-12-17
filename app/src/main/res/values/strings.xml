@@ -787,8 +787,8 @@
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
     <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
     <string name="system_settings_permission_title">Permission</string>
-    <string name="system_settings_notfication_importance">Show notification importance</string>
-    <string name="system_settings_notfication_importance_summary">Show notification importance</string>
+    <string name="system_settings_more_notification_settings">Show more notification settings</string>
+    <string name="system_settings_more_notification_settings_summary">Show notification importance</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>

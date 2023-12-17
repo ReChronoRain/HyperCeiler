@@ -49,7 +49,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mNewNfc = findPreference("prefs_key_system_settings_new_nfc_page");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
         mPad = findPreference("prefs_key_system_settings_enable_pad_area");
-        mNotice = findPreference("prefs_key_settings_notfication_importance");
+        mNotice = findPreference("prefs_key_system_settings_more_notification_settings");
 
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
@@ -59,7 +59,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mPad.setVisible(isPad());
 
         if (isMoreHyperOSVersion(1f)) {
-            mNotice.setSummary(R.string.system_settings_notfication_importance_summary);
+            mNotice.setSummary(R.string.system_settings_more_notification_settings_summary);
         }
 
         animationScale();

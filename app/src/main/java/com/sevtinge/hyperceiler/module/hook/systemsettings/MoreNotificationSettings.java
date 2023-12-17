@@ -1,6 +1,9 @@
-package com.sevtinge.hyperceiler.module.hook.settings;
+package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
 import android.app.NotificationChannel;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -10,7 +13,7 @@ import java.lang.reflect.Proxy;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class NotificationImportance extends BaseHook {
+public class MoreNotificationSettings extends BaseHook {
 
     Class<?> mBaseNotificationSettings;
     Class<?> mChannelNotificationSettings;
@@ -27,9 +30,47 @@ public class NotificationImportance extends BaseHook {
                 Object pref = param.args[0];
                 if (pref != null) {
                     String prefKey = (String) XposedHelpers.callMethod(pref, "getKey");
-                    if ("importance".equals(prefKey)) {
+                    if ("importance".equals(prefKey) || "badge".equals(prefKey) || "allow_keyguard".equals(prefKey)) {
                         param.args[1] = true;
                     }
+                }
+            }
+        });
+
+        hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "onClickInfoItem", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                Context mContext = (Context)param.args[0];
+                Object entry = XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mParent"), "getEntry");
+                String id = (String)XposedHelpers.callMethod(XposedHelpers.callMethod(entry, "getChannel"), "getId");
+                if ("miscellaneous".equals(id)) return;
+                Object notification = XposedHelpers.callMethod(entry, "getSbn");
+                Class<?> nuCls = findClassIfExists("com.android.systemui.miui.statusbar.notification.NotificationUtil", lpparam.classLoader);
+                if (nuCls != null) {
+                    boolean isHybrid = (boolean)XposedHelpers.callStaticMethod(nuCls, "isHybrid", notification);
+                    if (isHybrid) return;
+                }
+                String pkgName = (String)XposedHelpers.callMethod(notification, "getPackageName");
+                int user = (int)XposedHelpers.callMethod(notification, "getAppUid");
+
+                Bundle bundle = new Bundle();
+                bundle.putString("android.provider.extra.CHANNEL_ID", id);
+                bundle.putString("package", pkgName);
+                bundle.putInt("uid", user);
+                bundle.putString("miui.targetPkg", pkgName);
+                Intent intent = new Intent("android.intent.action.MAIN");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(":android:show_fragment", "com.android.settings.notification.ChannelNotificationSettings");
+                intent.putExtra(":android:show_fragment_args", bundle);
+                intent.setClassName("com.android.settings", "com.android.settings.SubSettings");
+                try {
+                    XposedHelpers.callMethod(mContext, "startActivityAsUser", intent, android.os.Process.myUserHandle());
+                    param.setResult(null);
+                    Object ModalController = XposedHelpers.callStaticMethod(findClass("com.android.systemui.Dependency", mContext.getClassLoader()), "get", findClass("com.android.systemui.statusbar.notification.modal.ModalController", mContext.getClassLoader()));
+                    XposedHelpers.callMethod(ModalController, "animExitModelCollapsePanels");
+                } catch (Throwable ignore) {
+                    logE(TAG, lpparam.packageName, "onClickInfoItem hook error", ignore);
                 }
             }
         });

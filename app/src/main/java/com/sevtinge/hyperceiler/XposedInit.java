@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler;
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch;
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
+import com.sevtinge.hyperceiler.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonetColor;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.settings.VolumeSeparateControlForSettings;
@@ -57,6 +58,9 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
             case "com.miui.home":
                 if (mPrefsMap.getBoolean("home_other_icon_monet_color")) {
                     EnableIconMonetColor.INSTANCE.initResource(resparam);
+                }
+                if (mPrefsMap.getBoolean("home_other_allow_share_apk")) {
+                    new AllowShareApk().initResource(resparam);
                 }
                 break;
 

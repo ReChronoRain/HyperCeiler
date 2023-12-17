@@ -736,7 +736,7 @@
     <string name="system_settings_ai_image_unlock_ai">解鎖 AI 智慧場景最佳化與影片畫質增強</string>
     <string name="system_settings_ai_image_unlock_memc">解鎖動態畫面補償</string>
     <string name="system_settings_permission_title">權限</string>
-    <string name="system_settings_notfication_importance">顯示通知重要程度</string>
+    <string name="system_settings_more_notification_settings">顯示通知重要程度</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
     <string name="system_settings_permission_show_app_up_desc">還原舊版行為，直接跳轉對應應用程式「顯示在其他應用程式上層」的權限開關</string>
     <string name="system_settings_permission_unknown_origin_app">安裝未知應用程式許可權免翻應用程式列表</string>

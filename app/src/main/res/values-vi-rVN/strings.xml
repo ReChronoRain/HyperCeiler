@@ -746,7 +746,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_ai_image_unlock_ai">Mở khóa Tăng cường hình ảnh AI và Tăng cường HDR AI</string>
     <string name="system_settings_ai_image_unlock_memc">Mở khoá MEMC</string>
     <string name="system_settings_permission_title">Quyền</string>
-    <string name="system_settings_notfication_importance">Hiện thông báo quan trọng</string>
+    <string name="system_settings_more_notification_settings">Hiện thông báo quan trọng</string>
     <string name="system_settings_permission_show_app_up">Truy cập quyền đặc biệt nhanh</string>
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>

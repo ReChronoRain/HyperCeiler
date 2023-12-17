@@ -26,6 +26,7 @@ public class SystemSettings extends BaseModule {
         initHook(new UnlockMemc(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_memc"));
         initHook(UnLockAreaScreenshot.INSTANCE, mPrefsMap.getBoolean("system_settings_area_screenshot"));
         initHook(NoveltyHaptic.INSTANCE, mPrefsMap.getBoolean("system_settings_novelty_haptic"));
+        initHook(new MoreNotificationSettings(), mPrefsMap.getBoolean("system_settings_more_notification_settings"));
 
         initHook(new EnablePadArea(), mPrefsMap.getBoolean("system_settings_enable_pad_area"));
         initHook(new EnableFoldArea(), mPrefsMap.getBoolean("system_settings_enable_fold_area"));

@@ -421,7 +421,7 @@
     <string name="system_settings_lab_title">Öne çıkan işlevler</string>
     <string name="system_settings_voip_assistant_controller">VoIP asistanı</string>
     <string name="system_settings_permission_title">İzin</string>
-    <string name="system_settings_notfication_importance">Bildirim önemini göster</string>
+    <string name="system_settings_more_notification_settings">Bildirim önemini göster</string>
     <string name="system_settings_permission_show_app_up">Uygulama listesinde arama yapmadan üst düzey izinler</string>
     <string name="system_settings_permission_show_app_up_desc">Eski davranışı geri yükleyin, doğrudan \"diğer uygulamaların üstünde görüntülenen” ilgili uygulamanın izin anahtarına atlayın</string>
     <string name="system_settings_develop_title">Geliştirici seçenekleri</string>

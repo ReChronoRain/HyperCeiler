@@ -807,8 +807,8 @@
     <string name="system_settings_ai_image_unlock_memc">解锁动态画面补偿</string>
 
     <string name="system_settings_permission_title">权限</string>
-    <string name="system_settings_notfication_importance">显示通知重要程度</string>
-    <string name="system_settings_notfication_importance_summary">Xiaomi HyperOS 设备需要重启 \"系统界面\" 和 \"设置\" 两个作用域才能生效</string>
+    <string name="system_settings_more_notification_settings">显示更多通知设置项</string>
+    <string name="system_settings_more_notification_settings_summary">需重启 \"系统界面\" 与 \"设置\" 共两个作用域</string>
     <string name="system_settings_permission_show_app_up">显示在其他应用上层权限直达</string>
     <string name="system_settings_permission_show_app_up_desc">恢复旧版行为，直接跳转对应应用 \"显示在其他应用上层\" 的权限开关</string>
     <string name="system_settings_permission_unknown_origin_app">安装未知应用权限直达</string>

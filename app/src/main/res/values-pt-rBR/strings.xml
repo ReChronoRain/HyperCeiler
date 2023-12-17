@@ -744,7 +744,7 @@
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
-    <string name="system_settings_notfication_importance">Exibir importância da notificação</string>
+    <string name="system_settings_more_notification_settings">Exibir importância da notificação</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
