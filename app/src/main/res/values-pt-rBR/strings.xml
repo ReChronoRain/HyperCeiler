@@ -304,9 +304,9 @@
     <string name="phone_double_5g_sa">Uso de cartão duplo SA (SA+SA)</string>
     <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA.</string>
     <string name="system_framework_phone_band_title">Configurações de banda</string>
-    <string name="phone_n1">Banda N1</string>
+    <string name="phone_n1">Banda n1</string>
     <string name="phone_n1_desc">Suporte Banda n1 (NR)</string>
-    <string name="phone_n28">Banda N28</string>
+    <string name="phone_n28">Banda n28</string>
     <string name="phone_n28_desc">Suporte Banda n28 (NR)</string>
     <string name="phone_n5_n8">Banda n5/n8</string>
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
@@ -1401,5 +1401,8 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="system_settings_network_title">Redes móveis</string>
+    <string name="phone_disable_remove_network_mode">Desativar remoção do modo de rede</string>
+    <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
 </resources>
