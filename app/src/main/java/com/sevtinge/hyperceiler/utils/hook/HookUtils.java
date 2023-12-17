@@ -4,6 +4,8 @@ import com.sevtinge.hyperceiler.utils.XposedUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -292,6 +294,91 @@ public class HookUtils extends XposedUtils {
     public Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
         return XposedHelpers.callStaticMethod(findClassIfExists("android.os.SystemProperties", classLoader),
             method, prop, val);
+    }
+
+    public Method getDeclaredMethod(String className, String method, Object... type) throws NoSuchMethodException {
+        return getDeclaredMethod(findClassIfExists(className), method, type);
+    }
+
+    public Method getDeclaredMethod(Class<?> clazz, String method, Object... type) throws NoSuchMethodException {
+        String tag = "getDeclaredMethod";
+        ArrayList<Method> haveMethod = new ArrayList<>();
+        Method hqMethod = null;
+        int methodNum;
+        if (clazz == null) {
+            logE(tag, "find class is null: " + method);
+            throw new NoSuchMethodException("find class is null");
+        }
+        for (Method getMethod : clazz.getDeclaredMethods()) {
+            if (getMethod.getName().equals(method)) {
+                haveMethod.add(getMethod);
+            }
+        }
+        if (haveMethod.isEmpty()) {
+            logE(tag, "find method is null: " + method);
+            throw new NoSuchMethodException("find method is null");
+        }
+        methodNum = haveMethod.size();
+        if (type != null) {
+            Class<?>[] classes = new Class<?>[type.length];
+            Class<?> newclass = null;
+            Object getType;
+            for (int i = 0; i < type.length; i++) {
+                getType = type[i];
+                if (getType instanceof Class<?>) {
+                    newclass = (Class<?>) getType;
+                }
+                if (getType instanceof String) {
+                    newclass = findClassIfExists((String) getType);
+                    if (newclass == null) {
+                        logE(tag, "get class error: " + i);
+                        throw new NoSuchMethodException("get class error");
+                    }
+                }
+                classes[i] = newclass;
+            }
+            boolean noError = true;
+            for (int i = 0; i < methodNum; i++) {
+                hqMethod = haveMethod.get(i);
+                boolean allHave = true;
+                if (hqMethod.getParameterTypes().length != classes.length) {
+                    if (methodNum - 1 == i) {
+                        logE(tag, "class length bad: " + Arrays.toString(hqMethod.getParameterTypes()));
+                        throw new NoSuchMethodException("class length bad");
+                    } else {
+                        noError = false;
+                        continue;
+                    }
+                }
+                for (int t = 0; t < hqMethod.getParameterTypes().length; t++) {
+                    Class<?> getClass = hqMethod.getParameterTypes()[t];
+                    if (!getClass.getSimpleName().equals(classes[t].getSimpleName())) {
+                        allHave = false;
+                        break;
+                    }
+                }
+                if (!allHave) {
+                    if (methodNum - 1 == i) {
+                        logE(tag, "type bad: " + Arrays.toString(hqMethod.getParameterTypes())
+                            + " input: " + Arrays.toString(classes));
+                        throw new NoSuchMethodException("type bad");
+                    } else {
+                        noError = false;
+                        continue;
+                    }
+                }
+                if (noError) {
+                    break;
+                }
+            }
+            return hqMethod;
+        } else {
+            if (methodNum > 1) {
+                logE(tag, "no type method must only have one: " + haveMethod);
+                throw new NoSuchMethodException("no type method must only have one");
+            }
+        }
+        return haveMethod.get(0);
     }
 
     public void setDeclaredField(XC_MethodHook.MethodHookParam param, String iNeedString, Object iNeedTo) {

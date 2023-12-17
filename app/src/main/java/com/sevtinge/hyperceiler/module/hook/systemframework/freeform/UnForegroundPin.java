@@ -9,8 +9,9 @@ public class UnForegroundPin extends BaseHook {
     @Override
     public void init() {
         try {
-            findClassIfExists("com.android.server.wm.MiuiFreeFormGestureController")
-                .getDeclaredMethod("needForegroundPin");
+            getDeclaredMethod("com.android.server.wm.MiuiFreeFormGestureController",
+                "needForegroundPin",
+                "com.android.server.wm.MiuiFreeFormActivityStack");
             /*Hyper*/
             findAndHookMethod("com.android.server.wm.MiuiFreeFormGestureController",
                 "needForegroundPin",

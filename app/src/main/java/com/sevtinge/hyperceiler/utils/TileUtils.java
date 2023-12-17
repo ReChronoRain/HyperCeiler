@@ -125,7 +125,8 @@ public abstract class TileUtils extends BaseHook {
             logE(TAG, "com.android.systemui", "Don't Have handleLongClick: " + t);
         }
         try {
-            myTile.getDeclaredMethod("handleClick", View.class);
+            getDeclaredMethod(myTile, "handleClick", View.class);
+            // myTile.getDeclaredMethod("handleClick", View.class);
             findAndHookMethod(myTile, "handleClick", View.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
