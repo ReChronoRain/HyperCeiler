@@ -310,9 +310,6 @@
     <string name="phone_n28_desc">Suporte Banda n28 (NR)</string>
     <string name="phone_n5_n8">Banda n5/n8</string>
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
-    <string name="system_framework_screen_title">Tela e notificações</string>
-    <string name="system_framework_core_title">Núcleo por baixo</string>
-    <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
     <string name="system_framework_allow_uninstall">Permitir desinstalar alguns apps pré-instalados</string>
@@ -433,7 +430,6 @@
     <!--Phone Service-->
     <string name="phone">Serviços do smartphone</string>
     <string name="phone_smart_dual_sim">Desbloquear SIM duplo inteligente</string>
-    <string name="phone_disable_remove_network_mode">Desativar remoção do modo de rede</string>
     <string name="phone_vice_slot_volte">Desbloquear Vice slot volte</string>
     <string name="phone_vice_slot_volte_desc">Usar dados móveis durante chamadas VoLTE no SIM secundário</string>
     <!--Download management program-->
@@ -740,19 +736,15 @@
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
-    <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
+    <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
-    <string name="system_settings_display_title">Tela e brilho</string>
-    <string name="system_settings_display_unlock_background_blur">Desbloquear blur de fundo</string>
-    <string name="system_settings_display_unlock_background_blur_desc">Pode haver casos em que a carga da GPU seja alta</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
-    <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
-    <string name="system_settings_more_notification_settings_summary">Mostrar importância da notificação</string>
+    <string name="system_settings_more_notification_settings">Exibir importância da notificação</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
@@ -1325,7 +1317,7 @@
     <string name="various_mipad_input_ingore_gesture_title">Ignorar o gesto dos botões da caneta</string>
     <string name="various_mipad_input_ingore_gesture_desc">Ignorar o gesto de pressão longa nos botões da caneta</string>
     <string name="various_mipad_input_need_finger_num_title">Troque o número de dedos necessários para gestos</string>
-    <string name="various_mipad_input_need_finger_num_desc">Altere o gesto de captura de tela, o gesto de captura de tela parcial e o gesto de tela dividida horizontal para serem acionados por quatro dedos, e mude o gesto de apps para ser acionado por três dedos.</string>
+    <string name="various_mipad_input_need_finger_num_desc">Altere o gesto de captura de tela, o gesto de captura de tela parcial e o gesto de tela dividida horizontal para serem acionados por quatro dedos e mude o gesto de apps para ser acionado por três dedos.</string>
     <string name="custom_background_blur_enabled">Blur de fundo</string>
     <string name="custom_background_blur_radius">Raio do blur</string>
     <string name="custom_background_color">Cor de fundo</string>
@@ -1408,6 +1400,7 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="phone_disable_remove_network_mode">Desativar remoção do modo de rede</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
 </resources>
