@@ -20,7 +20,6 @@ import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class SystemSettingsFragment extends SettingsPreferenceFragment {
-    PreferenceCategory mDisplay; // 显示与亮度
     SwitchPreference mNewNfc; // 新版 NFC 界面
     SwitchPreference mAreaScreenshot; // 区域截屏
     SwitchPreference mHighMode; // 极致模式
@@ -44,7 +43,6 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mHighMode = findPreference("prefs_key_system_settings_develop_speed_mode");
-        mDisplay = findPreference("prefs_key_system_settings_display");
         mAreaScreenshot = findPreference("prefs_key_system_settings_area_screenshot");
         mNewNfc = findPreference("prefs_key_system_settings_new_nfc_page");
         mNoveltyHaptic = findPreference("prefs_key_system_settings_novelty_haptic");
@@ -53,7 +51,6 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
 
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
-        mDisplay.setVisible(isMoreHyperOSVersion(1f));
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
         mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());

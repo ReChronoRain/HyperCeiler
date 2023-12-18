@@ -40,17 +40,6 @@
             android:key="prefs_key_system_settings_linkturbo"
             android:title="@string/system_settings_linkturbo" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="prefs_key_system_settings_display"
-        android:title="@string/system_settings_display_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_settings_display_unlock_background_blur"
-            android:title="@string/system_settings_display_unlock_background_blur"
-            android:summary="@string/system_settings_display_unlock_background_blur_desc"/>
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_new_nfc_page"

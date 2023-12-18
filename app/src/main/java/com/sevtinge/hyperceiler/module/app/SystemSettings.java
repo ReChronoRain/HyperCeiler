@@ -38,7 +38,6 @@ public class SystemSettings extends BaseModule {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
         }
 
-        initHook(new UnlockBackgroundBlur(), mPrefsMap.getBoolean("system_settings_display_unlock_background_blur"));
     }
 }
 

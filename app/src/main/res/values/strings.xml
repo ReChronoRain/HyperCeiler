@@ -779,9 +779,6 @@
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
-    <string name="system_settings_display_title">Display &amp; Brightness</string>
-    <string name="system_settings_display_unlock_background_blur">Unlock Background blur</string>
-    <string name="system_settings_display_unlock_background_blur_desc">There may be cases where the GPU load is high</string>
     <string name="system_settings_ai_image_title">Ai Image Engine</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
