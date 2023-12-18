@@ -7,6 +7,7 @@ import com.sevtinge.hyperceiler.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonetColor;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.settings.VolumeSeparateControlForSettings;
+import com.sevtinge.hyperceiler.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUninstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlurDrawable;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
@@ -30,6 +31,7 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes();
         if (mPrefsMap.getBoolean("system_framework_clean_open_menu")) CleanOpenMenu.initRes();
         if (mPrefsMap.getBoolean("system_framework_volume_separate_control")) VolumeSeparateControlForSettings.initRes();
+        if (mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications")) new AllowManageAllNotifications().initZygote(startupParam);
         if (startupParam != null) {
             new BackgroundBlurDrawable().initZygote(startupParam);
             new SystemFrameworkForCorePatch().initZygote(startupParam);

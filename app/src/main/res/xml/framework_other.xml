@@ -34,6 +34,13 @@
             android:key="prefs_key_various_disable_access_device_logs"
             android:title="@string/various_disable_access_device_logs" />
 
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_allow_manage_all_notifications"
+            android:title="@string/system_framework_allow_manage_all_notifications" />
+
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_other_flag_secure"

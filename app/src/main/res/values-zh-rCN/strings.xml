@@ -380,6 +380,7 @@
     <string name="system_framework_disable_verify_can_ve_disabled">禁用是否允许禁用 APP 校验</string>
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
     <string name="system_framework_disablt_miuilite_check">禁用 MIUI Lite 检查</string>
+    <string name="system_framework_allow_manage_all_notifications">允许管理所有通知</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
