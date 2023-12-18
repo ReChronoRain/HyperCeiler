@@ -743,9 +743,6 @@
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
-    <string name="system_settings_display_title">Tela e brilho</string>
-    <string name="system_settings_display_unlock_background_blur">Desbloquear blur de fundo</string>
-    <string name="system_settings_display_unlock_background_blur_desc">Pode haver casos em que a carga da GPU seja alta</string>
     <string name="system_settings_ai_image_title">Motor de imagens IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
