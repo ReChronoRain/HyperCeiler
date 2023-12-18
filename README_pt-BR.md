@@ -6,7 +6,6 @@
 
 ### Torne o HyperOS ótimo novamente!
 
-
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
 
 </div>
@@ -14,7 +13,6 @@
 ## Versões suportadas
 
 MIUI 12.5 ~ 14 para Android 11 ~ 14/Xiaomi HyperOS 1.0
-
 
 > Não suporta ROM MIUI/HyperOS de terceiros fortemente modificadas, software de sistema fortemente modificado e algumas ROM MIUI/HyperOS estrangeiras.
 >
@@ -85,6 +83,8 @@ MIUI 12.5 ~ 14 para Android 11 ~ 14/Xiaomi HyperOS 1.0
 | NetworkBoost                     | com.xiaomi.NetworkBoost            |
 | Serviço NFC                      | com.android.nfc                    |
 | Fones de ouvido                  | com.miui.misound                   |
+| Backup                           | com.miui.backup                    |
+| Mi Mover                         | com.miui.huanji                    |
 
 </details>
 
