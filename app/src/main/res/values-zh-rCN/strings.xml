@@ -852,6 +852,7 @@
     <string name="milink_unlock_mishare">解锁小米妙享</string>
     <string name="milink_unlock_hmind">解锁 Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">强制支持摄像头流转</string>
+    <string name="milink_fuck_hpplay">阻止生成乐播投屏相关文件</string>
     <!--万象息屏-->
     <string name="aod">万象息屏</string>
     <string name="aod_hyperos">息屏与锁屏编辑</string>

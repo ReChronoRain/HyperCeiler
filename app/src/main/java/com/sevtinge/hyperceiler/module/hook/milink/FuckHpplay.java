@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
 
 public class FuckHpplay extends BaseHook {
     private static final String TARGET_PACKAGE = "com.milink.service";
@@ -18,7 +17,7 @@ public class FuckHpplay extends BaseHook {
     public void init() {
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) return;
         logI(TAG, this.lpparam.packageName, "Target path = " + TARGET_PATH);
-        XposedHelpers.findAndHookMethod("com.hpplay.common.utils.ContextPath", lpparam.classLoader, "makeDir", String[].class, String.class, new XC_MethodHook() {
+        findAndHookMethod("com.hpplay.common.utils.ContextPath", lpparam.classLoader, "makeDir", String[].class, String.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
                 final boolean isExternalStorage = ((String) param.args[1]).startsWith(TARGET_PATH);
