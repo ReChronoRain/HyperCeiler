@@ -310,6 +310,9 @@
     <string name="phone_n28_desc">n28 バンド (NR) 対応を有効化します</string>
     <string name="phone_n5_n8">n5/n8 バンド</string>
     <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して n5/n8 バンド対応を有効化できるようにします。「N5とN8モードを有効化しました」と表示されれば、機能は正常に有効になっています</string>
+    <string name="system_framework_screen_title">ディスプレイと通知</string>
+    <string name="system_framework_core_title">コア</string>
+    <string name="system_framework_shortcut_title">共有ショートカット</string>
     <string name="system_framework_screen_all_rotations">画面の回転</string>
     <string name="system_framework_allow_untrusted_touch">信頼されていないタッチ操作を許可</string>
     <string name="system_framework_allow_uninstall">一部のプリインストールアプリのアンインストールを許可する</string>
@@ -430,6 +433,7 @@
     <!--Phone Service-->
     <string name="phone">電話サービス</string>
     <string name="phone_smart_dual_sim">スマートデュアル SIM をアンロック</string>
+    <string name="phone_disable_remove_network_mode">ネットワークモードの削除を無効化</string>
     <string name="phone_vice_slot_volte">サブカードによる VoLTE 通話をアンロック</string>
     <string name="phone_vice_slot_volte_desc">VoLTE 通話中に2枚目の SIM でモバイルデータを使用します</string>
     <!--Download management program-->
@@ -733,18 +737,19 @@
     <string name="system_settings_enable_pad_area">タブレットの機能をアンロック</string>
     <string name="system_settings_enable_fold_area">折りたたみ式デバイスの機能をアンロック</string>
     <string name="system_settings_enable_area_desc">サポートされていないデバイスの場合、アンロック後に設定がクラッシュします</string>
-    <string name="system_settings_connection_sharing_title">接続と共有</string>
+    <string name="system_settings_connection_sharing_title">ネットワーク接続と共有</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
     <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
-    <string name="system_settings_area_screenshot">部分的なスクリーンショットをアンロック</string>
     <string name="system_settings_lab_title">注目の機能</string>
+    <string name="system_settings_area_screenshot">部分的なスクリーンショットをアンロック</string>
     <string name="system_settings_voip_assistant_controller">VoIP アシスタント</string>
     <string name="system_settings_ai_image_title">AI 画像エンジン</string>
     <string name="system_settings_ai_image_unlock_sr">超解像をアンロック</string>
     <string name="system_settings_ai_image_unlock_ai">AI 画像補正と AI HDR 補正機能をアンロック</string>
     <string name="system_settings_ai_image_unlock_memc">MEMC をアンロック</string>
     <string name="system_settings_permission_title">アクセス許可</string>
-    <string name="system_settings_more_notification_settings">通知の重要度を表示する</string>
+    <string name="system_settings_more_notification_settings">その他の通知設定を表示</string>
+    <string name="system_settings_more_notification_settings_summary">通知の重要度を表示します</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
@@ -1400,5 +1405,7 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
+    <string name="system_framework_allow_manage_all_notifications">すべての通知の管理を許可</string>
+    <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
 </resources>

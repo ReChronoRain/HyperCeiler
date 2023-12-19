@@ -310,6 +310,9 @@
     <string name="phone_n28_desc">Se soporte Banda N28 (NR)</string>
     <string name="phone_n5_n8">Banda N5/N8</string>
     <string name="phone_n5_n8_desc">Introduzca *#*#65686633#*#* en Teléfono para soportar la banda N5/N8. Si muestra \"se activa el modo de N5 y N8\", la característica se activará correctamente.</string>
+    <string name="system_framework_screen_title">Se muestran &amp; notificaciones</string>
+    <string name="system_framework_core_title">Núcleo fundo</string>
+    <string name="system_framework_shortcut_title">Accesos directos de compartir</string>
     <string name="system_framework_screen_all_rotations">Rotación de pantalla</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toques no confiables</string>
     <string name="system_framework_allow_uninstall">Permitir que se desinstalen algunas aplicaciones de preinstalación</string>
@@ -430,6 +433,7 @@
     <!--Phone Service-->
     <string name="phone">Servicio de teléfono</string>
     <string name="phone_smart_dual_sim">Desbloquear SIM dual inteligente</string>
+    <string name="phone_disable_remove_network_mode">Desactivar el modo de eliminación de red</string>
     <string name="phone_vice_slot_volte">Desbloquear VoLTE de Vice-SIM</string>
     <string name="phone_vice_slot_volte_desc">Usar datos móviles durante las llamadas de VoLTE en la SIM secundaria</string>
     <!--Download management program-->
@@ -736,8 +740,8 @@
     <string name="system_settings_connection_sharing_title">Conexión &amp; compartimiento</string>
     <string name="system_settings_new_nfc_page">Nueva página de NFC</string>
     <string name="system_settings_new_nfc_page_desc">Después de abrirse, la aplicación de pago predeterminada en los modelos no soportados no puede ser Xiaomi Monedero</string>
-    <string name="system_settings_area_screenshot">Desbloquear la captura de un área</string>
     <string name="system_settings_lab_title">Funciones destacadas</string>
+    <string name="system_settings_area_screenshot">Desbloquear la captura de un área</string>
     <string name="system_settings_voip_assistant_controller">Asistente de VoIP</string>
     <string name="system_settings_ai_image_title">Motor de imágenes de IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear súperresolución</string>
@@ -745,6 +749,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permisos</string>
     <string name="system_settings_more_notification_settings">Mostrar importancia de las notificaciones</string>
+    <string name="system_settings_more_notification_settings_summary">Mostrar importancia de las notificaciones</string>
     <string name="system_settings_permission_show_app_up">Permisos de nivel superior sin buscar en la lista de aplicaciones</string>
     <string name="system_settings_permission_show_app_up_desc">Usar el comportamiento antiguo de saltar directamente al cambio de permisos de la aplicación correspondiente \"mostrada encima de otras aplicaciones\"</string>
     <string name="system_settings_permission_unknown_origin_app">Permisos de instalar aplicaciones desconocidas sin buscar en la lista de aplicaciones</string>
@@ -1285,7 +1290,6 @@
     <string name="various_open_aosp_something_title">Ocultar propiedades</string>
     <string name="various_open_aosp_something_desc">Abrir interfaz AOSP oculta</string>
     <string name="various_nobrightness">Rechazar brillo forzado</string>
-
     <string name="various_no_overscroll">Desactivar el rebote fuera de límites</string>
     <string name="various_disable_access_device_logs">Descartar el cuadro de diálogo de solicitud de acceso de registros del dispositivo</string>
     <string name="various_phrase_clipboardlist">Eliminar el número de frases del portapapeles y los límites de tiempo</string>
@@ -1401,7 +1405,7 @@
     <string name="log_level_none">Desactivar registro</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
-    <string name="phone_disable_remove_network_mode">Desactivar el modo de eliminación de red</string>
+    <string name="system_framework_allow_manage_all_notifications">Se permite administrar todas las notificaciones</string>
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
 </resources>
