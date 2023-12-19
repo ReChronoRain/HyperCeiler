@@ -311,6 +311,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="phone_n28_desc">Hỗ trợ băng tần n28 (NR)</string>
     <string name="phone_n5_n8">Băng tần n5/n8</string>
     <string name="phone_n5_n8_desc">Nhập *#*#65686633#*#* trên giao diện quay số để bật băng tần n5/n8. Nếu hiển thị Đã bật chế độ N5 và N8 nghĩa là đã bật thành công.</string>
+    <string name="system_framework_screen_title">Hiển thị &amp; thông báo</string>
+    <string name="system_framework_core_title">Lõi bên dưới</string>
+    <string name="system_framework_shortcut_title">Chia sẻ lối tắt</string>
     <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
     <string name="system_framework_allow_untrusted_touch">Cho phép chạm không tin cậy</string>
     <string name="system_framework_allow_uninstall">Cho phép gỡ cài đặt một số App được cài đặt sẵn</string>
@@ -432,6 +435,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Phone Service-->
     <string name="phone">Dịch vụ điện thoại</string>
     <string name="phone_smart_dual_sim">Mở khóa SIM kép thông minh</string>
+    <string name="phone_disable_remove_network_mode">Tắt xóa chế độ mạng</string>
     <string name="phone_vice_slot_volte">Mở khoá VoLTE sim phụ</string>
     <string name="phone_vice_slot_volte_desc">Sử dụng dữ liệu di động cho cuộc gọi VoLTE trên SIM phụ</string>
     <!--Download management program-->
@@ -738,8 +742,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
-    <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
+    <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
     <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
     <string name="system_settings_ai_image_title">Công cụ hình ảnh AI</string>
     <string name="system_settings_ai_image_unlock_sr">Mở khoá Siêu phân giải</string>
@@ -747,6 +751,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_ai_image_unlock_memc">Mở khoá MEMC</string>
     <string name="system_settings_permission_title">Quyền</string>
     <string name="system_settings_more_notification_settings">Hiện thông báo quan trọng</string>
+    <string name="system_settings_more_notification_settings_summary">Hiện thông báo quan trọng</string>
     <string name="system_settings_permission_show_app_up">Truy cập quyền đặc biệt nhanh</string>
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
@@ -1414,7 +1419,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="phone_disable_remove_network_mode">Tắt xóa chế độ mạng</string>
+    <string name="system_framework_allow_manage_all_notifications">Cho phép quản lý tất cả thông báo</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
 </resources>
