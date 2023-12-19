@@ -831,6 +831,7 @@
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <string name="milink_unlock_hmind">Unlock Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Forced support for camera streaming</string>
+    <string name="milink_fuck_hpplay">Block creation of hpplay folders</string>
     <!--Always-on display-->
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>

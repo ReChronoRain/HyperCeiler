@@ -15,6 +15,11 @@
         android:key="prefs_key_milink_allow_camera_devices"
         android:defaultValue="false" />
 
+    <SwitchPreference
+        android:title="@string/milink_fuck_hpplay"
+        android:key="prefs_key_milink_fuck_hpplay"
+        android:defaultValue="false" />
+
     <Preference android:enabled="false" />
 
 </PreferenceScreen>
