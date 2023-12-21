@@ -794,6 +794,7 @@
     <string name="milink_unlock_mishare">Desbloquear interconexión de dispositivo</string>
     <string name="milink_unlock_hmind">Desactivar HyperMind/MiLink</string>
     <string name="milink_allow_camera_devices">Forzar el soporte para la transmisión de cámara</string>
+    <string name="milink_fuck_hpplay">Bloquear la creación de carpetas de hpplay</string>
     <!--Always-on display-->
     <string name="aod">Pantalla siempre activa</string>
     <string name="aod_hyperos">Editor de \"se muestra siempre\" y la pantalla de bloqueo</string>

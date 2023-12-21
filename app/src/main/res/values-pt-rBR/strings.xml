@@ -794,6 +794,7 @@
     <string name="milink_unlock_mishare">Desbloquear Interconexão do dispositivo</string>
     <string name="milink_unlock_hmind">Desbloquear Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Suporte forçado para streaming de câmera</string>
+    <string name="milink_fuck_hpplay">Bloquear a criação de pastas hpplay</string>
     <!--Always-on display-->
     <string name="aod">Tela ambiente</string>
     <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
