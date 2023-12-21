@@ -560,6 +560,7 @@
     <string name="home_title_animation_speed">Animasyon hızı</string>
     <string name="home_title_big_icon_corner">Orta simge yuvarlak köşeyi takip etsin</string>
     <string name="home_title_download_animation">Animasyonu indir</string>
+    <string name="home_title_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
     <string name="home_title_icon_scale">Simgeleri ölçekle</string>
     <string name="home_recent">Son</string>
     <string name="home_recent_animation_speed">Animasyon hızı</string>
@@ -621,7 +622,6 @@
     <string name="home_large_icon_corner_radius">Köşeleri yuvarlatılmış büyük simgeler</string>
     <string name="home_other_app_icon_hide">Masaüstü kısayol yönetimi</string>
     <string name="home_other_shortcut_remove_restrictions">Kısayollardaki kısıtlamaları kaldırın</string>
-    <string name="home_other_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
     <string name="home_other_fix_android_r_s">Masaüstünün kararmasına neden olan bir uyumluluk sorununu düzeltin</string>
     <string name="home_other_shortcut_background_blur_custom">Kısayol menüsü bulanıklık değeri</string>
     <string name="home_recent_blur_level">Bulanıklık seviyesi</string>

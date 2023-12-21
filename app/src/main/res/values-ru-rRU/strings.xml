@@ -783,7 +783,7 @@
     <string name="home_large_icon_corner_radius">Большие значки с закругленными углами</string>
     <string name="home_other_app_icon_hide">Управление значками раб.стола</string>
     <string name="home_other_shortcut_remove_restrictions">Разблокировать ограничение на количество контекстных меню</string>
-    <string name="home_other_disable_hide_google">Отключить скрытие Google</string>
+    <string name="home_title_disable_hide_google">Отключить скрытие Google</string>
     <string name="home_other_fix_android_r_s">Исправлена проблема совместимости, из-за которой рабочий стол становился черным</string>
     <string name="home_other_shortcut_background_blur_custom">Уровень размытия контекстного меню</string>
     <string name="home_other_high_models">Принудительная идентификация как модели высокого класса</string>
