@@ -801,6 +801,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="milink_unlock_mishare">Mở khóa Kết nối thiết bị</string>
     <string name="milink_unlock_hmind">Mở khóa Xiaomi HyperMind</string>
     <string name="milink_allow_camera_devices">Hỗ trợ bắt buộc cho việc truyền phát camera</string>
+    <string name="milink_fuck_hpplay">Chặn tạo thư mục hpplay</string>
     <!--Always-on display-->
     <string name="aod">Màn hình Ambient</string>
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
