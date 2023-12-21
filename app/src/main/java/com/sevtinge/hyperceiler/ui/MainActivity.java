@@ -19,11 +19,7 @@ public class MainActivity extends NavigationActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Thread(new Runnable() {
-            public void run() {
-                SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null);
-            }
-        }).start();
+        new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
         if (ShellUtils.checkRootPermission() != 0) {
             new AlertDialog.Builder(this)

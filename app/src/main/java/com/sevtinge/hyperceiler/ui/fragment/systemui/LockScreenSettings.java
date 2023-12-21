@@ -9,7 +9,6 @@ import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import moralnorm.preference.SeekBarPreferenceEx;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
@@ -20,7 +19,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
     SwitchPreference mShowSec; // 时钟显示秒数
     SwitchPreference mForceSystemFonts; // 时钟使用系统字体
     SwitchPreference mPasswordFree; // 开机免输入密码
-    SeekBarPreferenceEx mChangingCVTime; // 充电信息显示刷新间隔
+    SwitchPreference mChangingCVTime; // 充电信息显示刷新间隔
 
     @Override
     public int getContentResId() {
@@ -32,7 +31,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
         mBlurButton = findPreference("prefs_key_system_ui_lock_screen_blur_button");
         mForceSystemFonts = findPreference("prefs_key_system_ui_lock_screen_force_system_fonts");
         mPasswordFree = findPreference("prefs_key_system_ui_lock_screen_password_free");
-        mChangingCVTime = findPreference("prefs_key_system_ui_lock_screen_show_spacing");
+        mChangingCVTime = findPreference("prefs_key_system_ui_lock_screen_show_spacing_value");
         mShowSec = findPreference("prefs_key_system_ui_lock_screen_show_second");
 
         mShowSec.setVisible(!isHyperOSVersion(1f));
@@ -40,7 +39,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment {
         mForceSystemFonts.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mChangingCVTime.setVisible(isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU));
 
-        if (isDeviceEncrypted(getContext())) {
+        if (isDeviceEncrypted(requireContext())) {
             mPasswordFree.setChecked(false);
             mPasswordFree.setEnabled(false);
             mPasswordFree.setSummary(R.string.system_ui_lock_screen_password_free_tip);

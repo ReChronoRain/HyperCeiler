@@ -5,7 +5,6 @@
     <PreferenceCategory
         android:key="prefs_key_theme_manager_version_code_modify_cat"
         app:isPreferenceVisible="false">
-
         <SwitchPreference
             android:title="@string/theme_manager_version_code_modify"
             android:key="prefs_key_theme_manager_version_code_modify"
@@ -14,7 +13,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-
         <SwitchPreference
             android:title="@string/theme_manager_diable_ads"
             android:summary="@string/theme_manager_diable_ads_desc"

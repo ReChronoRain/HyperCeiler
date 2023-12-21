@@ -14,6 +14,7 @@ import moralnorm.preference.Preference;
 public class StatusBarSettings extends SettingsPreferenceFragment {
 
     Preference mDeviceStatus; // 硬件指示器
+    Preference mToastStatus; // 灵动 Toast
 
     @Override
     public int getContentResId() {
@@ -31,6 +32,11 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mDeviceStatus = findPreference("prefs_key_system_ui_status_bar_device");
-        mDeviceStatus.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mToastStatus = findPreference("prefs_key_system_ui_status_bar_toast");
+
+        mDeviceStatus.setVisible(!isAndroidVersion(30));
+        mToastStatus.setVisible(isHyperOSVersion(1f));
+
+        mDeviceStatus.setEnabled(!isHyperOSVersion(1f)); // 临时禁用
     }
 }

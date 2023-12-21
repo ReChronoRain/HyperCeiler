@@ -50,11 +50,6 @@
             app:minValue="0"
             app:stepValue="1" />
 
-        <!--<SwitchPreference
-            android:key="prefs_key_home_other_fold_dock"
-            android:title="Fold Dock"
-            android:defaultValue="false"/>-->
-
     </PreferenceCategory>
 
     <PreferenceCategory>
@@ -71,14 +66,18 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_personal_assistant_overlap_mode"
-            android:title="@string/personal_assistant_overlap_mode" />
-
+            android:key="prefs_key_home_other_user_present_animation"
+            android:title="@string/home_other_user_present_animation" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_other_user_present_animation"
-            android:title="@string/home_other_user_present_animation" />
+            android:key="prefs_key_home_other_fix_android_r_s"
+            android:title="@string/home_other_fix_android_r_s" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_high_models"
+            android:title="@string/home_other_high_models" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -96,11 +95,6 @@
             android:key="prefs_key_home_other_portrait_reverse"
             android:title="@string/home_other_portrait_reverse" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_other_disable_hide_google"
-            android:title="@string/home_other_disable_hide_google" />
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_home_other_home_mode"
@@ -113,16 +107,6 @@
                 android:targetClass="com.miui.home.settings.AllHideAppActivity"
                 android:targetPackage="com.miui.home" />
         </Preference>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_other_fix_android_r_s"
-            android:title="@string/home_other_fix_android_r_s" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_other_high_models"
-            android:title="@string/home_other_high_models" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />

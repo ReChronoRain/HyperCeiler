@@ -1,7 +1,9 @@
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Build;
 import android.view.View;
@@ -24,6 +26,8 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
     SeekBarPreferenceEx mFolderColumns;
     SwitchPreference mFolderWidth;
     SwitchPreference mFolderSpace;
+    SwitchPreference mUnlockFolderBlur;
+    SwitchPreference mUnlockFolderBlurSupport;
     Preference mSmallFolderIconBackgroundCustom;
     Preference mSmallFolderIconBackgroundCustom1;
     Preference mSmallFolderIconBackgroundCustom2;
@@ -46,6 +50,11 @@ public class HomeFolderSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mFolderShade = findPreference("prefs_key_home_folder_shade");
         mFolderShadeLevel = findPreference("prefs_key_home_folder_shade_level");
+        mUnlockFolderBlur = findPreference("prefs_key_home_folder_blur");
+        mUnlockFolderBlurSupport = findPreference("prefs_key_home_folder_unlock_blur_supported");
+
+        mUnlockFolderBlur.setVisible(!isAndroidVersion(30));
+        mUnlockFolderBlurSupport.setVisible(!isAndroidVersion(30) && isMoreHyperOSVersion(1f));
 
         mFolderColumns = findPreference("prefs_key_home_folder_columns");
         mFolderWidth = findPreference("prefs_key_home_folder_width");

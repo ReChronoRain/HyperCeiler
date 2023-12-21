@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.view.View;
@@ -35,7 +36,7 @@ public class ThemeManagerFragment extends SettingsPreferenceFragment {
         mVersionCodeModifyPreference = findPreference("prefs_key_theme_manager_version_code_modify");
 
         if (!isMoreMiuiVersion(13f)) {
-            mVersionCodeModifyPreferenceCat.setVisible(true);
+            mVersionCodeModifyPreferenceCat.setVisible(!isMoreHyperOSVersion(1f));
         } else {
             mVersionCodeModifyPreferenceCat.setVisible(false);
             mVersionCodeModifyPreference.setChecked(false);

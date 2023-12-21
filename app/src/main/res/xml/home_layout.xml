@@ -9,6 +9,11 @@
             android:summary="@string/home_layout_show_clock_desc"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_personal_assistant_overlap_mode"
+            android:title="@string/personal_assistant_overlap_mode" />
+
         <DropDownPreference
             android:key="prefs_key_home_other_seek_points"
             android:title="@string/home_layout_seek_points"

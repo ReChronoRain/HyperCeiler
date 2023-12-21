@@ -479,6 +479,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器</string>
     <string name="system_ui_statusbar_clock_title">時鐘指示器</string>
     <string name="system_ui_statusbar_device_title">硬體指示器</string>
+    <string name="system_ui_statusbar_toast_title">靈動提示</string>
     <string name="system_ui_statusbar_layout_title">佈局</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">相容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">對所有異形螢幕強制開啟完整螢幕版面配置</string>
@@ -559,6 +560,7 @@
     <string name="system_ui_status_bar_no_netspeed_separator_desc">於水滴屏的設備上不顯示時間和網速間的分隔號</string>
     <string name="system_ui_status_bar_hide_icon">截圖時隱藏狀態欄</string>
     <string name="system_ui_status_bar_mobile_type_single_title">蜂窩移動網絡類型圖示</string>
+    <string name="system_ui_statusbar_network_speed_all_status">啟用修改</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">網速更新間隔</string>
     <string name="system_ui_statusbar_network_speed_font_size">網速字體大小</string>
     <string name="system_ui_statusbar_network_speed_font_style">網速字體樣式</string>
@@ -571,7 +573,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">網速值低於該水準時被認為慢，部分指示器圖示會有所不同</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *b/s 單位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
-    <string name="system_ui_statusbar_network_speed_enable_custom">啟用自訂</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
     <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
@@ -917,6 +918,8 @@
     <string name="home_folder_width_title">利用整個資料夾視圖的寬度</string>
     <string name="home_folder_space_title">減少邊距</string>
     <string name="home_folder_blur_title">背景模糊</string>
+    <string name="home_folder_unlock_blur_supported">解除資料夾模糊限制</string>
+    <string name="home_folder_unlock_blur_supported_summary">僅對三方主題移除沒有高級材質背景模糊的限制</string>
     <string name="home_folder_anim_title">回彈動畫</string>
     <string name="home_folder_anim_1">打開時回彈幅度</string>
     <string name="home_folder_anim_2">打開時慢放速度</string>
@@ -933,7 +936,7 @@
     <string name="home_drawer_pinyin_more">非簡體中文語言時抽屜內應用程式仍按照拼音排列</string>
     <string name="home_title">圖示與標題</string>
     <string name="home_title_icon_title">圖示</string>
-    <string name="home_title_bigicon_title">大圖示</string>
+    <string name="home_title_icon_animation_title">圖示動畫</string>
     <string name="home_title_title_title">標題</string>
     <string name="home_title_title_marquee">文字滾動</string>
     <string name="home_title_title_marquee_desc">過長的應用程式名稱將以滾動進行顯示，不再使用換行</string>
@@ -947,11 +950,11 @@
     <string name="home_title_animation_speed">動畫速度</string>
     <string name="home_title_big_icon_corner">中等圖示圓角跟隨</string>
     <string name="home_title_download_animation">下載動畫</string>
-    <string name="home_title_unlock_blur_supported">解除高級材質資料夾模糊限制</string>
     <string name="home_title_fix_animation">最佳化打斷動畫</string>
     <string name="home_title_icon_scale">圖示縮放</string>
     <string name="home_title_disable_hide_file">禁用隱藏「檔案」圖示</string>
-    <string name="home_title_disable_hide_theme">不要隱藏「主題管理」圖示</string>
+    <string name="home_title_disable_hide_theme">禁用隱藏「主題管理」圖示</string>
+    <string name="home_title_disable_hide_google">禁用隱藏「Google」圖示</string>
     <string name="home_title_custom_anim_param">動畫曲線自訂</string>
     <string name="home_title_custom_anim_param_damping_title">阻尼</string>
     <string name="home_title_custom_anim_param_stiffness_title">剛度</string>
@@ -1028,7 +1031,6 @@
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">不再提示 「請再次觸摸」</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
-    <string name="home_other_disable_hide_google">禁止隱藏 Google 圖示</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系统桌布黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
     <string name="home_other_high_models">強制識別為高端機型</string>

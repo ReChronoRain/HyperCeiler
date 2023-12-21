@@ -10,18 +10,20 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_battery_style_enable_custom"
-            android:title="@string/system_ui_statusbar_network_speed_enable_custom" />
+            android:title="@string/system_ui_statusbar_network_speed_all_status" />
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
+        android:title="@string/system_ui_statusbar_indicator_expand_title" >
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_battery_style_bold"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/system_ui_statusbar_indicator_bold" />
 
         <SeekBarPreferenceEx
             android:defaultValue="15"
             android:key="prefs_key_system_ui_status_bar_battery_style_font_size"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/system_ui_status_bar_battery_style_font_size"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
@@ -33,7 +35,6 @@
         <SeekBarPreferenceEx
             android:defaultValue="15"
             android:key="prefs_key_system_ui_status_bar_battery_style_font_mark_size"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/system_ui_status_bar_battery_style_font_mark_size"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
@@ -45,52 +46,48 @@
         <SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_battery_style_left_margin"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/left_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
-            app:defaultValueText="@string/array_default"
-            app:stepValue="1"
-            app:displayDividerValue="2"
-            app:format="%s dp" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_battery_style_right_margin"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/right_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
-            app:defaultValueText="@string/array_default"
-            app:stepValue="1"
-            app:displayDividerValue="2"
-            app:format="%s dp" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceEx
             android:defaultValue="12"
             android:key="prefs_key_system_ui_status_bar_battery_style_vertical_offset"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/vertical_offset"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
             app:maxValue="24"
             app:minValue="0"
-            app:defaultValueText="@string/array_default"
-            app:stepValue="1"
             app:negativeShift="12"
-            app:displayDividerValue="2"
-            app:format="%s dp" />
+            app:stepValue="1" />
 
         <SeekBarPreferenceEx
             android:defaultValue="27"
             android:key="prefs_key_system_ui_status_bar_battery_style_vertical_offset_mark"
-            android:dependency="prefs_key_system_ui_status_bar_battery_style_enable_custom"
             android:title="@string/system_ui_status_bar_battery_style_vertical_offset"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
             app:maxValue="27"
             app:minValue="0"
-            app:defaultValueText="@string/array_default"
-            app:stepValue="1"
             app:negativeShift="13"
-            app:displayDividerValue="2"
-            app:format="%s dp" />
+            app:stepValue="1" />
 
     </PreferenceCategory>
     <Preference android:enabled="false" />

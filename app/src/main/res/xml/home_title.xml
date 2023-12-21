@@ -4,6 +4,22 @@
     <PreferenceCategory android:title="@string/home_title_icon_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_large_icon_enable"
+            android:title="@string/home_large_icon_corner_radius" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="32"
+            android:dependency="prefs_key_home_large_icon_enable"
+            android:key="prefs_key_home_large_icon_corner_radius"
+            android:layout="@layout/preference_seekbar_no_padding"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="90"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_title_big_icon_corner"
             android:title="@string/home_title_big_icon_corner" />
 
@@ -19,18 +35,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_title_disable_hide_google"
+            android:title="@string/home_title_disable_hide_google" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_title_disable_hide_theme"
             android:title="@string/home_title_disable_hide_theme" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_title_unlock_blur_supported"
-            android:title="@string/home_title_unlock_blur_supported" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_title_download_animation"
-            android:title="@string/home_title_download_animation" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -56,6 +67,24 @@
             android:title="@string/home_other_your_color"
             app:showAlphaSlider="false" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_icon_animation_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_download_animation"
+            android:title="@string/home_title_download_animation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_fix_animation"
+            android:title="@string/home_title_fix_animation" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings"
+            android:key="prefs_key_home_title_custom_anim_param"
+            android:title="@string/home_title_custom_anim_param" />
+
         <SeekBarPreferenceEx
             android:defaultValue="100"
             android:key="prefs_key_home_title_animation_speed"
@@ -77,35 +106,6 @@
             app:maxValue="200"
             app:minValue="45"
             app:stepValue="5" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_title_fix_animation"
-            android:title="@string/home_title_fix_animation" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings"
-            android:key="prefs_key_home_title_custom_anim_param"
-            android:title="@string/home_title_custom_anim_param" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/home_title_bigicon_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_large_icon_enable"
-            android:title="@string/home_large_icon_corner_radius" />
-
-        <SeekBarPreferenceEx
-            android:defaultValue="32"
-            android:dependency="prefs_key_home_large_icon_enable"
-            android:key="prefs_key_home_large_icon_corner_radius"
-            android:layout="@layout/preference_seekbar_no_padding"
-            app:defaultValueText="@string/array_default"
-            app:format="%d dp"
-            app:maxValue="90"
-            app:minValue="0"
-            app:stepValue="1" />
 
     </PreferenceCategory>
 

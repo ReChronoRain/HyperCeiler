@@ -342,7 +342,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Bu seviyenin altındaki ağ hızı değerleri yavaş kabul edilir ve farklı bir gösterge simgesi görüntülenir (yalnızca bazı simgeler)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">İkinci sonek (*b/s) başına Bayt gizle</string>
     <string name="system_ui_statusbar_network_speed_icon">Gösterge simgesi</string>
-    <string name="system_ui_statusbar_network_speed_enable_custom">Özel\'i etkinleştir</string>
     <string name="system_ui_statusbar_clock_mode">Özel saat modu</string>
     <string name="system_ui_statusbar_clock_editor">Saat biçimi</string>
     <string name="system_ui_statusbar_clock_year">Yılı göster</string>
@@ -554,7 +553,6 @@
     <string name="home_drawer_blur_desc">Bu özelliği kullanmak için lütfen uygulama çekmecesi arka plan saydamlığını %100 olarak ayarlayın</string>
     <string name="home_title">Simge ve başlık</string>
     <string name="home_title_icon_title">Simge</string>
-    <string name="home_title_bigicon_title">Büyük simge</string>
     <string name="home_title_title_title">Başlık</string>
     <string name="home_title_title_marquee">Metin kaydırma</string>
     <string name="home_title_font_size">Yazı tipi boyutu</string>

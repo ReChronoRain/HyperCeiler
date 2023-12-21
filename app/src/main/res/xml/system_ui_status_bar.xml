@@ -19,6 +19,11 @@
         android:key="prefs_key_system_ui_status_bar_device"
         android:title="@string/system_ui_statusbar_device_title" />
 
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_system_ui_status_bar_toast"
+        android:title="@string/system_ui_statusbar_toast_title" />
+
     <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
         <SwitchPreference
             android:defaultValue="false"

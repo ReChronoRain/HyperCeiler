@@ -437,7 +437,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Значения скорости сети ниже этого уровня считаются низкими и будет отображаться другой значок индикатора (только часть значков).</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (*b/с)</string>
     <string name="system_ui_statusbar_network_speed_icon">Значок индикатора</string>
-    <string name="system_ui_statusbar_network_speed_enable_custom">Настроить</string>
     <string name="system_ui_statusbar_clock_mode">Свой режим часов</string>
     <string name="system_ui_statusbar_clock_editor">Формат часов</string>
     <string name="system_ui_statusbar_clock_year">Показывать год</string>
@@ -714,7 +713,6 @@
     <string name="home_drawer_blur_desc">Установите прозрачность фона Контейнера приложений на 100%, чтобы использовать эту функцию</string>
     <string name="home_title">Значок и название</string>
     <string name="home_title_icon_title">Значок</string>
-    <string name="home_title_bigicon_title">Большой значок</string>
     <string name="home_title_title_title">Название</string>
     <string name="home_title_title_marquee">Прокручивать текст</string>
     <string name="home_title_font_size">Размер шрифта</string>

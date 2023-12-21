@@ -2,24 +2,97 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.systemui.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.navigation.*;
+import com.sevtinge.hyperceiler.module.hook.systemui.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
+import com.sevtinge.hyperceiler.module.hook.systemui.BluetoothRestrict;
+import com.sevtinge.hyperceiler.module.hook.systemui.BrightnessPct;
+import com.sevtinge.hyperceiler.module.hook.systemui.ChargeAnimationStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.HideNavigationBar;
+import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
+import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFix;
+import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
+import com.sevtinge.hyperceiler.module.hook.systemui.OriginChargeAnimation;
+import com.sevtinge.hyperceiler.module.hook.systemui.QSDetailBackGround;
+import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixMediaControlPanel;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MoreCardTiles;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationRowMenu;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherOld;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGrid;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGridOld;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSControlDetailBackgroundAlpha;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGrid;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGridLabels;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGridOld;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlockEditor;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ClockDisplaySeconds;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ForceClockUseSystemFontsHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenHint;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockScreenStatusBar;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.HideLockscreenZenMode;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.LockScreenDoubleTapToSleep;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.NoPassword;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.RemoveCamera;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.RemoveSmartScreen;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ScramblePIN;
+import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom;
+import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.PluginHelper;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.*;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DisplayHardwareDetail;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DualRowSignalHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.MobileNetwork;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.NotificationIconColumns;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.DisableAnim;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeCustomization;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BatteryStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BluetoothIcon;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.DataSaverIcon;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.HideBatteryIcon;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.HideVoWiFiIcon;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarIconPositionAdjust;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBarSimIcon;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.*;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.*;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeed;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news.NewNetworkSpeedStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeed;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeedStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.StatusBarNoNetSpeedSep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.s.NetworkSpeedWidth;
 
 import java.util.Objects;
@@ -72,21 +145,19 @@ public class SystemUI extends BaseModule {
         // initHook(new BatteryIndicator(), mPrefsMap.getBoolean("system_ui_status_bar_battery_indicator_enable"));
 
         // 网速指示器
-        if (!isNewNetworkStyle()) {
-            if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+        if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {
+            if (!isNewNetworkStyle()) {
                 initHook(NetworkSpeed.INSTANCE, !isMoreAndroidVersion(34));
                 initHook(NetworkSpeedWidth.INSTANCE, mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10) > 10);
-            }
-            initHook(NetworkSpeedStyle.INSTANCE);
-            initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
-        } else {
-            if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")) {
+                initHook(NetworkSpeedStyle.INSTANCE);
+                initHook(StatusBarNoNetSpeedSep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_no_netspeed_separator"));
+            } else {
                 initHook(NewNetworkSpeed.INSTANCE);
+                initHook(NewNetworkSpeedStyle.INSTANCE);
             }
-            initHook(NewNetworkSpeedStyle.INSTANCE);
+            initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
+            initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
         }
-        initHook(new NetworkSpeedSpacing(), mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacing", 3) != 3);
-        initHook(new NetworkSpeedSec(), mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit"));
 
         // 时钟指示器
         initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim") && isMoreHyperOSVersion(1f));
@@ -94,8 +165,8 @@ public class SystemUI extends BaseModule {
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
         // 硬件指示器
-        initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
-            mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
+        initHook(new DisplayHardwareDetail(), (mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
+            mPrefsMap.getBoolean("system_ui_statusbar_temp_enable")) && !isHyperOSVersion(1f));
 
         // 居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");

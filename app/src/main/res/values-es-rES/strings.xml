@@ -581,7 +581,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Los valores de velocidad de red por debajo de este nivel se consideran lentos y se mostrará un icono de indicador diferente (solo algunos iconos)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar Byte por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Icono del indicador</string>
-    <string name="system_ui_statusbar_network_speed_enable_custom">Activar personalización</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
     <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
@@ -946,7 +945,6 @@
     <string name="home_drawer_pinyin_more">Debido esta función activada, aunque no se use el chino simplificado en el sistema, las aplicaciones se organizarán según pinyin chino</string>
     <string name="home_title">Icono y nombre</string>
     <string name="home_title_icon_title">Icono</string>
-    <string name="home_title_bigicon_title">Icono Grande</string>
     <string name="home_title_title_title">Nombre</string>
     <string name="home_title_title_marquee">Texto desplazable</string>
     <string name="home_title_title_marquee_desc">Los nombres de aplicaciones que son demasiado largas desplazarán en lugar de presentarse en filas</string>
@@ -960,11 +958,11 @@
     <string name="home_title_animation_speed">Velocidad de animación</string>
     <string name="home_title_big_icon_corner">Sigue la esquina el icono medio</string>
     <string name="home_title_download_animation">Animación de descarga</string>
-    <string name="home_title_unlock_blur_supported">Eliminar la restricción de desenfoque de carpeta de material avanzado</string>
     <string name="home_title_fix_animation">Animación de interrupción optimizada</string>
     <string name="home_title_icon_scale">Escalado de iconos</string>
     <string name="home_title_disable_hide_file">No se oculta el icono \"Archivo\"</string>
     <string name="home_title_disable_hide_theme">No se oculta el icono \"Administrador de temas\"</string>
+    <string name="home_title_disable_hide_google">No se permite ocultar icono de Google</string>
     <string name="home_title_custom_anim_param">Parámetros de animación personalizada</string>
     <string name="home_title_custom_anim_param_damping_title">Amortecimento</string>
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
@@ -1041,7 +1039,6 @@
     <string name="home_other_app_icon_hide">Administración de iconos del lanzador</string>
     <string name="home_other_toast_slide_again">Prohibir Toast de \"por favor deslícese de nuevo\"</string>
     <string name="home_other_shortcut_remove_restrictions">Eliminar restricciones de cantidad de atajos</string>
-    <string name="home_other_disable_hide_google">No se permite ocultar icono de Google</string>
     <string name="home_other_fix_android_r_s">Corregir el problema de compatibilidad que hace el fondo de inicio negro</string>
     <string name="home_other_shortcut_background_blur_custom">Valor del desenfoque del menú de atajos</string>
     <string name="home_other_high_models">Obligar su móvil a identificarse como modelo alto</string>

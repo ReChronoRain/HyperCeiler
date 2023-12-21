@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_all_status_enable"
+            android:title="@string/system_ui_statusbar_network_speed_all_status" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/system_ui_statusbar_indicator_default_title"
+        android:dependency="prefs_key_system_ui_statusbar_network_speed_all_status_enable" >
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_statusbar_network_speed_font_size_enable"
@@ -38,6 +47,30 @@
             android:summary="@string/system_ui_status_bar_no_netspeed_separator_desc"
             android:title="@string/system_ui_status_bar_no_netspeed_separator_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide"
+            android:summary="@string/system_ui_statusbar_network_speed_hide_desc"
+            android:title="@string/system_ui_statusbar_network_speed_hide" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_network_speed_hide"
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide_all"
+            android:title="@string/system_ui_statusbar_network_speed_hide_all" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="64"
+            android:key="prefs_key_system_ui_statusbar_network_speed_hide_slow"
+            android:summary="@string/system_ui_statusbar_network_speed_hide_slow_desc"
+            android:title="@string/system_ui_statusbar_network_speed_hide_slow"
+            app:defaultValueText="@string/array_default"
+            app:format="%d KB/s"
+            app:maxValue="1024"
+            app:minValue="1"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
         <SeekBarPreferenceEx
             android:defaultValue="3"
             android:key="prefs_key_system_ui_statusbar_network_speed_update_spacing"
@@ -51,41 +84,11 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_expand_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-            android:title="@string/system_ui_statusbar_network_speed_enable_custom" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-            android:key="prefs_key_system_ui_statusbar_network_speed_hide"
-            android:summary="@string/system_ui_statusbar_network_speed_hide_desc"
-            android:title="@string/system_ui_statusbar_network_speed_hide" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_hide"
-            android:key="prefs_key_system_ui_statusbar_network_speed_hide_all"
-            android:title="@string/system_ui_statusbar_network_speed_hide_all" />
-
-        <SeekBarPreferenceEx
-            android:defaultValue="64"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
-            android:key="prefs_key_system_ui_statusbar_network_speed_hide_slow"
-            android:summary="@string/system_ui_statusbar_network_speed_hide_slow_desc"
-            android:title="@string/system_ui_statusbar_network_speed_hide_slow"
-            app:defaultValueText="@string/array_default"
-            app:format="%d KB/s"
-            app:maxValue="1024"
-            app:minValue="1"
-            app:showSeekBarValue="true"
-            app:stepValue="1" />
-
+    <PreferenceCategory
+        android:title="@string/system_ui_statusbar_indicator_expand_title"
+        android:dependency="prefs_key_system_ui_statusbar_network_speed_all_status_enable" >
         <DropDownPreference
             android:defaultValue="0"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_style"
             android:title="@string/system_ui_statusbar_network_speed_style"
             app:entries="@array/network_speed_style"
@@ -93,13 +96,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_swap_places"
             android:title="@string/system_ui_statusbar_network_speed_swap_places" />
 
         <DropDownPreference
             android:defaultValue="2"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_icon"
             android:title="@string/system_ui_statusbar_network_speed_icon"
             app:entries="@array/system_ui_status_bar_network_icon"
@@ -107,7 +108,6 @@
 
         <DropDownPreference
             android:defaultValue="1"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_align"
             android:title="@string/horizontal_alignment"
             app:entries="@array/system_ui_status_bar_horizontal_align"
@@ -115,7 +115,6 @@
 
         <SeekBarPreferenceEx
             android:defaultValue="10"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_fixedcontent_width"
             android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
             android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
@@ -128,42 +127,36 @@
 
         <SeekBarPreferenceEx
             android:defaultValue="0"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_left_margin"
             android:title="@string/left_margin"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
-            app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceEx
             android:defaultValue="0"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_right_margin"
             android:title="@string/right_margin"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="10"
             app:minValue="0"
-            app:showSeekBarValue="true"
             app:stepValue="1" />
 
         <SeekBarPreferenceEx
             android:defaultValue="8"
-            android:dependency="prefs_key_system_ui_statusbar_network_speed_enable_custom"
             android:key="prefs_key_system_ui_statusbar_network_speed_vertical_offset"
             android:title="@string/vertical_offset"
             app:defaultValueText="@string/array_default"
             app:displayDividerValue="2"
-            app:format="%d dp"
+            app:format="%s dp"
             app:maxValue="16"
             app:minValue="0"
             app:negativeShift="8"
-            app:showSeekBarValue="true"
             app:stepValue="1" />
 
     </PreferenceCategory>

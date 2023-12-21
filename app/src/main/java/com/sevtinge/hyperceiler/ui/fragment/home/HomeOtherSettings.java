@@ -15,7 +15,6 @@ public class HomeOtherSettings extends SettingsPreferenceFragment {
 
     SwitchPreference mFixAndroidRS;
     SwitchPreference mEnableMoreSettings;
-    SwitchPreference mEnableFold;
 
     @Override
     public int getContentResId() {
@@ -34,10 +33,8 @@ public class HomeOtherSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mFixAndroidRS = findPreference("prefs_key_home_other_fix_android_r_s");
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
-        mEnableFold = findPreference("prefs_key_personal_assistant_overlap_mode");
 
         mFixAndroidRS.setVisible(!isAndroidVersion(33));
         mEnableMoreSettings.setVisible(isPad());
-        mEnableFold.setVisible(!isAndroidVersion(30));
     }
 }

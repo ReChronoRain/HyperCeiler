@@ -70,10 +70,16 @@
             android:title="@string/system_ui_lock_screen_show_battery_temperature"
             android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
 
-        <SeekBarPreferenceEx
-            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv"
-            android:key="prefs_key_system_ui_lock_screen_show_spacing"
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_show_spacing_value"
             android:title="@string/system_ui_lock_screen_show_spacing"
+            android:dependency="prefs_key_system_ui_lock_screen_show_charging_cv" />
+
+        <SeekBarPreferenceEx
+            android:dependency="prefs_key_system_ui_lock_screen_show_spacing_value"
+            android:key="prefs_key_system_ui_lock_screen_show_spacing"
+            android:layout="@layout/preference_seekbar_no_padding"
             android:defaultValue="6"
             app:defaultValueText="@string/array_default"
             app:maxValue="10"

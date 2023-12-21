@@ -583,7 +583,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Khi giá trị tốc độ mạng thấp hơn mức này, nó được coi là chậm và một số biểu tượng chỉ báo sẽ hiển thị các biểu tượng chỉ báo khác nhau</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Biểu tượng chỉ báo</string>
-    <string name="system_ui_statusbar_network_speed_enable_custom">Mở tùy chỉnh</string>
     <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
     <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
     <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
@@ -952,7 +951,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_drawer_pinyin_more">Khi ngôn ngữ không phải là tiếng Trung giản thể, các ứng dụng trong ngăn vẫn được sắp xếp theo bính âm</string>
     <string name="home_title">Biểu tượng và tiêu đề</string>
     <string name="home_title_icon_title">Biểu tượng</string>
-    <string name="home_title_bigicon_title">Siêu biểu tượng</string>
     <string name="home_title_title_title">Tiêu đề</string>
     <string name="home_title_title_marquee">Cuộn văn bản</string>
     <string name="home_title_title_marquee_desc">Tên ứng dụng quá dài sẽ được cuộn một dòng</string>
@@ -966,11 +964,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_title_big_icon_corner">Bo tròn góc biểu tượng hình viên thuốc</string>
     <string name="home_title_download_animation">Hoạt ảnh tải về</string>
-    <string name="home_title_unlock_blur_supported">Loại bỏ hạn chế làm mờ trong thư mục nâng cao</string>
     <string name="home_title_fix_animation">Tối ưu hiệu ứng chuyển cảnh</string>
     <string name="home_title_icon_scale">Tỷ lệ biểu tượng</string>
     <string name="home_title_disable_hide_file">Không ẩn biểu tượng \"Tệp\"</string>
     <string name="home_title_disable_hide_theme">Không ẩn biểu tượng \"Theme\"</string>
+    <string name="home_title_disable_hide_google">Không ẩn biểu tượng Google</string>
     <string name="home_title_custom_anim_param">Tuỳ chỉnh thông số hoạt ảnh</string>
     <string name="home_title_custom_anim_param_damping_title">Giảm dần</string>
     <string name="home_title_custom_anim_param_stiffness_title">Độ gấp</string>
@@ -1047,7 +1045,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
-    <string name="home_other_disable_hide_google">Không ẩn biểu tượng Google</string>
     <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
     <string name="home_other_high_models">Giả dạng thiết bị cao cấp</string>
