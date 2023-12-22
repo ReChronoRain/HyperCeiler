@@ -491,6 +491,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_indicator_title">Tốc độ mạng</string>
     <string name="system_ui_statusbar_clock_title">Đồng hồ</string>
     <string name="system_ui_statusbar_device_title">Phần cứng</string>
+    <string name="system_ui_statusbar_toast_title">Lời nhắc thông minh</string>
     <string name="system_ui_statusbar_layout_title">Bố cục</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Chế độ tương thích</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Buộc kích hoạt bố cục toàn màn hình cho các màn hình có hình dạng đặc biệt</string>
@@ -571,6 +572,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_no_netspeed_separator_desc">Đường kẻ dọc giữa thời gian và tốc độ mạng không hiển thị trên thiết bị có màn hình giọt nước</string>
     <string name="system_ui_status_bar_hide_icon">Ẩn thanh trạng thái khi chụp ảnh màn hình</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Biểu tượng mạng di động</string>
+    <string name="system_ui_statusbar_network_speed_all_status">Cho phép sửa đổi</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Thời gian cập nhật tốc độ mạng</string>
     <string name="system_ui_statusbar_network_speed_font_size">Cỡ chữ</string>
     <string name="system_ui_statusbar_network_speed_font_style">Kiểu phông chữ tốc độ mạng</string>
@@ -936,6 +938,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_folder_width_title">Sử dụng chiều rộng của toàn bộ thư mục</string>
     <string name="home_folder_space_title">Giảm lề</string>
     <string name="home_folder_blur_title">Làm mờ nền</string>
+    <string name="home_folder_unlock_blur_supported">Xóa hạn chế làm mờ thư mục</string>
+    <string name="home_folder_unlock_blur_supported_summary">Xóa hạn chế không làm mờ nền vật liệu nâng cao chỉ dành cho chủ đề của bên thứ ba</string>
     <string name="home_folder_anim_title">Hoạt ảnh mở phản hồi</string>
     <string name="home_folder_anim_1">Tốc độ mở 1</string>
     <string name="home_folder_anim_2">Tốc độ mở 2</string>
@@ -952,6 +956,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_drawer_pinyin_more">Khi ngôn ngữ không phải là tiếng Trung giản thể, các ứng dụng trong ngăn vẫn được sắp xếp theo bính âm</string>
     <string name="home_title">Biểu tượng và tiêu đề</string>
     <string name="home_title_icon_title">Biểu tượng</string>
+    <string name="home_title_icon_animation_title">Hoạt ảnh biểu tượng</string>
     <string name="home_title_title_title">Tiêu đề</string>
     <string name="home_title_title_marquee">Cuộn văn bản</string>
     <string name="home_title_title_marquee_desc">Tên ứng dụng quá dài sẽ được cuộn một dòng</string>
