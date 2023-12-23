@@ -858,6 +858,7 @@
     <string name="aod">万象息屏</string>
     <string name="aod_hyperos">息屏与锁屏编辑</string>
     <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>
+    <string name="aod_unlock_aon">解锁息屏智能显示</string>
     <!--传送门-->
     <string name="content_extension">传送门</string>
     <string name="content_extension_browser">使用第三方浏览器</string>

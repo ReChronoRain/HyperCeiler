@@ -1441,6 +1441,7 @@
     <string name="operator_fix_2">Method 2 (recommended)</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
+    <string name="aod_unlock_aon">Unlock Aod Aon</string>
     <string name="open_source">Open Source Projects</string>
     <string name="close_source">Close Source Projects</string>
     <string name="exit">Exit</string>
