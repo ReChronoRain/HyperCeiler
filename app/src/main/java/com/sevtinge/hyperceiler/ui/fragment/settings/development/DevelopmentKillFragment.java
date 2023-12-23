@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
 
     Preference mName;
     Preference mCheck;
+    Handler handler;
 
     public interface EditDialogCallback {
         void onInputReceived(String userInput);
@@ -44,10 +46,14 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        getAppSelector(getContext(), appData);
         mKillPackage = findPreference("prefs_key_development_kill_package");
         mName = findPreference("prefs_key_development_kill_name");
         mCheck = findPreference("prefs_key_development_kill_check");
+        mKillPackage.setVisible(false);
+        mName.setVisible(false);
+        mCheck.setVisible(false);
+        handler = new Handler();
+        initApp();
         mCheck.setOnPreferenceClickListener(
             preference -> {
                 showInDialog(
@@ -147,6 +153,25 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
             killCallback.onKillCallback(pkg, commandResult.successMsg.replace("฿", "\n"));
         }
         return null;
+    }
+
+    private void initApp() {
+        new Thread(
+            new Runnable() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getAppSelector(getContext(), appData);
+                            mKillPackage.setVisible(true);
+                            mName.setVisible(true);
+                            mCheck.setVisible(true);
+                        }
+                    });
+                }
+            }
+        ).start();
     }
 
     private void getAppSelector(Context context, List<AppData> appInfoList) {
