@@ -1285,6 +1285,10 @@
     <string name="security_center_sidebar_videobox_title">视频工具箱</string>
     <string name="security_center_sidebar_gamebox_title">游戏工具箱</string>
     <string name="security_center_sidebar_function_title">全局侧边栏功能</string>
+    <!--MiTrustService-->
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">禁用风险检测</string>
+    <string name="trustservice_disable_mrm_desc">实验性功能，不得使用此功能进行违反当地及国家法律条文的规定</string>
     <!--小米智能卡-->
     <string name="tsmclient">小米智能卡</string>
     <string name="tsmclient_auto_nfc">自动管理 NFC</string>

@@ -59,6 +59,7 @@
         <item>com.xiaomi.mtb</item>
         <item>com.xiaomi.NetworkBoost</item>
         <item>com.xiaomi.scanner</item>
+        <item>com.xiaomi.trustservice</item>
         <item>com.sohu.inputmethod.sogou.xiaomi</item>
     </string-array>
 

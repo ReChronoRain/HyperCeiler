@@ -1442,6 +1442,9 @@
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
     <string name="aod_unlock_aon">Unlock Aod Aon</string>
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">Disable risk detections</string>
+    <string name="trustservice_disable_mrm_desc">Experimental features. You may not use this feature in violation of local or national laws.</string>
     <string name="open_source">Open Source Projects</string>
     <string name="close_source">Close Source Projects</string>
     <string name="exit">Exit</string>

@@ -51,6 +51,7 @@ import com.sevtinge.hyperceiler.module.app.SystemFramework;
 import com.sevtinge.hyperceiler.module.app.SystemSettings;
 import com.sevtinge.hyperceiler.module.app.SystemUI;
 import com.sevtinge.hyperceiler.module.app.ThemeManager;
+import com.sevtinge.hyperceiler.module.app.TrustService;
 import com.sevtinge.hyperceiler.module.app.TsmClient;
 import com.sevtinge.hyperceiler.module.app.Updater;
 import com.sevtinge.hyperceiler.module.app.Various;
@@ -133,6 +134,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final MiSound mMiSound = new MiSound();
     public final Backup mBackup = new Backup();
     public final Huanji mHuanji = new Huanji();
+    public final TrustService mTrustService = new TrustService();
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
@@ -351,6 +353,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.miui.huanji" -> {
                 mHuanji.init(lpparam);
+                mVarious.init(lpparam);
+            }
+            case "com.xiaomi.trustservice" -> {
+                mTrustService.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.xiaomi.NetworkBoost" -> networkBoost.init(lpparam);

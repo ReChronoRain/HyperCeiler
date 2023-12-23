@@ -346,6 +346,13 @@
             android:title="@string/scanner" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.TrustServiceFragment"
+            android:icon="@drawable/ic_default_icon"
+            android:key="prefs_key_trustservice"
+            android:summary="com.xiaomi.trustservice"
+            android:title="@string/trustservice" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:enabled="false"
             android:icon="@drawable/ic_custom"
             android:key="prefs_key_custom_hook"
