@@ -121,6 +121,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 - [「CorePatch」 by LSPosed](https://github.com/LSPosed/CorePatch)
 - [「CustoMIUIzer」 by MonwF](https://github.com/MonwF/customiuizer)
 - [「CustoMIUIzerMod」 by liyafe1997](https://github.com/liyafe1997/CustoMIUIzerMod)
+- [「ClipboardList」 by 焕晨HChen](https://github.com/HChenX/ClipboardList)
 - [「DexKit」 by LuckyPray](https://github.com/LuckyPray/DexKit)
 - [「Disable app link verify」 by tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify)
 - [「DisableFlagSecure」 by LSPosed](https://github.com/LSPosed/DisableFlagSecure)

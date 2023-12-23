@@ -73,6 +73,13 @@
                 android:data="https://github.com/liyafe1997/CustoMIUIzerMod" />
         </Preference>
         <Preference
+            android:title="ClipboardList"
+            android:summary="焕晨HChen | GPL-3.0">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/ClipboardList" />
+        </Preference>
+        <Preference
             android:title="DexKit"
             android:summary="LuckyPray | LGPL-3.0">
             <intent
