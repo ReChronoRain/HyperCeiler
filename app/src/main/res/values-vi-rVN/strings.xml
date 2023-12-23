@@ -1414,6 +1414,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="operator_fix_2">Phương pháp 2 (khuyên dùng)</string>
     <string name="custom_hook_new">Thêm Hook</string>
     <string name="custom_hook_mode">Chọn chế độ</string>
+    <string name="aod_unlock_aon">Mở khóa AOD Aon</string>
+    <string name="trustservice">Dịch vụ MiTrust</string>
+    <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
+    <string name="trustservice_disable_mrm_desc">Tính năng thử nghiệm. Bạn có thể không sử dụng được tính năng này vì vi phạm luật pháp địa phương hoặc quốc gia.</string>
     <string name="open_source">Dự án mã nguồn mở</string>
     <string name="close_source">Dự án mã nguồn đóng</string>
     <string name="exit">Thoát</string>
