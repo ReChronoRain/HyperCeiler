@@ -88,16 +88,14 @@ public class AppPicker extends Fragment {
         } else {
             key = args.getString("key");
         }
-        // mHandler = new Handler();
-        // initData();
+        mHandler = new Handler();
+        initData();
     }
 
     private void initView() {
         mAmProgress = mRootView.findViewById(R.id.am_progressBar);
         mAppListRv = mRootView.findViewById(R.id.app_list_rv);
-        // mAppListRv.set(new LinearLayoutManager(getContext()));
-        mAppListAdapter = new AppDataAdapter(getActivity(), R.layout.item_app_list, getAppInfo(getContext()), key, modeSelection);
-        mAppListRv.setAdapter(mAppListAdapter);
+        mAppListRv.setVisibility(View.GONE);
 
         mAppListRv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,7 +113,6 @@ public class AppPicker extends Fragment {
                     }
                     case 2 -> {
                         CheckBox checkBox = view.findViewById(android.R.id.checkbox);
-//                String key = "prefs_key_system_framework_clean_share_apps";
                         selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
                         if (checkBox.isChecked()) {
                             checkBox.setChecked(false);
@@ -163,16 +160,15 @@ public class AppPicker extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                appDataList = getAppInfo(getContext());
-                mHandler.post(new Runnable() {
+                mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        mAppListAdapter = new AppDataAdapter(getActivity(), R.layout.item_app_list, getAppInfo(getContext()), key, modeSelection);
                         mAppListRv.setAdapter(mAppListAdapter);
-                        mAppListAdapter.setData(appDataList);
-                        mAmProgress.setVisibility(View.INVISIBLE);
+                        mAmProgress.setVisibility(View.GONE);
                         mAppListRv.setVisibility(View.VISIBLE);
                     }
-                });
+                }, 120);
             }
         }).start();
     }
