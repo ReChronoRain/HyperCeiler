@@ -1400,6 +1400,10 @@
     <string name="operator_fix_2">Método 2 (recomendado)</string>
     <string name="custom_hook_new">Adicionar gancho</string>
     <string name="custom_hook_mode">Selecionar modo</string>
+    <string name="aod_unlock_aon">Desbloquear exibição da tela ambiente</string>
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
+    <string name="trustservice_disable_mrm_desc">Recurso experimental. Você não pode usar esse recurso em violação às leis locais ou nacionais.</string>
     <string name="open_source">Projetos de código aberto</string>
     <string name="close_source">Projetos de código fechado</string>
     <string name="exit">Sair</string>
