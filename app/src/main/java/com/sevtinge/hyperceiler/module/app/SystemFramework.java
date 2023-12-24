@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
+import com.sevtinge.hyperceiler.module.hook.systemframework.QuickScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
@@ -116,10 +117,7 @@ public class SystemFramework extends BaseModule {
         }
 
         // 核心破解
-        if (isMoreAndroidVersion(33)) {
-            initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") ||
-                mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
-        }
+        if (isMoreAndroidVersion(33)) initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
@@ -135,6 +133,7 @@ public class SystemFramework extends BaseModule {
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
         initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
+        initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
     }
 
 }

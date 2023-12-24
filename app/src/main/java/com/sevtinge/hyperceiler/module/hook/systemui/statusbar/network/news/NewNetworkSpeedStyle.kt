@@ -20,7 +20,7 @@ object NewNetworkSpeedStyle : BaseHook() {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
     private val mNetworkCostomEnable by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")
     }
 
     override fun init() {

@@ -383,6 +383,8 @@
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
     <string name="system_framework_disablt_miuilite_check">禁用 MIUI Lite 检查</string>
     <string name="system_framework_allow_manage_all_notifications">允许管理所有通知</string>
+    <string name="system_framework_quick_screenshot">秒截图</string>
+    <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
@@ -395,8 +397,8 @@
     <string name="system_framework_core_patch_digest_creak_desc">允许直接覆盖安装同包名不同签名的应用</string>
     <string name="system_framework_core_patch_use_pre_signature">安装时始终使用已安装应用的签名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">该功能极度危险，仅在绝对需要时启用</string>
-    <string name="system_framework_core_patch_enhanced_mode">增强模式</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般不需要开启</string>
+    <string name="system_framework_core_patch_enhanced_mode">禁用应用内完整性校验增强</string>
+    <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般无需开启</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
@@ -730,6 +732,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">亮屏时弹出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圆角矩形磁贴</string>
     <string name="system_ui_control_center_rounded_rect_radius">圆角大小</string>
+    <string name="system_ui_control_center_fix_tiles_list">补全磁贴列表</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
     <string name="system_ui_control_center_hide_operator">运营商名称自定义</string>
     <string name="system_ui_control_center_hide_delimiter">只隐藏分隔线</string>
@@ -899,6 +902,9 @@
     <string name="gallery_enable_remover_2">解锁魔法消除</string>
     <string name="gallery_enable_magic_matting">解锁魔法抠图</string>
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
+    <string name="gallery_backup_server">备份服务提供商</string>
+    <string name="gallery_backup_server_xiaomi">小米云服务</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI 安全组件-->
     <string name="guard_provider">MIUI 安全组件</string>
     <string name="guard_provider_hyperos">系统安全组件</string>

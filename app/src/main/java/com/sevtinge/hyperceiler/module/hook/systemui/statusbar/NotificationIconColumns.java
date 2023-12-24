@@ -88,6 +88,7 @@ public class NotificationIconColumns extends BaseHook {
                     if (mShowNotificationIcons) {
                         XposedHelpers.setObjectField(param.thisObject, "mMaxDots", maxDotsNum);
                         XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", maxIconsNum);
+                        XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
                         // logE("NotificationIconColumns", "im run 1");
                     } else {
                         XposedHelpers.setObjectField(param.thisObject, "mMaxDots", 0);
