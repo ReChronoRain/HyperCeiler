@@ -3,8 +3,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 static def getGitRevision() {
@@ -140,26 +140,26 @@ dependencies {
     compileOnly files('libs/miui.jar')
     compileOnly files("libs/miui-framework.jar")
 
-    compileOnly(roots.XposedApi)
+    compileOnly libs.xposed.api
 
-    implementation 'org.luckypray:dexkit:2.0.0'
-    implementation 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'
-    implementation 'com.github.kyuubiran:EzXHelper:2.0.8'
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
-    implementation "org.lsposed.hiddenapibypass:hiddenapibypass:4.3"
-    implementation "com.google.code.gson:gson:2.10.1"
-    implementation 'commons-codec:commons-codec:1.16.0'
+    implementation libs.dexkit
+    implementation libs.tinyPinyin
+    implementation libs.ezXHelper
+    implementation libs.accompanist.systemuicontroller
+    implementation libs.hiddenapibypass
+    implementation libs.gson
+    implementation libs.commons.codec
 
-    implementation roots.AndroidXCore
-    implementation roots.AndroidXCollection
-    implementation roots.AndroidXRecyclerview
-    implementation roots.AndroidXFragment
-    implementation roots.AndroidXLifecycle
-    implementation roots.AndroidXVectorDrawable
-    implementation roots.AndroidXVectorDrawableAnimated
-    implementation roots.AndroidXCustomView
-    implementation roots.AndroidXCustomViewPoolingContainer
-    implementation roots.AndroidXConstraintLayout
+    implementation libs.core
+    implementation libs.collection
+    implementation libs.recyclerview
+    implementation libs.fragment
+    implementation libs.lifecycle.common
+    implementation libs.vectordrawable
+    implementation libs.vectordrawable.animated
+    implementation libs.customview
+    implementation libs.customview.poolingcontainer
+    implementation libs.constraintlayout
 
     implementation files(roots.animation)
     implementation files(roots.appcompat)
@@ -168,6 +168,7 @@ dependencies {
     implementation files(roots.preference)
     implementation files(roots.smooth)
     implementation files(roots.springback)
+    implementation files(roots.external)
 
     implementation files("libs/hyperceiler_expansion_packs-debug.aar")
 }

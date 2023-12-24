@@ -1,0 +1,55 @@
+[versions]
+agp = "8.3.0-alpha14"
+kotlinAndroid = "1.9.22"
+
+core = "1.12.0"
+collection = "1.3.0"
+fragment = "1.7.0-alpha07"
+recyclerview = "1.3.2"
+lifecycle-common = "2.6.2"
+vectordrawable = "1.2.0-beta01"
+vectordrawable-animated = "1.1.0"
+customview = "1.2.0-alpha02"
+customview-poolingcontainer = "1.0.0"
+constraintlayout = "2.2.0-alpha13"
+
+xposed-api = "82"
+
+gson = "2.10.1"
+dexkit = "2.0.0"
+tinyPinyin = "2.0.3.RELEASE"
+ezXHelper = "2.0.8"
+accompanist = "0.32.0"
+hiddenapibypass = "4.3"
+commons-codec = "1.16.0"
+
+[libraries]
+core = { group = "androidx.core", name = "core", version.ref = "core" }
+collection = { group = "androidx.collection", name = "collection", version.ref = "collection" }
+fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
+
+vectordrawable = { group = "androidx.vectordrawable", name = "vectordrawable", version.ref = "vectordrawable" }
+vectordrawable-animated = { group = "androidx.vectordrawable", name = "vectordrawable-animated", version.ref = "vectordrawable-animated" }
+customview = { group = "androidx.customview", name = "customview", version.ref = "customview" }
+customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "customview-poolingcontainer" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+xposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "xposed-api" }
+
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
+tinyPinyin = { group = "io.github.biezhi", name = "TinyPinyin", version.ref = "tinyPinyin" }
+ezXHelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezXHelper" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
+commons-codec = { group = "commons-codec", name = "commons-codec", version.ref = "commons-codec" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid"}
+
+[bundles]
+
