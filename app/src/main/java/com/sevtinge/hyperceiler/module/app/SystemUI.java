@@ -239,7 +239,7 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarActions());
 
         // Other
-        initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix"));
+        initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix") && isMoreHyperOSVersion(1f));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
 
         // 锁屏
