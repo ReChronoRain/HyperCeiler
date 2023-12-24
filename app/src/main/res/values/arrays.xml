@@ -786,4 +786,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="gallery_backup_server_entries">
+        <item>@string/array_default</item>
+        <item>@string/gallery_backup_server_xiaomi</item>
+        <item>@string/gallery_backup_server_google</item>
+    </string-array>
+
+    <string-array name="gallery_backup_server_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

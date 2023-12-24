@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.gallery.ChangeBackupServer;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableHdrEnhance;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableIdPhoto;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableMagicSky;
@@ -29,6 +30,7 @@ public class Gallery extends BaseModule {
         initHook(new EnableVideoPost(), mPrefsMap.getBoolean("gallery_enable_video_editor"));
         initHook(new EnableOcr(), mPrefsMap.getBoolean("gallery_enable_ocr"));
         initHook(new EnableOcrForm(), mPrefsMap.getBoolean("gallery_enable_ocr_form"));
+        initHook(new ChangeBackupServer(), mPrefsMap.getStringAsInt("gallery_backup_server", 0) != 0);
         initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
     }
 }

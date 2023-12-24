@@ -899,6 +899,9 @@
     <string name="gallery_enable_remover_2">解锁魔法消除</string>
     <string name="gallery_enable_magic_matting">解锁魔法抠图</string>
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>
+    <string name="gallery_backup_server">备份服务提供商</string>
+    <string name="gallery_backup_server_xiaomi">小米云服务</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI 安全组件-->
     <string name="guard_provider">MIUI 安全组件</string>
     <string name="guard_provider_hyperos">系统安全组件</string>
