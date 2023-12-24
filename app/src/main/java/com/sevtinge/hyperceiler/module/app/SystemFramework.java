@@ -19,6 +19,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDi
 import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
+import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
@@ -94,6 +95,7 @@ public class SystemFramework extends BaseModule {
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
         initHook(new DisableMiuiLite(), mPrefsMap.getBoolean("system_framework_disablt_miuilite_check"));
+        initHook(new HookEntry(), mPrefsMap.getBoolean("system_framework_hook_entry"));
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
