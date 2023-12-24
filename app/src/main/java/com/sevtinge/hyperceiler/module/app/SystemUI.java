@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotifi
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixMediaControlPanel;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixTilesList;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
@@ -232,6 +233,7 @@ public class SystemUI extends BaseModule {
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
+        initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
 
         // Actions
         initHook(new StatusBarActions());
