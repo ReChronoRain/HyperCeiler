@@ -9,6 +9,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_quick_screenshot"
+            android:summary="@string/system_framework_quick_screenshot_desc"
+            android:title="@string/system_framework_quick_screenshot" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_disable_72h_verify"
             android:title="@string/system_framework_disable_72h_verify" />
 

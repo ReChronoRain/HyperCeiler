@@ -381,6 +381,8 @@
     <string name="system_framework_allow_all_dark_mode">允许所有 APP 使用深色模式</string>
     <string name="system_framework_disablt_miuilite_check">禁用 MIUI Lite 检查</string>
     <string name="system_framework_allow_manage_all_notifications">允许管理所有通知</string>
+    <string name="system_framework_quick_screenshot">秒截图</string>
+    <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
@@ -393,8 +395,8 @@
     <string name="system_framework_core_patch_digest_creak_desc">允许直接覆盖安装同包名不同签名的应用</string>
     <string name="system_framework_core_patch_use_pre_signature">安装时始终使用已安装应用的签名</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">该功能极度危险，仅在绝对需要时启用</string>
-    <string name="system_framework_core_patch_enhanced_mode">增强模式</string>
-    <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般不需要开启</string>
+    <string name="system_framework_core_patch_enhanced_mode">禁用应用内完整性校验增强</string>
+    <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般无需开启</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
