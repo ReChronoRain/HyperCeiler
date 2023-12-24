@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <group
+        android:pivotX="12.0"
+        android:pivotY="12.0"
+        android:scaleX="0.5"
+        android:scaleY="0.5">
+        <group android:name="_R_G">
+            <group
+                android:name="_R_G_L_1_G"
+                android:translateX="-81.0"
+                android:translateY="-32.0">
+                <path
+                    android:name="_R_G_L_1_G_D_0_P_0"
+                    android:pathData=" M93 40 C95.21,40 97,41.79 97,44 C97,46.21 95.21,48 93,48 C90.79,48 89,46.21 89,44 C89,41.79 90.79,40 93,40c "
+                    android:strokeColor="#FF000000"
+                    android:strokeWidth="2.0"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"
+                    android:strokeAlpha="1.0" />
+            </group>
+            <group
+                android:name="_R_G_L_0_G"
+                android:translateX="-81.0"
+                android:translateY="-32.0">
+                <path
+                    android:name="_R_G_L_0_G_D_0_P_0"
+                    android:fillColor="#FF000000"
+                    android:pathData=" M93 39.5 C93,39.55 93,41.52 93,44 C93,46.49 93,48.58 93,48.5 C90.52,48.5 88.5,46.49 88.5,44 C88.5,41.52 90.52,39.5 93,39.5c "
+                    android:fillAlpha="1.0"
+                    android:fillType="nonZero" />
+                <path
+                    android:name="_R_G_L_0_G_D_1_P_0"
+                    android:fillColor="#FF000000"
+                    android:pathData=" M94 37 C94,37 92,37 92,37 C92,37 92,35.44 92,35.44 C92,35.44 94,35.44 94,35.44 C94,35.44 94,37 94,37c "
+                    android:fillAlpha="1.0"
+                    android:fillType="nonZero" />
+                <path
+                    android:name="_R_G_L_0_G_D_2_P_0"
+                    android:fillColor="#FF000000"
+                    android:pathData=" M86.07 38.57 C86.07,38.57 87.48,37.16 87.48,37.16 C87.48,37.16 88.76,38.34 88.76,38.34 C88.76,38.34 87.34,39.76 87.34,39.76 C87.34,39.76 86.07,38.57 86.07,38.57c "
+                    android:fillAlpha="1.0"
+                    android:fillType="nonZero" />
+            </group>
+        </group>
+        <group android:name="time_group" />
+    </group>
+</vector>

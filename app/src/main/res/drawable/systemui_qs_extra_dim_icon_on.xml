@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:drawable="@drawable/systemui_a_qs_extra_dim_icon_on__8">
+    <target
+        android:name="_R_G_L_1_G_D_0_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__0" />
+    <target
+        android:name="_R_G_L_0_G_D_0_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__1" />
+    <target
+        android:name="_R_G_L_0_G_D_0_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__2" />
+    <target
+        android:name="_R_G_L_0_G_D_1_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__3" />
+    <target
+        android:name="_R_G_L_0_G_D_1_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__4" />
+    <target
+        android:name="_R_G_L_0_G_D_2_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__5" />
+    <target
+        android:name="_R_G_L_0_G_D_2_P_0"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__6" />
+    <target
+        android:name="time_group"
+        android:animation="@drawable/systemui_a_qs_extra_dim_icon_on__7" />
+</animated-vector>

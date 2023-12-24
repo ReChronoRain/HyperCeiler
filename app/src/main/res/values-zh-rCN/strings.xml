@@ -731,6 +731,7 @@
     <string name="system_ui_control_center_rounded_rect">圆角矩形磁贴</string>
     <string name="system_ui_control_center_rounded_rect_radius">圆角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">补全磁贴列表</string>
+    <string name="system_ui_control_center_optimize_extra_dim_icon">优化 "极暗" 磁贴图标</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
     <string name="system_ui_control_center_hide_operator">运营商名称自定义</string>
     <string name="system_ui_control_center_hide_delimiter">只隐藏分隔线</string>

@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationR
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherNew;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationWeatherOld;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.OptimizeExtraDimTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QQSGridOld;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSControlDetailBackgroundAlpha;
@@ -234,6 +235,7 @@ public class SystemUI extends BaseModule {
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
+        initHook(new OptimizeExtraDimTile(), mPrefsMap.getBoolean("system_ui_control_center_optimize_extra_dim_icon"));
 
         // Actions
         initHook(new StatusBarActions());

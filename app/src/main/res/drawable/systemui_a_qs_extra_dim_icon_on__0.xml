@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/systemui_a_a_qs_extra_dim_icon_on__0__0"
+        android:duration="350"
+        android:startOffset="0"
+        android:valueFrom="#FFFFFFFF"
+        android:valueTo="#FF000000"
+        android:valueType="colorType"
+        android:propertyName="strokeColor" />
+</set>
