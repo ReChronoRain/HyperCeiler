@@ -3,302 +3,309 @@
     <Preference android:summary="@string/about_use_desc" />
     <PreferenceCategory android:title="@string/open_source">
         <Preference
-            android:title="Accompanist"
-            android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
+            android:summary="Android Open Source Project, Google Inc. | Apache-2.0"
+            android:title="Accompanist">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://google.github.io/accompanist" />
         </Preference>
         <Preference
-            android:title="Android"
-            android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
+            android:summary="Android Open Source Project, Google Inc. | Apache-2.0"
+            android:title="Android">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://source.android.google.cn/license" />
         </Preference>
         <Preference
-            android:title="AndroidHiddenApiBypass"
-            android:summary="LSPosed | Apache-2.0">
+            android:summary="LSPosed | Apache-2.0"
+            android:title="AndroidHiddenApiBypass">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LSPosed/AndroidHiddenApiBypass" />
         </Preference>
         <Preference
-            android:title="AndroidX"
-            android:summary="Android Open Source Project, Google Inc., androidx | Apache-2.0">
+            android:summary="Android Open Source Project, Google Inc., androidx | Apache-2.0"
+            android:title="AndroidX">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/androidx/androidx" />
         </Preference>
         <Preference
-            android:title="AntiAntiDefraud"
-            android:summary="MinaMichita | No License">
+            android:summary="MinaMichita | No License"
+            android:title="AntiAntiDefraud">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/MinaMichita/AntiAntiDefraud" />
         </Preference>
         <Preference
-            android:title="Auto NFC"
-            android:summary="GSWXXN | AGPL-3.0">
+            android:summary="GSWXXN | AGPL-3.0"
+            android:title="Auto NFC">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/GSWXXN/AutoNFC" />
         </Preference>
         <Preference
-            android:title="BypassSignCheck"
-            android:summary="Weverses | GPL-3.0">
+            android:summary="Weverses | GPL-3.0"
+            android:title="BypassSignCheck">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Weverses/BypassSignCheck" />
         </Preference>
         <Preference
-            android:title="CorePatch"
-            android:summary="LSPosed | GPL-2.0">
+            android:summary="LSPosed | GPL-2.0"
+            android:title="CorePatch">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LSPosed/CorePatch" />
         </Preference>
         <Preference
-            android:title="CustoMIUIzer"
-            android:summary="MonwF | GPL-3.0">
+            android:summary="MonwF | GPL-3.0"
+            android:title="CustoMIUIzer">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/MonwF/customiuizer" />
         </Preference>
         <Preference
-            android:title="CustoMIUIzerMod"
-            android:summary="liyafe1997 | GPL-3.0">
+            android:summary="liyafe1997 | GPL-3.0"
+            android:title="CustoMIUIzerMod">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/liyafe1997/CustoMIUIzerMod" />
         </Preference>
         <Preference
-            android:title="ClipboardList"
-            android:summary="焕晨HChen | GPL-3.0">
+            android:summary="焕晨HChen | GPL-3.0"
+            android:title="ClipboardList">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/HChenX/ClipboardList" />
         </Preference>
         <Preference
-            android:title="DexKit"
-            android:summary="LuckyPray | LGPL-3.0">
+            android:summary="LuckyPray | LGPL-3.0"
+            android:title="DexKit">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LuckyPray/DexKit" />
         </Preference>
         <Preference
-            android:title="Disable app link verify"
-            android:summary="tehcneko | GPL-3.0">
+            android:summary="tehcneko | GPL-3.0"
+            android:title="Disable app link verify">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify" />
         </Preference>
         <Preference
-            android:title="DisableFlagSecure"
-            android:summary="LSPosed | GPL-3.0">
+            android:summary="LSPosed | GPL-3.0"
+            android:title="DisableFlagSecure">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/LSPosed/DisableFlagSecure" />
         </Preference>
         <Preference
-            android:title="DisableLogRequest"
-            android:summary="QueallyTech | AGPL-3.0">
+            android:summary="QueallyTech | AGPL-3.0"
+            android:title="DisableLogRequest">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/QueallyTech/DisableLogRequest" />
         </Preference>
         <Preference
-            android:title="EzXHelper"
-            android:summary="KyuubiRan | Apache-2.0">
+            android:summary="KyuubiRan | Apache-2.0"
+            android:title="EzXHelper">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/KyuubiRan/EzXHelper" />
         </Preference>
         <Preference
-            android:title="ForegroundPin"
-            android:summary="焕晨HChen | GPL-3.0">
+            android:summary="焕晨HChen | GPL-3.0"
+            android:title="ForegroundPin">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/HChenX/ForegroundPin" />
         </Preference>
         <Preference
-            android:title="FixMiuiMediaControlPanel"
-            android:summary="qqlittleice | GPL-3.0">
+            android:summary="qqlittleice | GPL-3.0"
+            android:title="FixMiuiMediaControlPanel">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/qqlittleice/FixMiuiMediaControlPanel" />
         </Preference>
         <Preference
-            android:title="FuckNFC"
-            android:summary="xiaowine | No License">
+            android:summary="xiaowine | No License"
+            android:title="FuckNFC">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/xiaowine/FuckNFC" />
         </Preference>
         <Preference
-            android:title="Gson"
-            android:summary="Android Open Source Project, Google Inc. | Apache-2.0">
+            android:summary="Android Open Source Project, Google Inc. | Apache-2.0"
+            android:title="Gson">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/google/gson" />
         </Preference>
         <Preference
-            android:title="HideMiuiClipboardDialog"
-            android:summary="zerorooot | GPL-3.0">
+            android:summary="zerorooot | GPL-3.0"
+            android:title="HideMiuiClipboardDialog">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
         </Preference>
         <Preference
-            android:title="Kotlin"
-            android:summary="JetBrains | No License">
+            android:summary="buffcow | Apache-2.0"
+            android:title="HyperSmartCharge">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/buffcow/HyperSmartCharge" />
+        </Preference>
+        <Preference
+            android:summary="JetBrains | No License"
+            android:title="Kotlin">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/JetBrains/kotlin" />
         </Preference>
         <Preference
-            android:title="MaxFreeForm"
-            android:summary="YifePlayte | GPL-3.0">
+            android:summary="YifePlayte | GPL-3.0"
+            android:title="MaxFreeForm">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YifePlayte/MaxFreeForm" />
         </Preference>
         <Preference
-            android:title="MiuiHomeR"
-            android:summary="qqlittleice | GPL-3.0">
+            android:summary="qqlittleice | GPL-3.0"
+            android:title="MiuiHomeR">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/qqlittleice/MiuiHome_R" />
         </Preference>
         <Preference
-            android:title="MIUI IME Unlock"
-            android:summary="RC1844 | MIT">
+            android:summary="RC1844 | MIT"
+            android:title="MIUI IME Unlock">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/RC1844/MIUI_IME_Unlock" />
         </Preference>
         <Preference
-            android:title="MIUIQOL"
-            android:summary="chsbuffer | No License">
+            android:summary="chsbuffer | No License"
+            android:title="MIUIQOL">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/chsbuffer/MIUIQOL" />
         </Preference>
         <Preference
-            android:title="Miui XXL"
-            android:summary="Wine-Network | GPL-3.0">
+            android:summary="Wine-Network | GPL-3.0"
+            android:title="Miui XXL">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Wine-Network/Miui_XXL" />
         </Preference>
         <Preference
-            android:title="Miui XXL"
-            android:summary="YuKongA | GPL-3.0">
+            android:summary="YuKongA | GPL-3.0"
+            android:title="Miui XXL">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YuKongA/Miui_XXL" />
         </Preference>
         <Preference
-            android:title="MIUI 通知修复"
-            android:summary="tehcneko | GPL-3.0">
+            android:summary="tehcneko | GPL-3.0"
+            android:title="MIUI 通知修复">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Xposed-Modules-Repo/io.github.tehcneko.miuinotificationfix" />
         </Preference>
         <Preference
-            android:title="ModemPro"
-            android:summary="Weverse | GPL-3.0">
+            android:summary="Weverse | GPL-3.0"
+            android:title="ModemPro">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Weverses/ModemPro" />
         </Preference>
         <Preference
-            android:title="NoStorageRestrict"
-            android:summary="DanGLES3 | GPL-3.0">
+            android:summary="DanGLES3 | GPL-3.0"
+            android:title="NoStorageRestrict">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict" />
         </Preference>
         <Preference
-            android:title="Portal Hook"
-            android:summary="Haocen2004 | MIT">
+            android:summary="Haocen2004 | MIT"
+            android:title="Portal Hook">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Haocen2004/PortalHook" />
         </Preference>
         <Preference
-            android:title="RemoveMiuiSystemSelfProtection"
-            android:summary="gfbjngjibn | GPL-3.0">
+            android:summary="gfbjngjibn | GPL-3.0"
+            android:title="RemoveMiuiSystemSelfProtection">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection" />
         </Preference>
         <Preference
-            android:title="SetoHook"
-            android:summary="SetoSkins | GPL-3.0">
+            android:summary="SetoSkins | GPL-3.0"
+            android:title="SetoHook">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/SetoSkins/SetoHook" />
         </Preference>
         <Preference
-            android:title="SettingsDontThroughTheList"
-            android:summary="weixiansen574 | No License">
+            android:summary="weixiansen574 | No License"
+            android:title="SettingsDontThroughTheList">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/weixiansen574/settingsdontthroughthelist" />
         </Preference>
         <Preference
-            android:title="StarVoyager"
-            android:summary="hosizoraru | GPL-3.0">
+            android:summary="hosizoraru | GPL-3.0"
+            android:title="StarVoyager">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/hosizoraru/StarVoyager" />
         </Preference>
         <Preference
-            android:title="WINI"
-            android:summary="ouhoukyo | MIT">
+            android:summary="ouhoukyo | MIT"
+            android:title="WINI">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/ouhoukyo/WINI" />
         </Preference>
         <Preference
-            android:title="WOMMO"
-            android:summary="YifePlayte | GPL-3.0">
+            android:summary="YifePlayte | GPL-3.0"
+            android:title="WOMMO">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YifePlayte/WOMMO" />
         </Preference>
         <Preference
-            android:title="Woobox For MIUI"
-            android:summary="hosizoraru | GPL-3.0">
+            android:summary="hosizoraru | GPL-3.0"
+            android:title="Woobox For MIUI">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/hosizoraru/WooBoxForMIUI" />
         </Preference>
         <Preference
-            android:title="Woobox For MIUI"
-            android:summary="Simplicity-Team | GPL-3.0">
+            android:summary="Simplicity-Team | GPL-3.0"
+            android:title="Woobox For MIUI">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
         </Preference>
         <Preference
-            android:title="Xposed"
-            android:summary="rovo89, Tungstwenty | Apache-2.0">
+            android:summary="rovo89, Tungstwenty | Apache-2.0"
+            android:title="Xposed">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/rovo89/XposedBridge" />
         </Preference>
         <Preference
-            android:title="XposedBridge"
-            android:summary="rovo89 | No License">
+            android:summary="rovo89 | No License"
+            android:title="XposedBridge">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/rovo89/XposedBridge" />
         </Preference>
         <Preference
-            android:title=".xlDownload"
-            android:summary="Kr328 | No License">
+            android:summary="Kr328 | No License"
+            android:title=".xlDownload">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Kr328/.xlDownload" />
@@ -306,22 +313,22 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/close_source">
         <Preference
-            android:title="IWanSetting"
-            android:summary="Green Yang">
+            android:summary="Green Yang"
+            android:title="IWanSetting">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/apk/com.byyoung.setting" />
         </Preference>
         <Preference
-            android:title="Miui Feature"
-            android:summary="MoralNorm">
+            android:summary="MoralNorm"
+            android:title="Miui Feature">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/moralnorm" />
         </Preference>
         <Preference
-            android:title="Origin Architecture"
-            android:summary="MonetCarlos">
+            android:summary="MonetCarlos"
+            android:title="Origin Architecture">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://www.coolapk.com/u/9021855" />

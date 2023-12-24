@@ -349,6 +349,7 @@
 
     <string name="system_framework_screen_title">Display &amp; Notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
+    <string name="system_framework_entry">Hyper Smart Charge</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>
@@ -379,6 +380,7 @@
     <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
     <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
+    <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>

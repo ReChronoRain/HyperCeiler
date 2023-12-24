@@ -350,6 +350,8 @@
 
     <string name="system_framework_screen_title">显示与通知</string>
     <string name="system_framework_core_title">底层</string>
+    <string name="system_framework_entry">智能断充</string>
+    <string name="system_framework_hook_entry">解锁智能断充限制</string>
     <string name="system_framework_shortcut_title">分享快捷方式</string>
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
     <string name="system_framework_allow_untrusted_touch">允许不受信任的触摸操作</string>

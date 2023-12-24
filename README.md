@@ -130,6 +130,7 @@ Android 11 ~ 14 的 MIUI 12.5 ~ 14/Xiaomi HyperOS1.0
 - [「ForegroundPin」 by 焕晨HChen](https://github.com/HChenX/ForegroundPin)
 - [「Gson」 by Android Open Source Project, Google Inc.](https://github.com/google/gson)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
+- [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
 - [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
 - [「Miui Feature」 by MoralNorm](https://github.com/moralnorm/miui_feature)

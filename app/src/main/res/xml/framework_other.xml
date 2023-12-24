@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/system_framework_screen_title">
+    <PreferenceCategory android:title="@string/system_framework_screen_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_screen_all_rotations"
@@ -66,8 +65,14 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/system_framework_core_title">
+    <PreferenceCategory android:title="@string/system_framework_entry">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_hook_entry"
+            android:title="@string/system_framework_hook_entry" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_framework_core_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_other_speed_install"
@@ -98,8 +103,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/system_framework_shortcut_title">
+    <PreferenceCategory android:title="@string/system_framework_shortcut_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_clean_share_menu"
