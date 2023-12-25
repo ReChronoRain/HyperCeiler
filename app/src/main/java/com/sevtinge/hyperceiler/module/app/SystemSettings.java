@@ -38,6 +38,8 @@ public class SystemSettings extends BaseModule {
             initHook(UnlockTaplusForSettings.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus"));
         }
 
+        initHook(new AddGoogleListHeader(), mPrefsMap.getBoolean("system_settings_unlock_google_header"));
+
     }
 }
 

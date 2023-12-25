@@ -791,6 +791,7 @@
     <string name="system_settings_enable_pad_area">解锁平板专区</string>
     <string name="system_settings_enable_fold_area">解锁折叠屏专区</string>
     <string name="system_settings_enable_area_desc">不支持的设备解锁后会导致设置闪退</string>
+    <string name="system_settings_unlock_google_header">禁止隐藏 \"Google\" 入口</string>
 
     <string name="system_settings_connection_sharing_title">网络连接与共享</string>
     <string name="system_settings_linkturbo">解除网络加速应用限制</string>

@@ -25,6 +25,11 @@
             android:summary="@string/system_settings_novelty_haptic_desc"
             android:title="@string/system_settings_novelty_haptic_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_unlock_google_header"
+            android:title="@string/system_settings_unlock_google_header" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
