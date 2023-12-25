@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0-alpha14"
+agp = "8.2.0"
 kotlinAndroid = "1.9.22"
 
 core = "1.12.0"
