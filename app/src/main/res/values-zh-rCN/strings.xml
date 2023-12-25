@@ -1041,7 +1041,7 @@
     <string name="home_title_icon_scale">图标缩放</string>
     <string name="home_title_disable_hide_file">禁止隐藏 \"文件\" 图标</string>
     <string name="home_title_disable_hide_theme">禁止隐藏 \"主题壁纸\" 图标</string>
-    <string name="home_title_disable_hide_google">禁止隐藏 Google 图标</string>
+    <string name="home_title_disable_hide_google">禁止隐藏 \"Google\" 图标</string>
     <string name="home_title_custom_anim_param">自定义动画曲线</string>
     <string name="home_title_custom_anim_param_damping_title">阻尼</string>
     <string name="home_title_custom_anim_param_stiffness_title">刚度</string>

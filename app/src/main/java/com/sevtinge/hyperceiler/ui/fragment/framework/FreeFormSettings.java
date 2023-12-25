@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.framework;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreMiuiVersion;
 
 import android.view.View;
@@ -32,7 +33,7 @@ public class FreeFormSettings extends SettingsPreferenceFragment {
         mMoreFreeForm = findPreference("prefs_key_system_framework_freeform_count");
         mSmallFreeForm = findPreference("prefs_key_system_framework_freeform_bubble_title");
 
-        mMoreFreeForm.setVisible(isMoreMiuiVersion(13f));
+        mMoreFreeForm.setVisible(isMoreMiuiVersion(13f) || isMoreHyperOSVersion(1f));
         mSmallFreeForm.setVisible(!isAndroidVersion(30));
     }
 }
