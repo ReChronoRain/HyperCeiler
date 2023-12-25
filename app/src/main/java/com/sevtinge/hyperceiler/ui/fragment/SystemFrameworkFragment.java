@@ -13,6 +13,7 @@ import moralnorm.preference.SwitchPreference;
 public class SystemFrameworkFragment extends SettingsPreferenceFragment {
     SwitchPreference mDisableCreak;
     SwitchPreference mDisableIntegrity;
+    SwitchPreference mDisableLowApiCheck;
     Preference mNetwork;
 
     @Override
@@ -25,10 +26,12 @@ public class SystemFrameworkFragment extends SettingsPreferenceFragment {
         boolean mCreak = PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_framework_core_patch_auth_creak", false);
         mDisableCreak = findPreference("prefs_key_system_framework_core_patch_auth_creak");
         mDisableIntegrity = findPreference("prefs_key_system_framework_core_patch_disable_integrity");
+        mDisableLowApiCheck = findPreference("prefs_key_system_framework_disable_low_api_check");
         mNetwork = findPreference("prefs_key_system_framework_network");
 
         mDisableIntegrity.setVisible(isMoreAndroidVersion(33) && !mCreak);
         mNetwork.setVisible(TelephonyManager.getDefault().isFiveGCapable());
+        mDisableLowApiCheck.setVisible(isMoreAndroidVersion(34));
 
         mDisableCreak.setOnPreferenceChangeListener((preference, o) -> {
             if ((boolean) o) {

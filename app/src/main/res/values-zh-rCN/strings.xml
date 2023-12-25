@@ -399,6 +399,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">该功能极度危险，仅在绝对需要时启用</string>
     <string name="system_framework_core_patch_enhanced_mode">禁用应用内完整性校验增强</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">可以解决一些应用内部的完整性校验，一般无需开启</string>
+    <string name="system_framework_disable_low_api_check">禁用低 API 校验</string>
+    <string name="system_framework_disable_low_api_check_desc">允许安装 TargetSDK 低于 23 的应用</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>

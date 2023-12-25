@@ -1465,6 +1465,8 @@
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Service</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="system_ui_control_center_fix_tiles_list">Disable hide extremely dark tiles</string>
+    <string name="system_framework_disable_low_api_check">Disable low API check</string>
+    <string name="system_framework_disable_low_api_check_desc">Apps with APIs lower than 23 are allowed</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>

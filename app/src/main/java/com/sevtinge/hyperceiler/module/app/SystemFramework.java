@@ -13,6 +13,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
+import com.sevtinge.hyperceiler.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableMiuiLite;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableVerifyCanBeDisabled;
@@ -134,6 +135,8 @@ public class SystemFramework extends BaseModule {
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
         initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
         initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
+
+        initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check") && isMoreAndroidVersion(34));
     }
 
 }
