@@ -7,10 +7,11 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.RandomTipReader;
+import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import moralnorm.preference.Preference;
@@ -26,7 +27,7 @@ public class MainFragment extends SettingsPreferenceFragment {
     Preference mMirror;
     Preference mTip;
     Preference mHeadtipWarn;
-    RandomTipReader randomTipReader;
+    MainActivityContextHelper mainActivityContextHelper;
 
     @Override
     public int getContentResId() {
@@ -66,11 +67,12 @@ public class MainFragment extends SettingsPreferenceFragment {
             mMirror.setTitle(R.string.mirror);
         }
 
-        randomTipReader = new RandomTipReader(requireContext());
-        String randomTip = randomTipReader.getRandomTip();
+        mainActivityContextHelper = new MainActivityContextHelper(requireContext());
+        String randomTip = mainActivityContextHelper.getRandomTip();
         mTip.setSummary("Tip: " + randomTip);
 
         isOfficialRom();
+        if(!getIsOfficialRom()) isSignPass();
     }
 
     public void isOfficialRom() {
@@ -80,5 +82,10 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     public boolean getIsOfficialRom() {
         return !getBaseOs().isEmpty() || !getRomAuthor().isEmpty() || Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") || !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
+    }
+
+    public void isSignPass() {
+        mHeadtipWarn.setTitle(R.string.headtip_warn_sign_verification_failed);
+        mHeadtipWarn.setVisible(!mainActivityContextHelper.isSignCheckPass());
     }
 }
