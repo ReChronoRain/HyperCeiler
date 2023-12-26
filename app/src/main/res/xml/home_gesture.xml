@@ -2,17 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/home_navigation_title">
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
-            android:key="prefs_key_home_navigation_assist_left_slide"
-            android:summary="@string/home_navigation_assist_left_slide_desc"
-            android:title="@string/home_navigation_assist_left_slide" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
-            android:key="prefs_key_home_navigation_assist_right_slide"
-            android:summary="@string/home_navigation_assist_right_slide_desc"
-            android:title="@string/home_navigation_assist_right_slide" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -80,6 +69,18 @@
             android:key="prefs_key_home_gesture_down_swipe"
             android:summary="@string/home_gesture_down_swipe_desc"
             android:title="@string/home_gesture_down_swipe" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:key="prefs_key_home_navigation_assist_left_slide"
+            android:summary="@string/home_navigation_assist_left_slide_desc"
+            android:title="@string/home_navigation_assist_left_slide" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
+            android:key="prefs_key_home_navigation_assist_right_slide"
+            android:summary="@string/home_navigation_assist_right_slide_desc"
+            android:title="@string/home_navigation_assist_right_slide" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.sub.MultiActionSettings"
