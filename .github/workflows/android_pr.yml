@@ -2,8 +2,7 @@ name: Android PR Debug
 
 on:
   pull_request_target:
-    types: [ opened, labeled ]
-    branches: [ "main" ]
+    types: [ opened ]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"
