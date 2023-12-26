@@ -27,6 +27,12 @@ public class AiCaptions extends BaseHook {
                 param.setResult(true);
             }
         });
+        findAndHookMethod(mSupportAiSubtitlesUtils, "deviceWhetherSupportOfflineSubtitles", Context.class, new MethodHook(){
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
         findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportJapanKorea", Context.class, new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
