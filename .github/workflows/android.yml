@@ -3,8 +3,6 @@ name: Android Main CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
     paths-ignore:
       - ".github/**"
       - "!.github/workflows/**"
@@ -34,7 +32,7 @@ jobs:
           cache: gradle
 
       - name: Create Sign File
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           touch signing.properties
           echo storePassword=${{ secrets.KEY_STORE_PASSWORD }} >> signing.properties
@@ -82,7 +80,7 @@ jobs:
 
 
       - name: Post to Canary Channel
-        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
+        if: ${{ github.ref == 'refs/heads/main' && github.ref_type != 'tag' && contains(github.event.head_commit.message, '[skip post]') == false && contains(github.event.head_commit.message, 's#') == false }}
         shell: bash
         env:
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
@@ -92,7 +90,7 @@ jobs:
             **New push to github\!**
 
             `${{ env.commit }}`
-            
+
             by ${{ github.event.head_commit.author.name }}
             See commit detail [here](${{ github.event.head_commit.url }})
         run: |
