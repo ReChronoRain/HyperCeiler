@@ -14,7 +14,7 @@ object DexKit {
     private var isInitialized = false
     val dexKitBridge: DexKitBridge by lazy {
         System.loadLibrary("dexkit")
-        DexKitBridge.create(hostDir)!!.also {
+        DexKitBridge.create(hostDir).also {
             isInitialized = true
         }
     }

@@ -13,7 +13,6 @@
     <string name="system_ui_display_toast_title" translatable="false">Toast</string>
     <string name="summary_collapsed_preference_list" translatable="false">%1$s%2$s</string>
     <string name="networkboost" translatable="false">NetworkBoost</string>
-
     <string name="home_title_custom_anim_param_1_title" translatable="false">BREAK_OPEN</string>
     <string name="home_title_custom_anim_param_2_title" translatable="false">OPEN_FROM_HOME</string>
     <string name="home_title_custom_anim_param_3_title" translatable="false">OPEN_FROM_RECENTS</string>
@@ -28,9 +27,9 @@
     <string name="home_title_custom_anim_param_RECT_RATIO_title" translatable="false">RECT_RATIO</string>
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
-    <!--Hook-->
-    <string name="miui_quick_settings_tiles_stock">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,settings</string>
-    <string name="miui_quick_settings_tiles_stock_pad">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,settings</string>
+
+    <string name="miui_quick_settings_tiles_stock" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,settings</string>
+    <string name="miui_quick_settings_tiles_stock_pad" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,settings</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make HyperOS/MIUI Great Again!</string>
 
@@ -175,6 +174,7 @@
     <string name="bottom_margin">Bottom margin</string>
     <string name="left_margin">Left margin</string>
     <string name="right_margin">Right margin</string>
+    <string name="horizontal_margin">Horizontal margin</string>
     <string name="vertical_offset">Up and down offset</string>
     <string name="horizontal_alignment">Horizontal alignment</string>
     <string name="feature">Function</string>
@@ -350,6 +350,7 @@
     <string name="system_framework_screen_title">Display &amp; Notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
     <string name="system_framework_entry">Hyper Smart Charge</string>
+    <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>
@@ -380,7 +381,9 @@
     <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
     <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
-    <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
+    <string name="system_framework_allow_manage_all_notifications">Allow to manage all notifications</string>
+    <string name="system_framework_quick_screenshot">Quick screenshot</string>
+    <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
@@ -395,6 +398,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_core_patch_enhanced_mode">Enhanced mode</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Pass some validation in the application</string>
+    <string name="system_framework_disable_low_api_check">Disable low API check</string>
+    <string name="system_framework_disable_low_api_check_desc">Apps with APIs lower than 23 are allowed</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
@@ -717,6 +722,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
+    <string name="system_ui_control_center_fix_tiles_list">Disable hide extremely dark tiles</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
     <string name="system_ui_control_center_hide_operator">Carrier name customization</string>
     <string name="system_ui_control_center_hide_delimiter">Only dividers are hidden</string>
@@ -778,6 +784,7 @@
     <string name="system_settings_enable_pad_area">Unlock Pad area</string>
     <string name="system_settings_enable_fold_area">Unlock Fold area</string>
     <string name="system_settings_enable_area_desc">Unsupported devices will cause the settings to crash after being unlocked</string>
+    <string name="system_settings_unlock_google_header">Unlock Google Entry</string>
     <string name="system_settings_connection_sharing_title">Network Connection &amp; sharing</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
@@ -842,6 +849,7 @@
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
+    <string name="aod_unlock_aon">Unlock Aod Aon</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Use third-party browser</string>
@@ -880,6 +888,9 @@
     <string name="gallery_enable_remover_2">Unlock Erase</string>
     <string name="gallery_enable_magic_matting">Unlock Cut</string>
     <string name="gallery_enable_magic_sky">Unlock Sky</string>
+    <string name="gallery_backup_server">Backup server</string>
+    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Service</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI security components</string>
     <string name="guard_provider_hyperos">System Security Components</string>
@@ -889,6 +900,10 @@
     <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_navigation_title">Navigation</string>
     <string name="home_navigation_quick_back">Go back to previous app</string>
+    <string name="home_navigation_assist_left_slide">Bottom left corner slide</string>
+    <string name="home_navigation_assist_right_slide">Bottom right corner slide</string>
+    <string name="home_navigation_assist_left_slide_desc">Slide inward from the bottom left corner of the screen</string>
+    <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
@@ -930,6 +945,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">Unlock home screen icon layout size limit</string>
     <string name="home_layout_workspace_padding_bottom_desc">Home screen distance from screen bottom margin</string>
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Home screen distance from screen side margin</string>
     <string name="home_layout_hotseats_height">Height</string>
     <string name="home_layout_hotseats_margin_top_desc">Dock distance from page indicator margin</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock distance from screen bottom margin</string>
@@ -1263,6 +1279,10 @@
     <string name="security_center_sidebar_videobox_title">Video Box</string>
     <string name="security_center_sidebar_gamebox_title">Game Box</string>
     <string name="security_center_sidebar_function_title">Sidebar Function</string>
+    <!--MiTrustService-->
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">Disable risk detections</string>
+    <string name="trustservice_disable_mrm_desc">Experimental features. You may not use this feature in violation of local or national laws.</string>
     <!--Smart cards-->
     <string name="tsmclient">Smart cards</string>
     <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
@@ -1446,10 +1466,6 @@
     <string name="operator_fix_2">Method 2 (recommended)</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
-    <string name="aod_unlock_aon">Unlock Aod Aon</string>
-    <string name="trustservice">MiTrustService</string>
-    <string name="trustservice_disable_mrm">Disable risk detections</string>
-    <string name="trustservice_disable_mrm_desc">Experimental features. You may not use this feature in violation of local or national laws.</string>
     <string name="open_source">Open Source Projects</string>
     <string name="close_source">Close Source Projects</string>
     <string name="exit">Exit</string>
@@ -1458,16 +1474,6 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="system_framework_allow_manage_all_notifications">Allow to manage all notifications</string>
-    <string name="system_framework_quick_screenshot">Quick screenshot</string>
-    <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
-    <string name="gallery_backup_server">Backup server</string>
-    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Service</string>
-    <string name="gallery_backup_server_google">Google</string>
-    <string name="system_ui_control_center_fix_tiles_list">Disable hide extremely dark tiles</string>
-    <string name="system_framework_disable_low_api_check">Disable low API check</string>
-    <string name="system_framework_disable_low_api_check_desc">Apps with APIs lower than 23 are allowed</string>
-    <string name="system_settings_unlock_google_header">Unlock Google Entry</string>
     <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
