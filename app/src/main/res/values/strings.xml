@@ -13,6 +13,7 @@
     <string name="system_ui_display_toast_title" translatable="false">Toast</string>
     <string name="summary_collapsed_preference_list" translatable="false">%1$s%2$s</string>
     <string name="networkboost" translatable="false">NetworkBoost</string>
+    <string name="crc_value" translatable="false">399F71FC</string>
     <string name="home_title_custom_anim_param_1_title" translatable="false">BREAK_OPEN</string>
     <string name="home_title_custom_anim_param_2_title" translatable="false">OPEN_FROM_HOME</string>
     <string name="home_title_custom_anim_param_3_title" translatable="false">OPEN_FROM_RECENTS</string>
@@ -1479,6 +1480,4 @@
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
-    <string name="crc_value">399F71FC</string>
-
 </resources>
