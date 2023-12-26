@@ -312,6 +312,8 @@
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
+    <string name="system_framework_entry">Hyper Smart Charge</string>
+    <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
@@ -342,6 +344,9 @@
     <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
     <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
+    <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
+    <string name="system_framework_quick_screenshot">Captura de tela rápida</string>
+    <string name="system_framework_quick_screenshot_desc">Desativar atraso na captura de tela</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -356,6 +361,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">Esse recurso é extremamente perigoso e só deve ser ativado quando for absolutamente necessário</string>
     <string name="system_framework_core_patch_enhanced_mode">Modo aprimorado</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Realize alguma validação no app</string>
+    <string name="system_framework_disable_low_api_check">Desativar verificação de API baixa</string>
+    <string name="system_framework_disable_low_api_check_desc">Apps com APIs inferiores a 23 são permitidos</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
@@ -660,7 +667,7 @@
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
     <string name="system_ui_control_center_notification_blur_model">Modelo do blur de notificação</string>
     <string name="system_ui_control_center_notification_blur_fix">Otimização de notificação</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental, disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental. Disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
     <string name="system_ui_control_center_blur_radius">Raio do blur</string>
     <string name="system_ui_control_center_blur_radius_desc">Sem notificação suspensa</string>
     <string name="system_ui_control_center_corner_radius">Raio do canto</string>
@@ -678,6 +685,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduz o som de aviso.</string>
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
+    <string name="system_ui_control_center_fix_tiles_list">Desativar ocultar blocos extremamente escuros</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Altere o centro de controle e a gaveta de notificações</string>
     <string name="system_ui_control_center_hide_operator">Personalizar nome da operadora</string>
     <string name="system_ui_control_center_hide_delimiter">Ocultar apenas o delimitador</string>
@@ -738,6 +746,7 @@
     <string name="system_settings_enable_pad_area">Desbloquear área do Pad</string>
     <string name="system_settings_enable_fold_area">Desbloquear área Fold</string>
     <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as Configurações travem após serem desbloqueadas</string>
+    <string name="system_settings_unlock_google_header">Desbloquear entrada do Google</string>
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
@@ -801,6 +810,7 @@
     <string name="aod">Tela ambiente</string>
     <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
     <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da tela ambiente</string>
+    <string name="aod_unlock_aon">Desbloquear exibição da tela ambiente</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador de terceiros</string>
@@ -839,6 +849,9 @@
     <string name="gallery_enable_remover_2">Desbloquear Apagar</string>
     <string name="gallery_enable_magic_matting">Desbloquear Corte</string>
     <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
+    <string name="gallery_backup_server">Servidor de backup</string>
+    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de segurança da MIUI</string>
     <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
@@ -1218,6 +1231,10 @@
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Atalhos no jogo</string>
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
+    <!--MiTrustService-->
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
+    <string name="trustservice_disable_mrm_desc">Recurso experimental. Você não pode usar esse recurso em violação às leis locais ou nacionais.</string>
     <!--Smart cards-->
     <string name="tsmclient">Cartões inteligentes</string>
     <string name="tsmclient_auto_nfc">Gerenciar NFC automaticamente</string>
@@ -1400,10 +1417,6 @@
     <string name="operator_fix_2">Método 2 (recomendado)</string>
     <string name="custom_hook_new">Adicionar gancho</string>
     <string name="custom_hook_mode">Selecionar modo</string>
-    <string name="aod_unlock_aon">Desbloquear exibição da tela ambiente</string>
-    <string name="trustservice">MiTrustService</string>
-    <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
-    <string name="trustservice_disable_mrm_desc">Recurso experimental. Você não pode usar esse recurso em violação às leis locais ou nacionais.</string>
     <string name="open_source">Projetos de código aberto</string>
     <string name="close_source">Projetos de código fechado</string>
     <string name="exit">Sair</string>
@@ -1412,7 +1425,7 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
-    <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
+    <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
+    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou e a versão atual que você está usando pode não ser da versão oficial do Re.chronoRain, e pode conter código malicioso.</string>
 </resources>

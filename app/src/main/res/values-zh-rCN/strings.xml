@@ -146,6 +146,7 @@
     <!--字符串复用-->
     <string name="top_margin">顶部边距</string>
     <string name="bottom_margin">底部边距</string>
+    <string name="horizontal_margin">水平边距</string>
     <string name="left_margin">左侧间距</string>
     <string name="right_margin">右侧间距</string>
     <string name="vertical_offset">上下偏移量</string>
@@ -918,6 +919,10 @@
     <string name="home_navigation_title">导航</string>
     <string name="home_navigation_quick_back">切换上一个应用</string>
     <string name="home_navigation_quick_back_more">从屏幕两侧向内滑动并停顿，快速切换上一个应用</string>
+    <string name="home_navigation_assist_left_slide">左下角滑动</string>
+    <string name="home_navigation_assist_left_slide_desc">从屏幕左下角向内滑动</string>
+    <string name="home_navigation_assist_right_slide">右下角滑动</string>
+    <string name="home_navigation_assist_right_slide_desc">从屏幕右下角向内滑动</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
     <string name="home_navigation_back_area_width">返回手势区域宽度</string>
     <string name="home_gesture_title2">手势</string>
@@ -958,6 +963,7 @@
     <string name="home_layout_unlock_grids_no_words">解锁布局 (无字模式)</string>
     <string name="home_layout_unlock_grids_no_words_desc">解锁主屏幕图标布局行列数限制</string>
     <string name="home_layout_workspace_padding_bottom_desc">主屏幕距离屏幕底部边距</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">主屏幕距离屏幕左右两边边距</string>
     <string name="home_layout_workspace_padding_top_desc">主屏幕距离屏幕顶部边距</string>
     <string name="home_layout_hotseats_height">高度</string>
     <string name="home_layout_hotseats_margin_top_desc">底栏距离页面指示器边距</string>
@@ -1520,5 +1526,4 @@
 
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 Re.chronoRain 的官方版本，可能包含恶意代码，请注意使用安全。</string>
-
 </resources>
