@@ -256,6 +256,12 @@ fun Any.getIntFieldOrNull(field: String?) = runCatchingOrNull {
     getIntField(this, field)
 }
 
+fun Any.getFloatField(field: String?) = getFloatField(this, field)
+
+fun Any.getFloatFieldOrNull(field: String?) = runCatchingOrNull {
+    getFloatField(this, field)
+}
+
 fun Any.getLongField(field: String?) = getLongField(this, field)
 
 fun Any.getLongFieldOrNull(field: String?) = runCatchingOrNull {
