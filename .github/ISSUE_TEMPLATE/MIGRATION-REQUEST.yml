@@ -9,7 +9,7 @@ body:
     id: repo
     attributes:
       label: "仓库地址"
-      description: "提供仓库地址以便我们更快地工作"
+      description: "提供开源仓库地址以便我们参考如何移植"
       placeholder: "https://github.com/"
     validations:
       required: false
@@ -17,7 +17,7 @@ body:
     id: requirement
     attributes:
       label: "移植内容"
-      description: "简单说明需要移植的内容"
+      description: "简单说明需要移植的功能"
       placeholder: 移植...软件的...功能
     validations:
       required: true
