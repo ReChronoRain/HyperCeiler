@@ -1362,6 +1362,9 @@
     <string name="scanner_excel">解锁提取表格</string>
     <string name="scanner_ppt">解锁提取 PPT</string>
     <string name="scanner_doc_ppt">解锁扫文件</string>
+    <!--小爱同学-->
+    <string name="voiceassist">小爱同学</string>
+    <string name="voiceassist_disable_watermark">禁用对话界面水印</string>
     <!--其他-->
     <string name="various">其他</string>
     <string name="notes">笔记</string>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="@string/voiceassist_disable_watermark"
+        android:key="prefs_key_voiceassist_disable_watermark"
+        android:defaultValue="false" />
+
+    <Preference android:enabled="false" />
+
+</PreferenceScreen>
