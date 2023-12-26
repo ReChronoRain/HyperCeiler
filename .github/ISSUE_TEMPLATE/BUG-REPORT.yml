@@ -44,7 +44,7 @@ body:
         ![图片注释](图片链接)
     validations:
       required: false
-  - type: input
+  - type: textarea
     id: device
     attributes:
       label: "HyperCeiler 设备信息"
