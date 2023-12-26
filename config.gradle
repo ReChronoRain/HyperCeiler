@@ -12,6 +12,7 @@
     appReleaseTime =  new Date().format("yyyyMMddHHmm")
 }*/
 
+
 ext {
     BuildTypes = "release"
 
