@@ -172,6 +172,7 @@
     <string name="bottom_margin">Bottom margin</string>
     <string name="left_margin">Left margin</string>
     <string name="right_margin">Right margin</string>
+    <string name="horizontal_margin">Horizontal margin</string>
     <string name="vertical_offset">Up and down offset</string>
     <string name="horizontal_alignment">Horizontal alignment</string>
     <string name="feature">Function</string>
@@ -871,6 +872,10 @@
     <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_navigation_title">Navigation</string>
     <string name="home_navigation_quick_back">Go back to previous app</string>
+    <string name="home_navigation_assist_left_slide">Bottom left corner slide</string>
+    <string name="home_navigation_assist_right_slide">Bottom right corner slide</string>
+    <string name="home_navigation_assist_left_slide_desc">Slide inward from the bottom left corner of the screen</string>
+    <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
@@ -912,6 +917,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">Unlock home screen icon layout size limit</string>
     <string name="home_layout_workspace_padding_bottom_desc">Home screen distance from screen bottom margin</string>
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Home screen distance from screen side margin</string>
     <string name="home_layout_hotseats_height">Height</string>
     <string name="home_layout_hotseats_margin_top_desc">Dock distance from page indicator margin</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock distance from screen bottom margin</string>
