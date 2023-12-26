@@ -13,37 +13,55 @@ public class AiCaptions extends BaseHook {
         Class<?> mSystemUtils = findClassIfExists("com.xiaomi.aiasst.vision.utils.SystemUtils");
         Class<?> mWhitelistChecker = findClassIfExists("com.xiaomi.aiasst.vision.picksound.whitelist.WhitelistChecker");
 
-        XposedHelpers.setStaticBooleanField(mWhitelistChecker, "mVerified", true);
+        try {
+            XposedHelpers.setStaticBooleanField(mWhitelistChecker, "mVerified", true);
+        } catch (Exception ignored) {
+        }
 
-        findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportAiSubtitles", Context.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
-        findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportOfflineAiSubtitles", Context.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
-        findAndHookMethod(mSupportAiSubtitlesUtils, "deviceWhetherSupportOfflineSubtitles", Context.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
-        findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportJapanKorea", Context.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
-        findAndHookMethod(mSystemUtils, "isSupportAiPickSoundDevice", new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(true);
-            }
-        });
+        try {
+            findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportAiSubtitles", Context.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Exception ignored) {
+        }
+        try {
+            findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportOfflineAiSubtitles", Context.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Exception ignored) {
+        }
+        try {
+            findAndHookMethod(mSupportAiSubtitlesUtils, "deviceWhetherSupportOfflineSubtitles", Context.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Exception ignored) {
+        }
+        try {
+            findAndHookMethod(mSupportAiSubtitlesUtils, "isSupportJapanKorea", Context.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Exception ignored) {
+        }
+        try {
+            findAndHookMethod(mSystemUtils, "isSupportAiPickSoundDevice", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
+        } catch (Exception ignored) {
+        }
     }
 }
