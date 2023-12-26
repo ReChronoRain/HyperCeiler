@@ -4,7 +4,6 @@
 
         <SwitchPreference
             android:title="@string/aiasst_ai_captions"
-            android:summary="@string/aiasst_ai_captions_desc"
             android:key="prefs_key_aiasst_ai_captions"
             android:defaultValue="false" />
 

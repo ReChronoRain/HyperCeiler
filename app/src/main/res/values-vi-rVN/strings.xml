@@ -1264,7 +1264,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
-    <string name="aiasst_ai_captions_desc">Chỉ có thể nhận dạng và dịch được tiếng Trung và tiếng Anh</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>

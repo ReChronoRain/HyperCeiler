@@ -1229,7 +1229,6 @@
     <!--AI Translate-->
     <string name="aiasst">Traductor, IA</string>
     <string name="aiasst_ai_captions">Forzar subtítulos de IA habilitados</string>
-    <string name="aiasst_ai_captions_desc">Solo se pueden reconocer y traducir el chino y el inglés</string>
     <!--Barrage-->
     <string name="barrage">Bombardeo</string>
     <string name="barrage_any_barrage">Permitir que todas las aplicaciones usen bombardeo</string>
