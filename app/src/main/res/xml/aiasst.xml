@@ -7,6 +7,11 @@
             android:key="prefs_key_aiasst_ai_captions"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/aiasst_disable_watermark"
+            android:key="prefs_key_aiasst_disable_watermark"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

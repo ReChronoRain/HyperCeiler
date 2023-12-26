@@ -1300,6 +1300,7 @@
     <!--AI Translate-->
     <string name="aiasst">AI Translate</string>
     <string name="aiasst_ai_captions">Force enabled AI captions</string>
+    <string name="aiasst_disable_watermark">Disable watermark</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps use barrage</string>
