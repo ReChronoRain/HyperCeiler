@@ -58,7 +58,9 @@ jobs:
           COMMIT_MESSAGE: |+
             **New PR to gitHub\!**
 
-            `${{ github.workflow }}`
+            `${{ github.event_name }}`
+
+            by ${{ github.triggering_actor }}
         run: |
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           cd ${{ github.workspace }}
