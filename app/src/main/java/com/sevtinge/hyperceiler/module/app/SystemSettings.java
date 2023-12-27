@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.*;
@@ -10,6 +11,8 @@ public class SystemSettings extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new HyperCeilerSettings(), mPrefsMap.getStringAsInt("settings_icon", 0) != 0);
+
         initHook(new LinkTurbo(), mPrefsMap.getBoolean("system_settings_linkturbo"));
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));
         initHook(new VoipAssistantController(), mPrefsMap.getBoolean("system_settings_voip_assistant_controller"));
@@ -20,6 +23,8 @@ public class SystemSettings extends BaseModule {
         initHook(new InternationalBuild(), mPrefsMap.getBoolean("system_settings_international_build"));
         initHook(new NewNFCPage(), mPrefsMap.getBoolean("system_settings_new_nfc_page"));
         initHook(new AppsFreezerEnable(), mPrefsMap.getBoolean("system_settings_apps_freezer"));
+        // initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));
+        initHook(new VolumeSeparateControlForSettings(), mPrefsMap.getBoolean("system_framework_volume_separate_control") && !isMoreHyperOSVersion(1f));
 
         initHook(new UnlockSuperResolution(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_sr"));
         initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));

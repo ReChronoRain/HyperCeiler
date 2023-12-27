@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.module.hook.settings;
+package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

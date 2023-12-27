@@ -4,59 +4,7 @@ import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.module.app.AiAsst;
-import com.sevtinge.hyperceiler.module.app.Aod;
-import com.sevtinge.hyperceiler.module.app.Backup;
-import com.sevtinge.hyperceiler.module.app.Barrage;
-import com.sevtinge.hyperceiler.module.app.Browser;
-import com.sevtinge.hyperceiler.module.app.Camera;
-import com.sevtinge.hyperceiler.module.app.Clock;
-import com.sevtinge.hyperceiler.module.app.ContentExtension;
-import com.sevtinge.hyperceiler.module.app.Creation;
-import com.sevtinge.hyperceiler.module.app.Downloads;
-import com.sevtinge.hyperceiler.module.app.ExternalStorage;
-import com.sevtinge.hyperceiler.module.app.FileExplorer;
-import com.sevtinge.hyperceiler.module.app.Gallery;
-import com.sevtinge.hyperceiler.module.app.GuardProvider;
-import com.sevtinge.hyperceiler.module.app.Home;
-import com.sevtinge.hyperceiler.module.app.Huanji;
-import com.sevtinge.hyperceiler.module.app.InCallUi;
-import com.sevtinge.hyperceiler.module.app.Joyose;
-import com.sevtinge.hyperceiler.module.app.Lbe;
-import com.sevtinge.hyperceiler.module.app.Market;
-import com.sevtinge.hyperceiler.module.app.MediaEditor;
-import com.sevtinge.hyperceiler.module.app.MiCloudService;
-import com.sevtinge.hyperceiler.module.app.MiLink;
-import com.sevtinge.hyperceiler.module.app.MiSettings;
-import com.sevtinge.hyperceiler.module.app.MiShare;
-import com.sevtinge.hyperceiler.module.app.MiSound;
-import com.sevtinge.hyperceiler.module.app.MiWallpaper;
-import com.sevtinge.hyperceiler.module.app.Mms;
-import com.sevtinge.hyperceiler.module.app.Mtb;
-import com.sevtinge.hyperceiler.module.app.Music;
-import com.sevtinge.hyperceiler.module.app.NetworkBoost;
-import com.sevtinge.hyperceiler.module.app.Nfc;
-import com.sevtinge.hyperceiler.module.app.Notes;
-import com.sevtinge.hyperceiler.module.app.PackageInstaller;
-import com.sevtinge.hyperceiler.module.app.PersonalAssistant;
-import com.sevtinge.hyperceiler.module.app.Phone;
-import com.sevtinge.hyperceiler.module.app.PowerKeeper;
-import com.sevtinge.hyperceiler.module.app.Scanner;
-import com.sevtinge.hyperceiler.module.app.ScreenRecorder;
-import com.sevtinge.hyperceiler.module.app.ScreenShot;
-import com.sevtinge.hyperceiler.module.app.SecurityCenter;
-import com.sevtinge.hyperceiler.module.app.Settings;
-import com.sevtinge.hyperceiler.module.app.SoGou;
-import com.sevtinge.hyperceiler.module.app.SystemFramework;
-import com.sevtinge.hyperceiler.module.app.SystemSettings;
-import com.sevtinge.hyperceiler.module.app.SystemUI;
-import com.sevtinge.hyperceiler.module.app.ThemeManager;
-import com.sevtinge.hyperceiler.module.app.TrustService;
-import com.sevtinge.hyperceiler.module.app.TsmClient;
-import com.sevtinge.hyperceiler.module.app.Updater;
-import com.sevtinge.hyperceiler.module.app.Various;
-import com.sevtinge.hyperceiler.module.app.VoiceAssist;
-import com.sevtinge.hyperceiler.module.app.Weather;
+import com.sevtinge.hyperceiler.module.app.*;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
@@ -89,7 +37,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final ScreenRecorder mScreenRecorder = new ScreenRecorder();
     public final SecurityCenter mSecurityCenter = new SecurityCenter();
     public final SystemSettings mSystemSettings = new SystemSettings();
-    public final Settings mSettings = new Settings();
     public final PersonalAssistant mPersonalAssistant = new PersonalAssistant();
     public final ThemeManager mThemeManager = new ThemeManager();
     public final Updater mUpdater = new Updater();
@@ -200,7 +147,6 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             }
             case "com.android.settings" -> {
                 mSystemSettings.init(lpparam);
-                mSettings.init(lpparam);
                 mVarious.init(lpparam);
             }
             case "com.miui.personalassistant" -> {
