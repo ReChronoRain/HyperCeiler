@@ -224,8 +224,11 @@
     <string name="phone_double_5g_sa">Обе SIM SA (SA+SA)</string>
     <string name="phone_double_5g_sa_desc">Экспериментальные функции. Делает дополнительную SIM-карту с поддержкой SA</string>
     <string name="system_framework_phone_band_title">Настройки частоты</string>
+    <string name="phone_n1">n1 Band</string>
     <string name="phone_n1_desc">Поддержка n1 Band (NR)</string>
+    <string name="phone_n28">n28 Band</string>
     <string name="phone_n28_desc">Поддержка n28 Band (NR)</string>
+    <string name="phone_n5_n8">n5/n8 Band</string>
     <string name="phone_n5_n8_desc">Введите *#*#65686633#*#* в интерфейсе набора номера для поддержки диапазона n5/n8. Если на нем отображается включить режим N5 и N8, функция будет включена.</string>
     <string name="system_framework_screen_all_rotations">Вращение экрана</string>
     <string name="system_framework_allow_untrusted_touch">Разрешить подозрительное нажатие</string>
@@ -459,7 +462,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Значения скорости сети ниже этого уровня считаются низкими и будет отображаться другой значок индикатора (только часть значков).</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (*b/с)</string>
     <string name="system_ui_statusbar_network_speed_icon">Значок индикатора</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d мс</string>
     <string name="system_ui_statusbar_clock_mode">Свой режим часов</string>
     <string name="system_ui_statusbar_clock_editor">Формат часов</string>
     <string name="system_ui_statusbar_clock_year">Показывать год</string>

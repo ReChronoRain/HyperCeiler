@@ -591,13 +591,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Los valores de velocidad de red por debajo de este nivel se consideran lentos y se mostrará un icono de indicador diferente (solo algunos iconos)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar Byte por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Icono del indicador</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Modo de reloj personalizado</string>
     <string name="system_ui_statusbar_clock_editor">Formato de reloj</string>
     <string name="system_ui_statusbar_clock_year">Mostrar año</string>

@@ -593,13 +593,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Khi giá trị tốc độ mạng thấp hơn mức này, nó được coi là chậm và một số biểu tượng chỉ báo sẽ hiển thị các biểu tượng chỉ báo khác nhau</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Biểu tượng chỉ báo</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Tùy chỉnh đồng hồ</string>
     <string name="system_ui_statusbar_clock_editor">Định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_year">Hiển thị năm</string>
