@@ -139,6 +139,7 @@
     <string name="bottom_margin">Margem inferior</string>
     <string name="left_margin">Margem esquerda</string>
     <string name="right_margin">Margem direita</string>
+    <string name="horizontal_margin">Margem horizontal</string>
     <string name="vertical_offset">Deslocamento para cima e para baixo</string>
     <string name="horizontal_alignment">Alinhamento horizontal</string>
     <string name="feature">Função</string>
@@ -346,7 +347,7 @@
     <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
     <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
     <string name="system_framework_quick_screenshot">Captura de tela rápida</string>
-    <string name="system_framework_quick_screenshot_desc">Desativar atraso na captura de tela</string>
+    <string name="system_framework_quick_screenshot_desc">Desative o atraso na captura de tela</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -861,6 +862,10 @@
     <string name="home_gesture">Gestos e navegação</string>
     <string name="home_navigation_title">Navegação</string>
     <string name="home_navigation_quick_back">Voltar ao app anterior</string>
+    <string name="home_navigation_assist_left_slide">Deslizar no canto inferior esquerdo</string>
+    <string name="home_navigation_assist_right_slide">Deslizar no canto inferior direito</string>
+    <string name="home_navigation_assist_left_slide_desc">Deslize para dentro a partir do canto inferior esquerdo da tela</string>
+    <string name="home_navigation_assist_right_slide_desc">Deslize para dentro a partir do canto inferior direito da tela</string>
     <string name="home_navigation_quick_back_more">Deslize pela tela começando pela borda para voltar ao app anterior</string>
     <string name="home_navigation_back_area_height">Altura da área do gesto de retorno</string>
     <string name="home_navigation_back_area_width">Largura da área do gesto de retorno</string>
@@ -902,6 +907,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">Desbloquear limite de tamanho de layout do ícone da tela inicial</string>
     <string name="home_layout_workspace_padding_bottom_desc">Distância da tela inicial da margem inferior da tela</string>
     <string name="home_layout_workspace_padding_top_desc">Distância da tela inicial da margem superior da tela</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Distância da tela inicial da margem lateral da tela</string>
     <string name="home_layout_hotseats_height">Altura</string>
     <string name="home_layout_hotseats_margin_top_desc">Distância da dock da margem do indicador de página</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distância da dock da margem inferior da tela</string>
@@ -1126,7 +1132,7 @@
     <string name="powerkeeper_do_not_kill_apps">Tente não encerrar os apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
-    <string name="powerkeeper_disable_get_display_ctrl_code">Desative para obter código de controle de exibição</string>
+    <string name="powerkeeper_disable_get_display_ctrl_code">Desativar para obter código do controle de exibição</string>
     <!--creen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
@@ -1251,6 +1257,7 @@
     <!--AI Translate-->
     <string name="aiasst">Tradutor IA</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
+    <string name="aiasst_disable_watermark">Desativar marca d\'água</string>
     <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem barragem</string>
@@ -1424,7 +1431,9 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Desativar marca d\'água no chat</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou e a versão atual que você está usando pode não ser da versão oficial do Re.chronoRain, e pode conter código malicioso.</string>
+    <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
 </resources>
