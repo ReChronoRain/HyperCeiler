@@ -1112,10 +1112,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="miui_package_installer_install_source">Tùy chỉnh nguồn cài đặt</string>
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
     <string name="miui_package_installer_apk_info_desc">Hiện thông tin về ứng dụng được cài đặt</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
     <string name="various_disable_link_turbo_toast_more">Vui lòng khởi động lại Tăng tốc mạng trong khởi động lại nhanh</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">Dịch vụ NFC</string>
     <string name="nfc_disable_sound">Tắt tiếng</string>
     <string name="nfc_allow_information_screen">Cho phép phát hiện khi gần màn hình</string>
@@ -1139,7 +1139,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="powerkeeper_do_not_kill_apps_desc">Có thể tăng mức tiêu thụ điện năng</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Vô hiệu hóa quyền truy cập để hiển thị mã điều khiển</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Yêu cầu hỗ trợ phiên bản quay màn hình</string>
@@ -1316,6 +1316,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="scanner_excel">Mở khóa quét biểu mẫu</string>
     <string name="scanner_ppt">Mở khoá Scan tạo file PowerPoint PPT</string>
     <string name="scanner_doc_ppt">Mở khóa Scan chữ</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Tắt hình mờ trò chuyện</string>
     <!--Other-->
     <string name="various">Khác</string>
     <string name="notes">Ghi chú</string>
@@ -1445,8 +1448,6 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="voiceassist">Mi AI</string>
-    <string name="voiceassist_disable_watermark">Tắt hình mờ trò chuyện</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>

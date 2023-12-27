@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">אנגלית</string>
+    <string name="settings">הגדרות</string>
+    <string name="about">אודות</string>
+    <string name="about_use">ציטוט</string>
+    <string name="about_contributer">תרומה</string>
+    <string name="about_donation">חסות</string>
+    <string name="settings_data_title">גיבוי ושחזור</string>
+    <string name="settings_bug_title">פתרון תקלות</string>
+    <string name="settings_debug_title">דיבאג</string>
+    <string name="settings_hide_app_icon">סמלי שולחן העבודה</string>
+    <string name="settings_icon">סמל הגדרות</string>
+    <string name="settings_icon_disable">מושבת</string>
+    <string name="settings_icon_top">עליון</string>
+    <string name="settings_icon_medium">באמצע</string>
+    <string name="settings_icon_down">קצה תחתון</string>
+    <string name="settings_icon_mode">סגנון הסמל</string>
+    <string name="rest_title">שחזר</string>
+    <string name="rest_failed">שחזור נכשל</string>
+    <string name="settings_safe_mode">מצב בטוח</string>
+    <string name="about_developer_title">מפתח</string>
+    <string name="about_translator_title">מתרגם</string>
+    <string name="about_chat_title">דיון</string>
+    <string name="about_other_title">אחר</string>
+    <string name="about_qq_group">קבוצת QQ</string>
+    <string name="about_qq_channel">ערוץ QQ</string>
+    <string name="about_tg_group">קבוצת טלגרם</string>
+    <string name="about_tg_channel">ערוץ טלגרם</string>
+    <string name="about_github">קוד מקור</string>
+    <string name="about_github_desc">פרויקט זה הוא קוד פתוח המבוסס על רישיון AGPL-3.0</string>
+    <string name="about_offical">אתר רשמי</string>
+    <string name="about_crwd">Crowdin</string>
+    <!--Pop-up window/miuix part-->
+    <string name="soft_reboot">אתחול </string>
+    <string name="tip">טיפ</string>
+    <string name="not_set">לא מוגדר</string>
+    <string name="copy">העתק</string>
+    <string name="more">עוד</string>
+    <string name="clearable_edittext_clear_description">תנקה</string>
+    <string name="preference_on">מופעל</string>
+    <string name="preference_off">כבוי</string>
+    <string name="preference_copied">הועתק %1$s ללוח.</string>
+    <string name="preference_default_value_text">ברירת המחדל</string>
+    <string name="preference_dialog_color_picker_default_title">בחר את הצבע</string>
+    <string name="preference_dialog_color_picker_presets">ברירת המחדל לצבע</string>
+    <string name="color_picker_alpha_text_transparent">אטימות</string>
+    <string name="color_picker_tab_grid">רשת</string>
+    <string name="color_picker_tab_slider">סליידר</string>
+    <string name="color_picker_view_page_text_hue">גוון</string>
+    <string name="color_picker_view_page_text_lightness">תאורה</string>
+    <string name="color_picker_view_page_text_saturation">רוויה</string>
+    <!--String reuse-->
+    <string name="top_margin">שוליים עליונים</string>
+    <string name="bottom_margin">שוליים תחתונים</string>
+    <string name="left_margin">שוליים שמאליים</string>
+    <string name="right_margin">שוליים ימניים</string>
+    <string name="horizontal_alignment">יישור אופקי</string>
+    <string name="feature">פונקציה</string>
+    <string name="recommend">מומלץ</string>
+    <string name="editor">עורך</string>
+    <string name="record">הקלטה</string>
+    <string name="shot">שוט</string>
+    <string name="portrait">לאורך הדף</string>
+    <string name="camera_pro">Pro</string>
+    <string name="enable">מפעל</string>
+    <string name="search">חיפוש</string>
+    <string name="floating_window">צורה חופשית</string>
+    <string name="system_ui_statusbar_indicator_default_title">ברירת המחדל</string>
+    <string name="system_ui_statusbar_indicator_expand_title">הרחב</string>
+    <string name="system_ui_statusbar_indicator_bold">מודגש</string>
+    <!--Multi-list Array-->
+    <string name="array_close">סגור</string>
+    <string name="array_default">ברירת המחדל</string>
+    <string name="array_align_left">שמאלה</string>
+    <string name="array_align_right">ימין</string>
+    <string name="array_align_center">מרכז</string>
+    <string name="array_netspeedicons_no">אין סמלים</string>
+    <string name="array_bold">מודגש</string>
+    <string name="array_clock_default">ברירת המחדל</string>
+    <string name="array_clock_geek">גיק</string>
+    <string name="array_battery_both">שניהם</string>
+    <string name="array_cpu_temp">טמפרטורת המעבד</string>
+    <string name="array_global_actions_none">ללא פעולה</string>
+    <string name="array_global_actions_lock">מסך נעילה</string>
+    <string name="array_global_actions_screenshot">צילום מסך</string>
+    <string name="array_global_actions_menu">פתח תפריט</string>
+    <string name="array_global_actions_recents">פתח אחרונים</string>
+    <string name="array_global_actions_volume_up">הגבר קול</string>
+    <string name="array_global_actions_volume_down">הנמך קול</string>
+    <string name="array_global_actions_launch">הפעל יישום</string>
+    <string name="array_global_actions_launch_choose">בחר ישומים</string>
+    <string name="array_global_actions_goback">חזור</string>
+    <string name="array_align_top">עליון</string>
+    <string name="array_align_bottom">תחתון</string>
+    <string name="array_discrete">הפרד</string>
+    <string name="array_gradual">איטי</string>
+    <string name="array_rainbow">קשת</string>
+    <string name="various_install_app_info_version_name">שם הגרסה</string>
+    <string name="various_install_app_info_version_code">גרסת קוד</string>
+    <string name="various_install_app_size">גודל</string>
+    <string name="charge_animation_entries_disable">מושבת</string>
+    <string name="charge_animation_entries_stream">משדר</string>
+    <string name="charge_animation_entries_alpha">קצב</string>
+    <string name="status_bar_icon_mode_default">ברירת המחדל</string>
+    <string name="status_bar_icon_mode_on">הצג תמיד</string>
+    <string name="status_bar_icon_mode_off">מוסתר תמיד</string>
+    <string name="home_mode_day">מצב בהיר</string>
+    <string name="home_mode_dark">מצב כהה</string>
+    <string name="dialog_gravity_medium">מרכז</string>
+    <string name="dialog_gravity_down">קצה תחתון</string>
+    <string name="collapse_miui_title_off">קיפול</string>
+    <string name="collapse_miui_title_on">הרחב</string>
+    <string name="app_sort_name">שם האפליקציה</string>
+    <string name="app_sort_frequency">תדירות שימוש</string>
+    <string name="app_sort_storage">שימוש באחסון</string>
+    <string name="app_sort_install">מועד ההתקנה</string>
+    <string name="control_center_sunshine_mode_default">סגור</string>
+    <!--System Framework-->
+    <string name="system_framework">מערכת Framework</string>
+    <string name="system_framework_volume_title">עוצמת קול</string>
+    <string name="system_framework_other_title">אחר</string>
+    <string name="system_framework_display_title">הצג</string>
+    <string name="system_framework_phone_title">רשת</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">הפוך את כל הפורמט החופשי למיני חופשי במשימות האחרונות\nתכונה זו היא תכונה ניסיונית עם חוסר יציבות גבוהה</string>
+    <string name="system_ui_display_brightness_title">בהירות</string>
+    <string name="system_framework_disable_app_link_verify_desc">חזור לפתיחת אפליקציות נתמכות ישירות בעת פתיחת קישורים מבלי להפעיל קישורים נתמכים בהגדרות האפליקציה</string>
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <string name="browser">דפדפן</string>
+    <string name="browser_debug_mode">אפשרויות מפתח</string>
+    <!--Camera-->
+    <string name="camera">מצלמה</string>
+    <string name="camera_record_60fps">פתח 60FPS</string>
+    <string name="camera_record_60fps_desc">לא זמין באיכויות מסוימות, אנא ודא שהמכשיר שלך נתמך</string>
+    <string name="camera_record_120fps">פתח 120FPS</string>
+    <string name="camera_record_120fps_desc">תמיכה רק כאשר איכויות 4K, אנא ודא שהמכשיר שלך נתמך</string>
+    <string name="camera_record_hdr">לפתוח HDR</string>
+    <!--Clock-->
+    <string name="clock">שעון</string>
+    <!--File Manager-->
+    <!--Phone-->
+    <string name="incallui">טלפון</string>
+    <!--Message-->
+    <string name="mms">הודעה</string>
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <string name="system_ui">System UI</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow_desc">ערכי מהירות רשת מתחת לרמה זו נחשבים איטיים וסמל מחוון אחר יוצג (רק חלק מהסמלים)</string>
+    <string name="system_ui_statusbar_clock_year">הצגת שנה</string>
+    <string name="system_ui_statusbar_clock_month">הצגת חודש</string>
+    <string name="system_ui_statusbar_clock_date">הצג יום</string>
+    <string name="system_ui_statusbar_clock_week">הצגת שבוע</string>
+    <string name="system_ui_statusbar_clock_second">הצגת שניות</string>
+    <string name="system_ui_other_title">אחר</string>
+    <string name="system_ui_another_title">אחר</string>
+    <string name="system_ui_monet_overlay_custom">התאמה אישית של ערכת הנושא הצבע</string>
+    <!--Settings-->
+    <string name="system_settings">הגדרות</string>
+    <!--Themes-->
+    <string name="theme_manager">ערכות נושא</string>
+    <string name="theme_manager_diable_ads">הסתר פרסומות</string>
+    <!--Updater-->
+    <string name="updater">עדכונים</string>
+    <string name="updater_fuck_vab_desc">רק מכשירי VAB נתמכים, נא לא להפעיל מכשירים אחרים שאינם VAB!\n- ניתן להחליק לתוך חבילת ההחלקה המלאה של כרטיס הבדיקה הפנימי ללא הרשאות בדיקה פנימיות\n- מומלץ לנקות נתונים לאחר הבהוב בין סוגי גרסאות שונים\n- אינו תומך בשום שימוש לא רשמי ב-ROM\n- פונקציה זו מסוכנת, נא להעריך אם להפעיל אותה לאחר הבנת פעולת Fastboot</string>
+    <!--Permissions-->
+    <string name="lbe">הרשאות</string>
+    <!--Cast-->
+    <string name="milink">צוות</string>
+    <!--Always-on display-->
+    <!--Taplus-->
+    <string name="content_extension_browser_desc">הפוך את Taplus לא חובה להשתמש בדפדפן MIUI לחיפוש, אתה צריך לבחור את דפדפן ברירת המחדל בעצמך</string>
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <string name="gallery">גלריה</string>
+    <string name="gallery_enable_id_photo">לפתוח את הID</string>
+    <!--MIUI security components-->
+    <string name="guard_provider">רכיבי אבטחה של MIUI</string>
+    <!--System launcher-->
+    <string name="home_layout">Layout</string>
+    <string name="home_layout_hotseats_height">גובה</string>
+    <string name="home_folder">תיקייה</string>
+    <string name="home_big_folder_icon_bg_2x1_custom">מותאם אישית</string>
+    <string name="home_big_folder_icon_bg_1x2_custom">מותאם אישית</string>
+    <string name="home_big_folder_icon_bg_custom">מותאם אישית</string>
+    <string name="home_drawer">מגירה</string>
+    <string name="home_title">סמל וכותרת</string>
+    <string name="home_title_icon_title">סמל</string>
+    <string name="home_title_title_title">כותרת</string>
+    <string name="home_recent">אחרונים</string>
+    <string name="home_recent_remove_icon">מחק סמל</string>
+    <string name="home_widget">יישומון</string>
+    <string name="home_dock">עגינה</string>
+    <string name="home_dock_bg_height">גובה</string>
+    <string name="home_dock_bg_custom">טשטוש רקע</string>
+    <string name="home_other">אחר</string>
+    <string name="home_recent_test_blur">טשטוש בדיקה</string>
+    <string name="home_recent_simple_blur">טשטוש פשוט</string>
+    <string name="home_recent_none_blur">אין טשטוש</string>
+    <string name="home_recent_none_blur_simple_anim">ללא טשטוש (אנים פשוט)</string>
+    <!--Gallery Editor-->
+    <!--Mi Share-->
+    <string name="mishare">שיתוף Mi</string>
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <string name="package_installer">מתקין החבילה</string>
+    <!--Networkboost-->
+    <!--NFC-->
+    <!--App vault-->
+    <string name="personal_assistant">כספת האפליקציות</string>
+    <!--Music-->
+    <string name="music">מוזיקה</string>
+    <string name="music_disable_ad">הסר פרסומות</string>
+    <!--Battery and performance-->
+    <string name="powerkeeper">סוללה וביצועים</string>
+    <!--Screen Recorder-->
+    <string name="screenrecorder">מקליט מסך</string>
+    <!--Screenshot-->
+    <string name="screenshot">צילום מסך</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center">אבטחה</string>
+    <string name="security_center_newbox_title">סרגל צד</string>
+    <string name="security_center_newbox_custom_enable">אשר התאמה אישית</string>
+    <string name="security_app_summary">הוסף שדות חדשים לאפליקציה לדף:\n- קוד גרסה\n- נתיב מלא ל-apk\n- נתיב נתונים\n- מזהה משתמש\n- גרסת SDK מינימלית\n- גרסת SDK יעד\n- קישור לדף חנות Play \n- הפעל אפליקציה</string>
+    <string name="security_restrict_app_summary">מאפשר הגדרה של חיסכון בחשמל וגישה ל-Wi-Fi עבור אפליקציות מערכת</string>
+    <string name="security_center_other_title">אחר</string>
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <string name="tsmclient">כרטיסים חכמים</string>
+    <string name="tsmclient_auto_nfc">ניהול NFC באופן אוטומטי</string>
+    <!--Weather-->
+    <string name="weather">מזג אוויר</string>
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <string name="joyose_game_title">Game Space</string>
+    <string name="joyose_enable_gpu_tuner_desc">לאחר הפתיחה, הוסף הגדרות הקשורות ל-GPU למשחק באמצע התחתון של [Game Space]</string>
+    <!--GetApps-->
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <string name="scanner">סורק</string>
+    <string name="scanner_translation">בטל נעילת תרגום</string>
+    <!--MI AI-->
+    <!--Other-->
+    <string name="various">אחר</string>
+    <string name="custom_hook">מותאם אישית</string>
+    <string name="app_details_launch">התחל</string>
+    <string name="app_details_apk_file">תיקיית APK</string>
+    <string name="app_details_data_path">תיקיית מידע</string>
+    <string name="app_details_app_uid">ID של המשתמש</string>
+    <string name="default_volume_stream_ring">צלצול</string>
+    <string name="default_volume_stream_media">מדיה</string>
+    <string name="default_volume_stream_tip">התראה</string>
+    <string name="location_custom">מותאם אישית</string>
+    <string name="custom_hook_mode">מצב בחירה</string>
+</resources>

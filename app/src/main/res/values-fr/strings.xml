@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">Anglais</string>
+    <string name="settings">Paramètres</string>
+    <string name="about">À propos</string>
+    <string name="about_use">Citation</string>
+    <string name="about_contributer">Contributeur</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">Vous pouvez nous soutenir en faisant un don ici</string>
+    <string name="settings_data_title">Sauvegarde et Restauration</string>
+    <string name="settings_bug_title">Résolution de problèmes</string>
+    <string name="settings_debug_title">Débogage</string>
+    <string name="settings_hide_app_icon">Icônes du Bureau</string>
+    <string name="settings_icon">Icônes des Paramètres</string>
+    <string name="settings_icon_desc">Définir l\'emplacement de l\'entrée du module dans les paramètres du système</string>
+    <string name="settings_icon_disable">Désactiver</string>
+    <string name="settings_icon_top">Haut</string>
+    <string name="settings_icon_medium">Milieu</string>
+    <string name="settings_icon_down">Bas</string>
+    <string name="settings_icon_mode">Style de l\'icône</string>
+    <string name="settings_icon_miui_14">Style rectangulaire arrondi</string>
+    <string name="settings_icon_miui_13">Style découpage de l\'arrière-plan</string>
+    <string name="settings_reboot">Redémarrez l\'application cible</string>
+    <string name="settings_back">Paramètres du module de sauvegarde</string>
+    <string name="settings_rest">Paramètres du module de restauration</string>
+    <string name="settings_reset">Paramètres du module de réinitialisation</string>
+    <string name="reset_title">Êtes-vous sûr de vouloir réinitialiser ?</string>
+    <string name="reset_desc">Après la réinitialisation de la configuration du module, toutes ses données seront supprimées !</string>
+    <string name="reset_okay">La configuration du module a été réinitialisée</string>
+    <string name="backup_success">Succès du backup</string>
+    <string name="backup_failed">Échec du backup</string>
+    <string name="rest_title">Récupération</string>
+    <string name="rest_success">Récupération réussie</string>
+    <string name="rest_failed">Échec de la récupération</string>
+    <string name="backup_ask">Souhaitez-vous enregistrer des sauvegardes ?</string>
+    <string name="backup_permission">Vous devez maintenant activer manuellement les autorisations pour cette option.</string>
+    <string name="rest_ask">Voulez-vous restaurer votre sauvegarde ?</string>
+    <string name="rest_permission">Vous devez maintenant activer manuellement les autorisations pour cette option.</string>
+    <string name="disable_detailed_log">Désactiver le journal détaillé</string>
+    <string name="disable_detailed_log_desc">Redémarrez pour appliquer</string>
+    <string name="settings_safe_mode">Mode sans échec</string>
+    <string name="settings_safe_mode_desc">Arrêter la fonction du module</string>
+    <string name="about_developer_title">Développeur</string>
+    <string name="about_translator_title">Traducteur</string>
+    <string name="about_chat_title">Discussion</string>
+    <string name="about_other_title">Autre</string>
+    <string name="about_qq_group">Groupe QQ</string>
+    <string name="about_qq_channel">Canal QQ</string>
+    <string name="about_tg_group">Groupe Telegram</string>
+    <string name="about_tg_channel">Canal Telegram</string>
+    <string name="about_github">Code source</string>
+    <string name="about_github_desc">Ce projet est une open source basée sur la licence AGPL-3.0</string>
+    <string name="about_offical">Site web officiel</string>
+    <string name="about_crwd">Crowdin</string>
+    <!--Pop-up window/miuix part-->
+    <string name="soft_reboot">Redémarrage </string>
+    <string name="tip">Conseil</string>
+    <!--String reuse-->
+    <!--Multi-list Array-->
+    <!--System Framework-->
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <!--Camera-->
+    <!--Clock-->
+    <!--File Manager-->
+    <!--Phone-->
+    <!--Message-->
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <!--Settings-->
+    <!--Themes-->
+    <!--Updater-->
+    <!--Permissions-->
+    <!--Cast-->
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <!--MIUI security components-->
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <!--Mi Share-->
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <!--Networkboost-->
+    <!--NFC-->
+    <!--App vault-->
+    <!--Music-->
+    <!--Battery and performance-->
+    <!--Screen Recorder-->
+    <!--Screenshot-->
+    <!--Security/Tablet security center-->
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <!--Weather-->
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <!--GetApps-->
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <!--MI AI-->
+    <!--Other-->
+</resources>

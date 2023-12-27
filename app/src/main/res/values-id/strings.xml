@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <string name="new_permission_wifi_state_desc">menambah dan menghapus file pada penyimpanan internal perangkat</string>
+    <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
+    <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
+    <string name="new_cta_app_main_purpose">midifikasi sistem aplikasi</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">Inggris</string>
+    <string name="settings">Pengaturan</string>
+    <string name="about">Tentang</string>
+    <string name="about_use">Kutipan</string>
+    <string name="about_contributer">Kontributor</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">Anda bisa mendukung kami dengan donasi di sini</string>
+    <string name="about_privacy">Kebijakan Privasi</string>
+    <string name="about_protocol">Perjanjian Pengguna</string>
+    <string name="settings_data_title">Cadangkan dan Pulihkan</string>
+    <string name="settings_bug_title">Penyelesaian masalah</string>
+    <string name="settings_debug_title">Debug</string>
+    <string name="settings_hide_app_icon">Ikon desktop</string>
+    <string name="settings_icon">Pengaturan Ikon</string>
+    <string name="settings_icon_desc">Atur lokasi entri modul dalam pengaturan sistem</string>
+    <string name="settings_icon_disable">Matikan</string>
+    <string name="settings_icon_top">Atas</string>
+    <string name="settings_icon_medium">Tengah</string>
+    <string name="settings_icon_down">Bawah</string>
+    <string name="settings_icon_mode">Gaya ikon</string>
+    <string name="settings_icon_miui_14">Bentuk kotak membulat</string>
+    <string name="settings_icon_miui_13">Gaya potongan latar belakang</string>
+    <string name="settings_reboot">Restart aplikasi target</string>
+    <string name="settings_back">Pengaturan cadangan modul</string>
+    <string name="settings_rest">Pengaturan pemulihan modul</string>
+    <string name="settings_reset">Pengaturan reset modul</string>
+    <string name="reset_title">Apakah Anda yakin untuk reset?</string>
+    <string name="reset_desc">Setelah mereset konfigurasi modul, semua datanya akan dihapus!</string>
+    <string name="reset_okay">Konfigurasi modul telah direset</string>
+    <string name="backup_success">Cadangan sukses</string>
+    <string name="backup_failed">Pencadangan gagal</string>
+    <string name="rest_title">Pulihkan</string>
+    <string name="rest_success">Pemulihan berhasil</string>
+    <string name="rest_failed">Pemulihan gagal</string>
+    <string name="backup_ask">Apakah Anda ingin membuat cadangan?</string>
+    <string name="backup_permission">Sekarang Anda harus mengaktifkan izin secara manual untuk opsi ini.</string>
+    <string name="rest_ask">Apakah Anda ingin memulihkan cadangan Anda?</string>
+    <string name="rest_permission">Sekarang Anda harus mengaktifkan izin secara manual untuk opsi ini.</string>
+    <string name="disable_detailed_log">Matikan log terperinci</string>
+    <string name="disable_detailed_log_desc">Reboot untuk menerapkan</string>
+    <string name="settings_safe_mode">Mode aman</string>
+    <string name="settings_safe_mode_desc">Menghentikan fungsi modul</string>
+    <string name="about_developer_title">Pengembang</string>
+    <string name="about_translator_title">Penerjemah</string>
+    <string name="about_chat_title">Diskusi</string>
+    <string name="about_other_title">Lainnya</string>
+    <string name="about_qq_group">QQ Group</string>
+    <string name="about_qq_channel">QQ Channel</string>
+    <string name="about_tg_group">Grup Telegram</string>
+    <string name="about_tg_channel">Channel Telegram</string>
+    <string name="about_github">Kode sumber</string>
+    <string name="about_github_desc">Proyek ini adalah sumber terbuka berdasarkan lisensi AGPL-3.0</string>
+    <string name="about_offical">Official website</string>
+    <string name="about_crwd">Crowdin</string>
+    <!--Pop-up window/miuix part-->
+    <string name="soft_reboot">Reboot </string>
+    <string name="restart_app_desc">Apakah Anda yakin untuk me-restart sekarang %1$s?</string>
+    <string name="tip">Tip</string>
+    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
+    <!--String reuse-->
+    <string name="custom_enable">Pengaktifan khusus</string>
+    <string name="search">Cari</string>
+    <string name="floating_window">Freeform</string>
+    <string name="save_to_screen_title">Lokasi penyimpanan khusus</string>
+    <string name="system_ui_statusbar_indicator_default_title">Bawaan</string>
+    <string name="system_ui_statusbar_indicator_expand_title">Perluas</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">Perbaiki lebar konten</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Untuk mencegah jitter horizontal</string>
+    <string name="system_ui_statusbar_indicator_bold">Tebal</string>
+    <!--Multi-list Array-->
+    <string name="array_close">Tutup</string>
+    <string name="array_default">Bawaan</string>
+    <string name="array_align_left">Kiri</string>
+    <string name="array_align_right">Kanan</string>
+    <string name="array_align_center">Terpusat</string>
+    <string name="array_netspeedicons_no">Tanpa icon</string>
+    <string name="array_bold">Tebal</string>
+    <string name="array_theme">Ikuti subjek</string>
+    <string name="array_clock_center">Jam di tengah</string>
+    <string name="array_clock_right">Jam di kanan</string>
+    <string name="array_clock_center_and_icon_left">Jam di tengah &amp; ikon di kiri</string>
+    <string name="array_clock_default">Bawaan</string>
+    <string name="array_clock_geek">Geek</string>
+    <string name="array_battery_both">Keduanya</string>
+    <string name="array_battery_power">Hanya daya</string>
+    <string name="array_battery_current">Hanya aliran</string>
+    <string name="array_battery_temp">Suhu baterai</string>
+    <string name="array_cpu_temp">Suhu CPU</string>
+    <string name="array_global_actions_none">Tidak ada aksi</string>
+    <string name="array_global_actions_notif">Buka pusat notifikasi</string>
+    <string name="array_global_actions_eqs">Perluas panel quick settings</string>
+    <string name="array_global_actions_lock">Layar kunci</string>
+    <string name="array_global_actions_sleep">Tutup layar</string>
+    <string name="array_global_actions_screenshot">Tangkapan Layar</string>
+    <string name="array_global_actions_menu">Buka Menu</string>
+    <string name="array_global_actions_recents">Buka Terkini</string>
+    <string name="array_global_actions_volume">Buka jendela volume</string>
+    <string name="array_global_actions_volume_up">Volume Naik</string>
+    <string name="array_global_actions_volume_down">Volume Turun</string>
+    <string name="array_global_actions_launch">Luncurkan aplikasi</string>
+    <string name="array_global_actions_launch_choose">Pilih apl</string>
+    <string name="array_global_actions_shortcut">Luncurkan pintasan</string>
+    <string name="array_global_actions_activity">Luncurkan aktivitas</string>
+    <string name="array_global_actions_toggle">Alihkan fungsi</string>
+    <string name="array_global_actions_back">Beralih ke apl sebelumnya</string>
+    <string name="array_global_actions_forceclose">Tutup paksa apl saat ini</string>
+    <string name="array_global_actions_powermenu">Buka menu daya</string>
+    <string name="array_global_actions_powermenu_short">Menu daya</string>
+    <string name="array_global_actions_clear_memory">Bersihkan memori</string>
+    <string name="array_global_actions_invert_colors">Inversi warna</string>
+    <string name="array_global_actions_switchkeyboard">Ganti Papan Ketik</string>
+    <!--System Framework-->
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <!--Camera-->
+    <!--Clock-->
+    <!--File Manager-->
+    <!--Phone-->
+    <!--Message-->
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <!--Settings-->
+    <!--Themes-->
+    <!--Updater-->
+    <!--Permissions-->
+    <!--Cast-->
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <!--MIUI security components-->
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <!--Mi Share-->
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <!--Networkboost-->
+    <!--NFC-->
+    <!--App vault-->
+    <!--Music-->
+    <!--Battery and performance-->
+    <!--Screen Recorder-->
+    <!--Screenshot-->
+    <!--Security/Tablet security center-->
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <!--Weather-->
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <!--GetApps-->
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <!--MI AI-->
+    <!--Other-->
+</resources>

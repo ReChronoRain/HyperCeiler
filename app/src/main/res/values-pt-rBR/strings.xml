@@ -1007,7 +1007,7 @@
     <string name="home_recent_vertical_task_view_card_size">Tamanho da miniatura para Verticalmente</string>
     <string name="home_recent_text_size">Tamanho do nome dos apps</string>
     <string name="home_recent_text_color">Cor do nome dos apps</string>
-    <string name="home_recent_freeform_background_color">Cor de fundo do cartão do app Janelas flutuantes</string>
+    <string name="home_recent_freeform_background_color">Cor de fundo do cartão Janelas flutuantes</string>
     <string name="home_recent_show_real_memory">Exibir memória real</string>
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
@@ -1106,10 +1106,10 @@
     <string name="miui_package_installer_install_source">Fonte de instalação personalizada</string>
     <string name="miui_package_installer_apk_info">Exibir mais informações do pacote</string>
     <string name="miui_package_installer_apk_info_desc">Exibe mais informações sobre o app que está sendo instalado</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
     <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida.</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">Serviço NFC</string>
     <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>
     <string name="nfc_allow_information_screen">Permitir reconhecimento quando a tela estiver desligada</string>
@@ -1133,7 +1133,7 @@
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Desativar para obter código do controle de exibição</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requer suporte a versão de gravação de tela</string>
@@ -1303,6 +1303,9 @@
     <string name="scanner_excel">Desbloquear Escanear tabela</string>
     <string name="scanner_ppt">Desbloquear Escanear PPT</string>
     <string name="scanner_doc_ppt">Desbloquear Escanear arquivos</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Desativar marca d\'água no chat</string>
     <!--Other-->
     <string name="various">Outros</string>
     <string name="notes">Notas</string>
@@ -1431,8 +1434,6 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="voiceassist">Mi AI</string>
-    <string name="voiceassist_disable_watermark">Desativar marca d\'água no chat</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou e a versão atual que você está usando pode não ser da versão oficial do Re.chronoRain, e pode conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
