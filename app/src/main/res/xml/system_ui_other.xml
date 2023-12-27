@@ -63,15 +63,15 @@
             android:title="@string/system_showpct_title" />
 
         <SeekBarPreferenceEx
-            android:key="prefs_key_system_ui_others_showpct_top"
-            android:title="@string/system_ui_others_showpct_top"
-            android:summary="@string/system_ui_others_showpct_top_desc"
             android:defaultValue="54"
+            android:key="prefs_key_system_ui_others_showpct_top"
+            android:summary="@string/system_ui_others_showpct_top_desc"
+            android:title="@string/system_ui_others_showpct_top"
             app:defaultValueText="@string/array_default"
-            app:maxValue="1024"
-            app:stepValue="1"
             app:format="%d dp"
-            app:showSeekBarValue="true" />
+            app:maxValue="1024"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
     </PreferenceCategory>
 
@@ -84,13 +84,14 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_unlock_super_volume"
+            android:summary="@string/system_ui_unlock_super_volume_desc"
             android:title="@string/system_ui_unlock_super_volume" />
 
         <SwitchPreference
-            android:title="@string/system_ui_plugin_enable_volume_blur"
-            android:summary="@string/system_ui_plugin_enable_volume_blur_desc"
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_plugin_enable_volume_blur"
-            android:defaultValue="false" />
+            android:summary="@string/system_ui_plugin_enable_volume_blur_desc"
+            android:title="@string/system_ui_plugin_enable_volume_blur" />
 
     </PreferenceCategory>
 

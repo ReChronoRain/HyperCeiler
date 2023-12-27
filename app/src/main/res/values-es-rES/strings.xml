@@ -139,6 +139,7 @@
     <string name="bottom_margin">Margen del fondo</string>
     <string name="left_margin">Margen izquierdo</string>
     <string name="right_margin">Margen derecho</string>
+    <string name="horizontal_margin">Margen horizontal</string>
     <string name="vertical_offset">Desplazamiento de arriba y abajo</string>
     <string name="horizontal_alignment">Alineación horizontal</string>
     <string name="feature">Función</string>
@@ -312,6 +313,8 @@
     <string name="phone_n5_n8_desc">Introduzca *#*#65686633#*#* en Teléfono para soportar la banda N5/N8. Si muestra \"se activa el modo de N5 y N8\", la característica se activará correctamente.</string>
     <string name="system_framework_screen_title">Se muestran &amp; notificaciones</string>
     <string name="system_framework_core_title">Núcleo fundo</string>
+    <string name="system_framework_entry">Carga inteligente de Hyper</string>
+    <string name="system_framework_hook_entry">Desbloquear el límite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Accesos directos de compartir</string>
     <string name="system_framework_screen_all_rotations">Rotación de pantalla</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toques no confiables</string>
@@ -342,6 +345,9 @@
     <string name="system_framework_disable_verify_can_ve_disabled">\"Desactivar para verificar\" puede desactivarse</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todas las aplicaciones usen el modo oscuro</string>
     <string name="system_framework_disablt_miuilite_check">Deshabilitar verificación de MIUI lite</string>
+    <string name="system_framework_allow_manage_all_notifications">Se permite administrar todas las notificaciones</string>
+    <string name="system_framework_quick_screenshot">Captura de pantalla rápida</string>
+    <string name="system_framework_quick_screenshot_desc">Quitar el retraso de captura de pantalla</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Servicio del administrador de paquetes</string>
     <string name="system_framework_core_patch_downgr">Permitir volver a la versión anterior</string>
@@ -356,6 +362,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">Esta característica es extrema peligrosa y solo debe activarse cuando sea necesario de verdad</string>
     <string name="system_framework_core_patch_enhanced_mode">Modo avanzado</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Puede resolver algunas comprobaciones internas de integridad de la aplicación, que generalmente no necesitan abrirse</string>
+    <string name="system_framework_disable_low_api_check">Desactivar verificación de API baja</string>
+    <string name="system_framework_disable_low_api_check_desc">Se permiten aplicaciones con APIs inferiores a 23</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opciones de desarrollador</string>
@@ -489,6 +497,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Administración de indicadores de velocidad de red</string>
     <string name="system_ui_statusbar_clock_title">Administración de indicadores de reloj</string>
     <string name="system_ui_statusbar_device_title">Indicadores de hardware</string>
+    <string name="system_ui_statusbar_toast_title">Toast Inteligente</string>
     <string name="system_ui_statusbar_layout_title">Disposición</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Modo de compatibilidad</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Activar forzosamente el diseño de pantalla completa para todas las pantallas especiales</string>
@@ -569,6 +578,7 @@
     <string name="system_ui_status_bar_no_netspeed_separator_desc">La línea vertical entre el tiempo y la velocidad de Internet no se muestra en dispositivos con cámara centrada</string>
     <string name="system_ui_status_bar_hide_icon">Ocultar barra de estado al tomar captura de pantalla</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Icono de tipo de red móvil</string>
+    <string name="system_ui_statusbar_network_speed_all_status">Activar modificación</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Intervalo de actualización de velocidad de red</string>
     <string name="system_ui_statusbar_network_speed_font_size">Tamaño de fuente de velocidad de red</string>
     <string name="system_ui_statusbar_network_speed_font_style">Estilo de fuente de velocidad de red</string>
@@ -581,13 +591,7 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Los valores de velocidad de red por debajo de este nivel se consideran lentos y se mostrará un icono de indicador diferente (solo algunos iconos)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar Byte por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Icono del indicador</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Modo de reloj personalizado</string>
     <string name="system_ui_statusbar_clock_editor">Formato de reloj</string>
     <string name="system_ui_statusbar_clock_year">Mostrar año</string>
@@ -676,6 +680,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">Cuando la pantalla está encendida, la notificación emergente no reproduce el sonido de indicador</string>
     <string name="system_ui_control_center_rounded_rect">Pegatinas rectángulos redondeados</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radio de redondeo</string>
+    <string name="system_ui_control_center_fix_tiles_list">Desactivar ocultar pegatina del modo extremadamente oscuro</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Cambiar el centro de control con el panel de notificaciones</string>
     <string name="system_ui_control_center_hide_operator">Personalización de nombre(s) de operador(es)</string>
     <string name="system_ui_control_center_hide_delimiter">Solo se oculta el divisor</string>
@@ -736,6 +741,7 @@
     <string name="system_settings_enable_pad_area">Desbloquear área de Pad</string>
     <string name="system_settings_enable_fold_area">Desbloquear área de Fold</string>
     <string name="system_settings_enable_area_desc">Causará configuraciones de los dispositivos no soportados colapso después de desbloquearse</string>
+    <string name="system_settings_unlock_google_header">Desbloquear la entrada de Google</string>
     <string name="system_settings_connection_sharing_title">Conexión &amp; compartimiento</string>
     <string name="system_settings_new_nfc_page">Nueva página de NFC</string>
     <string name="system_settings_new_nfc_page_desc">Después de abrirse, la aplicación de pago predeterminada en los modelos no soportados no puede ser Xiaomi Monedero</string>
@@ -799,6 +805,7 @@
     <string name="aod">Pantalla siempre activa</string>
     <string name="aod_hyperos">Editor de \"se muestra siempre\" y la pantalla de bloqueo</string>
     <string name="aod_unlock_always_on_display">Desbloquear el límite de tiempo de visualización de la pantalla siempre activada</string>
+    <string name="aod_unlock_aon">Desbloquear Aod Aon</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador no predeterminado</string>
@@ -837,6 +844,9 @@
     <string name="gallery_enable_remover_2">Desbloquear borrador mágico</string>
     <string name="gallery_enable_magic_matting">Desbloquear extracción mágica de imagen</string>
     <string name="gallery_enable_magic_sky">Desbloquear cielo mágico</string>
+    <string name="gallery_backup_server">Servidor de respaldo</string>
+    <string name="gallery_backup_server_xiaomi">Servicio de Xiaomi Cloud</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de seguridad</string>
     <string name="guard_provider_hyperos">Componentes de seguridad del sistema</string>
@@ -846,6 +856,10 @@
     <string name="home_gesture">Gestos y Navegación</string>
     <string name="home_navigation_title">Navegación</string>
     <string name="home_navigation_quick_back">Vuelve a la aplicación anterior</string>
+    <string name="home_navigation_assist_left_slide">Deslizamiento desde la esquina inferior izquierda</string>
+    <string name="home_navigation_assist_right_slide">Deslizamiento desde la esquina inferior derecha</string>
+    <string name="home_navigation_assist_left_slide_desc">Deslizar la pantalla con el dedo desde la esquina inferior izquierda</string>
+    <string name="home_navigation_assist_right_slide_desc">Deslizar la pantalla con el dedo desde la esquina inferior derecha</string>
     <string name="home_navigation_quick_back_more">Deslizar por la pantalla desde el borde para volver a la aplicación anterior</string>
     <string name="home_navigation_back_area_height">Altura del gesto de volver</string>
     <string name="home_navigation_back_area_width">Anchura del gesto de volver</string>
@@ -887,6 +901,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">Desbloquear el límite del tamaño de icono de la pantalla de inicio</string>
     <string name="home_layout_workspace_padding_bottom_desc">Distancia de pantalla de inicio desde el fondo de la pantalla</string>
     <string name="home_layout_workspace_padding_top_desc">Distancia de pantalla de inicio desde la arriba de la pantalla</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Distancia a la pantalla de inicio desde el margen lateral</string>
     <string name="home_layout_hotseats_height">Altura</string>
     <string name="home_layout_hotseats_margin_top_desc">Distancia de la base desde el margen del indicador de página</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distancia de la base desde el margen del fondo de la pantalla</string>
@@ -930,6 +945,8 @@
     <string name="home_folder_width_title">Usar la anchura de toda la carpeta</string>
     <string name="home_folder_space_title">Reducir el margen</string>
     <string name="home_folder_blur_title">Desenfoque del fondo</string>
+    <string name="home_folder_unlock_blur_supported">Eliminar la restricción de desenfoque de carpeta</string>
+    <string name="home_folder_unlock_blur_supported_summary">No hay restricciones en el desenfoque de fondo para materiales prémium de Xiaomi solo para la eliminación de temas no oficiales</string>
     <string name="home_folder_anim_title">Animación de rebote</string>
     <string name="home_folder_anim_1">Velocidad de apertura 1</string>
     <string name="home_folder_anim_2">Velocidad de apertura 2</string>
@@ -946,6 +963,7 @@
     <string name="home_drawer_pinyin_more">Debido esta función activada, aunque no se use el chino simplificado en el sistema, las aplicaciones se organizarán según pinyin chino</string>
     <string name="home_title">Icono y nombre</string>
     <string name="home_title_icon_title">Icono</string>
+    <string name="home_title_icon_animation_title">Animación de iconos</string>
     <string name="home_title_title_title">Nombre</string>
     <string name="home_title_title_marquee">Texto desplazable</string>
     <string name="home_title_title_marquee_desc">Los nombres de aplicaciones que son demasiado largas desplazarán en lugar de presentarse en filas</string>
@@ -1082,10 +1100,10 @@
     <string name="miui_package_installer_install_source">Personalizar origen de instalación</string>
     <string name="miui_package_installer_apk_info">Se muestra más información sobre el paquete</string>
     <string name="miui_package_installer_apk_info_desc">Se muestra más información sobre la aplicación que se está instalando</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Se oculta el Toast de que se está utilizando la red móvil para aceleración</string>
     <string name="various_disable_link_turbo_toast_more">Reinicie NetworkBoost en el ámbito de reinicio rápido</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">Servicio de NFC</string>
     <string name="nfc_disable_sound">Desactivar el sonido de notificación de NFC</string>
     <string name="nfc_allow_information_screen">Se permite reconocimiento cuando la pantalla está apagada</string>
@@ -1109,7 +1127,7 @@
     <string name="powerkeeper_do_not_kill_apps_desc">Puede aumentar el consumo de batería</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Evitar la recuperación de la lista blanca de optimización de batería</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Desactivar para obtener el código de control de visualización</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">Grabadora de pantalla</string>
     <string name="screen_recorder_force_support_playback_capture">Forzar usar el soporte de grabación de pantalla de AOSP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Se necesita versiones de grabadora de pantalla que soportan</string>
@@ -1213,6 +1231,10 @@
     <string name="security_center_sidebar_videobox_title">Caja de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caja de juegos</string>
     <string name="security_center_sidebar_function_title">Función de barra lateral</string>
+    <!--MiTrustService-->
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">No detecta riesgos</string>
+    <string name="trustservice_disable_mrm_desc">Característica experimental. No puede utilizarla en violación de las leyes locales o nacionales.</string>
     <!--Smart cards-->
     <string name="tsmclient">Tarjetas inteligentes</string>
     <string name="tsmclient_auto_nfc">Gestionar NFC automáticamente</string>
@@ -1229,6 +1251,7 @@
     <!--AI Translate-->
     <string name="aiasst">Traductor, IA</string>
     <string name="aiasst_ai_captions">Forzar subtítulos de IA habilitados</string>
+    <string name="aiasst_disable_watermark">Desactivar marca de agua</string>
     <!--Barrage-->
     <string name="barrage">Bombardeo</string>
     <string name="barrage_any_barrage">Permitir que todas las aplicaciones usen bombardeo</string>
@@ -1274,6 +1297,9 @@
     <string name="scanner_excel">Desbloquear escaneo de tabla</string>
     <string name="scanner_ppt">Desbloquear escaneo de PPT</string>
     <string name="scanner_doc_ppt">Desbloquear archivos escaneados</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi IA</string>
+    <string name="voiceassist_disable_watermark">Desactivar marca de agua en charlas</string>
     <!--Other-->
     <string name="various">Otro</string>
     <string name="notes">Notas</string>
@@ -1402,7 +1428,7 @@
     <string name="log_level_none">Desactivar registro</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
-    <string name="system_framework_allow_manage_all_notifications">Se permite administrar todas las notificaciones</string>
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
+    <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de Re.chronoRain, que puede contener código malicioso.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
 </resources>

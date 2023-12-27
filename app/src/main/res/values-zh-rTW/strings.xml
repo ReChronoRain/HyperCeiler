@@ -139,8 +139,9 @@
     <string name="bottom_margin">底部邊距</string>
     <string name="left_margin">左側間距</string>
     <string name="right_margin">右側間距</string>
+    <string name="horizontal_margin">水平邊距</string>
     <string name="vertical_offset">上下偏移量</string>
-    <string name="horizontal_alignment">水準對齊</string>
+    <string name="horizontal_alignment">水平對齊</string>
     <string name="feature">功能</string>
     <string name="recommend">推薦</string>
     <string name="editor">編輯</string>
@@ -586,17 +587,11 @@
     <string name="system_ui_statusbar_network_speed_hide">隱藏慢速</string>
     <string name="system_ui_statusbar_network_speed_hide_all">上下行網速緩慢時隱藏</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">當網速低時不再顯示指示器</string>
-    <string name="system_ui_statusbar_network_speed_hide_slow">慢速水準</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow">慢速水平</string>
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">網速值低於該水準時被認為慢，部分指示器圖示會有所不同</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *b/s 單位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">自訂時鐘模式</string>
     <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
     <string name="system_ui_statusbar_clock_year">顯示年份</string>
@@ -637,10 +632,10 @@
     <string name="system_ui_status_bar_battery_indicator_color_power_saving">省電模式顏色</string>
     <string name="system_ui_status_bar_battery_indicator_color_power_charging">充電顏色</string>
     <string name="system_ui_status_bar_battery_indicator_height">高度</string>
-    <string name="system_ui_status_bar_battery_indicator_padding">水準邊距</string>
+    <string name="system_ui_status_bar_battery_indicator_padding">水平邊距</string>
     <string name="system_ui_status_bar_battery_indicator_alpha">透明度</string>
     <string name="system_ui_status_bar_battery_indicator_glow">發光</string>
-    <string name="system_ui_status_bar_battery_indicator_low_level">低電量水準</string>
+    <string name="system_ui_status_bar_battery_indicator_low_level">低電量水平</string>
     <string name="system_ui_status_bar_battery_indicator_test">測試</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>
@@ -695,6 +690,7 @@
     <string name="system_ui_control_center_notifrowmenu">擴展通知選單</string>
     <string name="system_ui_control_center_notifrowmenu_desc">從通知選單打開應用程式資訊、強制關閉應用程式和小窗打開</string>
     <string name="system_ui_unlock_super_volume">解鎖超大音量</string>
+    <string name="system_ui_unlock_super_volume_desc">實驗性功能，實際功能需要底層代碼支援</string>
     <string name="system_ui_controlcenter_new_title">新控制中心</string>
     <string name="system_ui_controlcenter_old_title">經典控制中心</string>
     <string name="system_ui_controlcenter_unlock_old_title">解鎖控制中心樣式</string>
@@ -759,7 +755,7 @@
     <string name="system_settings_ai_image_unlock_memc">解鎖動態畫面補償</string>
     <string name="system_settings_permission_title">權限</string>
     <string name="system_settings_more_notification_settings">顯示更多通知設定項</string>
-    <string name="system_settings_more_notification_settings_summary">需重啟「系統介面」與「設定」共兩個作用域</string>
+    <string name="system_settings_more_notification_settings_summary">需重啟「系統介面」與「設定」共兩個作用域才能生效</string>
     <string name="system_settings_permission_show_app_up">上層權限免翻應用程式列表</string>
     <string name="system_settings_permission_show_app_up_desc">還原舊版行為，直接跳轉對應應用程式「顯示在其他應用程式上層」的權限開關</string>
     <string name="system_settings_permission_unknown_origin_app">安裝未知應用程式許可權免翻應用程式列表</string>
@@ -814,7 +810,7 @@
     <!--Taplus-->
     <string name="content_extension">傳送門</string>
     <string name="content_extension_browser">使用協力廠商瀏覽器</string>
-    <string name="content_extension_browser_desc">使傳送門不強制使用 MIUI 瀏覽器進行搜尋，需自行選擇預設瀏覽器</string>
+    <string name="content_extension_browser_desc">使傳送門不強制使用系統瀏覽器進行搜尋，需自行選擇預設瀏覽器</string>
     <string name="content_extension_unlock_taplus_title">解鎖傳送門</string>
     <string name="content_extension_unlock_taplus_horizontal_title">允許在橫向螢幕上使用傳送門</string>
     <string name="content_extension_double_press">開放雙指長按</string>
@@ -861,6 +857,10 @@
     <string name="home_gesture">手勢與導覽列</string>
     <string name="home_navigation_title">導航</string>
     <string name="home_navigation_quick_back">切換至上一個應用程式</string>
+    <string name="home_navigation_assist_left_slide">右上滑動</string>
+    <string name="home_navigation_assist_right_slide">左上滑動</string>
+    <string name="home_navigation_assist_left_slide_desc">從螢幕左下角向內滑動</string>
+    <string name="home_navigation_assist_right_slide_desc">從螢幕右下角向內滑動</string>
     <string name="home_navigation_quick_back_more">從螢幕兩側向螢幕內滑動以退回至上一個應用程式</string>
     <string name="home_navigation_back_area_height">返回手勢區域高度</string>
     <string name="home_navigation_back_area_width">返回手勢區域寬度</string>
@@ -902,6 +902,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">解鎖主螢幕圖示佈局大小限制</string>
     <string name="home_layout_workspace_padding_bottom_desc">主螢幕距離螢幕底部邊距</string>
     <string name="home_layout_workspace_padding_top_desc">主螢幕距離螢幕頂部邊緣</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">主螢幕距離螢幕底部邊距</string>
     <string name="home_layout_hotseats_height">高度</string>
     <string name="home_layout_hotseats_margin_top_desc">Dock 距離頁面指示器邊距</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock 距離螢幕底部邊距</string>
@@ -941,7 +942,7 @@
     <string name="home_folder_shade_level_title">色彩強度</string>
     <string name="home_folder_cols_title">資料夾欄位數量</string>
     <string name="home_folder_cols_format">%d 列</string>
-    <string name="home_folder_vertical_padding_title">資料夾水準間距</string>
+    <string name="home_folder_vertical_padding_title">資料夾水平間距</string>
     <string name="home_folder_width_title">利用整個資料夾視圖的寬度</string>
     <string name="home_folder_space_title">減少邊距</string>
     <string name="home_folder_blur_title">背景模糊</string>
@@ -1009,8 +1010,8 @@
     <string name="home_recent_blur">背景模糊</string>
     <string name="home_widget">小工具</string>
     <string name="home_widget_all_widget_animation">小工具動畫</string>
-    <string name="home_widget_show_miui_widget">顯示 MIUI 小工具</string>
-    <string name="home_widget_show_miui_widget_desc">在 Android 小工具頁面顯示 MIUI 小工具</string>
+    <string name="home_widget_show_miui_widget">顯示系統小工具</string>
+    <string name="home_widget_show_miui_widget_desc">在 Android 小工具頁面顯示系統小工具</string>
     <string name="home_widget_corner_radius">小工具圓角</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">允許將 Android 小工具移動至智慧助理</string>
     <string name="home_widget_hide_title">隱藏小工具標題</string>
@@ -1100,10 +1101,10 @@
     <string name="miui_package_installer_install_source">自訂安裝來源</string>
     <string name="miui_package_installer_apk_info">顯示更多安裝包資訊</string>
     <string name="miui_package_installer_apk_info_desc">顯示安裝中應用程式的更多相關資訊</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">隱藏 正在使用行動網路加速 Toast</string>
     <string name="various_disable_link_turbo_toast_more">請在快速重啟作用域內重啟 NetworkBoost</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">NFC 服務</string>
     <string name="nfc_disable_sound">停用 NFC 提示音</string>
     <string name="nfc_allow_information_screen">允許關閉螢幕時識別</string>
@@ -1127,7 +1128,7 @@
     <string name="powerkeeper_do_not_kill_apps_desc">可能使耗電量增加</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">停用恢復電池效能最佳化白名單</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">禁止獲取顯示控制碼</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">螢幕錄製</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>
     <string name="screen_recorder_force_support_playback_capture_desc">需要螢幕錄製版本支援</string>
@@ -1172,7 +1173,7 @@
     <string name="security_center_disable_send_malicious_app_notification">禁止發送「發現惡意應用程式」通知</string>
     <string name="security_center_newbox_custom_enable">啟用自訂</string>
     <string name="security_center_newbox_bg_custom">背景模糊</string>
-    <string name="security_center_newbox_bg_padding_vertical">水準邊距</string>
+    <string name="security_center_newbox_bg_padding_vertical">水平邊距</string>
     <string name="security_center_newbox_bg_padding_horizontal">垂直邊距</string>
     <string name="security">手機管家</string>
     <string name="security_app_title">顯示更多應用程式資訊</string>
@@ -1251,6 +1252,7 @@
     <!--AI Translate-->
     <string name="aiasst">小愛翻譯</string>
     <string name="aiasst_ai_captions">強制啟用即時字幕</string>
+    <string name="aiasst_disable_watermark">停用浮水印</string>
     <!--Barrage-->
     <string name="barrage">彈幕通知</string>
     <string name="barrage_any_barrage">允許所有應用程式使用彈幕通知</string>
@@ -1296,6 +1298,9 @@
     <string name="scanner_excel">解鎖提取表格</string>
     <string name="scanner_ppt">解鎖提取 PPT</string>
     <string name="scanner_doc_ppt">解鎖掃文件</string>
+    <!--MI AI-->
+    <string name="voiceassist">小愛同學</string>
+    <string name="voiceassist_disable_watermark">停用聊天浮水印</string>
     <!--Other-->
     <string name="various">其他</string>
     <string name="notes">筆記</string>
@@ -1315,8 +1320,8 @@
     <string name="various_phrase_clipboardlist_more">開啟後勾選輸入法作用域並重啟</string>
     <string name="various_unlock_ime">解鎖輸入法全螢幕鍵盤最佳化</string>
     <string name="various_unlock_ime_desc">啟用後請在 Xposed 管理器中勾選對應輸入法作用範圍</string>
-    <string name="various_collapse_miui_title">MIUI 標題</string>
-    <string name="various_collapse_miui_title_desc">調整 MIUI 應用程式中的頂欄標題</string>
+    <string name="various_collapse_miui_title">系統標題樣式</string>
+    <string name="various_collapse_miui_title_desc">調整系統應用程式中的頂欄標題</string>
     <string name="various_disable_folder_cantuse">移除部分資料夾不可選擇限制</string>
     <string name="various_super_clipboard_title">超級剪貼簿</string>
     <string name="various_unlock_super_clipboard">解鎖超級剪貼簿</string>
@@ -1331,9 +1336,9 @@
     <string name="various_open_aosp_extremely_dark_title">極暗模式</string>
     <string name="various_mipad_input_title">輸入</string>
     <string name="various_mipad_input_close_magic_title">關閉 Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">移除 MIUI For Pad 破爛的圓形滑鼠指針，並恢復為安卓原生的滑鼠指針</string>
+    <string name="various_mipad_input_close_magic_desc">移除 Xiaomi Pad 系統破爛的圓形滑鼠指針，並恢復為安卓原生的滑鼠指針</string>
     <string name="various_mipad_input_restore_esc_title">恢復 ESC 鍵功能</string>
-    <string name="various_mipad_input_restore_esc_desc">恢復被 MIUI 強硬射為 “返回” 功能的 ESC 鍵</string>
+    <string name="various_mipad_input_restore_esc_desc">恢復被 Xiaomi Pad 系統強硬射為 “返回” 功能的 ESC 鍵</string>
     <string name="various_mipad_input_disable_bluetooth_title">去除觸控筆藍牙限制</string>
     <string name="various_mipad_input_disable_bluetooth_desc">無需連結小米靈感觸控筆的藍牙即可使用相容的觸控筆</string>
     <string name="various_mipad_input_bluetooth_version_title">驅動版本</string>
@@ -1424,6 +1429,7 @@
     <string name="log_level_none">停用日誌輸出</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
-    <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
+    <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
+    <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
 </resources>

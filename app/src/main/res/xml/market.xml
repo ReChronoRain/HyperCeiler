@@ -4,17 +4,18 @@
     <PreferenceCategory>
 
         <DropDownPreference
-            android:key="prefs_key_market_device_modify_new"
-            android:title="@string/market_device_modify"
             android:defaultValue="0"
+            android:key="prefs_key_market_device_modify_new"
+            android:summary="@string/market_device_modify_desc"
+            android:title="@string/market_device_modify"
             app:entries="@array/market_device_modify_list"
             app:entryValues="@array/market_device_modify_value" />
 
         <SwitchPreference
-            android:title="@string/market_disable_new_icon"
-            android:summary="@string/market_disable_new_icon_desc"
-            android:key="prefs_key_market_disable_new_icon"
             android:defaultValue="false"
+            android:key="prefs_key_market_disable_new_icon"
+            android:summary="@string/market_disable_new_icon_desc"
+            android:title="@string/market_disable_new_icon"
             app:isPreferenceVisible="false" />
 
 
