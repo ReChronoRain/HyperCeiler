@@ -139,6 +139,7 @@
     <string name="bottom_margin">Lề dưới cùng</string>
     <string name="left_margin">Lề trái</string>
     <string name="right_margin">Lề phải</string>
+    <string name="horizontal_margin">Lề ngang</string>
     <string name="vertical_offset">Lên và xuống</string>
     <string name="horizontal_alignment">Căn chỉnh theo chiều ngang</string>
     <string name="feature">Tính năng</string>
@@ -867,6 +868,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_gesture">Cử chỉ</string>
     <string name="home_navigation_title">Điều hướng</string>
     <string name="home_navigation_quick_back">Quay lại ứng dụng trước</string>
+    <string name="home_navigation_assist_left_slide">Trượt từ góc dưới bên trái</string>
+    <string name="home_navigation_assist_right_slide">Trượt từ góc dưới bên phải</string>
+    <string name="home_navigation_assist_left_slide_desc">Vuốt màn hình từ góc dưới bên trái</string>
+    <string name="home_navigation_assist_right_slide_desc">Vuốt màn hình từ góc dưới bên phải</string>
     <string name="home_navigation_quick_back_more">Vuốt từ cạnh màn hình để quay lại ứng dụng trước</string>
     <string name="home_navigation_back_area_height">Chiều cao khu vực cử chỉ quay lại</string>
     <string name="home_navigation_back_area_width">Chiều rộng khu vực cử chỉ quay lại</string>
@@ -908,6 +913,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_layout_unlock_grids_no_words_desc">Mở khóa giới hạn kích thước bố cục biểu tượng màn hình chính</string>
     <string name="home_layout_workspace_padding_bottom_desc">Khoảng cách biểu tượng dock từ lề dưới màn hình</string>
     <string name="home_layout_workspace_padding_top_desc">Khoảng cách màn hình chính từ lề trên cùng của màn hình</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Khoảng cách màn hình chính từ lề bên màn hình</string>
     <string name="home_layout_hotseats_height">Chiều cao</string>
     <string name="home_layout_hotseats_margin_top_desc">Khoảng cách thanh dưới cùng từ lề chỉ báo trang</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Khoảng cách dock từ lề dưới màn hình</string>
@@ -1264,6 +1270,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
+    <string name="aiasst_disable_watermark">Tắt hình mờ</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
@@ -1438,7 +1445,9 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Tắt hình mờ trò chuyện</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
+    <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
 </resources>
