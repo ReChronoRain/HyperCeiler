@@ -52,7 +52,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         mHighMode.setVisible(!isAndroidVersion(30));
         mAreaScreenshot.setVisible(isAndroidVersion(30));
         mNewNfc.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(33));
-        mNoveltyHaptic.setVisible(isMoreMiuiVersion(14f) && isMoreAndroidVersion(31));
+        mNoveltyHaptic.setVisible((isMoreMiuiVersion(14f) || isMoreHyperOSVersion(1f)) && isMoreAndroidVersion(31));
         mPad.setVisible(isPad());
 
         if (isMoreHyperOSVersion(1f)) {
