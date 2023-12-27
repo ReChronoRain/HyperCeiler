@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">อังกฤษ</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="about">เกี่ยวกับ</string>
+    <string name="about_use">อ้างอิง</string>
+    <string name="about_contributer">เกี่ยวกับผู้เขียน</string>
+    <string name="about_donation">ผู้สนับสนุน</string>
+    <string name="about_donation_desc">คุณสามารถสนับสนุนเราได้โดยการบริจาคที่นี่</string>
+    <string name="settings_data_title">สำรองข้อมูลและคืนค่า</string>
+    <string name="settings_bug_title">การแก้ไขปัญหา</string>
+    <string name="settings_debug_title">ดีบัก</string>
+    <string name="settings_hide_app_icon">ไอคอนเดสก์ทอป</string>
+    <string name="settings_icon">ไอคอนการตั้งค่า</string>
+    <string name="settings_icon_desc">ตั้งค่าตำแหน่งของรายการโมดูลในการตั้งค่า</string>
+    <string name="settings_icon_disable">ปิดการใช้งาน</string>
+    <string name="settings_icon_top">ด้านบน</string>
+    <string name="settings_icon_medium">ตรงกลาง</string>
+    <string name="settings_icon_down">ด้านล่าง</string>
+    <string name="settings_icon_mode">รูปแบบไอคอน</string>
+    <string name="settings_icon_miui_14">สไตล์สี่เหลี่ยมผืนผ้าโค้งมน</string>
+    <string name="settings_icon_miui_13">สไตล์คัตเอาท์พื้นหลัง</string>
+    <string name="settings_reboot">รีสตาร์ทแอปเป้าหมาย</string>
+    <string name="settings_back">สำรองการตั้งค่าโมดูล</string>
+    <string name="settings_rest">คืนค่าการตั้งค่าโมดูล</string>
+    <string name="settings_reset">คืนค่าการตั้งค่าโมดูล</string>
+    <string name="reset_title">คุณต้องการรีเซ็ตหรือไม่?</string>
+    <string name="reset_desc">หลังจากรีเซ็ตการกำหนดค่าโมดูลแล้ว ข้อมูลทั้งหมดจะถูกลบ!</string>
+    <string name="reset_okay">รีเซ็ตการกำหนดค่าโมดูลแล้ว</string>
+    <string name="backup_success">สำรองข้อมูลสำเร็จ</string>
+    <string name="backup_failed">สำรองข้อมูลไม่สำเร็จ</string>
+    <string name="rest_title">การกู้คืน</string>
+    <string name="rest_success">การกู้คืนสำเร็จ</string>
+    <string name="rest_failed">กู้คืนไม่สำเร็จ</string>
+    <string name="backup_ask">คุณต้องการสำรองข้อมูลหรือไม่?</string>
+    <string name="backup_permission">ตอนนี้คุณต้องเปิดใช้งานการอนุญาตสำหรับตัวเลือกนี้ด้วยตนเอง</string>
+    <string name="rest_ask">คุณต้องการกู้คืนข้อมูลสำรองของคุณหรือไม่?</string>
+    <string name="rest_permission">ตอนนี้คุณต้องเปิดใช้งานการอนุญาตสำหรับตัวเลือกนี้ด้วยตนเอง</string>
+    <string name="disable_detailed_log">ปิดใช้งานบันทึกโดยละเอียด</string>
+    <string name="disable_detailed_log_desc">รีบูตเพื่อเปลี่ยนแปลง</string>
+    <string name="settings_safe_mode">โหมดปลอดภัย</string>
+    <string name="settings_safe_mode_desc">หยุดการทำงานของโมดูล</string>
+    <string name="about_developer_title">ผู้พัฒนา</string>
+    <string name="about_translator_title">ผู้สนับสุนการแปล</string>
+    <string name="about_chat_title">ความคิดเห็น</string>
+    <string name="about_other_title">อื่น ๆ</string>
+    <string name="about_qq_group">QQ Group</string>
+    <string name="about_qq_channel">QQ Channel</string>
+    <string name="about_tg_group">กลุ่ม Telegram</string>
+    <string name="about_tg_channel">ช่อง Telegram</string>
+    <string name="about_github">แหล่งที่มา</string>
+    <string name="about_github_desc">โครงการนี้เป็นโอเพ่นซอร์สตามใบอนุญาต AGPL-3.0</string>
+    <string name="about_offical">เว็บไซต์อย่างเป็นทางการ</string>
+    <string name="about_crwd">Crowdin</string>
+    <!--Pop-up window/miuix part-->
+    <string name="soft_reboot">รีบูต </string>
+    <string name="tip">คำแนะนำ</string>
+    <string name="hook_failed">โมดูลยังไม่ได้เปิดใช้งาน\nโปรดตรวจสอบว่า Xposed manager เปิดใช้งานอยู่หรือไม่ หากเป็นเช่นนั้น โปรดรีสตาร์ทหรือเพิ่มประสิทธิภาพโมดูลอีกครั้ง</string>
+    <string name="expand_button_title">ระดับสูง</string>
+    <string name="not_set">ไม่ได้ตั้งค่า</string>
+    <string name="copy">คัดลอก</string>
+    <string name="more">เพิ่มเติม</string>
+    <!--String reuse-->
+    <!--Multi-list Array-->
+    <!--System Framework-->
+    <string name="system_framework">กรอบงานระบบ</string>
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <string name="browser">เบราว์เซอร์</string>
+    <string name="browser_debug_mode">ตัวเลือกโหมดผู้พัฒนาระบบ</string>
+    <!--Camera-->
+    <!--Clock-->
+    <string name="clock">นาฬิกา</string>
+    <string name="clock_enable_hour_glass">ปลดล็อกแอนิเมชั่นนาฬิกาทราย</string>
+    <!--File Manager-->
+    <!--Phone-->
+    <string name="incallui">โทรศัพท์</string>
+    <!--Message-->
+    <string name="mms">ข้อความ</string>
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <string name="system_ui">UI ของระบบ</string>
+    <!--Settings-->
+    <string name="system_settings">การตั้งค่า</string>
+    <!--Themes-->
+    <string name="theme_manager">ธีม</string>
+    <!--Updater-->
+    <string name="updater">อัพเดท</string>
+    <!--Permissions-->
+    <string name="lbe">การอนุญาต</string>
+    <!--Cast-->
+    <string name="milink">แคสต์</string>
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <string name="gallery">แกลเลอรี </string>
+    <string name="gallery_enable_hdr_enhanced">ปลดล็อกไดนามิกสูงของจอแสดงผล</string>
+    <string name="gallery_enable_pdf">ปลดล็อกสร้าง PDF</string>
+    <string name="gallery_enable_ocr">ปลดล็อก OCR</string>
+    <string name="gallery_enable_ocr_form">ปลดล็อกตารางการสแกน</string>
+    <!--MIUI security components-->
+    <string name="guard_provider">องค์ประกอบความปลอดภัยของ MIUI</string>
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <string name="mediaeditor">บรรณาธิการแกลเลอรี่</string>
+    <!--Mi Share-->
+    <string name="mishare">Mi Share</string>
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <string name="package_installer">ตัวติดตั้งแพ็คเกจ</string>
+    <!--networkboost-->
+    <!--nfc-->
+    <!--App vault-->
+    <string name="personal_assistant">App vault</string>
+    <!--Music-->
+    <string name="music">เพลง</string>
+    <!--Battery and performance-->
+    <string name="powerkeeper">แบตเตอรี่และประสิทธิภาพ</string>
+    <!--creen Recorder-->
+    <string name="screenrecorder">บันทึกหน้าจอ</string>
+    <!--Screenshot-->
+    <string name="screenshot">สกรีนช็อต</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center">ความปลอดภัย</string>
+    <string name="security_center_remove_open_app_confirmation_popup">ลบป๊อปอัปแอปที่เปิดอยู่</string>
+    <string name="security_center_no_permission">ไม่ได้รับสิทธิ์ที่จำเป็น</string>
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <!--Weather-->
+    <string name="weather">สภาพอากาศ</string>
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <string name="joyose">Joyose</string>
+    <!--GetApps-->
+    <string name="market">GetApps</string>
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <string name="scanner">แสกนเนอร์</string>
+    <!--Other-->
+    <string name="various">อื่น ๆ</string>
+    <string name="custom_hook">กำหนดเอง</string>
+</resources>

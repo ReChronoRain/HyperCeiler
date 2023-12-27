@@ -1007,7 +1007,7 @@
     <string name="home_recent_vertical_task_view_card_size">Tamanho da miniatura para Verticalmente</string>
     <string name="home_recent_text_size">Tamanho do nome dos apps</string>
     <string name="home_recent_text_color">Cor do nome dos apps</string>
-    <string name="home_recent_freeform_background_color">Cor de fundo do cartão do app Janelas flutuantes</string>
+    <string name="home_recent_freeform_background_color">Cor de fundo do cartão Janelas flutuantes</string>
     <string name="home_recent_show_real_memory">Exibir memória real</string>
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>

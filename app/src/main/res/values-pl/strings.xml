@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <string name="new_permission_wifi_state_desc">dodawanie i usuwanie plików z pamięci wewnętrznej urządzenia</string>
+    <string name="new_permission_location_desc">używane do świadczenia usług takich jak szerokość i długość geograficzna</string>
+    <string name="new_cta_agree_desc">W celu zapewnienia większej liczby funkcji, podczas używania aplikacja może ubiegać się o uprawnienia Roota od użytkownika. Możesz przejść do ustawień zarządzania uprawnieniami w dowolnym momencie, aby dostosować status autoryzacji wszystkich uprawnień, a w celu uzyskania uprawnień należy przydzielić je w menedżerze Root.</string>
+    <string name="new_cta_app_main_purpose">modyfikacja aplikacji systemowych</string>
+    <string name="new_cta_app_all_purpose_title">Witamy w HyperCeiler. Działanie tej aplikacji opiera się na frameworku LSPosed. Możesz użyć tej aplikacji do modyfikowania innych obsługiwanych aplikacji w celu ulepszenia systemu. Aby zapewnić Ci większą funkcjonalność podczas użytkowania, możemy poprosić Cię o uprawnienia roota. Możesz nim zarządzać w dowolnym momencie, przechodząc do Menedżera Root\'a.</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">Angielski</string>
+    <string name="settings">Ustawienia</string>
+    <string name="about">O aplikacji</string>
+    <string name="about_use">Podziękowania</string>
+    <string name="about_contributer">Współautor</string>
+    <string name="about_contributer_desc">Podziękowania dla następujących współtwórców za pomoc w rozwoju HyperCeilera (w dowolnej kolejności)</string>
+    <string name="about_donation">Sponsor</string>
+    <string name="about_donation_desc">Możesz nas wspierać poprzez darowizny</string>
+    <string name="location_add">Dodaj</string>
+    <string name="location_delete">Usuń</string>
+    <string name="about_privacy">Polityka prywatności</string>
+    <string name="about_protocol">Umowa użytkownika</string>
+    <string name="settings_data_title">Kopia zapasowa i przywracanie</string>
+    <string name="settings_bug_title">Rozwiązywanie problemów</string>
+    <string name="settings_debug_title">Debugowanie</string>
+    <string name="settings_hide_app_icon">Ikony pulpitu</string>
+    <string name="settings_icon">Ikony ustawień</string>
+    <string name="settings_icon_desc">Ustaw lokalizację modułu w ustawieniach systemu</string>
+    <string name="settings_icon_disable">Wyłącz</string>
+    <string name="settings_icon_top">Góra</string>
+    <string name="settings_icon_medium">Środek</string>
+    <string name="settings_icon_down">Dół</string>
+    <string name="settings_icon_mode">Styl ikony</string>
+    <string name="settings_icon_miui_14">Zaokrąglony prostokątny styl</string>
+    <string name="settings_icon_miui_13">Styl wycięcia tła</string>
+    <string name="settings_reboot">Zrestartuj aplikację docelową</string>
+    <string name="settings_back">Utwórz kopię zapasową ustawienia modułu</string>
+    <string name="settings_rest">Przywróć ustawienia modułu</string>
+    <string name="settings_reset">Zresetuj ustawienia modułu</string>
+    <string name="reset_title">Czy na pewno chcesz zresetować?</string>
+    <string name="reset_desc">Po zresetowaniu konfiguracji modułu wszystkie jego dane zostaną usunięte!</string>
+    <string name="reset_okay">Konfiguracja modułu została zresetowana</string>
+    <string name="backup_success">Kopia zapasowa wykonana</string>
+    <string name="backup_failed">Kopia zapasowa nieudana</string>
+    <string name="rest_title">Odzyskaj</string>
+    <string name="rest_success">Odzyskiwanie powiodło się</string>
+    <string name="rest_failed">Odzyskiwanie nie powiodło się</string>
+    <string name="backup_ask">Czy chcesz utworzyć kopię zapasową?</string>
+    <string name="backup_permission">Teraz musisz ręcznie włączyć uprawnienia dla tej opcji.</string>
+    <string name="rest_ask">Czy chcesz odzyskać kopię zapasową?</string>
+    <string name="rest_permission">Teraz musisz ręcznie włączyć uprawnienia dla tej opcji.</string>
+    <string name="disable_detailed_log">Wyłącz szczegółowy dziennik</string>
+    <string name="disable_detailed_log_desc">Zrestartuj, aby zastosować</string>
+    <string name="settings_safe_mode">Tryb awaryjny</string>
+    <string name="settings_safe_mode_desc">Zatrzymaj funkcję modułu</string>
+    <string name="about_developer_title">Twórca</string>
+    <string name="about_translator_title">Tłumacz</string>
+    <string name="about_chat_title">Dyskusja</string>
+    <string name="about_other_title">Inne</string>
+    <string name="about_qq_group">Grupa QQ</string>
+    <string name="about_qq_channel">Kanał QQ</string>
+    <string name="about_tg_group">Grupa na Telegramie</string>
+    <string name="about_tg_channel">Kanał na Telegramie</string>
+    <string name="about_github">Kod źródłowy</string>
+    <string name="about_github_desc">Ten projekt jest open source opartym na licencji AGPL-3.0</string>
+    <string name="about_offical">Oficjalna strona</string>
+    <string name="about_crwd">Crowdin</string>
+    <string name="about_crwd_desc">Pomóż nam przetłumaczyć HyperCeilera na Twój język</string>
+    <!--Pop-up window/miuix part-->
+    <string name="soft_reboot">Zrestartuj </string>
+    <string name="restart_app_desc">Czy na pewno chcesz teraz zrestartować %1$s?</string>
+    <string name="tip">Rada</string>
+    <string name="hook_failed">Moduł nie jest jeszcze aktywowany.\nSprawdź, czy menedżer Xposed jest włączony. Jeśli tak, zrestartuj lub ponownie zoptymalizuj moduł.</string>
+    <string name="kill_failed">Nie udało się wyłączyć procesu. Sprawdź, czy HyperCeiler ma uprawnienia roota.</string>
+    <string name="pid_failed">Aplikacja docelowa nie jest uruchomiona i nie trzeba jej uruchamiać ponownie.</string>
+    <string name="reboot_failed">Restart się nie powiódł. Sprawdź, czy HyperCeiler otrzymał uprawnienia roota.</string>
+    <string name="expand_button_title">Zaawansowany</string>
+    <string name="not_set">Nieustawiony</string>
+    <string name="copy">Kopiuj</string>
+    <string name="more">Więcej</string>
+    <string name="clearable_edittext_clear_description">Wyczyść</string>
+    <string name="preference_on">Włączono</string>
+    <string name="preference_off">Wyłączono</string>
+    <string name="preference_copied">Skopiowano %1$s do schowka.</string>
+    <string name="preference_default_value_text">Domyślny</string>
+    <string name="preference_dialog_color_picker_default_title">Wybierz kolor</string>
+    <string name="preference_dialog_color_picker_presets">Predefiniowany kolor</string>
+    <string name="preference_dialog_color_picker_custom">Własny kolor</string>
+    <string name="preference_dialog_color_picker_transparency">Przezroczystość</string>
+    <string name="preference_dialog_color_picker_select">Potwierdź wybór</string>
+    <string name="abc_action_bar_home_description">Wróć do strony głównej</string>
+    <string name="abc_action_bar_up_description">Wróć do poprzedniej strony</string>
+    <string name="actionbar_button_up_description">Powrót</string>
+    <string name="appcompat_action_mode_select_all">Wybierz wszystkie</string>
+    <string name="appcompat_cancel_description">Anuluj</string>
+    <string name="appcompat_confirm_description">Ok</string>
+    <string name="appcompat_select_all_description">Zaznacz wszystko</string>
+    <string name="appcompat_deselect_all_description">Odznacz wszystkie</string>
+    <string name="appcompat_delete_description">Usuń</string>
+    <string name="appcompat_search_action_mode_cancel">Anuluj</string>
+    <string name="appcompat_search_input_description">Szukaj</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">Więcej</string>
+    <string name="appcompat_action_mode_inverse">Odwróć</string>
+    <string name="color_picker_alpha_text_transparent">Widoczność</string>
+    <string name="color_picker_tab_grid">Siatka</string>
+    <string name="color_picker_tab_slider">Suwak</string>
+    <string name="color_picker_view_page_text_hue">Odcień</string>
+    <string name="color_picker_view_page_text_lightness">Jasność</string>
+    <string name="color_picker_view_page_text_saturation">Nasycenie</string>
+    <!--String reuse-->
+    <string name="top_margin">Górny margines</string>
+    <string name="bottom_margin">Dolny margines</string>
+    <string name="left_margin">Lewy margines</string>
+    <string name="right_margin">Prawy margines</string>
+    <string name="vertical_offset">Przesunięcie w górę i w dół</string>
+    <string name="horizontal_alignment">Poziome wyrównanie</string>
+    <string name="feature">Funkcja</string>
+    <string name="recommend">Zalecane</string>
+    <string name="editor">Edytor</string>
+    <string name="record">Film</string>
+    <string name="shot">Zdjęcie</string>
+    <string name="portrait">Portret</string>
+    <string name="camera_pro">Profesjonalny</string>
+    <string name="enable">Aktywuj</string>
+    <string name="disable">Wyłącz</string>
+    <string name="custom_enable">Włącz niestandardowe</string>
+    <string name="search">Szukaj</string>
+    <string name="floating_window">Dowolny układ</string>
+    <string name="save_to_screen_title">Lokalizacja zapisu</string>
+    <string name="system_ui_statusbar_indicator_default_title">Domyślny</string>
+    <string name="system_ui_statusbar_indicator_expand_title">Rozwiń</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">Napraw szerokość treści</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Aby zapobiec drganiom poziomym</string>
+    <string name="system_ui_statusbar_indicator_bold">Pogrubiony</string>
+    <!--Multi-list Array-->
+    <string name="array_close">Zamknij</string>
+    <string name="array_default">Domyślny</string>
+    <string name="array_align_left">Lewy</string>
+    <string name="array_align_right">Prawy</string>
+    <string name="array_align_center">Środek</string>
+    <string name="array_netspeedicons_no">Brak ikon</string>
+    <string name="array_bold">Pogrubiony</string>
+    <string name="array_theme">Śledź temat</string>
+    <string name="array_clock_center">Zegar pośrodku</string>
+    <string name="array_clock_right">Zegar po prawej</string>
+    <string name="array_clock_center_and_icon_left">Zegar pośrodku &amp; ikona w lewo</string>
+    <string name="array_clock_default">Domyślny</string>
+    <string name="array_clock_geek">Maniak</string>
+    <string name="array_battery_both">Obie</string>
+    <string name="array_battery_power">Tylko moc</string>
+    <string name="array_battery_current">Tylko aktualny pobór</string>
+    <string name="array_battery_temp">Temperatura baterii</string>
+    <string name="array_cpu_temp">Temperatura CPU</string>
+    <string name="array_global_actions_none">Brak akcji</string>
+    <string name="array_global_actions_notif">Otwórz centrum powiadomień</string>
+    <string name="array_global_actions_eqs">Rozwiń panel szybkich ustawień</string>
+    <string name="array_global_actions_lock">Zablokuj ekran</string>
+    <string name="array_global_actions_sleep">Zamknij ekran</string>
+    <string name="array_global_actions_screenshot">Zrzut ekranu</string>
+    <string name="array_global_actions_menu">Otwórz menu</string>
+    <string name="array_global_actions_recents">Otwórz ostatnie zadania</string>
+    <string name="array_global_actions_volume">Otwórz okno głośności</string>
+    <string name="array_global_actions_volume_up">Zwiększ głośność</string>
+    <string name="array_global_actions_volume_down">Zmniejsz głośność</string>
+    <string name="array_global_actions_launch">Uruchom aplikację</string>
+    <string name="array_global_actions_launch_choose">Wybierz aplikację</string>
+    <string name="array_global_actions_shortcut">Uruchom skrót</string>
+    <string name="array_global_actions_activity">Uruchom aktywność</string>
+    <string name="array_global_actions_toggle">Funkcja przełączania</string>
+    <string name="array_global_actions_back">Przełącz do poprzedniej aplikacji</string>
+    <string name="array_global_actions_forceclose">Wymuś zamknięcie bieżącej aplikacji</string>
+    <string name="array_global_actions_powermenu">Otwórz menu zasilania</string>
+    <string name="array_global_actions_powermenu_short">Menu zasilania</string>
+    <string name="array_global_actions_clear_memory">Wyczyść pamięć</string>
+    <string name="array_global_actions_invert_colors">Odwrócenie kolorów</string>
+    <string name="array_global_actions_switchkeyboard">Przełącz klawiaturę</string>
+    <string name="array_global_actions_goback">Powrót</string>
+    <string name="array_global_actions_onehanded_left">Tryb jednoręczny (lewa strona)</string>
+    <string name="array_global_actions_onehanded_right">Tryb jednoręczny (prawa strona)</string>
+    <string name="array_global_actions_scrolltotop">Przewiń na górę</string>
+    <string name="array_global_actions_expandsidebar">Pokaż pasek boczny</string>
+    <string name="array_global_actions_floatingwindow">Pływające okno</string>
+    <string name="array_global_actions_pinningwindow">Przypnij okno</string>
+    <string name="array_align_top">Góra</string>
+    <string name="array_align_bottom">Dół</string>
+    <string name="array_discrete">Oddzielny</string>
+    <string name="array_gradual">Powolny</string>
+    <string name="array_rainbow">Tęcza</string>
+    <string name="various_install_app_info_version_name">Nazwa wersji</string>
+    <string name="various_install_app_info_version_code">Kod wersji</string>
+    <string name="various_install_app_info_sdk">Obsługiwane SDK</string>
+    <string name="various_install_app_size">Rozmiar</string>
+    <string name="charge_animation_entries_disable">Wyłącz</string>
+    <string name="charge_animation_entries_aura">Przepływ</string>
+    <string name="charge_animation_entries_stream">Blask</string>
+    <string name="charge_animation_entries_alpha">Fala</string>
+    <string name="status_bar_icon_mode_default">Domyślny</string>
+    <string name="status_bar_icon_mode_on">Zawsze pokazuj</string>
+    <string name="status_bar_icon_mode_off">Zawsze ukrywaj</string>
+    <string name="status_bar_icon_mode_off_unconnect">Ukryj tylko wtedy, gdy nie jest podłączony</string>
+    <string name="status_bar_icon_mode_on_beforering">Pokazuj tylko przed zadzwonieniem</string>
+    <string name="seek_points_roll">Pokazuj tylko podczas przesuwania ekranu</string>
+    <string name="seek_points_edit">Wyświetlane tylko w trybie edycji</string>
+    <string name="home_mode_day">Jasny motyw</string>
+    <string name="home_mode_dark">Ciemny motyw</string>
+    <string name="dialog_gravity_medium">Środek</string>
+    <string name="dialog_gravity_down">Dół</string>
+    <string name="collapse_miui_title_off">Zwiń</string>
+    <string name="collapse_miui_title_on">Rozwiń</string>
+    <string name="collapse_miui_title_off_always">Zawsze zwinięty</string>
+    <string name="collapse_miui_title_on_always">Zawsze rozwinięty</string>
+    <string name="link_open_mode_mi">Przeglądarka Xiaomi</string>
+    <string name="app_sort_running">Domyślne sortowanie</string>
+    <string name="app_sort_name">Nazwa aplikacji</string>
+    <string name="app_sort_frequency">Częstotliwość używania</string>
+    <string name="app_sort_storage">Używana pamięć</string>
+    <string name="app_sort_install">Czas instalacji</string>
+    <string name="array_bpa_blur_customize">Niestandardowe rozmycie tła</string>
+    <!--System Framework-->
+    <string name="system_framework">System Android</string>
+    <string name="system_framework_volume_title">Głośność</string>
+    <string name="system_framework_other_title">Pozostałe</string>
+    <string name="system_framework_display_title">Wyświetlacz</string>
+    <string name="system_framework_phone_title">Sieć</string>
+    <string name="system_framework_default_volume_stream">Ustaw głośność jako domyślną</string>
+    <string name="system_framework_volume_first_press">Natychmiastowa regulacja głośności</string>
+    <string name="system_framework_volume_separate_control">Niezależna regulacja głośności</string>
+    <string name="system_framework_volume_disable_safe">Usuń ostrzeżenie dotyczące dużej głośności</string>
+    <string name="system_framework_volume_separate_slider">Suwak głośności powiadomień</string>
+    <string name="system_framework_volume_media_steps">Poziom głośności multimediów</string>
+    <string name="system_framework_volume_media_steps_desc">Po włączeniu przewijanie paska głośności może się zawiesić lub głośność Bluetooth może działać nieprawidłowo</string>
+    <string name="system_framework_volume_steps">Mnożnik poziomu głośności</string>
+    <string name="system_ui_display_cutout_title">Wcięcie w ekranie</string>
+    <string name="system_ui_display_hide_cutout">Ukryj wcięcie</string>
+    <string name="system_ui_display_brightness_title">Jasność</string>
+    <string name="system_ui_display_auto_brightness">Automatyczny zakres jasności</string>
+    <string name="system_ui_display_auto_brightness_desc">Zdefiniuj minimalne i maksymalne wartości automatycznej jasności</string>
+    <string name="system_ui_display_min_brightness">Min. jasność</string>
+    <string name="system_ui_display_max_brightness">Maks. jasność</string>
+    <string name="phone_double_5g_nr">Użycie 5G z obu kart SIM (SA+NSA)</string>
+    <string name="system_framework_screen_all_rotations">Rotacja ekranu</string>
+    <string name="system_framework_allow_untrusted_touch">Zezwalaj na niezaufany dotyk</string>
+    <string name="system_framework_allow_uninstall">Zezwalaj na odinstalowanie niektórych preinstalowanych aplikacji</string>
+    <string name="system_framework_allow_uninstall_desc">Ta funkcja jest niebezpieczna</string>
+    <string name="system_framework_disable_app_link_verify">Wyłącz weryfikację linku do aplikacji</string>
+    <string name="system_framework_disable_app_link_verify_desc">Przywraca bezpośrednie otwieranie obsługiwanych aplikacji po otwarciu łącza bez włączania obsługiwanych łączy w ustawieniach aplikacji</string>
+    <string name="system_framework_clean_share_menu">Dostosuj menu udostępniania</string>
+    <string name="system_framework_clean_share_apps">Wybrane aplikacje</string>
+    <string name="system_framework_clean_share_apps_desc">Wybrana aplikacja nie pojawi się w menu udostępniania</string>
+    <string name="system_framework_clean_open_menu">Dostosuj menu \"Otwórz za pomocą\"</string>
+    <string name="system_framework_clean_open_apps">Wybrane aplikacje</string>
+    <string name="system_framework_clean_open_apps_desc">Wybrana aplikacja nie pojawi się w menu \"Otwórz za pomocą\"</string>
+    <string name="system_other_flag_secure">Zezwalaj na zrzuty ekranu</string>
+    <string name="system_other_flag_secure_desc">Umożliwia zrzuty/nagrania ekranu dowolnej aplikacji</string>
+    <string name="system_other_delete_on_post_notification">Wyłącz powiadomienia nakładki</string>
+    <string name="system_other_delete_on_post_notification_desc">Wyłącza powiadomienie \"Ta aplikacja wyświetla się nad innymi aplikacjami\"</string>
+    <string name="system_framework_share_menu_test">Testuj menu udostępniania</string>
+    <string name="system_framework_open_with_menu_test">Testuj menu \"Otwórz za pomocą\"</string>
+    <string name="system_framework_other_use_original_animation">Użyj animacji przejścia w stylu natywnym</string>
+    <string name="system_framework_other_speed_install">Szybka instalacja</string>
+    <string name="system_framework_other_speed_install_desc">Instaluje się w działającej pamięci, aby przyspieszyć instalację</string>
+    <string name="system_framework_other_thermal_brightness">Wyłącz automatyczną redukcję jasności ekranu</string>
+    <string name="system_framework_other_thermal_brightness_more">Automatycznie zmniejszana jest tylko jasność ekranu, która nie jest spowodowana kontrolą temperatury</string>
+    <string name="system_framework_other_disable_cleaner">Wyłącz zabijanie aplikacji działających w tle</string>
+    <string name="system_framework_other_disable_cleaner_desc">Funkcje eksperymentalne mogą powodować nieprawidłowe wykorzystanie pamięci</string>
+    <string name="system_framework_disable_72h_verify">Wyłącz weryfikację ekranu blokady co 72 godziny</string>
+    <!--Package Manager Service-->
+    <string name="system_framework_corepatch_title">Usługa menedżera pakietów</string>
+    <string name="system_framework_core_patch_downgr">Zezwalaj na niższą wersję</string>
+    <string name="system_framework_core_patch_downgr_desc">Zezwala na instalację starszych wersji aplikacji</string>
+    <string name="system_framework_core_patch_auth_creak">Wyłącz weryfikację podpisu</string>
+    <string name="system_framework_core_patch_auth_creak_desc">Umożliwia instalowanie aplikacji po zmodyfikowaniu pliku APK (ignoruje błąd nieprawidłowego podpisu)</string>
+    <string name="system_framework_disable_integrity">Wyłącz sprawdzanie integralności systemu</string>
+    <string name="system_framework_disable_integrity_desc">Automatyczne odzyskiwanie zmodyfikowanej zawartości jest zabronione. Gdy włączona jest funkcja \"Wyłącz weryfikację podpisu\", będzie ona domyślnie włączona.\nWspierane tylko dla Androida 13 lub nowszej wersji</string>
+    <string name="system_framework_core_patch_digest_creak">Wyłącz porównywanie podpisów</string>
+    <string name="system_framework_core_patch_digest_creak_desc">Zezwalaj na ponowną instalację aplikacji z różnymi podpisami</string>
+    <string name="system_framework_core_patch_use_pre_signature">Użyj zainstalowanych podpisów</string>
+    <string name="system_framework_core_patch_use_pre_signature_desc">Ta funkcja jest niezwykle niebezpieczna i powinna być włączana tylko wtedy, gdy jest to absolutnie konieczne</string>
+    <string name="system_framework_core_patch_enhanced_mode">Tryb ulepszony</string>
+    <string name="system_framework_core_patch_enhanced_mode_desc">Spraw, aby aplikacja przeszła kilka weryfikacji</string>
+    <!--Browser-->
+    <string name="browser">Przeglądarka</string>
+    <string name="browser_debug_mode">Odblokuj opcje programistyczne</string>
+    <!--Camera-->
+    <string name="camera">Aparat</string>
+    <string name="camera_features_unlock_aiwatermark">Odblokuj znak wodny SI</string>
+    <string name="camera_features_unlock_ambilight">Odblokuj długą ekspozycję</string>
+    <string name="camera_features_unlock_clone">Odblokuj tryb klonowania</string>
+    <string name="camera_features_unlock_cosmetic_mirror">Odblokuj małe lusterko</string>
+    <string name="camera_features_unlock_doc">Odblokuj tryb dokumentu</string>
+    <string name="camera_features_unlock_idcard">Odblokuj tryb dowodu tożsamości</string>
+    <string name="camera_features_unlock_dualcam">Odblokuj podwójną kamerę</string>
+    <string name="camera_features_unlock_duration">Odblokuj tryb poklatkowy</string>
+    <string name="camera_features_unlock_milive">Odblokuj krótkie filmy</string>
+    <string name="camera_features_unlock_moon">Odblokuj tryb Superksiężyca</string>
+    <string name="camera_features_unlock_pano">Odblokuj tryb panoramy</string>
+    <string name="camera_features_unlock_pixel">Odblokuj tryb super rozdzielczości</string>
+    <string name="camera_features_unlock_portrait">Odblokuj tryb portretowy</string>
+    <string name="camera_features_unlock_slow">Odblokuj zwolnione tempo</string>
+    <string name="camera_features_unlock_videosky">Odblokuj wideo-niebo</string>
+    <string name="camera_features_unlock_vlog">Odblokuj tryb VLOG</string>
+    <string name="camera_features_unlock_vlog_pro">Odblokuj tryb VLOG PRO</string>
+    <string name="camera_features_unlock_film">Odblokuj efekty filmowe</string>
+    <string name="camera_features_unlock_film_delay">Odblokuj długie opóźnienie ekspozycji</string>
+    <string name="camera_features_unlock_film_dollyzoom">Odblokuj magiczny zoom</string>
+    <string name="camera_features_unlock_film_dream">Odblokuj równoległą rzeczywistość</string>
+    <string name="camera_features_unlock_film_slowshutter">Odblokuj wolną migawkę</string>
+    <string name="camera_features_unlock_film_timebackflow">Odblokuj podróże w czasie</string>
+    <string name="camera_features_unlock_film_timefreeze">Odblokuj zatrzymanie czasu</string>
+    <string name="camera_shot_hand_gesture">Odblokuj migawkę dłoni</string>
+    <string name="camera_shot_color_enhance">Odblokuj wzmocnienie koloru</string>
+    <string name="camera_shot_makeup">Odblokuj makijaż</string>
+    <string name="camera_shot_makeup_desc">Działa tylko w przypadku korzystania z przedniego aparatu</string>
+    <string name="camera_record_60fps">Odblokuj 60FPS</string>
+    <string name="camera_record_60fps_desc">Niedostępne dla niektórych jakości, upewnij się, że twoje urządzenie jest kompatybilne</string>
+    <string name="camera_record_120fps">Odblokuj 120FPS</string>
+    <string name="camera_record_120fps_desc">Dostępne tylko dla jakości 4K, upewnij się, że twoje urządzenie jest kompatybilne</string>
+    <string name="camera_record_audio_zoom">Odblokuj zbliżenie audio</string>
+    <string name="camera_record_hdr">Odblokuj HDR</string>
+    <string name="camera_record_ai">Odblokuj aparat SI</string>
+    <string name="camera_portrait_new_beauty">Odblokuj nowe tryby piękności</string>
+    <string name="camera_portrait_new_beauty_desc">Działa tylko w przypadku korzystania z przedniego aparatu</string>
+    <string name="camera_portrait_cvlens">Odblokuj główną soczewkę</string>
+    <string name="camera_portrait_cvlens_desc">Nie działa prawidłowo na niektórych urządzeniach</string>
+    <string name="camera_pro_raw">Odblokuj RAW</string>
+    <string name="camera_pro_log">Odblokuj LOG</string>
+    <string name="camera_settings_heic">Odblokuj format HEIF</string>
+    <string name="camera_settings_track_focus">Odblokuj śledzenie ostrości</string>
+    <string name="camera_settings_predictive">Odblokuj przechwytywanie ruchu</string>
+    <string name="camera_settings_nevus">Odblokuj usuwanie pieprzyków</string>
+    <string name="camera_settings_men_makeup">Odblokuj adaptację makijażu dla mężczyzn</string>
+    <string name="camera_settings_lab_options">Włącz opcje laboratoryjne</string>
+    <string name="camera_settings_track_eyes">Odblokuj śledzenie oczu</string>
+    <!--Clock-->
+    <string name="clock">Zegar</string>
+    <string name="clock_enable_hour_glass">Odblokuj animację klepsydry na zegarze</string>
+    <string name="clock_enable_hour_glass_desc">Wersja 13.65.0 i nowsze nie są obsługiwane</string>
+    <!--File Manager-->
+    <string name="fileexplorer">Pliki</string>
+    <!--Phone-->
+    <string name="incallui">Telefon</string>
+    <!--Message-->
+    <string name="mms">SMS</string>
+    <string name="mms_disable_ad">Wyłącz reklamy</string>
+    <string name="mms_disable_ad_desc">Usuń skróty na dole ekranu i promocję pod treścią SMS-a</string>
+    <!--Phone Service-->
+    <string name="phone">Usługa telefonu</string>
+    <string name="phone_smart_dual_sim">Odblokuj inteligentną podwójną kartę SIM</string>
+    <!--Download management program-->
+    <string name="downloads">Menedżer pobierania</string>
+    <string name="various_fuck_xlDownload">Blokuj tworzenie folderu .xlDownload</string>
+    <string name="various_fuck_xlDownload_desc">Zapobiega generowaniu przez menedżera pobierania folderu .xlDownload w katalogu głównym pamięci wewnętrznej</string>
+    <!--System UI-->
+    <string name="system_ui">Interfejs systemu</string>
+    <string name="system_ui_lockscreen_title">Ekran blokady</string>
+    <!--Settings-->
+    <string name="system_settings">Ustawienia</string>
+    <string name="system_settings_international_build">Międzynarodowa wersja ustawień</string>
+    <string name="system_settings_safe_wifi">Wyświetl zapisane hasła Wi-Fi</string>
+    <string name="system_settings_safe_wifi_desc">Odblokuj zarządzanie zapisanymi sieciami\nŚcieżka: Ustawienia - Wi-Fi - Ustawienia zaawansowane - Zapisane sieci Wi-Fi</string>
+    <string name="system_settings_wifipassword_btn_title">Sprawdź</string>
+    <string name="system_settings_wifi_password_label">Hasło</string>
+    <string name="system_settings_wifi_password_dlgtitle">Szczegóły Wi-Fi</string>
+    <!--Themes-->
+    <!--Updater-->
+    <!--Permissions-->
+    <string name="lbe">Uprawnienia</string>
+    <!--Cast-->
+    <string name="milink">Prześlij ekran</string>
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <string name="gallery">Galeria</string>
+    <!--MIUI security components-->
+    <string name="guard_provider">Komponenty bezpieczeństwa MIUI</string>
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <string name="mediaeditor">Edytor galerii</string>
+    <!--Mi Share-->
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <!--networkboost-->
+    <!--nfc-->
+    <!--App vault-->
+    <!--Music-->
+    <!--Battery and performance-->
+    <!--creen Recorder-->
+    <!--Screenshot-->
+    <!--Security/Tablet security center-->
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <!--Weather-->
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <string name="joyose">Joyose</string>
+    <!--GetApps-->
+    <string name="market">GetApps</string>
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <string name="sogou_xiaomi_clipboard">Usuń ograniczenie liczby schowków</string>
+    <!--Scanner-->
+    <!--Other-->
+</resources>

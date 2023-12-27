@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">Англійська</string>
+    <string name="translator_url">https://github.com/mu7220</string>
+    <string name="settings">Налаштування</string>
+    <string name="about">Про застосунок</string>
+    <string name="about_use">Цитата</string>
+    <string name="about_contributer">Співавтор</string>
+    <string name="about_donation">Спонсор</string>
+    <string name="about_donation_desc">Ви можете підтримати нас, пожертвувавши тут</string>
+    <string name="settings_icon_disable">Вимкнути</string>
+    <string name="settings_icon_top">Верх</string>
+    <string name="settings_icon_medium">Середина</string>
+    <string name="settings_icon_down">Низ</string>
+    <string name="settings_icon_mode">Стиль іконок</string>
+    <string name="backup_ask">Ви хочете записати резервні копії?</string>
+    <string name="settings_safe_mode">Безпечний режим</string>
+    <string name="about_developer_title">Розробник</string>
+    <string name="about_translator_title">Перекладач</string>
+    <string name="about_chat_title">Обговорення</string>
+    <string name="about_other_title">Інше</string>
+    <string name="about_qq_group">Группа QQ</string>
+    <string name="about_qq_channel">QQ канал</string>
+    <string name="about_tg_group">Група в Telegram</string>
+    <string name="about_tg_channel">Канал в Telegram</string>
+    <string name="about_offical">Офіційний веб-сайт</string>
+    <string name="about_crwd">Crowdin</string>
+    <!--Pop-up window/miuix part-->
+    <string name="copy">Копіювати</string>
+    <string name="more">Більше</string>
+    <string name="appcompat_cancel_description">Скасувати</string>
+    <string name="appcompat_confirm_description">Ок</string>
+    <string name="appcompat_select_all_description">Обрати все</string>
+    <string name="appcompat_delete_description">Видалити</string>
+    <string name="appcompat_search_action_mode_cancel">Скасувати</string>
+    <string name="appcompat_search_input_description">Пошук</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">Більше</string>
+    <!--String reuse-->
+    <string name="recommend">Рекомендовано</string>
+    <!--Multi-list Array-->
+    <string name="various_install_app_size">Розмір</string>
+    <!--System Framework-->
+    <string name="system_framework">Системний фрейм</string>
+    <string name="system_framework_volume_title">Гучність</string>
+    <string name="system_framework_other_title">Інше</string>
+    <string name="system_framework_phone_title">Мережа</string>
+    <string name="system_framework_other_speed_install">Швидке встановлення</string>
+    <string name="system_framework_other_speed_install_desc">Встановіть на запущену пам\'ять, щоб пришвидшити встановлення</string>
+    <!--Package Manager Service-->
+    <!--Browser-->
+    <string name="browser">Переглядач</string>
+    <!--Camera-->
+    <string name="camera">Камера</string>
+    <!--Clock-->
+    <string name="clock">Годинник</string>
+    <!--File Manager-->
+    <!--Phone-->
+    <string name="incallui">Телефон</string>
+    <!--Message-->
+    <string name="mms">Повідомлення</string>
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <string name="system_ui">Інтерфейс системи</string>
+    <string name="system_ui_statusbar_iconmanage_battery_title">Батарея</string>
+    <string name="system_ui_status_bar_icon_alarm_clock">Будильник</string>
+    <string name="system_ui_status_bar_wifi_at_left">Wi-Fi</string>
+    <string name="system_ui_status_bar_battery_indicator_color">Колір</string>
+    <string name="system_ui_status_bar_battery_indicator_alpha">Прозорість</string>
+    <string name="system_ui_status_bar_battery_indicator_low_level">Низький рівень заряду батареї</string>
+    <!--Settings-->
+    <string name="system_settings">Налаштування</string>
+    <!--Themes-->
+    <string name="theme_manager">Теми</string>
+    <!--Updater-->
+    <string name="updater">Оновлення</string>
+    <!--Permissions-->
+    <string name="lbe">Дозволи</string>
+    <!--Cast-->
+    <string name="milink">Трансляція</string>
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <string name="gallery">Галерея</string>
+    <string name="gallery_enable_ocr">Розблокувати OCR</string>
+    <!--MIUI security components-->
+    <string name="guard_provider">Деякі компоненти безпеки MIUI</string>
+    <!--System launcher-->
+    <string name="home_gesture_double_tap">Подвійний клік</string>
+    <string name="home_layout_home_title">Домашній екран</string>
+    <string name="home_layout_hotseats_title">Панель швидкого доступу</string>
+    <string name="home_folder">Тека</string>
+    <string name="home_small_folder_title">Мала папка</string>
+    <string name="home_big_folder_title">Велика папка</string>
+    <string name="home_small_folder_icon_bg">Тло значка</string>
+    <string name="home_small_folder_icon_bg_custom">Користувацьке тло</string>
+    <string name="home_small_folder_icon_bg_size">Розмиття фону</string>
+    <string name="home_big_folder_icon_bg_2x1">Горизонтальне тривимірне значення фону сітки</string>
+    <string name="home_big_folder_icon_bg_2x1_custom">Спеціальний</string>
+    <string name="home_big_folder_icon_bg_width_2x1">Розмиття фону</string>
+    <string name="home_big_folder_icon_bg_height_2x1">Повна висота тла</string>
+    <string name="home_big_folder_icon_bg_1x2">Горизонтальне тривимірне значення фону сітки</string>
+    <string name="home_big_folder_icon_bg_1x2_custom">Спеціальний</string>
+    <string name="home_big_folder_icon_bg_width_1x2">Розмиття фону</string>
+    <string name="home_big_folder_icon_bg_height_1x2">Повна висота тла</string>
+    <string name="home_big_folder_icon_bg">Користувацьке тло</string>
+    <string name="home_big_folder_icon_bg_custom">Спеціальний</string>
+    <string name="home_big_folder_icon_bg_width">Розмиття фону</string>
+    <string name="home_big_folder_icon_bg_height">Повна висота тла</string>
+    <string name="home_big_folder_item_max_count">Велика папка</string>
+    <string name="home_auto_close_folder_title">Автовимкнення вимкнення</string>
+    <string name="home_auto_close_folder_summary">Закрити папку додатку після запуску</string>
+    <string name="home_wallpaper">Фон</string>
+    <string name="home_wallpaper_blur">Розмиття фону</string>
+    <string name="home_enable_blur">Почати розмиття</string>
+    <string name="home_blur_radius_title">Радіус розмиття</string>
+    <string name="home_folder_shade_title">Колір Накладення</string>
+    <string name="home_folder_shade_summary">Покращити чи послабити колір фону</string>
+    <string name="home_folder_shade_solid">Весь фон</string>
+    <string name="home_folder_shade_gradient">Тільки по центру</string>
+    <string name="home_folder_shade_level_title">Інтенсивність кольору</string>
+    <string name="home_folder_cols_title">Кількість вкладень в папку</string>
+    <string name="home_folder_cols_format">%d Список</string>
+    <string name="home_folder_vertical_padding_title">Горизонтальні між кнопками</string>
+    <string name="home_folder_width_title">Використовувати ширину всієї папки</string>
+    <string name="home_title">Іконки і Заголовки</string>
+    <string name="home_title_icon_title">Піктограма</string>
+    <string name="home_title_title_title">Найменування</string>
+    <string name="home_title_animation_speed">Швидкість анімації</string>
+    <string name="home_title_big_icon_corner">Середня іконка круглий кут слідування</string>
+    <string name="home_recent">Нещодавні</string>
+    <string name="home_recent_animation_speed">Швидкість анімації</string>
+    <string name="home_widget">Віджет</string>
+    <string name="home_dock">Панель швидкого доступу</string>
+    <string name="home_dock_bg_height">Висота</string>
+    <string name="home_dock_bg_height_desc">Висота док-панелі</string>
+    <string name="home_dock_bg_margin_horizontal">Вертикальна межа</string>
+    <string name="home_dock_bg_margin_horizontal_desc">Док-панель з боків екрану</string>
+    <string name="home_dock_bg_margin_top_desc">Межа Доку з індикатора екрана</string>
+    <string name="home_dock_bg_margin_bottom_desc">Поле Доку в нижній частині екрана</string>
+    <string name="home_dock_icon_margin_bottom">Нижній відступ</string>
+    <string name="home_dock_icon_margin_bottom_desc">Відстань до нижньої межі значка панелі</string>
+    <string name="home_dock_bg_custom">Розмиття фону</string>
+    <string name="home_dock_icon_bottom_margin">Відстань до нижньої межі значка панелі</string>
+    <string name="home_dock_margin_bottom">Межа індикатора сторінки знизу екрана</string>
+    <string name="home_other">Інше</string>
+    <string name="home_recent_blur_level">Рівень розмиття</string>
+    <string name="home_recent_test_blur">Пробне розмиття</string>
+    <!--Gallery Editor-->
+    <string name="mediaeditor">Галерейний редактор</string>
+    <!--Mi Share-->
+    <string name="mishare">Mi Поділитися</string>
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <string name="package_installer">Інсталяція програм</string>
+    <string name="miui_package_installer_modify">Очищення сторінки</string>
+    <string name="miui_package_installer_disable_ad">Вимкнути акції</string>
+    <string name="miui_package_installer_install_risk">Виключити виявлення руху</string>
+    <string name="miui_package_installer_safe_model_tip">Вимкнути запит про захист</string>
+    <string name="miui_package_installer_count_checking">Вимкнути перевірку часто встановлених програм</string>
+    <string name="miui_package_installer_update_system_app">Видалення обмежень для встановлення системних програм</string>
+    <string name="miui_package_installer_install_source">Власний код інсталяції</string>
+    <string name="miui_package_installer_apk_info">Оновлення інформації про пакунки</string>
+    <string name="miui_package_installer_apk_info_desc">Показати більше інформації про додаток, який встановлюється</string>
+    <!--networkboost-->
+    <!--nfc-->
+    <!--App vault-->
+    <string name="personal_assistant">Mi помічник</string>
+    <!--Music-->
+    <string name="music">Музика</string>
+    <string name="music_disable_ad">Вилучити рекламу</string>
+    <!--Battery and performance-->
+    <string name="powerkeeper">Батарея та продуктивність</string>
+    <!--creen Recorder-->
+    <string name="screenrecorder">Запис екрану</string>
+    <!--Screenshot-->
+    <string name="screenshot">Знімок екрану</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center">Безпека</string>
+    <string name="security_center_remove_open_app_confirmation_popup">Видалити спливаюче вікно з програмою</string>
+    <string name="security_center_remove_open_app_confirmation_popup_summary">Прибрати «Дозволити XXX відкрити екран для запуску XXX»</string>
+    <string name="security_center_no_permission">Потрібні дозволи не надано</string>
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <!--Weather-->
+    <string name="weather">Погода</string>
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <string name="joyose">Joyose</string>
+    <!--GetApps-->
+    <string name="market">GetApps</string>
+    <!--MIUI+-->
+    <string name="mirror_unlock_miui_plus">Розблокувати MIUI+</string>
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <string name="scanner">Сканнер</string>
+    <string name="scanner_ocr">Розблокувати OCR</string>
+    <!--Other-->
+    <string name="various">Інше</string>
+    <string name="custom_hook">Спеціальний</string>
+</resources>

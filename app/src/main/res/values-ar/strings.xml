@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <string name="xposed_description">اجعل HyperOS/MIUI عظيم مجدداً!</string>
+    <string name="new_permission_wifi_state_desc">إضافة وحذف الملفات الموجودة على التخزين الداخلي للجهاز</string>
+    <string name="new_permission_location_desc">تستخدم لتقديم خدمات مثل خطوط العرض وخطوط الطول</string>
+    <string name="new_cta_agree_desc">أثناء الاستخدام، من أجل تزويدك بالمزيد من الميزات، قد نتقدم بطلب للحصول على إذن الروت منك. يمكنك الذهاب إلى إدارة الأذونات في أي وقت لتعديل حالة التفويض لجميع الأذونات، يرجى الذهاب إلى مدير الروت الخاص بك للحصول على أذونات الروت.</string>
+    <string name="new_cta_app_main_purpose">تعديل تطبيقات النظام</string>
+    <string name="new_cta_app_all_purpose_title">مرحبا بكم في HyperCeiler. يعتمد هذا التطبيق على إطار LSposed للتشغيل. يمكنك استخدام هذا التطبيق لتعديل التطبيقات الأخرى المدعومة وتعديلها لتعزيز النظام. أثناء الاستخدام، من أجل تزويدك بمزيد من الوظائف، قد نتقدم بطلب أذونات الروت منك. يمكنك إدارتها في أي وقت عن طريق الذهاب إلى مدير الروت.</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="language">الإنجليزية</string>
+    <string name="translator">إلعَرَبَّٱوٌيْ</string>
+    <string name="home">الرئيسية</string>
+    <string name="edit">الرجاء إدخال نص</string>
+    <string name="kill">أداة القتل (إيقاف اجباري)</string>
+    <string name="kill_1">أدخل اسم الحزمة/البرنامج</string>
+    <string name="kill_2">إيجاد عملية</string>
+    <string name="kill_3">قتل / إيقاف اجباري (اسم الحِزمة)</string>
+    <string name="kill_4">قتل/ إيقاف اجباري (اسم البرنامج)</string>
+    <string name="edit_out">الحصول على النتائج</string>
+    <string name="edit_key">قم بإدخال قيمة للمفتاح</string>
+    <string name="prefs_1">هذا المفتاح غير موجود : </string>
+    <string name="prefs_2">تم إزالة المفتاح بنجاح: </string>
+    <string name="prefs_3">فشل في إزالة المفتاح، قد لا يكون موجوداً: </string>
+    <string name="prefs_4">يرجى التحقق من نوع قيمة الإرجاع التي تتطلب الحصول على المفتاح!</string>
+    <string name="prefs_5">حدد النوع</string>
+    <string name="prefs_6">تحقق من تفضيلات المشاركة</string>
+    <string name="prefs_7">إزالة المفتاح المحدد</string>
+    <string name="settings">الإعدادات</string>
+    <string name="about">عن البرنامج</string>
+    <string name="about_use">الخصائص المأخوذة</string>
+    <string name="about_use_desc">يستخدم HyperCeiler بعض أو كل المشاريع التالية المفتوحة المصدر، شكراً لمطوري هذه المشاريع على دعمهم (لا يوجد ترتيب معين)</string>
+    <string name="about_contributer">المساهمين</string>
+    <string name="about_contributer_desc">شكرا للمساهمين التالية أسماؤهم على مساعدتهم في تطوير HyperCeiler (بدون ترتيب معين)</string>
+    <string name="about_donation">رعاية</string>
+    <string name="about_donation_desc">يمكنك دعمنا عن طريق التبرع هنا</string>
+    <string name="hyperceiler_notice">اسحب شريط الحالة للأسفل لعرض مفاتيح التبديل المختصرة وإشعارات النظام</string>
+    <string name="hyperceiler_restart_quick">إعادة التشغيل السريع للتطبيقات</string>
+    <string name="location_add">إضافة</string>
+    <string name="location_delete">حذف</string>
+    <string name="development">خيارات المطور</string>
+    <string name="development_ui">واجهة المستخدم</string>
+    <string name="development_debug_info">معلومات التصحيح</string>
+    <string name="development_prefs">مشاركة التفضيل</string>
+    <string name="about_privacy">سياسة الخصوصية</string>
+    <string name="about_protocol">إتفاقية المستخدم</string>
+    <string name="settings_show_title">إظهار</string>
+    <string name="settings_data_title">النسخ الإحتياطي والإستعادة</string>
+    <string name="settings_bug_title">استكشاف الأخطاء وإصلاحها</string>
+    <string name="settings_debug_title">Debug</string>
+    <string name="settings_hide_app_icon">أيقونات سطح المكتب</string>
+    <string name="settings_icon">أيقونات الإعدادات</string>
+    <string name="settings_icon_desc">تحديد مكان الإضافة في إعدادات النظام</string>
+    <string name="settings_icon_disable">تعطيل</string>
+    <string name="settings_icon_top">في الأعلى</string>
+    <string name="settings_icon_medium">في المنتصف</string>
+    <string name="settings_icon_down">في الاسفل</string>
+    <string name="settings_icon_mode">نمط الأيقونه</string>
+    <string name="settings_icon_miui_14">نمط المستطيل المدوّر</string>
+    <string name="settings_icon_miui_13">نمط اقتطاع الخلفية</string>
+    <string name="settings_reboot">إعادة تشغيل التطبيق المستهدف</string>
+    <string name="settings_back">نسخ احتياطي لإعدادات الإضافة</string>
+    <string name="settings_rest">إستعادة إعدادات الإضافة</string>
+    <string name="settings_reset">إعادة تعيين إعدادات الإضافة</string>
+    <string name="reset_title">هل أنت متأكد من إعادة الضبط؟</string>
+    <string name="reset_desc">بعد إعادة تعيين إعدادات الإضافة سيتم حذف جميع بياناتها!</string>
+    <string name="reset_okay">تم إعادة تعيين إعدادات الإضافة</string>
+    <string name="backup_success">تم النسخ الاحتياطي بنجاح</string>
+    <string name="backup_failed">فشل النسخ الاحتياطي</string>
+    <string name="rest_title">استعادة</string>
+    <string name="rest_success">نجح الاستعادة</string>
+    <string name="rest_failed">فشل الاستعادة</string>
+    <string name="backup_ask">هل تريد كتابة النسخ الاحتياطية؟</string>
+    <string name="backup_permission">الآن عليك تمكين الأذونات يدويًا لهذا الخيار.</string>
+    <string name="rest_ask">هل تريد استعادة النسخة الاحتياطية؟</string>
+    <string name="rest_permission">الآن عليك تمكين الأذونات يدويًا لهذا الخيار.</string>
+    <string name="disable_detailed_log">تعطيل السجل المفصّل</string>
+    <string name="disable_detailed_log_desc">إعادة التشغيل للتطبيق</string>
+    <string name="settings_safe_mode">الوضع الآمن</string>
+    <string name="settings_safe_mode_desc">إيقاف وظيفة الاضافة</string>
+    <string name="about_developer_title">المطور</string>
+    <string name="about_translator_title">المترجمون</string>
+    <string name="about_chat_title">المناقشة</string>
+    <string name="about_other_title">أخرى</string>
+    <string name="about_qq_group">مجموعة QQ</string>
+    <string name="about_qq_channel">قناة QQ</string>
+    <string name="about_tg_group">مجموعة التليجرام</string>
+    <string name="about_tg_channel">قناة تيليجرام</string>
+    <string name="about_github">الكود المصدري</string>
+    <string name="about_github_desc">هذا المشروع مفتوح المصدر استناداً إلى ترخيص AGPL-3.0</string>
+    <string name="about_offical">الموقع الرسمي</string>
+    <string name="about_crwd">موقع Crowdin</string>
+    <string name="about_crwd_desc">ساعدنا في ترجمة HyperCeiler إلى لغتك</string>
+    <!--Pop-up window/miuix part-->
+    <string name="soft_reboot">إعادة التشغيل </string>
+    <string name="restart_app_desc">هل أنت متأكد من أنك تريد إعادة تشغيل %1$s الآن؟</string>
+    <string name="tip">مساعدة</string>
+    <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الروت/المستخدم الخارق</string>
+    <string name="hook_failed">الإضافة ليست مفعلة بعد.\nمن فضلك تأكد انها مفعلة في LSposed. لو كانت مفعلة من فضلك قم بإعادة تشغيل او إعادة تحسين الإضافة.</string>
+    <string name="kill_failed">فشل في إنهاء العملية، يرجى التحقق مما إذا كان HyperCeiler قد مُنح أذونات الروت؟</string>
+    <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
+    <string name="reboot_failed">فشلت إعادة التشغيل، يرجى التحقق مما إذا كان HyperCeiler مُنح إذن الروت؟</string>
+    <string name="expand_button_title">مستوى عالٍ</string>
+    <string name="not_set">لم يتم ضبطه</string>
+    <string name="copy">نسخ</string>
+    <string name="more">المزيد</string>
+    <string name="clearable_edittext_clear_description">مسح</string>
+    <string name="preference_on">تم التشغيل</string>
+    <string name="preference_off">تم إيقاف التشغيل</string>
+    <string name="preference_copied">تم نسخ %1$s إلى الحافظة.</string>
+    <string name="preference_default_value_text">الافتراضي</string>
+    <string name="preference_dialog_color_picker_default_title">اختر اللون</string>
+    <string name="preference_dialog_color_picker_presets">لون محدد مسبقًا</string>
+    <string name="preference_dialog_color_picker_custom">لون مخصص</string>
+    <string name="preference_dialog_color_picker_transparency">الشفافية</string>
+    <string name="preference_dialog_color_picker_select">تأكيد الاختيار</string>
+    <string name="abc_action_bar_home_description">العودة إلى الصفحة الرئيسية</string>
+    <string name="abc_action_bar_up_description">العودة للصفحة السابقة</string>
+    <string name="actionbar_button_up_description">رجوع</string>
+    <string name="appcompat_action_mode_select_all">تحديد الكل</string>
+    <string name="appcompat_cancel_description">إلغاء</string>
+    <string name="appcompat_confirm_description">موافق</string>
+    <string name="appcompat_select_all_description">تحديد الكل</string>
+    <string name="appcompat_deselect_all_description">إلغاء تحديد الكل</string>
+    <string name="appcompat_delete_description">حذف</string>
+    <string name="appcompat_search_action_mode_cancel">إلغاء</string>
+    <string name="appcompat_search_input_description">بحث</string>
+    <string name="appcompat_actionbar_immersion_button_more_description">المزيد</string>
+    <string name="appcompat_action_mode_inverse">عكس</string>
+    <string name="color_picker_alpha_text_transparent">التعتيم</string>
+    <string name="color_picker_tab_grid">الشبكة</string>
+    <string name="color_picker_tab_slider">شريط التمرير</string>
+    <string name="color_picker_view_page_text_hue">تدرج اللون</string>
+    <string name="color_picker_view_page_text_lightness">خفة</string>
+    <string name="color_picker_view_page_text_saturation">تشبع اللون</string>
+    <!--String reuse-->
+    <string name="top_margin">الهامش العلوي</string>
+    <string name="bottom_margin">الهامش السفلي</string>
+    <string name="left_margin">الهامش الأيسر</string>
+    <string name="right_margin">الهامش الايمن</string>
+    <string name="vertical_offset">الإزاحة لأعلى ولأسفل</string>
+    <string name="horizontal_alignment">المحاذاة الأفقية</string>
+    <string name="feature">وظيفة</string>
+    <string name="recommend">مقترح</string>
+    <string name="editor">المحرِّر</string>
+    <string name="record">تسجيل</string>
+    <string name="shot">إطلاق</string>
+    <string name="portrait">عمودي</string>
+    <string name="camera_pro">احترافي</string>
+    <string name="enable">تفعيل</string>
+    <string name="disable">تعطيل</string>
+    <string name="custom_enable">تفعيل مخصص</string>
+    <string name="search">بحث</string>
+    <string name="floating_window">النوافذ المنبثقة</string>
+    <string name="save_to_screen_title">تخصيص موقع الحفظ</string>
+    <string name="system_ui_statusbar_indicator_default_title">الافتراضي</string>
+    <string name="system_ui_statusbar_indicator_expand_title">توسيع</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width">إصلاح عرض المحتوى</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">لمنع التحرك افقيا</string>
+    <string name="system_ui_statusbar_indicator_bold">خط عريض</string>
+    <!--Multi-list Array-->
+    <string name="array_close">إغلاق</string>
+    <string name="array_default">الافتراضي</string>
+    <string name="array_align_left">يسار</string>
+    <string name="array_align_right">يمين</string>
+    <string name="array_align_center">توسيط</string>
+    <string name="array_netspeedicons_no">بدون ايقونات</string>
+    <string name="array_default_official">الخطوط الرسمية المعدة مسبقاً</string>
+    <string name="array_default_thin">الخط الافتراضي</string>
+    <string name="array_default_bold">الخط الافتراضي العريض</string>
+    <string name="array_bold">خط عريض</string>
+    <string name="array_theme">اتبع الثيم</string>
+    <string name="array_clock_center">الساعة في المنتصف</string>
+    <string name="array_clock_right">الساعة إلى اليمين</string>
+    <string name="array_clock_center_and_icon_left">الساعة في المنتصف والايقونات لليسار </string>
+    <string name="array_clock_default">الافتراضي</string>
+    <string name="array_clock_geek">جيك</string>
+    <string name="array_battery_both">كل منهما</string>
+    <string name="array_battery_power">الطاقة فقط</string>
+    <string name="array_battery_current">التيار فقط</string>
+    <string name="array_battery_temp">درجة حرارة البطارية</string>
+    <string name="array_cpu_temp">درجة حرارة المعالج</string>
+    <string name="array_global_actions_none">بلا إجراء</string>
+    <string name="array_global_actions_notif">فتح مركز الإشعارات</string>
+    <string name="array_global_actions_eqs">فتح مركز التحكم</string>
+    <string name="array_global_actions_lock">قفل الشاشة</string>
+    <string name="array_global_actions_sleep">إغلاق الشاشة</string>
+    <string name="array_global_actions_screenshot">لقطة الشاشة</string>
+    <string name="array_global_actions_menu">فتح القائمة</string>
+    <string name="array_global_actions_recents">فتح قائمة التطبيقات الاخيرة</string>
+    <string name="array_global_actions_volume">فتح قائمة الصوت</string>
+    <string name="array_global_actions_volume_up">رفع مستوى الصوت</string>
+    <string name="array_global_actions_volume_down">خفض مستوى الصوت</string>
+    <string name="array_global_actions_launch">تشغيل تطبيق</string>
+    <string name="array_global_actions_launch_choose">اختر تطبيقاً</string>
+    <string name="array_global_actions_shortcut">تشغيل إختصار</string>
+    <string name="array_global_actions_activity">تشغيل نشاط</string>
+    <string name="array_global_actions_toggle">تشغيل وايقاف وظيفة</string>
+    <string name="array_global_actions_back">التبديل إلى التطبيق السابق</string>
+    <string name="array_global_actions_forceclose">إغلاق التطبيق الحالي إجبارياً</string>
+    <string name="array_global_actions_powermenu">فتح قائمة الطاقة</string>
+    <string name="array_global_actions_powermenu_short">قائمة الطاقة</string>
+    <string name="array_global_actions_clear_memory">تنظيف الذاكرة</string>
+    <string name="array_global_actions_invert_colors">عكس الألوان</string>
+    <string name="array_global_actions_switchkeyboard">تبديل لوحة المفاتيح</string>
+    <string name="array_global_actions_goback">رجوع</string>
+    <string name="array_global_actions_onehanded_left">وضع اليد الواحدة (اليسار)</string>
+    <string name="array_global_actions_onehanded_right">وضع اليد الواحدة (اليمين)</string>
+    <string name="array_global_actions_scrolltotop">تمرير إلى أعلى</string>
+    <string name="array_global_actions_expandsidebar">أظهر الشّريط الجانبيّ</string>
+    <string name="array_global_actions_floatingwindow">النوافذ المنبثقة</string>
+    <string name="array_global_actions_pinningwindow">تثبيت النافذة</string>
+    <string name="array_align_top">لأعلى</string>
+    <string name="array_align_bottom">لأسفل</string>
+    <string name="array_discrete">فصل</string>
+    <string name="array_gradual">بطيء</string>
+    <string name="array_rainbow">قوس قزح</string>
+    <string name="various_install_app_info_version_name">اسم الإصدار</string>
+    <string name="various_install_app_info_version_code">رقم الإصدار</string>
+    <string name="various_install_app_info_sdk">دعم SDK</string>
+    <string name="various_install_app_size">الحجم</string>
+    <string name="charge_animation_entries_disable">تعطيل</string>
+    <string name="charge_animation_entries_aura">Aura</string>
+    <string name="charge_animation_entries_stream">Streamer</string>
+    <string name="charge_animation_entries_alpha">Rythem</string>
+    <string name="status_bar_icon_mode_default">الافتراضي</string>
+    <string name="status_bar_icon_mode_on">الإظهار دائمًا</string>
+    <string name="status_bar_icon_mode_off">مخفي دائما</string>
+    <string name="status_bar_icon_mode_off_unconnect">إخفاء فقط عند عدم الإتصال</string>
+    <string name="status_bar_icon_mode_on_beforering">إظهار فقط قبل الرنين</string>
+    <string name="seek_points_roll">إظهار فقط عند التمرير على الشاشة</string>
+    <string name="seek_points_edit">يظهر فقط في وضع التعديل</string>
+    <string name="home_mode_day">الوضع الفاتح</string>
+    <string name="home_mode_dark">الوضع الداكن</string>
+    <string name="dialog_gravity_medium">توسيط</string>
+    <string name="dialog_gravity_down">لأسفل</string>
+    <string name="collapse_miui_title_off">طي</string>
+    <string name="collapse_miui_title_on">توسيع</string>
+    <string name="collapse_miui_title_off_always">دائما مطوية</string>
+    <string name="collapse_miui_title_on_always">توسيع دائمًا</string>
+    <string name="link_open_mode_default">الإعداد التلقائي للنظام</string>
+    <string name="link_open_mode_mi">متصفح شاومي</string>
+    <string name="app_sort_running">الترتيب افتراضي</string>
+    <string name="app_sort_name">اسم التطبيق</string>
+    <string name="app_sort_frequency">تكرار الاستخدام</string>
+    <string name="app_sort_storage">مساحة التخزين المستخدمة</string>
+    <string name="app_sort_install">وقت التثبيت</string>
+    <string name="array_bluetooth_tile_style_3rows">ثلاث بلاطات كبيرة</string>
+    <string name="array_bluetooth_tile_style_2rows2cols">بلاطة كبيرة و إثنان صغيرتان</string>
+    <string name="array_pa_blur_official">الرسمي يأتي بضبابية</string>
+    <string name="array_bpa_blur_customize">تخصيص ضبابية الخلفية</string>
+    <string name="control_center_sunshine_mode_default">إغلاق</string>
+    <string name="control_center_sunshine_mode_one">الوضع الافتراضي للنظام</string>
+    <string name="control_center_sunshine_mode_two">فرض أقصى سطوع</string>
+    <string name="control_center_5g_off">إطفاء</string>
+    <string name="control_center_5g_v1">5G الجيل الخامس النمط الاول</string>
+    <string name="control_center_5g_v2">5G الجيل الخامس النمط الثاني</string>
+    <string name="no_blur">لا ضبابية</string>
+    <string name="miui_blur">ضبابية HyperOS</string>
+    <string name="android_blur">ضبابية ASOP</string>
+    <string name="system_ui_statusbar_network_speed_style_1">القيم والوحدات يتم عرضها في سطر واحد</string>
+    <string name="system_ui_statusbar_network_speed_style_2">القيم والوحدات يتم عرضها في سطرين</string>
+    <string name="system_ui_statusbar_network_speed_style_3">عرض سرعة تحميل و تنزيل الشبكة في سطر واحد</string>
+    <string name="system_ui_statusbar_network_speed_style_4">عرض سرعات تحميل وتنزيل الشبكة في سطر مزدوج</string>
+    <!--System Framework-->
+    <string name="system_framework">إطار النظام</string>
+    <string name="system_framework_volume_title">مستوى الصوت</string>
+    <string name="system_framework_other_title">أخرى</string>
+    <string name="system_framework_display_title">الشاشة</string>
+    <string name="system_framework_phone_title">الشبكات</string>
+    <string name="system_framework_bubble_title">إشعار الفقاعة</string>
+    <string name="system_framework_freeform_count">نوافذ منبثقة متعددة</string>
+    <string name="system_framework_disable_freeform_blacklist">سماح بالنوافذ المنبثقة المصغرة</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">تجاهل القائمة السوداء للنظام للعرض في نافذه منبثقة</string>
+    <string name="system_framework_freeform_sticky">تذكر الحالة</string>
+    <string name="system_framework_freeform_bubble">فقاعات النوافذ المنبثقة</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">تحويل كل النوافذ المنبثقة إلى نوافذ منبثقة مصغرة</string>
+    <string name="system_framework_freeform_recents_to_small_freeform_desc">تحويل جميع النوافذ العائمة إلى نوافذ العائمة مصغر في المهام الأخيرة (هذه الميزة هي ميزة تجريبية مع عدم استقرار عال)</string>
+    <string name="system_framework_freeform_jump">فتح في نافذة عائمة عند الانتقال إلى تطبيق آخر</string>
+    <string name="system_framework_freeform_title_desc">في السيناريوهات التالية، عندما تحتاج إلى الانتقال إلى تطبيقات أخرى، سوف تستخدم النافذة العائمة</string>
+    <string name="system_framework_freeform_content_extension_desc">الروابط المدعومة فقط</string>
+    <string name="system_framework_default_volume_stream">تعديل الصوت بشكل افتراضي</string>
+    <string name="system_framework_volume_first_press">تعديل فوري للصوت</string>
+    <string name="system_framework_volume_separate_control">فصل صوت النظام والاشعارات عن صوت الرنين</string>
+    <string name="system_framework_volume_disable_safe">إزالة قيود أمان الصوت العالي</string>
+    <string name="system_framework_volume_separate_slider">شريط تمرير صوت الإشعارات</string>
+    <string name="system_framework_volume_media_steps">مستوى صوت الوسائط</string>
+    <string name="system_framework_volume_media_steps_desc">قد تتسبب في تجميد شريط تمرير الصوت أو أن يكون مستوى صوت البلوتوث غير طبيعي</string>
+    <string name="system_framework_volume_steps">مضاعف مستوى الصوت</string>
+    <string name="system_ui_display_cutout_title">قطع الشاشة (النوتش)</string>
+    <string name="system_ui_display_hide_cutout">إخفاء قطع الشاشة (النوتش)</string>
+    <string name="system_ui_display_brightness_title">السطوع</string>
+    <string name="system_ui_display_auto_brightness">نطاق السطوع التلقائي</string>
+    <string name="system_ui_display_auto_brightness_desc">تحديد قيم الحد الأدنى والحد الأقصى للسطوع التلقائي</string>
+    <string name="system_ui_display_min_brightness">الحد الأدنى للسطوع التلقائي</string>
+    <string name="system_ui_display_max_brightness">الحد الأقصى للسطوع التلقائي</string>
+    <string name="system_ui_display_toast_times_title">تعديل مدة العرض</string>
+    <string name="system_ui_display_toast_times_desc">تعديل مدة عرض الإشعارات المنبثقة، يجب ان تكون المدة اكبر من ثانية واحدة</string>
+    <string name="system_framework_phone_network_title">إعدادات الشبكة</string>
+    <string name="phone_double_5g_nr">استخدام بطاقة مزدوجة 5G (SA+NSA )</string>
+    <string name="phone_double_5g_nr_desc">تفعيل 5G في الشريحة الرئيسية والثانوية في نفس الوقت (الشريحة الثانوية تدعم NSA فقط)</string>
+    <string name="phone_double_5g_sa">استخدام (SA+SA) SA في الشريحتين</string>
+    <string name="phone_double_5g_sa_desc">ميزات تجريبية. اجعل الشريحة الثانوية تدعم SA</string>
+    <string name="system_framework_phone_band_title">إعدادات النطاق</string>
+    <string name="system_framework_screen_all_rotations">تدوير الشاشة</string>
+    <string name="system_framework_allow_untrusted_touch">السماح باللمس الغير موثوق به</string>
+    <string name="system_framework_allow_uninstall">السماح بإلغاء تثبيت بعض التطبيقات المثبتة مسبقاً</string>
+    <string name="system_framework_allow_uninstall_desc">هذه الميزة خطيرة</string>
+    <string name="system_framework_disable_app_link_verify">تعطيل التحقق من رابط التطبيق</string>
+    <!--Package Manager Service-->
+    <string name="system_framework_core_patch_enhanced_mode">الوضع المحسن</string>
+    <!--Browser-->
+    <!--Camera-->
+    <!--Clock-->
+    <!--File Manager-->
+    <!--Phone-->
+    <!--Message-->
+    <!--Phone Service-->
+    <!--Download management program-->
+    <!--System UI-->
+    <!--Settings-->
+    <!--Themes-->
+    <!--Updater-->
+    <!--Permissions-->
+    <!--Cast-->
+    <!--Always-on display-->
+    <!--Taplus-->
+    <!--Xiaomi Cloud Service-->
+    <!--Mi Mover-->
+    <!--Backup-->
+    <!--Mi Canvas-->
+    <!--Gallery-->
+    <!--MIUI security components-->
+    <!--System launcher-->
+    <!--Gallery Editor-->
+    <!--Mi Share-->
+    <!--Wallpaper-->
+    <!--Package installer-->
+    <!--networkboost-->
+    <!--nfc-->
+    <!--App vault-->
+    <!--Music-->
+    <!--Battery and performance-->
+    <!--creen Recorder-->
+    <!--Screenshot-->
+    <!--Security/Tablet security center-->
+    <!--MiTrustService-->
+    <!--Smart cards-->
+    <!--Weather-->
+    <!--AI Translate-->
+    <!--Barrage-->
+    <!--Joyose-->
+    <!--GetApps-->
+    <!--MIUI+-->
+    <!--Mi sound-->
+    <!--Mi Settings-->
+    <!--MTB-->
+    <!--Sogou input method-->
+    <!--Scanner-->
+    <!--Other-->
+</resources>
