@@ -143,7 +143,9 @@ public class MainActivityContextHelper {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                tipsList.add(line);
+                if (!line.trim().startsWith("//")) {
+                    tipsList.add(line);
+                }
             }
 
             reader.close();
