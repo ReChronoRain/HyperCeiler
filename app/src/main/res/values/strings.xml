@@ -295,7 +295,7 @@
     <string name="control_center_5g_v2">5G Style Two</string>
     <string name="no_blur">No blur</string>
     <string name="miui_blur">HyperOS blur</string>
-    <string name="android_blur">ASOP blur</string>
+    <string name="android_blur">AOSP blur</string>
     <string name="system_ui_statusbar_network_speed_style_1">Values and units are displayed in a single line</string>
     <string name="system_ui_statusbar_network_speed_style_2">Values and units are displayed in two rows</string>
     <string name="system_ui_statusbar_network_speed_style_3">The uplink and downlink network speed is displayed in a single line</string>
@@ -1149,10 +1149,10 @@
     <string name="miui_package_installer_install_source">Custom install source</string>
     <string name="miui_package_installer_apk_info">Show more package information</string>
     <string name="miui_package_installer_apk_info_desc">Show more info about the app that\'s being installed</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
     <string name="various_disable_link_turbo_toast_more">Please restart NetworkBoost in the fast restart scope</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">NFC Service</string>
     <string name="nfc_disable_sound">Disable NFC notification sound</string>
     <string name="nfc_allow_information_screen">Allow recognition when screen is off</string>
@@ -1176,7 +1176,7 @@
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable to Get Display Control Code</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requires screen recording version support</string>
@@ -1346,6 +1346,9 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <!--Other-->
     <string name="various">Other</string>
     <string name="notes">Notes</string>
@@ -1357,7 +1360,7 @@
     <string name="various_dialog_title">Dialog</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Hide Properties</string>
-    <string name="various_open_aosp_something_desc">Open AOSP interface \"hidden\"</string>
+    <string name="various_open_aosp_something_desc">Conveniently open the hidden AOSP interface</string>
     <string name="various_nobrightness">Reject forced brightness</string>
 
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
@@ -1475,8 +1478,6 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="voiceassist">Mi AI</string>
-    <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
