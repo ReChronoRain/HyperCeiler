@@ -58,9 +58,6 @@ jobs:
           DEBUG: ${{ env.APK_FILE_DEBUG }}
           COMMIT_MESSAGE: |+
             **New PR to gitHub\!**
-
-            `$(git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:'%h %s')`
-
             by ${{ github.triggering_actor }}
         run: |
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')

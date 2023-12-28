@@ -1,5 +1,7 @@
 -keep class com.sevtinge.hyperceiler.XposedInit
 -keep class com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch
+-keep class com.sevtinge.hyperceiler.module.base.*
+-keep class com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.*
 -keep class com.sevtinge.hyperceiler.ui.LauncherActivity
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
@@ -8,7 +10,6 @@
 -keep class moralnorm.**{*;}
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
--keep class * extends com.sevtinge.hyperceiler.module.base.*
 
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
