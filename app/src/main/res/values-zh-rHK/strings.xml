@@ -591,7 +591,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">網速值低於該水平時被認為慢，部分指示器圖示會有所不同</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">網速隱藏 *b/s 單位</string>
     <string name="system_ui_statusbar_network_speed_icon">指示器圖示</string>
-    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_clock_mode">自訂時鐘模式</string>
     <string name="system_ui_statusbar_clock_editor">時鐘格式</string>
     <string name="system_ui_statusbar_clock_year">顯示年份</string>
