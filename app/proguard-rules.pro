@@ -7,7 +7,7 @@
 -keep class com.sevtinge.hyperceiler.utils.Helpers{int XposedVersion;}
 -keep class moralnorm.**{*;}
 -keep class org.luckypray.dexkit.*
--keep class * extends com.sevtinge.hyperceiler.module.base.*
+-keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
