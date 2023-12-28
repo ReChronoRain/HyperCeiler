@@ -9,6 +9,7 @@ on:
       - ".idea/"
       - "doc/*"
       - "*.md"
+      - "app/src/assets/**"
       - ".github/workflows/crowdin.yml"
       - "crowdin.yml"
   workflow_dispatch:

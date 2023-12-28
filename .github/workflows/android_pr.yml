@@ -9,6 +9,7 @@ on:
       - ".idea/"
       - "doc/*"
       - "*.md"
+      - "app/src/assets/**"
       - ".github/workflows/crowdin.yml"
       - "crowdin.yml"
   workflow_dispatch:
@@ -58,7 +59,7 @@ jobs:
           COMMIT_MESSAGE: |+
             **New PR to gitHub\!**
 
-            `${{ github.event_name }}`
+            `$(git log ${{ github.event.before }}..${{ github.event.after }} --pretty=format:'%h %s')`
 
             by ${{ github.triggering_actor }}
         run: |

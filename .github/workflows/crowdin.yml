@@ -27,11 +27,13 @@ jobs:
          upload_sources: true
          upload_translations: true
          download_translations: true
+         skip_untranslated_files: true
 
          # Pull request settings
          create_pull_request: true
          localization_branch_name: crowdin_branch
          pull_request_labels: 'enhancement, documentation'
+         pull_request_title: '[Translation] Update translation from Crowdin'
 
          # Global settings
          config: 'crowdin.yml'
