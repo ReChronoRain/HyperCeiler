@@ -79,6 +79,8 @@ android {
                 storePassword getString('storePassword', 'STORE_PASSWORD', 'Store password')
                 keyAlias getString('keyAlias', 'KEY_ALIAS', 'Key alias')
                 keyPassword getString('keyPassword', 'KEY_PASSWORD', 'Key password')
+                enableV3Signing true
+                enableV4Signing true
             }
         }
     }
