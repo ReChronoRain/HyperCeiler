@@ -591,7 +591,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Los valores de velocidad de red por debajo de este nivel se consideran lentos y se mostrará un icono de indicador diferente (solo algunos iconos)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar Byte por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Icono del indicador</string>
-    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_clock_mode">Modo de reloj personalizado</string>
     <string name="system_ui_statusbar_clock_editor">Formato de reloj</string>
     <string name="system_ui_statusbar_clock_year">Mostrar año</string>
@@ -690,6 +689,7 @@
     <string name="system_ui_control_center_notifrowmenu">Menú de notificaciones extendido</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Abrir información de la aplicación, cerrarla y abrirla en ventana flotante desde el menú de notificación (deslizar la notificación a la izquierda para abrirla)</string>
     <string name="system_ui_unlock_super_volume">Desbloquear supervolumen</string>
+    <string name="system_ui_unlock_super_volume_desc">Características experimentales, cuyos resultados reales dependen del código subyacente</string>
     <string name="system_ui_controlcenter_new_title">Centro de control nuevo</string>
     <string name="system_ui_controlcenter_old_title">Centro de control clásico</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos del centro de control</string>
