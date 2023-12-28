@@ -5,6 +5,7 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.sogou.Clipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;
 import com.sevtinge.hyperceiler.utils.XposedUtils;
@@ -26,6 +27,8 @@ public class Various extends BaseModule {
         mPackageName = mLoadPackageParam.packageName;
 
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
+        initHook(new Clipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
+            ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
     }
 

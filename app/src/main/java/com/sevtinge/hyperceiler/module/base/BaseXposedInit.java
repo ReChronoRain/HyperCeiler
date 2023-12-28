@@ -45,7 +45,6 @@ import com.sevtinge.hyperceiler.module.app.Scanner;
 import com.sevtinge.hyperceiler.module.app.ScreenRecorder;
 import com.sevtinge.hyperceiler.module.app.ScreenShot;
 import com.sevtinge.hyperceiler.module.app.SecurityCenter;
-import com.sevtinge.hyperceiler.module.app.SoGou;
 import com.sevtinge.hyperceiler.module.app.SystemFramework;
 import com.sevtinge.hyperceiler.module.app.SystemSettings;
 import com.sevtinge.hyperceiler.module.app.SystemUI;
@@ -120,7 +119,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final ExternalStorage mExternalStorage = new ExternalStorage();
     public final Camera mCamera = new Camera();
     public final Browser mBrowser = new Browser();
-    public final SoGou mSoGou = new SoGou();
+    // public final SoGou mSoGou = new SoGou();
     public final Mtb mMtb = new Mtb();
     public final Phone mPhone = new Phone();
     public final MiWallpaper mMiWallpaper = new MiWallpaper();
@@ -214,10 +213,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mBrowser.init(lpparam);
                 mSystemVarious.init(lpparam);
             }
-            case "com.sohu.inputmethod.sogou.xiaomi", "com.sohu.inputmethod.sogou" -> {
+            /*case "com.sohu.inputmethod.sogou.xiaomi", "com.sohu.inputmethod.sogou" -> {
                 mSoGou.init(lpparam);
                 mVarious.init(lpparam);
-            }
+            }*/
             case "com.android.nfc" -> {
                 mNfc.init(lpparam);
                 mSystemVarious.init(lpparam);
