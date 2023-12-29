@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 
@@ -11,7 +12,6 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class Taplus extends BaseHook {
@@ -19,6 +19,38 @@ public class Taplus extends BaseHook {
 
     @Override
     public void init() throws NoSuchMethodException {
+        findAndHookMethod("com.miui.contentextension.setting.fragment.MainSettingsFragment",
+            "onCreate", Bundle.class, new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
+                        @Override
+                        public void onChange(boolean selfChange) {
+                            boolean z;
+                            z = getTaplus(mContext);
+                            XposedHelpers.callMethod(param.thisObject, "enablePrefConfig", z);
+                        }
+                    };
+                    mContext.getContentResolver().registerContentObserver(
+                        Settings.System.getUriFor("key_enable_taplus"),
+                        false, contentObserver);
+                    XposedHelpers.setAdditionalInstanceField(param.thisObject, "taplusListener", contentObserver);
+                }
+            }
+        );
+
+        findAndHookMethod("com.miui.contentextension.setting.fragment.MainSettingsFragment",
+            "onDestroy", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    ContentObserver contentObserver = (ContentObserver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "taplusListener");
+                    mContext.getContentResolver().unregisterContentObserver(contentObserver);
+                }
+            }
+        );
+
         findAndHookMethod("com.miui.contentextension.utils.TaplusSettingUtils",
             "setTaplusEnableStatus", Context.class, boolean.class,
             new MethodHook() {
@@ -66,7 +98,7 @@ public class Taplus extends BaseHook {
                             logE(TAG, "putBoolean: " + e);
                         }
                     }
-                    if (!mListening) setListening(param, mContext);
+                    if (!mListening) setListening(mContext);
                     param.setResult(system);
                     // logE(TAG, "coo: " + param.args[0]);
                 }
@@ -79,17 +111,13 @@ public class Taplus extends BaseHook {
         );
     }
 
-    public void setListening(XC_MethodHook.MethodHookParam param, Context context) {
+    public void setListening(Context context) {
         mListening = true;
         ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
             @Override
             public void onChange(boolean selfChange, @Nullable Uri uri) {
-                boolean z = false;
-                try {
-                    z = Settings.System.getInt(context.getContentResolver(), "key_enable_taplus") == 1;
-                } catch (Throwable e) {
-                    logE(TAG, "key_enable_taplus: " + e);
-                }
+                boolean z;
+                z = getTaplus(context);
                 XposedHelpers.callStaticMethod(
                     findClassIfExists("com.miui.contentextension.utils.TaplusSettingUtils"),
                     "setTaplusEnableStatus", context, z);
@@ -103,5 +131,14 @@ public class Taplus extends BaseHook {
             Settings.System.getUriFor("key_enable_taplus"),
             false, contentObserver);
         // XposedHelpers.setAdditionalInstanceField(param.thisObject, "taplusListener", contentObserver);
+    }
+
+    public boolean getTaplus(Context context) {
+        try {
+            return Settings.System.getInt(context.getContentResolver(), "key_enable_taplus") == 1;
+        } catch (Throwable e) {
+            logE(TAG, "getTaplus: " + e);
+        }
+        return false;
     }
 }

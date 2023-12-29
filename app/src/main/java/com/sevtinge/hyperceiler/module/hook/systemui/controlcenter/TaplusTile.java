@@ -2,7 +2,9 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Build;
@@ -70,7 +72,10 @@ public class TaplusTile extends TileUtils {
 
     @Override
     public void tileLongClickIntent(MethodHookParam param, String tileName) {
-
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.setComponent(new ComponentName("com.miui.contentextension", "com.miui.contentextension.setting.activity.MainSettingsActivity"));
+        param.setResult(intent);
     }
 
     @Override
