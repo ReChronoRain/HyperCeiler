@@ -359,9 +359,9 @@
     <string name="system_framework_allow_uninstall">允许卸载部分预装 APP</string>
     <string name="system_framework_allow_uninstall_desc">该功能具有一定危险性</string>
     <string name="system_framework_clipboard_whitelist">允许应用后台读取剪切板</string>
-    <string name="system_framework_clipboard_whitelist_desc">允许应用获取READ_LOGS权限</string>
+    <string name="system_framework_clipboard_whitelist_desc">允许应用获取 READ_LOGS 权限</string>
     <string name="system_framework_clipboard_whitelist_list">后台读取剪切板白名单</string>
-    <string name="system_framework_clipboard_whitelist_list_desc">对于多个应用，使用|分隔</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">对于多个应用，使用 | 分隔</string>
     <string name="system_framework_disable_app_link_verify">禁用应用链接验证</string>
     <string name="system_framework_disable_app_link_verify_desc">打开链接时恢复为直接打开支持的应用，无需在应用设置中勾选支持的链接</string>
     <string name="system_framework_clean_share_menu">清理分享菜单</string>
@@ -766,6 +766,8 @@
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
+    <string name="system_ui_disable_miui_multi_win_switch">隐藏快捷窗口按钮</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">隐藏 HyperOS for Pad 横屏下顶部居中的快捷窗口按钮 (即常驻的三个小点)</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_others_pct_title">数据显示</string>
     <string name="system_showpct_title">显示亮度百分比</string>

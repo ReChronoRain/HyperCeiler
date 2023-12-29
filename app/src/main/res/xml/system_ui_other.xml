@@ -78,6 +78,12 @@
     <PreferenceCategory android:title="@string/system_ui_another_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_miui_multi_win_switch"
+            android:summary="@string/system_ui_disable_miui_multi_win_switch_desc"
+            android:title="@string/system_ui_disable_miui_multi_win_switch" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_bluetooth_restrict"
             android:title="@string/system_ui_disable_bluetooth_restrict" />
 
