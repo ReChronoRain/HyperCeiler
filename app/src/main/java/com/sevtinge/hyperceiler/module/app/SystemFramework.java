@@ -10,6 +10,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUntrustedTouchF
 import com.sevtinge.hyperceiler.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanOpenMenu;
 import com.sevtinge.hyperceiler.module.hook.systemframework.CleanShareMenu;
+import com.sevtinge.hyperceiler.module.hook.systemframework.ClipboardWhitelist;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableCleaner;
 import com.sevtinge.hyperceiler.module.hook.systemframework.DisableFreeformBlackList;
@@ -98,6 +99,8 @@ public class SystemFramework extends BaseModule {
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
         initHook(new DisableMiuiLite(), mPrefsMap.getBoolean("system_framework_disablt_miuilite_check"));
         initHook(new HookEntry(), mPrefsMap.getBoolean("system_framework_hook_entry"));
+        // 允许应用后台读取剪切板
+        initHook(new ClipboardWhitelist(), mPrefsMap.getBoolean("system_framework_clipboard_whitelist"));
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));

@@ -358,6 +358,10 @@
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>
     <string name="system_framework_allow_uninstall">Allow uninstall some preinstall apps</string>
     <string name="system_framework_allow_uninstall_desc">This feature is dangerous</string>
+    <string name="system_framework_clipboard_whitelist">Allow app to read clipboard at background</string>
+    <string name="system_framework_clipboard_whitelist_desc">Allow apps to get READ_LOGS permission</string>
+    <string name="system_framework_clipboard_whitelist_list">The whitelist that can read the clipboard at background</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">For more than 1 app, separate with |</string>
     <string name="system_framework_disable_app_link_verify">Disable app link verify</string>
     <string name="system_framework_disable_app_link_verify_desc">Revert to opening supported apps directly when opening links without enabling supported links in app settings</string>
     <string name="system_framework_clean_share_menu">Clean up share menu</string>

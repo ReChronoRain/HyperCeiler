@@ -320,6 +320,10 @@
     <string name="system_framework_allow_untrusted_touch">允許不受信任的觸摸操作</string>
     <string name="system_framework_allow_uninstall">允許卸載部分預裝 APP</string>
     <string name="system_framework_allow_uninstall_desc">該功能具有一定危險性</string>
+    <string name="system_framework_clipboard_whitelist">允許應用程式後台讀取剪切板</string>
+    <string name="system_framework_clipboard_whitelist_desc">允許應用程式取得READ_LOGS權限</string>
+    <string name="system_framework_clipboard_whitelist_list">後台讀取剪切板白名單</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">對於多個應用，使用|分隔</string>
     <string name="system_framework_disable_app_link_verify">停用應用程式連結驗證</string>
     <string name="system_framework_disable_app_link_verify_desc">打開連結時還原為直接打開支援的應用程式，無需在應用程式設定中勾選支援的連結</string>
     <string name="system_framework_clean_share_menu">清理分享選單</string>
