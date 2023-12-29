@@ -81,7 +81,7 @@ public class MainFragment extends SettingsPreferenceFragment {
     }
 
     public boolean getIsOfficialRom() {
-        return !getBaseOs().isEmpty() || !getRomAuthor().isEmpty() || Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") || !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
+        return (!getBaseOs().startsWith("V") && !getBaseOs().isEmpty()) || !getRomAuthor().isEmpty() || Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") || !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
     }
 
     public void isSignPass() {
