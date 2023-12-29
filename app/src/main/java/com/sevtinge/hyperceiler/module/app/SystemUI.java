@@ -45,6 +45,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.QSGridOld;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.TaplusTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlockEditor;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
@@ -203,6 +204,7 @@ public class SystemUI extends BaseModule {
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
+        initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
         initHook(new FlashLight(), mPrefsMap.getBoolean("security_flash_light"));
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);

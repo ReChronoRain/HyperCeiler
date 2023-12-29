@@ -687,6 +687,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
     <string name="system_control_center_5g_tile">5G network switch</string>
     <string name="system_control_center_5g_toggle_label">5G Network</string>
+    <string name="system_control_center_taplus_label">Taplus switches</string>
     <string name="system_control_center_sunshine_mode">Sunshine Mode</string>
     <string name="system_ui_control_auto_close">Magnetic tiles automatically retract</string>
     <string name="system_ui_control_auto_close_more">After opening, clicking on the status bar tile will automatically retract the status bar</string>
@@ -1207,6 +1208,7 @@
     <string name="security_center_ai_clipboard">Protect clipboard</string>
     <string name="security_center_blur_location">Lower positioning accuracy</string>
     <string name="security_center_gms_open">GMS Service</string>
+    <string name="security_center_taplus">Taplus switches</string>
     <string name="security_center_flash_light">Flashlight brightness control</string>
     <string name="security_center_flash_light_more">Allowing you to control the flashlight\'s brightness by dragging the brightness slider</string>
     <string name="security_center_get_number">Manage the application to obtain the mobile phone number and log in with one click</string>

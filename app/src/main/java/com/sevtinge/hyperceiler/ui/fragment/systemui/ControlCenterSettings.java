@@ -5,6 +5,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
@@ -13,6 +14,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import miui.telephony.TelephonyManager;
@@ -33,6 +35,9 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     DropDownPreference mBluetoothSytle;
     SwitchPreference mRoundedRect;
     SeekBarPreferenceEx mRoundedRectRadius;
+
+    SwitchPreference mTaplus;
+    Handler handler;
 
     // 临时的，旧控制中心
     SwitchPreference mOldCCGrid;
@@ -63,6 +68,15 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mFiveG = findPreference("prefs_key_system_control_center_5g_new_tile");
         mRoundedRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
+        mTaplus = findPreference("prefs_key_security_center_taplus");
+        handler = new Handler();
+
+        mTaplus.setOnPreferenceChangeListener(
+            (preference, o) -> {
+                killTaplus();
+                return true;
+            }
+        );
 
         mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
         mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
@@ -102,6 +116,12 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    public void killTaplus() {
+        new Thread(() -> handler.post(() ->
+            ShellUtils.execCommand("killall -s 9 com.miui.contentextension",
+                true, false))).start();
     }
 
     @Override
