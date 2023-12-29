@@ -101,6 +101,18 @@
             android:summary="@string/system_framework_allow_uninstall_desc"
             android:title="@string/system_framework_allow_uninstall" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_clipboard_whitelist"
+            android:summary="@string/system_framework_clipboard_whitelist_desc"
+            android:title="@string/system_framework_clipboard_whitelist" />
+
+        <EditTextPreference
+            android:key="prefs_key_system_framework_clipboard_whitelist_list"
+            android:title="@string/system_framework_clipboard_whitelist_list"
+            android:summary="@string/system_framework_clipboard_whitelist_list_desc"
+            android:defaultValue="com.fooview.android.fooview" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_shortcut_title">
