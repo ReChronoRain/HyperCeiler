@@ -42,6 +42,7 @@ import com.sevtinge.hyperceiler.module.hook.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderShade;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderVerticalPadding;
 import com.sevtinge.hyperceiler.module.hook.home.folder.SmallFolderIconBlur;
+import com.sevtinge.hyperceiler.module.hook.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.HotSeatSwipe;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.QuickBack;
@@ -109,6 +110,7 @@ import com.sevtinge.hyperceiler.module.hook.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.hyperceiler.module.hook.home.widget.HideWidgetTitles;
 import com.sevtinge.hyperceiler.module.hook.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.Objects;
 
@@ -121,6 +123,10 @@ public class Home extends BaseModule {
 
         // 手势
         initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
+        initHook(new CornerSlide(),
+            mPrefsMap.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
+                mPrefsMap.getInt("home_navigation_assist_right_slide_action", 0) > 0
+        );
         initHook(new DoubleTap(), mPrefsMap.getInt("home_gesture_double_tap_action", 0) > 0);
         initHook(new ScreenSwipe(), mPrefsMap.getInt("home_gesture_up_swipe_action", 0) > 0 ||
             mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0 ||
@@ -137,8 +143,11 @@ public class Home extends BaseModule {
         // 布局
         initHook(new UnlockGrids(), mPrefsMap.getBoolean("home_layout_unlock_grids"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
-        initHook(new WorkspacePadding(), mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
-            mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable"));
+        initHook(new WorkspacePadding(),
+            mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
+        );
 
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
         initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));
@@ -177,7 +186,7 @@ public class Home extends BaseModule {
         initHook(TaskViewHorizontal.INSTANCE);
         initHook(TaskViewVertical.INSTANCE);
         initHook(HideFreeform.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_freeform"));
-        initHook(HideCleanUp.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_clean_up"));
+        initHook(new HideCleanUp(), mPrefsMap.getBoolean("home_recent_hide_clean_up"));
         initHook(FreeformCardBackgroundColor.INSTANCE);
         initHook(CardTextColor.INSTANCE);
         initHook(CardTextSize.INSTANCE);

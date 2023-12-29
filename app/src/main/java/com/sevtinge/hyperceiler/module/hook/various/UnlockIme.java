@@ -4,6 +4,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
+import java.util.List;
+
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -168,6 +170,32 @@ public class UnlockIme extends BaseHook {
             hookAllMethods(findClassIfExists(className, classLoader), "deleteNotSupportIme", MethodHook.returnConstant(null));
         } catch (Throwable throwable) {
             logE(TAG, "Failed:Hook method deleteNotSupportIme: " + throwable);
+            getSupportIme(className, classLoader);
+        }
+    }
+
+    /**
+     * 使切换输入法界面显示第三方输入法
+     * @param className
+     * @param classLoader
+     */
+    private void getSupportIme(String className, ClassLoader classLoader) {
+        try {
+            findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
+                classLoader, "getSupportIme",
+                new MethodHook() {
+
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        List<?> getEnabledInputMethodList = (List<?>) XposedHelpers.callMethod(XposedHelpers.getObjectField(XposedHelpers.getStaticObjectField(
+                            findClassIfExists("com.miui.inputmethod.InputMethodBottomManager", classLoader),
+                            "sBottomViewHelper"), "mImm"), "getEnabledInputMethodList");
+                        param.setResult(getEnabledInputMethodList);
+                    }
+                }
+            );
+        } catch (Throwable e) {
+            logE(TAG, "Failed:Hook method getSupportIme: " + e);
         }
     }
 }

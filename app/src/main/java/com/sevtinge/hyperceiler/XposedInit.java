@@ -6,7 +6,7 @@ import com.sevtinge.hyperceiler.module.base.BaseXposedInit;
 import com.sevtinge.hyperceiler.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonetColor;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
-import com.sevtinge.hyperceiler.module.hook.settings.VolumeSeparateControlForSettings;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemframework.AllowUninstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.BackgroundBlurDrawable;

@@ -17,7 +17,7 @@ public class ShowVolumePct extends XposedUtils {
         Class<?> MiuiVolumeDialogImpl = XposedHelpers.findClassIfExists("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", classLoader);
         XposedHelpers.findAndHookMethod(MiuiVolumeDialogImpl, "showVolumeDialogH", int.class, new XC_MethodHook() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            protected void afterHookedMethod(MethodHookParam param) {
                 View mDialogView = (View) XposedHelpers.getObjectField(param.thisObject, "mDialogView");
                 FrameLayout windowView = (FrameLayout) mDialogView.getParent();
                 initPct(windowView, 3, windowView.getContext());
@@ -26,7 +26,7 @@ public class ShowVolumePct extends XposedUtils {
 
         XposedHelpers.findAndHookMethod(MiuiVolumeDialogImpl, "dismissH", int.class, new XC_MethodHook() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            protected void afterHookedMethod(MethodHookParam param) {
                 removePct(getTextView());
             }
 
@@ -37,9 +37,9 @@ public class ShowVolumePct extends XposedUtils {
             "onProgressChanged", new XC_MethodHook() {
                 private int nowLevel = -233;
 
-                @SuppressLint("SetTextI18n")
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                @SuppressLint("SetTextI18n")
+                protected void afterHookedMethod(MethodHookParam param) {
                     if (nowLevel == (int) param.args[1]) return;
                     int pctTag = 0;
                     if (getTextView() != null && getTextView().getTag() != null) {

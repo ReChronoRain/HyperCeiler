@@ -139,6 +139,7 @@
     <string name="bottom_margin">Lề dưới cùng</string>
     <string name="left_margin">Lề trái</string>
     <string name="right_margin">Lề phải</string>
+    <string name="horizontal_margin">Lề ngang</string>
     <string name="vertical_offset">Lên và xuống</string>
     <string name="horizontal_alignment">Căn chỉnh theo chiều ngang</string>
     <string name="feature">Tính năng</string>
@@ -313,6 +314,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="phone_n5_n8_desc">Nhập *#*#65686633#*#* trên giao diện quay số để bật băng tần n5/n8. Nếu hiển thị Đã bật chế độ N5 và N8 nghĩa là đã bật thành công.</string>
     <string name="system_framework_screen_title">Hiển thị &amp; thông báo</string>
     <string name="system_framework_core_title">Lõi bên dưới</string>
+    <string name="system_framework_entry">Sạc siêu thông minh</string>
+    <string name="system_framework_hook_entry">Mở khóa giới hạn sạc thông minh</string>
     <string name="system_framework_shortcut_title">Chia sẻ lối tắt</string>
     <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
     <string name="system_framework_allow_untrusted_touch">Cho phép chạm không tin cậy</string>
@@ -343,6 +346,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_verify_can_ve_disabled">Cho phép tắt xác minh ứng dụng</string>
     <string name="system_framework_allow_all_dark_mode">Cho phép tất cả ứng dụng sử dụng chế độ tối</string>
     <string name="system_framework_disablt_miuilite_check">Tắt kiểm tra MIUI Lite</string>
+    <string name="system_framework_allow_manage_all_notifications">Cho phép quản lý tất cả thông báo</string>
+    <string name="system_framework_quick_screenshot">Chụp ảnh màn hình nhanh</string>
+    <string name="system_framework_quick_screenshot_desc">Tắt độ trễ ảnh chụp màn hình</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -358,6 +364,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_core_patch_use_pre_signature_desc">Tính năng này cực kì nguy hiểm. Chỉ nên được kích hoạt khi cần thiết</string>
     <string name="system_framework_core_patch_enhanced_mode">Chế độ nâng cao</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Vượt qua một có xác nhận trong ứng dụng</string>
+    <string name="system_framework_disable_low_api_check">Tắt xác minh API phiên bản thấp</string>
+    <string name="system_framework_disable_low_api_check_desc">Cho phép cài đặt ứng dụng có API thấp hơn 23</string>
     <!--Browser-->
     <string name="browser">Trình duyệt</string>
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
@@ -585,13 +593,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Khi giá trị tốc độ mạng thấp hơn mức này, nó được coi là chậm và một số biểu tượng chỉ báo sẽ hiển thị các biểu tượng chỉ báo khác nhau</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ẩn hậu tố Byte trên giây (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Biểu tượng chỉ báo</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
     <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Tùy chỉnh đồng hồ</string>
     <string name="system_ui_statusbar_clock_editor">Định dạng đồng hồ</string>
     <string name="system_ui_statusbar_clock_year">Hiển thị năm</string>
@@ -680,6 +682,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
     <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
+    <string name="system_ui_control_center_fix_tiles_list">Tắt ẩn các ô cực tối</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
     <string name="system_ui_control_center_hide_operator">Tùy chỉnh tên nhà mạng</string>
     <string name="system_ui_control_center_hide_delimiter">Ẩn dấu phân cách giữa tên nhà mạng</string>
@@ -740,6 +743,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_enable_pad_area">Mở khóa khu vực máy tính bảng</string>
     <string name="system_settings_enable_fold_area">Mở khoá khu vực điện thoại gập</string>
     <string name="system_settings_enable_area_desc">Các thiết bị không được hỗ trợ sẽ khiến cài đặt bị lỗi sau khi được mở khóa</string>
+    <string name="system_settings_unlock_google_header">Tắt các cổng Google ẩn</string>
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
@@ -807,6 +811,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="aod">Màn hình Ambient</string>
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
     <string name="aod_unlock_always_on_display">Mở khóa Giới hạn thời gian</string>
+    <string name="aod_unlock_aon">Mở khóa AOD Aon</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Sử dụng trình duyệt của bên thứ ba</string>
@@ -845,6 +850,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="gallery_enable_remover_2">Mở khóa Xóa vật thể</string>
     <string name="gallery_enable_magic_matting">Mở khóa Cắt</string>
     <string name="gallery_enable_magic_sky">Mở khóa Bầu trời</string>
+    <string name="gallery_backup_server">Máy chủ sao lưu</string>
+    <string name="gallery_backup_server_xiaomi">Dịch vụ đám mây Xiaomi</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">Bảo mật MIUI</string>
     <string name="guard_provider_hyperos">Thành phần bảo mật hệ thống</string>
@@ -854,6 +862,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_gesture">Cử chỉ</string>
     <string name="home_navigation_title">Điều hướng</string>
     <string name="home_navigation_quick_back">Quay lại ứng dụng trước</string>
+    <string name="home_navigation_assist_left_slide">Trượt từ góc dưới bên trái</string>
+    <string name="home_navigation_assist_right_slide">Trượt từ góc dưới bên phải</string>
+    <string name="home_navigation_assist_left_slide_desc">Vuốt màn hình từ góc dưới bên trái</string>
+    <string name="home_navigation_assist_right_slide_desc">Vuốt màn hình từ góc dưới bên phải</string>
     <string name="home_navigation_quick_back_more">Vuốt từ cạnh màn hình để quay lại ứng dụng trước</string>
     <string name="home_navigation_back_area_height">Chiều cao khu vực cử chỉ quay lại</string>
     <string name="home_navigation_back_area_width">Chiều rộng khu vực cử chỉ quay lại</string>
@@ -895,6 +907,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_layout_unlock_grids_no_words_desc">Mở khóa giới hạn kích thước bố cục biểu tượng màn hình chính</string>
     <string name="home_layout_workspace_padding_bottom_desc">Khoảng cách biểu tượng dock từ lề dưới màn hình</string>
     <string name="home_layout_workspace_padding_top_desc">Khoảng cách màn hình chính từ lề trên cùng của màn hình</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Khoảng cách màn hình chính từ lề bên màn hình</string>
     <string name="home_layout_hotseats_height">Chiều cao</string>
     <string name="home_layout_hotseats_margin_top_desc">Khoảng cách thanh dưới cùng từ lề chỉ báo trang</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Khoảng cách dock từ lề dưới màn hình</string>
@@ -1093,10 +1106,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="miui_package_installer_install_source">Tùy chỉnh nguồn cài đặt</string>
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
     <string name="miui_package_installer_apk_info_desc">Hiện thông tin về ứng dụng được cài đặt</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
     <string name="various_disable_link_turbo_toast_more">Vui lòng khởi động lại Tăng tốc mạng trong khởi động lại nhanh</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">Dịch vụ NFC</string>
     <string name="nfc_disable_sound">Tắt tiếng</string>
     <string name="nfc_allow_information_screen">Cho phép phát hiện khi gần màn hình</string>
@@ -1120,7 +1133,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="powerkeeper_do_not_kill_apps_desc">Có thể tăng mức tiêu thụ điện năng</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Vô hiệu hóa quyền truy cập để hiển thị mã điều khiển</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Yêu cầu hỗ trợ phiên bản quay màn hình</string>
@@ -1231,6 +1244,10 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_sidebar_videobox_title">Hộp công cụ video</string>
     <string name="security_center_sidebar_gamebox_title">Phím tắt trong trò chơi</string>
     <string name="security_center_sidebar_function_title">Chức năng thanh bên</string>
+    <!--MiTrustService-->
+    <string name="trustservice">Dịch vụ MiTrust</string>
+    <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
+    <string name="trustservice_disable_mrm_desc">Tính năng thử nghiệm. Bạn có thể không sử dụng được tính năng này vì vi phạm luật pháp địa phương hoặc quốc gia.</string>
     <!--Smart cards-->
     <string name="tsmclient">Thẻ thông minh</string>
     <string name="tsmclient_auto_nfc">NFC tự động</string>
@@ -1247,7 +1264,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
-    <string name="aiasst_ai_captions_desc">Chỉ có thể nhận dạng và dịch được tiếng Trung và tiếng Anh</string>
+    <string name="aiasst_disable_watermark">Tắt hình mờ</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
@@ -1293,6 +1310,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="scanner_excel">Mở khóa quét biểu mẫu</string>
     <string name="scanner_ppt">Mở khoá Scan tạo file PowerPoint PPT</string>
     <string name="scanner_doc_ppt">Mở khóa Scan chữ</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Tắt hình mờ trò chuyện</string>
     <!--Other-->
     <string name="various">Khác</string>
     <string name="notes">Ghi chú</string>
@@ -1414,10 +1434,6 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="operator_fix_2">Phương pháp 2 (khuyên dùng)</string>
     <string name="custom_hook_new">Thêm Hook</string>
     <string name="custom_hook_mode">Chọn chế độ</string>
-    <string name="aod_unlock_aon">Mở khóa AOD Aon</string>
-    <string name="trustservice">Dịch vụ MiTrust</string>
-    <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
-    <string name="trustservice_disable_mrm_desc">Tính năng thử nghiệm. Bạn có thể không sử dụng được tính năng này vì vi phạm luật pháp địa phương hoặc quốc gia.</string>
     <string name="open_source">Dự án mã nguồn mở</string>
     <string name="close_source">Dự án mã nguồn đóng</string>
     <string name="exit">Thoát</string>
@@ -1426,7 +1442,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="system_framework_allow_manage_all_notifications">Cho phép quản lý tất cả thông báo</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
+    <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
 </resources>

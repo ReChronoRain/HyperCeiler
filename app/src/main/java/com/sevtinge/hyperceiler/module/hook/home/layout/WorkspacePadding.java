@@ -49,5 +49,15 @@ public class WorkspacePadding extends BaseHook {
                 });
             }
         }
+
+        if (mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")) {
+            logE("===============home_layout_workspace_padding_horizontal: " + mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0));
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    param.setResult(DisplayUtils.dip2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0)));
+                }
+            });
+        }
     }
 }

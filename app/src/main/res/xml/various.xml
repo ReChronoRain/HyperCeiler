@@ -108,6 +108,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_sogou_xiaomi_clipboard"
+            android:title="@string/sogou_xiaomi_clipboard" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_various_phrase_clipboardlist"
             android:title="@string/various_phrase_clipboardlist"
             android:summary="@string/various_phrase_clipboardlist_more" />

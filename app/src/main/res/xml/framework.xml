@@ -64,6 +64,12 @@
             android:key="prefs_key_system_framework_core_patch_enhanced_mode"
             android:defaultValue="false" />
 
+        <SwitchPreference
+            android:title="@string/system_framework_disable_low_api_check"
+            android:summary="@string/system_framework_disable_low_api_check_desc"
+            android:key="prefs_key_system_framework_disable_low_api_check"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>

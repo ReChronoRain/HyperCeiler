@@ -2,24 +2,41 @@ package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
 import static com.sevtinge.hyperceiler.utils.ShellUtils.checkRootPermission;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.*;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.*;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBrand;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceName;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getFingerPrint;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacture;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuilder;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-
-import moralnorm.preference.Preference;
-import moralnorm.preference.TextPreference;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import moralnorm.preference.Preference;
+
 public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
 
     private Preference mDebugInfo;
+    MainActivityContextHelper mainActivityContextHelper;
     TextView m;
 
 
@@ -31,6 +48,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mDebugInfo = findPreference("prefs_key_debug_info");
+        mainActivityContextHelper = new MainActivityContextHelper(requireContext());
         if (mDebugInfo != null) {
             mDebugInfo.setTitle(getDebugInfo());
         }
@@ -61,6 +79,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());
+            propertiesDevice.put("AndroidId", mainActivityContextHelper.getAndroidId());
+            propertiesDevice.put("Serial", getSerial());
         } catch (Exception ignored) {
         }
         try {
@@ -76,6 +96,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         } catch (Exception ignored) {
         }
         try {
+            propertiesCheck.put("Signature", mainActivityContextHelper.getSHA256Signature());
+            propertiesCheck.put("SignCheckPass", String.valueOf(mainActivityContextHelper.isSignCheckPass()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
             propertiesCheck.put("RootPermission", String.valueOf(checkRootPermission() == 0));
         } catch (Exception ignored) {

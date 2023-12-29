@@ -139,6 +139,7 @@
     <string name="bottom_margin">Margem inferior</string>
     <string name="left_margin">Margem esquerda</string>
     <string name="right_margin">Margem direita</string>
+    <string name="horizontal_margin">Margem horizontal</string>
     <string name="vertical_offset">Deslocamento para cima e para baixo</string>
     <string name="horizontal_alignment">Alinhamento horizontal</string>
     <string name="feature">Função</string>
@@ -312,6 +313,8 @@
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
+    <string name="system_framework_entry">Hyper Smart Charge</string>
+    <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
@@ -342,6 +345,9 @@
     <string name="system_framework_disable_verify_can_ve_disabled">Desativar para verificar pode ser desativado</string>
     <string name="system_framework_allow_all_dark_mode">Permitir que todos os apps usem o Modo escuro</string>
     <string name="system_framework_disablt_miuilite_check">Desativar Verificação MIUI Lite</string>
+    <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
+    <string name="system_framework_quick_screenshot">Captura de tela rápida</string>
+    <string name="system_framework_quick_screenshot_desc">Desative o atraso na captura de tela</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -356,6 +362,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">Esse recurso é extremamente perigoso e só deve ser ativado quando for absolutamente necessário</string>
     <string name="system_framework_core_patch_enhanced_mode">Modo aprimorado</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Realize alguma validação no app</string>
+    <string name="system_framework_disable_low_api_check">Desativar verificação de API baixa</string>
+    <string name="system_framework_disable_low_api_check_desc">Apps com APIs inferiores a 23 são permitidos</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
@@ -583,13 +591,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Os valores da velocidade de rede abaixo desse nível são considerados lentos e um indicador diferente será exibido (apenas alguns ícones)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Ocultar sufixo de bytes por segundo (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Ícone indicador</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
-    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Modo de relógio personalizado</string>
     <string name="system_ui_statusbar_clock_editor">Formato do relógio</string>
     <string name="system_ui_statusbar_clock_year">Exibir ano</string>
@@ -660,7 +661,7 @@
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
     <string name="system_ui_control_center_notification_blur_model">Modelo do blur de notificação</string>
     <string name="system_ui_control_center_notification_blur_fix">Otimização de notificação</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental, disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental. Disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
     <string name="system_ui_control_center_blur_radius">Raio do blur</string>
     <string name="system_ui_control_center_blur_radius_desc">Sem notificação suspensa</string>
     <string name="system_ui_control_center_corner_radius">Raio do canto</string>
@@ -678,6 +679,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduz o som de aviso.</string>
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
+    <string name="system_ui_control_center_fix_tiles_list">Desativar ocultar blocos extremamente escuros</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Altere o centro de controle e a gaveta de notificações</string>
     <string name="system_ui_control_center_hide_operator">Personalizar nome da operadora</string>
     <string name="system_ui_control_center_hide_delimiter">Ocultar apenas o delimitador</string>
@@ -687,6 +689,7 @@
     <string name="system_ui_control_center_notifrowmenu">Menu de notificação estendido</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Abra as informações do app, force a parada do app e abra em uma janela flutuante no menu de notificação (deslize a notificação para a esquerda para abri-la)</string>
     <string name="system_ui_unlock_super_volume">Desbloquear Super volume</string>
+    <string name="system_ui_unlock_super_volume_desc">Recurso experimental. Recursos reais precisam ser suportados pelo código subjacente.</string>
     <string name="system_ui_controlcenter_new_title">Novo centro de controle</string>
     <string name="system_ui_controlcenter_old_title">Centro de controle antigo</string>
     <string name="system_ui_controlcenter_unlock_old_title">Desbloquear estilos do centro de controle</string>
@@ -738,6 +741,7 @@
     <string name="system_settings_enable_pad_area">Desbloquear área do Pad</string>
     <string name="system_settings_enable_fold_area">Desbloquear área Fold</string>
     <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as Configurações travem após serem desbloqueadas</string>
+    <string name="system_settings_unlock_google_header">Desbloquear entrada do Google</string>
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
@@ -750,7 +754,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
     <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
-    <string name="system_settings_more_notification_settings_summary">Mostrar importância da notificação</string>
+    <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos \"UI do Sistema\" e \"Configurações\" para que as alterações tenham efeito</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
@@ -801,10 +805,11 @@
     <string name="aod">Tela ambiente</string>
     <string name="aod_hyperos">Editor da tela ambiente e de bloqueio</string>
     <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da tela ambiente</string>
+    <string name="aod_unlock_aon">Desbloquear exibição da tela ambiente</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Usar navegador de terceiros</string>
-    <string name="content_extension_browser_desc">Torne o Taplus não obrigatório para usar o Navegador MIUI para pesquisas. Você precisa escolher o navegador padrão por conta própria.</string>
+    <string name="content_extension_browser_desc">Torne o Taplus não obrigatório para usar o navegador do sistema para pesquisas. Você mesmo precisa escolher o navegador padrão por conta própria.</string>
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Permitir o uso do Taplus em telas de paisagem</string>
     <string name="content_extension_double_press">Gesto: 2 dedos</string>
@@ -839,6 +844,9 @@
     <string name="gallery_enable_remover_2">Desbloquear Apagar</string>
     <string name="gallery_enable_magic_matting">Desbloquear Corte</string>
     <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
+    <string name="gallery_backup_server">Servidor de backup</string>
+    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de segurança da MIUI</string>
     <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
@@ -848,6 +856,10 @@
     <string name="home_gesture">Gestos e navegação</string>
     <string name="home_navigation_title">Navegação</string>
     <string name="home_navigation_quick_back">Voltar ao app anterior</string>
+    <string name="home_navigation_assist_left_slide">Deslizar no canto inferior esquerdo</string>
+    <string name="home_navigation_assist_right_slide">Deslizar no canto inferior direito</string>
+    <string name="home_navigation_assist_left_slide_desc">Deslize para dentro a partir do canto inferior esquerdo da tela</string>
+    <string name="home_navigation_assist_right_slide_desc">Deslize para dentro a partir do canto inferior direito da tela</string>
     <string name="home_navigation_quick_back_more">Deslize pela tela começando pela borda para voltar ao app anterior</string>
     <string name="home_navigation_back_area_height">Altura da área do gesto de retorno</string>
     <string name="home_navigation_back_area_width">Largura da área do gesto de retorno</string>
@@ -889,6 +901,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">Desbloquear limite de tamanho de layout do ícone da tela inicial</string>
     <string name="home_layout_workspace_padding_bottom_desc">Distância da tela inicial da margem inferior da tela</string>
     <string name="home_layout_workspace_padding_top_desc">Distância da tela inicial da margem superior da tela</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Distância da tela inicial da margem lateral da tela</string>
     <string name="home_layout_hotseats_height">Altura</string>
     <string name="home_layout_hotseats_margin_top_desc">Distância da dock da margem do indicador de página</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Distância da dock da margem inferior da tela</string>
@@ -988,7 +1001,7 @@
     <string name="home_recent_vertical_task_view_card_size">Tamanho da miniatura para Verticalmente</string>
     <string name="home_recent_text_size">Tamanho do nome dos apps</string>
     <string name="home_recent_text_color">Cor do nome dos apps</string>
-    <string name="home_recent_freeform_background_color">Cor de fundo do cartão do app Janelas flutuantes</string>
+    <string name="home_recent_freeform_background_color">Cor de fundo do cartão Janelas flutuantes</string>
     <string name="home_recent_show_real_memory">Exibir memória real</string>
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
@@ -996,8 +1009,8 @@
     <string name="home_recent_blur">Blur de fundo</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
-    <string name="home_widget_show_miui_widget">Exibir widgets da MIUI</string>
-    <string name="home_widget_show_miui_widget_desc">Exibir widgets da MIUI na página Widgets Android</string>
+    <string name="home_widget_show_miui_widget">Exibir widgets do sistema</string>
+    <string name="home_widget_show_miui_widget_desc">Exibir widgets do sistema na página de widgets AOSP</string>
     <string name="home_widget_corner_radius">Cantos arredondados do widget</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para a tela negativa</string>
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>
@@ -1087,10 +1100,10 @@
     <string name="miui_package_installer_install_source">Fonte de instalação personalizada</string>
     <string name="miui_package_installer_apk_info">Exibir mais informações do pacote</string>
     <string name="miui_package_installer_apk_info_desc">Exibe mais informações sobre o app que está sendo instalado</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
     <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida.</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">Serviço NFC</string>
     <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>
     <string name="nfc_allow_information_screen">Permitir reconhecimento quando a tela estiver desligada</string>
@@ -1113,8 +1126,8 @@
     <string name="powerkeeper_do_not_kill_apps">Tente não encerrar os apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">Pode aumentar o consumo de energia</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
-    <string name="powerkeeper_disable_get_display_ctrl_code">Desative para obter código de controle de exibição</string>
-    <!--creen Recorder-->
+    <string name="powerkeeper_disable_get_display_ctrl_code">Desativar para obter código do controle de exibição</string>
+    <!--Screen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requer suporte a versão de gravação de tela</string>
@@ -1218,6 +1231,10 @@
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Atalhos no jogo</string>
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
+    <!--MiTrustService-->
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
+    <string name="trustservice_disable_mrm_desc">Recurso experimental. Você não pode usar esse recurso em violação às leis locais ou nacionais.</string>
     <!--Smart cards-->
     <string name="tsmclient">Cartões inteligentes</string>
     <string name="tsmclient_auto_nfc">Gerenciar NFC automaticamente</string>
@@ -1234,7 +1251,7 @@
     <!--AI Translate-->
     <string name="aiasst">Tradutor IA</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
-    <string name="aiasst_ai_captions_desc">Somente Chinês e Inglês podem ser reconhecidos e traduzidos</string>
+    <string name="aiasst_disable_watermark">Desativar marca d\'água</string>
     <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem barragem</string>
@@ -1249,7 +1266,7 @@
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">Disfarçar modelo</string>
-    <string name="market_device_modify_desc">O modelo do dispositivo disfarçado é o Xiaomi 13 Ultra</string>
+    <string name="market_device_modify_desc">Receba atualizações do dispositivo correspondente disfarçando o modelo como outro dispositivo</string>
     <string name="market_disable_new_icon">Proibir o uso de ícones de terceiros</string>
     <string name="market_disable_new_icon_desc">Deixe a tela inicial mais limpa</string>
     <!--MIUI+-->
@@ -1280,6 +1297,9 @@
     <string name="scanner_excel">Desbloquear Escanear tabela</string>
     <string name="scanner_ppt">Desbloquear Escanear PPT</string>
     <string name="scanner_doc_ppt">Desbloquear Escanear arquivos</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Desativar marca d\'água no chat</string>
     <!--Other-->
     <string name="various">Outros</string>
     <string name="notes">Notas</string>
@@ -1291,7 +1311,7 @@
     <string name="various_dialog_title">Caixa de diálogo</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Recursos ocultos</string>
-    <string name="various_open_aosp_something_desc">Abra a interface AOSP \"oculta\"</string>
+    <string name="various_open_aosp_something_desc">Abra convenientemente a interface AOSP oculta</string>
     <string name="various_nobrightness">Rejeitar brilho forçado</string>
     <string name="various_no_overscroll">Desativar rejeição fora dos limites</string>
     <string name="various_disable_access_device_logs">Ignorar diálogo de solicitação de logs do dispositivo de acesso</string>
@@ -1299,8 +1319,8 @@
     <string name="various_phrase_clipboardlist_more">Após ativado, selecione o escopo do método de entrada e reinicie-o, o que fará com que a exclusão de um único conteúdo seja inválida.</string>
     <string name="various_unlock_ime">Desbloquear IME</string>
     <string name="various_unlock_ime_desc">Após abrir, verifique o escopo do método de entrada correspondente no gerenciador Xposed.</string>
-    <string name="various_collapse_miui_title">Título MIUI</string>
-    <string name="various_collapse_miui_title_desc">Ajuste o título da barra superior em apps da MIUI</string>
+    <string name="various_collapse_miui_title">Estilo de título do sistema</string>
+    <string name="various_collapse_miui_title_desc">Ajuste o título da barra superior em apps do sistema</string>
     <string name="various_disable_folder_cantuse">Remover limite de pastas indisponíveis</string>
     <string name="various_super_clipboard_title">Super Área de Transferência</string>
     <string name="various_unlock_super_clipboard">Comportamento da super área de transferência</string>
@@ -1315,9 +1335,9 @@
     <string name="various_open_aosp_extremely_dark_title">Extra escuro</string>
     <string name="various_mipad_input_title">Entrada</string>
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
-    <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo da MIUI em ponteiro AOSP.</string>
+    <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo do sistema Xiaomi Pad em ponteiro AOSP.</string>
     <string name="various_mipad_input_restore_esc_title">Restaurar função ESC</string>
-    <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"voltar\" pela MIUI.</string>
+    <string name="various_mipad_input_restore_esc_desc">Restaure a função ESC que foi mapeada para a função \"voltar\" pelo sistema Xiaomi Pad.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remover restrição da caneta Bluetooth</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Faça com que todas as canetas compatíveis funcionem sem a necessidade da conexão Bluetooth com a caneta oficial.</string>
     <string name="various_mipad_input_bluetooth_version_title">Versão do driver</string>
@@ -1408,7 +1428,7 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
+    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou e a versão atual que você está usando pode não ser da versão oficial do Re.chronoRain, e pode conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
 </resources>

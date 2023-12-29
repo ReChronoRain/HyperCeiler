@@ -4,6 +4,7 @@
     <string name="system_ui_status_bar_icon_nfc" translatable="false">NFC</string>
     <string name="system_ui_status_bar_icon_vpn" translatable="false">VPN</string>
     <string name="location_simulation_gps" translatable="false">GPS</string>
+    <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
     <string name="array_netspeedicons_arrows" translatable="false">△▽ (▲▼)</string>
     <string name="array_netspeedicons_bullets" translatable="false">☖ ⛉ ( ☗ ⛊ )</string>
@@ -13,7 +14,7 @@
     <string name="system_ui_display_toast_title" translatable="false">Toast</string>
     <string name="summary_collapsed_preference_list" translatable="false">%1$s%2$s</string>
     <string name="networkboost" translatable="false">NetworkBoost</string>
-
+    <string name="crc_value" translatable="false">399F71FC</string>
     <string name="home_title_custom_anim_param_1_title" translatable="false">BREAK_OPEN</string>
     <string name="home_title_custom_anim_param_2_title" translatable="false">OPEN_FROM_HOME</string>
     <string name="home_title_custom_anim_param_3_title" translatable="false">OPEN_FROM_RECENTS</string>
@@ -28,6 +29,9 @@
     <string name="home_title_custom_anim_param_RECT_RATIO_title" translatable="false">RECT_RATIO</string>
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
+
+    <string name="miui_quick_settings_tiles_stock" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,bt,airplane,autobrightness,mute,screenshot,flashlight,rotation,screenlock,dtmdtm,scanner,papermode,night,quietmode,batterysaver,uwb_shp,aitranslate,aisubtitles,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,gps,edit,hearingassisttile,controls,wallet,settings</string>
+    <string name="miui_quick_settings_tiles_stock_pad" translatable="false">reduce_brightness,vowifi1,vowifi2,cell,wifi,rotation,airplane,mute,screenshot,bt,autobrightness,screenlock,dtmdtm,night,papermode,quietmode,batterysaver,gps,flashlight,scanner,freeformhang,vibrate,hotspot,sync,wirelesspower,nfc,dolbyatomssound,edit,controls,workmode,wallet,settings</string>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make HyperOS/MIUI Great Again!</string>
 
@@ -172,6 +176,7 @@
     <string name="bottom_margin">Bottom margin</string>
     <string name="left_margin">Left margin</string>
     <string name="right_margin">Right margin</string>
+    <string name="horizontal_margin">Horizontal margin</string>
     <string name="vertical_offset">Up and down offset</string>
     <string name="horizontal_alignment">Horizontal alignment</string>
     <string name="feature">Function</string>
@@ -291,7 +296,7 @@
     <string name="control_center_5g_v2">5G Style Two</string>
     <string name="no_blur">No blur</string>
     <string name="miui_blur">HyperOS blur</string>
-    <string name="android_blur">ASOP blur</string>
+    <string name="android_blur">AOSP blur</string>
     <string name="system_ui_statusbar_network_speed_style_1">Values and units are displayed in a single line</string>
     <string name="system_ui_statusbar_network_speed_style_2">Values and units are displayed in two rows</string>
     <string name="system_ui_statusbar_network_speed_style_3">The uplink and downlink network speed is displayed in a single line</string>
@@ -346,6 +351,8 @@
 
     <string name="system_framework_screen_title">Display &amp; Notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
+    <string name="system_framework_entry">Hyper Smart Charge</string>
+    <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
     <string name="system_framework_allow_untrusted_touch">Allow untrusted touch</string>
@@ -376,6 +383,9 @@
     <string name="system_framework_disable_verify_can_ve_disabled">Disable to verify can be disabled</string>
     <string name="system_framework_allow_all_dark_mode">Allow all apps to use dark mode</string>
     <string name="system_framework_disablt_miuilite_check">Disable MIUI Lite Check</string>
+    <string name="system_framework_allow_manage_all_notifications">Allow to manage all notifications</string>
+    <string name="system_framework_quick_screenshot">Quick screenshot</string>
+    <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
@@ -390,6 +400,8 @@
     <string name="system_framework_core_patch_use_pre_signature_desc">This feature is extremely dangerous and should only be enabled when absolutely necessary</string>
     <string name="system_framework_core_patch_enhanced_mode">Enhanced mode</string>
     <string name="system_framework_core_patch_enhanced_mode_desc">Pass some validation in the application</string>
+    <string name="system_framework_disable_low_api_check">Disable low API check</string>
+    <string name="system_framework_disable_low_api_check_desc">Apps with APIs lower than 23 are allowed</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
@@ -617,13 +629,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Network speed values below this level are considered slow and a different indicator icon will be displayed (only some icons)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Hide Byte per second suffix (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Indicator icon</string>
-    <string name="system_ui_statusbar_network_speed_format_d_ms">%d ms</string>
-    <string name="system_ui_statusbar_network_speed_format_d_s">%d s</string>
-    <string name="system_ui_statusbar_network_speed_format_d_m">%d m</string>
-    <string name="system_ui_statusbar_network_speed_format_KBs">%d KB/s</string>
-    <string name="system_ui_statusbar_network_speed_oneKBs">1 KB/s</string>
-    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
-    <string name="system_ui_statusbar_network_speed_lux">%s lux</string>
     <string name="system_ui_statusbar_clock_mode">Custom clock mode</string>
     <string name="system_ui_statusbar_clock_editor">Clock format</string>
     <string name="system_ui_statusbar_clock_year">Show year</string>
@@ -712,6 +717,7 @@
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
+    <string name="system_ui_control_center_fix_tiles_list">Disable hide extremely dark tiles</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Switch control center and notification drawer</string>
     <string name="system_ui_control_center_hide_operator">Carrier name customization</string>
     <string name="system_ui_control_center_hide_delimiter">Only dividers are hidden</string>
@@ -721,6 +727,7 @@
     <string name="system_ui_control_center_notifrowmenu">Extended notification menu</string>
     <string name="system_ui_control_center_notifrowmenu_desc">Open app info, force close app and open in floating window from notification menu (swipe notification to the left to open it)</string>
     <string name="system_ui_unlock_super_volume">Unlock Super Volume</string>
+    <string name="system_ui_unlock_super_volume_desc">Experimental features, actual features need to be supported by the underlying code</string>
     <string name="system_ui_controlcenter_new_title">New control center</string>
     <string name="system_ui_controlcenter_old_title">Legacy control center</string>
     <string name="system_ui_controlcenter_unlock_old_title">Unlock control center styles</string>
@@ -773,6 +780,7 @@
     <string name="system_settings_enable_pad_area">Unlock Pad area</string>
     <string name="system_settings_enable_fold_area">Unlock Fold area</string>
     <string name="system_settings_enable_area_desc">Unsupported devices will cause the settings to crash after being unlocked</string>
+    <string name="system_settings_unlock_google_header">Unlock Google Entry</string>
     <string name="system_settings_connection_sharing_title">Network Connection &amp; sharing</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>
@@ -786,7 +794,7 @@
     <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
     <string name="system_settings_permission_title">Permission</string>
     <string name="system_settings_more_notification_settings">Show more notification settings</string>
-    <string name="system_settings_more_notification_settings_summary">Show notification importance</string>
+    <string name="system_settings_more_notification_settings_summary">You need to restart the \"System Interface\" and \"Settings\" scopes for the changes to take effect</string>
     <string name="system_settings_permission_show_app_up">Upper-level permissions without searching the application list</string>
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>
@@ -837,10 +845,11 @@
     <string name="aod">Always-on display</string>
     <string name="aod_hyperos">Always-on Display And Lock Screen Editor</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the always-on screen</string>
+    <string name="aod_unlock_aon">Unlock Aod Aon</string>
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">Use third-party browser</string>
-    <string name="content_extension_browser_desc">Make Taplus not mandatory to use MIUI browser for search, you need to choose the default browser by yourself</string>
+    <string name="content_extension_browser_desc">Make Taplus not mandatory to use system browser for search, you need to choose the default browser by yourself</string>
     <string name="content_extension_unlock_taplus_title">Unlock Taplus</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Allow use of taplus on landscape screens</string>
     <string name="content_extension_double_press">Gesture : 2 fingers</string>
@@ -875,6 +884,9 @@
     <string name="gallery_enable_remover_2">Unlock Erase</string>
     <string name="gallery_enable_magic_matting">Unlock Cut</string>
     <string name="gallery_enable_magic_sky">Unlock Sky</string>
+    <string name="gallery_backup_server">Backup server</string>
+    <string name="gallery_backup_server_xiaomi">Xiaomi Cloud Service</string>
+    <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">MIUI security components</string>
     <string name="guard_provider_hyperos">System Security Components</string>
@@ -884,6 +896,10 @@
     <string name="home_gesture">Gesture and Navigation</string>
     <string name="home_navigation_title">Navigation</string>
     <string name="home_navigation_quick_back">Go back to previous app</string>
+    <string name="home_navigation_assist_left_slide">Bottom left corner slide</string>
+    <string name="home_navigation_assist_right_slide">Bottom right corner slide</string>
+    <string name="home_navigation_assist_left_slide_desc">Slide inward from the bottom left corner of the screen</string>
+    <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
@@ -925,6 +941,7 @@
     <string name="home_layout_unlock_grids_no_words_desc">Unlock home screen icon layout size limit</string>
     <string name="home_layout_workspace_padding_bottom_desc">Home screen distance from screen bottom margin</string>
     <string name="home_layout_workspace_padding_top_desc">Home screen distance from screen top margin</string>
+    <string name="home_layout_workspace_padding_horizontal_desc">Home screen distance from screen side margin</string>
     <string name="home_layout_hotseats_height">Height</string>
     <string name="home_layout_hotseats_margin_top_desc">Dock distance from page indicator margin</string>
     <string name="home_layout_hotseats_margin_bottom_desc">Dock distance from screen bottom margin</string>
@@ -1034,8 +1051,8 @@
 
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
-    <string name="home_widget_show_miui_widget">Show MIUI widgets</string>
-    <string name="home_widget_show_miui_widget_desc">Display MIUI widgets on the Android widget page</string>
+    <string name="home_widget_show_miui_widget">Show System Widgets</string>
+    <string name="home_widget_show_miui_widget_desc">Display the system widget on the AOSP widgets page</string>
     <string name="home_widget_corner_radius">Widget rounded corners</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="home_widget_hide_title">Hide widget title</string>
@@ -1127,10 +1144,10 @@
     <string name="miui_package_installer_install_source">Custom install source</string>
     <string name="miui_package_installer_apk_info">Show more package information</string>
     <string name="miui_package_installer_apk_info_desc">Show more info about the app that\'s being installed</string>
-    <!--networkboost-->
+    <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
     <string name="various_disable_link_turbo_toast_more">Please restart NetworkBoost in the fast restart scope</string>
-    <!--nfc-->
+    <!--NFC-->
     <string name="nfc">NFC Service</string>
     <string name="nfc_disable_sound">Disable NFC notification sound</string>
     <string name="nfc_allow_information_screen">Allow recognition when screen is off</string>
@@ -1154,7 +1171,7 @@
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable to Get Display Control Code</string>
-    <!--creen Recorder-->
+    <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requires screen recording version support</string>
@@ -1258,6 +1275,10 @@
     <string name="security_center_sidebar_videobox_title">Video Box</string>
     <string name="security_center_sidebar_gamebox_title">Game Box</string>
     <string name="security_center_sidebar_function_title">Sidebar Function</string>
+    <!--MiTrustService-->
+    <string name="trustservice">MiTrustService</string>
+    <string name="trustservice_disable_mrm">Disable risk detections</string>
+    <string name="trustservice_disable_mrm_desc">Experimental features. You may not use this feature in violation of local or national laws.</string>
     <!--Smart cards-->
     <string name="tsmclient">Smart cards</string>
     <string name="tsmclient_auto_nfc">Manage NFC automatically</string>
@@ -1274,7 +1295,7 @@
     <!--AI Translate-->
     <string name="aiasst">AI Translate</string>
     <string name="aiasst_ai_captions">Force enabled AI captions</string>
-    <string name="aiasst_ai_captions_desc">Only Chinese and English can be recognized and translated</string>
+    <string name="aiasst_disable_watermark">Disable watermark</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps use barrage</string>
@@ -1289,7 +1310,7 @@
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">Model guise</string>
-    <string name="market_device_modify_desc">Disguised device model is Xiaomi 13 Ultra</string>
+    <string name="market_device_modify_desc">Receive updates from the corresponding device by disguising the model as another device</string>
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
     <!--MIUI+-->
@@ -1320,6 +1341,9 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
+    <!--MI AI-->
+    <string name="voiceassist">Mi AI</string>
+    <string name="voiceassist_disable_watermark">Disable chat watermark</string>
     <!--Other-->
     <string name="various">Other</string>
     <string name="notes">Notes</string>
@@ -1331,7 +1355,7 @@
     <string name="various_dialog_title">Dialog</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">Hide Properties</string>
-    <string name="various_open_aosp_something_desc">Open AOSP interface \"hidden\"</string>
+    <string name="various_open_aosp_something_desc">Conveniently open the hidden AOSP interface</string>
     <string name="various_nobrightness">Reject forced brightness</string>
 
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
@@ -1340,8 +1364,8 @@
     <string name="various_phrase_clipboardlist_more">After it is enabled, select the input method scope and restart it</string>
     <string name="various_unlock_ime">Unlock IME</string>
     <string name="various_unlock_ime_desc">After opening, please check the corresponding input method scope in the Xposed manager</string>
-    <string name="various_collapse_miui_title">MIUI Title</string>
-    <string name="various_collapse_miui_title_desc">Adjust top bar title in MIUI apps</string>
+    <string name="various_collapse_miui_title">System Title Style</string>
+    <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>
     <string name="various_super_clipboard_title">Super Clipboard</string>
     <string name="various_unlock_super_clipboard">Super clipboard behavior</string>
@@ -1356,9 +1380,9 @@
     <string name="various_open_aosp_extremely_dark_title">Extremely Dark</string>
     <string name="various_mipad_input_title">Input</string>
     <string name="various_mipad_input_close_magic_title">No Magic Pointer</string>
-    <string name="various_mipad_input_close_magic_desc">Turn the round MIUI pointer to AOSP pointer.</string>
+    <string name="various_mipad_input_close_magic_desc">Turn the round Xiaomi Pad system pointer to AOSP pointer.</string>
     <string name="various_mipad_input_restore_esc_title">Restore ESC function</string>
-    <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \"back\" function by MIUI.</string>
+    <string name="various_mipad_input_restore_esc_desc">Restore ESC function which has been hard-mapped to \"back\" function by Xiaomi Pad system.</string>
     <string name="various_mipad_input_disable_bluetooth_title">Remove stylus bluetooth restriction</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Make all compatible stylus work without the need of bluetooth connection to official stylus.</string>
     <string name="various_mipad_input_bluetooth_version_title">Driver version</string>
@@ -1441,10 +1465,6 @@
     <string name="operator_fix_2">Method 2 (recommended)</string>
     <string name="custom_hook_new">Add hook</string>
     <string name="custom_hook_mode">Select mode</string>
-    <string name="aod_unlock_aon">Unlock Aod Aon</string>
-    <string name="trustservice">MiTrustService</string>
-    <string name="trustservice_disable_mrm">Disable risk detections</string>
-    <string name="trustservice_disable_mrm_desc">Experimental features. You may not use this feature in violation of local or national laws.</string>
     <string name="open_source">Open Source Projects</string>
     <string name="close_source">Close Source Projects</string>
     <string name="exit">Exit</string>
@@ -1453,7 +1473,7 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="system_framework_allow_manage_all_notifications">Allow to manage all notifications</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
+    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
 </resources>

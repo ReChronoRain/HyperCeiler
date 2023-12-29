@@ -269,18 +269,25 @@
             android:title="@string/tsmclient" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.VoiceAssistFragment"
+            android:icon="@drawable/ic_voiceassist"
+            android:key="prefs_key_voiceassist"
+            android:summary="com.miui.voiceassist"
+            android:title="@string/voiceassist" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.WeatherFragment"
             android:icon="@drawable/ic_weather"
             android:key="prefs_key_weather"
             android:summary="com.miui.weather2"
             android:title="@string/weather" />
 
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+        <!--<com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.SoGouFragment"
             android:icon="@drawable/ic_sogou"
             android:key="prefs_key_sogou"
             android:summary="com.sohu.inputmethod.sogou.xiaomi"
-            android:title="@string/sogou_xiaomi" />
+            android:title="@string/sogou_xiaomi" />-->
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.AiAsstFragment"

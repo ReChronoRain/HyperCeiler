@@ -19,7 +19,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
+import java.util.Set;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -41,6 +46,7 @@ public class ClipboardList extends BaseHook {
                     // logE(TAG, "get class: " + param.args[0]);
                     filePath = "/data/user/0/" + lpparam.packageName + "/files/array_list.dat";
                     lastFilePath = "/data/user/0/" + lpparam.packageName + "/files/last_list.dat";
+                    // logE(TAG, "run: " + param.args[0]);
                     getNoExpiredData((ClassLoader) param.args[0]);
                     getView((ClassLoader) param.args[0]);
                     clearArray((ClassLoader) param.args[0]);
@@ -79,6 +85,7 @@ public class ClipboardList extends BaseHook {
                         checkFile(lastFilePath);
                         /*获取原始list数据内容*/
                         ArrayList<?> jsonToBean = jsonToBean((String) param.args[1], classLoader);
+                        // logE(TAG, "get: " + listToJson(jsonToBean));
                         if (jsonToBean.size() == 0) {
                             /*防止在数据为空时误删数据库数据*/
                             // resetFile();
@@ -94,13 +101,14 @@ public class ClipboardList extends BaseHook {
                             logD(TAG + ": get saved clipboard list size is 0.");
                             return;
                         }
-                        if (isEmptyFile(lastFilePath)) {
+                        if (!isEmptyFile(lastFilePath)) {
                             lastArray = jsonToLIst(lastFilePath, classLoader);
                         }
                         /*文件不为空说明有数据*/
                         if (!isEmptyFile(filePath)) {
                             /*数据库数据*/
                             mArray = jsonToLIst(filePath, classLoader);
+                            // logE(TAG, "mArray: " + listToJson(mArray));
                             if (!lastArray.isEmpty()) {
                                 /*虽说不太可能为空但还是检查一下*/
                                 if (mArray.isEmpty()) {
@@ -140,24 +148,20 @@ public class ClipboardList extends BaseHook {
                                  *//*很极端的情况，应该不会发生*//*
                                     mArray.addAll(0, jsonToBean);
                                 }*/
+                                // logE(TAG, "last: " + listToJson(lastArray));
                             }
                             /*置旧*/
                             lastArray = jsonToBean;
-                            if (resetFile(lastFilePath)) {
-                                writeFile(lastFilePath, listToJson(lastArray));
-                            }
-                            /*清空文件写入*/
-                            if (resetFile(filePath)) {
-                                writeFile(filePath, listToJson(mArray));
-                            }
+                            writeFile(lastFilePath, listToJson(lastArray));
+                            writeFile(filePath, listToJson(mArray));
+                            // logE(TAG, "after: " + listToJson(lastArray) + " mArray: " + listToJson(mArray));
                             param.setResult(mArray);
                         } else {
                             /*置旧*/
                             lastArray = jsonToBean;
-                            if (resetFile(lastFilePath)) {
-                                writeFile(lastFilePath, listToJson(lastArray));
-                            }
+                            writeFile(lastFilePath, listToJson(lastArray));
                             writeFile(filePath, listToJson(jsonToBean));
+                            // logE(TAG, "before: " + listToJson(lastArray) + " mArray: " + listToJson(mArray));
                             param.setResult(jsonToBean);
                         }
                     } catch (Throwable throwable) {
@@ -189,18 +193,12 @@ public class ClipboardList extends BaseHook {
                     ArrayList<?> arrayList = (ArrayList<?>) param.args[1];
                     if (arrayList.isEmpty()) {
                         lastArray = new ArrayList<>();
-                        if (resetFile(lastFilePath)) {
-                            writeFile(lastFilePath, new JSONArray());
-                        }
+                        resetFile(lastFilePath);
                     } else {
                         lastArray = arrayList;
-                        if (resetFile(lastFilePath)) {
-                            writeFile(lastFilePath, listToJson(arrayList));
-                        }
+                        writeFile(lastFilePath, listToJson(arrayList));
                     }
-                    if (resetFile(filePath)) {
-                        writeFile(filePath, listToJson(arrayList));
-                    }
+                    writeFile(filePath, listToJson(arrayList));
                 }
             }
         );
@@ -265,6 +263,7 @@ public class ClipboardList extends BaseHook {
             try {
                 if (file.createNewFile()) {
                     writeFile(path, new JSONArray());
+                    setPermission(path);
                     logI(TAG, "createNewFile: " + file);
                 } else {
                     logE(TAG, "createNewFile: " + file);
@@ -272,6 +271,8 @@ public class ClipboardList extends BaseHook {
             } catch (IOException e) {
                 logE(TAG, "createNewFile: " + e);
             }
+        } else {
+            setPermission(path);
         }
     }
 
@@ -385,6 +386,27 @@ public class ClipboardList extends BaseHook {
         } catch (Throwable throwable) {
             logE(TAG, "getContent array: " + arrayList + " num: " + num + " e: " + throwable);
             throw new Throwable("callMethod getContent error: " + throwable);
+        }
+    }
+
+    public void setPermission(String paths) {
+        // 指定文件的路径
+        Path filePath = Paths.get(paths);
+
+        try {
+            // 获取当前文件的权限
+            Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filePath);
+
+            // 添加世界可读写权限
+            permissions.add(PosixFilePermission.OTHERS_READ);
+            permissions.add(PosixFilePermission.OTHERS_WRITE);
+            permissions.add(PosixFilePermission.GROUP_READ);
+            permissions.add(PosixFilePermission.GROUP_WRITE);
+
+            // 设置新的权限
+            Files.setPosixFilePermissions(filePath, permissions);
+        } catch (IOException e) {
+            logE(TAG, "setPermission: " + e);
         }
     }
 }

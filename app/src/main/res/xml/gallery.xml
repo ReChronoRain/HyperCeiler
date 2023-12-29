@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/settings">
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_gallery_backup_server"
+            android:title="@string/gallery_backup_server"
+            app:entries="@array/gallery_backup_server_entries"
+            app:entryValues="@array/gallery_backup_server_values" />
         <SwitchPreference
             android:title="@string/gallery_enable_hdr_enhanced"
             android:key="prefs_key_gallery_enable_hdr_enhanced"
