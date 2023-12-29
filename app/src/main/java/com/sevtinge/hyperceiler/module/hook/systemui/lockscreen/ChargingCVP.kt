@@ -115,7 +115,7 @@ object ChargingCVP : BaseHook() {
                                         invokeMethodBestMatch(mBatteryStatus, "isPluggedIn")
                                     val mContext =
                                         getObjectOrNull(instanceMiuiChargeController, "mContext")
-                                    val clazzChargeUtils = loadClass("com.miui.charge.ChargeUtils")
+                                    val clazzChargeUtils = loadClass("com.miui.charge.ChargeUtils", lpparam.classLoader)
                                     val chargingHintText =
                                         invokeStaticMethodBestMatch(
                                             clazzChargeUtils,
