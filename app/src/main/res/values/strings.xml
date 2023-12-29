@@ -867,6 +867,7 @@
     <!--Backup-->
     <string name="backup">Backup</string>
     <string name="backup_allow_all_apps">Allow backup all apps</string>
+    <string name="backup_unlock_broken_screen_backup">Unlock Backups with damaged screen</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>

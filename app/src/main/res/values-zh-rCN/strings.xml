@@ -883,6 +883,7 @@
     <!--备份-->
     <string name="backup">备份</string>
     <string name="backup_allow_all_apps">允许备份所有应用</string>
+    <string name="backup_unlock_broken_screen_backup">解锁碎屏数据备份</string>
     <!--小米创作-->
     <string name="creation">小米创作</string>
     <string name="creation_unlock">解除手机端使用限制</string>
