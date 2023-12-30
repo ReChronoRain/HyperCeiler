@@ -202,7 +202,18 @@ public abstract class TileUtils extends BaseHook {
         return null;
     }
 
-    /*需要Hook执行的Class方法*/
+    /*需要Hook执行的Class方法
+     * 模板
+     * @Override
+     * public String[] customTileProvider() {
+     *   String[] TileProvider = new String[5];
+     *   TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightDisplayTileProvider" : "mNightDisplayTileProvider"; // 类内字符串命名
+     *   TileProvider[1] = "createTileInternal"; // 方法名
+     *   TileProvider[2] = "interceptCreateTile"; // 方法名
+     *   TileProvider[3] = "createTile"; // 方法名
+     *   return TileProvider;
+     * }
+     * */
     public String[] customTileProvider() {
         return null;
     }
@@ -313,14 +324,21 @@ public abstract class TileUtils extends BaseHook {
                             String tileName = (String) param.args[0];
                             if (tileName.equals(customName())) {
                                 String myTileProvider = customTileProvider()[0];
-                                Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
-                                Object tile = XposedHelpers.callMethod(provider, "get");
-                                XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
-                                if (tile != null) {
-                                    Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
-                                    XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
-                                    XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
-                                    param.setResult(tile);
+                                Object provider;
+                                Object tile;
+                                try {
+                                    QSFactory.getDeclaredField(myTileProvider);
+                                    provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
+                                    tile = XposedHelpers.callMethod(provider, "get");
+                                    XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
+                                    if (tile != null) {
+                                        Object mHandler = XposedHelpers.getObjectField(tile, "mHandler");
+                                        XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 12);
+                                        XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 11);
+                                        param.setResult(tile);
+                                    }
+                                } catch (NoSuchFieldException e) {
+                                    logE(TAG, "provider is null: " + myTileProvider);
                                 }
                             }
                         }
