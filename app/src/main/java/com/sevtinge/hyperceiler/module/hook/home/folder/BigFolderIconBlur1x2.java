@@ -65,7 +65,7 @@ public class BigFolderIconBlur1x2 extends BaseHook {
                 lp1.width = mFolderWidth;
                 findAndHookMethod(mLauncher, "showEditPanel", boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         isShowEditPanel = (boolean) param.args[0];
                         if (isShowEditPanel) {
                             mDockBlur.setVisibility(View.GONE);
@@ -79,22 +79,25 @@ public class BigFolderIconBlur1x2 extends BaseHook {
 
                 findAndHookMethod(mLauncher, "openFolder", mFolderInfo, View.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         mDockBlur.setVisibility(View.GONE);
                     }
                 });
 
                 findAndHookMethod(mLauncher, "closeFolder", boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         if (!isShowEditPanel) mDockBlur.setVisibility(View.VISIBLE);
                     }
                 });
 
                 findAndHookMethod(mLauncher, "onStateSetStart", mLauncherState, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
-                        if (param.args[0].getClass().getSimpleName().equals("LauncherState")) {
+                    protected void after(MethodHookParam param) {
+                        Boolean mLauncherState = param.args[0].getClass().getSimpleName().equals("LauncherState");
+                        Boolean mNormalState = param.args[0].getClass().getSimpleName().equals("NormalState");
+
+                        if (mLauncherState || mNormalState) {
                             mDockBlur.setVisibility(View.VISIBLE);
                         } else {
                             mDockBlur.setVisibility(View.GONE);

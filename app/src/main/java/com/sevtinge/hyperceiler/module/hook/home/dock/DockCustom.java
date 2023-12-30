@@ -108,6 +108,7 @@ public class DockCustom extends BaseHook {
             protected void after(MethodHookParam param) {
                 Boolean mLauncherState = param.args[0].getClass().getSimpleName().equals("LauncherState");
                 Boolean mNormalState = param.args[0].getClass().getSimpleName().equals("NormalState");
+
                 if ((mLauncherState || mNormalState) && !isFolderShowing && !isShowEditPanel) {
                     mDockView.setVisibility(View.VISIBLE);
                 } else {
