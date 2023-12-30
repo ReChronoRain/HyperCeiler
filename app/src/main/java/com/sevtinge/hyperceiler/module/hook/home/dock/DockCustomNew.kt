@@ -14,7 +14,6 @@ import com.sevtinge.hyperceiler.utils.hookAfterMethod
 @SuppressLint("StaticFieldLeak")
 object DockCustomNew : BaseHook() {
     override fun init() {
-
         val launcherClass = "com.miui.home.launcher.Launcher".findClass()
 
         launcherClass.hookAfterMethod("setupViews") {
@@ -32,6 +31,5 @@ object DockCustomNew : BaseHook() {
             mHotSeats.addView(mDockBlurParent, 0)
             mDockBlurParent.addView(mDockBlur, 0)
         }
-
     }
 }

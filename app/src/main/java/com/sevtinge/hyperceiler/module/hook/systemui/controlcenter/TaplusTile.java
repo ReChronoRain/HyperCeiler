@@ -23,7 +23,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class TaplusTile extends TileUtils {
     String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
         "com.android.systemui.qs.tileimpl.QSFactoryImpl";
-    String mNightDisplayTile = "com.android.systemui.qs.tiles.NightDisplayTile";
+    String mNightModeTile = "com.android.systemui.qs.tiles.NightModeTile";
 
     @Override
     public void init() {
@@ -37,13 +37,13 @@ public class TaplusTile extends TileUtils {
 
     @Override
     public Class<?> customClass() {
-        return findClassIfExists(mNightDisplayTile);
+        return findClassIfExists(mNightModeTile);
     }
 
     @Override
     public String[] customTileProvider() {
-        String[] TileProvider = new String[4];
-        TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightDisplayTileProvider" : "mNightDisplayTileProvider";
+        String[] TileProvider = new String[5];
+        TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightModeTileProvider" : "mNightModeTileProvider";
         TileProvider[1] = "createTileInternal";
         TileProvider[2] = "interceptCreateTile";
         TileProvider[3] = "createTile";

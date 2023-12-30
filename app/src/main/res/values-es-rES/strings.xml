@@ -313,7 +313,6 @@
     <string name="phone_n5_n8_desc">Introduzca *#*#65686633#*#* en Teléfono para soportar la banda N5/N8. Si muestra \"se activa el modo de N5 y N8\", la característica se activará correctamente.</string>
     <string name="system_framework_screen_title">Se muestran &amp; notificaciones</string>
     <string name="system_framework_core_title">Núcleo fundo</string>
-    <string name="system_framework_entry">Carga inteligente de Hyper</string>
     <string name="system_framework_hook_entry">Desbloquear el límite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Accesos directos de compartir</string>
     <string name="system_framework_screen_all_rotations">Rotación de pantalla</string>

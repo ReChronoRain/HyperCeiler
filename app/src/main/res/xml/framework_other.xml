@@ -66,13 +66,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_framework_entry">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_hook_entry"
-            android:title="@string/system_framework_hook_entry" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/system_framework_core_title">
         <SwitchPreference
             android:defaultValue="false"
@@ -85,6 +78,11 @@
             android:key="prefs_key_system_framework_other_disable_cleaner"
             android:summary="@string/system_framework_other_disable_cleaner_desc"
             android:title="@string/system_framework_other_disable_cleaner" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_hook_entry"
+            android:title="@string/system_framework_hook_entry" />
 
         <SwitchPreference
             android:defaultValue="false"

@@ -18,6 +18,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
     Preference mClipboardWhitelistApps;
+    SwitchPreference mEntry;
     SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
     SwitchPreference mVerifyDisable;
@@ -36,11 +37,13 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
+        mEntry = findPreference("prefs_key_system_framework_hook_entry");
 
         mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
 
         mAppLinkVerify.setVisible(!isAndroidVersion(30));
         mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
+        mEntry.setVisible(isMoreHyperOSVersion(1f));
         mUseOriginalAnim.setVisible(!isAndroidVersion(33));
         mDisableDeviceLog.setVisible(isMoreAndroidVersion(33));
 

@@ -13,7 +13,7 @@ public class BigFolderIcon extends BaseHook {
 
         findAndHookMethod(mFolderIcon, "getPreviewCount", new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 param.setResult(5);
             }
         });
