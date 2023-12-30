@@ -67,7 +67,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
 
         mClipboardWhitelistApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("is_app_selector", false);
+            intent.putExtra("is_app_selector", true);
             intent.putExtra("need_mode", 2);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
