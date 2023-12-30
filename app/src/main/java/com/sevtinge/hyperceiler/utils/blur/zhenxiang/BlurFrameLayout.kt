@@ -1,11 +1,11 @@
-package com.zhenxiang.blur
+package com.sevtinge.hyperceiler.utils.blur.zhenxiang
 
 import android.content.Context
 import android.os.Build
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 
-class BlurLinearLayout constructor(context: Context) : LinearLayout(context) {
+class BlurFrameLayout constructor(context: Context) : FrameLayout(context) {
     @RequiresApi(Build.VERSION_CODES.S)
     val blurController: SystemBlurController = SystemBlurController(this)
 }

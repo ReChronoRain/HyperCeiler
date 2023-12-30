@@ -1,4 +1,4 @@
-package com.zhenxiang.blur
+package com.sevtinge.hyperceiler.utils.blur.zhenxiang
 
 import android.content.Context
 import android.graphics.Color
@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi
 import com.android.internal.graphics.drawable.BackgroundBlurDrawable
 import com.sevtinge.hyperceiler.module.base.BaseHook.mPrefsMap
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
-import com.zhenxiang.blur.model.CornersRadius
+import com.sevtinge.hyperceiler.utils.blur.zhenxiang.model.CornersRadius
 import java.util.function.Consumer
 
 @RequiresApi(Build.VERSION_CODES.S)
