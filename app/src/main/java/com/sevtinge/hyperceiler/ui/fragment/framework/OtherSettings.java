@@ -17,6 +17,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
 
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
+    Preference mClipboardWhitelistApps;
     SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
     SwitchPreference mVerifyDisable;
@@ -31,6 +32,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
+        mClipboardWhitelistApps =findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
@@ -52,6 +54,15 @@ public class OtherSettings extends SettingsPreferenceFragment {
         });
 
         mCleanOpenApps.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+            intent.putExtra("is_app_selector", false);
+            intent.putExtra("need_mode", 2);
+            intent.putExtra("key", preference.getKey());
+            startActivity(intent);
+            return true;
+        });
+
+        mClipboardWhitelistApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("is_app_selector", false);
             intent.putExtra("need_mode", 2);
