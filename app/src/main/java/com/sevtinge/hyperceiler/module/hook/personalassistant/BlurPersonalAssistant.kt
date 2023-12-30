@@ -21,7 +21,6 @@ object BlurPersonalAssistant : BaseHook() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
-        // val appVersionName = Helpers.getPackageVersionName(lpparam)
         var lastBlurRadius = -1
 
         dexKitBridge.findMethod {

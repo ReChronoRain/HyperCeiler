@@ -313,7 +313,6 @@
     <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して n5/n8 バンド対応を有効化できるようにします。「N5とN8モードを有効化しました」と表示されれば、機能は正常に有効になっています</string>
     <string name="system_framework_screen_title">ディスプレイと通知</string>
     <string name="system_framework_core_title">コア</string>
-    <string name="system_framework_entry">ハイパースマートチャージ</string>
     <string name="system_framework_hook_entry">スマート充電オフ制限をアンロック</string>
     <string name="system_framework_shortcut_title">共有ショートカット</string>
     <string name="system_framework_screen_all_rotations">画面の回転</string>

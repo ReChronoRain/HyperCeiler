@@ -313,7 +313,6 @@
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
-    <string name="system_framework_entry">Hyper Smart Charge</string>
     <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>

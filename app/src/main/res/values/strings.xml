@@ -351,7 +351,6 @@
 
     <string name="system_framework_screen_title">Display &amp; Notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
-    <string name="system_framework_entry">Hyper Smart Charge</string>
     <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
@@ -1060,7 +1059,7 @@
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
     <string name="home_widget_show_miui_widget">Show System Widgets</string>
-    <string name="home_widget_show_miui_widget_desc">Display the system widget on the AOSP widgets page</string>
+    <string name="home_widget_show_miui_widget_desc">Display the MIUI/HyperOS widget on the AOSP widgets page</string>
     <string name="home_widget_corner_radius">Widget rounded corners</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="home_widget_hide_title">Hide widget title</string>

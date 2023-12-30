@@ -314,7 +314,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="phone_n5_n8_desc">Nhập *#*#65686633#*#* trên giao diện quay số để bật băng tần n5/n8. Nếu hiển thị Đã bật chế độ N5 và N8 nghĩa là đã bật thành công.</string>
     <string name="system_framework_screen_title">Hiển thị &amp; thông báo</string>
     <string name="system_framework_core_title">Lõi bên dưới</string>
-    <string name="system_framework_entry">Sạc siêu thông minh</string>
     <string name="system_framework_hook_entry">Mở khóa giới hạn sạc thông minh</string>
     <string name="system_framework_shortcut_title">Chia sẻ lối tắt</string>
     <string name="system_framework_screen_all_rotations">Xoay màn hình</string>
