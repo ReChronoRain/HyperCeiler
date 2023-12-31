@@ -496,7 +496,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Administración de indicadores de velocidad de red</string>
     <string name="system_ui_statusbar_clock_title">Administración de indicadores de reloj</string>
     <string name="system_ui_statusbar_device_title">Indicadores de hardware</string>
-    <string name="system_ui_statusbar_toast_title">Toast Inteligente</string>
+    <string name="system_ui_statusbar_strong_toast_title">Toast Inteligente</string>
     <string name="system_ui_statusbar_layout_title">Disposición</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Modo de compatibilidad</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Activar forzosamente el diseño de pantalla completa para todas las pantallas especiales</string>

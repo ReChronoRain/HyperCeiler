@@ -496,7 +496,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">ネットワーク速度インジケータの管理</string>
     <string name="system_ui_statusbar_clock_title">時計の設定</string>
     <string name="system_ui_statusbar_device_title">ハードウェアインジケーター</string>
-    <string name="system_ui_statusbar_toast_title">スマートトースト</string>
+    <string name="system_ui_statusbar_strong_toast_title">スマートトースト</string>
     <string name="system_ui_statusbar_layout_title">レイアウト</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">互換モード</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">すべての特殊な形状の画面で、フルスクリーンレイアウトを強制的に有効にします</string>

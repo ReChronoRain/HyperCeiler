@@ -502,7 +502,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_network_speed_indicator_title">Tốc độ mạng</string>
     <string name="system_ui_statusbar_clock_title">Đồng hồ</string>
     <string name="system_ui_statusbar_device_title">Phần cứng</string>
-    <string name="system_ui_statusbar_toast_title">Lời nhắc thông minh</string>
+    <string name="system_ui_statusbar_strong_toast_title">Lời nhắc thông minh</string>
     <string name="system_ui_statusbar_layout_title">Bố cục</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Chế độ tương thích</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Buộc kích hoạt bố cục toàn màn hình cho các màn hình có hình dạng đặc biệt</string>

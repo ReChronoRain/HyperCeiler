@@ -152,6 +152,14 @@ public class SearchHelper {
             R.string.system_ui_statusbar_device_title,
             "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings");
 
+        parsePrefXml(context, R.xml.system_ui_status_bar_strong_toast,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_strong_toast_title,
+            R.string.system_ui_statusbar_strong_toast_title,
+            R.string.system_ui_statusbar_strong_toast_title,
+            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.StrongToastSettings");
+
         parsePrefXml(context, R.xml.system_ui_navigation,
             R.string.system_ui,
             R.string.system_ui_navigation_title,

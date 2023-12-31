@@ -6,6 +6,8 @@ import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -17,28 +19,28 @@ public class SeekPoints extends BaseHook {
     public void init() {
         findAndHookMethod("com.miui.home.launcher.ScreenView", "updateSeekPoints", int.class, new MethodHook() {
             @Override
-            protected void before(final MethodHookParam param) throws Throwable {
+            protected void before(final MethodHookParam param) {
                 showSeekBar((View) param.thisObject);
             }
         });
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "addView", View.class, int.class, ViewGroup.LayoutParams.class, new MethodHook() {
             @Override
-            protected void before(final MethodHookParam param) throws Throwable {
+            protected void before(final MethodHookParam param) {
                 showSeekBar((View) param.thisObject);
             }
         });
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "removeScreen", int.class, new MethodHook() {
             @Override
-            protected void before(final MethodHookParam param) throws Throwable {
+            protected void before(final MethodHookParam param) {
                 showSeekBar((View) param.thisObject);
             }
         });
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "removeScreensInLayout", int.class, int.class, new MethodHook() {
             @Override
-            protected void before(final MethodHookParam param) throws Throwable {
+            protected void before(final MethodHookParam param) {
                 showSeekBar((View) param.thisObject);
             }
         });
@@ -57,15 +59,10 @@ public class SeekPoints extends BaseHook {
         if (mHandler == null) {
             mHandler = new Handler(mContext.getMainLooper()) {
                 @Override
-                public void handleMessage(Message msg) {
+                public void handleMessage(@NonNull Message msg) {
                     View seekBar = (View) msg.obj;
                     if (seekBar != null)
-                        seekBar.animate().alpha(0.0f).setDuration(600).withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                seekBar.setVisibility(View.GONE);
-                            }
-                        });
+                        seekBar.animate().alpha(0.0f).setDuration(600).withEndAction(() -> seekBar.setVisibility(View.GONE));
                 }
             };
             XposedHelpers.setAdditionalInstanceField(workspace, "mHandlerEx", mHandler);

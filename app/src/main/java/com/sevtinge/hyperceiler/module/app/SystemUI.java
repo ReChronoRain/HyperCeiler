@@ -98,6 +98,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.Netwo
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.NetworkSpeedStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old.StatusBarNoNetSpeedSep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.s.NetworkSpeedWidth;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.strongtoast.HideStrongToast;
 
 import java.util.Objects;
 
@@ -171,6 +172,9 @@ public class SystemUI extends BaseModule {
         // 硬件指示器
         initHook(new DisplayHardwareDetail(), (mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
             mPrefsMap.getBoolean("system_ui_statusbar_temp_enable")) && !isHyperOSVersion(1f));
+
+        // 灵动提示
+        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
 
         // 居右显示
         boolean isWiFiAtLeft = mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left");

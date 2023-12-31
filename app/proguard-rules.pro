@@ -10,6 +10,9 @@
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
+-keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** {
+   *;
+}
 
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
 -dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo

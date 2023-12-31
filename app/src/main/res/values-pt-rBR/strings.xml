@@ -500,7 +500,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Gerenciar indicador de velocidade da rede</string>
     <string name="system_ui_statusbar_clock_title">Gerenciar indicador de relógio</string>
     <string name="system_ui_statusbar_device_title">Indicadores de hardware</string>
-    <string name="system_ui_statusbar_toast_title">Brinde inteligente</string>
+    <string name="system_ui_statusbar_strong_toast_title">Brinde inteligente</string>
     <string name="system_ui_statusbar_layout_title">Layout</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Modo de compatibilidade</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Ative forçosamente o layout de tela inteira para todas as telas de formato especial</string>
