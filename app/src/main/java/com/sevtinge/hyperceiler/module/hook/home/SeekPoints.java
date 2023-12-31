@@ -15,35 +15,69 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class SeekPoints extends BaseHook {
 
+    public int points = XposedInit.mPrefsMap.getStringAsInt("home_other_seek_points", 0);
+
     @Override
     public void init() {
-        findAndHookMethod("com.miui.home.launcher.ScreenView", "updateSeekPoints", int.class, new MethodHook() {
-            @Override
-            protected void before(final MethodHookParam param) {
-                showSeekBar((View) param.thisObject);
+        findAndHookMethod("com.miui.home.launcher.ScreenView",
+            "setSeekBarPosition",
+            "android.widget.FrameLayout$LayoutParams",
+            new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    showSeekBar((View) param.thisObject);
+                }
             }
-        });
+        );
 
-        findAndHookMethod("com.miui.home.launcher.ScreenView", "addView", View.class, int.class, ViewGroup.LayoutParams.class, new MethodHook() {
-            @Override
-            protected void before(final MethodHookParam param) {
-                showSeekBar((View) param.thisObject);
+        findAndHookMethod("com.miui.home.launcher.ScreenView",
+            "refreshScrollBound", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    if (points == 2) showSeekBar((View) param.thisObject);
+                }
             }
-        });
+        );
 
-        findAndHookMethod("com.miui.home.launcher.ScreenView", "removeScreen", int.class, new MethodHook() {
-            @Override
-            protected void before(final MethodHookParam param) {
-                showSeekBar((View) param.thisObject);
+        findAndHookMethod("com.miui.home.launcher.ScreenView",
+            "updateSeekPoints", int.class,
+            new MethodHook() {
+                @Override
+                protected void before(final MethodHookParam param) {
+                    showSeekBar((View) param.thisObject);
+                }
             }
-        });
+        );
 
-        findAndHookMethod("com.miui.home.launcher.ScreenView", "removeScreensInLayout", int.class, int.class, new MethodHook() {
-            @Override
-            protected void before(final MethodHookParam param) {
-                showSeekBar((View) param.thisObject);
+        findAndHookMethod("com.miui.home.launcher.ScreenView",
+            "addView", View.class, int.class, ViewGroup.LayoutParams.class,
+            new MethodHook() {
+                @Override
+                protected void before(final MethodHookParam param) {
+                    showSeekBar((View) param.thisObject);
+                }
             }
-        });
+        );
+
+        findAndHookMethod("com.miui.home.launcher.ScreenView",
+            "removeScreen", int.class,
+            new MethodHook() {
+                @Override
+                protected void before(final MethodHookParam param) {
+                    showSeekBar((View) param.thisObject);
+                }
+            }
+        );
+
+        findAndHookMethod("com.miui.home.launcher.ScreenView",
+            "removeScreensInLayout", int.class, int.class,
+            new MethodHook() {
+                @Override
+                protected void before(final MethodHookParam param) {
+                    showSeekBar((View) param.thisObject);
+                }
+            }
+        );
     }
 
     private void showSeekBar(View workspace) {
@@ -73,7 +107,7 @@ public class SeekPoints extends BaseHook {
         }
         if (mHandler.hasMessages(666)) mHandler.removeMessages(666);
         mScreenSeekBar.animate().cancel();
-        if (!isInEditingMode && XposedInit.mPrefsMap.getStringAsInt("home_other_seek_points", 0) == 2) {
+        if (!isInEditingMode && points == 2) {
             mScreenSeekBar.setAlpha(0.0f);
             mScreenSeekBar.setVisibility(View.GONE);
             return;
