@@ -539,7 +539,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
     <string name="system_ui_statusbar_clock_title">Clock indicator management</string>
     <string name="system_ui_statusbar_device_title">Hardware indicators</string>
-    <string name="system_ui_statusbar_toast_title">Smart Toast</string>
+    <string name="system_ui_statusbar_strong_toast_title">Smart Strong Toast</string>
     <string name="system_ui_statusbar_layout_title">Layout</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Compatibility mode</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Forcibly enable the full screen layout for all special-shaped screens</string>
@@ -679,6 +679,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">Shine</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">Low battery level</string>
     <string name="system_ui_status_bar_battery_indicator_test">Test</string>
+    <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
+    <string name="system_ui_status_bar_strong_toast_text">Information</string>
+    <string name="system_ui_status_bar_strong_toast_test">Debug</string>
+    <string name="system_ui_status_bar_strong_toast_hide">Hide the smart strong toast</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">Short Text Output</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">Long Text Output</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">Animation Output</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
     <string name="system_ui_controlcenter_title">Control center</string>
     <string name="system_ui_controlcenter_card_title">Card</string>
     <string name="system_ui_controlcenter_magnet_title">Magnet</string>

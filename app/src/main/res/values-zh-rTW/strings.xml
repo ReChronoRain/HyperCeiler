@@ -500,7 +500,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">網速指示器</string>
     <string name="system_ui_statusbar_clock_title">時鐘指示器</string>
     <string name="system_ui_statusbar_device_title">硬體指示器</string>
-    <string name="system_ui_statusbar_toast_title">靈動提示</string>
+    <string name="system_ui_statusbar_strong_toast_title">靈動提示</string>
     <string name="system_ui_statusbar_layout_title">佈局</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">相容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">對所有異形螢幕強制開啟完整螢幕版面配置</string>
