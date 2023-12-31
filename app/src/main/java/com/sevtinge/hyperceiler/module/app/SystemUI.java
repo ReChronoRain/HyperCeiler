@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AddBlurEffect
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ExpandNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixMediaControlPanel;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixTilesList;
@@ -202,6 +203,7 @@ public class SystemUI extends BaseModule {
 
         // 控制中心
         // initHook(new SmartHome(), false);
+        initHook(new ExpandNotification(), !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
         initHook(new GmsTile(), mPrefsMap.getBoolean("security_center_gms_open"));
