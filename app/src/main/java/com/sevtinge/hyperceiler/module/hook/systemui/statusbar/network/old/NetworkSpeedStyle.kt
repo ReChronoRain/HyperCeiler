@@ -21,6 +21,9 @@ object NetworkSpeedStyle : BaseHook() {
     private val fontSizeEnable by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
     }
+    private val lineSpacing by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 17)
+    }
     private val bold by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_font_style", 0)
     }
@@ -31,7 +34,7 @@ object NetworkSpeedStyle : BaseHook() {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
     private val mNetworkCostomEnable by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_enable_custom")
+        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")
     }
 
     override fun init() {
@@ -45,17 +48,10 @@ object NetworkSpeedStyle : BaseHook() {
                    val meter = XposedHelpers.getObjectField(params.thisObject, "mNetworkSpeedView") as TextView
 
                    // 网速字体大小调整
-                   if (fontSizeEnable) {
-                       try {
-                           if (mNetworkCostomEnable && (networkStyle == 2 || networkStyle == 4)) {
-                               meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
-                           } else {
-                               meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
-                           }
-                       } catch (e: Exception) {
-                           logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
-                       }
-                   }
+                   textSize(meter)
+
+                   // 网速行间距调整
+                   textLineSpacing(meter)
                }
             }
         }
@@ -67,19 +63,6 @@ object NetworkSpeedStyle : BaseHook() {
                     val meter = param.thisObject as TextView
 
                     if (meter.tag == null || "slot_text_icon" != meter.tag) {
-                        // 网速字体大小调整
-                        if (fontSizeEnable) {
-                            try {
-                                if (mNetworkCostomEnable && (networkStyle == 2 || networkStyle == 4)) {
-                                    meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
-                                } else {
-                                    meter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
-                                }
-                            } catch (e: Exception) {
-                                logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
-                            }
-                        }
-
                         // 网速加粗
                         when (bold) {
                             1 -> meter.typeface = Typeface.DEFAULT
@@ -113,30 +96,59 @@ object NetworkSpeedStyle : BaseHook() {
                             }
                             meter.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
 
+                            // 网速字体大小调整
+                            textSize(meter)
+
+                            // 网速行间距调整
+                            textLineSpacing(meter)
+
                             // 水平对齐
                             when (align) {
                                 2 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
                                 3 -> meter.textAlignment = View.TEXT_ALIGNMENT_CENTER
                                 4 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
                             }
-
-                            try {
-                                if (networkStyle == 2 || networkStyle == 4) {
-                                    var spacing = 0.9f
-                                    meter.isSingleLine = false
-                                    meter.maxLines = 2
-                                    if (0.5 * fontSize > 8.5f) {
-                                        spacing = 0.85f
-                                    }
-                                    meter.setLineSpacing(0f, spacing)
-                                }
-                            } catch (e: Exception) {
-                                logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
-                            }
                         }
                     }
                 }
             }
         )
+    }
+
+    private fun textLineSpacing(id: TextView) {
+        if (lineSpacing != 17 && (networkStyle == 2 || networkStyle == 4)) {
+            try {
+                id.setLineSpacing(0f, lineSpacing * 0.05f)
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    private fun textSize(id: TextView) {
+        if (fontSizeEnable) {
+            try {
+                if (mNetworkCostomEnable && (networkStyle == 2 || networkStyle == 4)) {
+                    id.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
+                } else {
+                    id.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
+                }
+            } catch (e: Exception) {
+                logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
+            }
+        }
+
+        try {
+            if (networkStyle == 2 || networkStyle == 4) {
+                var spacing = 0.9f
+                id.isSingleLine = false
+                id.maxLines = 2
+                if (0.5 * fontSize > 8.5f) {
+                    spacing = 0.85f
+                }
+                id.setLineSpacing(0f, spacing)
+            }
+        } catch (e: Exception) {
+            logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
+        }
     }
 }

@@ -30,6 +30,15 @@ object TimeStyle : BaseHook() {
     private val verticalOffset by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12)
     }
+    private val isClockDouble by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_double")
+    }
+    private val lineSpacing by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_double_spacing_margin", 17)
+    }
+    private val lineSpacingGeek by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_size_geek_spacing_margin", 17)
+    }
 
     private val mClockClass = when {
         getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
@@ -70,6 +79,11 @@ object TimeStyle : BaseHook() {
                         }
                     }
 
+                    // 双排时钟行间距调整
+                    if ((getMode == 1 && isClockDouble) || getMode == 2) {
+                        textLineSpacing(textV)
+                    }
+
                     // 时钟边距调整
                     if (verticalOffset != 12) {
                         val marginTop =
@@ -80,6 +94,23 @@ object TimeStyle : BaseHook() {
                             )
                         textV.translationY = marginTop
                     }
+                }
+            }
+        }
+    }
+
+    private fun textLineSpacing(id: TextView) {
+        when {
+            lineSpacing != 17 && getMode == 1 -> {
+                try {
+                    id.setLineSpacing(0f, lineSpacing * 0.05f)
+                } catch (_: Exception) {
+                }
+            }
+            lineSpacingGeek != 17 && getMode == 2 -> {
+                try {
+                    id.setLineSpacing(0f, lineSpacingGeek * 0.05f)
+                } catch (_: Exception) {
                 }
             }
         }

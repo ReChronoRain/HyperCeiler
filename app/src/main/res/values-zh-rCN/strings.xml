@@ -149,6 +149,7 @@
     <string name="horizontal_margin">水平边距</string>
     <string name="left_margin">左侧间距</string>
     <string name="right_margin">右侧间距</string>
+    <string name="spacing_margin">行间间距</string>
     <string name="vertical_offset">上下偏移量</string>
     <string name="horizontal_alignment">水平对齐</string>
 
@@ -655,6 +656,7 @@
     <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小</string>
     <string name="system_ui_statusbar_clock_double_size">双排时钟大小</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">仅在双排显示下生效</string>
     <string name="system_ui_disable_clock_anim">禁用通知中心下滑时钟过渡动画</string>
 
     <string name="system_ui_statusbar_indicator_battery_title">功耗相关</string>

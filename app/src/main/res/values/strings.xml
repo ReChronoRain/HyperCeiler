@@ -172,13 +172,14 @@
     <string name="color_picker_view_page_text_lightness">Lightness</string>
     <string name="color_picker_view_page_text_saturation">Saturation</string>
     <!--String reuse-->
-    <string name="top_margin">Top margin</string>
-    <string name="bottom_margin">Bottom margin</string>
-    <string name="left_margin">Left margin</string>
-    <string name="right_margin">Right margin</string>
-    <string name="horizontal_margin">Horizontal margin</string>
-    <string name="vertical_offset">Up and down offset</string>
-    <string name="horizontal_alignment">Horizontal alignment</string>
+    <string name="top_margin">Top Margin</string>
+    <string name="bottom_margin">Bottom Margin</string>
+    <string name="left_margin">Left Margin</string>
+    <string name="right_margin">Right Margin</string>
+    <string name="spacing_margin">Spacing Between Lines</string>
+    <string name="horizontal_margin">Horizontal Margin</string>
+    <string name="vertical_offset">Up and Down Offset</string>
+    <string name="horizontal_alignment">Horizontal Alignment</string>
     <string name="feature">Function</string>
     <string name="recommend">Recommend</string>
     <string name="editor">Editor</string>
@@ -647,6 +648,7 @@
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">Valid only when displayed in two rows</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>

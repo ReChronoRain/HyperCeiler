@@ -19,6 +19,7 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 
     SeekBarPreferenceEx mNetworkSpeedWidth; // 固定宽度
+    SeekBarPreferenceEx mNetworkSpeedSpacing; // 网速间间距
     SwitchPreference mNetworkSwapIcon;
     SwitchPreference mNetworkSpeedSeparator;
     SwitchPreference mNetworkAllHide;
@@ -49,6 +50,7 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
         mNetworkAllHide = findPreference("prefs_key_system_ui_statusbar_network_speed_hide_all");
         mNetworkSwapIcon = findPreference("prefs_key_system_ui_statusbar_network_speed_swap_places");
         mNetworkSpeedSeparator = findPreference("prefs_key_system_ui_status_bar_no_netspeed_separator");
+        mNetworkSpeedSpacing = findPreference("prefs_key_system_ui_statusbar_network_speed_spacing_margin");
         mNetworkSpeedWidth.setVisible(!isAndroidVersion(30));
         mNetworkSpeedSeparator.setVisible(!isHyperOSVersion(1f));
 
@@ -69,5 +71,6 @@ public class NetworkSpeedIndicatorSettings extends SettingsPreferenceFragment
         mNetworkSwapIcon.setVisible(mode == 3 || mode == 4);
         mNetworkAllHide.setVisible(mode == 3 || mode == 4);
         mNetworkAlign.setVisible(mode == 2 || mode == 4);
+        mNetworkSpeedSpacing.setVisible(mode == 2 || mode == 4);
     }
 }
