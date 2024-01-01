@@ -1,17 +1,18 @@
 -keep class com.sevtinge.hyperceiler.XposedInit
 -keep class com.sevtinge.hyperceiler.module.app.SystemFrameworkForCorePatch
--keep class com.sevtinge.hyperceiler.module.base.*
 -keep class com.sevtinge.hyperceiler.ui.LauncherActivity
 -keep class com.sevtinge.hyperceiler.utils.blur.*
 -keep class com.sevtinge.hyperceiler.utils.Helpers { boolean isModuleActive; }
 -keep class com.sevtinge.hyperceiler.utils.Helpers { int XposedVersion; }
--keep class com.sevtinge.hyperceiler.utils.XposedUtils
 -keep class moralnorm.**{*;}
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
+-keep class com.sevtinge.hyperceiler.utils.XposedUtils {
+    *;
+}
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** {
-   *;
+    *;
 }
 
 -dontwarn android.app.ActivityTaskManager$RootTaskInfo
