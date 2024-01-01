@@ -139,6 +139,7 @@
     <string name="bottom_margin">Margem inferior</string>
     <string name="left_margin">Margem esquerda</string>
     <string name="right_margin">Margem direita</string>
+    <string name="spacing_margin">Espaçamento entre linhas</string>
     <string name="horizontal_margin">Margem horizontal</string>
     <string name="vertical_offset">Deslocamento para cima e para baixo</string>
     <string name="horizontal_alignment">Alinhamento horizontal</string>
@@ -609,6 +610,7 @@
     <string name="system_ui_statusbar_clock_desc">Exemplo do formato de relógio</string>
     <string name="system_ui_statusbar_clock_size">Tamanho do relógio</string>
     <string name="system_ui_statusbar_clock_double_size">Tamanho do relógio de duas linhas</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">Válido somente quando exibido em duas linhas</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
@@ -639,6 +641,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">Brilhante</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">Nível de bateria baixa</string>
     <string name="system_ui_status_bar_battery_indicator_test">Teste</string>
+    <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
+    <string name="system_ui_status_bar_strong_toast_text">Informação</string>
+    <string name="system_ui_status_bar_strong_toast_test">Depurar</string>
+    <string name="system_ui_status_bar_strong_toast_hide">Ocultar brinde inteligente</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">Saída de texto curto</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">Saída de texto longo</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">Saída de animação</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este é um longo pedaço de texto que será exibido em formato de rolagem</string>
     <string name="system_ui_controlcenter_title">Centro de controle</string>
     <string name="system_ui_controlcenter_card_title">Cartão</string>
     <string name="system_ui_controlcenter_magnet_title">Magnético</string>
@@ -680,6 +691,7 @@
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
+    <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduz o som de aviso.</string>
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
@@ -714,8 +726,8 @@
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
-    <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão da janela de conveniência</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte o botão da janela de conveniência centralizado na parte superior do HyperOS para a tela de paisagem do Pad</string>
+    <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte o botão de tela dividida centralizado na parte superior do HyperOS para a tela de paisagem do Pad</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
@@ -760,7 +772,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
     <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
-    <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos \"UI do Sistema\" e \"Configurações\" para que as alterações tenham efeito</string>
+    <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos UI do Sistema e Configurações para que as alterações tenham efeito</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>

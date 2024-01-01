@@ -5,12 +5,14 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
@@ -26,6 +28,7 @@ import moralnorm.preference.SwitchPreference;
 public class ControlCenterSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     SwitchPreference mFixMediaPanel;
+    Preference mExpandNotification;
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
@@ -58,6 +61,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
     @Override
     public void initPrefs() {
+        mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
         mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
         mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
@@ -70,6 +74,17 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
         mTaplus = findPreference("prefs_key_security_center_taplus");
         handler = new Handler();
+
+        mExpandNotification.setOnPreferenceClickListener(
+            preference -> {
+                Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+                intent.putExtra("is_app_selector", false);
+                intent.putExtra("need_mode", 2);
+                intent.putExtra("key", preference.getKey());
+                startActivity(intent);
+                return true;
+            }
+        );
 
         mTaplus.setOnPreferenceChangeListener(
             (preference, o) -> {
