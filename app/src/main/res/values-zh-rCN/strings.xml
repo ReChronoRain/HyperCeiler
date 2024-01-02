@@ -1233,6 +1233,7 @@
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
+    <string name="security_center_hyperos">安全服务</string>
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>
     <string name="security_center_privacy_title">隐私保护</string>

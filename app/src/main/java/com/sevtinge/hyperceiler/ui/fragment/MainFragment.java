@@ -49,22 +49,22 @@ public class MainFragment extends SettingsPreferenceFragment {
         mPowerSetting.setVisible(!isAndroidVersion(30));
         mMTB.setVisible(!isAndroidVersion(30));
 
-        if (isPad()) {
-            mSecurityCenter.setTitle(R.string.security_center_pad);
-        } else {
-            mSecurityCenter.setTitle(R.string.security_center);
-        }
-
         if (isMoreHyperOSVersion(1f)) {
             mAod.setTitle(R.string.aod_hyperos);
             mMiLink.setTitle(R.string.milink_hyperos);
             mGuardProvider.setTitle(R.string.guard_provider_hyperos);
             mMirror.setTitle(R.string.mirror_hyperos);
+            mSecurityCenter.setTitle(R.string.security_center_hyperos);
         } else {
             mAod.setTitle(R.string.aod);
             mMiLink.setTitle(R.string.milink);
             mGuardProvider.setTitle(R.string.guard_provider);
             mMirror.setTitle(R.string.mirror);
+            if (isPad()) {
+                mSecurityCenter.setTitle(R.string.security_center_pad);
+            } else {
+                mSecurityCenter.setTitle(R.string.security_center);
+            }
         }
 
         mainActivityContextHelper = new MainActivityContextHelper(requireContext());

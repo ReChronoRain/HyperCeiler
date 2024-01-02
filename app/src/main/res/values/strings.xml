@@ -1211,6 +1211,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">Security</string>
     <string name="security_center_pad">Tablet security center</string>
+    <string name="security_center_hyperos">Security Tools</string>
     <string name="security_center_app_title">App management</string>
     <string name="security_center_battery_title">Battery Saver and Battery</string>
     <string name="security_center_privacy_title">Privacy protection</string>
