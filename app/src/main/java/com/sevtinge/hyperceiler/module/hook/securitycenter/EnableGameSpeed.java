@@ -28,7 +28,7 @@ public class EnableGameSpeed extends BaseHook {
             }
         });
 
-        /*MethodData getPropBooleanData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData getPropBooleanData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("android.os.SystemProperties", "getBoolean", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
                 .returnType(boolean.class)
@@ -41,7 +41,7 @@ public class EnableGameSpeed extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
                 if (param.args[0] == "debug.game.video.support") param.setResult(true);
             }
-        });*/
+        });
 
         MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
