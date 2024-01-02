@@ -1023,7 +1023,7 @@
     <string name="home_folder_width_title">使用整个文件夹的宽度</string>
     <string name="home_folder_space_title">减少边距</string>
     <string name="home_folder_blur_title">背景模糊</string>
-    <string name="home_folder_recommend_apps_switch">隐藏\"今日推荐\"开关</string>
+    <string name="home_folder_recommend_apps_switch">隐藏 \"今日推荐\" 开关</string>
     <string name="home_folder_unlock_blur_supported">解除文件夹模糊限制</string>
     <string name="home_folder_unlock_blur_supported_summary">仅对三方主题移除没有高级材质背景模糊的限制</string>
     <string name="home_folder_anim_title">回弹动画</string>
