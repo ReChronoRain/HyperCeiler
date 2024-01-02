@@ -13,7 +13,7 @@ public class EnableGameSpeed extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
 
-        MethodData getPropVoidData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        /*MethodData getPropVoidData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("android.os.SystemProperties", "set", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
                 .returnType(void.class)
@@ -41,9 +41,9 @@ public class EnableGameSpeed extends BaseHook {
             protected void before(MethodHookParam param) throws Throwable {
                 if (param.args[0] == "debug.game.video.support") param.setResult(true);
             }
-        });
+        });*/
 
-        /*MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+        MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("debug.game.video.support")
                 .returnType(boolean.class)
@@ -95,7 +95,7 @@ public class EnableGameSpeed extends BaseHook {
                     mSetProp();
                 }
             }
-        );*/
+        );
     }
 
     public void mSetProp() {
