@@ -12,7 +12,38 @@ import java.lang.reflect.Method;
 public class EnableGameSpeed extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+
+        MethodData getPropVoidData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("android.os.SystemProperties", "set", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
+                .returnType(void.class)
+            )
+        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropVoid method"));
+        Method getPropVoid = getPropVoidData.getMethodInstance(lpparam.classLoader);
+        logD(TAG, lpparam.packageName, "getPropVoid method is " + getPropVoid);
+        hookMethod(getPropVoid, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (param.args[0] == "debug.game.video.speed") param.args[1] = true;
+            }
+        });
+
+        MethodData getPropBooleanData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("android.os.SystemProperties", "getBoolean", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
+                .returnType(boolean.class)
+            )
+        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropBoolean method"));
+        Method getBooleanVoid = getPropBooleanData.getMethodInstance(lpparam.classLoader);
+        logD(TAG, lpparam.packageName, "getPropBoolean method is " + getBooleanVoid);
+        hookMethod(getBooleanVoid, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (param.args[0] == "debug.game.video.support") param.setResult(true);
+            }
+        });
+
+        /*MethodData methodData1 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("debug.game.video.support")
                 .returnType(boolean.class)
@@ -64,10 +95,11 @@ public class EnableGameSpeed extends BaseHook {
                     mSetProp();
                 }
             }
-        );
+        );*/
     }
 
     public void mSetProp() {
         setProp("debug.game.video.boot", "true");
+        setProp("debug.game.video.speed", "true");
     }
 }
