@@ -41,5 +41,33 @@ public class EnableGameSpeed extends BaseHook {
                 param.setResult(true);
             }
         });
+
+        MethodData methodData3 = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("debug.game.video.boot")
+            )
+        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.boot\""));
+        Method method3 = methodData3.getMethodInstance(lpparam.classLoader);
+        logD(TAG, lpparam.packageName, "UsingString \"debug.game.video.boot\" method is " + method3);
+        hookMethod(method3, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                mSetProp();
+                param.setResult(null);
+            }
+        });
+
+        findAndHookMethod("com.miui.gamebooster.service.GameBoosterService",
+            "onCreate", new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    mSetProp();
+                }
+            }
+        );
+    }
+
+    public void mSetProp() {
+        setProp("debug.game.video.boot", "true");
     }
 }
