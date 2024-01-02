@@ -19,7 +19,7 @@ public class UnPrivacyWatermark extends BaseHook {
             "setWordMaxLength", int.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    logE(TAG, "max: " + param.args[0]);
+                    // logE(TAG, "max: " + param.args[0]);
                     param.args[0] = num;
                 }
             }
