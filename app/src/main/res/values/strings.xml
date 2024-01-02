@@ -1296,6 +1296,8 @@
     <string name="security_center_sidebar_videobox_title">Video Box</string>
     <string name="security_center_sidebar_gamebox_title">Game Box</string>
     <string name="security_center_sidebar_function_title">Sidebar Function</string>
+    <string name="security_center_game_speed">Launch the game quickly</string>
+    <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>

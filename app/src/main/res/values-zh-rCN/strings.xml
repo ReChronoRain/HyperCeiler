@@ -1318,6 +1318,8 @@
     <string name="security_center_sidebar_videobox_title">视频工具箱</string>
     <string name="security_center_sidebar_gamebox_title">游戏工具箱</string>
     <string name="security_center_sidebar_function_title">全局侧边栏功能</string>
+    <string name="security_center_game_speed">快速启动游戏</string>
+    <string name="security_center_game_speed_desc">在启动游戏时倍速通过开屏动画，仅部分游戏支持</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>
