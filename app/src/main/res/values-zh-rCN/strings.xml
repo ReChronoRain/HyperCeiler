@@ -917,6 +917,8 @@
     <string name="gallery_enable_video_post">解锁视频特效</string>
     <string name="gallery_enable_video_editor">解锁 Mi 剪辑</string>
     <string name="gallery_enable_text_yanhua">解锁文字烟花</string>
+    <string name="gallery_enable_un_privacy_watermark">解除隐私水印字数限制</string>
+    <string name="gallery_enable_un_privacy_watermark_more">开启会略微增加水印密度，这是为了适应更长的字数</string>
     <string name="gallery_enable_remover_2">解锁魔法消除</string>
     <string name="gallery_enable_magic_matting">解锁魔法抠图</string>
     <string name="gallery_enable_magic_sky">解锁魔法换天</string>

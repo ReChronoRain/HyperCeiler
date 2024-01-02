@@ -900,6 +900,8 @@
     <string name="gallery_enable_video_post">Unlock Video effects</string>
     <string name="gallery_enable_video_editor">Unlock Video editor</string>
     <string name="gallery_enable_text_yanhua">Unlock Text fireworks</string>
+    <string name="gallery_enable_un_privacy_watermark">Remove the privacy watermark word limit</string>
+    <string name="gallery_enable_un_privacy_watermark_more">Enabling it will slightly increase the watermark density to accommodate longer word counts</string>
     <string name="gallery_enable_remover_2">Unlock Erase</string>
     <string name="gallery_enable_magic_matting">Unlock Cut</string>
     <string name="gallery_enable_magic_sky">Unlock Sky</string>

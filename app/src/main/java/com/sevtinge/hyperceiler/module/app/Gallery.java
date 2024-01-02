@@ -12,12 +12,14 @@ import com.sevtinge.hyperceiler.module.hook.gallery.EnablePhotoMovie;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableRemover2;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableTextYanhua;
 import com.sevtinge.hyperceiler.module.hook.gallery.EnableVideoPost;
+import com.sevtinge.hyperceiler.module.hook.gallery.UnPrivacyWatermark;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockSuperClipboard;
 
 public class Gallery extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new UnPrivacyWatermark(), mPrefsMap.getBoolean("gallery_enable_un_privacy_watermark"));
         initHook(new EnableHdrEnhance(), mPrefsMap.getBoolean("gallery_enable_hdr_enhanced"));
         initHook(new EnableMagicSky(), mPrefsMap.getBoolean("gallery_enable_magic_sky"));
         initHook(new EnablePdf(), mPrefsMap.getBoolean("gallery_enable_pdf"));
