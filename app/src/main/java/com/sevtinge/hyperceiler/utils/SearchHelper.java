@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -532,11 +533,11 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.ScreenShotFragment");
 
         parsePrefXml(context, R.xml.security_center,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
             "com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment");
 
         parsePrefXml(context, R.xml.tsmclient,
