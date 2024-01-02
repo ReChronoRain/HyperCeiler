@@ -149,6 +149,7 @@
     <string name="horizontal_margin">水平边距</string>
     <string name="left_margin">左侧间距</string>
     <string name="right_margin">右侧间距</string>
+    <string name="spacing_margin">行间间距</string>
     <string name="vertical_offset">上下偏移量</string>
     <string name="horizontal_alignment">水平对齐</string>
 
@@ -351,7 +352,6 @@
 
     <string name="system_framework_screen_title">显示与通知</string>
     <string name="system_framework_core_title">底层</string>
-    <string name="system_framework_entry">智能断充</string>
     <string name="system_framework_hook_entry">解锁智能断充限制</string>
     <string name="system_framework_shortcut_title">分享快捷方式</string>
     <string name="system_framework_screen_all_rotations">屏幕旋转</string>
@@ -359,9 +359,9 @@
     <string name="system_framework_allow_uninstall">允许卸载部分预装 APP</string>
     <string name="system_framework_allow_uninstall_desc">该功能具有一定危险性</string>
     <string name="system_framework_clipboard_whitelist">允许应用后台读取剪切板</string>
-    <string name="system_framework_clipboard_whitelist_desc">允许应用获取READ_LOGS权限</string>
+    <string name="system_framework_clipboard_whitelist_desc">允许应用获取 READ_LOGS 权限</string>
     <string name="system_framework_clipboard_whitelist_list">后台读取剪切板白名单</string>
-    <string name="system_framework_clipboard_whitelist_list_desc">对于多个应用，使用|分隔</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">对于多个应用，使用 | 分隔</string>
     <string name="system_framework_disable_app_link_verify">禁用应用链接验证</string>
     <string name="system_framework_disable_app_link_verify_desc">打开链接时恢复为直接打开支持的应用，无需在应用设置中勾选支持的链接</string>
     <string name="system_framework_clean_share_menu">清理分享菜单</string>
@@ -541,7 +541,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">网速指示器</string>
     <string name="system_ui_statusbar_clock_title">时钟指示器</string>
     <string name="system_ui_statusbar_device_title">硬件指示器</string>
-    <string name="system_ui_statusbar_toast_title">灵动提示</string>
+    <string name="system_ui_statusbar_strong_toast_title">灵动提示</string>
     <string name="system_ui_statusbar_layout_title">布局</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">兼容模式</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">对所有异形屏强制开启完整屏布局</string>
@@ -656,6 +656,7 @@
     <string name="system_ui_statusbar_clock_desc">时钟格式示例</string>
     <string name="system_ui_statusbar_clock_size">时钟大小</string>
     <string name="system_ui_statusbar_clock_double_size">双排时钟大小</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">仅在双排显示下生效</string>
     <string name="system_ui_disable_clock_anim">禁用通知中心下滑时钟过渡动画</string>
 
     <string name="system_ui_statusbar_indicator_battery_title">功耗相关</string>
@@ -689,6 +690,16 @@
     <string name="system_ui_status_bar_battery_indicator_low_level">低电量水平</string>
     <string name="system_ui_status_bar_battery_indicator_test">测试</string>
 
+    <string name="system_ui_status_bar_strong_toast_layout">布局</string>
+    <string name="system_ui_status_bar_strong_toast_text">信息</string>
+    <string name="system_ui_status_bar_strong_toast_test">调试</string>
+    <string name="system_ui_status_bar_strong_toast_hide">隐藏灵动提示</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">短文本输出</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">长文本输出</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">动画输出</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">测试</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">这是一条长文本，它将以滚动形式输出</string>
+
     <string name="system_ui_controlcenter_title">通知与控制中心</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁贴</string>
@@ -698,6 +709,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s已关闭</string>
     <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_control_center_5g_toggle_label">5G网络</string>
+    <string name="system_control_center_taplus_label">传送门开关</string>
     <string name="system_control_center_sunshine_mode">阳光模式</string>
     <string name="system_ui_control_auto_close">磁贴自动收起</string>
     <string name="system_ui_control_auto_close_more">开启后点击状态栏磁贴会自动收起状态栏</string>
@@ -729,6 +741,7 @@
     <string name="system_ui_control_center_show_weather">显示天气</string>
     <string name="system_ui_control_center_show_weather_city">显示地区</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏时静音</string>
+    <string name="system_ui_control_center_expand_notification">展开通知</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">亮屏时弹出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圆角矩形磁贴</string>
     <string name="system_ui_control_center_rounded_rect_radius">圆角大小</string>
@@ -765,6 +778,8 @@
     <string name="system_ui_origin_charge_animation">原生充电动画</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
+    <string name="system_ui_disable_miui_multi_win_switch">隐藏快捷窗口按钮</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">隐藏 HyperOS for Pad 横屏下顶部居中的快捷窗口按钮 (即常驻的三个小点)</string>
     <string name="system_ui_notification_freeform">更多应用通知栏下拉打开小窗</string>
     <string name="system_ui_others_pct_title">数据显示</string>
     <string name="system_showpct_title">显示亮度百分比</string>
@@ -887,6 +902,7 @@
     <!--备份-->
     <string name="backup">备份</string>
     <string name="backup_allow_all_apps">允许备份所有应用</string>
+    <string name="backup_unlock_broken_screen_backup">解锁碎屏数据备份</string>
     <!--小米创作-->
     <string name="creation">小米创作</string>
     <string name="creation_unlock">解除手机端使用限制</string>
@@ -1007,6 +1023,7 @@
     <string name="home_folder_width_title">使用整个文件夹的宽度</string>
     <string name="home_folder_space_title">减少边距</string>
     <string name="home_folder_blur_title">背景模糊</string>
+    <string name="home_folder_recommend_apps_switch">隐藏 \"今日推荐\" 开关</string>
     <string name="home_folder_unlock_blur_supported">解除文件夹模糊限制</string>
     <string name="home_folder_unlock_blur_supported_summary">仅对三方主题移除没有高级材质背景模糊的限制</string>
     <string name="home_folder_anim_title">回弹动画</string>
@@ -1076,7 +1093,7 @@
     <string name="home_widget">小部件</string>
     <string name="home_widget_all_widget_animation">强制所有小部件使用动画</string>
     <string name="home_widget_show_miui_widget">显示系统小部件</string>
-    <string name="home_widget_show_miui_widget_desc">在 Android 原生小部件页面显示系统小部件</string>
+    <string name="home_widget_show_miui_widget_desc">在 Android 原生小部件页面显示 MIUI/HyperOS 小部件</string>
     <string name="home_widget_corner_radius">小部件圆角</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">允许将安卓小部件移动至负一屏</string>
     <string name="home_widget_hide_title">隐藏小部件标题</string>
@@ -1216,6 +1233,7 @@
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
+    <string name="security_center_hyperos">安全服务</string>
     <string name="security_center_app_title">应用管理</string>
     <string name="security_center_battery_title">省电与电池</string>
     <string name="security_center_privacy_title">隐私保护</string>
@@ -1227,6 +1245,7 @@
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 开关</string>
+    <string name="security_center_taplus">传送门开关</string>
     <string name="security_center_flash_light">手电筒亮度控制</string>
     <string name="security_center_flash_light_more">开启手电筒时劫持亮度条，拖动亮度条即可控制手电筒亮度</string>
     <string name="security_center_get_number">管理应用获取手机号并一键登录</string>
@@ -1300,6 +1319,8 @@
     <string name="security_center_sidebar_videobox_title">视频工具箱</string>
     <string name="security_center_sidebar_gamebox_title">游戏工具箱</string>
     <string name="security_center_sidebar_function_title">全局侧边栏功能</string>
+    <string name="security_center_game_speed">快速启动游戏</string>
+    <string name="security_center_game_speed_desc">在启动游戏时倍速通过开屏动画，仅部分游戏支持</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>

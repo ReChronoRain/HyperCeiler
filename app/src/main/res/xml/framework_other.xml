@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/system_framework_screen_title">
         <SwitchPreference
             android:defaultValue="false"
@@ -65,13 +66,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_framework_entry">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_hook_entry"
-            android:title="@string/system_framework_hook_entry" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/system_framework_core_title">
         <SwitchPreference
             android:defaultValue="false"
@@ -84,6 +78,11 @@
             android:key="prefs_key_system_framework_other_disable_cleaner"
             android:summary="@string/system_framework_other_disable_cleaner_desc"
             android:title="@string/system_framework_other_disable_cleaner" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_hook_entry"
+            android:title="@string/system_framework_hook_entry" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -107,11 +106,16 @@
             android:summary="@string/system_framework_clipboard_whitelist_desc"
             android:title="@string/system_framework_clipboard_whitelist" />
 
+        <Preference
+            android:dependency="prefs_key_system_framework_clipboard_whitelist"
+            android:key="prefs_key_system_framework_clipboard_whitelist_apps"
+            android:title="@string/system_framework_clipboard_whitelist_list" />
         <EditTextPreference
             android:key="prefs_key_system_framework_clipboard_whitelist_list"
             android:title="@string/system_framework_clipboard_whitelist_list"
             android:summary="@string/system_framework_clipboard_whitelist_list_desc"
-            android:defaultValue="com.fooview.android.fooview" />
+            android:defaultValue="com.fooview.android.fooview"
+            app:isPreferenceVisible="false"/>
 
     </PreferenceCategory>
 

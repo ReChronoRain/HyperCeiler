@@ -17,6 +17,8 @@ public class OtherSettings extends SettingsPreferenceFragment {
 
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
+    Preference mClipboardWhitelistApps;
+    SwitchPreference mEntry;
     SwitchPreference mAppLinkVerify;
     SwitchPreference mUseOriginalAnim;
     SwitchPreference mVerifyDisable;
@@ -31,14 +33,17 @@ public class OtherSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
+        mClipboardWhitelistApps =findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
+        mEntry = findPreference("prefs_key_system_framework_hook_entry");
 
         mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
 
         mAppLinkVerify.setVisible(!isAndroidVersion(30));
         mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
+        mEntry.setVisible(isMoreHyperOSVersion(1f));
         mUseOriginalAnim.setVisible(!isAndroidVersion(33));
         mDisableDeviceLog.setVisible(isMoreAndroidVersion(33));
 
@@ -54,6 +59,15 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mCleanOpenApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("is_app_selector", false);
+            intent.putExtra("need_mode", 2);
+            intent.putExtra("key", preference.getKey());
+            startActivity(intent);
+            return true;
+        });
+
+        mClipboardWhitelistApps.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+            intent.putExtra("is_app_selector", true);
             intent.putExtra("need_mode", 2);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);

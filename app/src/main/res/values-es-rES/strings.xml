@@ -313,7 +313,6 @@
     <string name="phone_n5_n8_desc">Introduzca *#*#65686633#*#* en Teléfono para soportar la banda N5/N8. Si muestra \"se activa el modo de N5 y N8\", la característica se activará correctamente.</string>
     <string name="system_framework_screen_title">Se muestran &amp; notificaciones</string>
     <string name="system_framework_core_title">Núcleo fundo</string>
-    <string name="system_framework_entry">Carga inteligente de Hyper</string>
     <string name="system_framework_hook_entry">Desbloquear el límite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Accesos directos de compartir</string>
     <string name="system_framework_screen_all_rotations">Rotación de pantalla</string>
@@ -497,7 +496,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Administración de indicadores de velocidad de red</string>
     <string name="system_ui_statusbar_clock_title">Administración de indicadores de reloj</string>
     <string name="system_ui_statusbar_device_title">Indicadores de hardware</string>
-    <string name="system_ui_statusbar_toast_title">Toast Inteligente</string>
+    <string name="system_ui_statusbar_strong_toast_title">Toast Inteligente</string>
     <string name="system_ui_statusbar_layout_title">Disposición</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Modo de compatibilidad</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Activar forzosamente el diseño de pantalla completa para todas las pantallas especiales</string>

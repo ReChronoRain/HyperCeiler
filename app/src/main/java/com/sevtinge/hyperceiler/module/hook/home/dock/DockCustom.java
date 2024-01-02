@@ -34,7 +34,6 @@ public class DockCustom extends BaseHook {
 
     @Override
     public void init() {
-
         mLauncherCls = findClassIfExists("com.miui.home.launcher.Launcher");
         mLauncherStateCls = findClassIfExists("com.miui.home.launcher.LauncherState");
         mDeviceConfigCls = findClassIfExists("com.miui.home.launcher.DeviceConfig");
@@ -44,7 +43,7 @@ public class DockCustom extends BaseHook {
 
         findAndHookMethod(mLauncherCls, "onCreate", Bundle.class, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Activity mActivity = (Activity) param.thisObject;
 
                 FrameLayout mSearchBarContainer = (FrameLayout) XposedHelpers.callMethod(param.thisObject, "getSearchBarContainer");
@@ -68,14 +67,14 @@ public class DockCustom extends BaseHook {
 
                 findAndHookMethod(mLauncherCls, "isFolderShowing", new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         isFolderShowing = (boolean) param.getResult();
                     }
                 });
 
                 findAndHookMethod(mLauncherCls, "showEditPanel", boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         isShowEditPanel = (boolean) param.args[0];
                         mDockView.setVisibility(isShowEditPanel ? View.GONE : View.VISIBLE);
                     }
@@ -83,21 +82,21 @@ public class DockCustom extends BaseHook {
 
                 findAndHookMethod(mLauncherCls, "openFolder", mFolderInfo, View.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         mDockView.setVisibility(View.GONE);
                     }
                 });
 
                 findAndHookMethod(mLauncherCls, "closeFolder", boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         if (!isShowEditPanel) mDockView.setVisibility(View.VISIBLE);
                     }
                 });
 
                 findAndHookMethod(mBlurUtils, "fastBlurWhenEnterRecents", mLauncherCls, mLauncherStateCls, boolean.class, new MethodHook() {
                     @Override
-                    protected void after(MethodHookParam param) throws Throwable {
+                    protected void after(MethodHookParam param) {
                         mDockView.setVisibility(View.GONE);
                     }
                 });
@@ -106,8 +105,11 @@ public class DockCustom extends BaseHook {
 
         findAndHookMethod(mLauncherCls, "onStateSetStart", mLauncherStateCls, new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                if (param.args[0].getClass().getSimpleName().equals("LauncherState") && !isFolderShowing && !isShowEditPanel) {
+            protected void after(MethodHookParam param) {
+                Boolean mLauncherState = param.args[0].getClass().getSimpleName().equals("LauncherState");
+                Boolean mNormalState = param.args[0].getClass().getSimpleName().equals("NormalState");
+
+                if ((mLauncherState || mNormalState) && !isFolderShowing && !isShowEditPanel) {
                     mDockView.setVisibility(View.VISIBLE);
                 } else {
                     mDockView.setVisibility(View.GONE);

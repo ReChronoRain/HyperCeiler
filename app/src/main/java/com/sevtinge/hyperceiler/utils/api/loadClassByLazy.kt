@@ -51,4 +51,8 @@ object LazyClass {
     val mNewClockClass by lazy {
         loadClass("com.android.systemui.statusbar.views.MiuiStatusBarClock")
     }
+
+    val StrongToast by lazy {
+        loadClass("com.android.systemui.toast.MIUIStrongToast")
+    }
 }

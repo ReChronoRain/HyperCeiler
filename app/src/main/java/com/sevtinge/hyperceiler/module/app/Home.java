@@ -101,6 +101,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.module.hook.home.title.LargeIconCornerRadius;
 import com.sevtinge.hyperceiler.module.hook.home.title.NewInstallIndicator;
 import com.sevtinge.hyperceiler.module.hook.home.title.PerfectIcon;
+import com.sevtinge.hyperceiler.module.hook.home.title.RecommendAppsSwitch;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleMarquee;
 import com.sevtinge.hyperceiler.module.hook.home.title.UnlockBlurSupported;
@@ -110,7 +111,6 @@ import com.sevtinge.hyperceiler.module.hook.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.hyperceiler.module.hook.home.widget.HideWidgetTitles;
 import com.sevtinge.hyperceiler.module.hook.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.SetGestureNeedFingerNum;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.Objects;
 
@@ -171,6 +171,7 @@ public class Home extends BaseModule {
         initHook(new BigFolderIconBlur(), mPrefsMap.getBoolean("home_big_folder_icon_bg"));
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
         initHook(new UnlockBlurSupported(), mPrefsMap.getBoolean("home_folder_unlock_blur_supported"));
+        initHook(new RecommendAppsSwitch(), mPrefsMap.getBoolean("home_folder_recommend_apps_switch"));
 
         // 抽屉
         initHook(AppDrawer.INSTANCE, mPrefsMap.getBoolean("home_drawer_all") ||

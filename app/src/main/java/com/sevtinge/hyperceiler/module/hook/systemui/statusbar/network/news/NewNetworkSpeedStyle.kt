@@ -67,6 +67,9 @@ object NewNetworkSpeedStyle : BaseHook() {
 
                                 // 网速字体大小调整
                                 textSize(number)
+
+                                // 网速行间距调整
+                                textLineSpacing(number)
                             } else {
                                 // 加粗
                                 textFont(number)
@@ -88,6 +91,18 @@ object NewNetworkSpeedStyle : BaseHook() {
                     }
                 }
             })
+    }
+
+    private fun textLineSpacing(id: TextView) {
+        val lineSpacing by lazy {
+            mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 17)
+        }
+        if (lineSpacing != 17 && (networkStyle == 2 || networkStyle == 4)) {
+            try {
+                id.setLineSpacing(0f, lineSpacing * 0.05f)
+            } catch (_: Exception) {
+            }
+        }
     }
 
     private fun textFont(id: TextView) {

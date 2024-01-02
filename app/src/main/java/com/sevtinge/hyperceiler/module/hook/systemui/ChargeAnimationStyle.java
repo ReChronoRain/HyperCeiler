@@ -32,7 +32,7 @@ public class ChargeAnimationStyle extends BaseHook {
         if (value == 1) {
             findAndHookMethod(mChargeAnimCls, "isChargeAnimationDisabled", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     param.setResult(true);
                 }
             });
@@ -40,7 +40,7 @@ public class ChargeAnimationStyle extends BaseHook {
 
             findAndHookMethod(mChargeAnimCls, "supportWaveChargeAnimation", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     StackTraceElement[] stackElement = new Throwable().getStackTrace();
                     boolean mResult = false;
                     Set<String> classTrue = new ArraySet<>(new String[]{"com.android.keyguard.charge.ChargeUtils",
@@ -65,7 +65,7 @@ public class ChargeAnimationStyle extends BaseHook {
 
             findAndHookMethod(mWaveViewCls, "updateWaveHeight", new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     XposedHelpers.setIntField(param.thisObject, "mWaveXOffset", 0);
                 }
             });
@@ -92,7 +92,7 @@ public class ChargeAnimationStyle extends BaseHook {
 
             findAndHookMethod(mChargeAnimCls, "getChargeAnimationType", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     param.setResult(mType);
                 }
             });

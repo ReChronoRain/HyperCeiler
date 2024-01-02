@@ -126,6 +126,17 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceEx
+            android:defaultValue="17"
+            android:key="prefs_key_system_ui_statusbar_network_speed_spacing_margin"
+            android:title="@string/spacing_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="20"
+            app:format="%s dp"
+            app:maxValue="22"
+            app:minValue="14"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
             android:defaultValue="0"
             android:key="prefs_key_system_ui_statusbar_network_speed_left_margin"
             android:title="@string/left_margin"

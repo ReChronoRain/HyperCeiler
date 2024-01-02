@@ -119,7 +119,10 @@ public class BigFolderIconBlur extends BaseHook {
                 findAndHookMethod(mLauncher, "onStateSetStart", mLauncherState, new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
-                        if (param.args[0].getClass().getSimpleName().equals("LauncherState")) {
+                        Boolean mLauncherState = param.args[0].getClass().getSimpleName().equals("LauncherState");
+                        Boolean mNormalState = param.args[0].getClass().getSimpleName().equals("NormalState");
+
+                        if (mLauncherState || mNormalState) {
                             mDockBlur.setVisibility(View.VISIBLE);
                         } else {
                             mDockBlur.setVisibility(View.GONE);

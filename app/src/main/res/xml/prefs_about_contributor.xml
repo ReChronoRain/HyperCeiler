@@ -101,6 +101,20 @@
                 android:data="https://github.com/wushidia" />
         </Preference>
         <Preference
+            android:summary="GitHub@Xander-C"
+            android:title="Xander-C">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Xander-C" />
+        </Preference>
+        <Preference
+            android:summary="GitHub@xiefei-github"
+            android:title="xiefei-github">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/xiefei-github" />
+        </Preference>
+        <Preference
             android:summary="GitHub@YuKongA"
             android:title="YuKongA">
             <intent

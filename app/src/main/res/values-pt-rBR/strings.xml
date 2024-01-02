@@ -139,6 +139,7 @@
     <string name="bottom_margin">Margem inferior</string>
     <string name="left_margin">Margem esquerda</string>
     <string name="right_margin">Margem direita</string>
+    <string name="spacing_margin">Espaçamento entre linhas</string>
     <string name="horizontal_margin">Margem horizontal</string>
     <string name="vertical_offset">Deslocamento para cima e para baixo</string>
     <string name="horizontal_alignment">Alinhamento horizontal</string>
@@ -313,13 +314,16 @@
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
-    <string name="system_framework_entry">Hyper Smart Charge</string>
     <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
     <string name="system_framework_shortcut_title">Compartilhar atalhos</string>
     <string name="system_framework_screen_all_rotations">Rotação da tela</string>
     <string name="system_framework_allow_untrusted_touch">Permitir toque não confiável</string>
     <string name="system_framework_allow_uninstall">Permitir desinstalar alguns apps pré-instalados</string>
     <string name="system_framework_allow_uninstall_desc">Este recurso é perigoso</string>
+    <string name="system_framework_clipboard_whitelist">Permitir que o app leia a área de transferência em segundo plano</string>
+    <string name="system_framework_clipboard_whitelist_desc">Permite que apps obtenham a permissão READ_LOGS</string>
+    <string name="system_framework_clipboard_whitelist_list">Lista de permissões que pode ler a área de transferência em segundo plano</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">Para mais de um app, separe com |</string>
     <string name="system_framework_disable_app_link_verify">Desativar verificação de link do app</string>
     <string name="system_framework_disable_app_link_verify_desc">Reverter para abrir apps suportados diretamente ao abrir links sem habilitar links suportados nas configurações do app</string>
     <string name="system_framework_clean_share_menu">Limpar menu de compartilhamento</string>
@@ -497,7 +501,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Gerenciar indicador de velocidade da rede</string>
     <string name="system_ui_statusbar_clock_title">Gerenciar indicador de relógio</string>
     <string name="system_ui_statusbar_device_title">Indicadores de hardware</string>
-    <string name="system_ui_statusbar_toast_title">Brinde inteligente</string>
+    <string name="system_ui_statusbar_strong_toast_title">Brinde inteligente</string>
     <string name="system_ui_statusbar_layout_title">Layout</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Modo de compatibilidade</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Ative forçosamente o layout de tela inteira para todas as telas de formato especial</string>
@@ -606,6 +610,7 @@
     <string name="system_ui_statusbar_clock_desc">Exemplo do formato de relógio</string>
     <string name="system_ui_statusbar_clock_size">Tamanho do relógio</string>
     <string name="system_ui_statusbar_clock_double_size">Tamanho do relógio de duas linhas</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">Válido somente quando exibido em duas linhas</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
@@ -636,6 +641,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">Brilhante</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">Nível de bateria baixa</string>
     <string name="system_ui_status_bar_battery_indicator_test">Teste</string>
+    <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
+    <string name="system_ui_status_bar_strong_toast_text">Informação</string>
+    <string name="system_ui_status_bar_strong_toast_test">Depurar</string>
+    <string name="system_ui_status_bar_strong_toast_hide">Ocultar brinde inteligente</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">Saída de texto curto</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">Saída de texto longo</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">Saída de animação</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este é um longo pedaço de texto que será exibido em formato de rolagem</string>
     <string name="system_ui_controlcenter_title">Centro de controle</string>
     <string name="system_ui_controlcenter_card_title">Cartão</string>
     <string name="system_ui_controlcenter_magnet_title">Magnético</string>
@@ -645,6 +659,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>
     <string name="system_control_center_5g_tile">Interruptor de rede 5G</string>
     <string name="system_control_center_5g_toggle_label">Rede 5G</string>
+    <string name="system_control_center_taplus_label">Interruptores Taplus</string>
     <string name="system_control_center_sunshine_mode">Modo luz solar</string>
     <string name="system_ui_control_auto_close">Os blocos magnéticos retraem automaticamente</string>
     <string name="system_ui_control_auto_close_more">Após abrir, ao clicar no bloco da barra de status, a barra de status será automaticamente retraída.</string>
@@ -676,6 +691,7 @@
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
+    <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduz o som de aviso.</string>
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
@@ -710,6 +726,8 @@
     <string name="system_ui_origin_charge_animation">Animação de carregamento nativa</string>
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
+    <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte o botão de tela dividida centralizado na parte superior do HyperOS para a tela de paisagem do Pad</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
@@ -754,7 +772,7 @@
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
     <string name="system_settings_permission_title">Permissão</string>
     <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
-    <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos \"UI do Sistema\" e \"Configurações\" para que as alterações tenham efeito</string>
+    <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos UI do Sistema e Configurações para que as alterações tenham efeito</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
     <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
@@ -827,6 +845,7 @@
     <!--Backup-->
     <string name="backup">Backup</string>
     <string name="backup_allow_all_apps">Permitir backup de todos os apps</string>
+    <string name="backup_unlock_broken_screen_backup">Desbloquear backups com tela danificada</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remover restrições sobre o uso de telefones móveis</string>
@@ -1158,6 +1177,7 @@
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Precisão de localização mais baixa</string>
     <string name="security_center_gms_open">Serviço GMS</string>
+    <string name="security_center_taplus">Interruptores Taplus</string>
     <string name="security_center_flash_light">Controle do brilho da lanterna</string>
     <string name="security_center_flash_light_more">Permite que você controle o brilho da lanterna arrastando o controle deslizante de brilho</string>
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>

@@ -121,7 +121,7 @@ public class DisplayHardwareDetail extends BaseHook {
         if (hasRightIcon) {
             findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     Object iconController = XposedHelpers.getObjectField(param.thisObject, "mStatusBarIconController");
                     for (TextIcon ti : mTextIcons) {
                         if (ti.atRight) {
@@ -139,7 +139,7 @@ public class DisplayHardwareDetail extends BaseHook {
 
             hookAllMethods(mIconManager, "addHolder", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     if (param.args.length != 4) return;
                     Object iconHolder = param.args[3];
                     int type = (int) callMethod(iconHolder, "getType");
@@ -229,7 +229,7 @@ public class DisplayHardwareDetail extends BaseHook {
             Handler mBgHandler;
 
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 Context mContext = (Context) param.args[0];
                 final Handler mHandler = new Handler(Looper.getMainLooper()) {
                     public void handleMessage(Message message) {

@@ -90,7 +90,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("Builder", getBuilder());
             propertiesSystem.put("RomAuthor", getRomAuthor());
-            propertiesSystem.put("BaseOs", getBaseOs());
+            propertiesSystem.put("BaseOs", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs());
             propertiesSystem.put("Host", com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHost());
             propertiesSystem.put("BuildDate", getBuildDate());
         } catch (Exception ignored) {

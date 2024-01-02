@@ -15,8 +15,8 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.getCornerRadiusTop
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.hookBeforeMethod
-import com.zhenxiang.blur.BlurFrameLayout
-import com.zhenxiang.blur.model.CornersRadius
+import com.sevtinge.hyperceiler.utils.blur.zhenxiang.BlurFrameLayout
+import com.sevtinge.hyperceiler.utils.blur.zhenxiang.model.CornersRadius
 
 
 object AllAppsContainerViewBlur : BaseHook() {

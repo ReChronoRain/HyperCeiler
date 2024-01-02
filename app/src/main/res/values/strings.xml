@@ -172,13 +172,14 @@
     <string name="color_picker_view_page_text_lightness">Lightness</string>
     <string name="color_picker_view_page_text_saturation">Saturation</string>
     <!--String reuse-->
-    <string name="top_margin">Top margin</string>
-    <string name="bottom_margin">Bottom margin</string>
-    <string name="left_margin">Left margin</string>
-    <string name="right_margin">Right margin</string>
-    <string name="horizontal_margin">Horizontal margin</string>
-    <string name="vertical_offset">Up and down offset</string>
-    <string name="horizontal_alignment">Horizontal alignment</string>
+    <string name="top_margin">Top Margin</string>
+    <string name="bottom_margin">Bottom Margin</string>
+    <string name="left_margin">Left Margin</string>
+    <string name="right_margin">Right Margin</string>
+    <string name="spacing_margin">Spacing Between Lines</string>
+    <string name="horizontal_margin">Horizontal Margin</string>
+    <string name="vertical_offset">Up and Down Offset</string>
+    <string name="horizontal_alignment">Horizontal Alignment</string>
     <string name="feature">Function</string>
     <string name="recommend">Recommend</string>
     <string name="editor">Editor</string>
@@ -351,7 +352,6 @@
 
     <string name="system_framework_screen_title">Display &amp; Notifications</string>
     <string name="system_framework_core_title">Core underneath</string>
-    <string name="system_framework_entry">Hyper Smart Charge</string>
     <string name="system_framework_hook_entry">Unlock the smart charge off limit</string>
     <string name="system_framework_shortcut_title">Share shortcuts</string>
     <string name="system_framework_screen_all_rotations">Screen rotation</string>
@@ -539,7 +539,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Network speed indicator management</string>
     <string name="system_ui_statusbar_clock_title">Clock indicator management</string>
     <string name="system_ui_statusbar_device_title">Hardware indicators</string>
-    <string name="system_ui_statusbar_toast_title">Smart Toast</string>
+    <string name="system_ui_statusbar_strong_toast_title">Smart Strong Toast</string>
     <string name="system_ui_statusbar_layout_title">Layout</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_title">Compatibility mode</string>
     <string name="system_ui_statusbar_layout_compatibility_mode_desc">Forcibly enable the full screen layout for all special-shaped screens</string>
@@ -648,6 +648,7 @@
     <string name="system_ui_statusbar_clock_desc">Clock format example</string>
     <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">Valid only when displayed in two rows</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
@@ -678,6 +679,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">Shine</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">Low battery level</string>
     <string name="system_ui_status_bar_battery_indicator_test">Test</string>
+    <string name="system_ui_status_bar_strong_toast_layout">Layout</string>
+    <string name="system_ui_status_bar_strong_toast_text">Information</string>
+    <string name="system_ui_status_bar_strong_toast_test">Debug</string>
+    <string name="system_ui_status_bar_strong_toast_hide">Hide the smart strong toast</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">Short Text Output</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">Long Text Output</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">Animation Output</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
     <string name="system_ui_controlcenter_title">Control center</string>
     <string name="system_ui_controlcenter_card_title">Card</string>
     <string name="system_ui_controlcenter_magnet_title">Magnet</string>
@@ -687,6 +697,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>
     <string name="system_control_center_5g_tile">5G network switch</string>
     <string name="system_control_center_5g_toggle_label">5G Network</string>
+    <string name="system_control_center_taplus_label">Taplus switches</string>
     <string name="system_control_center_sunshine_mode">Sunshine Mode</string>
     <string name="system_ui_control_auto_close">Magnetic tiles automatically retract</string>
     <string name="system_ui_control_auto_close_more">After opening, clicking on the status bar tile will automatically retract the status bar</string>
@@ -718,6 +729,7 @@
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
+    <string name="system_ui_control_center_expand_notification">Expand Notifications</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>
     <string name="system_ui_control_center_rounded_rect">Rounded rectangle tile</string>
     <string name="system_ui_control_center_rounded_rect_radius">Rounded Radius</string>
@@ -753,6 +765,8 @@
     <string name="system_ui_origin_charge_animation">Native charging animation</string>
     <string name="system_ui_another_title">Other</string>
     <string name="system_ui_disable_bluetooth_restrict">Prevent bluetooth from being turned off temporarily</string>
+    <string name="system_ui_disable_miui_multi_win_switch">Hide the Convenience Window button</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Hide the convenient window button centered at the top of the HyperOS for Pad landscape screen</string>
     <string name="system_ui_others_pct_title">Data display</string>
     <string name="system_showpct_title">Displays the brightness percentage</string>
     <string name="system_cc_volume_showpct_title">Displays the percentage of sound</string>
@@ -871,6 +885,7 @@
     <!--Backup-->
     <string name="backup">Backup</string>
     <string name="backup_allow_all_apps">Allow backup all apps</string>
+    <string name="backup_unlock_broken_screen_backup">Unlock Backups with damaged screen</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Remove restrictions on the use of mobile phones</string>
@@ -989,6 +1004,7 @@
     <string name="home_folder_width_title">Use the width of the entire folder</string>
     <string name="home_folder_space_title">Reduce margins</string>
     <string name="home_folder_blur_title">Background blur</string>
+    <string name="home_folder_recommend_apps_switch">Hide the \"Today\'s Recommendations\" switch</string>
     <string name="home_folder_unlock_blur_supported">Remove the folder blur restriction</string>
     <string name="home_folder_unlock_blur_supported_summary">There is no restriction on background blur for official premium materials only for third-party theme removal</string>
     <string name="home_folder_anim_title">Rebound animation</string>
@@ -1056,7 +1072,7 @@
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Widget animation</string>
     <string name="home_widget_show_miui_widget">Show System Widgets</string>
-    <string name="home_widget_show_miui_widget_desc">Display the system widget on the AOSP widgets page</string>
+    <string name="home_widget_show_miui_widget_desc">Display the MIUI/HyperOS widget on the AOSP widgets page</string>
     <string name="home_widget_corner_radius">Widget rounded corners</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Allow classic widget to be moved to the Minus One screen</string>
     <string name="home_widget_hide_title">Hide widget title</string>
@@ -1195,6 +1211,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">Security</string>
     <string name="security_center_pad">Tablet security center</string>
+    <string name="security_center_hyperos">Security Tools</string>
     <string name="security_center_app_title">App management</string>
     <string name="security_center_battery_title">Battery Saver and Battery</string>
     <string name="security_center_privacy_title">Privacy protection</string>
@@ -1206,6 +1223,7 @@
     <string name="security_center_ai_clipboard">Protect clipboard</string>
     <string name="security_center_blur_location">Lower positioning accuracy</string>
     <string name="security_center_gms_open">GMS Service</string>
+    <string name="security_center_taplus">Taplus switches</string>
     <string name="security_center_flash_light">Flashlight brightness control</string>
     <string name="security_center_flash_light_more">Allowing you to control the flashlight\'s brightness by dragging the brightness slider</string>
     <string name="security_center_get_number">Manage the application to obtain the mobile phone number and log in with one click</string>
@@ -1279,6 +1297,8 @@
     <string name="security_center_sidebar_videobox_title">Video Box</string>
     <string name="security_center_sidebar_gamebox_title">Game Box</string>
     <string name="security_center_sidebar_function_title">Sidebar Function</string>
+    <string name="security_center_game_speed">Launch the game quickly</string>
+    <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>

@@ -247,6 +247,12 @@
             android:title="@string/security_center_disable_send_malicious_app_notification"
             app:isPreferenceVisible="true" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_game_speed"
+            android:summary="@string/security_center_game_speed_desc"
+            android:title="@string/security_center_game_speed" />
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>

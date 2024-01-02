@@ -1,4 +1,4 @@
-package com.zhenxiang.blur.model
+package com.sevtinge.hyperceiler.utils.blur.zhenxiang.model
 
 data class CornersRadius(
     val topLeft: Float,

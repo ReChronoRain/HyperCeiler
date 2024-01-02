@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,9 +7,9 @@ import android.content.Intent;
 import android.os.UserHandle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -41,14 +39,14 @@ public class NotificationRowMenu extends BaseHook {
         hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow", "createMenuViews", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")
-            protected void after(final MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 ArrayList<Object> mMenuItems = (ArrayList<Object>)XposedHelpers.getObjectField(param.thisObject, "mMenuItems");
 
                 Object infoBtn = null;
                 Object forceCloseBtn = null;
                 Object openFwBtn = null;
-                Constructor MenuItem = MiuiNotificationMenuItem.getConstructors()[0];
+                Constructor<?> MenuItem = MiuiNotificationMenuItem.getConstructors()[0];
                 try {
                     infoBtn = MenuItem.newInstance(param.thisObject, mContext, appInfoDescId, null, appInfoIconResId);
                     forceCloseBtn = MenuItem.newInstance(param.thisObject, mContext, forceCloseDescId, null, forceCloseIconResId);
@@ -69,44 +67,41 @@ public class NotificationRowMenu extends BaseHook {
                 View mForceCloseBtn = (View) XposedHelpers.callMethod(forceCloseBtn, "getMenuView");
                 View mOpenFwBtn = (View) XposedHelpers.callMethod(openFwBtn, "getMenuView");
 
-                View.OnClickListener itemClick = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (view == null) return;
-                        String pkgName = (String)XposedHelpers.callMethod(notification, "getPackageName");
-                        int uid = (int)XposedHelpers.callMethod(notification, "getAppUid");
-                        int user = 0;
-                        try {
-                            user = (int)XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
-                        } catch (Throwable t) {
-                            logW(TAG, "com.android.systemui", t);
-                        }
+                OnClickListener itemClick = view -> {
+                    if (view == null) return;
+                    String pkgName = (String)XposedHelpers.callMethod(notification, "getPackageName");
+                    int uid = (int)XposedHelpers.callMethod(notification, "getAppUid");
+                    int user = 0;
+                    try {
+                        user = (int)XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
+                    } catch (Throwable t) {
+                        logW(TAG, "com.android.systemui", t);
+                    }
 
-                        if (view == mInfoBtn) {
-                            Helpers.openAppInfo(mContext, pkgName, user);
-                            mContext.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-                        } else if (view == mForceCloseBtn) {
-                            ActivityManager am = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
-                            if (user != 0)
-                                XposedHelpers.callMethod(am, "forceStopPackageAsUser", pkgName, user);
-                            else
-                                XposedHelpers.callMethod(am, "forceStopPackage", pkgName);
-                            try {
-                                CharSequence appName = mContext.getPackageManager().getApplicationLabel(mContext.getPackageManager().getApplicationInfo(pkgName, 0));
-                                //Toast.makeText(mContext, Helpers.getModuleRes(mContext).getString(R.string.force_closed, appName), Toast.LENGTH_SHORT).show();
-                            } catch (Throwable ignore) {}
-                        }
-                        else if (view == mOpenFwBtn) {
-                            Class<?> Dependency = findClass("com.android.systemui.Dependency", lpparam.classLoader);
-                            Object AppMiniWindowManager = XposedHelpers.callStaticMethod(Dependency, "get", findClassIfExists("com.android.systemui.statusbar.notification.policy.AppMiniWindowManager", lpparam.classLoader));
-                            String miniWindowPkg = (String) XposedHelpers.callMethod(expandNotifyRow, "getMiniWindowTargetPkg");
-                            PendingIntent notifyIntent = (PendingIntent) XposedHelpers.callMethod(expandNotifyRow, "getPendingIntent");
-                            String ModalControllerForDep = "com.android.systemui.statusbar.notification.modal.ModalController";
-                            Object ModalController = XposedHelpers.callStaticMethod(Dependency, "get", findClass(ModalControllerForDep, lpparam.classLoader));
-                            XposedHelpers.callMethod(ModalController, "animExitModelCollapsePanels");
-                            XposedHelpers.callMethod(AppMiniWindowManager, "launchMiniWindowActivity", miniWindowPkg, notifyIntent);
+                    if (view == mInfoBtn) {
+                        Helpers.openAppInfo(mContext, pkgName, user);
+                        mContext.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+                    } else if (view == mForceCloseBtn) {
+                        ActivityManager am = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+                        if (user != 0)
+                            XposedHelpers.callMethod(am, "forceStopPackageAsUser", pkgName, user);
+                        else
+                            XposedHelpers.callMethod(am, "forceStopPackage", pkgName);
+                        try {
+                            CharSequence appName = mContext.getPackageManager().getApplicationLabel(mContext.getPackageManager().getApplicationInfo(pkgName, 0));
+                            //Toast.makeText(mContext, Helpers.getModuleRes(mContext).getString(R.string.force_closed, appName), Toast.LENGTH_SHORT).show();
+                        } catch (Throwable ignore) {}
+                    }
+                    else if (view == mOpenFwBtn) {
+                        Class<?> Dependency = findClass("com.android.systemui.Dependency", lpparam.classLoader);
+                        Object AppMiniWindowManager = XposedHelpers.callStaticMethod(Dependency, "get", findClassIfExists("com.android.systemui.statusbar.notification.policy.AppMiniWindowManager", lpparam.classLoader));
+                        String miniWindowPkg = (String) XposedHelpers.callMethod(expandNotifyRow, "getMiniWindowTargetPkg");
+                        PendingIntent notifyIntent = (PendingIntent) XposedHelpers.callMethod(expandNotifyRow, "getPendingIntent");
+                        String ModalControllerForDep = "com.android.systemui.statusbar.notification.modal.ModalController";
+                        Object ModalController = XposedHelpers.callStaticMethod(Dependency, "get", findClass(ModalControllerForDep, lpparam.classLoader));
+                        XposedHelpers.callMethod(ModalController, "animExitModelCollapsePanels");
+                        XposedHelpers.callMethod(AppMiniWindowManager, "launchMiniWindowActivity", miniWindowPkg, notifyIntent);
 //                            mContext.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-                        }
                     }
                 };
                 mInfoBtn.setOnClickListener(itemClick);
@@ -124,12 +119,9 @@ public class NotificationRowMenu extends BaseHook {
                     mContext.getResources().getDisplayMetrics()
                 );
                 int titleId = mContext.getResources().getIdentifier("modal_menu_title", "id", lpparam.packageName);
-                mMenuItems.forEach(new Consumer() {
-                    @Override
-                    public void accept(Object obj) {
-                        View menuView = (View) XposedHelpers.callMethod(obj, "getMenuView");
-                        ((TextView) menuView.findViewById(titleId)).setMaxWidth(menuWidth);
-                    }
+                mMenuItems.forEach((Consumer) obj -> {
+                    View menuView = (View) XposedHelpers.callMethod(obj, "getMenuView");
+                    ((TextView) menuView.findViewById(titleId)).setMaxWidth(menuWidth);
                 });
             }
         });

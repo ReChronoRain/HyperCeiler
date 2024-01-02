@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -151,6 +152,14 @@ public class SearchHelper {
             R.string.system_ui_statusbar_device_title,
             R.string.system_ui_statusbar_device_title,
             "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings");
+
+        parsePrefXml(context, R.xml.system_ui_status_bar_strong_toast,
+            R.string.system_ui,
+            R.string.system_ui_statusbar_title,
+            R.string.system_ui_statusbar_strong_toast_title,
+            R.string.system_ui_statusbar_strong_toast_title,
+            R.string.system_ui_statusbar_strong_toast_title,
+            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.StrongToastSettings");
 
         parsePrefXml(context, R.xml.system_ui_navigation,
             R.string.system_ui,
@@ -524,11 +533,11 @@ public class SearchHelper {
             "com.sevtinge.hyperceiler.ui.fragment.ScreenShotFragment");
 
         parsePrefXml(context, R.xml.security_center,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
-            !isPad() ? R.string.security_center : R.string.security_center_pad,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
             "com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment");
 
         parsePrefXml(context, R.xml.tsmclient,

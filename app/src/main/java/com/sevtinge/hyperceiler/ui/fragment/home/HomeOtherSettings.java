@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.view.View;
 
@@ -34,7 +34,7 @@ public class HomeOtherSettings extends SettingsPreferenceFragment {
         mFixAndroidRS = findPreference("prefs_key_home_other_fix_android_r_s");
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
 
-        mFixAndroidRS.setVisible(!isAndroidVersion(33));
+        mFixAndroidRS.setVisible(!isMoreAndroidVersion(33));
         mEnableMoreSettings.setVisible(isPad());
     }
 }

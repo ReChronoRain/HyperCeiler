@@ -8,6 +8,7 @@ import com.sevtinge.hyperceiler.module.base.LoadHostDir;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.EnableGameSpeed;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBubbleApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
@@ -116,6 +117,8 @@ public class SecurityCenter extends BaseModule {
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
         initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
+
+        initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);

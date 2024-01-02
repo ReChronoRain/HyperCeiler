@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:disableDependentsState="true"
+        android:key="prefs_key_system_ui_status_bar_strong_toast_hide"
+        android:title="@string/system_ui_status_bar_strong_toast_hide" />
+
+    <PreferenceCategory
+        app:isPreferenceVisible="false"
+        android:title="@string/system_ui_status_bar_strong_toast_layout">
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:isPreferenceVisible="false"
+        android:title="@string/system_ui_status_bar_strong_toast_text">
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_status_bar_strong_toast_test">
+        <Preference
+            android:key="prefs_key_system_ui_status_bar_strong_toast_test_short_text"
+            android:title="@string/system_ui_status_bar_strong_toast_test_short_text" />
+
+        <Preference
+            android:key="prefs_key_system_ui_status_bar_strong_toast_test_long_text"
+            android:title="@string/system_ui_status_bar_strong_toast_test_long_text" />
+
+        <Preference
+            app:isPreferenceVisible="false"
+            android:key="prefs_key_system_ui_status_bar_strong_toast_test_video"
+            android:title="@string/system_ui_status_bar_strong_toast_test_video" />
+
+    </PreferenceCategory>
+
+    <Preference android:enabled="false" />
+</PreferenceScreen>

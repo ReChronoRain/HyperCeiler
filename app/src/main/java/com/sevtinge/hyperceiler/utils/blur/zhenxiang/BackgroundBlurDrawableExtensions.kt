@@ -1,4 +1,4 @@
-package com.zhenxiang.blur
+package com.sevtinge.hyperceiler.utils.blur.zhenxiang
 
 import android.os.Build
 import androidx.annotation.RequiresApi
