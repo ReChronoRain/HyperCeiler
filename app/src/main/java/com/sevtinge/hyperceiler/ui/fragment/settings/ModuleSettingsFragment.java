@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.ui.fragment.settings;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 
@@ -12,7 +13,6 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.LogManager;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;
@@ -21,7 +21,7 @@ import moralnorm.preference.SwitchPreference;
 
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
-
+    SharedPreferences sharedPreferences = getSharedPreferences();
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
@@ -48,6 +48,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
             case "canary", "debug" -> {
                 mLogLevel.setEnabled(false);
                 mLogLevel.setValue("4");
+                sharedPreferences.edit().putString("prefs_key_log_level", "4").apply();
                 mLogLevel.setSummary(R.string.disable_detailed_log_more);
                 setLogLevel(4);
             }
@@ -113,17 +114,17 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     private void setLogLevel(int level) {
         switch (level) {
             case 0:
-                LogManager.logLevel = 0;
+                sharedPreferences.edit().putString("prefs_key_log_level", "0").apply();
             case 1:
-                LogManager.logLevel = 1;
+                sharedPreferences.edit().putString("prefs_key_log_level", "1").apply();
             case 2:
-                LogManager.logLevel = 2;
+                sharedPreferences.edit().putString("prefs_key_log_level", "2").apply();
             case 3:
-                LogManager.logLevel = 3;
+                sharedPreferences.edit().putString("prefs_key_log_level", "3").apply();
             case 4:
-                LogManager.logLevel = 4;
+                sharedPreferences.edit().putString("prefs_key_log_level", "4").apply();
             default:
-                LogManager.logLevel = 2;
+                sharedPreferences.edit().putString("prefs_key_log_level", "2").apply();
         }
     }
 

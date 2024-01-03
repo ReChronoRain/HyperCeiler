@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.utils.log;
 
-import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevel;
 
 import com.sevtinge.hyperceiler.XposedInit;
@@ -76,6 +75,7 @@ public class XposedLogUtils {
     }
 
     public static void logE(String tag, String msg) {
+        logE("HyperCeiler", "l: " + logLevel);
         if (logLevel < 1) return;
         XposedBridge.log("[HyperCeiler][E][" + tag + "]: " + msg);
     }
