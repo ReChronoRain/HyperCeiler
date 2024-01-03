@@ -108,24 +108,11 @@ public class UsbModeChoose extends BaseHook {
                                 int end = (int) XposedHelpers.callMethod(tethering, "setUsbTethering", true);
                                 logI(TAG, "tethering: " + end);
                             }
-                            // param.setResult(null);
-                            // activity.finish();
+                            if (modes) {
+                                param.setResult(null);
+                                activity.finish();
+                            }
                             // logE(TAG, "finish");
-                        }
-                    }
-                }
-            );
-        }
-
-        if (modes) {
-            findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
-                "initDialog", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        String action = activity.getIntent().getAction();
-                        if (action == null) {
-                            param.setResult(null);
-                            activity.finish();
                         }
                     }
                 }
