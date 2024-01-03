@@ -1,10 +1,24 @@
 package com.sevtinge.hyperceiler.utils.log;
 
-import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.mPrefsMap;
+import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 public class LogManager {
-    public static int logLevel = mPrefsMap.getStringAsInt("log_level", 2);
-    public static String logLevelDesc(){
+    public static int logLevel = getLogLevel();
+
+    public static int getLogLevel() {
+        int level = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "2"));
+        switch (BuildConfig.BUILD_TYPE) {
+            case "canary", "debug" -> {
+                return 4;
+            }
+            default -> {
+                return level;
+            }
+        }
+    }
+
+    public static String logLevelDesc() {
         return switch (logLevel) {
             case 0 -> ("Disable");
             case 1 -> ("Error");

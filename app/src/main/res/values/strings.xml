@@ -113,6 +113,7 @@
     <string name="rest_permission">Now you have to manually enable permissions for this option.</string>
     <string name="disable_detailed_log">Disable detailed log</string>
     <string name="disable_detailed_log_desc">Reboot to apply</string>
+    <string name="disable_detailed_log_more">The Debug Canary version does not support adjusting the log level</string>
     <string name="settings_safe_mode">Safe mode</string>
     <string name="settings_safe_mode_desc">Stop module function</string>
     <string name="about_developer_title">Developer</string>

@@ -10,12 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.ui.base.BaseActivity;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.log.LogManager;
 
-import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.Preference;
-
-public abstract class SettingsPreferenceFragment extends BasePreferenceFragment implements Preference.OnPreferenceChangeListener {
+public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
 
     public String mTitle;
     public String mPreferenceKey;
@@ -23,7 +19,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     public int mTitleResId = 0;
     private boolean mPreferenceHighlighted = false;
     private final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
-    DropDownPreference mLogLevel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -85,28 +80,8 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     public void initPrefs() {
-        mLogLevel = findPreference("prefs_key_log_level");
-        if (mLogLevel != null) {
-            mLogLevel.setOnPreferenceChangeListener(this);
-        }
     }
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference == mLogLevel) {
-            setLogLevel(Integer.parseInt((String) o));
-        }
-        return true;
-    }
-    private void setLogLevel(int level) {
-        switch (level){
-            case 0: LogManager.logLevel = 0;
-            case 1: LogManager.logLevel = 1;
-            case 2: LogManager.logLevel = 2;
-            case 3: LogManager.logLevel = 3;
-            case 4: LogManager.logLevel = 4;
-            default: LogManager.logLevel = 2;
-        }
-    }
+
     public abstract int getContentResId();
 
 }

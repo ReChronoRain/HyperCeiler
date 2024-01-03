@@ -1,21 +1,21 @@
-package com.sevtinge.hyperceiler.ui.fragment;
+package com.sevtinge.hyperceiler.ui.fragment.settings;
 
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.view.RestartAlertDialog;
+import com.sevtinge.hyperceiler.utils.log.LogManager;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;
-import moralnorm.preference.MultiSelectListPreference;
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
@@ -25,6 +25,8 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
+
+    DropDownPreference mLogLevel;
 
     @Override
     public int getContentResId() {
@@ -37,9 +39,31 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mLogLevel = findPreference("prefs_key_log_level");
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
+
+        switch (BuildConfig.BUILD_TYPE) {
+            case "canary", "debug" -> {
+                mLogLevel.setEnabled(false);
+                mLogLevel.setValue("4");
+                mLogLevel.setSummary(R.string.disable_detailed_log_more);
+                setLogLevel(4);
+            }
+            default -> {
+                if (mLogLevel != null) {
+                    mLogLevel.setOnPreferenceChangeListener(
+                        (preference, o) -> {
+                            if (preference == mLogLevel) {
+                                setLogLevel(Integer.parseInt((String) o));
+                            }
+                            return true;
+                        }
+                    );
+                }
+            }
+        }
 
         if (mHideAppIcon != null) {
             mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
@@ -84,6 +108,23 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
             setIconMode(Integer.parseInt((String) o));
         }
         return true;
+    }
+
+    private void setLogLevel(int level) {
+        switch (level) {
+            case 0:
+                LogManager.logLevel = 0;
+            case 1:
+                LogManager.logLevel = 1;
+            case 2:
+                LogManager.logLevel = 2;
+            case 3:
+                LogManager.logLevel = 3;
+            case 4:
+                LogManager.logLevel = 4;
+            default:
+                LogManager.logLevel = 2;
+        }
     }
 
     private void setIconMode(int mode) {

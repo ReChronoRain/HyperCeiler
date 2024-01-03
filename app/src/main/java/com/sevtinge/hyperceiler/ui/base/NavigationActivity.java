@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.data.adapter.NavigationPagerAdapter;
 import com.sevtinge.hyperceiler.ui.SubSettings;
 import com.sevtinge.hyperceiler.ui.fragment.AboutFragment;
 import com.sevtinge.hyperceiler.ui.fragment.MainFragment;
-import com.sevtinge.hyperceiler.ui.fragment.ModuleSettingsFragment;
+import com.sevtinge.hyperceiler.ui.fragment.settings.ModuleSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.SearchModeHelper;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
