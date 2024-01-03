@@ -10,6 +10,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.EnableGameSpeed;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.GetBubbleAppString;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.InstallIntercept;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBubbleApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveConversationBubbleSettingsRestriction;
@@ -39,15 +40,14 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredP
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.AddSideBarExpandReceiver;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.DockSuggest;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.GamePerformanceWildMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGunService;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockEnhanceContours;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockMemc;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockSuperResolution;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 
 public class SecurityCenter extends BaseModule {
 
@@ -85,6 +85,7 @@ public class SecurityCenter extends BaseModule {
         initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
 
         // 其他
+        initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
         initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));
         initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
         initHook(DisableRootCheck.INSTANCE, mPrefsMap.getBoolean("security_center_disable_root_check"));

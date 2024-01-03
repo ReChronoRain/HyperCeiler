@@ -226,6 +226,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_install_intercept"
+            android:title="@string/security_center_install_intercept" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_unlock_fbo"
             android:title="@string/security_center_unlock_fbo" />
 
