@@ -117,6 +117,19 @@ public class UsbModeChoose extends BaseHook {
                     }
                 }
             );
+        } else if (modes) {
+            findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
+                "initDialog", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        String action = activity.getIntent().getAction();
+                        if (action == null) {
+                            param.setResult(null);
+                            activity.finish();
+                        }
+                    }
+                }
+            );
         }
     }
 
