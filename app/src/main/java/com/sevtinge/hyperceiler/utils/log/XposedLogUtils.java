@@ -75,7 +75,6 @@ public class XposedLogUtils {
     }
 
     public static void logE(String tag, String msg) {
-        logE("HyperCeiler", "l: " + logLevel);
         if (logLevel < 1) return;
         XposedBridge.log("[HyperCeiler][E][" + tag + "]: " + msg);
     }
