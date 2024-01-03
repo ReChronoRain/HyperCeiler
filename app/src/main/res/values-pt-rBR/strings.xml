@@ -860,6 +860,8 @@
     <string name="gallery_enable_video_post">Desbloquear Efeitos de vídeo</string>
     <string name="gallery_enable_video_editor">Desbloquear Editor de vídeo</string>
     <string name="gallery_enable_text_yanhua">Desbloquear Fogos de artifício de texto</string>
+    <string name="gallery_enable_un_privacy_watermark">Remover limite de palavras da marca d’água de proteção</string>
+    <string name="gallery_enable_un_privacy_watermark_more">Ao ativá-lo, aumentará ligeiramente a densidade da marca d\'água para acomodar contagens de palavras mais longas.</string>
     <string name="gallery_enable_remover_2">Desbloquear Apagar</string>
     <string name="gallery_enable_magic_matting">Desbloquear Corte</string>
     <string name="gallery_enable_magic_sky">Desbloquear Céu</string>
@@ -964,6 +966,7 @@
     <string name="home_folder_width_title">Usar largura total da pasta</string>
     <string name="home_folder_space_title">Reduzir margens</string>
     <string name="home_folder_blur_title">Blur de fundo</string>
+    <string name="home_folder_recommend_apps_switch">Ocultar a opção Recomendações de hoje</string>
     <string name="home_folder_unlock_blur_supported">Remover restrição do blur da pasta</string>
     <string name="home_folder_unlock_blur_supported_summary">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
     <string name="home_folder_anim_title">Animação de recuo</string>
@@ -1166,6 +1169,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">Segurança</string>
     <string name="security_center_pad">Central de segurança para tablets</string>
+    <string name="security_center_hyperos">Ferramentas de segurança</string>
     <string name="security_center_app_title">Gerenciar apps</string>
     <string name="security_center_battery_title">Economia de bateria e Bateria</string>
     <string name="security_center_privacy_title">Proteção de privacidade</string>
@@ -1251,6 +1255,8 @@
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Atalhos no jogo</string>
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
+    <string name="security_center_game_speed">Iniciar jogo rapidamente</string>
+    <string name="security_center_game_speed_desc">Ao iniciar o jogo, ele passa a animação da tela de abertura em velocidade 3x, o que só é suportado por alguns jogos.</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Desativar detecções de risco</string>

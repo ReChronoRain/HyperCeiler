@@ -866,6 +866,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="gallery_enable_video_post">Mở khóa Hiệu ứng video</string>
     <string name="gallery_enable_video_editor">Mở khóa Chỉnh sửa video</string>
     <string name="gallery_enable_text_yanhua">Mở khóa văn bản pháo hoa</string>
+    <string name="gallery_enable_un_privacy_watermark">Xóa giới hạn chữ ở hình mờ cá nhân</string>
+    <string name="gallery_enable_un_privacy_watermark_more">Việc kích hoạt nó sẽ tăng nhẹ mật độ hình mờ để phù hợp với số lượng từ dài hơn</string>
     <string name="gallery_enable_remover_2">Mở khóa Xóa vật thể</string>
     <string name="gallery_enable_magic_matting">Mở khóa Cắt</string>
     <string name="gallery_enable_magic_sky">Mở khóa Bầu trời</string>
@@ -970,6 +972,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_folder_width_title">Sử dụng chiều rộng của toàn bộ thư mục</string>
     <string name="home_folder_space_title">Giảm lề</string>
     <string name="home_folder_blur_title">Làm mờ nền</string>
+    <string name="home_folder_recommend_apps_switch">Ẩn tùy chọn Đề xuất hôm nay</string>
     <string name="home_folder_unlock_blur_supported">Xóa hạn chế làm mờ thư mục</string>
     <string name="home_folder_unlock_blur_supported_summary">Xóa hạn chế không làm mờ nền vật liệu nâng cao chỉ dành cho chủ đề của bên thứ ba</string>
     <string name="home_folder_anim_title">Hoạt ảnh mở phản hồi</string>
@@ -1172,6 +1175,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <!--Security/Tablet security center-->
     <string name="security_center">Bảo mật</string>
     <string name="security_center_pad">Trung tâm bảo mật dạng máy tính bảng</string>
+    <string name="security_center_hyperos">Công cụ bảo mật</string>
     <string name="security_center_app_title">Quản lý ứng dụng</string>
     <string name="security_center_battery_title">Pin và hiệu suất</string>
     <string name="security_center_privacy_title">Bảo vệ riêng tư</string>
@@ -1264,6 +1268,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_sidebar_videobox_title">Hộp công cụ video</string>
     <string name="security_center_sidebar_gamebox_title">Phím tắt trong trò chơi</string>
     <string name="security_center_sidebar_function_title">Chức năng thanh bên</string>
+    <string name="security_center_game_speed">Mở trò chơi nhanh chóng</string>
+    <string name="security_center_game_speed_desc">Khi khởi chạy trò chơi, nó chuyển hoạt ảnh màn hình mở đầu với tốc độ gấp 3 lần, tốc độ này chỉ được hỗ trợ bởi một số trò chơi</string>
     <!--MiTrustService-->
     <string name="trustservice">Dịch vụ MiTrust</string>
     <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
