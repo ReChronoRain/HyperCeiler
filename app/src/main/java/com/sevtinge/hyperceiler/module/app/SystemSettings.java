@@ -4,8 +4,31 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVers
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.*;
-import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.*;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.AddGoogleListHeader;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.AddMiuiPlusEntry;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.AppsFreezerEnable;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableFoldArea;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.EnablePadArea;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.EnableSpeedMode;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.HyperCeilerSettings;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.InternationalBuild;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.LinkTurbo;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.ModifySystemVersion;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.MoreNotificationSettings;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.UsbModeChoose;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.ViewWifiPasswordHook;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.VoipAssistantController;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.VolumeSeparateControlForSettings;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockAi;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockMemc;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.aiimage.UnlockSuperResolution;
 
 public class SystemSettings extends BaseModule {
 
@@ -14,6 +37,8 @@ public class SystemSettings extends BaseModule {
         initHook(new HyperCeilerSettings(), mPrefsMap.getStringAsInt("settings_icon", 0) != 0);
 
         initHook(new LinkTurbo(), mPrefsMap.getBoolean("system_settings_linkturbo"));
+        initHook(new UsbModeChoose(), mPrefsMap.getStringAsInt("system_settings_usb_mode_choose", 0) != 0
+            || mPrefsMap.getBoolean("system_settings_usb_mode"));
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));
         initHook(new VoipAssistantController(), mPrefsMap.getBoolean("system_settings_voip_assistant_controller"));
         initHook(new AddMiuiPlusEntry(), mPrefsMap.getBoolean("mirror_unlock_miui_plus"));

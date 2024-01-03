@@ -806,6 +806,15 @@
     <string name="system_settings_enable_fold_area">解锁折叠屏专区</string>
     <string name="system_settings_enable_area_desc">不支持的设备解锁后会导致设置闪退</string>
     <string name="system_settings_unlock_google_header">禁止隐藏 \"Google\" 入口</string>
+    <string name="system_settings_usb_mode">接入 USB 时不弹窗</string>
+    <string name="system_settings_usb_mode_choose">USB 默认选项</string>
+    <string name="system_settings_usb_default">默认</string>
+    <string name="system_usb_use_charging_only">仅限充电</string>
+    <string name="system_usb_use_file_transfers">传输文件</string>
+    <string name="system_usb_use_photo_transfers">传输照片</string>
+    <string name="system_usb_use_MIDI">MIDI 模式</string>
+    <string name="system_usb_reverse_charge">反向充电</string>
+    <string name="system_usb_tethering">USB 网络共享</string>
 
     <string name="system_settings_connection_sharing_title">网络连接与共享</string>
     <string name="system_settings_linkturbo">解除网络加速应用限制</string>

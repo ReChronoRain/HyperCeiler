@@ -30,6 +30,18 @@
             android:key="prefs_key_system_settings_unlock_google_header"
             android:title="@string/system_settings_unlock_google_header" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_usb_mode"
+            android:title="@string/system_settings_usb_mode" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_settings_usb_mode_choose"
+            android:title="@string/system_settings_usb_mode_choose"
+            app:entries="@array/usb_mode_choose"
+            app:entryValues="@array/usb_mode_choose_value" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

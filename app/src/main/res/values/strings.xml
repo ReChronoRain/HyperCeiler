@@ -799,6 +799,15 @@
     <string name="system_settings_enable_fold_area">Unlock Fold area</string>
     <string name="system_settings_enable_area_desc">Unsupported devices will cause the settings to crash after being unlocked</string>
     <string name="system_settings_unlock_google_header">Unlock Google Entry</string>
+    <string name="system_settings_usb_mode">There is no pop-up window when connecting to USB</string>
+    <string name="system_settings_usb_mode_choose">USB Default option</string>
+    <string name="system_settings_usb_default">default</string>
+    <string name="system_usb_use_charging_only">Charging Only</string>
+    <string name="system_usb_use_file_transfers">File Transfers</string>
+    <string name="system_usb_use_photo_transfers">Photo Transfers</string>
+    <string name="system_usb_use_MIDI">MIDI Mode</string>
+    <string name="system_usb_reverse_charge">Reverse Charge</string>
+    <string name="system_usb_tethering">USB Tethering</string>
     <string name="system_settings_connection_sharing_title">Network Connection &amp; sharing</string>
     <string name="system_settings_new_nfc_page">New NFC Page</string>
     <string name="system_settings_new_nfc_page_desc">After opening, the default payment application for unsupported models cannot select Xiaomi Wallet</string>

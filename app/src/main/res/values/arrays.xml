@@ -233,6 +233,16 @@
         <item>@string/control_center_5g_v2</item>
     </string-array>
 
+    <string-array name="usb_mode_choose">
+        <item>@string/system_settings_usb_default</item>
+        <item>@string/system_usb_use_charging_only</item>
+        <item>@string/system_usb_use_file_transfers</item>
+        <item>@string/system_usb_use_photo_transfers</item>
+        <item>@string/system_usb_use_MIDI</item>
+        <item>@string/system_usb_reverse_charge</item>
+        <item>@string/system_usb_tethering</item>
+    </string-array>
+
     <string-array name="system_ui_control_center_hide_operator">
         <item>@string/control_center_5g_off</item>
         <item>@string/system_ui_control_center_hide_delimiter</item>
@@ -243,6 +253,16 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <string-array name="usb_mode_choose_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
     </string-array>
 
     <string-array name="status_bar_icon_mobile_network_type">
