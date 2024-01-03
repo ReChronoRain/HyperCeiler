@@ -6,14 +6,14 @@ import android.util.Log;
  * 可能因为 <BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");>
  * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/hyperceiler/XposedInit;> 等
  * 日记: 2024/1/3
- * 接入正轨
+ * 我我的评价是不要限制这个。
  * */
 public class AndroidLogUtils {
     private static final String Tag = "[HyperCeiler]: ";
-    private static final int logLevel = LogManager.logLevel;
+    // private static final int logLevel = Integer.parseInt(PrefsUtils.mSharedPreferences.getString("prefs_key_log_level", "2"));
 
     public static void LogI(String tag, String msg) {
-        if (logLevel < 3) return;
+        // if (logLevel < 3) return;
         Log.i(tag, "[I]" + Tag + msg);
     }
 
@@ -22,22 +22,22 @@ public class AndroidLogUtils {
     }
 
     public static void LogD(String tag, Throwable tr) {
-        if (logLevel < 4) return;
+        // if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag, tr);
     }
 
     public static void LogD(String tag, String msg, Throwable tr) {
-        if (logLevel < 4) return;
+        // if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag + msg, tr);
     }
 
     public static void LogE(String tag, Throwable tr) {
-        if (logLevel < 1) return;
+        // if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag, tr);
     }
 
     public static void LogE(String tag, String msg, Throwable tr) {
-        if (logLevel < 1) return;
+        // if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag + msg, tr);
     }
 }
