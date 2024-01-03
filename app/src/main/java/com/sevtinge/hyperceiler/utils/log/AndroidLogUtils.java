@@ -1,39 +1,19 @@
 package com.sevtinge.hyperceiler.utils.log;
 
-import static com.sevtinge.hyperceiler.utils.BuildUtils.getBuildType;
-
 import android.util.Log;
-
-import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 /* 不太建议在非 Xposed 代码使用处调用，虽然已经做了 try 处理，但是 detailLog 将始终为 false
  * 可能因为 <BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");>
  * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/hyperceiler/XposedInit;> 等
+ * 日记: 2024/1/3
+ * 接入正轨
  * */
 public class AndroidLogUtils {
     private static final String Tag = "[HyperCeiler]: ";
-    private static final boolean isDebugVersion = (getBuildType().equals("debug"));
-    private static final boolean isNotReleaseVersion = !(getBuildType().equals("release"));
-    private static boolean detailLog = false;
-    private static boolean run = false;
-
-    private static void getDisableDetailedLog() {
-        if (!run) {
-            try {
-                detailLog = BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");
-            } catch (Throwable e) {
-                LogE("getDisableDetailedLog", "It is not recommended to call this class in non Xposed code," +
-                    "detailLog will be false: ", e);
-            }
-            run = true;
-        }
-    }
+    private static final int logLevel = LogManager.logLevel;
 
     public static void LogI(String tag, String msg) {
-        getDisableDetailedLog();
-        if (!isDebugVersion) return;
-        if (detailLog) return;
+        if (logLevel < 3) return;
         Log.i(tag, "[I]" + Tag + msg);
     }
 
@@ -42,22 +22,22 @@ public class AndroidLogUtils {
     }
 
     public static void LogD(String tag, Throwable tr) {
-        if (!isDebugVersion) return;
+        if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag, tr);
     }
 
     public static void LogD(String tag, String msg, Throwable tr) {
-        if (!isDebugVersion) return;
+        if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag + msg, tr);
     }
 
     public static void LogE(String tag, Throwable tr) {
-        if (!isDebugVersion) return;
+        if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag, tr);
     }
 
     public static void LogE(String tag, String msg, Throwable tr) {
-        if (!isDebugVersion) return;
+        if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag + msg, tr);
     }
 }
