@@ -12,6 +12,7 @@ import android.util.Log
 import android.util.TypedValue
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.hyperceiler.utils.PrefsUtils.getSharedPrefs
+import com.sevtinge.hyperceiler.utils.PropUtils
 import moralnorm.internal.utils.DeviceHelper
 import java.io.DataOutputStream
 import java.util.*
@@ -29,19 +30,6 @@ fun getDensityDpi(): Int =
 
 fun isDarkMode(): Boolean =
     EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-
-@SuppressLint("PrivateApi")
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-fun getProp(mKey: String): String =
-    Class.forName("android.os.SystemProperties").getMethod("get", String::class.java)
-        .invoke(Class.forName("android.os.SystemProperties"), mKey)
-        .toString()
-
-@SuppressLint("PrivateApi")
-fun getProp(mKey: String, defaultValue: Boolean): Boolean =
-    Class.forName("android.os.SystemProperties")
-        .getMethod("getBoolean", String::class.java, Boolean::class.javaPrimitiveType)
-        .invoke(Class.forName("android.os.SystemProperties"), mKey, defaultValue) as Boolean
 
 fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -64,7 +52,7 @@ fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
 
 fun checkVersionCode(): Long = getPackageInfoCompat(EzXHelper.appContext.packageName).longVersionCode
 
-fun checkAndroidVersion(): String = getProp("ro.build.version.release")
+fun checkAndroidVersion(): String = PropUtils.getProp("ro.build.version.release")
 
 /**
  * 执行 Shell 命令

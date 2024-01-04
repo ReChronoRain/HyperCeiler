@@ -10,7 +10,10 @@ public class LogManager {
     public static int getLogLevel() {
         int level = mPrefsMap.getStringAsInt("log_level", 2);
         switch (BuildConfig.BUILD_TYPE) {
-            case "canary", "debug" -> {
+            case "canary" -> {
+                return 3;
+            }
+            case "debug" -> {
                 return 4;
             }
             default -> {

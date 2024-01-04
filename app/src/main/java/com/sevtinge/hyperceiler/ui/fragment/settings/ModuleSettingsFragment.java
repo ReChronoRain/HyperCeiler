@@ -45,10 +45,15 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
         mIconModePreference.setOnPreferenceChangeListener(this);
 
         switch (BuildConfig.BUILD_TYPE) {
-            case "canary", "debug" -> {
+            case "canary" -> {
+                mLogLevel.setEnabled(false);
+                mLogLevel.setValue("3");
+                mLogLevel.setSummary(R.string.disable_detailed_log_more);
+                setLogLevel(3);
+            }
+            case "debug" -> {
                 mLogLevel.setEnabled(false);
                 mLogLevel.setValue("4");
-                sharedPreferences.edit().putString("prefs_key_log_level", "4").apply();
                 mLogLevel.setSummary(R.string.disable_detailed_log_more);
                 setLogLevel(4);
             }

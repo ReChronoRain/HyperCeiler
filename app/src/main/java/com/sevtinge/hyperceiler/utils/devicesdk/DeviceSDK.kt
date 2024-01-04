@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.utils.devicesdk
 
+import com.sevtinge.hyperceiler.utils.PropUtils.getProp
 import com.sevtinge.hyperceiler.utils.exec
 import java.util.Locale
 
