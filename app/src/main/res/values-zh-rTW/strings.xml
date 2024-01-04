@@ -77,6 +77,7 @@
     <string name="rest_permission">現在您必須手動啟用此選項的權限。</string>
     <string name="disable_detailed_log">停用詳細日誌輸出</string>
     <string name="disable_detailed_log_desc">重新啟動裝置以套用更改</string>
+    <string name="disable_detailed_log_more">Debug Canary 版本不支援調整日誌級別</string>
     <string name="settings_safe_mode">安全模式</string>
     <string name="settings_safe_mode_desc">停用模組功能</string>
     <string name="about_developer_title">開發者</string>
@@ -139,6 +140,7 @@
     <string name="bottom_margin">底部邊距</string>
     <string name="left_margin">左側間距</string>
     <string name="right_margin">右側間距</string>
+    <string name="spacing_margin">行間間距</string>
     <string name="horizontal_margin">水平邊距</string>
     <string name="vertical_offset">上下偏移量</string>
     <string name="horizontal_alignment">水平對齊</string>
@@ -609,6 +611,7 @@
     <string name="system_ui_statusbar_clock_desc">時鐘格式範例</string>
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">僅在雙排顯示下生效</string>
     <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
     <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
     <string name="system_ui_statusbar_indicator_temperature_title">溫度相關</string>
@@ -639,6 +642,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">發光</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">低電量水平</string>
     <string name="system_ui_status_bar_battery_indicator_test">測試</string>
+    <string name="system_ui_status_bar_strong_toast_layout">佈局</string>
+    <string name="system_ui_status_bar_strong_toast_text">訊息</string>
+    <string name="system_ui_status_bar_strong_toast_test">除錯</string>
+    <string name="system_ui_status_bar_strong_toast_hide">隱藏靈動提示</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">短文字輸出</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">長文字輸出</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">動畫輸出</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">測試</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁貼</string>
@@ -648,6 +660,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s已關閉</string>
     <string name="system_control_center_5g_tile">5G 網路開關</string>
     <string name="system_control_center_5g_toggle_label">5G 網路</string>
+    <string name="system_control_center_taplus_label">傳送門開關</string>
     <string name="system_control_center_sunshine_mode">陽光模式</string>
     <string name="system_ui_control_auto_close">磁貼自動收起</string>
     <string name="system_ui_control_auto_close_more">開啟後點擊磁貼會自動收起狀態欄</string>
@@ -679,6 +692,7 @@
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
+    <string name="system_ui_control_center_expand_notification">展開通知</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">開啟螢幕時彈出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
     <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
@@ -713,6 +727,8 @@
     <string name="system_ui_origin_charge_animation">原生充電動畫</string>
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_bluetooth_restrict">停用藍牙臨時關閉</string>
+    <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏 HyperOS for Pad 橫向螢幕下頂部置中的快速視窗按鈕（即常駐的三個小點）</string>
     <string name="system_ui_others_pct_title">數據顯示</string>
     <string name="system_showpct_title">顯示亮度百分比</string>
     <string name="system_cc_volume_showpct_title">顯示聲音百分比</string>
@@ -745,6 +761,15 @@
     <string name="system_settings_enable_fold_area">解鎖折疊屏（Fold）分區</string>
     <string name="system_settings_enable_area_desc">不受支援的設備在解鎖後將會導致崩潰</string>
     <string name="system_settings_unlock_google_header">禁止隱藏 Google 入口</string>
+    <string name="system_settings_usb_mode">接入 USB 時不彈跳視窗</string>
+    <string name="system_settings_usb_mode_choose">USB 預設選項</string>
+    <string name="system_settings_usb_default">預設</string>
+    <string name="system_usb_use_charging_only">僅限充電</string>
+    <string name="system_usb_use_file_transfers">傳輸檔案</string>
+    <string name="system_usb_use_photo_transfers">傳送照片</string>
+    <string name="system_usb_use_MIDI">MIDI 模式</string>
+    <string name="system_usb_reverse_charge">無線反向充電</string>
+    <string name="system_usb_tethering">USB 網路共用</string>
     <string name="system_settings_connection_sharing_title">連接與分享</string>
     <string name="system_settings_new_nfc_page">新版 NFC 頁面</string>
     <string name="system_settings_new_nfc_page_desc">開啟後，不支援的裝置預設付款應用程式無法選中小米錢包</string>
@@ -830,6 +855,7 @@
     <!--Backup-->
     <string name="backup">備份</string>
     <string name="backup_allow_all_apps">允許備份所有應用程式</string>
+    <string name="backup_unlock_broken_screen_backup">解鎖碎螢幕資料備份</string>
     <!--Mi Canvas-->
     <string name="creation">小米創作</string>
     <string name="creation_unlock">移除限制手機使用規則</string>
@@ -844,6 +870,8 @@
     <string name="gallery_enable_video_post">解鎖影片特效</string>
     <string name="gallery_enable_video_editor">解鎖影片剪輯</string>
     <string name="gallery_enable_text_yanhua">解鎖文字煙火</string>
+    <string name="gallery_enable_un_privacy_watermark">解除隱私浮水印字數限制</string>
+    <string name="gallery_enable_un_privacy_watermark_more">開啟會稍微增加浮水印的密度，這是為了適應更長的字數</string>
     <string name="gallery_enable_remover_2">解鎖魔法消除</string>
     <string name="gallery_enable_magic_matting">解鎖魔法摳圖</string>
     <string name="gallery_enable_magic_sky">解鎖魔法換天</string>
@@ -948,6 +976,7 @@
     <string name="home_folder_width_title">利用整個資料夾視圖的寬度</string>
     <string name="home_folder_space_title">減少邊距</string>
     <string name="home_folder_blur_title">背景模糊</string>
+    <string name="home_folder_recommend_apps_switch">隱藏「今日推薦」開關</string>
     <string name="home_folder_unlock_blur_supported">解除資料夾模糊限制</string>
     <string name="home_folder_unlock_blur_supported_summary">僅對三方主題移除沒有高級材質背景模糊的限制</string>
     <string name="home_folder_anim_title">回彈動畫</string>
@@ -1150,6 +1179,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">手機管家</string>
     <string name="security_center_pad">平板管家</string>
+    <string name="security_center_hyperos">安全服務</string>
     <string name="security_center_app_title">應用程式管理</string>
     <string name="security_center_battery_title">省電與電池</string>
     <string name="security_center_privacy_title">隱私保護</string>
@@ -1161,6 +1191,7 @@
     <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 服務</string>
+    <string name="security_center_taplus">傳送門開關</string>
     <string name="security_center_flash_light">手電筒亮度控制</string>
     <string name="security_center_flash_light_more">啟用手電筒時透過拖動亮度條來控制手電筒亮度</string>
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>
@@ -1171,6 +1202,7 @@
     <string name="security_center_beauty_privacy">解鎖隱私拍攝</string>
     <string name="security_center_beauty_pc">解鎖人像居中</string>
     <string name="security_center_disable_root_check">停用 Root 檢測</string>
+    <string name="security_center_install_intercept">停用 USB 安裝攔截</string>
     <string name="security_center_remove_macro_black_list">去除自動連招黑名單</string>
     <string name="security_center_disable_send_malicious_app_notification">禁止發送「發現惡意應用程式」通知</string>
     <string name="security_center_newbox_custom_enable">啟用自訂</string>
@@ -1234,6 +1266,8 @@
     <string name="security_center_sidebar_videobox_title">影片工具箱</string>
     <string name="security_center_sidebar_gamebox_title">遊戲工具箱</string>
     <string name="security_center_sidebar_function_title">側邊欄功能</string>
+    <string name="security_center_game_speed">快速啟動遊戲</string>
+    <string name="security_center_game_speed_desc">在啟動遊戲時以三倍的速度加快啟動時的動畫，僅部分遊戲支援</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">停用風險偵測</string>
@@ -1269,7 +1303,7 @@
     <!--GetApps-->
     <string name="market">應用程式商店</string>
     <string name="market_device_modify">機型偽裝</string>
-    <string name="market_device_modify_desc">偽裝裝置機型為 Xiaomi 13 Ultra</string>
+    <string name="market_device_modify_desc">偽裝裝置機型為其他裝置，以接收對應裝置的更新</string>
     <string name="market_disable_new_icon">禁止使用協力廠商圖示</string>
     <string name="market_disable_new_icon_desc">使桌面更加整潔</string>
     <!--MIUI+-->

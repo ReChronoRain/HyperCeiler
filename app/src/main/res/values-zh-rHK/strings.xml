@@ -1269,7 +1269,7 @@
     <!--GetApps-->
     <string name="market">應用程式商店</string>
     <string name="market_device_modify">機型偽裝</string>
-    <string name="market_device_modify_desc">偽裝設備機型為 Xiaomi 13 Ultra</string>
+    <string name="market_device_modify_desc">偽裝裝置機型為其他裝置，以接收對應裝置的更新</string>
     <string name="market_disable_new_icon">禁止使用協力廠商圖示</string>
     <string name="market_disable_new_icon_desc">使桌面更加整潔</string>
     <!--MIUI+-->

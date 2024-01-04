@@ -40,12 +40,12 @@
     <string name="location_add">Adicionar</string>
     <string name="location_delete">Excluir</string>
     <string name="development">Opções do desenvolvedor</string>
-    <string name="development_ui">UI</string>
+    <string name="development_ui">Interface do usuário </string>
     <string name="development_debug_info">Informações de depuração</string>
     <string name="development_prefs">Preferência de compartilhamento</string>
     <string name="about_privacy">Política de privacidade</string>
     <string name="about_protocol">Acordo do usuário</string>
-    <string name="settings_show_title">Mostrar</string>
+    <string name="settings_show_title">Ícone</string>
     <string name="settings_data_title">Backup e Restauração</string>
     <string name="settings_bug_title">Solução de problemas</string>
     <string name="settings_debug_title">Depurar</string>
@@ -77,6 +77,7 @@
     <string name="rest_permission">Agora você precisa ativar manualmente as permissões para esta opção.</string>
     <string name="disable_detailed_log">Desativar registro detalhado</string>
     <string name="disable_detailed_log_desc">Reinicie para aplicar</string>
+    <string name="disable_detailed_log_more">A versão Debug Canary não suporta o ajuste do nível de registro</string>
     <string name="settings_safe_mode">Modo seguro</string>
     <string name="settings_safe_mode_desc">Parar função do módulo</string>
     <string name="about_developer_title">Desenvolvedores</string>
@@ -259,7 +260,7 @@
     <string name="control_center_5g_v1">Estilo um</string>
     <string name="control_center_5g_v2">Estilo dois</string>
     <string name="no_blur">Sem blur</string>
-    <string name="miui_blur">Blur do HyperOS</string>
+    <string name="miui_blur">Blur HyperOS</string>
     <string name="android_blur">Blur AOSP</string>
     <string name="system_ui_statusbar_network_speed_style_1">Valores e unidades são exibidos em uma única linha</string>
     <string name="system_ui_statusbar_network_speed_style_2">Valores e unidades são exibidos em duas linhas</string>
@@ -271,7 +272,7 @@
     <string name="system_framework_other_title">Outros</string>
     <string name="system_framework_display_title">Tela</string>
     <string name="system_framework_phone_title">Rede</string>
-    <string name="system_framework_bubble_title">Notificação em bolha</string>
+    <string name="system_framework_bubble_title">Conversas em bolhas</string>
     <string name="system_framework_freeform_count">Múltiplas Janelas flutuantes</string>
     <string name="system_framework_disable_freeform_blacklist">Permitir Janela flutuante pequena</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Ignorar a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
@@ -376,7 +377,7 @@
     <!--Camera-->
     <string name="camera">Câmera</string>
     <string name="camera_custom_watermark">Marca d’água do dispositivo personalizada</string>
-    <string name="camera_custom_watermark_manufacturer">Informações do fabricante</string>
+    <string name="camera_custom_watermark_manufacturer">Informação do fabricante</string>
     <string name="camera_custom_watermark_device">Informação do dispositivo</string>
     <string name="camera_features_unlock_aiwatermark">Desbloquear Marca d\'água inteligente</string>
     <string name="camera_features_unlock_ambilight">Desbloquear Longa exposição</string>
@@ -407,9 +408,9 @@
     <string name="camera_shot_makeup">Desbloquear Maquiagem</string>
     <string name="camera_shot_makeup_desc">Tem efeito apenas ao usar a câmera frontal</string>
     <string name="camera_record_60fps">Desbloquear 60FPS</string>
-    <string name="camera_record_60fps_desc">Não disponível em algumas qualidades, por favor, verifique se o seu dispositivo é compatível.</string>
+    <string name="camera_record_60fps_desc">Não está disponível em algumas qualidades. Por favor, verifique se o seu dispositivo é compatível.</string>
     <string name="camera_record_120fps">Desbloquear 120FPS</string>
-    <string name="camera_record_120fps_desc">Suporta apenas quando houver qualidades 4K, por favor, verifique se o seu dispositivo é compatível.</string>
+    <string name="camera_record_120fps_desc">Suporta apenas qualidade 4K. Por favor, verifique se o seu dispositivo é compatível.</string>
     <string name="camera_record_audio_zoom">Desbloquear Zoom por áudio</string>
     <string name="camera_record_hdr">Desbloquear HDR</string>
     <string name="camera_record_ai">Desbloquear Aprimoramento de IA</string>
@@ -481,10 +482,10 @@
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
     <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para acessar a edição da tela de bloqueio</string>
     <string name="system_ui_navigation_title">Navegação</string>
-    <string name="system_ui_navigation_handle_title">Linha de manuseio</string>
-    <string name="system_ui_hide_navigation_bar">Ocultar barra de navegação</string>
+    <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
+    <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar_more">Por favor, reinicie os escopos Launcher do sistema e Ui do Sistema</string>
-    <string name="system_ui_navigation_handle_custom">Linha de manuseio personalizada</string>
+    <string name="system_ui_navigation_handle_custom">Indicador de tela infinita personalizado</string>
     <string name="system_ui_navigation_handle_custom_height">Altura</string>
     <string name="system_ui_navigation_handle_custom_width">Largura em retrato</string>
     <string name="system_ui_navigation_handle_custom_width_land">Largura em paisagem</string>
@@ -756,10 +757,19 @@
     <string name="system_settings_wifi_password_dlgtitle">Detalhes do Wi-Fi</string>
     <string name="system_settings_novelty_haptic_title">Desbloquear nova versão da página de retorno tátil</string>
     <string name="system_settings_novelty_haptic_desc">Apenas para dispositivos com Sons e Retorno tátil - Página de retorno tátil</string>
-    <string name="system_settings_enable_pad_area">Desbloquear área do Pad</string>
+    <string name="system_settings_enable_pad_area">Desbloquear área Pad</string>
     <string name="system_settings_enable_fold_area">Desbloquear área Fold</string>
     <string name="system_settings_enable_area_desc">Dispositivos não suportados farão com que as Configurações travem após serem desbloqueadas</string>
     <string name="system_settings_unlock_google_header">Desbloquear entrada do Google</string>
+    <string name="system_settings_usb_mode">Não há janela pop-up ao conectar ao USB</string>
+    <string name="system_settings_usb_mode_choose">Configuração USB padrão</string>
+    <string name="system_settings_usb_default">Padrão</string>
+    <string name="system_usb_use_charging_only">Apenas carregar</string>
+    <string name="system_usb_use_file_transfers">Transferir arquivos</string>
+    <string name="system_usb_use_photo_transfers">Transferir fotos</string>
+    <string name="system_usb_use_MIDI">Conexão MIDI</string>
+    <string name="system_usb_reverse_charge">Carregamento reverso</string>
+    <string name="system_usb_tethering">Ancoragem USB</string>
     <string name="system_settings_connection_sharing_title">Conectividade</string>
     <string name="system_settings_new_nfc_page">Nova página NFC</string>
     <string name="system_settings_new_nfc_page_desc">Após a abertura, o app de pagamento padrão para modelos não suportados não pode selecionar Mi Wallet</string>
@@ -774,9 +784,9 @@
     <string name="system_settings_more_notification_settings">Mostrar mais configurações de notificação</string>
     <string name="system_settings_more_notification_settings_summary">Você precisa reiniciar os escopos UI do Sistema e Configurações para que as alterações tenham efeito</string>
     <string name="system_settings_permission_show_app_up">Permissões de nível superior sem pesquisar na lista de apps</string>
-    <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigo, pule diretamente para a chave de permissão do app correspondente “exibido no topo de outros apps”.</string>
+    <string name="system_settings_permission_show_app_up_desc">Restaure o comportamento antigoe vá diretamente para o interruptor de permissão do app correspondente exibido na parte superior de outros apps.</string>
     <string name="system_settings_permission_unknown_origin_app">Instale permissões de apps desconhecidos sem pesquisar na lista de apps</string>
-    <string name="system_settings_permission_unknown_origin_app_desc">Use a compilação internacional e vá diretamente para o interruptor de permissão correspondente do app \"exibido na parte superior de outros apps\"</string>
+    <string name="system_settings_permission_unknown_origin_app_desc">Use a compilação internacional e vá diretamente para o interruptor de permissão correspondente do app exibido na parte superior de outros apps</string>
     <string name="system_settings_develop_title">Opções do desenvolvedor</string>
     <string name="system_settings_apps_freezer">Forçar a exibição de apps congelados em cache</string>
     <string name="system_settings_apps_freezer_more">Uma vez ativado, esse recurso pode ser encontrado nas Opções do desenvolvedor, mas sua funcionalidade não é garantida.</string>
@@ -796,7 +806,7 @@
     <string name="updater">Atualizações</string>
     <string name="updater_enable_miui_version">Ativar Versão falsa para Atualizações</string>
     <string name="updater_fuck_vab">Remover verificação OTA</string>
-    <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados, por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno.\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão.\n- Não suporta nenhum uso de ROM não oficial.\n- Esta função é perigosa, por favor, avalie se deve ativá-la após entender a operação do Fastboot.</string>
+    <string name="updater_fuck_vab_desc">Apenas dispositivos VAB são suportados. Por favor, não habilite outros dispositivos não-VAB!\n- Você pode deslizar para o pacote completo de passagem do cartão de teste interno sem permissões de teste interno.\n- Recomenda-se limpar os dados após o flash em diferentes tipos de versão.\n- Não suporta nenhum uso de ROM não oficial.\n- Esta função é perigosa. Por favor, avalie se deve ativá-la após entender a operação do Fastboot.</string>
     <string name="updater_version_mode">Tipo de disfarce</string>
     <string name="updater_big_version">Versão grande falsa</string>
     <string name="updater_big_version_desc">Itens que precisam ser preenchidos ao disfarçar a versão Xiaomi HyperOS, o padrão é V816.</string>
@@ -830,7 +840,7 @@
     <string name="content_extension_browser_desc">Torne o Taplus não obrigatório para usar o navegador do sistema para pesquisas. Você mesmo precisa escolher o navegador padrão por conta própria.</string>
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
     <string name="content_extension_unlock_taplus_horizontal_title">Permitir o uso do Taplus em telas de paisagem</string>
-    <string name="content_extension_double_press">Gesto: 2 dedos</string>
+    <string name="content_extension_double_press">Gesto de 2 dedos</string>
     <string name="content_extension_super_image">Qualidade das imagens salvas: Super resolução</string>
     <string name="content_extension_super_image_summary">A verdadeira preservação requer suporte subjacente do modelo do dispositivo</string>
     <string name="content_extension_link_open_mode">Como abrir o link</string>
@@ -946,9 +956,9 @@
     <string name="home_big_folder_icon_bg_width">Largura do fundo</string>
     <string name="home_big_folder_icon_bg_height">Altura do fundo</string>
     <string name="home_big_folder_item_max_count">Pasta grande</string>
-    <string name="home_big_folder_icon_bg_2x1_n">4*2 fundo personalizado</string>
-    <string name="home_big_folder_icon_bg_1x2_n">2*2 fundo personalizado</string>
-    <string name="home_big_folder_icon_bg_n">3*3 e 4*4 fundo personalizado</string>
+    <string name="home_big_folder_icon_bg_2x1_n">4x2 fundo personalizado</string>
+    <string name="home_big_folder_icon_bg_1x2_n">2x2 fundo personalizado</string>
+    <string name="home_big_folder_icon_bg_n">3x3 e 4x4 fundo personalizado</string>
     <string name="home_auto_close_folder_title">Fechar automaticamente</string>
     <string name="home_auto_close_folder_summary">Feche a pasta após a abertura do app</string>
     <string name="home_wallpaper">Fundo</string>
@@ -977,7 +987,7 @@
     <string name="home_drawer">Gaveta de apps</string>
     <string name="home_drawer_all">Remover aba Todos os apps</string>
     <string name="home_drawer_all_desc">Remover a aba Todos os apps para agrupar apps na gaveta</string>
-    <string name="home_drawer_editor">Ocultar botão \"Editar\"</string>
+    <string name="home_drawer_editor">Ocultar botão Editar</string>
     <string name="home_drawer_editor_desc">Remover o botão Editar da guia de apps na gaveta</string>
     <string name="home_drawer_blur">Ativar blur de exibição de contêiner de todos os apps</string>
     <string name="home_drawer_blur_desc">Por favor, defina a transparência do fundo da Gaveta de apps para 100% para usar este recurso.</string>
@@ -1009,7 +1019,7 @@
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
-    <string name="home_recent_disable_wallpaper_dimming">Desativar o escurecimento do papel de parede</string>
+    <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do papel de parede</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
     <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
     <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
@@ -1027,7 +1037,7 @@
     <string name="home_recent_show_real_memory">Exibir memória real</string>
     <string name="home_recent_show_memory_info_sum">Apenas para uso em tablets</string>
     <string name="home_recent_show_memory_info">Mostrar informações de memória</string>
-    <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza quando não houver nenhum app</string>
+    <string name="home_recent_always_show_clean_up">Não ocultar o botão de limpeza</string>
     <string name="home_recent_blur">Blur de fundo</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
@@ -1078,7 +1088,7 @@
     <string name="home_other_blur_radius">Raio do blur</string>
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
-    <string name="home_other_toast_slide_again">Proibir solicitações \"por favor, passe novamente\"</string>
+    <string name="home_other_toast_slide_again">Proibir dica de solicitação \"Deslize novamente\"</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
@@ -1157,12 +1167,12 @@
     <string name="screen_recorder_config_desc">Por favor, escolha de acordo com a situação do hardware.</string>
     <string name="screen_recorder_more_volume">Desbloquear mais volume de</string>
     <string name="screen_recorder_more_volume_desc">Algumas versões não são suportadas</string>
-    <string name="screen_recorder_save_to_movies_desc">Especifique o local para salvar gravações de tela Movies/ScreenRecorder</string>
+    <string name="screen_recorder_save_to_movies_desc">Gravações de tela canônica salva em Movies/ScreenRecorder</string>
     <!--Screenshot-->
     <string name="screenshot">Captura de tela</string>
     <string name="screenshot_unlock_minimum_crop_limit">Desbloquear limite mínimo de recorte de imagem</string>
     <string name="screenshot_unlock_privacy_marking_title">Desbloquear marcação de privacidade</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app \"Mi AI Engine\" precisa ser pré-instalada para uso normal</string>
+    <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app Mi AI Engine precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado com shell</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo.</string>
@@ -1176,7 +1186,7 @@
     <string name="security_center_beauty_title">Assistente da câmera frontal</string>
     <string name="security_center_bubble_and_freeform_title">Bolha e janelas flutuantes</string>
     <string name="security_center_newbox_title">Barra lateral</string>
-    <string name="security_center_dolby_open">Feche a janela pop-up Dolby</string>
+    <string name="security_center_dolby_open">Fechar janela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Exibir temperatura da bateria</string>
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Precisão de localização mais baixa</string>
@@ -1187,11 +1197,12 @@
     <string name="security_center_get_number">Gerencie o app para obter o número do celular e faça login com um clique</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
-    <string name="security_center_beauty_light_auto">Desbloquear Brilho da luz de preenchimento</string>
+    <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento dianteira</string>
     <string name="security_center_beauty_face">Desbloquear Embelezar para videochamadas</string>
     <string name="security_center_beauty_privacy">Desbloquear Câmera de privacidade</string>
     <string name="security_center_beauty_pc">Desbloquear Mantenha os rostos centralizados</string>
     <string name="security_center_disable_root_check">Desativar detecção de root</string>
+    <string name="security_center_install_intercept">Desativar interceptação de instalação USB</string>
     <string name="security_center_remove_macro_black_list">Remover lista negra de combinação automática</string>
     <string name="security_center_disable_send_malicious_app_notification">Desativar notificações de \"App malicioso encontrado\"</string>
     <string name="security_center_newbox_custom_enable">Ativar personalização</string>
@@ -1209,15 +1220,15 @@
     <string name="security_disable_app_summary">Permite desativar qualquer app na página de informações do app</string>
     <string name="security_disable_app_url_title">Aplicar gerenciamento de link aberto</string>
     <string name="security_disable_app_url_summary">Altere a configuração \"Limpar padrões\" para \"Abrir por padrão\" nas informações do app</string>
-    <string name="app_link_open_always">Permite que o app abra links compatíveis</string>
+    <string name="app_link_open_always">Permitir que o app abra links compatíveis</string>
     <string name="app_link_open_never">Não permitir que apps abram links</string>
     <string name="open_by_default">Abrir por padrão</string>
     <string name="security_score">Desativar otimização de verificação de saúde</string>
-    <string name="security_score_summary">Bloquear 100 pontos e desative a otimização</string>
+    <string name="security_score_summary">Bloqueie em 100 pontos e desative a otimização</string>
     <string name="security_center_skip_waiting_time">Ignorar limite de contagem regressiva</string>
-    <string name="security_center_skip_waiting_time_desc">Ignorar a contagem regressiva de espera para opções perigosas</string>
+    <string name="security_center_skip_waiting_time_desc">Ignore a contagem regressiva de espera para opções perigosas</string>
     <string name="security_center_newbox_blur">Blur da barra lateral</string>
-    <string name="security_center_remove_conversation_bubble_settings_restriction">Remover restrições do app de notificação em bolha</string>
+    <string name="security_center_remove_conversation_bubble_settings_restriction">Remover restrições do app de conversas em bolhas</string>
     <string name="security_center_remove_low_battery_reminder_title">Ocultar aviso sobre nível de bateria fraca</string>
     <string name="security_center_remove_low_battery_reminder_summary">Quando a bateria estiver abaixo de 20%, a caixa de diálogo de aviso para ativar o modo de economia de bateria não aparecerá mais.</string>
     <string name="security_center_remove_open_app_confirmation_popup">Remover pop-up de app aberto</string>
@@ -1230,7 +1241,7 @@
     <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fio</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
     <string name="security_center_invert_color">Ícone invertido</string>
-    <string name="security_center_invert_color_summary">Inverta as cores selecionadas dos ícones em alguns planos de fundo para melhor visibilidade.\nEsta função pode ter inversões de cores anormais, por favor, ative-a conforme apropriado.</string>
+    <string name="security_center_invert_color_summary">Inverta as cores selecionadas dos ícones em alguns papéis de parede para melhor visibilidade.\nEsta função pode ter inversões de cores anormais. Por favor, ative-a conforme apropriado.</string>
     <string name="security_center_blurradius">Valor do blur da barra lateral</string>
     <string name="security_center_color">Cor da barra lateral</string>
     <string name="security_center_other_title">Outros</string>
@@ -1244,16 +1255,16 @@
     <string name="security_center_unlock_gun_service">Desbloquear Serviço de armas</string>
     <string name="security_center_disable_remove_screen_hold_on">Desativar remover tela em espera</string>
     <string name="security_center_unlock_memc">Desbloquear MEMC</string>
-    <string name="security_center_unlock_enhance_contours">Desbloquear Melhorar contornos</string>
+    <string name="security_center_unlock_enhance_contours">Desbloquear Contornos aprimorados</string>
     <string name="security_center_unlock_s_resolution">Desbloquear Super resolução</string>
     <string name="security_center_hide_sidebar">Ocultar barra lateral</string>
     <string name="security_center_leave_open">Deixe o slide desdobrado</string>
     <string name="security_center_sidebar_show_suggest">Desativar mostrar sugestões de apps</string>
-    <string name="security_center_unlock_new_vb">Desbloquear nova caixa de vídeo</string>
+    <string name="security_center_unlock_new_vb">Desbloquear nova caixa de ferramentas de vídeo</string>
     <string name="security_center_game_performance_wild_mode">Desbloquear Modo agressivo de desempenho de jogos</string>
     <string name="security_center_unlock_fbo">Desbloquear FBO</string>
     <string name="security_center_sidebar_videobox_title">Caixa de ferramentas de vídeo</string>
-    <string name="security_center_sidebar_gamebox_title">Atalhos no jogo</string>
+    <string name="security_center_sidebar_gamebox_title">Caixa de jogos</string>
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
     <string name="security_center_game_speed">Iniciar jogo rapidamente</string>
     <string name="security_center_game_speed_desc">Ao iniciar o jogo, ele passa a animação da tela de abertura em velocidade 3x, o que só é suportado por alguns jogos.</string>
@@ -1286,9 +1297,9 @@
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Controle de nuvem</string>
     <string name="joyose_disable_cloud_control">Desativar Controle de nuvem</string>
-    <string name="joyose_game_title">Game Space</string>
+    <string name="joyose_game_title">Game Turbo</string>
     <string name="joyose_enable_gpu_tuner">Agendamento de desempenho</string>
-    <string name="joyose_enable_gpu_tuner_desc">Após abrir, adicione as configurações relacionadas à GPU dos jogos na parte inferior do Game Space.</string>
+    <string name="joyose_enable_gpu_tuner_desc">Após abrir, adicione as configurações relacionadas à GPU dos jogos na parte inferior do Game Turbo.</string>
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">Disfarçar modelo</string>
@@ -1335,7 +1346,7 @@
     <string name="app_version_not_supported">Versão não suportada</string>
     <string name="various_location_simulation_title">Localização falsa</string>
     <string name="various_dialog_title">Caixa de diálogo</string>
-    <string name="various_mipad_title">MiPad</string>
+    <string name="various_mipad_title">Mi Pad</string>
     <string name="various_open_aosp_something_title">Recursos ocultos</string>
     <string name="various_open_aosp_something_desc">Abra convenientemente a interface AOSP oculta</string>
     <string name="various_nobrightness">Rejeitar brilho forçado</string>
@@ -1454,7 +1465,7 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o fornecedor que você está usando para obter detalhes.</string>
-    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou e a versão atual que você está usando pode não ser da versão oficial do Re.chronoRain, e pode conter código malicioso.</string>
+    <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
+    <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
 </resources>
