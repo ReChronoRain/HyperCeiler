@@ -2,8 +2,10 @@ package com.sevtinge.hyperceiler.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -11,9 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
-
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.ref.WeakReference;
@@ -26,6 +27,7 @@ public class XposedUtils extends XposedLogUtils {
     public static WeakReference<TextView> mPct;
 
     // public  Context mModuleContext = null;
+    public static final ResourcesHook mResHook = XposedInit.mResHook;
 
     public static void setTextView(TextView textView) {
         mPct = new WeakReference<>(textView);
@@ -106,9 +108,9 @@ public class XposedUtils extends XposedLogUtils {
             getTextView().setPadding(Math.round(20 * density), Math.round(10 * density), Math.round(18 * density), Math.round(12 * density));
             getTextView().setLayoutParams(lp);
             try {
-                Resources modRes = getModuleRes(context);
-                getTextView().setTextColor(modRes.getColor(R.color.color_on_surface_variant, context.getTheme()));
-                getTextView().setBackground(ResourcesCompat.getDrawable(modRes, R.drawable.input_background, context.getTheme()));
+                // Resources modRes = getModuleRes(context);
+                getTextView().setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
+                getTextView().setBackgroundResource(mResHook.addResource("input_background", R.drawable.input_background));
             } catch (Throwable err) {
                 XposedLogUtils.logE("ShowVolumePct", err);
             }

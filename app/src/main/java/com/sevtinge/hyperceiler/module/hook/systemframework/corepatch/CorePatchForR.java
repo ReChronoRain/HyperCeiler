@@ -13,6 +13,7 @@ import android.util.Log;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.api.AppApi;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -37,7 +38,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private final static Method deoptimizeMethod;
-    private static final boolean isNotReleaseVersion = !BuildConfig.BUILD_TYPE.contains("release");
+    private static final boolean isNotReleaseVersion = !AppApi.isRelease();
     public static final String TAG = "[CorePatchForR]";
 
     static {
