@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.utils.devicesdk
 
 import android.os.Build
+import com.sevtinge.hyperceiler.utils.PropUtils.getProp
 
 /**
 获取设备 Android 版本 、MIUI 版本 、HyperOS 版本 等

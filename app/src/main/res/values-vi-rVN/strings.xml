@@ -77,6 +77,7 @@
     <string name="rest_permission">Bây giờ bạn có thể tùy chỉnh bật quyền cho cài đặt này.</string>
     <string name="disable_detailed_log">Vô hiệu hóa nhật ký chi tiết</string>
     <string name="disable_detailed_log_desc">Khởi động lại để áp dụng</string>
+    <string name="disable_detailed_log_more">Phiên bản Debug Canary không hỗ trợ điều chỉnh mức độ nhật ký</string>
     <string name="settings_safe_mode">Chế độ an toàn</string>
     <string name="settings_safe_mode_desc">Dừng chức năng module</string>
     <string name="about_developer_title">Nhà phát triển</string>
@@ -762,6 +763,15 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_enable_fold_area">Mở khoá khu vực điện thoại gập</string>
     <string name="system_settings_enable_area_desc">Các thiết bị không được hỗ trợ sẽ khiến cài đặt bị lỗi sau khi được mở khóa</string>
     <string name="system_settings_unlock_google_header">Tắt các cổng Google ẩn</string>
+    <string name="system_settings_usb_mode">Tắt cửa sổ nổi lên khi kết nối USB</string>
+    <string name="system_settings_usb_mode_choose">Tùy chọn dùng USB mặc định</string>
+    <string name="system_settings_usb_default">mặc định</string>
+    <string name="system_usb_use_charging_only">Chỉ sạc</string>
+    <string name="system_usb_use_file_transfers">Chuyển tập tin</string>
+    <string name="system_usb_use_photo_transfers">Chuyển ảnh</string>
+    <string name="system_usb_use_MIDI">Chế độ MIDI</string>
+    <string name="system_usb_reverse_charge">Sạc ngược</string>
+    <string name="system_usb_tethering">Chia sẻ kết nối qua USB</string>
     <string name="system_settings_connection_sharing_title">Kết nối &amp; Chia sẻ</string>
     <string name="system_settings_new_nfc_page">Trang NFC mới</string>
     <string name="system_settings_new_nfc_page_desc">Sau khi mở, ứng dụng thanh toán mặc định không được hỗ trợ không thể chọn Ví Xiaomi</string>
@@ -1198,6 +1208,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_beauty_privacy">Mở khóa Bảo mật máy ảnh</string>
     <string name="security_center_beauty_pc">Mở khóa Chân dung luôn ở giữa</string>
     <string name="security_center_disable_root_check">Tắt phát hiện rủi ro</string>
+    <string name="security_center_install_intercept">Tắt chặn cài đặt USB</string>
     <string name="security_center_remove_macro_black_list">Xóa danh sách đen combo tự động</string>
     <string name="security_center_disable_send_malicious_app_notification">Tắt thông báo \"Tìm thấy ứng dụng độc hại\"</string>
     <string name="security_center_newbox_custom_enable">Mở tùy chỉnh</string>
@@ -1352,7 +1363,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="various_open_aosp_something_title">Tính năng ẩn</string>
     <string name="various_open_aosp_something_desc">Mở giao diện AOSP \"tính năng ẩn\"</string>
     <string name="various_nobrightness">Từ chối độ sáng bắt buộc</string>
-    <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
+    <string name="various_no_overscroll">Tắt ranh giới trả lời</string>
     <string name="various_disable_access_device_logs">Bỏ qua thông báo yêu cầu truy cập nhật ký thiết bị</string>
     <string name="various_phrase_clipboardlist">Đã xóa số bảng ghi tạm và giới hạn thời gian</string>
     <string name="various_phrase_clipboardlist_more">Sau khi kích hoạt, chọn phạm vi phương thức nhập và khởi động lại. Việc xóa một nội dung bị vô hiệu hóa</string>
