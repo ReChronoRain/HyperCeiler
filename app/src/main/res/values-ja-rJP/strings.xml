@@ -590,7 +590,6 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">このレベル以下のネットワーク速度は低速とみなされ、別のインジケータアイコンが表示されます（一部のアイコンのみ）</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">バイト毎秒の接尾辞 (*b/s) を非表示</string>
     <string name="system_ui_statusbar_network_speed_icon">インジケーターアイコン</string>
-    <string name="system_ui_statusbar_network_speed_Bs">B/s</string>
     <string name="system_ui_statusbar_clock_mode">カスタムクロックモード</string>
     <string name="system_ui_statusbar_clock_editor">時計のフォーマット</string>
     <string name="system_ui_statusbar_clock_year">年を表示</string>
