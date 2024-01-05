@@ -1,10 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.annotation.SuppressLint
-import android.app.NotificationManager
 import android.content.ComponentName
-import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +9,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px
-import com.sevtinge.hyperceiler.utils.SystemProperties
+import com.sevtinge.hyperceiler.utils.PropUtils
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.setObjectField
@@ -39,8 +35,9 @@ object NotificationWeather : BaseHook() {
                 val context = viewGroup.context
 
                 // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
-                if ((SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 &&
-                    !SystemProperties[context, "ro.build.version.incremental"].endsWith("XM")) &&
+                if ((PropUtils.getProp(context, "ro.build.date.utc").toInt() >= 1647014400 &&
+                        !PropUtils.getProp(context, "ro.build.version.incremental")
+                            .endsWith("XM")) &&
                     !isMoreHyperOSVersion(1f)
                 ) {
                     // 获取原组件
@@ -197,10 +194,11 @@ object NotificationWeather : BaseHook() {
                 val context = viewGroup.context
                 val mOrientation = viewGroup.getObjectField("mOrientation") as Int
                 // MIUI编译时间大于 2022-03-12 00:00:00 且为内测版
-                if (SystemProperties[context, "ro.build.date.utc"].toInt() >= 1647014400 && !SystemProperties[context, "ro.build.version.incremental"].endsWith(
+                if (PropUtils.getProp(context, "ro.build.date.utc").toInt() >= 1647014400 &&
+                    !PropUtils.getProp(context, "ro.build.version.incremental").endsWith(
                         "DEV"
                     ) &&
-                    !SystemProperties[context, "ro.build.version.incremental"].endsWith("XM")
+                    !PropUtils.getProp(context, "ro.build.version.incremental").endsWith("XM")
                 ) {
                     if (mOrientation == 1) {
                         mConstraintLayout!!.visibility = View.VISIBLE

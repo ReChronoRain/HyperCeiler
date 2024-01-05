@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
 import java.lang.reflect.Method;
@@ -8,6 +9,15 @@ import java.lang.reflect.Method;
 @SuppressLint("PrivateApi")
 public class PropUtils {
     private static final String TAG = "[HyperCeiler]";
+
+    public static String getProp(Context context, String name) {
+        try {
+            return classLoaderMethod(context, name);
+        } catch (Throwable e) {
+            Log.e(TAG, "PropUtils classLoader getProp String", e);
+            return "";
+        }
+    }
 
     public static boolean getProp(String name, boolean def) {
         try {
@@ -65,10 +75,18 @@ public class PropUtils {
      *
      * @param name
      * @param vale
-     * @return
+     * @return boolean
      */
     public static boolean setProp(String name, Object vale) {
         return ShellUtils.getResultBoolean("setprop " + name + " " + vale, true);
+    }
+
+    private static String classLoaderMethod(Context context, String name) throws Throwable {
+        ClassLoader classLoader = context.getClassLoader();
+        Class<?> cls = classLoader.loadClass("android.os.SystemProperties");
+        Method method = cls.getDeclaredMethod("get", String.class);
+        method.setAccessible(true);
+        return (String) method.invoke(cls, name);
     }
 
     /**

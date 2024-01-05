@@ -14,7 +14,6 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.hyperceiler.utils.PrefsUtils.getSharedPrefs
 import com.sevtinge.hyperceiler.utils.PropUtils
 import moralnorm.internal.utils.DeviceHelper
-import java.io.DataOutputStream
 import java.util.*
 
 fun dp2px(dpValue: Float): Int = TypedValue.applyDimension(
@@ -53,24 +52,6 @@ fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
 fun checkVersionCode(): Long = getPackageInfoCompat(EzXHelper.appContext.packageName).longVersionCode
 
 fun checkAndroidVersion(): String = PropUtils.getProp("ro.build.version.release")
-
-/**
- * 执行 Shell 命令
- * @param command Shell 命令
- */
-fun execShell(command: String) {
-    try {
-        val p = Runtime.getRuntime().exec("su")
-        val outputStream = p.outputStream
-        val dataOutputStream = DataOutputStream(outputStream)
-        dataOutputStream.writeBytes(command)
-        dataOutputStream.flush()
-        dataOutputStream.close()
-        outputStream.close()
-    } catch (t: Throwable) {
-        t.printStackTrace()
-    }
-}
 
 @SuppressLint("DiscouragedApi")
 fun getCornerRadiusTop(): Int {
