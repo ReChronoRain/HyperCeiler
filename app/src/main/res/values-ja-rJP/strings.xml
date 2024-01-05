@@ -77,6 +77,7 @@
     <string name="rest_permission">このオプションは手動で許可する必要があります。</string>
     <string name="disable_detailed_log">詳細なログを無効化</string>
     <string name="disable_detailed_log_desc">適用するには再起動してください</string>
+    <string name="disable_detailed_log_more">Debug Canary バージョンはログレベルの調整に対応していません</string>
     <string name="settings_safe_mode">セーフモード</string>
     <string name="settings_safe_mode_desc">モジュールの機能を停止</string>
     <string name="about_developer_title">開発者</string>
@@ -139,6 +140,7 @@
     <string name="bottom_margin">下の余白</string>
     <string name="left_margin">左の余白</string>
     <string name="right_margin">右の余白</string>
+    <string name="spacing_margin">行の間隔</string>
     <string name="horizontal_margin">横方向の余白</string>
     <string name="vertical_offset">上下のオフセット</string>
     <string name="horizontal_alignment">水平方向の配置</string>
@@ -319,6 +321,10 @@
     <string name="system_framework_allow_untrusted_touch">信頼されていないタッチ操作を許可</string>
     <string name="system_framework_allow_uninstall">一部のプリインストールアプリのアンインストールを許可する</string>
     <string name="system_framework_allow_uninstall_desc">この機能は危険です</string>
+    <string name="system_framework_clipboard_whitelist">アプリにバックグラウンドでのクリップボードの読み取りを許可する</string>
+    <string name="system_framework_clipboard_whitelist_desc">アプリに READ_LOGS 権限の取得を許可する</string>
+    <string name="system_framework_clipboard_whitelist_list">クリップボードをバックグラウンドで読み取りできるホワイトリスト</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">1 つ以上のアプリの場合は「|」の記号で区切ってください</string>
     <string name="system_framework_disable_app_link_verify">アプリのリンク検証を無効化</string>
     <string name="system_framework_disable_app_link_verify_desc">アプリ設定で対応リンクを有効化しなくても、リンクを開いたときに対応しているアプリで直接開くようにします</string>
     <string name="system_framework_clean_share_menu">共有メニューを整理する</string>
@@ -605,6 +611,7 @@
     <string name="system_ui_statusbar_clock_desc">時計形式の例</string>
     <string name="system_ui_statusbar_clock_size">時計のサイズ</string>
     <string name="system_ui_statusbar_clock_double_size">二行の時計のサイズ</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">2 行で表示されている場合にのみ有効です</string>
     <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
     <string name="system_ui_statusbar_indicator_battery_title">電源関連</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度関連</string>
@@ -635,6 +642,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">シャイン</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">低バッテリーレベル</string>
     <string name="system_ui_status_bar_battery_indicator_test">テスト</string>
+    <string name="system_ui_status_bar_strong_toast_layout">レイアウト</string>
+    <string name="system_ui_status_bar_strong_toast_text">情報</string>
+    <string name="system_ui_status_bar_strong_toast_test">デバッグ</string>
+    <string name="system_ui_status_bar_strong_toast_hide">スマートストロングトーストを隠す</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">短いテキスト出力</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">長いテキスト出力</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">アニメーション出力</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">テキスト</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">これはスクロール形式で出力される長いテキストです</string>
     <string name="system_ui_controlcenter_title">コントロールセンター</string>
     <string name="system_ui_controlcenter_card_title">カード</string>
     <string name="system_ui_controlcenter_magnet_title">便利ツール</string>
@@ -644,6 +660,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s はオフです</string>
     <string name="system_control_center_5g_tile">5G ネットワークスイッチ</string>
     <string name="system_control_center_5g_toggle_label">5G ネットワーク</string>
+    <string name="system_control_center_taplus_label">Taplus スイッチ</string>
     <string name="system_control_center_sunshine_mode">太陽光モード</string>
     <string name="system_ui_control_auto_close">タイルを自動的に閉じる</string>
     <string name="system_ui_control_auto_close_more">ステータスバーのタイルをタップしたとき、自動的にステータスバーを閉じるようにします</string>
@@ -675,6 +692,7 @@
     <string name="system_ui_control_center_show_weather">天気を表示</string>
     <string name="system_ui_control_center_show_weather_city">都市を表示</string>
     <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
+    <string name="system_ui_control_center_expand_notification">通知を展開</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
     <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
@@ -688,6 +706,7 @@
     <string name="system_ui_control_center_notifrowmenu">拡張通知メニュー</string>
     <string name="system_ui_control_center_notifrowmenu_desc">アプリ情報を開く、強制停止、フローティングウィンドウで開く機能を通知メニューに追加します (通知を左にスワイプすると開けます)</string>
     <string name="system_ui_unlock_super_volume">スーパーボリュームをアンロック</string>
+    <string name="system_ui_unlock_super_volume_desc">実験的な機能です。実際の機能は基礎となるコードでサポートされている必要があります</string>
     <string name="system_ui_controlcenter_new_title">新しいコントロールセンター</string>
     <string name="system_ui_controlcenter_old_title">従来のコントロールセンター</string>
     <string name="system_ui_controlcenter_unlock_old_title">コントロールセンターのスタイルをアンロック</string>
@@ -708,6 +727,8 @@
     <string name="system_ui_origin_charge_animation">ネイティブ充電アニメーション</string>
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
+    <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">HyperOS for Pad 横画面の上部にあるコンビニエンスウインドウボタンを非表示にします</string>
     <string name="system_ui_others_pct_title">データ表示</string>
     <string name="system_showpct_title">明るさのパーセンテージを表示</string>
     <string name="system_cc_volume_showpct_title">音のパーセンテージを表示</string>
@@ -740,6 +761,15 @@
     <string name="system_settings_enable_fold_area">折りたたみ式デバイスの機能をアンロック</string>
     <string name="system_settings_enable_area_desc">サポートされていないデバイスの場合、アンロック後に設定がクラッシュします</string>
     <string name="system_settings_unlock_google_header">Google 項目をアンロック</string>
+    <string name="system_settings_usb_mode">USB 接続時にポップアップウインドウを表示しません</string>
+    <string name="system_settings_usb_mode_choose">USB のデフォルトオプション</string>
+    <string name="system_settings_usb_default">デフォルト</string>
+    <string name="system_usb_use_charging_only">充電のみ</string>
+    <string name="system_usb_use_file_transfers">ファイル転送</string>
+    <string name="system_usb_use_photo_transfers">写真転送</string>
+    <string name="system_usb_use_MIDI">MIDI モード</string>
+    <string name="system_usb_reverse_charge">リバース充電</string>
+    <string name="system_usb_tethering">USB テザリング</string>
     <string name="system_settings_connection_sharing_title">ネットワーク接続と共有</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
     <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
@@ -752,7 +782,7 @@
     <string name="system_settings_ai_image_unlock_memc">MEMC をアンロック</string>
     <string name="system_settings_permission_title">アクセス許可</string>
     <string name="system_settings_more_notification_settings">その他の通知設定を表示</string>
-    <string name="system_settings_more_notification_settings_summary">通知の重要度を表示します</string>
+    <string name="system_settings_more_notification_settings_summary">変更を有効にするには、システム UI と設定のスコープを再起動する必要があります</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
@@ -807,7 +837,7 @@
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">サードパーティーのブラウザーを使用する</string>
-    <string name="content_extension_browser_desc">Taplus の検索で MIUI ブラウザーの使用を強制しないようにします。デフォルトのブラウザーを自分で選択する必要があります。</string>
+    <string name="content_extension_browser_desc">Taplus の検索でシステムブラウザの使用を強制しないようにします。デフォルトのブラウザを自分で選択する必要があります</string>
     <string name="content_extension_unlock_taplus_title">Taplus をアンロック</string>
     <string name="content_extension_unlock_taplus_horizontal_title">横向き画面での Taplus の使用を許可</string>
     <string name="content_extension_double_press">ジェスチャー：2本指</string>
@@ -825,6 +855,7 @@
     <!--Backup-->
     <string name="backup">バックアップ</string>
     <string name="backup_allow_all_apps">すべてのアプリのバックアップを許可</string>
+    <string name="backup_unlock_broken_screen_backup">画面が破損している状態でのバックアップをアンロック</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">デバイスの使用制限を解除</string>
@@ -839,6 +870,8 @@
     <string name="gallery_enable_video_post">ビデオエフェクトをアンロック</string>
     <string name="gallery_enable_video_editor">ビデオエディターをアンロック</string>
     <string name="gallery_enable_text_yanhua">テキスト花火をアンロック</string>
+    <string name="gallery_enable_un_privacy_watermark">プライバシーウォーターマークの文字数制限を削除</string>
+    <string name="gallery_enable_un_privacy_watermark_more">有効にすると、長い文字に対応するよう透かしの密度をわずかに増加させます</string>
     <string name="gallery_enable_remover_2">消去機能をアンロック</string>
     <string name="gallery_enable_magic_matting">カットをアンロック</string>
     <string name="gallery_enable_magic_sky">空の合成をアンロック</string>
@@ -943,6 +976,7 @@
     <string name="home_folder_width_title">フォルダーの幅一杯にする</string>
     <string name="home_folder_space_title">余白を減らす</string>
     <string name="home_folder_blur_title">背景のぼかし</string>
+    <string name="home_folder_recommend_apps_switch">「今日のおすすめ」のスイッチを隠す</string>
     <string name="home_folder_unlock_blur_supported">フォルダのぼかし制限を削除</string>
     <string name="home_folder_unlock_blur_supported_summary">サードパーティのテーマで背景ぼかしの制限を削除します</string>
     <string name="home_folder_anim_title">リバウンドのアニメーション</string>
@@ -1007,7 +1041,7 @@
     <string name="home_recent_blur">背景のぼかし</string>
     <string name="home_widget">ウィジェット</string>
     <string name="home_widget_all_widget_animation">ウィジェットのアニメーション</string>
-    <string name="home_widget_show_miui_widget">MIUI ウィジェットを表示</string>
+    <string name="home_widget_show_miui_widget">システムウィジェットを表示</string>
     <string name="home_widget_show_miui_widget_desc">Android ウィジェットページに MIUI ウィジェットを表示</string>
     <string name="home_widget_corner_radius">ウィジェットの角の丸み</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Android ウィジェットを -1 画面に移動することを許可</string>
@@ -1145,6 +1179,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">セキュリティ</string>
     <string name="security_center_pad">タブレットのセキュリティセンター</string>
+    <string name="security_center_hyperos">セキュリティツール</string>
     <string name="security_center_app_title">アプリの管理</string>
     <string name="security_center_battery_title">バッテリーセーバーとバッテリー</string>
     <string name="security_center_privacy_title">プライバシー保護</string>
@@ -1156,6 +1191,7 @@
     <string name="security_center_ai_clipboard">クリップボードの保護</string>
     <string name="security_center_blur_location">おおまかな位置情報</string>
     <string name="security_center_gms_open">GMS サービス</string>
+    <string name="security_center_taplus">Taplus スイッチ</string>
     <string name="security_center_flash_light">フラッシュライトの明るさ制御</string>
     <string name="security_center_flash_light_more">明るさスライダーをドラッグしてフラッシュライトの明るさを制御できるようにします</string>
     <string name="security_center_get_number">電話番号を使って簡単ログインするアプリを管理</string>
@@ -1166,6 +1202,7 @@
     <string name="security_center_beauty_privacy">プライバシーカメラをアンロック</string>
     <string name="security_center_beauty_pc">顔を中央に維持する機能をアンロック</string>
     <string name="security_center_disable_root_check">root 検出を無効化</string>
+    <string name="security_center_install_intercept">USB インストールの傍受を無効化</string>
     <string name="security_center_remove_macro_black_list">マクロ機能のブラックリストを削除</string>
     <string name="security_center_disable_send_malicious_app_notification">「悪意のあるアプリが見つかりました」通知を無効化</string>
     <string name="security_center_newbox_custom_enable">カスタムを有効化</string>
@@ -1229,6 +1266,8 @@
     <string name="security_center_sidebar_videobox_title">ビデオボックス</string>
     <string name="security_center_sidebar_gamebox_title">ゲームボックス</string>
     <string name="security_center_sidebar_function_title">サイドバー機能</string>
+    <string name="security_center_game_speed">すぐにゲームを起動</string>
+    <string name="security_center_game_speed_desc">ゲーム起動時に開始画面のアニメーションを3倍の速度で表示します。一部のゲームにのみ対応しています</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">リスクの検出を無効化</string>
@@ -1264,7 +1303,7 @@
     <!--GetApps-->
     <string name="market">GetApps</string>
     <string name="market_device_modify">モデル名を偽装する</string>
-    <string name="market_device_modify_desc">デバイス名を Xiaomi 13 Ultra に偽装する</string>
+    <string name="market_device_modify_desc">モデルを別のデバイスに偽装することで、そのデバイスのアップデートを受信します</string>
     <string name="market_disable_new_icon">サードパーティ製アイコンの使用を禁止</string>
     <string name="market_disable_new_icon_desc">デスクトップをよりクリーンにする</string>
     <!--MIUI+-->
@@ -1317,8 +1356,8 @@
     <string name="various_phrase_clipboardlist_more">有効化した後、入力メソッドのスコープを選択して再起動してください</string>
     <string name="various_unlock_ime">IME をアンロック</string>
     <string name="various_unlock_ime_desc">オンにした後は、Xposed マネージャーでキーボードアプリをスコープに追加してください</string>
-    <string name="various_collapse_miui_title">MIUI のタイトル</string>
-    <string name="various_collapse_miui_title_desc">MIUIアプリのトップバーのタイトルを調整する</string>
+    <string name="various_collapse_miui_title">システムタイトルのスタイル</string>
+    <string name="various_collapse_miui_title_desc">システムアプリのトップバーのタイトルを調整します</string>
     <string name="various_disable_folder_cantuse">利用できないフォルダの上限を無効化</string>
     <string name="various_super_clipboard_title">スーパークリップボード</string>
     <string name="various_unlock_super_clipboard">スーパークリップボードをアンロック</string>
@@ -1333,9 +1372,9 @@
     <string name="various_open_aosp_extremely_dark_title">さらに輝度を下げる</string>
     <string name="various_mipad_input_title">入力</string>
     <string name="various_mipad_input_close_magic_title">Magic Pointer をオフにする</string>
-    <string name="various_mipad_input_close_magic_desc">MIUI for Pad の丸いマウスをオフにし、Android の元のマウスポインターに戻します</string>
+    <string name="various_mipad_input_close_magic_desc">Xiaomi Pad のマウスポインターを丸ではなく AOSP 版に戻します</string>
     <string name="various_mipad_input_restore_esc_title">ESC キー機能を復元</string>
-    <string name="various_mipad_input_restore_esc_desc">MIUIにより「戻る」機能に強制的に割り当てられたESCキーを復元します</string>
+    <string name="various_mipad_input_restore_esc_desc">Xiaomi Pad システムにより「戻る」機能に強制的に割り当てられた ESC キーを復元します</string>
     <string name="various_mipad_input_disable_bluetooth_title">スタイラスの Bluetooth 制限を解除</string>
     <string name="various_mipad_input_disable_bluetooth_desc">Xiaomi 公式スタイラスでない、互換性のあるスタイラスでも使用できるようにします</string>
     <string name="various_mipad_input_bluetooth_version_title">ドライバーバージョン</string>
