@@ -77,6 +77,7 @@
     <string name="rest_permission">Ahora tiene que activar manualmente los permisos para esta opción.</string>
     <string name="disable_detailed_log">Desactivar log detallado</string>
     <string name="disable_detailed_log_desc">Reiniciar el móvil para aplicarlo</string>
+    <string name="disable_detailed_log_more">En la versión de Debug Canary no se puede ajustar el nivel de registro</string>
     <string name="settings_safe_mode">Modo de seguridad</string>
     <string name="settings_safe_mode_desc">Parar funciones del módulo</string>
     <string name="about_developer_title">Desarrollador</string>
@@ -139,6 +140,7 @@
     <string name="bottom_margin">Margen del fondo</string>
     <string name="left_margin">Margen izquierdo</string>
     <string name="right_margin">Margen derecho</string>
+    <string name="spacing_margin">Espacio entre líneas</string>
     <string name="horizontal_margin">Margen horizontal</string>
     <string name="vertical_offset">Desplazamiento de arriba y abajo</string>
     <string name="horizontal_alignment">Alineación horizontal</string>
@@ -319,6 +321,10 @@
     <string name="system_framework_allow_untrusted_touch">Permitir toques no confiables</string>
     <string name="system_framework_allow_uninstall">Permitir que se desinstalen algunas aplicaciones de preinstalación</string>
     <string name="system_framework_allow_uninstall_desc">Esta función es peligrosa</string>
+    <string name="system_framework_clipboard_whitelist">Se permite que las aplicaciones lean el portapapeles en segundo plano</string>
+    <string name="system_framework_clipboard_whitelist_desc">Se permite que las aplicaciones obtengan READ_LOGS</string>
+    <string name="system_framework_clipboard_whitelist_list">La lista blanca que puede leer el portapapeles en segundo plano</string>
+    <string name="system_framework_clipboard_whitelist_list_desc">Para más de una aplicación, separe con |</string>
     <string name="system_framework_disable_app_link_verify">Desactivar la verificación de enlace de aplicación</string>
     <string name="system_framework_disable_app_link_verify_desc">Revertir a abrir aplicaciones compatibles directas al abrir enlaces sin activar los enlaces soportados en configuraciones de aplicaciones</string>
     <string name="system_framework_clean_share_menu">Limpiar el menú de compartir</string>
@@ -605,6 +611,7 @@
     <string name="system_ui_statusbar_clock_desc">Ejemplo de formato de reloj</string>
     <string name="system_ui_statusbar_clock_size">Tamaño de reloj</string>
     <string name="system_ui_statusbar_clock_double_size">Tamaño del reloj de dos filas</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">Funciona solo cuando se muestra en dos filas</string>
     <string name="system_ui_disable_clock_anim">Deshabilite la animación de transición del reloj deslizante en el Centro de notificaciones</string>
     <string name="system_ui_statusbar_indicator_battery_title">Potencia relacionada</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperatura relacionada</string>
@@ -635,6 +642,15 @@
     <string name="system_ui_status_bar_battery_indicator_glow">Brillante</string>
     <string name="system_ui_status_bar_battery_indicator_low_level">Nivel de batería baja</string>
     <string name="system_ui_status_bar_battery_indicator_test">Prueba</string>
+    <string name="system_ui_status_bar_strong_toast_layout">Disposición</string>
+    <string name="system_ui_status_bar_strong_toast_text">Información</string>
+    <string name="system_ui_status_bar_strong_toast_test">Debug</string>
+    <string name="system_ui_status_bar_strong_toast_hide">Ocultar el toast fuerte inteligente</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text">Salida de texto corto</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text">Salida de texto largo</string>
+    <string name="system_ui_status_bar_strong_toast_test_video">Salida de animación</string>
+    <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
+    <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este es un largo texto que será salida en forma de desplazamiento</string>
     <string name="system_ui_controlcenter_title">Centro de control</string>
     <string name="system_ui_controlcenter_card_title">Tarjeta</string>
     <string name="system_ui_controlcenter_magnet_title">Pegatinas</string>
@@ -644,6 +660,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s está desactivado</string>
     <string name="system_control_center_5g_tile">Interruptor de red 5G</string>
     <string name="system_control_center_5g_toggle_label">Red de 5G</string>
+    <string name="system_control_center_taplus_label">Interruptores de Taplus</string>
     <string name="system_control_center_sunshine_mode">Modo de sol</string>
     <string name="system_ui_control_auto_close">Barra de estado se vuelve automáticamente</string>
     <string name="system_ui_control_auto_close_more">Después de abrir, hacer clic en pegatinas y automáticamente se vuelve la barra de estado</string>
@@ -675,6 +692,7 @@
     <string name="system_ui_control_center_show_weather">Mostrar el tiempo</string>
     <string name="system_ui_control_center_show_weather_city">Mostrar la ciudad</string>
     <string name="system_ui_control_center_mute_visible_notice">Se silencia el móvil cuando la pantalla está encendida</string>
+    <string name="system_ui_control_center_expand_notification">Expandir notificaciones</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Cuando la pantalla está encendida, la notificación emergente no reproduce el sonido de indicador</string>
     <string name="system_ui_control_center_rounded_rect">Pegatinas rectángulos redondeados</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radio de redondeo</string>
@@ -709,6 +727,8 @@
     <string name="system_ui_origin_charge_animation">Animación predeterminada de carga</string>
     <string name="system_ui_another_title">Otros</string>
     <string name="system_ui_disable_bluetooth_restrict">Evitar que el bluetooth se apague temporalmente</string>
+    <string name="system_ui_disable_miui_multi_win_switch">Ocultar el botón de ventana fácil</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Ocultar el botón de ventana fácil centrado en la parte superior de la pantalla horizontal de HyperOS para Pad</string>
     <string name="system_ui_others_pct_title">Visualización de datos</string>
     <string name="system_showpct_title">Mostrar el porcentaje de brillo</string>
     <string name="system_cc_volume_showpct_title">Muestra el porcentaje de sonido</string>
@@ -741,6 +761,15 @@
     <string name="system_settings_enable_fold_area">Desbloquear área de Fold</string>
     <string name="system_settings_enable_area_desc">Causará configuraciones de los dispositivos no soportados colapso después de desbloquearse</string>
     <string name="system_settings_unlock_google_header">Desbloquear la entrada de Google</string>
+    <string name="system_settings_usb_mode">No aparece ventana emergente cuando se conecta a USB</string>
+    <string name="system_settings_usb_mode_choose">Opción predeterminada de USB</string>
+    <string name="system_settings_usb_default">predeterminado</string>
+    <string name="system_usb_use_charging_only">Solo carga</string>
+    <string name="system_usb_use_file_transfers">Transferencia de archivos</string>
+    <string name="system_usb_use_photo_transfers">Transferencia de fotos</string>
+    <string name="system_usb_use_MIDI">Modo de MIDI</string>
+    <string name="system_usb_reverse_charge">Carga inversa</string>
+    <string name="system_usb_tethering">Anclaje de USB</string>
     <string name="system_settings_connection_sharing_title">Conexión &amp; compartimiento</string>
     <string name="system_settings_new_nfc_page">Nueva página de NFC</string>
     <string name="system_settings_new_nfc_page_desc">Después de abrirse, la aplicación de pago predeterminada en los modelos no soportados no puede ser Xiaomi Monedero</string>
@@ -826,6 +855,7 @@
     <!--Backup-->
     <string name="backup">Copia</string>
     <string name="backup_allow_all_apps">Se permite respaldar todas las aplicaciones</string>
+    <string name="backup_unlock_broken_screen_backup">Desbloquear copias de seguridad con la pantalla dañada</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Eliminar restricciones en el uso en móviles</string>
@@ -840,6 +870,8 @@
     <string name="gallery_enable_video_post">Desbloquear efectos cinematográficos</string>
     <string name="gallery_enable_video_editor">Desbloquear editor de vídeos</string>
     <string name="gallery_enable_text_yanhua">Desbloquear fuegos artificiales de texto</string>
+    <string name="gallery_enable_un_privacy_watermark">Eliminar el límite de palabras de marca de agua</string>
+    <string name="gallery_enable_un_privacy_watermark_more">Activarlo aumentará ligeramente la densidad de la marca de agua para acomodar conteos de palabras más largos</string>
     <string name="gallery_enable_remover_2">Desbloquear borrador mágico</string>
     <string name="gallery_enable_magic_matting">Desbloquear extracción mágica de imagen</string>
     <string name="gallery_enable_magic_sky">Desbloquear cielo mágico</string>
@@ -944,6 +976,7 @@
     <string name="home_folder_width_title">Usar la anchura de toda la carpeta</string>
     <string name="home_folder_space_title">Reducir el margen</string>
     <string name="home_folder_blur_title">Desenfoque del fondo</string>
+    <string name="home_folder_recommend_apps_switch">Ocultar la opción \"Recomendaciones de hoy\"</string>
     <string name="home_folder_unlock_blur_supported">Eliminar la restricción de desenfoque de carpeta</string>
     <string name="home_folder_unlock_blur_supported_summary">No hay restricciones en el desenfoque de fondo para materiales prémium de Xiaomi solo para la eliminación de temas no oficiales</string>
     <string name="home_folder_anim_title">Animación de rebote</string>
@@ -1146,6 +1179,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center">Seguridad</string>
     <string name="security_center_pad">Centro de seguridad de Tablet</string>
+    <string name="security_center_hyperos">Herramientas de seguridad</string>
     <string name="security_center_app_title">Administración de aplicaciones</string>
     <string name="security_center_battery_title">Ahorro de batería</string>
     <string name="security_center_privacy_title">Protección de privacidad</string>
@@ -1157,6 +1191,7 @@
     <string name="security_center_ai_clipboard">Proteger el portapapeles</string>
     <string name="security_center_blur_location">Menor precisión de posicionamiento</string>
     <string name="security_center_gms_open">Servicio de GMS</string>
+    <string name="security_center_taplus">Interruptores de Taplus</string>
     <string name="security_center_flash_light">Control de brillo de linterna</string>
     <string name="security_center_flash_light_more">Se permite controlar el brillo de la linterna por el deslizador de brillo</string>
     <string name="security_center_get_number">Administrar las aplicaciones que obtiene su número de teléfono móvil para iniciar sesión con un solo clic</string>
@@ -1167,6 +1202,7 @@
     <string name="security_center_beauty_privacy">Desbloquear la cámara de privacidad</string>
     <string name="security_center_beauty_pc">Desbloquear caras centradas</string>
     <string name="security_center_disable_root_check">No detecta Root</string>
+    <string name="security_center_install_intercept">Se permite la instalación vía USB</string>
     <string name="security_center_remove_macro_black_list">Quitar lista negra de autocombo</string>
     <string name="security_center_disable_send_malicious_app_notification">Desactivar notificaciones de \"Aplicación maliciosa encontrada\"</string>
     <string name="security_center_newbox_custom_enable">Activar personalización</string>
@@ -1230,6 +1266,8 @@
     <string name="security_center_sidebar_videobox_title">Caja de vídeo</string>
     <string name="security_center_sidebar_gamebox_title">Caja de juegos</string>
     <string name="security_center_sidebar_function_title">Función de barra lateral</string>
+    <string name="security_center_game_speed">Se inician juegos rápidamente</string>
+    <string name="security_center_game_speed_desc">Al iniciarse el juego, cuya animación de pantalla de apertura pasa a una velocidad de 3 veces, que solo funciona con algunos juegos</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">No detecta riesgos</string>
