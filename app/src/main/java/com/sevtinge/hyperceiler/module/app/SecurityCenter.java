@@ -119,7 +119,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
 
-        initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
+        //initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
