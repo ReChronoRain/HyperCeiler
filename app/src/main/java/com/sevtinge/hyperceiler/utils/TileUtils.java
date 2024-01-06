@@ -175,7 +175,6 @@ public abstract class TileUtils extends BaseHook {
             @Override
             protected void before(MethodHookParam param) {
                 String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                logE(TAG, "name: " + tileName);
                 if (tileName != null) {
                     if (tileName.equals(customName())) {
                         boolean isEnable = false;
