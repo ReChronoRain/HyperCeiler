@@ -2,7 +2,6 @@ package com.sevtinge.hyperceiler.ui.fragment.settings;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 
@@ -13,6 +12,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.ShellUtils;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;
@@ -21,7 +21,6 @@ import moralnorm.preference.SwitchPreference;
 
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
     implements Preference.OnPreferenceChangeListener {
-    SharedPreferences sharedPreferences = getSharedPreferences();
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
@@ -46,28 +45,27 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
 
         switch (BuildConfig.BUILD_TYPE) {
             case "canary" -> {
-                mLogLevel.setEnabled(false);
-                mLogLevel.setValue("3");
-                mLogLevel.setSummary(R.string.disable_detailed_log_more);
-                setLogLevel(3);
+                mLogLevel.setValueIndex(0);
+                mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
+                mLogLevel.setOnPreferenceChangeListener(
+                    (preference, o) -> {
+                        setLogLevel(Integer.parseInt((String) o) + 3);
+                        return true;
+                    }
+                );
             }
             case "debug" -> {
                 mLogLevel.setEnabled(false);
-                mLogLevel.setValue("4");
+                mLogLevel.setValueIndex(4);
                 mLogLevel.setSummary(R.string.disable_detailed_log_more);
-                setLogLevel(4);
             }
             default -> {
-                if (mLogLevel != null) {
-                    mLogLevel.setOnPreferenceChangeListener(
-                        (preference, o) -> {
-                            if (preference == mLogLevel) {
-                                setLogLevel(Integer.parseInt((String) o));
-                            }
-                            return true;
-                        }
-                    );
-                }
+                mLogLevel.setOnPreferenceChangeListener(
+                    (preference, o) -> {
+                        setLogLevel(Integer.parseInt((String) o));
+                        return true;
+                    }
+                );
             }
         }
 
@@ -117,20 +115,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
     }
 
     private void setLogLevel(int level) {
-        switch (level) {
-            case 0:
-                sharedPreferences.edit().putString("prefs_key_log_level", "0").apply();
-            case 1:
-                sharedPreferences.edit().putString("prefs_key_log_level", "1").apply();
-            case 2:
-                sharedPreferences.edit().putString("prefs_key_log_level", "2").apply();
-            case 3:
-                sharedPreferences.edit().putString("prefs_key_log_level", "3").apply();
-            case 4:
-                sharedPreferences.edit().putString("prefs_key_log_level", "4").apply();
-            default:
-                sharedPreferences.edit().putString("prefs_key_log_level", "2").apply();
-        }
+        ShellUtils.execCommand("setprop persist.hyperceiler.log.level " + level, true, false);
     }
 
     private void setIconMode(int mode) {

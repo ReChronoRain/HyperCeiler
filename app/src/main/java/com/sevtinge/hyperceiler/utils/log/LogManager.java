@@ -11,7 +11,7 @@ public class LogManager {
         int level = mPrefsMap.getStringAsInt("log_level", 2);
         switch (BuildConfig.BUILD_TYPE) {
             case "canary" -> {
-                return 3;
+                return level == 0 ? 3 : 4;
             }
             case "debug" -> {
                 return 4;

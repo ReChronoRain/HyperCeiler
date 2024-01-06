@@ -15,7 +15,7 @@ import com.sevtinge.hyperceiler.utils.PropUtils;
  * */
 public class AndroidLogUtils {
     private static final String Tag = "[HyperCeiler]: ";
-    private static final int logLevel = PropUtils.getProp("hyperceiler_log_level", 2);
+    private static final int logLevel = PropUtils.getProp("persist.hyperceiler.log.level", 2);
 
     public static void LogI(String tag, String msg) {
         if (logLevel < 3) return;
