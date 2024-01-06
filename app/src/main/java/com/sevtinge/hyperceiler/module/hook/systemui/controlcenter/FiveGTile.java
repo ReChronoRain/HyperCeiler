@@ -21,8 +21,6 @@ import miui.telephony.TelephonyManager;
 public class FiveGTile extends TileUtils {
     String mNfcTileClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tiles.MiuiNfcTile" :
         "com.android.systemui.qs.tiles.NfcTile";
-    String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
-        "com.android.systemui.qs.tileimpl.QSFactoryImpl";
 
     boolean Style = mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) == 1;
 
@@ -32,23 +30,14 @@ public class FiveGTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
-        return findClassIfExists(mQSFactoryClsName);
-    }
-
-    @Override
     public Class<?> customClass() {
         return findClassIfExists(mNfcTileClsName);
     }
 
     @Override
-    public String[] customTileProvider() {
-        String[] TileProvider = new String[4];
-        TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nfcTileProvider" : "mNfcTileProvider";
-        TileProvider[1] = "createTileInternal";
-        TileProvider[2] = "interceptCreateTile";
-        TileProvider[3] = "createTile";
-        return TileProvider;
+    public void customTileProvider() {
+        super.customTileProvider();
+        mTileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nfcTileProvider" : "mNfcTileProvider";
     }
 
     @Override
@@ -59,16 +48,6 @@ public class FiveGTile extends TileUtils {
     @Override
     public int customValue() {
         return R.string.system_control_center_5g_toggle_label;
-    }
-
-    @Override
-    public boolean needCustom() {
-        return true;
-    }
-
-    @Override
-    public boolean needAfter() {
-        return false;
     }
 
     @Override

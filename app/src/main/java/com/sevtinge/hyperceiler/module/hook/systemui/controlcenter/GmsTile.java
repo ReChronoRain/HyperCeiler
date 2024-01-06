@@ -1,12 +1,9 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.ArrayMap;
 
 import com.sevtinge.hyperceiler.R;
@@ -17,8 +14,6 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class GmsTile extends TileUtils {
     public final String CheckGms = "com.google.android.gms";
-    public final String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
-        "com.android.systemui.qs.tileimpl.QSFactoryInjectorImpl";
     public final String[] GmsAppsSystem = new String[]{
         "com.google.android.gms",
         "com.google.android.gsf",
@@ -37,28 +32,14 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
-        return findClassIfExists(mQSFactoryClsName);
-    }
-
-    @Override
     public Class<?> customClass() {
         return findClassIfExists("com.android.systemui.qs.tiles.ScreenLockTile");
     }
 
     @Override
-    public String[] customTileProvider() {
-        String[] TileProvider = new String[4];
-        TileProvider[0] = "screenLockTileProvider";
-        TileProvider[1] = "createTileInternal";
-        TileProvider[2] = "interceptCreateTile";
-        TileProvider[3] = "createTile";
-        return TileProvider;
-    }
-
-    @Override
-    public boolean needCustom() {
-        return true;
+    public void customTileProvider() {
+        super.customTileProvider();
+        mTileProvider[0] = "screenLockTileProvider";
     }
 
     @Override
@@ -69,11 +50,6 @@ public class GmsTile extends TileUtils {
     @Override
     public int customValue() {
         return R.string.security_center_gms_open;
-    }
-
-    @Override
-    public boolean needAfter() {
-        return false;
     }
 
     @Override

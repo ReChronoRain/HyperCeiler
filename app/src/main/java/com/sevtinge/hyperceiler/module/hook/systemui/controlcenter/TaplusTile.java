@@ -21,8 +21,6 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public class TaplusTile extends TileUtils {
-    String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
-        "com.android.systemui.qs.tileimpl.QSFactoryImpl";
     String mNightModeTile = "com.android.systemui.qs.tiles.NightModeTile";
 
     @Override
@@ -31,23 +29,14 @@ public class TaplusTile extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
-        return findClassIfExists(mQSFactoryClsName);
-    }
-
-    @Override
     public Class<?> customClass() {
         return findClassIfExists(mNightModeTile);
     }
 
     @Override
-    public String[] customTileProvider() {
-        String[] TileProvider = new String[5];
-        TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightModeTileProvider" : "mNightModeTileProvider";
-        TileProvider[1] = "createTileInternal";
-        TileProvider[2] = "interceptCreateTile";
-        TileProvider[3] = "createTile";
-        return TileProvider;
+    public void customTileProvider() {
+        super.customTileProvider();
+        mTileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightModeTileProvider" : "mNightModeTileProvider";
     }
 
     @Override
@@ -58,11 +47,6 @@ public class TaplusTile extends TileUtils {
     @Override
     public int customValue() {
         return R.string.system_control_center_taplus_label;
-    }
-
-    @Override
-    public boolean needCustom() {
-        return true;
     }
 
     @Override

@@ -1,12 +1,10 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.ArrayMap;
@@ -27,9 +25,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class FlashLight extends TileUtils {
-    String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
-        "com.android.systemui.qs.tileimpl.QSFactoryImpl";
-
     public final String flashFileMtk = "/sys/class/flashlight_core/flashlight/torchbrightness";
     public final String flashFileTorch = "/sys/class/leds/led:torch_0/brightness";
     public final String flashFileOther = "/sys/class/leds/flashlight/brightness";
@@ -45,28 +40,8 @@ public class FlashLight extends TileUtils {
     }
 
     @Override
-    public Class<?> customQSFactory() {
-        return findClassIfExists(mQSFactoryClsName);
-    }
-
-    @Override
     public Class<?> customClass() {
         return findClassIfExists("com.android.systemui.qs.tiles.MiuiFlashlightTile");
-    }
-
-    @Override
-    public String[] customTileProvider() {
-        String[] TileProvider = new String[4];
-        TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "flashlightTileProvider" : "mFlashlightTileProvider";
-        TileProvider[1] = "createTileInternal";
-        TileProvider[2] = "interceptCreateTile";
-        TileProvider[3] = "createTile";
-        return TileProvider;
-    }
-
-    @Override
-    public boolean needCustom() {
-        return false;
     }
 
     @Override
@@ -77,7 +52,6 @@ public class FlashLight extends TileUtils {
     @Override
     public void tileClickAfter(XC_MethodHook.MethodHookParam param, String tileName) {
     }
-
 
     @Override
     public ArrayMap<String, Integer> tileUpdateState(XC_MethodHook.MethodHookParam param, Class<?> mResourceIcon, String tileName) {
@@ -115,7 +89,6 @@ public class FlashLight extends TileUtils {
         }
         return null;
     }
-
 
     public void listening(Context mContext, XC_MethodHook.MethodHookParam param, Object flash, boolean isListening) {
         if (!isListening) {

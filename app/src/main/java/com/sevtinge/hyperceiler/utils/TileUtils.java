@@ -1,9 +1,12 @@
 package com.sevtinge.hyperceiler.utils;
 
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Switch;
@@ -16,9 +19,12 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public abstract class TileUtils extends BaseHook {
-    final boolean[] isListened = {false};
-    Class<?> mResourceIcon;
-    Class<?> mQSFactory;
+    private final String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
+        "com.android.systemui.qs.tileimpl.QSFactoryImpl";
+    private final boolean[] isListened = {false};
+    public String[] mTileProvider = new String[4];
+    private Class<?> mResourceIcon;
+    private Class<?> mQSFactory;
 
     /*固定语法，必须调用。
      * 调用方法：
@@ -29,11 +35,15 @@ public abstract class TileUtils extends BaseHook {
      * */
     @Override
     public void init() {
-        mQSFactory = customQSFactory();
+        mQSFactory = findClassIfExists(mQSFactoryClsName);
+        if (mQSFactory == null) {
+            logE(TAG, "mQSFactory can't is null");
+            return;
+        }
         Class<?> myTile = customClass();
         mResourceIcon = findClass("com.android.systemui.qs.tileimpl.QSTileImpl$ResourceIcon");
-        SystemUiHook(); // 不需要覆写
-        tileAllName(mQSFactory); // 不需要覆写
+        SystemUiHook();
+        tileAllName(mQSFactory);
         showStateMessage(myTile);
         if (SystemSDKKt.isAndroidVersion(34)) {
             tileAllName14(mQSFactory);
@@ -49,7 +59,7 @@ public abstract class TileUtils extends BaseHook {
                             tileCheck(param, tileName);
                         }
                     } else {
-                        if (!needCustom())
+                        if (needOverride())
                             tileCheck(param, tileName);
                     }
                 }
@@ -75,7 +85,7 @@ public abstract class TileUtils extends BaseHook {
                             }
                         }
                     } else {
-                        if (!needCustom())
+                        if (needOverride())
                             tileListening(param, tileName);
                     }
                 }
@@ -94,7 +104,7 @@ public abstract class TileUtils extends BaseHook {
                             tileLongClickIntent(param, tileName);
                         }
                     } else {
-                        if (!needCustom())
+                        if (needOverride())
                             tileLongClickIntent(param, tileName);
                     }
                 }
@@ -108,16 +118,19 @@ public abstract class TileUtils extends BaseHook {
                 @Override
                 protected void before(MethodHookParam param) {
                     String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
-                    if (tileName != null && needCustom()) {
+                    Intent intent = null;
+                    if (tileName != null) {
                         if (tileName.equals(customName())) {
-                            Intent intent = tileHandleLongClick(param, tileName);
-                            if (intent != null) {
-                                Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                                Object o = XposedHelpers.callStaticMethod(findClassIfExists("com.android.systemui.controlcenter.utils.ControlCenterUtils"), "getSettingsSplitIntent", context, intent);
-                                XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mActivityStarter"), "postStartActivityDismissingKeyguard", o, 0, null);
-                                param.setResult(null);
-                            }
+                            intent = tileHandleLongClick(param, tileName);
                         }
+                    } else if (needOverride()) {
+                        intent = tileHandleLongClick(param, tileName);
+                    }
+                    if (intent != null) {
+                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        Object o = XposedHelpers.callStaticMethod(findClassIfExists("com.android.systemui.controlcenter.utils.ControlCenterUtils"), "getSettingsSplitIntent", context, intent);
+                        XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mActivityStarter"), "postStartActivityDismissingKeyguard", o, 0, null);
+                        param.setResult(null);
                     }
                 }
             });
@@ -142,7 +155,7 @@ public abstract class TileUtils extends BaseHook {
                             }
                         }
                     } else {
-                        if (!needCustom())
+                        if (needOverride())
                             tileClick(param, tileName);
                     }
                 }
@@ -162,6 +175,7 @@ public abstract class TileUtils extends BaseHook {
             @Override
             protected void before(MethodHookParam param) {
                 String tileName = (String) XposedHelpers.getAdditionalInstanceField(param.thisObject, "customName");
+                logE(TAG, "name: " + tileName);
                 if (tileName != null) {
                     if (tileName.equals(customName())) {
                         boolean isEnable = false;
@@ -184,8 +198,9 @@ public abstract class TileUtils extends BaseHook {
                         param.setResult(null);
                     }
                 } else {
-                    if (!needCustom())
+                    if (needOverride()) {
                         tileUpdateState(param, mResourceIcon, tileName);
+                    }
                 }
             }
         });
@@ -193,9 +208,9 @@ public abstract class TileUtils extends BaseHook {
     }
 
     /*用于指定磁贴工厂函数*/
-    public Class<?> customQSFactory() {
-        return null;
-    }
+    // public Class<?> customQSFactory() {
+    //     return null;
+    // }
 
     /*需要Hook的磁贴Class*/
     public Class<?> customClass() {
@@ -206,16 +221,18 @@ public abstract class TileUtils extends BaseHook {
      * 模板
      * @Override
      * public String[] customTileProvider() {
-     *   String[] TileProvider = new String[5];
-     *   TileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightDisplayTileProvider" : "mNightDisplayTileProvider"; // 类内字符串命名
-     *   TileProvider[1] = "createTileInternal"; // 方法名
-     *   TileProvider[2] = "interceptCreateTile"; // 方法名
-     *   TileProvider[3] = "createTile"; // 方法名
-     *   return TileProvider;
+     *    super.customTileProvider();
+     *    mTileProvider[0] = "mFlashlightTileProvider"; //目标磁贴字段
      * }
      * */
-    public String[] customTileProvider() {
-        return null;
+    public void customTileProvider() {
+        mTileProvider[1] = "createTileInternal";
+        mTileProvider[2] = "interceptCreateTile";
+        mTileProvider[3] = "createTile";
+    }
+
+    private String[] getCustomTileProvider() {
+        return mTileProvider;
     }
 
     /*请在这里输入你需要的自定义快捷方式名称。*/
@@ -229,10 +246,11 @@ public abstract class TileUtils extends BaseHook {
         return -1;
     }
 
-    /*是否使用自定义的方式创建磁贴
-    否则为在原有磁贴逻辑上进行修改*/
-    public boolean needCustom() {
-        return false;
+    /* 是否要覆写原有磁贴方法,
+     * 当无自定义名称时默认覆写而不走判断名称的逻辑
+     * 可以覆写为指定boolean但不建议*/
+    public boolean needOverride() {
+        return "".equals(customName());
     }
 
     /*是否需要在after时进行逻辑修改而不是before*/
@@ -245,11 +263,11 @@ public abstract class TileUtils extends BaseHook {
      * */
     private void SystemUiHook() {
         String custom = customName();
-        if (needCustom()) {
-            if ("".equals(custom)) {
+        if (!needOverride()) {
+            /*if ("".equals(custom)) {
                 logE(TAG, "com.android.systemui", "Error custom:" + custom);
                 return;
-            }
+            }*/
             try {
                 findClassIfExists("com.android.systemui.SystemUIApplication").getDeclaredMethod("onCreate");
                 findAndHookMethod("com.android.systemui.SystemUIApplication", "onCreate", new MethodHook() {
@@ -279,30 +297,31 @@ public abstract class TileUtils extends BaseHook {
      * 判断是否是自定义磁贴，如果是则在自定义磁贴前加上Key，用于定位磁贴。
      */
     private void tileAllName(Class<?> QSFactory) {
-        if (needCustom()) {
+        if (!needOverride()) {
+            customTileProvider();
             try {
-                QSFactory.getDeclaredMethod(customTileProvider()[1], String.class);
+                QSFactory.getDeclaredMethod(getCustomTileProvider()[1], String.class);
                 tileAllNameMode(QSFactory, 1);
             } catch (NoSuchMethodException e) {
                 try {
-                    QSFactory.getDeclaredMethod(customTileProvider()[2], String.class);
+                    QSFactory.getDeclaredMethod(getCustomTileProvider()[2], String.class);
                     tileAllNameMode(QSFactory, 2);
                 } catch (NoSuchMethodException f) {
-                    logE(TAG, "com.android.systemui", "Don't Have " + customTileProvider()[2], f);
+                    logE(TAG, "com.android.systemui", "Don't Have " + getCustomTileProvider()[2], f);
                 }
-                logE(TAG, "com.android.systemui", "Don't Have " + customTileProvider()[1], e);
+                logE(TAG, "com.android.systemui", "Don't Have " + getCustomTileProvider()[1], e);
             }
         }
     }
 
     /*这是上面方法的模组*/
     private void tileAllNameMode(Class<?> QSFactory, int num) {
-        findAndHookMethod(QSFactory, customTileProvider()[num], String.class, new MethodHook() {
+        findAndHookMethod(QSFactory, getCustomTileProvider()[num], String.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 String tileName = (String) param.args[0];
                 if (tileName.equals(customName())) {
-                    String myTileProvider = customTileProvider()[0];
+                    String myTileProvider = getCustomTileProvider()[0];
                     Object provider = XposedHelpers.getObjectField(param.thisObject, myTileProvider);
                     Object tile = XposedHelpers.callMethod(provider, "get");
                     XposedHelpers.setAdditionalInstanceField(tile, "customName", tileName);
@@ -314,16 +333,17 @@ public abstract class TileUtils extends BaseHook {
 
     /*安卓14磁贴逻辑被修改，此是解决方法*/
     private void tileAllName14(Class<?> QSFactory) {
-        if (needCustom()) {
+        if (!needOverride()) {
+            customTileProvider();
             try {
-                QSFactory.getDeclaredMethod(customTileProvider()[3], String.class);
-                findAndHookMethod(QSFactory, customTileProvider()[3], String.class,
+                QSFactory.getDeclaredMethod(getCustomTileProvider()[3], String.class);
+                findAndHookMethod(QSFactory, getCustomTileProvider()[3], String.class,
                     new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) {
                             String tileName = (String) param.args[0];
                             if (tileName.equals(customName())) {
-                                String myTileProvider = customTileProvider()[0];
+                                String myTileProvider = getCustomTileProvider()[0];
                                 Object provider;
                                 Object tile;
                                 try {
@@ -345,7 +365,7 @@ public abstract class TileUtils extends BaseHook {
                     }
                 );
             } catch (NoSuchMethodException e) {
-                logE(TAG, "com.android.systemui", "Don't Have " + customTileProvider()[2], e);
+                logE(TAG, "com.android.systemui", "Don't Have " + getCustomTileProvider()[2], e);
             }
         }
     }
@@ -353,59 +373,55 @@ public abstract class TileUtils extends BaseHook {
     /* 新版系统界面磁贴开启关闭时会显示的文字 */
     private void showStateMessage(Class<?> myTile) {
         try {
-            myTile.getDeclaredMethod("handleShowStateMessage");
-            findAndHookMethod(myTile, "handleShowStateMessage", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        try {
-                            XposedHelpers.callMethod(param.thisObject, "showStateMessage",
-                                XposedHelpers.callMethod(param.thisObject, "getStateMessage"));
-                        } catch (Throwable t) {
-                            // try {
-                            //     @SuppressLint("PrivateApi") Class<?> QSTileImpl = Class.forName("com.android.systemui.qs.tileimpl.QSTileImpl");
-                            //     Method handleShowStateMessage = QSTileImpl.getDeclaredMethod("handleShowStateMessage");
-                            //     handleShowStateMessage.invoke(null);
-                            // } catch (ReflectiveOperationException e) {
-                            //     logE("showStateMessage", " Find class or call method error: " + e);
-                            // }
-                            String string;
-                            Object o = XposedHelpers.getObjectField(param.thisObject, "mState");
-                            int i = (int) XposedHelpers.getObjectField(o, "state");
-                            Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                            if (i != 1) {
-                                if (i != 2) {
-                                    string = null;
+            if (!needOverride()) {
+                myTile.getDeclaredMethod("handleShowStateMessage");
+                findAndHookMethod(myTile, "handleShowStateMessage", new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            try {
+                                XposedHelpers.callMethod(param.thisObject, "showStateMessage",
+                                    XposedHelpers.callMethod(param.thisObject, "getStateMessage"));
+                            } catch (Throwable t) {
+                                // try {
+                                //     @SuppressLint("PrivateApi") Class<?> QSTileImpl = Class.forName("com.android.systemui.qs.tileimpl.QSTileImpl");
+                                //     Method handleShowStateMessage = QSTileImpl.getDeclaredMethod("handleShowStateMessage");
+                                //     handleShowStateMessage.invoke(null);
+                                // } catch (ReflectiveOperationException e) {
+                                //     logE("showStateMessage", " Find class or call method error: " + e);
+                                // }
+                                String string;
+                                Object o = XposedHelpers.getObjectField(param.thisObject, "mState");
+                                int i = (int) XposedHelpers.getObjectField(o, "state");
+                                Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                                if (i != 1) {
+                                    if (i != 2) {
+                                        string = null;
+                                    } else {
+                                        string = context.getResources().getString(mResHook.addResource("quick_settings_state_change_message_on_my",
+                                                R.string.quick_settings_state_change_message_on_my),
+                                            XposedHelpers.callMethod(param.thisObject, "getTileLabel"));
+                                    }
                                 } else {
-                                    string = context.getResources().getString(mResHook.addResource("quick_settings_state_change_message_on_my",
-                                            R.string.quick_settings_state_change_message_on_my),
+                                    string = context.getResources().getString(mResHook.addResource("quick_settings_state_change_message_off_my",
+                                            R.string.quick_settings_state_change_message_off_my),
                                         XposedHelpers.callMethod(param.thisObject, "getTileLabel"));
                                 }
-                            } else {
-                                string = context.getResources().getString(mResHook.addResource("quick_settings_state_change_message_off_my",
-                                        R.string.quick_settings_state_change_message_off_my),
-                                    XposedHelpers.callMethod(param.thisObject, "getTileLabel"));
+                                XposedHelpers.callMethod(param.thisObject, "showStateMessage", string);
                             }
-                            XposedHelpers.callMethod(param.thisObject, "showStateMessage", string);
+                            // XposedHelpers.callMethod(param.thisObject, "getTileLabel");
+                            param.setResult(null);
                         }
-                        // XposedHelpers.callMethod(param.thisObject, "getTileLabel");
-                        param.setResult(null);
                     }
-                }
-            );
+                );
+            }
         } catch (NoSuchMethodException e) {
             logE(TAG, "com.android.systemui", "Don't Have handleShowStateMessage: " + e);
         }
     }
 
-    /*在这里可以为你的自定义磁贴判断系统是否支持
-     此方法需要覆写*/
-    public void tileCheck(MethodHookParam param, String tileName) {
-    }
-
-
     /*为磁贴打上自定义名称*/
     private void tileName(Class<?> myTile) {
-        if (needCustom()) {
+        if (!needOverride()) {
             int customValue = customValue();
             String custom = customName();
             if (customValue == -1 || "".equals(custom)) {
@@ -433,14 +449,16 @@ public abstract class TileUtils extends BaseHook {
         }
     }
 
+    /*在这里可以为你的自定义磁贴判断系统是否支持*/
+    public void tileCheck(MethodHookParam param, String tileName) {
+    }
+
     /*这个方法用于监听系统设置变化
-    用于实时刷新开关状态
-    此方法需要自行覆写*/
+    用于实时刷新开关状态*/
     public void tileListening(MethodHookParam param, String tileName) {
     }
 
-    /*这个方法用于设置长按磁贴的动作
-     此方法需要自行覆写*/
+    /*这个方法用于设置长按磁贴的动作*/
     public void tileLongClickIntent(MethodHookParam param, String tileName) {
     }
 
@@ -450,16 +468,15 @@ public abstract class TileUtils extends BaseHook {
         return null;
     }
 
-    /*这个方法用于设置单击磁贴的动作
-    此方法需要自行覆写*/
+    /*这个方法用于设置单击磁贴的动作*/
     public void tileClick(MethodHookParam param, String tileName) {
     }
 
+    /*在点按开关原逻辑后执行*/
     public void tileClickAfter(MethodHookParam param, String tileName) {
     }
 
-    /*这个方法用于设置更新磁贴状态
-     此方法需要自行覆写*/
+    /*这个方法用于设置更新磁贴状态*/
     public ArrayMap<String, Integer> tileUpdateState(MethodHookParam param, Class<?> mResourceIcon, String tileName) {
         return null;
     }
