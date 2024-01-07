@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-custom">
+
+    <PreferenceCategory>
+
+        <com.sevtinge.hyperceiler.ui.preference.StartActivityWithRootPreference
+            android:key="prefs_key_phone_additional_network_settings"
+            android:title="@string/phone_additional_network_settings"
+            app:targetActivityClass="com.android.phone/.SwitchDebugActivity" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
     <SwitchPreference
         android:title="@string/phone_smart_dual_sim"
         android:key="prefs_key_phone_smart_dual_sim"
@@ -15,6 +28,8 @@
         android:summary="@string/phone_vice_slot_volte_desc"
         android:key="prefs_key_phone_vice_slot_volte"
         android:defaultValue="false" />
+
+    </PreferenceCategory>
 
     <Preference android:enabled="false" />
 

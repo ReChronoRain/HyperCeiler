@@ -106,9 +106,10 @@
     <string name="tip">提示</string>
     <string name="root">未授予Root/Su权限部分功能不可用</string>
     <string name="hook_failed">模块暂未激活，请检查 Xposed 管理器是否启用，如有请重启或重新优化模块</string>
-    <string name="kill_failed">结束进程失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限?</string>
+    <string name="kill_failed">结束进程失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
     <string name="pid_failed">目标应用未运行，不需要重启。</string>
-    <string name="reboot_failed">重启失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限?</string>
+    <string name="reboot_failed">重启失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
+    <string name="start_failed">启动 Activity 失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
 
     <string name="expand_button_title">高级</string>
     <string name="not_set">未设置</string>
@@ -340,6 +341,7 @@
     <string name="system_ui_display_toast_times_desc">修改 Toast 显示时长，显示时长始终大于 1 秒</string>
 
     <string name="system_framework_phone_network_title">网络设置</string>
+    <string name="phone_additional_network_settings">网络功能辅助菜单</string>
     <string name="phone_double_5g_nr">双卡 5G (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">双卡同时使用 5G 网络 (卡 2 仅支持 NSA)</string>
     <string name="phone_double_5g_sa">双卡 SA (SA+SA)</string>
