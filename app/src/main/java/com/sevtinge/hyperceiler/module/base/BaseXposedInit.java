@@ -1,7 +1,13 @@
 package com.sevtinge.hyperceiler.module.base;
 
+import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
@@ -64,6 +70,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Objects;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -174,6 +181,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public void init(LoadPackageParam lpparam) {
         if (isSafeModeOn) return;
         String packageName = lpparam.packageName;
+        if (Objects.equals(packageName, "android"))
+            logI(packageName, "androidVersion = " + getAndroidVersion() + ", miuiVersion = " + getMiuiVersion() + ", hyperosVersion = " + getHyperOSVersion());
+        else
+            logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
         switch (packageName) {
             case "android" -> {
                 mSystemFramework.init(lpparam);

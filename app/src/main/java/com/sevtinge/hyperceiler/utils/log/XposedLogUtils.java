@@ -24,9 +24,9 @@ public class XposedLogUtils {
         XposedBridge.log("[HyperCeiler][I]: " + msg);
     }
 
-    public static void logI(String tag, String msg) {
+    public static void logI(String tagOpkg, String msg) {
         if (logLevel < 3) return;
-        XposedBridge.log("[HyperCeiler][I][" + tag + "]: " + msg);
+        XposedBridge.log("[HyperCeiler][I][" + tagOpkg + "]: " + msg);
     }
 
     public static void logI(String tag, String pkg, String msg) {
