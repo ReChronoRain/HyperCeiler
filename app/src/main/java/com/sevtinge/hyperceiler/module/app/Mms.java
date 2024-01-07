@@ -11,7 +11,7 @@ public class Mms extends BaseModule {
     public void handleLoadPackage() {
         // dexKit load
         initHook(LoadHostDir.INSTANCE);
-        initHook(DisableAd.INSTANCE, mPrefsMap.getBoolean("mms_disable_ad"));
+        initHook(new DisableAd(), mPrefsMap.getBoolean("mms_disable_ad"));
         initHook(UnlockSuperClipboard.INSTANCE, mPrefsMap.getStringAsInt("various_super_clipboard_e", 0) != 0);
         // dexKit finish
         initHook(CloseHostDir.INSTANCE);
