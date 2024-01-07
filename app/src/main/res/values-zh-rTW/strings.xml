@@ -1062,7 +1062,6 @@
     <string name="home_dock_margin_bottom">頁面指示器距螢幕底部邊距</string>
     <string name="home_dock_unlock_hotseat">解鎖底欄圖示數量限制</string>
     <string name="home_dock_fold">Fold 樣式底欄</string>
-    <string name="home_dock_hide_seekpoint">移除頁面指示器</string>
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_dock_disable_recents_icon">在 Dock 欄中隱藏最近應用圖示</string>
     <string name="home_dock_add_blur">背景模糊自訂</string>

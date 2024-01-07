@@ -1072,7 +1072,6 @@
     <string name="home_dock_margin_bottom">Indikator margin halaman dari bawah layar</string>
     <string name="home_dock_unlock_hotseat">Hapus batasan nomor ikon dari dok</string>
     <string name="home_dock_fold">Dermaga Lipat</string>
-    <string name="home_dock_hide_seekpoint">Sembunyikan titik pencarian</string>
     <string name="home_dock_icon_title">Tampilkan judul ikon di dok</string>
     <string name="home_dock_disable_recents_icon">Sembunyikan ikon aplikasi terkini dari Dock</string>
     <string name="home_dock_add_blur">Latar belakang khusus buram</string>

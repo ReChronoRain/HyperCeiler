@@ -1062,7 +1062,6 @@
     <string name="home_dock_margin_bottom">Margem do indicador de página da parte inferior da tela</string>
     <string name="home_dock_unlock_hotseat">Remover restrição de ícones na dock</string>
     <string name="home_dock_fold">Dock estilo Fold</string>
-    <string name="home_dock_hide_seekpoint">Ocultar ponto de busca</string>
     <string name="home_dock_icon_title">Exibir nome do ícone na dock</string>
     <string name="home_dock_disable_recents_icon">Ocultar ícones de apps recentes da dock</string>
     <string name="home_dock_add_blur">Blur de fundo personalizado</string>

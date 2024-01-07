@@ -793,7 +793,6 @@
     <string name="home_dock_margin_bottom">Индикатор страниц в нижней части экрана</string>
     <string name="home_dock_unlock_hotseat">Убрать ограничение по количеству значков в доке</string>
     <string name="home_dock_fold">Док в стиле Mix Fold</string>
-    <string name="home_dock_hide_seekpoint">Скрыть индикатор страниц</string>
     <string name="home_dock_icon_title">Показать название значка в доке</string>
     <string name="home_other">Другое</string>
     <string name="home_other_home_mode">Режим раб.стола</string>

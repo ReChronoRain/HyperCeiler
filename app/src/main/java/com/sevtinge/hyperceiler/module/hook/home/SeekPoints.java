@@ -31,7 +31,8 @@ public class SeekPoints extends BaseHook {
         );
 
         findAndHookMethod("com.miui.home.launcher.ScreenView",
-            "refreshScrollBound", new MethodHook() {
+            "refreshScrollBound",
+            new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
                     if (points == 2) showSeekBar((View) param.thisObject);

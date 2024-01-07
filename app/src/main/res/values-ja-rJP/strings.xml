@@ -1062,7 +1062,6 @@
     <string name="home_dock_margin_bottom">画面下部とページインジケーターの間の余白</string>
     <string name="home_dock_unlock_hotseat">ドックのアイコン番号の制限を無効化</string>
     <string name="home_dock_fold">Fold のドック</string>
-    <string name="home_dock_hide_seekpoint">シークポイントを非表示</string>
     <string name="home_dock_icon_title">ドックにアイコンのタイトルを表示</string>
     <string name="home_dock_disable_recents_icon">最近使ったアプリのアイコンをドックに表示しない</string>
     <string name="home_dock_add_blur">カスタム背景ぼかし</string>

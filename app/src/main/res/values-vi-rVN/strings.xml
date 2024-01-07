@@ -1068,7 +1068,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_dock_margin_bottom">Lề của chỉ báo trang từ cuối màn hình</string>
     <string name="home_dock_unlock_hotseat">Mở khóa giới hạn số biểu tượng thanh dock</string>
     <string name="home_dock_fold">Thanh dưới cùng kiểu thu nhỏ</string>
-    <string name="home_dock_hide_seekpoint">Xóa chỉ báo trang</string>
     <string name="home_dock_icon_title">Hiển thị tiêu đề ứng dụng</string>
     <string name="home_dock_disable_recents_icon">Ẩn ứng dụng gần đây khỏi thanh Dock</string>
     <string name="home_dock_add_blur">Tùy chỉnh làm mờ nền</string>

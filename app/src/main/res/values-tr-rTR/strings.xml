@@ -608,7 +608,6 @@
     <string name="home_dock_margin_bottom">Ekranın altından sayfa kenar boşluğu göstergesi</string>
     <string name="home_dock_unlock_hotseat">Simge numarası kısıtlamasını dock\'tan kaldırın</string>
     <string name="home_dock_fold">Fold\'un İskelesi</string>
-    <string name="home_dock_hide_seekpoint">Arama noktasını gizle</string>
     <string name="home_dock_icon_title">Dock\'ta simge başlığını göster</string>
     <string name="home_other">Diğer</string>
     <string name="home_other_home_mode">Masaüstü modu</string>

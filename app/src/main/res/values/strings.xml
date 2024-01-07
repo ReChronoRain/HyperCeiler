@@ -1106,7 +1106,6 @@
     <string name="home_dock_margin_bottom">Margin of page indicator from bottom of screen</string>
     <string name="home_dock_unlock_hotseat">Remove icon number restriction from dock</string>
     <string name="home_dock_fold">Fold\'s Dock</string>
-    <string name="home_dock_hide_seekpoint">Hide seekpoint</string>
     <string name="home_dock_icon_title">Show icon title in dock</string>
     <string name="home_dock_disable_recents_icon">Hide recent app icons from the Dock</string>
     <string name="home_dock_add_blur">Custom background blur</string>

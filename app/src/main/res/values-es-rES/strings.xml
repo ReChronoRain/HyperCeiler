@@ -1062,7 +1062,6 @@
     <string name="home_dock_margin_bottom">Margen del indicador de página desde el fondo de la pantalla</string>
     <string name="home_dock_unlock_hotseat">Permitir que en la base se ponen iconos cuántos quiera</string>
     <string name="home_dock_fold">Dock de Fold</string>
-    <string name="home_dock_hide_seekpoint">Ocultar el indicador de página</string>
     <string name="home_dock_icon_title">Mostrar títulos de iconos en la base</string>
     <string name="home_dock_disable_recents_icon">Ocultar iconos de aplicaciones recientes en la base</string>
     <string name="home_dock_add_blur">Personalizar el desenfoque del fondo</string>

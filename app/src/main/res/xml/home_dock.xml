@@ -21,12 +21,6 @@
         android:key="prefs_key_home_dock_disable_recents_icon"
         android:title="@string/home_dock_disable_recents_icon" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_dock_hide_seekpoint"
-        android:title="@string/home_dock_hide_seekpoint"
-        app:isPreferenceVisible="false" />
-
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
