@@ -15,7 +15,7 @@ public class UnlockHMind extends BaseHook {
     public void init() throws NoSuchMethodException {
         MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
-                .usingStrings("HMindManager", "isHMindAble() context == null", "isHMindAble() isSupport: ")
+                .usingStrings("HMindManager", "isHMindAble() context == null")
             )
         ).firstOrThrow(() -> new IllegalStateException("UnlockHMind: Cannot found MethodData"));
         Method method = methodData.getMethodInstance(lpparam.classLoader);
