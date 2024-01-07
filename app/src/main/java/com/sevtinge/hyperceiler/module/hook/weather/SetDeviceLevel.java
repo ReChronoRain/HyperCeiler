@@ -1,21 +1,22 @@
 package com.sevtinge.hyperceiler.module.hook.weather;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
-
 import android.content.Context;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
-import de.robv.android.xposed.XC_MethodReplacement;
+import java.lang.reflect.Method;
 
 public class SetDeviceLevel extends BaseHook {
-    Class<?> mUtil;
+    Class<?> mUtil = null;
 
     @Override
     public void init() {
-        if (findClassIfExists("miuix.animation.utils.DeviceUtils") != null) mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils") ; else mUtil = findClassIfExists("d7.a");
+        if ((mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils")) == null) {
+            // 看不懂
+            mUtil = findClassIfExists("d7.a");
+        }
         returnIntConstant(mUtil);
     }
 
@@ -32,10 +33,24 @@ public class SetDeviceLevel extends BaseHook {
     }
 
     private void returnIntConstant(Class<?> cls) {
+        if (cls == null) {
+            logE(TAG, "class is null");
+            return;
+        }
         int order = mPrefsMap.getStringAsInt("weather_device_level", 0);
-        if (getPackageVersionCode(lpparam) < 15000000)
-            hookAllMethods(cls, "transDeviceLevel", MethodHook.returnConstant(order));
-        else findAndHookMethod(cls, "transDeviceLevel", int.class, XC_MethodReplacement.returnConstant(order));
+        for (Method method : cls.getDeclaredMethods()) {
+            if (method.getName().equals("transDeviceLevel")) {
+                if (method.getReturnType().equals(int.class) &&
+                    (method.getParameterTypes().length == 1 &&
+                        method.getParameterTypes()[0].equals(int.class))) {
+                    hookMethod(method, MethodHook.returnConstant(order));
+                }
+            }
+        }
+        // if (getPackageVersionCode(lpparam) < 15000000)
+        //     hookAllMethods(cls, "transDeviceLevel", MethodHook.returnConstant(order));
+        // else
+        //     findAndHookMethod(cls, "transDeviceLevel", int.class, XC_MethodReplacement.returnConstant(order));
     }
 }
 
