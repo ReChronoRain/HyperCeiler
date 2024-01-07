@@ -17,7 +17,7 @@ public class UnlockHMind extends BaseHook {
             .matcher(MethodMatcher.create()
                 .usingStrings("HMindManager", "isHMindAble() context == null")
             )
-        ).firstOrThrow(() -> new IllegalStateException("UnlockHMind: Cannot found MethodData"));
+        ).singleOrThrow(() -> new IllegalStateException("UnlockHMind: Cannot found MethodData"));
         Method method = methodData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "isHMindAble() method is " + method);
         hookMethod(method, new MethodHook() {

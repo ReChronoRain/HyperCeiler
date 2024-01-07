@@ -16,7 +16,7 @@ public class AllowMoveAllApps extends BaseHook {
             .matcher(MethodMatcher.create()
                 .usingStrings(" skip file path ")
             )
-        ).firstOrThrow(() -> new IllegalStateException("Cannot found MethodData"));
+        ).singleOrThrow(() -> new IllegalStateException("Cannot found MethodData"));
         Method method = methodData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "isSkipDataApp() method is " + method);
         hookMethod(method, new MethodHook() {

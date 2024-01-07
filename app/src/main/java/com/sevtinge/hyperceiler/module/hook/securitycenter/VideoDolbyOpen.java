@@ -38,7 +38,7 @@ public class VideoDolbyOpen extends BaseHook {
         //     .matcher(ClassMatcher.create()
         //         .className("com.miui.gamebooster.service.DockWindowManagerService")
         //     )
-        // ).firstOrThrow(() -> new IllegalStateException("VideoDolbyOpen: No class found ClassData"));
+        // ).singleOrThrow(() -> new IllegalStateException("VideoDolbyOpen: No class found ClassData"));
         // // 类加入列表
         // List<ClassData> list = Collections.singletonList(data);
 
@@ -50,7 +50,7 @@ public class VideoDolbyOpen extends BaseHook {
                         .usingStrings("checkMiGamePermission error"))
                     .usingStrings("dolby")
                 )
-        ).firstOrThrow(() -> new IllegalStateException("VideoDolbyOpen: No class found MethodData"));
+        ).singleOrThrow(() -> new IllegalStateException("VideoDolbyOpen: No class found MethodData"));
 
         // 执行Hook
         try {

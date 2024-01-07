@@ -18,7 +18,7 @@ public class DockSuggest extends BaseHook {
             .matcher(MethodMatcher.create()
                 .usingStrings("supportFreeform")
             )
-        ).firstOrThrow(() -> new RuntimeException("Method not found"));
+        ).singleOrThrow(() -> new RuntimeException("Method not found"));
         Method method = methodData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "Current hooking method is " + method);
         hookMethod(method, new MethodHook() {

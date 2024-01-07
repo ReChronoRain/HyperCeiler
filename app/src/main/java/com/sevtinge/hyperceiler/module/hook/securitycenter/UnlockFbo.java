@@ -16,7 +16,7 @@ public class UnlockFbo extends BaseHook {
             .matcher(MethodMatcher.create()
                 .usingStrings("miui.fbo.FboManager")
             )
-        ).firstOrThrow(() -> new IllegalStateException("UnlockFbo: Cannot found MethodData"));
+        ).singleOrThrow(() -> new IllegalStateException("UnlockFbo: Cannot found MethodData"));
         Method method = methodData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "Unlock FBO method is " + method);
         hookMethod(method, new MethodHook() {

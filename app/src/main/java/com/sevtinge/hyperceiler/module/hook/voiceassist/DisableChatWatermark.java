@@ -16,7 +16,7 @@ public class DisableChatWatermark extends BaseHook {
             .matcher(MethodMatcher.create()
                 .usingStrings("userId", "add watermark")
             )
-        ).firstOrThrow(() -> new IllegalStateException("DisableChatWatermark: Cannot found MethodData"));
+        ).singleOrThrow(() -> new IllegalStateException("DisableChatWatermark: Cannot found MethodData"));
         Method method = methodData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "addWatermarkIfNeed() method is " + method);
         hookMethod(method, new MethodHook() {

@@ -35,7 +35,7 @@ public class DisableAd extends BaseHook {
                     .returnType(boolean.class)
                     .paramCount(0)
                 )
-            ).firstOrThrow(() -> new IllegalStateException("DisableAd: Cannot found Method addAdButton()"));
+            ).singleOrThrow(() -> new IllegalStateException("DisableAd: Cannot found Method addAdButton()"));
             Method method1 = methodData1.getMethodInstance(lpparam.classLoader);
             logD(TAG, lpparam.packageName, "addAdButton() method is " + method1);
             hookMethod(method1, new MethodHook() {

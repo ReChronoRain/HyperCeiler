@@ -33,7 +33,7 @@ public class PreventBatteryWitelist extends BaseHook {
                         .usingStrings("addPowerSaveWhitelistApps: "))
                     .usingStrings("addPowerSaveWhitelistApps: ")
                 )
-        ).firstOrThrow(() -> new IllegalStateException("PreventBatteryWitelist: No class found MethodData"));
+        ).singleOrThrow(() -> new IllegalStateException("PreventBatteryWitelist: No class found MethodData"));
         try {
             HookFactory.createMethodHook(methodData.getMethodInstance(lpparam.classLoader), new Consumer<HookFactory>() {
                 @Override

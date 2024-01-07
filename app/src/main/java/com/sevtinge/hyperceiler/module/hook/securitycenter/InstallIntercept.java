@@ -18,7 +18,7 @@ public class InstallIntercept extends BaseHook {
                     .usingStrings("permcenter_install_intercept_enabled")
                     .returnType(boolean.class)
                 )
-        ).firstOrThrow(() -> new IllegalStateException("Find permcenter_install_intercept_enabled E"));
+        ).singleOrThrow(() -> new IllegalStateException("Find permcenter_install_intercept_enabled E"));
 
         // logE(TAG, "find: " + methodData.getMethodInstance(lpparam.classLoader));
 

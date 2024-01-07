@@ -18,7 +18,7 @@ public class EnableGameSpeed extends BaseHook {
                 .usingStrings("android.os.SystemProperties", "set", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
                 .returnType(void.class)
             )
-        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropVoid method"));
+        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropVoid method"));
         Method getPropVoid = getPropVoidData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "getPropVoid method is " + getPropVoid);
         hookMethod(getPropVoid, new MethodHook() {
@@ -33,7 +33,7 @@ public class EnableGameSpeed extends BaseHook {
                 .usingStrings("android.os.SystemProperties", "getBoolean", "SystemPropertiesUtils", "SystemPropertiesUtils getInt:")
                 .returnType(boolean.class)
             )
-        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropBoolean method"));
+        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found getPropBoolean method"));
         Method getBooleanVoid = getPropBooleanData.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "getPropBoolean method is " + getBooleanVoid);
         hookMethod(getBooleanVoid, new MethodHook() {
@@ -48,7 +48,7 @@ public class EnableGameSpeed extends BaseHook {
                 .usingStrings("debug.game.video.support")
                 .returnType(boolean.class)
             )
-        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.support\""));
+        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.support\""));
         Method method1 = methodData1.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "UsingString \"debug.game.video.support\" method is " + method1);
         hookMethod(method1, new MethodHook() {
@@ -63,7 +63,7 @@ public class EnableGameSpeed extends BaseHook {
                 .usingStrings("pref_open_game_booster")
                 .returnType(boolean.class)
             )
-        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"pref_open_game_booster\""));
+        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"pref_open_game_booster\""));
         Method method2 = methodData2.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "UsingString \"pref_open_game_booster\" method is " + method2);
         hookMethod(method2, new MethodHook() {
@@ -77,7 +77,7 @@ public class EnableGameSpeed extends BaseHook {
             .matcher(MethodMatcher.create()
                 .usingStrings("debug.game.video.boot")
             )
-        ).firstOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.boot\""));
+        ).singleOrThrow(() -> new IllegalStateException("EnableGameSpeed: Cannot found MethodData usingString \"debug.game.video.boot\""));
         Method method3 = methodData3.getMethodInstance(lpparam.classLoader);
         logD(TAG, lpparam.packageName, "UsingString \"debug.game.video.boot\" method is " + method3);
         hookMethod(method3, new MethodHook() {
