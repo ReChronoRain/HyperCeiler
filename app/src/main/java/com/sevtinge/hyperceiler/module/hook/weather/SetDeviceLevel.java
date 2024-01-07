@@ -15,7 +15,7 @@ public class SetDeviceLevel extends BaseHook {
 
     @Override
     public void init() {
-        if (getPackageVersionCode(lpparam) < 15000000) mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils") ; else mUtil = findClassIfExists("d7.a");
+        if (findClassIfExists("miuix.animation.utils.DeviceUtils") != null) mUtil = findClassIfExists("miuix.animation.utils.DeviceUtils") ; else mUtil = findClassIfExists("d7.a");
         returnIntConstant(mUtil);
     }
 
@@ -35,7 +35,7 @@ public class SetDeviceLevel extends BaseHook {
         int order = mPrefsMap.getStringAsInt("weather_device_level", 0);
         if (getPackageVersionCode(lpparam) < 15000000)
             hookAllMethods(cls, "transDeviceLevel", MethodHook.returnConstant(order));
-        else findAndHookMethod(cls, "j", XC_MethodReplacement.returnConstant(order));
+        else findAndHookMethod(cls, "transDeviceLevel", int.class, XC_MethodReplacement.returnConstant(order));
     }
 }
 
