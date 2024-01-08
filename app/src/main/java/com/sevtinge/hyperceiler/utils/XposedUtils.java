@@ -22,6 +22,12 @@ import java.lang.ref.WeakReference;
 import de.robv.android.xposed.XposedHelpers;
 
 public class XposedUtils extends XposedLogUtils {
+    // 尝试全部
+    public static final int FLAG_ALL = ContextUtils.FLAG_ALL;
+    // 仅获取当前应用
+    public static final int FLAG_CURRENT_APP = ContextUtils.FLAG_CURRENT_APP;
+    // 获取 Android 系统
+    public static final int FlAG_ONLY_ANDROID = ContextUtils.FlAG_ONLY_ANDROID;
 
     // public static TextView mPct = null;
     public static WeakReference<TextView> mPct;
@@ -53,24 +59,47 @@ public class XposedUtils extends XposedLogUtils {
         return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
-    public static Context findContext() {
-        Context context;
+    public static Context findContext(int flag) {
+        Context context = null;
         try {
-            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass(
-                    "android.app.ActivityThread", null),
-                "currentApplication");
-            if (context == null) {
-                Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread",
-                        null),
-                    "currentActivityThread");
-                if (currentActivityThread != null)
-                    context = (Context) XposedHelpers.callMethod(currentActivityThread,
-                        "getSystemContext");
+            switch (flag) {
+                case 0 -> {
+                    if ((context = currentApplication()) == null)
+                        context = getSystemContext();
+                }
+                case 1 -> {
+                    context = currentApplication();
+                }
+                case 2 -> {
+                    context = getSystemContext();
+                }
+                default -> {
+                }
             }
             return context;
         } catch (Throwable ignore) {
         }
         return null;
+    }
+
+    private static Context currentApplication() {
+        return (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass(
+                "android.app.ActivityThread", null),
+            "currentApplication");
+    }
+
+    private static Context getSystemContext() {
+        Context context = null;
+        Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread",
+                null),
+            "currentActivityThread");
+        if (currentActivityThread != null)
+            context = (Context) XposedHelpers.callMethod(currentActivityThread,
+                "getSystemContext");
+        if (context == null)
+            context = (Context) XposedHelpers.callMethod(currentActivityThread,
+                "getSystemUiContext");
+        return context;
     }
 
     public static String getProp(String key, String defaultValue) {

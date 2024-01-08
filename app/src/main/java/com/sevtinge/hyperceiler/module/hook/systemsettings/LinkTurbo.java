@@ -16,7 +16,7 @@ public class LinkTurbo extends BaseHook {
 
     @Override
     public void init() {
-        getPackage(findContext());
+        getPackage(findContext(FlAG_ONLY_ANDROID));
         if (mPackage.isEmpty()) {
             logE(TAG, "mPackage is null");
             return;
@@ -39,7 +39,7 @@ public class LinkTurbo extends BaseHook {
             try {
                 // 二层保险
                 StringBuilder packageAll = null;
-                if (Settings.System.getString(Objects.requireNonNull(findContext()).getContentResolver(), "cloud_sla_whitelist") == null) {
+                if (Settings.System.getString(Objects.requireNonNull(findContext(FlAG_ONLY_ANDROID)).getContentResolver(), "cloud_sla_whitelist") == null) {
                     logE(TAG, "cloud_sla_whitelist is null");
                     return;
                 }
@@ -51,7 +51,7 @@ public class LinkTurbo extends BaseHook {
                         packageAll = (packageAll == null ? new StringBuilder() : packageAll).append(mPackage.get(i));
                     }
                 }
-                Settings.System.putString(Objects.requireNonNull(findContext()).getContentResolver(),
+                Settings.System.putString(Objects.requireNonNull(findContext(FlAG_ONLY_ANDROID)).getContentResolver(),
                     "cloud_sla_whitelist", packageAll == null ? null : packageAll.toString());
             } catch (Throwable throwable1) {
                 logE(TAG, "error: " + throwable1);

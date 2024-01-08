@@ -22,10 +22,9 @@ public class Various extends BaseModule {
     @Override
     public void handleLoadPackage() {
         if (mAppsUsingInputMethod.isEmpty()) {
-            mAppsUsingInputMethod = getAppsUsingInputMethod(XposedUtils.findContext());
+            mAppsUsingInputMethod = getAppsUsingInputMethod(XposedUtils.findContext(XposedUtils.FlAG_ONLY_ANDROID));
         }
         mPackageName = mLoadPackageParam.packageName;
-
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
         initHook(new Clipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
             ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
