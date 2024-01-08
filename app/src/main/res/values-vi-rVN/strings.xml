@@ -100,6 +100,7 @@
     <string name="root">Một số tính năng không khả dụng nếu không được cấp quyền Root/Su</string>
     <string name="hook_failed">Mô-đun này chưa được kích hoạt.\nVui lòng kiểm tra xem trình quản lý Xpose có được bật hay không. Nếu vậy, vui lòng khởi động lại hoặc tối ưu hóa lại mô-đun.</string>
     <string name="kill_failed">Không thể kết thúc quá trình, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
+    <string name="start_failed">Không thể bắt đầu hoạt động, vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa?</string>
     <string name="pid_failed">Ứng dụng đích không chạy và không cần khởi động lại.</string>
     <string name="reboot_failed">Reboot không thành công, kiểm tra HyperCeiler đã được cấp quyền Root?</string>
     <string name="expand_button_title">Cấp độ cao</string>
@@ -314,6 +315,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="phone_n28_desc">Hỗ trợ băng tần n28 (NR)</string>
     <string name="phone_n5_n8">Băng tần n5/n8</string>
     <string name="phone_n5_n8_desc">Nhập *#*#65686633#*#* trên giao diện quay số để bật băng tần n5/n8. Nếu hiển thị Đã bật chế độ N5 và N8 nghĩa là đã bật thành công.</string>
+    <string name="phone_additional_network_settings">Cài đặt mạng bổ sung</string>
     <string name="system_framework_screen_title">Hiển thị &amp; thông báo</string>
     <string name="system_framework_core_title">Lõi bên dưới</string>
     <string name="system_framework_hook_entry">Mở khóa giới hạn sạc thông minh</string>
