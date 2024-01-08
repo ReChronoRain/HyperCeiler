@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-custom">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory>
 
-        <com.sevtinge.hyperceiler.ui.preference.StartActivityWithRootPreference
+        <Preference
             android:key="prefs_key_phone_additional_network_settings"
-            android:title="@string/phone_additional_network_settings"
-            app:targetActivityClass="com.android.phone/.SwitchDebugActivity" />
+            android:title="@string/phone_additional_network_settings" />
 
     </PreferenceCategory>
 
     <PreferenceCategory>
 
-    <SwitchPreference
-        android:title="@string/phone_smart_dual_sim"
-        android:key="prefs_key_phone_smart_dual_sim"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_phone_smart_dual_sim"
+            android:title="@string/phone_smart_dual_sim" />
 
-    <SwitchPreference
-        android:title="@string/phone_disable_remove_network_mode"
-        android:key="prefs_key_phone_disable_remove_network_mode"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_phone_disable_remove_network_mode"
+            android:title="@string/phone_disable_remove_network_mode" />
 
-    <SwitchPreference
-        android:title="@string/phone_vice_slot_volte"
-        android:summary="@string/phone_vice_slot_volte_desc"
-        android:key="prefs_key_phone_vice_slot_volte"
-        android:defaultValue="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_phone_vice_slot_volte"
+            android:summary="@string/phone_vice_slot_volte_desc"
+            android:title="@string/phone_vice_slot_volte" />
 
     </PreferenceCategory>
 
