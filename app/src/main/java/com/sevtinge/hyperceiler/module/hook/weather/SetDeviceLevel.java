@@ -40,9 +40,10 @@ public class SetDeviceLevel extends BaseHook {
         int order = mPrefsMap.getStringAsInt("weather_device_level", 0);
         for (Method method : cls.getDeclaredMethods()) {
             if (method.getName().equals("transDeviceLevel")) {
-                if (method.getReturnType().equals(int.class) &&
-                    (method.getParameterTypes().length == 1 &&
-                        method.getParameterTypes()[0].equals(int.class))) {
+                if (method.getReturnType().equals(int.class)
+                    // && (method.getParameterTypes().length == 1 &&
+                    //     method.getParameterTypes()[0].equals(int.class))
+                ) {
                     hookMethod(method, MethodHook.returnConstant(order));
                 }
             }
