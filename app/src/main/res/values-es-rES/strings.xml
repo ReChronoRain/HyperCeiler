@@ -100,6 +100,7 @@
     <string name="root">Algunas características no están disponibles sin permiso de Root/Su</string>
     <string name="hook_failed">El módulo aún no está activado.\nCompruebe si el administrador de Xposed está habilitado. Si es así, reinicie o vuelva a optimizar el módulo.</string>
     <string name="kill_failed">No puede finalizarse el proceso, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
+    <string name="start_failed">No puede iniciarse la actividad, comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
     <string name="pid_failed">La aplicación de destino no se está ejecutando y no necesita ser reiniciada.</string>
     <string name="reboot_failed">No puede reiniciarse, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
     <string name="expand_button_title">Nivel alto</string>
@@ -313,6 +314,7 @@
     <string name="phone_n28_desc">Se soporte Banda N28 (NR)</string>
     <string name="phone_n5_n8">Banda N5/N8</string>
     <string name="phone_n5_n8_desc">Introduzca *#*#65686633#*#* en Teléfono para soportar la banda N5/N8. Si muestra \"se activa el modo de N5 y N8\", la característica se activará correctamente.</string>
+    <string name="phone_additional_network_settings">Configuraciones de red adicionales</string>
     <string name="system_framework_screen_title">Se muestran &amp; notificaciones</string>
     <string name="system_framework_core_title">Núcleo fundo</string>
     <string name="system_framework_hook_entry">Desbloquear el límite de carga inteligente</string>
@@ -660,6 +662,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s está desactivado</string>
     <string name="system_control_center_5g_tile">Interruptor de red 5G</string>
     <string name="system_control_center_5g_toggle_label">Red de 5G</string>
+    <string name="system_control_center_reduce_bright_colors_tile">Modo de exteriormente oscuro</string>
     <string name="system_control_center_taplus_label">Interruptores de Taplus</string>
     <string name="system_control_center_sunshine_mode">Modo de sol</string>
     <string name="system_ui_control_auto_close">Barra de estado se vuelve automáticamente</string>
@@ -1191,6 +1194,7 @@
     <string name="security_center_blur_location">Menor precisión de posicionamiento</string>
     <string name="security_center_gms_open">Servicio de GMS</string>
     <string name="security_center_taplus">Interruptores de Taplus</string>
+    <string name="security_center_reduce_bright_colors_tile">Reemplazo de icono de pegatina de modo de exteriormente oscuro</string>
     <string name="security_center_flash_light">Control de brillo de linterna</string>
     <string name="security_center_flash_light_more">Se permite controlar el brillo de la linterna por el deslizador de brillo</string>
     <string name="security_center_get_number">Administrar las aplicaciones que obtiene su número de teléfono móvil para iniciar sesión con un solo clic</string>
