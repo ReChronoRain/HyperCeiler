@@ -100,6 +100,7 @@
     <string name="root">一部の機能は root / su 権限がないと利用できません</string>
     <string name="hook_failed">モジュールが有効化されていません。\nXposed マネージャーがインストールされているか、モジュールが有効化されているか確認して再起動してください。</string>
     <string name="kill_failed">プロセスの終了に失敗しました。HyperCeiler に root 権限が付与されているか確認してください。</string>
+    <string name="start_failed">アクティビティの開始に失敗しました。HyperCeiler に root/su 権限を付与しているか確認してください。</string>
     <string name="pid_failed">対象のアプリは現在実行されていないため、再起動する必要はありません。</string>
     <string name="reboot_failed">再起動に失敗しました。HyperCeiler に root 権限が付与されているか確認してください。</string>
     <string name="expand_button_title">高レベル</string>
@@ -313,6 +314,7 @@
     <string name="phone_n28_desc">n28 バンド (NR) 対応を有効化します</string>
     <string name="phone_n5_n8">n5/n8 バンド</string>
     <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して n5/n8 バンド対応を有効化できるようにします。「N5とN8モードを有効化しました」と表示されれば、機能は正常に有効になっています</string>
+    <string name="phone_additional_network_settings">追加のネットワーク設定</string>
     <string name="system_framework_screen_title">ディスプレイと通知</string>
     <string name="system_framework_core_title">コア</string>
     <string name="system_framework_hook_entry">スマート充電オフ制限をアンロック</string>
@@ -660,6 +662,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s はオフです</string>
     <string name="system_control_center_5g_tile">5G ネットワークスイッチ</string>
     <string name="system_control_center_5g_toggle_label">5G ネットワーク</string>
+    <string name="system_control_center_reduce_bright_colors_tile">さらに輝度を下げる</string>
     <string name="system_control_center_taplus_label">Taplus スイッチ</string>
     <string name="system_control_center_sunshine_mode">太陽光モード</string>
     <string name="system_ui_control_auto_close">タイルを自動的に閉じる</string>
@@ -1191,6 +1194,7 @@
     <string name="security_center_blur_location">おおまかな位置情報</string>
     <string name="security_center_gms_open">GMS サービス</string>
     <string name="security_center_taplus">Taplus スイッチ</string>
+    <string name="security_center_reduce_bright_colors_tile">さらに輝度を下げるタイルのアイコンを置換</string>
     <string name="security_center_flash_light">フラッシュライトの明るさ制御</string>
     <string name="security_center_flash_light_more">明るさスライダーをドラッグしてフラッシュライトの明るさを制御できるようにします</string>
     <string name="security_center_get_number">電話番号を使って簡単ログインするアプリを管理</string>
