@@ -46,6 +46,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_unlock_blur_supported"
+            android:summary="@string/system_ui_control_center_unlock_blur_supported_desc"
+            android:title="@string/system_ui_control_center_unlock_blur_supported" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_n_enable"
             android:title="@string/system_ui_control_center_notification_blur_model" />
 

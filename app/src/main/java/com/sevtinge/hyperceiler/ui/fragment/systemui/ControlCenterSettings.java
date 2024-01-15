@@ -38,6 +38,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     DropDownPreference mBluetoothSytle;
     SwitchPreference mRoundedRect;
     SeekBarPreferenceEx mRoundedRectRadius;
+    SwitchPreference mThemeBlur;
 
     SwitchPreference mTaplus;
     Handler handler;
@@ -73,6 +74,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mRoundedRectRadius = findPreference("prefs_key_system_ui_control_center_rounded_rect_radius");
         mTaplus = findPreference("prefs_key_security_center_taplus");
+        mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -101,6 +103,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
+        mThemeBlur.setVisible(isMoreHyperOSVersion(1f));
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
 
         mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");

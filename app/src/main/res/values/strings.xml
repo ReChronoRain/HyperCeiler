@@ -414,6 +414,8 @@
     <string name="browser_debug_mode">Unlock developer options</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx and above are no entry</string>
     <string name="browser_disable_blacklist">Disable URL Blacklist</string>
+    <string name="browser_enable_debug_environment">Enable debug environment</string>
+    <string name="browser_enable_debug_environment_desc">This may result in some functions being disabled</string>
     <!--Camera-->
     <string name="camera">Camera</string>
     <string name="camera_custom_watermark">Custom device watermark</string>
@@ -652,6 +654,8 @@
     <string name="system_ui_statusbar_clock_size">Clock size</string>
     <string name="system_ui_statusbar_clock_double_size">Double row clock size</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Valid only when displayed in two rows</string>
+    <string name="system_ui_statusbar_clock_fix_color">Fix color</string>
+    <string name="system_ui_statusbar_clock_fix_color_desc">Experimental features</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
@@ -761,6 +765,8 @@
     <string name="system_ui_control_center_more_card_tiles_less">None</string>
     <string name="system_ui_control_center_more_card_tiles_more">More</string>
     <string name="system_ui_control_center_more_card_tiles_most">Most</string>
+    <string name="system_ui_control_center_unlock_blur_supported">Remove the notification blur restriction</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">There is no restriction on background blur for official premium materials only for third-party theme removal</string>
 
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_charge_animation_title">Charge animation</string>
