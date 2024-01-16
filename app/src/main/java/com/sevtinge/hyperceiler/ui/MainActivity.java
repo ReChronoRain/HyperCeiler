@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
@@ -14,9 +15,20 @@ import com.sevtinge.hyperceiler.utils.SearchHelper;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.api.AppApi;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
+    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG;
+    private final String path = "/sdcard/Android/hy_crash/";
+    ExecutorService executorService;
+    Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +46,50 @@ public class MainActivity extends NavigationActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
+        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        handler = new Handler();
+        checkCrash();
+    }
+
+
+    private void checkCrash() {
+        executorService.submit(() -> {
+            handler.post(() -> {
+                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("ls " + path, false, true);
+                List<String> success = null;
+                List<String> have = new ArrayList<>();
+                List<String> get = new ArrayList<>();
+                if (commandResult.result == 0) {
+                    success = commandResult.successMsg;
+                }
+                if (success != null) {
+                    for (String s : success) {
+                        // AndroidLogUtils.LogI(TAG, "rss: " + s);
+                        Pattern pattern = Pattern.compile("(.*)_(.*)");
+                        Matcher matcher = pattern.matcher(s);
+                        if (matcher.find()) {
+                            if (Integer.parseInt(matcher.group(2)) >= 3) {
+                                have.add(matcher.group(1));
+                                get.add(s);
+                            }
+                        }
+                    }
+                }
+                if (!have.isEmpty() || !get.isEmpty()) {
+                    new AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setTitle(getResources().getString(R.string.tip))
+                        .setMessage("此作用域进入安全模式： " + have.toString() + "\n点击确定解除")
+                        .setHapticFeedbackEnabled(true)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            for (String s : get) {
+                                ShellUtils.execCommand("rm -rf " + path + s, false, false);
+                            }
+                        })
+                        .show();
+                }
+            });
+        });
     }
 
     private void requestCta() {

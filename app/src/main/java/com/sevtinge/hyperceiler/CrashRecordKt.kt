@@ -3,11 +3,10 @@ package com.sevtinge.hyperceiler
 import android.annotation.SuppressLint
 import android.content.Context
 import com.sevtinge.hyperceiler.module.base.BaseXposedInit.isSafeModeOn
-import com.sevtinge.hyperceiler.utils.PrefsUtils.mPrefsName
 import de.robv.android.xposed.XposedBridge
 
 @SuppressLint("StaticFieldLeak")
-object CrashRecord : Thread.UncaughtExceptionHandler {
+object CrashRecordKt : Thread.UncaughtExceptionHandler {
 
     private var mDefaultHandler: Thread.UncaughtExceptionHandler? = null
     private var mContext: Context? = null

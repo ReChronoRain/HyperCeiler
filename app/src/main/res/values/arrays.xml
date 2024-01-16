@@ -61,6 +61,7 @@
         <item>com.xiaomi.scanner</item>
         <item>com.xiaomi.trustservice</item>
         <item>com.sohu.inputmethod.sogou.xiaomi</item>
+        <item>com.hchen.demo</item>
     </string-array>
 
     <string-array name="app_module_support">

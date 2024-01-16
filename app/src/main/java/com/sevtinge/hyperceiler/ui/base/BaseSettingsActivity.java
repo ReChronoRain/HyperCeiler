@@ -104,7 +104,7 @@ public abstract class BaseSettingsActivity extends BaseActivity {
                                 " || { echo \"kill error\";}",
                             true, true);
                     if (commandResult.result == 0) {
-                        if (commandResult.successMsg.equals("kill error")) {
+                        if (commandResult.successMsg.get(0).equals("kill error")) {
                             pid = false;
                         } else result = true;
                     } else
