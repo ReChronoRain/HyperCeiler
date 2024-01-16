@@ -19,8 +19,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BackupUtils {
     public static final int CREATE_DOCUMENT_CODE = 255774;
@@ -74,7 +78,15 @@ public class BackupUtils {
             String key = keys.next();
             Object value = jsonObject.get(key);
             if (value instanceof String) {
-                edit.putString(key, (String) value);
+                if (((String) value).contains("[") && ((String) value).contains("]")) {
+                    value = ((String) value).replace("[", "").replace("]", "");
+                    String[] array = ((String) value).split(",");
+                    List<String> list = Arrays.asList(array);
+                    Set<String> stringSet = new HashSet<>(list);
+                    edit.putStringSet(key, stringSet);
+                } else {
+                    edit.putString(key, (String) value);
+                }
             } else if (value instanceof Boolean) {
                 edit.putBoolean(key, (Boolean) value);
             } else if (value instanceof Integer) {
