@@ -33,7 +33,7 @@ public class ResourcesHook {
     private final HookUtils.MethodHook mReplaceHook = new HookUtils.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
-            Context mContext = Helpers.findContext();
+            Context mContext = XposedUtils.findContext(XposedUtils.FLAG_ALL);
             if (mContext == null) return;
             String method = param.method.getName();
             Object value = getFakeResource(mContext, method, param.args);
@@ -89,7 +89,7 @@ public class ResourcesHook {
             if (modResId == 0) return null;
 
             Object value;
-            Resources modRes = Helpers.getModuleRes(context);
+            Resources modRes = XposedUtils.getModuleRes(context);
             if ("getDrawable".equals(method))
                 value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
             else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
@@ -163,7 +163,7 @@ public class ResourcesHook {
                 } else if (replacement.first == ReplacementType.ID) modResId = (Integer) replacement.second;
             if (modResId == null) return null;
 
-            Resources modRes = Helpers.getModuleRes(context);
+            Resources modRes = XposedUtils.getModuleRes(context);
             if ("getDrawable".equals(method))
                 value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
             else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))

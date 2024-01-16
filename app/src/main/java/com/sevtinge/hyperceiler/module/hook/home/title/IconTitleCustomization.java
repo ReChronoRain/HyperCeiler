@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import java.util.HashSet;
@@ -31,7 +32,7 @@ public class IconTitleCustomization extends BaseHook {
                     Context context = act.getBaseContext();
                     Handler handler = new Handler(context.getMainLooper());
                     // Handler handler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
-                    new PrefsUtils.SharedPrefsObserver(context, handler, "prefs_key_home_title_title_icontitlecustomization") {
+                    new PrefsChangeObserver(context, handler, "prefs_key_home_title_title_icontitlecustomization") {
                         @Override
                         public void onChange(String name, String defValue) {
                             try {

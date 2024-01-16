@@ -1,11 +1,5 @@
 package com.sevtinge.hyperceiler.ui.fragment.sub;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -24,11 +18,10 @@ import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.data.adapter.AppDataAdapter;
-import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.BitmapUtils;
+import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -100,7 +93,7 @@ public class AppPicker extends Fragment {
         mAppListRv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppData appData = getAppInfo(getContext()).get((int) id);
+                AppData appData = getAppInfo().get((int) id);
                 // Log.e(TAG, "onItemClick: " + appData.packageName, null);
                 switch (modeSelection) {
                     case 1 -> {
@@ -163,7 +156,7 @@ public class AppPicker extends Fragment {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mAppListAdapter = new AppDataAdapter(getActivity(), R.layout.item_app_list, getAppInfo(getContext()), key, modeSelection);
+                        mAppListAdapter = new AppDataAdapter(getActivity(), R.layout.item_app_list, getAppInfo(), key, modeSelection);
                         mAppListRv.setAdapter(mAppListAdapter);
                         mAmProgress.setVisibility(View.GONE);
                         mAppListRv.setVisibility(View.VISIBLE);
@@ -173,105 +166,13 @@ public class AppPicker extends Fragment {
         }).start();
     }
 
-
-    /**
-     * 该方法提供了用于判断一个程序是系统程序还是用户程序的功能。
-     *
-     * @param applicationInfo
-     * @return true 用户自己安装的软件
-     * fasle  系统软件.
-     */
-    public static boolean filterApp(ApplicationInfo applicationInfo) {
-        if ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
-            return true;
-        } else if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public void getOpenWithApps(Context context, List<AppData> appInfoList) {
-        PackageManager pm = context.getPackageManager();
-
-        Intent mainIntent = new Intent();
-        mainIntent.setAction(Intent.ACTION_VIEW);
-        mainIntent.setDataAndType(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/test/5"), "*/*");
-        mainIntent.putExtra("HyperCeiler", true);
-        List<ResolveInfo> packs = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_ALL | PackageManager.MATCH_DISABLED_COMPONENTS);
-
-        mainIntent = new Intent();
-        mainIntent.setAction(Intent.ACTION_VIEW);
-        mainIntent.setData(Uri.parse("https://home.miui.com/"));
-        mainIntent.putExtra("HyperCeiler", true);
-        List<ResolveInfo> packs2 = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_ALL);
-
-        mainIntent = new Intent();
-        mainIntent.setAction(Intent.ACTION_VIEW);
-        mainIntent.setData(Uri.parse("vnd.youtube:n9AcG0glVu4"));
-        mainIntent.putExtra("HyperCeiler", true);
-        List<ResolveInfo> packs3 = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_ALL);
-
-        mainIntent = new Intent();
-        mainIntent.setAction(Intent.ACTION_SEND);
-        mainIntent.putExtra(Intent.EXTRA_TEXT, "HyperCeiler is the best!");
-        mainIntent.setType("*/*");
-        List<ResolveInfo> packs4 = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_ALL);
-
-        packs.addAll(packs2);
-        packs.addAll(packs3);
-        packs.addAll(packs4);
-
-        AppData app;
-        for (ResolveInfo pack : packs)
-            try {
-                boolean exists = false;
-                for (AppData openWithApp : appInfoList) {
-                    if (openWithApp.packageName.equals(pack.activityInfo.applicationInfo.packageName)) {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (exists) {
-                    continue;
-                }
-                app = new AppData();
-                app.icon = BitmapUtils.drawableToBitmap(pack.activityInfo.applicationInfo.loadIcon(pm));
-                app.packageName = pack.activityInfo.applicationInfo.packageName;
-                app.enabled = pack.activityInfo.applicationInfo.enabled;
-                app.label = pack.activityInfo.applicationInfo.loadLabel(pm).toString();
-                appInfoList.add(app);
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-    }
-
-
-    public List<AppData> getAppInfo(Context context) {
-        List<AppData> appDataList = new ArrayList<>();
+    public List<AppData> getAppInfo() {
+        List<AppData> appDataList;
         if (appSelector) {
-            getAppSelector(context, appDataList);
+            appDataList = PackageManagerUtils.getPackageByLauncher();
         } else {
-            getOpenWithApps(context, appDataList);
+            appDataList = PackageManagerUtils.getOpenWithApps();
         }
         return appDataList;
-    }
-
-    public void getAppSelector(Context context, List<AppData> appInfoList) {
-        PackageManager packageManager = context.getPackageManager();
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(mainIntent, 0);
-
-        AppData appData;
-        for (ResolveInfo resolveInfo : resolveInfos) {
-            appData = new AppData();
-            appData.icon = BitmapUtils.drawableToBitmap(resolveInfo.loadIcon(packageManager));
-            appData.label = resolveInfo.loadLabel(packageManager).toString();
-            appData.packageName = resolveInfo.activityInfo.packageName;
-            appData.activityName = resolveInfo.activityInfo.name;
-            appData.enabled = resolveInfo.activityInfo.enabled;
-            appInfoList.add(appData);
-        }
     }
 }

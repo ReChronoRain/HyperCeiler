@@ -1,8 +1,5 @@
 package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +8,15 @@ import android.widget.EditText;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
+import com.sevtinge.hyperceiler.utils.ToastHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
@@ -25,6 +27,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
 
     Preference mName;
     Preference mCheck;
+    ExecutorService executorService;
     Handler handler;
 
     public interface EditDialogCallback {
@@ -49,11 +52,10 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
         mKillPackage = findPreference("prefs_key_development_kill_package");
         mName = findPreference("prefs_key_development_kill_name");
         mCheck = findPreference("prefs_key_development_kill_check");
-        mKillPackage.setVisible(false);
-        mName.setVisible(false);
-        mCheck.setVisible(false);
+        ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载数据，请稍后");
+        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         handler = new Handler();
-        initApp();
+        initApp(executorService);
         mCheck.setOnPreferenceClickListener(
             preference -> {
                 showInDialog(
@@ -155,36 +157,34 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
         return null;
     }
 
-    private void initApp() {
-        new Thread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            getAppSelector(getContext(), appData);
-                            mKillPackage.setVisible(true);
-                            mName.setVisible(true);
-                            mCheck.setVisible(true);
-                        }
-                    });
-                }
+    private void initApp(ExecutorService executorService) {
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                appData = PackageManagerUtils.getPackageByFlag(0);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载完毕");
+                    }
+                });
             }
-        ).start();
-    }
+        });
+       /* AsyncTask 已经弃用
+         new AsyncTask<Void, Void, List<AppData>>() {
+            @Override
+            protected List<AppData> doInBackground(Void... voids) {
+                // 在后台线程中执行耗时任务
+                return PackageManagerUtils.getPackageByFlag(0);
+            }
 
-    private void getAppSelector(Context context, List<AppData> appInfoList) {
-        PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-
-        AppData appData;
-        for (PackageInfo packageInfo : packageInfos) {
-            appData = new AppData();
-            appData.label = packageInfo.applicationInfo.loadLabel(packageManager).toString();
-            appData.packageName = packageInfo.packageName;
-            appInfoList.add(appData);
-        }
+            @Override
+            protected void onPostExecute(List<AppData> result) {
+                ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载完毕");
+                // 在UI线程更新UI
+                appData = result;
+            }
+        }.execute();*/
     }
 
     private void showInDialog(EditDialogCallback callback) {

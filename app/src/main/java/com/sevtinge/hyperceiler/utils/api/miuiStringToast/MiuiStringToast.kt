@@ -8,7 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import com.google.gson.Gson
-import com.sevtinge.hyperceiler.BuildConfig
+import com.sevtinge.hyperceiler.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.IconParams
 import com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.Left
 import com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.Right
@@ -19,7 +19,12 @@ import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import java.lang.reflect.InvocationTargetException
 
 object MiuiStringToast {
-    fun newIconParams(category: String?, iconResName: String?, iconType: Int, iconFormat: String?): IconParams {
+    fun newIconParams(
+        category: String?,
+        iconResName: String?,
+        iconType: Int,
+        iconFormat: String?
+    ): IconParams {
         val params = IconParams()
         params.setCategory(category)
         params.setIconResName(iconResName)
@@ -36,7 +41,8 @@ object MiuiStringToast {
             textParams.setTextColor(if (colorType == 1) colorToInt("#4CAF50") else colorToInt("#E53935"))
             val left = Left()
             left.setTextParams(textParams)
-            val iconParams: IconParams = newIconParams(Category.DRAWABLE, "ic_hyperceiler", 1, FileType.SVG)
+            val iconParams: IconParams =
+                newIconParams(Category.DRAWABLE, "ic_hyperceiler", 1, FileType.SVG)
             val right = Right()
             right.setIconParams(iconParams)
             val stringToastBean = StringToastBean()
@@ -45,7 +51,7 @@ object MiuiStringToast {
             val gson = Gson()
             val str = gson.toJson(stringToastBean)
             val bundle: Bundle = StringToastBundle.Builder()
-                .setPackageName(BuildConfig.APPLICATION_ID)
+                .setPackageName(ProjectApi.mAppModulePkg)
                 .setStrongToastCategory(StrongToastCategory.TEXT_BITMAP.value)
                 .setTarget(null as PendingIntent?)
                 .setDuration(3000L)
@@ -58,7 +64,12 @@ object MiuiStringToast {
                 .onCreate()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && isMoreHyperOSVersion(1f)) {
                 val service = context.getSystemService(Context.STATUS_BAR_SERVICE)
-                service.javaClass.getMethod("setStatus", Int::class.javaPrimitiveType, String::class.java, Bundle::class.java)
+                service.javaClass.getMethod(
+                    "setStatus",
+                    Int::class.javaPrimitiveType,
+                    String::class.java,
+                    Bundle::class.java
+                )
                     .invoke(service, 1, "strong_toast_action", bundle)
             } else {
                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show()

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -59,7 +58,7 @@ public class DisplayMoreApkInfo extends BaseHook {
                     Object apkInfo = XposedHelpers.getObjectField(param.thisObject, finalApkInfoFieldName);
                     ApplicationInfo mAppInfo = (ApplicationInfo) XposedHelpers.callMethod(apkInfo, "getInstalledPackageInfo");
                     PackageInfo mPkgInfo = (PackageInfo) XposedHelpers.callMethod(apkInfo, "getPackageInfo");
-                    Resources modRes = Helpers.getModuleRes(tvAppSize.getContext());
+                    Resources modRes = getModuleRes(tvAppSize.getContext());
 
                     LinearLayout layout = (LinearLayout) tvAppSize.getParent();
                     layout.removeAllViews();

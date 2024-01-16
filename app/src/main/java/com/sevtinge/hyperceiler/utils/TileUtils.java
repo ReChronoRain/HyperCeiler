@@ -11,6 +11,8 @@ import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Switch;
 
+import androidx.annotation.CallSuper;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
@@ -22,11 +24,11 @@ public abstract class TileUtils extends BaseHook {
     private final String mQSFactoryClsName = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.systemui.qs.tileimpl.MiuiQSFactory" :
         "com.android.systemui.qs.tileimpl.QSFactoryImpl";
     private final boolean[] isListened = {false};
-    public String[] mTileProvider = new String[4];
+    private final String[] mTileProvider = new String[4];
     private Class<?> mResourceIcon;
     private Class<?> mQSFactory;
 
-    /*固定语法，必须调用。
+    /* 固定语法，必须调用。
      * 调用方法：
      * @Override
      * public void init() {
@@ -34,6 +36,7 @@ public abstract class TileUtils extends BaseHook {
      * }
      * */
     @Override
+    @CallSuper
     public void init() {
         mQSFactory = findClassIfExists(mQSFactoryClsName);
         if (mQSFactory == null) {
@@ -43,10 +46,12 @@ public abstract class TileUtils extends BaseHook {
         Class<?> myTile = customClass();
         mResourceIcon = findClass("com.android.systemui.qs.tileimpl.QSTileImpl$ResourceIcon");
         SystemUiHook();
-        tileAllName(mQSFactory);
+        customTileProvider();
         showStateMessage(myTile);
-        if (SystemSDKKt.isAndroidVersion(34)) {
+        if (SystemSDKKt.isMoreAndroidVersion(34)) {
             tileAllName14(mQSFactory);
+        } else {
+            tileAllName(mQSFactory);
         }
         try {
             myTile.getDeclaredMethod("isAvailable");
@@ -206,7 +211,8 @@ public abstract class TileUtils extends BaseHook {
 
     }
 
-    /*用于指定磁贴工厂函数*/
+    /*用于指定磁贴工厂函数
+     * 折旧*/
     // public Class<?> customQSFactory() {
     //     return null;
     // }
@@ -216,18 +222,17 @@ public abstract class TileUtils extends BaseHook {
         return null;
     }
 
-    /*需要Hook执行的Class方法
-     * 模板
-     * @Override
-     * public String[] customTileProvider() {
-     *    super.customTileProvider();
-     *    mTileProvider[0] = "mFlashlightTileProvider"; //目标磁贴字段
-     * }
-     * */
-    public void customTileProvider() {
+    /*需要Hook执行的Class方法*/
+    private void customTileProvider() {
+        mTileProvider[0] = setTileProvider();
         mTileProvider[1] = "createTileInternal";
         mTileProvider[2] = "interceptCreateTile";
         mTileProvider[3] = "createTile";
+    }
+
+    /*目标的字段*/
+    public String setTileProvider() {
+        return "";
     }
 
     private String[] getCustomTileProvider() {
@@ -241,7 +246,7 @@ public abstract class TileUtils extends BaseHook {
 
     /*在这里为你的自定义磁贴打上标题
     需要传入资源Id*/
-    public int customValue() {
+    public int customRes() {
         return -1;
     }
 
@@ -297,7 +302,6 @@ public abstract class TileUtils extends BaseHook {
      */
     private void tileAllName(Class<?> QSFactory) {
         if (!needOverride()) {
-            customTileProvider();
             try {
                 QSFactory.getDeclaredMethod(getCustomTileProvider()[1], String.class);
                 tileAllNameMode(QSFactory, 1);
@@ -333,7 +337,6 @@ public abstract class TileUtils extends BaseHook {
     /*安卓14磁贴逻辑被修改，此是解决方法*/
     private void tileAllName14(Class<?> QSFactory) {
         if (!needOverride()) {
-            customTileProvider();
             try {
                 QSFactory.getDeclaredMethod(getCustomTileProvider()[3], String.class);
                 findAndHookMethod(QSFactory, getCustomTileProvider()[3], String.class,
@@ -421,7 +424,7 @@ public abstract class TileUtils extends BaseHook {
     /*为磁贴打上自定义名称*/
     private void tileName(Class<?> myTile) {
         if (!needOverride()) {
-            int customValue = customValue();
+            int customValue = customRes();
             String custom = customName();
             if (customValue == -1 || "".equals(custom)) {
                 logE(TAG, "com.android.systemui", "Error customValue:" + customValue);
@@ -436,7 +439,7 @@ public abstract class TileUtils extends BaseHook {
                         if (tileName != null) {
                             if (tileName.equals(custom)) {
                                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                                Resources modRes = Helpers.getModuleRes(mContext);
+                                Resources modRes = getModuleRes(mContext);
                                 param.setResult(modRes.getString(customValue));
                             }
                         }

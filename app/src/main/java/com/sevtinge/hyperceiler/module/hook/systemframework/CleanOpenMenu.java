@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import java.util.Iterator;
@@ -38,7 +39,7 @@ public class CleanOpenMenu extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
 
-                new PrefsUtils.SharedPrefsObserver(mContext, mHandler) {
+                new PrefsChangeObserver(mContext, mHandler) {
                     @Override
                     public void onChange(Uri uri) {
                         try {
@@ -48,10 +49,10 @@ public class CleanOpenMenu extends BaseHook {
 
                             switch (type) {
                                 case "stringset" ->
-                                    mPrefsMap.put(key, Helpers.getSharedStringSetPref(mContext, key));
+                                    mPrefsMap.put(key, PrefsUtils.getSharedStringSetPrefs(mContext, key));
 
                                 case "integer" ->
-                                    mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, 0));
+                                    mPrefsMap.put(key, PrefsUtils.getSharedIntPrefs(mContext, key, 0));
                             }
                         } catch (Throwable t) {
                             logE(TAG, CleanOpenMenu.this.lpparam.packageName, t);
@@ -123,8 +124,8 @@ public class CleanOpenMenu extends BaseHook {
         int mimeFlags0;
         int mimeFlags999;
         if (dynamic) {
-            mimeFlags0 = Helpers.getSharedIntPref(context, "pref_key_" + key + "_" + pkgName + "|0", Helpers.MimeType.ALL);
-            mimeFlags999 = Helpers.getSharedIntPref(context, "pref_key_" + key + "_" + pkgName + "|999", Helpers.MimeType.ALL);
+            mimeFlags0 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|0", Helpers.MimeType.ALL);
+            mimeFlags999 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|999", Helpers.MimeType.ALL);
         } else {
             mimeFlags0 = mPrefsMap.getInt(key + "_" + pkgName + "|0", Helpers.MimeType.ALL);
             mimeFlags999 = mPrefsMap.getInt(key + "_" + pkgName + "|999", Helpers.MimeType.ALL);
@@ -187,7 +188,7 @@ public class CleanOpenMenu extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 String mAimPackageName = (String) XposedHelpers.getObjectField(param.thisObject, "mAimPackageName");
                 if (mContext == null || mAimPackageName == null) return;
-                Set<String> selectedApps = Helpers.getSharedStringSetPref(mContext, "system_framework_clean_open_apps");
+                Set<String> selectedApps = PrefsUtils.getSharedStringSetPrefs(mContext, "system_framework_clean_open_apps");
                 String mimeType = getContentType(mContext, mOriginalIntent);
                 Pair<Boolean, Boolean> isRemove = isRemoveApp(true, mContext, mAimPackageName, selectedApps, mimeType);
 

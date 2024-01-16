@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -22,7 +23,7 @@ public class VolumeDefaultStream extends BaseHook {
 
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = new Handler(mContext.getMainLooper());
-                new PrefsUtils.SharedPrefsObserver(mContext, mHandler, "prefs_key_system_framework_default_volume_stream", "0") {
+                new PrefsChangeObserver(mContext, mHandler, "prefs_key_system_framework_default_volume_stream", "0") {
                     @Override
                     public void onChange(String name, String defValue) {
                         mPrefsMap.put(name, PrefsUtils.getSharedStringPrefs(mContext, name, defValue));

@@ -10,10 +10,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.api.AppApi;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -38,7 +36,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private final static Method deoptimizeMethod;
-    private static final boolean isNotReleaseVersion = !AppApi.isRelease();
+    private static final boolean isNotReleaseVersion = !ProjectApi.isRelease();
     public static final String TAG = "[CorePatchForR]";
 
     static {
@@ -61,7 +59,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         }
     }
 
-    final XSharedPreferences prefs = new XSharedPreferences(Helpers.mAppModulePkg, PrefsUtils.mPrefsName);
+    final XSharedPreferences prefs = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -178,7 +176,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
                             if (prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
                                 PackageManager PM = AndroidAppHelper.currentApplication().getPackageManager();
                                 if (PM == null) {
-                                    XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": [" + BuildConfig.APPLICATION_ID + "] Cannot get the Package Manager... Are you using MiUI?");
+                                    XposedBridge.log("[HyperCeiler][E][android]" + TAG + ": [" + ProjectApi.mAppModulePkg + "] Cannot get the Package Manager... Are you using MiUI?");
                                 } else {
                                     PackageInfo pI;
                                     if (parseErr != null) {

@@ -13,7 +13,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuilder;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
@@ -27,6 +26,7 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -67,7 +67,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
             propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             propertiesModule.put("Debug", String.valueOf(BuildConfig.DEBUG));
-            propertiesModule.put("ApplicationId", BuildConfig.APPLICATION_ID);
+            propertiesModule.put("ApplicationId", ProjectApi.mAppModulePkg);
         } catch (Exception ignored) {
         }
         try {

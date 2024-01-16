@@ -1,15 +1,13 @@
 package com.sevtinge.hyperceiler.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
 
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
@@ -26,7 +24,7 @@ public class PrefsUtils {
     public static String mPrefsPathCurrent = null;
     public static String mPrefsFileCurrent = null;
     public static String mPrefsName = "hyperceiler_prefs";
-    public static String mPrefsPath = "/data/user_de/0/" + Helpers.mAppModulePkg + "/shared_prefs";
+    public static String mPrefsPath = "/data/user_de/0/" + ProjectApi.mAppModulePkg + "/shared_prefs";
     public static String mPrefsFile = mPrefsPath + "/" + mPrefsName + ".xml";
 
 
@@ -84,7 +82,7 @@ public class PrefsUtils {
 
 
     public static String getSharedStringPrefs(Context context, String name, String defValue) {
-        Uri uri = stringPrefsToUri(name, defValue);
+        Uri uri = PrefToUri.stringPrefToUri(name, defValue);
         try {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -102,7 +100,7 @@ public class PrefsUtils {
     }
 
     public static Set<String> getSharedStringSetPrefs(Context context, String name) {
-        Uri uri = stringSetPrefsToUri(name);
+        Uri uri = PrefToUri.stringSetPrefToUri(name);
         try {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null) {
@@ -129,7 +127,7 @@ public class PrefsUtils {
 
 
     public static int getSharedIntPrefs(Context context, String name, int defValue) {
-        Uri uri = intPrefsToUri(name, defValue);
+        Uri uri = PrefToUri.intPrefToUri(name, defValue);
         try {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -148,7 +146,7 @@ public class PrefsUtils {
 
 
     public static boolean getSharedBoolPrefs(Context context, String name, boolean defValue) {
-        Uri uri = boolPrefsToUri(name, defValue);
+        Uri uri = PrefToUri.boolPrefToUri(name, defValue);
         try {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -164,140 +162,5 @@ public class PrefsUtils {
             return (boolean) XposedInit.mPrefsMap.getObject(name, false);
         else
             return defValue;
-    }
-
-
-    public static Uri stringPrefsToUri(String name, String defValue) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/string/" + name + "/" + defValue);
-    }
-
-    public static Uri stringSetPrefsToUri(String name) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/stringset/" + name);
-    }
-
-    public static Uri intPrefsToUri(String name, int defValue) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/integer/" + name + "/" + defValue);
-    }
-
-    public static Uri boolPrefsToUri(String name, boolean defValue) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/boolean/" + name + "/" + (defValue ? '1' : '0'));
-    }
-
-    public static Uri shortcutIconPrefsToUri(String name) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/shortcut_icon/" + name);
-    }
-
-    public static Uri anyPrefsToUri() {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/");
-    }
-
-
-    public static class SharedPrefsObserver extends ContentObserver {
-
-        enum PrefType {
-            Any, String, StringSet, Integer, Boolean
-        }
-
-        PrefType prefType;
-        Context ctx;
-        String mPrefsName;
-        String mPrefsDefValueString;
-        int mPrefsDefValueInt;
-        boolean mPrefsDefValueBool;
-
-        public SharedPrefsObserver(Context context, Handler handler) {
-            super(handler);
-            ctx = context;
-            prefType = PrefType.Any;
-            registerObserver();
-        }
-
-        public SharedPrefsObserver(Context context, Handler handler, String name, String defValue) {
-            super(handler);
-            ctx = context;
-            mPrefsName = name;
-            prefType = PrefType.String;
-            mPrefsDefValueString = defValue;
-            registerObserver();
-        }
-
-        public SharedPrefsObserver(Context context, Handler handler, String name) {
-            super(handler);
-            ctx = context;
-            mPrefsName = name;
-            prefType = PrefType.StringSet;
-            registerObserver();
-        }
-
-        public SharedPrefsObserver(Context context, Handler handler, String name, int defValue) {
-            super(handler);
-            ctx = context;
-            prefType = PrefType.Integer;
-            mPrefsName = name;
-            mPrefsDefValueInt = defValue;
-            registerObserver();
-        }
-
-        @SuppressLint("SuspiciousIndentation")
-        public SharedPrefsObserver(Context context, Handler handler, String name, boolean defValue) {
-            super(handler);
-            ctx = context;
-            prefType = PrefType.Boolean;
-            mPrefsName = name;
-            mPrefsDefValueBool = defValue;
-            registerObserver();
-        }
-
-        void registerObserver() {
-            Uri uri = null;
-            if (prefType == PrefType.String)
-                uri = stringPrefsToUri(mPrefsName, mPrefsDefValueString);
-            else if (prefType == PrefType.StringSet)
-                uri = stringSetPrefsToUri(mPrefsName);
-            else if (prefType == PrefType.Integer)
-                uri = intPrefsToUri(mPrefsName, mPrefsDefValueInt);
-            else if (prefType == PrefType.Boolean)
-                uri = boolPrefsToUri(mPrefsName, mPrefsDefValueBool);
-            else if (prefType == PrefType.Any)
-                uri = anyPrefsToUri();
-            if (uri != null)
-                ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            if (prefType == PrefType.Any)
-                onChange(uri);
-            else
-                onChange(selfChange);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            if (selfChange) return;
-            if (prefType == PrefType.String)
-                onChange(mPrefsName, mPrefsDefValueString);
-            else if (prefType == PrefType.StringSet)
-                onChange(mPrefsName);
-            else if (prefType == PrefType.Integer)
-                onChange(mPrefsName, mPrefsDefValueInt);
-            else if (prefType == PrefType.Boolean)
-                onChange(mPrefsName, mPrefsDefValueBool);
-        }
-
-        public void onChange(Uri uri) {
-        }
-
-        public void onChange(String name) {
-        }
-
-        public void onChange(String name, String defValue) {
-        }
-
-        public void onChange(String name, int defValue) {
-        }
-
-        public void onChange(String name, boolean defValue) {
-        }
     }
 }

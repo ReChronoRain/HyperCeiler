@@ -6,16 +6,9 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class XposedLogUtils {
-
-    public XC_LoadPackage.LoadPackageParam mLoadPackageParam = null;
-
-    public void init(XC_LoadPackage.LoadPackageParam lpparam) {
-        mLoadPackageParam = lpparam;
-    }
 
     public static final PrefsMap<String, Object> mPrefsMap = XposedInit.mPrefsMap;
 

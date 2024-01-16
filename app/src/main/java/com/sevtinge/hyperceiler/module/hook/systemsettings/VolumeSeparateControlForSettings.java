@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -38,7 +37,7 @@ public class VolumeSeparateControlForSettings extends BaseHook {
             protected void after(MethodHookParam param) throws Throwable {
                 Object fragment = param.thisObject;
                 Context context = (Context) XposedHelpers.callMethod(fragment, "getActivity");
-                Resources modRes = Helpers.getModuleRes(context);
+                Resources modRes = getModuleRes(context);
                 int order = 6;
 
                 Method[] initSeekBar;
