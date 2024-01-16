@@ -10,6 +10,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/browser_enable_debug_environment"
+            android:summary="@string/browser_enable_debug_environment_desc"
+            android:key="prefs_key_browser_enable_debug_environment"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/browser_disable_blacklist"
             android:key="prefs_key_browser_disable_blacklist"
             android:defaultValue="false" />

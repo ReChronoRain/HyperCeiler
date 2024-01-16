@@ -38,6 +38,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
     private Preference mDebugInfo;
     MainActivityContextHelper mainActivityContextHelper;
     TextView m;
+    public static String test;
 
 
     @Override
@@ -100,6 +101,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("SignCheckPass", String.valueOf(mainActivityContextHelper.isSignCheckPass()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
             propertiesCheck.put("RootPermission", String.valueOf(checkRootPermission() == 0));
+            propertiesCheck.put("Test", test);
         } catch (Exception ignored) {
         }
 

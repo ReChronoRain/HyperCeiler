@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!--Introduction to Xposed Modules-->
+    <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Jadikan HyperOS/MIUI Hebat Lagi!</string>
-
-    <string name="description_hyperos" translatable="false">Jadikan HyperOS Hebat Lagi!</string>
-    <string name="description_miui" translatable="false">Jadikan MIUI Hebat Lagi!</string>
-
-    <string name="new_permission_wifi_state_desc">menambah dan menghapus file di penyimpanan internal perangkat</string>
-    <string name="new_permission_location_desc">digunakan untuk menyediakan layanan seperti garis lintang dan garis bujur</string>
-    <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk izin Root/Su.</string>
-    <string name="new_cta_app_main_purpose">memodifikasi aplikasi sistem</string>
+    <string name="new_permission_wifi_state_desc">menambah dan menghapus file pada penyimpanan internal perangkat</string>
+    <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
+    <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
+    <string name="new_cta_app_main_purpose">midifikasi sistem aplikasi</string>
     <string name="new_cta_app_all_purpose_title">Selamat datang di HyperCeiler. Aplikasi ini mengandalkan framework Xpose untuk dijalankan. Anda dapat menggunakan aplikasi ini untuk membajak dan memodifikasi aplikasi lain yang didukung untuk menyempurnakan sistem. Selama penggunaan, untuk memberi Anda lebih banyak fungsi, kami mungkin meminta izin Root/Su dari Anda. Anda dapat mengelolanya kapan saja dengan membuka Root/Su Manager Anda.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Bahasa Indonesia</string>
@@ -33,77 +29,78 @@
     <string name="prefs_7">Hapus Kunci yang ditentukan</string>
     <string name="settings">Pengaturan</string>
     <string name="about">Tentang</string>
-    <string name="about_use">Mengutip</string>
+    <string name="about_use">Kutipan</string>
     <string name="about_use_desc">HyperCeiler menggunakan beberapa atau semua proyek berikut, terima kasih kepada pengembang proyek ini atas dukungan mereka (tanpa urutan tertentu)</string>
-    <string name="about_contributer">Penyumbang</string>
+    <string name="about_contributer">Kontributor</string>
     <string name="about_contributer_desc">Terima kasih kepada kontributor berikut atas bantuannya dalam pengembangan HyperCeiler (tanpa urutan tertentu)</string>
     <string name="about_donation">Sponsor</string>
-    <string name="about_donation_desc">Anda dapat mendukung kami dengan berdonasi di sini</string>
+    <string name="about_donation_desc">Anda bisa mendukung kami dengan donasi di sini</string>
     <string name="hyperceiler_notice">Tarik bilah status ke bawah untuk menampilkan sakelar pintasan dan pemberitahuan sistem</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
     <string name="location_add">Menambahkan</string>
     <string name="location_delete">Menghapus</string>
     <string name="development">Opsi Pengembang</string>
-    <string name="development_ui">UI</string>
+    <string name="development_ui">Antarmuka Pengguna</string>
     <string name="development_debug_info">Informasi debug</string>
     <string name="development_prefs">Bagikan preferensi</string>
-    <string name="about_privacy">Kebijakan pribadi</string>
+    <string name="about_privacy">Kebijakan Privasi</string>
     <string name="about_protocol">Perjanjian Pengguna</string>
     <string name="settings_show_title">Menunjukkan</string>
     <string name="settings_data_title">Cadangkan dan Pulihkan</string>
     <string name="settings_bug_title">Penyelesaian masalah</string>
-    <string name="settings_debug_title">Men-debug</string>
-    <string name="settings_hide_app_icon">Ikon Desktop</string>
-    <string name="settings_icon">Ikon Pengaturan</string>
-    <string name="settings_icon_desc">Atur lokasi entri modul di pengaturan sistem</string>
-    <string name="settings_icon_disable">Cacat</string>
+    <string name="settings_debug_title">Debug</string>
+    <string name="settings_hide_app_icon">Ikon desktop</string>
+    <string name="settings_icon">Pengaturan Ikon</string>
+    <string name="settings_icon_desc">Atur lokasi entri modul dalam pengaturan sistem</string>
+    <string name="settings_icon_disable">Matikan</string>
     <string name="settings_icon_top">Atas</string>
     <string name="settings_icon_medium">Tengah</string>
-    <string name="settings_icon_down">Dasar</string>
+    <string name="settings_icon_down">Bawah</string>
     <string name="settings_icon_mode">Gaya ikon</string>
-    <string name="settings_icon_miui_14">Gaya persegi panjang bulat</string>
+    <string name="settings_icon_miui_14">Bentuk kotak membulat</string>
     <string name="settings_icon_miui_13">Gaya potongan latar belakang</string>
-    <string name="settings_reboot">Mulai ulang aplikasi target</string>
-    <string name="settings_back">Pengaturan modul cadangan</string>
-    <string name="settings_rest">Pulihkan pengaturan modul</string>
-    <string name="settings_reset">Atur ulang pengaturan modul</string>
-    <string name="reset_title">Apakah Anda yakin ingin menyetel ulang?</string>
-    <string name="reset_desc">Setelah mengatur ulang konfigurasi modul, semua datanya akan dihapus!</string>
-    <string name="reset_okay">Konfigurasi modul telah diatur ulang</string>
-    <string name="backup_success">Pencadangan berhasil</string>
+    <string name="settings_reboot">Restart aplikasi target</string>
+    <string name="settings_back">Pengaturan cadangan modul</string>
+    <string name="settings_rest">Pengaturan pemulihan modul</string>
+    <string name="settings_reset">Pengaturan reset modul</string>
+    <string name="reset_title">Apakah Anda yakin untuk reset?</string>
+    <string name="reset_desc">Setelah mereset konfigurasi modul, semua datanya akan dihapus!</string>
+    <string name="reset_okay">Konfigurasi modul telah direset</string>
+    <string name="backup_success">Cadangan sukses</string>
     <string name="backup_failed">Pencadangan gagal</string>
-    <string name="rest_title">Pulih</string>
+    <string name="rest_title">Pulihkan</string>
     <string name="rest_success">Pemulihan berhasil</string>
     <string name="rest_failed">Pemulihan gagal</string>
-    <string name="backup_ask">Apakah Anda ingin menulis cadangan?</string>
+    <string name="backup_ask">Apakah Anda ingin membuat cadangan?</string>
     <string name="backup_permission">Sekarang Anda harus mengaktifkan izin secara manual untuk opsi ini.</string>
     <string name="rest_ask">Apakah Anda ingin memulihkan cadangan Anda?</string>
     <string name="rest_permission">Sekarang Anda harus mengaktifkan izin secara manual untuk opsi ini.</string>
-    <string name="disable_detailed_log">Nonaktifkan log terperinci</string>
-    <string name="disable_detailed_log_desc">Nyalakan ulang untuk menerapkan</string>
+    <string name="disable_detailed_log">Matikan log terperinci</string>
+    <string name="disable_detailed_log_desc">Reboot untuk menerapkan</string>
+    <string name="disable_detailed_log_more">Versi Debug Canary tidak mendukung penyesuaian level log</string>
     <string name="settings_safe_mode">Mode aman</string>
-    <string name="settings_safe_mode_desc">Hentikan fungsi modul</string>
+    <string name="settings_safe_mode_desc">Menghentikan fungsi modul</string>
     <string name="about_developer_title">Pengembang</string>
     <string name="about_translator_title">Penerjemah</string>
     <string name="about_chat_title">Diskusi</string>
     <string name="about_other_title">Lainnya</string>
-    <string name="about_qq_group">Grup QQ</string>
-    <string name="about_qq_channel">Saluran QQ</string>
+    <string name="about_qq_group">QQ Group</string>
+    <string name="about_qq_channel">QQ Channel</string>
     <string name="about_tg_group">Grup Telegram</string>
-    <string name="about_tg_channel">Saluran Telegram</string>
+    <string name="about_tg_channel">Channel Telegram</string>
     <string name="about_github">Kode sumber</string>
-    <string name="about_github_desc">Proyek ini bersifat open source berdasarkan lisensi AGPL-3.0</string>
-    <string name="about_offical">Situs web resmi</string>
-    <string name="about_crwd">kerumunan</string>
+    <string name="about_github_desc">Proyek ini adalah sumber terbuka berdasarkan lisensi AGPL-3.0</string>
+    <string name="about_offical">Official website</string>
+    <string name="about_crwd">Crowdin</string>
     <string name="about_crwd_desc">Bantu kami menerjemahkan HyperCeiler ke dalam bahasa Anda</string>
-    <string name="debug_info" translatable="false">Tidak dapat memperoleh info debug.</string>
     <!--Pop-up window/miuix part-->
-    <string name="soft_reboot">Menyalakan ulang</string>
-    <string name="restart_app_desc">Apakah Anda yakin ingin memulai ulang sekarang %1$s?</string>
+    <string name="soft_reboot">Reboot </string>
+    <string name="restart_app_desc">Apakah Anda yakin untuk me-restart sekarang %1$s?</string>
     <string name="tip">Tip</string>
     <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
-    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xpose diaktifkan. Jika sudah, silakan restart atau optimalkan kembali modul tersebut.</string>
+    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
     <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
+    <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
     <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
     <string name="expand_button_title">Level tinggi</string>
@@ -157,58 +154,58 @@
     <string name="camera_pro">Pro</string>
     <string name="enable">Mengaktifkan</string>
     <string name="disable">Cacat</string>
-    <string name="custom_enable">Aktifkan khusus</string>
-    <string name="search">Mencari</string>
-    <string name="floating_window">Bebas dari</string>
-    <string name="save_to_screen_title">Spesifikasi menyimpan lokasi</string>
+    <string name="custom_enable">Pengaktifan khusus</string>
+    <string name="search">Cari</string>
+    <string name="floating_window">Freeform</string>
+    <string name="save_to_screen_title">Lokasi penyimpanan khusus</string>
     <string name="system_ui_statusbar_indicator_default_title">Bawaan</string>
-    <string name="system_ui_statusbar_indicator_expand_title">Memperluas</string>
+    <string name="system_ui_statusbar_indicator_expand_title">Perluas</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Perbaiki lebar konten</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Untuk mencegah jitter horizontal</string>
-    <string name="system_ui_statusbar_indicator_bold">Berani</string>
+    <string name="system_ui_statusbar_indicator_bold">Tebal</string>
     <!--Multi-list Array-->
-    <string name="array_close">Menutup</string>
+    <string name="array_close">Tutup</string>
     <string name="array_default">Bawaan</string>
     <string name="array_align_left">Kiri</string>
-    <string name="array_align_right">Benar</string>
-    <string name="array_align_center">terpusat</string>
-    <string name="array_netspeedicons_no">Tidak ada ikon</string>
+    <string name="array_align_right">Kanan</string>
+    <string name="array_align_center">Terpusat</string>
+    <string name="array_netspeedicons_no">Tanpa icon</string>
     <string name="array_default_official">Font Preset Resmi</string>
     <string name="array_default_thin">Font Bawaan</string>
     <string name="array_default_bold">Font Default-Tebal</string>
-    <string name="array_bold">Berani</string>
-    <string name="array_theme">Ikuti subjeknya</string>
-    <string name="array_clock_center">Pusat jam</string>
-    <string name="array_clock_right">Jam ke kanan</string>
-    <string name="array_clock_center_and_icon_left">Pusat jam &amp; Ikon kiri</string>
+    <string name="array_bold">Tebal</string>
+    <string name="array_theme">Ikuti subjek</string>
+    <string name="array_clock_center">Jam di tengah</string>
+    <string name="array_clock_right">Jam di kanan</string>
+    <string name="array_clock_center_and_icon_left">Jam di tengah &amp; ikon di kiri</string>
     <string name="array_clock_default">Bawaan</string>
-    <string name="array_clock_geek">Kutu buku</string>
+    <string name="array_clock_geek">Geek</string>
     <string name="array_battery_both">Keduanya</string>
-    <string name="array_battery_power">Hanya kekuatan</string>
-    <string name="array_battery_current">Hanya saat ini</string>
+    <string name="array_battery_power">Hanya daya</string>
+    <string name="array_battery_current">Hanya aliran</string>
     <string name="array_battery_temp">Suhu baterai</string>
-    <string name="array_cpu_temp">suhu CPU</string>
-    <string name="array_global_actions_none">Tidak ada tindakan</string>
+    <string name="array_cpu_temp">Suhu CPU</string>
+    <string name="array_global_actions_none">Tidak ada aksi</string>
     <string name="array_global_actions_notif">Buka pusat notifikasi</string>
-    <string name="array_global_actions_eqs">Perluas panel pengaturan cepat</string>
+    <string name="array_global_actions_eqs">Perluas panel quick settings</string>
     <string name="array_global_actions_lock">Layar kunci</string>
     <string name="array_global_actions_sleep">Tutup layar</string>
     <string name="array_global_actions_screenshot">Tangkapan Layar</string>
     <string name="array_global_actions_menu">Buka Menu</string>
-    <string name="array_global_actions_recents">Buka Terbaru</string>
-    <string name="array_global_actions_volume">Buka dialog volume</string>
+    <string name="array_global_actions_recents">Buka Terkini</string>
+    <string name="array_global_actions_volume">Buka jendela volume</string>
     <string name="array_global_actions_volume_up">Volume Naik</string>
     <string name="array_global_actions_volume_down">Volume Turun</string>
     <string name="array_global_actions_launch">Luncurkan aplikasi</string>
-    <string name="array_global_actions_launch_choose">Pilih aplikasi</string>
+    <string name="array_global_actions_launch_choose">Pilih apl</string>
     <string name="array_global_actions_shortcut">Luncurkan pintasan</string>
     <string name="array_global_actions_activity">Luncurkan aktivitas</string>
-    <string name="array_global_actions_toggle">Beralih fungsi</string>
-    <string name="array_global_actions_back">Beralih ke aplikasi sebelumnya</string>
-    <string name="array_global_actions_forceclose">Tutup paksa aplikasi saat ini</string>
+    <string name="array_global_actions_toggle">Alihkan fungsi</string>
+    <string name="array_global_actions_back">Beralih ke apl sebelumnya</string>
+    <string name="array_global_actions_forceclose">Tutup paksa apl saat ini</string>
     <string name="array_global_actions_powermenu">Buka menu daya</string>
     <string name="array_global_actions_powermenu_short">Menu daya</string>
-    <string name="array_global_actions_clear_memory">Ingatan yang jelas</string>
+    <string name="array_global_actions_clear_memory">Bersihkan memori</string>
     <string name="array_global_actions_invert_colors">Inversi warna</string>
     <string name="array_global_actions_switchkeyboard">Ganti Papan Ketik</string>
     <string name="array_global_actions_goback">Kembali</string>
@@ -317,7 +314,7 @@
     <string name="phone_n28_desc">Mendukung n28 Band (NR)</string>
     <string name="phone_n5_n8">n5/n8 Pita</string>
     <string name="phone_n5_n8_desc">Masukkan *#*#65686633#*#* pada antarmuka dial untuk Mendukung Band n5/n8. Jika muncul \"aktifkan Mode N5 dan N8\", fitur tersebut akan berhasil diaktifkan.</string>
-
+    <string name="phone_additional_network_settings">Pengaturan Jaringan Tambahan</string>
     <string name="system_framework_screen_title">Tampilan &amp; Pemberitahuan</string>
     <string name="system_framework_core_title">Inti di bawahnya</string>
     <string name="system_framework_hook_entry">Buka kunci batas pengisian daya pintar</string>
@@ -462,7 +459,7 @@
     <string name="system_ui">UI Sistem</string>
     <string name="system_ui_lockscreen_title">Layar kunci</string>
     <string name="system_ui_lockscreen_safe_title">Keamanan</string>
-    <string name="system_ui_lockscreen_ui_title">UI</string>
+    <string name="system_ui_lockscreen_ui_title">Antarmuka Pengguna</string>
     <string name="system_ui_lockscreen_information_title">Informasi</string>
     <string name="system_ui_lock_screen_scramble_pin">PIN acak</string>
     <string name="system_ui_lock_screen_scramble_pin_desc">Acak urutan papan tombol PIN</string>
@@ -665,6 +662,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s tidak aktif</string>
     <string name="system_control_center_5g_tile">Sakelar jaringan 5G</string>
     <string name="system_control_center_5g_toggle_label">Jaringan 5G</string>
+    <string name="system_control_center_reduce_bright_colors_tile">Sangat gelap</string>
     <string name="system_control_center_taplus_label">Sakelar Taplus</string>
     <string name="system_control_center_sunshine_mode">Mode Sinar Matahari</string>
     <string name="system_ui_control_auto_close">Ubin magnetik ditarik secara otomatis</string>
@@ -725,7 +723,6 @@
     <string name="system_ui_control_center_more_card_tiles_less">Tidak ada</string>
     <string name="system_ui_control_center_more_card_tiles_more">Lagi</string>
     <string name="system_ui_control_center_more_card_tiles_most">Paling</string>
-
     <string name="system_ui_other_title">Lainnya</string>
     <string name="system_ui_charge_animation_title">Mengisi animasi</string>
     <string name="system_ui_charge_animation_style">Gaya animasi pengisian daya</string>
@@ -779,11 +776,9 @@
     <string name="system_settings_connection_sharing_title">Koneksi Jaringan &amp; berbagi</string>
     <string name="system_settings_new_nfc_page">Halaman NFC Baru</string>
     <string name="system_settings_new_nfc_page_desc">Setelah dibuka, aplikasi pembayaran default untuk model yang tidak didukung tidak dapat memilih Xiaomi Wallet</string>
-
     <string name="system_settings_lab_title">Fungsi unggulan</string>
     <string name="system_settings_area_screenshot">Buka kunci tangkapan layar area</string>
     <string name="system_settings_voip_assistant_controller">Asisten VoIP</string>
-    <string name="system_settings_ai_image_title">Mesin Gambar Ai</string>
     <string name="system_settings_ai_image_unlock_sr">Buka kunci resolusi Super</string>
     <string name="system_settings_ai_image_unlock_ai">Buka kunci peningkatan gambar AI dan peningkatan AI HDR</string>
     <string name="system_settings_ai_image_unlock_memc">Buka kunci MEMC</string>
@@ -1024,7 +1019,6 @@
     <string name="home_title_custom_anim_param">Parameter Animasi Kustom</string>
     <string name="home_title_custom_anim_param_damping_title">Pembasahan</string>
     <string name="home_title_custom_anim_param_stiffness_title">Kekakuan</string>
-
     <string name="home_recent">Terkini</string>
     <string name="home_recent_animation_speed">Kecepatan animasi</string>
     <string name="home_recent_disable_wallpaper_dimming">Nonaktifkan peredupan wallpaper</string>
@@ -1047,7 +1041,6 @@
     <string name="home_recent_show_memory_info">Tampilkan info memori</string>
     <string name="home_recent_always_show_clean_up">Larang menyembunyikan ikon pembersihan saat tidak ada kartu</string>
     <string name="home_recent_blur">Latar belakang kabur</string>
-
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animasi widget</string>
     <string name="home_widget_show_miui_widget">Tampilkan Widget Sistem</string>
@@ -1056,7 +1049,6 @@
     <string name="home_widget_allow_moved_to_minus_one_screen">Izinkan widget klasik dipindahkan ke layar Minus One</string>
     <string name="home_widget_hide_title">Sembunyikan judul widget</string>
     <string name="home_widget_resizable">Hapus batasan ukuran widget apa pun</string>
-
     <string name="home_dock">Dermaga</string>
     <string name="home_dock_bg_enable">Tambahkan Latar Belakang Dock Bar</string>
     <string name="home_dock_bg_height">Tinggi</string>
@@ -1075,7 +1067,6 @@
     <string name="home_dock_icon_title">Tampilkan judul ikon di dok</string>
     <string name="home_dock_disable_recents_icon">Sembunyikan ikon aplikasi terkini dari Dock</string>
     <string name="home_dock_add_blur">Latar belakang khusus buram</string>
-
     <string name="home_other">Lainnya</string>
     <string name="home_other_shortcut_title">Jalan pintas</string>
     <string name="home_other_home_mode">Modus desktop</string>
@@ -1202,6 +1193,7 @@
     <string name="security_center_blur_location">Akurasi posisi lebih rendah</string>
     <string name="security_center_gms_open">Layanan RUPS</string>
     <string name="security_center_taplus">Sakelar Taplus</string>
+    <string name="security_center_reduce_bright_colors_tile">Penggantian ikon ubin yang sangat gelap</string>
     <string name="security_center_flash_light">Kontrol kecerahan senter</string>
     <string name="security_center_flash_light_more">Memungkinkan Anda mengontrol kecerahan senter dengan menyeret penggeser kecerahan</string>
     <string name="security_center_get_number">Kelola aplikasi untuk mendapatkan nomor ponsel dan masuk dengan satu klik</string>
@@ -1247,7 +1239,7 @@
     <string name="security_center_unlock_side_hide_freeform">Buka kunci bentuk bebas yang disembunyikan di samping</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Buka kunci bentuk bebas sembunyikan samping untuk perangkat dengan dukungan rendah namun terbatas. Hal ini juga akan mempengaruhi perilaku widget saat ponsel beralih ke latar belakang</string>
     <string name="security_center_unlock_smart_charge_title">Fungsi pengisian dan baterai lengkap</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Fungsi yang Selesai:\n- Perlindungan Baterai -> Perlindungan Kerusakan Pengisian Daya Navigasi\n- Fitur Baterai Lainnya -> Darurat Pengisian Daya Rendah</string>
+    <string name="security_center_unlock_smart_charge_title_summary">Fungsi yang Selesai:\n- Perlindungan Baterai -&gt; Perlindungan Kerusakan Pengisian Daya Navigasi\n- Fitur Baterai Lainnya -&gt; Darurat Pengisian Daya Rendah</string>
     <string name="security_center_super_wireless_charge">Buka kunci pengisian daya nirkabel Super</string>
     <string name="security_center_blur_model">Model buram bilah sisi</string>
     <string name="security_center_invert_color">Ikon terbalik</string>
@@ -1360,7 +1352,6 @@
     <string name="various_open_aosp_something_title">Sembunyikan Properti</string>
     <string name="various_open_aosp_something_desc">Buka antarmuka AOSP yang tersembunyi dengan mudah</string>
     <string name="various_nobrightness">Tolak kecerahan yang dipaksakan</string>
-
     <string name="various_no_overscroll">Nonaktifkan pentalan di luar batas</string>
     <string name="various_disable_access_device_logs">Tutup dialog permintaan log perangkat akses</string>
     <string name="various_phrase_clipboardlist">Hapus papan klip dan batas waktu untuk frasa</string>
@@ -1457,7 +1448,7 @@
     <string name="default_volume_stream_media">Media</string>
     <string name="default_volume_stream_tip">Pemberitahuan</string>
     <string name="open_with_test_picture">Gambar</string>
-    <string name="open_with_test_audio">Audio</string>
+    <string name="open_with_test_audio">Suara</string>
     <string name="open_with_test_media">Video</string>
     <string name="open_with_test_doc">Dokumen</string>
     <string name="open_with_test_zip">Mengajukan</string>

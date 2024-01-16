@@ -54,11 +54,11 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                     }
                 );
             }
-            case "debug" -> {
+            /*case "debug" -> {
                 mLogLevel.setEnabled(false);
                 mLogLevel.setValueIndex(4);
                 mLogLevel.setSummary(R.string.disable_detailed_log_more);
-            }
+            }*/
             default -> {
                 mLogLevel.setOnPreferenceChangeListener(
                     (preference, o) -> {

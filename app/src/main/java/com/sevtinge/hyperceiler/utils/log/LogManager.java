@@ -13,9 +13,9 @@ public class LogManager {
             case "canary" -> {
                 return level == 0 ? 3 : 4;
             }
-            case "debug" -> {
+            /*case "debug" -> {
                 return 4;
-            }
+            }*/
             default -> {
                 return level;
             }

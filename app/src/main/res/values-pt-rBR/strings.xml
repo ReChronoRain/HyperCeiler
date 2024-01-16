@@ -100,6 +100,7 @@
     <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
     <string name="hook_failed">O módulo ainda não está ativado.\nPor favor, verifique se o gerenciador do Xposed está ativado. Nesse caso, por favor, reinicie ou otimize novamente o módulo.</string>
     <string name="kill_failed">Falha ao finalizar o processo, por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
+    <string name="start_failed">Falha ao iniciar a atividade. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
     <string name="reboot_failed">Falha na reinicialização, por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="expand_button_title">Alto nível</string>
@@ -313,6 +314,7 @@
     <string name="phone_n28_desc">Suporte Banda n28 (NR)</string>
     <string name="phone_n5_n8">Banda n5/n8</string>
     <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* na interface de discagem para suportar a banda n5/n8. Se mostrar \"ativar modo N5 e N8\", o recurso será ativado com sucesso.</string>
+    <string name="phone_additional_network_settings">Configurações de rede adicionais</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
     <string name="system_framework_hook_entry">Desbloquear limite de carga inteligente</string>
@@ -777,7 +779,6 @@
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
-    <string name="system_settings_ai_image_title">Motor de imagens IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>

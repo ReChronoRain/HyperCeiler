@@ -103,7 +103,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.PerfectIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.RecommendAppsSwitch;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleMarquee;
-import com.sevtinge.hyperceiler.module.hook.home.title.UnlockBlurSupported;
+import com.sevtinge.hyperceiler.module.hook.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AlwaysShowMiuiWidget;
