@@ -79,7 +79,7 @@ public class BackupUtils {
             Object value = jsonObject.get(key);
             if (value instanceof String) {
                 if (((String) value).contains("[") && ((String) value).contains("]")) {
-                    value = ((String) value).replace("[", "").replace("]", "");
+                    value = ((String) value).replace("[", "").replace("]", "").replace(" ", "");
                     String[] array = ((String) value).split(",");
                     List<String> list = Arrays.asList(array);
                     Set<String> stringSet = new HashSet<>(list);
