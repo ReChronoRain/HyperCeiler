@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.utils;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -25,7 +24,7 @@ public class ContextUtils {
         try {
             return invokeMethod(flag);
         } catch (Throwable e) {
-            Log.e(TAG, "getContext: ", e);
+            AndroidLogUtils.LogE(TAG, "getContext: ", e);
             return null;
         }
     }
