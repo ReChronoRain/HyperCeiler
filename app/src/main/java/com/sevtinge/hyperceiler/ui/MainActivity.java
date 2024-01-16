@@ -12,7 +12,14 @@ import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.SearchHelper;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
-import com.sevtinge.hyperceiler.utils.api.AppApi;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import moralnorm.appcompat.app.AlertDialog;
 
@@ -24,8 +31,8 @@ public class MainActivity extends NavigationActivity {
         super.onCreate(savedInstanceState);
         new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
-        if (!ShellUtils.getResultBoolean("setprop persist.hyperceiler.log.level " +
-            (AppApi.isRelease() ? def : AppApi.isCanary() ? (def == 0 ? 3 : 4) : (AppApi.isDebug() ? 4 : def)), true)) {
+        if (!PropUtils.setProp("persist.hyperceiler.log.level",
+            (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : (ProjectApi.isDebug() ? 4 : def)))) {
             new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setTitle(getResources().getString(R.string.tip))
