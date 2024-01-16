@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -67,7 +66,7 @@ public class ViewWifiPasswordHook extends BaseHook {
                 boolean canShare = (boolean) XposedHelpers.callMethod(wifiEntry, "canShare");
                 if (canShare) {
                     if (passwordTitle[0] == null) {
-                        Resources modRes = Helpers.getModuleRes((Context) XposedHelpers.callMethod(param.thisObject, "getContext"));
+                        Resources modRes = getModuleRes((Context) XposedHelpers.callMethod(param.thisObject, "getContext"));
                         passwordTitle[0] = modRes.getString(R.string.system_settings_wifi_password_label);
                     }
                     String sharedKey = getSharedKey(param, wifiEntry);

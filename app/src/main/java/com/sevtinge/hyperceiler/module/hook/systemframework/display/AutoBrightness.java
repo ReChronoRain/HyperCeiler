@@ -9,8 +9,9 @@ import android.net.Uri;
 import android.os.Handler;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.MathUtils;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
+import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -91,7 +92,7 @@ public class AutoBrightness extends BaseHook {
                 protected void after(final MethodHookParam param) throws Throwable {
                     Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                     Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
-                    new Helpers.SharedPrefObserver(mContext, mHandler) {
+                    new PrefsChangeObserver(mContext, mHandler) {
                         @Override
                         public void onChange(Uri uri) {
                             try {
@@ -100,10 +101,10 @@ public class AutoBrightness extends BaseHook {
                                 switch (type) {
                                     case "integer" -> {
                                         int defVal = "pref_key_system_control_center_min_brightness".equals(key) ? 25 : 75;
-                                        mPrefsMap.put(key, Helpers.getSharedIntPref(mContext, key, defVal));
+                                        mPrefsMap.put(key, PrefsUtils.getSharedIntPrefs(mContext, key, defVal));
                                     }
                                     case "boolean" ->
-                                        mPrefsMap.put(key, Helpers.getSharedBoolPref(mContext, key, false));
+                                        mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(mContext, key, false));
                                 }
                             } catch (Throwable t) {
                                 LogD(TAG, "onChange", t);

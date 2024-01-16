@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import java.util.Iterator;
@@ -34,7 +35,7 @@ public class CleanShareMenu extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
 
-                new PrefsUtils.SharedPrefsObserver(mContext, mHandler, "prefs_key_system_framework_clean_share_apps") {
+                new PrefsChangeObserver(mContext, mHandler, "prefs_key_system_framework_clean_share_apps") {
                     @Override
                     public void onChange(String name) {
                         mPrefsMap.put(name, PrefsUtils.getSharedStringSetPrefs(mContext, name));

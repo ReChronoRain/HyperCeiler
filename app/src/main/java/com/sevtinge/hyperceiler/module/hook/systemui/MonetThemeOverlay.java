@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 
@@ -33,7 +34,7 @@ public class MonetThemeOverlay extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 mHandler = new Handler(mContext.getMainLooper());
-                new PrefsUtils.SharedPrefsObserver(mContext, mHandler, "prefs_key_system_ui_monet_overlay_custom_color", -1) {
+                new PrefsChangeObserver(mContext, mHandler, "prefs_key_system_ui_monet_overlay_custom_color", -1) {
                     @Override
                     public void onChange(String name, int defValue) {
                         mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, defValue));

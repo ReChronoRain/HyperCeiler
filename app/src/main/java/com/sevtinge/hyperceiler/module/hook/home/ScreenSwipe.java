@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.module.app.GlobalActions;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -56,7 +57,7 @@ public class ScreenSwipe extends BaseHook {
             protected void after(final MethodHookParam param) {
                 final Activity act = (Activity) param.thisObject;
                 Handler mHandler = (Handler) XposedHelpers.getObjectField(act, "mHandler");
-                new PrefsUtils.SharedPrefsObserver(act, mHandler) {
+                new PrefsChangeObserver(act, mHandler) {
                     @Override
                     public void onChange(Uri uri) {
                         try {

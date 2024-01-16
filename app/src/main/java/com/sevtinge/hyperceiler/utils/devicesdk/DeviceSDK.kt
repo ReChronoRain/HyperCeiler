@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.utils.devicesdk
 
 import com.sevtinge.hyperceiler.utils.PropUtils.getProp
-import com.sevtinge.hyperceiler.utils.exec
 import java.util.Locale
 
 
@@ -14,4 +13,4 @@ fun getDeviceName(): String = android.os.Build.DEVICE
 fun getModelName(): String = android.os.Build.MODEL
 fun getBrand(): String = android.os.Build.BRAND
 fun getManufacture(): String = android.os.Build.MANUFACTURER
-fun getSerial(): String = exec("getprop ro.serialno").replace("\n", "")
+fun getSerial(): String = getProp("ro.serialno").replace("\n", "")

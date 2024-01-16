@@ -7,7 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public class PackagePermissions extends BaseHook {
 
     @Override
     public void init() {
-        systemPackages.add(Helpers.mAppModulePkg);
+        systemPackages.add(ProjectApi.mAppModulePkg);
 
         // Allow signature level permissions for module
         String PMSCls = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.permission.PermissionManagerServiceImpl" : "com.android.server.pm.permission.PermissionManagerService";

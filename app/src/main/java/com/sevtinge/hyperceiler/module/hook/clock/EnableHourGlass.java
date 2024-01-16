@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.module.hook.clock;
 
-import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
 

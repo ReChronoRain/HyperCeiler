@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +91,7 @@ public class FreeformShortcutMenu extends BaseHook {
             findAndHookMethod(mAppDetailsShortcutMenuItem, "getOnClickListener", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {
-                    Resources modRes = Helpers.getModuleRes(mContext);
+                    Resources modRes = getModuleRes(mContext);
                     Object obj = param.thisObject;
                     CharSequence mShortTitle = (CharSequence) callMethod(obj, "getShortTitle");
 
@@ -125,7 +124,7 @@ public class FreeformShortcutMenu extends BaseHook {
                 @Override
                 protected void after(MethodHookParam param) throws Throwable {
 
-                    Resources modRes = Helpers.getModuleRes(mContext);
+                    Resources modRes = getModuleRes(mContext);
 
                     List mAllSystemShortcutMenuItems = (List) XposedHelpers.getStaticObjectField(mSystemShortcutMenuItem, "sAllSystemShortcutMenuItems");
 

@@ -11,7 +11,7 @@ import android.os.UserHandle;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.ui.MainActivity;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +43,13 @@ public class HyperCeilerSettings extends BaseHook {
                 int opt = Integer.parseInt(mPrefsMap.getString("settings_icon", "0"));
                 if (opt == 0) return;
 
-                Resources modRes = Helpers.getModuleRes(mContext);
+                Resources modRes = getModuleRes(mContext);
                 mPreferenceHeader = findClassIfExists("com.android.settingslib.miuisettings.preference.PreferenceActivity$Header");
                 if (mPreferenceHeader == null) return;
 
                 Intent mIntent = new Intent();
                 mIntent.putExtra("isDisplayHomeAsUpEnabled", true);
-                mIntent.setClassName(Helpers.mAppModulePkg, MainActivity.class.getCanonicalName());
+                mIntent.setClassName(ProjectApi.mAppModulePkg, MainActivity.class.getCanonicalName());
 
                 Object header = XposedHelpers.newInstance(mPreferenceHeader);
                 XposedHelpers.setLongField(header, "id", 666);

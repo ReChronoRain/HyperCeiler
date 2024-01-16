@@ -11,7 +11,7 @@ import android.provider.Settings;
 import android.util.Pair;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,11 +243,11 @@ public class StickyFloatingWindows extends BaseHook {
     }
 
     public static void storeFwAppsInSetting(Context context) {
-        Settings.Global.putString(context.getContentResolver(), Helpers.mAppModulePkg + ".fw.apps", serializeFwApps());
+        Settings.Global.putString(context.getContentResolver(), ProjectApi.mAppModulePkg + ".fw.apps", serializeFwApps());
     }
 
     public static void restoreFwAppsInSetting(Context context) {
-        unserializeFwApps(Settings.Global.getString(context.getContentResolver(), Helpers.mAppModulePkg + ".fw.apps"));
+        unserializeFwApps(Settings.Global.getString(context.getContentResolver(), ProjectApi.mAppModulePkg + ".fw.apps"));
     }
 
     private static ActivityOptions patchActivityOptions(Context mContext, ActivityOptions options, String pkgName, Class<?> MiuiMultiWindowUtils) {

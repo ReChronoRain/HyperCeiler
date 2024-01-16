@@ -15,11 +15,14 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XposedUtils extends XposedLogUtils {
     // 尝试全部
@@ -49,7 +52,7 @@ public class XposedUtils extends XposedLogUtils {
 
     public static synchronized Context getModuleContext(Context context, Configuration config) throws Throwable {
         Context mModuleContext;
-        mModuleContext = context.createPackageContext(Helpers.mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
+        mModuleContext = context.createPackageContext(ProjectApi.mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
         return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
     }
 
@@ -120,6 +123,32 @@ public class XposedUtils extends XposedLogUtils {
                 "set", key, val);
         } catch (Throwable throwable) {
             logE("setProp", "set key e: " + key + " e:" + throwable);
+        }
+    }
+
+    public static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
+            return versionName;
+        } catch (Throwable e) {
+            return "";
+        }
+    }
+
+    public static int getPackageVersionCode(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+            Object parser = parserCls.newInstance();
+            File apkPath = new File(lpparam.appInfo.sourceDir);
+            Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
+            return versionCode;
+        } catch (Throwable e) {
+            return -1;
         }
     }
 

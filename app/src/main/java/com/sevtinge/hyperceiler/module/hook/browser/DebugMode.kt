@@ -3,11 +3,7 @@ package com.sevtinge.hyperceiler.module.hook.browser
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.utils.DexKit.closeDexKit
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.DexKit.initDexKit
-import com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionCode
-
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 

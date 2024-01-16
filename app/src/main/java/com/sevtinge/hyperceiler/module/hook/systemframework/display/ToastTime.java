@@ -5,7 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
+import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class ToastTime extends BaseHook {
                     ArrayList<Object> mToastQueue = (ArrayList<Object>) XposedHelpers.getObjectField(param.thisObject, "mToastQueue");
                     if (mContext == null || mHandler == null || mToastQueue == null || mToastQueue.size() == 0)
                         return;
-                    int mod = (Helpers.getSharedIntPref(mContext, "system_ui_display_toast_times", 0) - 4) * 1000;
+                    int mod = (PrefsUtils.getSharedIntPrefs(mContext, "system_ui_display_toast_times", 0) - 4) * 1000;
                     for (Object record : mToastQueue)
                         if (record != null && mHandler.hasMessages(2, record)) {
                             mHandler.removeCallbacksAndMessages(record);
@@ -42,10 +43,10 @@ public class ToastTime extends BaseHook {
                     Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                     Handler mHandler = (Handler) XposedHelpers.getObjectField(param.thisObject, "mHandler");
 
-                    new Helpers.SharedPrefObserver(mContext, mHandler, "system_ui_display_toast_times", 0) {
+                    new PrefsChangeObserver(mContext, mHandler, "system_ui_display_toast_times", 0) {
                         @Override
                         public void onChange(String name, int defValue) {
-                            mPrefsMap.put(name, Helpers.getSharedIntPref(mContext, name, defValue));
+                            mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, defValue));
                         }
                     };
                 }
