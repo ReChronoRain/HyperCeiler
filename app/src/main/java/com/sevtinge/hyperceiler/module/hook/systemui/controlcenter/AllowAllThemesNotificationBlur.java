@@ -12,13 +12,20 @@ public class AllowAllThemesNotificationBlur extends BaseHook {
         findAndHookConstructor("com.android.systemui.statusbar.phone.ConfigurationControllerImpl$onMiuiThemeChanged$1", boolean.class,boolean.class, new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                param.args[1] = true;
+                param.args[0] = true; //isDefaultLockScreenTheme
+                param.args[1] = true; //sDefaultSysUiTheme
             }
         });
         findAndHookMethod("com.android.systemui.shade.MiuiNotificationPanelViewController$MiuiConfigurationListener", "onMiBlurChanged", boolean.class,new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 XposedHelpers.setStaticBooleanField(findClass("com.miui.utils.MiuiThemeUtils"), "sDefaultSysUiTheme", true);
+                findAndHookMethod("com.miui.systemui.util.CommonUtil", "isDefaultLockScreenTheme", new MethodHook(){
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(true);
+                    }
+                });
             }
         });
         findAndHookMethod("com.miui.systemui.util.MiBlurCompat","getBackgroundBlurOpened",Context.class, new MethodHook(){
@@ -31,6 +38,12 @@ public class AllowAllThemesNotificationBlur extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 XposedHelpers.setStaticBooleanField(findClass("com.miui.utils.MiuiThemeUtils"), "sDefaultSysUiTheme", true);
+                findAndHookMethod("com.miui.systemui.util.CommonUtil", "isDefaultLockScreenTheme", new MethodHook(){
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(true);
+                    }
+                });
             }
         });
     }
