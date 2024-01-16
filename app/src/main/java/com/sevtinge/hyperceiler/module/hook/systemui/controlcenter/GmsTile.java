@@ -37,9 +37,8 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
-    public void customTileProvider() {
-        super.customTileProvider();
-        mTileProvider[0] = "screenLockTileProvider";
+    public String setTileProvider() {
+        return "screenLockTileProvider";
     }
 
     @Override
@@ -48,7 +47,7 @@ public class GmsTile extends TileUtils {
     }
 
     @Override
-    public int customValue() {
+    public int customRes() {
         return R.string.security_center_gms_open;
     }
 
