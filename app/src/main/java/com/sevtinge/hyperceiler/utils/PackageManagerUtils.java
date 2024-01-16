@@ -176,19 +176,19 @@ public class PackageManagerUtils {
             if (parcelable instanceof PackageInfo) {
                 appData.icon = BitmapUtils.drawableToBitmap(((PackageInfo) parcelable).applicationInfo.loadIcon(pm));
                 appData.label = ((PackageInfo) parcelable).applicationInfo.loadLabel(pm).toString();
-                appData.packageName = ((PackageInfo) parcelable).packageName;
+                appData.packageName = ((PackageInfo) parcelable).applicationInfo.packageName;
                 appData.versionName = ((PackageInfo) parcelable).versionName;
                 appData.versionCode = Long.toString(((PackageInfo) parcelable).getLongVersionCode());
                 appData.isSystemApp = isSystem(((PackageInfo) parcelable).applicationInfo);
                 appData.enabled = ((PackageInfo) parcelable).applicationInfo.enabled;
                 // AndroidLogUtils.LogE(TAG, "PackageInfo", null);
             } else if (parcelable instanceof ResolveInfo) {
-                appData.icon = BitmapUtils.drawableToBitmap(((ResolveInfo) parcelable).loadIcon(pm));
-                appData.label = ((ResolveInfo) parcelable).loadLabel(pm).toString();
-                appData.packageName = ((ResolveInfo) parcelable).activityInfo.packageName;
+                appData.icon = BitmapUtils.drawableToBitmap(((ResolveInfo) parcelable).activityInfo.applicationInfo.loadIcon(pm));
+                appData.label = ((ResolveInfo) parcelable).activityInfo.applicationInfo.loadLabel(pm).toString();
+                appData.packageName = ((ResolveInfo) parcelable).activityInfo.applicationInfo.packageName;
                 appData.activityName = ((ResolveInfo) parcelable).activityInfo.name;
                 appData.isSystemApp = isSystem(((ResolveInfo) parcelable).activityInfo.applicationInfo);
-                appData.enabled = ((ResolveInfo) parcelable).activityInfo.enabled;
+                appData.enabled = ((ResolveInfo) parcelable).activityInfo.applicationInfo.enabled;
                 // AndroidLogUtils.LogE(TAG, "ResolveInfo", null);
             } else if (parcelable instanceof PermissionGroupInfo) {
                 appData.icon = BitmapUtils.drawableToBitmap(((PermissionGroupInfo) parcelable).loadIcon(pm));
@@ -196,12 +196,12 @@ public class PackageManagerUtils {
                 appData.packageName = ((PermissionGroupInfo) parcelable).packageName;
                 // AndroidLogUtils.LogE(TAG, "PermissionGroupInfo", null);
             } else if (parcelable instanceof ActivityInfo) {
-                appData.icon = BitmapUtils.drawableToBitmap(((ActivityInfo) parcelable).loadIcon(pm));
-                appData.label = ((ActivityInfo) parcelable).loadLabel(pm).toString();
-                appData.packageName = ((ActivityInfo) parcelable).packageName;
+                appData.icon = BitmapUtils.drawableToBitmap(((ActivityInfo) parcelable).applicationInfo.loadIcon(pm));
+                appData.label = ((ActivityInfo) parcelable).applicationInfo.loadLabel(pm).toString();
+                appData.packageName = ((ActivityInfo) parcelable).applicationInfo.packageName;
                 appData.isSystemApp = isSystem(((ActivityInfo) parcelable).applicationInfo);
                 appData.activityName = ((ActivityInfo) parcelable).name;
-                appData.enabled = ((ActivityInfo) parcelable).enabled;
+                appData.enabled = ((ActivityInfo) parcelable).applicationInfo.enabled;
                 // AndroidLogUtils.LogE(TAG, "ActivityInfo", null);
             } else if (parcelable instanceof ApplicationInfo) {
                 appData.icon = BitmapUtils.drawableToBitmap(((ApplicationInfo) parcelable).loadIcon(pm));
@@ -213,7 +213,7 @@ public class PackageManagerUtils {
             } else if (parcelable instanceof ProviderInfo) {
                 appData.icon = BitmapUtils.drawableToBitmap(((ProviderInfo) parcelable).applicationInfo.loadIcon(pm));
                 appData.label = ((ProviderInfo) parcelable).applicationInfo.loadLabel(pm).toString();
-                appData.packageName = ((ProviderInfo) parcelable).packageName;
+                appData.packageName = ((ProviderInfo) parcelable).applicationInfo.packageName;
                 appData.isSystemApp = isSystem(((ProviderInfo) parcelable).applicationInfo);
                 appData.enabled = ((ProviderInfo) parcelable).applicationInfo.enabled;
                 // AndroidLogUtils.LogE(TAG, "ProviderInfo", null);
