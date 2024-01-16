@@ -578,7 +578,6 @@
     <string name="system_settings_lab_title">Избранные функции</string>
     <string name="system_settings_area_screenshot">Скриншот области разблокировки</string>
     <string name="system_settings_voip_assistant_controller">Помощник по VoIP</string>
-    <string name="system_settings_ai_image_title">AI обработка изображений</string>
     <string name="system_settings_ai_image_unlock_sr">Сверхвысокое разрешение</string>
     <string name="system_settings_ai_image_unlock_ai">Улучшение изображения с помощью AI и AI HDR</string>
     <string name="system_settings_ai_image_unlock_memc">MEMC</string>

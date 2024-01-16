@@ -779,7 +779,6 @@
     <string name="system_settings_lab_title">Fungsi unggulan</string>
     <string name="system_settings_area_screenshot">Buka kunci tangkapan layar area</string>
     <string name="system_settings_voip_assistant_controller">Asisten VoIP</string>
-    <string name="system_settings_ai_image_title">Mesin Gambar Ai</string>
     <string name="system_settings_ai_image_unlock_sr">Buka kunci resolusi Super</string>
     <string name="system_settings_ai_image_unlock_ai">Buka kunci peningkatan gambar AI dan peningkatan AI HDR</string>
     <string name="system_settings_ai_image_unlock_memc">Buka kunci MEMC</string>

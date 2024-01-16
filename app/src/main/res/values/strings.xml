@@ -825,7 +825,7 @@
     <string name="system_settings_lab_title">Featured functions</string>
     <string name="system_settings_area_screenshot">Unlock area screenshot</string>
     <string name="system_settings_voip_assistant_controller">VoIP assistant</string>
-    <string name="system_settings_ai_image_title">Ai Image Engine</string>
+    <string name="system_settings_display_and_lockscreen_title">Display &amp; Lock screen</string>
     <string name="system_settings_ai_image_unlock_sr">Unlock Super resolution</string>
     <string name="system_settings_ai_image_unlock_ai">Unlock AI image enhancement and AI HDR enhancement</string>
     <string name="system_settings_ai_image_unlock_memc">Unlock MEMC</string>
@@ -844,6 +844,7 @@
     <string name="system_settings_window_animation_scale">Window Animation Zoom</string>
     <string name="system_settings_transition_animation_scale">Transition Animation Scaling</string>
     <string name="system_settings_animator_duration_scale">Animator duration scaling</string>
+    <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
     <string name="theme_manager_version_code_modify">Disable MIUI version detection</string>

@@ -779,7 +779,6 @@
     <string name="system_settings_lab_title">注目の機能</string>
     <string name="system_settings_area_screenshot">部分的なスクリーンショットをアンロック</string>
     <string name="system_settings_voip_assistant_controller">VoIP アシスタント</string>
-    <string name="system_settings_ai_image_title">AI 画像エンジン</string>
     <string name="system_settings_ai_image_unlock_sr">超解像をアンロック</string>
     <string name="system_settings_ai_image_unlock_ai">AI 画像補正と AI HDR 補正機能をアンロック</string>
     <string name="system_settings_ai_image_unlock_memc">MEMC をアンロック</string>

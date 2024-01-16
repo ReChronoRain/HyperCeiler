@@ -779,7 +779,6 @@
     <string name="system_settings_lab_title">Funciones destacadas</string>
     <string name="system_settings_area_screenshot">Desbloquear la captura de un área</string>
     <string name="system_settings_voip_assistant_controller">Asistente de VoIP</string>
-    <string name="system_settings_ai_image_title">Motor de imágenes de IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear súperresolución</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear la mejora de imagen de IA y de IA HDR</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>

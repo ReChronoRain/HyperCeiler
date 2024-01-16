@@ -841,7 +841,8 @@
     <string name="system_settings_area_screenshot">解锁区域截屏</string>
     <string name="system_settings_voip_assistant_controller">解锁网络通话助手</string>
 
-    <string name="system_settings_ai_image_title">AI 大师画质引擎</string>
+    <string name="system_settings_display_and_lockscreen_title">显示与锁屏</string>
+    <string name="system_settings_allow_never_lock_screen">允许永不锁屏</string>
     <string name="system_settings_ai_image_unlock_sr">解锁超分辨率增强</string>
     <string name="system_settings_ai_image_unlock_ai">解锁 AI 智能场景优化与视频画质增强</string>
     <string name="system_settings_ai_image_unlock_memc">解锁动态画面补偿</string>

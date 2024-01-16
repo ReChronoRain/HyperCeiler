@@ -78,7 +78,12 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_settings_ai_image_title">
+    <PreferenceCategory android:title="@string/system_settings_display_and_lockscreen_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_allow_never_lock_screen"
+            android:title="@string/system_settings_allow_never_lock_screen" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_settings_ai_image_unlock_sr"

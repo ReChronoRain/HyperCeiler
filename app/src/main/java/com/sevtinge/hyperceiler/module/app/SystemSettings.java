@@ -21,6 +21,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockNeverSleepScreen;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UsbModeChoose;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.ViewWifiPasswordHook;
@@ -69,6 +70,8 @@ public class SystemSettings extends BaseModule {
         }
 
         initHook(new AddGoogleListHeader(), mPrefsMap.getBoolean("system_settings_unlock_google_header"));
+
+        initHook(new UnlockNeverSleepScreen(), mPrefsMap.getBoolean("system_settings_allow_never_lock_screen"));
 
     }
 }

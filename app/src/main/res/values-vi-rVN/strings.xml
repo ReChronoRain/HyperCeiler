@@ -781,7 +781,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
     <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
     <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
-    <string name="system_settings_ai_image_title">Công cụ hình ảnh AI</string>
     <string name="system_settings_ai_image_unlock_sr">Mở khoá Siêu phân giải</string>
     <string name="system_settings_ai_image_unlock_ai">Mở khóa Tăng cường hình ảnh AI và Tăng cường HDR AI</string>
     <string name="system_settings_ai_image_unlock_memc">Mở khoá MEMC</string>
