@@ -178,7 +178,7 @@ public class CrashHook extends HookUtils {
                     if ((timeMillis - mTime) < 10240) {
                         needRm = true;
                         int count = CrashData.getCount(jsonObject);
-                        if (count >= 3) {
+                        if (count >= 1) {
                             ArrayList<JSONObject> report = getReportCrash(mContext);
                             ArrayList<JSONObject> newReport = new ArrayList<>();
                             if (!report.isEmpty()) {
