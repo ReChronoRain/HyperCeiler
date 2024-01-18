@@ -23,13 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
@@ -56,9 +49,10 @@ public class MainActivity extends NavigationActivity {
         }
         executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         handler = new Handler();
-        checkCrash();
+        // Intent intent = new Intent(this, CrashService.class);
+        // startService(intent);
+        // checkCrash();
     }
-
 
     private void checkCrash() {
         executorService.submit(() -> {

@@ -72,6 +72,14 @@
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CrashDialog"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.Crash" />
+                <category android:name="android.intent.category.CrashDailog" />
+            </intent-filter>
+        </activity>
         <!--<activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -137,6 +145,15 @@
         <meta-data
             android:name="xposedscope"
             android:resource="@array/xposed_scope" />
+
+        <service
+            android:name="com.sevtinge.hyperceiler.CrashService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sevtinge.hyperceiler.Crash.Service" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

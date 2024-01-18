@@ -343,7 +343,7 @@ public class ShellUtils {
         public void run() {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(mInput))) {
                 String line;
-                while ((line = br.readLine()) != null) {
+                while (Thread.currentThread().isInterrupted() && (line = br.readLine()) != null) {
                     mIOutput.readOutput(line, mType);
                 }
             } catch (IOException e) {

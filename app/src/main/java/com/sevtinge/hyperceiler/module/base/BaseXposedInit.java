@@ -7,8 +7,11 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
+import com.sevtinge.hyperceiler.CrashHook;
+import com.sevtinge.hyperceiler.callback.TAG;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
 import com.sevtinge.hyperceiler.module.app.Aod;
 import com.sevtinge.hyperceiler.module.app.Backup;
@@ -18,6 +21,7 @@ import com.sevtinge.hyperceiler.module.app.Camera;
 import com.sevtinge.hyperceiler.module.app.Clock;
 import com.sevtinge.hyperceiler.module.app.ContentExtension;
 import com.sevtinge.hyperceiler.module.app.Creation;
+import com.sevtinge.hyperceiler.module.app.Demo;
 import com.sevtinge.hyperceiler.module.app.Downloads;
 import com.sevtinge.hyperceiler.module.app.ExternalStorage;
 import com.sevtinge.hyperceiler.module.app.FileExplorer;
@@ -65,7 +69,6 @@ import com.sevtinge.hyperceiler.utils.PrefsMap;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.ResourcesHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -135,7 +138,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Notes mNotes = new Notes();
     public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
-    // public final Demo mDemo = new Demo();
+    public final Demo mDemo = new Demo();
     public final Nfc mNfc = new Nfc();
     public final MiSound mMiSound = new MiSound();
     public final Backup mBackup = new Backup();
@@ -162,7 +165,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
                     if (allPrefs == null || allPrefs.size() == 0) {
-                        XposedLogUtils.logE(
+                        logE(
                             "[UID" + android.os.Process.myUid() + "]",
                             "Cannot read module's SharedPreferences, some mods might not work!"
                         );
@@ -189,12 +192,12 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "android" -> {
                 mSystemFramework.init(lpparam);
                 mSystemVarious.init(lpparam);
-                // try {
-                //     new CrashHook(lpparam);
-                //     logI(TAG.TAG, "Success Hook Crash");
-                // } catch (Exception e) {
-                //     logE(TAG.TAG, "Hook Crash E: " + e);
-                // }
+                try {
+                    new CrashHook(lpparam);
+                    logI(TAG.TAG, "Success Hook Crash");
+                } catch (Exception e) {
+                    logE(TAG.TAG, "Hook Crash E: " + e);
+                }
             }
             case "com.android.systemui" -> {
                 if (isSystemUIModuleEnable()) {
@@ -374,9 +377,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mTrustService.init(lpparam);
                 mSystemVarious.init(lpparam);
             }
-            // case "com.hchen.demo" -> {
-            //     mDemo.init(lpparam);
-            // }
+            case "com.hchen.demo" -> {
+                mDemo.init(lpparam);
+            }
             case "com.xiaomi.NetworkBoost" -> networkBoost.init(lpparam);
             case ProjectApi.mAppModulePkg -> ModuleActiveHook(lpparam);
             default -> mVarious.init(lpparam);

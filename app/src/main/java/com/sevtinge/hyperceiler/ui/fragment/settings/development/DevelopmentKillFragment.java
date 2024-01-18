@@ -150,9 +150,9 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                 " get=\"\"; for i in $pid; do if [[ $(echo $i | grep '[0-9]' 2>/dev/null) == \"\" ]];" +
                 " then if [[ $get == \"\" ]]; then get=$i; else get=\"$get฿$i\";" +
                 " fi; fi; done; echo $get\n", true, true);
-        if (ned) return commandResult.successMsg.replace("฿", "\n");
+        // if (ned) return commandResult.successMsg.replace("฿", "\n");
         if (commandResult.result == 0) {
-            killCallback.onKillCallback(pkg, commandResult.successMsg.replace("฿", "\n"));
+            // killCallback.onKillCallback(pkg, commandResult.successMsg.replace("฿", "\n"));
         }
         return null;
     }
