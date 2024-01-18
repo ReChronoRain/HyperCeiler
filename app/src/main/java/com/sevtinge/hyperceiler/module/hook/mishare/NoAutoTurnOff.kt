@@ -8,7 +8,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.api.BlurDraw.getValueByFields
+import com.sevtinge.hyperceiler.utils.getObjectField
 import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Modifier
 
@@ -17,7 +17,8 @@ object NoAutoTurnOff : BaseHook() {
     private val nullMethod by lazy {
         dexKitBridge.findMethod {
             matcher {
-                addUsingStringsEquals("EnabledState", "mishare_enabled")
+                addUsingStringsEquals("MiShareService", "EnabledState")
+                usingNumbers(600000L)
             }
         }.single().getMethodInstance(safeClassLoader)
     }
@@ -41,7 +42,7 @@ object NoAutoTurnOff : BaseHook() {
                 usingNumbers(600000L)
                 modifiers = Modifier.PRIVATE
             }
-        }.map { it.getMethodInstance(classLoader) }.toList()
+        }.single().getMethodInstance(safeClassLoader)
     }
 
     private val toastMethod by lazy {
@@ -56,17 +57,6 @@ object NoAutoTurnOff : BaseHook() {
             }
         }.map { it.getMethodInstance(classLoader) }.toList()
     }
-
-    // 比较激进的移除 Toast 方式
-    /*private val toast2Method by lazy {
-        dexKitBridge.findMethod {
-            matcher {
-                returnType = "void"
-                paramTypes = listOf("android.content.Context", "java.lang.CharSequence","int")
-                modifiers = Modifier.STATIC
-            }
-        }.map { it.getMethodInstance(classLoader) }.toList()
-    }*/
 
     override fun init() {
         val nullClass = dexKitBridge.findClass {
@@ -86,7 +76,7 @@ object NoAutoTurnOff : BaseHook() {
                 modifiers = Modifier.STATIC or Modifier.FINAL
                 type = "int"
             }
-        }.firstOrNull()?.getFieldInstance(safeClassLoader)
+        }.singleOrNull()?.getFieldInstance(safeClassLoader)
 
         // 禁用小米互传功能自动关闭部分
         try {
@@ -106,14 +96,13 @@ object NoAutoTurnOff : BaseHook() {
         }
 
         try {
-            null3Method.createHooks {
+            null3Method.createHook {
                 after {
-                    val fieldNames = ('a'..'z').map { name -> name.toString() }
-                    val getField = getValueByFields(it.thisObject, fieldNames) ?: return@after
-                    XposedHelpers.callMethod(getField, "removeCallbacks", it.thisObject)
+                    val d = it.thisObject.getObjectField("d")
+                    XposedHelpers.callMethod(d, "removeCallbacks", it.thisObject)
                     logI(
                         TAG, this@NoAutoTurnOff.lpparam.packageName,
-                        "null3Method hook success, $getField"
+                        "null3Method hook success, $d"
                     )
                 }
             }
