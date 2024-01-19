@@ -66,6 +66,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_other_lock_app"
+            android:summary="@string/home_other_lock_app_more"
+            android:title="@string/home_other_lock_app" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_user_present_animation"
             android:title="@string/home_other_user_present_animation" />
 

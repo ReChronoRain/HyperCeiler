@@ -1164,6 +1164,13 @@
     <string name="home_large_icon_corner_radius">大图标圆角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
+    <string name="home_other_lock_app">固定应用</string>
+    <string name="home_other_lock_app_more">长按屏幕最下方即可进入，再次退出，第一次使用需要重启系统</string>
+    <string name="home_other_lock_app_will_lock">即将锁定当前应用</string>
+    <string name="home_other_lock_app_lock">已锁定当前应用</string>
+    <string name="home_other_lock_app_unlock">已解锁当前应用</string>
+    <string name="home_other_lock_app_will_unlock">即将解锁当前应用</string>
+    <string name="home_other_lock_app_e">请在被锁定应用界面解锁</string>
     <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
     <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
