@@ -191,7 +191,7 @@
     <string name="array_global_actions_lock">Tela de bloqueio</string>
     <string name="array_global_actions_sleep">Desligar tela</string>
     <string name="array_global_actions_screenshot">Captura de tela</string>
-    <string name="array_global_actions_menu">Abrir Menu</string>
+    <string name="array_global_actions_menu">Abrir menu</string>
     <string name="array_global_actions_recents">Abrir recentes</string>
     <string name="array_global_actions_volume">Abrir diálogo de volume</string>
     <string name="array_global_actions_volume_up">Aumentar volume</string>
@@ -202,7 +202,7 @@
     <string name="array_global_actions_activity">Iniciar atividade</string>
     <string name="array_global_actions_toggle">Alternar função</string>
     <string name="array_global_actions_back">Alternar para o app anterior</string>
-    <string name="array_global_actions_forceclose">Forçar fechamento do app atual</string>
+    <string name="array_global_actions_forceclose">Forçar parada do app atual</string>
     <string name="array_global_actions_powermenu">Abrir menu de energia</string>
     <string name="array_global_actions_powermenu_short">Menu de energia</string>
     <string name="array_global_actions_clear_memory">Limpar memória</string>
@@ -376,6 +376,8 @@
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx e superior não são entradas</string>
     <string name="browser_disable_blacklist">Desativar lista negra de URL</string>
+    <string name="browser_enable_debug_environment">Ativar ambiente de depuração</string>
+    <string name="browser_enable_debug_environment_desc">Isso pode resultar na desativação de algumas funções</string>
     <!--Camera-->
     <string name="camera">Câmera</string>
     <string name="camera_custom_watermark">Marca d’água do dispositivo personalizada</string>
@@ -614,6 +616,8 @@
     <string name="system_ui_statusbar_clock_size">Tamanho do relógio</string>
     <string name="system_ui_statusbar_clock_double_size">Tamanho do relógio de duas linhas</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Válido somente quando exibido em duas linhas</string>
+    <string name="system_ui_statusbar_clock_fix_color">Corrigir cor</string>
+    <string name="system_ui_statusbar_clock_fix_color_desc">Recurso experimental</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
@@ -723,6 +727,8 @@
     <string name="system_ui_control_center_more_card_tiles_less">Nenhum</string>
     <string name="system_ui_control_center_more_card_tiles_more">Mais</string>
     <string name="system_ui_control_center_more_card_tiles_most">Maioria</string>
+    <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
@@ -779,6 +785,7 @@
     <string name="system_settings_lab_title">Funções em destaque</string>
     <string name="system_settings_area_screenshot">Desbloquear captura de tela da área</string>
     <string name="system_settings_voip_assistant_controller">Assistente VoIP</string>
+    <string name="system_settings_display_and_lockscreen_title">Tela e tela de bloqueio</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear Super resolução</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear Aprimoramento de imagens IA e o Aprimoramento HDR por IA</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
@@ -797,6 +804,7 @@
     <string name="system_settings_window_animation_scale">Escala de animação da janela</string>
     <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
     <string name="system_settings_animator_duration_scale">Escala de duração da animação</string>
+    <string name="system_settings_allow_never_lock_screen">Permitir nunca bloquear a tela</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
     <string name="theme_manager_version_code_modify">Desativar detecção de versão da MIUI</string>
