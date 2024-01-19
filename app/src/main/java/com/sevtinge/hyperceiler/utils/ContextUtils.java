@@ -3,9 +3,12 @@ package com.sevtinge.hyperceiler.utils;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
+
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @SuppressLint({"PrivateApi", "SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
 public class ContextUtils {
@@ -21,9 +24,60 @@ public class ContextUtils {
         try {
             return invokeMethod(flag);
         } catch (Throwable e) {
-            Log.e(TAG, "getContext: ", e);
+            AndroidLogUtils.LogE(TAG, "getContext: ", e);
             return null;
         }
+    }
+
+    /**
+     * 循环获取当前应用的 Context 为了防止过早获取导致的 null.
+     * 使用方法:
+     * <pre> {@code
+     * handler = new Handler();
+     * ContextUtils.getWaitContext(new ContextUtils.IContext() {
+     *   @Override
+     *   public void hadContext(Context context) {
+     *      handler.post(new Runnable() {
+     *        @Override
+     *        public void run() {
+     *          ToastHelper.makeText(context, "getContext");
+     *        }
+     *      });
+     *   }
+     * });
+     * }
+     * 当然 Handler 是可选项, 适用于 Toast 显示等场景。
+     * @param iContext
+     * @author 焕晨HChen
+     */
+    public static void getWaitContext(IContext iContext) {
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        executorService.submit(() -> {
+            Context context = getContext(ContextUtils.FLAG_CURRENT_APP);
+            if (context == null) {
+                int count = 0;
+                while (true) {
+                    context = getContext(ContextUtils.FLAG_CURRENT_APP);
+                    // AndroidLogUtils.LogI(TAG, "getWaitContext: " + context);
+                    if (context != null || count > 5) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (Throwable throwable) {
+                        AndroidLogUtils.LogE(TAG, "getWaitContext E: ", throwable);
+                    }
+                    // 防止死循环
+                    count = count + 1;
+                }
+                // context 可能为 null 请注意判断
+                iContext.hadContext(context);
+            }
+        });
+    }
+
+    public interface IContext {
+        void hadContext(Context context);
     }
 
     private static Context invokeMethod(int flag) throws Throwable {

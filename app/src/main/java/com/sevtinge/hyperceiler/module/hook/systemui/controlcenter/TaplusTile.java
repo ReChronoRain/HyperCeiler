@@ -34,9 +34,8 @@ public class TaplusTile extends TileUtils {
     }
 
     @Override
-    public void customTileProvider() {
-        super.customTileProvider();
-        mTileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightModeTileProvider" : "mNightModeTileProvider";
+    public String setTileProvider() {
+        return isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nightModeTileProvider" : "mNightModeTileProvider";
     }
 
     @Override
@@ -45,7 +44,7 @@ public class TaplusTile extends TileUtils {
     }
 
     @Override
-    public int customValue() {
+    public int customRes() {
         return R.string.system_control_center_taplus_label;
     }
 

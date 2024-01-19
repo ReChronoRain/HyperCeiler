@@ -10,7 +10,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 import java.net.NetworkInterface
@@ -83,7 +82,7 @@ object NewNetworkSpeed : BaseHook() {
     //  网速计算与隐藏相关
     private fun humanReadableByteCount(ctx: Context, bytes: Long): String {
         return try {
-            val modRes = Helpers.getModuleRes(ctx)
+            val modRes = getModuleRes(ctx)
             val hideSecUnit = mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")
             var unitSuffix = modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
             if (hideSecUnit) unitSuffix = ""

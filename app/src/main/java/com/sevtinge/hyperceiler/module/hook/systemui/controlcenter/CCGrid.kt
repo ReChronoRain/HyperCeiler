@@ -12,7 +12,6 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
@@ -400,7 +399,7 @@ object CCGrid : BaseHook() {
                         override fun before(param: MethodHookParam) {
                             val resId = param.args[0] as Int
                             if (resId == enabledTileBackgroundResId && resId != 0) {
-                                val enableTile = Helpers.getModuleRes(mContext)
+                                val enableTile = getModuleRes(mContext)
                                     .getDrawable(R.drawable.ic_qs_tile_bg_enabled, null)
                                 enableTile.setTint(tintColor)
                                 param.result = enableTile

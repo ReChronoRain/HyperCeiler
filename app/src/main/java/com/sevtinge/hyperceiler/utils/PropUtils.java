@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 @SuppressLint("PrivateApi")
 public class PropUtils {
-    private static final String TAG = "[HyperCeiler]";
+    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG;
 
     public static String getProp(Context context, String name) {
         try {

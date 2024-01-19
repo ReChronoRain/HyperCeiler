@@ -21,6 +21,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.OriginChargeAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemui.QSDetailBackGround;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
@@ -75,6 +76,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.NotificationIconC
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.DisableAnim;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.FixColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BatteryStyle;
@@ -245,6 +247,7 @@ public class SystemUI extends BaseModule {
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
+        initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
 
         // Actions
         initHook(new StatusBarActions());
@@ -277,6 +280,8 @@ public class SystemUI extends BaseModule {
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
 
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
+
+        initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         initHook(new PluginHelper());
     }

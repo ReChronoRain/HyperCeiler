@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.module.hook.home.title;
+package com.sevtinge.hyperceiler.module.hook.home.folder;
 
 import android.graphics.Rect;
 import android.view.View;

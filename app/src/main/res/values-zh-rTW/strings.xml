@@ -100,6 +100,7 @@
     <string name="root">某些功能在沒有 Root/Su 權限的情況下不可用</string>
     <string name="hook_failed">此模組尚未啟動。\n請檢查是否在寄生管理器中啟用。 如果已經啟用，請重新開機或重新最佳化模組。</string>
     <string name="kill_failed">結束進程失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限？</string>
+    <string name="start_failed">啟動活動失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限？</string>
     <string name="pid_failed">目標應用程式未運行，無需重啟。</string>
     <string name="reboot_failed">重啟失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限？</string>
     <string name="expand_button_title">進階</string>
@@ -313,6 +314,7 @@
     <string name="phone_n28_desc">支援 n28 頻段 (NR)</string>
     <string name="phone_n5_n8">解鎖 n5/n8 頻段</string>
     <string name="phone_n5_n8_desc">在撥號介面輸入 *#*#65686633#*#* 以打開 n5/n8 頻段，若顯示 enable N5 and N8 Mode，則開啟成功</string>
+    <string name="phone_additional_network_settings">附加網路設定</string>
     <string name="system_framework_screen_title">顯示和通知</string>
     <string name="system_framework_core_title">底層</string>
     <string name="system_framework_hook_entry">解鎖智慧充電斷電限制</string>
@@ -660,6 +662,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s已關閉</string>
     <string name="system_control_center_5g_tile">5G 網路開關</string>
     <string name="system_control_center_5g_toggle_label">5G 網路</string>
+    <string name="system_control_center_reduce_bright_colors_tile">極暗模式</string>
     <string name="system_control_center_taplus_label">傳送門開關</string>
     <string name="system_control_center_sunshine_mode">陽光模式</string>
     <string name="system_ui_control_auto_close">磁貼自動收起</string>
@@ -776,7 +779,6 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_area_screenshot">解鎖區域截圖</string>
     <string name="system_settings_voip_assistant_controller">網路通話助手</string>
-    <string name="system_settings_ai_image_title">AI 大師畫質引擎</string>
     <string name="system_settings_ai_image_unlock_sr">解鎖超解析度增強</string>
     <string name="system_settings_ai_image_unlock_ai">解鎖 AI 智慧場景最佳化與影片畫質增強</string>
     <string name="system_settings_ai_image_unlock_memc">解鎖動態畫面補償</string>
@@ -1191,6 +1193,7 @@
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 服務</string>
     <string name="security_center_taplus">傳送門開關</string>
+    <string name="security_center_reduce_bright_colors_tile">極暗磁貼優化</string>
     <string name="security_center_flash_light">手電筒亮度控制</string>
     <string name="security_center_flash_light_more">啟用手電筒時透過拖動亮度條來控制手電筒亮度</string>
     <string name="security_center_get_number">管理應用程式取得手機號碼並一鍵登入</string>

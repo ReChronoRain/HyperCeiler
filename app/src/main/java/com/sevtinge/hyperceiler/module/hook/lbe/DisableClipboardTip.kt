@@ -7,8 +7,6 @@ import android.os.Build
 import android.widget.Toast
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.Helpers
-
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -41,7 +39,7 @@ object DisableClipboardTip : BaseHook() {
                         val context =
                             XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
                         val appName = getAppName(context, packageName)
-                        val modRes = Helpers.getModuleRes(context)
+                        val modRes = getModuleRes(context)
 
                         if (!mDisableClipboardTip) {
                             Toast.makeText(context, "$appName ${modRes.getString(R.string.lbe_clipboard_tip)}", Toast.LENGTH_SHORT).show()

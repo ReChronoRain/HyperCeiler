@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.Helpers;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,18 +44,18 @@ public class DualRowSignalHook extends BaseHook {
                 if (!isHooked) {
                     isHooked = true;
                     Context mContext = (Context) XposedHelpers.callMethod(param.thisObject, "getApplicationContext");
-                    Resources modRes = Helpers.getModuleRes(mContext);
+                    Resources modRes = getModuleRes(mContext);
                     for (int slot = 1; slot <= 2; slot++) {
                         for (int lvl = 0; lvl <= 5; lvl++) {
                             for (String colorMode : colorModeList) {
                                 if (selectedIconTheme == 1) {
                                     String dualIconResName = "statusbar_signal_classic_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "");
-                                    int iconResId = modRes.getIdentifier(dualIconResName, "drawable", Helpers.mAppModulePkg);
+                                    int iconResId = modRes.getIdentifier(dualIconResName, "drawable", ProjectApi.mAppModulePkg);
                                     dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
                                 } else if (selectedIconTheme == 2) {
                                     if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint")) {
                                         String dualIconResName = "statusbar_signal_oa_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "") + (!selectedIconStyle.equals("") ? ("_" + selectedIconStyle) : "");
-                                        int iconResId = modRes.getIdentifier(dualIconResName, "drawable", Helpers.mAppModulePkg);
+                                        int iconResId = modRes.getIdentifier(dualIconResName, "drawable", ProjectApi.mAppModulePkg);
                                         dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
                                     }
                                 }

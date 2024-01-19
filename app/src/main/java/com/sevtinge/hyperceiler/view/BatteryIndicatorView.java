@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.sevtinge.hyperceiler.utils.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -88,7 +89,7 @@ public class BatteryIndicatorView extends ImageView {
         }
 
         updateParameters();
-        new PrefsUtils.SharedPrefsObserver(getContext(), new Handler(getContext().getMainLooper())) {
+        new PrefsChangeObserver(getContext(), new Handler(getContext().getMainLooper())) {
             @Override
             public void onChange(Uri uri) {
                 try {

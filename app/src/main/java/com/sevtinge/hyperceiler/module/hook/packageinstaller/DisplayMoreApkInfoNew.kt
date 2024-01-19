@@ -15,11 +15,9 @@ import com.github.kyuubiran.ezxhelper.Log
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px
-import com.sevtinge.hyperceiler.utils.Helpers
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.callMethodOrNull
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
-
 import de.robv.android.xposed.XposedHelpers
 import java.io.File
 import java.lang.reflect.Method
@@ -64,7 +62,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     val apkInfo: Any = XposedHelpers.getObjectField(hookParam.thisObject, finalApkInfoFieldName)
                     val mAppInfo = apkInfo.callMethodOrNull("getInstalledPackageInfo") as ApplicationInfo?
                     val mPkgInfo = apkInfo.callMethod("getPackageInfo") as PackageInfo
-                    val modRes = Helpers.getModuleRes(mAppSizeTv.context) as Resources
+                    val modRes = getModuleRes(mAppSizeTv.context) as Resources
                     val layout: LinearLayout = mAppSizeTv.parent as LinearLayout
                     layout.removeAllViews()
                     val mContainerView = layout.parent as ViewGroup

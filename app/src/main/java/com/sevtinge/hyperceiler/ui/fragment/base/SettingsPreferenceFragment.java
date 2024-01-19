@@ -54,6 +54,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
         ((BaseActivity) getActivity()).setRestartView(addRestartListener());
     }
 
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

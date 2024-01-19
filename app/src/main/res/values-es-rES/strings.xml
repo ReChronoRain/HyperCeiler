@@ -662,7 +662,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s está desactivado</string>
     <string name="system_control_center_5g_tile">Interruptor de red 5G</string>
     <string name="system_control_center_5g_toggle_label">Red de 5G</string>
-    <string name="system_control_center_reduce_bright_colors_tile">Modo de exteriormente oscuro</string>
+    <string name="system_control_center_reduce_bright_colors_tile">Modo Oscuro Extremo</string>
     <string name="system_control_center_taplus_label">Interruptores de Taplus</string>
     <string name="system_control_center_sunshine_mode">Modo de sol</string>
     <string name="system_ui_control_auto_close">Barra de estado se vuelve automáticamente</string>
@@ -779,7 +779,6 @@
     <string name="system_settings_lab_title">Funciones destacadas</string>
     <string name="system_settings_area_screenshot">Desbloquear la captura de un área</string>
     <string name="system_settings_voip_assistant_controller">Asistente de VoIP</string>
-    <string name="system_settings_ai_image_title">Motor de imágenes de IA</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear súperresolución</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear la mejora de imagen de IA y de IA HDR</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>

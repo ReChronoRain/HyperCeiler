@@ -378,6 +378,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx trở lên không được hỗ trợ</string>
     <string name="browser_disable_blacklist">Tắt URL danh sách đen</string>
+    <string name="browser_enable_debug_environment">Bật môi trường gỡ lỗi</string>
+    <string name="browser_enable_debug_environment_desc">Điều này có thể dẫn đến một số chức năng bị vô hiệu hóa</string>
     <!--Camera-->
     <string name="camera">Máy ảnh</string>
     <string name="camera_custom_watermark">Tùy chỉnh hình mờ thiết bị</string>
@@ -616,6 +618,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_size">Kích thước đồng hồ (0 là giá trị gốc)</string>
     <string name="system_ui_statusbar_clock_double_size">Kích thước hàng đôi (0 là giá trị gốc)</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Chỉ hợp lệ khi hiển thị ở hai hàng</string>
+    <string name="system_ui_statusbar_clock_fix_color">Cố định màu</string>
+    <string name="system_ui_statusbar_clock_fix_color_desc">Tính năng thử nghiệm</string>
     <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
     <string name="system_ui_statusbar_indicator_battery_title">Về năng lượng</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Về nhiệt độ</string>
@@ -725,6 +729,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_more_card_tiles_less">Không</string>
     <string name="system_ui_control_center_more_card_tiles_more">Nhiều hơn</string>
     <string name="system_ui_control_center_more_card_tiles_most">Nhiều nhất</string>
+    <string name="system_ui_control_center_unlock_blur_supported">Xóa hạn chế làm mờ thông báo</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">Không có hạn chế về độ mờ nền đối với các vật liệu cao cấp chính thức chỉ dành cho việc xóa chủ đề của bên thứ ba</string>
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
@@ -781,7 +787,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_lab_title">Tính năng đặc biệt</string>
     <string name="system_settings_area_screenshot">Mở khóa Chụp một phần màn hình</string>
     <string name="system_settings_voip_assistant_controller">Trợ lý VoIP</string>
-    <string name="system_settings_ai_image_title">Công cụ hình ảnh AI</string>
+    <string name="system_settings_display_and_lockscreen_title">Hiển thị &amp; Màn hình khóa</string>
     <string name="system_settings_ai_image_unlock_sr">Mở khoá Siêu phân giải</string>
     <string name="system_settings_ai_image_unlock_ai">Mở khóa Tăng cường hình ảnh AI và Tăng cường HDR AI</string>
     <string name="system_settings_ai_image_unlock_memc">Mở khoá MEMC</string>
@@ -800,6 +806,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_window_animation_scale">Tỷ lệ ảnh động cửa sổ</string>
     <string name="system_settings_transition_animation_scale">Tỷ lệ ảnh động chuyển tiếp</string>
     <string name="system_settings_animator_duration_scale">Tỷ lệ thời lượng ảnh động</string>
+    <string name="system_settings_allow_never_lock_screen">Cho phép không bao giờ khóa màn hình</string>
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
     <string name="theme_manager_version_code_modify">Tắt phát hiện phiên bản MIUI</string>

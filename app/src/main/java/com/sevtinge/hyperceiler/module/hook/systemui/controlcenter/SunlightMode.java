@@ -104,9 +104,8 @@ public class SunlightMode extends TileUtils {
     }
 
     @Override
-    public void customTileProvider() {
-        super.customTileProvider();
-        mTileProvider[0] = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "powerSaverTileProvider" : "mPowerSaverTileProvider";
+    public String setTileProvider() {
+        return isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "powerSaverTileProvider" : "mPowerSaverTileProvider";
     }
 
     @Override
@@ -115,7 +114,7 @@ public class SunlightMode extends TileUtils {
     }
 
     @Override
-    public int customValue() {
+    public int customRes() {
         return R.string.system_control_center_sunshine_mode;
     }
 

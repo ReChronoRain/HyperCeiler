@@ -1,19 +1,15 @@
 package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.ContentObserver;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -22,39 +18,26 @@ import android.graphics.Rect;
 import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.UserHandle;
 import android.util.LruCache;
 import android.widget.TextView;
 
-import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
-import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 
 import java.io.File;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.internal.utils.ReflectUtils;
 
 public class Helpers {
 
     private static final String TAG = "Helpers";
 
-    @SuppressLint("StaticFieldLeak")
-    public static Context mModuleContext = null;
     public static boolean isModuleActive = false;
     public static int XposedVersion = 0;
-
-    public static String mAppModulePkg = BuildConfig.APPLICATION_ID;
 
     public static final int REQUEST_PERMISSIONS_BACKUP = 1;
     public static final int REQUEST_PERMISSIONS_RESTORE = 2;
@@ -73,6 +56,22 @@ public class Helpers {
 
     public static synchronized Context getProtectedContext(Context context) {
         return context.createDeviceProtectedStorageContext();
+    }
+
+    public static synchronized Context getModuleContext(Context context) throws Throwable {
+        return getModuleContext(context, null);
+    }
+
+    public static synchronized Context getModuleContext(Context context, Configuration config) throws Throwable {
+        Context mModuleContext;
+        mModuleContext = context.createPackageContext(ProjectApi.mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
+        return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
+    }
+
+    public static synchronized Resources getModuleRes(Context context) throws Throwable {
+        Configuration config = context.getResources().getConfiguration();
+        Context moduleContext = getModuleContext(context);
+        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
     public static boolean checkStorageReadable(Activity activity) {
@@ -122,7 +121,6 @@ public class Helpers {
         title.getPaint().setShader(shimmer);
     }
 
-
     // Permissions 权限
     @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
     public static void fixPermissionsAsync(Context context) {
@@ -156,39 +154,9 @@ public class Helpers {
     private static String getCallerMethod() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         for (StackTraceElement el : stackTrace)
-            if (el != null && el.getClassName().startsWith(mAppModulePkg + ".module"))
+            if (el != null && el.getClassName().startsWith(ProjectApi.mAppModulePkg + ".module"))
                 return el.getMethodName();
         return stackTrace[4].getMethodName();
-    }
-
-    public static Context findContext() {
-        Context context = null;
-        try {
-            context = (Application) XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentApplication");
-            if (context == null) {
-                Object currentActivityThread = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread");
-                if (currentActivityThread != null)
-                    context = (Context) XposedHelpers.callMethod(currentActivityThread, "getSystemContext");
-            }
-        } catch (Throwable ignore) {
-        }
-        return context;
-    }
-
-    public static synchronized Context getModuleContext(Context context) throws Throwable {
-        return getModuleContext(context, null);
-    }
-
-    public static synchronized Context getModuleContext(Context context, Configuration config) throws Throwable {
-        if (mModuleContext == null)
-            mModuleContext = context.createPackageContext(mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
-        return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
-    }
-
-    public static synchronized Resources getModuleRes(Context context) throws Throwable {
-        Configuration config = context.getResources().getConfiguration();
-        Context moduleContext = getModuleContext(context);
-        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
     public static ActivityOptions makeFreeformActivityOptions(Context context, String str) {
@@ -213,114 +181,6 @@ public class Helpers {
         return makeBasic;
     }
 
-    public static class SharedPrefObserver extends ContentObserver {
-
-        enum PrefType {
-            Any, String, StringSet, Integer, Boolean
-        }
-
-        PrefType prefType;
-        Context ctx;
-        String prefName;
-        String prefDefValueString;
-        int prefDefValueInt;
-        boolean prefDefValueBool;
-
-        public SharedPrefObserver(Context context, android.os.Handler handler) {
-            super(handler);
-            ctx = context;
-            prefType = PrefType.Any;
-            registerObserver();
-        }
-
-        public SharedPrefObserver(Context context, android.os.Handler handler, String name, String defValue) {
-            super(handler);
-            ctx = context;
-            prefName = name;
-            prefType = PrefType.String;
-            prefDefValueString = defValue;
-            registerObserver();
-        }
-
-        public SharedPrefObserver(Context context, android.os.Handler handler, String name) {
-            super(handler);
-            ctx = context;
-            prefName = name;
-            prefType = PrefType.StringSet;
-            registerObserver();
-        }
-
-        public SharedPrefObserver(Context context, android.os.Handler handler, String name, int defValue) {
-            super(handler);
-            ctx = context;
-            prefType = PrefType.Integer;
-            prefName = name;
-            prefDefValueInt = defValue;
-            registerObserver();
-        }
-
-        public SharedPrefObserver(Context context, Handler handler, String name, boolean defValue) {
-            super(handler);
-            ctx = context;
-            prefType = PrefType.Boolean;
-            prefName = name;
-            prefDefValueBool = defValue;
-            registerObserver();
-        }
-
-        void registerObserver() {
-            Uri uri = null;
-            if (prefType == PrefType.String)
-                uri = stringPrefToUri(prefName, prefDefValueString);
-            else if (prefType == PrefType.StringSet)
-                uri = stringSetPrefToUri(prefName);
-            else if (prefType == PrefType.Integer)
-                uri = intPrefToUri(prefName, prefDefValueInt);
-            else if (prefType == PrefType.Boolean)
-                uri = boolPrefToUri(prefName, prefDefValueBool);
-            else if (prefType == PrefType.Any)
-                uri = anyPrefToUri();
-            if (uri != null)
-                ctx.getContentResolver().registerContentObserver(uri, prefType == PrefType.Any, this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            if (prefType == PrefType.Any)
-                onChange(uri);
-            else
-                onChange(selfChange);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            if (selfChange) return;
-            if (prefType == PrefType.String)
-                onChange(prefName, prefDefValueString);
-            else if (prefType == PrefType.StringSet)
-                onChange(prefName);
-            else if (prefType == PrefType.Integer)
-                onChange(prefName, prefDefValueInt);
-            else if (prefType == PrefType.Boolean)
-                onChange(prefName, prefDefValueBool);
-        }
-
-        public void onChange(Uri uri) {
-        }
-
-        public void onChange(String name) {
-        }
-
-        public void onChange(String name, String defValue) {
-        }
-
-        public void onChange(String name, int defValue) {
-        }
-
-        public void onChange(String name, boolean defValue) {
-        }
-    }
-
     public static void openAppInfo(Context context, String pkg, int user) {
         try {
             Intent intent = new Intent("miui.intent.action.APP_MANAGER_APPLICATION_DETAIL");
@@ -341,95 +201,6 @@ public class Helpers {
                 logE(TAG, "openAppInfo" + t2);
             }
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public static Set<String> getSharedStringSetPref(Context context, String name) {
-        Uri uri = stringSetPrefToUri(name);
-        try {
-            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null) {
-                Set<String> prefValue = new LinkedHashSet<>();
-                while (cursor.moveToNext()) {
-                    prefValue.add(cursor.getString(0));
-                }
-                cursor.close();
-                return prefValue;
-            } else {
-                LogI("ContentResolver", "[" + name + "] Cursor fail: null");
-            }
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-
-        LinkedHashSet<String> empty = new LinkedHashSet<>();
-        if (BaseHook.mPrefsMap.containsKey(name)) {
-            return (Set<String>) BaseHook.mPrefsMap.getObject(name, empty);
-        } else {
-            return empty;
-        }
-    }
-
-    public static int getSharedIntPref(Context context, String name, int defValue) {
-        Uri uri = intPrefToUri(name, defValue);
-        try {
-            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int prefValue = cursor.getInt(0);
-                cursor.close();
-                return prefValue;
-            } else LogI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-        }
-
-        if (BaseHook.mPrefsMap.containsKey(name))
-            return (int) BaseHook.mPrefsMap.getObject(name, defValue);
-        else
-            return defValue;
-    }
-
-    public static boolean getSharedBoolPref(Context context, String name, boolean defValue) {
-        Uri uri = boolPrefToUri(name, defValue);
-        try {
-            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int prefValue = cursor.getInt(0);
-                cursor.close();
-                return prefValue == 1;
-            } else LogI("ContentResolver", "[" + name + "] Cursor fail: " + cursor);
-        } catch (Throwable t) {
-            LogD("ContentResolver", t);
-        }
-
-        if (BaseHook.mPrefsMap.containsKey(name))
-            return (boolean) BaseHook.mPrefsMap.getObject(name, false);
-        else
-            return defValue;
-    }
-
-    public static Uri stringPrefToUri(String name, String defValue) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/string/" + name + "/" + defValue);
-    }
-
-    public static Uri stringSetPrefToUri(String name) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/stringset/" + name);
-    }
-
-    public static Uri intPrefToUri(String name, int defValue) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/integer/" + name + "/" + defValue);
-    }
-
-    public static Uri boolPrefToUri(String name, boolean defValue) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/boolean/" + name + "/" + (defValue ? '1' : '0'));
-    }
-
-    public static Uri shortcutIconPrefToUri(String name) {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/shortcut_icon/" + name);
-    }
-
-    public static Uri anyPrefToUri() {
-        return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/");
     }
 
     public static String getPackageVersionName(XC_LoadPackage.LoadPackageParam lpparam) {
