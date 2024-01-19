@@ -376,6 +376,8 @@
     <string name="browser_debug_mode">Buka kunci opsi pengembang</string>
     <string name="browser_debug_mode_desc">17.5.xxxx ke atas tidak diperbolehkan masuk</string>
     <string name="browser_disable_blacklist">Nonaktifkan Daftar Hitam URL</string>
+    <string name="browser_enable_debug_environment">Aktifkan lingkungan debug</string>
+    <string name="browser_enable_debug_environment_desc">Hal ini dapat mengakibatkan beberapa fungsi dinonaktifkan</string>
     <!--Camera-->
     <string name="camera">Kamera</string>
     <string name="camera_custom_watermark">Tanda air perangkat khusus</string>
@@ -614,6 +616,8 @@
     <string name="system_ui_statusbar_clock_size">Ukuran jam</string>
     <string name="system_ui_statusbar_clock_double_size">Ukuran jam baris ganda</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Hanya valid jika ditampilkan dalam dua baris</string>
+    <string name="system_ui_statusbar_clock_fix_color">Perbaiki warna</string>
+    <string name="system_ui_statusbar_clock_fix_color_desc">Fitur eksperimental</string>
     <string name="system_ui_disable_clock_anim">Nonaktifkan animasi transisi jam slide di Pusat Pemberitahuan</string>
     <string name="system_ui_statusbar_indicator_battery_title">Terkait dengan kekuatan</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Terkait suhu</string>
@@ -723,6 +727,8 @@
     <string name="system_ui_control_center_more_card_tiles_less">Tidak ada</string>
     <string name="system_ui_control_center_more_card_tiles_more">Lagi</string>
     <string name="system_ui_control_center_more_card_tiles_most">Paling</string>
+    <string name="system_ui_control_center_unlock_blur_supported">Hapus batasan blur notifikasi</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">Tidak ada batasan keburaman latar belakang untuk materi premium resmi hanya untuk penghapusan tema pihak ketiga</string>
     <string name="system_ui_other_title">Lainnya</string>
     <string name="system_ui_charge_animation_title">Mengisi animasi</string>
     <string name="system_ui_charge_animation_style">Gaya animasi pengisian daya</string>
@@ -779,6 +785,7 @@
     <string name="system_settings_lab_title">Fungsi unggulan</string>
     <string name="system_settings_area_screenshot">Buka kunci tangkapan layar area</string>
     <string name="system_settings_voip_assistant_controller">Asisten VoIP</string>
+    <string name="system_settings_display_and_lockscreen_title">Tampilan &amp; Layar kunci</string>
     <string name="system_settings_ai_image_unlock_sr">Buka kunci resolusi Super</string>
     <string name="system_settings_ai_image_unlock_ai">Buka kunci peningkatan gambar AI dan peningkatan AI HDR</string>
     <string name="system_settings_ai_image_unlock_memc">Buka kunci MEMC</string>
@@ -797,6 +804,7 @@
     <string name="system_settings_window_animation_scale">Zoom Animasi Jendela</string>
     <string name="system_settings_transition_animation_scale">Penskalaan Animasi Transisi</string>
     <string name="system_settings_animator_duration_scale">Penskalaan durasi animator</string>
+    <string name="system_settings_allow_never_lock_screen">Izinkan jangan pernah mengunci layar</string>
     <!--Themes-->
     <string name="theme_manager">Tema</string>
     <string name="theme_manager_version_code_modify">Nonaktifkan deteksi versi MIUI</string>
