@@ -1147,6 +1147,7 @@
     <string name="home_other_lock_app_lock">Lock App</string>
     <string name="home_other_lock_app_unlock">Unlock App</string>
     <string name="home_other_lock_app_will_unlock">Will Unlock App</string>
+    <string name="home_other_lock_app_r">Restore</string>
     <string name="home_other_lock_app_e">Please unlock it in the locked app interface</string>
     <string name="home_other_lock_app_more">Press and hold the bottom of the screen to enter, exit again, and restart the system for the first time</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>

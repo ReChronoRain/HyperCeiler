@@ -22,7 +22,7 @@ public class SystemLockApp extends BaseHook {
             "onSystemReady",
             new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     try {
                         Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                         if (context == null) return;
@@ -47,7 +47,8 @@ public class SystemLockApp extends BaseHook {
                         logE(TAG, "E: " + e);
                     }
                 }
-            });
+            }
+        );
 
     }
 

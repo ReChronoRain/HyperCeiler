@@ -23,14 +23,18 @@ public class LockApp extends BaseHook {
     public final static int UNLOCK_APP = 2;
     public final static int WILL_UNLOCK_APP = 3;
     public final static int UNKNOWN_ERROR = 4;
+    public final static int RESTORE = 5;
     public int taskId = -1;
 
     public int count = 0;
+    public int eCount = 0;
+
 
     @Override
     public void init() throws NoSuchMethodException {
         findAndHookMethod("com.miui.home.recents.NavStubView",
-            "onTouchEvent", MotionEvent.class, new MethodHook() {
+            "onTouchEvent", MotionEvent.class,
+            new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
                     MotionEvent motionEvent = (MotionEvent) param.args[0];
@@ -62,8 +66,15 @@ public class LockApp extends BaseHook {
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_UNLOCK_APP), 1000);
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(UNLOCK_APP), 2000);
                             } else {
-                                if (lockId != -1)
-                                    mHandler.sendMessage(mHandler.obtainMessage(UNKNOWN_ERROR, taskId));
+                                if (lockId != -1) {
+                                    if (eCount < 2) {
+                                        mHandler.sendMessage(mHandler.obtainMessage(UNKNOWN_ERROR));
+                                        eCount = eCount + 1;
+                                    } else {
+                                        mHandler.sendMessage(mHandler.obtainMessage(RESTORE));
+                                        eCount = 0;
+                                    }
+                                }
                             }
                         }
                     }
@@ -121,6 +132,10 @@ public class LockApp extends BaseHook {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             Context context = findContext(FLAG_CURRENT_APP);
+            if (context == null) {
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(msg.what), 500);
+                return;
+            }
             switch (msg.what) {
                 case WILL_LOCK_APP -> {
                     ToastHelper.makeText(context,
@@ -130,10 +145,6 @@ public class LockApp extends BaseHook {
                         false);
                 }
                 case LOCK_APP -> {
-                    if (context == null) {
-                        mHandler.sendMessageDelayed(mHandler.obtainMessage(LOCK_APP), 500);
-                        return;
-                    }
                     int taskId = (int) msg.obj;
                     setLockApp(context, taskId);
                     ToastHelper.makeText(context,
@@ -150,10 +161,6 @@ public class LockApp extends BaseHook {
                         false);
                 }
                 case UNLOCK_APP -> {
-                    if (context == null) {
-                        mHandler.sendMessageDelayed(mHandler.obtainMessage(UNLOCK_APP), 500);
-                        return;
-                    }
                     setLockApp(context, -1);
                     ToastHelper.makeText(context,
                         context.getResources().getString(
@@ -166,6 +173,14 @@ public class LockApp extends BaseHook {
                         context.getResources().getString(
                             mResHook.addResource("lock_app_e",
                                 R.string.home_other_lock_app_e)),
+                        false);
+                }
+                case RESTORE -> {
+                    setLockApp(context, -1);
+                    ToastHelper.makeText(context,
+                        context.getResources().getString(
+                            mResHook.addResource("lock_app_r",
+                                R.string.home_other_lock_app_r)),
                         false);
                 }
             }
