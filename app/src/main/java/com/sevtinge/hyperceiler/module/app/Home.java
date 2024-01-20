@@ -11,6 +11,7 @@ import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.module.hook.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.module.hook.home.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.home.HomePortraitReverse;
+import com.sevtinge.hyperceiler.module.hook.home.LockApp;
 import com.sevtinge.hyperceiler.module.hook.home.MaxFreeForm;
 import com.sevtinge.hyperceiler.module.hook.home.ScreenSwipe;
 import com.sevtinge.hyperceiler.module.hook.home.SeekPoints;
@@ -41,6 +42,7 @@ import com.sevtinge.hyperceiler.module.hook.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderShade;
 import com.sevtinge.hyperceiler.module.hook.home.folder.FolderVerticalPadding;
 import com.sevtinge.hyperceiler.module.hook.home.folder.SmallFolderIconBlur;
+import com.sevtinge.hyperceiler.module.hook.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.module.hook.home.gesture.HotSeatSwipe;
@@ -103,7 +105,6 @@ import com.sevtinge.hyperceiler.module.hook.home.title.PerfectIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.RecommendAppsSwitch;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.module.hook.home.title.TitleMarquee;
-import com.sevtinge.hyperceiler.module.hook.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.module.hook.home.widget.AlwaysShowMiuiWidget;
@@ -235,6 +236,7 @@ public class Home extends BaseModule {
         initHook(DisableRecentsIcon.INSTANCE, mPrefsMap.getBoolean("home_dock_disable_recents_icon"));
 
         // 其他
+        initHook(new LockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));

@@ -30,6 +30,12 @@ public class ToastHelper {
         mToast.show();
     }
 
+    public static void makeText(Context context, CharSequence text, boolean needClear) {
+        if (needClear) clearToast();
+        mToast = Toast.makeText(context, text, LENGTH_SHORT);
+        mToast.show();
+    }
+
     public static void makeText(Context context, CharSequence text, @Duration int time) {
         clearToast();
         mToast = Toast.makeText(context, text, time);
