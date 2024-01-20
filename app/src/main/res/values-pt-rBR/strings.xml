@@ -1098,6 +1098,13 @@
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
     <string name="home_other_toast_slide_again">Proibir dica de solicitação \"Deslize novamente\"</string>
+    <string name="home_other_lock_app">Apps fixos</string>
+    <string name="home_other_lock_app_will_lock">O app será bloqueado</string>
+    <string name="home_other_lock_app_lock">Bloquear app</string>
+    <string name="home_other_lock_app_unlock">Desbloquear app</string>
+    <string name="home_other_lock_app_will_unlock">O app será desbloqueado</string>
+    <string name="home_other_lock_app_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
+    <string name="home_other_lock_app_more">Pressione e segure a parte inferior da tela para entrar, sair novamente e reiniciar o sistema pela primeira vez.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
