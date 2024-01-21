@@ -56,9 +56,9 @@ public class StatusBarIcon extends BaseHook {
                     param.setResult(new ArraySet());
                 }
             }
-        );*/
+        );
 
-            /*hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
+        hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
                 "handleSet", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
@@ -66,12 +66,12 @@ public class StatusBarIcon extends BaseHook {
                             "getViewIndex", XposedHelpers.getIntField(param.args[1], "mTag"), param.args[0]);
                     }
                 }
-            );*/
-        /*hookAllMethods("com.android.systemui.statusbar.StatusBarIconView",
+            );
+        hookAllMethods("com.android.systemui.statusbar.StatusBarIconView",
             "set", new MethodHook() {
                 // boolean isId = false;
 
-               *//* @Override
+                @Override
                 protected void before(MethodHookParam param) {
                     if (!icon.isEmpty()) {
                         mArray mStatusBarIcon = icon.get(0);
@@ -82,7 +82,7 @@ public class StatusBarIcon extends BaseHook {
                     }
                     // else
                     // logE(TAG, "icon is empty");
-                }*//*
+                }
 
                 @Override
                 protected void after(MethodHookParam param) {
@@ -105,7 +105,7 @@ public class StatusBarIcon extends BaseHook {
                                 }
                             }
                         }
-                       *//* mArray mStatusBarIcon = icon.get(0);
+                        mArray mStatusBarIcon = icon.get(0);
                         if (isId) {
                             switch (mStatusBarIcon.getMInteger()) {
                                 case 1 ->
@@ -117,14 +117,13 @@ public class StatusBarIcon extends BaseHook {
                             }
                             isId = false;
                         }
-                        icon.clear();*//*
+                        icon.clear();
                     }
                 }
             }
-        );*/
-        // }
+        );
 
-        /*hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
+        hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
             "handleSet", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
