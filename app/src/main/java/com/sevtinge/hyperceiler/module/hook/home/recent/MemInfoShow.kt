@@ -7,12 +7,28 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object MemInfoShow : BaseHook() {
     override fun init() {
-        loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
-            name == "canTxtMemInfoShow"
-        }.createHook {
-            before { param ->
-                param.result = true
+        // hyperOS for Pad 修复方案来自 hyper helper
+        try {
+            // 此方法调用会将内存显示 hide，需拦截
+            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
+                name == "hideTxtMemoryInfoView"
+            }.createHook {
+                returnConstant(null)
             }
+        } catch (t: Throwable) {
+            logE(TAG, "hideTxtMemoryInfoView method is null")
+        }
+
+        try {
+            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
+                name == "isMemInfoShow"
+            }
+        } catch (t: Throwable) {
+            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
+                name == "canTxtMemInfoShow"
+            }
+        }.createHook {
+            returnConstant(true)
         }
     }
 }

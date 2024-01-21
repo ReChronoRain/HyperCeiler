@@ -85,6 +85,7 @@ MIUI 12.5 ~ 14 para Android 11 ~ 14/Xiaomi HyperOS 1.0
 | Fones de ouvido                  | com.miui.misound                   |
 | Backup                           | com.miui.backup                    |
 | Mi Mover                         | com.miui.huanji                    |
+| MiTrustService                   | com.xiaomi.trustservice            |
 
 </details>
 
