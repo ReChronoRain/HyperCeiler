@@ -1103,6 +1103,7 @@
     <string name="home_other_lock_app_lock">Bloquear app</string>
     <string name="home_other_lock_app_unlock">Desbloquear app</string>
     <string name="home_other_lock_app_will_unlock">O app será desbloqueado</string>
+    <string name="home_other_lock_app_r">Restaurar</string>
     <string name="home_other_lock_app_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
     <string name="home_other_lock_app_more">Pressione e segure a parte inferior da tela para entrar, sair novamente e reiniciar o sistema pela primeira vez.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
