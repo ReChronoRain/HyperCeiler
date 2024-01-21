@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import com.sevtinge.hyperceiler.callback.ITAG;
+
 import java.lang.reflect.Method;
 
 @SuppressLint("PrivateApi")
 public class PropUtils {
-    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG;
+    private static final String TAG = ITAG.TAG;
 
     public static String getProp(Context context, String name) {
         try {
