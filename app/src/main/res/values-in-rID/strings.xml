@@ -1098,6 +1098,14 @@
     <string name="home_large_icon_corner_radius">Ikon besar dengan sudut membulat</string>
     <string name="home_other_app_icon_hide">Manajemen pintasan desktop</string>
     <string name="home_other_toast_slide_again">Melarang perintah \"tolong usap lagi\" Roti Bakar</string>
+    <string name="home_other_lock_app">Aplikasi yang ditetapkan</string>
+    <string name="home_other_lock_app_will_lock">Akan mengunci Aplikasi</string>
+    <string name="home_other_lock_app_lock">Kunci Aplikasi</string>
+    <string name="home_other_lock_app_unlock">Buka kunci Aplikasi</string>
+    <string name="home_other_lock_app_will_unlock">Akan Membuka Kunci Aplikasi</string>
+    <string name="home_other_lock_app_r">Pulihkan</string>
+    <string name="home_other_lock_app_e">Silakan buka kuncinya di antarmuka aplikasi yang terkunci</string>
+    <string name="home_other_lock_app_more">Tekan dan tahan bagian bawah layar untuk masuk, keluar lagi, dan mulai ulang sistem untuk pertama kalinya</string>
     <string name="home_other_shortcut_remove_restrictions">Hapus batasan pada pintasan</string>
     <string name="home_other_fix_android_r_s">Perbaiki masalah kompatibilitas yang menyebabkan desktop menjadi hitam</string>
     <string name="home_other_shortcut_background_blur_custom">Nilai blur menu pintasan</string>
