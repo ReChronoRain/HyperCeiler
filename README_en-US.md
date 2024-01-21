@@ -15,13 +15,17 @@
 ## Supported versions
 
 MIUI and HyperOS for Android 11 - 14
+
 Note: Android 11-12 is not supported by the system framework and the scope of the system interface
 
 ## Pre-use instructions
 
 Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releases), then enable the corresponding feature in the HyperCeiler app, restart the scope (root access required);
+
 This module <b>does not support</b> 'Third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications', 'System software with a lot of modifications', and 'Some international MIUI/Xiaomi HyperOS ROMs'.
+
 At present, HyperCeiler is adapted to the mobile device of Xiaomi HyperOS1.0 based on Android 14, and the coverage is not very complete, and it needs to be continuously tested and improved
+
 HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for the system framework and the core scope of the system interface, in principle, other scopes can be used normally, if you need to use the core scope, please stay [this version](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
 
 ## Supported Applications
