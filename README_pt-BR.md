@@ -105,7 +105,7 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 [![badge_qguild]][qguild_url]
 [![badge_telegram]][telegram_url]
 
-## Tradução
+## Contribuições de tradução
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
