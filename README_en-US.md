@@ -4,36 +4,34 @@
 
 # HyperCeiler
 
-### Make HyperOS Great Again!
-
+### Make HyperOS/MIUI Great Again!
 
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;English |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
-
 
 </div>
 
 ## Supported versions
 
-MIUI and HyperOS for Android 11 - 14
+MIUI and HyperOS for Android 11-14
 
-Note: The System Framework and System UI scope do not support MIUI for Android 11-12
+Note: The System Framework and System UI scope do not support MIUI for Android 11-12.
 
 ## Pre-use instructions
 
-Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releases), then enable the corresponding feature in the HyperCeiler app, restart the scope (root access required);
+Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releases), then enable the corresponding feature in the HyperCeiler app and restart the scope (root access required).
 
-This module <b>does not support</b> 'Third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications', 'System software with a lot of modifications', and 'Some international MIUI/Xiaomi HyperOS ROMs'.
+This module <b>does not support</b> `third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international MIUI/Xiaomi HyperOS ROMs`.
 
-At present, HyperCeiler is adapted to the mobile device of Xiaomi HyperOS1.0 based on Android 14, and the coverage is not very complete, and it needs to be continuously tested and improved
+At present, HyperCeiler is adapted to the mobile device of Xiaomi HyperOS1.0 based on Android 14, and the coverage is not very complete, and it needs to be continuously tested and improved.
 
-HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for the core scope such as the System Framework and System UI, in principle, other scopes can be used normally, if you need to use the core scope, please stay in [this version] (https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
+HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for the core scope such as the System Framework and System UI, in principle, other scopes can be used normally, if you need to use the core scope, please stay in [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
-## Supported Applications
+## Supported apps
 
 <details>
     <summary>Click to expand collapsed content</summary>
 
-| App Name                   | Package Name                       |
+| App name                   | Package name                       |
 |:---------------------------|:-----------------------------------|
 | System Framework           | system                             |
 | System UI                  | com.android.systemui               |
@@ -107,7 +105,7 @@ Join our group to report issues or get the latest updates.
 [![badge_qguild]][qguild_url]
 [![badge_telegram]][telegram_url]
 
-## Provide translations for the HyperCeiler project
+## Translation contributions
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
