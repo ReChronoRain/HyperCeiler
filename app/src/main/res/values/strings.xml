@@ -523,6 +523,7 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from lock screen</string>
     <string name="system_ui_lock_screen_block_editor_title">Disable long press to access lock screen editing</string>
+    <string name="system_ui_lock_screen_allow_third_face">Allow third lock screen use face</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
