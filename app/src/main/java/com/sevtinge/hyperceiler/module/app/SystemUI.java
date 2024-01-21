@@ -270,6 +270,7 @@ public class SystemUI extends BaseModule {
         initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
         initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
+        initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
 
         if (!isAndroidVersion(30)) {
             initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));
