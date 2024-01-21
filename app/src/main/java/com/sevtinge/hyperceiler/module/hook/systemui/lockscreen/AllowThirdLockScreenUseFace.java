@@ -11,5 +11,11 @@ public class AllowThirdLockScreenUseFace extends BaseHook {
                 param.setResult(false);
             }
         });
+        findAndHookMethod("miui.stub.MiuiStub$3", "isUnlockWithFingerprintPossible", int.class, new MethodHook(){
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(false);
+            }
+        });
     }
 }
