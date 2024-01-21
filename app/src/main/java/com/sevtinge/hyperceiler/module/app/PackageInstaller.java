@@ -3,8 +3,6 @@ package com.sevtinge.hyperceiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.CloseHostDir;
-import com.sevtinge.hyperceiler.module.base.LoadHostDir;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.AllAsSystemApp;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAD;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableCountChecking;
@@ -16,9 +14,6 @@ import com.sevtinge.hyperceiler.module.hook.packageinstaller.InstallSource;
 public class PackageInstaller extends BaseModule {
 
     public void handleLoadPackage() {
-
-        // dexKit load
-        initHook(LoadHostDir.INSTANCE);
 
         //
         /*initHook(new MiuiPackageInstallModify(), mPrefsMap.getBoolean("miui_package_installer_modify"));*/
@@ -45,7 +40,5 @@ public class PackageInstaller extends BaseModule {
         // 禁用频繁安装应用检查
         initHook(DisableCountChecking.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_count_checking"));
 
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
     }
 }

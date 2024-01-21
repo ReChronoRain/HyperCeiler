@@ -4,9 +4,6 @@ import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.CloseHostDir;
-import com.sevtinge.hyperceiler.module.base.LoadHostDir;
-import com.sevtinge.hyperceiler.module.hook.home.AllAppsBlur;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.module.hook.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.module.hook.home.HideNavigationBar;
@@ -118,8 +115,6 @@ public class Home extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        // dexKit load
-        initHook(LoadHostDir.INSTANCE);
 
         // 手势
         initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
@@ -182,7 +177,7 @@ public class Home extends BaseModule {
         // 最近任务
         initHook(BlurLevel.INSTANCE, mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 6);
         initHook(DisableRecentViewWallpaperDarken.INSTANCE, mPrefsMap.getBoolean("home_recent_disable_wallpaper_dimming"));
-        initHook(HideStatusBarWhenEnterRecent.INSTANCE, true);
+        initHook(HideStatusBarWhenEnterRecent.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view"));
         initHook(RemoveCardAnim.INSTANCE, mPrefsMap.getBoolean("home_recent_modify_animation"));
         initHook(TaskViewHorizontal.INSTANCE);
         initHook(TaskViewVertical.INSTANCE);
@@ -256,7 +251,7 @@ public class Home extends BaseModule {
         initHook(BlurWhenShowShortcutMenu.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_background_blur") && !isAndroidVersion(30));
         initHook(FolderBlur.INSTANCE, mPrefsMap.getBoolean("home_folder_blur") && !isAndroidVersion(30));
         initHook(new FoldDock(), mPrefsMap.getBoolean("home_other_fold_dock"));
-        initHook(new AllAppsBlur(), !isAndroidVersion(30));
+        // initHook(new AllAppsBlur(), !isAndroidVersion(30)); // ??
         initHook(new FixAnimation(), mPrefsMap.getBoolean("home_title_fix_animation"));
         initHook(new LargeIconCornerRadius(), mPrefsMap.getBoolean("home_large_icon_enable"));
 
@@ -278,9 +273,6 @@ public class Home extends BaseModule {
         initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num") && isPad());
         initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
         initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
-
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
     }
 
 }
