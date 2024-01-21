@@ -8,13 +8,13 @@ public class AllowThirdLockScreenUseFace extends BaseHook {
         findAndHookMethod("com.android.keyguard.KeyguardUpdateMonitor", "isUnlockWithFacePossible", int.class, new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(false);
+                param.setResult(true);
             }
         });
         findAndHookMethod("miui.stub.MiuiStub$3", "isUnlockWithFingerprintPossible", int.class, new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                param.setResult(false);
+                param.setResult(true);
             }
         });
     }
