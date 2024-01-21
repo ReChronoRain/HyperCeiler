@@ -14,13 +14,15 @@
 
 ## Supported versions
 
-MIUI 12.5 ~ 14 for Android 11 ~ 14/Xiaomi HyperOS1.0
+MIUI and HyperOS for Android 11 - 14
+Note: Android 11-12 is not supported by the system framework and the scope of the system interface
 
-> Does not support heavily modified third-party MIUI/Xiaomi HyperOS Rom, heavily modified system software, and some foreign MIUI/Xiaomi HyperOS Rom;
->
-> Currently, HyperCeiler is adapted for mobile devices based on Xiaomi Android 14 and HyperOS1.0. The coverage is not very complete and requires continuous testing and improvement;
->
-> HyperCeiler has stopped maintaining MIUI Rom for Android 11-12. If you want to use it, please stay at [this version](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
+## Pre-use instructions
+
+Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releases), then enable the corresponding feature in the HyperCeiler app, restart the scope (root access required);
+This module <b>does not support</b> 'Third-party MIUI/Xiaomi HyperOS ROMs with a lot of modifications', 'System software with a lot of modifications', and 'Some international MIUI/Xiaomi HyperOS ROMs'.
+At present, HyperCeiler is adapted to the mobile device of Xiaomi HyperOS1.0 based on Android 14, and the coverage is not very complete, and it needs to be continuously tested and improved
+HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for the system framework and the core scope of the system interface, in principle, other scopes can be used normally, if you need to use the core scope, please stay [this version](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130)
 
 ## Supported Applications
 
@@ -87,6 +89,7 @@ MIUI 12.5 ~ 14 for Android 11 ~ 14/Xiaomi HyperOS1.0
 | Earphones                  | com.miui.misound                   |
 | Backup                     | com.miui.backup                    |
 | Mi Mover                   | com.miui.huanji                    |
+| MiTrustService             | com.xiaomi.trustservice            |
 
 </details>
 
