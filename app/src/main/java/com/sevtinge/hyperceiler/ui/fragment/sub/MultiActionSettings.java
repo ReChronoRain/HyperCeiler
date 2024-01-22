@@ -61,8 +61,10 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
         mVolumeDialog = findPreference("prefs_key_volume_dialog");
         mOpenApp = findPreference("prefs_key_open_app");
         mAppSelector = findPreference("prefs_key_open_app_selector");
-        mLockScreen = findPreference("prefs_key_open_powermenu");
-        mLockScreen.setVisible(Objects.equals(mKey, "prefs_key_home_navigation_assist_left_slide") || Objects.equals(mKey, "prefs_key_home_navigation_assist_right_slide"));
+        mLockScreen = findPreference("prefs_key_lock_app");
+        if (mLockScreen != null) {
+            mLockScreen.setVisible(Objects.equals(mKey, "prefs_key_home_navigation_assist_left_slide") || Objects.equals(mKey, "prefs_key_home_navigation_assist_right_slide"));
+        }
         updateAction();
     }
 
