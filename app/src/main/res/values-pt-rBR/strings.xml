@@ -485,6 +485,7 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar a solicitação de desbloqueio na parte inferior da tela</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
     <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para acessar a edição da tela de bloqueio</string>
+    <string name="system_ui_lock_screen_allow_third_face">Permitir rosto de uso da terceira tela de bloqueio</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
