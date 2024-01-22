@@ -13,7 +13,10 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class LockApp extends BaseHook {
     public Context mContext;
@@ -25,9 +28,54 @@ public class LockApp extends BaseHook {
     public final static int UNKNOWN_ERROR = 4;
     public final static int RESTORE = 5;
     public int taskId = -1;
+    public int lockId;
 
     public int count = 0;
     public int eCount = 0;
+
+    public void onLockApp(Context context, ActivityManager.RunningTaskInfo runningTaskInfo) {
+        XposedBridge.log("514");
+
+        //Context context = findContext(FLAG_CURRENT_APP);
+        XposedBridge.log("a"+context);
+        lockId = getLockApp(context);
+        XposedBridge.log("b"+lockId);
+        if (getSystemLockEnable(context)) {
+            setSystemLockApp(context);
+        }
+        taskId = runningTaskInfo.taskId;
+        remoAllMes();
+        if (lockId == -1) {
+            //mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_LOCK_APP), 1000);
+            mHandler.sendMessageDelayed(mHandler.obtainMessage(LOCK_APP, taskId), 0);
+        } else {
+            if (lockId == taskId) {
+                //mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_UNLOCK_APP), 1000);
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(UNLOCK_APP), 0);
+            } else {
+                if (lockId != -1) {
+                    if (eCount < 2) {
+                        mHandler.sendMessage(mHandler.obtainMessage(UNKNOWN_ERROR));
+                        eCount = eCount + 1;
+                    } else {
+                        mHandler.sendMessage(mHandler.obtainMessage(RESTORE));
+                        eCount = 0;
+                    }
+                }
+            }
+        }
+        /*if (getLockApp(context) == taskId && lockId != -1) {
+            findAndHookMethod("com.miui.home.recents.NavStubView",
+                "onTouchEvent", MotionEvent.class,
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(false);
+                    }
+                }
+            );
+        }*/
+    }
 
 
     @Override
