@@ -2,7 +2,7 @@ package com.sevtinge.hyperceiler;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.callback.TAG;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -32,14 +32,14 @@ public class CrashRecord implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
-        AndroidLogUtils.LogE(TAG.TAG, e);
+        AndroidLogUtils.LogE(ITAG.TAG, e);
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand("ls " + path + " | grep " + pkg, false, true);
         List<String> success = null;
         if (commandResult.result == 0) {
             success = commandResult.successMsg;
         }
         if (success != null) {
-            AndroidLogUtils.LogI(TAG.TAG, "rss: " + success);
+            AndroidLogUtils.LogI(ITAG.TAG, "rss: " + success);
             Pattern pattern = Pattern.compile(".*_(.*)");
             Matcher matcher = pattern.matcher(success.get(0));
             if (matcher.find()) {

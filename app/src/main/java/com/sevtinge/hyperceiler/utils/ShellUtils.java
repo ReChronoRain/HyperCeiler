@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.utils;
 
-import com.sevtinge.hyperceiler.callback.TAG;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
@@ -282,7 +282,7 @@ public class ShellUtils {
                     output.start();
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(TAG.TAG, "OpenShellExecWindow E", e);
+                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow E", e);
             }
         }
 
@@ -292,7 +292,7 @@ public class ShellUtils {
                 os.writeBytes("\n");
                 os.flush();
             } catch (IOException e) {
-                AndroidLogUtils.LogE(TAG.TAG, "OpenShellExecWindow append E", e);
+                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow append E", e);
             }
         }
 
@@ -302,7 +302,7 @@ public class ShellUtils {
                 os.flush();
                 return process.waitFor();
             } catch (InterruptedException | IOException e) {
-                AndroidLogUtils.LogE(TAG.TAG, "OpenShellExecWindow getResult E", e);
+                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow getResult E", e);
             }
             return -1;
         }
@@ -316,7 +316,7 @@ public class ShellUtils {
                     os.close();
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(TAG.TAG, "OpenShellExecWindow close E", e);
+                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow close E", e);
             }
         }
 
@@ -347,7 +347,7 @@ public class ShellUtils {
                     mIOutput.readOutput(line, mType);
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(TAG.TAG, "StreamGobbler run E", e);
+                AndroidLogUtils.LogE(ITAG.TAG, "StreamGobbler run E", e);
             }
         }
 

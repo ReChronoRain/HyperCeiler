@@ -11,7 +11,7 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
 import com.sevtinge.hyperceiler.CrashHook;
-import com.sevtinge.hyperceiler.callback.TAG;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
 import com.sevtinge.hyperceiler.module.app.Aod;
 import com.sevtinge.hyperceiler.module.app.Backup;
@@ -194,9 +194,9 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                 mSystemVarious.init(lpparam);
                 try {
                     new CrashHook(lpparam);
-                    logI(TAG.TAG, "Success Hook Crash");
+                    logI(ITAG.TAG, "Success Hook Crash");
                 } catch (Exception e) {
-                    logE(TAG.TAG, "Hook Crash E: " + e);
+                    logE(ITAG.TAG, "Hook Crash E: " + e);
                 }
             }
             case "com.android.systemui" -> {

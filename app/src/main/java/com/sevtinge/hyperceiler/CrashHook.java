@@ -8,6 +8,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
 
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.hook.HookUtils;
 
@@ -28,7 +29,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  */
 public class CrashHook extends HookUtils {
     private final String path = "/sdcard/Download/hy_crash";
-    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG + ": CrashHook";
+    private static final String TAG = ITAG.TAG + ": CrashHook";
 
     public CrashHook(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Exception {
         init(loadPackageParam.classLoader);

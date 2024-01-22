@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.callback.TAG;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
@@ -33,7 +33,7 @@ public class CrashDialog extends AppCompatActivity {
                         "setprop persist.hyperceiler.crash.report \"[]\"", true, true) {
                         @Override
                         public void readOutput(String out, String type) {
-                            AndroidLogUtils.LogI(TAG.TAG, "D O: " + out + " T: " + type);
+                            AndroidLogUtils.LogI(ITAG.TAG, "D O: " + out + " T: " + type);
                         }
                     };
                     open.append("settings put system hyperceiler_crash_report \"[]\"");

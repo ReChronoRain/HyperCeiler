@@ -2,11 +2,11 @@ package com.sevtinge.hyperceiler.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
@@ -18,10 +18,10 @@ import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
-    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG;
+    private static final String TAG = ITAG.TAG;
     private final String path = "/sdcard/Android/hy_crash/";
-    ExecutorService executorService;
-    Handler handler;
+    /*ExecutorService executorService;
+    Handler handler;*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,14 +39,14 @@ public class MainActivity extends NavigationActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
-        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        /*executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         handler = new Handler();
         // Intent intent = new Intent(this, CrashService.class);
         // startService(intent);
-        // checkCrash();
+        // checkCrash();*/
     }
 
-    private void checkCrash() {
+    /*private void checkCrash() {
         executorService.submit(() -> {
             handler.post(() -> {
                 ShellUtils.CommandResult commandResult = ShellUtils.execCommand("ls " + path, false, true);
@@ -84,7 +84,7 @@ public class MainActivity extends NavigationActivity {
                 }
             });
         });
-    }
+    }*/
 
     private void requestCta() {
         /*if (!CtaUtils.isCtaEnabled(this)) {
