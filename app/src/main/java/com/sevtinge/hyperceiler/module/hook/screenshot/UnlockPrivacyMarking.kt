@@ -18,11 +18,7 @@ object UnlockPrivacyMarking : BaseHook() {
             try {
                 returnConstant(true)
             } catch (e: Exception) {
-                logW(
-                    TAG,
-                    this@UnlockPrivacyMarking.lpparam.packageName,
-                    "UnSupport Privacy Marking"
-                )
+                logI(TAG, lpparam.packageName, "UnSupport Privacy Marking")
             }
         }
     }

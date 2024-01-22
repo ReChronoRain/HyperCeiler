@@ -12,7 +12,7 @@ object DisableCloudControl : BaseHook() {
                 addUsingStringsEquals("job exist, sync local...")
                 returnType = "void"
             }
-        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader).createHook {
             returnConstant(null)
         }
     }

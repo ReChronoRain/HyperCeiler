@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
+// what is it?
 public class AllAppsBlur extends BaseHook {
 
     Class<?> mLauncher;

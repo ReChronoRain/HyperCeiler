@@ -1,36 +1,26 @@
 package com.sevtinge.hyperceiler.module.hook.packageinstaller
 
-import android.annotation.SuppressLint
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
+import org.luckypray.dexkit.query.enums.StringMatchType
 
-@SuppressLint("StaticFieldLeak")
 object InstallRiskDisable : BaseHook() {
     override fun init() {
         dexKitBridge.findMethod {
             matcher {
-                addUsingStringsEquals("secure_verify_enable")
+                addUsingString("secure_verify_enable", StringMatchType.Equals)
+                returnType = "boolean"
+            }
+            matcher {
+                addUsingString("installerOpenSafetyModel", StringMatchType.Equals)
+                returnType = "boolean"
+            }
+            matcher {
+                addUsingString("android.provider.MiuiSettings\$Ad", StringMatchType.Equals)
+                returnType = "boolean"
             }
         }.map { it.getMethodInstance(lpparam.classLoader) }.toList().createHooks {
-            returnConstant(false)
-        }
-
-        dexKitBridge.findMethod {
-            matcher {
-                addUsingStringsEquals("installerOpenSafetyModel")
-            }
-        }.map { it.getMethodInstance(lpparam.classLoader) }.toList().createHooks {
-            returnConstant(false)
-        }
-
-        dexKitBridge.findMethod {
-            matcher {
-                addUsingStringsEquals("android.provider.MiuiSettings\$Ad")
-            }
-        }.single().getMethodInstance(lpparam.classLoader).createHook {
             returnConstant(false)
         }
     }

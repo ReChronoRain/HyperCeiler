@@ -13,7 +13,11 @@ object LockOneHundredPoints : BaseHook() {
     private val score by lazy {
         dexKitBridge.findMethod {
             matcher {
-                addUsingString("getMinusPredictScore", StringMatchType.Contains)
+                declaredClass {
+                    addUsingString("getMinusPredictScore", StringMatchType.Contains)
+                }
+                usingNumbers(41, 100, 0)
+                returnType = "int"
             }
         }.single().getMethodInstance(safeClassLoader)
     }
@@ -29,7 +33,7 @@ object LockOneHundredPoints : BaseHook() {
             }
 
         score.createHook {
-            returnConstant(0)
+            returnConstant(100)
         }
     }
 }

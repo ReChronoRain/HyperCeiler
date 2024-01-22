@@ -88,6 +88,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
         } else {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("is_app_selector", true);
+            intent.putExtra("need_mode", 1);
             startActivityForResult(intent, 0);
         }
         return true;

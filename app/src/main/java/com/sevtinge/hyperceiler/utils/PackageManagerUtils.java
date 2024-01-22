@@ -13,6 +13,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
 
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
@@ -25,7 +26,7 @@ import java.util.Objects;
  * Author by 焕晨HChen
  */
 public class PackageManagerUtils {
-    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG;
+    private static final String TAG = ITAG.TAG;
 
     public static List<AppData> getPackageByFlag(int flag) {
         return getPackage(flag);

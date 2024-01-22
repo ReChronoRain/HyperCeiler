@@ -5,6 +5,24 @@ labels: [
   "bug"
 ]
 body:
+
+  - type: checkboxes
+    id: check
+    attributes:
+      label: 须知
+      description: |
+        请确认已经遵守所有必选项，否则不排除将直接关闭 Issue
+        提交 Issue 前请确认当前为[cemiuiler_canary频道](https://t.me/cemiuiler_canary)发布的最新版ci
+      options:
+        - label: 我确认最新版依然存在此问题.
+          required: true
+
+        - label: 我已排查已安装的所有模块的可能性，确认由本模块造成.
+          required: true
+
+        - label: 我已经搜索过Issue Tracker，且并未查询到提交相同问题的 Issue.
+          required: true
+
   - type: textarea
     id: description
     attributes:

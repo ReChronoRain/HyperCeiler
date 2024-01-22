@@ -42,7 +42,7 @@ public class OtherSettings extends SettingsPreferenceFragment {
         mDisableDeviceLog = findPreference("prefs_key_various_disable_access_device_logs");
 
         mAppLinkVerify.setVisible(!isAndroidVersion(30));
-        mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
+        // mVerifyDisable.setVisible(isMoreHyperOSVersion(1f));
         mEntry.setVisible(isMoreHyperOSVersion(1f));
         mUseOriginalAnim.setVisible(!isAndroidVersion(33));
         mDisableDeviceLog.setVisible(isMoreAndroidVersion(33));
