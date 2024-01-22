@@ -10,13 +10,10 @@ import org.luckypray.dexkit.query.matchers.MethodMatcher
  * DexKit 工具
  */
 object DexKit {
-    private lateinit var hostDir: String
-    private var isInitialized = false
+    var hostDir: String? = null
+    var isInitialized = false
     val dexKitBridge: DexKitBridge by lazy {
-        System.loadLibrary("dexkit")
-        DexKitBridge.create(hostDir).also {
-            isInitialized = true
-        }
+        InitDexKit.init()
     }
 
     /**

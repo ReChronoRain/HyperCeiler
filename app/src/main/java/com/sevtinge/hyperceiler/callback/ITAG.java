@@ -1,5 +1,5 @@
 package com.sevtinge.hyperceiler.callback;
 
-public interface TAG {
+public interface ITAG {
     String TAG = "[HyperCeiler]";
 }

@@ -1104,6 +1104,14 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
+    <string name="home_other_lock_app">Cố định ứng dụng</string>
+    <string name="home_other_lock_app_will_lock">Ứng dụng sẽ bị khóa</string>
+    <string name="home_other_lock_app_lock">Khóa ứng dụng</string>
+    <string name="home_other_lock_app_unlock">Mở khóa ứng dụng</string>
+    <string name="home_other_lock_app_will_unlock">Sẽ khóa ứng dụng</string>
+    <string name="home_other_lock_app_r">Khôi phục</string>
+    <string name="home_other_lock_app_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
+    <string name="home_other_lock_app_more">Nhấn và giữ phía dưới màn hình để vào, thoát lại và khởi động lại hệ thống ở lần đầu tiên</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>

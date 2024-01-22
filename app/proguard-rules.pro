@@ -8,9 +8,10 @@
 -keep class org.luckypray.dexkit.*
 -keep class * extends com.sevtinge.hyperceiler.ui.fragment.base.*
 -keep class * extends com.sevtinge.hyperceiler.module.base.BaseHook { <init>(); }
--keep class com.sevtinge.hyperceiler.utils.XposedUtils {
-    *;
-}
+-keep class * extends com.sevtinge.hyperceiler.module.base.BaseModule
+#-keep class com.sevtinge.hyperceiler.utils.XposedUtils {
+#    *;
+#}
 -keep class com.sevtinge.hyperceiler.utils.api.miuiStringToast.res.** {
     *;
 }

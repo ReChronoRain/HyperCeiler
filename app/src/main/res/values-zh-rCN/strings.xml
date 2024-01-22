@@ -524,11 +524,13 @@
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
     <string name="system_ui_lock_screen_block_editor_title">禁用长按进入锁屏编辑</string>
+    <string name="system_ui_lock_screen_allow_third_face">允许三方锁屏界面唤醒系统验证识别</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">允许在第三方应用显示的锁屏界面时，正常使用人脸及指纹识别</string>
 
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
     <string name="system_ui_hide_navigation_bar">隐藏手势提示线</string>
-    <string name="system_ui_hide_navigation_bar_more">请重启系统桌面和系统界面两个作用域</string>
+    <string name="system_ui_hide_navigation_bar_more">请重启 \"系统桌面\" 和 \"系统界面\" 两个作用域</string>
     <string name="system_ui_navigation_handle_custom">自定义手势提示线</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
     <string name="system_ui_navigation_handle_custom_width">竖屏宽度</string>
@@ -746,13 +748,14 @@
     <string name="system_ui_control_center_compact_notice">紧凑通知</string>
     <string name="system_ui_control_center_compact_notice_desc">减小通知垂直边框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知设置</string>
-    <string name="system_ui_control_center_redirect_notice_desc">打开通知菜单的设置会导航到目标频道设置而不是应用通知设置</string>
+    <string name="system_ui_control_center_redirect_notice_desc">打开通知菜单的设置会重新跳转到目标应用的通知频道设置，而不是应用通知设置</string>
     <string name="system_ui_control_center_show_weather">显示天气</string>
     <string name="system_ui_control_center_show_weather_city">显示地区</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏时静音</string>
     <string name="system_ui_control_center_expand_notification">展开通知</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">亮屏时弹出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圆角矩形磁贴</string>
+    <string name="system_ui_control_center_statusbar_blur">强制背景模糊</string>
     <string name="system_ui_control_center_rounded_rect_radius">圆角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">补全磁贴列表</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">对调控制中心与通知抽屉</string>
@@ -857,7 +860,7 @@
 
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
-    <string name="system_settings_apps_freezer_more">开启后可在"开发者选项"中找到此功能，为强制显示，不保证可用"</string>
+    <string name="system_settings_apps_freezer_more">开启后可在 \"开发者选项\" 中找到此功能，为强制显示，不保证可用</string>
     <string name="system_settings_develop_speed_mode">极致模式</string>
     <string name="system_settings_develop_speed_mode_desc">在不支持的机型上开启后不会显示入口</string>
     <string name="system_settings_window_animation_scale">窗口动画缩放</string>
@@ -867,7 +870,7 @@
     <string name="theme_manager">主题壁纸</string>
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
-    <string name="theme_manager_diable_ads_desc">将 “猜你喜欢” 的广告替换为空白卡片，其余位置的广告将完全移除</string>
+    <string name="theme_manager_diable_ads_desc">将 \"猜你喜欢\" 的广告替换为空白卡片，其余位置的广告将完全移除</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
     <!--系统更新-->
@@ -1109,7 +1112,7 @@
     <string name="home_recent_freeform_background_color">小窗应用卡片背景颜色</string>
     <string name="home_recent_show_real_memory">显示真实使用内存量</string>
     <string name="home_recent_show_memory_info_sum">仅供平板使用</string>
-    <string name="home_recent_show_memory_info">强制展示内存信息</string>
+    <string name="home_recent_show_memory_info">展示内存信息</string>
     <string name="home_recent_always_show_clean_up">无卡片时不隐藏清理图标</string>
     <string name="home_recent_blur">背景模糊</string>
 
@@ -1164,6 +1167,14 @@
     <string name="home_large_icon_corner_radius">大图标圆角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
+    <string name="home_other_lock_app">固定应用</string>
+    <string name="home_other_lock_app_more">长按屏幕最下方可进入此模式，再次长按即退出，首次使用需重启系统</string>
+    <string name="home_other_lock_app_will_lock">即将锁定当前应用</string>
+    <string name="home_other_lock_app_lock">已锁定当前应用</string>
+    <string name="home_other_lock_app_unlock">已解锁当前应用</string>
+    <string name="home_other_lock_app_will_unlock">即将解锁当前应用</string>
+    <string name="home_other_lock_app_e">请在被锁定应用界面解锁</string>
+    <string name="home_other_lock_app_r">超次还原</string>
     <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
     <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
@@ -1248,10 +1259,10 @@
     <string name="screenshot">截屏</string>
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
     <string name="screenshot_unlock_privacy_marking_title">解锁智能隐私打码</string>
-    <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 “MiAI引擎” APP 才能正常使用</string>
+    <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
-    <string name="screenshot_device_customize_desc">填写请输入 机型代号</string>
+    <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，举例：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>

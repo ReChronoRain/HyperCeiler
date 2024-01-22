@@ -3,8 +3,6 @@ package com.sevtinge.hyperceiler.module.app;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.CloseHostDir;
-import com.sevtinge.hyperceiler.module.base.LoadHostDir;
 import com.sevtinge.hyperceiler.module.hook.updater.AndroidVersionCode;
 import com.sevtinge.hyperceiler.module.hook.updater.DeviceModify;
 import com.sevtinge.hyperceiler.module.hook.updater.VabUpdate;
@@ -15,8 +13,6 @@ public class Updater extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        // dexKit load
-        initHook(LoadHostDir.INSTANCE);
         if (mPrefsMap.getBoolean("updater_enable_miui_version")) {
             if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
                 initHook(VersionCodeNew.INSTANCE);
@@ -27,7 +23,5 @@ public class Updater extends BaseModule {
             initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
         }
         initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
     }
 }

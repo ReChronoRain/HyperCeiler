@@ -21,7 +21,7 @@ public class Clipboard extends BaseHook {
 
     @Override
     public void init() {
-        DexKit.INSTANCE.initDexKit(lpparam);
+        // DexKit.INSTANCE.initDexKit(lpparam);
         MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
             FindMethod.create()
                 .matcher(MethodMatcher.create()
@@ -72,6 +72,6 @@ public class Clipboard extends BaseHook {
                 }
             }
         );
-        DexKit.INSTANCE.closeDexKit();
+        // DexKit.INSTANCE.closeDexKit();
     }
 }

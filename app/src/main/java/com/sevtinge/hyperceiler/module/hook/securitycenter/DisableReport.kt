@@ -12,7 +12,7 @@ object DisableReport : BaseHook() {
                 addUsingStringsEquals("android.intent.action.VIEW", "com.xiaomi.market")
                 returnType = "boolean"
             }
-        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader).createHook {
             returnConstant(false)
         }
     }

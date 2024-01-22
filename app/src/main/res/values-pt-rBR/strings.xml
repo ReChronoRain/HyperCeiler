@@ -485,6 +485,7 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar a solicitação de desbloqueio na parte inferior da tela</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
     <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para acessar a edição da tela de bloqueio</string>
+    <string name="system_ui_lock_screen_allow_third_face">Permitir rosto de uso da terceira tela de bloqueio</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
@@ -1098,6 +1099,14 @@
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
     <string name="home_other_toast_slide_again">Proibir dica de solicitação \"Deslize novamente\"</string>
+    <string name="home_other_lock_app">Apps fixos</string>
+    <string name="home_other_lock_app_will_lock">O app será bloqueado</string>
+    <string name="home_other_lock_app_lock">Bloquear app</string>
+    <string name="home_other_lock_app_unlock">Desbloquear app</string>
+    <string name="home_other_lock_app_will_unlock">O app será desbloqueado</string>
+    <string name="home_other_lock_app_r">Restaurar</string>
+    <string name="home_other_lock_app_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
+    <string name="home_other_lock_app_more">Pressione e segure a parte inferior da tela para entrar, sair novamente e reiniciar o sistema pela primeira vez.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>

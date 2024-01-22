@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRes
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
+import com.sevtinge.hyperceiler.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.module.hook.systemframework.UseOriginalAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.VolumeDefaultStream;
@@ -85,6 +86,7 @@ public class SystemFramework extends BaseModule {
         // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         // 其他
+        initHook(new SystemLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
         initHook(new CleanShareMenu(), mPrefsMap.getBoolean("system_framework_clean_share_menu"));
         initHook(new CleanOpenMenu(), mPrefsMap.getBoolean("system_framework_clean_open_menu"));
@@ -121,7 +123,8 @@ public class SystemFramework extends BaseModule {
         }
 
         // 核心破解
-        if (isMoreAndroidVersion(33)) initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
+        if (isMoreAndroidVersion(33))
+            initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
 
         // 网络
         initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));

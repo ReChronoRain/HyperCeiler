@@ -99,6 +99,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_allow_third_face"
+            android:summary="@string/system_ui_lock_screen_allow_third_face_desc"
+            android:title="@string/system_ui_lock_screen_allow_third_face" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_password_free"
             android:summary="@string/system_ui_lock_screen_password_free_desc"
             android:title="@string/system_ui_lock_screen_password_free" />
