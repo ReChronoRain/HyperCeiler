@@ -523,6 +523,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from lock screen</string>
     <string name="system_ui_lock_screen_block_editor_title">Disable long press to access lock screen editing</string>
+    <string name="system_ui_lock_screen_allow_third_face">Allows the system to be woken up to verify recognition on a third-party lock screen</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">Allows face and fingerprint recognition to be used normally on the lock screen displayed by third-party apps</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
@@ -722,7 +724,7 @@
     <string name="system_ui_control_center_control_detail_background_alpha">Control Detail Background blur value</string>
     <string name="system_ui_control_center_notification_blur_model">Notification Blur Model</string>
     <string name="system_ui_control_center_notification_blur_fix">Notification optimization</string>
-    <string name="system_ui_control_center_notification_blur_fix_desc">Experimental function, only available for Android 13 and above models. After enabling, notification blur in some areas will be optimized\nThere may be a problem of system interface crash on some models.</string>
+    <string name="system_ui_control_center_notification_blur_fix_desc">Experimental function, only available for Android 13 and above models. After enabling, notification blur in some areas will be optimized\nThere may be a problem of System UI crash on some models.</string>
     <string name="system_ui_control_center_blur_radius">Blur Radius</string>
     <string name="system_ui_control_center_blur_radius_desc">Without dropdown notification</string>
     <string name="system_ui_control_center_corner_radius">Corner Radius</string>
@@ -733,7 +735,7 @@
     <string name="system_ui_control_center_compact_notice">Compact notifications</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\' vertical paddings</string>
     <string name="system_ui_control_center_redirect_notice">Redirect notification settings</string>
-    <string name="system_ui_control_center_redirect_notice_desc">Opening the notification menu\'s settings navigates to the target channel settings instead of applying the notification settings</string>
+    <string name="system_ui_control_center_redirect_notice_desc">Opening the settings of the notification menu redirects you to the target app\'s notification channel settings instead of applying the notification settings</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
@@ -1149,7 +1151,7 @@
     <string name="home_other_lock_app_will_unlock">Will Unlock App</string>
     <string name="home_other_lock_app_r">Restore</string>
     <string name="home_other_lock_app_e">Please unlock it in the locked app interface</string>
-    <string name="home_other_lock_app_more">Press and hold the bottom of the screen to enter, exit again, and restart the system for the first time</string>
+    <string name="home_other_lock_app_more">You can get in and out of this mode by long-pressing on the very bottom of the screen. The device needs to be restarted for the first time.</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
@@ -1236,7 +1238,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">A higher version of the \"Mi AI Engine\" APP needs to be pre-installed for normal use</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model with shell</string>
-    <string name="screenshot_device_customize_desc">Please enter the model code</string>
+    <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n- Xiaomi 13, fill in the content is fuxi\n- Xiaomi 14 pink version, fill in the content is houji_PK</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Security</string>
     <string name="security_center_pad">Tablet security center</string>
