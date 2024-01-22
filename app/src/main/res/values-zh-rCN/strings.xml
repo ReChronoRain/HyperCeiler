@@ -524,7 +524,7 @@
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
     <string name="system_ui_lock_screen_block_editor_title">禁用长按进入锁屏编辑</string>
-    <string name="system_ui_lock_screen_allow_third_face">允许使用三方应用锁屏时使用人脸及指纹识别</string>
+    <string name="system_ui_lock_screen_allow_third_face">允许在第三方应用显示的锁屏界面时，正常使用人脸及指纹识别</string>
 
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
@@ -747,7 +747,7 @@
     <string name="system_ui_control_center_compact_notice">紧凑通知</string>
     <string name="system_ui_control_center_compact_notice_desc">减小通知垂直边框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知设置</string>
-    <string name="system_ui_control_center_redirect_notice_desc">打开通知菜单的设置会导航到目标频道设置而不是应用通知设置</string>
+    <string name="system_ui_control_center_redirect_notice_desc">打开通知菜单的设置会重新跳转到目标应用的通知频道设置，而不是应用通知设置</string>
     <string name="system_ui_control_center_show_weather">显示天气</string>
     <string name="system_ui_control_center_show_weather_city">显示地区</string>
     <string name="system_ui_control_center_mute_visible_notice">亮屏时静音</string>
@@ -858,7 +858,7 @@
 
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
-    <string name="system_settings_apps_freezer_more">开启后可在"开发者选项"中找到此功能，为强制显示，不保证可用"</string>
+    <string name="system_settings_apps_freezer_more">开启后可在 \"开发者选项\" 中找到此功能，为强制显示，不保证可用</string>
     <string name="system_settings_develop_speed_mode">极致模式</string>
     <string name="system_settings_develop_speed_mode_desc">在不支持的机型上开启后不会显示入口</string>
     <string name="system_settings_window_animation_scale">窗口动画缩放</string>
@@ -868,7 +868,7 @@
     <string name="theme_manager">主题壁纸</string>
     <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
-    <string name="theme_manager_diable_ads_desc">将 “猜你喜欢” 的广告替换为空白卡片，其余位置的广告将完全移除</string>
+    <string name="theme_manager_diable_ads_desc">将 \"猜你喜欢\" 的广告替换为空白卡片，其余位置的广告将完全移除</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>
     <string name="theme_manager_enable_fold_theme">启用 Fold 主题</string>
     <!--系统更新-->
@@ -1257,10 +1257,10 @@
     <string name="screenshot">截屏</string>
     <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
     <string name="screenshot_unlock_privacy_marking_title">解锁智能隐私打码</string>
-    <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 “MiAI引擎” APP 才能正常使用</string>
+    <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
-    <string name="screenshot_device_customize_desc">填写请输入 机型代号</string>
+    <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，举例：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>
     <!--手机管家/平板管家-->
     <string name="security_center">手机管家</string>
     <string name="security_center_pad">平板管家</string>
