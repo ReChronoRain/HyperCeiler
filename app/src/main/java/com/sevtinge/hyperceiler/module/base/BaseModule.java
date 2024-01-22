@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.module.base;
 
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.callback.TAG;
 import com.sevtinge.hyperceiler.utils.InitDexKit;
 import com.sevtinge.hyperceiler.utils.PrefsMap;
 import com.sevtinge.hyperceiler.utils.PropUtils;
@@ -29,7 +28,7 @@ public abstract class BaseModule implements IXposedHook {
 
     public void init(LoadPackageParam lpparam) {
         if (needIntercept(lpparam.packageName)) {
-            AndroidLogUtils.LogI(TAG.TAG, "进入安全模式: " + lpparam.packageName);
+            AndroidLogUtils.LogI(TAG, "进入安全模式: " + lpparam.packageName);
             return;
         }
         mLoadPackageParam = lpparam;
