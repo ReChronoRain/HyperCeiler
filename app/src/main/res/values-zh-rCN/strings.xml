@@ -529,7 +529,7 @@
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
     <string name="system_ui_hide_navigation_bar">隐藏手势提示线</string>
-    <string name="system_ui_hide_navigation_bar_more">请重启系统桌面和系统界面两个作用域</string>
+    <string name="system_ui_hide_navigation_bar_more">请重启 \"系统桌面\" 和 \"系统界面\" 两个作用域</string>
     <string name="system_ui_navigation_handle_custom">自定义手势提示线</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
     <string name="system_ui_navigation_handle_custom_width">竖屏宽度</string>
@@ -1166,7 +1166,7 @@
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
     <string name="home_other_lock_app">固定应用</string>
-    <string name="home_other_lock_app_more">长按屏幕最下方即可进入，再次退出，第一次使用需要重启系统</string>
+    <string name="home_other_lock_app_more">长按屏幕最下方可进入此模式，再次长按即退出，首次使用需重启系统</string>
     <string name="home_other_lock_app_will_lock">即将锁定当前应用</string>
     <string name="home_other_lock_app_lock">已锁定当前应用</string>
     <string name="home_other_lock_app_unlock">已解锁当前应用</string>

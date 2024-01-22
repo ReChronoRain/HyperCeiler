@@ -523,7 +523,7 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Hide the unlock prompt at the bottom of the screen</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remove status bar from lock screen</string>
     <string name="system_ui_lock_screen_block_editor_title">Disable long press to access lock screen editing</string>
-    <string name="system_ui_lock_screen_allow_third_face">Allow third lock screen use face</string>
+    <string name="system_ui_lock_screen_allow_third_face">Allow third-party apps to use face and fingerprint recognition on the lock screen</string>
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
@@ -1150,7 +1150,7 @@
     <string name="home_other_lock_app_will_unlock">Will Unlock App</string>
     <string name="home_other_lock_app_r">Restore</string>
     <string name="home_other_lock_app_e">Please unlock it in the locked app interface</string>
-    <string name="home_other_lock_app_more">Press and hold the bottom of the screen to enter, exit again, and restart the system for the first time</string>
+    <string name="home_other_lock_app_more">You can get in and out of this mode by long-pressing on the very bottom of the screen. The device needs to be restarted for the first time.</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
