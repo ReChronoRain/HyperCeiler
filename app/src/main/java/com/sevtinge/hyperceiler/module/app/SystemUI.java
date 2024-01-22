@@ -68,6 +68,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.PluginHelper;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DualRowSignalHook;
@@ -211,6 +212,7 @@ public class SystemUI extends BaseModule {
 
         // 控制中心
         // initHook(new SmartHome(), false);
+        initHook(new BlurEnable(), mPrefsMap.getBoolean("system_ui_control_center_statusbar_blur"));
         initHook(new ExpandNotification(), !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
