@@ -12,6 +12,8 @@ import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
+import java.util.Objects;
+
 import moralnorm.preference.Preference;
 import moralnorm.preference.RadioButtonPreference;
 
@@ -32,6 +34,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     RadioButtonPreference mOpenPowerMenu;
     RadioButtonPreference mScreenRecents;
     RadioButtonPreference mVolumeDialog;
+    RadioButtonPreference mLockScreen;
     RadioButtonPreference mOpenApp;
     Preference mAppSelector;
 
@@ -58,6 +61,8 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
         mVolumeDialog = findPreference("prefs_key_volume_dialog");
         mOpenApp = findPreference("prefs_key_open_app");
         mAppSelector = findPreference("prefs_key_open_app_selector");
+        mLockScreen = findPreference("prefs_key_open_powermenu");
+        mLockScreen.setVisible(Objects.equals(mKey, "prefs_key_home_navigation_assist_left_slide") || Objects.equals(mKey, "prefs_key_home_navigation_assist_right_slide"));
         updateAction();
     }
 
@@ -73,6 +78,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
             case 6 -> mScreenCapture.setChecked(true);
             case 7 -> mScreenRecents.setChecked(true);
             case 8 -> mVolumeDialog.setChecked(true);
+            case 10 -> mLockScreen.setChecked(true);
             case 12 -> mOpenPowerMenu.setChecked(true);
             case 13 -> {
                 mOpenApp.setChecked(true);
@@ -111,6 +117,8 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
             return 7;
         } else if (preference == mVolumeDialog) {
             return 8;
+        } else if (preference == mLockScreen){
+            return 10;
         } else if (preference == mOpenPowerMenu) {
             return 12;
         } else if (preference == mOpenApp) {

@@ -56,6 +56,11 @@
             android:title="@string/array_global_actions_powermenu"
             android:layout="@layout/preference_radiobutton_two_state" />
 
+        <moralnorm.preference.RadioButtonPreference
+            android:key="prefs_key_lock_app"
+            android:title="@string/home_other_lock_app"
+            android:layout="@layout/preference_radiobutton_two_state" />
+
         <moralnorm.preference.RadioSetPreferenceCategory>
 
             <moralnorm.preference.RadioButtonPreference
