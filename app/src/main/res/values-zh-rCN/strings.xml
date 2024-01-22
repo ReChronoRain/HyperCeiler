@@ -524,7 +524,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
     <string name="system_ui_lock_screen_block_editor_title">禁用长按进入锁屏编辑</string>
-    <string name="system_ui_lock_screen_allow_third_face">允许在第三方应用显示的锁屏界面时，正常使用人脸及指纹识别</string>
+    <string name="system_ui_lock_screen_allow_third_face">允许三方锁屏界面唤醒系统验证识别</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">允许在第三方应用显示的锁屏界面时，正常使用人脸及指纹识别</string>
 
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
