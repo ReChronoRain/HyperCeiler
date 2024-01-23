@@ -136,6 +136,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 - [「FuckNFC」 by xiaowine](https://github.com/xiaowine/FuckNFC)
 - [「ForegroundPin」 by 焕晨HChen](https://github.com/HChenX/ForegroundPin)
 - [「Gson」 by Android Open Source Project, Google Inc.](https://github.com/google/gson)
+- [「Hyper Helper」 by HowieHChen](https://github.com/HowieHChen/XiaomiHelper)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
 - [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
