@@ -62,7 +62,7 @@ public class XposedUtils extends XposedLogUtils {
         return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
     }
 
-    public static Context findContext(int flag) {
+    public static Context findContext(@ContextUtils.Duration int flag) {
         Context context = null;
         try {
             switch (flag) {
