@@ -28,7 +28,7 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
             getResources().getString(R.string.system_ui),
             "com.android.systemui"
         );
@@ -38,10 +38,10 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mMonetOverlay = findPreference("prefs_key_system_ui_monet");
         mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
-        mMiuiMultiWinSwitch =  findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
+        mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
 
         mMonetOverlay.setVisible(!isAndroidVersion(30));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
-        mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isPad());
+        mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f));
     }
 }
