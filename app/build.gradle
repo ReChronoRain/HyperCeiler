@@ -44,6 +44,9 @@ android {
     }
 
     androidResources {
+        additionalParameters += "--allow-reserved-package-id"
+        additionalParameters += "--package-id"
+        additionalParameters += "0x77"
         generateLocaleConfig = true
     }
 
