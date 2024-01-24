@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
 import com.sevtinge.hyperceiler.module.hook.systemui.OriginChargeAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemui.QSDetailBackGround;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
+import com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
@@ -275,6 +276,7 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarActions());
 
         // Other
+        initHook(new UiLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix") && isMoreHyperOSVersion(1f));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));

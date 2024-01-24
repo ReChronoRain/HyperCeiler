@@ -1146,6 +1146,8 @@
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Desktop shortcut management</string>
     <string name="home_other_toast_slide_again">Prohibit prompts \"please stroke again\" Toast</string>
+    <string name="home_other_lock_app_sc">It is forbidden to call out the sidebar when pinned</string>
+    <string name="home_other_lock_app_screen">Jump to the lock screen when unpinned</string>
     <string name="home_other_lock_app">Fixed applications</string>
     <string name="home_other_lock_app_will_lock">Will lock App</string>
     <string name="home_other_lock_app_lock">Lock App</string>
@@ -1153,7 +1155,7 @@
     <string name="home_other_lock_app_will_unlock">Will Unlock App</string>
     <string name="home_other_lock_app_r">Restore</string>
     <string name="home_other_lock_app_e">Please unlock it in the locked app interface</string>
-    <string name="home_other_lock_app_more">You can get in and out of this mode by long-pressing on the very bottom of the screen. The device needs to be restarted for the first time.</string>
+    <string name="home_other_lock_app_more">Long press the top status bar to enter, exit again, and restart the phone for the first time</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>

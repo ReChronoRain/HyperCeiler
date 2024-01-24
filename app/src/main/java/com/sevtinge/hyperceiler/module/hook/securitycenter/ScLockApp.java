@@ -16,28 +16,50 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.home;
+package com.sevtinge.hyperceiler.module.hook.securitycenter;
 
 import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.provider.Settings;
-import android.view.MotionEvent;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.DexKit;
+
+import org.luckypray.dexkit.query.FindClass;
+import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.ClassMatcher;
+import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.ClassData;
+import org.luckypray.dexkit.result.MethodData;
 
 /**
  * @author 焕晨HChen
  */
-public class LockApp extends BaseHook {
+public class ScLockApp extends BaseHook {
     boolean isListen = false;
     boolean isLock = false;
 
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.miui.home.recents.NavStubView",
-            Context.class,
-            new MethodHook() {
+        MethodData methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+            FindMethod.create()
+                .matcher(MethodMatcher.create()
+                    .declaredClass(ClassMatcher.create()
+                        .usingStrings("startRegionSampling")
+                    )
+                    .name("dispatchTouchEvent")
+                )
+        ).singleOrThrow(() -> new IllegalStateException("No such dispatchTouchEvent"));
+        ClassData data = DexKit.INSTANCE.getDexKitBridge().findClass(
+            FindClass.create()
+                .matcher(ClassMatcher.create()
+                    .usingStrings("startRegionSampling")
+                )
+        ).singleOrThrow(() -> new IllegalStateException("No such Constructor"));
+        try {
+            // logE(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader));
+            findAndHookConstructor(data.getInstance(lpparam.classLoader), Context.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
                     Context context = (Context) param.args[0];
@@ -54,11 +76,12 @@ public class LockApp extends BaseHook {
                         isListen = true;
                     }
                 }
-            }
-        );
+            });
+        } catch (ClassNotFoundException e) {
+            logE(TAG, "hook Constructor E: " + data);
+        }
 
-        findAndHookMethod("com.miui.home.recents.NavStubView",
-            "onTouchEvent", MotionEvent.class,
+        hookMethod(methodData.getMethodInstance(lpparam.classLoader),
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -67,7 +90,6 @@ public class LockApp extends BaseHook {
             }
         );
     }
-
 
     public static int getLockApp(Context context) {
         try {
