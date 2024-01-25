@@ -743,6 +743,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ẩn nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ẩn nút cửa sổ tiện lợi ở giữa trên cùng trong HyperOS cho màn hình ngang của Pad</string>
+    <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
     <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
@@ -1107,6 +1108,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
+    <string name="home_other_lock_app_sc">Cấm gọi ra thanh bên khi được ghim</string>
+    <string name="home_other_lock_app_screen">Chuyển tới màn hình khóa khi được bỏ ghim</string>
     <string name="home_other_lock_app">Cố định ứng dụng</string>
     <string name="home_other_lock_app_will_lock">Ứng dụng sẽ bị khóa</string>
     <string name="home_other_lock_app_lock">Khóa ứng dụng</string>
