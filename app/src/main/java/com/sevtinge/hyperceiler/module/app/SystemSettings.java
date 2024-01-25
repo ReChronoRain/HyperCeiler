@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.NewNFCPage;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManagerAccessibilityPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockNeverSleepScreen;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
@@ -64,6 +65,7 @@ public class SystemSettings extends BaseModule {
         initHook(new EnableSpeedMode(), mPrefsMap.getBoolean("system_settings_develop_speed_mode"));
         initHook(new QuickManageOverlayPermission(), mPrefsMap.getBoolean("system_settings_permission_show_app_up"));
         initHook(new QuickManageUnknownAppSources(), mPrefsMap.getBoolean("system_settings_permission_unknown_origin_app"));
+        initHook(new QuickManagerAccessibilityPermission(), mPrefsMap.getBoolean("system_settings_permission_accessibility"));
         initHook(new InternationalBuild(), mPrefsMap.getBoolean("system_settings_international_build"));
         initHook(new NewNFCPage(), mPrefsMap.getBoolean("system_settings_new_nfc_page"));
         initHook(new AppsFreezerEnable(), mPrefsMap.getBoolean("system_settings_apps_freezer"));
