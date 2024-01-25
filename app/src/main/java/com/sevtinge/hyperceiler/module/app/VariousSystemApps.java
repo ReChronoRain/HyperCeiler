@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -26,13 +26,16 @@ import com.sevtinge.hyperceiler.module.hook.various.MiuiAppNoOverScroll;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class SystemVarious extends BaseModule {
+public class VariousSystemApps extends BaseModule {
     Class<?> mHelpers;
     String mPackageName;
     boolean isMiuiApps;
 
     @Override
     public void handleLoadPackage() {
+        mPackageName = mLoadPackageParam.packageName;
+        isMiuiApps = mPackageName.startsWith("com.miui") || mPackageName.startsWith("com.xiaomi") || miuiDialogCustomApps.contains(mPackageName);
+
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());
         initHook(new DialogCustom(), isMiuiDialogCustom());
 

@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Various extends BaseModule {
+public class VariousThirdApps extends BaseModule {
     String mPackageName;
 
     public static List<String> mAppsUsingInputMethod = new ArrayList<>();
