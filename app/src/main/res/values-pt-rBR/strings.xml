@@ -740,7 +740,8 @@
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte o botão de tela dividida centralizado na parte superior do HyperOS para a tela de paisagem do Pad</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte os três pontos permanentes, incluindo a parte superior da janela pequena e o botão no meio da parte superior da tela horizontal do HyperOS para Pad (não afeta o uso das funções).</string>
+    <string name="system_ui_disable_bottombar">Ocultar gesto inferior da janela pequena</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
@@ -1101,6 +1102,8 @@
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
     <string name="home_other_toast_slide_again">Proibir dica de solicitação \"Deslize novamente\"</string>
+    <string name="home_other_lock_app_sc">É proibido chamar a barra lateral quando fixado</string>
+    <string name="home_other_lock_app_screen">Pule para a tela de bloqueio quando estiver desafixado</string>
     <string name="home_other_lock_app">Apps fixos</string>
     <string name="home_other_lock_app_will_lock">O app será bloqueado</string>
     <string name="home_other_lock_app_lock">Bloquear app</string>
@@ -1108,7 +1111,7 @@
     <string name="home_other_lock_app_will_unlock">O app será desbloqueado</string>
     <string name="home_other_lock_app_r">Restaurar</string>
     <string name="home_other_lock_app_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
-    <string name="home_other_lock_app_more">Você pode entrar e sair desse modo pressionando longamente na parte inferior da tela. O dispositivo precisa ser reiniciado pela primeira vez.</string>
+    <string name="home_other_lock_app_more">Acesso guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa para reiniciar o dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
