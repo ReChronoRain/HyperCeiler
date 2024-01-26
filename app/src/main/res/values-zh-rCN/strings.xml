@@ -1360,6 +1360,10 @@
     <string name="security_center_sidebar_function_title">全局侧边栏功能</string>
     <string name="security_center_game_speed">快速启动游戏</string>
     <string name="security_center_game_speed_desc">在启动游戏时倍速通过开屏动画，仅部分游戏支持</string>
+    <string name="security_center_aosp_app_info">添加 \"原生应用信息\" 入口</string>
+    <string name="security_center_aosp_app_info_label">原生应用信息</string>
+    <string name="security_center_aosp_app_manager">添加 \"原生应用管理\" 入口</string>
+    <string name="security_center_aosp_app_manager_label">原生应用管理</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>
