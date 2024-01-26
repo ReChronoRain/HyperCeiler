@@ -1,25 +1,25 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemframework.freeform;
 
-import android.graphics.Rect;
 import android.util.Log;
+import android.view.SurfaceControl;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -53,36 +53,80 @@ public class UnForegroundPin extends BaseHook {
                 new MethodHook() {
                     @Override
                     protected void before(XC_MethodHook.MethodHookParam param) {
-                        param.setResult(null);
+                        Object stack = param.args[0];
+                        if (stack != null) {
+                            Object mTask = XposedHelpers.getObjectField(stack, "mTask");
+                            if (mTask != null) {
+                                SurfaceControl surfaceControl;
+                                if (mTask != null && (surfaceControl =
+                                    (SurfaceControl) XposedHelpers.getObjectField(mTask,
+                                        "mSurfaceControl")) != null
+                                    && surfaceControl.isValid()) {
+                                    SurfaceControl.Transaction transaction = new SurfaceControl.Transaction();
+                                    XposedHelpers.callMethod(transaction, "hide", surfaceControl);
+                                    XposedHelpers.callMethod(transaction, "apply");
+                                    // logE(tag, "moveTaskToBack: s: " + surfaceControl);
+                                    param.setResult(null);
+                                }
+                            }
+                        }
                     }
                 }
             );
 
-            findAndHookMethod("com.android.server.wm.MiuiFreeFormManagerService",
-                "updatePinFloatingWindowPos",
-                Rect.class, int.class, boolean.class,
+            hookAllConstructors("com.android.server.wm.Task",
                 new MethodHook() {
                     @Override
-                    protected void before(XC_MethodHook.MethodHookParam param) {
-                        if ((boolean) param.args[2]) {
-                            Object mffas = XposedHelpers.callMethod(param.thisObject,
-                                "getMiuiFreeFormActivityStackForMiuiFB", param.args[1]);
-                            XposedHelpers.callMethod(XposedHelpers.getObjectField(mffas,
-                                "mLastIconLayerWindowToken"), "setVisibility", false, false);
-                            Object mMiuiFreeFormGestureController = XposedHelpers.getObjectField(
-                                XposedHelpers.getObjectField(
-                                    XposedHelpers.getObjectField(
-                                        param.thisObject,
-                                        "mActivityTaskManagerService"),
-                                    "mWindowManager"),
-                                "mMiuiFreeFormGestureController");
-                            Object mGestureAnimator = XposedHelpers.getObjectField(
-                                XposedHelpers.getObjectField(mMiuiFreeFormGestureController,
-                                    "mGestureListener"),
-                                "mGestureAnimator");
-                            XposedHelpers.callMethod(mGestureAnimator, "hideStack", mffas);
-                            XposedHelpers.callMethod(mGestureAnimator, "applyTransaction");
+                    protected void after(XC_MethodHook.MethodHookParam param) {
+                        XposedHelpers.setAdditionalInstanceField(param.thisObject, "mLastSurfaceVisibility", true);
+                        // logE(tag, "Task add mLastSurfaceVisibility");
+                    }
+                }
+            );
+
+            findAndHookMethod("com.android.server.wm.Task",
+                "prepareSurfaces", new MethodHook() {
+                    @Override
+                    protected void after(XC_MethodHook.MethodHookParam param) {
+                        SurfaceControl.Transaction transaction = (SurfaceControl.Transaction) XposedHelpers.callMethod(param.thisObject, "getSyncTransaction");
+                        SurfaceControl mSurfaceControl = (SurfaceControl) XposedHelpers.getObjectField(param.thisObject, "mSurfaceControl");
+                        // String pkg = (String) XposedHelpers.callMethod(param.thisObject, "getPackageName");
+                        // String mCallingPackage = (String) XposedHelpers.getObjectField(param.thisObject, "mCallingPackage");
+                        // Object getTopNonFinishingActivity = XposedHelpers.callMethod(param.thisObject, "getTopNonFinishingActivity");
+                        // String pkg = null;
+                            /*if (getTopNonFinishingActivity != null) {
+                                ActivityInfo activityInfo = (ActivityInfo) XposedHelpers.getObjectField(getTopNonFinishingActivity, "info");
+                                if (activityInfo != null) {
+                                    pkg = activityInfo.applicationInfo.packageName;
+                                }
+                            }*/
+                        int taskId = (int) XposedHelpers.callMethod(param.thisObject, "getRootTaskId");
+                        Object mWmService = XposedHelpers.getObjectField(param.thisObject, "mWmService");
+                        Object mAtmService = XposedHelpers.getObjectField(mWmService, "mAtmService");
+                        Object mMiuiFreeFormManagerService = XposedHelpers.getObjectField(mAtmService, "mMiuiFreeFormManagerService");
+                        Object mffs = XposedHelpers.callMethod(mMiuiFreeFormManagerService, "getMiuiFreeFormActivityStack", taskId);
+                        boolean isVisible = (boolean) XposedHelpers.callMethod(param.thisObject, "isVisible");
+                        boolean isAnimating = (boolean) XposedHelpers.callMethod(param.thisObject, "isAnimating", 7);
+                        boolean inPinMode = false;
+                        if (mffs != null) {
+                            inPinMode = (boolean) XposedHelpers.callMethod(mffs, "inPinMode");
                         }
+                        boolean mLastSurfaceVisibility = (boolean) XposedHelpers.getAdditionalInstanceField(param.thisObject, "mLastSurfaceVisibility");
+                        if (mSurfaceControl != null && mffs != null && inPinMode) {
+                            if (!isAnimating) {
+                                XposedHelpers.callMethod(transaction, "setVisibility", mSurfaceControl, false);
+                                XposedHelpers.setAdditionalInstanceField(param.thisObject, "mLastSurfaceVisibility", false);
+                            }
+                            // logE(tag, "setVisibility false pkg2: " + pkg + " taskid: " + taskId + " isVisble: " + isVisible
+                            // + " an: " + isAnimating + " la: " + mLastSurfaceVisibility);
+                        } else if (mSurfaceControl != null && mffs != null && !inPinMode) {
+                            if (!mLastSurfaceVisibility) {
+                                XposedHelpers.callMethod(transaction, "setVisibility", mSurfaceControl, true);
+                                XposedHelpers.setAdditionalInstanceField(param.thisObject, "mLastSurfaceVisibility", true);
+                            }
+                            // logE(tag, "setVisibility true pkg2: " + pkg + " taskid: " + taskId + " isVisble: " + isVisible + " an: " + isAnimating);
+                        }
+                        // logE(tag, "sur: " + mSurfaceControl + " tra: " + transaction + " pkg: " + pkg + " inpin: " + inPinMode);
                     }
                 }
             );
