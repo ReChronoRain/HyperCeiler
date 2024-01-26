@@ -19,7 +19,7 @@ gson = "2.10.1"
 dexkit = "2.0.0"
 tinyPinyin = "2.0.3.RELEASE"
 ezXHelper = "2.0.8"
-accompanist = "0.32.0"
+accompanist = "0.34.0"
 hiddenapibypass = "4.3"
 commons-codec = "1.16.0"
 
