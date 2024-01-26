@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -75,9 +76,8 @@ public class XposedUtils extends XposedLogUtils {
     }
 
     public static synchronized Resources getModuleRes(Context context) throws Throwable {
-        Configuration config = context.getResources().getConfiguration();
-        Context moduleContext = getModuleContext(context);
-        return (config == null ? moduleContext.getResources() : moduleContext.createConfigurationContext(config).getResources());
+        EzXHelper.addModuleAssetPath(context);
+        return context.getResources();
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {

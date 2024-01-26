@@ -840,6 +840,7 @@
     <string name="system_settings_permission_show_app_up_desc">Restore the old behavior, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
     <string name="system_settings_permission_unknown_origin_app">Install unknown app permissions without searching the application list</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Use the international build, jump directly to the permission switch of the corresponding application “displayed on top of other applications”</string>
+    <string name="system_settings_permission_accessibility">Accessibility services permissions without searching the application list</string>
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_apps_freezer">Force showing freeze cached apps</string>
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in \"Developer Options,\" but its functionality is not guaranteed</string>
@@ -1155,7 +1156,7 @@
     <string name="home_other_lock_app_will_unlock">Will Unlock App</string>
     <string name="home_other_lock_app_r">Restore</string>
     <string name="home_other_lock_app_e">Please unlock it in the locked app interface</string>
-    <string name="home_other_lock_app_more">Long press the top status bar to enter, exit again, and restart the phone for the first time</string>
+    <string name="home_other_lock_app_more">iOS-like Guided Access that pins the current application to the screen\nTo use, press and hold the top status bar, and if you want to exit, press and hold the top status bar again\nThe first time you use it, you need to restart the device.</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>

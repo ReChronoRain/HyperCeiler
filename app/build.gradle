@@ -24,8 +24,8 @@ android {
         applicationId namespace
         minSdk 30
         targetSdk 34
-        versionCode 136
-        versionName "2.3.136"
+        versionCode 137
+        versionName "2.3.137"
         project.archivesBaseName = "HyperCeiler"
         ndk {
             // noinspection ChromeOsAbiSupport
@@ -44,6 +44,9 @@ android {
     }
 
     androidResources {
+        additionalParameters += "--allow-reserved-package-id"
+        additionalParameters += "--package-id"
+        additionalParameters += "0x77"
         generateLocaleConfig = true
     }
 

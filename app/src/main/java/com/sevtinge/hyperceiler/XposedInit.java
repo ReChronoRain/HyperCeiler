@@ -44,6 +44,9 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         super.initZygote(startupParam);
+        EzXHelper.initZygote(startupParam);
+        EzXHelper.setLogTag(TAG);
+        EzXHelper.setToastTag(TAG);
         if (mPrefsMap.getBoolean("system_framework_allow_uninstall")) new AllowUninstall().initZygote(startupParam);
         if (mPrefsMap.getBoolean("system_framework_screen_all_rotations")) ScreenRotation.initRes();
         if (mPrefsMap.getBoolean("system_framework_clean_share_menu")) CleanShareMenu.initRes();
