@@ -802,6 +802,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
+    <string name="system_settings_permission_accessibility">Quyền dịch vụ trợ năng mà không cần tìm kiếm danh sách ứng dụng</string>
     <string name="system_settings_develop_title">Tùy chọn nhà phát triển</string>
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
@@ -1503,6 +1504,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
+    <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
