@@ -487,6 +487,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_lock_screen_unlock_tip_title">Ẩn dòng \"Trượt lên để mở khoá\"</string>
     <string name="system_ui_lock_screen_hide_status_bar">Ẩn thanh trạng thái ở màn hình khóa</string>
     <string name="system_ui_lock_screen_block_editor_title">Tắt thao tác nhấn và giữ để vào chỉnh sửa màn hình khóa</string>
+    <string name="system_ui_lock_screen_allow_third_face">Cho phép đánh thức hệ thống để xác minh nhận dạng trên màn hình khóa của bên thứ ba</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">Cho phép sử dụng bình thường tính năng nhận dạng khuôn mặt và vân tay hiển thị trên màn hình khóa do ứng dụng bên thứ ba</string>
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
@@ -704,6 +706,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_expand_notification">Mở rộng thông báo</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Khi màn hình đang bật, thông báo không phát âm thanh</string>
     <string name="system_ui_control_center_rounded_rect">Ô hình chữ nhật bo tròn</string>
+    <string name="system_ui_control_center_statusbar_blur">Buộc làm mờ nền</string>
     <string name="system_ui_control_center_rounded_rect_radius">Góc bo tròn</string>
     <string name="system_ui_control_center_fix_tiles_list">Tắt ẩn các ô cực tối</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Hoán đổi trung tâm điều khiển và ngăn thông báo</string>
@@ -740,6 +743,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_disable_bluetooth_restrict">Ngăn Bluetooth bị tắt tạm thời</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ẩn nút Cửa sổ tiện lợi</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ẩn nút cửa sổ tiện lợi ở giữa trên cùng trong HyperOS cho màn hình ngang của Pad</string>
+    <string name="system_ui_disable_bottombar">Ẩn cử chỉ dưới cùng của cửa sổ nhỏ</string>
     <string name="system_ui_others_pct_title">Hiển thị dữ liệu</string>
     <string name="system_showpct_title">Hiển thị phần trăm độ sáng</string>
     <string name="system_cc_volume_showpct_title">Hiển thị phần trăm âm thanh</string>
@@ -798,6 +802,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_permission_show_app_up_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
     <string name="system_settings_permission_unknown_origin_app">Quyền cài đặt ứng dụng không xác định nhanh</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Chuyển trực tiếp đến nơi cấp quyền của ứng dụng</string>
+    <string name="system_settings_permission_accessibility">Quyền dịch vụ trợ năng mà không cần tìm kiếm danh sách ứng dụng</string>
     <string name="system_settings_develop_title">Tùy chọn nhà phát triển</string>
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
@@ -1104,6 +1109,16 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
+    <string name="home_other_lock_app_sc">Cấm gọi ra thanh bên khi được ghim</string>
+    <string name="home_other_lock_app_screen">Chuyển tới màn hình khóa khi được bỏ ghim</string>
+    <string name="home_other_lock_app">Cố định ứng dụng</string>
+    <string name="home_other_lock_app_will_lock">Ứng dụng sẽ bị khóa</string>
+    <string name="home_other_lock_app_lock">Khóa ứng dụng</string>
+    <string name="home_other_lock_app_unlock">Mở khóa ứng dụng</string>
+    <string name="home_other_lock_app_will_unlock">Sẽ khóa ứng dụng</string>
+    <string name="home_other_lock_app_r">Khôi phục</string>
+    <string name="home_other_lock_app_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
+    <string name="home_other_lock_app_more">Nhấn và giữ phía dưới màn hình để vào, thoát lại và khởi động lại hệ thống ở lần đầu tiên</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
@@ -1489,6 +1504,10 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
+    <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>

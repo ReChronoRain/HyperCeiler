@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+  
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.utils;
 
 import android.content.Context;
@@ -13,6 +31,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
 
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
@@ -25,7 +44,7 @@ import java.util.Objects;
  * Author by 焕晨HChen
  */
 public class PackageManagerUtils {
-    private static final String TAG = com.sevtinge.hyperceiler.callback.TAG.TAG;
+    private static final String TAG = ITAG.TAG;
 
     public static List<AppData> getPackageByFlag(int flag) {
         return getPackage(flag);

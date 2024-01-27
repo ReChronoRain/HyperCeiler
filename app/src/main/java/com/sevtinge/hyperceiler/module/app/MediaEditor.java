@@ -1,8 +1,24 @@
+/*
+  * This file is part of HyperCeiler.
+  
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.app;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.CloseHostDir;
-import com.sevtinge.hyperceiler.module.base.LoadHostDir;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.CustomWatermark;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.FilterManagerAll;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockCustomPhotoFrames;
@@ -16,9 +32,6 @@ public class MediaEditor extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
-        // dexKit load
-        initHook(LoadHostDir.INSTANCE);
-
         // 基础
         initHook(UnlockMinimumCropLimitNew.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
         initHook(FilterManagerAll.INSTANCE, mPrefsMap.getBoolean("mediaeditor_filter_manager"));
@@ -27,11 +40,6 @@ public class MediaEditor extends BaseModule {
         // AI 创作
         initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0) != 0);
         initHook(UnlockDisney.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_disney"));
-
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
     }
 
 }
-
-

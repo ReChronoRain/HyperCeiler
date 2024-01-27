@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+  
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -56,9 +74,9 @@ public class StatusBarIcon extends BaseHook {
                     param.setResult(new ArraySet());
                 }
             }
-        );*/
+        );
 
-            /*hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
+        hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
                 "handleSet", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
@@ -66,12 +84,12 @@ public class StatusBarIcon extends BaseHook {
                             "getViewIndex", XposedHelpers.getIntField(param.args[1], "mTag"), param.args[0]);
                     }
                 }
-            );*/
-        /*hookAllMethods("com.android.systemui.statusbar.StatusBarIconView",
+            );
+        hookAllMethods("com.android.systemui.statusbar.StatusBarIconView",
             "set", new MethodHook() {
                 // boolean isId = false;
 
-               *//* @Override
+                @Override
                 protected void before(MethodHookParam param) {
                     if (!icon.isEmpty()) {
                         mArray mStatusBarIcon = icon.get(0);
@@ -82,7 +100,7 @@ public class StatusBarIcon extends BaseHook {
                     }
                     // else
                     // logE(TAG, "icon is empty");
-                }*//*
+                }
 
                 @Override
                 protected void after(MethodHookParam param) {
@@ -105,7 +123,7 @@ public class StatusBarIcon extends BaseHook {
                                 }
                             }
                         }
-                       *//* mArray mStatusBarIcon = icon.get(0);
+                        mArray mStatusBarIcon = icon.get(0);
                         if (isId) {
                             switch (mStatusBarIcon.getMInteger()) {
                                 case 1 ->
@@ -117,14 +135,13 @@ public class StatusBarIcon extends BaseHook {
                             }
                             isId = false;
                         }
-                        icon.clear();*//*
+                        icon.clear();
                     }
                 }
             }
-        );*/
-        // }
+        );
 
-        /*hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
+        hookAllMethods("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl",
             "handleSet", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {

@@ -4,7 +4,7 @@
 
 # HyperCeiler
 
-### Torne o HyperOS ótimo novamente!
+### Torne o HyperOS/MIUI ótimo novamente!
 
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
 
@@ -12,13 +12,19 @@
 
 ## Versões suportadas
 
-MIUI 12.5 ~ 14 para Android 11 ~ 14/Xiaomi HyperOS 1.0
+MIUI e HyperOS para Android 11-14
 
-> Não suporta ROM MIUI/HyperOS de terceiros fortemente modificadas, software de sistema fortemente modificado e algumas ROM MIUI/HyperOS estrangeiras.
->
-> Atualmente, o HyperCeiler está adaptado para dispositivos baseado em Xiaomi Android 14 e HyperOS 1.0. A cobertura não é muito completa e requer testes e melhorias contínuas.
->
-> O HyperCeiler deixou de ser mantido em ROM MIUI para Android 11-12. Se você quiser usá-lo, fique [nesta versão](https://github.com/saraSakuHj/Cemiuiler/releases/tag/1.3.130).
+Observação: O escopo do Framework do Sistema e Ui do Sistema não são compatíveis com a MIUI para Android 11-12.
+
+## Instruções de pré-uso
+
+Por favor, ative o HyperCeiler no [LSPosed](https://github.com/LSPosed/LSPosed/releases), em seguida, ative o recurso correspondente no app HyperCeiler e reinicie o escopo (é necessário acesso root).
+
+Este módulo <b>não suporta</b> `ROM MIUI/Xiaomi HyperOS de terceiros com muitas modificações`, `software de sistema com muitas modificações` e algumas `ROM MIUI/Xiaomi HyperOS internacionais`.
+
+Atualmente, o HyperCeiler está adaptado para dispositivos baseado em Xiaomi HyperOS 1.0 no Android 14, e a cobertura não é muito completa e precisa ser continuamente testada e melhorada.
+
+O HyperCeiler deixou de ser mantido em ROM MIUI do Android 11-12, exceto para o escopo principal, como Framework do Sistema e Ui do Sistema, em princípio, outros escopos podem ser usados ​​normalmente, se você precisar usar o escopo principal, fique [nesta versão](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 
 ## Apps suportados
 
@@ -85,12 +91,13 @@ MIUI 12.5 ~ 14 para Android 11 ~ 14/Xiaomi HyperOS 1.0
 | Fones de ouvido                  | com.miui.misound                   |
 | Backup                           | com.miui.backup                    |
 | Mi Mover                         | com.miui.huanji                    |
+| MiTrustService                   | com.xiaomi.trustservice            |
 
 </details>
 
 > Todos os escopos acima estão ativos no LSPosed
 
-## Chat e Feedback
+## Chat e feedback
 
 Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais recentes.
 
@@ -98,7 +105,7 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 [![badge_qguild]][qguild_url]
 [![badge_telegram]][telegram_url]
 
-## Tradução
+## Contribuições de tradução
 
 [![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
 
@@ -119,7 +126,7 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 - [「CorePatch」 por LSPosed](https://github.com/LSPosed/CorePatch)
 - [「CustoMIUIzer」 por MonwF](https://github.com/MonwF/customiuizer)
 - [「CustoMIUIzerMod」 por liyafe1997](https://github.com/liyafe1997/CustoMIUIzerMod)
-- [「ClipboardList」 by 焕晨HChen](https://github.com/HChenX/ClipboardList)
+- [「ClipboardList」 por 焕晨HChen](https://github.com/HChenX/ClipboardList)
 - [「DexKit」 por LuckyPray](https://github.com/LuckyPray/DexKit)
 - [「Disable app link verify」 por tehcneko](https://github.com/Xposed-Modules-Repo/io.github.tehcneko.applinkverify)
 - [「DisableFlagSecure」 por LSPosed](https://github.com/LSPosed/DisableFlagSecure)
@@ -127,10 +134,11 @@ Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler)
 - [「EzXHelper」 por KyuubiRan](https://github.com/KyuubiRan/EzXHelper)
 - [「FixMiuiMediaControlPanel」 por qqlittleice](https://github.com/qqlittleice/FixMiuiMediaControlPanel)
 - [「FuckNFC」 por xiaowine](https://github.com/xiaowine/FuckNFC)
-- [「ForegroundPin」 by 焕晨HChen](https://github.com/HChenX/ForegroundPin)
+- [「ForegroundPin」 por 焕晨HChen](https://github.com/HChenX/ForegroundPin)
 - [「Gson」 por Android Open Source Project, Google Inc.](https://github.com/google/gson)
+- [「Hyper Helper」 by HowieHChen](https://github.com/HowieHChen/XiaomiHelper)
 - [「HideMiuiClipboardDialog」 por zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
-- [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
+- [「HyperSmartCharge」 por buffcow](https://github.com/buffcow/HyperSmartCharge)
 - [「Kotlin」 por JetBrains](https://github.com/JetBrains/kotlin)
 - [「MaxFreeForm」 por YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
 - [「Miui Feature」 por MoralNorm](https://github.com/moralnorm/miui_feature)

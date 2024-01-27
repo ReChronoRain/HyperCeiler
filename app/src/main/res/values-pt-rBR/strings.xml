@@ -485,6 +485,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar a solicitação de desbloqueio na parte inferior da tela</string>
     <string name="system_ui_lock_screen_hide_status_bar">Remover a barra de status na tela de bloqueio</string>
     <string name="system_ui_lock_screen_block_editor_title">Desativar toque longo para acessar a edição da tela de bloqueio</string>
+    <string name="system_ui_lock_screen_allow_third_face">Permitir que o sistema seja ativado para verificar o reconhecimento na tela de bloqueio de terceiros</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">Permite que o reconhecimento facial e de impressão digital seja usado normalmente na tela de bloqueio exibida por apps de terceiros</string>
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
@@ -695,13 +697,14 @@
     <string name="system_ui_control_center_compact_notice">Notificações compactas</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduza o espaçamento vertical das notificações</string>
     <string name="system_ui_control_center_redirect_notice">Redirecionar configurações de notificação</string>
-    <string name="system_ui_control_center_redirect_notice_desc">Ao abrir o menu de configurações de notificações, navega-se para as configurações do canal de destino em vez de aplicar as configurações de notificação</string>
+    <string name="system_ui_control_center_redirect_notice_desc">Ao abrir o menu de configurações de notificações, navega-se para as configurações do canal de destino em vez de aplicar as configurações de notificação.</string>
     <string name="system_ui_control_center_show_weather">Exibir clima</string>
     <string name="system_ui_control_center_show_weather_city">Exibir cidade</string>
     <string name="system_ui_control_center_mute_visible_notice">Silenciar quando a tela estiver ligada</string>
     <string name="system_ui_control_center_expand_notification">Expandir notificações</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Quando a tela está ligada, a notificação pop-up não reproduz o som de aviso.</string>
     <string name="system_ui_control_center_rounded_rect">Retângulo arredondado</string>
+    <string name="system_ui_control_center_statusbar_blur">Forçar blur de fundo</string>
     <string name="system_ui_control_center_rounded_rect_radius">Raio arredondado</string>
     <string name="system_ui_control_center_fix_tiles_list">Desativar ocultar blocos extremamente escuros</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Altere o centro de controle e a gaveta de notificações</string>
@@ -737,7 +740,8 @@
     <string name="system_ui_another_title">Outros</string>
     <string name="system_ui_disable_bluetooth_restrict">Impedir que o Bluetooth seja desligado temporariamente</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar botão de tela dividida</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte o botão de tela dividida centralizado na parte superior do HyperOS para a tela de paisagem do Pad</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">Oculte os três pontos permanentes, incluindo a parte superior da janela pequena e o botão no meio da parte superior da tela horizontal do HyperOS para Pad (não afeta o uso das funções).</string>
+    <string name="system_ui_disable_bottombar">Ocultar gesto inferior da janela pequena</string>
     <string name="system_ui_others_pct_title">Exibição de dados</string>
     <string name="system_showpct_title">Exibir porcentagem do brilho</string>
     <string name="system_cc_volume_showpct_title">Exibir porcentagem do som</string>
@@ -1098,13 +1102,16 @@
     <string name="home_large_icon_corner_radius">Ícones grandes com cantos arredondados</string>
     <string name="home_other_app_icon_hide">Gerenciar atalhos da tela inicial</string>
     <string name="home_other_toast_slide_again">Proibir dica de solicitação \"Deslize novamente\"</string>
+    <string name="home_other_lock_app_sc">É proibido chamar a barra lateral quando fixado</string>
+    <string name="home_other_lock_app_screen">Pule para a tela de bloqueio quando estiver desafixado</string>
     <string name="home_other_lock_app">Apps fixos</string>
     <string name="home_other_lock_app_will_lock">O app será bloqueado</string>
     <string name="home_other_lock_app_lock">Bloquear app</string>
     <string name="home_other_lock_app_unlock">Desbloquear app</string>
     <string name="home_other_lock_app_will_unlock">O app será desbloqueado</string>
+    <string name="home_other_lock_app_r">Restaurar</string>
     <string name="home_other_lock_app_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
-    <string name="home_other_lock_app_more">Pressione e segure a parte inferior da tela para entrar, sair novamente e reiniciar o sistema pela primeira vez.</string>
+    <string name="home_other_lock_app_more">Acesso guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa para reiniciar o dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Remover restrições de atalhos</string>
     <string name="home_other_fix_android_r_s">Corrigir um problema de compatibilidade que fazia com que a tela inicial ficasse preta</string>
     <string name="home_other_shortcut_background_blur_custom">Valor do blur do menu de atalho</string>
@@ -1191,7 +1198,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app Mi AI Engine precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Captura de tela canônica salva em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado com shell</string>
-    <string name="screenshot_device_customize_desc">Por favor, insira o código do modelo.</string>
+    <string name="screenshot_device_customize_desc">Por favor, insira o código do dispositivo, e o dispositivo colorido deve ser preenchido com um sufixo. Por exemplo:\n- Xiaomi 13, preencha o conteúdo com fuxi\n- Xiaomi 14 versão rosa, preencha o conteúdo com houji_PK</string>
     <!--Security/Tablet security center-->
     <string name="security_center">Segurança</string>
     <string name="security_center_pad">Central de segurança para tablets</string>

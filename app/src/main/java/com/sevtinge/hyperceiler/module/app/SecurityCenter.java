@@ -1,10 +1,26 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.CloseHostDir;
-import com.sevtinge.hyperceiler.module.base.LoadHostDir;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.BlurSecurity;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.DisableReport;
@@ -14,9 +30,12 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBu
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveOpenAppConfirmationPopup;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.UnlockFbo;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.VideoDolbyOpen;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppInfoEntry;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppManagerEntry;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDefaultSort;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
@@ -53,9 +72,6 @@ public class SecurityCenter extends BaseModule {
     @Override
     public void handleLoadPackage() {
 
-        // dexKit load
-        initHook(LoadHostDir.INSTANCE);
-
         // 应用管理
         initHook(new AppDefaultSort(), mPrefsMap.getStringAsInt("security_center_app_default_sort", 0) > 0);
         initHook(new AppRestrict(), mPrefsMap.getBoolean("security_center_app_restrict"));
@@ -63,6 +79,8 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
         initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
+        initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
         // 省电与电池
         // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
@@ -106,6 +124,7 @@ public class SecurityCenter extends BaseModule {
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
             initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         }
+        initHook(new ScLockApp(), mPrefsMap.getBoolean("home_other_lock_app_sc"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(DisableRemoveScreenHoldOn.INSTANCE, mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
@@ -120,7 +139,5 @@ public class SecurityCenter extends BaseModule {
 
         // initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 
-        // dexKit finish
-        initHook(CloseHostDir.INSTANCE);
     }
 }

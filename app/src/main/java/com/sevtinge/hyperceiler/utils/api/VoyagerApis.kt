@@ -1,10 +1,28 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.utils.api
 
 import android.content.Context
 import android.util.TypedValue
 import android.view.Window
-import com.github.kyuubiran.ezxhelper.ClassHelper.Companion.classHelper
 import com.github.kyuubiran.ezxhelper.ClassUtils.getStaticObjectOrNullAs
+import com.github.kyuubiran.ezxhelper.ClassUtils.invokeStaticMethodBestMatch
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.hyperceiler.utils.api.LazyClass.SystemProperties
@@ -75,8 +93,9 @@ val IS_INTERNATIONAL_BUILD by lazy {
 }
 
 val IS_HYPER_OS by lazy {
-    SystemProperties.classHelper()
-        .invokeStaticMethodBestMatch("get", null, "ro.mi.os.version.code", null) != null
+    invokeStaticMethodBestMatch(
+        SystemProperties, "getInt", null, "ro.mi.os.version.code", -1
+    ) != -1
 }
 
 fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {

@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
@@ -12,6 +30,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.module.hook.systemui.BluetoothRestrict;
 import com.sevtinge.hyperceiler.module.hook.systemui.BrightnessPct;
 import com.sevtinge.hyperceiler.module.hook.systemui.ChargeAnimationStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.DisableBottomBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.module.hook.systemui.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.systemui.MonetThemeOverlay;
@@ -20,6 +39,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.NotificationFreeform;
 import com.sevtinge.hyperceiler.module.hook.systemui.OriginChargeAnimation;
 import com.sevtinge.hyperceiler.module.hook.systemui.QSDetailBackGround;
 import com.sevtinge.hyperceiler.module.hook.systemui.StatusBarActions;
+import com.sevtinge.hyperceiler.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AddBlurEffectToNotificationView;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
@@ -51,6 +71,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SunlightMode;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.SwitchCCAndNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.TaplusTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AddBlurEffectToLockScreen;
+import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.AllowThirdLockScreenUseFace;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlockEditor;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.BlurButton;
 import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ChargingCVP;
@@ -67,6 +88,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.PluginHelper;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DualRowSignalHook;
@@ -210,6 +232,7 @@ public class SystemUI extends BaseModule {
 
         // 控制中心
         // initHook(new SmartHome(), false);
+        initHook(new BlurEnable(), mPrefsMap.getBoolean("system_ui_control_center_statusbar_blur"));
         initHook(new ExpandNotification(), !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new HideDelimiter(), mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
         initHook(new QSDetailBackGround(), mPrefsMap.getInt("system_control_center_qs_detail_bg", 0) > 0);
@@ -253,9 +276,11 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarActions());
 
         // Other
+        initHook(new UiLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix") && isMoreHyperOSVersion(1f));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));
+        initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
 
         // 锁屏
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
@@ -270,6 +295,7 @@ public class SystemUI extends BaseModule {
         initHook(HideLockScreenHint.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_unlock_tip"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
         initHook(new BlockEditor(), mPrefsMap.getBoolean("system_ui_lock_screen_block_editor"));
+        initHook(new AllowThirdLockScreenUseFace(), mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));
 
         if (!isAndroidVersion(30)) {
             initHook(AddBlurEffectToLockScreen.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_blur_button"));

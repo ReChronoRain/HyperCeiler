@@ -1,17 +1,48 @@
+/*
+  * This file is part of HyperCeiler.
+  
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.IntDef;
+
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @SuppressLint({"PrivateApi", "SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
 public class ContextUtils {
+    @IntDef(value = {
+        FLAG_ALL,
+        FLAG_CURRENT_APP,
+        FlAG_ONLY_ANDROID
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Duration {
+    }
+
     private static final String TAG = "[HyperCeiler]";
     // 尝试全部
     public static final int FLAG_ALL = 0;
@@ -20,7 +51,7 @@ public class ContextUtils {
     // 获取 Android 系统
     public static final int FlAG_ONLY_ANDROID = 2;
 
-    public static Context getContext(int flag) {
+    public static Context getContext(@Duration int flag) {
         try {
             return invokeMethod(flag);
         } catch (Throwable e) {

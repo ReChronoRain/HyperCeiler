@@ -485,6 +485,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Sembunyikan perintah buka kunci di bagian bawah layar</string>
     <string name="system_ui_lock_screen_hide_status_bar">Hapus bilah status dari layar kunci</string>
     <string name="system_ui_lock_screen_block_editor_title">Nonaktifkan tekan lama untuk mengakses pengeditan layar kunci</string>
+    <string name="system_ui_lock_screen_allow_third_face">Izinkan sistem dibangunkan untuk memverifikasi pengenalan pada layar kunci pihak ketiga</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">Izinkan pengenalan wajah dan sidik jari digunakan secara normal pada layar kunci yang ditampilkan oleh aplikasi pihak ketiga</string>
     <string name="system_ui_navigation_title">Navigasi</string>
     <string name="system_ui_navigation_handle_title">Tangani garis</string>
     <string name="system_ui_hide_navigation_bar">Sembunyikan Bilah Navigasi</string>
@@ -702,6 +704,7 @@
     <string name="system_ui_control_center_expand_notification">Perluas Notifikasi</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Saat layar dihidupkan, notifikasi pop-up tidak memutar suara prompt</string>
     <string name="system_ui_control_center_rounded_rect">Ubin persegi panjang bulat</string>
+    <string name="system_ui_control_center_statusbar_blur">Paksa keburaman latar belakang</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radius Bulat</string>
     <string name="system_ui_control_center_fix_tiles_list">Nonaktifkan sembunyikan ubin yang sangat gelap</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Beralih pusat kendali dan laci notifikasi</string>
@@ -1098,6 +1101,14 @@
     <string name="home_large_icon_corner_radius">Ikon besar dengan sudut membulat</string>
     <string name="home_other_app_icon_hide">Manajemen pintasan desktop</string>
     <string name="home_other_toast_slide_again">Melarang perintah \"tolong usap lagi\" Roti Bakar</string>
+    <string name="home_other_lock_app">Aplikasi yang ditetapkan</string>
+    <string name="home_other_lock_app_will_lock">Akan mengunci Aplikasi</string>
+    <string name="home_other_lock_app_lock">Kunci Aplikasi</string>
+    <string name="home_other_lock_app_unlock">Buka kunci Aplikasi</string>
+    <string name="home_other_lock_app_will_unlock">Akan Membuka Kunci Aplikasi</string>
+    <string name="home_other_lock_app_r">Pulihkan</string>
+    <string name="home_other_lock_app_e">Silakan buka kuncinya di antarmuka aplikasi yang terkunci</string>
+    <string name="home_other_lock_app_more">Tekan dan tahan bagian bawah layar untuk masuk, keluar lagi, dan mulai ulang sistem untuk pertama kalinya</string>
     <string name="home_other_shortcut_remove_restrictions">Hapus batasan pada pintasan</string>
     <string name="home_other_fix_android_r_s">Perbaiki masalah kompatibilitas yang menyebabkan desktop menjadi hitam</string>
     <string name="home_other_shortcut_background_blur_custom">Nilai blur menu pintasan</string>
