@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -40,6 +40,14 @@ object LockOneHundredPoints : BaseHook() {
         }.single().getMethodInstance(safeClassLoader)
     }
 
+    private val scoreOld by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                 addUsingString("getMinusPredictScore", StringMatchType.Contains)
+            }
+        }.single().getMethodInstance(safeClassLoader)
+    }
+
     override fun init() {
         loadClass("com.miui.securityscan.ui.main.MainContentFrame").methodFinder()
             .filterByName("onClick")
@@ -50,8 +58,12 @@ object LockOneHundredPoints : BaseHook() {
                 }
             }
 
+        logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $scoreOld and $score")
         score.createHook {
-            returnConstant(100)
+            replace { 100 }
+        }
+        scoreOld.createHook {
+            replace { 0 }
         }
     }
 }

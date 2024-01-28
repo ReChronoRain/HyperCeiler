@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
+import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -32,6 +34,7 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.lang.reflect.Method;
 
@@ -54,6 +57,7 @@ public class UiLockApp extends BaseHook {
 
     public int count = 0;
     public int eCount = 0;
+    boolean isLock = false;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -66,6 +70,7 @@ public class UiLockApp extends BaseHook {
                         ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
                             @Override
                             public void onChange(boolean selfChange) {
+                                isLock = getLockApp(context) != -1;
                                 if (getLockApp(context) != -1) {
                                     XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
                                 }
@@ -202,6 +207,29 @@ public class UiLockApp extends BaseHook {
                     }
                 }
             }
+        }
+
+        if (isPad()) {
+            findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView",
+                "onInterceptTouchEvent", android.view.MotionEvent.class, new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        if (isLock) {
+                            AndroidLogUtils.LogI(TAG, "onInterceptTouchEvent");
+                            param.setResult(true);
+                        }
+                    }
+                });
+
+            findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView", "onTouchEvent", android.view.MotionEvent.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    if (isLock) {
+                        AndroidLogUtils.LogI(TAG, "onTouchEvent");
+                        param.setResult(false);
+                    }
+                }
+            });
         }
     }
 
