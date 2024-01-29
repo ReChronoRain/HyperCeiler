@@ -800,6 +800,7 @@
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
     <string name="system_settings_permission_unknown_origin_app_desc">「不明なアプリのインストール」の権限スイッチに直接移動する、グローバル版と同様の動作にします</string>
+    <string name="system_settings_permission_accessibility">アプリ一覧を検索せずにユーザー補助サービスの権限を付与</string>
     <string name="system_settings_develop_title">開発者オプション</string>
     <string name="system_settings_apps_freezer">「キャッシュに保存されたアプリの実行を停止」を強制的に表示</string>
     <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、動作するかは不明です</string>
@@ -1489,6 +1490,10 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
+    <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
+    <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
+    <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
+    <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
