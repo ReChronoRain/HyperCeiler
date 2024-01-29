@@ -313,6 +313,7 @@ public class FlashLight extends TileUtils {
                 writeFileModule(flashFileTorch, 0);
                 writeFileModule(flashFileTorch, flashInt);
                 if (file3.exists()) {
+                    writeFileModule(flashFileOther, 0);
                     writeFileModule(flashFileOther, flashInt);
                 }
             }
