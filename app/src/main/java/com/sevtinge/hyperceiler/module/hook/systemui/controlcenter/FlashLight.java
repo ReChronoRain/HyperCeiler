@@ -309,7 +309,14 @@ public class FlashLight extends TileUtils {
             File file1 = new File(flashFileTorch);
             File file2 = new File(flashFileSwitch);
             File file3 = new File(flashFileOther);
-            if (file1.exists()) {
+            if (file1.exists() && file2.exists()) {
+                writeFileModule(flashFileTorch, 0);
+                writeFileModule(flashFileTorch, flashInt);
+                if (file3.exists()) {
+                    writeFileModule(flashFileOther, flashInt);
+                }
+            }
+            else if (file1.exists()) {
                 writeFileModule(flashFileTorch, flashInt);
                 if (file3.exists()) {
                     writeFileModule(flashFileOther, flashInt);
