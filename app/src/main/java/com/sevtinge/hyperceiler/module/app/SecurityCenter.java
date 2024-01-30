@@ -124,7 +124,7 @@ public class SecurityCenter extends BaseModule {
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
             initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         }
-        initHook(new ScLockApp(), mPrefsMap.getBoolean("home_other_lock_app_sc"));
+        initHook(new ScLockApp(), mPrefsMap.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(DisableRemoveScreenHoldOn.INSTANCE, mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));

@@ -66,20 +66,14 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_other_lock_app"
-            android:summary="@string/home_other_lock_app_more"
-            android:title="@string/home_other_lock_app" />
-
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_sc"
+            android:title="@string/system_framework_guided_access_sc" />
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_home_other_lock_app"
-            android:key="prefs_key_home_other_lock_app_sc"
-            android:title="@string/home_other_lock_app_sc" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_home_other_lock_app"
-            android:key="prefs_key_home_other_lock_app_screen"
-            android:title="@string/home_other_lock_app_screen" />
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_screen"
+            android:title="@string/system_framework_guided_access_screen" />
 
         <SwitchPreference
             android:defaultValue="false"

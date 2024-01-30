@@ -276,7 +276,7 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarActions());
 
         // Other
-        initHook(new UiLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
+        initHook(new UiLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix") && isMoreHyperOSVersion(1f));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));

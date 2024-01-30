@@ -64,9 +64,9 @@ public class HomeOtherSettings extends SettingsPreferenceFragment implements Pre
     public void initPrefs() {
         mFixAndroidRS = findPreference("prefs_key_home_other_fix_android_r_s");
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
-        mLockApp = findPreference("prefs_key_home_other_lock_app");
-        mLockAppSc = findPreference("prefs_key_home_other_lock_app_sc");
-        mLockAppScreen = findPreference("prefs_key_home_other_lock_app_screen");
+        mLockApp = findPreference("prefs_key_system_framework_guided_access");
+        mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
+        mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen");
         mFixAndroidRS.setVisible(!isMoreAndroidVersion(33));
         mEnableMoreSettings.setVisible(isPad());
         executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -93,15 +93,15 @@ public class HomeOtherSettings extends SettingsPreferenceFragment implements Pre
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         switch (preference.getKey()) {
-            case "prefs_key_home_other_lock_app" -> {
+            case "prefs_key_system_framework_guided_access" -> {
                 initApp(executorService, () -> {
                     KillAppUtils.pidKill(new String[]{"com.miui.home", "com.android.systemui"});
                 });
             }
-            case "prefs_key_home_other_lock_app_sc" -> {
+            case "prefs_key_system_framework_guided_access_sc" -> {
                 initApp(executorService, () -> KillAppUtils.pKill("com.miui.securitycenter"));
             }
-            case "prefs_key_home_other_lock_app_screen" -> {
+            case "prefs_key_system_framework_guided_access_screen" -> {
                 initApp(executorService, () -> KillAppUtils.pKill("com.android.systemui"));
             }
         }
