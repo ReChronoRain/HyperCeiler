@@ -66,17 +66,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_system_framework_guided_access"
-            android:key="prefs_key_system_framework_guided_access_sc"
-            android:title="@string/system_framework_guided_access_sc" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_system_framework_guided_access"
-            android:key="prefs_key_system_framework_guided_access_screen"
-            android:title="@string/system_framework_guided_access_screen" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_other_user_present_animation"
             android:title="@string/home_other_user_present_animation" />
 

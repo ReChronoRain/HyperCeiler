@@ -21,31 +21,19 @@ package com.sevtinge.hyperceiler.ui.fragment.home;
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
-import android.os.Handler;
 import android.view.View;
-
-import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.KillAppUtils;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
-public class HomeOtherSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class HomeOtherSettings extends SettingsPreferenceFragment{
 
     SwitchPreference mFixAndroidRS;
     SwitchPreference mEnableMoreSettings;
-    SwitchPreference mLockApp;
-    SwitchPreference mLockAppSc;
-    SwitchPreference mLockAppScreen;
-    Handler handler;
-    ExecutorService executorService;
+
 
     @Override
     public int getContentResId() {
@@ -64,47 +52,8 @@ public class HomeOtherSettings extends SettingsPreferenceFragment implements Pre
     public void initPrefs() {
         mFixAndroidRS = findPreference("prefs_key_home_other_fix_android_r_s");
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
-        mLockApp = findPreference("prefs_key_system_framework_guided_access");
-        mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
-        mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen");
         mFixAndroidRS.setVisible(!isMoreAndroidVersion(33));
         mEnableMoreSettings.setVisible(isPad());
-        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        handler = new Handler();
-        mLockApp.setOnPreferenceChangeListener(this);
-        mLockAppSc.setOnPreferenceChangeListener(this);
-        mLockAppScreen.setOnPreferenceChangeListener(this);
     }
 
-    public void initApp(ExecutorService executorService, Runnable runnable) {
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        runnable.run();
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        switch (preference.getKey()) {
-            case "prefs_key_system_framework_guided_access" -> {
-                initApp(executorService, () -> {
-                    KillAppUtils.pidKill(new String[]{"com.miui.home", "com.android.systemui"});
-                });
-            }
-            case "prefs_key_system_framework_guided_access_sc" -> {
-                initApp(executorService, () -> KillAppUtils.pKill("com.miui.securitycenter"));
-            }
-            case "prefs_key_system_framework_guided_access_screen" -> {
-                initApp(executorService, () -> KillAppUtils.pKill("com.android.systemui"));
-            }
-        }
-        return true;
-    }
 }
