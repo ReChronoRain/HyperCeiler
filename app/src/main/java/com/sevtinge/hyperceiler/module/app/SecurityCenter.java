@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 
+import android.os.Build;
+
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.BlurSecurity;
@@ -41,6 +43,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.OpenByDefaultSetting;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTime;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ShowBatteryTemperatureNew;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSmartCharge;
@@ -78,7 +81,9 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
-        initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        }
         initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
         initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
@@ -136,6 +141,8 @@ public class SecurityCenter extends BaseModule {
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
         initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
+
+        initHook(new PowerConsumptionRanking(), mPrefsMap.getBoolean("security_center_power_consumption_ranking"));
 
         // initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 
