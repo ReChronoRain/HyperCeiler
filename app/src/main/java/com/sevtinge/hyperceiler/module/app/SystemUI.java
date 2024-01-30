@@ -138,7 +138,7 @@ public class SystemUI extends BaseModule {
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
 
         // 禁用蓝牙临时关闭
-        initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));
+        initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("system_ui_disable_bluetooth_restrict"));
 
         // Monet
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
