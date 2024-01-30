@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
+import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
+
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -27,6 +29,8 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.module.hook.home.LockApp;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -36,6 +40,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class SystemLockApp extends BaseHook {
     private int taskId;
     private boolean isObserver = false;
+    boolean isLock = false;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -51,6 +56,8 @@ public class SystemLockApp extends BaseHook {
                             ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
                                 @Override
                                 public void onChange(boolean selfChange, @Nullable Uri uri, int flags) {
+                                    isLock = getLockApp(context) != -1;
+                                    AndroidLogUtils.LogI("SystemLockApp", "LockApp " + isLock);
                                     if (getLockApp(context) != -1) {
                                         taskId = getLockApp(context);
                                         XposedHelpers.callMethod(param.thisObject, "startSystemLockTaskMode", taskId);
@@ -70,6 +77,40 @@ public class SystemLockApp extends BaseHook {
                 }
             }
         );
+
+
+        if (isPad()) {
+            findAndHookMethod("com.android.server.wm.MiuiCvwGestureController$GesturePointerEventListener", "onPointerEvent", android.view.MotionEvent.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    if (isLock) {
+                        param.setResult(null);
+                        AndroidLogUtils.LogI("SystemLockApp", "LockApp hook");
+                    }
+                }
+            });
+        }
+
+/*
+        findAndHookMethod("com.android.server.wm.MiuiFreeFormGesturePointerEventListener", "onPointerEvent", android.view.MotionEvent.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (isLock) {
+                    param.setResult(null);
+                    AndroidLogUtils.LogI("SystemLockApp", "LockApp hook");
+                }
+            }
+        });
+
+        findAndHookMethod("com.android.internal.widget.PointerLocationView", "onTouchEvent", android.view.MotionEvent.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (isLock) {
+                    param.setResult(false);
+                    AndroidLogUtils.LogI("SystemLockApp", "LockApp hook2");
+                }
+            }
+        });*/
 
     }
 

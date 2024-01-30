@@ -34,6 +34,8 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.UnlockFbo;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.VideoDolbyOpen;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppInfoEntry;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppManagerEntry;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDefaultSort;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
@@ -77,6 +79,8 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
         initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
+        initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
         // 省电与电池
         // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));

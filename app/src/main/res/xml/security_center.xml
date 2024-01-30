@@ -29,6 +29,18 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_aosp_app_info"
+            android:title="@string/security_center_aosp_app_info"
+            app:isPreferenceVisible="false"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_aosp_app_manager"
+            android:title="@string/security_center_aosp_app_manager"
+            app:isPreferenceVisible="false"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_app_disable"
             android:summary="@string/security_disable_app_summary"
             android:title="@string/security_disable_app_title" />
