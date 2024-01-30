@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -34,7 +32,6 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.lang.reflect.Method;
 
@@ -97,13 +94,16 @@ public class UiLockApp extends BaseHook {
                     if (getSystemLockEnable(mContext)) {
                         setSystemLockApp(mContext);
                     }
+                    if (getSystemLockScreen(mContext)) {
+                        setSystemLockScreen(mContext, 0);
+                    }
                     if (mPrefsMap.getBoolean("home_other_lock_app_screen")) {
-                        if (!getSystemLockScreen(mContext)) {
-                            setSystemLockScreen(mContext, 1);
+                        if (!getMyLockScreen(mContext)) {
+                            setMyLockScreen(mContext, 1);
                         }
                     } else {
-                        if (getSystemLockScreen(mContext)) {
-                            setSystemLockScreen(mContext, 0);
+                        if (getMyLockScreen(mContext)) {
+                            setMyLockScreen(mContext, 0);
                         }
                     }
                     if (action == 2) {
@@ -208,29 +208,6 @@ public class UiLockApp extends BaseHook {
                 }
             }
         }
-
-        if (isPad()) {
-            findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView",
-                "onInterceptTouchEvent", android.view.MotionEvent.class, new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        if (isLock) {
-                            AndroidLogUtils.LogI(TAG, "onInterceptTouchEvent");
-                            param.setResult(true);
-                        }
-                    }
-                });
-
-            findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView", "onTouchEvent", android.view.MotionEvent.class, new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) throws Throwable {
-                    if (isLock) {
-                        AndroidLogUtils.LogI(TAG, "onTouchEvent");
-                        param.setResult(false);
-                    }
-                }
-            });
-        }
     }
 
     public void hookToast(Method method) {
@@ -275,8 +252,18 @@ public class UiLockApp extends BaseHook {
         try {
             return Settings.Secure.getInt(context.getContentResolver(), "lock_to_app_exit_locked") == 1;
         } catch (Settings.SettingNotFoundException e) {
-            logE(TAG, "getSystemLock E will set " + e);
+            logE(TAG, "getSystemLockScreen E will set " + e);
             setSystemLockScreen(context, 0);
+        }
+        return false;
+    }
+
+    public boolean getMyLockScreen(Context context) {
+        try {
+            return Settings.Global.getInt(context.getContentResolver(), "exit_lock_app_screen") == 1;
+        } catch (Settings.SettingNotFoundException e) {
+            logE(TAG, "getMyLockScreen E will set " + e);
+            setMyLockScreen(context, 0);
         }
         return false;
     }
@@ -291,6 +278,10 @@ public class UiLockApp extends BaseHook {
 
     public static void setSystemLockScreen(Context context, int value) {
         Settings.Secure.putInt(context.getContentResolver(), "lock_to_app_exit_locked", value);
+    }
+
+    public static void setMyLockScreen(Context context, int value) {
+        Settings.Global.putInt(context.getContentResolver(), "exit_lock_app_screen", value);
     }
 
     /**
