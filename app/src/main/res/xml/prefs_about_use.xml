@@ -150,13 +150,6 @@
                 android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
         </Preference>
         <Preference
-            android:summary="HowieHChen | GPL-3.0"
-            android:title="Hyper Helper">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HowieHChen/XiaomiHelper/" />
-        </Preference>
-        <Preference
             android:summary="buffcow | Apache-2.0"
             android:title="HyperSmartCharge">
             <intent
@@ -295,6 +288,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
+        </Preference>
+        <Preference
+            android:summary="HowieHChen | GPL-3.0"
+            android:title="XiaomiHelper">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HowieHChen/XiaomiHelper" />
         </Preference>
         <Preference
             android:summary="rovo89, Tungstwenty | Apache-2.0"
