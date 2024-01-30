@@ -741,6 +741,7 @@
     <string name="system_ui_disable_bluetooth_restrict">Cegah bluetooth dimatikan sementara</string>
     <string name="system_ui_disable_miui_multi_win_switch">Sembunyikan tombol Jendela Kenyamanan</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Sembunyikan tombol jendela praktis yang berada di tengah bagian atas layar lanskap HyperOS untuk Pad</string>
+    <string name="system_ui_disable_bottombar">Sembunyikan gerakan bawah jendela kecil</string>
     <string name="system_ui_others_pct_title">Tampilan data</string>
     <string name="system_showpct_title">Menampilkan persentase kecerahan</string>
     <string name="system_cc_volume_showpct_title">Menampilkan persentase suara</string>
@@ -799,6 +800,7 @@
     <string name="system_settings_permission_show_app_up_desc">Kembalikan perilaku lama, langsung ke sakelar izin aplikasi terkait “ditampilkan di atas aplikasi lain”</string>
     <string name="system_settings_permission_unknown_origin_app">Instal izin aplikasi yang tidak dikenal tanpa mencari daftar aplikasi</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Gunakan build internasional, langsung ke sakelar izin aplikasi terkait “ditampilkan di atas aplikasi lain”</string>
+    <string name="system_settings_permission_accessibility">Izin layanan aksesibilitas tanpa mencari daftar aplikasi</string>
     <string name="system_settings_develop_title">Opsi pengembang</string>
     <string name="system_settings_apps_freezer">Paksa menampilkan aplikasi cache yang dibekukan</string>
     <string name="system_settings_apps_freezer_more">Setelah diaktifkan, fitur ini dapat ditemukan di \"Opsi Pengembang,\" namun fungsinya tidak dijamin</string>
@@ -1101,6 +1103,8 @@
     <string name="home_large_icon_corner_radius">Ikon besar dengan sudut membulat</string>
     <string name="home_other_app_icon_hide">Manajemen pintasan desktop</string>
     <string name="home_other_toast_slide_again">Melarang perintah \"tolong usap lagi\" Roti Bakar</string>
+    <string name="home_other_lock_app_sc">Dilarang membuka sidebar saat disematkan</string>
+    <string name="home_other_lock_app_screen">Lompat ke layar kunci saat pin dilepas</string>
     <string name="home_other_lock_app">Aplikasi yang ditetapkan</string>
     <string name="home_other_lock_app_will_lock">Akan mengunci Aplikasi</string>
     <string name="home_other_lock_app_lock">Kunci Aplikasi</string>
@@ -1486,6 +1490,10 @@
     <string name="log_level_none">Nonaktifkan catatan</string>
     <string name="disable_suggest">Nonaktifkan Saran</string>
     <string name="enable_suggest">Aktifkan Saran</string>
+    <string name="security_center_aosp_app_info_label">Info Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan ke pengembang secara tepat waktu dan efektif.</string>
