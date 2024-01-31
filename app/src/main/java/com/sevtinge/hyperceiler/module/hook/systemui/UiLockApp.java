@@ -69,7 +69,11 @@ public class UiLockApp extends BaseHook {
                             public void onChange(boolean selfChange) {
                                 isLock = getLockApp(context) != -1;
                                 if (getLockApp(context) != -1) {
-                                    XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                    try {
+                                        XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                    } catch (Exception e) {
+
+                                    }
                                 }
                             }
                         };
@@ -180,7 +184,7 @@ public class UiLockApp extends BaseHook {
             }
         );
 
-        findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
+        safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
             "isLockTaskKioskModeActive", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -189,7 +193,7 @@ public class UiLockApp extends BaseHook {
             }
         );
 
-        findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
+        safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
             "isScreenPinningActive", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -197,6 +201,7 @@ public class UiLockApp extends BaseHook {
                 }
             }
         );
+
         Class<?> ScreenPinningNotify = findClassIfExists("com.android.systemui.navigationbar.ScreenPinningNotify");
         if (ScreenPinningNotify != null) {
             Method[] methods = ScreenPinningNotify.getDeclaredMethods();
