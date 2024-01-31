@@ -48,7 +48,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Phone                      | com.android.incallui               |
 | Phone Service              | com.android.phone                  |
 | Battery and performance    | com.miui.powerkeeper               |
-| Message                    | com.android.mms                    |
+| Messaging                  | com.android.mms                    |
 | Screenshot                 | com.miui.screenshot                |
 | Cleaner                    | com.miui.cleanmaster               |
 | Browser                    | com.android.browser                |
