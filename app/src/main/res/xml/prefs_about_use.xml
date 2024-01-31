@@ -241,6 +241,13 @@
                 android:data="https://github.com/Haocen2004/PortalHook" />
         </Preference>
         <Preference
+            android:summary="焕晨HChen | GPL-3.0"
+            android:title="PinningApp">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/PinningApp" />
+        </Preference>
+        <Preference
             android:summary="gfbjngjibn | GPL-3.0"
             android:title="RemoveMiuiSystemSelfProtection">
             <intent
