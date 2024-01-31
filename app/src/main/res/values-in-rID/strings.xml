@@ -6,7 +6,7 @@
     <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
     <string name="new_cta_agree_desc">Selama penggunaan, untuk memberi Anda lebih banyak fitur, kami mungkin meminta izin Root/Su dari Anda. Anda dapat membuka Manajemen Izin kapan saja untuk menyesuaikan status otorisasi semua izin, dan silakan buka manajer Root/Su Anda untuk meng-izinkan.</string>
     <string name="new_cta_app_main_purpose">midifikasi sistem aplikasi</string>
-    <string name="new_cta_app_all_purpose_title">Selamat datang di HyperCeiler. Aplikasi ini mengandalkan framework Xpose untuk dijalankan. Anda dapat menggunakan aplikasi ini untuk membajak dan memodifikasi aplikasi lain yang didukung untuk menyempurnakan sistem. Selama penggunaan, untuk memberi Anda lebih banyak fungsi, kami mungkin meminta izin Root/Su dari Anda. Anda dapat mengelolanya kapan saja dengan membuka Root/Su Manager Anda.</string>
+    <string name="new_cta_app_all_purpose_title">Selamat datang di HyperCeiler. Aplikasi ini mengandalkan framework Xpose untuk dijalankan. Anda dapat menggunakan aplikasi ini untuk merombak dan memodifikasi aplikasi lain yang didukung untuk menyempurnakan sistem. Selama penggunaan, untuk memberi Anda lebih banyak fungsi, kami mungkin meminta izin Root/Su dari Anda. Anda dapat mengelolanya kapan saja dengan membuka Root/Su Manager Anda.</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Bahasa Indonesia</string>
     <string name="translator">Local Lion</string>
@@ -225,7 +225,7 @@
     <string name="various_install_app_info_sdk">Dukungan SDK</string>
     <string name="various_install_app_size">Ukuran</string>
     <string name="charge_animation_entries_disable">Cacat</string>
-    <string name="charge_animation_entries_aura">aura</string>
+    <string name="charge_animation_entries_aura">Aura</string>
     <string name="charge_animation_entries_stream">Pita</string>
     <string name="charge_animation_entries_alpha">Irama</string>
     <string name="status_bar_icon_mode_default">Bawaan</string>
@@ -275,13 +275,13 @@
     <string name="system_framework_phone_title">Jaringan</string>
     <string name="system_framework_bubble_title">Pemberitahuan gelembung</string>
     <string name="system_framework_freeform_count">Beberapa bentuk bebas</string>
-    <string name="system_framework_disable_freeform_blacklist">Paksa bentuk bebas kecil untuk diizinkan</string>
+    <string name="system_framework_disable_freeform_blacklist">Paksa freeform mini untuk diizinkan</string>
     <string name="system_framework_disable_freeform_blacklist_desc">Abaikan daftar hitam sistem dan larangan perangkat lunak berbentuk bebas</string>
     <string name="system_framework_freeform_sticky">Ingat negara bagian</string>
-    <string name="system_framework_freeform_bubble">Bentuk bebas gelembung</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Ubah semua bentuk bebas menjadi bentuk bebas mini</string>
+    <string name="system_framework_freeform_bubble">Freeform gelembung</string>
+    <string name="system_framework_freeform_recents_to_small_freeform">Ubah semua freeform menjadi bentuk freeform mini</string>
     <string name="system_framework_freeform_recents_to_small_freeform_desc">Ubah semua bentuk bebas menjadi bentuk bebas mini dalam tugas terkini\nFitur ini merupakan fitur eksperimental dengan ketidakstabilan tinggi</string>
-    <string name="system_framework_freeform_jump">Buka dengan bentuk bebas saat beralih ke aplikasi lain</string>
+    <string name="system_framework_freeform_jump">Buka dengan freeform saat beralih ke aplikasi lain</string>
     <string name="system_framework_freeform_foreground_pin">Jendela Welt memaksa meja depan</string>
     <string name="system_framework_freeform_title_desc">Dalam skenario berikut, saat Anda perlu beralih ke aplikasi lain, Anda akan menggunakan bentuk bebas untuk membukanya</string>
     <string name="system_framework_freeform_content_extension_desc">Hanya mendukung tautan</string>
@@ -418,7 +418,7 @@
     <string name="camera_record_audio_zoom">Buka kunci pembesaran Audio</string>
     <string name="camera_record_hdr">Buka kunci HDR</string>
     <string name="camera_record_ai">Buka kunci peningkatan AI</string>
-    <string name="camera_portrait_new_beauty">Buka keindahan baru</string>
+    <string name="camera_portrait_new_beauty">Buka kecantikan baru</string>
     <string name="camera_portrait_new_beauty_desc">Hanya berlaku saat menggunakan kamera depan</string>
     <string name="camera_portrait_cvlens">Buka kunci lensa Master</string>
     <string name="camera_portrait_cvlens_desc">Tidak dapat berfungsi dengan baik pada beberapa perangkat</string>
@@ -430,10 +430,10 @@
     <string name="camera_settings_nevus">Buka kunci Hapus tahi lalat</string>
     <string name="camera_settings_men_makeup">Buka kunci Sesuaikan efek riasan untuk pria</string>
     <string name="camera_settings_lab_options">Aktifkan opsi Lab</string>
-    <string name="camera_settings_track_eyes">Buka kunci mata Track</string>
+    <string name="camera_settings_track_eyes">Buka kunci Lacak mata</string>
     <!--Clock-->
     <string name="clock">Jam</string>
-    <string name="clock_enable_hour_glass">Buka kunci animasi jam jam pasir</string>
+    <string name="clock_enable_hour_glass">Buka kunci animasi jam pasir</string>
     <string name="clock_enable_hour_glass_desc">Versi 13.65.0 dan lebih tinggi tidak didukung</string>
     <!--File Manager-->
     <string name="fileexplorer">Manajer File</string>
@@ -865,7 +865,7 @@
     <string name="micloud_service_list">Terapkan penyelesaian sinkronisasi cloud data</string>
     <string name="micloud_service_list_summary">Fungsi penyelesaiannya adalah sebagai berikut:\n- Ponsel dapat disinkronkan dengan Mi Creation\n- Mi Browser versi domestik dan internasional dapat disinkronkan secara bersamaan\n\nCatatan: Sinkronisasi pertama Mi Creation harus dilakukan diaktifkan dari pengaturan Mi Creation, jika tidak maka akan muncul pesan bahwa jaringan tidak tersedia atau sistem sedang sibuk, silakan coba lagi nanti</string>
     <!--Mi Mover-->
-    <string name="huanji">Langkahku</string>
+    <string name="huanji">Mi Mover</string>
     <string name="huanji_allow_all_apps">Izinkan pindahkan semua aplikasi</string>
     <!--Backup-->
     <string name="backup">Cadangan</string>
@@ -891,7 +891,7 @@
     <string name="gallery_enable_magic_matting">Buka Kunci Potong</string>
     <string name="gallery_enable_magic_sky">Buka kunci Langit</string>
     <string name="gallery_backup_server">Server cadangan</string>
-    <string name="gallery_backup_server_xiaomi">Layanan Cloud Xiaomi</string>
+    <string name="gallery_backup_server_xiaomi">Layanan Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">Komponen keamanan MIUI</string>
@@ -1065,7 +1065,7 @@
     <string name="home_dock">Dermaga</string>
     <string name="home_dock_bg_enable">Tambahkan Latar Belakang Dock Bar</string>
     <string name="home_dock_bg_height">Tinggi</string>
-    <string name="home_dock_bg_height_desc">Tinggi dermaga</string>
+    <string name="home_dock_bg_height_desc">Tinggi dock</string>
     <string name="home_dock_bg_margin_horizontal">Margin vertikal</string>
     <string name="home_dock_bg_margin_horizontal_desc">Jarak dock dari kedua sisi layar</string>
     <string name="home_dock_bg_margin_top_desc">Margin Dock dari indikator layar</string>
@@ -1076,7 +1076,7 @@
     <string name="home_dock_icon_bottom_margin">Jarak ikon dari margin bawah</string>
     <string name="home_dock_margin_bottom">Indikator margin halaman dari bawah layar</string>
     <string name="home_dock_unlock_hotseat">Hapus batasan nomor ikon dari dok</string>
-    <string name="home_dock_fold">Dermaga Lipat</string>
+    <string name="home_dock_fold">Dock Perangkat Fold</string>
     <string name="home_dock_icon_title">Tampilkan judul ikon di dok</string>
     <string name="home_dock_disable_recents_icon">Sembunyikan ikon aplikasi terkini dari Dock</string>
     <string name="home_dock_add_blur">Latar belakang khusus buram</string>
@@ -1112,7 +1112,7 @@
     <string name="system_framework_guided_access_will_unlock">Akan Membuka Kunci Aplikasi</string>
     <string name="system_framework_guided_access_r">Pulihkan</string>
     <string name="system_framework_guided_access_e">Silakan buka kuncinya di antarmuka aplikasi yang terkunci</string>
-    <string name="system_framework_guided_access_more">Tekan dan tahan bagian bawah layar untuk masuk, keluar lagi, dan mulai ulang sistem untuk pertama kalinya</string>
+    <string name="system_framework_guided_access_more">Akses Terpandu seperti iOS yang menyematkan aplikasi saat ini ke layar\nUntuk menggunakan, tekan dan tahan bilah status atas, dan jika Anda ingin keluar, tekan dan tahan lagi bilah status atas\nPertama kali Anda menggunakannya, Anda perlu me-restart perangkat.</string>
     <string name="home_other_shortcut_remove_restrictions">Hapus batasan pada pintasan</string>
     <string name="home_other_fix_android_r_s">Perbaiki masalah kompatibilitas yang menyebabkan desktop menjadi hitam</string>
     <string name="home_other_shortcut_background_blur_custom">Nilai blur menu pintasan</string>
@@ -1138,7 +1138,7 @@
     <string name="mediaeditor_unlock_leica_filter_desc">Hanya beberapa versi yang didukung</string>
     <string name="mediaeditor_filter_manager">Buka kunci manajer filter</string>
     <!--Mi Share-->
-    <string name="mishare">Saya Bagikan</string>
+    <string name="mishare">Mi Share</string>
     <string name="mishare_disable_mishare_auto_off">Nonaktifkan penutupan otomatis Mi Share</string>
     <string name="mishare_unlock_turbo_mode">Buka kunci transfer turbo</string>
     <!--Wallpaper-->
@@ -1165,7 +1165,7 @@
     <string name="nfc_allow_information_screen">Izinkan pengenalan saat layar mati</string>
     <!--App vault-->
     <string name="personal_assistant">Gudang aplikasi</string>
-    <string name="personal_assistant_fold_widget_enable">Berat bantalan/lipat</string>
+    <string name="personal_assistant_fold_widget_enable">Berat Pad/Fold</string>
     <string name="personal_assistant_fold_widget_enable_desc">Aktifkan widget gaya Pad/Lipat</string>
     <string name="personal_assistant_overlap_mode">Negatif satu layar Gaya lipat</string>
     <string name="personal_assistant_blur_model">Model blur asisten pribadi</string>
@@ -1319,14 +1319,14 @@
     <string name="barrage_any_barrage">Izinkan semua aplikasi menggunakan rentetan</string>
     <string name="barrage_custom_barrage_length">Panjang rentetan khusus</string>
     <!--Joyose-->
-    <string name="joyose">Joyce</string>
+    <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Kontrol Awan</string>
     <string name="joyose_disable_cloud_control">Nonaktifkan kontrol Cloud</string>
     <string name="joyose_game_title">Ruang Permainan</string>
     <string name="joyose_enable_gpu_tuner">Penjadwalan kinerja</string>
     <string name="joyose_enable_gpu_tuner_desc">Setelah dibuka, tambahkan pengaturan terkait GPU game di tengah bawah [Game Space]</string>
     <!--GetApps-->
-    <string name="market">Dapatkan Aplikasi</string>
+    <string name="market">GetApps</string>
     <string name="market_device_modify">Kedok model</string>
     <string name="market_device_modify_desc">Terima pembaruan dari perangkat terkait dengan menyamarkan model sebagai perangkat lain</string>
     <string name="market_disable_new_icon">Melarang penggunaan ikon pihak ketiga</string>
@@ -1360,7 +1360,7 @@
     <string name="scanner_ppt">Buka kunci pemindaian PPT</string>
     <string name="scanner_doc_ppt">Buka kunci file pindaian</string>
     <!--MI AI-->
-    <string name="voiceassist">Saya AI</string>
+    <string name="voiceassist">Mi AI</string>
     <string name="voiceassist_disable_watermark">Nonaktifkan tanda air obrolan</string>
     <!--Other-->
     <string name="various">Lainnya</string>
@@ -1494,6 +1494,7 @@
     <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
     <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
     <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
+    <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan ke pengembang secara tepat waktu dan efektif.</string>
