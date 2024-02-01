@@ -29,16 +29,16 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 ## Supported apps
 
 <details>
-    <summary>Click to expand collapsed content</summary>
+    <summary>Click to see supported apps</summary>
 
 | App name                   | Package name                       |
 |:---------------------------|:-----------------------------------|
 | System Framework           | system                             |
 | System UI                  | com.android.systemui               |
-| System Launcher            | com.miui.home                      |
+| System launcher            | com.miui.home                      |
 | Updater                    | com.android.updater                |
 | Joyose                     | com.xiaomi.joyose                  |
-| Settings                   | com.xiaomi.misettings              |
+| Mi Settings                | com.xiaomi.misettings              |
 | Security                   | com.miui.securitycenter            |
 | Notes                      | com.miui.notes                     |
 | Mi Wallpaper               | com.miui.miwallpaper               |
@@ -46,7 +46,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Bullet screen notification | com.xiaomi.barrage                 |
 | Baidu IME for MIUI         | com.baidu.input_mi                 |
 | Phone                      | com.android.incallui               |
-| Phone Services             | com.android.phone                  |
+| Phone Service              | com.android.phone                  |
 | Battery and performance    | com.miui.powerkeeper               |
 | Messaging                  | com.android.mms                    |
 | Screenshot                 | com.miui.screenshot                |
@@ -62,7 +62,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | External Storage           | com.android.externalstorage        |
 | Always-on display          | com.miui.aod                       |
 | File Manager               | com.android.fileexplorer           |
-| System Service Plugin      | com.miui.securityadd               |
+| System service plugin      | com.miui.securityadd               |
 | Downloads                  | com.android.providers.downloads.ui |
 | Downloads                  | com.android.providers.downloads    |
 | Gallery                    | com.miui.gallery                   |
@@ -72,9 +72,9 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Xiaomi Cloud               | com.miui.cloudservice              |
 | Smart Cards                | com.miui.tsmclient                 |
 | iFlytek IME for MIUI       | com.iflytek.inputmethod.miui       |
-| Package Installer          | com.miui.packageinstaller          |
+| Package installer          | com.miui.packageinstaller          |
 | GetApps                    | com.xiaomi.market                  |
-| App Vault                  | com.miui.personalassistant         |
+| App vault                  | com.miui.personalassistant         |
 | Themes                     | com.android.thememanager           |
 | com.miui.rom               | com.miui.rom                       |
 | MIUI Security Components   | com.miui.guardprovider             |
@@ -95,7 +95,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 
 </details>
 
-> Same scope as recommended in LSPosed
+> All scopes above are active in LSPosed
 
 ## Chat & Feedback Group
 
@@ -111,10 +111,9 @@ Join our group to report issues or get the latest updates.
 
 You can provide translations for the HyperCeiler project [here](https://crwd.in/cemiuiler).
 
-## Thank!
+## Thanks!
 
-> HyperCeiler I have used some or all of the content of the following open source projects. Thank
-> you for the strong support provided by the developers of these projects (in no particular order).
+<b>HyperCeiler</b> uses some or all of the following projects, thanks to the developers of these projects for their support (in no particular order).
 
 - [「Accompanist」 by Android Open Source Project, Google Inc.](https://google.github.io/accompanist)
 - [「Android」 by Android Open Source Project, Google Inc.](https://source.android.google.cn/license)
