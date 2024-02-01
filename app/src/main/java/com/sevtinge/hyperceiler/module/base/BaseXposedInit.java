@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -327,8 +328,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.miui.guardprovider" -> mGuardProvider.init(lpparam);
 
             case "com.lbe.security.miui" -> {
-                mLbe.init(lpparam);
-                mVariousSystemApps.init(lpparam);
+                if (!isHyperOSVersion(1f)) {
+                    mLbe.init(lpparam);
+                    mVariousSystemApps.init(lpparam);
+                }
             }
             case "com.android.incallui" -> {
                 mInCallUi.init(lpparam);
