@@ -328,7 +328,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.miui.guardprovider" -> mGuardProvider.init(lpparam);
 
             case "com.lbe.security.miui" -> {
-                if (!isHyperOSVersion(1f)) {
+                if (!isMoreHyperOSVersion(1f)) {
                     mLbe.init(lpparam);
                     mVariousSystemApps.init(lpparam);
                 }
