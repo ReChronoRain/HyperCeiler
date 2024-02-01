@@ -255,6 +255,8 @@
     <string name="status_bar_icon_mode_off">始终隐藏</string>
     <string name="status_bar_icon_mode_off_unconnect">仅在未连接时隐藏</string>
     <string name="status_bar_icon_mode_on_beforering">仅在响铃前显示</string>
+    <string name="status_bar_icon_mode_on_control_center">仅在控制中心显示</string>
+    <string name="status_bar_icon_mode_on_status_bar">仅在状态栏显示</string>
 
     <string name="seek_points_roll">仅在滑动屏幕时显示</string>
     <string name="seek_points_edit">仅在编辑模式中显示</string>
@@ -583,6 +585,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">通知图标</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
     <string name="system_ui_statusbar_iconmanage_call_title">通话</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">互联互通</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
     <string name="system_ui_status_bar_icon_wifi">WIFI 图标</string>
@@ -634,6 +637,16 @@
     <string name="system_ui_status_bar_no_netspeed_separator_desc">于居中摄像头的设备上不显示时间和网速间的竖线</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
     <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型图标</string>
+    <string name="system_ui_status_bar_icon_car">汽车</string>
+    <string name="system_ui_status_bar_icon_pad">平板</string>
+    <string name="system_ui_status_bar_icon_pc">电脑</string>
+    <string name="system_ui_status_bar_icon_phone">手机</string>
+    <string name="system_ui_status_bar_icon_soundbox">小爱音箱</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">小爱触屏音箱</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">小爱音箱组合</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">小爱音箱组合立体声</string>
+    <string name="system_ui_status_bar_icon_tv">电视</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">无线耳机</string>
 
     <string name="system_ui_statusbar_network_speed_all_status">启用修改</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
