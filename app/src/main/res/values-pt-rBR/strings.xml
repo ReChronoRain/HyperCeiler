@@ -186,7 +186,7 @@
     <string name="array_battery_temp">Temperatura da bateria</string>
     <string name="array_cpu_temp">Temperatura da CPU</string>
     <string name="array_global_actions_none">Nenhuma ação</string>
-    <string name="array_global_actions_notif">Abrir central de notificação</string>
+    <string name="array_global_actions_notif">Abrir central de notificações</string>
     <string name="array_global_actions_eqs">Expandir o painel de configurações rápidas</string>
     <string name="array_global_actions_lock">Tela de bloqueio</string>
     <string name="array_global_actions_sleep">Desligar tela</string>
@@ -276,7 +276,7 @@
     <string name="system_framework_bubble_title">Conversas em bolhas</string>
     <string name="system_framework_freeform_count">Múltiplas Janelas flutuantes</string>
     <string name="system_framework_disable_freeform_blacklist">Permitir Janela flutuante pequena</string>
-    <string name="system_framework_disable_freeform_blacklist_desc">Ignorar a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
+    <string name="system_framework_disable_freeform_blacklist_desc">Ignore a lista negra do sistema e as restrições do software para o modo Janela flutuante</string>
     <string name="system_framework_freeform_sticky">Lembrar estado</string>
     <string name="system_framework_freeform_bubble">Bolha de Janelas flutuantes</string>
     <string name="system_framework_freeform_recents_to_small_freeform">Transformar todas as Janelas flutuantes em mini Janelas flutuantes</string>
@@ -751,7 +751,7 @@
     <string name="system_ui_notification_freeform_desc">As notificações do Mi Push podem não ser suportadas</string>
     <string name="system_ui_monet_title">Monet</string>
     <string name="system_ui_monet_overlay_custom">Personalizar cores do tema</string>
-    <string name="system_ui_monet_overlay_custom_desc">Personalize as cores do tema em vez de retirar as cores do papel de parede do sistema</string>
+    <string name="system_ui_monet_overlay_custom_desc">Personalize as cores do tema em vez de retirar as cores do plano de fundo do sistema</string>
     <string name="system_ui_monet_overlay_custom_color">Escolha a cor do tema</string>
     <string name="system_ui_volume_timer">Timer estendido</string>
     <string name="system_ui_qs_label">Guia de troca rápida</string>
@@ -895,7 +895,7 @@
     <string name="gallery_backup_server_google">Google</string>
     <!--MIUI security components-->
     <string name="guard_provider">Componentes de segurança da MIUI</string>
-    <string name="guard_provider_hyperos">Componentes de segurança do sistema</string>
+    <string name="guard_provider_hyperos">Componentes de segurança do HyperOS</string>
     <string name="guard_provider_disable_upload_applist">Impedir o upload automático da lista de apps instalados</string>
     <!--System launcher-->
     <string name="mihome">Launcher do sistema</string>
@@ -1034,12 +1034,12 @@
     <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
-    <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do papel de parede</string>
+    <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
     <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
     <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
     <string name="home_recent_remove_icon">Remover ícone</string>
-    <string name="home_recent_modify_animation">Modificar animação ao remover apps</string>
+    <string name="home_recent_modify_animation">Modificar animação ao remover apps nos recentes</string>
     <string name="home_recent_text">Texto exibido quando não há tarefas recentes</string>
     <string name="home_recent_app_name_distance_task_view_card">Distância do nome e ícone do app nos recentes</string>
     <string name="home_recent_task_view_card_rounded_corners">Cantos arredondados do cartão nos recentes</string>
@@ -1091,8 +1091,8 @@
     <string name="home_other_tasks_shortcut_menu_desc">Adicione o menu de Nova tarefa ao menu de atalho</string>
     <string name="home_other_allow_share_apk">Permitir compartilhar app</string>
     <string name="home_other_user_present_animation">Otimizar animação de desbloqueio</string>
-    <string name="home_other_always_blur_launcher_wallpaper">Sempre desfocar o papel de parede na launcher</string>
-    <string name="home_other_perfect_icon">Prioridade de ícone perfeito</string>
+    <string name="home_other_always_blur_launcher_wallpaper">Sempre desfocar o plano de fundo na launcher</string>
+    <string name="home_other_perfect_icon">Forçar ativação de ícones perfeitos</string>
     <string name="home_other_icon_mono_chrome">Cor de fundo do ícone</string>
     <string name="home_other_icon_monet_color">Usar cor do monet</string>
     <string name="home_other_use_edit_color">Editar cor</string>
@@ -1184,7 +1184,7 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de otimização de bateria</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Desativar para obter código do controle de exibição</string>
     <!--Screen Recorder-->
-    <string name="screenrecorder">Gravador de tela</string>
+    <string name="screenrecorder">Gravador de Tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Requer suporte a versão de gravação de tela</string>
     <string name="screen_recorder_config">Adicionar mais opções de taxa de quadros e taxa de bits</string>
@@ -1311,7 +1311,7 @@
     <string name="weather_device_level_title_middle">Média</string>
     <string name="weather_device_level_title_high">Alta</string>
     <!--AI Translate-->
-    <string name="aiasst">Tradutor IA</string>
+    <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Forçar legendas IA habilitadas</string>
     <string name="aiasst_disable_watermark">Desativar marca d\'água</string>
     <!--Barrage-->
@@ -1405,7 +1405,7 @@
     <string name="various_mipad_input_bluetooth_version_title">Versão do driver</string>
     <string name="various_mipad_input_bluetooth_version_desc">Versão do driver para remover a restrição da caneta Bluetooth</string>
     <string name="various_mipad_input_ingore_gesture_title">Ignorar o gesto dos botões da caneta</string>
-    <string name="various_mipad_input_ingore_gesture_desc">Ignorar o gesto de pressão longa nos botões da caneta</string>
+    <string name="various_mipad_input_ingore_gesture_desc">Ignore o gesto de pressão longa nos botões da caneta</string>
     <string name="various_mipad_input_need_finger_num_title">Troque o número de dedos necessários para gestos</string>
     <string name="various_mipad_input_need_finger_num_desc">Altere o gesto de captura de tela, o gesto de captura de tela parcial e o gesto de tela dividida horizontal para serem acionados por quatro dedos, e mude o gesto de apps para ser acionado por três dedos.</string>
     <string name="custom_background_blur_enabled">Blur de fundo</string>
@@ -1494,6 +1494,7 @@
     <string name="security_center_aosp_app_info">Adicionar entrada de informações do app AOSP</string>
     <string name="security_center_aosp_app_manager_label">Gerenciar apps AOSP</string>
     <string name="security_center_aosp_app_manager">Adicionar entrada de gerenciar apps AOSP</string>
+    <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
