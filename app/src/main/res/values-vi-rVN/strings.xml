@@ -231,6 +231,8 @@
     <string name="status_bar_icon_mode_default">Mặc định</string>
     <string name="status_bar_icon_mode_on">Luôn hiện</string>
     <string name="status_bar_icon_mode_off">Luôn ẩn</string>
+    <string name="status_bar_icon_mode_on_control_center">Chỉ hiện ở trung tâm điều khiển</string>
+    <string name="status_bar_icon_mode_on_status_bar">Chỉ hiện trên thanh trạng thái</string>
     <string name="status_bar_icon_mode_off_unconnect">Chỉ ẩn khi không kết nối</string>
     <string name="status_bar_icon_mode_on_beforering">Chỉ hiện khi đổ chuông</string>
     <string name="seek_points_roll">Chỉ hiện khi đang vuốt màn hình</string>
@@ -540,6 +542,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_iconmanage_notify_title">Biểu tượng thông báo</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Pin</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Cuộc gọi</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">Thiết bị</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Chuyển biểu tượng sang trái</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Chuyển biểu tượng sang phải</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -572,6 +575,16 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_mute">Ẩn biểu tượng Tắt Mic</string>
     <string name="system_ui_status_bar_icon_speakerphone">Ẩn biểu tượng Loa ngoài</string>
     <string name="system_ui_status_bar_icon_call_record">Ẩn biểu tượng Ghi âm</string>
+    <string name="system_ui_status_bar_icon_car">Xe hơi</string>
+    <string name="system_ui_status_bar_icon_pad">Máy tính bảng</string>
+    <string name="system_ui_status_bar_icon_pc">PC</string>
+    <string name="system_ui_status_bar_icon_phone">Điện thoại</string>
+    <string name="system_ui_status_bar_icon_soundbox">Hộp âm nhạc</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">Hộp âm nhạc có màn hình</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">Nhóm hộp âm nhạc</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">Nhóm hộp âm nhạc nổi</string>
+    <string name="system_ui_status_bar_icon_tv">TV</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">Tai nghe không dây</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Số lượng dấu chấm thông báo tối đa</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Số lượng biểu tượng thông báo tối đa</string>
     <string name="system_ui_status_bar_battery_percent">Ẩn XXX% cạnh biểu tượng pin</string>
