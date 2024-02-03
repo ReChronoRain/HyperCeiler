@@ -231,6 +231,8 @@
     <string name="status_bar_icon_mode_default">Predeterminado</string>
     <string name="status_bar_icon_mode_on">Siempre mostrado</string>
     <string name="status_bar_icon_mode_off">Siempre escondido</string>
+    <string name="status_bar_icon_mode_on_control_center">Se muestra solo en el centro de control</string>
+    <string name="status_bar_icon_mode_on_status_bar">Se muestra solo en la barra de estado</string>
     <string name="status_bar_icon_mode_off_unconnect">Se oculta solo cuando no esté conectado</string>
     <string name="status_bar_icon_mode_on_beforering">Se muestra solo antes de sonar</string>
     <string name="seek_points_roll">Se muestra solo cuando se desliza la pantalla</string>
@@ -538,6 +540,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">Icono de la notificación</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Batería</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Llamada</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">Dispositivos</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Se muestra el lado izquierdo del icono</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Se muestra el lado derecho del icono</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -570,6 +573,16 @@
     <string name="system_ui_status_bar_icon_mute">Ocultar icono de micrófono silenciado</string>
     <string name="system_ui_status_bar_icon_speakerphone">Ocultar icono del altavoz</string>
     <string name="system_ui_status_bar_icon_call_record">Ocultar icono de grabación</string>
+    <string name="system_ui_status_bar_icon_car">Coche</string>
+    <string name="system_ui_status_bar_icon_pad">Pad</string>
+    <string name="system_ui_status_bar_icon_pc">PC</string>
+    <string name="system_ui_status_bar_icon_phone">Teléfono</string>
+    <string name="system_ui_status_bar_icon_soundbox">Caja de sonido</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">Caja de sonido con pantalla</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">Grupo de cajas de sonido</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">Grupo de cajas de sonido Stereo</string>
+    <string name="system_ui_status_bar_icon_tv">Televisión</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">Auricular inalámbrico</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Número máximo de puntos de notificaciones</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Número máximo de iconos de notificaciones</string>
     <string name="system_ui_status_bar_battery_percent">Ocultar porcentaje de batería</string>
@@ -1494,6 +1507,7 @@
     <string name="security_center_aosp_app_info">Añadir entrada de información de aplicación de AOSP</string>
     <string name="security_center_aosp_app_manager_label">Administrador de aplicaciones de AOSP</string>
     <string name="security_center_aosp_app_manager">Añadir entrada de administrador de aplicaciones de AOSP</string>
+    <string name="security_center_power_consumption_ranking">Se muestra la clasificación de consumo de energía</string>
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
     <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de Re.chronoRain, que puede contener código malicioso.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
