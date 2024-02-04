@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
+import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
@@ -40,6 +42,7 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.ResourcesHook;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -68,8 +71,9 @@ public class DisplayHardwareDetail extends BaseHook {
     Class<?> mNetworkSpeedController;
     Class<?> mMiuiCollapsedStatusBarFragment;
 
-    int mStatusbarTextIconLayoutResId;
-    static final ArrayList<TextView> mBatteryDetailViews = new ArrayList<>();
+    private static int mStatusbarTextIconLayoutResId;
+    private final static int textIconTagId = ResourcesHook.getFakeResId("text_icon_tag");
+    private static final ArrayList<View> mStatusbarTextIcons = new ArrayList<>();
 
     private String getSlotNameByType(int mIconType) {
         String slotName = "";
@@ -99,16 +103,28 @@ public class DisplayHardwareDetail extends BaseHook {
 
     @Override
     public void init() {
-        if (isNewNetworkStyle()) return; // 新版网速指示器暂时拦截显示
         showBatteryDetail = mPrefsMap.getBoolean("system_ui_statusbar_battery_enable"); // 电池相关
         showDeviceTemp = mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"); // 温度相关
 
         isTempAtRight = mPrefsMap.getBoolean("system_ui_statusbar_temp_right_show");
         isBatteryAtRight = mPrefsMap.getBoolean("system_ui_statusbar_battery_right_show");
 
-        mStatusbarTextIconLayoutResId = mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon);
+        if (isNewNetworkStyle()) {
+            mStatusbarTextIconLayoutResId = mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon_new);
+        } else {
+            mStatusbarTextIconLayoutResId = mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon);
+        }
+
         mDependency = findClassIfExists("com.android.systemui.Dependency");
-        mChargeUtils = showBatteryDetail ? findClassIfExists("com.android.keyguard.charge.ChargeUtils") : null;
+        if (showBatteryDetail) {
+            if (isMoreAndroidVersion(34)) {
+                mChargeUtils = findClassIfExists("com.miui.charge.ChargeUtils");
+            } else {
+                mChargeUtils = findClassIfExists("com.android.keyguard.charge.ChargeUtils");
+            }
+        } else {
+            mChargeUtils = null;
+        }
         mIconManager = findClassIfExists("com.android.systemui.statusbar.phone.StatusBarIconController$IconManager");
         mNetworkSpeedView = findClassIfExists("com.android.systemui.statusbar.views.NetworkSpeedView");
         mDarkIconDispatcher = findClassIfExists("com.android.systemui.plugins.DarkIconDispatcher");
@@ -137,7 +153,7 @@ public class DisplayHardwareDetail extends BaseHook {
         }
 
         if (hasRightIcon) {
-            findAndHookMethod("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment", "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
+            hookAllConstructors("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
                     Object iconController = XposedHelpers.getObjectField(param.thisObject, "mStatusBarIconController");
@@ -171,12 +187,12 @@ public class DisplayHardwareDetail extends BaseHook {
                                 break;
                             }
                         }
-                        TextView batteryView = createBatteryDetailView(mContext, lp, createIcon);
+                        View iconView = createStatusbarTextIcon(mContext, lp, createIcon);
                         int i = (int) param.args[0];
                         ViewGroup mGroup = (ViewGroup) XposedHelpers.getObjectField(param.thisObject, "mGroup");
-                        mGroup.addView(batteryView, i);
-                        mBatteryDetailViews.add(batteryView);
-                        param.setResult(batteryView);
+                        mGroup.addView(iconView, i);
+                        mStatusbarTextIcons.add(iconView);
+                        param.setResult(iconView);
                     }
                 }
             });
@@ -185,20 +201,24 @@ public class DisplayHardwareDetail extends BaseHook {
         if (hasLeftIcon) {
             findAndHookMethod(mMiuiCollapsedStatusBarFragment, "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
+                protected void after(MethodHookParam param) {
                     Context mContext = (Context) callMethod(param.thisObject, "getContext");
                     Object DarkIconDispatcher = XposedHelpers.callStaticMethod(mDependency, "get", mDarkIconDispatcher);
-                    TextView mSplitter = (TextView) XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedSplitter");
-                    ViewGroup batteryViewContainer = (ViewGroup) mSplitter.getParent();
-                    int bvIndex = batteryViewContainer.indexOfChild(mSplitter);
-                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mSplitter.getLayoutParams();
-                    for (TextIcon ti : mTextIcons) {
+                    View baseAnchor;
+                    if (isNewNetworkStyle()) {
+                        baseAnchor = (View)XposedHelpers.getObjectField(param.thisObject, "mClockView");
+                    } else {
+                        baseAnchor = (View)XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedSplitter");
+                    }
+                    ViewGroup mStatusBarLeftContainer = (ViewGroup) baseAnchor.getParent();
+                    int bvIndex = mStatusBarLeftContainer.indexOfChild(baseAnchor);
+                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) baseAnchor.getLayoutParams();
+                    for (TextIcon ti :mTextIcons) {
                         if (!ti.atRight) {
-                            TextView batteryView = createBatteryDetailView(mContext, lp, ti);
-                            batteryViewContainer.addView(batteryView, bvIndex + 1);
-                            mBatteryDetailViews.add(batteryView);
-                            callMethod(DarkIconDispatcher, "addDarkReceiver", batteryView);
-                            XposedHelpers.setAdditionalInstanceField(param.thisObject, getSlotNameByType(ti.iconType), batteryView);
+                            View iconView = createStatusbarTextIcon(mContext, lp, ti);
+                            mStatusBarLeftContainer.addView(iconView, bvIndex + 1);
+                            mStatusbarTextIcons.add(iconView);
+                            XposedHelpers.callMethod(DarkIconDispatcher, "addDarkReceiver", iconView);
                         }
                     }
                 }
@@ -206,12 +226,13 @@ public class DisplayHardwareDetail extends BaseHook {
 
             findAndHookMethod(mMiuiCollapsedStatusBarFragment, "showSystemIconArea", boolean.class, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    for (TextIcon ti : mTextIcons) {
-                        if (!ti.atRight) {
-                            Object bv = XposedHelpers.getAdditionalInstanceField(param.thisObject, getSlotNameByType(ti.iconType));
-                            if (bv != null) {
-                                callMethod(bv, "setVisibilityByController", true);
+                protected void after(MethodHookParam param) {
+                    for (View iconView: mStatusbarTextIcons) {
+                        Object tagData = iconView.getTag(textIconTagId);
+                        if (tagData != null) {
+                            TextIcon ti = (TextIcon) tagData;
+                            if (!ti.atRight) {
+                                XposedHelpers.callMethod(iconView, "setVisibilityByController", true);
                             }
                         }
                     }
@@ -220,12 +241,13 @@ public class DisplayHardwareDetail extends BaseHook {
 
             findAndHookMethod(mMiuiCollapsedStatusBarFragment, "hideSystemIconArea", boolean.class, new MethodHook() {
                 @Override
-                protected void after(MethodHookParam param) throws Throwable {
-                    for (TextIcon ti : mTextIcons) {
-                        if (!ti.atRight) {
-                            Object bv = XposedHelpers.getAdditionalInstanceField(param.thisObject, getSlotNameByType((ti.iconType)));
-                            if (bv != null) {
-                                callMethod(bv, "setVisibilityByController", false);
+                protected void after(MethodHookParam param) {
+                    for (View iconView: mStatusbarTextIcons) {
+                        Object tagData = iconView.getTag(textIconTagId);
+                        if (tagData != null) {
+                            TextIcon ti = (TextIcon) tagData;
+                            if (!ti.atRight) {
+                                XposedHelpers.callMethod(iconView, "setVisibilityByController", false);
                             }
                         }
                     }
@@ -235,10 +257,12 @@ public class DisplayHardwareDetail extends BaseHook {
 
         findAndHookMethod(mNetworkSpeedView, "getSlot", new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                Object customSlot = XposedHelpers.getAdditionalInstanceField(param.thisObject, "mCustomSlot");
-                if (customSlot != null) {
-                    param.setResult(customSlot);
+            protected void before(MethodHookParam param) {
+                View nsView = (View) param.thisObject;
+                Object tagData = nsView.getTag(textIconTagId);
+                if (tagData != null) {
+                    TextIcon ti = (TextIcon) tagData;
+                    param.setResult(getSlotNameByType(ti.iconType));
                 }
             }
         });
@@ -253,11 +277,20 @@ public class DisplayHardwareDetail extends BaseHook {
                     public void handleMessage(Message message) {
                         if (message.what == 100021) {
                             TextIconInfo tii = (TextIconInfo) message.obj;
-                            String slotName = getSlotNameByType(tii.iconType);
-                            for (TextView tv : mBatteryDetailViews) {
-                                if (slotName.equals(XposedHelpers.getAdditionalInstanceField(tv, "mCustomSlot"))) {
-                                    XposedHelpers.callMethod(tv, "setBlocked", !tii.iconShow);
-                                    XposedHelpers.callMethod(tv, "setNetworkSpeed", tii.iconText);
+                            for (View tv : mStatusbarTextIcons) {
+                                Object tagData = tv.getTag(textIconTagId);
+                                if (tagData != null) {
+                                    TextIcon ti = (TextIcon) tagData;
+                                    if (tii.iconType == ti.iconType) {
+                                        XposedHelpers.callMethod(tv, "setBlocked", !tii.iconShow);
+                                        if (tii.iconShow) {
+                                            if (isNewNetworkStyle()) {
+                                                XposedHelpers.callMethod(tv, "setNetworkSpeed", tii.iconText, "");
+                                            } else {
+                                                XposedHelpers.callMethod(tv, "setNetworkSpeed", tii.iconText);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -428,18 +461,36 @@ public class DisplayHardwareDetail extends BaseHook {
         });
     }
 
+    private static TextView getIconTextView(View iconView) {
+        if (isNewNetworkStyle()) {
+            return (TextView) XposedHelpers.getObjectField(iconView, "mNetworkSpeedNumberText");
+        }
+        return (TextView) iconView;
+    }
+
+    private static View createStatusbarTextIcon(Context mContext, LinearLayout.LayoutParams lp, TextIcon ti) {
+        View iconView = LayoutInflater.from(mContext).inflate(mStatusbarTextIconLayoutResId, null);
+        iconView.setTag(textIconTagId, ti);
+        if (!isNewNetworkStyle()) {
+            XposedHelpers.setObjectField(iconView, "mVisibilityByDisableInfo", 0);
+        } else {
+            View mNumber = iconView.findViewWithTag("network_speed_number");
+            XposedHelpers.setObjectField(iconView, "mNetworkSpeedNumberText", mNumber);
+            View mUnit = iconView.findViewWithTag("network_speed_unit");
+            XposedHelpers.setObjectField(iconView, "mNetworkSpeedUnitText", mUnit);
+        }
+        initStatusbarTextIcon(mContext, lp, ti, iconView);
+        return iconView;
+    }
+
     @SuppressLint("DiscouragedApi")
-    private TextView createBatteryDetailView(Context mContext, LinearLayout.LayoutParams lp, TextIcon ti) {
+    private static void initStatusbarTextIcon(Context mContext, LinearLayout.LayoutParams lp, TextIcon ti, View iconView) {
+        XposedHelpers.setObjectField(iconView, "mVisibleByController", true);
+        XposedHelpers.setObjectField(iconView, "mShown", true);
+        TextView iconTextView = getIconTextView(iconView);
         Resources res = mContext.getResources();
-        TextView batteryView = (TextView) LayoutInflater.from(mContext).inflate(res.getIdentifier("network_speed", "layout", "com.android.systemui"), (ViewGroup) null);
-        batteryView.setTag("slot_text_icon");
-        batteryView.setVisibility(View.VISIBLE);
-        XposedHelpers.setObjectField(batteryView, "mVisibilityByDisableInfo", 0);
-        XposedHelpers.setObjectField(batteryView, "mVisibleByController", true);
-        XposedHelpers.setObjectField(batteryView, "mShown", true);
-        XposedHelpers.setAdditionalInstanceField(batteryView, "mCustomSlot", getSlotNameByType(ti.iconType));
         int styleId = res.getIdentifier("TextAppearance.StatusBar.Clock", "style", "com.android.systemui");
-        batteryView.setTextAppearance(styleId);
+        iconTextView.setTextAppearance(styleId);
         String subKey = "";
         if (ti.iconType == 91) {
             subKey = "battery";
@@ -451,7 +502,7 @@ public class DisplayHardwareDetail extends BaseHook {
         if (!mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show") || mPrefsMap.getStringAsInt("system_ui_statusbar_" + subKey + "_show", 1) != 1) {
             fontSize = (float) (fontSize * 0.5);
         }
-        logI(TAG, this.lpparam.packageName, "fontsize = " + fontSize);
+        // logI(TAG, this.lpparam.packageName, "fontsize = " + fontSize);
         int align = mPrefsMap.getStringAsInt("system_ui_status_bar_" + subKey + "_align", 1);
         int fixedWidth = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_fixedcontent_width", 10);
         int leftMargin = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_left_margin", 4);
@@ -459,41 +510,35 @@ public class DisplayHardwareDetail extends BaseHook {
         int vertical = mPrefsMap.getInt("system_ui_statusbar_" + subKey + "_vertical_offset", 8);
         boolean isSingleRow = mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_line_show");
         boolean isFontBold = mPrefsMap.getBoolean("system_ui_statusbar_" + subKey + "_bold");
+
         if (opt == 1 && !isSingleRow) {
-            batteryView.setSingleLine(false);
-            batteryView.setMaxLines(2);
-            batteryView.setLineSpacing(0, fontSize > 8.5f ? 0.85f : 0.85f);
+            iconTextView.setSingleLine(false);
+            iconTextView.setMaxLines(2);
+            iconTextView.setLineSpacing(0, fontSize > 8.5f ? 0.85f : 0.9f);
         }
-        batteryView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
-        if (isFontBold) batteryView.setTypeface(Typeface.DEFAULT_BOLD);
-        switch (align) {
-            case 2 -> batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            case 3 -> batteryView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            case 4 -> batteryView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        // 设置字体大小
+        iconTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize);
+        // 设置字体是否加粗
+        if (isFontBold) {
+            iconTextView.setTypeface(Typeface.DEFAULT_BOLD);
         }
-        if (fixedWidth > 10)
-            lp.width = (int) (batteryView.getResources().getDisplayMetrics().density * fixedWidth);
-        leftMargin = (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            leftMargin,
-            res.getDisplayMetrics()
-        );
+        // 设置边距
+        leftMargin = dp2px(leftMargin * 0.5f);
+        rightMargin = dp2px(rightMargin * 0.5f);
         int topMargin = 0;
-        if (vertical != 0) {
-            float marginTop = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                (vertical - 8) * 0.5f,
-                res.getDisplayMetrics()
-            );
-            topMargin = (int) marginTop;
+        if (vertical != 8) {
+            topMargin = dp2px((vertical - 8) * 0.5f);
         }
-        rightMargin = (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            rightMargin,
-            res.getDisplayMetrics()
-        );
-        batteryView.setPaddingRelative(leftMargin, topMargin, rightMargin, 0);
-        batteryView.setLayoutParams(lp);
-        return batteryView;
+        iconTextView.setPaddingRelative(leftMargin, topMargin, rightMargin, 0);
+        if (fixedWidth > 10) {
+            lp.width = dp2px(fixedWidth);
+        }
+        iconTextView.setLayoutParams(lp);
+
+        switch (align) {
+            case 2 -> iconTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            case 3 -> iconTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            case 4 -> iconTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        }
     }
 }

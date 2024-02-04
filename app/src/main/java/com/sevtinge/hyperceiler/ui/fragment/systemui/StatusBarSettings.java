@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -54,7 +54,5 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
 
         mDeviceStatus.setVisible(!isAndroidVersion(30));
         mToastStatus.setVisible(isHyperOSVersion(1f));
-
-        mDeviceStatus.setEnabled(!isHyperOSVersion(1f)); // 临时禁用
     }
 }

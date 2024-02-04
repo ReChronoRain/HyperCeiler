@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
@@ -195,8 +194,8 @@ public class SystemUI extends BaseModule {
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
         // 硬件指示器
-        initHook(new DisplayHardwareDetail(), (mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
-            mPrefsMap.getBoolean("system_ui_statusbar_temp_enable")) && !isHyperOSVersion(1f));
+        initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
+                mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
 
         // 灵动提示
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
