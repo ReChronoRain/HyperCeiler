@@ -221,6 +221,14 @@
         <item>@string/status_bar_icon_mode_off</item>
     </string-array>
 
+    <string-array name="status_bar_icon_mode_new">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_control_center</item>
+        <item>@string/status_bar_icon_mode_on_status_bar</item>
+        <item>@string/status_bar_icon_mode_off</item>
+    </string-array>
+
     <string-array name="control_center_sunshine_mode">
         <item>@string/control_center_sunshine_mode_default</item>
         <item>@string/control_center_sunshine_mode_one</item>
@@ -252,6 +260,14 @@
     <string-array name="status_bar_icon_mode_value">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_mode_new_value">
+        <item>0</item>
+        <item>1</item>
+        <item>11</item>
+        <item>12</item>
         <item>2</item>
     </string-array>
 
@@ -306,6 +322,25 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="status_bar_icon_bluetooth_new">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_control_center</item>
+        <item>@string/status_bar_icon_mode_on_status_bar</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_off_unconnect</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_bluetooth_new_value">
+        <item>0</item>
+        <item>1</item>
+        <item>11</item>
+        <item>12</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 
     <string-array name="folder_shade">
         <item>@string/array_default</item>

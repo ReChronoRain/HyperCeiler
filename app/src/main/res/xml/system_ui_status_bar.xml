@@ -4,7 +4,15 @@
 
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings"
-        android:title="@string/system_ui_statusbar_iconmanage_title" />
+        android:title="@string/system_ui_statusbar_iconmanage_title"
+        android:key="prefs_key_icon_manager_old"
+        app:isPreferenceVisible="false"/>
+
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageNewSettings"
+        android:title="@string/system_ui_statusbar_iconmanage_title"
+        android:key="prefs_key_icon_manager_new"
+        app:isPreferenceVisible="false"/>
 
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings"

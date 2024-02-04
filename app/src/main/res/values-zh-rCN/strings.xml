@@ -255,6 +255,8 @@
     <string name="status_bar_icon_mode_off">始终隐藏</string>
     <string name="status_bar_icon_mode_off_unconnect">仅在未连接时隐藏</string>
     <string name="status_bar_icon_mode_on_beforering">仅在响铃前显示</string>
+    <string name="status_bar_icon_mode_on_control_center">仅在控制中心显示</string>
+    <string name="status_bar_icon_mode_on_status_bar">仅在状态栏显示</string>
 
     <string name="seek_points_roll">仅在滑动屏幕时显示</string>
     <string name="seek_points_edit">仅在编辑模式中显示</string>
@@ -583,6 +585,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">通知图标</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
     <string name="system_ui_statusbar_iconmanage_call_title">通话</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">互联互通</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
     <string name="system_ui_status_bar_icon_wifi">WIFI 图标</string>
@@ -634,6 +637,16 @@
     <string name="system_ui_status_bar_no_netspeed_separator_desc">于居中摄像头的设备上不显示时间和网速间的竖线</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
     <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型图标</string>
+    <string name="system_ui_status_bar_icon_car">汽车</string>
+    <string name="system_ui_status_bar_icon_pad">平板</string>
+    <string name="system_ui_status_bar_icon_pc">电脑</string>
+    <string name="system_ui_status_bar_icon_phone">手机</string>
+    <string name="system_ui_status_bar_icon_soundbox">小爱音箱</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">小爱触屏音箱</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">小爱音箱组合</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">小爱音箱组合立体声</string>
+    <string name="system_ui_status_bar_icon_tv">电视</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">无线耳机</string>
 
     <string name="system_ui_statusbar_network_speed_all_status">启用修改</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">网速更新间隔</string>
@@ -1169,16 +1182,16 @@
     <string name="home_large_icon_corner_radius">大图标圆角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
-    <string name="home_other_lock_app_sc">固定时禁止呼出侧边栏</string>
-    <string name="home_other_lock_app_screen">解除固定时跳转锁屏</string>
-    <string name="home_other_lock_app">固定应用</string>
-    <string name="home_other_lock_app_more">类 iOS 引导式访问，能将当前应用固定在屏幕上\n使用请长按顶部状态栏，再次长按即可退出\n首次使用需要重启手机</string>
-    <string name="home_other_lock_app_will_lock">即将锁定当前应用</string>
-    <string name="home_other_lock_app_lock">已锁定当前应用</string>
-    <string name="home_other_lock_app_unlock">已解锁当前应用</string>
-    <string name="home_other_lock_app_will_unlock">即将解锁当前应用</string>
-    <string name="home_other_lock_app_e">请在被锁定应用界面解锁</string>
-    <string name="home_other_lock_app_r">超次还原</string>
+    <string name="system_framework_guided_access_sc">固定时禁止呼出侧边栏</string>
+    <string name="system_framework_guided_access_screen">解除固定时跳转锁屏</string>
+    <string name="system_framework_guided_access">引导式访问</string>
+    <string name="system_framework_guided_access_more">长按状态栏 1 秒以固定或取消固定当前应用</string>
+    <string name="system_framework_guided_access_will_lock">继续长按以进入引导式访问</string>
+    <string name="system_framework_guided_access_lock">已开启引导式访问</string>
+    <string name="system_framework_guided_access_unlock">已退出引导式访问</string>
+    <string name="system_framework_guided_access_will_unlock">继续长按以退出引导式访问</string>
+    <string name="system_framework_guided_access_e">当前应用不是进入引导式访问时固定的应用，请在被固定应用界面退出引导式访问</string>
+    <string name="system_framework_guided_access_r">引导式访问超次还原</string>
     <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
     <string name="home_other_fix_android_r_s">修复兼容性问题导致桌面黑屏</string>
     <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
@@ -1364,6 +1377,7 @@
     <string name="security_center_aosp_app_info_label">原生应用信息</string>
     <string name="security_center_aosp_app_manager">添加 \"原生应用管理\" 入口</string>
     <string name="security_center_aosp_app_manager_label">原生应用管理</string>
+    <string name="security_center_power_consumption_ranking">恢复显示耗电排行</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>

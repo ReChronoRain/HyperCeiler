@@ -54,6 +54,7 @@ public class UiLockApp extends BaseHook {
 
     public int count = 0;
     public int eCount = 0;
+    boolean isLock = false;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -66,8 +67,13 @@ public class UiLockApp extends BaseHook {
                         ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
                             @Override
                             public void onChange(boolean selfChange) {
+                                isLock = getLockApp(context) != -1;
                                 if (getLockApp(context) != -1) {
-                                    XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                    try {
+                                        XposedHelpers.callMethod(param.thisObject, "scheduleAutoHide");
+                                    } catch (Exception e) {
+
+                                    }
                                 }
                             }
                         };
@@ -92,13 +98,16 @@ public class UiLockApp extends BaseHook {
                     if (getSystemLockEnable(mContext)) {
                         setSystemLockApp(mContext);
                     }
-                    if (mPrefsMap.getBoolean("home_other_lock_app_screen")) {
-                        if (!getSystemLockScreen(mContext)) {
-                            setSystemLockScreen(mContext, 1);
+                    if (getSystemLockScreen(mContext)) {
+                        setSystemLockScreen(mContext, 0);
+                    }
+                    if (mPrefsMap.getBoolean("system_framework_guided_access_screen")) {
+                        if (!getMyLockScreen(mContext)) {
+                            setMyLockScreen(mContext, 1);
                         }
                     } else {
-                        if (getSystemLockScreen(mContext)) {
-                            setSystemLockScreen(mContext, 0);
+                        if (getMyLockScreen(mContext)) {
+                            setMyLockScreen(mContext, 0);
                         }
                     }
                     if (action == 2) {
@@ -175,7 +184,7 @@ public class UiLockApp extends BaseHook {
             }
         );
 
-        findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
+        safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
             "isLockTaskKioskModeActive", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -184,7 +193,7 @@ public class UiLockApp extends BaseHook {
             }
         );
 
-        findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
+        safeFindAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
             "isScreenPinningActive", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -192,6 +201,7 @@ public class UiLockApp extends BaseHook {
                 }
             }
         );
+
         Class<?> ScreenPinningNotify = findClassIfExists("com.android.systemui.navigationbar.ScreenPinningNotify");
         if (ScreenPinningNotify != null) {
             Method[] methods = ScreenPinningNotify.getDeclaredMethods();
@@ -247,8 +257,18 @@ public class UiLockApp extends BaseHook {
         try {
             return Settings.Secure.getInt(context.getContentResolver(), "lock_to_app_exit_locked") == 1;
         } catch (Settings.SettingNotFoundException e) {
-            logE(TAG, "getSystemLock E will set " + e);
+            logE(TAG, "getSystemLockScreen E will set " + e);
             setSystemLockScreen(context, 0);
+        }
+        return false;
+    }
+
+    public boolean getMyLockScreen(Context context) {
+        try {
+            return Settings.Global.getInt(context.getContentResolver(), "exit_lock_app_screen") == 1;
+        } catch (Settings.SettingNotFoundException e) {
+            logE(TAG, "getMyLockScreen E will set " + e);
+            setMyLockScreen(context, 0);
         }
         return false;
     }
@@ -263,6 +283,10 @@ public class UiLockApp extends BaseHook {
 
     public static void setSystemLockScreen(Context context, int value) {
         Settings.Secure.putInt(context.getContentResolver(), "lock_to_app_exit_locked", value);
+    }
+
+    public static void setMyLockScreen(Context context, int value) {
+        Settings.Global.putInt(context.getContentResolver(), "exit_lock_app_screen", value);
     }
 
     /**
@@ -282,7 +306,7 @@ public class UiLockApp extends BaseHook {
                     ToastHelper.makeText(context,
                         context.getResources().getString(
                             mResHook.addResource("will_lock_app",
-                                R.string.home_other_lock_app_will_lock)),
+                                R.string.system_framework_guided_access_will_lock)),
                         false);
                 }
                 case LOCK_APP -> {
@@ -291,14 +315,14 @@ public class UiLockApp extends BaseHook {
                     ToastHelper.makeText(context,
                         context.getResources().getString(
                             mResHook.addResource("lock_app",
-                                R.string.home_other_lock_app_lock)),
+                                R.string.system_framework_guided_access_lock)),
                         false);
                 }
                 case WILL_UNLOCK_APP -> {
                     ToastHelper.makeText(context,
                         context.getResources().getString(
                             mResHook.addResource("will_unlock_app",
-                                R.string.home_other_lock_app_will_unlock)),
+                                R.string.system_framework_guided_access_will_unlock)),
                         false);
                 }
                 case UNLOCK_APP -> {
@@ -306,14 +330,14 @@ public class UiLockApp extends BaseHook {
                     ToastHelper.makeText(context,
                         context.getResources().getString(
                             mResHook.addResource("unlock_app",
-                                R.string.home_other_lock_app_unlock)),
+                                R.string.system_framework_guided_access_unlock)),
                         false);
                 }
                 case UNKNOWN_ERROR -> {
                     ToastHelper.makeText(context,
                         context.getResources().getString(
                             mResHook.addResource("lock_app_e",
-                                R.string.home_other_lock_app_e)),
+                                R.string.system_framework_guided_access_e)),
                         false);
                 }
                 case RESTORE -> {
@@ -321,7 +345,7 @@ public class UiLockApp extends BaseHook {
                     ToastHelper.makeText(context,
                         context.getResources().getString(
                             mResHook.addResource("lock_app_r",
-                                R.string.home_other_lock_app_r)),
+                                R.string.system_framework_guided_access_r)),
                         false);
                 }
             }

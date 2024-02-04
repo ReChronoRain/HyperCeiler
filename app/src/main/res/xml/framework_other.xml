@@ -60,6 +60,23 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_guided_access"
+            android:summary="@string/system_framework_guided_access_more"
+            android:title="@string/system_framework_guided_access" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_sc"
+            android:title="@string/system_framework_guided_access_sc" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_screen"
+            android:title="@string/system_framework_guided_access_screen" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_other_delete_on_post_notification"
             android:summary="@string/system_other_delete_on_post_notification_desc"
             android:title="@string/system_other_delete_on_post_notification" />

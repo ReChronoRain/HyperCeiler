@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils.hook;
 
 import com.sevtinge.hyperceiler.utils.XposedUtils;
@@ -31,6 +31,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookUtils extends XposedUtils {
+    private String TAG = getClass().getSimpleName();
 
     public XC_LoadPackage.LoadPackageParam lpparam;
 
@@ -157,6 +158,14 @@ public class HookUtils extends XposedUtils {
 
     public void findAndHookMethod(String className, String methodName, Object... parameterTypesAndCallback) {
         findAndHookMethod(findClassIfExists(className), methodName, parameterTypesAndCallback);
+    }
+
+    public void safeFindAndHookMethod(String className, String methodName, Object... parameterTypesAndCallback) {
+        try {
+            findAndHookMethod(className, methodName, parameterTypesAndCallback);
+        } catch (Exception e) {
+            logE(TAG, "safeHook: " + e);
+        }
     }
 
     public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {

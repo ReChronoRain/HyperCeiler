@@ -1,7 +1,7 @@
 /*
   * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
   * License.
@@ -249,7 +249,7 @@ public class Home extends BaseModule {
         initHook(DisableRecentsIcon.INSTANCE, mPrefsMap.getBoolean("home_dock_disable_recents_icon"));
 
         // 其他
-        initHook(new LockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
+        initHook(new LockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(AlwaysShowStatusClock.INSTANCE, mPrefsMap.getBoolean("home_other_show_clock"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));

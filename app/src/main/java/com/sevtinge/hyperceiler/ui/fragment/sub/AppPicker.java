@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -122,7 +122,7 @@ public class AppPicker extends Fragment {
                             appData.activityName);
                         requireActivity().finish();
                     }
-                    case 2 -> {
+                    case 2, 4 -> {
                         CheckBox checkBox = view.findViewById(android.R.id.checkbox);
                         selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
                         if (checkBox.isChecked()) {
@@ -186,7 +186,7 @@ public class AppPicker extends Fragment {
 
     public List<AppData> getAppInfo() {
         List<AppData> appDataList;
-        if (appSelector) {
+        if (appSelector || modeSelection == 4) {
             appDataList = PackageManagerUtils.getPackageByLauncher();
         } else {
             appDataList = PackageManagerUtils.getOpenWithApps();

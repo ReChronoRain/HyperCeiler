@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -309,7 +309,16 @@ public class FlashLight extends TileUtils {
             File file1 = new File(flashFileTorch);
             File file2 = new File(flashFileSwitch);
             File file3 = new File(flashFileOther);
-            if (file1.exists()) {
+            if (file1.exists() && file2.exists()) {
+                if (file3.exists()) {
+                    writeFileModule(flashFileOther, 0);
+                    writeFileModule(flashFileOther, flashInt);
+                } else {
+                    writeFileModule(flashFileTorch, 0);
+                    writeFileModule(flashFileTorch, flashInt);
+                }
+            }
+            else if (file1.exists()) {
                 writeFileModule(flashFileTorch, flashInt);
                 if (file3.exists()) {
                     writeFileModule(flashFileOther, flashInt);
