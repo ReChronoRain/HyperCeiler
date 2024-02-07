@@ -48,34 +48,30 @@ public class ResourcesHook {
     }
 
     /**
-     * 使用反射是为了泛用性。
-     * 当然你也可以使用 Xposed 进行 Hook。
+     * 使用反射是为了泛用性，反射失败尝试 Xposed。
      *
      * @noinspection JavaReflectionMemberAccess
      */
-    public static int loadModuleRes(Context context, boolean useInvoke) {
+    public static int loadModuleRes(Context context) {
         String tag = "addModuleRes";
-        if (useInvoke) {
-            try {
-                @SuppressLint("DiscouragedPrivateApi")
-                Method AssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
-                AssetPath.setAccessible(true);
-                return Integer.parseInt(String.valueOf(AssetPath.invoke(context.getResources().getAssets(), XposedInit.mModulePath)));
-            } catch (NoSuchMethodException e) {
-                XposedLogUtils.logE(tag, "Method addAssetPath is null: " + e);
-            } catch (InvocationTargetException e) {
-                XposedLogUtils.logE(tag, "InvocationTargetException: " + e);
-            } catch (IllegalAccessException e) {
-                XposedLogUtils.logE(tag, "IllegalAccessException: " + e);
-            } catch (NumberFormatException e) {
-                XposedLogUtils.logE(tag, "NumberFormatException: " + e);
-            }
-        } else {
-            try {
-                return (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath", XposedInit.mModulePath);
-            } catch (Exception e) {
-                XposedLogUtils.logE(tag, "CallMethod addAssetPath E: " + e);
-            }
+        try {
+            @SuppressLint("DiscouragedPrivateApi")
+            Method AssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
+            AssetPath.setAccessible(true);
+            return Integer.parseInt(String.valueOf(AssetPath.invoke(context.getResources().getAssets(), XposedInit.mModulePath)));
+        } catch (NoSuchMethodException e) {
+            XposedLogUtils.logE(tag, "Method addAssetPath is null: " + e);
+        } catch (InvocationTargetException e) {
+            XposedLogUtils.logE(tag, "InvocationTargetException: " + e);
+        } catch (IllegalAccessException e) {
+            XposedLogUtils.logE(tag, "IllegalAccessException: " + e);
+        } catch (NumberFormatException e) {
+            XposedLogUtils.logE(tag, "NumberFormatException: " + e);
+        }
+        try {
+            return (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath", XposedInit.mModulePath);
+        } catch (Exception e) {
+            XposedLogUtils.logE(tag, "CallMethod addAssetPath E: " + e);
         }
         return 0;
     }
@@ -85,7 +81,7 @@ public class ResourcesHook {
      * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
      */
     public static Resources getAppRes(Context context) {
-        if (loadModuleRes(context, false) == 0) {
+        if (loadModuleRes(context) == 0) {
             XposedLogUtils.logE("getAppRes", "loadModuleRes return 0, It may have failed.");
         }
         return context.getResources();
@@ -221,7 +217,7 @@ public class ResourcesHook {
 
     private Object getResourceReplacement(Context context, Resources res, String method, Object[] args) {
         if (context == null) return null;
-        loadModuleRes(context, true);
+        loadModuleRes(context);
         String pkgName = null;
         String resType = null;
         String resName = null;

@@ -53,7 +53,7 @@ public abstract class BaseModule implements IXposedHook {
                 handler.post(
                     () -> {
                         if (context != null) {
-                            ResourcesHook.loadModuleRes(context, false);
+                            ResourcesHook.loadModuleRes(context);
                         }
                         XposedUtils.logE(ITAG.TAG, "findContext: " + context + " pkg: " + lpparam.packageName);
                     }
