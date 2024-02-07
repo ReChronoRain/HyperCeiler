@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
@@ -359,8 +359,8 @@ public class SunlightMode extends TileUtils {
         }
         ArrayMap<String, Integer> tileResMap = new ArrayMap<>();
         tileResMap.put("custom_SUN_Enable", isEnable ? 1 : 0);
-        tileResMap.put("custom_SUN_ON", mResHook.addResource("ic_control_center_sunlight_mode_on", R.drawable.baseline_wb_sunny_24));
-        tileResMap.put("custom_SUN_OFF", mResHook.addResource("ic_control_center_sunlight_mode_off", R.drawable.baseline_wb_sunny_24));
+        tileResMap.put("custom_SUN_ON", R.drawable.baseline_wb_sunny_24);
+        tileResMap.put("custom_SUN_OFF", R.drawable.baseline_wb_sunny_24);
         return tileResMap;
     }
 

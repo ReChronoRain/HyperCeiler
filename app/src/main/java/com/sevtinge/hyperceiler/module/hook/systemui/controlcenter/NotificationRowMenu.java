@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import android.app.ActivityManager;
@@ -42,12 +42,12 @@ import de.robv.android.xposed.XposedHelpers;
 public class NotificationRowMenu extends BaseHook {
     @Override
     public void init() {
-        int appInfoIconResId = mResHook.addResource("ic_appinfo", R.drawable.ic_appinfo12);
-        int forceCloseIconResId = mResHook.addResource("ic_forceclose", R.drawable.ic_forceclose12);
-        int openInFwIconResId = mResHook.addResource("ic_openinfw", R.drawable.ic_openinfw);
-        int appInfoDescId = mResHook.addResource("miui_notification_menu_appinfo_title", R.string.system_notifrowmenu_appinfo);
-        int forceCloseDescId = mResHook.addResource("miui_notification_menu_forceclose_title", R.string.system_notifrowmenu_forceclose);
-        int openInFwDescId = mResHook.addResource("miui_notification_menu_openinfw_title", R.string.system_notifrowmenu_openinfw);
+        int appInfoIconResId = R.drawable.ic_appinfo12;
+        int forceCloseIconResId = R.drawable.ic_forceclose12;
+        int openInFwIconResId = R.drawable.ic_openinfw;
+        int appInfoDescId = R.string.system_notifrowmenu_appinfo;
+        int forceCloseDescId = R.string.system_notifrowmenu_forceclose;
+        int openInFwDescId = R.string.system_notifrowmenu_openinfw;
         mResHook.setDensityReplacement("com.android.systemui", "dimen", "notification_menu_icon_padding", 0);
         mResHook.setDensityReplacement("com.android.systemui", "dimen", "miui_notification_modal_menu_margin_left_right", 3);
         mResHook.setResReplacement("com.android.systemui", "drawable", "miui_notification_menu_ic_bg_active", R.drawable.miui_notification_menu_ic_bg_active);
@@ -59,7 +59,7 @@ public class NotificationRowMenu extends BaseHook {
             @SuppressWarnings("unchecked")
             protected void after(final MethodHookParam param) {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                ArrayList<Object> mMenuItems = (ArrayList<Object>)XposedHelpers.getObjectField(param.thisObject, "mMenuItems");
+                ArrayList<Object> mMenuItems = (ArrayList<Object>) XposedHelpers.getObjectField(param.thisObject, "mMenuItems");
 
                 Object infoBtn = null;
                 Object forceCloseBtn = null;
@@ -80,18 +80,18 @@ public class NotificationRowMenu extends BaseHook {
                 mMenuItems.add(openFwBtn);
                 XposedHelpers.setObjectField(param.thisObject, "mMenuItems", mMenuItems);
                 int menuMargin = (int) XposedHelpers.getObjectField(param.thisObject, "mMenuMargin");
-                LinearLayout mMenuContainer = (LinearLayout)XposedHelpers.getObjectField(param.thisObject, "mMenuContainer");
+                LinearLayout mMenuContainer = (LinearLayout) XposedHelpers.getObjectField(param.thisObject, "mMenuContainer");
                 View mInfoBtn = (View) XposedHelpers.callMethod(infoBtn, "getMenuView");
                 View mForceCloseBtn = (View) XposedHelpers.callMethod(forceCloseBtn, "getMenuView");
                 View mOpenFwBtn = (View) XposedHelpers.callMethod(openFwBtn, "getMenuView");
 
                 OnClickListener itemClick = view -> {
                     if (view == null) return;
-                    String pkgName = (String)XposedHelpers.callMethod(notification, "getPackageName");
-                    int uid = (int)XposedHelpers.callMethod(notification, "getAppUid");
+                    String pkgName = (String) XposedHelpers.callMethod(notification, "getPackageName");
+                    int uid = (int) XposedHelpers.callMethod(notification, "getAppUid");
                     int user = 0;
                     try {
-                        user = (int)XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
+                        user = (int) XposedHelpers.callStaticMethod(UserHandle.class, "getUserId", uid);
                     } catch (Throwable t) {
                         logW(TAG, "com.android.systemui", t);
                     }
@@ -100,17 +100,17 @@ public class NotificationRowMenu extends BaseHook {
                         Helpers.openAppInfo(mContext, pkgName, user);
                         mContext.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     } else if (view == mForceCloseBtn) {
-                        ActivityManager am = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+                        ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
                         if (user != 0)
                             XposedHelpers.callMethod(am, "forceStopPackageAsUser", pkgName, user);
                         else
                             XposedHelpers.callMethod(am, "forceStopPackage", pkgName);
                         try {
                             CharSequence appName = mContext.getPackageManager().getApplicationLabel(mContext.getPackageManager().getApplicationInfo(pkgName, 0));
-                            //Toast.makeText(mContext, Helpers.getModuleRes(mContext).getString(R.string.force_closed, appName), Toast.LENGTH_SHORT).show();
-                        } catch (Throwable ignore) {}
-                    }
-                    else if (view == mOpenFwBtn) {
+                            // Toast.makeText(mContext, Helpers.getModuleRes(mContext).getString(R.string.force_closed, appName), Toast.LENGTH_SHORT).show();
+                        } catch (Throwable ignore) {
+                        }
+                    } else if (view == mOpenFwBtn) {
                         Class<?> Dependency = findClass("com.android.systemui.Dependency", lpparam.classLoader);
                         Object AppMiniWindowManager = XposedHelpers.callStaticMethod(Dependency, "get", findClassIfExists("com.android.systemui.statusbar.notification.policy.AppMiniWindowManager", lpparam.classLoader));
                         String miniWindowPkg = (String) XposedHelpers.callMethod(expandNotifyRow, "getMiniWindowTargetPkg");

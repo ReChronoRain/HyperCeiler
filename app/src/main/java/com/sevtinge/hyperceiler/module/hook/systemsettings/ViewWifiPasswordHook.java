@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemsettings;
 
 import android.annotation.SuppressLint;
@@ -35,8 +35,8 @@ public class ViewWifiPasswordHook extends BaseHook {
 
     @Override
     public void init() {
-        int titleId = mResHook.addResource("system_wifipassword_btn_title", R.string.system_settings_wifipassword_btn_title);
-        int dlgTitleId = mResHook.addResource("system_wifi_password_dlgtitle", R.string.system_settings_wifi_password_dlgtitle);
+        int titleId = R.string.system_settings_wifipassword_btn_title;
+        int dlgTitleId = R.string.system_settings_wifi_password_dlgtitle;
         hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", lpparam.classLoader, "onBindViewHolder", new MethodHook() {
             @Override
             @SuppressLint("DiscouragedApi")

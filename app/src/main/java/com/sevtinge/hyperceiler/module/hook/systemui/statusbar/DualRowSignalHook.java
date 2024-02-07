@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
 import android.annotation.SuppressLint;
@@ -51,7 +51,7 @@ public class DualRowSignalHook extends BaseHook {
         String[] colorModeList = {"", "dark", "tint"};
 //        String[] iconStyles = {"", "thick", "theme"};
         String selectedIconStyle = mPrefsMap.getString("system_ui_status_mobile_network_icon_style", ""); // 图标样式
-        int selectedIconTheme = mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1); //图标主题
+        int selectedIconTheme = mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1); // 图标主题
 
         findAndHookMethod("com.android.systemui.SystemUIApplication", lpparam.classLoader, "onCreate", new MethodHook() {
             private boolean isHooked = false;
@@ -69,12 +69,12 @@ public class DualRowSignalHook extends BaseHook {
                                 if (selectedIconTheme == 1) {
                                     String dualIconResName = "statusbar_signal_classic_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "");
                                     int iconResId = modRes.getIdentifier(dualIconResName, "drawable", ProjectApi.mAppModulePkg);
-                                    dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
+                                    dualSignalResMap.put(dualIconResName, iconResId);
                                 } else if (selectedIconTheme == 2) {
                                     if (!selectedIconStyle.equals("theme") || !colorMode.equals("tint")) {
                                         String dualIconResName = "statusbar_signal_oa_" + slot + "_" + lvl + (!colorMode.equals("") ? ("_" + colorMode) : "") + (!selectedIconStyle.equals("") ? ("_" + selectedIconStyle) : "");
                                         int iconResId = modRes.getIdentifier(dualIconResName, "drawable", ProjectApi.mAppModulePkg);
-                                        dualSignalResMap.put(dualIconResName, mResHook.addResource(dualIconResName, iconResId));
+                                        dualSignalResMap.put(dualIconResName, iconResId);
                                     }
                                 }
                             }

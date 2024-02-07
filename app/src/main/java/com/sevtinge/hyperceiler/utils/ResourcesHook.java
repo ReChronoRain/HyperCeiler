@@ -1,39 +1,33 @@
-/*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
-
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
-
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
 package com.sevtinge.hyperceiler.utils;
 
+import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.DENSITY;
+import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.ID;
+import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.OBJECT;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.Pair;
-import android.util.SparseIntArray;
 
+import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
+/**
+ * 重写资源钩子，希望本钩子能有更好的生命力。
+ */
 public class ResourcesHook {
     private boolean hooksApplied = false;
+    private Context mContext = null;
 
     public enum ReplacementType {
         ID,
@@ -41,108 +35,185 @@ public class ResourcesHook {
         OBJECT
     }
 
-    private final SparseIntArray fakes = new SparseIntArray();
     private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
 
+    public ResourcesHook() {
+    }
+
+    /**
+     * 返回一个模拟的 ID
+     */
     public static int getFakeResId(String resourceName) {
         return 0x7e00f000 | (resourceName.hashCode() & 0x00ffffff);
     }
 
-    private final HookUtils.MethodHook mReplaceHook = new HookUtils.MethodHook() {
-        @Override
-        protected void before(MethodHookParam param) {
-            Context mContext = XposedUtils.findContext(XposedUtils.FLAG_ALL);
-            if (mContext == null) return;
-            String method = param.method.getName();
-            Object value = getFakeResource(mContext, method, param.args);
-            if (value == null) {
-                value = getResourceReplacement(mContext, (Resources) param.thisObject, method, param.args);
-                if (value == null) return;
-                if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
-                    if (value instanceof Float) value = ((Float) value).intValue();
-                }
+    /**
+     * 使用反射是为了泛用性。
+     * 当然你也可以使用 Xposed 进行 Hook。
+     *
+     * @noinspection JavaReflectionMemberAccess
+     */
+    public static int loadModuleRes(Context context, boolean useInvoke) {
+        String tag = "addModuleRes";
+        if (useInvoke) {
+            try {
+                @SuppressLint("DiscouragedPrivateApi")
+                Method AssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
+                AssetPath.setAccessible(true);
+                return Integer.parseInt(String.valueOf(AssetPath.invoke(context.getResources().getAssets(), XposedInit.mModulePath)));
+            } catch (NoSuchMethodException e) {
+                XposedLogUtils.logE(tag, "Method addAssetPath is null: " + e);
+            } catch (InvocationTargetException e) {
+                XposedLogUtils.logE(tag, "InvocationTargetException: " + e);
+            } catch (IllegalAccessException e) {
+                XposedLogUtils.logE(tag, "IllegalAccessException: " + e);
+            } catch (NumberFormatException e) {
+                XposedLogUtils.logE(tag, "NumberFormatException: " + e);
             }
-            param.setResult(value);
+        } else {
+            try {
+                return (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath", XposedInit.mModulePath);
+            } catch (Exception e) {
+                XposedLogUtils.logE(tag, "CallMethod addAssetPath E: " + e);
+            }
         }
-    };
+        return 0;
+    }
 
-    public ResourcesHook() {
+    /**
+     * 获取添加后的 Res.
+     * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
+     */
+    public static Resources getAppRes(Context context) {
+        if (loadModuleRes(context, false) == 0) {
+            XposedLogUtils.logE("getAppRes", "loadModuleRes return 0, It may have failed.");
+        }
+        return context.getResources();
     }
 
     private void applyHooks() {
         if (hooksApplied) return;
         hooksApplied = true;
-        HookUtils.findAndHookMethod(Resources.class, "getInteger", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getLayout", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getFraction", int.class, int.class, int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getBoolean", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getDimension", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getDimensionPixelOffset", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getDimensionPixelSize", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getText", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getString", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getDrawableForDensity", int.class, int.class, Resources.Theme.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getIntArray", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getStringArray", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getTextArray", int.class, mReplaceHook);
-        HookUtils.findAndHookMethod(Resources.class, "getAnimation", int.class, mReplaceHook);
-    }
-
-    public int addResource(String resName, int resId) {
-        try {
-            applyHooks();
-            int fakeResId = getFakeResId(resName);
-            fakes.put(fakeResId, resId);
-            return fakeResId;
-        } catch (Throwable t) {
-            XposedBridge.log(t);
-            return 0;
+        Method[] resMethods = Resources.class.getDeclaredMethods();
+        for (Method method : resMethods) {
+            switch (method.getName()) {
+                case "getInteger", "getLayout", "getBoolean",
+                    "getDimension", "getDimensionPixelOffset",
+                    "getDimensionPixelSize", "getText",
+                    "getString", "getIntArray", "getStringArray",
+                    "getTextArray", "getAnimation" -> {
+                    if (method.getParameterTypes().length == 1
+                        && method.getParameterTypes()[0].equals(int.class)) {
+                        hookResMethod(method.getName(), int.class, hookBefore);
+                    }
+                }
+                case "getFraction" -> {
+                    if (method.getParameterTypes().length == 3) {
+                        hookResMethod(method.getName(), int.class, int.class, int.class, hookBefore);
+                    }
+                }
+                case "getDrawableForDensity" -> {
+                    if (method.getParameterTypes().length == 3) {
+                        hookResMethod(method.getName(), int.class, int.class, Resources.Theme.class, hookBefore);
+                    }
+                }
+            }
         }
     }
 
-    private Object getFakeResource(Context context, String method, Object[] args) {
-        try {
-            if (context == null) return null;
-            int modResId = fakes.get((int) args[0]);
-            if (modResId == 0) return null;
-
-            Object value;
-            Resources modRes = XposedUtils.getModuleRes(context);
-            if ("getDrawable".equals(method))
-                value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
-            else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
-                value = XposedHelpers.callMethod(modRes, method, modResId, args[1], args[2]);
-            else
-                value = XposedHelpers.callMethod(modRes, method, modResId);
-            return value;
-        } catch (Throwable t) {
-            LogD("getFakeResource", t);
-            return null;
-        }
+    private void hookResMethod(String name, Object... args) {
+        HookUtils.findAndHookMethod(Resources.class, name, args);
     }
 
+    private final HookUtils.MethodHook hookBefore = new HookUtils.MethodHook() {
+        @Override
+        protected void before(MethodHookParam param) {
+            if (mContext == null) {
+                mContext = XposedUtils.findContext(ContextUtils.FLAG_ALL);
+            }
+            if (mContext == null) return;
+            String method = param.method.getName();
+            Object value = getResourceReplacement(mContext, (Resources) param.thisObject, method, param.args);
+            if (value == null) return;
+            if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
+                if (value instanceof Float) value = ((Float) value).intValue();
+            }
+            param.setResult(value);
+        }
+    };
+
+    /**
+     * 设置资源 ID 类型的替换
+     */
     public void setResReplacement(String pkg, String type, String name, int replacementResId) {
         try {
             applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ReplacementType.ID, replacementResId));
+            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ID, replacementResId));
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
     }
 
+    /**
+     * 设置资源 ID 类型的替换
+     * 请注意无论何时设置 Context 都是最正确的
+     */
+    public void setResReplacement(Context context, String pkg, String type, String name, int replacementResId) {
+        try {
+            mContext = context;
+            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ID, replacementResId));
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+    }
+
+    /**
+     * 设置密度类型的资源
+     */
     public void setDensityReplacement(String pkg, String type, String name, float replacementResValue) {
         try {
             applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ReplacementType.DENSITY, replacementResValue));
+            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(DENSITY, replacementResValue));
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
     }
 
+    /**
+     * 设置密度类型的资源
+     * 请注意无论何时使用 Context 总是最好的
+     */
+    public void setDensityReplacement(Context context, String pkg, String type, String name, float replacementResValue) {
+        try {
+            mContext = context;
+            applyHooks();
+            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(DENSITY, replacementResValue));
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+    }
+
+    /**
+     * 设置 Object 类型的资源
+     */
     public void setObjectReplacement(String pkg, String type, String name, Object replacementResValue) {
         try {
             applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ReplacementType.OBJECT, replacementResValue));
+            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(OBJECT, replacementResValue));
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+    }
+
+    /**
+     * 设置 Object 类型的资源
+     * 请注意无论何时使用 Context 总是最好的
+     */
+    public void setObjectReplacement(Context context, String pkg, String type, String name, Object replacementResValue) {
+        try {
+            mContext = context;
+            applyHooks();
+            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(OBJECT, replacementResValue));
         } catch (Throwable t) {
             XposedBridge.log(t);
         }
@@ -150,7 +221,7 @@ public class ResourcesHook {
 
     private Object getResourceReplacement(Context context, Resources res, String method, Object[] args) {
         if (context == null) return null;
-
+        loadModuleRes(context, true);
         String pkgName = null;
         String resType = null;
         String resName = null;
@@ -163,36 +234,42 @@ public class ResourcesHook {
         if (pkgName == null || resType == null || resName == null) return null;
 
         try {
-            Object value;
             String resFullName = pkgName + ":" + resType + "/" + resName;
             String resAnyPkgName = "*:" + resType + "/" + resName;
 
-            Integer modResId = null;
+            Object value;
+            Integer modResId;
             Pair<ReplacementType, Object> replacement = null;
             if (replacements.containsKey(resFullName))
                 replacement = replacements.get(resFullName);
             else if (replacements.containsKey(resAnyPkgName))
                 replacement = replacements.get(resAnyPkgName);
+            if (replacement != null) {
+                switch (replacement.first) {
+                    case OBJECT -> {
+                        return replacement.second;
+                    }
+                    case DENSITY -> {
+                        return (Float) replacement.second * res.getDisplayMetrics().density;
+                    }
+                    case ID -> {
+                        modResId = (Integer) replacement.second;
+                        if (modResId == 0) return null;
 
-            if (replacement != null)
-                if (replacement.first == ReplacementType.OBJECT) return replacement.second;
-                else if (replacement.first == ReplacementType.DENSITY) {
-                    return (Float) replacement.second * res.getDisplayMetrics().density;
-                } else if (replacement.first == ReplacementType.ID) modResId = (Integer) replacement.second;
-            if (modResId == null) return null;
-
-            Resources modRes = XposedUtils.getModuleRes(context);
-            if ("getDrawable".equals(method))
-                value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
-            else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
-                value = XposedHelpers.callMethod(modRes, method, modResId, args[1], args[2]);
-            else
-                value = XposedHelpers.callMethod(modRes, method, modResId);
-            return value;
+                        Resources modRes = getAppRes(context);
+                        if ("getDrawable".equals(method))
+                            value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
+                        else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
+                            value = XposedHelpers.callMethod(modRes, method, modResId, args[1], args[2]);
+                        else
+                            value = XposedHelpers.callMethod(modRes, method, modResId);
+                        return value;
+                    }
+                }
+            }
         } catch (Throwable t) {
             LogD("getResourceReplacement", t);
-            return null;
         }
+        return null;
     }
-
 }

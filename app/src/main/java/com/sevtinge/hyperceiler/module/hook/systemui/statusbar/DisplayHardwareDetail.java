@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
@@ -110,9 +110,9 @@ public class DisplayHardwareDetail extends BaseHook {
         isBatteryAtRight = mPrefsMap.getBoolean("system_ui_statusbar_battery_right_show");
 
         if (isNewNetworkStyle()) {
-            mStatusbarTextIconLayoutResId = mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon_new);
+            mStatusbarTextIconLayoutResId = R.layout.statusbar_text_icon_new;
         } else {
-            mStatusbarTextIconLayoutResId = mResHook.addResource("statusbar_text_icon", R.layout.statusbar_text_icon);
+            mStatusbarTextIconLayoutResId = R.layout.statusbar_text_icon;
         }
 
         mDependency = findClassIfExists("com.android.systemui.Dependency");
@@ -206,14 +206,14 @@ public class DisplayHardwareDetail extends BaseHook {
                     Object DarkIconDispatcher = XposedHelpers.callStaticMethod(mDependency, "get", mDarkIconDispatcher);
                     View baseAnchor;
                     if (isNewNetworkStyle()) {
-                        baseAnchor = (View)XposedHelpers.getObjectField(param.thisObject, "mClockView");
+                        baseAnchor = (View) XposedHelpers.getObjectField(param.thisObject, "mClockView");
                     } else {
-                        baseAnchor = (View)XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedSplitter");
+                        baseAnchor = (View) XposedHelpers.getObjectField(param.thisObject, "mDripNetworkSpeedSplitter");
                     }
                     ViewGroup mStatusBarLeftContainer = (ViewGroup) baseAnchor.getParent();
                     int bvIndex = mStatusBarLeftContainer.indexOfChild(baseAnchor);
                     LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) baseAnchor.getLayoutParams();
-                    for (TextIcon ti :mTextIcons) {
+                    for (TextIcon ti : mTextIcons) {
                         if (!ti.atRight) {
                             View iconView = createStatusbarTextIcon(mContext, lp, ti);
                             mStatusBarLeftContainer.addView(iconView, bvIndex + 1);
@@ -227,7 +227,7 @@ public class DisplayHardwareDetail extends BaseHook {
             findAndHookMethod(mMiuiCollapsedStatusBarFragment, "showSystemIconArea", boolean.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
-                    for (View iconView: mStatusbarTextIcons) {
+                    for (View iconView : mStatusbarTextIcons) {
                         Object tagData = iconView.getTag(textIconTagId);
                         if (tagData != null) {
                             TextIcon ti = (TextIcon) tagData;
@@ -242,7 +242,7 @@ public class DisplayHardwareDetail extends BaseHook {
             findAndHookMethod(mMiuiCollapsedStatusBarFragment, "hideSystemIconArea", boolean.class, new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
-                    for (View iconView: mStatusbarTextIcons) {
+                    for (View iconView : mStatusbarTextIcons) {
                         Object tagData = iconView.getTag(textIconTagId);
                         if (tagData != null) {
                             TextIcon ti = (TextIcon) tagData;

@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils;
 
 import android.app.Application;
@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
@@ -69,14 +68,14 @@ public class XposedUtils extends XposedLogUtils {
         return getModuleContext(context, null);
     }
 
-    public static synchronized Context getModuleContext(Context context, Configuration config) throws Throwable {
+    public static Context getModuleContext(Context context, Configuration config) throws Throwable {
         Context mModuleContext;
         mModuleContext = context.createPackageContext(ProjectApi.mAppModulePkg, Context.CONTEXT_IGNORE_SECURITY).createDeviceProtectedStorageContext();
         return config == null ? mModuleContext : mModuleContext.createConfigurationContext(config);
     }
 
-    public static synchronized Resources getModuleRes(Context context) throws Throwable {
-        EzXHelper.addModuleAssetPath(context);
+    public static Resources getModuleRes(Context context) throws Throwable {
+        ResourcesHook.loadModuleRes(context, true);
         return context.getResources();
     }
 
@@ -184,9 +183,9 @@ public class XposedUtils extends XposedLogUtils {
             getTextView().setPadding(Math.round(20 * density), Math.round(10 * density), Math.round(18 * density), Math.round(12 * density));
             getTextView().setLayoutParams(lp);
             try {
-                // Resources modRes = getModuleRes(context);
+                Resources modRes = getModuleRes(context);
                 getTextView().setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
-                getTextView().setBackgroundResource(mResHook.addResource("input_background", R.drawable.input_background));
+                getTextView().setBackground(modRes.getDrawable(R.drawable.input_background));
             } catch (Throwable err) {
                 XposedLogUtils.logE("ShowVolumePct", err);
             }
