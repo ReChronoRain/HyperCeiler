@@ -153,18 +153,6 @@ object NewNetworkSpeedStyle : BaseHook() {
             } catch (_: Exception) {
             }
         }
-
-        // 双排字体大小设置
-        try {
-            if (networkStyle == 0 || networkStyle == 2 || networkStyle == 4) {
-                var spacing = 0.9f
-                if (0.5 * fontSize > 8.5f) {
-                    spacing = 0.85f
-                }
-                id.setLineSpacing(0f, spacing)
-            }
-        } catch (_: Exception) {
-        }
     }
 
     private fun align(id: TextView) {

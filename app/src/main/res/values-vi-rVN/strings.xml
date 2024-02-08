@@ -671,7 +671,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_strong_toast_hide">Ẩn thông báo mạnh mẽ thông minh</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Đầu ra văn bản ngắn</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Đầu ra văn bản dài</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Đầu ra hoạt ảnh</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Văn bản</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Đây là một đoạn văn bản dài sẽ được xuất ra ở dạng cuộn</string>
     <string name="system_ui_controlcenter_title">Trung tâm điều khiển</string>

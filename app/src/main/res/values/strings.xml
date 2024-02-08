@@ -707,7 +707,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Hide the smart strong toast</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Short Text Output</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Long Text Output</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Animation Output</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
     <string name="system_ui_controlcenter_title">Control center</string>

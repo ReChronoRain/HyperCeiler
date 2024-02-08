@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -146,6 +146,8 @@ object NetworkSpeedStyle : BaseHook() {
         if (fontSizeEnable) {
             try {
                 if (mNetworkCostomEnable && (networkStyle == 2 || networkStyle == 4)) {
+                    id.isSingleLine = false
+                    id.maxLines = 2
                     id.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
                 } else {
                     id.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
@@ -153,20 +155,6 @@ object NetworkSpeedStyle : BaseHook() {
             } catch (e: Exception) {
                 logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
             }
-        }
-
-        try {
-            if (networkStyle == 2 || networkStyle == 4) {
-                var spacing = 0.9f
-                id.isSingleLine = false
-                id.maxLines = 2
-                if (0.5 * fontSize > 8.5f) {
-                    spacing = 0.85f
-                }
-                id.setLineSpacing(0f, spacing)
-            }
-        } catch (e: Exception) {
-            logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
         }
     }
 }

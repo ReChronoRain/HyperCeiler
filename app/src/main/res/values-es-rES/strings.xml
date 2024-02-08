@@ -669,7 +669,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Ocultar el toast fuerte inteligente</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Salida de texto corto</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Salida de texto largo</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Salida de animación</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este es un largo texto que será salida en forma de desplazamiento</string>
     <string name="system_ui_controlcenter_title">Centro de control</string>

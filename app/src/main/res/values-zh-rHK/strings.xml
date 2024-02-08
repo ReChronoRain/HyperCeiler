@@ -669,7 +669,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">隱藏靈動提示</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">短文字輸出</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">長文字輸出</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">動畫輸出</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">測試</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>

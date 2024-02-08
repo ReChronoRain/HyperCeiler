@@ -669,7 +669,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Sembunyikan roti panggang yang cerdas dan kuat</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Keluaran Teks Pendek</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Keluaran Teks Panjang</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Keluaran Animasi</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Teks</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Ini adalah teks panjang yang akan ditampilkan dalam bentuk bergulir</string>
     <string name="system_ui_controlcenter_title">Pusat kendali</string>

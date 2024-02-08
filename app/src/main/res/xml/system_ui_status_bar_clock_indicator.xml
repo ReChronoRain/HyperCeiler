@@ -25,6 +25,29 @@
             android:title="@string/system_ui_statusbar_clock_fix_color"
             android:summary="@string/system_ui_statusbar_clock_fix_color_desc"/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_left_margin"
+            android:title="@string/left_margin"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="12"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_right_margin"
+            android:title="@string/right_margin"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="12"
+            app:minValue="0"
+            app:stepValue="1" />
+
         <SeekBarPreferenceEx
             android:key="prefs_key_system_ui_statusbar_clock_vertical_offset"
             android:title="@string/vertical_offset"

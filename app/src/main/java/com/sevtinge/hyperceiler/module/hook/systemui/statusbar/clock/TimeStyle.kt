@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -19,9 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.graphics.Typeface
-import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
@@ -29,6 +27,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 
 @SuppressLint("StaticFieldLeak")
@@ -58,6 +57,11 @@ object TimeStyle : BaseHook() {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_geek_spacing_margin", 17)
     }
 
+    private var leftMargin =
+        mPrefsMap.getInt("system_ui_statusbar_clock_left_margin", 0)
+    private var rightMargin =
+        mPrefsMap.getInt("system_ui_statusbar_clock_right_margin", 0)
+
     private val mClockClass = when {
         getAndroidVersion() >= 31 -> loadClass("com.android.systemui.statusbar.views.MiuiClock")
         else -> loadClass("com.android.systemui.statusbar.policy.MiuiClock")
@@ -70,7 +74,6 @@ object TimeStyle : BaseHook() {
         }.createHook {
             after {
                 val textV = it.thisObject as TextView
-                val res: Resources = textV.resources
 
                 if (textV.resources.getResourceEntryName(textV.id) == "clock") {
                     // 时钟加粗
@@ -103,18 +106,19 @@ object TimeStyle : BaseHook() {
                     }
 
                     // 时钟边距调整
-                    if (verticalOffset != 12) {
-                        val marginTop =
-                            TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                (verticalOffset - 12) * 0.5f,
-                                res.displayMetrics
-                            )
-                        textV.translationY = marginTop
-                    }
+                    margin(textV)
                 }
             }
         }
+    }
+
+    private fun margin(id: TextView) {
+        // 上下偏移量
+        var topMargin = 0
+        if (verticalOffset != 12) {
+            topMargin = dp2px((verticalOffset - 12) * 0.5f)
+        }
+        id.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
     }
 
     private fun textLineSpacing(id: TextView) {
