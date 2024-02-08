@@ -31,7 +31,7 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.HookUtils.createBlurDrawable
+import com.sevtinge.hyperceiler.utils.blur.HookUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object BlurButton : BaseHook() {
