@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -22,65 +22,125 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.HookUtils.createBlurDrawable
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object BlurButton : BaseHook() {
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         lateinit var mLeftAffordanceView: ImageView
         lateinit var mRightAffordanceView: ImageView
         lateinit var keyguardBottomAreaView: View
 
-        loadClassOrNull(
-            "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
-        )!!.methodFinder()
-            .filter {
-                name in setOf(
-                    "onAttachedToWindow",
-                    "onDetachedFromWindow",
-                    "updateRightAffordanceIcon",
-                    "updateLeftAffordanceIcon"
-                )
-            }.toList().createHooks {
-                after { param ->
-                    mLeftAffordanceView =
-                        ObjectUtils.getObjectOrNullAs<ImageView>(param.thisObject, "mLeftAffordanceView")!!
+        if (isMoreHyperOSVersion(1f)) {
+            loadClassOrNull(
+                "com.android.keyguard.injector.KeyguardBottomAreaInjector"
+            )!!.methodFinder()
+                .filter {
+                    name in setOf(
+                        "updateLeftIcon",
+                        "updateRightIcon"
+                    )
+                }.toList().createHooks {
+                    after { param ->
+                        mLeftAffordanceView =
+                            ObjectUtils.getObjectOrNullAs<ImageView>(
+                                param.thisObject,
+                                "mLeftButton"
+                            )!!
 
-                    mRightAffordanceView =
-                        ObjectUtils.getObjectOrNullAs<ImageView>(param.thisObject, "mRightAffordanceView")!!
+                        mRightAffordanceView =
+                            ObjectUtils.getObjectOrNullAs<ImageView>(
+                                param.thisObject,
+                                "mRightButton"
+                            )!!
 
-                    keyguardBottomAreaView = param.thisObject as View
+                        // Your blur logic
+                        val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
+                        val keyguardManager =
+                            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-                    // Your blur logic
-                    val context = keyguardBottomAreaView.context ?: return@after
-                    val keyguardManager =
-                        context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+                        if (keyguardManager.isKeyguardLocked) {
+                            val leftBlurDrawable = createBlurDrawable(
+                                mLeftAffordanceView, 40, 100, Color.argb(60, 255, 255, 255)
+                            )
+                            val rightBlurDrawable = createBlurDrawable(
+                                mRightAffordanceView, 40, 100, Color.argb(60, 255, 255, 255)
+                            )
+                            val leftLayerDrawable = LayerDrawable(arrayOf(leftBlurDrawable))
+                            val rightLayerDrawable = LayerDrawable(arrayOf(rightBlurDrawable))
+                            leftLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
+                            rightLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
+                            mLeftAffordanceView.background = leftLayerDrawable
+                            mRightAffordanceView.background = rightLayerDrawable
+                        } else {
+                            mLeftAffordanceView.background = null
+                            mRightAffordanceView.background = null
+                        }
 
-                    if (keyguardManager.isKeyguardLocked) {
-                        val leftBlurDrawable = createBlurDrawable(
-                            keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
-                        )
-                        val leftLayerDrawable = LayerDrawable(arrayOf(leftBlurDrawable))
-                        val rightBlurDrawable = createBlurDrawable(
-                            keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
-                        )
-                        val rightLayerDrawable = LayerDrawable(arrayOf(rightBlurDrawable))
-                        leftLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
-                        rightLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
-                        mLeftAffordanceView.background = leftLayerDrawable
-                        mRightAffordanceView.background = rightLayerDrawable
-                    } else {
-                        mLeftAffordanceView.background = null
-                        mRightAffordanceView.background = null
                     }
                 }
-            }
+        } else {
+            loadClassOrNull(
+                "com.android.systemui.statusbar.phone.KeyguardBottomAreaView"
+            )!!.methodFinder()
+                .filter {
+                    name in setOf(
+                        "onAttachedToWindow",
+                        "onDetachedFromWindow",
+                        "updateRightAffordanceIcon",
+                        "updateLeftAffordanceIcon"
+                    )
+                }.toList().createHooks {
+                    after { param ->
+                        mLeftAffordanceView =
+                            ObjectUtils.getObjectOrNullAs<ImageView>(
+                                param.thisObject,
+                                "mLeftAffordanceView"
+                            )!!
+
+                        mRightAffordanceView =
+                            ObjectUtils.getObjectOrNullAs<ImageView>(
+                                param.thisObject,
+                                "mRightAffordanceView"
+                            )!!
+
+                        keyguardBottomAreaView = param.thisObject as View
+
+                        // Your blur logic
+                        val context = keyguardBottomAreaView.context ?: return@after
+                        val keyguardManager =
+                            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+                        if (keyguardManager.isKeyguardLocked) {
+                            val leftBlurDrawable = createBlurDrawable(
+                                keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
+                            )
+                            val rightBlurDrawable = createBlurDrawable(
+                                keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
+                            )
+                            val leftLayerDrawable = LayerDrawable(arrayOf(leftBlurDrawable))
+                            val rightLayerDrawable = LayerDrawable(arrayOf(rightBlurDrawable))
+                            leftLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
+                            rightLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
+                            mLeftAffordanceView.background = leftLayerDrawable
+                            mRightAffordanceView.background = rightLayerDrawable
+                        } else {
+                            mLeftAffordanceView.background = null
+                            mRightAffordanceView.background = null
+                        }
+                    }
+                }
+        }
 
         /*var mLeftAffordanceView: WeakReference<ImageView>? = null
         var mRightAffordanceView: WeakReference<ImageView>? = null
