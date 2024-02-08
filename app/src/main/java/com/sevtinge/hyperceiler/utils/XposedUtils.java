@@ -75,8 +75,7 @@ public class XposedUtils extends XposedLogUtils {
     }
 
     public static Resources getModuleRes(Context context) throws Throwable {
-        ResourcesHook.loadModuleRes(context);
-        return context.getResources();
+        return ResourcesHook.getAppRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {

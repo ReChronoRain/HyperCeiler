@@ -1,9 +1,26 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.OBJECT;
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +46,7 @@ public class ResourcesHook {
     private boolean hooksApplied = false;
     private Context mContext = null;
 
-    public enum ReplacementType {
+    protected enum ReplacementType {
         ID,
         DENSITY,
         OBJECT
@@ -81,6 +98,10 @@ public class ResourcesHook {
      * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
      */
     public static Resources getAppRes(Context context) {
+        if (context == null) {
+            XposedLogUtils.logE("getAppRes", "context can't is null!!");
+            return null;
+        }
         if (loadModuleRes(context) == 0) {
             XposedLogUtils.logE("getAppRes", "loadModuleRes return 0, It may have failed.");
         }
@@ -264,7 +285,7 @@ public class ResourcesHook {
                 }
             }
         } catch (Throwable t) {
-            LogD("getResourceReplacement", t);
+            XposedLogUtils.logE("getResourceReplacement", t);
         }
         return null;
     }

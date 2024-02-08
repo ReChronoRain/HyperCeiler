@@ -84,7 +84,7 @@ public class ContextUtils {
      *        }
      *      });
      *   }
-     * });
+     * }, true/false);
      * }
      * 当然 Handler 是可选项, 适用于 Toast 显示等场景。
      * @param iContext 回调获取 Context
