@@ -9,7 +9,7 @@
     android:paddingVertical="30dp">
 
     <ImageView
-        android:background="@drawable/ic_hyperceiler_settings_v140"
+        android:background="@drawable/ic_hyperceiler_settings_new_year"
         android:layout_width="100dp"
         android:layout_height="100dp" />
 
