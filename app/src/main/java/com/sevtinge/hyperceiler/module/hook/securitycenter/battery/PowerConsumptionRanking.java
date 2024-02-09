@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindMethod;

@@ -16,9 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.utils.hook;
-
-import com.sevtinge.hyperceiler.utils.XposedUtils;
+package com.sevtinge.hyperceiler.module.base.hook;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -30,7 +28,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookUtils extends XposedUtils {
+public class HookTool extends XposedTool {
     private String TAG = getClass().getSimpleName();
 
     public XC_LoadPackage.LoadPackageParam lpparam;

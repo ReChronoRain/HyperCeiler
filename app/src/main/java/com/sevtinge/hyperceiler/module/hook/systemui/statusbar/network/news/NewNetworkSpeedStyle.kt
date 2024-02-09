@@ -24,7 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.ResourcesHook
+import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook
 import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.getObjectField
 

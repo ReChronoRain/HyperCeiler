@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -16,13 +16,13 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.utils.prefs;
 
-import static com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri.anyPrefToUri;
-import static com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri.boolPrefToUri;
-import static com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri.intPrefToUri;
-import static com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri.stringPrefToUri;
-import static com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri.stringSetPrefToUri;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.anyPrefToUri;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.boolPrefToUri;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.intPrefToUri;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.stringPrefToUri;
+import static com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri.stringSetPrefToUri;
 
 import android.content.Context;
 import android.database.ContentObserver;

@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -29,8 +29,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.sevtinge.hyperceiler.utils.PrefsUtils.getSharedPrefs
 import com.sevtinge.hyperceiler.utils.PropUtils
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.getSharedPrefs
 import moralnorm.internal.utils.DeviceHelper
 import java.util.*
 

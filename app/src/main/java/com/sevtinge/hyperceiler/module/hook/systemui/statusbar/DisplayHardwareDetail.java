@@ -42,7 +42,7 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.ResourcesHook;
+import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

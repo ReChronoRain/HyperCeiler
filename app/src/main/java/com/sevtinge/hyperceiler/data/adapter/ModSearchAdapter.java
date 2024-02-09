@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -35,8 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.ModData;
-import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.SearchHelper;
+import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 
 import java.util.ArrayList;
 import java.util.Comparator;

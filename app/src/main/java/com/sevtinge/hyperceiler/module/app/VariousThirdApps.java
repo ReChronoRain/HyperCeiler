@@ -23,10 +23,10 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.base.hook.XposedTool;
 import com.sevtinge.hyperceiler.module.hook.sogou.Clipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;
-import com.sevtinge.hyperceiler.utils.XposedUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class VariousThirdApps extends BaseModule {
     @Override
     public void handleLoadPackage() {
         if (mAppsUsingInputMethod.isEmpty()) {
-            mAppsUsingInputMethod = getAppsUsingInputMethod(XposedUtils.findContext(XposedUtils.FlAG_ONLY_ANDROID));
+            mAppsUsingInputMethod = getAppsUsingInputMethod(XposedTool.findContext(XposedTool.FlAG_ONLY_ANDROID));
         }
         mPackageName = mLoadPackageParam.packageName;
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));

@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.module.base.hook;
 
 import android.app.Application;
 import android.content.Context;
@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
@@ -42,7 +43,7 @@ import java.lang.ref.WeakReference;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class XposedUtils extends XposedLogUtils {
+public class XposedTool extends XposedLogUtils {
     // 尝试全部
     public static final int FLAG_ALL = ContextUtils.FLAG_ALL;
     // 仅获取当前应用

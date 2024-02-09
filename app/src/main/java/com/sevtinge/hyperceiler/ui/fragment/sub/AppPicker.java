@@ -38,7 +38,7 @@ import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.data.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.utils.BitmapUtils;
 import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.LinkedHashSet;
 import java.util.List;

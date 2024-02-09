@@ -7,7 +7,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.SeekBarPreferenceEx;

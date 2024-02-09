@@ -16,11 +16,11 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.module.base.hook;
 
-import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.DENSITY;
-import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.ID;
-import static com.sevtinge.hyperceiler.utils.ResourcesHook.ReplacementType.OBJECT;
+import static com.sevtinge.hyperceiler.module.base.hook.ResourcesHook.ReplacementType.DENSITY;
+import static com.sevtinge.hyperceiler.module.base.hook.ResourcesHook.ReplacementType.ID;
+import static com.sevtinge.hyperceiler.module.base.hook.ResourcesHook.ReplacementType.OBJECT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.content.res.Resources;
 import android.util.Pair;
 
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -139,14 +139,14 @@ public class ResourcesHook {
     }
 
     private void hookResMethod(String name, Object... args) {
-        HookUtils.findAndHookMethod(Resources.class, name, args);
+        HookTool.findAndHookMethod(Resources.class, name, args);
     }
 
-    private final HookUtils.MethodHook hookBefore = new HookUtils.MethodHook() {
+    private final HookTool.MethodHook hookBefore = new HookTool.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
             if (mContext == null) {
-                mContext = XposedUtils.findContext(ContextUtils.FLAG_ALL);
+                mContext = XposedTool.findContext(ContextUtils.FLAG_ALL);
             }
             if (mContext == null) return;
             String method = param.method.getName();

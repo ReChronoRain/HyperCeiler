@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.sevtinge.hyperceiler.utils.ResourcesHook;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+import com.sevtinge.hyperceiler.module.base.hook.HookTool;
+import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook;
 
 import java.util.ArrayList;
 
@@ -42,7 +42,7 @@ public class BluetoothTileStyle {
         if (styleId == 1) return;
 
         final int[] tileResIds = {0};
-        HookUtils.findAndHookMethod("miui.systemui.dagger.PluginComponentFactory", pluginLoader, "create", Context.class, Context.class, new HookUtils.MethodHook() {
+        HookTool.findAndHookMethod("miui.systemui.dagger.PluginComponentFactory", pluginLoader, "create", Context.class, Context.class, new HookTool.MethodHook() {
             @SuppressLint("DiscouragedApi")
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
@@ -50,7 +50,7 @@ public class BluetoothTileStyle {
                 tileResIds[0] = pluginContext.getResources().getIdentifier("big_tile", "layout", "miui.systemui.plugin");
             }
         });
-        HookUtils.hookAllMethods("miui.systemui.controlcenter.dagger.ControlCenterViewModule", pluginLoader, "createBigTileGroup", new HookUtils.MethodHook() {
+        HookTool.hookAllMethods("miui.systemui.controlcenter.dagger.ControlCenterViewModule", pluginLoader, "createBigTileGroup", new HookTool.MethodHook() {
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 ViewGroup mView = (ViewGroup) param.getResult();
@@ -60,7 +60,7 @@ public class BluetoothTileStyle {
                 btTileView.setTag("big_tile_bt");
             }
         });
-        HookUtils.MethodHook updateStyleHook = new HookUtils.MethodHook() {
+        HookTool.MethodHook updateStyleHook = new HookTool.MethodHook() {
             boolean United = false;
 
             @Override
@@ -116,8 +116,8 @@ public class BluetoothTileStyle {
                 }
             }
         };
-        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "updateResources", updateStyleHook);
-        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "setListening", boolean.class, new HookUtils.MethodHook() {
+        HookTool.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "updateResources", updateStyleHook);
+        HookTool.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "setListening", boolean.class, new HookTool.MethodHook() {
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 Object btController = XposedHelpers.getAdditionalInstanceField(param.thisObject, "btController");
@@ -126,7 +126,7 @@ public class BluetoothTileStyle {
                 }
             }
         });
-        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getRowViews", int.class, new HookUtils.MethodHook() {
+        HookTool.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getRowViews", int.class, new HookTool.MethodHook() {
             @Override
 
             protected void after(XC_MethodHook.MethodHookParam param) {
@@ -137,7 +137,7 @@ public class BluetoothTileStyle {
                 }
             }
         });
-        HookUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getChildControllers", new HookUtils.MethodHook() {
+        HookTool.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.BigTileGroupController", pluginLoader, "getChildControllers", new HookTool.MethodHook() {
             @Override
             protected void after(XC_MethodHook.MethodHookParam param) {
                 Object btController = XposedHelpers.getAdditionalInstanceField(param.thisObject, "btController");

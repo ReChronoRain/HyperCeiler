@@ -22,7 +22,7 @@ import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+import com.sevtinge.hyperceiler.module.base.hook.HookTool;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -41,7 +41,7 @@ public class NotificationVolumeSeparateSlider {
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
 
-        HookUtils.hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new HookUtils.MethodHook() {
+        HookTool.hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new HookTool.MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 if (param.args.length != 4) return;

@@ -21,11 +21,11 @@ package com.sevtinge.hyperceiler.module.base;
 import android.os.Handler;
 
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
+import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.InitDexKit;
-import com.sevtinge.hyperceiler.utils.PrefsMap;
-import com.sevtinge.hyperceiler.utils.ResourcesHook;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 

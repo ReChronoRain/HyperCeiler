@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.utils.blur;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -29,6 +29,8 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 
 import com.sevtinge.hyperceiler.XposedInit;
+import com.sevtinge.hyperceiler.utils.DisplayUtils;
+import com.sevtinge.hyperceiler.utils.color.ColorUtilsStatic;
 
 import de.robv.android.xposed.XposedHelpers;
 

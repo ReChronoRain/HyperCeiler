@@ -33,7 +33,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

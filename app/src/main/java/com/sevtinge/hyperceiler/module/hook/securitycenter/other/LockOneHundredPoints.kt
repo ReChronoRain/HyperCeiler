@@ -24,7 +24,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import org.luckypray.dexkit.query.enums.StringMatchType
 
 object LockOneHundredPoints : BaseHook() {

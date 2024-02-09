@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.DexKit.dexKitBridge
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 
 object UnlockMemc : BaseHook() {
     override fun init() {

@@ -1,7 +1,7 @@
 /*
   * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
   * License.
@@ -21,11 +21,8 @@ package com.sevtinge.hyperceiler.module.hook.systemsettings;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
 
 import java.util.HashSet;
-
-import de.robv.android.xposed.XC_MethodReplacement;
 
 public class AllowManageAllNotifications extends BaseHook {
     @Override
