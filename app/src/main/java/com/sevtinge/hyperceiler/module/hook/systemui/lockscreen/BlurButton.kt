@@ -33,14 +33,18 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
+import de.robv.android.xposed.XC_MethodHook
 
+@RequiresApi(Build.VERSION_CODES.S)
 object BlurButton : BaseHook() {
-    @RequiresApi(Build.VERSION_CODES.S)
-    override fun init() {
-        lateinit var mLeftAffordanceView: ImageView
-        lateinit var mRightAffordanceView: ImageView
-        lateinit var keyguardBottomAreaView: View
+    private val removeLeft by lazy {
+        mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen")
+    }
+    private val removeRight by lazy {
+        mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
+    }
 
+    override fun init() {
         if (isMoreHyperOSVersion(1f)) {
             loadClassOrNull(
                 "com.android.keyguard.injector.KeyguardBottomAreaInjector"
@@ -52,41 +56,7 @@ object BlurButton : BaseHook() {
                     )
                 }.toList().createHooks {
                     after { param ->
-                        mLeftAffordanceView =
-                            ObjectUtils.getObjectOrNullAs<ImageView>(
-                                param.thisObject,
-                                "mLeftButton"
-                            )!!
-
-                        mRightAffordanceView =
-                            ObjectUtils.getObjectOrNullAs<ImageView>(
-                                param.thisObject,
-                                "mRightButton"
-                            )!!
-
-                        // Your blur logic
-                        val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
-                        val keyguardManager =
-                            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-
-                        if (keyguardManager.isKeyguardLocked) {
-                            val leftBlurDrawable = createBlurDrawable(
-                                mLeftAffordanceView, 40, 100, Color.argb(60, 255, 255, 255)
-                            )
-                            val rightBlurDrawable = createBlurDrawable(
-                                mRightAffordanceView, 40, 100, Color.argb(60, 255, 255, 255)
-                            )
-                            val leftLayerDrawable = LayerDrawable(arrayOf(leftBlurDrawable))
-                            val rightLayerDrawable = LayerDrawable(arrayOf(rightBlurDrawable))
-                            leftLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
-                            rightLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
-                            mLeftAffordanceView.background = leftLayerDrawable
-                            mRightAffordanceView.background = rightLayerDrawable
-                        } else {
-                            mLeftAffordanceView.background = null
-                            mRightAffordanceView.background = null
-                        }
-
+                        systemBlur(param)
                     }
                 }
         } else {
@@ -102,126 +72,90 @@ object BlurButton : BaseHook() {
                     )
                 }.toList().createHooks {
                     after { param ->
-                        mLeftAffordanceView =
-                            ObjectUtils.getObjectOrNullAs<ImageView>(
-                                param.thisObject,
-                                "mLeftAffordanceView"
-                            )!!
-
-                        mRightAffordanceView =
-                            ObjectUtils.getObjectOrNullAs<ImageView>(
-                                param.thisObject,
-                                "mRightAffordanceView"
-                            )!!
-
-                        keyguardBottomAreaView = param.thisObject as View
-
-                        // Your blur logic
-                        val context = keyguardBottomAreaView.context ?: return@after
-                        val keyguardManager =
-                            context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-
-                        if (keyguardManager.isKeyguardLocked) {
-                            val leftBlurDrawable = createBlurDrawable(
-                                keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
-                            )
-                            val rightBlurDrawable = createBlurDrawable(
-                                keyguardBottomAreaView, 40, 100, Color.argb(60, 255, 255, 255)
-                            )
-                            val leftLayerDrawable = LayerDrawable(arrayOf(leftBlurDrawable))
-                            val rightLayerDrawable = LayerDrawable(arrayOf(rightBlurDrawable))
-                            leftLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
-                            rightLayerDrawable.setLayerInset(0, 40, 40, 40, 40)
-                            mLeftAffordanceView.background = leftLayerDrawable
-                            mRightAffordanceView.background = rightLayerDrawable
-                        } else {
-                            mLeftAffordanceView.background = null
-                            mRightAffordanceView.background = null
-                        }
+                        systemBlur(param)
                     }
                 }
         }
-
-        /*var mLeftAffordanceView: WeakReference<ImageView>? = null
-        var mRightAffordanceView: WeakReference<ImageView>? = null
-        var keyguardBottomAreaView: WeakReference<View>? = null
-        var handler = Handler(Looper.getMainLooper())
-        var needUpdate = true
-
-        // from com.sevtinge.hyperceiler.module.systemui.lockscreen.AddBlurEffectToLockScreen
-
-        val keyguardBottomAreaViewClass =
-            findClassIfExists("com.android.systemui.statusbar.phone.KeyguardBottomAreaView") ?: return
-
-        XposedBridge.hookAllMethods(
-            keyguardBottomAreaViewClass,
-            "onAttachedToWindow",
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    mLeftAffordanceView = WeakReference(
-                        getValueByField(param.thisObject, "mLeftAffordanceView") as ImageView
-                    )
-                    mRightAffordanceView = WeakReference(
-                        getValueByField(param.thisObject, "mRightAffordanceView") as ImageView
-                    )
-                    keyguardBottomAreaView = WeakReference(param.thisObject as View)
-                }
-            })
-
-        fun createBlurLayerDrawable(view: View, color: Int): Array<LayerDrawable> {
-            val blurDrawable = createBlurDrawable(view, 40, 100, color)
-            val leftLayerDrawable = LayerDrawable(arrayOf(blurDrawable)).apply {
-                setLayerInset(0, 40, 40, 40, 40) }
-            val rightLayerDrawable = LayerDrawable(arrayOf(blurDrawable)).apply {
-                setLayerInset(0, 40, 40, 40, 40) }
-            return arrayOf(leftLayerDrawable, rightLayerDrawable)
-        }
-
-        // 已摆烂，剩下数组异常问题（会多生成一个 0 的数组，导致抛出 ArrayIndexOutOfBoundsException 异常），感觉我没能力修好（
-        // 性能优化得差不多了
-        val timer = Timer()
-        timer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                val context = keyguardBottomAreaView?.get()?.context ?: return
-                val keyguardManager =
-                    context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-
-                if (keyguardManager.isKeyguardLocked) {
-                    if (needUpdate) {
-                        val message = Message.obtain()
-                        message.obj = true
-                        handler.sendMessage(message)
-                        needUpdate = false
-                    }
-                } else {
-                    if (needUpdate) {
-                        val message = Message.obtain()
-                        message.obj = false
-                        handler.sendMessage(message)
-                        needUpdate = false
-                    }
-                }
-            }
-        }, 0, 100)
-
-        handler = object : Handler(Looper.getMainLooper()) {
-            override fun handleMessage(msg: Message) {
-                val updateFlag = msg.obj as? Boolean
-                if (updateFlag != null) {
-                    if (updateFlag) {
-                        val blurColor = Color.argb(60, 255, 255, 255)
-                        keyguardBottomAreaView?.get()?.let { view ->
-                            val layerDrawables = createBlurLayerDrawable(view, blurColor)
-                            mLeftAffordanceView?.get()?.background = layerDrawables[0]
-                            mRightAffordanceView?.get()?.background = layerDrawables[1]
-                        }
-                    } else {
-                        mLeftAffordanceView?.get()?.background = null
-                        mRightAffordanceView?.get()?.background = null
-                    }
-                    needUpdate = true
-                }
-            }
-        }*/
     }
+
+    private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
+        val blurDrawable = createBlurDrawable(
+            imageView, 40, 100, Color.argb(60, 255, 255, 255)
+        )
+        val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
+        layoutDrawable.setLayerInset(0, 40, 40, 40, 40)
+        return layoutDrawable
+    }
+
+    private fun setOldBackgroundBlur(view: View): LayerDrawable {
+        val blurDrawable = createBlurDrawable(
+            view, 40, 100, Color.argb(60, 255, 255, 255)
+        )
+        val layoutDrawable = LayerDrawable(arrayOf(blurDrawable))
+        layoutDrawable.setLayerInset(0, 40, 40, 40, 40)
+        return layoutDrawable
+    }
+
+    private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
+        if (isMoreHyperOSVersion(1f)) {
+            val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
+                param.thisObject,
+                "mLeftButton"
+            )!!
+            val mRightAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
+                param.thisObject,
+                "mRightButton"
+            )!!
+            // Your blur logic
+            val context = ObjectUtils.getObjectOrNull(param.thisObject, "mContext") as Context
+            val keyguardManager =
+                context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+            if (keyguardManager.isKeyguardLocked) {
+                mLeftAffordanceView.background = if (!removeLeft) {
+                    setNewBackgroundBlur(mLeftAffordanceView)
+                } else null
+                mRightAffordanceView.background = if (!removeRight) {
+                    setNewBackgroundBlur(mRightAffordanceView)
+                } else null
+            } else {
+                mLeftAffordanceView.background = null
+                mRightAffordanceView.background = null
+            }
+        } else {
+            val mLeftAffordanceView: ImageView =
+                ObjectUtils.getObjectOrNullAs<ImageView>(
+                    param.thisObject,
+                    "mLeftAffordanceView"
+                )!!
+
+            val mRightAffordanceView: ImageView =
+                ObjectUtils.getObjectOrNullAs<ImageView>(
+                    param.thisObject,
+                    "mRightAffordanceView"
+                )!!
+
+            val keyguardBottomAreaView: View = param.thisObject as View
+            // Your blur logic
+            val context = keyguardBottomAreaView.context
+            val keyguardManager =
+                context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+            if (keyguardManager.isKeyguardLocked) {
+                mLeftAffordanceView.background = if (!removeLeft) {
+                    setOldBackgroundBlur(keyguardBottomAreaView)
+                } else null
+                mRightAffordanceView.background =  if (!removeRight) {
+                    setOldBackgroundBlur(keyguardBottomAreaView)
+                } else null
+            } else {
+                mLeftAffordanceView.background = null
+                mRightAffordanceView.background = null
+            }
+        }
+    }
+
+    /*private fun miuiBlur(param: XC_MethodHook.MethodHookParam) {
+
+    }*/
 }
