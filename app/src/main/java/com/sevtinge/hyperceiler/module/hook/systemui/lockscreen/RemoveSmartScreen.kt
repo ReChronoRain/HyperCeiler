@@ -38,16 +38,16 @@ object RemoveSmartScreen : BaseHook() {
                         (it.thisObject.getObjectField("mLeftAffordanceViewLayout") as LinearLayout).visibility =
                             View.GONE
                     }
-            }
+                }
         } else {
             loadClass("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer").methodFinder()
                 .first {
                     name == "inflateLeftView"
                 }.createHook {
-                before {
-                    it.result = null
+                    before {
+                        it.result = null
+                    }
                 }
-            }
         }
     }
 

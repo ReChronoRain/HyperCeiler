@@ -88,6 +88,7 @@ public class BlurUtils {
     }
 
     public static boolean isBlurDrawable(Drawable drawable) {
+        // 不够严谨，可以用
         if (drawable == null) {
             return false;
         }
