@@ -29,11 +29,13 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
+import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
+    DropDownPreference mChargeAnimationStyle;
     PreferenceCategory mMonetOverlay;
     SwitchPreference mMiuiMultiWinSwitch;
     SwitchPreference mBottomBar;
@@ -54,11 +56,13 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        mChargeAnimationStyle = findPreference("prefs_key_system_ui_charge_animation_style");
         mMonetOverlay = findPreference("prefs_key_system_ui_monet");
         mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
         mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
 
+        mChargeAnimationStyle.setVisible(!isMoreHyperOSVersion(1f));
         mMonetOverlay.setVisible(!isAndroidVersion(30));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));

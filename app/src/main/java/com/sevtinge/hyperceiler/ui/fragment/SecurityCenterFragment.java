@@ -40,6 +40,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     String mSecurity;
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
+    SwitchPreference mGetNumber;
     Preference mNewboxBackgroundCustom;
     SwitchPreference mOpenByDefaultSetting;
     SwitchPreference mSecurityBackground;
@@ -65,6 +66,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
+        mGetNumber = findPreference("prefs_key_security_center_get_number");
         mOpenByDefaultSetting = findPreference("prefs_key_security_center_app_default_setting");
         mSecurityColor = findPreference("prefs_key_security_center_sidebar_line_color");
         mSecurityBackground = findPreference("prefs_key_se_enable");
@@ -84,6 +86,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             mAiClipboard.setChecked(mAiClipboardEnable);
         }
 
+        mGetNumber.setVisible(!isMoreHyperOSVersion(1f));
         mSecurityColor.setVisible(!isAndroidVersion(30)); // 侧滑栏提示线自定义
         mSecurityBackground.setVisible(!isAndroidVersion(30)); // 侧滑栏背景自定义
         mOpenByDefaultSetting.setVisible(!isAndroidVersion(30)); // 应用打开链接管理
