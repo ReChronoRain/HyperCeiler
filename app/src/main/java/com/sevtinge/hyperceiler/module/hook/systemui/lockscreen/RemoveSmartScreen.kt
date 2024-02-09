@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -18,18 +18,35 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
+import android.view.View
+import android.widget.LinearLayout
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
+import com.sevtinge.hyperceiler.utils.getObjectField
 
 object RemoveSmartScreen : BaseHook() {
     override fun init() {
-        loadClass("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer").methodFinder().first {
-            name == "inflateLeftView"
-        }.createHook {
-            before {
-                it.result = null
+        if (isMoreHyperOSVersion(1f)) {
+            loadClass("com.android.keyguard.injector.KeyguardBottomAreaInjector").methodFinder()
+                .first {
+                    name == "updateIcons"
+                }.createHook {
+                    after {
+                        (it.thisObject.getObjectField("mLeftAffordanceViewLayout") as LinearLayout).visibility =
+                            View.GONE
+                    }
+            }
+        } else {
+            loadClass("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer").methodFinder()
+                .first {
+                    name == "inflateLeftView"
+                }.createHook {
+                before {
+                    it.result = null
+                }
             }
         }
     }
