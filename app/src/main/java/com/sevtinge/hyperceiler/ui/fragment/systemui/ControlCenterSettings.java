@@ -59,6 +59,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mThemeBlur;
     SwitchPreference mMusicCtrlPanelMix;
     SeekBarPreferenceEx mMusicCtrlPanelMixBlur;
+    SeekBarPreferenceEx mMusicCtrlPanelOverlay;
 
     SwitchPreference mTaplus;
     Handler handler;
@@ -97,6 +98,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         mMusicCtrlPanelMix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
         mMusicCtrlPanelMixBlur = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius");
+        mMusicCtrlPanelOverlay = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(

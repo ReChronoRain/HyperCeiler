@@ -759,6 +759,7 @@
     <string name="system_ui_control_center_fix_media_control_panel">修复音乐面板背景图异常</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">优化音乐面板背景混色效果</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景图片模糊半径</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景叠加层透明度</string>
     <string name="system_ui_control_center_compact_notice">紧凑通知</string>
     <string name="system_ui_control_center_compact_notice_desc">减小通知垂直边框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知设置</string>

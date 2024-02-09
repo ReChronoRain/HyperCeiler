@@ -27,6 +27,8 @@ import android.graphics.HardwareRenderer
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PixelFormat
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.RenderEffect
 import android.graphics.RenderNode
 import android.graphics.Shader
@@ -44,6 +46,7 @@ import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isDarkMode
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -198,6 +201,17 @@ class MediaControlPanelBackupMix : BaseHook() {
                         paint.colorFilter = ColorMatrixColorFilter(colorMatrix)
                         canvas2.drawBitmap(bigBitmap, 0f, 0f, paint)
                         canvas2.drawColor(backgroundColors[0] and 0x6FFFFFFF)
+
+                        val backgroundColorMode = if (isDarkMode()) 0 else 248
+                        val backgroundColor = Color.argb(mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_overlay", 20), backgroundColorMode, backgroundColorMode, backgroundColorMode)
+
+                        // 应用颜色过滤器
+                        val paintOverlay = Paint()
+                        paintOverlay.colorFilter = PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP)
+
+                        // 叠加颜色
+                        canvas2.drawBitmap(bigBitmap, 0f, 0f, null)
+                        canvas2.drawColor(backgroundColor)
 
                         // 模糊处理
                         artworkLayer = BitmapDrawable(
