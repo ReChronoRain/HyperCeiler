@@ -18,14 +18,12 @@
 */
 package com.sevtinge.hyperceiler.module.hook.screenshot
 
-import android.annotation.SuppressLint
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import java.lang.reflect.Modifier
 
-@SuppressLint("StaticFieldLeak")
 object UnlockMinimumCropLimit : BaseHook() {
     private val mScreenCropViewMethod by lazy {
         dexKitBridge.findMethod {
@@ -40,7 +38,7 @@ object UnlockMinimumCropLimit : BaseHook() {
 
 
     override fun init() {
-        mScreenCropViewMethod!!.createHook {
+        mScreenCropViewMethod.createHook {
             returnConstant(0)
         }
     }

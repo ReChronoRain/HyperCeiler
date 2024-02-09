@@ -171,6 +171,13 @@
                 android:data="https://github.com/YifePlayte/MaxFreeForm" />
         </Preference>
         <Preference
+            android:summary="YuKongA | No License"
+            android:title="MediaControl-BlurBg">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YuKongA/MediaControl-BlurBg" />
+        </Preference>
+        <Preference
             android:summary="qqlittleice | GPL-3.0"
             android:title="MiuiHomeR">
             <intent

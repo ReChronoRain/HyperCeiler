@@ -744,6 +744,9 @@
     <string name="system_ui_control_center_blur_background_alpha">Blur Background value</string>
     <string name="system_ui_control_center_default_background_alpha">Default Background value</string>
     <string name="system_ui_control_center_fix_media_control_panel">Fix media control panel</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Optimize the color mixing effect of the media control panel</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Background picture blurry radius</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacity of the background overlay layer</string>
     <string name="system_ui_control_center_compact_notice">Compact notifications</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\' vertical paddings</string>
     <string name="system_ui_control_center_redirect_notice">Redirect notification settings</string>

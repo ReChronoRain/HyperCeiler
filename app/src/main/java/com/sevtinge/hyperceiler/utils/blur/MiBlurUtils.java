@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -43,15 +43,15 @@ public class MiBlurUtils {
     }
 
     public static boolean setPassWindowBlurEnabled(View view, boolean z) {
-        return ReflectUtils.invokeObject(View.class, view, "setPassWindowBlurEnabled", Boolean.TYPE, Boolean.FALSE, new Class[]{Boolean.TYPE}, new Object[]{Boolean.valueOf(z)}).booleanValue();
+        return ReflectUtils.invokeObject(View.class, view, "setPassWindowBlurEnabled", Boolean.TYPE, Boolean.FALSE, new Class[]{Boolean.TYPE}, z);
     }
 
     public static void setMiBackgroundBlurMode(View view, int i) {
-        ReflectUtils.invokeObject(View.class, view, "setMiBackgroundBlurMode", Void.TYPE, new Class[]{Integer.TYPE}, new Object[]{Integer.valueOf(i)});
+        ReflectUtils.invokeObject(View.class, view, "setMiBackgroundBlurMode", Void.TYPE, new Class[]{Integer.TYPE}, i);
     }
 
     public static void setMiBackgroundBlurRadius(View view, int i) {
-        ReflectUtils.invokeObject(View.class, view, "setMiBackgroundBlurRadius", Void.TYPE, new Class[]{Integer.TYPE}, new Object[]{Integer.valueOf(i)});
+        ReflectUtils.invokeObject(View.class, view, "setMiBackgroundBlurRadius", Void.TYPE, new Class[]{Integer.TYPE}, i);
     }
 
     public static void addMiBackgroundBlendColor(View view, int i, int i2) {
@@ -61,19 +61,19 @@ public class MiBlurUtils {
         103 当前view模糊
         105 当前view和子view都模糊
        */
-        ReflectUtils.invokeObject(View.class, view, "addMiBackgroundBlendColor", Void.TYPE, new Class[]{Integer.TYPE, Integer.TYPE}, new Object[]{Integer.valueOf(i), Integer.valueOf(i2)});
+        ReflectUtils.invokeObject(View.class, view, "addMiBackgroundBlendColor", Void.TYPE, new Class[]{Integer.TYPE, Integer.TYPE}, i, i2);
     }
 
     public static void clearMiBackgroundBlendColor(View view) {
-        ReflectUtils.invokeObject(View.class, view, "clearMiBackgroundBlendColor", Void.TYPE, new Class[0], new Object[0]);
+        ReflectUtils.invokeObject(View.class, view, "clearMiBackgroundBlendColor", Void.TYPE, new Class[0]);
     }
 
     public static void setMiViewBlurMode(View view, int i) {
-        ReflectUtils.invokeObject(View.class, view, "setMiViewBlurMode", Void.TYPE, new Class[]{Integer.TYPE}, new Object[]{Integer.valueOf(i)});
+        ReflectUtils.invokeObject(View.class, view, "setMiViewBlurMode", Void.TYPE, new Class[]{Integer.TYPE}, i);
     }
 
     public static void disableMiBackgroundContainBelow(View view, boolean z) {
-        ReflectUtils.invokeObject(View.class, view, "disableMiBackgroundContainBelow", Void.TYPE, new Class[]{Boolean.TYPE}, new Object[]{Boolean.valueOf(z)});
+        ReflectUtils.invokeObject(View.class, view, "disableMiBackgroundContainBelow", Void.TYPE, new Class[]{Boolean.TYPE}, z);
     }
 
     public static void clearContainerPassBlur(View view) {

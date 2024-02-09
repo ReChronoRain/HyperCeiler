@@ -30,7 +30,6 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
 
-@SuppressLint("StaticFieldLeak")
 object TimeStyle : BaseHook() {
     private val clockBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
@@ -80,33 +79,32 @@ object TimeStyle : BaseHook() {
                     if (clockBold) {
                         textV.typeface = Typeface.DEFAULT_BOLD
                     }
-                    // 时钟对齐方式
-                    when (getMode) {
-                        // 预设模式下
-                        1 -> {
+
+                    // 时钟边距调整
+                    margin(textV)
+
+                    // 以下 Hook 需要启用自定义时钟指示器才能生效
+                    if (getMode != 0) {
+                        // 时钟对齐方式
+                        if (getMode == 1) {
                             textV.textAlignment = when (isAlign) {
                                 1 -> View.TEXT_ALIGNMENT_CENTER
                                 2 -> View.TEXT_ALIGNMENT_TEXT_END
                                 else -> View.TEXT_ALIGNMENT_TEXT_START
                             }
-                        }
-                        // 极客模式下
-                        2 -> {
+                        } else if (getMode == 2) {
                             textV.textAlignment = when (isGeekAlign) {
                                 1 -> View.TEXT_ALIGNMENT_CENTER
                                 2 -> View.TEXT_ALIGNMENT_TEXT_END
                                 else -> View.TEXT_ALIGNMENT_TEXT_START
                             }
                         }
-                    }
 
-                    // 双排时钟行间距调整
-                    if ((getMode == 1 && isClockDouble) || getMode == 2) {
-                        textLineSpacing(textV)
+                        // 双排时钟行间距调整
+                        if ((getMode == 1 && isClockDouble) || getMode == 2) {
+                            textLineSpacing(textV)
+                        }
                     }
-
-                    // 时钟边距调整
-                    margin(textV)
                 }
             }
         }
