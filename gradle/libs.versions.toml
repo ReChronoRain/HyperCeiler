@@ -21,7 +21,7 @@ tinyPinyin = "2.0.3.RELEASE"
 ezXHelper = "2.0.8"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
-commons-codec = "1.16.0"
+commons-codec = "1.16.1"
 
 [libraries]
 core = { group = "androidx.core", name = "core", version.ref = "core" }
