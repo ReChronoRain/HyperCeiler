@@ -131,6 +131,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
         mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
         mMusicCtrlPanelMixBlur.setVisible(isMoreHyperOSVersion(1f));
+        mMusicCtrlPanelOverlay.setVisible(isMoreHyperOSVersion(1f));
 
         mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
         mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");
