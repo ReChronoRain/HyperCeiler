@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.module.hook.systemui
 
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.blur.HookUtils
+import com.sevtinge.hyperceiler.utils.getValueByField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -81,7 +81,7 @@ class EnableVolumeBlur : BaseHook() {
                         }
                         try {
                             val pluginContextWrapper =
-                                HookUtils.getValueByField(param.result ?: return, "mPluginContext") ?: return
+                                getValueByField(param.result ?: return, "mPluginContext") ?: return
                             val classLoader = XposedHelpers.callMethod(
                                 pluginContextWrapper,
                                 "getClassLoader"
@@ -111,7 +111,7 @@ class EnableVolumeBlur : BaseHook() {
                         }
                         try {
                             val pluginContextWrapper =
-                                HookUtils.getValueByField(param.result ?: return, "mPluginContext")
+                                getValueByField(param.result ?: return, "mPluginContext")
                                     ?: return
                             val classLoader = XposedHelpers.callMethod(
                                 pluginContextWrapper,

@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 import android.graphics.drawable.Drawable
 import android.view.View
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.blur.HookUtils
+import com.sevtinge.hyperceiler.utils.getValueByField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -40,7 +40,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val mDetailContainer =
-                            HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                            getValueByField(param.thisObject, "mDetailContainer") as View
                         if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha
@@ -57,7 +57,8 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                 "updateBackground",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val mDetailContainer = HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                        val mDetailContainer =
+                            getValueByField(param.thisObject, "mDetailContainer") as View
                         if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha
@@ -111,7 +112,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                         }
                         try {
                             val pluginContextWrapper =
-                                HookUtils.getValueByField(param.result ?: return, "mPluginContext") ?: return
+                                getValueByField(param.result ?: return, "mPluginContext") ?: return
                             val classLoader = XposedHelpers.callMethod(
                                 pluginContextWrapper,
                                 "getClassLoader"
@@ -143,7 +144,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                         }
                         try {
                             val pluginContextWrapper =
-                                HookUtils.getValueByField(param.result ?: return, "mPluginContext")
+                                getValueByField(param.result ?: return, "mPluginContext")
                                     ?: return
                             val classLoader = XposedHelpers.callMethod(
                                 pluginContextWrapper,

@@ -1,22 +1,24 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils.blur;
+
+import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logW;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -64,6 +66,33 @@ public class BlurUtils {
 
     public void setBlurEnable(boolean blurEnable) {
         isBlurEnable = blurEnable;
+    }
+
+    public static Drawable createBlurDrawable(View view, int blurRadius, int cornerRadius) {
+        return createBlurDrawable(view, blurRadius, cornerRadius, -1);
+    }
+
+    public static Drawable createBlurDrawable(View view, int blurRadius, int cornerRadius, int color) {
+        try {
+            Object mViewRootImpl = XposedHelpers.callMethod(view, "getViewRootImpl");
+            if (mViewRootImpl == null) return null;
+            Drawable blurDrawable = (Drawable) XposedHelpers.callMethod(mViewRootImpl, "createBackgroundBlurDrawable");
+            XposedHelpers.callMethod(blurDrawable, "setBlurRadius", blurRadius);
+            XposedHelpers.callMethod(blurDrawable, "setCornerRadius", cornerRadius);
+            if (color != -1) XposedHelpers.callMethod(blurDrawable, "setColor", color);
+            return blurDrawable;
+        } catch (Throwable e) {
+            logW("createBlurDrawable", "Create BlurDrawable Error", e);
+            return null;
+        }
+    }
+
+    public static boolean isBlurDrawable(Drawable drawable) {
+        if (drawable == null) {
+            return false;
+        }
+        String drawableClassName = drawable.getClass().getName();
+        return drawableClassName.contains("BackgroundBlurDrawable");
     }
 
     public void setKey(Context context, String key) {

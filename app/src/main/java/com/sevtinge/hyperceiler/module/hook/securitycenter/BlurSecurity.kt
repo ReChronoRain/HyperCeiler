@@ -37,8 +37,10 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import com.sevtinge.hyperceiler.utils.HookUtils
+import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
+import com.sevtinge.hyperceiler.utils.blur.BlurUtils.isBlurDrawable
 import com.sevtinge.hyperceiler.utils.color.ColorUtils
+import com.sevtinge.hyperceiler.utils.getValueByField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
@@ -102,13 +104,13 @@ object BlurSecurity : BaseHook() {
                             // 已有背景 避免重复添加
 
                             if (view.background != null) {
-                                if (HookUtils.isBlurDrawable(view.background)) {
+                                if (isBlurDrawable(view.background)) {
                                     return
                                 }
                             }
 
                             view.background =
-                                HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
+                                createBlurDrawable(view, blurRadius, 40, backgroundColor)
                         }
 
                         override fun onViewDetachedFromWindow(view: View) {
@@ -128,13 +130,18 @@ object BlurSecurity : BaseHook() {
                             val viewPaernt = view.parent as ViewGroup
                             val gameContentLayout = viewPaernt.parent as ViewGroup
                             if (gameContentLayout.background != null) {
-                                if (HookUtils.isBlurDrawable(gameContentLayout.background)) {
+                                if (isBlurDrawable(gameContentLayout.background)) {
                                     return
                                 }
                             }
 
                             gameContentLayout.background =
-                                HookUtils.createBlurDrawable(gameContentLayout, blurRadius, 40, backgroundColor)
+                                createBlurDrawable(
+                                    gameContentLayout,
+                                    blurRadius,
+                                    40,
+                                    backgroundColor
+                                )
 
                             if (shouldInvertColor) {
                                if (isInvertColor) invertViewColor(gameContentLayout)
@@ -157,11 +164,11 @@ object BlurSecurity : BaseHook() {
                             }
 
                             var headBackground =
-                                HookUtils.getValueByField(param.thisObject, "j")
+                                getValueByField(param.thisObject, "j")
                             if (headBackground == null) {
-                                headBackground = HookUtils.getValueByField(param.thisObject, "j")
+                                headBackground = getValueByField(param.thisObject, "j")
                             } else if (!headBackground.javaClass.name.contains("ImageView")) {
-                                headBackground = HookUtils.getValueByField(param.thisObject, "C")
+                                headBackground = getValueByField(param.thisObject, "C")
                             }
                             if (headBackground == null) {
                                 return
@@ -189,15 +196,15 @@ object BlurSecurity : BaseHook() {
             }
         }.single().getMethodInstance(lpparam.classLoader).createHook {
             after { param ->
-                val mainContent = HookUtils.getValueByField(param.thisObject, "b") as ViewGroup
+                val mainContent = getValueByField(param.thisObject, "b") as ViewGroup
                 mainContent.addOnAttachStateChangeListener(object :
                     View.OnAttachStateChangeListener {
                         override fun onViewAttachedToWindow(view: View) {
                             if (view.background != null) {
-                                if (HookUtils.isBlurDrawable(view.background)) return
+                                if (isBlurDrawable(view.background)) return
                             }
                             view.background =
-                                HookUtils.createBlurDrawable(view, blurRadius, 40, backgroundColor)
+                                createBlurDrawable(view, blurRadius, 40, backgroundColor)
 
                             if (shouldInvertColor && isInvertColor) invertViewColor(mainContent)
                         }
@@ -276,12 +283,12 @@ object BlurSecurity : BaseHook() {
                 "setFunctionType",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val marqueeTextView = HookUtils.getValueByField(param.thisObject, "d")
+                        val marqueeTextView = getValueByField(param.thisObject, "d")
                         if (marqueeTextView != null) {
                             marqueeTextView as TextView
                             marqueeTextView.setTextColor(Color.GRAY)
                         }
-                        val listView = HookUtils.getValueByField(param.thisObject, "c") as ListView
+                        val listView = getValueByField(param.thisObject, "c") as ListView
                         val listViewAdapterClassName = listView.adapter.javaClass.name
                         val listViewAdapterInnerClass =
                             findClassIfExists("$listViewAdapterClassName\$a")
@@ -383,7 +390,7 @@ object BlurSecurity : BaseHook() {
                 object : XC_MethodHook() {
                     @RequiresApi(Build.VERSION_CODES.S)
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val view = HookUtils.getValueByField(param.thisObject, "d") as View
+                        val view = getValueByField(param.thisObject, "d") as View
                         val parentView = view.parent
                         if (parentView is ViewGroup) {
                             val lastChild = parentView.getChildAt(parentView.childCount - 1)

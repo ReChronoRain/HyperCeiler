@@ -37,8 +37,6 @@ import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.blur.HookUtils
-
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -308,7 +306,7 @@ object ShortcutBackgroundBlur : BaseHook() {
                         if (!isShortcutMenuLayerBlurred) {
                             return
                         }
-                        val mArrow = HookUtils.getValueByField(
+                        val mArrow = getValueByField(
                             param.thisObject,
                             "mArrow"
                         ) as View

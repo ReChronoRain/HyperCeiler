@@ -98,24 +98,6 @@ val IS_HYPER_OS by lazy {
     ) != -1
 }
 
-fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
-    var targetClass = clazz
-    if (targetClass == null) {
-        targetClass = target.javaClass
-    }
-    return try {
-        val field = targetClass.getDeclaredField(fieldName)
-        field.isAccessible = true
-        field.get(target)
-    } catch (e: Throwable) {
-        if (targetClass.superclass == null) {
-            null
-        } else {
-            getValueByField(target, fieldName, targetClass.superclass)
-        }
-    }
-}
-
 /**
  * 扩展函数 通过遍历方法数组 返回符合条件的方法数组
  * @param condition 条件
