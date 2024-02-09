@@ -34,7 +34,7 @@
             android:title="@string/left_margin"
             app:defaultValueText="@string/array_default"
             app:format="%s dp"
-            app:maxValue="12"
+            app:maxValue="24"
             app:minValue="0"
             app:stepValue="1" />
 
@@ -44,7 +44,7 @@
             android:title="@string/right_margin"
             app:defaultValueText="@string/array_default"
             app:format="%s dp"
-            app:maxValue="12"
+            app:maxValue="24"
             app:minValue="0"
             app:stepValue="1" />
 
