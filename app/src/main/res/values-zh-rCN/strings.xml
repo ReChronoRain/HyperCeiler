@@ -1214,7 +1214,7 @@
     <string name="mediaeditor_ai_authoring">AI 创作</string>
     <string name="mediaeditor_unlock_disney_title">解锁 Disney 定制功能</string>
     <string name="mediaeditor_unlock_disney_desc">解锁包括以下功能：\n- 定制画框-Disney 定制画框(与其他定制画框冲突)\n- 背景虚化-米奇虚化\n- 贴纸-Disney 贴纸</string>
-    <string name="mediaeditor_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
+    <string name="mediaeditor_unlock_minimum_crop_limit">移除最小裁切图片限制</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">定制画框类型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
     <string name="mediaeditor_unlock_leica_filter_desc">仅支持部分版本</string>
@@ -1276,7 +1276,7 @@
     <string name="screen_recorder_save_to_movies_desc">规范录制视频保存位置到 Movies/ScreenRecorder</string>
     <!--截屏-->
     <string name="screenshot">截屏</string>
-    <string name="screenshot_unlock_minimum_crop_limit">解锁最小裁切图片限制</string>
+    <string name="screenshot_unlock_minimum_crop_limit">移除最小裁切图片限制</string>
     <string name="screenshot_unlock_privacy_marking_title">解锁智能隐私打码</string>
     <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>

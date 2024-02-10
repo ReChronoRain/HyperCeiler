@@ -36,7 +36,9 @@ import moralnorm.preference.SwitchPreference;
 public class SystemUIOtherSettings extends SettingsPreferenceFragment {
 
     DropDownPreference mChargeAnimationStyle;
+    PreferenceCategory mChargeAnimationTitle;
     PreferenceCategory mMonetOverlay;
+    SwitchPreference mOriginCharge;
     SwitchPreference mMiuiMultiWinSwitch;
     SwitchPreference mBottomBar;
     SwitchPreference mDisableBluetoothRestrict; // 禁用蓝牙临时关闭
@@ -57,13 +59,16 @@ public class SystemUIOtherSettings extends SettingsPreferenceFragment {
     @Override
     public void initPrefs() {
         mChargeAnimationStyle = findPreference("prefs_key_system_ui_charge_animation_style");
+        mChargeAnimationTitle = findPreference("prefs_key_system_ui_statusbar_charge_animation_title");
         mMonetOverlay = findPreference("prefs_key_system_ui_monet");
+        mOriginCharge = findPreference("prefs_key_system_ui_origin_charge_animation");
         mDisableBluetoothRestrict = findPreference("prefs_key_system_ui_disable_bluetooth_restrict");
         mMiuiMultiWinSwitch = findPreference("prefs_key_system_ui_disable_miui_multi_win_switch");
         mBottomBar = findPreference("prefs_key_system_ui_disable_bottombar");
 
-        mChargeAnimationStyle.setVisible(!isMoreHyperOSVersion(1f));
+        mChargeAnimationTitle.setVisible(!isMoreHyperOSVersion(1f));
         mMonetOverlay.setVisible(!isAndroidVersion(30));
+        mOriginCharge.setVisible(isAndroidVersion(31));
         mDisableBluetoothRestrict.setVisible(isMiuiVersion(14f) && isMoreAndroidVersion(31));
         mMiuiMultiWinSwitch.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));
         mBottomBar.setVisible(isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34));

@@ -57,7 +57,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
         mIconManagerOld = findPreference("prefs_key_icon_manager_old");
         mIconManagerNew = findPreference("prefs_key_icon_manager_new");
 
-        mDeviceStatus.setVisible(!isAndroidVersion(30));
+        mDeviceStatus.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mToastStatus.setVisible(isHyperOSVersion(1f));
 
         mIconManagerOld.setVisible(!isMoreHyperOSVersion(1f));
