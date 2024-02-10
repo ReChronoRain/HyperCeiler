@@ -50,10 +50,10 @@ object TimeStyle : BaseHook() {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_double")
     }
     private val lineSpacing by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_double_spacing_margin", 17)
+        mPrefsMap.getInt("system_ui_statusbar_clock_double_spacing_margin", 16)
     }
     private val lineSpacingGeek by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_size_geek_spacing_margin", 17)
+        mPrefsMap.getInt("system_ui_statusbar_clock_size_geek_spacing_margin", 16)
     }
 
     private var leftMargin =
@@ -121,17 +121,11 @@ object TimeStyle : BaseHook() {
 
     private fun textLineSpacing(id: TextView) {
         when {
-            lineSpacing != 17 && getMode == 1 -> {
-                try {
-                    id.setLineSpacing(0f, lineSpacing * 0.05f)
-                } catch (_: Exception) {
-                }
+            lineSpacing != 16 && getMode == 1 -> {
+                id.setLineSpacing(0f, lineSpacing * 0.05f)
             }
-            lineSpacingGeek != 17 && getMode == 2 -> {
-                try {
-                    id.setLineSpacing(0f, lineSpacingGeek * 0.05f)
-                } catch (_: Exception) {
-                }
+            lineSpacingGeek != 16 && getMode == 2 -> {
+                id.setLineSpacing(0f, lineSpacingGeek * 0.05f)
             }
         }
     }

@@ -141,7 +141,7 @@
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceEx
-            android:defaultValue="17"
+            android:defaultValue="16"
             android:key="prefs_key_system_ui_statusbar_clock_double_spacing_margin"
             android:summary="@string/system_ui_statusbar_clock_double_spacing_desc"
             android:title="@string/spacing_margin"
@@ -188,7 +188,7 @@
             app:showSeekBarValue="true" />
 
         <SeekBarPreferenceEx
-            android:defaultValue="17"
+            android:defaultValue="16"
             android:key="prefs_key_system_ui_statusbar_clock_size_geek_spacing_margin"
             android:summary="@string/system_ui_statusbar_clock_double_spacing_desc"
             android:title="@string/spacing_margin"
