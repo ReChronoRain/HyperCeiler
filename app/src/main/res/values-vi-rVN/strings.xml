@@ -708,6 +708,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_blur_background_alpha">Giá trị làm mờ nền</string>
     <string name="system_ui_control_center_default_background_alpha">Độ trong suốt nền thanh thông báo kéo xuống</string>
     <string name="system_ui_control_center_fix_media_control_panel">Sửa nút điều chỉnh phương tiện</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Tối ưu hóa hiệu ứng trộn màu của bảng điều khiển phương tiện</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Độ mờ của lớp phủ nền</string>
     <string name="system_ui_control_center_compact_notice">Thu gọn thông báo</string>
     <string name="system_ui_control_center_compact_notice_desc">Giảm khoảng cách thông báo dọc</string>
     <string name="system_ui_control_center_redirect_notice">Chuyển hướng cài đặt thông báo</string>

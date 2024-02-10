@@ -706,6 +706,9 @@
     <string name="system_ui_control_center_blur_background_alpha">Nilai Latar Belakang Buram</string>
     <string name="system_ui_control_center_default_background_alpha">Nilai Latar Belakang Default</string>
     <string name="system_ui_control_center_fix_media_control_panel">Perbaiki panel kontrol media</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Optimalkan efek pencampuran warna pada media panel kontrol</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radius keburaman latar belakang gambar</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opasitas lapisan overlay latar belakang</string>
     <string name="system_ui_control_center_compact_notice">Notifikasi ringkas</string>
     <string name="system_ui_control_center_compact_notice_desc">Mengurangi padding vertikal notifikasi</string>
     <string name="system_ui_control_center_redirect_notice">Pengaturan pemberitahuan pengalihan</string>
@@ -1510,4 +1513,5 @@
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan ke pengembang secara tepat waktu dan efektif.</string>
+    <string name="happy_chinese_new_year">Selamat Tahun Baru Cina</string>
 </resources>
