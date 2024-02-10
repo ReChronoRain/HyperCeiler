@@ -20,27 +20,28 @@ package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import android.view.View
 import android.widget.LinearLayout
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.getObjectField
 
 object RemoveSmartScreen : BaseHook() {
     override fun init() {
         if (isMoreHyperOSVersion(1f)) {
-            loadClass("com.android.keyguard.injector.KeyguardBottomAreaInjector").methodFinder()
+            loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
                 .first {
                     name == "updateIcons"
                 }.createHook {
                     after {
-                        (it.thisObject.getObjectField("mLeftAffordanceViewLayout") as LinearLayout).visibility =
-                            View.GONE
+                        val left =
+                            ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mLeftAffordanceViewLayout") ?: return@after
+                        left.visibility = View.GONE
                     }
                 }
         } else {
-            loadClass("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer").methodFinder()
+            loadClassOrNull("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer")!!.methodFinder()
                 .first {
                     name == "inflateLeftView"
                 }.createHook {

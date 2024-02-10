@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import de.robv.android.xposed.XC_MethodHook
 
-@RequiresApi(Build.VERSION_CODES.S)
 object BlurButton : BaseHook() {
     private val removeLeft by lazy {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_smart_screen")
@@ -44,6 +43,7 @@ object BlurButton : BaseHook() {
         mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         if (isMoreHyperOSVersion(1f)) {
             loadClassOrNull(
@@ -78,6 +78,7 @@ object BlurButton : BaseHook() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun setNewBackgroundBlur(imageView: ImageView): LayerDrawable {
         val blurDrawable = createBlurDrawable(
             imageView, 40, 100, Color.argb(60, 255, 255, 255)
@@ -87,6 +88,7 @@ object BlurButton : BaseHook() {
         return layoutDrawable
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun setOldBackgroundBlur(view: View): LayerDrawable {
         val blurDrawable = createBlurDrawable(
             view, 40, 100, Color.argb(60, 255, 255, 255)
@@ -96,6 +98,7 @@ object BlurButton : BaseHook() {
         return layoutDrawable
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun systemBlur(param: XC_MethodHook.MethodHookParam) {
         if (isMoreHyperOSVersion(1f)) {
             val mLeftAffordanceView: ImageView = ObjectUtils.getObjectOrNullAs<ImageView>(
