@@ -706,6 +706,9 @@
     <string name="system_ui_control_center_blur_background_alpha">背景ぼかしの値</string>
     <string name="system_ui_control_center_default_background_alpha">デフォルトの背景値</string>
     <string name="system_ui_control_center_fix_media_control_panel">メディアコントロールパネルを修正</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
     <string name="system_ui_control_center_compact_notice">コンパクトな通知</string>
     <string name="system_ui_control_center_compact_notice_desc">通知の縦方向の余白を減らします</string>
     <string name="system_ui_control_center_redirect_notice">通知設定をリダイレクト</string>
