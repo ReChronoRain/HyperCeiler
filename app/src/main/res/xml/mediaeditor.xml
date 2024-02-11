@@ -32,6 +32,12 @@
             android:summary="@string/mediaeditor_unlock_disney_desc"
             android:title="@string/mediaeditor_unlock_disney_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_mediaeditor_unlock_spring"
+            android:summary="@string/mediaeditor_unlock_spring_desc"
+            android:title="@string/mediaeditor_unlock_spring_title" />
+
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_mediaeditor_unlock_custom_photo_frames"

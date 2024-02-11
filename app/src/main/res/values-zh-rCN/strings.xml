@@ -1214,6 +1214,8 @@
     <string name="mediaeditor_ai_authoring">AI 创作</string>
     <string name="mediaeditor_unlock_disney_title">解锁 Disney 定制功能</string>
     <string name="mediaeditor_unlock_disney_desc">解锁包括以下功能：\n- 定制画框-Disney 定制画框(与其他定制画框冲突)\n- 背景虚化-米奇虚化\n- 贴纸-Disney 贴纸</string>
+    <string name="mediaeditor_unlock_spring_title">解锁新春定制画框</string>
+    <string name="mediaeditor_unlock_spring_desc">永久添加新春定制画框，前置条件是需要有 Leica 定制画框或 Redmi 定制画框</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">移除最小裁切图片限制</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">定制画框类型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
