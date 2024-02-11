@@ -89,7 +89,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
             matcher {
                 // 定位指定类名
                 // declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
-                // 搜索符合条件的方法（1.6.0.0.5 举例，以下条件筛选完还有 b(c cVar) d(c cVar) f(c cVar)）
+                // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 c(c cVar) e(c cVar) g(c cVar)）
                 addCall {
                     // 1.6 用的匹配
                     declaredClass {
@@ -118,7 +118,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     override fun init() {
-        val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::disney)
+        val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::other)
         val orderedPublicAp = publicAClass.toList()
         val orderedPublicA = publicA.toList()
         val differentItems = orderedPublicAp.subtract(orderedPublicA.toSet())
@@ -136,7 +136,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
             // debug 用
             logI(TAG, "Public A name is $a")
 
-            val action = actions.getOrElse(index) { ::disney }
+            val action = actions.getOrElse(index) { ::other }
             action(a)
             index = (index + 1) % actions.size
         }
@@ -168,7 +168,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
     }
 
-    private fun disney(name: Method) {
+    private fun other(name: Method) {
         name.createHook {
             returnConstant(true)
         }
