@@ -165,38 +165,37 @@ public class DualRowSignalHook extends BaseHook {
             hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "initViewState", stateUpdateHook);
             hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "updateState", stateUpdateHook);
 
-        } else {
-
-            MethodHook beforeUpdate = new MethodHook() {
-                @Override
-                protected void before(final MethodHookParam param) throws Throwable {
-                    Object mobileIconState = param.args[0];
-                    boolean visible = (boolean) XposedHelpers.getObjectField(mobileIconState, "visible");
-                    boolean airplane = (boolean) XposedHelpers.getObjectField(mobileIconState, "airplane");
-                    int level = (int) XposedHelpers.getObjectField(mobileIconState, "strengthId");
-                    if (!visible || airplane || level == 0 || level > 100) {
-                        XposedHelpers.setAdditionalInstanceField(param.thisObject, "subStrengthId", -1);
-                    } else {
-                        XposedHelpers.setAdditionalInstanceField(param.thisObject, "subStrengthId", level % 10);
-                        XposedHelpers.setObjectField(mobileIconState, "fiveGDrawableId", 0);
-                    }
-                }
-            };
-            MethodHook afterUpdate = new MethodHook() {
-                @Override
-                protected void after(final MethodHookParam param) throws Throwable {
-                    int subStrengthId = (int) XposedHelpers.getAdditionalInstanceField(param.thisObject, "subStrengthId");
-                    if (subStrengthId < 0) return;
-                    Object mSmallHd = XposedHelpers.getObjectField(param.thisObject, "mSmallHd");
-                    XposedHelpers.callMethod(mSmallHd, "setVisibility", 8);
-                    Object mSmallRoaming = XposedHelpers.getObjectField(param.thisObject, "mSmallRoaming");
-                    XposedHelpers.callMethod(mSmallRoaming, "setVisibility", 0);
-                }
-            };
-            hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", beforeUpdate);
-            hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", afterUpdate);
-
         }
+
+        MethodHook beforeUpdate = new MethodHook() {
+            @Override
+            protected void before(final MethodHookParam param) throws Throwable {
+                Object mobileIconState = param.args[0];
+                boolean visible = (boolean) XposedHelpers.getObjectField(mobileIconState, "visible");
+                boolean airplane = (boolean) XposedHelpers.getObjectField(mobileIconState, "airplane");
+                int level = (int) XposedHelpers.getObjectField(mobileIconState, "strengthId");
+                if (!visible || airplane || level == 0 || level > 100) {
+                    XposedHelpers.setAdditionalInstanceField(param.thisObject, "subStrengthId", -1);
+                } else {
+                    XposedHelpers.setAdditionalInstanceField(param.thisObject, "subStrengthId", level % 10);
+                    XposedHelpers.setObjectField(mobileIconState, "fiveGDrawableId", 0);
+                }
+            }
+        };
+        MethodHook afterUpdate = new MethodHook() {
+            @Override
+            protected void after(final MethodHookParam param) throws Throwable {
+                int subStrengthId = (int) XposedHelpers.getAdditionalInstanceField(param.thisObject, "subStrengthId");
+                if (subStrengthId < 0) return;
+                Object mSmallHd = XposedHelpers.getObjectField(param.thisObject, "mSmallHd");
+                XposedHelpers.callMethod(mSmallHd, "setVisibility", 8);
+                Object mSmallRoaming = XposedHelpers.getObjectField(param.thisObject, "mSmallRoaming");
+                XposedHelpers.callMethod(mSmallRoaming, "setVisibility", 0);
+            }
+        };
+        hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", beforeUpdate);
+        hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", afterUpdate);
+
 
         MethodHook resetImageDrawable = new MethodHook() {
             @Override
