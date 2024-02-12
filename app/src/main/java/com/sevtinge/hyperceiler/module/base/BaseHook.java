@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.base;
 
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevel;
 
-import com.sevtinge.hyperceiler.module.base.hook.HookTool;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 

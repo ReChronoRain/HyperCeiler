@@ -42,7 +42,7 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -72,7 +72,7 @@ public class DisplayHardwareDetail extends BaseHook {
     Class<?> mMiuiCollapsedStatusBarFragment;
 
     private static int mStatusbarTextIconLayoutResId;
-    private final static int textIconTagId = ResourcesHook.getFakeResId("text_icon_tag");
+    private final static int textIconTagId = ResourcesTool.getFakeResId("text_icon_tag");
     private static final ArrayList<View> mStatusbarTextIcons = new ArrayList<>();
 
     private String getSlotNameByType(int mIconType) {

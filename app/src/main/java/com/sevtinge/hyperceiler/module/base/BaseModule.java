@@ -22,8 +22,9 @@ import android.os.Handler;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
-import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
@@ -46,16 +47,22 @@ public abstract class BaseModule implements IXposedHook {
 
     public void init(LoadPackageParam lpparam) {
         // 把模块资源加载到目标应用
-        Handler handler = new Handler();
-        ContextUtils.getWaitContext(context ->
-                handler.post(
-                    () -> {
-                        if (context != null) {
-                            ResourcesHook.loadModuleRes(context);
-                        }
+        try {
+            if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
+                Handler handler = new Handler();
+                ContextUtils.getWaitContext(context -> {
+                        handler.post(
+                            () -> {
+                                if (context != null) {
+                                    ResourcesTool.loadModuleRes(context);
+                                }
+                            }
+                        );
                     }
-                )
-            , "android".equals(lpparam.packageName));
+                    , "android".equals(lpparam.packageName));
+            }
+        } catch (Throwable e) {
+        }
         mLoadPackageParam = lpparam;
         initZygote();
         DexKitHelper helper = new DexKitHelper();

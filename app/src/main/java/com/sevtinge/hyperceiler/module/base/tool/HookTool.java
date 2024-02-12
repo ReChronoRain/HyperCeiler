@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.base.hook;
+package com.sevtinge.hyperceiler.module.base.tool;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

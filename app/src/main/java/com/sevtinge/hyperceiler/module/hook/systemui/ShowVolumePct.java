@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
-import com.sevtinge.hyperceiler.module.base.hook.XposedTool;
+import com.sevtinge.hyperceiler.module.base.tool.XposedTool;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;

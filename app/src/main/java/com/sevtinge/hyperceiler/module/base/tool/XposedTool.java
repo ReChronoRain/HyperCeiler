@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.base.hook;
+package com.sevtinge.hyperceiler.module.base.tool;
 
 import android.app.Application;
 import android.content.Context;
@@ -55,7 +55,7 @@ public class XposedTool extends XposedLogUtils {
     public static WeakReference<TextView> mPct;
 
     // public  Context mModuleContext = null;
-    public static final ResourcesHook mResHook = XposedInit.mResHook;
+    public static final ResourcesTool mResHook = XposedInit.mResHook;
 
     public static void setTextView(TextView textView) {
         mPct = new WeakReference<>(textView);
@@ -76,7 +76,7 @@ public class XposedTool extends XposedLogUtils {
     }
 
     public static Resources getModuleRes(Context context) throws Throwable {
-        return ResourcesHook.getAppRes(context);
+        return ResourcesTool.getAppRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {

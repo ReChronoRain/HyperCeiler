@@ -23,7 +23,7 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.base.hook.XposedTool;
+import com.sevtinge.hyperceiler.module.base.tool.XposedTool;
 import com.sevtinge.hyperceiler.module.hook.sogou.Clipboard;
 import com.sevtinge.hyperceiler.module.hook.various.ClipboardList;
 import com.sevtinge.hyperceiler.module.hook.various.UnlockIme;

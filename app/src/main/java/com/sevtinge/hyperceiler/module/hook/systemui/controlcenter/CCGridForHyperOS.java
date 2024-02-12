@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.module.base.BaseXposedInit.mPrefsMap;
 
-import com.sevtinge.hyperceiler.module.base.hook.HookTool;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;

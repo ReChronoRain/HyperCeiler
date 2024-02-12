@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
-import com.sevtinge.hyperceiler.module.base.hook.HookTool;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;

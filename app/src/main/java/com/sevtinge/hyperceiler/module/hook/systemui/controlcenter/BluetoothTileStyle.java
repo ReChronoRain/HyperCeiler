@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.sevtinge.hyperceiler.module.base.hook.HookTool;
-import com.sevtinge.hyperceiler.module.base.hook.ResourcesHook;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 
 import java.util.ArrayList;
 
@@ -72,7 +72,7 @@ public class BluetoothTileStyle {
                     United = true;
                     Object factory = XposedHelpers.getObjectField(param.thisObject, "tileViewFactory");
                     View btTileView = mView.findViewWithTag("big_tile_bt");
-                    int btTileId = ResourcesHook.getFakeResId("bt_big_tile");
+                    int btTileId = ResourcesTool.getFakeResId("bt_big_tile");
                     btTileView.setId(btTileId);
                     Object btController = XposedHelpers.callMethod(factory, "create", btTileView, "bt");
                     XposedHelpers.setAdditionalInstanceField(param.thisObject, "btTileView", btTileView);

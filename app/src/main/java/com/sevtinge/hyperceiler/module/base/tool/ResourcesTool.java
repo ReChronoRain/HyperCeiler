@@ -16,11 +16,11 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.base.hook;
+package com.sevtinge.hyperceiler.module.base.tool;
 
-import static com.sevtinge.hyperceiler.module.base.hook.ResourcesHook.ReplacementType.DENSITY;
-import static com.sevtinge.hyperceiler.module.base.hook.ResourcesHook.ReplacementType.ID;
-import static com.sevtinge.hyperceiler.module.base.hook.ResourcesHook.ReplacementType.OBJECT;
+import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
+import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.ID;
+import static com.sevtinge.hyperceiler.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -42,7 +42,7 @@ import de.robv.android.xposed.XposedHelpers;
 /**
  * 重写资源钩子，希望本钩子能有更好的生命力。
  */
-public class ResourcesHook {
+public class ResourcesTool {
     private boolean hooksApplied = false;
     private Context mContext = null;
 
@@ -54,7 +54,7 @@ public class ResourcesHook {
 
     private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
 
-    public ResourcesHook() {
+    public ResourcesTool() {
     }
 
     /**
