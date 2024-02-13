@@ -1147,6 +1147,8 @@
     <string name="mediaeditor_ai_authoring">AI オーサリング</string>
     <string name="mediaeditor_unlock_disney_title">ディズニーのカスタマイズ機能をアンロック</string>
     <string name="mediaeditor_unlock_disney_desc">以下の機能をアンロックします:\n- カスタムフレーム - ディズニーカスタムフレーム (他のカスタムフレームと競合します)\n- ボケ背景 - ミッキーモチーフ\n- ステッカー - ディズニーステッカー</string>
+    <string name="mediaeditor_unlock_spring_title">旧正月カスタムピクチャーフレームをアンロック</string>
+    <string name="mediaeditor_unlock_spring_desc">旧正月カスタム画像フレームを追加するには前提条件として、Leica または Redmi のカスタムピクチャーフレームが必要です。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">画像トリミングの最小制限を無効化</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">フレームの種類をカスタマイズ</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>

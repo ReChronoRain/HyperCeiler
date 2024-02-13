@@ -1153,6 +1153,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mediaeditor_ai_authoring">Sáng tạo AI</string>
     <string name="mediaeditor_unlock_disney_title">Mở khóa các tính năng tùy chỉnh của Disney</string>
     <string name="mediaeditor_unlock_disney_desc">Các tính năng được mở khóa bao gồm:\n- Khung tùy chỉnh – Khung tùy chỉnh của Disney (xung đột với các khung tùy chỉnh khác)\n- Làm mờ nền – Làm mờ Mickey\n- Hình dán – Hình dán Disney</string>
+    <string name="mediaeditor_unlock_spring_title">Mở khóa khung ảnh tùy chỉnh năm mới Tết Nguyên đán</string>
+    <string name="mediaeditor_unlock_spring_desc">Để thêm vĩnh viễn khung ảnh tùy chỉnh Tết Nguyên đán, điều kiện tiên quyết là bạn cần có khung ảnh tùy chỉnh Leica hoặc khung ảnh tùy chỉnh Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Tùy chỉnh loại khung hình</string>
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
