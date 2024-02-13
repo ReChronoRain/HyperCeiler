@@ -1147,6 +1147,8 @@
     <string name="mediaeditor_ai_authoring">Autoria de IA</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear recursos de personalização da Disney</string>
     <string name="mediaeditor_unlock_disney_desc">Os desbloqueios incluem os seguintes recursos:\n- Molduras personalizadas - Molduras personalizadas da Disney (em conflito com outras molduras personalizadas)\n- Fundo Bokeh - Mickey Mokeh\n- Adesivos - Adesivos da Disney</string>
+    <string name="mediaeditor_unlock_spring_title">Desbloquear molduras personalizadas do Ano Novo Chinês</string>
+    <string name="mediaeditor_unlock_spring_desc">Para adicionar permanentemente uma moldura personalizada do Ano Novo Chinês, o pré-requisito é que você precise de uma moldura personalizada Leica ou de uma moldura personalizada Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remover limite mínimo de corte de imagem</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalize o tipo de moldura</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtro Leica</string>
