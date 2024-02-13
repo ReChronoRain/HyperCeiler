@@ -19,7 +19,10 @@
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import android.widget.ImageView
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectUtils
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
@@ -36,29 +39,23 @@ object HideLockScreenHint : BaseHook() {
         }
 
         if (isAndroidVersion(34) && isMoreHyperOSVersion(1f)) {
-            // 修复方案来自 Hyper Helper
-            // 不知道为啥隐藏有点毛病，等修复
-            hookAllConstructors(
-                "com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController",
-                lpparam.classLoader,
-                object : MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun after(param: MethodHookParam) {
-                        XposedHelpers.setObjectField(param.thisObject, "mPersistentUnlockMessage", "")
-                    }
-                } )
+            // by Hyper Helper
+            loadClassOrNull("com.android.systemui.statusbar.KeyguardIndicationController")!!.methodFinder().first {
+                name == "updateDeviceEntryIndication"
+            }.createHook {
+                after {
+                    XposedHelpers.setObjectField(it.thisObject, "mPersistentUnlockMessage", "")
+                }
+            }
 
-            findAndHookMethod(
-                "com.android.systemui.statusbar.KeyguardIndicationController",
-                lpparam.classLoader,
-                "setIndicationArea",
-                object : MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun after(param: MethodHookParam) {
-                        val image = ObjectUtils.getObjectOrNullAs<ImageView>(param.thisObject, "mUpArrow")
-                        image?.alpha = 0f
-                    }
-                })
+            loadClassOrNull("com.android.systemui.statusbar.KeyguardIndicationController")!!.methodFinder().first {
+                name == "setIndicationArea"
+            }.createHook {
+                after {
+                    val image = ObjectUtils.getObjectOrNullAs<ImageView>(it.thisObject, "mUpArrow") ?: return@after
+                    image.alpha = 0.0f
+                }
+            }
         } else if (isAndroidVersion(33)) {
             findAndHookMethod(
                 "com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController",
