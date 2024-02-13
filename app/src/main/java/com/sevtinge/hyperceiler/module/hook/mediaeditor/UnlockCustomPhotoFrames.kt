@@ -42,7 +42,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
         dexKitBridge.findMethod {
             matcher {
                 // find 徕卡定制画框 && redmi 定制画框 && poco 定制画框 && 迪斯尼定制画框 && 新春定制画框
-                // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 a() b() d() f() g() i()）
+                // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 a() b() d() f() h() i()）
                 // b() 是新春定制画框，前置条件需要符合定制画框类型(徕卡定制画框 或 redmi 定制画框)
                 // h() 是 Redmi 中的 其中一个联名定制画框
                 // 如果都返回 true 的话，按照原代码逻辑，只会解锁徕卡定制画框
@@ -64,7 +64,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val publicA by lazy {
         dexKitBridge.findMethod {
             matcher {
-                // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 a() d() f() h() i()）
+                // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 a() d() f() h()）
                 addCall {
                     declaredClass {
                         modifiers = Modifier.FINAL or Modifier.PUBLIC
@@ -128,7 +128,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
             differentItems.forEach { method ->
                 // debug 用
                 logI(TAG, "Public Spring name is $method")
-                springFestival(method)
+                other(method)  // 1.6.0.5.2 新增限时新春定制画框
             }
         }
 
@@ -169,13 +169,6 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private fun other(name: Method) {
-        name.createHook {
-            returnConstant(true)
-        }
-    }
-
-    private fun springFestival(name: Method) {
-        // 1.6.0.5.2 新增限时新春定制画框
         name.createHook {
             returnConstant(true)
         }

@@ -45,6 +45,7 @@ object BlurButton : BaseHook() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
+        // by StarVoyager
         if (isMoreHyperOSVersion(1f)) {
             loadClassOrNull(
                 "com.android.keyguard.injector.KeyguardBottomAreaInjector"
