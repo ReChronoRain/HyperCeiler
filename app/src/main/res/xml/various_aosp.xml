@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
-        <Preference
-            android:title="@string/various_open_aosp_extremely_dark_title">
+        <Preference android:title="@string/various_open_aosp_extremely_dark_title">
             <intent
-                android:targetPackage="com.android.settings"
-                android:targetClass="com.android.settings.Settings$ReduceBrightColorsSettingsActivity" />
+                android:targetClass="com.android.settings.Settings$ReduceBrightColorsSettingsActivity"
+                android:targetPackage="com.android.settings" />
         </Preference>
-        
-        <Preference
-            android:title="@string/various_open_aosp_battery_title">
+
+        <Preference android:title="@string/various_open_aosp_battery_title">
             <intent
-                android:targetPackage="com.android.settings"
-                android:targetClass="com.android.settings.Settings$HighPowerApplicationsActivity" />
+                android:targetClass="com.android.settings.Settings$HighPowerApplicationsActivity"
+                android:targetPackage="com.android.settings" />
         </Preference>
-        
-        <Preference
-            android:title="@string/various_open_aosp_notification_title">
+
+        <Preference android:title="@string/various_open_aosp_running_services">
             <intent
-                android:targetPackage="com.android.settings"
-                android:targetClass="com.android.settings.Settings$ConfigureNotificationSettingsActivity" />
+                android:targetClass="com.android.settings.RunningServices"
+                android:targetPackage="com.android.settings" />
         </Preference>
-        
-        <Preference
-            android:title="@string/various_open_aosp_app_manage_title">
+
+        <Preference android:title="@string/various_open_aosp_notification_title">
             <intent
-                android:targetPackage="com.android.settings"
-                android:targetClass="com.android.settings.applications.ManageApplications" />
+                android:targetClass="com.android.settings.Settings$ConfigureNotificationSettingsActivity"
+                android:targetPackage="com.android.settings" />
         </Preference>
-        
-        <Preference
-            android:title="@string/various_open_aosp_language_title">
+
+        <Preference android:title="@string/various_open_aosp_app_manage_title">
             <intent
-                android:targetPackage="com.android.settings"
-                android:targetClass="com.android.settings.LanguageSettings" />
+                android:targetClass="com.android.settings.applications.ManageApplications"
+                android:targetPackage="com.android.settings" />
         </Preference>
-        
+
+        <Preference android:title="@string/various_open_aosp_language_title">
+            <intent
+                android:targetClass="com.android.settings.LanguageSettings"
+                android:targetPackage="com.android.settings" />
+        </Preference>
+
     </PreferenceCategory>
     <Preference android:enabled="false" />
 </PreferenceScreen>

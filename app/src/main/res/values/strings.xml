@@ -1453,6 +1453,7 @@
     <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
     <string name="various_super_clipboard_picture_share_desc">Allow copying and pasting images to the clipboard</string>
     <string name="various_open_aosp_battery_title">Battery Optimization</string>
+    <string name="various_open_aosp_running_services">Running services</string>
     <string name="various_open_aosp_notification_title">Notification Settings</string>
     <string name="various_open_aosp_app_manage_title">App Management</string>
     <string name="various_open_aosp_language_title">Language Settings</string>

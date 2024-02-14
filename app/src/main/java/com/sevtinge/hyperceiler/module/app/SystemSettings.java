@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.NoveltyHaptic;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageOverlayPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownAppSources;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManagerAccessibilityPermission;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.RunningServices;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockNeverSleepScreen;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
@@ -57,6 +58,7 @@ public class SystemSettings extends BaseModule {
         initHook(new HyperCeilerSettings(), mPrefsMap.getStringAsInt("settings_icon", 0) != 0);
 
         initHook(new LinkTurbo(), mPrefsMap.getBoolean("system_settings_linkturbo"));
+        initHook(new RunningServices(), true); // 显示原生内存信息
         initHook(new UsbModeChoose(), mPrefsMap.getStringAsInt("system_settings_usb_mode_choose", 0) != 0
             || mPrefsMap.getBoolean("system_settings_usb_mode"));
         initHook(new ViewWifiPasswordHook(), mPrefsMap.getBoolean("system_settings_safe_wifi"));

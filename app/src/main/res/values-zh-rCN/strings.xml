@@ -1485,6 +1485,7 @@
     <string name="various_super_clipboard_picture_share_desc">允许复制和粘贴图片至剪贴板</string>
 
     <string name="various_open_aosp_battery_title">电池优化</string>
+    <string name="various_open_aosp_running_services">正在运行的服务</string>
     <string name="various_open_aosp_notification_title">通知设置</string>
     <string name="various_open_aosp_app_manage_title">应用管理</string>
     <string name="various_open_aosp_language_title">语言设置</string>
