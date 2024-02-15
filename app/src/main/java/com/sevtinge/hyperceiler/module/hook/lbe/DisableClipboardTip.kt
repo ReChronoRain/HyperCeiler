@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -23,6 +23,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import de.robv.android.xposed.XC_MethodHook
@@ -31,14 +32,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 
 object DisableClipboardTip : BaseHook() {
+    private val mDisableClipboardTip by lazy {
+        mPrefsMap.getBoolean("lbe_disable_clipboard_tip")
+    }
+
+    private val permissionRequestClass by lazy {
+        loadClass("com.lbe.security.sdk.PermissionRequest", lpparam.classLoader)
+    }
+
     override fun init() {
-        if (!lpparam.packageName.equals("com.lbe.security.miui")) return
-
-        val permissionRequestClass =
-            XposedHelpers.findClass("com.lbe.security.sdk.PermissionRequest", lpparam.classLoader)
-
-        val mDisableClipboardTip = mPrefsMap.getBoolean("lbe_disable_clipboard_tip")
-
         XposedHelpers.findAndHookMethod(
             "com.lbe.security.ui.SecurityPromptHandler",
             lpparam.classLoader,
@@ -85,7 +87,7 @@ object DisableClipboardTip : BaseHook() {
         return (pm.getApplicationLabel(ai)) as String
     }
 
-    fun hideDialog(
+    private fun hideDialog(
         lpparam: XC_LoadPackage.LoadPackageParam,
         packageName: String,
         param: XC_MethodHook.MethodHookParam

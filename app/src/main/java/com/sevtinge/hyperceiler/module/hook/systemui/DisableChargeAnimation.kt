@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -35,10 +35,10 @@ object DisableChargeAnimation : BaseHook() {
             // 3: 光韵渐入
         }*/
 
-        loadClass("com.miui.charge.MiuiBatteryStatus", lpparam.classLoader).methodFinder().first {
-            name == "isCharging"
+        loadClass("com.miui.charge.container.MiuiChargeContainerView").methodFinder().first {
+            name == "init"
         }.createHook {
-            returnConstant(false)
+            returnConstant(null)
         }
     }
 }

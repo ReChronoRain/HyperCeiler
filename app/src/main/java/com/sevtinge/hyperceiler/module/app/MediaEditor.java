@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.module.hook.mediaeditor.FilterManagerAll;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockCustomPhotoFrames;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockDisney;
 import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockLeicaFilter;
-import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimitNew;
+import com.sevtinge.hyperceiler.module.hook.mediaeditor.UnlockMinimumCropLimit;
 
 import java.util.Objects;
 
@@ -33,7 +33,7 @@ public class MediaEditor extends BaseModule {
     @Override
     public void handleLoadPackage() {
         // 基础
-        initHook(UnlockMinimumCropLimitNew.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
+        initHook(new UnlockMinimumCropLimit(), mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
         initHook(FilterManagerAll.INSTANCE, mPrefsMap.getBoolean("mediaeditor_filter_manager"));
         initHook(UnlockLeicaFilter.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_leica_filter"));
         initHook(CustomWatermark.INSTANCE, !Objects.equals(mPrefsMap.getString("mediaeditor_custom_watermark", ""), ""));

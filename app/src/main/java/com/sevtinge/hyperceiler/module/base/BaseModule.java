@@ -1,27 +1,32 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.base;
 
+import android.os.Handler;
+
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.InitDexKit;
-import com.sevtinge.hyperceiler.utils.PrefsMap;
+import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
@@ -41,6 +46,23 @@ public abstract class BaseModule implements IXposedHook {
     }
 
     public void init(LoadPackageParam lpparam) {
+        // 把模块资源加载到目标应用
+        try {
+            if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
+                Handler handler = new Handler();
+                ContextUtils.getWaitContext(context -> {
+                        handler.post(
+                            () -> {
+                                if (context != null) {
+                                    ResourcesTool.loadModuleRes(context);
+                                }
+                            }
+                        );
+                    }
+                    , "android".equals(lpparam.packageName));
+            }
+        } catch (Throwable e) {
+        }
         mLoadPackageParam = lpparam;
         initZygote();
         DexKitHelper helper = new DexKitHelper();

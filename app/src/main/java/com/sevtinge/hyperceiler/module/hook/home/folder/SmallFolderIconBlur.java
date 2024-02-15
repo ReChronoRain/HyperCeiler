@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -26,8 +26,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.BlurUtils;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
+import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 

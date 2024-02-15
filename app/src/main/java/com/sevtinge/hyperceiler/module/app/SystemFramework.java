@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -104,7 +104,7 @@ public class SystemFramework extends BaseModule {
         // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         // 其他
-        initHook(new SystemLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
+        initHook(new SystemLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
         initHook(new CleanShareMenu(), mPrefsMap.getBoolean("system_framework_clean_share_menu"));
         initHook(new CleanOpenMenu(), mPrefsMap.getBoolean("system_framework_clean_open_menu"));

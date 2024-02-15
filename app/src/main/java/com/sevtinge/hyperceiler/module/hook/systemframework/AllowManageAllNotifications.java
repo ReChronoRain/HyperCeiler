@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -18,12 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework;
 
-import android.content.Context;
-
-import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
-
-import java.util.HashSet;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -33,7 +28,7 @@ public class AllowManageAllNotifications implements IXposedHookZygoteInit  {
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws NoSuchMethodException {
 
-        XposedHelpers.findAndHookMethod("android.app.NotificationChannel", startupParam.getClass().getClassLoader(), "isBlockable", HookUtils.MethodHook.returnConstant(true));
+        XposedHelpers.findAndHookMethod("android.app.NotificationChannel", startupParam.getClass().getClassLoader(), "isBlockable", HookTool.MethodHook.returnConstant(true));
 
         XposedHelpers.findAndHookMethod("android.app.NotificationChannel", startupParam.getClass().getClassLoader(), "setBlockable", boolean.class, new XC_MethodHook() {
             @Override

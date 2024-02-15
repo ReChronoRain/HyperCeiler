@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.utils.Helpers.getPackageVersionName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -71,19 +72,19 @@ import com.sevtinge.hyperceiler.module.app.SecurityCenter;
 import com.sevtinge.hyperceiler.module.app.SystemFramework;
 import com.sevtinge.hyperceiler.module.app.SystemSettings;
 import com.sevtinge.hyperceiler.module.app.SystemUI;
-import com.sevtinge.hyperceiler.module.app.VariousSystemApps;
 import com.sevtinge.hyperceiler.module.app.ThemeManager;
 import com.sevtinge.hyperceiler.module.app.TrustService;
 import com.sevtinge.hyperceiler.module.app.TsmClient;
 import com.sevtinge.hyperceiler.module.app.Updater;
+import com.sevtinge.hyperceiler.module.app.VariousSystemApps;
 import com.sevtinge.hyperceiler.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
-import com.sevtinge.hyperceiler.utils.PrefsMap;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.ResourcesHook;
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -100,7 +101,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
     public static boolean isSafeModeOn = false;
 
-    public static ResourcesHook mResHook;
+    public static ResourcesTool mResHook;
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
 
@@ -163,7 +164,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         setXSharedPrefs();
-        mResHook = new ResourcesHook();
+        mResHook = new ResourcesTool();
         mModulePath = startupParam.modulePath;
     }
 
@@ -327,8 +328,10 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
             case "com.miui.guardprovider" -> mGuardProvider.init(lpparam);
 
             case "com.lbe.security.miui" -> {
-                mLbe.init(lpparam);
-                mVariousSystemApps.init(lpparam);
+                if (!isMoreHyperOSVersion(1f)) {
+                    mLbe.init(lpparam);
+                    mVariousSystemApps.init(lpparam);
+                }
             }
             case "com.android.incallui" -> {
                 mInCallUi.init(lpparam);

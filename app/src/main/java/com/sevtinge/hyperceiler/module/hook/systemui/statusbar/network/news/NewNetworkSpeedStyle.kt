@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -24,21 +24,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.ResourcesHook
+import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool
 import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.getObjectField
 
 object NewNetworkSpeedStyle : BaseHook() {
-    private val viewInitedTag = ResourcesHook.getFakeResId("view_inited_tag")
+    private val viewInitedTag = ResourcesTool.getFakeResId("view_inited_tag")
 
     private val fixedWidth by lazy {
         mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10)
     }
     private val networkStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
-    }
-    private val mNetworkCostomEnable by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")
     }
 
     override fun init() {
@@ -67,7 +64,7 @@ object NewNetworkSpeedStyle : BaseHook() {
                             val unit = meter.getObjectField("mNetworkSpeedUnitText") as TextView
 
                             // 隐藏单位控件
-                            if (mNetworkCostomEnable && networkStyle != 0) {
+                            if (networkStyle != 0) {
                                 unit.visibility = View.GONE
                                 if (networkStyle == 2 || networkStyle == 4) {
                                     number.isSingleLine = false
@@ -94,10 +91,8 @@ object NewNetworkSpeedStyle : BaseHook() {
                                 textFont(unit)
 
                                 // 偏移量设置
-                                if (mNetworkCostomEnable) {
-                                    margin(number)
-                                    margin(unit)
-                                }
+                                margin(number)
+                                margin(unit)
 
                                 // 水平对齐官方的寄，改不了
 
@@ -113,13 +108,10 @@ object NewNetworkSpeedStyle : BaseHook() {
 
     private fun textLineSpacing(id: TextView) {
         val lineSpacing by lazy {
-            mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 17)
+            mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 16)
         }
-        if (lineSpacing != 17 && (networkStyle == 2 || networkStyle == 4)) {
-            try {
-                id.setLineSpacing(0f, lineSpacing * 0.05f)
-            } catch (_: Exception) {
-            }
+        if (lineSpacing != 16 && (networkStyle == 2 || networkStyle == 4)) {
+            id.setLineSpacing(0f, lineSpacing * 0.05f)
         }
     }
 
@@ -152,18 +144,6 @@ object NewNetworkSpeedStyle : BaseHook() {
                 }
             } catch (_: Exception) {
             }
-        }
-
-        // 双排字体大小设置
-        try {
-            if (networkStyle == 0 || networkStyle == 2 || networkStyle == 4) {
-                var spacing = 0.9f
-                if (0.5 * fontSize > 8.5f) {
-                    spacing = 0.85f
-                }
-                id.setLineSpacing(0f, spacing)
-            }
-        } catch (_: Exception) {
         }
     }
 

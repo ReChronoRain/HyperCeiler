@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -47,7 +47,7 @@ public class AboutFragment extends SettingsPreferenceFragment {
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);
-            if (isMoreHyperOSVersion(1f)) lIIllII.setSummary(R.string.description_hyperos); else lIIllII.setSummary(R.string.description_miui);
+            //if (isMoreHyperOSVersion(1f)) lIIllII.setSummary(R.string.description_hyperos); else lIIllII.setSummary(R.string.description_miui);
             lIIllII.setOnPreferenceClickListener(lIIllll -> {
                 if (lIIllll instanceof SwitchPreference) {
                     SwitchPreference switchPreference = (SwitchPreference) lIIllll;

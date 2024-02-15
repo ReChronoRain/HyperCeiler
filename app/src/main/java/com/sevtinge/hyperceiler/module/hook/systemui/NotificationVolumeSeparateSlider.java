@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -22,7 +22,7 @@ import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -33,15 +33,15 @@ public class NotificationVolumeSeparateSlider {
 
         Class<?> mMiuiVolumeDialogImpl = findClassIfExists("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", pluginLoader);
 
-        notifVolumeOnResId = XposedInit.mResHook.addResource("ic_miui_volume_notification", R.drawable.ic_miui_volume_notification);
-        notifVolumeOffResId = XposedInit.mResHook.addResource("ic_miui_volume_notification_mute", R.drawable.ic_miui_volume_notification_mute);
+        notifVolumeOnResId = R.drawable.ic_miui_volume_notification;
+        notifVolumeOffResId = R.drawable.ic_miui_volume_notification_mute;
 
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_content_width_expanded", R.dimen.miui_volume_content_width_expanded);
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_ringer_layout_width_expanded", R.dimen.miui_volume_ringer_layout_width_expanded);
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_width_expanded", R.dimen.miui_volume_column_width_expanded);
         XposedInit.mResHook.setResReplacement("miui.systemui.plugin", "dimen", "miui_volume_column_margin_horizontal_expanded", R.dimen.miui_volume_column_margin_horizontal_expanded);
 
-        HookUtils.hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new HookUtils.MethodHook() {
+        HookTool.hookAllMethods(mMiuiVolumeDialogImpl, "addColumn", new HookTool.MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 if (param.args.length != 4) return;

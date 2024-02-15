@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -33,7 +33,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,7 +93,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
 
         // appEdit.setText(appInfo.packageName);
         mSelecte.setChecked(shouldSelect(appInfo.packageName));
-        mSelecte.setVisibility(mMode == 2 ? View.VISIBLE : View.GONE);
+        mSelecte.setVisibility(mMode == 2 || mMode == 4 ? View.VISIBLE : View.GONE);
         // Log.e(TAG, "getView: " + appInfo.label, null);
         return view;
     }

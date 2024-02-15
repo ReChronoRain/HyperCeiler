@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * This file is part of HyperCeiler.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils;
 
 import android.annotation.SuppressLint;
@@ -60,6 +60,15 @@ public class ContextUtils {
         }
     }
 
+    public static Context getContextNoError(@Duration int flag) {
+        try {
+            return invokeMethod(flag);
+        } catch (Throwable e) {
+            // AndroidLogUtils.LogE(TAG, "getContext: ", e);
+            return null;
+        }
+    }
+
     /**
      * 循环获取当前应用的 Context 为了防止过早获取导致的 null.
      * 使用方法:
@@ -75,31 +84,26 @@ public class ContextUtils {
      *        }
      *      });
      *   }
-     * });
+     * }, true/false);
      * }
      * 当然 Handler 是可选项, 适用于 Toast 显示等场景。
-     * @param iContext
+     * @param iContext 回调获取 Context
      * @author 焕晨HChen
      */
-    public static void getWaitContext(IContext iContext) {
+    public static void getWaitContext(IContext iContext, boolean isSystem) {
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         executorService.submit(() -> {
-            Context context = getContext(ContextUtils.FLAG_CURRENT_APP);
+            Context context = getContextNoError(isSystem ? FlAG_ONLY_ANDROID : FLAG_CURRENT_APP);
             if (context == null) {
-                int count = 0;
+                long time = System.currentTimeMillis();
+                long timeout = 10000; // 10秒
                 while (true) {
-                    context = getContext(ContextUtils.FLAG_CURRENT_APP);
+                    long nowTime = System.currentTimeMillis();
+                    context = getContextNoError(isSystem ? FlAG_ONLY_ANDROID : FLAG_CURRENT_APP);
                     // AndroidLogUtils.LogI(TAG, "getWaitContext: " + context);
-                    if (context != null || count > 5) {
+                    if (context != null || nowTime - time > timeout) {
                         break;
                     }
-                    try {
-                        Thread.sleep(500);
-                    } catch (Throwable throwable) {
-                        AndroidLogUtils.LogE(TAG, "getWaitContext E: ", throwable);
-                    }
-                    // 防止死循环
-                    count = count + 1;
                 }
                 // context 可能为 null 请注意判断
                 iContext.hadContext(context);

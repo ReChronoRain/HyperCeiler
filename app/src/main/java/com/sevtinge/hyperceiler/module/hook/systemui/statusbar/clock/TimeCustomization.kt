@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -70,6 +70,7 @@ object TimeCustomization : BaseHook() {
     private lateinit var nowTime: Date
     private var str = ""
 
+    // 在这暂时画个饼，后面重写一下 HyperOS 的逻辑（适配假时钟过渡动画）
     @SuppressLint("SetTextI18n")
     override fun init() {
         when (getMode) {

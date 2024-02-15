@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -30,7 +30,6 @@ import moralnorm.preference.Preference;
 public class StrongToastSettings extends SettingsPreferenceFragment {
     Preference mShortToast;
     Preference mLongToast;
-    Preference mVideoToast;
 
     @Override
     public int getContentResId() { return R.xml.system_ui_status_bar_strong_toast; }
@@ -39,7 +38,6 @@ public class StrongToastSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mShortToast = findPreference("prefs_key_system_ui_status_bar_strong_toast_test_short_text");
         mLongToast = findPreference("prefs_key_system_ui_status_bar_strong_toast_test_long_text");
-        mVideoToast = findPreference("prefs_key_system_ui_status_bar_strong_toast_test_video");
 
         mShortToast.setOnPreferenceClickListener(preference -> {
             MiuiStringToast.INSTANCE.showStringToast(requireActivity(), getResources().getString(R.string.system_ui_status_bar_strong_toast_test_short_text_0), 1);

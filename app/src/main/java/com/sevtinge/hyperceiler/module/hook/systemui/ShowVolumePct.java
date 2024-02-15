@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -24,13 +24,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
-import com.sevtinge.hyperceiler.utils.XposedUtils;
+import com.sevtinge.hyperceiler.module.base.tool.XposedTool;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-public class ShowVolumePct extends XposedUtils {
+public class ShowVolumePct extends XposedTool {
     public static void init(ClassLoader classLoader) {
         Class<?> MiuiVolumeDialogImpl = XposedHelpers.findClassIfExists("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", classLoader);
         XposedHelpers.findAndHookMethod(MiuiVolumeDialogImpl, "showVolumeDialogH", int.class, new XC_MethodHook() {

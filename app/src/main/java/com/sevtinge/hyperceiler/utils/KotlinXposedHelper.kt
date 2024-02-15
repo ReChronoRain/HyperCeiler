@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -335,6 +335,24 @@ fun Class<*>.setStaticObjectFieldIfExist(field: String?, obj: Any?) = apply {
     try {
         setStaticObjectField(this, field, obj)
     } catch (ignored: Throwable) {
+    }
+}
+
+fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
+    var targetClass = clazz
+    if (targetClass == null) {
+        targetClass = target.javaClass
+    }
+    return try {
+        val field = targetClass.getDeclaredField(fieldName)
+        field.isAccessible = true
+        field.get(target)
+    } catch (e: Throwable) {
+        if (targetClass.superclass == null) {
+            null
+        } else {
+            getValueByField(target, fieldName, targetClass.superclass)
+        }
     }
 }
 

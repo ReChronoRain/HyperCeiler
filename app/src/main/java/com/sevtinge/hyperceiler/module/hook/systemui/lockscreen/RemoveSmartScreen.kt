@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -18,19 +18,37 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import android.view.View
+import android.widget.LinearLayout
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object RemoveSmartScreen : BaseHook() {
     override fun init() {
-        loadClass("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer").methodFinder().first {
-            name == "inflateLeftView"
-        }.createHook {
-            before {
-                it.result = null
-            }
+        if (isMoreHyperOSVersion(1f)) {
+            loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
+                .first {
+                    name == "updateIcons"
+                }.createHook {
+                    after {
+                        val left =
+                            ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mLeftAffordanceViewLayout") ?: return@after
+                        left.visibility = View.GONE
+                    }
+                }
+        } else {
+            loadClassOrNull("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer")!!.methodFinder()
+                .first {
+                    name == "inflateLeftView"
+                }.createHook {
+                    before {
+                        it.result = null
+                    }
+                }
         }
     }
 

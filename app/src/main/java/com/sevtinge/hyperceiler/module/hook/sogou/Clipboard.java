@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -23,7 +23,7 @@ import androidx.annotation.NonNull;
 import com.github.kyuubiran.ezxhelper.HookFactory;
 import com.github.kyuubiran.ezxhelper.interfaces.IMethodHookCallback;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;

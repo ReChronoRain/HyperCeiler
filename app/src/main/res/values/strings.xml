@@ -268,6 +268,8 @@
     <string name="status_bar_icon_mode_default">Default</string>
     <string name="status_bar_icon_mode_on">Always show</string>
     <string name="status_bar_icon_mode_off">Always hidden</string>
+    <string name="status_bar_icon_mode_on_control_center">Only show in Control Center</string>
+    <string name="status_bar_icon_mode_on_status_bar">Only show at Status bar</string>
     <string name="status_bar_icon_mode_off_unconnect">Hide only when not connected</string>
     <string name="status_bar_icon_mode_on_beforering">Show only before ringing</string>
     <string name="seek_points_roll">Show only when swiping the screen</string>
@@ -576,6 +578,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">Notification Icon</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Battery</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Call</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">Devices</string>
     <string name="system_ui_statusbar_iconmanage_left_title">The left side of the icon shows</string>
     <string name="system_ui_statusbar_iconmanage_right_title">The right side of the icon shows</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -608,6 +611,16 @@
     <string name="system_ui_status_bar_icon_mute">Hide muted mic icon</string>
     <string name="system_ui_status_bar_icon_speakerphone">Hide speakerphone icon</string>
     <string name="system_ui_status_bar_icon_call_record">Hide recording icon</string>
+    <string name="system_ui_status_bar_icon_car">Car</string>
+    <string name="system_ui_status_bar_icon_pad">Pad</string>
+    <string name="system_ui_status_bar_icon_pc">PC</string>
+    <string name="system_ui_status_bar_icon_phone">Phone</string>
+    <string name="system_ui_status_bar_icon_soundbox">Sound Box</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">Sound Box With Screen</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">Sound Box Group</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">Sound Box Group Stereo</string>
+    <string name="system_ui_status_bar_icon_tv">TV</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">Wireless Headset</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Maximum number of notification points</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maximum number of notification icons</string>
     <string name="system_ui_status_bar_battery_percent">Hide battery percentage</string>
@@ -694,7 +707,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Hide the smart strong toast</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Short Text Output</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Long Text Output</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Animation Output</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
     <string name="system_ui_controlcenter_title">Control center</string>
@@ -732,6 +744,9 @@
     <string name="system_ui_control_center_blur_background_alpha">Blur Background value</string>
     <string name="system_ui_control_center_default_background_alpha">Default Background value</string>
     <string name="system_ui_control_center_fix_media_control_panel">Fix media control panel</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Optimize the color mixing effect of the media control panel</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Background picture blurry radius</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacity of the background overlay layer</string>
     <string name="system_ui_control_center_compact_notice">Compact notifications</string>
     <string name="system_ui_control_center_compact_notice_desc">Reduce notifications\' vertical paddings</string>
     <string name="system_ui_control_center_redirect_notice">Redirect notification settings</string>
@@ -1147,16 +1162,16 @@
     <string name="home_large_icon_corner_radius">Large icons with rounded corners</string>
     <string name="home_other_app_icon_hide">Desktop shortcut management</string>
     <string name="home_other_toast_slide_again">Prohibit prompts \"please stroke again\" Toast</string>
-    <string name="home_other_lock_app_sc">It is forbidden to call out the sidebar when pinned</string>
-    <string name="home_other_lock_app_screen">Jump to the lock screen when unpinned</string>
-    <string name="home_other_lock_app">Fixed applications</string>
-    <string name="home_other_lock_app_will_lock">Will lock App</string>
-    <string name="home_other_lock_app_lock">Lock App</string>
-    <string name="home_other_lock_app_unlock">Unlock App</string>
-    <string name="home_other_lock_app_will_unlock">Will Unlock App</string>
-    <string name="home_other_lock_app_r">Restore</string>
-    <string name="home_other_lock_app_e">Please unlock it in the locked app interface</string>
-    <string name="home_other_lock_app_more">iOS-like Guided Access that pins the current application to the screen\nTo use, press and hold the top status bar, and if you want to exit, press and hold the top status bar again\nThe first time you use it, you need to restart the device.</string>
+    <string name="system_framework_guided_access_sc">It is forbidden to call out the sidebar when pinned</string>
+    <string name="system_framework_guided_access_screen">Jump to the lock screen when unpinned</string>
+    <string name="system_framework_guided_access">Fixed applications</string>
+    <string name="system_framework_guided_access_will_lock">Will lock App</string>
+    <string name="system_framework_guided_access_lock">Lock App</string>
+    <string name="system_framework_guided_access_unlock">Unlock App</string>
+    <string name="system_framework_guided_access_will_unlock">Will Unlock App</string>
+    <string name="system_framework_guided_access_r">Restore</string>
+    <string name="system_framework_guided_access_e">Please unlock it in the locked app interface</string>
+    <string name="system_framework_guided_access_more">iOS-like Guided Access that pins the current application to the screen\nTo use, press and hold the top status bar, and if you want to exit, press and hold the top status bar again\nThe first time you use it, you need to restart the device.</string>
     <string name="home_other_shortcut_remove_restrictions">Remove restrictions on shortcuts</string>
     <string name="home_other_fix_android_r_s">Fix a compatibility issue that caused the desktop to go black</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut menu blur value</string>
@@ -1176,7 +1191,9 @@
     <string name="mediaeditor_ai_authoring">AI Authoring</string>
     <string name="mediaeditor_unlock_disney_title">Unlock Disney customization features</string>
     <string name="mediaeditor_unlock_disney_desc">Unlocks include the following features:\n- Custom Frames - Disney Custom Frames (in conflict with other custom frames)\n- Bokeh Background - Mickey Mokeh\n- Stickers - Disney Stickers</string>
-    <string name="mediaeditor_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
+    <string name="mediaeditor_unlock_spring_title">Unlock Chinese New Year custom picture frames</string>
+    <string name="mediaeditor_unlock_spring_desc">To permanently add a Chinese New Year custom picture frame, the prerequisite is that you need a Leica custom picture frame or a Redmi custom picture frame.</string>
+    <string name="mediaeditor_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Customize the frame type</string>
     <string name="mediaeditor_unlock_leica_filter_title">Unlock the Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
@@ -1238,7 +1255,7 @@
     <string name="screen_recorder_save_to_movies_desc">Specify the recording video save location to Movies/ScreenRecorder</string>
     <!--Screenshot-->
     <string name="screenshot">Screenshot</string>
-    <string name="screenshot_unlock_minimum_crop_limit">Unlock the minimum crop image limit</string>
+    <string name="screenshot_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
     <string name="screenshot_unlock_privacy_marking_desc">A higher version of the \"Mi AI Engine\" APP needs to be pre-installed for normal use</string>
     <string name="screenshot_save_to_pictures_desc">Canonical screenshot save location to /Pictures/Screenshots</string>
@@ -1436,6 +1453,7 @@
     <string name="various_super_clipboard_files_desc">Allow copy files to clipboard</string>
     <string name="various_super_clipboard_picture_share_desc">Allow copying and pasting images to the clipboard</string>
     <string name="various_open_aosp_battery_title">Battery Optimization</string>
+    <string name="various_open_aosp_running_services">Running services</string>
     <string name="various_open_aosp_notification_title">Notification Settings</string>
     <string name="various_open_aosp_app_manage_title">App Management</string>
     <string name="various_open_aosp_language_title">Language Settings</string>
@@ -1539,7 +1557,10 @@
     <string name="security_center_aosp_app_info">Add AOSP App Info entry</string>
     <string name="security_center_aosp_app_manager_label">AOSP App Manager</string>
     <string name="security_center_aosp_app_manager">Add AOSP App Manager entry</string>
+    <string name="security_center_power_consumption_ranking">Show Power Consumption Ranking</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
+
+    <string name="happy_chinese_new_year">Happy Chinese New Year</string>
 </resources>

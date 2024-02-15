@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.utils;
+package com.sevtinge.hyperceiler.utils.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,9 +24,10 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.sevtinge.hyperceiler.XposedInit;
-import com.sevtinge.hyperceiler.utils.PrefsChangeObserver.PrefToUri;
+import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver.PrefToUri;
 
 import java.io.File;
 import java.lang.reflect.Field;

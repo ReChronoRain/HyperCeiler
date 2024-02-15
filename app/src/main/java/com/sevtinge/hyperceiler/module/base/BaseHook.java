@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -20,11 +20,11 @@ package com.sevtinge.hyperceiler.module.base;
 
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevel;
 
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public abstract class BaseHook extends HookUtils {
+public abstract class BaseHook extends HookTool {
     public String TAG = getClass().getSimpleName();
 
     public static final String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";

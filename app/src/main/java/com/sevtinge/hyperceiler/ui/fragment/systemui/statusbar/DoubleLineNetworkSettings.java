@@ -1,7 +1,7 @@
 /*
   * This file is part of HyperCeiler.
-  
-  * HyperCeiler is free software: you can redistribute it and/or modify
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
   * License.
@@ -18,19 +18,14 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
 
-import moralnorm.preference.ColorPickerPreference;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
-import moralnorm.preference.SeekBarPreferenceEx;
 
 public class DoubleLineNetworkSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 

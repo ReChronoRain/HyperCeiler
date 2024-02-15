@@ -649,7 +649,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Hide the smart strong toast</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Короткий текст вывода</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Длинный текст вывода</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Анимация вывода</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Текст</string>
     <string name="system_ui_controlcenter_title">Центр управления</string>
     <string name="system_ui_controlcenter_card_title">Карта</string>

@@ -126,7 +126,7 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceEx
-            android:defaultValue="17"
+            android:defaultValue="16"
             android:key="prefs_key_system_ui_statusbar_network_speed_spacing_margin"
             android:title="@string/spacing_margin"
             app:defaultValueText="@string/array_default"

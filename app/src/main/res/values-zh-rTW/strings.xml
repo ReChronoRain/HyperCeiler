@@ -231,6 +231,8 @@
     <string name="status_bar_icon_mode_default">預設</string>
     <string name="status_bar_icon_mode_on">總是顯示</string>
     <string name="status_bar_icon_mode_off">總是隱藏</string>
+    <string name="status_bar_icon_mode_on_control_center">僅在控制中心顯示</string>
+    <string name="status_bar_icon_mode_on_status_bar">僅在狀態列顯示</string>
     <string name="status_bar_icon_mode_off_unconnect">僅在未連接時隱藏</string>
     <string name="status_bar_icon_mode_on_beforering">僅在響鈴前顯示</string>
     <string name="seek_points_roll">僅在滑動螢幕時顯示</string>
@@ -376,6 +378,8 @@
     <string name="browser_debug_mode">開發者選項</string>
     <string name="browser_debug_mode_desc">17.5.xxxxx 及以上版本無入口</string>
     <string name="browser_disable_blacklist">停用網址黑名單</string>
+    <string name="browser_enable_debug_environment">啟用調試環境</string>
+    <string name="browser_enable_debug_environment_desc">可能導致部分功能失效</string>
     <!--Camera-->
     <string name="camera">相機</string>
     <string name="camera_custom_watermark">自訂機型浮水印</string>
@@ -483,6 +487,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">隱藏螢幕底部解鎖提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">鎖定螢幕時隱藏狀態欄</string>
     <string name="system_ui_lock_screen_block_editor_title">停用長按進入鎖定螢幕編輯</string>
+    <string name="system_ui_lock_screen_allow_third_face">允許第三方螢幕鎖定介面喚醒系統驗證識別</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">允許在第三方應用程式顯示的螢幕鎖定介面時，正常使用人臉和指紋辨識</string>
     <string name="system_ui_navigation_title">導航欄</string>
     <string name="system_ui_navigation_handle_title">手勢提示線</string>
     <string name="system_ui_hide_navigation_bar">隱藏導覽列</string>
@@ -534,6 +540,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">通知圖示</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">電池</string>
     <string name="system_ui_statusbar_iconmanage_call_title">電話</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">裝置</string>
     <string name="system_ui_statusbar_iconmanage_left_title">圖示左側顯示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -566,6 +573,16 @@
     <string name="system_ui_status_bar_icon_mute">隱藏麥克風靜音圖示</string>
     <string name="system_ui_status_bar_icon_speakerphone">隱藏揚聲器靜音圖示</string>
     <string name="system_ui_status_bar_icon_call_record">隱藏錄製圖示</string>
+    <string name="system_ui_status_bar_icon_car">汽車</string>
+    <string name="system_ui_status_bar_icon_pad">平板電腦</string>
+    <string name="system_ui_status_bar_icon_pc">電腦</string>
+    <string name="system_ui_status_bar_icon_phone">手機</string>
+    <string name="system_ui_status_bar_icon_soundbox">小愛音箱</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">小愛觸控螢幕音箱</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">小愛音箱組合</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">小愛音箱組合立體聲</string>
+    <string name="system_ui_status_bar_icon_tv">電視</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">無線耳機</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知點數最大數量</string>
     <string name="system_ui_status_bar_notification_icon_maximum">通知圖示最大數量</string>
     <string name="system_ui_status_bar_battery_percent">隱藏電量百分比</string>
@@ -614,6 +631,8 @@
     <string name="system_ui_statusbar_clock_size">時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_size">雙排時鐘大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">僅在雙排顯示下生效</string>
+    <string name="system_ui_statusbar_clock_fix_color">修復時鐘反色時的顏色異常</string>
+    <string name="system_ui_statusbar_clock_fix_color_desc">實驗性功能</string>
     <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
     <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
     <string name="system_ui_statusbar_indicator_temperature_title">溫度相關</string>
@@ -650,7 +669,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">隱藏靈動提示</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">短文字輸出</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">長文字輸出</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">動畫輸出</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">測試</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>
@@ -691,13 +709,14 @@
     <string name="system_ui_control_center_compact_notice">緊湊通知</string>
     <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知設定</string>
-    <string name="system_ui_control_center_redirect_notice_desc">打開通知功能表的設定將導航到目標通道設定，而不是應用通知設定</string>
+    <string name="system_ui_control_center_redirect_notice_desc">打開通知選單的設定將導航到目標頻道設定，而不是應用程式通知設定</string>
     <string name="system_ui_control_center_show_weather">顯示天氣</string>
     <string name="system_ui_control_center_show_weather_city">顯示地區</string>
     <string name="system_ui_control_center_mute_visible_notice">開啟螢幕時靜音</string>
     <string name="system_ui_control_center_expand_notification">展開通知</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">開啟螢幕時彈出通知不播放提示音</string>
     <string name="system_ui_control_center_rounded_rect">圓角矩形磁貼</string>
+    <string name="system_ui_control_center_statusbar_blur">強制背景模糊</string>
     <string name="system_ui_control_center_rounded_rect_radius">圓角大小</string>
     <string name="system_ui_control_center_fix_tiles_list">停用隱藏極暗磁貼</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">交換控制中心與通知中心位置</string>
@@ -723,6 +742,8 @@
     <string name="system_ui_control_center_more_card_tiles_less">无</string>
     <string name="system_ui_control_center_more_card_tiles_more">多</string>
     <string name="system_ui_control_center_more_card_tiles_most">更多</string>
+    <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
@@ -731,7 +752,8 @@
     <string name="system_ui_another_title">其他</string>
     <string name="system_ui_disable_bluetooth_restrict">停用藍牙臨時關閉</string>
     <string name="system_ui_disable_miui_multi_win_switch">隱藏快捷視窗按鈕</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏 HyperOS for Pad 橫向螢幕下頂部置中的快速視窗按鈕（即常駐的三個小點）</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">隱藏常駐的三個小點，包括小窗應用程式頂部和 HyperOS for Pad 橫向螢幕下頂部中間的快速視窗按鈕（不影響功能使用）</string>
+    <string name="system_ui_disable_bottombar">隱藏小窗應用程式的手勢提示線</string>
     <string name="system_ui_others_pct_title">數據顯示</string>
     <string name="system_showpct_title">顯示亮度百分比</string>
     <string name="system_cc_volume_showpct_title">顯示聲音百分比</string>
@@ -779,6 +801,7 @@
     <string name="system_settings_lab_title">特色功能</string>
     <string name="system_settings_area_screenshot">解鎖區域截圖</string>
     <string name="system_settings_voip_assistant_controller">網路通話助手</string>
+    <string name="system_settings_display_and_lockscreen_title">顯示與鎖定螢幕</string>
     <string name="system_settings_ai_image_unlock_sr">解鎖超解析度增強</string>
     <string name="system_settings_ai_image_unlock_ai">解鎖 AI 智慧場景最佳化與影片畫質增強</string>
     <string name="system_settings_ai_image_unlock_memc">解鎖動態畫面補償</string>
@@ -789,6 +812,7 @@
     <string name="system_settings_permission_show_app_up_desc">還原舊版行為，直接跳轉對應應用程式「顯示在其他應用程式上層」的權限開關</string>
     <string name="system_settings_permission_unknown_origin_app">安裝未知應用程式許可權免翻應用程式列表</string>
     <string name="system_settings_permission_unknown_origin_app_desc">使用國際版行為，直接跳轉對應應用程式的「安裝未知應用程式」許可權開關</string>
+    <string name="system_settings_permission_accessibility">無障礙服務權限直達</string>
     <string name="system_settings_develop_title">開發者選項</string>
     <string name="system_settings_apps_freezer">強制顯示暫停執行快取的應用程式</string>
     <string name="system_settings_apps_freezer_more">開啟後可在「開發者選項」中找到此功能，為強制顯示，不保證可用</string>
@@ -797,6 +821,7 @@
     <string name="system_settings_window_animation_scale">視窗動畫縮放</string>
     <string name="system_settings_transition_animation_scale">轉場動畫比例縮放</string>
     <string name="system_settings_animator_duration_scale">動畫持續時間縮放</string>
+    <string name="system_settings_allow_never_lock_screen">允許永不鎖定螢幕</string>
     <!--Themes-->
     <string name="theme_manager">主題桌布</string>
     <string name="theme_manager_version_code_modify">停用 MIUI 版本檢測</string>
@@ -1090,6 +1115,16 @@
     <string name="home_large_icon_corner_radius">大圖示圓角</string>
     <string name="home_other_app_icon_hide">桌面捷徑管理</string>
     <string name="home_other_toast_slide_again">不再提示 「請再次觸摸」</string>
+    <string name="system_framework_guided_access_sc">固定時禁止叫出側邊欄</string>
+    <string name="system_framework_guided_access_screen">解除固定時跳轉鎖定螢幕</string>
+    <string name="system_framework_guided_access">引導使用模式</string>
+    <string name="system_framework_guided_access_will_lock">繼續長按以進入引導使用模式</string>
+    <string name="system_framework_guided_access_lock">已開啟引導使用模式</string>
+    <string name="system_framework_guided_access_unlock">已退出引導使用模式</string>
+    <string name="system_framework_guided_access_will_unlock">繼續長按以退出引導使用模式</string>
+    <string name="system_framework_guided_access_r">引導使用模式超次還原</string>
+    <string name="system_framework_guided_access_e">當前應用程式不是進入引導使用模式時固定的應用程式，請在被固定應用程式介面退出引導式訪問。</string>
+    <string name="system_framework_guided_access_more">類似 iOS 的引導使用模式，將當前應用程式固定到螢幕\n使用時，請按住頂部狀態欄，如果要退出，請再次按住頂部狀態欄\n第一次使用時，您需要重新啟動裝置。</string>
     <string name="home_other_shortcut_remove_restrictions">解鎖 shortcut 數量限制</string>
     <string name="home_other_fix_android_r_s">修復相容性問題導致系統桌布黑畫面</string>
     <string name="home_other_shortcut_background_blur_custom">Shortcut 選單背景透明度</string>
@@ -1176,7 +1211,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">需要預先安裝更高版本的「Mi AI Engine」應用程式才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自訂帶殼截圖型號</string>
-    <string name="screenshot_device_customize_desc">請輸入機型代號</string>
+    <string name="screenshot_device_customize_desc">請輸入機型代號，有顏色的裝置填寫時應加上後綴，例如：\n- 小米 13 填寫的內容是 fuxi\n-小米 14 粉色版填寫的內容是 houji_PK</string>
     <!--Security/Tablet security center-->
     <string name="security_center">手機管家</string>
     <string name="security_center_pad">平板管家</string>
@@ -1467,6 +1502,11 @@
     <string name="log_level_none">停用日誌輸出</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
+    <string name="security_center_aosp_app_info_label">原生應用程式資訊</string>
+    <string name="security_center_aosp_app_info">新增「原生應用程式資訊」入口</string>
+    <string name="security_center_aosp_app_manager_label">原生應用程式管理</string>
+    <string name="security_center_aosp_app_manager">新增「原生應用程式管理」入口</string>
+    <string name="security_center_power_consumption_ranking">顯示耗電量排行</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>

@@ -150,6 +150,7 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
 - [「NoStorageRestrict」 by DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「Portal Hook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
+- [「PinningApp」 by 焕晨HChen](https://github.com/HChenX/PinningApp)
 - [「RemoveMiuiSystemSelfProtection」 by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)
 - [「SettingsDontThroughTheList」 by weixiansen574](https://github.com/weixiansen574/settingsdontthroughthelist)
 - [「StarVoyager」 by hosizoraru](https://github.com/hosizoraru/StarVoyager)

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
@@ -52,6 +51,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixTilesList;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FlashLight;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.HideDelimiter;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MediaControlPanelBackupMix;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MoreCardTiles;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.NotificationImportanceHyperOSFix;
@@ -133,22 +133,23 @@ public class SystemUI extends BaseModule {
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
+        // initHook(DisableChargeAnimation.INSTANCE);
 
         // 小窗
         initHook(new NotificationFreeform(), mPrefsMap.getBoolean("system_ui_notification_freeform"));
 
         // 禁用蓝牙临时关闭
-        initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));
+        initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("system_ui_disable_bluetooth_restrict"));
 
         // Monet
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
 
         // 状态栏图标
-        initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
+        if (!isMoreHyperOSVersion(1f)) initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
         initHook(new StatusBarIcon());
         initHook(new IconsFromSystemManager());
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
-        initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
+        if (!isMoreHyperOSVersion(1f)) initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_dots_maximum_enable") || mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
@@ -195,8 +196,8 @@ public class SystemUI extends BaseModule {
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
         // 硬件指示器
-        initHook(new DisplayHardwareDetail(), (mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
-            mPrefsMap.getBoolean("system_ui_statusbar_temp_enable")) && !isHyperOSVersion(1f));
+        initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
+                mPrefsMap.getBoolean("system_ui_statusbar_temp_enable"));
 
         // 灵动提示
         initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_strong_toast_hide"));
@@ -248,6 +249,7 @@ public class SystemUI extends BaseModule {
         initHook(new SwitchCCAndNotification(), mPrefsMap.getBoolean("system_ui_control_center_switch_cc_and_notification"));
         initHook(QSControlDetailBackgroundAlpha.INSTANCE, mPrefsMap.getInt("system_ui_control_center_control_detail_background_alpha", 255) != 255);
         initHook(FixMediaControlPanel.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_fix_media_control_panel"));
+        initHook(new MediaControlPanelBackupMix(), mPrefsMap.getBoolean("system_ui_control_center_media_control_panel_background_mix"));
         initHook(NotificationWeather.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherOld.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
         initHook(NotificationWeatherNew.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_show_weather"));
@@ -276,7 +278,7 @@ public class SystemUI extends BaseModule {
         initHook(new StatusBarActions());
 
         // Other
-        initHook(new UiLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
+        initHook(new UiLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix") && isMoreHyperOSVersion(1f));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));

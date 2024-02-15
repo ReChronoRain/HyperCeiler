@@ -231,6 +231,8 @@
     <string name="status_bar_icon_mode_default">Mặc định</string>
     <string name="status_bar_icon_mode_on">Luôn hiện</string>
     <string name="status_bar_icon_mode_off">Luôn ẩn</string>
+    <string name="status_bar_icon_mode_on_control_center">Chỉ hiện ở trung tâm điều khiển</string>
+    <string name="status_bar_icon_mode_on_status_bar">Chỉ hiện trên thanh trạng thái</string>
     <string name="status_bar_icon_mode_off_unconnect">Chỉ ẩn khi không kết nối</string>
     <string name="status_bar_icon_mode_on_beforering">Chỉ hiện khi đổ chuông</string>
     <string name="seek_points_roll">Chỉ hiện khi đang vuốt màn hình</string>
@@ -540,6 +542,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_iconmanage_notify_title">Biểu tượng thông báo</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Pin</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Cuộc gọi</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">Thiết bị</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Chuyển biểu tượng sang trái</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Chuyển biểu tượng sang phải</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -572,6 +575,16 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_mute">Ẩn biểu tượng Tắt Mic</string>
     <string name="system_ui_status_bar_icon_speakerphone">Ẩn biểu tượng Loa ngoài</string>
     <string name="system_ui_status_bar_icon_call_record">Ẩn biểu tượng Ghi âm</string>
+    <string name="system_ui_status_bar_icon_car">Xe hơi</string>
+    <string name="system_ui_status_bar_icon_pad">Máy tính bảng</string>
+    <string name="system_ui_status_bar_icon_pc">PC</string>
+    <string name="system_ui_status_bar_icon_phone">Điện thoại</string>
+    <string name="system_ui_status_bar_icon_soundbox">Hộp âm nhạc</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">Hộp âm nhạc có màn hình</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">Nhóm hộp âm nhạc</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">Nhóm hộp âm nhạc nổi</string>
+    <string name="system_ui_status_bar_icon_tv">TV</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">Tai nghe không dây</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Số lượng dấu chấm thông báo tối đa</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Số lượng biểu tượng thông báo tối đa</string>
     <string name="system_ui_status_bar_battery_percent">Ẩn XXX% cạnh biểu tượng pin</string>
@@ -658,7 +671,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_strong_toast_hide">Ẩn thông báo mạnh mẽ thông minh</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Đầu ra văn bản ngắn</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Đầu ra văn bản dài</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Đầu ra hoạt ảnh</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Văn bản</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Đây là một đoạn văn bản dài sẽ được xuất ra ở dạng cuộn</string>
     <string name="system_ui_controlcenter_title">Trung tâm điều khiển</string>
@@ -696,6 +708,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_blur_background_alpha">Giá trị làm mờ nền</string>
     <string name="system_ui_control_center_default_background_alpha">Độ trong suốt nền thanh thông báo kéo xuống</string>
     <string name="system_ui_control_center_fix_media_control_panel">Sửa nút điều chỉnh phương tiện</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Tối ưu hóa hiệu ứng trộn màu của bảng điều khiển phương tiện</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Độ mờ của lớp phủ nền</string>
     <string name="system_ui_control_center_compact_notice">Thu gọn thông báo</string>
     <string name="system_ui_control_center_compact_notice_desc">Giảm khoảng cách thông báo dọc</string>
     <string name="system_ui_control_center_redirect_notice">Chuyển hướng cài đặt thông báo</string>
@@ -1109,16 +1124,16 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_large_icon_corner_radius">Các biểu tượng lớn với các góc tròn</string>
     <string name="home_other_app_icon_hide">Quản lý phím tắt trên màn hình</string>
     <string name="home_other_toast_slide_again">Cấm thông báo nhắc nhở \"Vui lòng chạm lại\"</string>
-    <string name="home_other_lock_app_sc">Cấm gọi ra thanh bên khi được ghim</string>
-    <string name="home_other_lock_app_screen">Chuyển tới màn hình khóa khi được bỏ ghim</string>
-    <string name="home_other_lock_app">Cố định ứng dụng</string>
-    <string name="home_other_lock_app_will_lock">Ứng dụng sẽ bị khóa</string>
-    <string name="home_other_lock_app_lock">Khóa ứng dụng</string>
-    <string name="home_other_lock_app_unlock">Mở khóa ứng dụng</string>
-    <string name="home_other_lock_app_will_unlock">Sẽ khóa ứng dụng</string>
-    <string name="home_other_lock_app_r">Khôi phục</string>
-    <string name="home_other_lock_app_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
-    <string name="home_other_lock_app_more">Nhấn và giữ phía dưới màn hình để vào, thoát lại và khởi động lại hệ thống ở lần đầu tiên</string>
+    <string name="system_framework_guided_access_sc">Cấm gọi ra thanh bên khi được ghim</string>
+    <string name="system_framework_guided_access_screen">Chuyển tới màn hình khóa khi được bỏ ghim</string>
+    <string name="system_framework_guided_access">Cố định ứng dụng</string>
+    <string name="system_framework_guided_access_will_lock">Ứng dụng sẽ bị khóa</string>
+    <string name="system_framework_guided_access_lock">Khóa ứng dụng</string>
+    <string name="system_framework_guided_access_unlock">Mở khóa ứng dụng</string>
+    <string name="system_framework_guided_access_will_unlock">Sẽ khóa ứng dụng</string>
+    <string name="system_framework_guided_access_r">Khôi phục</string>
+    <string name="system_framework_guided_access_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
+    <string name="system_framework_guided_access_more">Nhấn và giữ phía dưới màn hình để vào, thoát lại và khởi động lại hệ thống ở lần đầu tiên</string>
     <string name="home_other_shortcut_remove_restrictions">Loại bỏ giới hạn phím tắt</string>
     <string name="home_other_fix_android_r_s">Khắc phục sự cố tương thích khiến màn hình chuyển sang màu đen</string>
     <string name="home_other_shortcut_background_blur_custom">Giá trị làm mờ menu phím tắt</string>
@@ -1138,6 +1153,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="mediaeditor_ai_authoring">Sáng tạo AI</string>
     <string name="mediaeditor_unlock_disney_title">Mở khóa các tính năng tùy chỉnh của Disney</string>
     <string name="mediaeditor_unlock_disney_desc">Các tính năng được mở khóa bao gồm:\n- Khung tùy chỉnh – Khung tùy chỉnh của Disney (xung đột với các khung tùy chỉnh khác)\n- Làm mờ nền – Làm mờ Mickey\n- Hình dán – Hình dán Disney</string>
+    <string name="mediaeditor_unlock_spring_title">Mở khóa khung ảnh tùy chỉnh năm mới Tết Nguyên đán</string>
+    <string name="mediaeditor_unlock_spring_desc">Để thêm vĩnh viễn khung ảnh tùy chỉnh Tết Nguyên đán, điều kiện tiên quyết là bạn cần có khung ảnh tùy chỉnh Leica hoặc khung ảnh tùy chỉnh Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Tùy chỉnh loại khung hình</string>
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
@@ -1508,7 +1525,9 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
     <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
     <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
+    <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
+    <string name="happy_chinese_new_year">Chúc mừng năm mới</string>
 </resources>

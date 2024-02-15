@@ -22,16 +22,22 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.provider.Settings;
+import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 
 import org.luckypray.dexkit.query.FindClass;
+import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
+import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import org.luckypray.dexkit.result.ClassData;
+import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.MethodData;
+
+import java.lang.reflect.Field;
 
 /**
  * @author 焕晨HChen
@@ -39,6 +45,8 @@ import org.luckypray.dexkit.result.MethodData;
 public class ScLockApp extends BaseHook {
     boolean isListen = false;
     boolean isLock = false;
+
+    int value = 0;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -50,24 +58,78 @@ public class ScLockApp extends BaseHook {
                     )
                     .name("dispatchTouchEvent")
                 )
-        ).singleOrThrow(() -> new IllegalStateException("No such dispatchTouchEvent"));
+        ).singleOrNull();
         ClassData data = DexKit.INSTANCE.getDexKitBridge().findClass(
             FindClass.create()
                 .matcher(ClassMatcher.create()
                     .usingStrings("startRegionSampling")
                 )
-        ).singleOrThrow(() -> new IllegalStateException("No such Constructor"));
+        ).singleOrNull();
+        FieldData fieldData = null;
+        if (methodData == null) {
+            value = 1;
+            methodData = DexKit.INSTANCE.getDexKitBridge().findMethod(
+                FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create()
+                            .usingStrings("SidebarTouchListener")
+                        )
+                        .name("onTouch")
+                    )
+            ).singleOrNull();
+            data = DexKit.INSTANCE.getDexKitBridge().findClass(
+                FindClass.create()
+                    .matcher(ClassMatcher.create()
+                        .usingStrings("onTouch: \taction = ")
+                    )
+            ).singleOrNull();
+            fieldData = DexKit.INSTANCE.getDexKitBridge().findField(
+                FindField.create()
+                    .matcher(
+                        FieldMatcher.create()
+                            .declaredClass(
+                                ClassMatcher.create()
+                                    .usingStrings("onTouch: \taction = ")
+                            )
+                            .type(View.class)
+                    )
+            ).singleOrNull();
+        }
         try {
-            // logE(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader));
-            findAndHookConstructor(data.getInstance(lpparam.classLoader), Context.class, new MethodHook() {
+            // logE(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader) + " f: " + fieldData.getFieldInstance(lpparam.classLoader));
+            if (data == null) {
+                logE(TAG, "Class is null");
+                return;
+            }
+            if (fieldData == null && value == 1) {
+                logE(TAG, "Field is null");
+                return;
+            }
+            assert fieldData != null;
+            Field field = fieldData.getFieldInstance(lpparam.classLoader);
+            hookAllConstructors(data.getInstance(lpparam.classLoader), new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
-                    Context context = (Context) param.args[0];
+                    Context context = null;
+                    if (value == 1) {
+                        try {
+                            context = ((View) field.get(param.thisObject)).getContext();
+                        } catch (IllegalAccessException e) {
+                            logE(TAG, "getContext E: " + e);
+                        }
+                    } else {
+                        context = (Context) param.args[0];
+                    }
+                    if (context == null) {
+                        logE(TAG, "Context is null");
+                        return;
+                    }
                     if (!isListen) {
-                        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                        Context finalContext = context;
+                        ContentObserver contentObserver = new ContentObserver(new Handler(finalContext.getMainLooper())) {
                             @Override
                             public void onChange(boolean selfChange) {
-                                isLock = getLockApp(context) != -1;
+                                isLock = getLockApp(finalContext) != -1;
                             }
                         };
                         context.getContentResolver().registerContentObserver(
@@ -77,15 +139,21 @@ public class ScLockApp extends BaseHook {
                     }
                 }
             });
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoSuchFieldException e) {
             logE(TAG, "hook Constructor E: " + data);
         }
 
+        if (methodData == null) {
+            logE(TAG, "Method is null");
+            return;
+        }
         hookMethod(methodData.getMethodInstance(lpparam.classLoader),
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    if (isLock) param.setResult(false);
+                    if (isLock) {
+                        param.setResult(false);
+                    }
                 }
             }
         );

@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.module.hook.camera;
 import android.util.SparseArray;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
-import com.sevtinge.hyperceiler.utils.DexKit;
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit;
 
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.AnnotationMatcher;
@@ -39,9 +39,7 @@ public class CustomWatermark extends BaseHook {
         MethodDataList methodDataList = DexKit.INSTANCE.getDexKitBridge().findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .returnType(SparseArray.class)
-                .modifiers(Modifier.PUBLIC)
                 .paramCount(0)
-                .name("c")
                 .annotations(AnnotationsMatcher.create()
                     .add(AnnotationMatcher.create()
                         .usingStrings("Ljava/lang/String;")

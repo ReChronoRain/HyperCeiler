@@ -1,6 +1,6 @@
 /*
   * This file is part of HyperCeiler.
-  
+
   * HyperCeiler is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as
   * published by the Free Software Foundation, either version 3 of the
@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.old
 
-import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
@@ -31,7 +30,6 @@ import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 
-@SuppressLint("StaticFieldLeak")
 object NetworkSpeedStyle : BaseHook() {
     private val fontSize by lazy {
         mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
@@ -40,7 +38,7 @@ object NetworkSpeedStyle : BaseHook() {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
     }
     private val lineSpacing by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 17)
+        mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 16)
     }
     private val bold by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_font_style", 0)
@@ -50,9 +48,6 @@ object NetworkSpeedStyle : BaseHook() {
     }
     private val networkStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
-    }
-    private val mNetworkCostomEnable by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")
     }
 
     override fun init() {
@@ -88,44 +83,36 @@ object NetworkSpeedStyle : BaseHook() {
                         }
 
 
-                        if (mNetworkCostomEnable) {
-                            // 左侧间距
-                            var leftMargin =
-                                mPrefsMap.getInt("system_ui_statusbar_network_speed_left_margin", 0)
-                            leftMargin = dp2px(leftMargin * 0.5f)
+                        // 左侧间距
+                        var leftMargin =
+                            mPrefsMap.getInt("system_ui_statusbar_network_speed_left_margin", 0)
+                        leftMargin = dp2px(leftMargin * 0.5f)
 
-                            // 右侧间距
-                            var rightMargin =
-                                mPrefsMap.getInt(
-                                    "system_ui_statusbar_network_speed_right_margin",
-                                    0
-                                )
-                            rightMargin = dp2px(rightMargin * 0.5f)
+                        // 右侧间距
+                        var rightMargin =
+                            mPrefsMap.getInt("system_ui_statusbar_network_speed_right_margin", 0)
+                        rightMargin = dp2px(rightMargin * 0.5f)
 
-                            // 上下偏移量
-                            var topMargin = 0
-                            val verticalOffset =
-                                mPrefsMap.getInt(
-                                    "system_ui_statusbar_network_speed_vertical_offset",
-                                    8
-                                )
-                            if (verticalOffset != 8) {
-                                topMargin = dp2px((verticalOffset - 8) * 0.5f)
-                            }
-                            meter.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
+                        // 上下偏移量
+                        var topMargin = 0
+                        val verticalOffset =
+                            mPrefsMap.getInt("system_ui_statusbar_network_speed_vertical_offset", 8)
+                        if (verticalOffset != 8) {
+                            topMargin = dp2px((verticalOffset - 8) * 0.5f)
+                        }
+                        meter.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
 
-                            // 网速字体大小调整
-                            textSize(meter)
+                        // 网速字体大小调整
+                        textSize(meter)
 
-                            // 网速行间距调整
-                            textLineSpacing(meter)
+                        // 网速行间距调整
+                        textLineSpacing(meter)
 
-                            // 水平对齐
-                            when (align) {
-                                2 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-                                3 -> meter.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                4 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
-                            }
+                        // 水平对齐
+                        when (align) {
+                            2 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                            3 -> meter.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                            4 -> meter.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
                         }
                     }
                 }
@@ -134,18 +121,17 @@ object NetworkSpeedStyle : BaseHook() {
     }
 
     private fun textLineSpacing(id: TextView) {
-        if (lineSpacing != 17 && (networkStyle == 2 || networkStyle == 4)) {
-            try {
-                id.setLineSpacing(0f, lineSpacing * 0.05f)
-            } catch (_: Exception) {
-            }
+        if (lineSpacing != 16 && (networkStyle == 2 || networkStyle == 4)) {
+            id.setLineSpacing(0f, lineSpacing * 0.05f)
         }
     }
 
     private fun textSize(id: TextView) {
         if (fontSizeEnable) {
             try {
-                if (mNetworkCostomEnable && (networkStyle == 2 || networkStyle == 4)) {
+                if (networkStyle == 2 || networkStyle == 4) {
+                    id.isSingleLine = false
+                    id.maxLines = 2
                     id.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize * 0.5f)
                 } else {
                     id.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
@@ -153,20 +139,6 @@ object NetworkSpeedStyle : BaseHook() {
             } catch (e: Exception) {
                 logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
             }
-        }
-
-        try {
-            if (networkStyle == 2 || networkStyle == 4) {
-                var spacing = 0.9f
-                id.isSingleLine = false
-                id.maxLines = 2
-                if (0.5 * fontSize > 8.5f) {
-                    spacing = 0.85f
-                }
-                id.setLineSpacing(0f, spacing)
-            }
-        } catch (e: Exception) {
-            logE(TAG, this@NetworkSpeedStyle.lpparam.packageName, e)
         }
     }
 }
