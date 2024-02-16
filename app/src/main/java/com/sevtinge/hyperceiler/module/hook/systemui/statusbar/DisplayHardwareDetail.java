@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.utils.api.LinQiqiApisKt.isNewNetworkStyle;
+import static com.sevtinge.hyperceiler.utils.api.NekoQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -86,8 +86,8 @@ public class DisplayHardwareDetail extends BaseHook {
     }
 
     static class TextIcon {
-        public boolean atRight;
-        public int iconType;
+        public final boolean atRight;
+        public final int iconType;
 
         public TextIcon(boolean mAtRight, int mIconType) {
             atRight = mAtRight;

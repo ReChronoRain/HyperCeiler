@@ -23,21 +23,14 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.mPrefsMap;
 import com.sevtinge.hyperceiler.BuildConfig;
 
 public class LogManager {
-    public static int logLevel = getLogLevel();
+    public static final int logLevel = getLogLevel();
 
     public static int getLogLevel() {
         int level = mPrefsMap.getStringAsInt("log_level", 2);
-        switch (BuildConfig.BUILD_TYPE) {
-            case "canary" -> {
-                return level == 0 ? 3 : 4;
-            }
-            /*case "debug" -> {
-                return 4;
-            }*/
-            default -> {
-                return level;
-            }
+        if (BuildConfig.BUILD_TYPE.equals("canary")) {
+            return level == 0 ? 3 : 4;
         }
+        return level;
     }
 
     public static String logLevelDesc() {

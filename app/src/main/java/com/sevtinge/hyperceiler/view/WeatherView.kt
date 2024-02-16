@@ -33,18 +33,16 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
 
     private val mContext: Context
     private val weatherUri = Uri.parse("content://weather/weather")
-    private val mHandler: Handler
+    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(message: Message) {
+            val str = message.obj as String
+            this@WeatherView.text = if (TextUtils.isEmpty(str)) " " else str
+        }
+    }
     private val mWeatherObserver: ContentObserver?
     private val mWeatherRunnable: WeatherRunnable
 
     init {
-        mHandler =
-            object : Handler(Looper.getMainLooper()) {
-                override fun handleMessage(message: Message) {
-                    val str = message.obj as String
-                    this@WeatherView.text = if (TextUtils.isEmpty(str)) " " else str
-                }
-            }
         mWeatherObserver = WeatherContentObserver(mHandler)
         mContext = context!!
         mWeatherRunnable = WeatherRunnable()

@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment.various;
 
-import android.view.View;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 

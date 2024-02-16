@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.ui.base.SettingsActivity;

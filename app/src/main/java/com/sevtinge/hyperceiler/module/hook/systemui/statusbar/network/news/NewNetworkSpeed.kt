@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.news
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -96,6 +97,7 @@ object NewNetworkSpeed : BaseHook() {
     }
 
     //  网速计算与隐藏相关
+    @SuppressLint("DefaultLocale")
     private fun humanReadableByteCount(ctx: Context, bytes: Long): String {
         return try {
             val modRes = getModuleRes(ctx)

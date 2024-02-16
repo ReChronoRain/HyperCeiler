@@ -152,7 +152,7 @@ fun isNewNetworkStyle(): Boolean {
         "com.android.systemui.statusbar.views.NetworkSpeedView", EzXHelper.classLoader
     )
     return if (networkSpeedViewCls != null) {
-        LinearLayout::class.java.isAssignableFrom(networkSpeedViewCls);
+        LinearLayout::class.java.isAssignableFrom(networkSpeedViewCls)
     } else {
         false
     }

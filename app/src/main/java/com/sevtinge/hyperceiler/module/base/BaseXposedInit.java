@@ -28,6 +28,8 @@ import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
+import android.annotation.SuppressLint;
+
 import com.sevtinge.hyperceiler.module.app.AiAsst;
 import com.sevtinge.hyperceiler.module.app.Aod;
 import com.sevtinge.hyperceiler.module.app.Backup;
@@ -101,6 +103,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
 
     public static boolean isSafeModeOn = false;
 
+    @SuppressLint("StaticFieldLeak")
     public static ResourcesTool mResHook;
     public static String mModulePath = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();

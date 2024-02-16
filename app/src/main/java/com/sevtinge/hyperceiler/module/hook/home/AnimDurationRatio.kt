@@ -28,7 +28,7 @@ object AnimDurationRatio : BaseHook() {
         var value1 = mPrefsMap.getInt("home_title_animation_speed", 100).toFloat()
         var value2 = mPrefsMap.getInt("home_recent_animation_speed", 100).toFloat()
         if (value1 != 100f) {
-            value1 = value1 / 100f
+            value1 /= 100f
             loadClass("com.miui.home.recents.util.RectFSpringAnim").methodFinder().first {
                 name == "getModifyResponse"
             }.createHook {
@@ -38,7 +38,7 @@ object AnimDurationRatio : BaseHook() {
             }
         }
         if (value2 != 100f) {
-            value2 = value2 / 100f
+            value2 /= 100f
             loadClass("com.miui.home.launcher.common.DeviceLevelUtils").methodFinder().first {
                 name == "getDeviceLevelTransitionAnimRatio"
             }.createHook {

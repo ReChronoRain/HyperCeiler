@@ -45,7 +45,7 @@ fun isAndroidVersion(versioncode: Int): Boolean{
         33 -> (getAndroidVersion() == Build.VERSION_CODES.TIRAMISU)
         34 -> (getAndroidVersion() == Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
         else -> false
-    };
+    }
     return result
 }
 
@@ -76,7 +76,7 @@ fun isMiuiVersion(versioncode: Float): Boolean{
         14f -> (getProp("ro.miui.ui.version.name") == "V140")
         15f -> (getProp("ro.miui.ui.version.name") == "V150")
         else -> false
-    };
+    }
     return result
 }
 
@@ -95,7 +95,7 @@ fun isHyperOSVersion(versioncode: Float): Boolean{
     val result: Boolean = when (versioncode) {
         1f -> (getProp("ro.mi.os.version.name") == "OS1.0")
         else -> false
-    };
+    }
     return result
 }
 

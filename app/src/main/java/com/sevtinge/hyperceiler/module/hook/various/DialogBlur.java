@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.various;
 
+import android.os.Build;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
@@ -27,7 +28,7 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class DialogBlur extends BaseHook {
 
-    Class<?> mDialogCls = findClassIfExists("miuix.appcompat.app.AlertController");
+    final Class<?> mDialogCls = findClassIfExists("miuix.appcompat.app.AlertController");
 
     @Override
     public void init() {
@@ -39,7 +40,9 @@ public class DialogBlur extends BaseHook {
 
                 if (mParentPanel != null) {
                     /*new BlurUtils(mParentPanel);*/
-                    new BlurUtils(mParentPanel, "default");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        new BlurUtils(mParentPanel, "default");
+                    }
                 }
             }
         });

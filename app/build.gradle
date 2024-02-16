@@ -74,6 +74,7 @@ android {
             System.console()?.readLine('\n' + prompt + ': ')
     }
     def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
+    def gitRevision = getGitRevision()
 
     signingConfigs {
         hyperceiler {
@@ -113,14 +114,14 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
+            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + gitRevision
             buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
         }
         debug {
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
+            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + gitRevision
             buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler

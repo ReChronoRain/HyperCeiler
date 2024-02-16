@@ -84,7 +84,7 @@ public class LogcatHelper {
         private Process logcatProc;
         private BufferedReader mReader = null;
         private boolean mRunning = true;
-        String cmds = null;
+        String cmds;
         private final String mPID;
         private FileOutputStream out = null;
 

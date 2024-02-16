@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.ui.customhook;
 
-import android.os.Bundle;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.base.SettingsActivity;
 

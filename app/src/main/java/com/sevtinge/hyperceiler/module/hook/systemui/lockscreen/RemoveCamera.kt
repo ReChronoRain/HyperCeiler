@@ -54,7 +54,7 @@ object RemoveCamera : BaseHook() {
                 }
             }
         } else if (isMiuiVersion(14f) && isAndroidVersion(34)) {
-            newClass!!.methodFinder().first() {
+            newClass!!.methodFinder().first {
                 name == "onFinishInflate"
             }.createHook {
                 after {

@@ -1,6 +1,6 @@
-<div align="center">
+<p style="text-align:center;">
 
-<img width="" src="/imgs/icon.png" width=160 height=160 align="center">
+<img src="/imgs/icon.png" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon">
 
 # HyperCeiler
 
@@ -8,7 +8,7 @@
 
 [简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
 
-</div>
+</p>
 
 ## Versões suportadas
 
@@ -76,16 +76,12 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | GetApps                                        | com.xiaomi.market                  |
 | Assistente                                     | com.miui.personalassistant         |
 | Temas                                          | com.android.thememanager           |
-| com.miui.rom                                   | com.miui.rom                       |
 | Componentes de segurança do HyperOS            | com.miui.guardprovider             |
-| Relógio                                        | com.android.deskclock              |
 | Câmera                                         | com.android.camera                 |
 | Mi AI Translate                                | com.xiaomi.aiasst.vision           |
 | AI Reco                                        | com.xiaomi.aireco                  |
 | Scanner                                        | com.xiaomi.scanner                 |
 | Mi AI                                          | com.miui.voiceassist               |
-| Música                                         | com.miui.player                    |
-| Serviços de interconectividade de dispositivos | com.xiaomi.mirror                  |
 | NetworkBoost                                   | com.xiaomi.NetworkBoost            |
 | Serviço NFC                                    | com.android.nfc                    |
 | Fones de ouvido                                | com.miui.misound                   |

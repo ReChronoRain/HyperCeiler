@@ -54,15 +54,13 @@ public abstract class BaseModule implements IXposedHook {
         try {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
                 Handler handler = new Handler();
-                ContextUtils.getWaitContext(context -> {
-                        handler.post(
-                            () -> {
-                                if (context != null) {
-                                    ResourcesTool.loadModuleRes(context);
-                                }
-                            }
-                        );
+                ContextUtils.getWaitContext(context -> handler.post(
+                    () -> {
+                        if (context != null) {
+                            ResourcesTool.loadModuleRes(context);
+                        }
                     }
+                )
                     , "android".equals(lpparam.packageName));
             }
         } catch (Throwable e) {
