@@ -42,13 +42,13 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class DialogGravity extends BaseHook {
 
-    public static Context mContext;
-    public static View mParentPanel = null;
+    public Context mContext;
+    public View mParentPanel = null;
 
-    Class<?> mDialogCls = XposedHelpers.findClassIfExists("miuix.appcompat.app.AlertController", lpparam.classLoader);
-    Class<?> mDialogParentPanelCls = XposedHelpers.findClassIfExists("miuix.internal.widget.DialogParentPanel", lpparam.classLoader);
+    final Class<?> mDialogCls = XposedHelpers.findClassIfExists("miuix.appcompat.app.AlertController", lpparam.classLoader);
+    final Class<?> mDialogParentPanelCls = XposedHelpers.findClassIfExists("miuix.internal.widget.DialogParentPanel", lpparam.classLoader);
 
-    List<Method> methodList = new LinkedList<>();
+    final List<Method> methodList = new LinkedList<>();
 
     @Override
     public void init() {

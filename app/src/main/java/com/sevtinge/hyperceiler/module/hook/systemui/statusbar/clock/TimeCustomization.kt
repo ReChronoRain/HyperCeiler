@@ -111,7 +111,7 @@ object TimeCustomization : BaseHook() {
                                     Handler(textV.context.mainLooper).post(r)
                                 }
                             }
-                            Timer().scheduleAtFixedRate(
+                            Timer().schedule(
                                 T(), 1000 - System.currentTimeMillis() % 1000, 1000
                             )
                         } catch (_: Exception) {
@@ -187,7 +187,7 @@ object TimeCustomization : BaseHook() {
                                     Handler(textV.context.mainLooper).post(r)
                                 }
                             }
-                            Timer().scheduleAtFixedRate(
+                            Timer().schedule(
                                 T(), 1000 - System.currentTimeMillis() % 1000, 1000
                             )
                         } catch (_: Exception) {

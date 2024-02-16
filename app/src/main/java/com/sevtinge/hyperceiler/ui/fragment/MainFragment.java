@@ -30,7 +30,6 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import moralnorm.preference.Preference;

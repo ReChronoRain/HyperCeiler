@@ -32,7 +32,7 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.sevtinge.hyperceiler.utils.PropUtils
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.getSharedPrefs
 import moralnorm.internal.utils.DeviceHelper
-import java.util.*
+import java.util.Locale
 
 fun dp2px(dpValue: Float): Int = TypedValue.applyDimension(
     TypedValue.COMPLEX_UNIT_DIP, dpValue, EzXHelper.appContext.resources.displayMetrics
@@ -63,7 +63,7 @@ fun checkVersionName(): String = getPackageInfoCompat(EzXHelper.appContext.packa
 fun isAlpha(): Boolean =
     getPackageInfoCompat(EzXHelper.appContext.packageName).versionName.contains("ALPHA", ignoreCase = true)
 
-fun isTablet(): Boolean = Resources.getSystem().getConfiguration().smallestScreenWidthDp >= 600
+fun isTablet(): Boolean = Resources.getSystem().configuration.smallestScreenWidthDp >= 600
 
 fun isPadDevice(): Boolean = isTablet() || DeviceHelper.isFoldDevice()
 

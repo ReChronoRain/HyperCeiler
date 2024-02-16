@@ -29,8 +29,8 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 class QQSGrid : BaseHook() {
     override fun init() {
-        val cols = mPrefsMap.getInt("system_control_center_old_qs_grid_columns", 5);
-        val colsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_grid_columns_horizontal", 6);
+        val cols = mPrefsMap.getInt("system_control_center_old_qs_grid_columns", 5)
+        val colsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_grid_columns_horizontal", 6)
 
         loadClass("com.android.systemui.qs.MiuiQuickQSPanel").methodFinder().first {
                 name == "setMaxTiles" && parameterCount == 1

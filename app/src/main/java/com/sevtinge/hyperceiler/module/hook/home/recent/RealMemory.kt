@@ -29,7 +29,6 @@ import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constr
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.IS_TABLET
-import com.sevtinge.hyperceiler.utils.api.isPad
 import com.sevtinge.hyperceiler.utils.getObjectField
 
 // @SuppressLint("StaticFieldLeak")

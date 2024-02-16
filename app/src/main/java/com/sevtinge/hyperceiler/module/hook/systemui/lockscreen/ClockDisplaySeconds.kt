@@ -35,7 +35,10 @@ import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import de.robv.android.xposed.XC_MethodHook
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Timer
+import java.util.TimerTask
 
 object ClockDisplaySeconds : BaseHook() {
     private var nowTime: Date = Calendar.getInstance().time
@@ -58,7 +61,7 @@ object ClockDisplaySeconds : BaseHook() {
                             Handler(viewGroup.context.mainLooper).post(r)
                         }
                     }
-                    Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
+                    Timer().schedule(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
                 } catch (_: Exception) {
                 }
             }

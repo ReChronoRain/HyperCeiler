@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI;
 
 import android.view.MotionEvent;

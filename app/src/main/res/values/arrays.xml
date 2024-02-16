@@ -5,7 +5,6 @@
         <item>android</item>
         <item>com.android.browser</item>
         <item>com.android.camera</item>
-        <item>com.android.deskclock</item>
         <item>com.android.externalstorage</item>
         <item>com.android.fileexplorer</item>
         <item>com.android.incallui</item>
@@ -39,9 +38,7 @@
         <item>com.miui.notes</item>
         <item>com.miui.packageinstaller</item>
         <item>com.miui.personalassistant</item>
-        <item>com.miui.player</item>
         <item>com.miui.powerkeeper</item>
-        <item>com.miui.rom</item>
         <item>com.miui.screenrecorder</item>
         <item>com.miui.screenshot</item>
         <item>com.miui.securityadd</item>
@@ -54,7 +51,6 @@
         <item>com.xiaomi.barrage</item>
         <item>com.xiaomi.joyose</item>
         <item>com.xiaomi.market</item>
-        <item>com.xiaomi.mirror</item>
         <item>com.xiaomi.misettings</item>
         <item>com.xiaomi.mtb</item>
         <item>com.xiaomi.NetworkBoost</item>

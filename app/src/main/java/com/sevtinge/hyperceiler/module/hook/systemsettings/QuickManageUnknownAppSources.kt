@@ -32,7 +32,7 @@ class QuickManageUnknownAppSources : BaseHook() {
             object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     val intent = (param.thisObject as Activity).intent
-                    if (intent.action != Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES || intent.data == null || intent.data!!.scheme != "package") return@before
+                    if (intent.action != Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES || intent.data == null || intent.data!!.scheme != "package") return
                     param.thisObject.objectHelper().setObjectUntilSuperclass(
                         "initialFragmentName",
                         "com.android.settings.applications.appinfo.ExternalSourcesDetails"

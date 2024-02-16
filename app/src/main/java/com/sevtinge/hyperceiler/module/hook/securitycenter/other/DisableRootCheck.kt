@@ -30,7 +30,7 @@ object DisableRootCheck : BaseHook() {
                 addUsingStringsEquals("key_check_item_root")
                 returnType = "boolean"
             }
-        }.single().getMethodInstance(lpparam.classLoader)?.createHook {
+        }.single().getMethodInstance(lpparam.classLoader).createHook {
             returnConstant(false)
         }
     }

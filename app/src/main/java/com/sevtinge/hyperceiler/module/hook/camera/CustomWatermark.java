@@ -31,7 +31,6 @@ import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 public class CustomWatermark extends BaseHook {
     @Override

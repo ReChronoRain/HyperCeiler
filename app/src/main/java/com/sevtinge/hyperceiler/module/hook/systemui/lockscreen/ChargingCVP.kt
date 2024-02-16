@@ -206,6 +206,7 @@ object ChargingCVP : BaseHook() {
 
     }
 
+    @SuppressLint("DefaultLocale")
     private fun getCVP(): String {
         // 获取电流信息
         val batteryManager =

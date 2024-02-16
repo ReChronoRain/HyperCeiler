@@ -116,16 +116,8 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     }
 
     public void initApp(ExecutorService executorService, Runnable runnable) {
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        runnable.run();
-                    }
-                });
-            }
+        executorService.submit(() -> {
+            handler.post(runnable);
         });
     }
 

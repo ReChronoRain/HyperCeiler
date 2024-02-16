@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -55,6 +56,7 @@ public class XposedTool extends XposedLogUtils {
     public static WeakReference<TextView> mPct;
 
     // public  Context mModuleContext = null;
+    @SuppressLint("StaticFieldLeak")
     public static final ResourcesTool mResHook = XposedInit.mResHook;
 
     public static void setTextView(TextView textView) {
@@ -87,12 +89,8 @@ public class XposedTool extends XposedLogUtils {
                     if ((context = currentApplication()) == null)
                         context = getSystemContext();
                 }
-                case 1 -> {
-                    context = currentApplication();
-                }
-                case 2 -> {
-                    context = getSystemContext();
-                }
+                case 1 -> context = currentApplication();
+                case 2 -> context = getSystemContext();
                 default -> {
                 }
             }
@@ -149,8 +147,7 @@ public class XposedTool extends XposedLogUtils {
             Object parser = parserCls.newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-            return versionName;
+            return (String) XposedHelpers.getObjectField(pkg, "mVersionName");
         } catch (Throwable e) {
             return "";
         }
@@ -162,8 +159,7 @@ public class XposedTool extends XposedLogUtils {
             Object parser = parserCls.newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-            int versionCode = XposedHelpers.getIntField(pkg, "mVersionCode");
-            return versionCode;
+            return XposedHelpers.getIntField(pkg, "mVersionCode");
         } catch (Throwable e) {
             return -1;
         }
