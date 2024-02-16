@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.base.tool;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -56,7 +55,6 @@ public class XposedTool extends XposedLogUtils {
     public static WeakReference<TextView> mPct;
 
     // public  Context mModuleContext = null;
-    @SuppressLint("StaticFieldLeak")
     public static final ResourcesTool mResHook = XposedInit.mResHook;
 
     public static void setTextView(TextView textView) {
