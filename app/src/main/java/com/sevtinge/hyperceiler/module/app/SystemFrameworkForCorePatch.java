@@ -38,8 +38,8 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
             EzXHelper.initHandleLoadPackage(lpparam);
-            EzXHelper.setLogTag(TAG);
-            EzXHelper.setToastTag(TAG);
+            // EzXHelper.setLogTag(TAG);
+            // EzXHelper.setToastTag(TAG);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                     new CorePatchForU().handleLoadPackage(lpparam);
