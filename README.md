@@ -1,4 +1,4 @@
-<p style="text-align:center;">
+<div align="center">
 
 <img src="/imgs/icon.png" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon">
 
@@ -8,7 +8,7 @@
 
 简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
-</p>
+</div>
 
 ## 支持的版本
 
