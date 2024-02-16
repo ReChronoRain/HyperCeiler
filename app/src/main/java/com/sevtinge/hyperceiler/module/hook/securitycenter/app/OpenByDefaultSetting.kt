@@ -38,16 +38,15 @@ import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
-import com.github.kyuubiran.ezxhelper.EzXHelper.hostPackageName
 import com.github.kyuubiran.ezxhelper.EzXHelper.initAppContext
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
-import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
 import com.sevtinge.hyperceiler.R
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
+import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
 
 
 @SuppressLint("DiscouragedApi")
@@ -59,19 +58,19 @@ object OpenByDefaultSetting : BaseHook() {
         )
     }
     private val idAmDetailDefault by lazy {
-        appContext.resources.getIdentifier("am_detail_default", "id", hostPackageName)
+        appContext.resources.getIdentifier("am_detail_default", "id", lpparam.packageName)
     }
     private val idAmDetailDefaultTitle by lazy {
-        appContext.resources.getIdentifier("am_detail_default_title", "id", hostPackageName)
+        appContext.resources.getIdentifier("am_detail_default_title", "id", lpparam.packageName)
     }
     private val drawableAmCardBgSelector by lazy {
-        appContext.resources.getIdentifier("am_card_bg_selector", "drawable", hostPackageName)
+        appContext.resources.getIdentifier("am_card_bg_selector", "drawable", lpparam.packageName)
     }
     private val dimenAmDetailsItemHeight by lazy {
-        appContext.resources.getIdentifier("am_details_item_height", "dimen", hostPackageName)
+        appContext.resources.getIdentifier("am_details_item_height", "dimen", lpparam.packageName)
     }
     private val dimenAmMainPageMarginSe by lazy {
-        appContext.resources.getIdentifier("am_main_page_margin_se", "dimen", hostPackageName)
+        appContext.resources.getIdentifier("am_main_page_margin_se", "dimen", lpparam.packageName)
     }
 
     override fun init() {
@@ -88,7 +87,7 @@ object OpenByDefaultSetting : BaseHook() {
                             activity.findViewById<View>(idAmDetailDefaultTitle)
                         val linearLayout = viewAmDetailDefaultTitle.parent as LinearLayout
                         cleanOpenByDefaultView =
-                            (loadClass("com.miui.appmanager.widget.AppDetailBannerItemView").constructorFinder()
+                            (findClass("com.miui.appmanager.widget.AppDetailBannerItemView").constructorFinder()
                                 .filterByParamCount(2).first()
                                 .newInstance(activity, null) as LinearLayout).apply {
                                 gravity = Gravity.CENTER_VERTICAL
