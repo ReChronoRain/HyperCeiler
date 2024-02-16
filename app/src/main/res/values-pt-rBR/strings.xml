@@ -29,7 +29,7 @@
     <string name="prefs_7">Remover chave especificada</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
-    <string name="about_use">Citar</string>
+    <string name="about_use">Referências</string>
     <string name="about_use_desc">O HyperCeiler usa alguns ou todos os projetos a seguir, graças ao apoio dos desenvolvedores desses projetos (em nenhuma ordem em particular)</string>
     <string name="about_contributer">Colaboradores</string>
     <string name="about_contributer_desc">Obrigado aos seguintes colaboradores pela sua ajuda no desenvolvimento do HyperCeiler (em nenhuma ordem em particular)</string>
@@ -390,7 +390,7 @@
     <string name="camera_features_unlock_clone">Desbloquear modo Clonar</string>
     <string name="camera_features_unlock_cosmetic_mirror">Desbloquear Espelho de bolso</string>
     <string name="camera_features_unlock_doc">Desbloquear modo Documentos</string>
-    <string name="camera_features_unlock_idcard">Desbloquear modo Cartão de Identificação</string>
+    <string name="camera_features_unlock_idcard">Desbloquear modo Cartão de identificação</string>
     <string name="camera_features_unlock_dualcam">Desbloquear Câmera dupla</string>
     <string name="camera_features_unlock_duration">Desbloquear Duração</string>
     <string name="camera_features_unlock_milive">Desbloquear Vídeo curto</string>
@@ -406,10 +406,10 @@
     <string name="camera_features_unlock_film_delay">Desbloquear Longa exposição</string>
     <string name="camera_features_unlock_film_dollyzoom">Desbloquear Zoom mágico</string>
     <string name="camera_features_unlock_film_dream">Desbloquear Sonho</string>
-    <string name="camera_features_unlock_film_slowshutter">Desbloquear Obturador lento</string>
+    <string name="camera_features_unlock_film_slowshutter">Desbloquear Disparo lento</string>
     <string name="camera_features_unlock_film_timebackflow">Desbloquear Fluxo de tempo</string>
-    <string name="camera_features_unlock_film_timefreeze">Desbloquear Congelar o tempo</string>
-    <string name="camera_shot_hand_gesture">Desbloquear Obturador de palma</string>
+    <string name="camera_features_unlock_film_timefreeze">Desbloquear Congelar tempo</string>
+    <string name="camera_shot_hand_gesture">Desbloquear Disparo com palma da mão</string>
     <string name="camera_shot_color_enhance">Desbloquear Cores aprimoradas</string>
     <string name="camera_shot_makeup">Desbloquear Maquiagem</string>
     <string name="camera_shot_makeup_desc">Tem efeito apenas ao usar a câmera frontal</string>
@@ -429,7 +429,7 @@
     <string name="camera_settings_heic">Desbloquear HEIF</string>
     <string name="camera_settings_track_focus">Desbloquear Rastreamento de foco</string>
     <string name="camera_settings_predictive">Desbloquear Rastrear movimento</string>
-    <string name="camera_settings_nevus">Desbloquear Remover verrugas</string>
+    <string name="camera_settings_nevus">Desbloquear Remoção de toupeiras</string>
     <string name="camera_settings_men_makeup">Desbloquear Ajustar efeitos de maquiagem para homens</string>
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
@@ -492,7 +492,7 @@
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
-    <string name="system_ui_hide_navigation_bar_more">Por favor, reinicie os escopos Launcher do sistema e Ui do Sistema</string>
+    <string name="system_ui_hide_navigation_bar_more">Por favor, reinicie os escopos Launcher do sistema e UI do Sistema.</string>
     <string name="system_ui_navigation_handle_custom">Indicador de tela infinita personalizado</string>
     <string name="system_ui_navigation_handle_custom_height">Altura</string>
     <string name="system_ui_navigation_handle_custom_width">Largura em retrato</string>
@@ -692,7 +692,7 @@
     <string name="system_control_center_qs_columns">Colunas</string>
     <string name="system_control_center_qs_columns_format">%d colunas</string>
     <string name="system_control_center_qs_columns_horizontal">Colunas (Paisagem)</string>
-    <string name="system_ui_control_center_hide_mi_play_entry">Entrada do MiPlay</string>
+    <string name="system_ui_control_center_hide_mi_play_entry">Entrada do Mi Play</string>
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Mi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entrada de controle do dispositivo</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
@@ -1074,7 +1074,7 @@
     <string name="home_widget_show_miui_widget">Exibir widgets do sistema</string>
     <string name="home_widget_show_miui_widget_desc">Exibir widgets do sistema na página de widgets AOSP</string>
     <string name="home_widget_corner_radius">Cantos arredondados do widget</string>
-    <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para a tela negativa</string>
+    <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para o Assistente</string>
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>
     <string name="home_widget_resizable">Remover quaisquer limitações de tamanho do widget</string>
     <string name="home_dock">Dock</string>
@@ -1184,7 +1184,7 @@
     <string name="personal_assistant">Assistente</string>
     <string name="personal_assistant_fold_widget_enable">Peso Pad/Fold</string>
     <string name="personal_assistant_fold_widget_enable_desc">Ativar widgets de estilo Pad/Fold</string>
-    <string name="personal_assistant_overlap_mode">Estilo de dobra da tela negativa</string>
+    <string name="personal_assistant_overlap_mode">Estilo de dobra do Assistente</string>
     <string name="personal_assistant_blur_model">Modelo do blur do assistente pessoal</string>
     <string name="personal_assistant_blur_value">Estilo do fundo</string>
     <string name="personal_assistant_blurradius">Valor do blur do assistente pessoal</string>
@@ -1266,7 +1266,7 @@
     <string name="app_link_open_never">Não permitir que apps abram links</string>
     <string name="open_by_default">Abrir por padrão</string>
     <string name="security_score">Desativar otimização de verificação de saúde</string>
-    <string name="security_score_summary">Bloqueie em 100 pontos e desative a otimização</string>
+    <string name="security_score_summary">Bloqueie a pontuação de segurança em 100 e desative o botão Otimizar</string>
     <string name="security_center_skip_waiting_time">Ignorar limite de contagem regressiva</string>
     <string name="security_center_skip_waiting_time_desc">Ignore a contagem regressiva de espera para opções perigosas</string>
     <string name="security_center_newbox_blur">Blur da barra lateral</string>
@@ -1408,6 +1408,7 @@
     <string name="various_super_clipboard_files_desc">Permite copiar arquivos para a área de transferência</string>
     <string name="various_super_clipboard_picture_share_desc">Permite copiar e colar imagens na área de transferência</string>
     <string name="various_open_aosp_battery_title">Otimização de bateria</string>
+    <string name="various_open_aosp_running_services">Serviços em execução</string>
     <string name="various_open_aosp_notification_title">Notificações</string>
     <string name="various_open_aosp_app_manage_title">Gerenciamento de apps</string>
     <string name="various_open_aosp_language_title">Idiomas, entrada e gestos</string>
