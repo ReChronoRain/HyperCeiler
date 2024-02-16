@@ -35,6 +35,17 @@ object BatteryHealth : BaseHook() {
     private fun health(): String {
         val f = File(battery + full).readText()
         val d = File(battery + design).readText()
-        return (f.toFloat() / d.toFloat() * 100).toString() + " %"
+        return sswr(f.toFloat() / d.toFloat() * 100) + " %"
+    }
+
+
+    private fun sswr(x: Float): String {
+        val s = x.toString()
+        // 无需处理
+        if (s.length <= 5) return s
+
+        return if (s[5].digitToInt() >= 5)
+            (x + 0.01).toString().substring(0, 5)
+        else s.substring(0, 5)
     }
 }
