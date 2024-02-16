@@ -95,7 +95,7 @@
     <string name="about_crwd_desc">Bantu kami menerjemahkan HyperCeiler ke dalam bahasa Anda</string>
     <!--Pop-up window/miuix part-->
     <string name="soft_reboot">Reboot </string>
-    <string name="restart_app_desc">Apakah Anda yakin untuk me-restart sekarang %1$s?</string>
+    <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
     <string name="tip">Tip</string>
     <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
     <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
@@ -120,7 +120,7 @@
     <string name="abc_action_bar_home_description">Kembali ke beranda</string>
     <string name="abc_action_bar_up_description">Kembali ke level sebelumnya</string>
     <string name="actionbar_button_up_description">Kembali</string>
-    <string name="appcompat_action_mode_select_all">Pilih Semua</string>
+    <string name="appcompat_action_mode_select_all">Pilih semua</string>
     <string name="appcompat_cancel_description">Membatalkan</string>
     <string name="appcompat_confirm_description">Oke</string>
     <string name="appcompat_select_all_description">Pilih Semua</string>
@@ -133,7 +133,7 @@
     <string name="color_picker_alpha_text_transparent">Kegelapan</string>
     <string name="color_picker_tab_grid">jaringan</string>
     <string name="color_picker_tab_slider">Penggeser</string>
-    <string name="color_picker_view_page_text_hue">Warna</string>
+    <string name="color_picker_view_page_text_hue">Hue</string>
     <string name="color_picker_view_page_text_lightness">Keringanan</string>
     <string name="color_picker_view_page_text_saturation">Kejenuhan</string>
     <!--String reuse-->
@@ -1068,7 +1068,7 @@
     <string name="home_recent_show_memory_info_sum">Hanya untuk penggunaan tablet</string>
     <string name="home_recent_show_memory_info">Tampilkan info memori</string>
     <string name="home_recent_always_show_clean_up">Larang menyembunyikan ikon pembersihan saat tidak ada kartu</string>
-    <string name="home_recent_blur">Latar belakang kabur</string>
+    <string name="home_recent_blur">Latar belakang buram</string>
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animasi widget</string>
     <string name="home_widget_show_miui_widget">Tampilkan Widget Sistem</string>
@@ -1147,6 +1147,8 @@
     <string name="mediaeditor_ai_authoring">Penulisan AI</string>
     <string name="mediaeditor_unlock_disney_title">Buka kunci fitur penyesuaian Disney</string>
     <string name="mediaeditor_unlock_disney_desc">Buka kunci mencakup fitur berikut:\n- Bingkai Khusus - Bingkai Khusus Disney (bertentangan dengan bingkai khusus lainnya)\n- Latar Belakang Bokeh - Mickey Mokeh\n- Stiker - Stiker Disney</string>
+    <string name="mediaeditor_unlock_spring_title">Buka kunci bingkai foto khusus Tahun Baru Imlek</string>
+    <string name="mediaeditor_unlock_spring_desc">Untuk menambahkan bingkai foto kustom Tahun Baru Imlek secara permanen, prasyaratnya adalah Anda memerlukan bingkai foto kustom Leica atau bingkai foto kustom Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Buka kunci batas pemotongan gambar minimum</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Sesuaikan jenis bingkai</string>
     <string name="mediaeditor_unlock_leica_filter_title">Buka kunci filter Leica</string>
@@ -1406,6 +1408,7 @@
     <string name="various_super_clipboard_files_desc">Izinkan menyalin file ke clipboard</string>
     <string name="various_super_clipboard_picture_share_desc">Izinkan menyalin dan menempelkan gambar ke clipboard</string>
     <string name="various_open_aosp_battery_title">Optimasi Baterai</string>
+    <string name="various_open_aosp_running_services">Layanan yang sedang berjalan</string>
     <string name="various_open_aosp_notification_title">Pengaturan pemberitahuan</string>
     <string name="various_open_aosp_app_manage_title">Manajemen Aplikasi</string>
     <string name="various_open_aosp_language_title">Pengaturan Bahasa</string>
@@ -1455,7 +1458,7 @@
     <string name="location_simulation_wifi">Wifi</string>
     <string name="location_simulation_router_mac">Alamat Mac Perute</string>
     <string name="location_simulation_work_title">Judul</string>
-    <string name="location_simulation_work_offset">Mengimbangi</string>
+    <string name="location_simulation_work_offset">Offset</string>
     <string name="location_simulation_work_base_station">Stasiun pangkalan</string>
     <string name="location_simulation_work_longitude_latitude">Bujur dan lintang</string>
     <string name="location_simulation_work_remarks">Tanda</string>
@@ -1512,6 +1515,6 @@
     <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
-    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan ke pengembang secara tepat waktu dan efektif.</string>
+    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
     <string name="happy_chinese_new_year">Selamat Tahun Baru Cina</string>
 </resources>
