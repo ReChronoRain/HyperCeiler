@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.OpenByDefaultSetting;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.BatteryHealth;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTime;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ShowBatteryTemperatureNew;
@@ -93,6 +94,7 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockSuperWirelessCharge.INSTANCE, mPrefsMap.getBoolean("security_center_super_wireless_charge"));
         initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
         initHook(UnlockSmartCharge.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_smart_charge"));
+        initHook(BatteryHealth.INSTANCE, true);
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
