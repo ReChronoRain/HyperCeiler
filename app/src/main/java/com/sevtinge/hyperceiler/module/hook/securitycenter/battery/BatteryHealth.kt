@@ -1,54 +1,40 @@
 package com.sevtinge.hyperceiler.module.hook.securitycenter.battery
 
-import android.os.Bundle
 import android.os.Message
+import com.github.kyuubiran.ezxhelper.EzXHelper
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.callMethod
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
-import java.io.File
+import org.luckypray.dexkit.query.enums.StringMatchType
 
 
 object BatteryHealth : BaseHook() {
-    private const val battery = "/sys/class/power_supply/battery/"
-    private const val full = "charge_full"
-    private const val design = "charge_full_design"
-    private const val temp = "temp"
-
+    private val getSecurityBatteryHealth by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingString("battery_health_soh", StringMatchType.Equals)
+            }
+        }.single().getMethodInstance(EzXHelper.classLoader)
+    }
 
     override fun init() {
-        findClassIfExists("com.miui.powercenter.nightcharge.SmartChargeFragment\$c").let { c ->
-            c.hookAfterMethod("handleMessage", Message::class.java) {
-                // TODO hardcode。想办法改进
-                it.thisObject.getObjectField("a")!!.callMethod("get")!!.let { cc ->
-                    cc.getObjectField("c")!!.callMethod("setText", health())
-                    cc.getObjectField("d")!!.callMethod("setText", temperature())
+        getSecurityBatteryHealth.createHook {
+            after { params ->
+                val health = params.args[0] as Int // 获取手机管家内部的健康度
+
+                logE(TAG, "get health is $health") // debug 用
+                findClassIfExists("com.miui.powercenter.nightcharge.SmartChargeFragment\$c").let { c ->
+                    c.hookAfterMethod("handleMessage", Message::class.java) {
+                        // TODO hardcode。想办法改进
+                        it.thisObject.getObjectField("a")!!.callMethod("get")!!.let { cc ->
+                            cc.getObjectField("c")!!.callMethod("setText", "$health %")
+                        }
+                    }
                 }
             }
         }
-
-    }
-
-
-    private fun health(): String {
-        val f = File(battery + full).readText()
-        val d = File(battery + design).readText()
-        return sswr(f.toFloat() / d.toFloat() * 100) + " %"
-    }
-
-
-    private fun temperature(): String {
-        return (File(battery + temp).readText().toFloat() / 10).toString() + " °C"
-    }
-
-
-    private fun sswr(x: Float): String {
-        val s = x.toString()
-        // 无需处理
-        if (s.length <= 5) return s
-
-        return if (s[5].digitToInt() >= 5)
-            (x + 0.01).toString().substring(0, 5)
-        else s.substring(0, 5)
     }
 }

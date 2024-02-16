@@ -94,7 +94,7 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockSuperWirelessCharge.INSTANCE, mPrefsMap.getBoolean("security_center_super_wireless_charge"));
         initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
         initHook(UnlockSmartCharge.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_smart_charge"));
-        initHook(BatteryHealth.INSTANCE, true);
+        initHook(BatteryHealth.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_health"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));

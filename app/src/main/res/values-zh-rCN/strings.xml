@@ -1297,6 +1297,8 @@
     <string name="security_center_newbox_title">全局侧边栏</string>
     <string name="security_center_dolby_open">关闭杜比弹窗</string>
     <string name="security_center_show_battery_temperature">显示电池温度</string>
+    <string name="security_center_show_battery_health">显示具体电池健康度</string>
+    <string name="security_center_show_battery_health_desc">仅支持较新的版本</string>
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 开关</string>
