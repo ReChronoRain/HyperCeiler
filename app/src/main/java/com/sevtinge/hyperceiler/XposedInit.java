@@ -65,10 +65,6 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        EzXHelper.initHandleLoadPackage(lpparam);
-        EzXHelper.setLogTag(TAG);
-        EzXHelper.setToastTag(TAG);
-
         init(lpparam);
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
     }

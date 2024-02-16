@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.app;
 
 import android.os.Build;
 
+import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForR;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForS;
 import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.CorePatchForT;
@@ -36,6 +37,9 @@ public class SystemFrameworkForCorePatch implements IXposedHookLoadPackage, IXpo
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
+            EzXHelper.initHandleLoadPackage(lpparam);
+            EzXHelper.setLogTag(TAG);
+            EzXHelper.setToastTag(TAG);
             switch (Build.VERSION.SDK_INT) {
                 case Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> // 34
                     new CorePatchForU().handleLoadPackage(lpparam);
