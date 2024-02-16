@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +45,8 @@ import de.robv.android.xposed.XposedHelpers;
  */
 public class ResourcesTool {
     private boolean hooksApplied = false;
-    private Context mContext = null;
+    // private Context mContext = null;
+    private WeakReference<Context> weakContext;
 
     protected enum ReplacementType {
         ID,
@@ -55,6 +57,14 @@ public class ResourcesTool {
     private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
 
     public ResourcesTool() {
+    }
+
+    private Context getWeakContext() {
+        return weakContext != null ? weakContext.get() : null;
+    }
+
+    private void setWeakContext(Context context) {
+        weakContext = new WeakReference<>(context);
     }
 
     /**
@@ -145,12 +155,13 @@ public class ResourcesTool {
     private final HookTool.MethodHook hookBefore = new HookTool.MethodHook() {
         @Override
         protected void before(MethodHookParam param) {
-            if (mContext == null) {
-                mContext = XposedTool.findContext(ContextUtils.FLAG_ALL);
+            Context context;
+            if ((context = getWeakContext()) == null) {
+                context = XposedTool.findContext(ContextUtils.FLAG_ALL);
             }
-            if (mContext == null) return;
+            if (context == null) return;
             String method = param.method.getName();
-            Object value = getResourceReplacement(mContext, (Resources) param.thisObject, method, param.args);
+            Object value = getResourceReplacement(context, (Resources) param.thisObject, method, param.args);
             if (value == null) return;
             if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
                 if (value instanceof Float) value = ((Float) value).intValue();
@@ -177,7 +188,7 @@ public class ResourcesTool {
      */
     public void setResReplacement(Context context, String pkg, String type, String name, int replacementResId) {
         try {
-            mContext = context;
+            setWeakContext(context);
             replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ID, replacementResId));
         } catch (Throwable t) {
             XposedBridge.log(t);
@@ -202,7 +213,7 @@ public class ResourcesTool {
      */
     public void setDensityReplacement(Context context, String pkg, String type, String name, float replacementResValue) {
         try {
-            mContext = context;
+            setWeakContext(context);
             applyHooks();
             replacements.put(pkg + ":" + type + "/" + name, new Pair<>(DENSITY, replacementResValue));
         } catch (Throwable t) {
@@ -228,7 +239,7 @@ public class ResourcesTool {
      */
     public void setObjectReplacement(Context context, String pkg, String type, String name, Object replacementResValue) {
         try {
-            mContext = context;
+            setWeakContext(context);
             applyHooks();
             replacements.put(pkg + ":" + type + "/" + name, new Pair<>(OBJECT, replacementResValue));
         } catch (Throwable t) {
