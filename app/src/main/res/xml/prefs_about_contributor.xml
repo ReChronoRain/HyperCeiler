@@ -150,6 +150,13 @@
                 android:data="https://github.com/zjw2017" />
         </Preference>
         <Preference
+            android:summary="GitHub@xing0meng"
+            android:title="星夜萌">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/xing0meng" />
+        </Preference>
+        <Preference
             android:summary="CoolApk@欧瓯烨"
             android:title="欧瓯烨">
             <intent

@@ -801,6 +801,7 @@
     <string name="system_ui_control_center_more_card_tiles_most">更多</string>
 
     <string name="system_ui_other_title">其他</string>
+    <string name="system_ui_disable_volume">原生音量条</string>
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>

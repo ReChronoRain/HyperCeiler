@@ -1422,6 +1422,7 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="various_super_clipboard_files_desc">Cho phép sao chép tập tin vào clipboard</string>
     <string name="various_super_clipboard_picture_share_desc">Cho phép sao chép và dán hình ảnh vào clipboard</string>
     <string name="various_open_aosp_battery_title">Tối ưu hóa pin</string>
+    <string name="various_open_aosp_running_services">Dịch vụ đang chạy</string>
     <string name="various_open_aosp_notification_title">Cài đặt thông báo</string>
     <string name="various_open_aosp_app_manage_title">Quản lý ứng dụng</string>
     <string name="various_open_aosp_language_title">Cài đặt ngôn ngữ</string>

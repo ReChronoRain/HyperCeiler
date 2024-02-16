@@ -787,6 +787,7 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">There is no restriction on background blur for official premium materials only for third-party theme removal</string>
 
     <string name="system_ui_other_title">Other</string>
+    <string name="system_ui_disable_volume">Native volume bar</string>
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_charge_animation_style">Charging animation style</string>
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
