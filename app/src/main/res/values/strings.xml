@@ -1274,6 +1274,8 @@
     <string name="security_center_newbox_title">Sidebar</string>
     <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="security_center_show_battery_temperature">Show battery temperature</string>
+    <string name="security_center_show_battery_health">Show detailed battery health</string>
+    <string name="security_center_show_battery_health_desc">Only newer versions supported</string>
     <string name="security_center_ai_clipboard">Protect clipboard</string>
     <string name="security_center_blur_location">Lower positioning accuracy</string>
     <string name="security_center_gms_open">GMS Service</string>

@@ -61,6 +61,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_show_battery_health"
+            android:summary="@string/security_center_show_battery_health_desc"
+            android:title="@string/security_center_show_battery_health" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_unlock_screen_time"
             android:summary="@string/security_center_unlock_screen_time_desc"
             android:title="@string/security_center_unlock_screen_time" />
@@ -84,7 +90,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security_center_privacy_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_ai_clipboard"
