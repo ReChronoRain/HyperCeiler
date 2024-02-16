@@ -13,22 +13,20 @@ object BatteryHealth : BaseHook() {
     private const val battery = "/sys/class/power_supply/battery/"
     private const val full = "charge_full"
     private const val design = "charge_full_design"
+    private const val temp = "temp"
 
 
     override fun init() {
-        findClassIfExists("com.miui.powercenter.nightcharge.SmartChargeFragment").let { c ->
-            c.hookAfterMethod("onCreatePreferences", Bundle::class.java, String::class.java) {
-                it.thisObject.getObjectField("c")?.callMethod("setText", "asd")
-            }
-        }
-
         findClassIfExists("com.miui.powercenter.nightcharge.SmartChargeFragment\$c").let { c ->
             c.hookAfterMethod("handleMessage", Message::class.java) {
                 // TODO hardcode。想办法改进
-                it.thisObject.getObjectField("a")!!.callMethod("get")!!
-                    .getObjectField("c")!!.callMethod("setText", health())
+                it.thisObject.getObjectField("a")!!.callMethod("get")!!.let { cc ->
+                    cc.getObjectField("c")!!.callMethod("setText", health())
+                    cc.getObjectField("d")!!.callMethod("setText", temperature())
+                }
             }
         }
+
     }
 
 
@@ -36,6 +34,11 @@ object BatteryHealth : BaseHook() {
         val f = File(battery + full).readText()
         val d = File(battery + design).readText()
         return sswr(f.toFloat() / d.toFloat() * 100) + " %"
+    }
+
+
+    private fun temperature(): String {
+        return (File(battery + temp).readText().toFloat() / 10).toString() + " °C"
     }
 
 
