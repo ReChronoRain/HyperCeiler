@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
 
 import java.util.ArrayList;
