@@ -64,14 +64,14 @@ public class ShellExec {
     }
 
     /**
-     * 参考 {@link ShellExec(String, boolean, boolean, ICommandOutPut)}
+     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, ICommandOutPut)}
      */
     public ShellExec(boolean root, ICommandOutPut iCommandOutPut) {
         this("", root, false, iCommandOutPut);
     }
 
     /**
-     * 参考 {@link ShellExec(String, boolean, boolean, ICommandOutPut)}
+     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, ICommandOutPut)}
      */
     public ShellExec(boolean root, boolean result, ICommandOutPut iCommandOutPut) {
         this("", root, result, iCommandOutPut);
