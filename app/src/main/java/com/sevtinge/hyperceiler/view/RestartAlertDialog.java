@@ -27,7 +27,7 @@ import android.content.res.Resources;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.app.GlobalActions;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import java.util.Arrays;
 import java.util.List;

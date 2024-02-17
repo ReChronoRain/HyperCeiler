@@ -30,8 +30,8 @@ import android.util.ArrayMap;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.MathUtils;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.TileUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import java.io.BufferedReader;
 import java.io.File;

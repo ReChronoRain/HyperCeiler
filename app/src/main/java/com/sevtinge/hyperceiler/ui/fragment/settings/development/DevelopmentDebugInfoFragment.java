@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
-import static com.sevtinge.hyperceiler.utils.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBoard;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getBrand;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getDeviceName;
@@ -37,6 +36,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.checkRootPermission;
 
 import android.widget.TextView;
 

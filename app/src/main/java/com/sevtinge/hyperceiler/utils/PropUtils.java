@@ -23,6 +23,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.callback.ITAG;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import java.lang.reflect.Method;
 

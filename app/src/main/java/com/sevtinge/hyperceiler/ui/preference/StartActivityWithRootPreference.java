@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.ui.preference;
 
-import static com.sevtinge.hyperceiler.utils.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
+import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.util.AttributeSet;

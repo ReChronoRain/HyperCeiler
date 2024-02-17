@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
+
 public class KillAppUtils {
     public static ShellUtils.CommandResult killAll(String pkg, boolean needResult) {
         return ShellUtils.execCommand("killall -s 9 " + "\"" + pkg + "\"", true, needResult);

@@ -25,8 +25,8 @@ import android.text.TextUtils;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import java.util.ArrayList;
 import java.util.List;

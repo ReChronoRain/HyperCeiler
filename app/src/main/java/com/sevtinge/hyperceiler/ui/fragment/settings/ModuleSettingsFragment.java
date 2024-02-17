@@ -29,8 +29,8 @@ import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import moralnorm.appcompat.app.AppCompatActivity;
 import moralnorm.preference.DropDownPreference;

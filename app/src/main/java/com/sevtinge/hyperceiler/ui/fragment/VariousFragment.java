@@ -26,8 +26,8 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
