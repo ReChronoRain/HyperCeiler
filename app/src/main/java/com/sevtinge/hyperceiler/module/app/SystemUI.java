@@ -89,7 +89,6 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom
 import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.PluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DisplayHardwareDetail;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
@@ -101,6 +100,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.DisableAnim
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.FixColor;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.device.DisplayHardwareDetail;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BatteryStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.BluetoothIcon;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.DataSaverIcon;
@@ -145,23 +145,29 @@ public class SystemUI extends BaseModule {
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
 
         // 状态栏图标
-        if (!isMoreHyperOSVersion(1f))
+        if (!isMoreHyperOSVersion(1f)) {
             initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
+            initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
+        }
         initHook(new StatusBarIcon());
         initHook(new IconsFromSystemManager());
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
-        if (!isMoreHyperOSVersion(1f))
-            initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_dots_maximum_enable") || mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
-        initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
-        initHook(StatusBarSimIcon.INSTANCE);
-        initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(new DataSaverIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_data_saver", 0) != 0);
+        initHook(StatusBarSimIcon.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_1", 0) == 2 ||
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_2", 0) == 2 );
+        initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
+        initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
 
         // 移动网络图标
-        initHook(new MobileNetwork());
+        boolean isEnableMobileNetwork = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0) != 0 ||
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0 ||
+            mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
+        initHook(new MobileNetwork(), isEnableMobileNetwork);
         // initHook(new BigMobileNetworkType(), false);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
@@ -193,8 +199,13 @@ public class SystemUI extends BaseModule {
         }
 
         // 时钟指示器
+        boolean isEnableTime = mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0 ||
+            mPrefsMap.getInt("system_ui_statusbar_clock_left_margin", 0) != 0 ||
+            mPrefsMap.getInt("system_ui_statusbar_clock_right_margin", 0) != 0 ||
+            mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12) != 12 ||
+            mPrefsMap.getBoolean("system_ui_statusbar_clock_bold");
         initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim") && isMoreHyperOSVersion(1f));
-        initHook(TimeStyle.INSTANCE);
+        initHook(TimeStyle.INSTANCE, isEnableTime);
         initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
 
         // 硬件指示器

@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.screenrecorder
 
-import android.annotation.SuppressLint
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.EzXHelper.safeClassLoader
 import com.sevtinge.hyperceiler.module.base.BaseHook
@@ -26,7 +25,6 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import de.robv.android.xposed.XposedHelpers
 
-@SuppressLint("StaticFieldLeak")
 object UnlockMoreVolumeFromNew : BaseHook() {
     private val getClass by lazy {
         dexKitBridge.findClass {

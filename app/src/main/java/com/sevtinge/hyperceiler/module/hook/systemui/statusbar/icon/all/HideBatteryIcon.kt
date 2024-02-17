@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -31,7 +30,6 @@ import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 
-@SuppressLint("StaticFieldLeak")
 object HideBatteryIcon : BaseHook() {
     override fun init() {
         val mBatteryMeterViewClass = when {

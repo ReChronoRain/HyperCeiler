@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.ColorMatrixColorFilter
@@ -46,7 +45,6 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
-@SuppressLint("StaticFieldLeak")
 object BlurSecurity : BaseHook() {
     val blurRadius = mPrefsMap.getInt("security_center_blurradius", 60)
     val backgroundColor = mPrefsMap.getInt("security_center_color", -1)

@@ -31,7 +31,6 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.IS_TABLET
 import com.sevtinge.hyperceiler.utils.getObjectField
 
-// @SuppressLint("StaticFieldLeak")
 object RealMemory : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {

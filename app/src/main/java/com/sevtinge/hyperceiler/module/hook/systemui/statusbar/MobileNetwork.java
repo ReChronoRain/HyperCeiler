@@ -29,14 +29,12 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedHelpers;
 
 public class MobileNetwork extends BaseHook {
-
     Class<?> mStatusBarMobileView;
     Class<?> mMobileIconState;
     Class<?> mHDController;
 
     @Override
     public void init() {
-
         mStatusBarMobileView = findClassIfExists("com.android.systemui.statusbar.StatusBarMobileView");
         mMobileIconState = findClassIfExists("com.android.systemui.statusbar.phone.StatusBarSignalPolicy$MobileIconState");
 
@@ -102,7 +100,7 @@ public class MobileNetwork extends BaseHook {
             protected void before(MethodHookParam param) {
                 int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0);
                 if (opt > 0 && !isMoreHyperOSVersion(1f)) {
-                    XposedHelpers.setBooleanField(param.thisObject, "mWifiAvailable", opt == 1 ? false : opt == 2);
+                    XposedHelpers.setBooleanField(param.thisObject, "mWifiAvailable", opt == 2);
                 }
             }
         });
@@ -120,30 +118,15 @@ public class MobileNetwork extends BaseHook {
     private static View getMobileType(MethodHookParam param, int qpt, boolean singleMobileType) {
         View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
         boolean dataConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
+
         if (qpt > 0) {
-            if (qpt == 1) {
-                if (singleMobileType) {
-                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                    mMobileTypeSingle.setVisibility(View.VISIBLE);
-                } else {
-                    mMobileType.setVisibility(View.VISIBLE);
-                }
-            }
-            if (qpt == 3 && !dataConnected) {
-                if (singleMobileType) {
-                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                    mMobileTypeSingle.setVisibility(View.GONE);
-                } else {
-                    mMobileType.setVisibility(View.GONE);
-                }
-            }
-            if (qpt == 2) {
-                if (singleMobileType) {
-                    TextView mMobileTypeSingle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle");
-                    mMobileTypeSingle.setVisibility(View.GONE);
-                } else {
-                    mMobileType.setVisibility(View.GONE);
-                }
+            TextView mMobileTypeSingle = singleMobileType ? (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle") : null;
+            int visibility = (qpt == 1 || (qpt == 3 && !dataConnected)) ? View.VISIBLE : View.GONE;
+
+            if (singleMobileType && mMobileTypeSingle != null) {
+                mMobileTypeSingle.setVisibility(visibility);
+            } else {
+                mMobileType.setVisibility(visibility);
             }
         }
         return mMobileType;
