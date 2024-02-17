@@ -11,9 +11,11 @@ import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
  */
 public class ShellInit {
     private static ShellExec mShell = null;
+    private static boolean lastReady = false;
 
     public static void init() {
         mShell = new ShellExec(true, true);
+        lastReady = mShell.ready();
     }
 
     public static void destroy() {
@@ -24,8 +26,13 @@ public class ShellInit {
         if (mShell != null) {
             return mShell;
         } else {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!!", null);
-            return null;
+            if (lastReady) {
+                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! Attempt to rewrite creation...");
+                return new ShellExec(true, true);
+            } else {
+                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! And it seems like it has never been created successfully!");
+                return null;
+            }
         }
     }
 

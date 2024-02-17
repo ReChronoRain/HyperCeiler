@@ -146,8 +146,8 @@ public class ShellExec {
             }
             init = true;
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
             throw new RuntimeException("ShellExec boot failed!! E: " + e);
+            // AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
             // init = false;
         }
     }
