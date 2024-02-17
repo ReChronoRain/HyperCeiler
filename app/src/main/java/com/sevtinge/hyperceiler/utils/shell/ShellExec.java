@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -124,6 +125,14 @@ public class ShellExec {
             this.result = result;
             boolean run = command != null && !("".equals(command));
             process = Runtime.getRuntime().exec(root ? "su" : "sh");
+            // 注意处理
+            if (root) {
+                boolean r = process.waitFor(600, TimeUnit.MILLISECONDS);
+                if (r) {
+                    process.destroy();
+                    throw new RuntimeException("Root permission not obtained!");
+                }
+            }
             os = new DataOutputStream(process.getOutputStream());
             if (run) {
                 os.write(command.getBytes());
@@ -145,9 +154,9 @@ public class ShellExec {
                 if (run) done(0);
             }
             init = true;
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
             throw new RuntimeException("ShellExec boot failed!! E: " + e);
-            // AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
             // init = false;
         }
     }
@@ -321,6 +330,7 @@ public class ShellExec {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(mInput))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    // AndroidLogUtils.LogI(ITAG.TAG, "out: " + line);
                     if (line.contains(contrast)) {
                         Matcher matcher = pattern.matcher(line);
                         if (matcher.find()) {
@@ -382,6 +392,7 @@ public class ShellExec {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(mInput))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    // AndroidLogUtils.LogI(ITAG.TAG, "error: " + line);
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
                         String count = matcher.group(1);

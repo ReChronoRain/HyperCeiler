@@ -14,8 +14,12 @@ public class ShellInit {
     private static boolean lastReady = false;
 
     public static void init() {
-        mShell = new ShellExec(true, true);
-        lastReady = mShell.ready();
+        try {
+            mShell = new ShellExec(true, true);
+            lastReady = mShell.ready();
+        } catch (RuntimeException e) {
+            AndroidLogUtils.LogE(ITAG.TAG, e);
+        }
     }
 
     public static void destroy() {
@@ -30,7 +34,8 @@ public class ShellInit {
                 AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! Attempt to rewrite creation...");
                 return new ShellExec(true, true);
             } else {
-                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! And it seems like it has never been created successfully!");
+                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! " +
+                    "And it seems like it has never been created successfully!");
                 return null;
             }
         }
