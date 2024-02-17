@@ -802,6 +802,7 @@
 
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量条</string>
+    <string name="system_ui_disable_volume_desc">小米音量条的修改无法作用于原生音量条</string>
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>
