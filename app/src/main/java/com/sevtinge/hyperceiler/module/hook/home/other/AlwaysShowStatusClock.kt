@@ -24,20 +24,21 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object AlwaysShowStatusClock : BaseHook() {
-    override fun init() {
+    private val mWorkspaceClass by lazy {
+        loadClass("com.miui.home.launcher.Workspace")
+    }
 
-        // if (!mPrefsMap.getBoolean("home_show_status_clock")) return
-        val mWorkspaceClass = loadClass("com.miui.home.launcher.Workspace")
+    override fun init() {
         val methodNames =
-            listOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
+            setOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
 
         methodNames.forEach { methodName ->
             val result = runCatching {
-                mWorkspaceClass.methodFinder().first {
-                    name == methodName
-                }.createHook {
-                    before { it.result = false }
-                }
+                mWorkspaceClass.methodFinder()
+                    .filterByName(methodName)
+                    .single().createHook {
+                        returnConstant(false)
+                    }
             }
             if (result.isSuccess) return@forEach
         }

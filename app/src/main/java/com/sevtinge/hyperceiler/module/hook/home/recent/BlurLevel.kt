@@ -38,10 +38,9 @@ object BlurLevel : BaseHook() {
     override fun init() {
         val mBlurClass = loadClass("com.miui.home.launcher.common.BlurUtils")
 
-        mBlurClass.methodFinder().first {
-            name == "getBlurType"
-        }.createHook {
-            before {
+        mBlurClass.methodFinder()
+            .filterByName("getBlurType")
+            .single().createHook {
                 when (blurLevel) {
                     5 -> returnConstant(2)
                     0 -> returnConstant(2)
@@ -49,17 +48,15 @@ object BlurLevel : BaseHook() {
                     3 -> returnConstant(0)
                     4 -> returnConstant(0)
                 }
-
             }
-        }
 
         when (blurLevel) {
             4 -> {
-                mBlurClass.methodFinder().first {
-                    name == "isUseCompleteBlurOnDev"
-                }.createHook {
-                    returnConstant(false)
-                }
+                mBlurClass.methodFinder()
+                    .filterByName("isUseCompleteBlurOnDev")
+                    .single().createHook {
+                        returnConstant(false)
+                    }
 
                 "com.miui.home.launcher.common.DeviceLevelUtils".hookBeforeMethod("isUseSimpleAnim") {
                     it.result = true
@@ -76,7 +73,9 @@ object BlurLevel : BaseHook() {
                     val motionEvent = it.args[0] as MotionEvent
                     val action = motionEvent.action
                     if (action == 2) Thread.currentThread().priority = 10
-                    if (it.thisObject.objectHelper().getObjectOrNull("mWindowMode") == 2 && action == 2) {
+                    if (it.thisObject.objectHelper()
+                            .getObjectOrNull("mWindowMode") == 2 && action == 2
+                    ) {
                         blurClass.callStaticMethod("fastBlurDirectly", 1.0f, mLauncher.window)
                     }
                 }
@@ -102,15 +101,11 @@ object BlurLevel : BaseHook() {
                     it.result = false
                 }
 
-                mBlurClass.methodFinder().first {
-                    name == "isUseCompleteBlurOnDev"
-                }.createHook {
-                    before {
-                        when (blurLevel) {
-                            1 -> returnConstant(true)
-                        }
+                mBlurClass.methodFinder()
+                    .filterByName("isUseCompleteBlurOnDev")
+                    .single().createHook {
+                        if (blurLevel == 1) returnConstant(true)
                     }
-                }
             }
         }
 

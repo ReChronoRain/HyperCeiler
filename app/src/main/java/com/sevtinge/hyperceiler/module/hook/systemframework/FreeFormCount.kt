@@ -39,10 +39,10 @@ class FreeFormCount : BaseHook() {
         }
 
         // ShouldStopStartFreeform
-        clazzMiuiFreeFormStackDisplayStrategy.methodFinder().first {
-            name == "shouldStopStartFreeform"
-        }.createHook {
-            returnConstant(false)
-        }
+        clazzMiuiFreeFormStackDisplayStrategy.methodFinder()
+            .filterByName("shouldStopStartFreeform")
+            .single().createHook {
+                returnConstant(false)
+            }
     }
 }

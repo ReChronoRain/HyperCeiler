@@ -25,10 +25,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object LockMaxFps : BaseHook() {
     override fun init() {
-        loadClass("com.miui.powerkeeper.statemachine.DisplayFrameSetting").methodFinder().first {
-            name == "setScreenEffect" && parameterCount == 3
-        }.createHook {
-            returnConstant(null)
-        }
+        loadClass("com.miui.powerkeeper.statemachine.DisplayFrameSetting").methodFinder()
+            .filterByName("setScreenEffect")
+            .filterByParamCount(3)
+            .single().createHook {
+                returnConstant(null)
+            }
     }
 }

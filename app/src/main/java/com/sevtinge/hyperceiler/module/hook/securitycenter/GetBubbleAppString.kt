@@ -29,24 +29,24 @@ object GetBubbleAppString : BaseHook() {
     override fun init() {
         try {
             val classBubble = loadClass("com.miui.bubbles.Bubble")
-            loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder().first {
-                name == "getBubbleAppString"
-            }.createHook {
-                before {
-                    val stringBuilder = StringBuilder()
-                    val mActiveBubbles = it.thisObject.getObjectField("mActiveBubbles")
-                    for (bubble in mActiveBubbles as HashSet<*>) {
-                        stringBuilder.append(
-                            classBubble.getMethod("getPackageName").invoke(bubble)
-                        )
-                        stringBuilder.append(":")
-                        stringBuilder.append(bubble.getObjectField("userId"))
-                        stringBuilder.append(",")
+            loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder()
+                .filterByName("getBubbleAppString")
+                .single().createHook {
+                    before {
+                        val stringBuilder = StringBuilder()
+                        val mActiveBubbles = it.thisObject.getObjectField("mActiveBubbles")
+                        for (bubble in mActiveBubbles as HashSet<*>) {
+                            stringBuilder.append(
+                                classBubble.getMethod("getPackageName").invoke(bubble)
+                            )
+                            stringBuilder.append(":")
+                            stringBuilder.append(bubble.getObjectField("userId"))
+                            stringBuilder.append(",")
+                        }
+                        // XposedBridge.log("MaxFreeFormTest: getBubbleAppString called! Result:$stringBuilder")
+                        it.result = stringBuilder.toString()
                     }
-                    // XposedBridge.log("MaxFreeFormTest: getBubbleAppString called! Result:$stringBuilder")
-                    it.result = stringBuilder.toString()
                 }
-            }
         } catch (e: Throwable) {
             logE(TAG, this.lpparam.packageName, e)
         }

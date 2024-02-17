@@ -25,19 +25,15 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 
 object UnlockPrivacyMarking : BaseHook() {
-    override fun init() {
-        val isClass by lazy {
-            loadClass("com.miui.gallery.editor.photo.screen.mosaic.ScreenMosaicView")
-        }
+    private val isClass by lazy {
+        loadClass("com.miui.gallery.editor.photo.screen.mosaic.ScreenMosaicView")
+    }
 
-        isClass.methodFinder().first {
-            name == "isSupportPrivacyMarking"
-        }.createHook {
-            try {
+    override fun init() {
+        isClass.methodFinder()
+            .filterByName("isSupportPrivacyMarking")
+            .single().createHook {
                 returnConstant(true)
-            } catch (e: Exception) {
-                logI(TAG, lpparam.packageName, "UnSupport Privacy Marking")
             }
-        }
     }
 }

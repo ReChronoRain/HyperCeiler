@@ -25,10 +25,10 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object DontKillApps : BaseHook() {
     override fun init() {
-        loadClass("miui.process.ProcessManager").methodFinder().first {
-            name == "kill"
-        }.createHook {
-            returnConstant(false)
-        }
+        loadClass("miui.process.ProcessManager").methodFinder()
+            .filterByName("kill")
+            .single().createHook {
+                returnConstant(false)
+            }
     }
 }

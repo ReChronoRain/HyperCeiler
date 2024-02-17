@@ -28,9 +28,9 @@ object MemInfoShow : BaseHook() {
         // hyperOS for Pad 修复方案来自 hyper helper
         try {
             // 此方法调用会将内存显示 hide，需拦截
-            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
-                name == "hideTxtMemoryInfoView"
-            }.createHook {
+            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder()
+                .filterByName("hideTxtMemoryInfoView")
+                .single().createHook {
                 returnConstant(null)
             }
         } catch (t: Throwable) {
@@ -38,13 +38,13 @@ object MemInfoShow : BaseHook() {
         }
 
         try {
-            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
-                name == "isMemInfoShow"
-            }
+            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder()
+                .filterByName("isMemInfoShow")
+                .single()
         } catch (t: Throwable) {
-            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder().first {
-                name == "canTxtMemInfoShow"
-            }
+            loadClass("com.miui.home.recents.views.RecentsDecorations").methodFinder()
+                .filterByName("canTxtMemInfoShow")
+                .single()
         }.createHook {
             returnConstant(true)
         }

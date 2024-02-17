@@ -26,15 +26,14 @@ import com.sevtinge.hyperceiler.utils.setObjectField
 
 object DisableRecentViewWallpaperDarken : BaseHook() {
     override fun init() {
-
-        // if (!mPrefsMap.getBoolean("home_disable_darken")) return
-        loadClass("com.miui.home.recents.DimLayer").methodFinder().first {
-            name == "dim" && parameterCount == 3
-        }.createHook {
-            before {
-                it.args[0] = 0.0f
-                it.thisObject.setObjectField("mCurrentAlpha", 0.0f)
+        loadClass("com.miui.home.recents.DimLayer").methodFinder()
+            .filterByName("dim")
+            .filterByParamCount(3)
+            .single().createHook {
+                before {
+                    it.args[0] = 0.0f
+                    it.thisObject.setObjectField("mCurrentAlpha", 0.0f)
+                }
             }
-        }
     }
 }

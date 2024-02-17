@@ -37,13 +37,13 @@ object HideBatteryIcon : BaseHook() {
             else -> loadClass("com.android.systemui.MiuiBatteryMeterView")
         }
         try {
-            mBatteryMeterViewClass.methodFinder().first {
-                name == "updateResources"
-            }
-        } catch(t: Throwable) {
-            mBatteryMeterViewClass.methodFinder().first {
-                name == "updateAll"
-            }
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateResources")
+                .single()
+        } catch (t: Throwable) {
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateAll")
+                .single()
         }.createHook {
             after { param ->
                 if (param.thisObject != null) {
@@ -72,21 +72,21 @@ object HideBatteryIcon : BaseHook() {
             }
         }
 
-        mBatteryMeterViewClass.methodFinder().first {
-            name == "updateChargeAndText"
-        }.createHook {
-            after { param ->
-                // 隐藏电池充电图标
-                if (param.thisObject != null) {
-                    if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
-                        (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingInView")).visibility =
-                            View.GONE
-                        (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingView")).visibility =
-                            View.GONE
+        mBatteryMeterViewClass.methodFinder()
+            .filterByName("updateChargeAndText")
+            .single().createHook {
+                after { param ->
+                    // 隐藏电池充电图标
+                    if (param.thisObject != null) {
+                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
+                            (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingInView")).visibility =
+                                View.GONE
+                            (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingView")).visibility =
+                                View.GONE
+                        }
                     }
                 }
             }
-        }
     }
 
 }

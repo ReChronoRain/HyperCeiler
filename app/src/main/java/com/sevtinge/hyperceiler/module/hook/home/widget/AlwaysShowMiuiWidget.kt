@@ -30,29 +30,29 @@ object AlwaysShowMiuiWidget : BaseHook() {
         var hook1: XC_MethodHook.Unhook? = null
         var hook2: XC_MethodHook.Unhook? = null
         try {
-            loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder().first {
-                name == "buildAppWidgetsItems"
-            }
+            loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder()
+                .filterByName("buildAppWidgetsItems")
+                .single()
         } catch (e: Exception) {
-            loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder().first {
-                name == "buildAppWidgetsItems"
-            }
+            loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder()
+                .filterByName("buildAppWidgetsItems")
+                .single()
         }.createHook {
             before {
                 hook1 = loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").methodFinder()
-                    .first {
-                        name == "initMiuiAttribute" && parameterCount == 1
-                    }.createHook {
+                    .filterByName("initMiuiAttribute")
+                    .filterByParamCount(1)
+                    .single().createHook {
                         after {
                             it.thisObject.setObjectField("isMIUIWidget", false)
                         }
                     }
-                hook2 = loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder().first {
-                    name == "isMIUIWidgetSupport"
-                }.createHook {
-                    after {
-                        it.result = false
-                    }
+                hook2 = loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder()
+                    .filterByName("isMIUIWidgetSupport")
+                    .single().createHook {
+                        after {
+                            it.result = false
+                        }
                 }
             }
             after {

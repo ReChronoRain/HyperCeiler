@@ -26,11 +26,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object DualSASupport : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
-                name == "isDualSaSupported"
-            }.createHook {
-                returnConstant(true)
-            }
+            loadClass("miui.telephony.TelephonyManagerEx").methodFinder()
+                .filterByName("isDualSaSupported")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
     }
 }

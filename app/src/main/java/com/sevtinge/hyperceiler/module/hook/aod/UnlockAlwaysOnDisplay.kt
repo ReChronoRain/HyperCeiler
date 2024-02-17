@@ -25,9 +25,9 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object UnlockAlwaysOnDisplay : BaseHook() {
     override fun init() {
-        loadClass("com.miui.aod.widget.AODSettings").methodFinder().first {
-            name == "onlySupportKeycodeGoto"
-        }.createHook {
+        loadClass("com.miui.aod.widget.AODSettings").methodFinder()
+            .filterByName("onlySupportKeycodeGoto")
+            .single().createHook {
             returnConstant(false)
         }
     }

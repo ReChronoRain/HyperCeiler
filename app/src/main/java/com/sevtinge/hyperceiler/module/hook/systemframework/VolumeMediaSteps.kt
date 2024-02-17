@@ -28,15 +28,16 @@ class VolumeMediaSteps : BaseHook() {
         val mediaStepsSwitch = mPrefsMap.getInt("system_framework_volume_media_steps", 15) > 15
         val mediaSteps = mPrefsMap.getInt("system_framework_volume_media_steps", 15)
 
-        loadClass("android.os.SystemProperties").methodFinder().first {
-            name == "getInt" && returnType == Int::class.java
-        }.createHook {
-            before {
-                when (it.args[0] as String) {
-                    "ro.config.media_vol_steps" -> if (mediaStepsSwitch) it.result = mediaSteps
+        loadClass("android.os.SystemProperties").methodFinder()
+            .filterByName("getInt")
+            .filterByReturnType(Int::class.java)
+            .single().createHook {
+                before {
+                    when (it.args[0] as String) {
+                        "ro.config.media_vol_steps" -> if (mediaStepsSwitch) it.result = mediaSteps
+                    }
                 }
             }
-        }
 
     }
 }

@@ -25,15 +25,16 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 class VabUpdate : BaseHook() {
     override fun init() {
-        loadClass("miui.util.FeatureParser").methodFinder().first {
-            name == "hasFeature" && parameterCount == 2
-        }.createHook {
-            before {
-                if (it.args[0] == "support_ota_validate") {
-                    it.result = false
+        loadClass("miui.util.FeatureParser").methodFinder()
+            .filterByName("hasFeature")
+            .filterByParamCount(2)
+            .single().createHook {
+                before {
+                    if (it.args[0] == "support_ota_validate") {
+                        it.result = false
+                    }
                 }
             }
-        }
     }
 
 }

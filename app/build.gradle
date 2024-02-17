@@ -150,7 +150,7 @@ dependencies {
 
     implementation libs.dexkit
     implementation libs.tinyPinyin
-    implementation libs.ezXHelper
+    implementation libs.ezxhelper
     implementation libs.accompanist.systemuicontroller
     implementation libs.hiddenapibypass
     implementation libs.gson

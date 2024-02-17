@@ -26,34 +26,34 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object ModemFeature : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("com.android.phone.FiveGManagerBase").methodFinder().first {
-                name == "getModemFeatureMode"
-            }.createHook {
-                after {
-                    it.args[0] = -1
-                    it.result = true
+            loadClass("com.android.phone.FiveGManagerBase").methodFinder()
+                .filterByName("getModemFeatureMode")
+                .single().createHook {
+                    after {
+                        it.args[0] = -1
+                        it.result = true
+                    }
                 }
-            }
         }
 
         runCatching {
-            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
-                name == "isModemFeatureSupported"
-            }.createHook {
-                after {
-                    it.args[0] = -1
+            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder()
+                .filterByName("isModemFeatureSupported")
+                .single().createHook {
+                    after {
+                        it.args[0] = -1
+                    }
                 }
-            }
         }
 
         runCatching {
-            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder().first {
-                name == "getModemFeatureFromDb"
-            }.createHook {
-                after {
-                    it.args[0] = -1
+            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder()
+                .filterByName("getModemFeatureFromDb")
+                .single().createHook {
+                    after {
+                        it.args[0] = -1
+                    }
                 }
-            }
         }
     }
 }

@@ -26,16 +26,16 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object NoMagicPointer : BaseHook() {
     override fun init() {
-        loadClassOrNull("android.magicpointer.util.MiuiMagicPointerUtils")?.methodFinder()?.first {
-            name == "isEnable"
-        }?.createHook {
-            returnConstant(false)
-        }
+        loadClassOrNull("android.magicpointer.util.MiuiMagicPointerUtils")!!.methodFinder()
+            .filterByName("isEnable")
+            .single().createHook {
+                returnConstant(false)
+            }
 
-        loadClass("com.android.server.SystemServerImpl").methodFinder().first {
-            name == "addMagicPointerManagerService"
-        }.createHook {
-            returnConstant(null)
-        }
+        loadClass("com.android.server.SystemServerImpl").methodFinder()
+            .filterByName("addMagicPointerManagerService")
+            .single().createHook {
+                returnConstant(null)
+            }
     }
 }

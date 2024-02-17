@@ -130,45 +130,51 @@ object CCGrid : BaseHook() {
                     override fun before(param: MethodHookParam) {
                         appInfo = param.args[1] as ApplicationInfo
 
-                        loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
-                            name == "get"
-                        }.createHook {
-                            after { getClassLoader ->
-                                val classLoader = getClassLoader.result as ClassLoader
-                                if (appInfo != null) {
-                                    if ("miui.systemui.plugin" == appInfo!!.packageName) {
-                                        loadCCGrid(classLoader)
-                                        logW(TAG, "im get ClassLoader: $classLoader")
+                        loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
+                            .filterByName("get")
+                            .single().createHook {
+                                after { getClassLoader ->
+                                    val classLoader = getClassLoader.result as ClassLoader
+                                    if (appInfo != null) {
+                                        if ("miui.systemui.plugin" == appInfo!!.packageName) {
+                                            loadCCGrid(classLoader)
+                                            logW(TAG, "im get ClassLoader: $classLoader")
+                                        } else {
+                                            logW(
+                                                TAG,
+                                                "Au get classloader miui.systemui.plugin error: $classLoader"
+                                            )
+                                        }
                                     } else {
-                                        logW(TAG, "Au get classloader miui.systemui.plugin error: $classLoader")
-                                    }
-                                } else {
-                                    if (
-                                        classLoader.toString().contains("MIUISystemUIPlugin") ||
-                                        classLoader.toString().contains("miui.systemui.plugin")
-                                    ) {
-                                        loadCCGrid(classLoader)
-                                    } else {
-                                        logW(TAG, "Au get classloader miui.systemui.plugin error & appInfo is null")
+                                        if (
+                                            classLoader.toString().contains("MIUISystemUIPlugin") ||
+                                            classLoader.toString().contains("miui.systemui.plugin")
+                                        ) {
+                                            loadCCGrid(classLoader)
+                                        } else {
+                                            logW(
+                                                TAG,
+                                                "Au get classloader miui.systemui.plugin error & appInfo is null"
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
                     }
                 }
             )
         } else {
-            loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
-                name == "getClassLoader"
-            }.createHook {
-                after { getClassLoader ->
-                    appInfo = getClassLoader.args[0] as ApplicationInfo
-                    if (appInfo!!.packageName == "miui.systemui.plugin") {
-                        val classLoader = getClassLoader.result as ClassLoader
-                        loadCCGrid(classLoader)
+            loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
+                .filterByName("getClassLoader")
+                .single().createHook {
+                    after { getClassLoader ->
+                        appInfo = getClassLoader.args[0] as ApplicationInfo
+                        if (appInfo!!.packageName == "miui.systemui.plugin") {
+                            val classLoader = getClassLoader.result as ClassLoader
+                            loadCCGrid(classLoader)
+                        }
                     }
                 }
-            }
         }
     }
 

@@ -28,37 +28,38 @@ import com.sevtinge.hyperceiler.utils.hookBeforeMethod
 import de.robv.android.xposed.XC_MethodHook
 
 object FoldDeviceDock : BaseHook() {
-    override fun init() {
+    private val mHotSeatsClass by lazy {
+        loadClass("com.miui.home.launcher.hotseats.HotSeats")
+    }
 
-        // if (!mPrefsMap.getBoolean("home_fold_dock")) return
+    override fun init() {
         var hook1: XC_MethodHook.Unhook? = null
         var hook2: XC_MethodHook.Unhook? = null
         var hook3: XC_MethodHook.Unhook? = null
 
-        val mHotSeatsClass = loadClass("com.miui.home.launcher.hotseats.HotSeats")
-        mHotSeatsClass.methodFinder().first {
-            name == "initContent"
-        }.createHook {
-            before {
-                hook1 = "com.miui.home.launcher.DeviceConfig".hookBeforeMethod(
-                    "isFoldDevice"
-                ) { hookParam ->
-                    hookParam.result = true
+        mHotSeatsClass.methodFinder()
+            .filterByName("initContent")
+            .single().createHook {
+                before {
+                    hook1 = "com.miui.home.launcher.DeviceConfig".hookBeforeMethod(
+                        "isFoldDevice"
+                    ) { hookParam ->
+                        hookParam.result = true
+                    }
+                }
+                after {
+                    hook1?.unhook()
                 }
             }
-            after {
-                hook1?.unhook()
-            }
-        }
 
         try {
-            mHotSeatsClass.methodFinder().first {
-                name == "updateContent"
-            }
+            mHotSeatsClass.methodFinder()
+                .filterByName("updateContent")
+                .single()
         } catch (e: Exception) {
-            mHotSeatsClass.methodFinder().first {
-                name == "updateContentView"
-            }
+            mHotSeatsClass.methodFinder()
+                .filterByName("updateContentView")
+                .single()
         }.createHook {
             before {
                 hook2 = "com.miui.home.launcher.Application".hookBeforeMethod(
@@ -72,18 +73,18 @@ object FoldDeviceDock : BaseHook() {
             }
         }
 
-        mHotSeatsClass.methodFinder().first {
-            name == "isNeedUpdateItemInfo"
-        }.createHook {
-            before {
-                hook3 = "com.miui.home.launcher.Application".hookBeforeMethod(
-                    "isInFoldLargeScreen"
-                ) { hookParam -> hookParam.result = true }
+        mHotSeatsClass.methodFinder()
+            .filterByName("isNeedUpdateItemInfo")
+            .single().createHook {
+                before {
+                    hook3 = "com.miui.home.launcher.Application".hookBeforeMethod(
+                        "isInFoldLargeScreen"
+                    ) { hookParam -> hookParam.result = true }
+                }
+                after {
+                    hook3?.unhook()
+                }
             }
-            after {
-                hook3?.unhook()
-            }
-        }
 
         "com.miui.home.launcher.DeviceConfig".hookAfterMethod(
             "getHotseatMaxCount"

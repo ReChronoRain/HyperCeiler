@@ -26,7 +26,6 @@ import android.util.TypedValue
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
@@ -77,152 +76,155 @@ object TimeCustomization : BaseHook() {
             // 预设模式
             1 -> {
                 var c: Context? = null
-                mClockClass.constructorFinder().first {
-                    paramCount == 3
-                }.createHook {
-                    after {
-                        try {
-                            c = it.args[0] as Context
-                            val textV = it.thisObject as TextView
-                            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@after
-                            textV.isSingleLine = false
-                            if (isDoubleLine) {
-                                str = "\n"
-                                var clockDoubleLineSize = 7F
-                                if (getClockDoubleSize != 0) {
-                                    clockDoubleLineSize = getClockDoubleSize.toFloat()
-                                }
-                                textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockDoubleLineSize)
-                                textV.setLineSpacing(0F, 0.8F)
-                            } else {
-                                if (getClockSize != 0) {
-                                    val clockSize = getClockSize.toFloat()
-                                    textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
-                                }
-                            }
-                            val d: Method = textV.javaClass.getDeclaredMethod("updateTime")
-                            val r = Runnable {
-                                d.isAccessible = true
-                                d.invoke(textV)
-                            }
-
-                            class T : TimerTask() {
-                                override fun run() {
-                                    Handler(textV.context.mainLooper).post(r)
-                                }
-                            }
-                            Timer().schedule(
-                                T(), 1000 - System.currentTimeMillis() % 1000, 1000
-                            )
-                        } catch (_: Exception) {
-                        }
-                    }
-                }
-
-                mClockClass.methodFinder().first {
-                    name == "updateTime"
-                }.createHook {
-                    after {
-                        try {
-                            val textV = it.thisObject as TextView
-                            if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                                val t = Settings.System.getString(
-                                    c!!.contentResolver, Settings.System.TIME_12_24
-                                )
-                                val is24 = t == "24"
-                                nowTime = Calendar.getInstance().time
-                                textV.text = getDate(c!!) + str + getTime(c!!, is24)
-                            }
-                        } catch (_: Exception) {
-                        }
-                    }
-                }
-
-                if (isMoreHyperOSVersion(1f)) {
-                    mNewClockClass.methodFinder().first {
-                        name == "updateTime"
-                    }.createHook {
+                mClockClass.constructorFinder()
+                    .filterByParamCount(3)
+                    .single().createHook {
                         after {
                             try {
+                                c = it.args[0] as Context
                                 val textV = it.thisObject as TextView
-                                val t = Settings.System.getString(
-                                    c!!.contentResolver, Settings.System.TIME_12_24
+                                if (textV.resources.getResourceEntryName(textV.id) != "clock") return@after
+                                textV.isSingleLine = false
+                                if (isDoubleLine) {
+                                    str = "\n"
+                                    var clockDoubleLineSize = 7F
+                                    if (getClockDoubleSize != 0) {
+                                        clockDoubleLineSize = getClockDoubleSize.toFloat()
+                                    }
+                                    textV.setTextSize(
+                                        TypedValue.COMPLEX_UNIT_DIP,
+                                        clockDoubleLineSize
+                                    )
+                                    textV.setLineSpacing(0F, 0.8F)
+                                } else {
+                                    if (getClockSize != 0) {
+                                        val clockSize = getClockSize.toFloat()
+                                        textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
+                                    }
+                                }
+                                val d: Method = textV.javaClass.getDeclaredMethod("updateTime")
+                                val r = Runnable {
+                                    d.isAccessible = true
+                                    d.invoke(textV)
+                                }
+
+                                class T : TimerTask() {
+                                    override fun run() {
+                                        Handler(textV.context.mainLooper).post(r)
+                                    }
+                                }
+                                Timer().schedule(
+                                    T(), 1000 - System.currentTimeMillis() % 1000, 1000
                                 )
-                                val is24 = t == "24"
-                                nowTime = Calendar.getInstance().time
-                                textV.text = getDate(c!!) + str + getTime(c!!, is24)
                             } catch (_: Exception) {
                             }
                         }
                     }
+
+                mClockClass.methodFinder()
+                    .filterByName("updateTime")
+                    .single().createHook {
+                        after {
+                            try {
+                                val textV = it.thisObject as TextView
+                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                                    val t = Settings.System.getString(
+                                        c!!.contentResolver, Settings.System.TIME_12_24
+                                    )
+                                    val is24 = t == "24"
+                                    nowTime = Calendar.getInstance().time
+                                    textV.text = getDate(c!!) + str + getTime(c!!, is24)
+                                }
+                            } catch (_: Exception) {
+                            }
+                        }
+                    }
+
+                if (isMoreHyperOSVersion(1f)) {
+                    mNewClockClass!!.methodFinder()
+                        .filterByName("updateTime")
+                        .single().createHook {
+                            after {
+                                try {
+                                    val textV = it.thisObject as TextView
+                                    val t = Settings.System.getString(
+                                        c!!.contentResolver, Settings.System.TIME_12_24
+                                    )
+                                    val is24 = t == "24"
+                                    nowTime = Calendar.getInstance().time
+                                    textV.text = getDate(c!!) + str + getTime(c!!, is24)
+                                } catch (_: Exception) {
+                                }
+                            }
+                        }
                 }
             }
             // 极客模式
             2 -> {
                 var c: Context? = null
 
-                mClockClass.constructorFinder().first {
-                    paramCount == 3
-                }.createHook {
-                    after {
-                        try {
-                            c = it.args[0] as Context
-                            val textV = it.thisObject as TextView
-                            if (textV.resources.getResourceEntryName(textV.id) != "clock") return@after
-                            textV.isSingleLine = false
-                            textV.setLineSpacing(0F, 0.8F)
-                            if (getGeekClockSize != 0) {
-                                val clockSize = getGeekClockSize.toFloat()
-                                textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
-                            }
-
-                            val d: Method = textV.javaClass.getDeclaredMethod("updateTime")
-                            val r = Runnable {
-                                d.isAccessible = true
-                                d.invoke(textV)
-                            }
-
-                            class T : TimerTask() {
-                                override fun run() {
-                                    Handler(textV.context.mainLooper).post(r)
-                                }
-                            }
-                            Timer().schedule(
-                                T(), 1000 - System.currentTimeMillis() % 1000, 1000
-                            )
-                        } catch (_: Exception) {
-                        }
-                    }
-                }
-
-                mClockClass.methodFinder().first {
-                    name == "updateTime"
-                }.createHook {
-                    before {
-                        try {
-                            val textV = it.thisObject as TextView
-                            if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                                setClock(c, textV)
-                                it.result = null
-                            }
-                        } catch (_: Exception) {
-                        }
-                    }
-                }
-
-                if (isMoreHyperOSVersion(1f)) {
-                    mNewClockClass.methodFinder().first {
-                        name == "updateTime"
-                    }.createHook {
-                        before {
+                mClockClass.constructorFinder()
+                    .filterByParamCount(3)
+                    .single().createHook {
+                        after {
                             try {
+                                c = it.args[0] as Context
                                 val textV = it.thisObject as TextView
-                                setClock(c, textV)
-                                it.result = null
+                                if (textV.resources.getResourceEntryName(textV.id) != "clock") return@after
+                                textV.isSingleLine = false
+                                textV.setLineSpacing(0F, 0.8F)
+                                if (getGeekClockSize != 0) {
+                                    val clockSize = getGeekClockSize.toFloat()
+                                    textV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSize)
+                                }
+
+                                val d: Method = textV.javaClass.getDeclaredMethod("updateTime")
+                                val r = Runnable {
+                                    d.isAccessible = true
+                                    d.invoke(textV)
+                                }
+
+                                class T : TimerTask() {
+                                    override fun run() {
+                                        Handler(textV.context.mainLooper).post(r)
+                                    }
+                                }
+                                Timer().schedule(
+                                    T(), 1000 - System.currentTimeMillis() % 1000, 1000
+                                )
                             } catch (_: Exception) {
                             }
                         }
                     }
+
+                mClockClass.methodFinder()
+                    .filterByName("updateTime")
+                    .single().createHook {
+                        before {
+                            try {
+                                val textV = it.thisObject as TextView
+                                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                                    setClock(c, textV)
+                                    it.result = null
+                                }
+                            } catch (_: Exception) {
+                            }
+                        }
+                    }
+
+                if (isMoreHyperOSVersion(1f)) {
+                    mNewClockClass!!.methodFinder()
+                        .filterByName("updateTime")
+                        .single().createHook {
+                            before {
+                                try {
+                                    val textV = it.thisObject as TextView
+                                    setClock(c, textV)
+                                    it.result = null
+                                } catch (_: Exception) {
+                                }
+                            }
+                        }
                 }
             }
         }

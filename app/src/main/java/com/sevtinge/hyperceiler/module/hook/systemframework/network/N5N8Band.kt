@@ -26,19 +26,19 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object N5N8Band : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
-                name == "isN5Supported"
-            }.createHook {
-                returnConstant(true)
-            }
+            loadClass("miui.telephony.TelephonyManagerEx").methodFinder()
+                .filterByName("isN5Supported")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
 
         runCatching {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
-                name == "isN8Supported"
-            }.createHook {
-                returnConstant(true)
-            }
+            loadClass("miui.telephony.TelephonyManagerEx").methodFinder()
+                .filterByName("isN8Supported")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
     }
 }

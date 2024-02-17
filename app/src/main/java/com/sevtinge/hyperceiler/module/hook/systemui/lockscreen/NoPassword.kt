@@ -25,21 +25,17 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object NoPassword : BaseHook() {
     override fun init() {
-        loadClass("com.android.internal.widget.LockPatternUtils\$StrongAuthTracker").methodFinder().first {
-            name == "isBiometricAllowedForUser"
-        }.createHook {
-            before {
-                it.result = true
+        loadClass("com.android.internal.widget.LockPatternUtils\$StrongAuthTracker").methodFinder()
+            .filterByName("isBiometricAllowedForUser")
+            .single().createHook {
+                returnConstant(true)
             }
-        }
 
-        loadClass("com.android.internal.widget.LockPatternUtils").methodFinder().first {
-            name == "isBiometricAllowedForUser"
-        }.createHook {
-            before {
-                it.result = true
+        loadClass("com.android.internal.widget.LockPatternUtils").methodFinder()
+            .filterByName("isBiometricAllowedForUser")
+            .single().createHook {
+                returnConstant(true)
             }
-        }
     }
 
 }

@@ -25,10 +25,10 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object IsUserBuild : BaseHook() {
     override fun init() {
-        loadClass("com.xiaomi.mtb.MtbUtils").methodFinder().first {
-            name == "IsUserBuild"
-        }.createHook {
-            returnConstant(false)
+        loadClass("com.xiaomi.mtb.MtbUtils").methodFinder()
+            .filterByName("IsUserBuild")
+            .single().createHook {
+                returnConstant(false)
         }
     }
 }

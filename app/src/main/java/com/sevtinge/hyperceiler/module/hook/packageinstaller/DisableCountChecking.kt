@@ -25,10 +25,10 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object DisableCountChecking : BaseHook() {
     override fun init() {
-        loadClass("com.miui.packageInstaller.model.RiskControlRules").methodFinder().first {
-            name == "getCurrentLevel"
-        }.createHook {
-            returnConstant(0)
-        }
+        loadClass("com.miui.packageInstaller.model.RiskControlRules").methodFinder()
+            .filterByName("getCurrentLevel")
+            .single().createHook {
+                returnConstant(0)
+            }
     }
 }

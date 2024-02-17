@@ -29,44 +29,44 @@ object BypassAuthentication : BaseHook() {
         val mModemTestBoxClass = loadClass("com.xiaomi.mtb.activity.ModemTestBoxMainActivity")
 
         runCatching {
-            loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder().first {
-                name == "updatePermissionClass"
-            }.createHook {
-                after {
-                    it.result = 0L
+            loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
+                .filterByName("updatePermissionClass")
+                .single().createHook {
+                    after {
+                        it.result = 0L
+                    }
                 }
-            }
         }
 
         runCatching {
-            loadClass("com.xiaomi.mtb.MtbApp").methodFinder().first {
-                name == "setMiServerPermissionClass"
-            }.createHook {
-                before {
-                    it.args[0] = 0
+            loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
+                .filterByName("setMiServerPermissionClass")
+                .single().createHook {
+                    before {
+                        it.args[0] = 0
+                    }
                 }
-            }
         }
 
         runCatching {
-            mModemTestBoxClass.methodFinder().first {
-                name == "updateClass"
-            }.createHook {
-                before {
-                    it.args[0] = 0
-                    it.thisObject.setObjectField("mClassNet", 0)
+            mModemTestBoxClass.methodFinder()
+                .filterByName("updateClass")
+                .single().createHook {
+                    before {
+                        it.args[0] = 0
+                        it.thisObject.setObjectField("mClassNet", 0)
+                    }
                 }
-            }
         }
 
         runCatching {
-            mModemTestBoxClass.methodFinder().first {
-                name == "initClassProduct"
-            }.createHook {
-                after {
-                    it.thisObject.setObjectField("mClassProduct", 0)
+            mModemTestBoxClass.methodFinder()
+                .filterByName("initClassProduct")
+                .single().createHook {
+                    after {
+                        it.thisObject.setObjectField("mClassProduct", 0)
+                    }
                 }
-            }
         }
     }
 

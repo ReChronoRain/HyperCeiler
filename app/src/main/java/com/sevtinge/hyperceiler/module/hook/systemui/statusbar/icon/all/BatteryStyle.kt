@@ -69,13 +69,13 @@ object BatteryStyle : BaseHook() {
 
     override fun init() {
         if (isAndroidVersion(30)) {
-            mBatteryMeterViewClass.methodFinder().first {
-                name == "updateResources"
-            }
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateResources")
+                .single()
         } else {
-            mBatteryMeterViewClass.methodFinder().first {
-                name == "updateAll"
-            }
+            mBatteryMeterViewClass.methodFinder()
+                .filterByName("updateAll")
+                .single()
         }.createHook {
             after { param ->
                 hookStatusBattery(param)
@@ -150,7 +150,7 @@ object BatteryStyle : BaseHook() {
         }
 
         // 以下功能需要启用修改
-        if (isHideText && isEnableCustom) {
+        if (!isHideText && isEnableCustom) {
             if (fontSize > 7.5) {
                 setBatterySize(mBatteryTextDigitView, fontSize)
                 setBatterySize(mBatteryPercentView, fontSize)

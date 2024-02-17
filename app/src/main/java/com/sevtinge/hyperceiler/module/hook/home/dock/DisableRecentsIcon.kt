@@ -25,12 +25,10 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object DisableRecentsIcon : BaseHook() {
     override fun init() {
-        loadClass("com.miui.home.launcher.hotseats.HotSeatsListRecentsAppProvider").methodFinder().first {
-            name == "updateFinalRecommendTasks"
-        }.createHook {
-            before { param ->
-                param.result = true
-            }
+        loadClass("com.miui.home.launcher.hotseats.HotSeatsListRecentsAppProvider").methodFinder()
+            .filterByName("updateFinalRecommendTasks")
+            .single().createHook {
+            returnConstant(true)
         }
     }
 }

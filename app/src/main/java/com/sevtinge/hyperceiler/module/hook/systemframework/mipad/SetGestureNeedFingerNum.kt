@@ -26,10 +26,9 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object SetGestureNeedFingerNum : BaseHook() {
     override fun init() {
         loadClass("com.miui.server.input.gesture.multifingergesture.gesture.BaseMiuiMultiFingerGesture").methodFinder()
-            .first {
-                name == "getFunctionNeedFingerNum"
-            }.createHook {
-            returnConstant(4)
-        }
+            .filterByName("getFunctionNeedFingerNum")
+            .single().createHook {
+                returnConstant(4)
+            }
     }
 }

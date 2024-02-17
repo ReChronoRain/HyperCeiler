@@ -32,9 +32,10 @@ class QQSGrid : BaseHook() {
         val cols = mPrefsMap.getInt("system_control_center_old_qs_grid_columns", 5)
         val colsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_grid_columns_horizontal", 6)
 
-        loadClass("com.android.systemui.qs.MiuiQuickQSPanel").methodFinder().first {
-                name == "setMaxTiles" && parameterCount == 1
-            }.createHook {
+        loadClass("com.android.systemui.qs.MiuiQuickQSPanel").methodFinder()
+            .filterByName("setMaxTiles")
+            .filterByParamCount(1)
+            .single().createHook {
                 before {
                     val viewGroup = it.thisObject as ViewGroup
                     val mConfiguration: Configuration = viewGroup.context.resources.configuration

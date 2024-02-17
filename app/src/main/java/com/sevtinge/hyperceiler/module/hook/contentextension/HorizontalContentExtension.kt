@@ -26,9 +26,8 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object HorizontalContentExtension : BaseHook() {
     override fun init() {
         loadClass("com.miui.contentextension.services.TextContentExtensionService").methodFinder()
-            .first {
-                name == "isScreenPortrait"
-            }.createHook {
+            .filterByName("isScreenPortrait")
+            .single().createHook {
             after {
                 it.result = true
             }

@@ -31,14 +31,15 @@ object HideWidgetTitles : BaseHook() {
     override fun init() {
 
         val maMlWidgetInfo = loadClass("com.miui.home.launcher.maml.MaMlWidgetInfo")
-        loadClass("com.miui.home.launcher.LauncherAppWidgetHost").methodFinder().first {
-            name == "createLauncherWidgetView" && parameterCount == 4
-        }.createHook {
-            after {
-                val view = it.result as Any
-                view.callMethod("getTitleView")?.callMethod("setVisibility", View.GONE)
+        loadClass("com.miui.home.launcher.LauncherAppWidgetHost").methodFinder()
+            .filterByName("createLauncherWidgetView")
+            .filterByParamCount(4)
+            .single().createHook {
+                after {
+                    val view = it.result as Any
+                    view.callMethod("getTitleView")?.callMethod("setVisibility", View.GONE)
+                }
             }
-        }
 
         "com.miui.home.launcher.Launcher".hookAfterMethod(
             "addMaMl", maMlWidgetInfo, Boolean::class.java, Predicate::class.java

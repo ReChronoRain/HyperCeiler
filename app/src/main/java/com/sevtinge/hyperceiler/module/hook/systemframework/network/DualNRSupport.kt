@@ -26,13 +26,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object DualNRSupport : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
-                name == "isDualNrSupported"
-            }.createHook {
-                before {
-                    it.result = true
+            loadClass("miui.telephony.TelephonyManagerEx").methodFinder()
+                .filterByName("isDualNrSupported")
+                .single().createHook {
+                    returnConstant(true)
                 }
-            }
         }
     }
 }

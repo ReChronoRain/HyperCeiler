@@ -27,11 +27,11 @@ object UseNewHD : BaseHook() {
     // 仅供 Android 13 设备使用，部分未进版机型依旧不可用
     override fun init() {
         runCatching {
-            loadClass("com.android.systemui.statusbar.policy.HDController").methodFinder().first {
-                name == "isVisible"
-            }.createHook {
-                returnConstant(true)
-            }
+            loadClass("com.android.systemui.statusbar.policy.HDController").methodFinder()
+                .filterByName("isVisible")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
     }
 }

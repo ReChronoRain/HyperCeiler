@@ -41,9 +41,9 @@ object HideVoWiFiIcon : BaseHook() {
                 }
             }
         } else if (hideVoWifi) {
-            loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").methodFinder().first {
-                name == "getHideVowifi"
-            }.createHook { returnConstant(true) }
+            loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy\$MiuiOperatorConfig").methodFinder()
+                .filterByName("getHideVowifi")
+                .single().createHook { returnConstant(true) }
         }
     }
 }

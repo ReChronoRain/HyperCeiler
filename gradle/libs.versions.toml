@@ -18,7 +18,7 @@ xposed-api = "82"
 gson = "2.10.1"
 dexkit = "2.0.0"
 tinyPinyin = "2.0.3.RELEASE"
-ezXHelper = "2.0.8"
+ezxhelper = "2.0.9"
 accompanist = "0.34.0"
 hiddenapibypass = "4.3"
 commons-codec = "1.16.1"
@@ -41,7 +41,7 @@ xposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "xp
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
 tinyPinyin = { group = "io.github.biezhi", name = "TinyPinyin", version.ref = "tinyPinyin" }
-ezXHelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezXHelper" }
+ezxhelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = "ezxhelper" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
 commons-codec = { group = "commons-codec", name = "commons-codec", version.ref = "commons-codec" }

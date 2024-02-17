@@ -34,9 +34,10 @@ object StatusBarSimIcon : BaseHook() {
     override fun init() {
         if (card1 || card2) {
             loadClass("com.android.systemui.statusbar.phone.StatusBarSignalPolicy").methodFinder()
-                .first {
-                    name == "hasCorrectSubs" && parameterTypes[0] == MutableList::class.java
-                }.createHook {
+                .filterByName("hasCorrectSubs")
+                .filterByParamTypes {
+                    it[0] == MutableList::class.java
+                }.single().createHook {
                     before {
                         val list = it.args[0] as MutableList<*>
                         /* val size = list.size*/

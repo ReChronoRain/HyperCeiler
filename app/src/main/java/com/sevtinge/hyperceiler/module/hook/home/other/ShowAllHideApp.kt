@@ -32,11 +32,11 @@ object ShowAllHideApp : BaseHook() {
                 addUsingStringsEquals("appInfo.packageName", "activityInfo")
             }
         }.forEach {
-            it.getInstance(EzXHelper.classLoader).methodFinder().first {
-                name == "isHideAppValid"
-            }.createHook {
-                returnConstant(true)
-            }
+            it.getInstance(EzXHelper.classLoader).methodFinder()
+                .filterByName("isHideAppValid")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
     }
 }

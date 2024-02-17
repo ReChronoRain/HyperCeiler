@@ -32,12 +32,10 @@ class EnableFoldArea : BaseHook() {
             true
         )
 
-        SettingsFeaturesClass.methodFinder().first {
-            name == "isSupportFoldScreenSettings"
-        }.createHook {
-            before{
-                it.result = true
+        SettingsFeaturesClass.methodFinder()
+            .filterByName("isSupportFoldScreenSettings")
+            .single().createHook {
+                returnConstant(true)
             }
-        }
     }
 }

@@ -26,10 +26,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 class DoublePress : BaseHook() {
     override fun init() {
-        loadClass("com.miui.contentextension.utils.ContentCatcherUtil").methodFinder().first {
-            name == "isCatcherSupportDoublePress" &&
-                parameterTypes[0] == Context::class.java
-        }.createHook {
+        loadClass("com.miui.contentextension.utils.ContentCatcherUtil").methodFinder()
+            .filterByName("isCatcherSupportDoublePress")
+            .filterByParamTypes {
+                it[0] == Context::class.java
+            }.single().createHook {
             returnConstant(true)
         }
     }

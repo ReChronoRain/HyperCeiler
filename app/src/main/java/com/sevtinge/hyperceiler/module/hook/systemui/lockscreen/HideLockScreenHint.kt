@@ -40,22 +40,23 @@ object HideLockScreenHint : BaseHook() {
 
         if (isAndroidVersion(34) && isMoreHyperOSVersion(1f)) {
             // by Hyper Helper
-            loadClassOrNull("com.android.systemui.statusbar.KeyguardIndicationController")!!.methodFinder().first {
-                name == "updateDeviceEntryIndication"
-            }.createHook {
-                after {
-                    XposedHelpers.setObjectField(it.thisObject, "mPersistentUnlockMessage", "")
+            loadClassOrNull("com.android.systemui.statusbar.KeyguardIndicationController")!!.methodFinder()
+                .filterByName("updateDeviceEntryIndication")
+                .single().createHook {
+                    after {
+                        XposedHelpers.setObjectField(it.thisObject, "mPersistentUnlockMessage", "")
+                    }
                 }
-            }
 
-            loadClassOrNull("com.android.systemui.statusbar.KeyguardIndicationController")!!.methodFinder().first {
-                name == "setIndicationArea"
-            }.createHook {
-                after {
-                    val image = ObjectUtils.getObjectOrNullAs<ImageView>(it.thisObject, "mUpArrow") ?: return@after
-                    image.alpha = 0.0f
+            loadClassOrNull("com.android.systemui.statusbar.KeyguardIndicationController")!!.methodFinder()
+                .filterByName("setIndicationArea")
+                .single().createHook {
+                    after {
+                        val image =
+                            ObjectUtils.getObjectOrNullAs<ImageView>(it.thisObject, "mUpArrow") ?: return@after
+                        image.alpha = 0.0f
+                    }
                 }
-            }
         } else if (isAndroidVersion(33)) {
             findAndHookMethod(
                 "com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController",

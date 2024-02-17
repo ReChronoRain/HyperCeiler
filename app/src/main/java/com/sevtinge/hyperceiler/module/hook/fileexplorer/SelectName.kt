@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.utils.getObjectField
 
 object SelectName : BaseHook() {
     override fun init() {
-        loadClass("com.android.fileexplorer.view.FileListItem").methodFinder().first {
-            name == "onFinishInflate"
-        }.createHook {
+        loadClass("com.android.fileexplorer.view.FileListItem").methodFinder()
+            .filterByName("onFinishInflate")
+            .single().createHook {
             after {
                 (it.thisObject.getObjectField("mFileNameTextView") as TextView).apply {
                     setTextIsSelectable(mPrefsMap.getBoolean("file_explorer_can_selectable"))

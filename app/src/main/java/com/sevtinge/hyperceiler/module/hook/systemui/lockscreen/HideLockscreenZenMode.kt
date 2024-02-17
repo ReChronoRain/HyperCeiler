@@ -30,18 +30,18 @@ object HideLockscreenZenMode : BaseHook() {
         // hyperOS fix by hyper helper
         if (isMoreHyperOSVersion(1f)) {
             loadClass("com.android.systemui.statusbar.notification.zen.ZenModeViewController", lpparam.classLoader)
-                .methodFinder().first {
-                    name == "updateVisibility"
-                }.createHook {
+                .methodFinder()
+                .filterByName("updateVisibility")
+                .single().createHook {
                     before {
                         it.thisObject.setObjectField("manuallyDismissed", true)
                     }
                 }
         } else {
             loadClass("com.android.systemui.statusbar.notification.zen.ZenModeViewController", lpparam.classLoader)
-                .methodFinder().first {
-                    name == "shouldBeVisible"
-                }.createHook {
+                .methodFinder()
+                .filterByName("shouldBeVisible")
+                .single().createHook {
                     returnConstant(false)
                 }
         }

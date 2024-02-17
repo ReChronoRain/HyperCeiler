@@ -24,11 +24,11 @@ import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
-import de.robv.android.xposed.XposedHelpers
 
 object NetworkSpeedStyle : BaseHook() {
     private val fontSize by lazy {
@@ -54,19 +54,22 @@ object NetworkSpeedStyle : BaseHook() {
         if (isAndroidVersion(30)) {
             // Android 11 or MIUI12.5 Need to hook Statusbar in Screen Lock interface, to set front size
             // Thanks for CustoMIUIzerMod
-            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder().first {
-                name == "onDensityOrFontScaleChanged"
-            }.createHook {
-               after { params ->
-                   val meter = XposedHelpers.getObjectField(params.thisObject, "mNetworkSpeedView") as TextView
+            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
+                .filterByName("onDensityOrFontScaleChanged")
+                .single().createHook {
+                    after { params ->
+                        val meter =
+                            ObjectUtils.getObjectOrNullAs<TextView>(
+                                params.thisObject, "mNetworkSpeedView"
+                            ) ?: return@after
 
-                   // 网速字体大小调整
-                   textSize(meter)
+                        // 网速字体大小调整
+                        textSize(meter)
 
-                   // 网速行间距调整
-                   textLineSpacing(meter)
-               }
-            }
+                        // 网速行间距调整
+                        textLineSpacing(meter)
+                    }
+                }
         }
 
         hookAllConstructors("com.android.systemui.statusbar.views.NetworkSpeedView",
@@ -81,7 +84,6 @@ object NetworkSpeedStyle : BaseHook() {
                             1 -> meter.typeface = Typeface.DEFAULT
                             2 -> meter.typeface = Typeface.DEFAULT_BOLD
                         }
-
 
                         // 左侧间距
                         var leftMargin =

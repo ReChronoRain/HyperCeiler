@@ -31,34 +31,34 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 class RemoveConversationBubbleSettingsRestriction : BaseHook() {
     @SuppressLint("PrivateApi")
     override fun init() {
-        loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder().first {
-            name == "getDefaultBubbles"
-        }.createHook {
-            before { param ->
-                val classBubbleApp = loadClass("com.miui.bubbles.settings.BubbleApp")
-                val arrayMap = ArrayMap<String, Any>()
-                val mContext =
-                    param.thisObject.getObjectField("mContext") as Context
-                val mCurrentUserId =
-                    param.thisObject.getObjectField("mCurrentUserId") as Int
-                val freeformSuggestionList = HiddenApiBypass.invoke(
-                    Class.forName("android.util.MiuiMultiWindowUtils"),
-                    null,
-                    "getFreeformSuggestionList",
-                    mContext
-                ) as List<*>
-                if (freeformSuggestionList.isNotEmpty()) {
-                    for (str in freeformSuggestionList) {
-                        val bubbleApp = classBubbleApp.getConstructor(
-                            String::class.java, Int::class.java
-                        ).newInstance(str, mCurrentUserId)
-                        classBubbleApp.getMethod("setChecked", Boolean::class.java)
-                            .invoke(bubbleApp, true)
-                        arrayMap[str as String] = bubbleApp
+        loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder()
+            .filterByName("getDefaultBubbles")
+            .single().createHook {
+                before { param ->
+                    val classBubbleApp = loadClass("com.miui.bubbles.settings.BubbleApp")
+                    val arrayMap = ArrayMap<String, Any>()
+                    val mContext =
+                        param.thisObject.getObjectField("mContext") as Context
+                    val mCurrentUserId =
+                        param.thisObject.getObjectField("mCurrentUserId") as Int
+                    val freeformSuggestionList = HiddenApiBypass.invoke(
+                        Class.forName("android.util.MiuiMultiWindowUtils"),
+                        null,
+                        "getFreeformSuggestionList",
+                        mContext
+                    ) as List<*>
+                    if (freeformSuggestionList.isNotEmpty()) {
+                        for (str in freeformSuggestionList) {
+                            val bubbleApp = classBubbleApp.getConstructor(
+                                String::class.java, Int::class.java
+                            ).newInstance(str, mCurrentUserId)
+                            classBubbleApp.getMethod("setChecked", Boolean::class.java)
+                                .invoke(bubbleApp, true)
+                            arrayMap[str as String] = bubbleApp
+                        }
                     }
+                    param.result = arrayMap
                 }
-                param.result = arrayMap
             }
-        }
     }
 }

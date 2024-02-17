@@ -26,11 +26,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object IsSbnBelongToActiveBubbleApp : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder().first {
-                name == "isSbnBelongToActiveBubbleApp"
-            }.createHook {
-                returnConstant(true)
-            }
+            loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder()
+                .filterByName("isSbnBelongToActiveBubbleApp")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
     }
 }

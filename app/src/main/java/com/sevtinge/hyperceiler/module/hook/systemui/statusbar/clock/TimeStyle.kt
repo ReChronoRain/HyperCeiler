@@ -24,7 +24,6 @@ import android.view.View
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
@@ -68,46 +67,42 @@ object TimeStyle : BaseHook() {
 
     @SuppressLint("RtlHardcoded", "DiscouragedApi")
     override fun init() {
-        mClockClass.constructorFinder().first {
-            paramCount == 3
-        }.createHook {
-            after {
-                val textV = it.thisObject as TextView
+        mClockClass.constructorFinder()
+            .filterByParamCount(3).single().createHook {
+                after {
+                    val textV = it.thisObject as TextView
 
-                if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                    // 时钟加粗
-                    if (clockBold) {
-                        textV.typeface = Typeface.DEFAULT_BOLD
-                    }
-
-                    // 时钟边距调整
-                    margin(textV)
-
-                    // 以下 Hook 需要启用自定义时钟指示器才能生效
-                    if (getMode != 0) {
-                        // 时钟对齐方式
-                        if (getMode == 1) {
-                            textV.textAlignment = when (isAlign) {
-                                1 -> View.TEXT_ALIGNMENT_CENTER
-                                2 -> View.TEXT_ALIGNMENT_TEXT_END
-                                else -> View.TEXT_ALIGNMENT_TEXT_START
-                            }
-                        } else if (getMode == 2) {
-                            textV.textAlignment = when (isGeekAlign) {
-                                1 -> View.TEXT_ALIGNMENT_CENTER
-                                2 -> View.TEXT_ALIGNMENT_TEXT_END
-                                else -> View.TEXT_ALIGNMENT_TEXT_START
-                            }
+                    if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                        // 时钟加粗
+                        if (clockBold) {
+                            textV.typeface = Typeface.DEFAULT_BOLD
                         }
 
-                        // 双排时钟行间距调整
-                        if ((getMode == 1 && isClockDouble) || getMode == 2) {
-                            textLineSpacing(textV)
+                        // 时钟边距调整
+                        margin(textV)
+
+                        // 以下 Hook 需要启用自定义时钟指示器才能生效
+                        if (getMode != 0) {
+                            val alignment = when (getMode) {
+                                1 -> isAlign
+                                2 -> isGeekAlign
+                                else -> 0
+                            }
+
+                            textV.textAlignment = when (alignment) {
+                                1 -> View.TEXT_ALIGNMENT_CENTER
+                                2 -> View.TEXT_ALIGNMENT_TEXT_END
+                                else -> View.TEXT_ALIGNMENT_TEXT_START
+                            }
+
+                            // 双排时钟行间距调整
+                            if ((getMode == 1 && isClockDouble) || getMode == 2) {
+                                textLineSpacing(textV)
+                            }
                         }
                     }
                 }
             }
-        }
     }
 
     private fun margin(id: TextView) {

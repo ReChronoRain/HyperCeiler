@@ -25,11 +25,10 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object UnlockTaplusForSettings : BaseHook() {
     override fun init() {
-        loadClass("com.android.settings.utils.SettingsFeatures").methodFinder().first {
-            name == "isNeedRemoveContentExtension"
-        }.createHook {
-            returnConstant(false)
-        }
-
+        loadClass("com.android.settings.utils.SettingsFeatures").methodFinder()
+            .filterByName("isNeedRemoveContentExtension")
+            .single().createHook {
+                returnConstant(false)
+            }
     }
 }

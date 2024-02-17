@@ -31,9 +31,8 @@ object RemoveSmartScreen : BaseHook() {
     override fun init() {
         if (isMoreHyperOSVersion(1f)) {
             loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
-                .first {
-                    name == "updateIcons"
-                }.createHook {
+                .filterByName("updateIcons")
+                .single().createHook {
                     after {
                         val left =
                             ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mLeftAffordanceViewLayout") ?: return@after
@@ -42,12 +41,9 @@ object RemoveSmartScreen : BaseHook() {
                 }
         } else {
             loadClassOrNull("com.android.keyguard.negative.MiuiKeyguardMoveLeftViewContainer")!!.methodFinder()
-                .first {
-                    name == "inflateLeftView"
-                }.createHook {
-                    before {
-                        it.result = null
-                    }
+                .filterByName("inflateLeftView")
+                .single().createHook {
+                    returnConstant(null)
                 }
         }
     }

@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.utils.api
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 
 // by StarVoyager
 object LazyClass {
@@ -62,15 +63,11 @@ object LazyClass {
         loadClass("com.android.settings.MiuiSettings")
     }
 
-    val ShellResourceFetcher by lazy {
-        loadClass("com.miui.gallery.editor.photo.screen.shell.res.ShellResourceFetcher")
-    }
-
     val mNewClockClass by lazy {
-        loadClass("com.android.systemui.statusbar.views.MiuiStatusBarClock")
+        loadClassOrNull("com.android.systemui.statusbar.views.MiuiStatusBarClock")
     }
 
     val StrongToast by lazy {
-        loadClass("com.android.systemui.toast.MIUIStrongToast")
+        loadClassOrNull("com.android.systemui.toast.MIUIStrongToast")
     }
 }

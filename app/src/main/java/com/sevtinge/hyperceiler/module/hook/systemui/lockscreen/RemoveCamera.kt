@@ -54,41 +54,36 @@ object RemoveCamera : BaseHook() {
                 }
             }
         } else if (isMiuiVersion(14f) && isAndroidVersion(34)) {
-            newClass!!.methodFinder().first {
-                name == "onFinishInflate"
-            }.createHook {
-                after {
-                    val right =
-                        ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
-                    right.visibility = View.GONE
+            newClass!!.methodFinder().filterByName("onFinishInflate")
+                .single().createHook {
+                    after {
+                        val right =
+                            ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
+                        right.visibility = View.GONE
+                    }
                 }
-            }
         } else {
-            oldClass!!.methodFinder().first {
-                name == "onFinishInflate"
-            }.createHook {
-                after {
-                    val right =
-                        ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
-                    right.visibility = View.GONE
+            oldClass!!.methodFinder().filterByName("onFinishInflate")
+                .single().createHook {
+                    after {
+                        val right =
+                            ObjectUtils.getObjectOrNullAs<LinearLayout>(it.thisObject, "mRightAffordanceViewLayout") ?: return@after
+                        right.visibility = View.GONE
+                    }
                 }
-            }
         }
 
         // 屏蔽滑动撞墙动画
-        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.methodFinder().first {
-            name == "onTouchMove" && parameterCount == 2
-        }.createHook {
-            before {
-                it.result = false
+        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.methodFinder()
+            .filterByName("onTouchMove")
+            .filterByParamCount(2)
+            .single().createHook {
+                returnConstant(false)
             }
-        }
-        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.methodFinder().first {
-            name == "reset"
-        }.createHook {
-            before {
-                it.result = null
+        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.methodFinder()
+            .filterByName("reset")
+            .single().createHook {
+                returnConstant(null)
             }
-        }
     }
 }

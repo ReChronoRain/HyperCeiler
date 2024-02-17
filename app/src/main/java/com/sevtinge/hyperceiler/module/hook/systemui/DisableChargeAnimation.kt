@@ -35,10 +35,10 @@ object DisableChargeAnimation : BaseHook() {
             // 3: 光韵渐入
         }*/
 
-        loadClass("com.miui.charge.container.MiuiChargeContainerView").methodFinder().first {
-            name == "init"
-        }.createHook {
-            returnConstant(null)
-        }
+        loadClass("com.miui.charge.container.MiuiChargeContainerView").methodFinder()
+            .filterByName("init")
+            .single().createHook {
+                returnConstant(null)
+            }
     }
 }

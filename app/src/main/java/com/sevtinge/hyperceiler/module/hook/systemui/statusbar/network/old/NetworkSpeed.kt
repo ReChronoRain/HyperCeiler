@@ -42,29 +42,32 @@ object NetworkSpeed : BaseHook() {
     private var rxBytesTotal: Long = 0
     private var txSpeed: Long = 0
     private var rxSpeed: Long = 0
-    private var txArrow = ""
-    private var rxArrow = ""
 
     //  隐藏慢速
     private val hideLow by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
     }
+
     // 网速均低于设定值隐藏
     private val allHideLow by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
     }
+
     //  慢速水平
     private val lowLevel by lazy {
         mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
     }
+
     // 交换图标与网速位置
     private val swapPlaces by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
     }
+
     // 网速图标
     private val icons by lazy {
         mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
     }
+
     // 网速指示器样式
     private val networkStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
@@ -136,152 +139,107 @@ object NetworkSpeed : BaseHook() {
                 "DetailedNetSpeedHook: No NetworkSpeed view or controller"
             )
         } else {
-            nscCls.methodFinder().first {
-                name == "getTotalByte"
-            }.createHook {
-                after {
-                    val bytes = getTrafficBytes()
-                    txBytesTotal = bytes.first
-                    rxBytesTotal = bytes.second
-                    measureTime = System.nanoTime()
-                }
-            }
-
-            nscCls.methodFinder().first {
-                name == "updateNetworkSpeed"
-            }.createHook {
-                before {
-                    var isConnected = false
-                    val mContext =
-                        XposedHelpers.getObjectField(it.thisObject, "mContext") as Context
-                    val mConnectivityManager =
-                        mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                    val nw = mConnectivityManager.activeNetwork
-                    if (nw != null) {
-                        val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
-                        if (capabilities != null && (!(!
-                            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
-                                !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)))
-                        ) {
-                            isConnected = true
-                        }
-                    }
-                    if (isConnected) {
-                        val nanoTime = System.nanoTime()
-                        var newTime = nanoTime - measureTime
-                        measureTime = nanoTime
-                        if (newTime == 0L) newTime = (4 * 10.0.pow(9.0)).roundToLong()
+            nscCls.methodFinder()
+                .filterByName("getTotalByte")
+                .single().createHook {
+                    after {
                         val bytes = getTrafficBytes()
-                        val newTxBytes = bytes.first
-                        val newRxBytes = bytes.second
-                        newTxBytesFixed = newTxBytes - txBytesTotal
-                        newRxBytesFixed = newRxBytes - rxBytesTotal
-                        if (newTxBytesFixed < 0 || txBytesTotal == 0L) newTxBytesFixed = 0
-                        if (newRxBytesFixed < 0 || rxBytesTotal == 0L) newRxBytesFixed = 0
-                        txSpeed = (newTxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
-                        rxSpeed = (newRxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
-                        txBytesTotal = newTxBytes
-                        rxBytesTotal = newRxBytes
-                    } else {
-                        txSpeed = 0
-                        rxSpeed = 0
+                        txBytesTotal = bytes.first
+                        rxBytesTotal = bytes.second
+                        measureTime = System.nanoTime()
                     }
                 }
-            }
 
-            nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).first().createHook {
-                before {
-                    when (icons) {
-                        2 -> {
-                            txArrow = if (txSpeed < lowLevel) "△" else "▲"
-                            rxArrow = if (rxSpeed < lowLevel) "▽" else "▼"
-                        }
-
-                        3 -> {
-                            txArrow = if (txSpeed < lowLevel) " ▵" else " ▴"
-                            rxArrow = if (rxSpeed < lowLevel) " ▿" else " ▾"
-                        }
-
-                        4 -> {
-                            txArrow = if (txSpeed < lowLevel) " ☖" else " ☗"
-                            rxArrow = if (rxSpeed < lowLevel) " ⛉" else " ⛊"
-                        }
-
-                        5 -> {
-                            txArrow = if (txSpeed < lowLevel) "↑" else "↑"
-                            rxArrow = if (rxSpeed < lowLevel) "↓" else "↓"
-                        }
-
-                        6 -> {
-                            txArrow = if (txSpeed < lowLevel) "⇧" else "⇧"
-                            rxArrow = if (rxSpeed < lowLevel) "⇩" else "⇩"
-                        }
-                    }
-
-                    // 计算上行网速
-                    val tx =
-                        if (hideLow && !allHideLow && txSpeed < lowLevel)
-                            ""
-                        else {
-                            if (swapPlaces)
-                                "$txArrow${humanReadableByteCount(it.args[0] as Context, txSpeed)}"
-                            else
-                                "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
-                        }
-                    // 计算下行网速
-                    val rx =
-                        if (hideLow && !allHideLow && rxSpeed < lowLevel)
-                            ""
-                        else {
-                            if (swapPlaces)
-                                "$rxArrow${humanReadableByteCount(it.args[0] as Context, rxSpeed)}"
-                            else
-                                "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
-                        }
-                    // 计算总网速
-                    val ax =
-                        humanReadableByteCount(
-                            it.args[0] as Context,
-                            newTxBytesFixed + newRxBytesFixed
-                        )
-                    // 存储是否隐藏慢速的条件的结果
-                    val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
-                    val isAllLowSpeed =
-                        hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
-
-                    when {
-                        // 如果开启值和单位单双排显示，返回总网速的字符串
-                        (networkStyle == 1 || networkStyle == 2) -> {
-                            if (isLowSpeed) {
-                                it.result = ""
-                            } else {
-                                it.result = ax
+            nscCls.methodFinder()
+                .filterByName("updateNetworkSpeed")
+                .single().createHook {
+                    before {
+                        var isConnected = false
+                        val mContext =
+                            XposedHelpers.getObjectField(it.thisObject, "mContext") as Context
+                        val mConnectivityManager =
+                            mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                        val nw = mConnectivityManager.activeNetwork
+                        if (nw != null) {
+                            val capabilities = mConnectivityManager.getNetworkCapabilities(nw)
+                            if (capabilities != null && (!(!
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
+                                    !capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)))
+                            ) {
+                                isConnected = true
                             }
                         }
-                        // 如果显示上下行网速显示，返回上下行网速的字符串
-                        networkStyle == 3 -> {
-                            if (isAllLowSpeed) {
-                                it.result = ""
-                            } else {
-                                it.result = "$tx $rx"
-                            }
-                        }
-                        networkStyle == 4 -> {
-                            if (isAllLowSpeed) {
-                                it.result = ""
-                            } else {
-                                it.result = "$tx\n$rx"
-                            }
-                        }
-                        // 其他情况，对隐藏慢速判定，返回空字符串，其余不返回
-                        else -> {
-                            if (isLowSpeed) {
-                                it.result = ""
-                            }
+                        if (isConnected) {
+                            val nanoTime = System.nanoTime()
+                            var newTime = nanoTime - measureTime
+                            measureTime = nanoTime
+                            if (newTime == 0L) newTime = (4 * 10.0.pow(9.0)).roundToLong()
+                            val bytes = getTrafficBytes()
+                            val newTxBytes = bytes.first
+                            val newRxBytes = bytes.second
+                            newTxBytesFixed = newTxBytes - txBytesTotal
+                            newRxBytesFixed = newRxBytes - rxBytesTotal
+                            if (newTxBytesFixed < 0 || txBytesTotal == 0L) newTxBytesFixed = 0
+                            if (newRxBytesFixed < 0 || rxBytesTotal == 0L) newRxBytesFixed = 0
+                            txSpeed = (newTxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
+                            rxSpeed = (newRxBytesFixed / (newTime / 10.0.pow(9.0))).roundToLong()
+                            txBytesTotal = newTxBytes
+                            rxBytesTotal = newRxBytes
+                        } else {
+                            txSpeed = 0
+                            rxSpeed = 0
                         }
                     }
                 }
-            }
+
+            nscCls.methodFinder().filterByName("formatSpeed").filterByParamCount(2).single()
+                .createHook {
+                    before {
+                        // 计算网速方向的箭头
+                        val txArrow = when (icons) {
+                            2 -> if (txSpeed < lowLevel) "△" else "▲"
+                            3 -> if (txSpeed < lowLevel) " ▵" else " ▴"
+                            4 -> if (txSpeed < lowLevel) " ☖" else " ☗"
+                            5 -> if (txSpeed < lowLevel) "↑" else "↑"
+                            6 -> if (txSpeed < lowLevel) "⇧" else "⇧"
+                            else -> ""
+                        }
+
+                        val rxArrow = when (icons) {
+                            2 -> if (rxSpeed < lowLevel) "▽" else "▼"
+                            3 -> if (rxSpeed < lowLevel) " ▿" else " ▾"
+                            4 -> if (rxSpeed < lowLevel) " ⛉" else " ⛊"
+                            5 -> if (rxSpeed < lowLevel) "↓" else "↓"
+                            6 -> if (rxSpeed < lowLevel) "⇩" else "⇩"
+                            else -> ""
+                        }
+
+                        // 计算上行网速
+                        val tx = if (hideLow && !allHideLow && txSpeed < lowLevel) ""
+                        else if (swapPlaces) "$txArrow${humanReadableByteCount(it.args[0] as Context, txSpeed)}"
+                        else "${humanReadableByteCount(it.args[0] as Context, txSpeed)}$txArrow"
+
+                        // 计算下行网速
+                        val rx = if (hideLow && !allHideLow && rxSpeed < lowLevel) ""
+                        else if (swapPlaces) "$rxArrow${humanReadableByteCount(it.args[0] as Context, rxSpeed)}"
+                        else "${humanReadableByteCount(it.args[0] as Context, rxSpeed)}$rxArrow"
+
+                        // 计算总网速
+                        val ax = humanReadableByteCount(it.args[0] as Context, newTxBytesFixed + newRxBytesFixed)
+
+                        // 是否隐藏慢速的判定
+                        val isLowSpeed = hideLow && (txSpeed + rxSpeed) < lowLevel
+                        val isAllLowSpeed = hideLow && allHideLow && txSpeed < lowLevel && rxSpeed < lowLevel
+
+                        // 返回结果
+                        it.result = when (networkStyle) {
+                            1, 2 -> if (isLowSpeed) "" else ax
+                            3 -> if (isAllLowSpeed) "" else "$tx $rx"
+                            4 -> if (isAllLowSpeed) "" else "$tx\n$rx"
+                            else -> if (isLowSpeed) "" else it.result as String
+                        }
+                    }
+                }
         }
     }
 }

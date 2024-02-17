@@ -26,12 +26,10 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 // by ljlvink
 object DisableMiuiMultiWinSwitch : BaseHook() {
     override fun init() {
-        loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiDotView", lpparam.classLoader).methodFinder().first {
-            name == "onDraw"
-        }.createHook {
-            before {
-                it.result = null
+        loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiDotView", lpparam.classLoader).methodFinder()
+            .filterByName("onDraw")
+            .single().createHook {
+                returnConstant(null)
             }
-        }
     }
 }

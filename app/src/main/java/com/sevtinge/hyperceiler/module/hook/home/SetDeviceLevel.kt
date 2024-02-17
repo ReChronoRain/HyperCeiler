@@ -29,53 +29,61 @@ import com.sevtinge.hyperceiler.utils.hookBeforeMethod
 import com.sevtinge.hyperceiler.utils.replaceMethod
 
 object SetDeviceLevel : BaseHook() {
+    private val mDeviceLevelUtilsClass by lazy {
+        loadClass("com.miui.home.launcher.common.DeviceLevelUtils")
+    }
+    private val mDeviceConfigClass by lazy {
+        loadClass("com.miui.home.launcher.DeviceConfig")
+    }
+
     override fun init() {
-        val mDeviceLevelUtilsClass = loadClass("com.miui.home.launcher.common.DeviceLevelUtils")
-        val mDeviceConfigClass = loadClass("com.miui.home.launcher.DeviceConfig")
-
         try {
-            loadClass("com.miui.home.launcher.common.CpuLevelUtils").methodFinder().first {
-                name == "getQualcommCpuLevel" && parameterCount == 1
-            }
+            loadClass("com.miui.home.launcher.common.CpuLevelUtils").methodFinder()
+                .filterByName("getQualcommCpuLevel")
+                .filterByParamCount(1)
+                .single()
         } catch (e: Exception) {
-            loadClass("miuix.animation.utils.DeviceUtils").methodFinder().first {
-                name == "getQualcommCpuLevel" && parameterCount == 1
-            }
-        }.createHook { returnConstant(2) }
+            loadClass("miuix.animation.utils.DeviceUtils").methodFinder()
+                .filterByName("getQualcommCpuLevel")
+                .filterByParamCount(1)
+                .single()
+        }.createHook {
+            returnConstant(2)
+        }
 
         runCatching {
-            mDeviceConfigClass.methodFinder().first {
-                name == "isUseSimpleAnim"
-            }.createHook {
-                before { it.result = false }
+            mDeviceConfigClass.methodFinder()
+                .filterByName("isUseSimpleAnim")
+                .single().createHook {
+                    returnConstant(false)
             }
         }
         runCatching {
-            mDeviceLevelUtilsClass.methodFinder().first {
-                name == "getDeviceLevel"
-            }.createHook {
-                before { it.result = 2 }
+            mDeviceLevelUtilsClass.methodFinder()
+                .filterByName("getDeviceLevel")
+                .single().createHook {
+                    returnConstant(2)
             }
         }
         runCatching {
-            mDeviceConfigClass.methodFinder().first {
-                name == "isSupportCompleteAnimation"
-            }.createHook {
-                before { it.result = true }
+            mDeviceConfigClass.methodFinder()
+                .filterByName("isSupportCompleteAnimation")
+                .single().createHook {
+                    returnConstant(true)
             }
         }
         runCatching {
-            mDeviceLevelUtilsClass.methodFinder().first {
-                name == "isLowLevelOrLiteDevice"
-            }.createHook {
-                before { it.result = false }
+            mDeviceLevelUtilsClass.methodFinder()
+                .filterByName("isLowLevelOrLiteDevice")
+                .single().createHook {
+                    returnConstant(false)
             }
         }
         runCatching {
-            mDeviceConfigClass.methodFinder().first {
-                name == "isMiuiLiteVersion"
-            }.createHook {
-                before { it.result = false }
+            mDeviceConfigClass.methodFinder()
+                .filterByName("isMiuiLiteVersion")
+                .single().createHook {
+                    returnConstant(false)
             }
         }
         runCatching {

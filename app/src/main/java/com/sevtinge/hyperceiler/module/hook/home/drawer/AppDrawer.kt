@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.module.hook.home.drawer
 
 import android.view.View
-import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
@@ -35,14 +34,13 @@ object AppDrawer : BaseHook() {
             try {
                 loadClassOrNull("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer")!!
                     .methodFinder()
-                    .first {
-                        name == "buildSortCategoryList"
-                    }
+                    .filterByName("buildSortCategoryList")
+                    .single()
             } catch (e: Exception) {
-                loadClass("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer").methodFinder()
-                    .first {
-                        name == "buildSortCategoryList"
-                    }
+                loadClassOrNull("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer")!!
+                    .methodFinder()
+                    .filterByName("buildSortCategoryList")
+                    .single()
             }.createHook {
                 after {
                     val list = it.result as ArrayList<*>

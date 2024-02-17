@@ -27,7 +27,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
@@ -44,52 +43,50 @@ object ClockDisplaySeconds : BaseHook() {
     private var nowTime: Date = Calendar.getInstance().time
 
     override fun init() {
-        loadClass("com.miui.clock.MiuiBaseClock").constructorFinder().first {
-            paramCount == 2
-        }.createHook {
-            after {
-                try {
-                    val viewGroup = it.thisObject as LinearLayout
-                    val d: Method = viewGroup.javaClass.getDeclaredMethod("updateTime")
-                    val r = Runnable {
-                        d.isAccessible = true
-                        d.invoke(viewGroup)
-                    }
-
-                    class T : TimerTask() {
-                        override fun run() {
-                            Handler(viewGroup.context.mainLooper).post(r)
+        loadClass("com.miui.clock.MiuiBaseClock").constructorFinder()
+            .filterByParamCount(2)
+            .single().createHook {
+                after {
+                    try {
+                        val viewGroup = it.thisObject as LinearLayout
+                        val d: Method = viewGroup.javaClass.getDeclaredMethod("updateTime")
+                        val r = Runnable {
+                            d.isAccessible = true
+                            d.invoke(viewGroup)
                         }
+
+                        class T : TimerTask() {
+                            override fun run() {
+                                Handler(viewGroup.context.mainLooper).post(r)
+                            }
+                        }
+                        Timer().schedule(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
+                    } catch (_: Exception) {
                     }
-                    Timer().schedule(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
-                } catch (_: Exception) {
                 }
             }
-        }
 
-        loadClass("com.miui.clock.MiuiLeftTopClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, false) }
-        }
+        loadClass("com.miui.clock.MiuiLeftTopClock").methodFinder()
+            .filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, false) }
+            }
 
-        loadClass("com.miui.clock.MiuiCenterHorizontalClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, false) }
-        }
+        loadClass("com.miui.clock.MiuiCenterHorizontalClock").methodFinder()
+            .filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, false) }
+            }
 
-        loadClass("com.miui.clock.MiuiLeftTopLargeClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, false) }
-        }
+        loadClass("com.miui.clock.MiuiLeftTopLargeClock").methodFinder().filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, false) }
+            }
 
-        loadClass("com.miui.clock.MiuiVerticalClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, true) }
-        }
+        loadClass("com.miui.clock.MiuiVerticalClock").methodFinder().filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, true) }
+            }
     }
 
     private fun updateTime(it: XC_MethodHook.MethodHookParam, isVertical: Boolean) {
@@ -102,7 +99,6 @@ object ClockDisplaySeconds : BaseHook() {
         nowTime = Calendar.getInstance().time
 
         textV.text = getTime(is24, isVertical)
-
     }
 
 

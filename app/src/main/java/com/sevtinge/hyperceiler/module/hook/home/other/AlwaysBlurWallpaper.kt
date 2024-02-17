@@ -24,18 +24,19 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object AlwaysBlurWallpaper : BaseHook() {
+    private val value by lazy {
+        mPrefsMap.getInt("home_blur_radius", 100)
+    }
+
     override fun init() {
-
-        // if (!mPrefsMap.getBoolean("home_blur_wallpaper")) return
-        val value = mPrefsMap.getInt("home_blur_radius", 100)
-
-        loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder().first {
-            name == "fastBlur" && parameterCount == 4
-        }.createHook {
-            before {
-                it.args[0] = value.toFloat() / 100
-                it.args[2] = true
+        loadClass("com.miui.home.launcher.common.BlurUtils").methodFinder()
+            .filterByName("fastBlur")
+            .filterByParamCount(4)
+            .single().createHook {
+                before {
+                    it.args[0] = value.toFloat() / 100
+                    it.args[2] = true
+                }
             }
-        }
     }
 }

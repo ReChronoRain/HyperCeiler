@@ -25,20 +25,20 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object RestoreEsc : BaseHook() {
     override fun init() {
-        loadClass("com.android.server.input.config.InputCommonConfig").methodFinder().first {
-            name == "setPadMode"
-        }.createHook {
-            before {
-                it.args[0] = false
+        loadClass("com.android.server.input.config.InputCommonConfig").methodFinder()
+            .filterByName("setPadMode")
+            .single().createHook {
+                before {
+                    it.args[0] = false
+                }
             }
-        }
 
-        loadClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder().first {
-            name == "switchPadMode"
-        }.createHook {
-            before {
-                it.args[0] = false
+        loadClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
+            .filterByName("switchPadMode")
+            .single().createHook {
+                before {
+                    it.args[0] = false
+                }
             }
-        }
     }
 }

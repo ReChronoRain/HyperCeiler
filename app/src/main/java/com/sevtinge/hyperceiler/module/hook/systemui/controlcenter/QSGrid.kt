@@ -33,9 +33,9 @@ class QSGrid : BaseHook() {
         val rows = mPrefsMap.getInt("system_control_center_old_qs_rows", 3)
         val rowsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_rows_horizontal", 2)
 
-        loadClass("com.android.systemui.qs.MiuiTileLayout").methodFinder().first {
-                name == "updateColumns"
-            }.createHook {
+        loadClass("com.android.systemui.qs.MiuiTileLayout").methodFinder()
+            .filterByName("updateColumns")
+            .single().createHook {
                 after {
                     val viewGroup = it.thisObject as ViewGroup
                     val mConfiguration: Configuration = viewGroup.context.resources.configuration
@@ -55,24 +55,16 @@ class QSGrid : BaseHook() {
                 }
             }
 
-        loadClass("com.android.systemui.qs.MiuiTileLayout").methodFinder().first {
-                name == "updateResources"
-            }.createHook {
+        loadClass("com.android.systemui.qs.MiuiTileLayout").methodFinder()
+            .filterByName("updateResources")
+            .single().createHook {
                 after {
                     val viewGroup = it.thisObject as ViewGroup
                     val mConfiguration: Configuration = viewGroup.context.resources.configuration
                     if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        XposedHelpers.setObjectField (
-                            it.thisObject,
-                            "mMaxAllowedRows",
-                            rows
-                        )
+                        XposedHelpers.setObjectField (it.thisObject, "mMaxAllowedRows", rows)
                     } else {
-                        XposedHelpers.setObjectField (
-                            it.thisObject,
-                            "mMaxAllowedRows",
-                            rowsHorizontal
-                        )
+                        XposedHelpers.setObjectField (it.thisObject, "mMaxAllowedRows", rowsHorizontal)
                     }
                     viewGroup.requestLayout()
                 }

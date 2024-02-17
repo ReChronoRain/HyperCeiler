@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.utils.api.LazyClass.StrongToast
 
 object HideStrongToast : BaseHook() {
     override fun init() {
-        StrongToast.methodFinder().first {
-            name == "onAttachedToWindow"
-        }.createHook {
+        StrongToast!!.methodFinder()
+            .filterByName("onAttachedToWindow")
+            .single().createHook {
             after {
                 val strongToastLayout = it.thisObject as FrameLayout
                 strongToastLayout.viewTreeObserver.addOnPreDrawListener {

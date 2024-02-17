@@ -26,11 +26,11 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 object N28BandPhone : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder().first {
-                name == "isN28Supported"
-            }.createHook {
-                returnConstant(true)
-            }
+            loadClass("miui.telephony.TelephonyManagerEx").methodFinder()
+                .filterByName("isN28Supported")
+                .single().createHook {
+                    returnConstant(true)
+                }
         }
     }
 }
