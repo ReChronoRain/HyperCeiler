@@ -788,7 +788,7 @@
 
     <string name="system_ui_other_title">Other</string>
     <string name="system_ui_disable_volume">Native volume bar</string>
-    <string name="system_ui_disable_volume_desc">The modification of Xiaomi's volume bar does not apply to the native volume bar</string>
+    <string name="system_ui_disable_volume_desc">The modification of Xiaomi\'s volume bar does not apply to the native volume bar</string>
     <string name="system_ui_charge_animation_title">Charge animation</string>
     <string name="system_ui_charge_animation_style">Charging animation style</string>
     <string name="system_ui_charge_animation_style_desc">Select the lock screen charging animation style</string>
