@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
+    // ShellExec shellExec;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,17 @@ public class MainActivity extends NavigationActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
+        // shellExec = new ShellExec(false, true);
+        // test();
+    }
+
+    public void test() {
+        // boolean ls = shellExec.append("ls").sync().isResult();
+        // AndroidLogUtils.LogI(ITAG.TAG, "ls: " + ls);
+        // AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString() + shellExec.getError().toString());
+        // boolean f = shellExec.append("for i in $(seq 1 500); do echo $i; done").sync().isResult();
+        // AndroidLogUtils.LogI(ITAG.TAG, "for: " + f);
+        // AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());
     }
 
     private void requestCta() {
