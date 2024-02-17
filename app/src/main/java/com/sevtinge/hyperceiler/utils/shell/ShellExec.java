@@ -70,7 +70,8 @@ public class ShellExec {
     private final ArrayList<String> error = new ArrayList<>();
 
     private boolean result;
-    public int setResult = -1;
+    private boolean init;
+    protected int setResult = -1;
     private int count = 1;
 
     protected static void setICommand(IPassCommands pass, int mode) {
@@ -143,8 +144,11 @@ public class ShellExec {
                 output.start();
                 if (run) done(0);
             }
+            init = true;
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow E", e);
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
+            throw new RuntimeException("ShellExec boot failed!! E: " + e);
+            // init = false;
         }
     }
 
@@ -155,6 +159,7 @@ public class ShellExec {
      * @return this
      */
     public ShellExec append(String command) {
+        if (!init) return this;
         try {
             if (result) {
                 setResult = -1;
@@ -173,7 +178,7 @@ public class ShellExec {
                 count = count + 1;
             }
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow append E", e);
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec append E", e);
         }
         return this;
     }
@@ -185,14 +190,24 @@ public class ShellExec {
      * @return this
      */
     public ShellExec sync() {
+        if (!init) return this;
         synchronized (this) {
             try {
                 this.wait();
             } catch (InterruptedException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow sync E", e);
+                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec sync E", e);
             }
         }
         return this;
+    }
+
+    /**
+     * 返回 Shell 工具是否初始化完成。
+     *
+     * @return 是否初始化完成。
+     */
+    public boolean ready() {
+        return init;
     }
 
     /**
@@ -202,6 +217,15 @@ public class ShellExec {
      */
     public boolean isResult() {
         return setResult == 0;
+    }
+
+    /**
+     * 返回当前命令的执行返回值，建议搭配 sync，否则可能错位。
+     *
+     * @return 执行返回值
+     */
+    public int getResult() {
+        return setResult;
     }
 
     /**
@@ -223,6 +247,7 @@ public class ShellExec {
     }
 
     private void done(int count) {
+        if (!init) return;
         try {
             os.writeBytes("result=$?; string=\"The execution of command <" + count + "> is complete. Return value: <$result>\"; " +
                 "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
@@ -230,7 +255,7 @@ public class ShellExec {
             os.writeBytes("\n");
             os.flush();
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow done E", e);
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec done E", e);
         }
     }
 
@@ -240,6 +265,7 @@ public class ShellExec {
      * @return 本 process 的最终执行结果
      */
     public int close() {
+        if (!init) return -1;
         int result = -1;
         try {
             outPut.clear();
@@ -256,9 +282,9 @@ public class ShellExec {
             }
             return result;
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow close E", e);
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec close E", e);
         } catch (InterruptedException f) {
-            AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow getResult E", f);
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec getResult E", f);
         }
         return result;
     }

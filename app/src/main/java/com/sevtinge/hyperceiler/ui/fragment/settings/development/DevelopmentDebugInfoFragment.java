@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isModuleActive;
@@ -36,7 +36,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.utils.shell.ShellUtils.checkRootPermission;
 
 import android.widget.TextView;
 
@@ -45,6 +44,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -118,7 +118,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("Signature", mainActivityContextHelper.getSHA256Signature());
             propertiesCheck.put("SignCheckPass", String.valueOf(mainActivityContextHelper.isSignCheckPass()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
-            propertiesCheck.put("RootPermission", String.valueOf(checkRootPermission() == 0));
+            propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
             propertiesCheck.put("Test", test);
         } catch (Exception ignored) {
         }

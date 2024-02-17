@@ -31,11 +31,11 @@ import com.sevtinge.hyperceiler.utils.PropUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
-    // ShellExec shellExec;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class MainActivity extends NavigationActivity {
         super.onCreate(savedInstanceState);
         new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
+        ShellInit.init();
         if (!PropUtils.setProp("persist.hyperceiler.log.level",
             (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def))) {
             new AlertDialog.Builder(this)
@@ -53,17 +54,25 @@ public class MainActivity extends NavigationActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
-        // shellExec = new ShellExec(false, true);
         // test();
     }
 
+    @Override
+    protected void onDestroy() {
+        ShellInit.destroy();
+        super.onDestroy();
+    }
+
     public void test() {
-        // boolean ls = shellExec.append("ls").sync().isResult();
-        // AndroidLogUtils.LogI(ITAG.TAG, "ls: " + ls);
-        // AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString() + shellExec.getError().toString());
-        // boolean f = shellExec.append("for i in $(seq 1 500); do echo $i; done").sync().isResult();
-        // AndroidLogUtils.LogI(ITAG.TAG, "for: " + f);
-        // AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());
+        /*boolean ls = shellExec.append("ls").sync().isResult();
+        AndroidLogUtils.LogI(ITAG.TAG, "ls: " + ls);
+        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString() + shellExec.getError().toString());
+        boolean f = shellExec.append("for i in $(seq 1 500); do echo $i; done").isResult();
+        AndroidLogUtils.LogI(ITAG.TAG, "for: " + f);
+        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());
+        boolean k = shellExec.append("for i in $(seq 1 500); do echo $i; done").sync().isResult();
+        AndroidLogUtils.LogI(ITAG.TAG, "fork: " + k);
+        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());*/
     }
 
     private void requestCta() {
