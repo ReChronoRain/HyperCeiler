@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home.dock
 
-import android.annotation.SuppressLint
 import android.view.Gravity
 import android.widget.FrameLayout
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
@@ -29,7 +28,6 @@ import com.sevtinge.hyperceiler.utils.findClass
 import com.sevtinge.hyperceiler.utils.getObjectField
 import com.sevtinge.hyperceiler.utils.hookAfterMethod
 
-@SuppressLint("StaticFieldLeak")
 object DockCustomNew : BaseHook() {
     override fun init() {
         val launcherClass = "com.miui.home.launcher.Launcher".findClass()

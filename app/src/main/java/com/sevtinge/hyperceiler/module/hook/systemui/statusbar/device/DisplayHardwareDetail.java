@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2024 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
+package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.device;
 
 import static com.sevtinge.hyperceiler.utils.api.NekoQiqiApisKt.isNewNetworkStyle;
 import static com.sevtinge.hyperceiler.utils.devicesdk.AppUtilsKt.dp2px;

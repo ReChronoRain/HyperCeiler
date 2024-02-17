@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
@@ -38,7 +37,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val isRedmi by lazy { frames == 2 }
     private val isPOCO by lazy { frames == 3 }
 
-    private val publicAClass by lazy {
+    private val publicA by lazy {
         dexKitBridge.findMethod {
             matcher {
                 // find 徕卡定制画框 && redmi 定制画框 && poco 定制画框 && 迪斯尼定制画框 && 新春定制画框
@@ -58,29 +57,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 returnType = "boolean"
                 paramCount = 0
             }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
-    }
-
-    private val publicA by lazy {
-        dexKitBridge.findMethod {
-            matcher {
-                // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 a() d() f() h()）
-                addCall {
-                    declaredClass {
-                        modifiers = Modifier.FINAL or Modifier.PUBLIC
-                    }
-                    modifiers = Modifier.FINAL or Modifier.STATIC or Modifier.PUBLIC
-                    returnType("java.util.List")
-                }
-                modifiers = Modifier.FINAL or Modifier.STATIC
-                returnType = "boolean"
-                paramCount = 0
-
-                addUsingField {
-                    modifiers = Modifier.STATIC or Modifier.FINAL
-                }
-            }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
+        }
     }
 
     // 公共解锁特定机型定制画框使用限制
@@ -118,35 +95,35 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     override fun init() {
-        val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::other)
-        val orderedPublicAp = publicAClass.toList()
-        val orderedPublicA = publicA.toList()
-        val differentItems = orderedPublicAp.subtract(orderedPublicA.toSet())
-        var index = 0
-
-        if (isOpenSpring) {
-            differentItems.forEach { method ->
-                // debug 用
-                logI(TAG, "Public Spring name is $method")
-                other(method)  // 1.6.0.5.2 新增限时新春定制画框
+        // 为了减少查询次数，这玩意写得好懵圈.png
+        val publicC = publicA.filter { methodData ->
+            methodData.usingFields.any {
+                it.field.typeName == "boolean" // 1.6.3.5 通过此条件应该只会返回 b() 方法
             }
         }
+        val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi, ::other)
+        val orderedPublicA = publicA.map { it.getMethodInstance(EzXHelper.classLoader) }.toSet()
+        val orderedPublicC = publicC.map { it.getMethodInstance(EzXHelper.classLoader) }.toSet()
+        val differentItems = orderedPublicA.subtract(orderedPublicC)
+        var index = 0
 
-        for (a in orderedPublicA) {
-            // debug 用
-            logI(TAG, "Public A name is $a")
-
+        differentItems.forEach { method ->
+            logI(TAG, "PublicA name is $method") // debug 用
             val action = actions.getOrElse(index) { ::other }
-            action(a)
+            action(method)
             index = (index + 1) % actions.size
         }
 
-        // debug 用
-        for (b in publicB) {
-            logI(TAG, "Public B name is $b")
+        publicB.forEach { method ->
+            logI(TAG, "PublicB name is $method") // debug 用
+            other(method)
         }
-        publicB.createHooks {
-            returnConstant(true)
+
+        if (isOpenSpring) {
+            orderedPublicC.forEach { method ->
+                logI(TAG, "Public Spring name is $method") // debug 用
+                other(method)  // 1.6.0.5.2 新增限时新春定制画框
+            }
         }
     }
 

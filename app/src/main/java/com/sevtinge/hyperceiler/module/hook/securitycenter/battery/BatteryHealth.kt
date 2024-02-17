@@ -25,7 +25,6 @@ object BatteryHealth : BaseHook() {
             after { params ->
                 val health = params.args[0] as Int // 获取手机管家内部的健康度
 
-                logE(TAG, "get health is $health") // debug 用
                 findClassIfExists("com.miui.powercenter.nightcharge.SmartChargeFragment\$c").let { c ->
                     c.hookAfterMethod("handleMessage", Message::class.java) {
                         // TODO hardcode。想办法改进
