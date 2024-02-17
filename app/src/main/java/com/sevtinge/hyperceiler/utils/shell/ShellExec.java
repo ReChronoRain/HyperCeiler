@@ -62,15 +62,15 @@ import java.util.regex.Pattern;
  * @noinspection UnusedReturnValue
  */
 public class ShellExec {
-    private Process process;
-    private DataOutputStream os;
+    private final Process process;
+    private final DataOutputStream os;
     private static IPassCommands passCommands0;
     private static IPassCommands passCommands1;
     private final ArrayList<String> outPut = new ArrayList<>();
     private final ArrayList<String> error = new ArrayList<>();
 
-    private boolean result;
-    private boolean init;
+    private final boolean result;
+    private final boolean init;
     protected int setResult = -1;
     private int count = 1;
 
@@ -274,12 +274,8 @@ public class ShellExec {
             os.writeBytes("exit\n");
             os.flush();
             result = process.waitFor();
-            if (process != null) {
-                process.destroy();
-            }
-            if (os != null) {
-                os.close();
-            }
+            process.destroy();
+            os.close();
             return result;
         } catch (IOException e) {
             AndroidLogUtils.LogE(ITAG.TAG, "ShellExec close E", e);
