@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
-import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
 
-public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener, ShellExec.ICommandOutPut {
+public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
     public List<AppData> appData = new ArrayList<>();
     private boolean mDone = false;
     ShellExec mShell;
@@ -82,7 +82,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         mCheck.setOnPreferenceClickListener(this);
         mName.setOnPreferenceClickListener(this);
         mKillPackage.setOnPreferenceClickListener(this);
-        mShell = new ShellExec(true, true, this);
+        mShell = ShellInit.getShell();
     }
 
     @Override
@@ -149,21 +149,6 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         return true;
     }
 
-    @Override
-    public void readOutput(String out, boolean finish) {
-
-    }
-
-    @Override
-    public void readError(String out) {
-
-    }
-
-    @Override
-    public void result(String command, int result) {
-
-    }
-
     private void getAndKill(String pkg, GetCallback getCallback) {
         getPackage(pkg, false, (kill, rest) -> {
                 getCallback.onCallback(killPackage(kill), rest);
@@ -178,21 +163,28 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
             " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
             " || { echo \"kill error\";};};}" +
             " || { echo \"kill error\";}").sync().isResult();
-        // if (commandResult.result == 0) {
-        //     return !commandResult.successMsg.equals("kill error");
-        // } else
-        return false;
+        if (result) {
+            if (mShell.getOutPut().size() == 0) {
+                return true;
+            }
+            return !mShell.getOutPut().get(0).equals("kill error");
+        } else
+            return false;
     }
 
     private String getPackage(String pkg, boolean ned, KillCallback killCallback) {
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(
+        boolean result = mShell.append(
             "pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\");" +
                 " get=\"\"; for i in $pid; do if [[ $(echo $i | grep '[0-9]' 2>/dev/null) == \"\" ]];" +
                 " then if [[ $get == \"\" ]]; then get=$i; else get=\"$get฿$i\";" +
-                " fi; fi; done; echo $get\n", true, true);
-        if (ned) return commandResult.successMsg.replace("฿", "\n");
-        if (commandResult.result == 0) {
-            killCallback.onKillCallback(pkg, commandResult.successMsg.replace("฿", "\n"));
+                " fi; fi; done; echo $get\n").sync().isResult();
+        ArrayList<String> pid = mShell.getOutPut();
+        if (pid.size() == 0) {
+            return null;
+        }
+        if (ned) return pid.get(0).replace("฿", "\n");
+        if (result) {
+            killCallback.onKillCallback(pkg, pid.get(0).replace("฿", "\n"));
         }
         return null;
     }
