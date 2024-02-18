@@ -77,7 +77,7 @@ object MobileTypeSingleHook : BaseHook() {
             }
         }
         hookAllMethods(
-            "com.android.systemui.statusbar.StatusBarMobileView",
+            statusBarMobileClass,
             "applyMobileState",
             showSingleMobileType
         )
@@ -90,7 +90,7 @@ object MobileTypeSingleHook : BaseHook() {
             }
         }
         hookAllMethods(
-            "com.android.systemui.statusbar.StatusBarMobileView",
+            statusBarMobileClass,
             "applyMobileState",
             afterUpdate
         )

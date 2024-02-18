@@ -90,9 +90,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.NavigationCustom
 import com.sevtinge.hyperceiler.module.hook.systemui.plugin.PluginHelper;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.BlurEnable;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DoubleTapToSleep;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.HideStatusBarBeforeScreenshot;
-import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.NotificationIconColumns;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
@@ -113,6 +111,8 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.StatusBa
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
@@ -168,7 +168,6 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
             mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
         initHook(new MobileNetwork(), isEnableMobileNetwork);
-        // initHook(new BigMobileNetworkType(), false);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", ""), ""));

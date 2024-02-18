@@ -7,69 +7,65 @@
         android:key="prefs_key_system_ui_statusbar_network_icon_enable"
         android:title="@string/enable" />
 
-    <DropDownPreference
-        android:defaultValue="1"
-        android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
-        android:key="prefs_key_system_ui_statusbar_iconmanage_mobile_network_icon_theme"
-        android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_theme"
-        app:entries="@array/system_ui_status_bar_network_icon_theme"
-        app:entryValues="@array/system_ui_status_bar_network_icon_theme_value" />
+    <PreferenceCategory android:dependency="prefs_key_system_ui_statusbar_network_icon_enable">
+        <DropDownPreference
+            android:defaultValue="1"
+            android:key="prefs_key_system_ui_statusbar_iconmanage_mobile_network_icon_theme"
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_theme"
+            app:entries="@array/system_ui_status_bar_network_icon_theme"
+            app:entryValues="@array/system_ui_status_bar_network_icon_theme_value" />
 
-    <DropDownPreference
-        android:defaultValue="0"
-        android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
-        android:key="prefs_key_system_ui_status_mobile_network_icon_style"
-        android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_style"
-        app:entries="@array/system_ui_status_bar_network_icon_style"
-        app:entryValues="@array/system_ui_status_bar_network_icon_style_value" />
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_mobile_network_icon_style"
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_style"
+            app:entries="@array/system_ui_status_bar_network_icon_style"
+            app:entryValues="@array/system_ui_status_bar_network_icon_style_value" />
 
-    <SeekBarPreferenceEx
-        android:defaultValue="10"
-        android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
-        android:key="prefs_key_system_ui_statusbar_mobile_network_icon_size"
-        android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_size"
-        app:defaultValueText="@string/array_default"
-        app:displayDividerValue="10"
-        app:format="%s X"
-        app:maxValue="16"
-        app:minValue="6"
-        app:stepValue="1" />
+        <SeekBarPreferenceEx
+            android:defaultValue="10"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_size"
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_size"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="10"
+            app:format="%s X"
+            app:maxValue="16"
+            app:minValue="6"
+            app:stepValue="1" />
 
-    <SeekBarPreferenceEx
-        android:defaultValue="0"
-        android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
-        android:key="prefs_key_system_ui_statusbar_mobile_network_icon_left_margin"
-        android:title="@string/left_margin"
-        app:defaultValueText="@string/array_default"
-        app:displayDividerValue="2"
-        app:format="%s dp"
-        app:maxValue="10"
-        app:minValue="0"
-        app:stepValue="1" />
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_left_margin"
+            android:title="@string/left_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
 
-    <SeekBarPreferenceEx
-        android:defaultValue="0"
-        android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
-        android:key="prefs_key_system_ui_statusbar_mobile_network_icon_right_margin"
-        android:title="@string/right_margin"
-        app:defaultValueText="@string/array_default"
-        app:displayDividerValue="2"
-        app:format="%s dp"
-        app:maxValue="10"
-        app:minValue="0"
-        app:stepValue="1" />
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_right_margin"
+            android:title="@string/right_margin"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
 
-    <SeekBarPreferenceEx
-        android:defaultValue="8"
-        android:dependency="prefs_key_system_ui_statusbar_network_icon_enable"
-        android:key="prefs_key_system_ui_statusbar_mobile_network_icon_vertical_offset"
-        android:title="@string/vertical_offset"
-        app:defaultValueText="@string/array_default"
-        app:displayDividerValue="2"
-        app:format="%s dp"
-        app:maxValue="16"
-        app:minValue="0"
-        app:stepValue="1"
-        app:negativeShift="8" />
+        <SeekBarPreferenceEx
+            android:defaultValue="8"
+            android:key="prefs_key_system_ui_statusbar_mobile_network_icon_vertical_offset"
+            android:title="@string/vertical_offset"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="16"
+            app:minValue="0"
+            app:negativeShift="8"
+            app:stepValue="1" />
 
+    </PreferenceCategory>
 </PreferenceScreen>
