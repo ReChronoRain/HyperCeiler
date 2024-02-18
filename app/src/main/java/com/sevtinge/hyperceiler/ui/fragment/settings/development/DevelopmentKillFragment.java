@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
 import android.os.Handler;
@@ -23,13 +23,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
-import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
+import com.sevtinge.hyperceiler.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +42,16 @@ import java.util.concurrent.Executors;
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
 
-public class DevelopmentKillFragment extends SettingsPreferenceFragment {
+public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener, ShellExec.ICommandOutPut {
     public List<AppData> appData = new ArrayList<>();
+    private boolean mDone = false;
+    ShellExec mShell;
+    ExecutorService executorService;
+    Handler handler;
     Preference mKillPackage;
 
     Preference mName;
     Preference mCheck;
-    ExecutorService executorService;
-    Handler handler;
 
     public interface EditDialogCallback {
         void onInputReceived(String userInput);
@@ -72,12 +77,21 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
         mCheck = findPreference("prefs_key_development_kill_check");
         ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载数据，请稍后");
         executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        handler = new Handler();
+        handler = new Handler(requireContext().getMainLooper());
         initApp(executorService);
-        mCheck.setOnPreferenceClickListener(
-            preference -> {
-                showInDialog(
-                    userInput -> {
+        mCheck.setOnPreferenceClickListener(this);
+        mName.setOnPreferenceClickListener(this);
+        mKillPackage.setOnPreferenceClickListener(this);
+        mShell = new ShellExec(true, true, this);
+    }
+
+    @Override
+    public boolean onPreferenceClick(@NonNull Preference preference) {
+        switch (preference.getKey()) {
+            case "prefs_key_development_kill_check" -> {
+                showInDialog(new EditDialogCallback() {
+                    @Override
+                    public void onInputReceived(String userInput) {
                         String pkg = "";
                         for (AppData appData1 : appData) {
                             if (appData1.label.equals(userInput)) {
@@ -90,14 +104,12 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                         }
                         showOutDialog(getPackage(userInput, true, null));
                     }
-                );
-                return true;
+                });
             }
-        );
-        mName.setOnPreferenceClickListener(
-            preference -> {
-                showInDialog(
-                    userInput -> {
+            case "prefs_key_development_kill_name" -> {
+                showInDialog(new EditDialogCallback() {
+                    @Override
+                    public void onInputReceived(String userInput) {
                         if (!userInput.equals("")) {
                             String pkg = "";
                             for (AppData appData1 : appData) {
@@ -117,14 +129,12 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                             } else showOutDialog("kill error maybe not present: " + userInput);
                         }
                     }
-                );
-                return true;
+                });
             }
-        );
-        mKillPackage.setOnPreferenceClickListener(
-            preference -> {
-                showInDialog(
-                    userInput -> {
+            case "prefs_key_development_kill_package" -> {
+                showInDialog(new EditDialogCallback() {
+                    @Override
+                    public void onInputReceived(String userInput) {
                         if (!userInput.equals("")) {
                             getAndKill(userInput, (boo, rest) -> {
                                 if (boo) {
@@ -133,10 +143,25 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                             });
                         }
                     }
-                );
-                return true;
+                });
             }
-        );
+        }
+        return true;
+    }
+
+    @Override
+    public void readOutput(String out, boolean finish) {
+
+    }
+
+    @Override
+    public void readError(String out) {
+
+    }
+
+    @Override
+    public void result(String command, int result) {
+
     }
 
     private void getAndKill(String pkg, GetCallback getCallback) {
@@ -147,19 +172,16 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
     }
 
     private boolean killPackage(String kill) {
-        ShellUtils.CommandResult commandResult =
-            ShellUtils.execCommand(
-                "{ pid=$(pgrep -f '" + kill + "' | grep -v $$);" +
-                    " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + kill + "\";" +
-                    " { [[ $? != 0 ]] && { killall -s 9 \"" + kill + "\" &>/dev/null;};}" +
-                    " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
-                    " || { echo \"kill error\";};};}" +
-                    " || { echo \"kill error\";}",
-                true, true);
-        if (commandResult.result == 0) {
-            return !commandResult.successMsg.equals("kill error");
-        } else
-            return false;
+        boolean result = mShell.append("{ pid=$(pgrep -f '" + kill + "' | grep -v $$);" +
+            " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + kill + "\";" +
+            " { [[ $? != 0 ]] && { killall -s 9 \"" + kill + "\" &>/dev/null;};}" +
+            " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
+            " || { echo \"kill error\";};};}" +
+            " || { echo \"kill error\";}").sync().isResult();
+        // if (commandResult.result == 0) {
+        //     return !commandResult.successMsg.equals("kill error");
+        // } else
+        return false;
     }
 
     private String getPackage(String pkg, boolean ned, KillCallback killCallback) {
@@ -183,12 +205,13 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        mDone = true;
                         ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载完毕");
                     }
                 });
             }
         });
-       /* AsyncTask 已经弃用
+       /*AsyncTask 已经弃用
          new AsyncTask<Void, Void, List<AppData>>() {
             @Override
             protected List<AppData> doInBackground(Void... voids) {

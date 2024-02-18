@@ -23,20 +23,26 @@ public class ShellInit {
     }
 
     public static void destroy() {
-        if (mShell != null) mShell.close();
+        if (mShell != null) {
+            mShell.close();
+            mShell = null;
+        }
     }
 
     public static ShellExec getShell() {
         if (mShell != null) {
+            if (mShell.isDestroy()) {
+                AndroidLogUtils.LogE(ITAG.TAG, "The current shell has been destroyed, please try creating it again!");
+                return new ShellExec(true, true);
+            }
             return mShell;
         } else {
             if (lastReady) {
                 AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! Attempt to rewrite creation...");
                 return new ShellExec(true, true);
             } else {
-                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! " +
+                throw new RuntimeException("ShellExec is null!! " +
                     "And it seems like it has never been created successfully!");
-                return null;
             }
         }
     }

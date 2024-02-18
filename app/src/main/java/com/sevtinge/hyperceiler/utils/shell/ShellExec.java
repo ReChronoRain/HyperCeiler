@@ -65,20 +65,21 @@ import java.util.regex.Pattern;
 public class ShellExec {
     private final Process process;
     private final DataOutputStream os;
-    private static IPassCommands passCommands0;
-    private static IPassCommands passCommands1;
+    private static IPassCommands pass0;
+    private static IPassCommands pass1;
     private final ArrayList<String> outPut = new ArrayList<>();
     private final ArrayList<String> error = new ArrayList<>();
 
     private final boolean result;
     private final boolean init;
+    private boolean destroy;
     protected int setResult = -1;
     private int count = 1;
 
     protected static void setICommand(IPassCommands pass, int mode) {
         switch (mode) {
-            case 0 -> passCommands0 = pass;
-            case 1 -> passCommands1 = pass;
+            case 0 -> pass0 = pass;
+            case 1 -> pass1 = pass;
         }
     }
 
@@ -127,36 +128,32 @@ public class ShellExec {
             process = Runtime.getRuntime().exec(root ? "su" : "sh");
             // 注意处理
             if (root) {
-                boolean r = process.waitFor(600, TimeUnit.MILLISECONDS);
-                if (r) {
-                    process.destroy();
-                    throw new RuntimeException("Root permission not obtained!");
-                }
+                // boolean r = process.waitFor(600, TimeUnit.MILLISECONDS);
+                // if (r) {
+                //     process.destroy();
+                //     throw new RuntimeException("Root permission not obtained!");
+                // }
+                Check check = new Check(process, this);
+                check.start();
             }
             os = new DataOutputStream(process.getOutputStream());
             if (run) {
-                os.write(command.getBytes());
-                os.writeBytes("\n");
-                os.flush();
+                write(command);
             }
             if (result) {
                 Error error = new Error(process.getErrorStream(), this, listen != null);
                 OutPut output = new OutPut(process.getInputStream(), this, listen != null);
-                setResult = -1;
-                this.outPut.clear();
-                this.error.clear();
-                if (passCommands0 != null)
-                    passCommands0.passCommands(command);
-                if (passCommands1 != null)
-                    passCommands1.passCommands(command);
+                clear();
+                pass(command);
                 error.start();
                 output.start();
                 if (run) done(0);
             }
             init = true;
-        } catch (IOException | InterruptedException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
+            destroy = false;
+        } catch (IOException e) {
             throw new RuntimeException("ShellExec boot failed!! E: " + e);
+            // AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
             // init = false;
         }
     }
@@ -169,19 +166,13 @@ public class ShellExec {
      */
     public ShellExec append(String command) {
         if (!init) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         try {
             if (result) {
-                setResult = -1;
-                outPut.clear();
-                error.clear();
-                if (passCommands0 != null)
-                    passCommands0.passCommands(command);
-                if (passCommands1 != null)
-                    passCommands1.passCommands(command);
+                clear();
+                pass(command);
             }
-            os.write(command.getBytes());
-            os.writeBytes("\n");
-            os.flush();
+            write(command);
             if (result) {
                 done(count);
                 count = count + 1;
@@ -200,6 +191,7 @@ public class ShellExec {
      */
     public ShellExec sync() {
         if (!init) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         synchronized (this) {
             try {
                 this.wait();
@@ -220,12 +212,47 @@ public class ShellExec {
     }
 
     /**
+     * 使进程崩溃
+     */
+    protected void error() {
+        throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
+    }
+
+    private void clear() {
+        setResult = -1;
+        outPut.clear();
+        error.clear();
+    }
+
+    private void pass(String command) {
+        if (pass0 != null)
+            pass0.passCommands(command);
+        if (pass1 != null)
+            pass1.passCommands(command);
+    }
+
+    private void write(String command) throws IOException {
+        os.write(command.getBytes());
+        os.writeBytes("\n");
+        os.flush();
+    }
+
+    /**
      * 返回当前命令的执行结果，建议搭配 sync，否则可能错位。
      *
      * @return 执行结果
      */
     public boolean isResult() {
         return setResult == 0;
+    }
+
+    /**
+     * 获取本 Shell 是否已经销毁。
+     *
+     * @return Shell 状态
+     */
+    public boolean isDestroy() {
+        return destroy;
     }
 
     /**
@@ -256,7 +283,6 @@ public class ShellExec {
     }
 
     private void done(int count) {
-        if (!init) return;
         try {
             os.writeBytes("result=$?; string=\"The execution of command <" + count + "> is complete. Return value: <$result>\"; " +
                 "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
@@ -275,22 +301,20 @@ public class ShellExec {
      */
     public int close() {
         if (!init) return -1;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         int result = -1;
         try {
-            outPut.clear();
-            error.clear();
-            setResult = -1;
-            os.writeBytes("exit\n");
-            os.flush();
+            clear();
+            write("exit");
             result = process.waitFor();
             process.destroy();
             os.close();
-            return result;
         } catch (IOException e) {
             AndroidLogUtils.LogE(ITAG.TAG, "ShellExec close E", e);
         } catch (InterruptedException f) {
             AndroidLogUtils.LogE(ITAG.TAG, "ShellExec getResult E", f);
         }
+        destroy = true;
         return result;
     }
 
@@ -300,6 +324,33 @@ public class ShellExec {
 
     protected interface IPassCommands {
         void passCommands(String command);
+    }
+
+    private static class Check extends Thread {
+        final Process process;
+        final ShellExec shellExec;
+
+        public Check(Process process, ShellExec shellExec) {
+            this.process = process;
+            this.shellExec = shellExec;
+        }
+
+        @Override
+        public void run() {
+            boolean result = false;
+            try {
+                result = process.waitFor(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                AndroidLogUtils.LogE(ITAG.TAG, "Shell Check run E", e);
+            }
+            if (result) {
+                try {
+                    shellExec.notify();
+                } catch (IllegalMonitorStateException e) {
+                }
+                shellExec.error();
+            }
+        }
     }
 
     private static class OutPut extends Thread {
