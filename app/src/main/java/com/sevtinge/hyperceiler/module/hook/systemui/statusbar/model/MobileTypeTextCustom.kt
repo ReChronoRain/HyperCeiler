@@ -25,12 +25,15 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object MobileTypeTextCustom : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.connectivity.MobileSignalController").methodFinder().first {
-            name == "getMobileTypeName" && parameterTypes[0] == Int::class.java
-        }.createHook {
-            after {
-                it.result = mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
+        loadClass("com.android.systemui.statusbar.connectivity.MobileSignalController").methodFinder()
+            .filterByName("getMobileTypeName")
+            .filterByParamTypes {
+                it[0] == Int::class.java
+            }.single().createHook {
+                after {
+                    it.result =
+                        mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
+                }
             }
-        }
     }
 }
