@@ -524,7 +524,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Achicar icono</string>
     <string name="system_ui_status_bar_mobile_type_single">Icono separado de tipo de red móvil</string>
     <string name="system_ui_status_bar_mobile_type_left">Mostrar a la izquierda de la señal</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">Mostrar solo tarjetas de red</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de actividad de red móvil</string>
     <string name="system_ui_status_bar_mobile_type_custom">Personalizar texto</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Tamaño de fuente</string>

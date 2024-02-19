@@ -524,7 +524,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Penskalaan ikon</string>
     <string name="system_ui_status_bar_mobile_type_single">Ikon jenis jaringan seluler ditampilkan secara terpisah</string>
     <string name="system_ui_status_bar_mobile_type_left">Tampilan di sebelah kiri sinyal</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">Tampilkan hanya kartu jaringan</string>
     <string name="system_ui_status_bar_mobile_indicator">Sembunyikan indikator aktivitas jaringan seluler</string>
     <string name="system_ui_status_bar_mobile_type_custom">Teks khusus</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Ukuran huruf</string>

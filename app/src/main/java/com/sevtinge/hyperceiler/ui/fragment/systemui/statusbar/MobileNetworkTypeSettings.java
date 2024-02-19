@@ -36,7 +36,6 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
     DropDownPreference mMobileMode;
     PreferenceCategory mMobileTypeGroup;
     SwitchPreference mMobileType;
-    SwitchPreference isOnlyShowNetworkCard;
 
     @Override
     public int getContentResId() {
@@ -53,17 +52,10 @@ public class MobileNetworkTypeSettings extends SettingsPreferenceFragment
 
     @Override
     public void initPrefs() {
-        boolean doubleLine = PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_statusbar_network_icon_enable", false);
         int mobileMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_status_bar_icon_mobile_network_type", "0"));
-        isOnlyShowNetworkCard = findPreference("prefs_key_system_ui_statusbar_mobile_type_only_show_network");
         mMobileMode = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_type");
         mMobileType = findPreference("prefs_key_system_ui_statusbar_mobile_type_enable");
         mMobileTypeGroup = findPreference("prefs_key_system_ui_statusbar_mobile_type_group");
-
-        if (doubleLine) {
-            isOnlyShowNetworkCard.setEnabled(!doubleLine);
-            isOnlyShowNetworkCard.setSummary(R.string.system_ui_status_bar_mobile_type_only_show_network_desc);
-        }
 
         setMobileMode(mobileMode);
         mMobileMode.setOnPreferenceChangeListener(this);

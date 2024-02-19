@@ -568,8 +568,6 @@
     <string name="system_ui_status_bar_mobile_type_single">移动网络类型图标单独显示</string>
     <string name="system_ui_status_bar_mobile_type_single_desc">当前已始终隐藏移动网络类型图标，此功能已关闭</string>
     <string name="system_ui_status_bar_mobile_type_left">显示在信号左侧</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">仅显示上网卡</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network_desc">当前已启用双排移动网络图标，此功能不可用</string>
     <string name="system_ui_status_bar_mobile_indicator">隐藏移动网络活动指示器</string>
     <string name="system_ui_status_bar_mobile_type_custom">自定义文本内容</string>
     <string name="system_ui_statusbar_mobile_type_font_size">字体大小</string>

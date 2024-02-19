@@ -524,7 +524,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">圖示縮放</string>
     <string name="system_ui_status_bar_mobile_type_single">蜂窩移動網絡類型圖示單獨顯示</string>
     <string name="system_ui_status_bar_mobile_type_left">顯示在信號左側</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">僅展示網絡卡片</string>
     <string name="system_ui_status_bar_mobile_indicator">隱藏移動網絡活動指示器</string>
     <string name="system_ui_status_bar_mobile_type_custom">個性化文本內容</string>
     <string name="system_ui_statusbar_mobile_type_font_size">字體大小</string>
