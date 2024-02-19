@@ -561,8 +561,10 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Icon styles</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Icon scaling</string>
     <string name="system_ui_status_bar_mobile_type_single">Mobile network type icon display separately</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">This feature is turned off because the mobile network type icon is always hidden</string>
     <string name="system_ui_status_bar_mobile_type_left">Display at left of signal</string>
     <string name="system_ui_status_bar_mobile_type_only_show_network">Show only network cards</string>
+    <string name="system_ui_status_bar_mobile_type_only_show_network_desc">This feature is not available because dual rows of mobile network icons are enabled</string>
     <string name="system_ui_status_bar_mobile_indicator">Hide mobile network activity indicators</string>
     <string name="system_ui_status_bar_mobile_type_custom">Custom text</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Font size</string>
