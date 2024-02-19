@@ -121,8 +121,12 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                                 return;
                             }
                             if (pidAndPkg(pkg).size() != 0) {
-                                showOutDialog(listToString("成功 Kill：\n", pidAndPkg(pkg)));
-                                killPackage(pkg);
+                                String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                                if (killPackage(pkg)) {
+                                    showOutDialog(result);
+                                } else {
+                                    showOutDialog("Kill: " + pkg + " 失败！");
+                                }
                             } else {
                                 showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
                             }
@@ -143,8 +147,12 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                             }
                             if (!(pkg == null || pkg.equals(""))) {
                                 if (pidAndPkg(pkg).size() != 0) {
-                                    showOutDialog(listToString("成功 Kill：\n", pidAndPkg(pkg)));
-                                    killPackage(pkg);
+                                    String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                                    if (killPackage(pkg)) {
+                                        showOutDialog(result);
+                                    } else {
+                                        showOutDialog("Kill: " + pkg + " 失败！");
+                                    }
                                 } else {
                                     showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
                                 }
@@ -159,9 +167,12 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     }
 
     private ArrayList<String> pidAndPkg(String pkg) {
-        mShell.add("pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\")").add("if [[ $pid == \"\" ]]; then")
-            .add("echo \"No Find Pid!\"").add("else").add("ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\"")
-            .add("fi").over().sync();
+        mShell.add("pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\")")
+            .add("  if [[ $pid == \"\" ]]; then")
+            .add("   echo \"No Find Pid!\"")
+            .add("  else")
+            .add("   ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\"")
+            .add("  fi").over().sync();
         ArrayList<String> pid = mShell.getOutPut();
         if (pid.size() == 0) {
             return new ArrayList<>();
@@ -183,15 +194,29 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     private boolean killPackage(String kill) {
         AndroidLogUtils.LogI(ITAG.TAG, "killpkg: " + kill);
         boolean result =
-            mShell.add("pid=$(pgrep -f \"" + kill + "\" | grep -v $$)").add("if [[ $pid == \"\" ]]; then").add("pids=\"\"")
-                .add("pid=$(ps -A -o PID,ARGS=CMD | grep \"" + kill + "\" | grep -v \"grep\")").add("for i in $pid; do")
-                .add("if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then").add("if [[ $pids == \"\" ]]; then")
-                .add("pids=$i").add("else").add("pids=\"$pids $i\"").add("fi").add("fi").add("done")
-                .add("fi").add("if [[ $pids != \"\" ]]; then").add("pid=$pids").add("fi").add("if [[ $pid != \"\" ]]; then")
-                .add("pkill -l 15 -f \"" + kill + "\"").add("if [[ $? != 0 ]]; then").add("killall -s 15 \"" + kill + "\" &>/dev/null")
-                .add("if [[ $? != 0 ]]; then").add("for i in $pid; do").add("kill -s 15 $i &>/dev/null")
-                .add("done").add("fi").add("fi").add("else")
-                .add("echo \"No Find Pid!\"")
+            mShell.add("pid=$(pgrep -f \"" + kill + "\" | grep -v $$)")
+                .add("if [[ $pid == \"\" ]]; then")
+                .add("  pids=\"\"")
+                .add("  pid=$(ps -A -o PID,ARGS=CMD | grep \"" + kill + "\" | grep -v \"grep\")")
+                .add("   for i in $pid; do")
+                .add("     if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                .add("      if [[ $pids == \"\" ]]; then")
+                .add("        pids=$i")
+                .add("      else")
+                .add("        pids=\"$pids $i\"")
+                .add("      fi")
+                .add("     fi")
+                .add("   done")
+                .add("fi")
+                .add("if [[ $pids != \"\" ]]; then")
+                .add(" pid=$pids")
+                .add("fi")
+                .add("if [[ $pid != \"\" ]]; then")
+                .add("  for i in $pid; do")
+                .add("   kill -s 15 $i &>/dev/null")
+                .add("  done")
+                .add("else")
+                .add(" echo \"No Find Pid!\"")
                 .add("fi").over().sync().isResult();
         if (result) {
             if (mShell.getOutPut().size() == 0) {

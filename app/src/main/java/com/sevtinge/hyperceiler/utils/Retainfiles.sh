@@ -17,15 +17,15 @@ if [[ $pids != "" ]]; then
     pid=$pids
 fi
 if [[ $pid != "" ]]; then
-    pkill -l 15 -f "XX"
-    if [[ $? != 0 ]]; then
-        killall -s 15 "XX" &>/dev/null
-        if [[ $? != 0 ]]; then
-            for i in $pid; do
-                kill -s 15 $i &>/dev/null
-            done
-        fi
-    fi
+    #    pkill -l 15 -f "XX"
+    #    if [[ $? != 0 ]]; then
+    #        killall -s 15 "XX" &>/dev/null
+    #        if [[ $? != 0 ]]; then
+    for i in $pid; do
+        kill -s 15 $i &>/dev/null
+    done
+    #        fi
+    #    fi
 else
     echo "No Find Pid!"
 fi
