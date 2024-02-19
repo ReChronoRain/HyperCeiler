@@ -748,6 +748,8 @@
     <string name="system_ui_control_center_unlock_blur_supported">Remover restrição do blur de notificação</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
+    <string name="system_ui_disable_volume">Barra de volume nativa</string>
+    <string name="system_ui_disable_volume_desc">A modificação da barra de volume da Xiaomi não se aplica à barra de volume nativa</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
@@ -1229,6 +1231,8 @@
     <string name="security_center_newbox_title">Barra lateral</string>
     <string name="security_center_dolby_open">Fechar janela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Exibir temperatura da bateria</string>
+    <string name="security_center_show_battery_health">Exibir saúde da bateria detalhada</string>
+    <string name="security_center_show_battery_health_desc">Apenas versões mais recentes são suportadas</string>
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Precisão de localização mais baixa</string>
     <string name="security_center_gms_open">Serviço GMS</string>

@@ -750,6 +750,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_unlock_blur_supported">Xóa hạn chế làm mờ thông báo</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Không có hạn chế về độ mờ nền đối với các vật liệu cao cấp chính thức chỉ dành cho việc xóa chủ đề của bên thứ ba</string>
     <string name="system_ui_other_title">Khác</string>
+    <string name="system_ui_disable_volume">Thanh âm lượng gốc</string>
+    <string name="system_ui_disable_volume_desc">Việc sửa đổi thanh âm lượng của Xiaomi không áp dụng cho thanh âm lượng gốc</string>
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
@@ -1235,6 +1237,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_newbox_title">Thanh bên</string>
     <string name="security_center_dolby_open">Tắt pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Hiển thị nhiệt độ pin</string>
+    <string name="security_center_show_battery_health">Hiển thị chi tiết tình trạng pin</string>
+    <string name="security_center_show_battery_health_desc">Chỉ hỗ trợ các phiên bản mới hơn</string>
     <string name="security_center_ai_clipboard">Bảo vệ khay nhớ tạm</string>
     <string name="security_center_blur_location">Độ chính xác định vị thấp hơn</string>
     <string name="security_center_gms_open">Dịch vụ Google</string>
