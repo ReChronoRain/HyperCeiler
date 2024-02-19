@@ -72,9 +72,14 @@
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".CrashDialog"
-            android:exported="true">
+            android:name=".CrashReportActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.Crash" />
                 <category android:name="android.intent.category.CrashDailog" />

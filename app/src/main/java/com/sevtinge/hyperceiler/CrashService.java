@@ -40,7 +40,7 @@ public class CrashService extends Service {
         open.close();
         AndroidLogUtils.LogI(ITAG.TAG, "R: " + re + " C: " + cover + " E: " + equal);
         if (equal) {
-            Intent intent1 = new Intent(this, CrashDialog.class);
+            Intent intent1 = new Intent(this, CrashReportActivity.class);
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent1.putExtra("key_pkg", cover);
             startActivity(intent1);
