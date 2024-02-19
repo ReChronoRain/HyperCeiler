@@ -706,6 +706,9 @@
     <string name="system_ui_control_center_blur_background_alpha">Valor de fondo desenfocado</string>
     <string name="system_ui_control_center_default_background_alpha">Valor de fondo predeterminado</string>
     <string name="system_ui_control_center_fix_media_control_panel">Corregir la imagen de fondo del panel de música</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Optimizar el efecto de mezcla de colores del panel de control de medios</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radio de borrosidad de imagen de fondo</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidad de la capa de fondo</string>
     <string name="system_ui_control_center_compact_notice">Notificación compacta</string>
     <string name="system_ui_control_center_compact_notice_desc">Reducir el espacio vertical de notificaciones</string>
     <string name="system_ui_control_center_redirect_notice">Redirigir configuraciones de notificación</string>
@@ -745,6 +748,8 @@
     <string name="system_ui_control_center_unlock_blur_supported">Eliminar restricciones de notificación de burbaja</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">No hay restricciones en el desenfoque de fondo para materiales prémium de Xiaomi solo para la eliminación en temas no oficiales</string>
     <string name="system_ui_other_title">Otros</string>
+    <string name="system_ui_disable_volume">Barra de volumen de AOSP</string>
+    <string name="system_ui_disable_volume_desc">La modificación de la barra de volumen de Xiaomi no se aplica a la barra de volumen de AOSP</string>
     <string name="system_ui_charge_animation_title">Animación de carga</string>
     <string name="system_ui_charge_animation_style">Estilo de animación de carga</string>
     <string name="system_ui_charge_animation_style_desc">Seleccione el estilo de animación de carga de la pantalla de bloqueo</string>
@@ -1144,6 +1149,8 @@
     <string name="mediaeditor_ai_authoring">Autorización de IA</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear características de personalización de Disney</string>
     <string name="mediaeditor_unlock_disney_desc">Se desbloquean las siguientes características:\n- Marcos personalizados - Marcos personalizados de Disney (en conflicto con otros marcos personalizados)\n- Viñeteado de fondo - Viñeteado de fondo de Mickey\n- Pegatinas - Pegatinas de Disney</string>
+    <string name="mediaeditor_unlock_spring_title">Desbloquear fotogramas personalizados de Año Nuevo Chino</string>
+    <string name="mediaeditor_unlock_spring_desc">Para añadir permanentemente un marco personalizado de Año Nuevo Chino, lo esencial es un marco de imagen personalizado de Leica o un marco de imagen personalizado Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear el límite mínimo de recorte de imagen</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizar el tipo de marco</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtros de Leica</string>
@@ -1224,6 +1231,8 @@
     <string name="security_center_newbox_title">Barra lateral</string>
     <string name="security_center_dolby_open">Cerrar la ventana emergente de Dolby</string>
     <string name="security_center_show_battery_temperature">Mostrar temperatura de batería</string>
+    <string name="security_center_show_battery_health">Mostrar estado detallado de la batería</string>
+    <string name="security_center_show_battery_health_desc">Solo en últimas versiones se funciona</string>
     <string name="security_center_ai_clipboard">Proteger el portapapeles</string>
     <string name="security_center_blur_location">Menor precisión de posicionamiento</string>
     <string name="security_center_gms_open">Servicio de GMS</string>
@@ -1403,6 +1412,7 @@
     <string name="various_super_clipboard_files_desc">Permitir copiar archivos al portapapeles</string>
     <string name="various_super_clipboard_picture_share_desc">Permitir copiar y pegar imágenes en el portapapeles</string>
     <string name="various_open_aosp_battery_title">Optimización de batería</string>
+    <string name="various_open_aosp_running_services">Servicios en ejecución</string>
     <string name="various_open_aosp_notification_title">Configuraciones de notificaciones</string>
     <string name="various_open_aosp_app_manage_title">Administración de aplicaciones</string>
     <string name="various_open_aosp_language_title">Ajuste de idioma</string>
@@ -1510,4 +1520,5 @@
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
     <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de Re.chronoRain, que puede contener código malicioso.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
+    <string name="happy_chinese_new_year">Feliz Año Nuevo Chino</string>
 </resources>

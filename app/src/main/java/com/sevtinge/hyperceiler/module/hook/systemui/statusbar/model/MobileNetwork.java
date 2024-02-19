@@ -52,8 +52,7 @@ public class MobileNetwork extends BaseHook {
         } catch (NoSuchMethodException e) {
             try {
                 mStatusBarMobileView.getDeclaredMethod("applyMobileState", mMobileIconState);
-                findAndHookMethod(mStatusBarMobileView,
-                    "applyMobileState", mMobileIconState, new MethodHook() {
+                findAndHookMethod(mStatusBarMobileView, "applyMobileState", mMobileIconState, new MethodHook() {
                         @Override
                         protected void after(MethodHookParam param) {
                             updateIconState(param, "mSmallHd", "system_ui_status_bar_icon_small_hd");

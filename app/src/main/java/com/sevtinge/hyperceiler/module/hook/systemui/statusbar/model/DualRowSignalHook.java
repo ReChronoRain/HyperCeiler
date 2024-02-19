@@ -44,11 +44,15 @@ public class DualRowSignalHook extends BaseHook {
     private final int leftMargin = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 0);
     private final int iconScale = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10); // 图标缩放
     private final int verticalOffset = mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 8);
+    private final boolean mobileTypeSingle = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"); // 移动网络类型单独显示
+    private final String selectedIconStyle = mPrefsMap.getString("system_ui_status_mobile_network_icon_style", ""); // 图标样式
+    private final int selectedIconTheme = mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1); // 图标主题
+    // 移动网络和WiFi网络都移动到左侧
+    private  final boolean moveSignalLeft = (mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left") || mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left"));
 
     @Override
     public void init() {
-        boolean mobileTypeSingle = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"); // 移动网络类型单独显示
-        if (!mobileTypeSingle) {
+         if (!mobileTypeSingle) {
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_half_to_top_distance", 3);
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_left_inout_over_strength", 0);
             mResHook.setDensityReplacement("com.android.systemui", "dimen", "status_bar_mobile_type_middle_to_strength_start", -0.4f);
@@ -57,8 +61,6 @@ public class DualRowSignalHook extends BaseHook {
         HashMap<String, Integer> dualSignalResMap = new HashMap<>();
         String[] colorModeList = {"", "dark", "tint"};
         // String[] iconStyles = {"", "thick", "theme"};
-        String selectedIconStyle = mPrefsMap.getString("system_ui_status_mobile_network_icon_style", ""); // 图标样式
-        int selectedIconTheme = mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1); // 图标主题
 
         findAndHookMethod("com.android.systemui.SystemUIApplication", "onCreate", new MethodHook() {
             private boolean isHooked = false;
@@ -91,10 +93,14 @@ public class DualRowSignalHook extends BaseHook {
             }
         });
 
+        setDualRowIcon(); // 设置双排图标
+        getMobileLevel(); // 获取信号强度及隐藏小 hd
+        resetImageDrawable(dualSignalResMap); // 刷新图标视图
+        setDualRowStyle(); // 调整双排移动网络位置及缩放
+    }
 
+    private void setDualRowIcon() {
         SparseIntArray signalResToLevelMap = new SparseIntArray();
-        // 移动网络和WiFi网络都移动到左侧
-        boolean moveSignalLeft = (mPrefsMap.getBoolean("system_ui_status_bar_wifi_at_left") || mPrefsMap.getBoolean("system_ui_status_bar_mobile_network_at_left"));
         String ControllerImplName = moveSignalLeft ? "MiuiDripLeftStatusBarIconControllerImpl" : "StatusBarIconControllerImpl";
         hookAllMethods("com.android.systemui.statusbar.phone." + ControllerImplName, lpparam.classLoader, "setMobileIcons", new MethodHook() {
             private boolean isHooked = false;
@@ -140,7 +146,9 @@ public class DualRowSignalHook extends BaseHook {
                 }
             }
         });
+    }
 
+    private void getMobileLevel() {
         if (isMoreHyperOSVersion(1f)) {
             MethodHook stateUpdateHook = new MethodHook() {
                 @Override
@@ -167,8 +175,8 @@ public class DualRowSignalHook extends BaseHook {
                 }
             };
 
-            hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "initViewState", stateUpdateHook);
-            hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "updateState", stateUpdateHook);
+            hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "initViewState", stateUpdateHook);
+            hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "updateState", stateUpdateHook);
         }
 
         MethodHook beforeUpdate = new MethodHook() {
@@ -199,8 +207,9 @@ public class DualRowSignalHook extends BaseHook {
         };
         hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", beforeUpdate);
         hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyMobileState", afterUpdate);
+    }
 
-
+    private void resetImageDrawable(HashMap<String, Integer> dualSignalResMap) {
         MethodHook resetImageDrawable = new MethodHook() {
             @Override
             protected void before(final MethodHookParam param) {
@@ -243,7 +252,6 @@ public class DualRowSignalHook extends BaseHook {
             }
         };
         findAndHookMethod("com.android.systemui.statusbar.StatusBarMobileView", lpparam.classLoader, "applyDarknessInternal", resetImageDrawable);
-        setDualRowStyle(); // 设置双排移动网络样式
     }
 
     private void setDualRowStyleMargin(View mView, View mMobile, View mSmallRoaming) {
