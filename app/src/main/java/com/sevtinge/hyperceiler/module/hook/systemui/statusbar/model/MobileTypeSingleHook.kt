@@ -18,11 +18,7 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.res.Resources
 import android.graphics.Typeface
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -32,8 +28,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.utils.getObjectFieldAs
-import com.sevtinge.hyperceiler.utils.setObjectField
 import de.robv.android.xposed.XposedHelpers
 
 object MobileTypeSingleHook : BaseHook() {
@@ -41,14 +35,6 @@ object MobileTypeSingleHook : BaseHook() {
     private val getLocation by lazy {
         // 显示在信号左侧
         mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_left")
-    }
-    private val isOnlyShowNetwork by lazy {
-        // 仅显示上网卡
-        mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_only_show_network")
-    }
-    private val isShowDoulRowNetwork by lazy {
-        // 是否启用了双排移动网络图标
-        mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable")
     }
     private val bold by lazy {
         // 加粗
@@ -74,7 +60,6 @@ object MobileTypeSingleHook : BaseHook() {
         loadClass("com.android.systemui.statusbar.StatusBarMobileView")
     }
 
-    @SuppressLint("DiscouragedApi")
     override fun init() {
         // 兼容图标异常空位的问题，一些机器不需要这两个 hook
         /*val afterUpdate: MethodHook = object : MethodHook() {
@@ -86,24 +71,11 @@ object MobileTypeSingleHook : BaseHook() {
         }
         hookAllMethods(statusBarMobileClass, "applyMobileState", afterUpdate)*/
 
-        // 使网络类型单独显示
-        statusBarMobileClass.methodFinder()
-            .filterByName("applyMobileState")
-            .single().createHook {
-                before {
-                    val mobileIconState = it.args[0]
-                    mobileIconState.setObjectField("showMobileDataTypeSingle", true)
-                    mobileIconState.setObjectField("fiveGDrawableId", 0)
-                }
-            }
-
         if (isMoreHyperOSVersion(1f)) {
             getMobileViewForHyperOS()
         } else {
             getMobileViewForMIUI()
         }
-
-        showNonNetworkIcon() // 显示非上网卡的大图标
     }
 
     private fun getMobileViewForHyperOS() {
@@ -176,31 +148,5 @@ object MobileTypeSingleHook : BaseHook() {
         }
 
         mobileTypeSingle.setPaddingRelative(marginLeft, topMargin, marginRight, 0)
-    }
-
-    private fun showNonNetworkIcon() {
-        if (!isOnlyShowNetwork && !isShowDoulRowNetwork) {
-            statusBarMobileClass.methodFinder()
-                .filterByName("updateState")
-                .single().createHook {
-                    after {
-                        val mobileIconState = it.args[0]
-                        val statusBarMobileView = it.thisObject as ViewGroup
-                        val context: Context = statusBarMobileView.context
-                        val res: Resources = context.resources
-
-                        val mobileTypeSingleId: Int =
-                            res.getIdentifier("mobile_type_single", "id", "com.android.systemui")
-                        val mobileTypeSingle =
-                            statusBarMobileView.findViewById<TextView>(mobileTypeSingleId)
-
-                        if (!mobileIconState.getObjectFieldAs<Boolean>("dataConnected") &&
-                            !mobileIconState.getObjectFieldAs<Boolean>("wifiAvailable")
-                        ) {
-                            mobileTypeSingle.visibility = View.VISIBLE
-                        }
-                    }
-                }
-        }
     }
 }

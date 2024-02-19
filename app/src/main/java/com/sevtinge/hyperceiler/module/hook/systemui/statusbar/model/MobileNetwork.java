@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 
@@ -37,9 +36,12 @@ public class MobileNetwork extends BaseHook {
     public void init() {
         mStatusBarMobileView = findClassIfExists("com.android.systemui.statusbar.StatusBarMobileView");
         mMobileIconState = findClassIfExists("com.android.systemui.statusbar.phone.StatusBarSignalPolicy$MobileIconState");
-
         mHDController = findClassIfExists("com.android.systemui.statusbar.policy.HDController");
 
+        hideMobileHD(); // 隐藏小 HD、单卡 HD 以及双卡 HD
+    }
+
+    private void hideMobileHD() {
         try {
             mStatusBarMobileView.getDeclaredMethod("initViewState", mMobileIconState);
             findAndHookMethod(mStatusBarMobileView, "initViewState", mMobileIconState, new MethodHook() {
@@ -73,27 +75,6 @@ public class MobileNetwork extends BaseHook {
             }
         });
 
-        hookAllMethods(mStatusBarMobileView, "applyMobileState", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) {
-                int qpt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0);
-                boolean singleMobileType = mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable");
-                boolean hideIndicator = mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
-                View mMobileType = getMobileType(param, qpt, singleMobileType);
-                // 隐藏移动网络活动指示器
-                View mLeftInOut = (View) XposedHelpers.getObjectField(param.thisObject, "mLeftInOut");
-                if (hideIndicator) {
-                    View mRightInOut = (View) XposedHelpers.getObjectField(param.thisObject, "mRightInOut");
-                    mLeftInOut.setVisibility(View.GONE);
-                    mRightInOut.setVisibility(View.GONE);
-                }
-                if (mMobileType.getVisibility() == View.GONE && mLeftInOut.getVisibility() == View.GONE) {
-                    View mMobileLeftContainer = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileLeftContainer");
-                    mMobileLeftContainer.setVisibility(View.GONE);
-                }
-            }
-        });
-
         findAndHookMethod(mHDController, "update", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
@@ -103,32 +84,6 @@ public class MobileNetwork extends BaseHook {
                 }
             }
         });
-
-
-        // 信号
-        /*hookAllMethods("com.android.systemui.statusbar.StatusBarMobileView", "applyMobileState", new MethodHook() {
-            @Override
-            protected void after(MethodHookParam param) throws Throwable {
-                XposedHelpers.callMethod(param.thisObject, "setVisibility", View.GONE);
-            }
-        });*/
-    }
-
-    private static View getMobileType(MethodHookParam param, int qpt, boolean singleMobileType) {
-        View mMobileType = (View) XposedHelpers.getObjectField(param.thisObject, "mMobileType");
-        boolean dataConnected = (boolean) XposedHelpers.getObjectField(param.args[0], "dataConnected");
-
-        if (qpt > 0) {
-            TextView mMobileTypeSingle = singleMobileType ? (TextView) XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle") : null;
-            int visibility = (qpt == 1 || (qpt == 3 && !dataConnected)) ? View.VISIBLE : View.GONE;
-
-            if (singleMobileType && mMobileTypeSingle != null) {
-                mMobileTypeSingle.setVisibility(visibility);
-            } else {
-                mMobileType.setVisibility(visibility);
-            }
-        }
-        return mMobileType;
     }
 
     private void updateIconState(MethodHookParam param, String fieldName, String key) {
@@ -149,6 +104,5 @@ public class MobileNetwork extends BaseHook {
                 view.setVisibility(View.VISIBLE);
             }
         }
-
     }
 }

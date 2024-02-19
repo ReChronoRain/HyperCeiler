@@ -113,6 +113,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.icon.t.UseNewHD;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout.StatusBarLayout;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.DualRowSignalHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileNetwork;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobilePublicHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeSingleHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.model.MobileTypeTextCustom;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.network.NetworkSpeedSec;
@@ -162,11 +163,14 @@ public class SystemUI extends BaseModule {
         initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
 
         // 移动网络图标
-        boolean isEnableMobileNetwork = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0) != 0 ||
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0 ||
+        boolean isEnableMobilePublic = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0) != 0 ||
             mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
             mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
+        boolean isEnableMobileNetwork = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0 ||
+                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0) != 0;
+
+        initHook(MobilePublicHook.INSTANCE, isEnableMobilePublic);
         initHook(new MobileNetwork(), isEnableMobileNetwork);
         initHook(new DualRowSignalHook(), mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable"));
         initHook(MobileTypeSingleHook.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable"));
