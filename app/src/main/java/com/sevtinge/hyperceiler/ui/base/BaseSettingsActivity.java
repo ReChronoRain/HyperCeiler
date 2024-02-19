@@ -104,7 +104,7 @@ public abstract class BaseSettingsActivity extends BaseActivity {
         boolean pid = true;
         if (ShellInit.getShell() != null) {
             if (isRestartSystem) {
-                result = ShellInit.getShell().append("reboot").sync().isResult();
+                result = ShellInit.getShell().run("reboot").sync().isResult();
             } else {
                 if (packageName != null) {
                     for (String packageGet : packageName) {
@@ -117,18 +117,22 @@ public abstract class BaseSettingsActivity extends BaseActivity {
                         //     "\"; }; } || { echo \"kill error\"; }", true, true);
 
                         boolean getResult =
-                            ShellInit.getShell().append("{ pid=$(pgrep -f '" + packageGet + "' | grep -v $$);" +
-                                " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + packageGet + "\";" +
-                                " { [[ $? != 0 ]] && { killall -s 9 \"" + packageGet + "\" &>/dev/null;};}" +
-                                " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
-                                " || { echo \"kill error\";};};}" +
-                                " || { echo \"kill error\";}").sync().isResult();
+                            ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)").add("if [[ $pid == \"\" ]]; then").add("pids=\"\"")
+                                .add("pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")").add("for i in $pid; do")
+                                .add("if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then").add("if [[ $pids == \"\" ]]; then")
+                                .add("pids=$i").add("else").add("pids=\"$pids $i\"").add("fi").add("fi").add("done")
+                                .add("fi").add("if [[ $pids != \"\" ]]; then").add("pid=$pids").add("fi").add("if [[ $pid != \"\" ]]; then")
+                                .add("pkill -l 15 -f \"" + packageGet + "\"").add("if [[ $? != 0 ]]; then").add("killall -s 15 \"" + packageGet + "\" &>/dev/null")
+                                .add("if [[ $? != 0 ]]; then").add("for i in $pid; do").add("kill -s 15 $i &>/dev/null")
+                                .add("done").add("fi").add("fi").add("else")
+                                .add("echo \"No Find Pid!\"")
+                                .add("fi").over().sync().isResult();
                         ArrayList<String> outPut = ShellInit.getShell().getOutPut();
                         ArrayList<String> error = ShellInit.getShell().getError();
 
                         if (getResult) {
                             if (outPut.size() != 0) {
-                                if (outPut.get(0).equals("kill error")) {
+                                if (outPut.get(0).equals("No Find Pid!")) {
                                     pid = false;
                                 } else {
                                     result = true;

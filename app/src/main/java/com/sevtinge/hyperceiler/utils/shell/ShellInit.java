@@ -23,8 +23,10 @@ public class ShellInit {
     }
 
     public static void destroy() {
-        if (mShell != null) {
+        if (mShell != null && !mShell.isDestroy()) {
             mShell.close();
+            mShell = null;
+        } else if (mShell != null && mShell.isDestroy()) {
             mShell = null;
         }
     }
@@ -33,7 +35,7 @@ public class ShellInit {
         if (mShell != null) {
             if (mShell.isDestroy()) {
                 AndroidLogUtils.LogE(ITAG.TAG, "The current shell has been destroyed, please try creating it again!");
-                return new ShellExec(true, true);
+                mShell = new ShellExec(true, true);
             }
             return mShell;
         } else {
@@ -49,6 +51,9 @@ public class ShellInit {
 
     public static boolean ready() {
         if (mShell != null) {
+            if (mShell.isDestroy()) {
+                init();
+            }
             return mShell.ready();
         }
         return false;

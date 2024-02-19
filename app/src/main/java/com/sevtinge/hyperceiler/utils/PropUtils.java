@@ -95,13 +95,11 @@ public class PropUtils {
      * 系统限制只能使用Root。
      * 返回 true 表示成功。
      *
-     * @param name
-     * @param vale
      * @return boolean
      */
     public static boolean setProp(String name, Object vale) {
         if (ShellInit.getShell() != null) {
-            return ShellInit.getShell().append("setprop " + name + " " + vale).sync().isResult();
+            return ShellInit.getShell().run("setprop " + name + " " + vale).sync().isResult();
         }
         return ShellUtils.getResultBoolean("setprop " + name + " " + vale, true);
     }

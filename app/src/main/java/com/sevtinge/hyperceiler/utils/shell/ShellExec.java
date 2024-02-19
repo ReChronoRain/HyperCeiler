@@ -38,9 +38,9 @@ import java.util.regex.Pattern;
  *             }
  *         })
  *             .sync()
- *             .append("echo done")
+ *             .run("echo done")
  *             .sync()
- *             .append("touch /data/adb/2")
+ *             .run("touch /data/adb/2")
  *             .sync()
  *             .close();
  *
@@ -50,15 +50,13 @@ import java.util.regex.Pattern;
  * ShellExec shell = new ShellExec(true, true, null);
  *
  * public void test(){
- *     shell.append("ls").sync();
- *     AndroidLogUtils.LogI(ITAG.TAG, "result: " + shell.isResult);
+ *     shell.run("ls").sync();
+ *     AndroidLogUtils.LogI(ITAG.TAG, "result: " + shell.isResult());
  *     AndroidLogUtils.LogI(ITAG.TAG, "out: " + shell.getOutPut.toString() + " error: " + shell.getError.toString());
  *     shell.close();
  * }
  * }
  * 请在适当的时机调用 {@link ShellExec#close} 用来释放资源。
- * int result 值为执行全部命令后 exit 的返回值，可以用来判断命令是否执行成功。
- * 重写 {@link ICommandOutPut#result(String, int)} 方法可以实时获取每条命令的执行结果。
  * @author 焕晨HChen
  * @noinspection UnusedReturnValue
  */
@@ -69,10 +67,12 @@ public class ShellExec {
     private static IPassCommands pass1;
     private final ArrayList<String> outPut = new ArrayList<>();
     private final ArrayList<String> error = new ArrayList<>();
+    private final ArrayList<String> cList = new ArrayList<>();
 
     private final boolean result;
     private final boolean init;
     private boolean destroy;
+    private boolean appending = false;
     protected int setResult = -1;
     private int count = 1;
 
@@ -159,14 +159,17 @@ public class ShellExec {
     }
 
     /**
-     * 追加需要执行的命令。
+     * 需要执行的命令，一次性可执行完毕的。
      *
      * @param command 命令
      * @return this
      */
-    public ShellExec append(String command) {
+    public synchronized ShellExec run(String command) {
         if (!init) return this;
         if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        if (appending) {
+            throw new RuntimeException("Shell is in append mode!");
+        }
         try {
             if (result) {
                 clear();
@@ -178,7 +181,46 @@ public class ShellExec {
                 count = count + 1;
             }
         } catch (IOException e) {
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec run E", e);
+        }
+        return this;
+    }
+
+    /**
+     * 进入追加模式，在这个模式你可以逐行输入命令，并请在结束时显性调用 over() 方法。
+     *
+     * @param command 追加命令
+     * @return this
+     */
+    public synchronized ShellExec add(String command) {
+        if (!init) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        appending = true;
+        clear();
+        try {
+            write(command);
+            if (result) {
+                cList.add(command);
+                count = count + 1;
+            }
+        } catch (IOException e) {
             AndroidLogUtils.LogE(ITAG.TAG, "ShellExec append E", e);
+        }
+        return this;
+    }
+
+    /**
+     * 结束追加模式。
+     *
+     * @return this
+     */
+    public synchronized ShellExec over() {
+        if (!init) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        appending = false;
+        if (result) {
+            pass(cList.toString());
+            done(count);
         }
         return this;
     }
@@ -186,18 +228,20 @@ public class ShellExec {
     /**
      * 同步命令。
      * 进程将会在该条命令完全执行完毕并输出结束内容前等待。
+     * 如果你需要获取命令的返回值，输出内容，请务必使用！
      *
      * @return this
      */
-    public ShellExec sync() {
+    public synchronized ShellExec sync() {
         if (!init) return this;
         if (destroy) throw new RuntimeException("This shell has been destroyed!");
-        synchronized (this) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec sync E", e);
-            }
+        if (appending) {
+            throw new RuntimeException("Shell is in append mode!");
+        }
+        try {
+            this.wait();
+        } catch (InterruptedException e) {
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec sync E", e);
         }
         return this;
     }
@@ -212,7 +256,16 @@ public class ShellExec {
     }
 
     /**
-     * 使进程崩溃
+     * 获取本 Shell 是否已经销毁。
+     *
+     * @return Shell 状态
+     */
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    /**
+     * 使进程崩溃，正常情况不要手动调用。
      */
     protected void error() {
         throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
@@ -231,7 +284,7 @@ public class ShellExec {
             pass1.passCommands(command);
     }
 
-    private void write(String command) throws IOException {
+    private synchronized void write(String command) throws IOException {
         os.write(command.getBytes());
         os.writeBytes("\n");
         os.flush();
@@ -244,15 +297,6 @@ public class ShellExec {
      */
     public boolean isResult() {
         return setResult == 0;
-    }
-
-    /**
-     * 获取本 Shell 是否已经销毁。
-     *
-     * @return Shell 状态
-     */
-    public boolean isDestroy() {
-        return destroy;
     }
 
     /**
