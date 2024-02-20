@@ -168,7 +168,7 @@ public class SystemUI extends BaseModule {
             mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
         boolean isEnableMobileNetwork = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
             mPrefsMap.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0 ||
-                mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0) != 0;
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0) != 0;
 
         initHook(MobilePublicHook.INSTANCE, isEnableMobilePublic);
         initHook(new MobileNetwork(), isEnableMobileNetwork);

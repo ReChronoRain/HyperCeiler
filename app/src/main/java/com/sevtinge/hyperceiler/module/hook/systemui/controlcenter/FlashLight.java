@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -27,10 +28,14 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.util.ArrayMap;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.MathUtils;
 import com.sevtinge.hyperceiler.utils.TileUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,6 +57,7 @@ public class FlashLight extends TileUtils {
     public final String other = "/sys/class/leds/flashlight/brightness";
     public final String flashSwitch = "/sys/class/leds/led:switch_0/brightness";
     public final String maxBrightness = "/sys/class/leds/led:torch_0/max_brightness";
+    public int lastFlash = -1;
     public boolean isListening = false;
     public boolean isHook = false;
 
@@ -91,24 +97,39 @@ public class FlashLight extends TileUtils {
     }
 
     private void initListen() {
-        hookAllConstructors("com.android.systemui.qs.tiles.MiuiFlashlightTile",
+        hookAllConstructors("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
             new MethodHook() {
                 @Override
                 protected void after(MethodHookParam param) {
                     Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                    listening(mContext);
+                    listening(mContext, param);
                 }
             }
         );
     }
 
-    public void listening(Context mContext) {
+    public void listening(Context mContext, XC_MethodHook.MethodHookParam param) {
         if (!isListening) {
             ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
                 @Override
                 public void onChange(boolean selfChange, @Nullable Uri uri) {
                     super.onChange(selfChange, uri);
+                    if (lastFlash != -1) lastFlash = -1;
                     isHook = isFlashLightEnabled(mContext);
+                    if (isHook) {
+                        String b = getFlashBrightness(mContext);
+                        if (b != null) {
+                            JSONObject object = FlashBrightness.restore(b);
+                            int flash = FlashBrightness.getBrightness(object);
+                            int slider = FlashBrightness.getSlider(object);
+                            try {
+                                XposedHelpers.callMethod(param.thisObject, "animateSliderTo", slider);
+                            } catch (Throwable e) {
+                                sliderAnimator(slider, param);
+                            }
+                            writeFile(flash);
+                        }
+                    }
                 }
             };
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("flash_light_enabled"),
@@ -142,7 +163,6 @@ public class FlashLight extends TileUtils {
                     }
                 }
             );
-            hookBrightnessUtils();
         } else {
             findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$$ExternalSyntheticLambda0",
                 "run",
@@ -167,7 +187,55 @@ public class FlashLight extends TileUtils {
                     }
                 }
             );
-            hookBrightnessUtils();
+        }
+        hookStop();
+        hookBrightnessUtils();
+    }
+
+    private void hookStop() {
+        findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
+            "onStop", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    if (isHook) {
+                        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        if (lastFlash != -1) {
+                            JSONObject object = new FlashBrightness((int) param.args[0], lastFlash).toJSON();
+                            setFlashBrightness(mContext, object.toString());
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    private void sliderAnimator(int i, XC_MethodHook.MethodHookParam param) {
+        boolean isUserSliding = (boolean) XposedHelpers.getObjectField(param.thisObject, "isUserSliding");
+        Object toggleSliderBase = XposedHelpers.getObjectField(param.thisObject, "mControl");
+        Object mControl = XposedHelpers.getObjectField(param.thisObject, "mControl");
+        if (!isUserSliding && toggleSliderBase != null) {
+            boolean mControlValueInitialized = (boolean) XposedHelpers.getObjectField(param.thisObject,
+                "mControlValueInitialized");
+            if (!mControlValueInitialized) {
+                XposedHelpers.callMethod(toggleSliderBase, "setValue", i);
+                XposedHelpers.setObjectField(param.thisObject, "mControlValueInitialized", true);
+            }
+            ValueAnimator ofInt = ValueAnimator.ofInt((int) XposedHelpers.callMethod(mControl,
+                "getValue"), i);
+            XposedHelpers.setObjectField(param.thisObject, "mSliderAnimator", ofInt);
+            ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(@NonNull ValueAnimator animation) {
+                    XposedHelpers.setObjectField(param.thisObject, "mExternalChange", true);
+                    if (mControl != null) {
+                        XposedHelpers.callMethod(mControl, "setValue",
+                            ((Integer) animation.getAnimatedValue()).intValue());
+                    }
+                    XposedHelpers.setObjectField(param.thisObject, "mExternalChange", false);
+                }
+            });
+            ofInt.setDuration(3000);
+            ofInt.start();
         }
     }
 
@@ -237,6 +305,7 @@ public class FlashLight extends TileUtils {
                                 i = maxBrightness;
                             }
                             // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat i: " + i);
+                            lastFlash = i;
                             writeFile(i);
                         }
                         param.setResult(end);
@@ -326,7 +395,6 @@ public class FlashLight extends TileUtils {
 
     private boolean isFlashLightEnabled(Context context) {
         try {
-            logE(TAG, "isFlashLightEnabled: " + Settings.System.getInt(context.getContentResolver(), "flash_light_enabled"));
             return Settings.System.getInt(context.getContentResolver(), "flash_light_enabled") == 1;
         } catch (Settings.SettingNotFoundException e) {
             logE(TAG, this.lpparam.packageName, "not found flash_light_enabled: " + e);
@@ -336,7 +404,63 @@ public class FlashLight extends TileUtils {
     }
 
     private void setFlashLightEnabled(Context context, int set) {
-        logE(TAG, "setFlashLightEnabled: ");
         Settings.System.putInt(context.getContentResolver(), "flash_light_enabled", set);
+    }
+
+    private String getFlashBrightness(Context context) {
+        return Settings.System.getString(context.getContentResolver(), "flash_light_brightness");
+    }
+
+    private void setFlashBrightness(Context context, String set) {
+        Settings.System.putString(context.getContentResolver(), "flash_light_brightness", set);
+    }
+
+    public static class FlashBrightness {
+        private final int slider;
+
+        private final int brightness;
+
+        public FlashBrightness(int s, int b) {
+            slider = s;
+            brightness = b;
+        }
+
+        public JSONObject toJSON() {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("slider", slider);
+                jsonObject.put("brightness", brightness);
+            } catch (JSONException e) {
+                logE("FlashBrightness", "toJSON: " + e);
+            }
+            return jsonObject;
+        }
+
+        public static int getSlider(JSONObject jsonObject) {
+            try {
+                return jsonObject.getInt("slider");
+            } catch (JSONException e) {
+                logE("FlashBrightness", "getSlider: " + e);
+            }
+            return -1;
+        }
+
+        public static int getBrightness(JSONObject jsonObject) {
+            try {
+                return jsonObject.getInt("brightness");
+            } catch (JSONException e) {
+                logE("FlashBrightness", "getBrightness: " + e);
+            }
+            return -1;
+        }
+
+        public static JSONObject restore(String json) {
+            try {
+                return new JSONObject(json);
+            } catch (JSONException e) {
+                logE("FlashBrightness", "restore: " + e);
+            }
+            return new JSONObject();
+        }
     }
 }
