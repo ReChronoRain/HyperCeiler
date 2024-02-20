@@ -15,6 +15,9 @@ public class ShellInit {
 
     public static void init() {
         try {
+            if (mShell != null && !mShell.isDestroy()) {
+                return;
+            }
             mShell = new ShellExec(true, true);
             lastReady = mShell.ready();
         } catch (RuntimeException e) {
@@ -54,6 +57,10 @@ public class ShellInit {
             if (mShell.isDestroy()) {
                 init();
             }
+            return mShell.ready();
+        }
+        if (lastReady) {
+            init();
             return mShell.ready();
         }
         return false;
