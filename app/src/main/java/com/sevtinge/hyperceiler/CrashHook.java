@@ -9,8 +9,8 @@ import android.content.pm.PackageManager;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.callback.ITAG;
+import com.sevtinge.hyperceiler.module.base.tool.HookTool;
 import com.sevtinge.hyperceiler.utils.PropUtils;
-import com.sevtinge.hyperceiler.utils.hook.HookUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +27,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * 推荐使用的方法，直接 Hook 系统，
  * 可能误报，但是很稳定。
  */
-public class CrashHook extends HookUtils {
+public class CrashHook extends HookTool {
     private final String path = "/sdcard/Download/hy_crash";
     private static final String TAG = ITAG.TAG + ": CrashHook";
 

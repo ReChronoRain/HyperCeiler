@@ -211,7 +211,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
         switch (packageName) {
             case "android" -> {
                 mSystemFramework.init(lpparam);
-                mSystemVarious.init(lpparam);
+                mVariousSystemApps.init(lpparam);
                 try {
                     new CrashHook(lpparam);
                     logI(ITAG.TAG, "Success Hook Crash");

@@ -2,14 +2,6 @@ package com.sevtinge.hyperceiler;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.callback.ITAG;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
-
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
@@ -32,7 +24,7 @@ public class CrashRecord implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
-        AndroidLogUtils.LogE(ITAG.TAG, e);
+        /*AndroidLogUtils.LogE(ITAG.TAG, e);
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand("ls " + path + " | grep " + pkg, false, true);
         List<String> success = null;
         if (commandResult.result == 0) {
@@ -52,7 +44,7 @@ public class CrashRecord implements Thread.UncaughtExceptionHandler {
         }
         if (mDef != null) {
             mDef.uncaughtException(t, e);
-        }
+        }*/
     }
 
 }

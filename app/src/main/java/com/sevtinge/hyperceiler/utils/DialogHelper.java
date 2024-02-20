@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils;
 
 import android.app.Activity;
@@ -24,8 +24,7 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.callback.ITAG;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
 import moralnorm.appcompat.app.AlertDialog;
@@ -85,16 +84,10 @@ public class DialogHelper {
             .setView(view)
             .setHapticFeedbackEnabled(true)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                ShellUtils.OpenShellExecWindow open = new ShellUtils.OpenShellExecWindow(
-                    "setprop persist.hyperceiler.crash.report \"[]\"", true, true) {
-                    @Override
-                    public void readOutput(String out, String type) {
-                        AndroidLogUtils.LogI(ITAG.TAG, "D O: " + out + " T: " + type);
-                    }
-                };
-                open.append("settings put system hyperceiler_crash_report \"[]\"");
-                open.getResult();
-                open.close();
+                ShellExec shellExec = new ShellExec(true, true);
+                shellExec.run("setprop persist.hyperceiler.crash.report \"[]\"").sync();
+                shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
+                shellExec.close();
                 activity.finish();
             })
             .show();

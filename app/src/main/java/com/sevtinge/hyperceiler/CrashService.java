@@ -7,8 +7,8 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.callback.ITAG;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 public class CrashService extends Service {
     @Nullable
@@ -20,6 +20,7 @@ public class CrashService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        ShellInit.init();
         AndroidLogUtils.LogI(ITAG.TAG, "service create");
     }
 
@@ -28,16 +29,8 @@ public class CrashService extends Service {
         AndroidLogUtils.LogI(ITAG.TAG, "service onStartCommand");
         String cover = intent.getStringExtra("key_cover");
         boolean equal = intent.getBooleanExtra("key_equal", true);
-        ShellUtils.OpenShellExecWindow open = new ShellUtils.OpenShellExecWindow(
-            "setprop persist.hyperceiler.crash.report " + "\"" + cover + "\"",
-            true, true) {
-            @Override
-            public void readOutput(String out, String type) {
-                AndroidLogUtils.LogE(ITAG.TAG, "S O: " + out + " T: " + type, null);
-            }
-        };
-        int re = open.getResult();
-        open.close();
+        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + cover + "\"").sync();
+        int re = ShellInit.getShell().getResult();
         AndroidLogUtils.LogI(ITAG.TAG, "R: " + re + " C: " + cover + " E: " + equal);
         if (equal) {
             Intent intent1 = new Intent(this, CrashReportActivity.class);
@@ -52,6 +45,7 @@ public class CrashService extends Service {
     @Override
     public void onDestroy() {
         AndroidLogUtils.LogI(ITAG.TAG, "service onDestroy");
+        ShellInit.destroy();
         super.onDestroy();
     }
 }
