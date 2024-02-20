@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_wifi_title">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_internet_title">
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator"
+            android:title="@string/system_ui_status_bar_icon_wifi_network_indicator"
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
+
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_wifi"
@@ -22,36 +30,6 @@
             android:title="@string/system_ui_status_bar_icon_hotspot"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
-
-
-        <DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator"
-            android:title="@string/system_ui_status_bar_icon_wifi_network_indicator"
-            app:entries="@array/status_bar_icon_mode_new"
-            app:entryValues="@array/status_bar_icon_mode_new_value" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
-        <DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_bluetooth"
-            android:title="@string/system_ui_status_bar_icon_bluetooth"
-            app:entries="@array/status_bar_icon_bluetooth_new"
-            app:entryValues="@array/status_bar_icon_bluetooth_new_value" />
-
-        <DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_bluetooth_battery"
-            android:title="@string/system_ui_status_bar_icon_bluetooth_battery"
-            app:entries="@array/status_bar_icon_mode_new"
-            app:entryValues="@array/status_bar_icon_mode_new_value" />
-
-    </PreferenceCategory>
-
-
-    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_mobile_title">
 
         <DropDownPreference
             android:defaultValue="0"
@@ -125,7 +103,25 @@
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_location_title">
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_bluetooth"
+            android:title="@string/system_ui_status_bar_icon_bluetooth"
+            app:entries="@array/status_bar_icon_bluetooth_new"
+            app:entryValues="@array/status_bar_icon_bluetooth_new_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_bluetooth_battery"
+            android:title="@string/system_ui_status_bar_icon_bluetooth_battery"
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_privacy_title">
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_location"
@@ -133,15 +129,16 @@
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_mic"
+            android:title="@string/system_ui_status_bar_icon_mic"
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_status_title">
-        <DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_headset"
-            android:title="@string/system_ui_status_bar_icon_headset"
-            app:entries="@array/status_bar_icon_mode_new"
-            app:entryValues="@array/status_bar_icon_mode_new_value" />
 
         <DropDownPreference
             android:defaultValue="0"
@@ -176,15 +173,15 @@
 
         <DropDownPreference
             android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_volume"
-            android:title="@string/system_ui_status_bar_icon_volume"
+            android:key="prefs_key_system_ui_status_bar_icon_data_saver"
+            android:title="@string/system_ui_status_bar_icon_data_saver"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
         <DropDownPreference
             android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_data_saver"
-            android:title="@string/system_ui_status_bar_icon_data_saver"
+            android:key="prefs_key_system_ui_status_bar_icon_volume"
+            android:title="@string/system_ui_status_bar_icon_volume"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
@@ -350,6 +347,13 @@
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_tv"
             android:title="@string/system_ui_status_bar_icon_tv"
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_headset"
+            android:title="@string/system_ui_status_bar_icon_headset"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 

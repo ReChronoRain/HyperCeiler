@@ -582,11 +582,13 @@
     <string name="system_ui_statusbar_iconmanage_bluetooth_title">蓝牙</string>
     <string name="system_ui_statusbar_iconmanage_mobile_title">移动网络</string>
     <string name="system_ui_statusbar_iconmanage_location_title">位置信息</string>
-    <string name="system_ui_statusbar_iconmanage_status_title">状态图标</string>
+    <string name="system_ui_statusbar_iconmanage_status_title">状态信息</string>
     <string name="system_ui_statusbar_iconmanage_notify_title">通知图标</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">电池</string>
     <string name="system_ui_statusbar_iconmanage_call_title">通话</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">互联互通</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">网络连接</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">敏感信息</string>
     <string name="system_ui_statusbar_iconmanage_left_title">图标左侧显示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">图标右侧显示</string>
     <string name="system_ui_status_bar_icon_wifi">WIFI 图标</string>
@@ -605,6 +607,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大网络类型图标</string>
     <string name="system_ui_status_bar_icon_location">位置信息</string>
+    <string name="system_ui_status_bar_icon_mic">麦克风</string>
     <string name="system_ui_status_bar_icon_alarm_clock">闹钟</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">仅在闹钟响铃前显示闹钟图标</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
@@ -612,9 +615,9 @@
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
     <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
-    <string name="system_ui_status_bar_icon_volume">音量</string>
+    <string name="system_ui_status_bar_icon_volume">静音</string>
     <string name="system_ui_status_bar_icon_data_saver">流量节省</string>
-    <string name="system_ui_status_bar_icon_zen">勿扰模式</string>
+    <string name="system_ui_status_bar_icon_zen">勿扰</string>
     <string name="system_ui_status_bar_icon_stealth">隐藏隐身模式图标</string>
     <string name="system_ui_status_bar_icon_mute">隐藏麦克风静音图标</string>
     <string name="system_ui_status_bar_icon_speakerphone">隐藏免提图标</string>

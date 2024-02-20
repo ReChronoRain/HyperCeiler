@@ -84,8 +84,10 @@ public class StatusBarIcon extends BaseHook {
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_zen", 0), "zen", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_volume", 0), "volume", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi", 0), "wifi", statusBarList, ctrlCenterList);
+            setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi", 0), "demo_wifi", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_airplane", 0), "airplane", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_location", 0), "location", statusBarList, ctrlCenterList);
+            setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mic", 0), "speakerphone", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_hotspot", 0), "hotspot", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_headset", 0), "headset", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0), "bluetooth", statusBarList, ctrlCenterList);
