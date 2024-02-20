@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.base;
 
 import android.content.Intent;
@@ -7,8 +25,9 @@ import android.text.TextUtils;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,38 +102,68 @@ public abstract class BaseSettingsActivity extends BaseActivity {
     public void doRestart(String[] packageName, boolean isRestartSystem) {
         boolean result = false;
         boolean pid = true;
-        if (isRestartSystem) {
-            result = ShellUtils.getResultBoolean("reboot", true);
-        } else {
-            if (packageName != null) {
-                for (String packageGet : packageName) {
-                    if (packageGet == null) {
-                        continue;
-                    }
-                    // String test = "XX";
-                    // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
-                    //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
-                    //     "\"; }; } || { echo \"kill error\"; }", true, true);
-                    ShellUtils.CommandResult commandResult =
-                        ShellUtils.execCommand("{ pid=$(pgrep -f '" + packageGet + "' | grep -v $$);" +
-                                " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + packageGet + "\";" +
-                                " { [[ $? != 0 ]] && { killall -s 9 \"" + packageGet + "\" &>/dev/null;};}" +
-                                " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
-                                " || { echo \"kill error\";};};}" +
-                                " || { echo \"kill error\";}",
-                            true, true);
-                    if (commandResult.result == 0) {
-                        if (commandResult.successMsg.get(0).equals("kill error")) {
-                            pid = false;
-                        } else result = true;
-                    } else
-                        AndroidLogUtils.LogE("doRestart: ", "result: " + commandResult.result +
-                            " errorMsg: " + commandResult.errorMsg + " package: " + packageGet, null);
-                }
+        if (ShellInit.getShell() != null) {
+            if (isRestartSystem) {
+                result = ShellInit.getShell().run("reboot").sync().isResult();
             } else {
-                AndroidLogUtils.LogE("doRestart: ", "packageName is null", null);
+                if (packageName != null) {
+                    for (String packageGet : packageName) {
+                        if (packageGet == null) {
+                            continue;
+                        }
+                        // String test = "XX";
+                        // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
+                        //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
+                        //     "\"; }; } || { echo \"kill error\"; }", true, true);
+
+                        boolean getResult =
+                            ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
+                                .add("if [[ $pid == \"\" ]]; then")
+                                .add(" pids=\"\"")
+                                .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
+                                .add("  for i in $pid; do")
+                                .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                                .add("    if [[ $pids == \"\" ]]; then")
+                                .add("      pids=$i")
+                                .add("    else")
+                                .add("      pids=\"$pids $i\"")
+                                .add("    fi")
+                                .add("   fi")
+                                .add("  done")
+                                .add("fi")
+                                .add("if [[ $pids != \"\" ]]; then")
+                                .add(" pid=$pids")
+                                .add("fi")
+                                .add("if [[ $pid != \"\" ]]; then")
+                                .add(" for i in $pid; do")
+                                .add("  kill -s 15 $i &>/dev/null")
+                                .add(" done")
+                                .add("else")
+                                .add(" echo \"No Find Pid!\"")
+                                .add("fi").over().sync().isResult();
+                        ArrayList<String> outPut = ShellInit.getShell().getOutPut();
+                        ArrayList<String> error = ShellInit.getShell().getError();
+
+                        if (getResult) {
+                            if (outPut.size() != 0) {
+                                if (outPut.get(0).equals("No Find Pid!")) {
+                                    pid = false;
+                                } else {
+                                    result = true;
+                                }
+                            } else result = true;
+                        } else
+                            AndroidLogUtils.LogE("doRestart: ", "result: " + ShellInit.getShell().getResult() +
+                                " errorMsg: " + error + " package: " + packageGet, null);
+
+                    }
+                } else {
+                    AndroidLogUtils.LogE("doRestart: ", "packageName is null", null);
+                }
+                // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
             }
-            // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
+        } else {
+            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! from: doRestart");
         }
         if (!result) {
             new AlertDialog.Builder(this)

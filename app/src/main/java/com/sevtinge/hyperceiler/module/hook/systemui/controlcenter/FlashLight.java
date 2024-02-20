@@ -1,7 +1,26 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -9,34 +28,47 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.util.ArrayMap;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.MathUtils;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.TileUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class FlashLight extends TileUtils {
-    public final String flashFileMtk = "/sys/class/flashlight_core/flashlight/torchbrightness";
-    public final String flashFileTorch = "/sys/class/leds/led:torch_0/brightness";
-    public final String flashFileOther = "/sys/class/leds/flashlight/brightness";
-    public final String flashFileSwitch = "/sys/class/leds/led:switch_0/brightness";
-    public final String maxFile = "/sys/class/leds/led:torch_0/max_brightness";
+    public final String mtk = "/sys/class/flashlight_core/flashlight/torchbrightness";
+    public final String torch = "/sys/class/leds/led:torch_0/brightness";
+    public final String other = "/sys/class/leds/flashlight/brightness";
+    public final String flashSwitch = "/sys/class/leds/led:switch_0/brightness";
+    public final String maxBrightness = "/sys/class/leds/led:torch_0/max_brightness";
+    public int lastFlash = -1;
     public boolean isListening = false;
-
-    public boolean suGet;
+    public boolean isHook = false;
 
     @Override
     public void init() {
         super.init();
+        setPermission(mtk);
+        setPermission(torch);
+        setPermission(other);
+        initListen();
+        hookBrightness();
     }
 
     @Override
@@ -45,79 +77,75 @@ public class FlashLight extends TileUtils {
     }
 
     @Override
-    public boolean needAfter() {
-        return true;
-    }
-
-    @Override
-    public void tileClickAfter(XC_MethodHook.MethodHookParam param, String tileName) {
-    }
-
-    @Override
     public ArrayMap<String, Integer> tileUpdateState(XC_MethodHook.MethodHookParam param, Class<?> mResourceIcon, String tileName) {
         Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-        ContentObserver contentObserver;
-        // logE(TAG, this.lpparam.packageName, "tileUpdateState: args: " + param.args[1]);
         if (param.args[1] != null) {
             boolean enabled = (boolean) param.args[1];
             Object flash = XposedHelpers.getObjectField(param.thisObject, "flashlightController");
+            boolean isEnabled = (boolean) XposedHelpers.callMethod(flash, "isEnabled");
             if (enabled) {
-                if (getFlashLightEnabled(mContext) == 1 && !isListening) {
-                    setFlashLightEnabled(mContext, 0);
+                if (!isFlashLightEnabled(mContext)) {
+                    setFlashLightEnabled(mContext, 1);
                 }
-                if (!isListening) listening(mContext, param, flash, isListening);
-                setFlashLightEnabled(mContext, 1);
-                // logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening1: " + isListening);
-            } else if ((boolean) XposedHelpers.callMethod(flash, "isEnabled")) {
-                if (getFlashLightEnabled(mContext) == 1 && !isListening) {
-                    setFlashLightEnabled(mContext, 0);
+            } else if (isEnabled) {
+                if (!isFlashLightEnabled(mContext)) {
+                    setFlashLightEnabled(mContext, 1);
                 }
-                if (!isListening) listening(mContext, param, flash, isListening);
-                setFlashLightEnabled(mContext, 1);
-                // logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening2: " + isListening + " call: " + XposedHelpers.callMethod(flash, "isEnabled"));
-            } else {
-                setFlashLightEnabled(mContext, 0);
-                if (isListening) {
-                    listening(mContext, param, flash, isListening);
-                    contentObserver = (ContentObserver) XposedHelpers.getAdditionalInstanceField(param.thisObject, "tileListener");
-                    if (contentObserver != null) {
-                        mContext.getContentResolver().unregisterContentObserver(contentObserver);
-                    }
-                }
-                // logE(TAG, this.lpparam.packageName, "tileUpdateState: isListening3: " + isListening);
-            }
+            } else setFlashLightEnabled(mContext, 0);
         }
         return null;
     }
 
-    public void listening(Context mContext, XC_MethodHook.MethodHookParam param, Object flash, boolean isListening) {
+    private void initListen() {
+        hookAllConstructors("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
+            new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    listening(mContext, param);
+                }
+            }
+        );
+    }
+
+    public void listening(Context mContext, XC_MethodHook.MethodHookParam param) {
         if (!isListening) {
             ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
                 @Override
                 public void onChange(boolean selfChange, @Nullable Uri uri) {
                     super.onChange(selfChange, uri);
-                    hookFlash(param.thisObject, flash, mContext, readFile());
-                    // logE(TAG, this.lpparam.packageName, "listening: listening: selfChange: " + selfChange + " uri: " + uri);
+                    if (lastFlash != -1) lastFlash = -1;
+                    isHook = isFlashLightEnabled(mContext);
+                    if (isHook) {
+                        String b = getFlashBrightness(mContext);
+                        if (b != null) {
+                            JSONObject object = FlashBrightness.restore(b);
+                            int flash = FlashBrightness.getBrightness(object);
+                            int slider = FlashBrightness.getSlider(object);
+                            try {
+                                XposedHelpers.callMethod(param.thisObject, "animateSliderTo", slider);
+                            } catch (Throwable e) {
+                                sliderAnimator(slider, param);
+                            }
+                            writeFile(flash);
+                        }
+                    }
                 }
             };
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("flash_light_enabled"), false, contentObserver);
-            XposedHelpers.setAdditionalInstanceField(param.thisObject, "tileListener", contentObserver);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("flash_light_enabled"),
+                false, contentObserver);
             this.isListening = true;
-        } else this.isListening = false;
+        }
     }
 
-    public void hookFlash(Object o, Object flash, Context context, int max) {
-        if (!isAndroidVersion(34)) {
-            setBrightnessUtils(o, flash, context, max);
+    private void hookBrightness() {
+        if (!isMoreAndroidVersion(34)) {
             findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
-                "lambda$onChanged$0", boolean.class, float.class, new MethodHook() {
+                "lambda$onChanged$0", boolean.class, float.class,
+                new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController lambda$onChanged$0: " + param.args[0] + " 2: " + param.args[1]);
-                        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                        int enabled = getFlashLightEnabled(mContext);
-                        // logE(TAG, this.lpparam.packageName, "lambda$onChanged$0 enabled: " + enabled);
-                        if (enabled == 1) {
+                        if (isHook) {
                             param.setResult(null);
                         }
                     }
@@ -125,86 +153,138 @@ public class FlashLight extends TileUtils {
             );
 
             findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$5",
-                "run", new MethodHook() {
+                "run",
+                new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        int enabled = getFlashLightEnabled(context);
-                        // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$5 enabled: " + enabled);
-                        if (enabled == 1) {
-                            // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$5 run");
+                        if (isHook) {
                             param.setResult(null);
                         }
                     }
                 }
             );
         } else {
-            setBrightnessUtils(o, flash, context, max);
             findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$$ExternalSyntheticLambda0",
-                "run", new MethodHook() {
+                "run",
+                new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        if (getFlashLightEnabled(context) == 1) {
-                            // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$$ExternalSyntheticLambda0 run");
+                        if (isHook) {
                             param.setResult(null);
                         }
                     }
                 }
             );
+
             findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController$2",
-                "run", new MethodHook() {
+                "run",
+                new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        if (getFlashLightEnabled(context) == 1) {
-                            // logE(TAG, this.lpparam.packageName, "MiuiBrightnessController$2 run");
+                        if (isHook) {
                             param.setResult(null);
                         }
                     }
                 }
             );
         }
+        hookStop();
+        hookBrightnessUtils();
     }
 
-    public void setBrightnessUtils(Object o, Object flash, Context context, int maxPath) {
+    private void hookStop() {
+        findAndHookMethod("com.android.systemui.controlcenter.policy.MiuiBrightnessController",
+            "onStop", int.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    if (isHook) {
+                        Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        if (lastFlash != -1) {
+                            JSONObject object = new FlashBrightness((int) param.args[0], lastFlash).toJSON();
+                            setFlashBrightness(mContext, object.toString());
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    private void sliderAnimator(int i, XC_MethodHook.MethodHookParam param) {
+        boolean isUserSliding = (boolean) XposedHelpers.getObjectField(param.thisObject, "isUserSliding");
+        Object toggleSliderBase = XposedHelpers.getObjectField(param.thisObject, "mControl");
+        Object mControl = XposedHelpers.getObjectField(param.thisObject, "mControl");
+        if (!isUserSliding && toggleSliderBase != null) {
+            boolean mControlValueInitialized = (boolean) XposedHelpers.getObjectField(param.thisObject,
+                "mControlValueInitialized");
+            if (!mControlValueInitialized) {
+                XposedHelpers.callMethod(toggleSliderBase, "setValue", i);
+                XposedHelpers.setObjectField(param.thisObject, "mControlValueInitialized", true);
+            }
+            ValueAnimator ofInt = ValueAnimator.ofInt((int) XposedHelpers.callMethod(mControl,
+                "getValue"), i);
+            XposedHelpers.setObjectField(param.thisObject, "mSliderAnimator", ofInt);
+            ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(@NonNull ValueAnimator animation) {
+                    XposedHelpers.setObjectField(param.thisObject, "mExternalChange", true);
+                    if (mControl != null) {
+                        XposedHelpers.callMethod(mControl, "setValue",
+                            ((Integer) animation.getAnimatedValue()).intValue());
+                    }
+                    XposedHelpers.setObjectField(param.thisObject, "mExternalChange", false);
+                }
+            });
+            ofInt.setDuration(3000);
+            ofInt.start();
+        }
+    }
+
+    private void hookBrightnessUtils() {
+        Class<?> BrightnessUtils = findClassIfExists("com.android.systemui.controlcenter.policy.BrightnessUtils");
+        if (BrightnessUtils == null) {
+            logE(TAG, lpparam.packageName, "Class com.android.systemui.controlcenter.policy.BrightnessUtils is null!!");
+            return;
+        }
         try {
-            findClass("com.android.systemui.controlcenter.policy.BrightnessUtils").getDeclaredMethod("convertGammaToLinearFloat", int.class, float.class, float.class);
-            convertGammaToLinearFloat(o, flash, context, maxPath, true);
+            BrightnessUtils.getDeclaredMethod("convertGammaToLinearFloat", int.class, float.class, float.class);
+            convertGammaToLinearFloat(BrightnessUtils, true);
         } catch (NoSuchMethodException e) {
             try {
-                findClass("com.android.systemui.controlcenter.policy.BrightnessUtils").getDeclaredMethod("convertGammaToLinearFloat", float.class, float.class, int.class);
-                convertGammaToLinearFloat(o, flash, context, maxPath, false);
-            } catch (NoSuchMethodException f) {
-                logE(TAG, "No such: " + e + " and: " + f);
+                BrightnessUtils.getDeclaredMethod("convertGammaToLinearFloat", float.class, float.class, int.class);
+                convertGammaToLinearFloat(BrightnessUtils, false);
+            } catch (NoSuchMethodException ex) {
+                logE(TAG, lpparam.packageName, "Find Method convertGammaToLinearFloat is null!!");
             }
         }
     }
 
-    public void convertGammaToLinearFloat(Object o, Object flash, Context context, int maxPath, boolean isWhat) {
-        findAndHookMethod("com.android.systemui.controlcenter.policy.BrightnessUtils",
-            "convertGammaToLinearFloat", isWhat ? int.class : float.class, float.class, isWhat ? float.class : int.class, new MethodHook() {
+    private void convertGammaToLinearFloat(Class<?> clz, boolean b) {
+        int maxBrightness = maxBrightness();
+        findAndHookMethod(clz, "convertGammaToLinearFloat",
+            b ? int.class : float.class, float.class, b ? float.class : int.class,
+            new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    if (getFlashLightEnabled(context) == 1) {
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat int 1: " + param.args[0]);
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat float 2: " + param.args[1]);
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat float 3: " + param.args[2]);
+                    if (isHook) {
                         // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat int 1: " + param.args[0]);
                         // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 2: " + param.args[1]);
                         // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat float 3: " + param.args[2]);
-                        float min = (float) param.args[isWhat ? 1 : 0];
-                        float max = (float) param.args[isWhat ? 2 : 1];
+                        float min = (float) param.args[b ? 1 : 0];
+                        float max = (float) param.args[b ? 2 : 1];
                         if (min < 0.001f) {
                             min = 0.00114514f;
                         }
                         min = Math.round(min * 500);
                         max = Math.round(max * 500);
                         float exp;
-                        Class<?> BrightnessUtils = XposedHelpers.findClass("com.android.systemui.controlcenter.policy.BrightnessUtils", lpparam.classLoader);
+                        Class<?> BrightnessUtils = XposedHelpers.findClass("com.android.systemui.controlcenter.policy.BrightnessUtils",
+                            lpparam.classLoader);
                         int GAMMA_SPACE_MAX = XposedHelpers.getStaticIntField(BrightnessUtils, "GAMMA_SPACE_MAX");
                         float R = XposedHelpers.getStaticFloatField(BrightnessUtils, "R");
                         float A = XposedHelpers.getStaticFloatField(BrightnessUtils, "A");
                         float B = XposedHelpers.getStaticFloatField(BrightnessUtils, "B");
                         float C = XposedHelpers.getStaticFloatField(BrightnessUtils, "C");
-                        float norm = MathUtils.norm(0.0f, GAMMA_SPACE_MAX, (int) param.args[isWhat ? 0 : 2]);
+                        float norm = MathUtils.norm(0.0f, GAMMA_SPACE_MAX, (int) param.args[b ? 0 : 2]);
                         if (norm <= R) {
                             exp = MathUtils.sq(norm / R);
                         } else {
@@ -213,22 +293,20 @@ public class FlashLight extends TileUtils {
                         if (min < 10) {
                             min = 12;
                         }
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat R: " + R + " A: " + A + " B: " + B + " C: " + C);
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat exp: " + exp);
+                        // logE("FlashLight", "convertGammaToLinearFloat R: " + R + " A: " + A + " B: " + B + " C: " + C);
+                        // logE("FlashLight", "convertGammaToLinearFloat exp: " + exp);
                         float end = MathUtils.lerpNew(min, max, (MathUtils.constrain(exp, 0.0f, 12.0f) / 12.0f));
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat min: " + min);
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat max: " + max);
-                        // AndroidLogUtils.deLogI("FlashLight", "convertGammaToLinearFloat end: " + end);
+                        // logE("FlashLight", "convertGammaToLinearFloat min: " + min);
+                        // logE("FlashLight", "convertGammaToLinearFloat max: " + max);
+                        // logE("FlashLight", "convertGammaToLinearFloat end: " + end);
                         int i = Math.round(end);
                         if (i != 0) {
-                            if (maxPath != -1 && i > maxPath) {
-                                i = maxPath;
+                            if (maxBrightness != -1 && i > maxBrightness) {
+                                i = maxBrightness;
                             }
                             // logE(TAG, this.lpparam.packageName, "convertGammaToLinearFloat i: " + i);
+                            lastFlash = i;
                             writeFile(i);
-                        } else {
-                            XposedHelpers.callMethod(flash, "setFlashlight", false);
-                            XposedHelpers.callMethod(o, "refreshState");
                         }
                         param.setResult(end);
                     }
@@ -237,33 +315,20 @@ public class FlashLight extends TileUtils {
         );
     }
 
-    public int getFlashLightEnabled(Context context) {
-        try {
-            return Settings.System.getInt(context.getContentResolver(), "flash_light_enabled");
-        } catch (Settings.SettingNotFoundException e) {
-            logE(TAG, this.lpparam.packageName, "No Found flash_light_enabled: " + e);
-            return -1;
-        }
-    }
-
-    public void setFlashLightEnabled(Context context, int set) {
-        Settings.System.putInt(context.getContentResolver(), "flash_light_enabled", set);
-    }
-
-    public int readFile() {
+    private int maxBrightness() {
         String line;
         BufferedReader reader = null;
         StringBuilder builder = null;
-        File file = new File(maxFile);
+        File file = new File(maxBrightness);
         if (file.exists()) {
             try {
-                reader = new BufferedReader(new FileReader(maxFile));
+                reader = new BufferedReader(new FileReader(maxBrightness));
                 builder = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
                     builder.append(line);
                 }
             } catch (IOException e) {
-                logE(TAG, this.lpparam.packageName, "Error to read: " + maxFile, e);
+                logE(TAG, this.lpparam.packageName, "Error to read: " + maxBrightness, e);
             } finally {
                 try {
                     if (reader != null) {
@@ -274,56 +339,128 @@ public class FlashLight extends TileUtils {
                 }
             }
         } else {
-            logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + maxFile);
+            logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + maxBrightness);
         }
 
         if (builder != null) {
-            return Integer.parseInt(builder.toString());
+            try {
+                return Integer.parseInt(builder.toString());
+            } catch (NumberFormatException e) {
+                logE(TAG, lpparam.packageName, "To int E: " + e);
+            }
         }
         return -1;
     }
 
-    public void writeFile(int flashInt) {
-        File file = new File(flashFileMtk);
-        if (file.exists()) {
-            writeFileModule(flashFileMtk, flashInt);
-        } else {
-            File file1 = new File(flashFileTorch);
-            File file2 = new File(flashFileSwitch);
-            File file3 = new File(flashFileOther);
-            if (file1.exists()) {
-                writeFileModule(flashFileTorch, flashInt);
-                if (file3.exists()) {
-                    writeFileModule(flashFileOther, flashInt);
-                }
-            } else
-                logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
-            // if (file1.exists() && file2.exists()) {
-            //     writeFileModule(flashFileTorch, flashInt);
-            //     writeFileModule(flashFileSwitch, 1);
-            //     writeFileModule(flashFileSwitch, 0);
-            // } else if (file1.exists()) {
-            //     writeFileModule(flashFileTorch, flashInt);
-            // } else
-            //     logE(TAG, this.lpparam.packageName, "Not Found FlashLight File: " + flashFileMtk + " And: " + flashFileTorch);
+    private void writeFile(int flash) {
+        if (exists(mtk)) write(mtk, flash);
+        if (exists(torch)) write(torch, flash);
+        if (exists(other)) write(other, flash);
+    }
+
+    private boolean exists(String path) {
+        File file = new File(path);
+        return file.exists();
+    }
+
+    private void write(String path, int flash) {
+        try (FileWriter writer = new FileWriter(path, false)) {
+            writer.write(Integer.toString(flash));
+            writer.flush();
+        } catch (IOException e) {
+            logE(TAG, lpparam.packageName, "write " + path + " E: " + e);
         }
     }
 
-    public void writeFileModule(String filePath, int flashInt) {
-        try (FileWriter writer = new FileWriter(filePath, false)) {
-            writer.write(Integer.toString(flashInt));
-            writer.flush();
+    private void setPermission(String paths) {
+        // 指定文件的路径
+        Path filePath = Paths.get(paths);
+
+        try {
+            // 获取当前文件的权限
+            Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filePath);
+
+            // 添加世界可读写权限
+            permissions.add(PosixFilePermission.OTHERS_READ);
+            permissions.add(PosixFilePermission.OTHERS_WRITE);
+            permissions.add(PosixFilePermission.GROUP_READ);
+            permissions.add(PosixFilePermission.GROUP_WRITE);
+
+            // 设置新的权限
+            Files.setPosixFilePermissions(filePath, permissions);
         } catch (IOException e) {
-            if (!suGet) {
-                ShellUtils.execCommand("chmod 777 " + filePath, true, false);
-                suGet = true;
+            logE(TAG, lpparam.packageName, "SetPermission: " + e);
+        }
+    }
+
+    private boolean isFlashLightEnabled(Context context) {
+        try {
+            return Settings.System.getInt(context.getContentResolver(), "flash_light_enabled") == 1;
+        } catch (Settings.SettingNotFoundException e) {
+            logE(TAG, this.lpparam.packageName, "not found flash_light_enabled: " + e);
+            setFlashLightEnabled(context, 0);
+            return false;
+        }
+    }
+
+    private void setFlashLightEnabled(Context context, int set) {
+        Settings.System.putInt(context.getContentResolver(), "flash_light_enabled", set);
+    }
+
+    private String getFlashBrightness(Context context) {
+        return Settings.System.getString(context.getContentResolver(), "flash_light_brightness");
+    }
+
+    private void setFlashBrightness(Context context, String set) {
+        Settings.System.putString(context.getContentResolver(), "flash_light_brightness", set);
+    }
+
+    public static class FlashBrightness {
+        private final int slider;
+
+        private final int brightness;
+
+        public FlashBrightness(int s, int b) {
+            slider = s;
+            brightness = b;
+        }
+
+        public JSONObject toJSON() {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("slider", slider);
+                jsonObject.put("brightness", brightness);
+            } catch (JSONException e) {
+                logE("FlashBrightness", "toJSON: " + e);
             }
-            try (FileWriter writer = new FileWriter(filePath, false)) {
-                writer.write(Integer.toString(flashInt));
-                writer.flush();
-            } catch (IOException f) {
-                logE(TAG, this.lpparam.packageName, "Write FlashLight File Error: " + f + " File Path: " + filePath);
+            return jsonObject;
+        }
+
+        public static int getSlider(JSONObject jsonObject) {
+            try {
+                return jsonObject.getInt("slider");
+            } catch (JSONException e) {
+                logE("FlashBrightness", "getSlider: " + e);
             }
+            return -1;
+        }
+
+        public static int getBrightness(JSONObject jsonObject) {
+            try {
+                return jsonObject.getInt("brightness");
+            } catch (JSONException e) {
+                logE("FlashBrightness", "getBrightness: " + e);
+            }
+            return -1;
+        }
+
+        public static JSONObject restore(String json) {
+            try {
+                return new JSONObject(json);
+            } catch (JSONException e) {
+                logE("FlashBrightness", "restore: " + e);
+            }
+            return new JSONObject();
         }
     }
 }

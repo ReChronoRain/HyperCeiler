@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import android.annotation.SuppressLint
@@ -9,7 +27,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.MemberExtensions.paramCount
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
@@ -17,58 +34,59 @@ import com.sevtinge.hyperceiler.utils.getObjectFieldAs
 import de.robv.android.xposed.XC_MethodHook
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Timer
+import java.util.TimerTask
 
 object ClockDisplaySeconds : BaseHook() {
     private var nowTime: Date = Calendar.getInstance().time
 
     override fun init() {
-        loadClass("com.miui.clock.MiuiBaseClock").constructorFinder().first {
-            paramCount == 2
-        }.createHook {
-            after {
-                try {
-                    val viewGroup = it.thisObject as LinearLayout
-                    val d: Method = viewGroup.javaClass.getDeclaredMethod("updateTime")
-                    val r = Runnable {
-                        d.isAccessible = true
-                        d.invoke(viewGroup)
-                    }
-
-                    class T : TimerTask() {
-                        override fun run() {
-                            Handler(viewGroup.context.mainLooper).post(r)
+        loadClass("com.miui.clock.MiuiBaseClock").constructorFinder()
+            .filterByParamCount(2)
+            .single().createHook {
+                after {
+                    try {
+                        val viewGroup = it.thisObject as LinearLayout
+                        val d: Method = viewGroup.javaClass.getDeclaredMethod("updateTime")
+                        val r = Runnable {
+                            d.isAccessible = true
+                            d.invoke(viewGroup)
                         }
+
+                        class T : TimerTask() {
+                            override fun run() {
+                                Handler(viewGroup.context.mainLooper).post(r)
+                            }
+                        }
+                        Timer().schedule(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
+                    } catch (_: Exception) {
                     }
-                    Timer().scheduleAtFixedRate(T(), 1000 - System.currentTimeMillis() % 1000, 1000)
-                } catch (_: Exception) {
                 }
             }
-        }
 
-        loadClass("com.miui.clock.MiuiLeftTopClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, false) }
-        }
+        loadClass("com.miui.clock.MiuiLeftTopClock").methodFinder()
+            .filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, false) }
+            }
 
-        loadClass("com.miui.clock.MiuiCenterHorizontalClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, false) }
-        }
+        loadClass("com.miui.clock.MiuiCenterHorizontalClock").methodFinder()
+            .filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, false) }
+            }
 
-        loadClass("com.miui.clock.MiuiLeftTopLargeClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, false) }
-        }
+        loadClass("com.miui.clock.MiuiLeftTopLargeClock").methodFinder().filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, false) }
+            }
 
-        loadClass("com.miui.clock.MiuiVerticalClock").methodFinder().first {
-            name == "updateTime"
-        }.createHook {
-            after { updateTime(it, true) }
-        }
+        loadClass("com.miui.clock.MiuiVerticalClock").methodFinder().filterByName("updateTime")
+            .single().createHook {
+                after { updateTime(it, true) }
+            }
     }
 
     private fun updateTime(it: XC_MethodHook.MethodHookParam, isVertical: Boolean) {
@@ -81,7 +99,6 @@ object ClockDisplaySeconds : BaseHook() {
         nowTime = Calendar.getInstance().time
 
         textV.text = getTime(is24, isVertical)
-
     }
 
 

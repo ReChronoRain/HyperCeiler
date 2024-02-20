@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.tsmclient
 
 import android.annotation.SuppressLint
@@ -23,37 +41,37 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 object AutoNfc : BaseHook() {
     @SuppressLint("SuspiciousIndentation")
     override fun init() {
-        loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder().first {
-            name == "onCreate"
-        }.createHook {
-            after { param ->
-                if (!EzXHelper.isHostPackageNameInited)
-                    EzXHelper.initAppContext()
-                NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
-                    if (nfcAdapter.isEnabled) return@after
-                    HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
-                    MainScope().launch {
-                        waitNFCEnable(EzXHelper.appContext, nfcAdapter)
-                        param.thisObject.javaClass.fieldFinder().filter {
-                            type == Boolean::class.java
-                        }.last().setBoolean(param.thisObject, false)
-                        val ctaHelperClazz = findClass("com.miui.tsmclient.entity.CTAHelper")
-                        param.thisObject.javaClass.fieldFinder().first {
-                            type == ctaHelperClazz
-                        }.get(param.thisObject)!!.callMethod("check")
+        loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder()
+            .filterByName("onCreate")
+            .single().createHook {
+                after { param ->
+                    if (!EzXHelper.isHostPackageNameInited)
+                        EzXHelper.initAppContext()
+                    NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
+                        if (nfcAdapter.isEnabled) return@after
+                        HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
+                        MainScope().launch {
+                            waitNFCEnable(EzXHelper.appContext, nfcAdapter)
+                            param.thisObject.javaClass.fieldFinder().filter {
+                                type == Boolean::class.java
+                            }.last().setBoolean(param.thisObject, false)
+                            val ctaHelperClazz = findClass("com.miui.tsmclient.entity.CTAHelper")
+                            param.thisObject.javaClass.fieldFinder().filterByType(ctaHelperClazz)
+                                .single().get(param.thisObject)!!.callMethod("check")
+                        }
                     }
                 }
             }
-        }
-        loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder().first {
-            name == "onDestroy"
-        }.createHook {
-            before {
-                NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
-                    HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "disable")
+
+        loadClass("com.miui.tsmclient.ui.quick.DoubleClickActivity").methodFinder()
+            .filterByName("onDestroy")
+            .single().createHook {
+                before {
+                    NfcAdapter.getDefaultAdapter(EzXHelper.appContext).let { nfcAdapter ->
+                        HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "disable")
+                    }
                 }
             }
-        }
     }
 
     fun initResource(resparam: XC_InitPackageResources.InitPackageResourcesParam) {

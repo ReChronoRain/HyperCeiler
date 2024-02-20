@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.settings.development;
 
 import android.os.Handler;
@@ -5,13 +23,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,25 +44,19 @@ import java.util.concurrent.Executors;
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
 
-public class DevelopmentKillFragment extends SettingsPreferenceFragment {
-    public List<AppData> appData = new ArrayList<>();
+public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
+    private List<AppData> appData = new ArrayList<>();
+    private boolean init = false;
+    ExecutorService executorService;
+    Handler handler;
+    ShellExec mShell;
     Preference mKillPackage;
 
     Preference mName;
     Preference mCheck;
-    ExecutorService executorService;
-    Handler handler;
 
     public interface EditDialogCallback {
         void onInputReceived(String userInput);
-    }
-
-    public interface KillCallback {
-        void onKillCallback(String kill, String rest);
-    }
-
-    public interface GetCallback {
-        void onCallback(Boolean boo, String rest);
     }
 
     @Override
@@ -49,17 +66,30 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        mCheck = findPreference("prefs_key_development_kill_find_process");
         mKillPackage = findPreference("prefs_key_development_kill_package");
-        mName = findPreference("prefs_key_development_kill_name");
-        mCheck = findPreference("prefs_key_development_kill_check");
+        mName = findPreference("prefs_key_development_kill_app_name");
         ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载数据，请稍后");
         executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        handler = new Handler();
+        handler = new Handler(requireContext().getMainLooper());
         initApp(executorService);
-        mCheck.setOnPreferenceClickListener(
-            preference -> {
-                showInDialog(
-                    userInput -> {
+        mCheck.setOnPreferenceClickListener(this);
+        mName.setOnPreferenceClickListener(this);
+        mKillPackage.setOnPreferenceClickListener(this);
+        mShell = ShellInit.getShell();
+    }
+
+    @Override
+    public boolean onPreferenceClick(@NonNull Preference preference) {
+        if (!init) {
+            showOutDialog("资源尚未加载完毕，请稍后！");
+            return true;
+        }
+        switch (preference.getKey()) {
+            case "prefs_key_development_kill_find_process" -> {
+                showInDialog(new EditDialogCallback() {
+                    @Override
+                    public void onInputReceived(String userInput) {
                         String pkg = "";
                         for (AppData appData1 : appData) {
                             if (appData1.label.equals(userInput)) {
@@ -67,19 +97,47 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                             }
                         }
                         if (!(pkg == null || pkg.equals(""))) {
-                            showOutDialog(getPackage(pkg, true, null));
+                            showOutDialog(listToString("PID：       Process：\n",
+                                pidAndPkg(pkg)));
                             return;
                         }
-                        showOutDialog(getPackage(userInput, true, null));
+                        showOutDialog("包名错误或不存在，无法查找！\n" + "\"" + userInput + "\"");
                     }
-                );
-                return true;
+                });
             }
-        );
-        mName.setOnPreferenceClickListener(
-            preference -> {
-                showInDialog(
-                    userInput -> {
+            case "prefs_key_development_kill_package" -> {
+                showInDialog(new EditDialogCallback() {
+                    @Override
+                    public void onInputReceived(String userInput) {
+                        if (!userInput.equals("")) {
+                            String pkg = "";
+                            for (AppData appData1 : appData) {
+                                if (appData1.packageName.equals(userInput)) {
+                                    pkg = appData1.packageName;
+                                }
+                            }
+                            if (pkg.equals("")) {
+                                showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
+                                return;
+                            }
+                            if (pidAndPkg(pkg).size() != 0) {
+                                String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                                if (killPackage(pkg)) {
+                                    showOutDialog(result);
+                                } else {
+                                    showOutDialog("Kill: " + pkg + " 失败！");
+                                }
+                            } else {
+                                showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
+                            }
+                        }
+                    }
+                });
+            }
+            case "prefs_key_development_kill_app_name" -> {
+                showInDialog(new EditDialogCallback() {
+                    @Override
+                    public void onInputReceived(String userInput) {
                         if (!userInput.equals("")) {
                             String pkg = "";
                             for (AppData appData1 : appData) {
@@ -88,73 +146,85 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                                 }
                             }
                             if (!(pkg == null || pkg.equals(""))) {
-                                String finalPkg = pkg;
-                                getAndKill(pkg, (boo, rest) -> {
-                                    if (boo) {
-                                        showOutDialog("kill success: " + rest);
+                                if (pidAndPkg(pkg).size() != 0) {
+                                    String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                                    if (killPackage(pkg)) {
+                                        showOutDialog(result);
                                     } else {
-                                        showOutDialog("kill error: " + userInput + "\npkg: " + finalPkg);
+                                        showOutDialog("Kill: " + pkg + " 失败！");
                                     }
-                                });
-                            } else showOutDialog("kill error maybe not present: " + userInput);
+                                } else {
+                                    showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
+                                }
+                            } else
+                                showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
                         }
                     }
-                );
-                return true;
+                });
             }
-        );
-        mKillPackage.setOnPreferenceClickListener(
-            preference -> {
-                showInDialog(
-                    userInput -> {
-                        if (!userInput.equals("")) {
-                            getAndKill(userInput, (boo, rest) -> {
-                                if (boo) {
-                                    showOutDialog("kill success: " + rest);
-                                } else showOutDialog("kill error: " + userInput);
-                            });
-                        }
-                    }
-                );
-                return true;
-            }
-        );
+        }
+        return true;
     }
 
-    private void getAndKill(String pkg, GetCallback getCallback) {
-        getPackage(pkg, false, (kill, rest) -> {
-                getCallback.onCallback(killPackage(kill), rest);
-            }
-        );
+    private ArrayList<String> pidAndPkg(String pkg) {
+        mShell.add("pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\")")
+            .add("if [[ $pid == \"\" ]]; then")
+            .add(" echo \"No Find Pid!\"")
+            .add("else")
+            .add(" ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\"")
+            .add("fi").over().sync();
+        ArrayList<String> pid = mShell.getOutPut();
+        if (pid.size() == 0) {
+            return new ArrayList<>();
+        }
+        if (pid.get(0).equals("No Find Pid!")) {
+            return new ArrayList<>();
+        }
+        return pid;
+    }
+
+    private String listToString(String title, ArrayList<String> arrayList) {
+        StringBuilder s = new StringBuilder(title);
+        for (int i = 0; i < arrayList.size(); i++) {
+            s.append(arrayList.get(i)).append("\n");
+        }
+        return s.toString();
     }
 
     private boolean killPackage(String kill) {
-        ShellUtils.CommandResult commandResult =
-            ShellUtils.execCommand(
-                "{ pid=$(pgrep -f '" + kill + "' | grep -v $$);" +
-                    " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + kill + "\";" +
-                    " { [[ $? != 0 ]] && { killall -s 9 \"" + kill + "\" &>/dev/null;};}" +
-                    " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
-                    " || { echo \"kill error\";};};}" +
-                    " || { echo \"kill error\";}",
-                true, true);
-        if (commandResult.result == 0) {
-            return !commandResult.successMsg.equals("kill error");
+        AndroidLogUtils.LogI(ITAG.TAG, "killpkg: " + kill);
+        boolean result =
+            mShell.add("pid=$(pgrep -f \"" + kill + "\" | grep -v $$)")
+                .add("if [[ $pid == \"\" ]]; then")
+                .add(" pids=\"\"")
+                .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + kill + "\" | grep -v \"grep\")")
+                .add("  for i in $pid; do")
+                .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                .add("    if [[ $pids == \"\" ]]; then")
+                .add("      pids=$i")
+                .add("    else")
+                .add("      pids=\"$pids $i\"")
+                .add("    fi")
+                .add("   fi")
+                .add("  done")
+                .add("fi")
+                .add("if [[ $pids != \"\" ]]; then")
+                .add(" pid=$pids")
+                .add("fi")
+                .add("if [[ $pid != \"\" ]]; then")
+                .add(" for i in $pid; do")
+                .add("  kill -s 15 $i &>/dev/null")
+                .add(" done")
+                .add("else")
+                .add(" echo \"No Find Pid!\"")
+                .add("fi").over().sync().isResult();
+        if (result) {
+            if (mShell.getOutPut().size() == 0) {
+                return true;
+            }
+            return !mShell.getOutPut().get(0).equals("No Find Pid!");
         } else
             return false;
-    }
-
-    private String getPackage(String pkg, boolean ned, KillCallback killCallback) {
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(
-            "pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\");" +
-                " get=\"\"; for i in $pid; do if [[ $(echo $i | grep '[0-9]' 2>/dev/null) == \"\" ]];" +
-                " then if [[ $get == \"\" ]]; then get=$i; else get=\"$get฿$i\";" +
-                " fi; fi; done; echo $get\n", true, true);
-        // if (ned) return commandResult.successMsg.replace("฿", "\n");
-        if (commandResult.result == 0) {
-            // killCallback.onKillCallback(pkg, commandResult.successMsg.replace("฿", "\n"));
-        }
-        return null;
     }
 
     private void initApp(ExecutorService executorService) {
@@ -165,12 +235,13 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        init = true;
                         ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载完毕");
                     }
                 });
             }
         });
-       /* AsyncTask 已经弃用
+       /*AsyncTask 已经弃用
          new AsyncTask<Void, Void, List<AppData>>() {
             @Override
             protected List<AppData> doInBackground(Void... voids) {

@@ -1,6 +1,26 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
+
+import android.os.Build;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.AppLockPinScramble;
@@ -12,14 +32,19 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.IsSbnBelongToActiveBu
 import com.sevtinge.hyperceiler.module.hook.securitycenter.NewBoxBlur;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveOpenAppConfirmationPopup;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.UnlockFbo;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.VideoDolbyOpen;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppInfoEntry;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppManagerEntry;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDefaultSort;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.OpenByDefaultSetting;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.BatteryHealth;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTime;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ShowBatteryTemperatureNew;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSmartCharge;
@@ -57,7 +82,11 @@ public class SecurityCenter extends BaseModule {
         initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
         initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
         initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
-        initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            initHook(OpenByDefaultSetting.INSTANCE, mPrefsMap.getBoolean("security_center_app_default_setting"));
+        }
+        initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
+        initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
         // 省电与电池
         // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
@@ -65,6 +94,7 @@ public class SecurityCenter extends BaseModule {
         initHook(UnlockSuperWirelessCharge.INSTANCE, mPrefsMap.getBoolean("security_center_super_wireless_charge"));
         initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
         initHook(UnlockSmartCharge.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_smart_charge"));
+        initHook(BatteryHealth.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_health"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
@@ -101,6 +131,7 @@ public class SecurityCenter extends BaseModule {
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
             initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
         }
+        initHook(new ScLockApp(), mPrefsMap.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(DisableRemoveScreenHoldOn.INSTANCE, mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
@@ -112,6 +143,8 @@ public class SecurityCenter extends BaseModule {
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
         initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
+
+        initHook(new PowerConsumptionRanking(), mPrefsMap.getBoolean("security_center_power_consumption_ranking"));
 
         // initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
 

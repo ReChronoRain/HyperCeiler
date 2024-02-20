@@ -164,6 +164,13 @@
                 android:data="https://github.com/Meetingfate" />
         </Preference>
         <Preference
+            android:summary="GitHub@xing0meng"
+            android:title="星夜萌">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/xing0meng" />
+        </Preference>
+        <Preference
             android:summary="GitHub@lswlc33 / CoolApk@雪中明月_Official"
             android:title="雪中明月">
             <intent

@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.systemui.lockscreen
 
 import android.animation.ValueAnimator
@@ -5,8 +23,8 @@ import android.graphics.drawable.LayerDrawable
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.HookUtils
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.utils.getValueByField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -76,17 +94,17 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     if (!isDefaultLockScreenTheme()) {
                         return
                     }
-                    val mKeyguardBouncerShowing = HookUtils.getValueByField(
+                    val mKeyguardBouncerShowing = getValueByField(
                         param.thisObject,
                         "mKeyguardBouncerShowing"
                     ) as Boolean
                     val mKeyguardBottomArea =
                         XposedHelpers.callMethod(param.thisObject, "getKeyguardBottomArea")
-                    val mLeftAffordanceView = HookUtils.getValueByField(
+                    val mLeftAffordanceView = getValueByField(
                         mKeyguardBottomArea,
                         "mLeftAffordanceView"
                     ) as ImageView
-                    val mRightAffordanceView = HookUtils.getValueByField(
+                    val mRightAffordanceView = getValueByField(
                         mKeyguardBottomArea,
                         "mRightAffordanceView"
                     ) as ImageView
@@ -122,11 +140,11 @@ object AddBlurEffectToLockScreen : BaseHook() {
                         return
                     }
                     val mNotificationStackScroller =
-                        HookUtils.getValueByField(
+                        getValueByField(
                             param.thisObject,
                             "mNotificationStackScroller"
                         ) ?: return
-                    val mKeyguardBouncerShowing = HookUtils.getValueByField(
+                    val mKeyguardBouncerShowing = getValueByField(
                         param.thisObject,
                         "mKeyguardBouncerShowing"
                     ) ?: return
@@ -140,11 +158,11 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     val drawableAlpha = keyguardContentsAlpha * 255
                     val mKeyguardBottomArea =
                         XposedHelpers.callMethod(param.thisObject, "getKeyguardBottomArea")
-                    val mLeftAffordanceView = HookUtils.getValueByField(
+                    val mLeftAffordanceView = getValueByField(
                         mKeyguardBottomArea,
                         "mLeftAffordanceView"
                     ) as ImageView
-                    val mRightAffordanceView = HookUtils.getValueByField(
+                    val mRightAffordanceView = getValueByField(
                         mKeyguardBottomArea,
                         "mRightAffordanceView"
                     ) as ImageView
@@ -348,7 +366,7 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     }
                     val isBouncerShowing = param.args[0] as Boolean
                     val mBouncerFractionAnimator =
-                        HookUtils.getValueByField(
+                        getValueByField(
                             param.thisObject,
                             "mBouncerFractionAnimator"
                         ) ?: return
@@ -375,28 +393,28 @@ object AddBlurEffectToLockScreen : BaseHook() {
                     if (drawableAlpha < 0 || drawableAlpha > 255) {
                         return
                     }
-                    val mNotificationStackScrollLayout = HookUtils.getValueByField(
+                    val mNotificationStackScrollLayout = getValueByField(
                         param.thisObject,
                         "mNotificationStackScrollLayout"
                     ) ?: return
                     // NotificationStackScrollLayoutController
                     val mController =
-                        HookUtils.getValueByField(mNotificationStackScrollLayout, "mController")
+                        getValueByField(mNotificationStackScrollLayout, "mController")
                             ?: return
 
                     val mPanelViewController =
-                        HookUtils.getValueByField(mController, "mPanelViewController") ?: return
+                        getValueByField(mController, "mPanelViewController") ?: return
 
                     val mKeyguardBottomArea =
                         XposedHelpers.callMethod(
                             mPanelViewController,
                             "getKeyguardBottomArea"
                         ) ?: return
-                    val mLeftAffordanceView = HookUtils.getValueByField(
+                    val mLeftAffordanceView = getValueByField(
                         mKeyguardBottomArea,
                         "mLeftAffordanceView"
                     ) as ImageView
-                    val mRightAffordanceView = HookUtils.getValueByField(
+                    val mRightAffordanceView = getValueByField(
                         mKeyguardBottomArea,
                         "mRightAffordanceView"
                     ) as ImageView
@@ -420,11 +438,11 @@ object AddBlurEffectToLockScreen : BaseHook() {
                         return
                     }
                     val isDozing = param.args[0] as Boolean
-                    val mLeftAffordanceView = HookUtils.getValueByField(
+                    val mLeftAffordanceView = getValueByField(
                         param.thisObject,
                         "mLeftAffordanceView"
                     ) as ImageView
-                    val mRightAffordanceView = HookUtils.getValueByField(
+                    val mRightAffordanceView = getValueByField(
                         param.thisObject,
                         "mRightAffordanceView"
                     ) as ImageView

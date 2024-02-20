@@ -231,6 +231,8 @@
     <string name="status_bar_icon_mode_default">Predeterminado</string>
     <string name="status_bar_icon_mode_on">Siempre mostrado</string>
     <string name="status_bar_icon_mode_off">Siempre escondido</string>
+    <string name="status_bar_icon_mode_on_control_center">Se muestra solo en el centro de control</string>
+    <string name="status_bar_icon_mode_on_status_bar">Se muestra solo en la barra de estado</string>
     <string name="status_bar_icon_mode_off_unconnect">Se oculta solo cuando no esté conectado</string>
     <string name="status_bar_icon_mode_on_beforering">Se muestra solo antes de sonar</string>
     <string name="seek_points_roll">Se muestra solo cuando se desliza la pantalla</string>
@@ -376,6 +378,8 @@
     <string name="browser_debug_mode">Desbloquear opciones de desarrollador</string>
     <string name="browser_debug_mode_desc">En versiones de 17.5.xxxxx o superiores no funciona</string>
     <string name="browser_disable_blacklist">Deshabilitar lista negra de URL</string>
+    <string name="browser_enable_debug_environment">Activar entorno de debug</string>
+    <string name="browser_enable_debug_environment_desc">Esto puede resultar en que se desactivan algunas funciones</string>
     <!--Camera-->
     <string name="camera">Cámara</string>
     <string name="camera_custom_watermark">Marca de agua personalizada</string>
@@ -483,6 +487,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">Ocultar el indicador de desbloqueo en el fondo de pantalla</string>
     <string name="system_ui_lock_screen_hide_status_bar">Quitar la barra de estado en la pantalla de bloqueo</string>
     <string name="system_ui_lock_screen_block_editor_title">No se permite la pulsación larga para acceder a la edición de pantalla de bloqueo</string>
+    <string name="system_ui_lock_screen_allow_third_face">Se permite despertar el sistema para verificar el reconocimiento en una pantalla de bloqueo de parte tercero</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">Se permite el reconocimiento de cara y huella normal en la pantalla de bloqueo que muestran las aplicaciones terceros</string>
     <string name="system_ui_navigation_title">Navegación</string>
     <string name="system_ui_navigation_handle_title">Línea indicadora de gesto</string>
     <string name="system_ui_hide_navigation_bar">Ocultar la barra de navegación</string>
@@ -518,7 +524,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Achicar icono</string>
     <string name="system_ui_status_bar_mobile_type_single">Icono separado de tipo de red móvil</string>
     <string name="system_ui_status_bar_mobile_type_left">Mostrar a la izquierda de la señal</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">Mostrar solo tarjetas de red</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de actividad de red móvil</string>
     <string name="system_ui_status_bar_mobile_type_custom">Personalizar texto</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Tamaño de fuente</string>
@@ -534,6 +539,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">Icono de la notificación</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">Batería</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Llamada</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">Dispositivos</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Se muestra el lado izquierdo del icono</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Se muestra el lado derecho del icono</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -566,6 +572,16 @@
     <string name="system_ui_status_bar_icon_mute">Ocultar icono de micrófono silenciado</string>
     <string name="system_ui_status_bar_icon_speakerphone">Ocultar icono del altavoz</string>
     <string name="system_ui_status_bar_icon_call_record">Ocultar icono de grabación</string>
+    <string name="system_ui_status_bar_icon_car">Coche</string>
+    <string name="system_ui_status_bar_icon_pad">Pad</string>
+    <string name="system_ui_status_bar_icon_pc">PC</string>
+    <string name="system_ui_status_bar_icon_phone">Teléfono</string>
+    <string name="system_ui_status_bar_icon_soundbox">Caja de sonido</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">Caja de sonido con pantalla</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">Grupo de cajas de sonido</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">Grupo de cajas de sonido Stereo</string>
+    <string name="system_ui_status_bar_icon_tv">Televisión</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">Auricular inalámbrico</string>
     <string name="system_ui_status_bar_notification_dots_maximum">Número máximo de puntos de notificaciones</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Número máximo de iconos de notificaciones</string>
     <string name="system_ui_status_bar_battery_percent">Ocultar porcentaje de batería</string>
@@ -614,6 +630,8 @@
     <string name="system_ui_statusbar_clock_size">Tamaño de reloj</string>
     <string name="system_ui_statusbar_clock_double_size">Tamaño del reloj de dos filas</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Funciona solo cuando se muestra en dos filas</string>
+    <string name="system_ui_statusbar_clock_fix_color">Corregir color</string>
+    <string name="system_ui_statusbar_clock_fix_color_desc">Características experimentales</string>
     <string name="system_ui_disable_clock_anim">Deshabilite la animación de transición del reloj deslizante en el Centro de notificaciones</string>
     <string name="system_ui_statusbar_indicator_battery_title">Potencia relacionada</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperatura relacionada</string>
@@ -650,7 +668,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Ocultar el toast fuerte inteligente</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Salida de texto corto</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Salida de texto largo</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Salida de animación</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Texto</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este es un largo texto que será salida en forma de desplazamiento</string>
     <string name="system_ui_controlcenter_title">Centro de control</string>
@@ -688,6 +705,9 @@
     <string name="system_ui_control_center_blur_background_alpha">Valor de fondo desenfocado</string>
     <string name="system_ui_control_center_default_background_alpha">Valor de fondo predeterminado</string>
     <string name="system_ui_control_center_fix_media_control_panel">Corregir la imagen de fondo del panel de música</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">Optimizar el efecto de mezcla de colores del panel de control de medios</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radio de borrosidad de imagen de fondo</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidad de la capa de fondo</string>
     <string name="system_ui_control_center_compact_notice">Notificación compacta</string>
     <string name="system_ui_control_center_compact_notice_desc">Reducir el espacio vertical de notificaciones</string>
     <string name="system_ui_control_center_redirect_notice">Redirigir configuraciones de notificación</string>
@@ -698,6 +718,7 @@
     <string name="system_ui_control_center_expand_notification">Expandir notificaciones</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">Cuando la pantalla está encendida, la notificación emergente no reproduce el sonido de indicador</string>
     <string name="system_ui_control_center_rounded_rect">Pegatinas rectángulos redondeados</string>
+    <string name="system_ui_control_center_statusbar_blur">Forzar desenfoque de fondo</string>
     <string name="system_ui_control_center_rounded_rect_radius">Radio de redondeo</string>
     <string name="system_ui_control_center_fix_tiles_list">Desactivar ocultar pegatina del modo extremadamente oscuro</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">Cambiar el centro de control con el panel de notificaciones</string>
@@ -723,7 +744,11 @@
     <string name="system_ui_control_center_more_card_tiles_less">Ninguno</string>
     <string name="system_ui_control_center_more_card_tiles_more">Más</string>
     <string name="system_ui_control_center_more_card_tiles_most">Mayor</string>
+    <string name="system_ui_control_center_unlock_blur_supported">Eliminar restricciones de notificación de burbaja</string>
+    <string name="system_ui_control_center_unlock_blur_supported_desc">No hay restricciones en el desenfoque de fondo para materiales prémium de Xiaomi solo para la eliminación en temas no oficiales</string>
     <string name="system_ui_other_title">Otros</string>
+    <string name="system_ui_disable_volume">Barra de volumen de AOSP</string>
+    <string name="system_ui_disable_volume_desc">La modificación de la barra de volumen de Xiaomi no se aplica a la barra de volumen de AOSP</string>
     <string name="system_ui_charge_animation_title">Animación de carga</string>
     <string name="system_ui_charge_animation_style">Estilo de animación de carga</string>
     <string name="system_ui_charge_animation_style_desc">Seleccione el estilo de animación de carga de la pantalla de bloqueo</string>
@@ -732,6 +757,7 @@
     <string name="system_ui_disable_bluetooth_restrict">Evitar que el bluetooth se apague temporalmente</string>
     <string name="system_ui_disable_miui_multi_win_switch">Ocultar el botón de ventana fácil</string>
     <string name="system_ui_disable_miui_multi_win_switch_desc">Ocultar el botón de ventana fácil centrado en la parte superior de la pantalla horizontal de HyperOS para Pad</string>
+    <string name="system_ui_disable_bottombar">Ocultar el gesto inferior de la ventana pequeña</string>
     <string name="system_ui_others_pct_title">Visualización de datos</string>
     <string name="system_showpct_title">Mostrar el porcentaje de brillo</string>
     <string name="system_cc_volume_showpct_title">Muestra el porcentaje de sonido</string>
@@ -779,6 +805,7 @@
     <string name="system_settings_lab_title">Funciones destacadas</string>
     <string name="system_settings_area_screenshot">Desbloquear la captura de un área</string>
     <string name="system_settings_voip_assistant_controller">Asistente de VoIP</string>
+    <string name="system_settings_display_and_lockscreen_title">Mostrar &amp; Pantalla de bloqueo</string>
     <string name="system_settings_ai_image_unlock_sr">Desbloquear súperresolución</string>
     <string name="system_settings_ai_image_unlock_ai">Desbloquear la mejora de imagen de IA y de IA HDR</string>
     <string name="system_settings_ai_image_unlock_memc">Desbloquear MEMC</string>
@@ -789,6 +816,7 @@
     <string name="system_settings_permission_show_app_up_desc">Usar el comportamiento antiguo de saltar directamente al cambio de permisos de la aplicación correspondiente \"mostrada encima de otras aplicaciones\"</string>
     <string name="system_settings_permission_unknown_origin_app">Permisos de instalar aplicaciones desconocidas sin buscar en la lista de aplicaciones</string>
     <string name="system_settings_permission_unknown_origin_app_desc">Usar el comportamiento internacional de saltar directamente al cambio de permisos de la aplicación correspondiente \"mostrada encima de otras aplicaciones\"</string>
+    <string name="system_settings_permission_accessibility">Permisos de accesibilidad de servicios sin buscar en la lista de aplicaciones</string>
     <string name="system_settings_develop_title">Opciones de desarrollador</string>
     <string name="system_settings_apps_freezer">Forzar mostrar aplicaciones cacheadas</string>
     <string name="system_settings_apps_freezer_more">Una vez activada, esta característica se puede encontrar en \"Opciones de desarrollador\", pero la función no está garantizada</string>
@@ -797,6 +825,7 @@
     <string name="system_settings_window_animation_scale">Zoom de animación de ventana</string>
     <string name="system_settings_transition_animation_scale">Escala de animación de transición</string>
     <string name="system_settings_animator_duration_scale">Escala de duración de animación</string>
+    <string name="system_settings_allow_never_lock_screen">Permitir no bloquear pantalla</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
     <string name="theme_manager_version_code_modify">Desactivar detección de versión de HyperOS/MIUI</string>
@@ -1090,6 +1119,16 @@
     <string name="home_large_icon_corner_radius">Iconos grandes con esquinas redondeadas</string>
     <string name="home_other_app_icon_hide">Administración de iconos del lanzador</string>
     <string name="home_other_toast_slide_again">Prohibir Toast de \"por favor deslícese de nuevo\"</string>
+    <string name="system_framework_guided_access_sc">Está prohibido llamar a la barra lateral cuando está fijada</string>
+    <string name="system_framework_guided_access_screen">Saltar a la pantalla de bloqueo cuando no está fijado</string>
+    <string name="system_framework_guided_access">Aplicaciones fijadas</string>
+    <string name="system_framework_guided_access_will_lock">Bloqueará APP</string>
+    <string name="system_framework_guided_access_lock">Bloquear APP</string>
+    <string name="system_framework_guided_access_unlock">Desbloquear APP</string>
+    <string name="system_framework_guided_access_will_unlock">Desbloqueará APP</string>
+    <string name="system_framework_guided_access_r">Restaurar</string>
+    <string name="system_framework_guided_access_e">Desbloquéelo en la interfaz de la aplicación bloqueada</string>
+    <string name="system_framework_guided_access_more">Acceso guiado semejante a iOS que ancla la aplicación actual a la pantalla\nPara usarlo, presione y mantenga presionada la barra de estado superior y si quieres salir, pulsa y mantén pulsada la barra de estado superior otra vez\nSi es la primera vez que lo use, necesita reiniciar el dispositivo.</string>
     <string name="home_other_shortcut_remove_restrictions">Eliminar restricciones de cantidad de atajos</string>
     <string name="home_other_fix_android_r_s">Corregir el problema de compatibilidad que hace el fondo de inicio negro</string>
     <string name="home_other_shortcut_background_blur_custom">Valor del desenfoque del menú de atajos</string>
@@ -1109,6 +1148,8 @@
     <string name="mediaeditor_ai_authoring">Autorización de IA</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear características de personalización de Disney</string>
     <string name="mediaeditor_unlock_disney_desc">Se desbloquean las siguientes características:\n- Marcos personalizados - Marcos personalizados de Disney (en conflicto con otros marcos personalizados)\n- Viñeteado de fondo - Viñeteado de fondo de Mickey\n- Pegatinas - Pegatinas de Disney</string>
+    <string name="mediaeditor_unlock_spring_title">Desbloquear fotogramas personalizados de Año Nuevo Chino</string>
+    <string name="mediaeditor_unlock_spring_desc">Para añadir permanentemente un marco personalizado de Año Nuevo Chino, lo esencial es un marco de imagen personalizado de Leica o un marco de imagen personalizado Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear el límite mínimo de recorte de imagen</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizar el tipo de marco</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtros de Leica</string>
@@ -1189,6 +1230,8 @@
     <string name="security_center_newbox_title">Barra lateral</string>
     <string name="security_center_dolby_open">Cerrar la ventana emergente de Dolby</string>
     <string name="security_center_show_battery_temperature">Mostrar temperatura de batería</string>
+    <string name="security_center_show_battery_health">Mostrar estado detallado de la batería</string>
+    <string name="security_center_show_battery_health_desc">Solo en últimas versiones se funciona</string>
     <string name="security_center_ai_clipboard">Proteger el portapapeles</string>
     <string name="security_center_blur_location">Menor precisión de posicionamiento</string>
     <string name="security_center_gms_open">Servicio de GMS</string>
@@ -1368,6 +1411,7 @@
     <string name="various_super_clipboard_files_desc">Permitir copiar archivos al portapapeles</string>
     <string name="various_super_clipboard_picture_share_desc">Permitir copiar y pegar imágenes en el portapapeles</string>
     <string name="various_open_aosp_battery_title">Optimización de batería</string>
+    <string name="various_open_aosp_running_services">Servicios en ejecución</string>
     <string name="various_open_aosp_notification_title">Configuraciones de notificaciones</string>
     <string name="various_open_aosp_app_manage_title">Administración de aplicaciones</string>
     <string name="various_open_aosp_language_title">Ajuste de idioma</string>
@@ -1467,7 +1511,13 @@
     <string name="log_level_none">Desactivar registro</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
+    <string name="security_center_aosp_app_info_label">Información de aplicación de AOSP</string>
+    <string name="security_center_aosp_app_info">Añadir entrada de información de aplicación de AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Administrador de aplicaciones de AOSP</string>
+    <string name="security_center_aosp_app_manager">Añadir entrada de administrador de aplicaciones de AOSP</string>
+    <string name="security_center_power_consumption_ranking">Se muestra la clasificación de consumo de energía</string>
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
     <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de Re.chronoRain, que puede contener código malicioso.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
+    <string name="happy_chinese_new_year">Feliz Año Nuevo Chino</string>
 </resources>

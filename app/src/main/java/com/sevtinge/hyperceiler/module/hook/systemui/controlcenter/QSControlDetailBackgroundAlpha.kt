@@ -1,9 +1,27 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.graphics.drawable.Drawable
 import android.view.View
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.HookUtils
+import com.sevtinge.hyperceiler.utils.getValueByField
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -22,7 +40,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val mDetailContainer =
-                            HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                            getValueByField(param.thisObject, "mDetailContainer") as View
                         if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha
@@ -39,7 +57,8 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                 "updateBackground",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val mDetailContainer = HookUtils.getValueByField(param.thisObject, "mDetailContainer") as View
+                        val mDetailContainer =
+                            getValueByField(param.thisObject, "mDetailContainer") as View
                         if (mDetailContainer.background != null) {
                             val smoothRoundDrawable = mDetailContainer.background
                             smoothRoundDrawable.alpha = qSControlDetailBackgroundAlpha
@@ -93,7 +112,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                         }
                         try {
                             val pluginContextWrapper =
-                                HookUtils.getValueByField(param.result ?: return, "mPluginContext") ?: return
+                                getValueByField(param.result ?: return, "mPluginContext") ?: return
                             val classLoader = XposedHelpers.callMethod(
                                 pluginContextWrapper,
                                 "getClassLoader"
@@ -125,7 +144,7 @@ object QSControlDetailBackgroundAlpha : BaseHook() {
                         }
                         try {
                             val pluginContextWrapper =
-                                HookUtils.getValueByField(param.result ?: return, "mPluginContext")
+                                getValueByField(param.result ?: return, "mPluginContext")
                                     ?: return
                             val classLoader = XposedHelpers.callMethod(
                                 pluginContextWrapper,

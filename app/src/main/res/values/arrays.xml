@@ -5,7 +5,6 @@
         <item>android</item>
         <item>com.android.browser</item>
         <item>com.android.camera</item>
-        <item>com.android.deskclock</item>
         <item>com.android.externalstorage</item>
         <item>com.android.fileexplorer</item>
         <item>com.android.incallui</item>
@@ -39,9 +38,7 @@
         <item>com.miui.notes</item>
         <item>com.miui.packageinstaller</item>
         <item>com.miui.personalassistant</item>
-        <item>com.miui.player</item>
         <item>com.miui.powerkeeper</item>
-        <item>com.miui.rom</item>
         <item>com.miui.screenrecorder</item>
         <item>com.miui.screenshot</item>
         <item>com.miui.securityadd</item>
@@ -54,7 +51,6 @@
         <item>com.xiaomi.barrage</item>
         <item>com.xiaomi.joyose</item>
         <item>com.xiaomi.market</item>
-        <item>com.xiaomi.mirror</item>
         <item>com.xiaomi.misettings</item>
         <item>com.xiaomi.mtb</item>
         <item>com.xiaomi.NetworkBoost</item>
@@ -222,6 +218,14 @@
         <item>@string/status_bar_icon_mode_off</item>
     </string-array>
 
+    <string-array name="status_bar_icon_mode_new">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_control_center</item>
+        <item>@string/status_bar_icon_mode_on_status_bar</item>
+        <item>@string/status_bar_icon_mode_off</item>
+    </string-array>
+
     <string-array name="control_center_sunshine_mode">
         <item>@string/control_center_sunshine_mode_default</item>
         <item>@string/control_center_sunshine_mode_one</item>
@@ -256,6 +260,14 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="status_bar_icon_mode_new_value">
+        <item>0</item>
+        <item>1</item>
+        <item>11</item>
+        <item>12</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="usb_mode_choose_value">
         <item>0</item>
         <item>1</item>
@@ -269,6 +281,7 @@
     <string-array name="status_bar_icon_mobile_network_type">
         <item>@string/status_bar_icon_mode_default</item>
         <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_non_wifi</item>
         <item>@string/status_bar_icon_mode_off</item>
         <item>@string/status_bar_icon_mode_off_unconnect</item>
     </string-array>
@@ -278,6 +291,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="status_bar_icon_alarm_clock">
@@ -307,6 +321,25 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="status_bar_icon_bluetooth_new">
+        <item>@string/status_bar_icon_mode_default</item>
+        <item>@string/status_bar_icon_mode_on</item>
+        <item>@string/status_bar_icon_mode_on_control_center</item>
+        <item>@string/status_bar_icon_mode_on_status_bar</item>
+        <item>@string/status_bar_icon_mode_off</item>
+        <item>@string/status_bar_icon_mode_off_unconnect</item>
+    </string-array>
+
+    <string-array name="status_bar_icon_bluetooth_new_value">
+        <item>0</item>
+        <item>1</item>
+        <item>11</item>
+        <item>12</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 
     <string-array name="folder_shade">
         <item>@string/array_default</item>

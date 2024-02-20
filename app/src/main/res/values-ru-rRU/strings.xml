@@ -517,7 +517,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Масштабирование значка</string>
     <string name="system_ui_status_bar_mobile_type_single">Значок типа мобильной сети отображается отдельно</string>
     <string name="system_ui_status_bar_mobile_type_left">Отображать слева от сигнала</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">Показывать только сетевые карты</string>
     <string name="system_ui_status_bar_mobile_indicator">Скрыть индикаторы активности мобильной сети</string>
     <string name="system_ui_status_bar_mobile_type_custom">Свой текст</string>
     <string name="system_ui_statusbar_mobile_type_font_size">Размер шрифта</string>
@@ -649,7 +648,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">Hide the smart strong toast</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">Короткий текст вывода</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">Длинный текст вывода</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">Анимация вывода</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Текст</string>
     <string name="system_ui_controlcenter_title">Центр управления</string>
     <string name="system_ui_controlcenter_card_title">Карта</string>

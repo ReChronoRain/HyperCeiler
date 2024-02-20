@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter
 
 import android.annotation.SuppressLint
@@ -24,29 +42,29 @@ object NotificationWeatherNew : BaseHook() {
         val mControlCenterDateViewClass =
             loadClass("com.android.systemui.controlcenter.phone.widget.ControlCenterDateView")
 
-        mControlCenterDateViewClass.methodFinder().findSuper().first {
-            name == "onDetachedFromWindow"
-        }.createHook {
-            before {
-                if ((it.thisObject as TextView).id == clockId && this@NotificationWeatherNew::weather.isInitialized) {
-                    weather.onDetachedFromWindow()
+        mControlCenterDateViewClass.methodFinder().findSuper()
+            .filterByName("onDetachedFromWindow")
+            .single().createHook {
+                before {
+                    if ((it.thisObject as TextView).id == clockId && this@NotificationWeatherNew::weather.isInitialized) {
+                        weather.onDetachedFromWindow()
+                    }
                 }
             }
-        }
-        mControlCenterDateViewClass.methodFinder().findSuper().first {
-            name == "setText"
-        }.createHook {
-            before {
-                val time = it.args[0]?.toString()
-                val view = it.thisObject as TextView
-                if (view.id == clockId && time != null && this@NotificationWeatherNew::weather.isInitialized) {
-                    // val layout = view.layoutParams as ViewGroup.MarginLayoutParams
-                    // val y = view.height / 2
-                    // layout.topMargin = -y
-                    it.args[0] = "${weather.weatherData}$time"
+        mControlCenterDateViewClass.methodFinder().findSuper()
+            .filterByName("setText")
+            .single().createHook {
+                before {
+                    val time = it.args[0]?.toString()
+                    val view = it.thisObject as TextView
+                    if (view.id == clockId && time != null && this@NotificationWeatherNew::weather.isInitialized) {
+                        // val layout = view.layoutParams as ViewGroup.MarginLayoutParams
+                        // val y = view.height / 2
+                        // layout.topMargin = -y
+                        it.args[0] = "${weather.weatherData}$time"
+                    }
                 }
             }
-        }
 
         val pluginLoaderClass =
             if (isAndroidVersion(34)) "com.android.systemui.shared.plugins.PluginInstance\$Factory\$\$ExternalSyntheticLambda0"
@@ -89,17 +107,17 @@ object NotificationWeatherNew : BaseHook() {
                 }
             )
         } else {
-            loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder().first {
-                name == "getClassLoader"
-            }.createHook {
-                after { getClassLoader ->
-                    appInfo = getClassLoader.args[0] as ApplicationInfo
-                    if (appInfo!!.packageName == "miui.systemui.plugin") {
-                        val classLoader = getClassLoader.result as ClassLoader
-                        mainPanelHeader(classLoader)
+            loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
+                .filterByName("getClassLoader")
+                .single().createHook {
+                    after { getClassLoader ->
+                        appInfo = getClassLoader.args[0] as ApplicationInfo
+                        if (appInfo!!.packageName == "miui.systemui.plugin") {
+                            val classLoader = getClassLoader.result as ClassLoader
+                            mainPanelHeader(classLoader)
+                        }
                     }
                 }
-            }
         }
     }
 
@@ -109,9 +127,7 @@ object NotificationWeatherNew : BaseHook() {
         loadClass(
             "miui.systemui.controlcenter.windowview.MainPanelHeaderController",
             pluginClassLoader
-        ).methodFinder().first {
-            name == "addClockViews"
-        }.createHook {
+        ).methodFinder().filterByName("addClockViews").single().createHook {
             after {
                 val dateView =
                     it.thisObject.getObjectFieldOrNullAs<TextView>("dateView")!!

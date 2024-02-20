@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.view
 
 import android.annotation.SuppressLint
@@ -15,18 +33,16 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
 
     private val mContext: Context
     private val weatherUri = Uri.parse("content://weather/weather")
-    private val mHandler: Handler
+    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(message: Message) {
+            val str = message.obj as String
+            this@WeatherView.text = if (TextUtils.isEmpty(str)) " " else str
+        }
+    }
     private val mWeatherObserver: ContentObserver?
     private val mWeatherRunnable: WeatherRunnable
 
     init {
-        mHandler =
-            object : Handler(Looper.getMainLooper()) {
-                override fun handleMessage(message: Message) {
-                    val str = message.obj as String
-                    this@WeatherView.text = if (TextUtils.isEmpty(str)) " " else str
-                }
-            }
         mWeatherObserver = WeatherContentObserver(mHandler)
         mContext = context!!
         mWeatherRunnable = WeatherRunnable()

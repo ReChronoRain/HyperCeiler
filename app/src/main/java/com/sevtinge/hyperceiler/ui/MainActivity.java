@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui;
 
 import android.content.Intent;
@@ -6,30 +24,18 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
-import com.sevtinge.hyperceiler.utils.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.PropUtils;
-import com.sevtinge.hyperceiler.utils.SearchHelper;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.utils.search.SearchHelper;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import moralnorm.appcompat.app.AlertDialog;
 
 public class MainActivity extends NavigationActivity {
-    private static final String TAG = ITAG.TAG;
-    private final String path = "/sdcard/Android/hy_crash/";
-    /*ExecutorService executorService;
-    Handler handler;*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class MainActivity extends NavigationActivity {
         super.onCreate(savedInstanceState);
         new Thread(() -> SearchHelper.getAllMods(MainActivity.this, savedInstanceState != null)).start();
         Helpers.checkXposedActivateState(this);
+        ShellInit.init();
         if (!PropUtils.setProp("persist.hyperceiler.log.level",
             (ProjectApi.isRelease() ? def : ProjectApi.isCanary() ? (def == 0 ? 3 : 4) : def))) {
             new AlertDialog.Builder(this)
@@ -47,52 +54,26 @@ public class MainActivity extends NavigationActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
         }
-        /*executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        handler = new Handler();
-        // Intent intent = new Intent(this, CrashService.class);
-        // startService(intent);
-        // checkCrash();*/
+        // test();
     }
 
-    /*private void checkCrash() {
-        executorService.submit(() -> {
-            handler.post(() -> {
-                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("ls " + path, false, true);
-                List<String> success = null;
-                List<String> have = new ArrayList<>();
-                List<String> get = new ArrayList<>();
-                if (commandResult.result == 0) {
-                    success = commandResult.successMsg;
-                }
-                if (success != null) {
-                    for (String s : success) {
-                        // AndroidLogUtils.LogI(TAG, "rss: " + s);
-                        Pattern pattern = Pattern.compile("(.*)_(.*)");
-                        Matcher matcher = pattern.matcher(s);
-                        if (matcher.find()) {
-                            if (Integer.parseInt(matcher.group(2)) >= 3) {
-                                have.add(matcher.group(1));
-                                get.add(s);
-                            }
-                        }
-                    }
-                }
-                if (!have.isEmpty() || !get.isEmpty()) {
-                    new AlertDialog.Builder(this)
-                        .setCancelable(false)
-                        .setTitle(getResources().getString(R.string.tip))
-                        .setMessage("此作用域进入安全模式： " + have.toString() + "\n点击确定解除")
-                        .setHapticFeedbackEnabled(true)
-                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                            for (String s : get) {
-                                ShellUtils.execCommand("rm -rf " + path + s, false, false);
-                            }
-                        })
-                        .show();
-                }
-            });
-        });
-    }*/
+    @Override
+    protected void onDestroy() {
+        ShellInit.destroy();
+        super.onDestroy();
+    }
+
+    public void test() {
+        /*boolean ls = shellExec.append("ls").sync().isResult();
+        AndroidLogUtils.LogI(ITAG.TAG, "ls: " + ls);
+        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString() + shellExec.getError().toString());
+        boolean f = shellExec.append("for i in $(seq 1 500); do echo $i; done").isResult();
+        AndroidLogUtils.LogI(ITAG.TAG, "for: " + f);
+        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());
+        boolean k = shellExec.append("for i in $(seq 1 500); do echo $i; done").sync().isResult();
+        AndroidLogUtils.LogI(ITAG.TAG, "fork: " + k);
+        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());*/
+    }
 
     private void requestCta() {
         /*if (!CtaUtils.isCtaEnabled(this)) {

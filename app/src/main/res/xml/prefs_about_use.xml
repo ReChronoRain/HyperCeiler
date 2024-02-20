@@ -150,13 +150,6 @@
                 android:data="https://github.com/zerorooot/HideMiuiClipboardDialog" />
         </Preference>
         <Preference
-            android:summary="HowieHChen | GPL-3.0"
-            android:title="Hyper Helper">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/HowieHChen/XiaomiHelper/" />
-        </Preference>
-        <Preference
             android:summary="buffcow | Apache-2.0"
             android:title="HyperSmartCharge">
             <intent
@@ -176,6 +169,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/YifePlayte/MaxFreeForm" />
+        </Preference>
+        <Preference
+            android:summary="YuKongA | No License"
+            android:title="MediaControl-BlurBg">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/YuKongA/MediaControl-BlurBg" />
         </Preference>
         <Preference
             android:summary="qqlittleice | GPL-3.0"
@@ -241,6 +241,13 @@
                 android:data="https://github.com/Haocen2004/PortalHook" />
         </Preference>
         <Preference
+            android:summary="焕晨HChen | GPL-3.0"
+            android:title="PinningApp">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HChenX/PinningApp" />
+        </Preference>
+        <Preference
             android:summary="gfbjngjibn | GPL-3.0"
             android:title="RemoveMiuiSystemSelfProtection">
             <intent
@@ -295,6 +302,13 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/Simplicity-Team/WooBoxForMIUI" />
+        </Preference>
+        <Preference
+            android:summary="HowieHChen | GPL-3.0"
+            android:title="XiaomiHelper">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/HowieHChen/XiaomiHelper" />
         </Preference>
         <Preference
             android:summary="rovo89, Tungstwenty | Apache-2.0"

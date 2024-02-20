@@ -231,6 +231,8 @@
     <string name="status_bar_icon_mode_default">デフォルト</string>
     <string name="status_bar_icon_mode_on">常に表示</string>
     <string name="status_bar_icon_mode_off">常に非表示</string>
+    <string name="status_bar_icon_mode_on_control_center">コントロールセンターでのみ表示</string>
+    <string name="status_bar_icon_mode_on_status_bar">ステータスバーにのみ表示</string>
     <string name="status_bar_icon_mode_off_unconnect">未接続時のみ非表示</string>
     <string name="status_bar_icon_mode_on_beforering">着信の前にのみ表示</string>
     <string name="seek_points_roll">画面をスワイプしたときにのみ表示</string>
@@ -485,6 +487,8 @@
     <string name="system_ui_lock_screen_unlock_tip_title">画面下部のロック解除プロンプトを非表示</string>
     <string name="system_ui_lock_screen_hide_status_bar">ロック画面からステータスバーを削除</string>
     <string name="system_ui_lock_screen_block_editor_title">長押しでのロック画面の編集を無効化</string>
+    <string name="system_ui_lock_screen_allow_third_face">サードパーティのロック画面で、認証を検証するためのシステム起動を許可</string>
+    <string name="system_ui_lock_screen_allow_third_face_desc">サードパーティアプリにより表示されたロック画面で、顔認証と指紋認証を使えるようにします</string>
     <string name="system_ui_navigation_title">ナビゲーション</string>
     <string name="system_ui_navigation_handle_title">ハンドルライン</string>
     <string name="system_ui_hide_navigation_bar">ナビゲーションバーを非表示</string>
@@ -520,7 +524,6 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">アイコンの大きさ</string>
     <string name="system_ui_status_bar_mobile_type_single">モバイルネットワークタイプのアイコンを別々に表示</string>
     <string name="system_ui_status_bar_mobile_type_left">信号の左側に表示</string>
-    <string name="system_ui_status_bar_mobile_type_only_show_network">ネットワークカードのみ表示</string>
     <string name="system_ui_status_bar_mobile_indicator">モバイルネットワークアクティビティインジケーターを非表示</string>
     <string name="system_ui_status_bar_mobile_type_custom">カスタムテキスト</string>
     <string name="system_ui_statusbar_mobile_type_font_size">フォントのサイズ</string>
@@ -536,6 +539,7 @@
     <string name="system_ui_statusbar_iconmanage_notify_title">通知アイコン</string>
     <string name="system_ui_statusbar_iconmanage_battery_title">バッテリー</string>
     <string name="system_ui_statusbar_iconmanage_call_title">通話</string>
+    <string name="system_ui_statusbar_iconmanage_devices_title">デバイス</string>
     <string name="system_ui_statusbar_iconmanage_left_title">アイコンを左側に表示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">アイコンを右側に表示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -568,6 +572,16 @@
     <string name="system_ui_status_bar_icon_mute">ミュートされたマイクアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_speakerphone">スピーカーフォンのアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_call_record">録画アイコンを非表示</string>
+    <string name="system_ui_status_bar_icon_car">車</string>
+    <string name="system_ui_status_bar_icon_pad">タブレット</string>
+    <string name="system_ui_status_bar_icon_pc">PC</string>
+    <string name="system_ui_status_bar_icon_phone">スマートフォン</string>
+    <string name="system_ui_status_bar_icon_soundbox">サウンドボックス</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">画面付きサウンドボックス</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">サウンドボックスグループ</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">サウンドボックスのグループステレオ</string>
+    <string name="system_ui_status_bar_icon_tv">テレビ</string>
+    <string name="system_ui_status_bar_icon_wireless_headset">ワイヤレスヘッドセット</string>
     <string name="system_ui_status_bar_notification_dots_maximum">通知ドットの最大数</string>
     <string name="system_ui_status_bar_notification_icon_maximum">表示する通知アイコンの最大数</string>
     <string name="system_ui_status_bar_battery_percent">バッテリー残量を非表示</string>
@@ -654,7 +668,6 @@
     <string name="system_ui_status_bar_strong_toast_hide">スマートストロングトーストを隠す</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text">短いテキスト出力</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text">長いテキスト出力</string>
-    <string name="system_ui_status_bar_strong_toast_test_video">アニメーション出力</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">テキスト</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">これはスクロール形式で出力される長いテキストです</string>
     <string name="system_ui_controlcenter_title">コントロールセンター</string>
@@ -692,16 +705,20 @@
     <string name="system_ui_control_center_blur_background_alpha">背景ぼかしの値</string>
     <string name="system_ui_control_center_default_background_alpha">デフォルトの背景値</string>
     <string name="system_ui_control_center_fix_media_control_panel">メディアコントロールパネルを修正</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
     <string name="system_ui_control_center_compact_notice">コンパクトな通知</string>
     <string name="system_ui_control_center_compact_notice_desc">通知の縦方向の余白を減らします</string>
     <string name="system_ui_control_center_redirect_notice">通知設定をリダイレクト</string>
-    <string name="system_ui_control_center_redirect_notice_desc">通知メニューの設定を開いたとき、通知設定の適用ではなくターゲットチャンネルの設定に移動します</string>
+    <string name="system_ui_control_center_redirect_notice_desc">通知メニューの設定を開いたとき、通知設定を適用するのではなくターゲットアプリの通知チャンネル設定に移動します</string>
     <string name="system_ui_control_center_show_weather">天気を表示</string>
     <string name="system_ui_control_center_show_weather_city">都市を表示</string>
     <string name="system_ui_control_center_mute_visible_notice">画面が ON のときはミュートする</string>
     <string name="system_ui_control_center_expand_notification">通知を展開</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">画面がオンになっているとき、ポップアップ通知でプロンプト音を再生しません</string>
     <string name="system_ui_control_center_rounded_rect">丸みを帯びた長方形のタイル</string>
+    <string name="system_ui_control_center_statusbar_blur">強制的に背景をぼかす</string>
     <string name="system_ui_control_center_rounded_rect_radius">角丸の半径</string>
     <string name="system_ui_control_center_fix_tiles_list">さらに輝度を下げるタイルの非表示を無効化</string>
     <string name="system_ui_control_center_switch_cc_and_notification_title">コントロールセンターと通知ドロワーを切り替え</string>
@@ -737,7 +754,8 @@
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_disable_bluetooth_restrict">Bluetooth が一時的にオフにされないようにする</string>
     <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">HyperOS for Pad 横画面の上部にあるコンビニエンスウインドウボタンを非表示にします</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">三つのドットとスモールウィンドウの上部、HyperOS for Pad 横画面時の上部中央にあるボタンを非表示にします。機能には影響しません</string>
+    <string name="system_ui_disable_bottombar">スモールウィンドウの下部ジェスチャーバーを隠す</string>
     <string name="system_ui_others_pct_title">データ表示</string>
     <string name="system_showpct_title">明るさのパーセンテージを表示</string>
     <string name="system_cc_volume_showpct_title">音のパーセンテージを表示</string>
@@ -796,6 +814,7 @@
     <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
     <string name="system_settings_permission_unknown_origin_app">アプリ一覧を検索せずに「不明なアプリのインストール」権限を表示</string>
     <string name="system_settings_permission_unknown_origin_app_desc">「不明なアプリのインストール」の権限スイッチに直接移動する、グローバル版と同様の動作にします</string>
+    <string name="system_settings_permission_accessibility">アプリ一覧を検索せずにユーザー補助サービスの権限を付与</string>
     <string name="system_settings_develop_title">開発者オプション</string>
     <string name="system_settings_apps_freezer">「キャッシュに保存されたアプリの実行を停止」を強制的に表示</string>
     <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、動作するかは不明です</string>
@@ -1098,14 +1117,16 @@
     <string name="home_large_icon_corner_radius">角丸の大きなアイコン</string>
     <string name="home_other_app_icon_hide">デスクトップのショートカット管理</string>
     <string name="home_other_toast_slide_again">「もう一度スライドしてください」トーストを禁止</string>
-    <string name="home_other_lock_app">アプリのロック</string>
-    <string name="home_other_lock_app_will_lock">現在のアプリをすぐにロック</string>
-    <string name="home_other_lock_app_lock">現在のアプリをロック</string>
-    <string name="home_other_lock_app_unlock">現在のアプリのロックを解除</string>
-    <string name="home_other_lock_app_will_unlock">現在のアプリのロックを解除</string>
-    <string name="home_other_lock_app_r">戻す</string>
-    <string name="home_other_lock_app_e">ロックされたアプリの画面からロックを解除してください</string>
-    <string name="home_other_lock_app_more">画面の下部を長押しすると入ったり終了したりできます。初回利用時はシステム再起動が必要です</string>
+    <string name="system_framework_guided_access_sc">ピン留め時にサイドバーを呼び出すことはできません</string>
+    <string name="system_framework_guided_access_screen">固定解除時にロック画面へ移動</string>
+    <string name="system_framework_guided_access">アプリのロック</string>
+    <string name="system_framework_guided_access_will_lock">現在のアプリをすぐにロック</string>
+    <string name="system_framework_guided_access_lock">現在のアプリをロック</string>
+    <string name="system_framework_guided_access_unlock">現在のアプリのロックを解除</string>
+    <string name="system_framework_guided_access_will_unlock">現在のアプリのロックをすぐに解除</string>
+    <string name="system_framework_guided_access_r">戻す</string>
+    <string name="system_framework_guided_access_e">ロックされたアプリの画面からロックを解除してください</string>
+    <string name="system_framework_guided_access_more">現在のアプリを画面にピン留めする、iOS のアクセスガイド風の機能です\nステータスバー上部を長押しすると使用でき、再度ステータスバー上部を長押しすると終了できます\n初回利用時はシステム再起動が必要です</string>
     <string name="home_other_shortcut_remove_restrictions">ショートカットの制限を無効化</string>
     <string name="home_other_fix_android_r_s">デスクトップが黒く表示される互換性の問題を修正</string>
     <string name="home_other_shortcut_background_blur_custom">ショートカットメニューのぼかし値</string>
@@ -1125,6 +1146,8 @@
     <string name="mediaeditor_ai_authoring">AI オーサリング</string>
     <string name="mediaeditor_unlock_disney_title">ディズニーのカスタマイズ機能をアンロック</string>
     <string name="mediaeditor_unlock_disney_desc">以下の機能をアンロックします:\n- カスタムフレーム - ディズニーカスタムフレーム (他のカスタムフレームと競合します)\n- ボケ背景 - ミッキーモチーフ\n- ステッカー - ディズニーステッカー</string>
+    <string name="mediaeditor_unlock_spring_title">旧正月カスタムピクチャーフレームをアンロック</string>
+    <string name="mediaeditor_unlock_spring_desc">旧正月カスタム画像フレームを追加するには前提条件として、Leica または Redmi のカスタムピクチャーフレームが必要です。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">画像トリミングの最小制限を無効化</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">フレームの種類をカスタマイズ</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>
@@ -1192,7 +1215,7 @@
     <string name="screenshot_unlock_privacy_marking_desc">「Mi AI Engine」のより新しいバージョンがプリインストールされている必要があります</string>
     <string name="screenshot_save_to_pictures_desc">スクリーンショットの保存場所を /Pictures/Screenshots に設定します</string>
     <string name="screenshot_device_customize_title">デバイスフレームに使うモデルをカスタム</string>
-    <string name="screenshot_device_customize_desc">モデルコードを入力してください</string>
+    <string name="screenshot_device_customize_desc">デバイスコードを入力してください。色はアンダーバーで繋げて入力してください。例：\n- Xiaomi 13の場合...fuxi\n- Xiaomi 14 ピンク色の場合...houji_PK</string>
     <!--Security/Tablet security center-->
     <string name="security_center">セキュリティ</string>
     <string name="security_center_pad">タブレットのセキュリティセンター</string>
@@ -1483,7 +1506,13 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
+    <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
+    <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
+    <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
+    <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
+    <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>
+    <string name="happy_chinese_new_year">明けましておめでとうございます</string>
 </resources>

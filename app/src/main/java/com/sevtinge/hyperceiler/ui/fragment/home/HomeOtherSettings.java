@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.home;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -11,10 +29,11 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.SwitchPreference;
 
-public class HomeOtherSettings extends SettingsPreferenceFragment {
+public class HomeOtherSettings extends SettingsPreferenceFragment{
 
     SwitchPreference mFixAndroidRS;
     SwitchPreference mEnableMoreSettings;
+
 
     @Override
     public int getContentResId() {
@@ -23,7 +42,7 @@ public class HomeOtherSettings extends SettingsPreferenceFragment {
 
     @Override
     public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity)getActivity()).showRestartDialog(
+        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
             getResources().getString(R.string.mihome),
             "com.miui.home"
         );
@@ -33,8 +52,8 @@ public class HomeOtherSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mFixAndroidRS = findPreference("prefs_key_home_other_fix_android_r_s");
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
-
         mFixAndroidRS.setVisible(!isMoreAndroidVersion(33));
         mEnableMoreSettings.setVisible(isPad());
     }
+
 }

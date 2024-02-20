@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="@string/system_ui_charge_animation_title">
+    <PreferenceCategory
+        android:title="@string/system_ui_charge_animation_title"
+        android:key="prefs_key_system_ui_statusbar_charge_animation_title" >
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_charge_animation_style"
@@ -84,8 +86,19 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_bottombar"
+            android:title="@string/system_ui_disable_bottombar" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_disable_bluetooth_restrict"
             android:title="@string/system_ui_disable_bluetooth_restrict" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_volume"
+            android:summary="@string/system_ui_disable_volume_desc"
+            android:title="@string/system_ui_disable_volume" />
 
         <SwitchPreference
             android:defaultValue="false"

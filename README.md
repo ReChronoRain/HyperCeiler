@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="" src="/imgs/icon.png" width=160 height=160 align="center">
+<img src="/imgs/icon.png" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon">
 
 # HyperCeiler
 
@@ -31,67 +31,63 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 <details>
     <summary>点击展开折叠的内容</summary>
 
-| 应用名                         | 包名                                |
-|:------------------------------|:-----------------------------------|
-| 系统框架                       | system                              |
-| 系统界面                       | com.android.systemui                |
-| 系统桌面                       | com.miui.home                       |
-| 系统更新                       | com.android.updater                 |
-| Joyose                        | com.xiaomi.joyose                   |
-| 小米设置                       | com.xiaomi.misettings               |
-| 安全服务 (手机管家、平板管家)    | com.miui.securitycenter              |
-| 笔记                           | com.miui.notes                     |
-| 壁纸                           | com.miui.miwallpaper               |
-| 传送门                         | com.miui.contentextension          |
-| 弹幕通知                       | com.xiaomi.barrage                  |
-| 百度输入法小米版                | com.baidu.input_mi                  |
-| 电话                           | com.android.incallui               |
-| 电话服务                       | com.android.phone                   |
-| 电量与性能                     | com.miui.powerkeeper                |
-| 短信                           | com.android.mms                    |
-| 截屏                           | com.miui.screenshot                |
-| 垃圾清理                       | com.miui.cleanmaster                |
-| 浏览器                         | com.android.browser                 |
-| 鲁班（MTB）                    | com.xiaomi.mtb                      |
-| 屏幕录制                       | com.miui.screenrecorder             |
-| 权限管理服务                    | com.lbe.security.miui               |
-| 设置                           | com.android.settings                |
-| 搜狗输入法小米版                | com.sohu.inputmethod.sogou.xiaomi    |
-| 天气                           | com.miui.weather2                   |
-| 互联互通服务 (投屏)             | com.milink.service                   |
-| 外部存储设备                    | com.android.externalstorage         |
-| 息屏与锁屏编辑 (万象息屏)        | com.miui.aod                         |
-| 文件管理                        | com.android.fileexplorer            |
-| 系统服务组件                    | com.miui.securityadd                 |
-| 下载管理                        | com.android.providers.downloads.ui  |
-| 下载管理程序                    | com.android.providers.downloads      |
-| 相册                           | com.miui.gallery                    |
-| 小米创作                        | com.miui.creation                   |
-| 小米互传                        | com.miui.mishare.connectivity       |
-| 小米相册 - 编辑                  | com.miui.mediaeditor                |
-| 小米云服务                       | com.miui.cloudservice               |
-| 小米智能卡                       | com.miui.tsmclient                  |
-| 讯飞输入法小米版                 | com.iflytek.inputmethod.miui         |
-| 应用包管理组件                   | com.miui.packageinstaller            |
-| 应用商店                        | com.xiaomi.market                   |
-| 智能助理                        | com.miui.personalassistant          |
-| 主题商店 (主题壁纸、壁纸与个性化)   | com.android.thememanager            |
-| com.miui.rom                   | com.miui.rom                        |
-| 系统安全组件                     | com.miui.guardprovider               |
-| 时钟                            | com.android.deskclock                |
-| 相机                            | com.android.camera                   |
-| 小爱翻译                         | com.xiaomi.aiasst.vision            |
-| 小爱建议                         | com.xiaomi.aireco                   |
-| 小爱视觉                         | com.xiaomi.scanner                  |
-| 小爱同学                         | com.miui.voiceassist                |
-| 音乐                             | com.miui.player                    |
-| 跨屏协同服务 (MIUI+ Beta 版)      | com.xiaomi.mirror                   |
-| NetworkBoost                    | com.xiaomi.NetworkBoost            |
-| NFC 服务                         | com.android.nfc                     |
-| 音质音效                          | com.miui.misound                   |
-| 备份                             | com.miui.backup                     |
-| 小米换机                          | com.miui.huanji                     |
-| MiTrustService                   | com.xiaomi.trustservice            |
+| 应用名                   | 包名                                 |
+|:----------------------|:-----------------------------------|
+| 系统框架                  | system                             |
+| 系统界面                  | com.android.systemui               |
+| 系统桌面                  | com.miui.home                      |
+| 系统更新                  | com.android.updater                |
+| Joyose                | com.xiaomi.joyose                  |
+| 小米设置                  | com.xiaomi.misettings              |
+| 安全服务 (手机管家、平板管家)      | com.miui.securitycenter            |
+| 笔记                    | com.miui.notes                     |
+| 壁纸                    | com.miui.miwallpaper               |
+| 传送门                   | com.miui.contentextension          |
+| 弹幕通知                  | com.xiaomi.barrage                 |
+| 百度输入法小米版              | com.baidu.input_mi                 |
+| 电话                    | com.android.incallui               |
+| 电话服务                  | com.android.phone                  |
+| 电量与性能                 | com.miui.powerkeeper               |
+| 短信                    | com.android.mms                    |
+| 截屏                    | com.miui.screenshot                |
+| 垃圾清理                  | com.miui.cleanmaster               |
+| 浏览器                   | com.android.browser                |
+| 鲁班（MTB）               | com.xiaomi.mtb                     |
+| 屏幕录制                  | com.miui.screenrecorder            |
+| 权限管理服务                | com.lbe.security.miui              |
+| 设置                    | com.android.settings               |
+| 搜狗输入法小米版              | com.sohu.inputmethod.sogou.xiaomi  |
+| 天气                    | com.miui.weather2                  |
+| 互联互通服务 (投屏)           | com.milink.service                 |
+| 外部存储设备                | com.android.externalstorage        |
+| 息屏与锁屏编辑 (万象息屏)        | com.miui.aod                       |
+| 文件管理                  | com.android.fileexplorer           |
+| 系统服务组件                | com.miui.securityadd               |
+| 下载管理                  | com.android.providers.downloads.ui |
+| 下载管理程序                | com.android.providers.downloads    |
+| 相册                    | com.miui.gallery                   |
+| 小米创作                  | com.miui.creation                  |
+| 小米互传                  | com.miui.mishare.connectivity      |
+| 小米相册 - 编辑             | com.miui.mediaeditor               |
+| 小米云服务                 | com.miui.cloudservice              |
+| 小米智能卡                 | com.miui.tsmclient                 |
+| 讯飞输入法小米版              | com.iflytek.inputmethod.miui       |
+| 应用包管理组件               | com.miui.packageinstaller          |
+| 应用商店                  | com.xiaomi.market                  |
+| 智能助理                  | com.miui.personalassistant         |
+| 主题商店 (主题壁纸、壁纸与个性化)    | com.android.thememanager           |
+| 系统安全组件                | com.miui.guardprovider             |
+| 相机                    | com.android.camera                 |
+| 小爱翻译                  | com.xiaomi.aiasst.vision           |
+| 小爱建议                  | com.xiaomi.aireco                  |
+| 小爱视觉                  | com.xiaomi.scanner                 |
+| 小爱同学                  | com.miui.voiceassist               |
+| NetworkBoost          | com.xiaomi.NetworkBoost            |
+| NFC 服务                | com.android.nfc                    |
+| 音质音效                  | com.miui.misound                   |
+| 备份                    | com.miui.backup                    |
+| 小米换机                  | com.miui.huanji                    |
+| MiTrustService        | com.xiaomi.trustservice            |
 
 </details>
 
@@ -135,6 +131,7 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 - [「FuckNFC」 by xiaowine](https://github.com/xiaowine/FuckNFC)
 - [「ForegroundPin」 by 焕晨HChen](https://github.com/HChenX/ForegroundPin)
 - [「Gson」 by Android Open Source Project, Google Inc.](https://github.com/google/gson)
+- [「Hyper Helper」 by HowieHChen](https://github.com/HowieHChen/XiaomiHelper)
 - [「HideMiuiClipboardDialog」 by zerorooot](https://github.com/zerorooot/HideMiuiClipboardDialog)
 - [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
@@ -149,6 +146,7 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 - [「ModemPro」 by Weverse](https://github.com/Weverses/ModemPro)
 - [「NoStorageRestrict」 by DanGLES3](https://github.com/Xposed-Modules-Repo/com.github.dan.nostoragerestrict)
 - [「Portal Hook」 by Haocen2004](https://github.com/Haocen2004/PortalHook)
+- [「PinningApp」 by 焕晨HChen](https://github.com/HChenX/PinningApp)
 - [「RemoveMiuiSystemSelfProtection」 by gfbjngjibn](https://github.com/gfbjngjibn/RemoveMiuiSystemSelfProtection)
 - [「SettingsDontThroughTheList」 by weixiansen574](https://github.com/weixiansen574/settingsdontthroughthelist)
 - [「StarVoyager」 by hosizoraru](https://github.com/hosizoraru/StarVoyager)

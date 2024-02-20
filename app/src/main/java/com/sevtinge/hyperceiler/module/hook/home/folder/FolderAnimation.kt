@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.home.folder
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClassOrNull
@@ -37,25 +55,26 @@ class FolderAnimation : BaseHook() {
                             if (child.name != "val\$folderInfo")
                                 continue
 
-                            mLauncherClass.methodFinder().first {
-                                name == "run"
-                            }.createHook {
-                                before {
-                                    hook1 = mSpringAnimator.methodFinder().first {
-                                        name == "setDampingResponse"
-                                            && parameterTypes[0] == Float::class.javaPrimitiveType
-                                            && parameterTypes[1] == Float::class.javaPrimitiveType
-                                    }.createHook {
-                                        before {
-                                            it.args[0] = value1
-                                            it.args[1] = value2
-                                        }
+                            mLauncherClass.methodFinder()
+                                .filterByName("run")
+                                .first().createHook {
+                                    before {
+                                        hook1 = mSpringAnimator.methodFinder()
+                                            .filterByName("setDampingResponse")
+                                            .filterByParamTypes {
+                                                it[0] == Float::class.javaPrimitiveType &&
+                                                    it[1] == Float::class.javaPrimitiveType
+                                            }.single().createHook {
+                                                before {
+                                                    it.args[0] = value1
+                                                    it.args[1] = value2
+                                                }
+                                            }
+                                    }
+                                    after {
+                                        hook1?.unhook()
                                     }
                                 }
-                                after {
-                                    hook1?.unhook()
-                                }
-                            }
                             break
                         }
                     }
@@ -66,7 +85,9 @@ class FolderAnimation : BaseHook() {
         "com.miui.home.launcher.Launcher".hookBeforeMethod("closeFolder", Boolean::class.java) {
             if (it.args[0] == true) {
                 hook2 = mSpringAnimator.hookBeforeMethod(
-                    "setDampingResponse", Float::class.javaPrimitiveType, Float::class.javaPrimitiveType
+                    "setDampingResponse",
+                    Float::class.javaPrimitiveType,
+                    Float::class.javaPrimitiveType
                 ) { hookParam ->
                     hookParam.args[0] = value3
                     hookParam.args[1] = value4

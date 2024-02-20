@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -86,7 +104,7 @@ public class SystemFramework extends BaseModule {
         // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         // 其他
-        initHook(new SystemLockApp(), mPrefsMap.getBoolean("home_other_lock_app"));
+        initHook(new SystemLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
         initHook(new CleanShareMenu(), mPrefsMap.getBoolean("system_framework_clean_share_menu"));
         initHook(new CleanOpenMenu(), mPrefsMap.getBoolean("system_framework_clean_open_menu"));

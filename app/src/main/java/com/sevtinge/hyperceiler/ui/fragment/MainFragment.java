@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -9,9 +27,9 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import moralnorm.preference.Preference;
@@ -72,7 +90,7 @@ public class MainFragment extends SettingsPreferenceFragment {
         mTip.setSummary("Tip: " + randomTip);
 
         isOfficialRom();
-        if(!getIsOfficialRom()) isSignPass();
+        if (!getIsOfficialRom()) isSignPass();
     }
 
     public void isOfficialRom() {
@@ -81,7 +99,15 @@ public class MainFragment extends SettingsPreferenceFragment {
     }
 
     public boolean getIsOfficialRom() {
-        return (!com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("V") && !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().isEmpty()) || !getRomAuthor().isEmpty() || Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") || !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
+        return (
+            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("V") &&
+            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Xiaomi") &&
+            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Redmi") &&
+            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("POCO") &&
+            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().isEmpty()) ||
+            !getRomAuthor().isEmpty() ||
+            Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
+            !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
     }
 
     public void isSignPass() {

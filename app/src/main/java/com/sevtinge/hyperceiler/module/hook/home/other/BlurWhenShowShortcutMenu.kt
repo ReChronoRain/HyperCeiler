@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.home.other
 
 import android.animation.Animator
@@ -15,8 +33,8 @@ import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat.animate
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.HookUtils
 import com.sevtinge.hyperceiler.utils.getObjectField
+import com.sevtinge.hyperceiler.utils.getValueByField
 
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -71,7 +89,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                     val mLauncher = XposedHelpers.callStaticMethod(applicationClass, "getLauncher")
                     val systemUiController =
                         XposedHelpers.callMethod(mLauncher, "getSystemUiController")
-                    val mWindow = HookUtils.getValueByField(systemUiController, "mWindow")
+                    val mWindow = getValueByField(systemUiController, "mWindow")
                     val targetBlurView = XposedHelpers.callMethod(mLauncher, "getScreen") as View
                     // 修复文件夹内各种模糊冲突异常
                     blurBackground = if (iconIsInFolder) !mPrefsMap.getBoolean("home_folder_blur") else true
@@ -160,7 +178,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                             XposedHelpers.callStaticMethod(applicationClass, "getLauncher")
                         val systemUiController =
                             XposedHelpers.callMethod(mLauncher, "getSystemUiController")
-                        val mWindow = HookUtils.getValueByField(systemUiController, "mWindow")
+                        val mWindow = getValueByField(systemUiController, "mWindow")
 
                         if (blurBackground) {
                             XposedHelpers.callStaticMethod(
@@ -184,7 +202,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                             XposedHelpers.callStaticMethod(applicationClass, "getLauncher")
                         val systemUiController =
                             XposedHelpers.callMethod(mLauncher, "getSystemUiController")
-                        val mWindow = HookUtils.getValueByField(systemUiController, "mWindow")
+                        val mWindow = getValueByField(systemUiController, "mWindow")
 
                         val targetBlurView =
                             XposedHelpers.callMethod(mLauncher, "getScreen") as View
@@ -387,7 +405,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                         if (!isShortcutMenuLayerBlurred) {
                             return
                         }
-                        val mArrow = HookUtils.getValueByField(
+                        val mArrow = getValueByField(
                             param.thisObject, "mArrow"
                         ) as View
                         val mArrowBackground = mArrow.background as ShapeDrawable

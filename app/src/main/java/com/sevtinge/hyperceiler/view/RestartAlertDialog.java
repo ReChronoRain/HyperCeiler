@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.view;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -9,7 +27,7 @@ import android.content.res.Resources;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.app.GlobalActions;
-import com.sevtinge.hyperceiler.utils.ShellUtils;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,13 +59,30 @@ public class RestartAlertDialog extends AlertDialog {
                     // ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
                     // String test = "XX";
                     String packageGet = mAppPackageNameList.get(i);
-                    ShellUtils.execCommand("{ pid=$(pgrep -f '" + packageGet + "' | grep -v $$);" +
-                            " [[ $pid != \"\" ]] && { pkill -l 9 -f \"" + packageGet + "\";" +
-                            " { [[ $? != 0 ]] && { killall -s 9 \"" + packageGet + "\" &>/dev/null;};}" +
-                            " || { { for i in $pid; do kill -s 9 \"$i\" &>/dev/null;done;};}" +
-                            " || { echo \"kill error\";};};}" +
-                            " || { echo \"kill error\";}",
-                        true, false);
+                    ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
+                        .add("if [[ $pid == \"\" ]]; then")
+                        .add(" pids=\"\"")
+                        .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
+                        .add("  for i in $pid; do")
+                        .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                        .add("    if [[ $pids == \"\" ]]; then")
+                        .add("      pids=$i")
+                        .add("    else")
+                        .add("      pids=\"$pids $i\"")
+                        .add("    fi")
+                        .add("   fi")
+                        .add("  done")
+                        .add("fi")
+                        .add("if [[ $pids != \"\" ]]; then")
+                        .add(" pid=$pids")
+                        .add("fi")
+                        .add("if [[ $pid != \"\" ]]; then")
+                        .add(" for i in $pid; do")
+                        .add("  kill -s 15 $i &>/dev/null")
+                        .add(" done")
+                        .add("else")
+                        .add(" echo \"No Find Pid!\"")
+                        .add("fi").over().sync();
                 }
             }
         });

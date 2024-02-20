@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -22,6 +40,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
     String mSecurity;
     SwitchPreference mAiClipboard;
     SwitchPreference mBlurLocation;
+    SwitchPreference mGetNumber;
     Preference mNewboxBackgroundCustom;
     SwitchPreference mOpenByDefaultSetting;
     SwitchPreference mSecurityBackground;
@@ -47,6 +66,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
 
         mBlurLocation = findPreference("prefs_key_security_center_blur_location");
         mAiClipboard = findPreference("prefs_key_security_center_ai_clipboard");
+        mGetNumber = findPreference("prefs_key_security_center_get_number");
         mOpenByDefaultSetting = findPreference("prefs_key_security_center_app_default_setting");
         mSecurityColor = findPreference("prefs_key_security_center_sidebar_line_color");
         mSecurityBackground = findPreference("prefs_key_se_enable");
@@ -66,6 +86,7 @@ public class SecurityCenterFragment extends SettingsPreferenceFragment {
             mAiClipboard.setChecked(mAiClipboardEnable);
         }
 
+        mGetNumber.setVisible(!isMoreHyperOSVersion(1f));
         mSecurityColor.setVisible(!isAndroidVersion(30)); // 侧滑栏提示线自定义
         mSecurityBackground.setVisible(!isAndroidVersion(30)); // 侧滑栏背景自定义
         mOpenByDefaultSetting.setVisible(!isAndroidVersion(30)); // 应用打开链接管理

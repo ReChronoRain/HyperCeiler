@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.home.widget
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
@@ -12,29 +30,29 @@ object AlwaysShowMiuiWidget : BaseHook() {
         var hook1: XC_MethodHook.Unhook? = null
         var hook2: XC_MethodHook.Unhook? = null
         try {
-            loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder().first {
-                name == "buildAppWidgetsItems"
-            }
+            loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder()
+                .filterByName("buildAppWidgetsItems")
+                .single()
         } catch (e: Exception) {
-            loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder().first {
-                name == "buildAppWidgetsItems"
-            }
+            loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder()
+                .filterByName("buildAppWidgetsItems")
+                .single()
         }.createHook {
             before {
                 hook1 = loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").methodFinder()
-                    .first {
-                        name == "initMiuiAttribute" && parameterCount == 1
-                    }.createHook {
+                    .filterByName("initMiuiAttribute")
+                    .filterByParamCount(1)
+                    .single().createHook {
                         after {
                             it.thisObject.setObjectField("isMIUIWidget", false)
                         }
                     }
-                hook2 = loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder().first {
-                    name == "isMIUIWidgetSupport"
-                }.createHook {
-                    after {
-                        it.result = false
-                    }
+                hook2 = loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder()
+                    .filterByName("isMIUIWidgetSupport")
+                    .single().createHook {
+                        after {
+                            it.result = false
+                        }
                 }
             }
             after {

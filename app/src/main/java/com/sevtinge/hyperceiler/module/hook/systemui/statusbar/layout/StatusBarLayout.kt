@@ -1,3 +1,21 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2024 HyperCeiler Contributions
+*/
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.layout
 
 import android.annotation.SuppressLint
@@ -17,7 +35,6 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.api.dp2px
 import com.sevtinge.hyperceiler.utils.getObjectFieldAs
-import com.sevtinge.hyperceiler.utils.isStatic
 
 object StatusBarLayout : BaseHook() {
     private val getMode = mPrefsMap.getStringAsInt("system_ui_statusbar_layout_mode", 0)
@@ -70,9 +87,11 @@ object StatusBarLayout : BaseHook() {
 
         // 判断是否开启挖孔兼容模式
         if (isCompatibilityMode) {
-            loadClass("com.android.systemui.ScreenDecorations").methodFinder().first {
-                name == "boundsFromDirection" && parameterCount == 3 && isStatic
-            }.createHook {
+            loadClass("com.android.systemui.ScreenDecorations").methodFinder()
+                .filterByName("boundsFromDirection")
+                .filterByParamCount(3)
+                .filterStatic()
+                .single().createHook {
                 before {
                     it.args[1] = 0
                 }
@@ -86,7 +105,7 @@ object StatusBarLayout : BaseHook() {
                 collapsedStatusBarFragmentClass.methodFinder()
                     .filterByName("onViewCreated")
                     .filterByParamCount(2)
-                    .first().createHook {
+                    .single().createHook {
                         after { param ->
                             val miuiPhoneStatusBarView =
                                 param.thisObject.getObjectFieldAs<ViewGroup>("mStatusBar")
@@ -123,7 +142,7 @@ object StatusBarLayout : BaseHook() {
                 // 兼容模式
                 phoneStatusBarView.methodFinder()
                     .filterByName("updateLayoutForCutout")
-                    .first().createHook {
+                    .single().createHook {
                         after {
                             if (isCompatibilityMode) {
                                 val context = (it.thisObject as ViewGroup).context
@@ -137,7 +156,7 @@ object StatusBarLayout : BaseHook() {
                 collapsedStatusBarFragmentClass.methodFinder()
                     .filterByName("onViewCreated")
                     .filterByParamCount(2)
-                    .first().createHook {
+                    .single().createHook {
                         after { param ->
                             val miuiPhoneStatusBarView =
                                 param.thisObject.getObjectFieldAs<ViewGroup>("mStatusBar")
@@ -257,7 +276,7 @@ object StatusBarLayout : BaseHook() {
 
                 phoneStatusBarView.methodFinder()
                     .filterByName("updateLayoutForCutout")
-                    .first().createHook {
+                    .single().createHook {
                         after {
                             if (mPrefsMap.getBoolean("layout_compatibility_mode")) {
                                 val context = (it.thisObject as ViewGroup).context
@@ -271,7 +290,7 @@ object StatusBarLayout : BaseHook() {
                 collapsedStatusBarFragmentClass.methodFinder()
                     .filterByName("onViewCreated")
                     .filterByParamCount(2)
-                    .first().createHook {
+                    .single().createHook {
                         after { param ->
                             val miuiPhoneStatusBarView =
                                 param.thisObject.getObjectFieldAs<ViewGroup>("mStatusBar")
@@ -349,7 +368,7 @@ object StatusBarLayout : BaseHook() {
                 collapsedStatusBarFragmentClass.methodFinder()
                     .filterByName("onViewCreated")
                     .filterByParamCount(2)
-                    .first().createHook {
+                    .single().createHook {
                         after { param ->
                             val miuiPhoneStatusBarView =
                                 param.thisObject.getObjectFieldAs<ViewGroup>("mStatusBar")
@@ -511,7 +530,7 @@ object StatusBarLayout : BaseHook() {
                 // 兼容模式
                 phoneStatusBarView.methodFinder()
                     .filterByName("updateLayoutForCutout")
-                    .first().createHook {
+                    .single().createHook {
                         after {
                             if (isCompatibilityMode) {
                                 val context = (it.thisObject as ViewGroup).context
@@ -524,7 +543,7 @@ object StatusBarLayout : BaseHook() {
                 loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").methodFinder()
                     .filterByName("showClock")
                     .filterByParamTypes(Boolean::class.java)
-                    .first().createHook {
+                    .single().createHook {
                         after {
                             val miuiPhoneStatusBarView =
                                 it.thisObject.getObjectFieldAs<ViewGroup>("mStatusBar")

@@ -24,8 +24,8 @@ android {
         applicationId namespace
         minSdk 30
         targetSdk 34
-        versionCode 136
-        versionName "2.3.136"
+        versionCode 140
+        versionName "2.4.140"
         project.archivesBaseName = "HyperCeiler"
         ndk {
             // noinspection ChromeOsAbiSupport
@@ -44,6 +44,9 @@ android {
     }
 
     androidResources {
+        additionalParameters += "--allow-reserved-package-id"
+        additionalParameters += "--package-id"
+        additionalParameters += "0x77"
         generateLocaleConfig = true
     }
 
@@ -71,6 +74,7 @@ android {
             System.console()?.readLine('\n' + prompt + ': ')
     }
     def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
+    def gitRevision = getGitRevision()
 
     signingConfigs {
         hyperceiler {
@@ -110,14 +114,14 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
+            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + gitRevision
             buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
         }
         debug {
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + getGitRevision()
+            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_" + gitRevision
             buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
@@ -146,7 +150,7 @@ dependencies {
 
     implementation libs.dexkit
     implementation libs.tinyPinyin
-    implementation libs.ezXHelper
+    implementation libs.ezxhelper
     implementation libs.accompanist.systemuicontroller
     implementation libs.hiddenapibypass
     implementation libs.gson
