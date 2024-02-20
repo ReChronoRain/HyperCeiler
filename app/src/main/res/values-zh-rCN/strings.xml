@@ -252,6 +252,7 @@
 
     <string name="status_bar_icon_mode_default">默认</string>
     <string name="status_bar_icon_mode_on">始终显示</string>
+    <string name="status_bar_icon_mode_on_non_wifi">非 WiFi 下始终显示</string>
     <string name="status_bar_icon_mode_off">始终隐藏</string>
     <string name="status_bar_icon_mode_off_unconnect">仅在未连接时隐藏</string>
     <string name="status_bar_icon_mode_on_beforering">仅在响铃前显示</string>

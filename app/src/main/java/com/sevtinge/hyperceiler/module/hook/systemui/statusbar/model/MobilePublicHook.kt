@@ -14,7 +14,7 @@ object MobilePublicHook : BaseHook() {
     }
 
     private val qpt by lazy {
-        mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_type", 0)
+        mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0)
     }
     private val hideIndicator by lazy {
         mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator")
@@ -54,11 +54,15 @@ object MobilePublicHook : BaseHook() {
         })
     }
 
-    private fun showMobileTypeSingle(it: MethodHookParam) {
+    private fun showMobileTypeSingle(param: MethodHookParam) {
         // 使网络类型单独显示
-        val mobileIconState = it.args[0]
-        mobileIconState.setObjectField("showMobileDataTypeSingle", true)
-        mobileIconState.setObjectField("fiveGDrawableId", 0)
+        try {
+            val mobileIconState = param.args[0]
+            mobileIconState.setObjectField("showMobileDataTypeSingle", true)
+            mobileIconState.setObjectField("fiveGDrawableId", 0)
+        } catch (t: Throwable) {
+            logE(TAG, "showMobileTypeSingle setObjectField is null, $t")
+        }
     }
 
     private fun hideMobileType(param: MethodHookParam) {
@@ -89,7 +93,7 @@ object MobilePublicHook : BaseHook() {
                     XposedHelpers.getObjectField(param.thisObject, "mMobileTypeSingle") as TextView
                 else null
             val visibility =
-                if ((qpt == 1 || (qpt == 3 && dataConnected && !wifiAvailable))) View.VISIBLE else View.GONE
+                if (qpt == 1 || (qpt == 2 && !wifiAvailable) || (qpt == 4 && dataConnected && !wifiAvailable)) View.VISIBLE else View.GONE
 
             if (singleMobileType && mMobileTypeSingle != null) {
                 mMobileTypeSingle.visibility = visibility

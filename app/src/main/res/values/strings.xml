@@ -267,6 +267,7 @@
     <string name="charge_animation_entries_alpha">Rhythm</string>
     <string name="status_bar_icon_mode_default">Default</string>
     <string name="status_bar_icon_mode_on">Always show</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Always shown when not on WiFi</string>
     <string name="status_bar_icon_mode_off">Always hidden</string>
     <string name="status_bar_icon_mode_on_control_center">Only show in Control Center</string>
     <string name="status_bar_icon_mode_on_status_bar">Only show at Status bar</string>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <DropDownPreference
         android:defaultValue="0"
-        android:key="prefs_key_system_ui_status_bar_icon_mobile_network_type"
+        android:key="prefs_key_system_ui_status_bar_icon_show_mobile_network_type"
         android:title="@string/system_ui_status_bar_icon_mobile_network_type"
         app:entries="@array/status_bar_icon_mobile_network_type"
         app:entryValues="@array/status_bar_icon_mobile_network_type_value" />
