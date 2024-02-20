@@ -28,6 +28,7 @@ fun getLanguage(): String = Locale.getDefault().toString()
 fun getBoard(): String = android.os.Build.BOARD
 fun getSoc(): String = getProp("ro.board.platform")
 fun getDeviceName(): String = android.os.Build.DEVICE
+fun getMarketName(): String = getProp("ro.product.marketname")
 fun getModelName(): String = android.os.Build.MODEL
 fun getBrand(): String = android.os.Build.BRAND
 fun getManufacture(): String = android.os.Build.MANUFACTURER

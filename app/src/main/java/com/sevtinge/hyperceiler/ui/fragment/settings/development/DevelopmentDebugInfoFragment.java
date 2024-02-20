@@ -26,6 +26,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getFingerPrin
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLanguage;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacture;
+import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getMarketName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
@@ -56,7 +57,6 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
     private Preference mDebugInfo;
     MainActivityContextHelper mainActivityContextHelper;
     TextView m;
-    public static String test;
 
 
     @Override
@@ -89,7 +89,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         } catch (Exception ignored) {
         }
         try {
-            propertiesDevice.put("Device", getDeviceName());
+            propertiesDevice.put("DeviceName", getDeviceName());
+            propertiesDevice.put("MarketName", getMarketName());
             propertiesDevice.put("Model", getModelName());
             propertiesDevice.put("Brand", getBrand());
             propertiesDevice.put("Manufacture", getManufacture());
@@ -99,7 +100,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());
             propertiesDevice.put("AndroidId", mainActivityContextHelper.getAndroidId());
-            propertiesDevice.put("Serial", getSerial());
+            //
+            // propertiesDevice.put("Serial", getSerial());
         } catch (Exception ignored) {
         }
         try {
@@ -119,7 +121,6 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("SignCheckPass", String.valueOf(mainActivityContextHelper.isSignCheckPass()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
             propertiesCheck.put("RootPermission", String.valueOf(ShellInit.ready()));
-            propertiesCheck.put("Test", test);
         } catch (Exception ignored) {
         }
 
