@@ -168,11 +168,11 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
 
     private ArrayList<String> pidAndPkg(String pkg) {
         mShell.add("pid=$(ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\")")
-            .add("  if [[ $pid == \"\" ]]; then")
-            .add("   echo \"No Find Pid!\"")
-            .add("  else")
-            .add("   ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\"")
-            .add("  fi").over().sync();
+            .add("if [[ $pid == \"\" ]]; then")
+            .add(" echo \"No Find Pid!\"")
+            .add("else")
+            .add(" ps -A -o PID,ARGS=CMD | grep \"" + pkg + "\" | grep -v \"grep\"")
+            .add("fi").over().sync();
         ArrayList<String> pid = mShell.getOutPut();
         if (pid.size() == 0) {
             return new ArrayList<>();
@@ -196,25 +196,25 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         boolean result =
             mShell.add("pid=$(pgrep -f \"" + kill + "\" | grep -v $$)")
                 .add("if [[ $pid == \"\" ]]; then")
-                .add("  pids=\"\"")
-                .add("  pid=$(ps -A -o PID,ARGS=CMD | grep \"" + kill + "\" | grep -v \"grep\")")
-                .add("   for i in $pid; do")
-                .add("     if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
-                .add("      if [[ $pids == \"\" ]]; then")
-                .add("        pids=$i")
-                .add("      else")
-                .add("        pids=\"$pids $i\"")
-                .add("      fi")
-                .add("     fi")
-                .add("   done")
+                .add(" pids=\"\"")
+                .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + kill + "\" | grep -v \"grep\")")
+                .add("  for i in $pid; do")
+                .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                .add("    if [[ $pids == \"\" ]]; then")
+                .add("      pids=$i")
+                .add("    else")
+                .add("      pids=\"$pids $i\"")
+                .add("    fi")
+                .add("   fi")
+                .add("  done")
                 .add("fi")
                 .add("if [[ $pids != \"\" ]]; then")
                 .add(" pid=$pids")
                 .add("fi")
                 .add("if [[ $pid != \"\" ]]; then")
-                .add("  for i in $pid; do")
-                .add("   kill -s 15 $i &>/dev/null")
-                .add("  done")
+                .add(" for i in $pid; do")
+                .add("  kill -s 15 $i &>/dev/null")
+                .add(" done")
                 .add("else")
                 .add(" echo \"No Find Pid!\"")
                 .add("fi").over().sync().isResult();
