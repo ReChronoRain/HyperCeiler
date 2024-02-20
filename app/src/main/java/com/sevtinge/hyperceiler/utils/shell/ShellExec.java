@@ -268,7 +268,9 @@ public class ShellExec {
      * 使进程崩溃，正常情况不要手动调用。
      */
     protected void error() {
-        throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
+        if (!destroy) {
+            throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
+        }
     }
 
     private void clear() {

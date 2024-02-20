@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
+
 import moralnorm.appcompat.app.AppCompatActivity;
 
 public class CrashReportActivity extends AppCompatActivity {
@@ -20,6 +22,7 @@ public class CrashReportActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
+        ShellInit.init();
         setContentView(R.layout.activity_crash_dialog);
         Intent intent = getIntent();
         String pkg = intent.getStringExtra("key_pkg");
@@ -27,8 +30,14 @@ public class CrashReportActivity extends AppCompatActivity {
         mMessageTv = view.findViewById(R.id.tv_message);
         mMessageTv.setText("此应用进入安全模式:\n" + pkg + "\n点击确定取消");
         mCrashRecordTv = view.findViewById(R.id.tv_record);
-        mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);//下划线并加清晰
-        mCrashRecordTv.getPaint().setAntiAlias(true);//抗锯齿
+        mCrashRecordTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);// 下划线并加清晰
+        mCrashRecordTv.getPaint().setAntiAlias(true);// 抗锯齿
         DialogHelper.showCrashReportDialog(this, pkg, view);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ShellInit.destroy();
+        super.onDestroy();
     }
 }

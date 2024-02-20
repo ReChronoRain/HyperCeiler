@@ -25,6 +25,7 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
 import moralnorm.appcompat.app.AlertDialog;
@@ -84,10 +85,9 @@ public class DialogHelper {
             .setView(view)
             .setHapticFeedbackEnabled(true)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                ShellExec shellExec = new ShellExec(true, true);
+                ShellExec shellExec = ShellInit.getShell();
                 shellExec.run("setprop persist.hyperceiler.crash.report \"[]\"").sync();
                 shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
-                shellExec.close();
                 activity.finish();
             })
             .show();

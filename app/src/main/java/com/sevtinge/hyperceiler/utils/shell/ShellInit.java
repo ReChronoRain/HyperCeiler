@@ -59,6 +59,10 @@ public class ShellInit {
             }
             return mShell.ready();
         }
+        if (lastReady) {
+            init();
+            return mShell.ready();
+        }
         return false;
     }
 }
