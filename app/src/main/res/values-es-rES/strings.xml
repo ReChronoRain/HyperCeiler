@@ -230,6 +230,7 @@
     <string name="charge_animation_entries_alpha">Ritmo</string>
     <string name="status_bar_icon_mode_default">Predeterminado</string>
     <string name="status_bar_icon_mode_on">Siempre mostrado</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Se muestra siempre cuando no esté conectado a WiFi</string>
     <string name="status_bar_icon_mode_off">Siempre escondido</string>
     <string name="status_bar_icon_mode_on_control_center">Se muestra solo en el centro de control</string>
     <string name="status_bar_icon_mode_on_status_bar">Se muestra solo en la barra de estado</string>
@@ -523,6 +524,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilo de icono</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Achicar icono</string>
     <string name="system_ui_status_bar_mobile_type_single">Icono separado de tipo de red móvil</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">La característica está desactivada porque el icono del tipo de red móvil siempre está oculto</string>
     <string name="system_ui_status_bar_mobile_type_left">Mostrar a la izquierda de la señal</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de actividad de red móvil</string>
     <string name="system_ui_status_bar_mobile_type_custom">Personalizar texto</string>
@@ -540,6 +542,8 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">Batería</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Llamada</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">Dispositivos</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">Red</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">Privacidad</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Se muestra el lado izquierdo del icono</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Se muestra el lado derecho del icono</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -558,6 +562,7 @@
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de muestra</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Icono grande de tipo de red</string>
     <string name="system_ui_status_bar_icon_location">Ubicación</string>
+    <string name="system_ui_status_bar_icon_mic">Micrófono</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarma</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Se muestra icono de alarma solo antes de que suena la alarma</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
