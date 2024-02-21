@@ -24,7 +24,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
@@ -82,6 +81,7 @@ import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
@@ -192,7 +192,7 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
                     mPrefsMap.putAll(allPrefs);
                 }
             } catch (Throwable t) {
-                LogD("setXSharedPrefs", t);
+                AndroidLogUtils.logD("setXSharedPrefs", t);
             }
         }
     }

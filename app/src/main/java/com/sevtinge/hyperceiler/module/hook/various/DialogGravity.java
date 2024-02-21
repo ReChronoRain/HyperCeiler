@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.various;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogI;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -31,6 +29,7 @@ import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -58,7 +57,7 @@ public class DialogGravity extends BaseHook {
             for (Method method : mDialogCls.getDeclaredMethods()) {
                 if (method.getName().equals("setupDialogPanel")) oldMethodFound = true;
                 methodList.add(method);
-                LogI(TAG, method.getName());
+                AndroidLogUtils.logI(TAG, method.getName());
             }
 
             int mDialogGravity = XposedInit.mPrefsMap.getStringAsInt("various_dialog_gravity", 0);

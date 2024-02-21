@@ -231,7 +231,7 @@ public class SunlightMode extends TileUtils {
         try {
             return Settings.System.getInt(context.getContentResolver(), screenBrightnessMode);
         } catch (Settings.SettingNotFoundException e) {
-            AndroidLogUtils.LogE("No Found Settings: ", e);
+            AndroidLogUtils.logE("No Found Settings: ", e);
             return -1;
         }
     }
@@ -245,7 +245,7 @@ public class SunlightMode extends TileUtils {
             return Settings.System.getInt(context.getContentResolver(), screenBrightnessCustomMode);
         } catch (Settings.SettingNotFoundException e) {
             setCustomBrightnessMode(context, 0);
-            AndroidLogUtils.LogE("No Found Settings: ", e);
+            AndroidLogUtils.logE("No Found Settings: ", e);
             return -1;
         }
     }
@@ -380,14 +380,14 @@ public class SunlightMode extends TileUtils {
                 writer = new BufferedWriter(new FileWriter(path, false));
                 writer.write(writ);
             } catch (IOException e) {
-                AndroidLogUtils.LogE("SunlightMode", "error to writer: " + path + " ", e);
+                AndroidLogUtils.logE("SunlightMode", "error to writer: " + path + " ", e);
             } finally {
                 try {
                     if (writer != null) {
                         writer.close();
                     }
                 } catch (IOException e) {
-                    AndroidLogUtils.LogE("SunlightMode", "close writer error: ", e);
+                    AndroidLogUtils.logE("SunlightMode", "close writer error: ", e);
                 }
             }
         }
@@ -398,14 +398,14 @@ public class SunlightMode extends TileUtils {
                 builder.append(line);
             }
         } catch (IOException e) {
-            AndroidLogUtils.LogE("SunlightMode", "error to read: " + path + " ", e);
+            AndroidLogUtils.logE("SunlightMode", "error to read: " + path + " ", e);
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE("SunlightMode", "close reader error: ", e);
+                AndroidLogUtils.logE("SunlightMode", "close reader error: ", e);
             }
         }
         if (builder != null) {

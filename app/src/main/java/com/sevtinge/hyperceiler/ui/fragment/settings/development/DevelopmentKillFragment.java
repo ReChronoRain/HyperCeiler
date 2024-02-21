@@ -26,13 +26,11 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
 import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
-import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
@@ -192,7 +190,6 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     }
 
     private boolean killPackage(String kill) {
-        AndroidLogUtils.LogI(ITAG.TAG, "killpkg: " + kill);
         boolean result =
             mShell.add("pid=$(pgrep -f \"" + kill + "\" | grep -v $$)")
                 .add("if [[ $pid == \"\" ]]; then")

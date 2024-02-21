@@ -35,7 +35,7 @@ public class AndroidLogUtils {
     private static final String Tag = "[HyperCeiler]: ";
     private static final int logLevel = PropUtils.getProp("persist.hyperceiler.log.level", 2);
 
-    public static void LogI(String tag, String msg) {
+    public static void logI(String tag, String msg) {
         if (logLevel < 3) return;
         Log.i(tag, "[I]" + Tag + msg);
     }
@@ -44,27 +44,37 @@ public class AndroidLogUtils {
         Log.i(tag, "[I/" + Tag + msg);
     }
 
-    public static void LogD(String tag, Throwable tr) {
+    public static void logD(String tag, Throwable tr) {
         if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag, tr);
     }
 
-    public static void LogD(String tag, String msg, Throwable tr) {
+    public static void logD(String tag, String msg, Throwable tr) {
         if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag + msg, tr);
     }
 
-    public static void LogE(String tag, Throwable tr) {
+    public static void logW(String tag, String msg, Throwable tr) {
+        if (logLevel < 2) return;
+        Log.w(tag, "[W]" + Tag + msg, tr);
+    }
+
+    public static void logW(String tag, String msg) {
+        if (logLevel < 2) return;
+        Log.w(tag, "[W]" + Tag + msg, null);
+    }
+
+    public static void logE(String tag, Throwable tr) {
         if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag, tr);
     }
 
-    public static void LogE(String tag, String msg) {
+    public static void logE(String tag, String msg) {
         if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag + msg, null);
     }
 
-    public static void LogE(String tag, String msg, Throwable tr) {
+    public static void logE(String tag, String msg, Throwable tr) {
         if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag + msg, tr);
     }

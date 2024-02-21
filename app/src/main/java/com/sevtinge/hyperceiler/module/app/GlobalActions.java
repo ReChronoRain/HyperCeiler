@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.app;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogE;
 import static java.lang.System.currentTimeMillis;
 
 import android.annotation.SuppressLint;
@@ -36,6 +34,7 @@ import android.provider.Settings;
 import android.view.KeyEvent;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -128,7 +127,7 @@ public class GlobalActions extends BaseHook {
                     }
                 }
             } catch (Throwable t) {
-                LogD(TAG, "onReceive", t);
+                AndroidLogUtils.logD(TAG, "onReceive", t);
             }
         }
     };
@@ -166,7 +165,7 @@ public class GlobalActions extends BaseHook {
                     forceStopPackage(context, intent.getStringExtra("packageName"));
                 }
             } catch (Exception e) {
-                LogE("GlobalActions", null, e);
+                AndroidLogUtils.logE("GlobalActions", null, e);
             }
         }
     };
@@ -230,7 +229,7 @@ public class GlobalActions extends BaseHook {
             context.sendBroadcast(new Intent(ACTION_PREFIX + action));
             return true;
         } catch (Throwable t) {
-            LogD("GlobalActions", "setAction", t);
+            AndroidLogUtils.logD("GlobalActions", "setAction", t);
             return false;
         }
     }
@@ -341,7 +340,7 @@ public class GlobalActions extends BaseHook {
 
             return intent;
         } catch (Throwable t) {
-            LogD("GlobalActions", "getIntent", t);
+            AndroidLogUtils.logD("GlobalActions", "getIntent", t);
             return null;
         }
     }

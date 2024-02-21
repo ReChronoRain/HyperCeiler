@@ -55,7 +55,7 @@ public class ContextUtils {
         try {
             return invokeMethod(flag);
         } catch (Throwable e) {
-            AndroidLogUtils.LogE(TAG, "getContext: ", e);
+            AndroidLogUtils.logE(TAG, "getContext: ", e);
             return null;
         }
     }

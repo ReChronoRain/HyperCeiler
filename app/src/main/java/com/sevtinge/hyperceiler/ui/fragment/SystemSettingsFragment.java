@@ -112,7 +112,7 @@ public class SystemSettingsFragment extends SettingsPreferenceFragment {
         try {
             Settings.Global.putFloat(getContext().getContentResolver(), name, mFloat);
         } catch (Throwable e) {
-            AndroidLogUtils.LogE("setAnimator", "set: " + name + " float: " + mFloat, e);
+            AndroidLogUtils.logE("setAnimator", "set: " + name + " float: " + mFloat, e);
         }
     }
 }

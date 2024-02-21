@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.home;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
@@ -31,6 +29,7 @@ import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.module.app.GlobalActions;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -91,7 +90,7 @@ public class ScreenSwipe extends BaseHook {
                                         mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(act, key, false));
                                 }
                         } catch (Throwable t) {
-                            LogD(TAG, "setAction", t);
+                            AndroidLogUtils.logD(TAG, "setAction", t);
                         }
                     }
                 };

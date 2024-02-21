@@ -39,7 +39,7 @@ public class ShellUtils {
             process = Runtime.getRuntime().exec("su -c true");
             return process.waitFor();
         } catch (IOException | InterruptedException e) {
-            AndroidLogUtils.LogE("checkRootPermission", "check whether has root permission error: ", e);
+            AndroidLogUtils.logE("checkRootPermission", "check whether has root permission error: ", e);
             return exitCode;
         } finally {
             if (process != null) {
@@ -194,7 +194,7 @@ public class ShellUtils {
                 }
             }
         } catch (IOException | InterruptedException e) {
-            AndroidLogUtils.LogE("execCommand", "IOException | InterruptedException: ", e);
+            AndroidLogUtils.logE("execCommand", "IOException | InterruptedException: ", e);
         } finally {
             try {
                 if (os != null) {

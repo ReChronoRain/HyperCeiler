@@ -113,7 +113,7 @@ public class PackageManagerUtils {
                 }
                 appInfoList.add(addAppData(pack, pm));
             } catch (Throwable e) {
-                AndroidLogUtils.LogE(TAG, "getOpenWithApps Other E", e);
+                AndroidLogUtils.logE(TAG, "getOpenWithApps Other E", e);
             }
         }
         return appInfoList;
@@ -148,7 +148,7 @@ public class PackageManagerUtils {
                 }
             }
         } catch (Throwable e) {
-            AndroidLogUtils.LogE(TAG, "getPackageByCode Other E", e);
+            AndroidLogUtils.logE(TAG, "getPackageByCode Other E", e);
         }
         return appDataList;
     }
@@ -165,7 +165,7 @@ public class PackageManagerUtils {
             }
             return appDataList;
         } catch (Throwable e) {
-            AndroidLogUtils.LogE(TAG, "getAllPackage Other E", e);
+            AndroidLogUtils.logE(TAG, "getAllPackage Other E", e);
         }
         return appDataList;
     }
@@ -184,7 +184,7 @@ public class PackageManagerUtils {
             }
             return appDataList;
         } catch (Throwable e) {
-            AndroidLogUtils.LogE(TAG, "getPackageByIn Other E", e);
+            AndroidLogUtils.logE(TAG, "getPackageByIn Other E", e);
         }
         return appDataList;
     }
@@ -256,7 +256,7 @@ public class PackageManagerUtils {
      */
     public static boolean isSystem(ApplicationInfo app) {
         if (Objects.isNull(app)) {
-            AndroidLogUtils.LogE(TAG, "isSystem app is null, will return false", null);
+            AndroidLogUtils.logE(TAG, "isSystem app is null, will return false");
             return false;
         }
         if (app.uid < 10000) {
@@ -269,7 +269,7 @@ public class PackageManagerUtils {
         try {
             return getContext();
         } catch (Throwable e) {
-            AndroidLogUtils.LogE(TAG, e);
+            AndroidLogUtils.logE(TAG, e);
             return null;
         }
     }

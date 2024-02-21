@@ -21,7 +21,7 @@ public class ShellInit {
             mShell = new ShellExec(true, true);
             lastReady = mShell.ready();
         } catch (RuntimeException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, e);
+            AndroidLogUtils.logE(ITAG.TAG, e);
         }
     }
 
@@ -37,13 +37,13 @@ public class ShellInit {
     public static ShellExec getShell() {
         if (mShell != null) {
             if (mShell.isDestroy()) {
-                AndroidLogUtils.LogE(ITAG.TAG, "The current shell has been destroyed, please try creating it again!");
+                AndroidLogUtils.logW(ITAG.TAG, "The current shell has been destroyed, please try creating it again!");
                 mShell = new ShellExec(true, true);
             }
             return mShell;
         } else {
             if (lastReady) {
-                AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! Attempt to rewrite creation...");
+                AndroidLogUtils.logW(ITAG.TAG, "ShellExec is null!! Attempt to rewrite creation...");
                 return new ShellExec(true, true);
             } else {
                 throw new RuntimeException("ShellExec is null!! " +

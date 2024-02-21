@@ -181,7 +181,7 @@ public class ShellExec {
                 count = count + 1;
             }
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec run E", e);
+            AndroidLogUtils.logE(ITAG.TAG, "ShellExec run E", e);
         }
         return this;
     }
@@ -204,7 +204,7 @@ public class ShellExec {
                 count = count + 1;
             }
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec append E", e);
+            AndroidLogUtils.logE(ITAG.TAG, "ShellExec append E", e);
         }
         return this;
     }
@@ -241,7 +241,7 @@ public class ShellExec {
         try {
             this.wait();
         } catch (InterruptedException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec sync E", e);
+            AndroidLogUtils.logE(ITAG.TAG, "ShellExec sync E", e);
         }
         return this;
     }
@@ -337,7 +337,7 @@ public class ShellExec {
             os.writeBytes("\n");
             os.flush();
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec done E", e);
+            AndroidLogUtils.logE(ITAG.TAG, "ShellExec done E", e);
         }
     }
 
@@ -357,16 +357,16 @@ public class ShellExec {
             process.destroy();
             os.close();
         } catch (IOException e) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec close E", e);
+            AndroidLogUtils.logE(ITAG.TAG, "ShellExec close E", e);
         } catch (InterruptedException f) {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec getResult E", f);
+            AndroidLogUtils.logE(ITAG.TAG, "ShellExec getResult E", f);
         }
         destroy = true;
         return result;
     }
 
     private void log(String log) {
-        AndroidLogUtils.LogI(ITAG.TAG, log);
+        AndroidLogUtils.logI(ITAG.TAG, log);
     }
 
     protected interface IPassCommands {
@@ -388,7 +388,7 @@ public class ShellExec {
             try {
                 result = process.waitFor(5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "Shell Check run E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "Shell Check run E", e);
             }
             if (result) {
                 try {
@@ -455,13 +455,13 @@ public class ShellExec {
                     if (use) mICommandOutPut.readOutput(line, false);
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "Shell OutPut run E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "Shell OutPut run E", e);
             }
         }
 
 
         private void log(String log) {
-            AndroidLogUtils.LogI(ITAG.TAG, log);
+            AndroidLogUtils.logI(ITAG.TAG, log);
         }
     }
 
@@ -513,14 +513,14 @@ public class ShellExec {
                     if (use) mICommandOutPut.readError(line);
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "Shell Error run E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "Shell Error run E", e);
             } catch (NumberFormatException f) {
-                AndroidLogUtils.LogE(ITAG.TAG, "Shell get result E", f);
+                AndroidLogUtils.logE(ITAG.TAG, "Shell get result E", f);
             }
         }
 
         private void log(String log) {
-            AndroidLogUtils.LogI(ITAG.TAG, log);
+            AndroidLogUtils.logI(ITAG.TAG, log);
         }
     }
 
