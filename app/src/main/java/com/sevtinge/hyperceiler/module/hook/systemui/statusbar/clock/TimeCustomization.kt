@@ -78,7 +78,7 @@ object TimeCustomization : BaseHook() {
                 var c: Context? = null
                 mClockClass.constructorFinder()
                     .filterByParamCount(3)
-                    .single().createHook {
+                    .first().createHook {
                         after {
                             try {
                                 c = it.args[0] as Context
@@ -165,7 +165,7 @@ object TimeCustomization : BaseHook() {
 
                 mClockClass.constructorFinder()
                     .filterByParamCount(3)
-                    .single().createHook {
+                    .first().createHook {
                         after {
                             try {
                                 c = it.args[0] as Context

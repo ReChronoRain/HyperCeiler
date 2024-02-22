@@ -68,7 +68,8 @@ object TimeStyle : BaseHook() {
     @SuppressLint("RtlHardcoded", "DiscouragedApi")
     override fun init() {
         mClockClass.constructorFinder()
-            .filterByParamCount(3).single().createHook {
+            .filterByParamCount(3)
+            .first().createHook {
                 after {
                     val textV = it.thisObject as TextView
 
@@ -115,13 +116,9 @@ object TimeStyle : BaseHook() {
     }
 
     private fun textLineSpacing(id: TextView) {
-        when {
-            lineSpacing != 16 && getMode == 1 -> {
-                id.setLineSpacing(0f, lineSpacing * 0.05f)
-            }
-            lineSpacingGeek != 16 && getMode == 2 -> {
-                id.setLineSpacing(0f, lineSpacingGeek * 0.05f)
-            }
+        when (getMode) {
+            1 -> id.setLineSpacing(0f, lineSpacing * 0.05f)
+            2 -> id.setLineSpacing(0f, lineSpacingGeek * 0.05f)
         }
     }
 }

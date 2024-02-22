@@ -123,7 +123,7 @@ object NetworkSpeedStyle : BaseHook() {
     }
 
     private fun textLineSpacing(id: TextView) {
-        if (lineSpacing != 16 && (networkStyle == 2 || networkStyle == 4)) {
+        if (networkStyle == 2 || networkStyle == 4) {
             id.setLineSpacing(0f, lineSpacing * 0.05f)
         }
     }
