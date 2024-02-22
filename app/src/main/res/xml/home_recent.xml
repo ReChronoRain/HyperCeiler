@@ -45,6 +45,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_home_recent_unlock_pin"
+            android:summary="@string/home_recent_unlock_pin_desc"
+            android:title="@string/home_recent_unlock_pin"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_always_show_clean_up"
             android:dependency="prefs_key_home_recent_hide_clean_up"
             android:title="@string/home_recent_always_show_clean_up"
