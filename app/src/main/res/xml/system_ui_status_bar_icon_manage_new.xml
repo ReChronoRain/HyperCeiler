@@ -2,13 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_internet_title">
-
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_wifi_network_indicator"
             android:title="@string/system_ui_status_bar_icon_wifi_network_indicator"
-            app:entries="@array/status_bar_icon_mode_new"
-            app:entryValues="@array/status_bar_icon_mode_new_value" />
+            app:entries="@array/status_bar_icon_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
 
         <DropDownPreference
             android:defaultValue="0"
