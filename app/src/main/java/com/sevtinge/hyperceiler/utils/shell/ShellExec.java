@@ -72,6 +72,7 @@ public class ShellExec {
     private final boolean result;
     private final boolean init;
     private boolean destroy;
+    private boolean noRoot = false;
     private boolean appending = false;
     protected int setResult = -1;
     private int count = 1;
@@ -166,7 +167,8 @@ public class ShellExec {
      */
     public synchronized ShellExec run(String command) {
         if (!init) return this;
-        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        if (destroy) return this;
         if (appending) {
             throw new RuntimeException("Shell is in append mode!");
         }
@@ -194,7 +196,8 @@ public class ShellExec {
      */
     public synchronized ShellExec add(String command) {
         if (!init) return this;
-        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        if (destroy) return this;
         appending = true;
         clear();
         try {
@@ -216,7 +219,8 @@ public class ShellExec {
      */
     public synchronized ShellExec over() {
         if (!init) return this;
-        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        if (destroy) return this;
         appending = false;
         if (result) {
             pass(cList.toString());
@@ -234,7 +238,8 @@ public class ShellExec {
      */
     public synchronized ShellExec sync() {
         if (!init) return this;
-        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        if (destroy) return this;
         if (appending) {
             throw new RuntimeException("Shell is in append mode!");
         }
@@ -251,7 +256,7 @@ public class ShellExec {
      *
      * @return 是否初始化完成。
      */
-    public boolean ready() {
+    public synchronized boolean ready() {
         return init;
     }
 
@@ -260,18 +265,24 @@ public class ShellExec {
      *
      * @return Shell 状态
      */
-    public boolean isDestroy() {
+    public synchronized boolean isDestroy() {
         return destroy;
     }
 
     /**
      * 使进程崩溃，正常情况不要手动调用。
      */
-    protected void error() {
+    public void error() {
         // 只在非销毁状态下抛错
         if (!destroy) {
-            throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
+            // throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
+            noRoot = true;
+            close();
         }
+    }
+
+    public boolean isRoot() {
+        return !noRoot;
     }
 
     private void clear() {
@@ -298,7 +309,7 @@ public class ShellExec {
      *
      * @return 执行结果
      */
-    public boolean isResult() {
+    public synchronized boolean isResult() {
         return setResult == 0;
     }
 
@@ -307,7 +318,7 @@ public class ShellExec {
      *
      * @return 执行返回值
      */
-    public int getResult() {
+    public synchronized int getResult() {
         return setResult;
     }
 
@@ -316,7 +327,7 @@ public class ShellExec {
      *
      * @return 输出数据的集合
      */
-    public ArrayList<String> getOutPut() {
+    public synchronized ArrayList<String> getOutPut() {
         return outPut;
     }
 
@@ -325,7 +336,7 @@ public class ShellExec {
      *
      * @return 输出错误数据的集合
      */
-    public ArrayList<String> getError() {
+    public synchronized ArrayList<String> getError() {
         return error;
     }
 
@@ -346,9 +357,14 @@ public class ShellExec {
      *
      * @return 本 process 的最终执行结果
      */
-    public int close() {
+    public synchronized int close() {
         if (!init) return -1;
-        if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
+        if (destroy) return -1;
+        try {
+            this.notify();
+        } catch (IllegalMonitorStateException e) {
+        }
         int result = -1;
         try {
             clear();
@@ -395,7 +411,7 @@ public class ShellExec {
                     shellExec.notify();
                 } catch (IllegalMonitorStateException e) {
                 }
-                shellExec.error();
+                shellExec.error(); // 应要求改成非抛错的，虽然我并不想。
             }
         }
     }
