@@ -605,6 +605,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n">Show alarm icon only before alarm goes off</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d hours</string>
     <string name="system_ui_status_bar_icon_airplane">Airplane mode</string>
+    <string name="system_ui_status_bar_icon_roaming">Hide roaming icon</string>
     <string name="system_ui_status_bar_icon_vowifi">Hide VoWiFi icon</string>
     <string name="system_ui_status_bar_icon_volte">Hide VoLTE icon</string>
     <string name="system_ui_status_bar_icon_headset">Headset</string>

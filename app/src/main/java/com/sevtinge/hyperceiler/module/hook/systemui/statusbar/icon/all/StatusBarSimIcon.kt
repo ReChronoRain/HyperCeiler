@@ -32,24 +32,22 @@ object StatusBarSimIcon : BaseHook() {
     }
 
     override fun init() {
-        if (card1 || card2) {
-            loadClass("com.android.systemui.statusbar.phone.StatusBarSignalPolicy").methodFinder()
-                .filterByName("hasCorrectSubs")
-                .filterByParamTypes {
-                    it[0] == MutableList::class.java
-                }.single().createHook {
-                    before {
-                        val list = it.args[0] as MutableList<*>
-                        /* val size = list.size*/
-                        if (card2) {
-                            list.removeAt(1)
-                        }
-                        if (card1) {
-                            list.removeAt(0)
-                        }
+        loadClass("com.android.systemui.statusbar.phone.StatusBarSignalPolicy").methodFinder()
+            .filterByName("hasCorrectSubs")
+            .filterByParamTypes {
+                it[0] == MutableList::class.java
+            }.single().createHook {
+                before {
+                    val list = it.args[0] as MutableList<*>
+                    /* val size = list.size*/
+                    if (card2) {
+                        list.removeAt(1)
+                    }
+                    if (card1) {
+                        list.removeAt(0)
                     }
                 }
-        }
+            }
     }
 
 }

@@ -22,6 +22,9 @@ object MobilePublicHook : BaseHook() {
     private val singleMobileType by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable")
     }
+    private val isHideRoaming by lazy {
+        mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon")
+    }
 
     override fun init() {
         updateState()
@@ -34,6 +37,7 @@ object MobilePublicHook : BaseHook() {
                 if ((qpt != 0) || hideIndicator) {
                     hideMobileType(param) // 隐藏网络类型图标及移动网络指示器
                 }
+                hideIcons(param)
             }
         })
     }
@@ -50,6 +54,7 @@ object MobilePublicHook : BaseHook() {
                 if ((qpt != 0) || hideIndicator) {
                     hideMobileType(param) // 隐藏网络类型图标及移动网络指示器
                 }
+                hideIcons(param)
             }
         })
     }
@@ -62,6 +67,16 @@ object MobilePublicHook : BaseHook() {
             mobileIconState.setObjectField("fiveGDrawableId", 0)
         } catch (t: Throwable) {
             logE(TAG, "showMobileTypeSingle setObjectField is null, $t")
+        }
+    }
+
+    private fun hideIcons(param: MethodHookParam) {
+        val mSmallRoaming = XposedHelpers.getObjectField(param.thisObject, "mSmallRoaming") as View
+        val mMobileRoaming = XposedHelpers.getObjectField(param.thisObject, "mMobileRoaming") as View
+
+        if (isHideRoaming) {
+            mSmallRoaming.visibility = View.GONE
+            mMobileRoaming.visibility = View.GONE
         }
     }
 
