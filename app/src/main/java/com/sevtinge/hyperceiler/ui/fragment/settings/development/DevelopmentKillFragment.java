@@ -90,7 +90,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                     public void onInputReceived(String userInput) {
                         String pkg = "";
                         for (AppData appData1 : appData) {
-                            if (appData1.label.equals(userInput)) {
+                            if (appData1.label.equalsIgnoreCase(userInput)) {
                                 pkg = appData1.packageName;
                             }
                         }
@@ -110,7 +110,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                         if (!userInput.equals("")) {
                             String pkg = "";
                             for (AppData appData1 : appData) {
-                                if (appData1.packageName.equals(userInput)) {
+                                if (appData1.packageName.equalsIgnoreCase(userInput)) {
                                     pkg = appData1.packageName;
                                 }
                             }
@@ -139,7 +139,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                         if (!userInput.equals("")) {
                             String pkg = "";
                             for (AppData appData1 : appData) {
-                                if (appData1.label.equals(userInput)) {
+                                if (appData1.label.equalsIgnoreCase(userInput)) {
                                     pkg = appData1.packageName;
                                 }
                             }
