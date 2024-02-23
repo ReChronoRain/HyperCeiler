@@ -32,20 +32,15 @@ public class DeviceModify extends BaseHook {
 
     @Override
     public void init() {
-        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 101) {
-            // 13u
-            mDevice = "ishtar";
-            mModel = "2304FPN6DC";
+        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 104) {
+            // 14u
+            mDevice = "aurora";
+            mModel = "24031PN0DC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 102) {
             // 14p
             mDevice = "shennong";
             mModel = "23116PN5BC";
-            mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 103) {
-            // 14
-            mDevice = "houji";
-            mModel = "23127PN0CC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 153) {
             // civi3
@@ -67,10 +62,10 @@ public class DeviceModify extends BaseHook {
             mDevice = "draco";
             mModel = "MIX Alpha";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 208) {
-            // pad6m
-            mDevice = "yudi";
-            mModel = "2307BRPDCC";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 209) {
+            // pad6sp
+            mDevice = "sheng";
+            mModel = "24018RPACC";
             mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 307) {
             // k60u
@@ -91,6 +86,11 @@ public class DeviceModify extends BaseHook {
             // n13pp
             mDevice = "zircon";
             mModel = "23090RA98C";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 402) {
+            // 13c or 13r
+            mDevice = "air";
+            mModel = "23124RN87C";
             mManufacturer = "Redmi";
         }
         findAndHookConstructor("com.xiaomi.market.MarketApp", new MethodHook() {
