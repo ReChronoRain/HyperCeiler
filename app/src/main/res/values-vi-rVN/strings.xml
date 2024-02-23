@@ -560,8 +560,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_small_hd">Biểu tượng HD nhỏ</string>
     <string name="system_ui_status_bar_icon_big_hd">Biểu tượng HD lớn</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Biểu tượng không có sim</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Biểu tượng tín hiệu mạng sim 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Biểu tượng tín hiệu mạng sim 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
     <string name="system_ui_status_bar_icon_location">Vị trí</string>

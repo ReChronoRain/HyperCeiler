@@ -309,8 +309,6 @@
     <string name="system_ui_status_bar_icon_small_hd">Küçük HD simge</string>
     <string name="system_ui_status_bar_icon_big_hd">Büyük HD simge</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Sim kart simgesi yok</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Sim kart 1 sinyal simgesi</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Sim kart 2 sinyal simgesi</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Ekran mantığı</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Büyük ağ türü simgesi</string>
     <string name="system_ui_status_bar_icon_location">Konum</string>

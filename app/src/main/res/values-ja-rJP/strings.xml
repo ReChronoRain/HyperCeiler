@@ -553,8 +553,6 @@
     <string name="system_ui_status_bar_icon_small_hd">小さな HD アイコン</string>
     <string name="system_ui_status_bar_icon_big_hd">大きな HD アイコン</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">SIM カード未挿入アイコン</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM カード 1 信号アイコン</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM カード 2 信号アイコン</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">表示ロジック</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大きなネットワークタイプアイコン</string>
     <string name="system_ui_status_bar_icon_location">位置情報</string>
