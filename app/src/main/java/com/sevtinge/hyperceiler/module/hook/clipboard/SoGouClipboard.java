@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.sogou;
+package com.sevtinge.hyperceiler.module.hook.clipboard;
 
 import androidx.annotation.NonNull;
 
@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 
 import de.robv.android.xposed.XC_MethodHook;
 
-public class Clipboard extends BaseHook {
+public class SoGouClipboard extends BaseHook {
     public boolean clipboard;
 
     @Override
