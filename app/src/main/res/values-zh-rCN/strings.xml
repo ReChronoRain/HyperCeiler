@@ -169,6 +169,7 @@
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
     <string name="save_to_screen_title">规范保存位置</string>
+    <string name="only_new_version_can_do">仅支持较新的版本</string>
 
     <string name="system_ui_statusbar_indicator_default_title">常规</string>
     <string name="system_ui_statusbar_indicator_expand_title">扩展</string>
@@ -612,6 +613,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n">仅在闹钟响铃前显示闹钟图标</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 小时</string>
     <string name="system_ui_status_bar_icon_airplane">飞行模式</string>
+    <string name="system_ui_status_bar_icon_roaming">隐藏漫游图标</string>
     <string name="system_ui_status_bar_icon_vowifi">隐藏 VoWiFi 图标</string>
     <string name="system_ui_status_bar_icon_volte">隐藏 VoLTE 图标</string>
     <string name="system_ui_status_bar_icon_headset">耳机</string>
@@ -1119,6 +1121,7 @@
     <string name="home_recent">最近任务</string>
     <string name="home_recent_animation_speed">动画速度</string>
     <string name="home_recent_disable_wallpaper_dimming">取消壁纸压暗</string>
+    <string name="home_recent_unlock_pin">解锁固定应用</string>
     <string name="home_recent_hide_status_bar_in_task_view">隐藏状态栏</string>
     <string name="home_recent_hide_freeform">隐藏小窗按钮</string>
     <string name="home_recent_hide_clean_up">隐藏清理按钮</string>
@@ -1303,7 +1306,6 @@
     <string name="security_center_dolby_open">关闭杜比弹窗</string>
     <string name="security_center_show_battery_temperature">显示电池温度</string>
     <string name="security_center_show_battery_health">显示具体电池健康度</string>
-    <string name="security_center_show_battery_health_desc">仅支持较新的版本</string>
     <string name="security_center_ai_clipboard">剪贴板隐私保护</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 开关</string>

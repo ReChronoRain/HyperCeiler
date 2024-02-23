@@ -158,6 +158,7 @@
     <string name="search">Buscar</string>
     <string name="floating_window">Ventanas pequeñas</string>
     <string name="save_to_screen_title">Regular las ubicaciones de guardar</string>
+    <string name="only_new_version_can_do">Solo en últimas versiones se funciona</string>
     <string name="system_ui_statusbar_indicator_default_title">Predeterminado</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expandir</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fijar ancho de contenido</string>
@@ -1236,7 +1237,6 @@
     <string name="security_center_dolby_open">Cerrar la ventana emergente de Dolby</string>
     <string name="security_center_show_battery_temperature">Mostrar temperatura de batería</string>
     <string name="security_center_show_battery_health">Mostrar estado detallado de la batería</string>
-    <string name="security_center_show_battery_health_desc">Solo en últimas versiones se funciona</string>
     <string name="security_center_ai_clipboard">Proteger el portapapeles</string>
     <string name="security_center_blur_location">Menor precisión de posicionamiento</string>
     <string name="security_center_gms_open">Servicio de GMS</string>

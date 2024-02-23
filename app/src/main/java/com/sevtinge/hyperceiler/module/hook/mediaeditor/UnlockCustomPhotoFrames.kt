@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -40,6 +39,16 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val publicA by lazy {
         dexKitBridge.findMethod {
             matcher {
+                // 真是妹想到啊，1.5 和 1.6 版本还以为不会套回去了
+                // 现在这个查找方式直接兼容 1.4 - 1.6
+                // 1.6.5.10.2 迪斯尼定制画框解锁的地方和现在的不一样
+                declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
+                modifiers = Modifier.FINAL or Modifier.STATIC
+                returnType = "boolean"
+                paramCount = 0
+                // 1.6.5.10.2 以上方法查找完剩下 a() c() e()
+            }
+           /* matcher {
                 // find 徕卡定制画框 && redmi 定制画框 && poco 定制画框 && 迪斯尼定制画框 && 新春定制画框
                 // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 a() b() d() f() h() i()）
                 // b() 是新春定制画框，前置条件需要符合定制画框类型(徕卡定制画框 或 redmi 定制画框)
@@ -56,7 +65,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 modifiers = Modifier.FINAL or Modifier.STATIC
                 returnType = "boolean"
                 paramCount = 0
-            }
+            }*/
         }
     }
 
@@ -64,6 +73,15 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val publicB by lazy {
         dexKitBridge.findMethod {
             matcher {
+                declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
+                // modifiers = Modifier.STATIC // 1.6.5.10.2 改成 STATIC，原来是 FINAL
+                returnType = "boolean"
+                paramCount = 1
+                addUsingField {
+                    modifiers = Modifier.STATIC or Modifier.FINAL
+                }
+            }
+            /*matcher {
                 // 定位指定类名
                 // declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
                 // 搜索符合条件的方法（1.6.3.5 举例，以下条件筛选完还有 c(c cVar) e(c cVar) g(c cVar)）
@@ -90,8 +108,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 modifiers = Modifier.FINAL
                 returnType = "boolean"
                 paramCount = 1
-            }
-        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toList()
+            }*/
+        }.map { it.getMethodInstance(EzXHelper.classLoader) }.toSet()
     }
 
     override fun init() {

@@ -158,6 +158,7 @@
     <string name="search">Tìm kiếm</string>
     <string name="floating_window">Cửa sổ nổi</string>
     <string name="save_to_screen_title">Lưu thông tin vị trí</string>
+    <string name="only_new_version_can_do">Chỉ hỗ trợ các phiên bản mới hơn</string>
     <string name="system_ui_statusbar_indicator_default_title">Mặc định</string>
     <string name="system_ui_statusbar_indicator_expand_title">Mở rộng</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Sửa nội dung ngang</string>
@@ -1242,7 +1243,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_dolby_open">Tắt pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Hiển thị nhiệt độ pin</string>
     <string name="security_center_show_battery_health">Hiển thị chi tiết tình trạng pin</string>
-    <string name="security_center_show_battery_health_desc">Chỉ hỗ trợ các phiên bản mới hơn</string>
     <string name="security_center_ai_clipboard">Bảo vệ khay nhớ tạm</string>
     <string name="security_center_blur_location">Độ chính xác định vị thấp hơn</string>
     <string name="security_center_gms_open">Dịch vụ Google</string>
