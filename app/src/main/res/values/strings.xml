@@ -195,6 +195,7 @@
     <string name="search">Search</string>
     <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Specification save location</string>
+    <string name="only_new_version_can_do">Only newer versions supported</string>
     <string name="system_ui_statusbar_indicator_default_title">Default</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expand</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
@@ -1099,7 +1100,6 @@
     <string name="home_recent_animation_speed">Animation speed</string>
     <string name="home_recent_disable_wallpaper_dimming">Disable wallpaper dimming</string>
     <string name="home_recent_unlock_pin">Unlock pinned apps</string>
-    <string name="home_recent_unlock_pin_desc">Only newer versions supported</string>
     <string name="home_recent_hide_status_bar_in_task_view">Hide status bar in task view</string>
     <string name="home_recent_hide_freeform">Hide freeform button</string>
     <string name="home_recent_hide_clean_up">Hide clean up button</string>
@@ -1283,7 +1283,6 @@
     <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="security_center_show_battery_temperature">Show battery temperature</string>
     <string name="security_center_show_battery_health">Show detailed battery health</string>
-    <string name="security_center_show_battery_health_desc">Only newer versions supported</string>
     <string name="security_center_ai_clipboard">Protect clipboard</string>
     <string name="security_center_blur_location">Lower positioning accuracy</string>
     <string name="security_center_gms_open">GMS Service</string>

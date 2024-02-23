@@ -158,6 +158,7 @@
     <string name="search">Pesquisar</string>
     <string name="floating_window">Janelas flutuantes</string>
     <string name="save_to_screen_title">Especificar local para salvar</string>
+    <string name="only_new_version_can_do">Apenas versões mais recentes são suportadas</string>
     <string name="system_ui_statusbar_indicator_default_title">Padrão</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expandir</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Corrigir largura do conteúdo</string>
@@ -1236,7 +1237,6 @@
     <string name="security_center_dolby_open">Fechar janela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Exibir temperatura da bateria</string>
     <string name="security_center_show_battery_health">Exibir saúde da bateria detalhada</string>
-    <string name="security_center_show_battery_health_desc">Apenas versões mais recentes são suportadas</string>
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Precisão de localização mais baixa</string>
     <string name="security_center_gms_open">Serviço GMS</string>
