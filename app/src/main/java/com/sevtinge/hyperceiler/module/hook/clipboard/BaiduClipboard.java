@@ -62,7 +62,7 @@ public class BaiduClipboard extends BaseHook {
             if (methodDataList.size() == 1) {
                 logW(TAG, "list size only one!");
             }
-            if (methodDataList.size() == 2) {
+            if (methodDataList.size() == 1 || methodDataList.size() == 2) {
                 for (MethodData method : methodDataList) {
                     // logE(TAG, "find method: " + method.getMethodInstance(lpparam.classLoader));
                     hookMethod(method.getMethodInstance(lpparam.classLoader),
