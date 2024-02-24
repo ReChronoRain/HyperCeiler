@@ -560,6 +560,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_small_hd">Biểu tượng HD nhỏ</string>
     <string name="system_ui_status_bar_icon_big_hd">Biểu tượng HD lớn</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Biểu tượng không có sim</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ẩn biểu tượng tín hiệu SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ẩn biểu tượng tín hiệu SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
     <string name="system_ui_status_bar_icon_location">Vị trí</string>
@@ -568,6 +570,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_alarm_clock_n">Chỉ hiển thị biểu tượng báo thức trước khi báo thức kêu</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d phút</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>
+    <string name="system_ui_status_bar_icon_roaming">Ẩn biểu tượng chuyển vùng</string>
     <string name="system_ui_status_bar_icon_vowifi">Ẩn biểu tượng VoWiFi</string>
     <string name="system_ui_status_bar_icon_volte">Ẩn biểu tượng VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Tai nghe</string>
@@ -1061,6 +1064,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_disable_wallpaper_dimming">Tắt làm mờ hình nền</string>
+    <string name="home_recent_unlock_pin">Mở khóa các ứng dụng được ghim</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ẩn thanh trạng thái</string>
     <string name="home_recent_hide_freeform">Ẩn nút cửa sổ nổi</string>
     <string name="home_recent_hide_clean_up">Ẩn nút xóa</string>
