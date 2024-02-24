@@ -158,6 +158,7 @@
     <string name="search">検索</string>
     <string name="floating_window">フリーフォーム</string>
     <string name="save_to_screen_title">保存場所の変更</string>
+    <string name="only_new_version_can_do">新しいバージョンにのみ対応しています</string>
     <string name="system_ui_statusbar_indicator_default_title">デフォルト</string>
     <string name="system_ui_statusbar_indicator_expand_title">展開</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">コンテンツの幅を修正</string>
@@ -230,6 +231,7 @@
     <string name="charge_animation_entries_alpha">リズム</string>
     <string name="status_bar_icon_mode_default">デフォルト</string>
     <string name="status_bar_icon_mode_on">常に表示</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Wi-Fi 接続していないときは常に表示</string>
     <string name="status_bar_icon_mode_off">常に非表示</string>
     <string name="status_bar_icon_mode_on_control_center">コントロールセンターでのみ表示</string>
     <string name="status_bar_icon_mode_on_status_bar">ステータスバーにのみ表示</string>
@@ -523,6 +525,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">アイコンのスタイル</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">アイコンの大きさ</string>
     <string name="system_ui_status_bar_mobile_type_single">モバイルネットワークタイプのアイコンを別々に表示</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">モバイルネットワークタイプのアイコンが常に非表示になっているため、この機能はオフになっています</string>
     <string name="system_ui_status_bar_mobile_type_left">信号の左側に表示</string>
     <string name="system_ui_status_bar_mobile_indicator">モバイルネットワークアクティビティインジケーターを非表示</string>
     <string name="system_ui_status_bar_mobile_type_custom">カスタムテキスト</string>
@@ -540,6 +543,8 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">バッテリー</string>
     <string name="system_ui_statusbar_iconmanage_call_title">通話</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">デバイス</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">ネットワーク</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">プライバシー</string>
     <string name="system_ui_statusbar_iconmanage_left_title">アイコンを左側に表示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">アイコンを右側に表示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -553,13 +558,17 @@
     <string name="system_ui_status_bar_icon_small_hd">小さな HD アイコン</string>
     <string name="system_ui_status_bar_icon_big_hd">大きな HD アイコン</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">SIM カード未挿入アイコン</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">SIM カード1のシグナルアイコンを非表示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">SIM カード2のシグナルアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">表示ロジック</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大きなネットワークタイプアイコン</string>
     <string name="system_ui_status_bar_icon_location">位置情報</string>
+    <string name="system_ui_status_bar_icon_mic">マイク</string>
     <string name="system_ui_status_bar_icon_alarm_clock">時計のアラーム</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">アラームが鳴る前にのみアラームアイコンを表示する</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 時間</string>
     <string name="system_ui_status_bar_icon_airplane">機内モード</string>
+    <string name="system_ui_status_bar_icon_roaming">ローミングアイコンを非表示</string>
     <string name="system_ui_status_bar_icon_vowifi">VoWiFi アイコンを非表示</string>
     <string name="system_ui_status_bar_icon_volte">VoLTE アイコンを非表示</string>
     <string name="system_ui_status_bar_icon_headset">ヘッドセット</string>
@@ -745,6 +754,8 @@
     <string name="system_ui_control_center_unlock_blur_supported">通知ぼかしの制限を無効化</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">サードパーティのテーマで背景ぼかしの制限を削除します</string>
     <string name="system_ui_other_title">その他</string>
+    <string name="system_ui_disable_volume">ネイティブ音量バー</string>
+    <string name="system_ui_disable_volume_desc">Xiaomi の音量バーへの変更はネイティブの音量バーには適用されません</string>
     <string name="system_ui_charge_animation_title">充電時のアニメーション</string>
     <string name="system_ui_charge_animation_style">充電アニメーションのスタイル</string>
     <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
@@ -1046,6 +1057,7 @@
     <string name="home_recent">アプリ履歴</string>
     <string name="home_recent_animation_speed">アニメーションの速度</string>
     <string name="home_recent_disable_wallpaper_dimming">壁紙の調光を無効化</string>
+    <string name="home_recent_unlock_pin">固定アプリのロックを解除</string>
     <string name="home_recent_hide_status_bar_in_task_view">アプリ履歴のステータスバーを非表示</string>
     <string name="home_recent_hide_freeform">フリーフォームボタンを隠す</string>
     <string name="home_recent_hide_clean_up">アプリ履歴の一括消去ボタンを非表示</string>
@@ -1225,6 +1237,7 @@
     <string name="security_center_newbox_title">サイドバー</string>
     <string name="security_center_dolby_open">Dolby ポップアップウィンドウを閉じる</string>
     <string name="security_center_show_battery_temperature">バッテリーの温度を表示</string>
+    <string name="security_center_show_battery_health">詳細なバッテリー健康状態を表示</string>
     <string name="security_center_ai_clipboard">クリップボードの保護</string>
     <string name="security_center_blur_location">おおまかな位置情報</string>
     <string name="security_center_gms_open">GMS サービス</string>
@@ -1404,6 +1417,7 @@
     <string name="various_super_clipboard_files_desc">クリップボードへのファイルのコピーを許可</string>
     <string name="various_super_clipboard_picture_share_desc">クリップボードに画像のコピーと貼り付けを許可します</string>
     <string name="various_open_aosp_battery_title">バッテリーの最適化</string>
+    <string name="various_open_aosp_running_services">実行中のサービス</string>
     <string name="various_open_aosp_notification_title">通知設定</string>
     <string name="various_open_aosp_app_manage_title">アプリを管理</string>
     <string name="various_open_aosp_language_title">アプリの言語</string>

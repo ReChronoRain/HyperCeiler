@@ -558,6 +558,8 @@
     <string name="system_ui_status_bar_icon_small_hd">Ícone HD pequeno</string>
     <string name="system_ui_status_bar_icon_big_hd">Ícone HD grande</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Sem ícone do cartão SIM</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ocultar ícone de sinal do cartão SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ocultar ícone de sinal do cartão SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de exibição</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ícone do tipo de rede grande</string>
     <string name="system_ui_status_bar_icon_location">Localização</string>
@@ -566,6 +568,7 @@
     <string name="system_ui_status_bar_icon_alarm_clock_n">Exibir ícone do alarme apenas antes do alarme disparar</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
     <string name="system_ui_status_bar_icon_airplane">Modo avião</string>
+    <string name="system_ui_status_bar_icon_roaming">Ocultar ícone de roaming</string>
     <string name="system_ui_status_bar_icon_vowifi">Ocultar ícone VoWiFi</string>
     <string name="system_ui_status_bar_icon_volte">Ocultar ícone VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Fone de ouvido</string>
@@ -1054,6 +1057,7 @@
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
+    <string name="home_recent_unlock_pin">Desbloquear apps fixados</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
     <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
     <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
