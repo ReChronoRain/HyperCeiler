@@ -59,6 +59,7 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 | 搜狗输入法小米版              | com.sohu.inputmethod.sogou.xiaomi  |
 | 天气                    | com.miui.weather2                  |
 | 互联互通服务 (投屏)           | com.milink.service                 |
+| 跨屏协同服务 (MIUI+ Beta 版) | com.xiaomi.mirror                  |
 | 外部存储设备                | com.android.externalstorage        |
 | 息屏与锁屏编辑 (万象息屏)        | com.miui.aod                       |
 | 文件管理                  | com.android.fileexplorer           |
@@ -136,6 +137,7 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 - [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
 - [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
+- [「MediaControl-BlurBg」 by YuKongA](https://github.com/YuKongA/MediaControl-BlurBg)
 - [「Miui Feature」 by MoralNorm](https://github.com/moralnorm/miui_feature)
 - [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
 - [「MIUI IME Unlock」 by RC1844](https://github.com/RC1844/MIUI_IME_Unlock)
