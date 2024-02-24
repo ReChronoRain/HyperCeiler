@@ -876,7 +876,8 @@
     <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
-    <string name="theme_manager_version_code_modify">Disable MIUI version detection</string>
+    <string name="theme_manager_version_code_modify">Adjust detection version</string>
+    <string name="theme_manager_version_code_modify_desc">Adjust the detected version to use some themes that are not adapted to the new version</string>
     <string name="theme_manager_diable_ads">Disable ads</string>
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
     <string name="theme_manager_enable_pad_theme">Enable Pad theme</string>

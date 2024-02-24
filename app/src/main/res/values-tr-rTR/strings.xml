@@ -432,7 +432,6 @@
     <string name="system_settings_develop_speed_mode_desc">Desteklenmeyen modellerde açıldıktan sonra giriş görüntülenmeyecektir</string>
     <!--Themes-->
     <string name="theme_manager">Temalar</string>
-    <string name="theme_manager_version_code_modify">MIUI sürüm algılamayı devre dışı bırak</string>
     <string name="theme_manager_diable_ads">Reklamları devre dışı bırak</string>
     <string name="theme_manager_enable_pad_theme">Ped temasını etkinleştir</string>
     <string name="theme_manager_enable_fold_theme">Katlama temasını etkinleştir</string>

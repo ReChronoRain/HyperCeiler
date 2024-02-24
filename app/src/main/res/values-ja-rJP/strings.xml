@@ -824,7 +824,6 @@
     <string name="system_settings_allow_never_lock_screen">画面ロックなしの設定を許可</string>
     <!--Themes-->
     <string name="theme_manager">テーマ</string>
-    <string name="theme_manager_version_code_modify">MIUI のバージョン検出を無効にする</string>
     <string name="theme_manager_diable_ads">広告を無効化</string>
     <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
     <string name="theme_manager_enable_pad_theme">Pad テーマを有効化</string>

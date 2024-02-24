@@ -823,7 +823,7 @@
     <string name="system_settings_allow_never_lock_screen">允許永不鎖定螢幕</string>
     <!--Themes-->
     <string name="theme_manager">主題桌布</string>
-    <string name="theme_manager_version_code_modify">停用 MIUI 版本檢測</string>
+    <string name="theme_manager_version_code_modify">調整檢測版本</string>
     <string name="theme_manager_diable_ads">停用廣告</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
     <string name="theme_manager_enable_pad_theme">啟用 Pad 主題</string>

@@ -824,7 +824,6 @@
     <string name="system_settings_allow_never_lock_screen">Izinkan jangan pernah mengunci layar</string>
     <!--Themes-->
     <string name="theme_manager">Tema</string>
-    <string name="theme_manager_version_code_modify">Nonaktifkan deteksi versi MIUI</string>
     <string name="theme_manager_diable_ads">Nonaktifkan iklan</string>
     <string name="theme_manager_diable_ads_desc">Ganti iklan \"tebak apa yang Anda suka\" dengan kartu kosong, dan hapus iklan lainnya sepenuhnya</string>
     <string name="theme_manager_enable_pad_theme">Aktifkan tema Pad</string>

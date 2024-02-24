@@ -832,7 +832,6 @@
     <string name="system_settings_allow_never_lock_screen">Permitir no bloquear pantalla</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
-    <string name="theme_manager_version_code_modify">Desactivar detección de versión de HyperOS/MIUI</string>
     <string name="theme_manager_diable_ads">Quitar publicidad</string>
     <string name="theme_manager_diable_ads_desc">Sustituir \"adivinar lo que quiere\" con tarjetas en blanco, y eliminar completamente el resto de los anuncios</string>
     <string name="theme_manager_enable_pad_theme">Activar tema de Pad</string>

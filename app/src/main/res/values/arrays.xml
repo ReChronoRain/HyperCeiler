@@ -873,4 +873,24 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="theme_manager_version_code">
+        <item>@string/array_default</item>
+        <item>MIUI 11</item>
+        <item>MIUI 12</item>
+        <item>MIUI 12.5</item>
+        <item>MIUI 13</item>
+        <item>MIUI 14</item>
+        <item>HyperOS 1.0</item>
+    </string-array>
+
+    <string-array name="theme_manager_version_code_value">
+        <item>0</item>
+        <item>110</item>
+        <item>120</item>
+        <item>125</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+    </string-array>
+
 </resources>

@@ -16,6 +16,9 @@ object MobilePublicHook : BaseHook() {
         loadClass("com.android.systemui.statusbar.StatusBarMobileView")
     }
 
+    private val isEnableDouble by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable")
+    }
     private val qpt by lazy {
         mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0)
     }
@@ -103,7 +106,9 @@ object MobilePublicHook : BaseHook() {
         val mMobileRoaming = XposedHelpers.getObjectField(param.thisObject, "mMobileRoaming") as View
 
         if (isHideRoaming) {
-            mSmallRoaming.visibility = View.GONE
+            if (!isEnableDouble) {
+                mSmallRoaming.visibility = View.GONE
+            }
             mMobileRoaming.visibility = View.GONE
         }
     }

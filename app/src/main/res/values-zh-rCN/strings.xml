@@ -894,7 +894,8 @@
     <string name="system_settings_animator_duration_scale">Animator 时长缩放</string>
     <!--主题壁纸-->
     <string name="theme_manager">主题壁纸</string>
-    <string name="theme_manager_version_code_modify">禁用 MIUI 版本检测</string>
+    <string name="theme_manager_version_code_modify">调整检测版本</string>
+    <string name="theme_manager_version_code_modify_desc">调整检测版本以使用部分未适配新版本的主题</string>
     <string name="theme_manager_diable_ads">禁用广告</string>
     <string name="theme_manager_diable_ads_desc">将 \"猜你喜欢\" 的广告替换为空白卡片，其余位置的广告将完全移除</string>
     <string name="theme_manager_enable_pad_theme">启用 Pad 主题</string>

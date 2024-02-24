@@ -834,7 +834,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_allow_never_lock_screen">Cho phép không bao giờ khóa màn hình</string>
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
-    <string name="theme_manager_version_code_modify">Tắt phát hiện phiên bản MIUI</string>
     <string name="theme_manager_diable_ads">Tắt quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>

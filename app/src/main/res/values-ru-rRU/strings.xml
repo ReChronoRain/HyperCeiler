@@ -791,7 +791,6 @@
     <string name="system_settings_animator_duration_scale">Длительность анимации</string>
     <!--Themes-->
     <string name="theme_manager">Темы</string>
-    <string name="theme_manager_version_code_modify">Отключить определение версии MIUI</string>
     <string name="theme_manager_diable_ads">Отключить рекламу</string>
     <string name="theme_manager_diable_ads_desc">Заменить «угадать, что вам нравится» на пустые карты, и полностью удалить остальную рекламу</string>
     <string name="theme_manager_enable_pad_theme">Темы Pad</string>
