@@ -867,7 +867,8 @@
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_apps_freezer">Force showing freeze cached apps</string>
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in \"Developer Options,\" but its functionality is not guaranteed</string>
-    <string name="system_settings_develop_speed_mode">Extreme mode</string>
+    <string name="system_settings_develop_speed_mode">Unlock Extreme Mode</string>
+    <string name="system_settings_develop_max_fps">Unlock to force display peak refresh rate</string>
     <string name="system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
     <string name="system_settings_window_animation_scale">Window Animation Zoom</string>
     <string name="system_settings_transition_animation_scale">Transition Animation Scaling</string>

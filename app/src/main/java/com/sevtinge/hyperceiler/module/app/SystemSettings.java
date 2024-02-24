@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManageUnknownApp
 import com.sevtinge.hyperceiler.module.hook.systemsettings.QuickManagerAccessibilityPermission;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.RunningServices;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnLockAreaScreenshot;
+import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockMaxFps;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockNeverSleepScreen;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UnlockTaplusForSettings;
 import com.sevtinge.hyperceiler.module.hook.systemsettings.UsbModeChoose;
@@ -73,6 +74,7 @@ public class SystemSettings extends BaseModule {
         initHook(new AppsFreezerEnable(), mPrefsMap.getBoolean("system_settings_apps_freezer"));
         // initHook(new BluetoothRestrict(), mPrefsMap.getBoolean("various_disable_bluetooth_restrict"));
         initHook(new VolumeSeparateControlForSettings(), mPrefsMap.getBoolean("system_framework_volume_separate_control") && !isMoreHyperOSVersion(1f));
+        initHook(UnlockMaxFps.INSTANCE, mPrefsMap.getBoolean("system_settings_develop_max_fps"));
 
         initHook(new UnlockSuperResolution(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_sr"));
         initHook(new UnlockAi(), mPrefsMap.getBoolean("system_settings_ai_image_unlock_ai"));

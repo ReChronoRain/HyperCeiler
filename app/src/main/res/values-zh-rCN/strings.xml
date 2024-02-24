@@ -886,7 +886,8 @@
     <string name="system_settings_develop_title">开发者选项</string>
     <string name="system_settings_apps_freezer">强制显示暂停执行已缓存的应用</string>
     <string name="system_settings_apps_freezer_more">开启后可在 \"开发者选项\" 中找到此功能，为强制显示，不保证可用</string>
-    <string name="system_settings_develop_speed_mode">极致模式</string>
+    <string name="system_settings_develop_speed_mode">解锁极致模式</string>
+    <string name="system_settings_develop_max_fps">解锁强制显示峰值刷新频率</string>
     <string name="system_settings_develop_speed_mode_desc">在不支持的机型上开启后不会显示入口</string>
     <string name="system_settings_window_animation_scale">窗口动画缩放</string>
     <string name="system_settings_transition_animation_scale">过渡动画缩放</string>
