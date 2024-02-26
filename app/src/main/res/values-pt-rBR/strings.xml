@@ -827,7 +827,8 @@
     <string name="system_settings_develop_title">Opções do desenvolvedor</string>
     <string name="system_settings_apps_freezer">Forçar a exibição de apps congelados em cache</string>
     <string name="system_settings_apps_freezer_more">Uma vez ativado, esse recurso pode ser encontrado nas Opções do desenvolvedor, mas sua funcionalidade não é garantida.</string>
-    <string name="system_settings_develop_speed_mode">Modo extremo</string>
+    <string name="system_settings_develop_speed_mode">Desbloquear Modo extremo</string>
+    <string name="system_settings_develop_max_fps">Desbloquear forçar taxa de atualização máxima de exibição</string>
     <string name="system_settings_develop_speed_mode_desc">A entrada não será exibida após a abertura em modelos não suportados</string>
     <string name="system_settings_window_animation_scale">Escala de animação da janela</string>
     <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
@@ -835,6 +836,8 @@
     <string name="system_settings_allow_never_lock_screen">Permitir nunca bloquear a tela</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
+    <string name="theme_manager_version_code_modify">Ajustar versão de detecção</string>
+    <string name="theme_manager_version_code_modify_desc">Ajuste a versão detectada para usar alguns temas que não estão adaptados à nova versão</string>
     <string name="theme_manager_diable_ads">Desativar anúncios</string>
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
     <string name="theme_manager_enable_pad_theme">Ativar tema Pad</string>

@@ -830,6 +830,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
     <string name="system_settings_develop_speed_mode">Chế độ siêu tốc</string>
+    <string name="system_settings_develop_max_fps">Mở khóa để ép tốc độ làm mới màn hình cao nhất</string>
     <string name="system_settings_develop_speed_mode_desc">Không hiển thị trên các máy không được hỗ trợ</string>
     <string name="system_settings_window_animation_scale">Tỷ lệ ảnh động cửa sổ</string>
     <string name="system_settings_transition_animation_scale">Tỷ lệ ảnh động chuyển tiếp</string>
@@ -837,6 +838,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_allow_never_lock_screen">Cho phép không bao giờ khóa màn hình</string>
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
+    <string name="theme_manager_version_code_modify">Điều chỉnh phiên bản phát hiện</string>
+    <string name="theme_manager_version_code_modify_desc">Điều chỉnh phiên bản được phát hiện để sử dụng một số chủ đề không phù hợp với phiên bản mới</string>
     <string name="theme_manager_diable_ads">Tắt quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
