@@ -108,8 +108,8 @@
             android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_bluetooth"
             android:title="@string/system_ui_status_bar_icon_bluetooth"
-            app:entries="@array/status_bar_icon_bluetooth_new"
-            app:entryValues="@array/status_bar_icon_bluetooth_new_value" />
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
 
         <DropDownPreference
             android:defaultValue="0"
