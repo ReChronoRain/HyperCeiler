@@ -109,7 +109,7 @@ object NotificationWeatherNew : BaseHook() {
         } else {
             loadClass(pluginLoaderClass, lpparam.classLoader).methodFinder()
                 .filterByName("getClassLoader")
-                .single().createHook {
+                .first().createHook {
                     after { getClassLoader ->
                         appInfo = getClassLoader.args[0] as ApplicationInfo
                         if (appInfo!!.packageName == "miui.systemui.plugin") {
@@ -127,7 +127,7 @@ object NotificationWeatherNew : BaseHook() {
         loadClass(
             "miui.systemui.controlcenter.windowview.MainPanelHeaderController",
             pluginClassLoader
-        ).methodFinder().filterByName("addClockViews").single().createHook {
+        ).methodFinder().filterByName("addClockViews").first().createHook {
             after {
                 val dateView =
                     it.thisObject.getObjectFieldOrNullAs<TextView>("dateView")!!
