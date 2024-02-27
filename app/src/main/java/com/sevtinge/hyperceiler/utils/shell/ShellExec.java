@@ -1,8 +1,26 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils.shell;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.callback.ITAG;
+import com.sevtinge.hyperceiler.callback.IResult;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 import java.io.BufferedReader;
@@ -24,17 +42,17 @@ import java.util.regex.Pattern;
  * new ShellExec("ls", true, true, new ShellUtils.ICommandOutPut() {
  *             @Override
  *             public void readOutput(String out, boolean finish) {
- *                 AndroidLogUtils.LogI(ITAG.TAG, "out: " + out + " finish: " + finish);
+ *                 Log.LogI(TAG, "out: " + out + " finish: " + finish);
  *             }
  *
  *             @Override
  *             public void readError(String out) {
- *                 AndroidLogUtils.LogI(ITAG.TAG, "error: " + out);
+ *                 Log.LogI(TAG, "error: " + out);
  *             }
  *
  *             @Override
  *             public void result(String command, int result) {
- *                 AndroidLogUtils.LogI(ITAG.TAG, "command: " + command + " result: " + result);
+ *                 Log.LogI(TAG, "command: " + command + " result: " + result);
  *             }
  *         })
  *             .sync()
@@ -51,8 +69,8 @@ import java.util.regex.Pattern;
  *
  * public void test(){
  *     shell.run("ls").sync();
- *     AndroidLogUtils.LogI(ITAG.TAG, "result: " + shell.isResult());
- *     AndroidLogUtils.LogI(ITAG.TAG, "out: " + shell.getOutPut.toString() + " error: " + shell.getError.toString());
+ *     Log.LogI(TAG, "result: " + shell.isResult());
+ *     Log.LogI(TAG, "out: " + shell.getOutPut.toString() + " error: " + shell.getError.toString());
  *     shell.close();
  * }
  * }
@@ -61,10 +79,13 @@ import java.util.regex.Pattern;
  * @noinspection UnusedReturnValue
  */
 public class ShellExec {
+    private final static String TAG = "ShellExec";
     private final Process process;
     private final DataOutputStream os;
     private static IPassCommands pass0;
     private static IPassCommands pass1;
+    private Error mError;
+    private OutPut mOutPut;
     private final ArrayList<String> outPut = new ArrayList<>();
     private final ArrayList<String> error = new ArrayList<>();
     private final ArrayList<String> cList = new ArrayList<>();
@@ -72,8 +93,9 @@ public class ShellExec {
     private final boolean result;
     private final boolean init;
     private boolean destroy;
-    private boolean noRoot = false;
     private boolean appending = false;
+    private boolean isFilter = false;
+    private boolean noRoot = false;
     protected int setResult = -1;
     private int count = 1;
 
@@ -85,30 +107,30 @@ public class ShellExec {
     }
 
     /**
-     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, ICommandOutPut)}
+     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, IResult)}
      */
     public ShellExec(boolean root) {
         this("", root, false, null);
     }
 
     /**
-     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, ICommandOutPut)}
+     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, IResult)}
      */
-    public ShellExec(boolean root, @Nullable ICommandOutPut listen) {
+    public ShellExec(boolean root, @Nullable IResult listen) {
         this("", root, false, listen);
     }
 
     /**
-     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, ICommandOutPut)}
+     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, IResult)}
      */
     public ShellExec(boolean root, boolean result) {
         this("", root, result, null);
     }
 
     /**
-     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, ICommandOutPut)}
+     * 参考 {@link ShellExec#ShellExec(String, boolean, boolean, IResult)}
      */
-    public ShellExec(boolean root, boolean result, @Nullable ICommandOutPut listen) {
+    public ShellExec(boolean root, boolean result, @Nullable IResult listen) {
         this("", root, result, listen);
     }
 
@@ -120,12 +142,13 @@ public class ShellExec {
      * @param result  是否需要获取每条命令的返回值。
      * @param listen  回调方法，可以是 null，类有能力处理。
      */
-    public ShellExec(String command, boolean root, boolean result, @Nullable ICommandOutPut listen) {
+    public ShellExec(String command, boolean root, boolean result, @Nullable IResult listen) {
         try {
             OutPut.setOutputListen(listen);
             Error.setOutputListen(listen);
+            Check.setOutputListen(listen);
             this.result = result;
-            boolean run = command != null && !("".equals(command));
+            boolean need = command != null && !("".equals(command));
             process = Runtime.getRuntime().exec(root ? "su" : "sh");
             // 注意处理
             if (root) {
@@ -138,23 +161,21 @@ public class ShellExec {
                 check.start();
             }
             os = new DataOutputStream(process.getOutputStream());
-            if (run) {
-                write(command);
-            }
+            if (need) write(command);
             if (result) {
-                Error error = new Error(process.getErrorStream(), this, listen != null);
-                OutPut output = new OutPut(process.getInputStream(), this, listen != null);
+                mError = new Error(process.getErrorStream(), this, listen != null);
+                mOutPut = new OutPut(process.getInputStream(), this, listen != null);
                 clear();
                 pass(command);
-                error.start();
-                output.start();
-                if (run) done(0);
+                mError.start();
+                mOutPut.start();
+                if (need) done(0);
             }
             init = true;
             destroy = false;
         } catch (IOException e) {
             throw new RuntimeException("ShellExec boot failed!! E: " + e);
-            // AndroidLogUtils.LogE(ITAG.TAG, "ShellExec E", e);
+            // AndroidLogUtils.logE(TAG, "ShellExec E", e);
             // init = false;
         }
     }
@@ -167,8 +188,8 @@ public class ShellExec {
      */
     public synchronized ShellExec run(String command) {
         if (!init) return this;
-        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
-        if (destroy) return this;
+        if (noRoot) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         if (appending) {
             throw new RuntimeException("Shell is in append mode!");
         }
@@ -183,7 +204,7 @@ public class ShellExec {
                 count = count + 1;
             }
         } catch (IOException e) {
-            AndroidLogUtils.logE(ITAG.TAG, "ShellExec run E", e);
+            AndroidLogUtils.logE(TAG, "ShellExec run E", e);
         }
         return this;
     }
@@ -196,18 +217,18 @@ public class ShellExec {
      */
     public synchronized ShellExec add(String command) {
         if (!init) return this;
-        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
-        if (destroy) return this;
+        if (noRoot) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         appending = true;
         clear();
         try {
             write(command);
             if (result) {
                 cList.add(command);
-                count = count + 1;
+                // count = count + 1;
             }
         } catch (IOException e) {
-            AndroidLogUtils.logE(ITAG.TAG, "ShellExec append E", e);
+            AndroidLogUtils.logE(TAG, "ShellExec append E", e);
         }
         return this;
     }
@@ -219,12 +240,13 @@ public class ShellExec {
      */
     public synchronized ShellExec over() {
         if (!init) return this;
-        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
-        if (destroy) return this;
+        if (noRoot) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         appending = false;
         if (result) {
             pass(cList.toString());
             done(count);
+            count = count + 1;
         }
         return this;
     }
@@ -238,15 +260,15 @@ public class ShellExec {
      */
     public synchronized ShellExec sync() {
         if (!init) return this;
-        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
-        if (destroy) return this;
+        if (noRoot) return this;
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         if (appending) {
             throw new RuntimeException("Shell is in append mode!");
         }
         try {
             this.wait();
         } catch (InterruptedException e) {
-            AndroidLogUtils.logE(ITAG.TAG, "ShellExec sync E", e);
+            AndroidLogUtils.logE(TAG, "ShellExec sync E", e);
         }
         return this;
     }
@@ -270,19 +292,25 @@ public class ShellExec {
     }
 
     /**
-     * 使进程崩溃，正常情况不要手动调用。
+     * 返回是否拥有 Root 权限。
+     * 具有滞后性。
+     *
+     * @return 是否拥有 Root 权限
      */
-    public void error() {
-        // 只在非销毁状态下抛错
-        if (!destroy) {
-            // throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
-            noRoot = true;
-            close();
-        }
+    public synchronized boolean isRoot() {
+        return !noRoot;
     }
 
-    public boolean isRoot() {
-        return !noRoot;
+    /**
+     * 使进程崩溃，正常情况不要手动调用。
+     */
+    protected synchronized void cancelSync() {
+        try {
+            this.notify();
+        } catch (IllegalMonitorStateException e) {
+        }
+        close();
+        // throw new RuntimeException("Shell process exited abnormally, possibly due to lack of Root permission!!");
     }
 
     private void clear() {
@@ -342,13 +370,14 @@ public class ShellExec {
 
     private void done(int count) {
         try {
+            isFilter = true;
             os.writeBytes("result=$?; string=\"The execution of command <" + count + "> is complete. Return value: <$result>\"; " +
                 "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
             // os.writeBytes("echo \"The execution of command <" + count + "> is complete. Return value: <$?>\" 1>&2 2>&1");
             os.writeBytes("\n");
             os.flush();
         } catch (IOException e) {
-            AndroidLogUtils.logE(ITAG.TAG, "ShellExec done E", e);
+            AndroidLogUtils.logE(TAG, "ShellExec done E", e);
         }
     }
 
@@ -359,12 +388,7 @@ public class ShellExec {
      */
     public synchronized int close() {
         if (!init) return -1;
-        // if (destroy) throw new RuntimeException("This shell has been destroyed!");
-        if (destroy) return -1;
-        try {
-            this.notify();
-        } catch (IllegalMonitorStateException e) {
-        }
+        if (destroy) throw new RuntimeException("This shell has been destroyed!");
         int result = -1;
         try {
             clear();
@@ -372,17 +396,23 @@ public class ShellExec {
             result = process.waitFor();
             process.destroy();
             os.close();
+            if (mError != null && mOutPut != null) {
+                mError.interrupt();
+                mOutPut.interrupt();
+                mOutPut = null;
+                mError = null;
+            }
         } catch (IOException e) {
-            AndroidLogUtils.logE(ITAG.TAG, "ShellExec close E", e);
+            AndroidLogUtils.logE(TAG, "ShellExec close E", e);
         } catch (InterruptedException f) {
-            AndroidLogUtils.logE(ITAG.TAG, "ShellExec getResult E", f);
+            AndroidLogUtils.logE(TAG, "ShellExec getResult E", f);
         }
         destroy = true;
         return result;
     }
 
     private void log(String log) {
-        AndroidLogUtils.logI(ITAG.TAG, log);
+        AndroidLogUtils.logI(TAG, log);
     }
 
     protected interface IPassCommands {
@@ -390,12 +420,17 @@ public class ShellExec {
     }
 
     private static class Check extends Thread {
-        final Process process;
-        final ShellExec shellExec;
+        private final Process process;
+        private final ShellExec shellExec;
+        private static IResult mIResult;
 
         public Check(Process process, ShellExec shellExec) {
             this.process = process;
             this.shellExec = shellExec;
+        }
+
+        public static void setOutputListen(IResult iResult) {
+            mIResult = iResult;
         }
 
         @Override
@@ -404,14 +439,18 @@ public class ShellExec {
             try {
                 result = process.waitFor(5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
-                AndroidLogUtils.logE(ITAG.TAG, "Shell Check run E", e);
+                AndroidLogUtils.logE(TAG, "Shell Check run E", e);
             }
             if (result) {
                 try {
                     shellExec.notify();
                 } catch (IllegalMonitorStateException e) {
                 }
-                shellExec.error(); // 应要求改成非抛错的，虽然我并不想。
+                if (!shellExec.isDestroy()) {
+                    if (mIResult != null) mIResult.error("No Root!");
+                    shellExec.noRoot = true;
+                    shellExec.cancelSync();
+                }
             }
         }
     }
@@ -423,7 +462,7 @@ public class ShellExec {
         private final String contrast;
         private final ShellExec shellExec;
 
-        private static ICommandOutPut mICommandOutPut;
+        private static IResult mIResult;
 
         public OutPut(InputStream inputStream, ShellExec shellExec, boolean listen) {
             contrast = "The execution of command <";
@@ -434,50 +473,34 @@ public class ShellExec {
             mInput = inputStream;
         }
 
-        public static void setOutputListen(ICommandOutPut iCommandOutPut) {
-            mICommandOutPut = iCommandOutPut;
+        public static void setOutputListen(IResult iResult) {
+            mIResult = iResult;
         }
 
         @Override
         public void run() {
-            boolean use = mICommandOutPut != null;
+            boolean use = mIResult != null;
+            Filter filter = new Filter(shellExec, contrast, pattern, command, mIResult, use, true);
             try (BufferedReader br = new BufferedReader(new InputStreamReader(mInput))) {
                 String line;
+                if (Thread.currentThread().isInterrupted()) {
+                    log("OutPut thread has been terminated!");
+                    return;
+                }
                 while ((line = br.readLine()) != null) {
-                    // AndroidLogUtils.LogI(ITAG.TAG, "out: " + line);
-                    if (line.contains(contrast)) {
-                        Matcher matcher = pattern.matcher(line);
-                        if (matcher.find()) {
-                            String count = matcher.group(1);
-                            String result = matcher.group(2);
-                            if (result != null && count != null) {
-                                if (use) {
-                                    mICommandOutPut.result(command.passCommands.get(Integer.parseInt(count)),
-                                        Integer.parseInt(result));
-                                    mICommandOutPut.readOutput("Finish!!", true);
-                                }
-                                shellExec.setResult = Integer.parseInt(result);
-                                synchronized (shellExec) {
-                                    try {
-                                        shellExec.notify();
-                                    } catch (IllegalMonitorStateException e) {
-                                    }
-                                }
-                                continue;
-                            }
-                        }
-                    }
+                    // Log.LogI(TAG, "out: " + line);
+                    if (filter.filter(line))
+                        continue;
                     shellExec.outPut.add(line);
-                    if (use) mICommandOutPut.readOutput(line, false);
+                    if (use) mIResult.readOutput(line, false);
                 }
             } catch (IOException e) {
-                AndroidLogUtils.logE(ITAG.TAG, "Shell OutPut run E", e);
+                AndroidLogUtils.logE(TAG, "Shell OutPut run E", e);
             }
         }
 
-
         private void log(String log) {
-            AndroidLogUtils.logI(ITAG.TAG, log);
+            AndroidLogUtils.logI(TAG, log);
         }
     }
 
@@ -486,9 +509,11 @@ public class ShellExec {
         private final ShellExec shellExec;
         private final Pattern pattern;
         private final Command command;
-        private static ICommandOutPut mICommandOutPut;
+        private final String contrast;
+        private static IResult mIResult;
 
         public Error(InputStream inputStream, ShellExec shellExec, boolean listen) {
+            contrast = "The execution of command <";
             pattern = Pattern.compile(".*<(\\d+)>.*<(\\d+)>.*");
             if (listen) command = new Command(1);
             else command = null;
@@ -496,25 +521,54 @@ public class ShellExec {
             this.shellExec = shellExec;
         }
 
-        public static void setOutputListen(ICommandOutPut iCommandOutPut) {
-            mICommandOutPut = iCommandOutPut;
+        public static void setOutputListen(IResult iResult) {
+            mIResult = iResult;
         }
 
         @Override
         public void run() {
-            boolean use = mICommandOutPut != null;
+            boolean use = mIResult != null;
+            Filter filter = new Filter(shellExec, contrast, pattern, command, mIResult, use, false);
             try (BufferedReader br = new BufferedReader(new InputStreamReader(mInput))) {
                 String line;
+                if (Thread.currentThread().isInterrupted()) {
+                    log("Error thread has been terminated!");
+                    return;
+                }
                 while ((line = br.readLine()) != null) {
-                    // AndroidLogUtils.LogI(ITAG.TAG, "error: " + line);
+                    // Log.LogI(TAG, "error: " + line);
+                    if (filter.filter(line))
+                        continue;
+                    shellExec.error.add(line);
+                    if (use) mIResult.readError(line);
+                }
+            } catch (IOException e) {
+                AndroidLogUtils.logE(TAG, "Shell Error run E", e);
+            } catch (NumberFormatException f) {
+                AndroidLogUtils.logE(TAG, "Shell get result E", f);
+            }
+        }
+
+        private void log(String log) {
+            AndroidLogUtils.logI(TAG, log);
+        }
+    }
+
+    private record Filter(ShellExec shellExec, String contrast, Pattern pattern,
+                          Command command, IResult mIResult, boolean use, boolean finish) {
+        public boolean filter(String line) {
+            if (shellExec.isFilter) {
+                if (line.contains(contrast)) {
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
                         String count = matcher.group(1);
                         String result = matcher.group(2);
                         if (result != null && count != null) {
-                            if (use)
-                                mICommandOutPut.result(command.passCommands.get(Integer.parseInt(count)),
+                            if (use) {
+                                mIResult.result(command.passCommands.get(Integer.parseInt(count)),
                                     Integer.parseInt(result));
+                                if (finish) mIResult.readOutput("Finish!!", true);
+                            }
                             shellExec.setResult = Integer.parseInt(result);
                             synchronized (shellExec) {
                                 try {
@@ -522,21 +576,13 @@ public class ShellExec {
                                 } catch (IllegalMonitorStateException e) {
                                 }
                             }
-                            continue;
+                            shellExec.isFilter = false;
+                            return true;
                         }
                     }
-                    shellExec.error.add(line);
-                    if (use) mICommandOutPut.readError(line);
                 }
-            } catch (IOException e) {
-                AndroidLogUtils.logE(ITAG.TAG, "Shell Error run E", e);
-            } catch (NumberFormatException f) {
-                AndroidLogUtils.logE(ITAG.TAG, "Shell get result E", f);
             }
-        }
-
-        private void log(String log) {
-            AndroidLogUtils.logI(ITAG.TAG, log);
+            return false;
         }
     }
 
@@ -550,34 +596,6 @@ public class ShellExec {
         @Override
         public void passCommands(String command) {
             passCommands.add(command);
-        }
-    }
-
-
-    public interface ICommandOutPut {
-        /**
-         * 重写本方法可以实时获取常规流数据。
-         *
-         * @param out 常规流数据
-         */
-        default void readOutput(String out, boolean finish) {
-        }
-
-        /**
-         * 重写本方法可以实时获取错误流数据。
-         *
-         * @param out 错误流数据
-         */
-        default void readError(String out) {
-        }
-
-        /**
-         * 重写本方法可以实时获取每条命令的执行结果。
-         *
-         * @param command 命令
-         * @param result  结果
-         */
-        default void result(String command, int result) {
         }
     }
 }
