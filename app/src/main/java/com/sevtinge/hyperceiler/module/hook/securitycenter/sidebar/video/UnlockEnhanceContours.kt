@@ -52,7 +52,7 @@ object UnlockEnhanceContours : BaseHook() {
                     usingStrings = listOf("debug.config.media.video.ais.support")
                     declaredClass = qaq.name
                 }
-            }.first().getMethodInstance(EzXHelper.classLoader)
+            }.single().getMethodInstance(EzXHelper.classLoader)
             val newChar = tat.name.toCharArray()
             for (i in newChar.indices) {
                 newChar[i]++

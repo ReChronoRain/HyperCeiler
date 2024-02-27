@@ -51,7 +51,7 @@ object UnlockSuperResolution : BaseHook() {
                     declaredClass = qaq.name
                     usingStrings = listOf("debug.config.media.video.ais.support")
                 }
-            }.first().getMethodInstance(EzXHelper.classLoader).createHook {
+            }.single().getMethodInstance(EzXHelper.classLoader).createHook {
                 returnConstant(true)
             }
         }

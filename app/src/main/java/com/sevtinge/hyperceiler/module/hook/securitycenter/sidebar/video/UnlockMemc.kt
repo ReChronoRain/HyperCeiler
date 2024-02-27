@@ -22,29 +22,37 @@ import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import org.luckypray.dexkit.query.enums.StringMatchType
 
 object UnlockMemc : BaseHook() {
-    override fun init() {
-        dexKitBridge.findClass {
+    val findFrc by lazy {
+        dexKitBridge.findMethod {
             matcher {
-                usingStrings = listOf("ro.vendor.media.video.frc.support")
+                declaredClass {
+                    addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)
+                }
+                returnType = "boolean"
+                paramTypes("java.lang.String")
             }
-        }.map {
-            val frcSupport = it.getInstance(classLoader)
-            var counter = 0
-            dexKitBridge.findMethod {
-                matcher {
-                    declaredClass = frcSupport.name
-                    returnType = "boolean"
-                    paramTypes = listOf("java.lang.String")
-                }
-            }.forEach { methods ->
-                counter++
-                if (counter == 5) {
-                    methods.getMethodInstance(classLoader).createHook {
-                        returnConstant(true)
-                    }
-                }
+        }
+    }
+
+    override fun init() {
+        // 简单拿相册编辑的方法套用一下，后续优化合并同类查找项
+        val findFrcMethod = findFrc.filter { methodData ->
+            methodData.usingFields.any {
+                it.field.typeName == "java.util.List"
+            }
+        }
+        val orderedA = findFrc.map { it.getMethodInstance(classLoader) }.toSet()
+        val orderedB = findFrcMethod.map { it.getMethodInstance(classLoader) }.toSet()
+        val differentItems = orderedA.subtract(orderedB)
+
+        differentItems.forEach {
+            logI(TAG, "find Frc Method is $it")
+
+            it.createHook {
+                returnConstant(true)
             }
         }
     }

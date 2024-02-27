@@ -35,9 +35,7 @@ object DisableRemoveScreenHoldOn : BaseHook() {
 
     override fun init() {
         screen.createHook {
-            before {
-                it.result = false
-            }
+            returnConstant(false)
         }
     }
 }
