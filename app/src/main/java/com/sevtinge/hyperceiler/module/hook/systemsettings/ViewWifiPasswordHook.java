@@ -37,10 +37,11 @@ public class ViewWifiPasswordHook extends BaseHook {
     public void init() {
         int titleId = R.string.system_settings_wifipassword_btn_title;
         int dlgTitleId = R.string.system_settings_wifi_password_dlgtitle;
+
         hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", lpparam.classLoader, "onBindViewHolder", new MethodHook() {
             @Override
             @SuppressLint("DiscouragedApi")
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 View view = (View) XposedHelpers.getObjectField(param.thisObject, "mView");
                 int btnId = view.getResources().getIdentifier("btn_delete", "id", "com.android.settings");
                 Button button = view.findViewById(btnId);

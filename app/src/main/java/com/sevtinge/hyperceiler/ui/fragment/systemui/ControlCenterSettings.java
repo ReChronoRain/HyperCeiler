@@ -50,6 +50,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
+    SeekBarPreferenceEx mNewCCGridColumns;
     SwitchPreference mNewCCGridRect;
     SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
@@ -86,6 +87,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
         mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
+        mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
         mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mNotice = findPreference("prefs_key_n_enable");
@@ -121,9 +123,10 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
         mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
         mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mNewCCGridColumns.setVisible(!isHyperOSVersion(1f));
         mNewCCGridRect.setVisible(!isAndroidVersion(30));
         mNewCCGridLabel.setVisible(!isHyperOSVersion(1f));
-        mNotice.setVisible(!isAndroidVersion(30));
+        mNotice.setVisible(!isAndroidVersion(30) && !isMoreHyperOSVersion(1f));
         mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());

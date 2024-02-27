@@ -28,6 +28,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMiuiVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object RemoveCamera : BaseHook() {
@@ -40,7 +41,7 @@ object RemoveCamera : BaseHook() {
 
     override fun init() {
         // 屏蔽右下角组件显示
-        if (isMoreHyperOSVersion(1f)) {
+        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
             newClass!!.methodFinder().filter {
                 name in setOf(
                     "updateRightAffordanceViewLayoutVisibility",

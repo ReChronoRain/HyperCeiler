@@ -560,8 +560,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_small_hd">Biểu tượng HD nhỏ</string>
     <string name="system_ui_status_bar_icon_big_hd">Biểu tượng HD lớn</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Biểu tượng không có sim</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Biểu tượng tín hiệu mạng sim 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Biểu tượng tín hiệu mạng sim 2</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ẩn biểu tượng tín hiệu SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ẩn biểu tượng tín hiệu SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
     <string name="system_ui_status_bar_icon_location">Vị trí</string>
@@ -570,6 +570,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_alarm_clock_n">Chỉ hiển thị biểu tượng báo thức trước khi báo thức kêu</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d phút</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>
+    <string name="system_ui_status_bar_icon_roaming">Ẩn biểu tượng chuyển vùng</string>
     <string name="system_ui_status_bar_icon_vowifi">Ẩn biểu tượng VoWiFi</string>
     <string name="system_ui_status_bar_icon_volte">Ẩn biểu tượng VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Tai nghe</string>
@@ -829,6 +830,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
     <string name="system_settings_develop_speed_mode">Chế độ siêu tốc</string>
+    <string name="system_settings_develop_max_fps">Mở khóa để ép tốc độ làm mới màn hình cao nhất</string>
     <string name="system_settings_develop_speed_mode_desc">Không hiển thị trên các máy không được hỗ trợ</string>
     <string name="system_settings_window_animation_scale">Tỷ lệ ảnh động cửa sổ</string>
     <string name="system_settings_transition_animation_scale">Tỷ lệ ảnh động chuyển tiếp</string>
@@ -836,7 +838,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_allow_never_lock_screen">Cho phép không bao giờ khóa màn hình</string>
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
-    <string name="theme_manager_version_code_modify">Tắt phát hiện phiên bản MIUI</string>
+    <string name="theme_manager_version_code_modify">Điều chỉnh phiên bản phát hiện</string>
+    <string name="theme_manager_version_code_modify_desc">Điều chỉnh phiên bản được phát hiện để sử dụng một số chủ đề không phù hợp với phiên bản mới</string>
     <string name="theme_manager_diable_ads">Tắt quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
@@ -1063,6 +1066,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_disable_wallpaper_dimming">Tắt làm mờ hình nền</string>
+    <string name="home_recent_unlock_pin">Mở khóa các ứng dụng được ghim</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ẩn thanh trạng thái</string>
     <string name="home_recent_hide_freeform">Ẩn nút cửa sổ nổi</string>
     <string name="home_recent_hide_clean_up">Ẩn nút xóa</string>

@@ -16,25 +16,23 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.ui.fragment;
 
-import android.view.View;
+package com.sevtinge.hyperceiler.module.hook.systemsettings
 
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
-import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.hyperceiler.module.base.BaseHook
 
-public class ThemeManagerFragment extends SettingsPreferenceFragment {
-    @Override
-    public int getContentResId() {
-        return R.xml.theme_manager;
-    }
-
-    @Override
-    public View.OnClickListener addRestartListener() {
-        return view -> ((BaseSettingsActivity) getActivity()).showRestartDialog(
-            getResources().getString(R.string.theme_manager),
-            "com.android.thememanager"
-        );
+object UnlockMaxFps : BaseHook() {
+    override fun init() {
+        // by TG@Crystal
+        loadClass("com.android.settings.development.ForcePeakRefreshRatePreferenceController").methodFinder()
+            .filterByName("isAvailable")
+            .single().createHook {
+                after {
+                    it.result = true
+                }
+            }
     }
 }

@@ -158,6 +158,7 @@
     <string name="search">Cari</string>
     <string name="floating_window">Freeform</string>
     <string name="save_to_screen_title">Lokasi penyimpanan khusus</string>
+    <string name="only_new_version_can_do">Hanya versi yang lebih baru yang didukung</string>
     <string name="system_ui_statusbar_indicator_default_title">Bawaan</string>
     <string name="system_ui_statusbar_indicator_expand_title">Perluas</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Perbaiki lebar konten</string>
@@ -230,6 +231,7 @@
     <string name="charge_animation_entries_alpha">Irama</string>
     <string name="status_bar_icon_mode_default">Bawaan</string>
     <string name="status_bar_icon_mode_on">Selalu tunjukkan</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Selalu ditampilkan saat tidak menggunakan WiFi</string>
     <string name="status_bar_icon_mode_off">Selalu tersembunyi</string>
     <string name="status_bar_icon_mode_on_control_center">Hanya tampilkan di Pusat Kontrol</string>
     <string name="status_bar_icon_mode_on_status_bar">Hanya tampilkan di bilah Status</string>
@@ -523,6 +525,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Gaya ikon</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Penskalaan ikon</string>
     <string name="system_ui_status_bar_mobile_type_single">Ikon jenis jaringan seluler ditampilkan secara terpisah</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">Fitur ini dimatikan karena ikon jenis jaringan seluler selalu tersembunyi</string>
     <string name="system_ui_status_bar_mobile_type_left">Tampilan di sebelah kiri sinyal</string>
     <string name="system_ui_status_bar_mobile_indicator">Sembunyikan indikator aktivitas jaringan seluler</string>
     <string name="system_ui_status_bar_mobile_type_custom">Teks khusus</string>
@@ -540,6 +543,8 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">Baterai</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Panggilan</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">Perangkat</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">Jaringan</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">Privasi</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Sisi kiri ikon muncul</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Sisi kanan ikon muncul</string>
     <string name="system_ui_status_bar_icon_wifi">Wifi</string>
@@ -553,15 +558,17 @@
     <string name="system_ui_status_bar_icon_small_hd">Ikon HD kecil</string>
     <string name="system_ui_status_bar_icon_big_hd">Ikon HD besar</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Tidak ada ikon kartu SIM</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Ikon sinyal kartu SIM 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Ikon sinyal kartu SIM 2</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Sembunyikan ikon sinyal kartu SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Sembunyikan ikon sinyal kartu SIM 1</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Logika tampilan</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ikon Tipe Jaringan Besar</string>
     <string name="system_ui_status_bar_icon_location">Lokasi</string>
+    <string name="system_ui_status_bar_icon_mic">Mikrofon</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Jam Alarm</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Tampilkan ikon alarm hanya sebelum alarm berbunyi</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d jam</string>
     <string name="system_ui_status_bar_icon_airplane">Mode pesawat</string>
+    <string name="system_ui_status_bar_icon_roaming">Sembunyikan ikon roaming</string>
     <string name="system_ui_status_bar_icon_vowifi">Sembunyikan ikon VoWiFi</string>
     <string name="system_ui_status_bar_icon_volte">Sembunyikan ikon VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">headset</string>
@@ -747,6 +754,8 @@
     <string name="system_ui_control_center_unlock_blur_supported">Hapus batasan blur notifikasi</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">Tidak ada batasan keburaman latar belakang untuk materi premium resmi hanya untuk penghapusan tema pihak ketiga</string>
     <string name="system_ui_other_title">Lainnya</string>
+    <string name="system_ui_disable_volume">Bilah volume asli</string>
+    <string name="system_ui_disable_volume_desc">Modifikasi bilah volume Xiaomi tidak berlaku untuk bilah volume asli</string>
     <string name="system_ui_charge_animation_title">Mengisi animasi</string>
     <string name="system_ui_charge_animation_style">Gaya animasi pengisian daya</string>
     <string name="system_ui_charge_animation_style_desc">Pilih gaya animasi pengisian daya layar kunci</string>
@@ -819,6 +828,7 @@
     <string name="system_settings_apps_freezer">Paksa menampilkan aplikasi cache yang dibekukan</string>
     <string name="system_settings_apps_freezer_more">Setelah diaktifkan, fitur ini dapat ditemukan di \"Opsi Pengembang,\" namun fungsinya tidak dijamin</string>
     <string name="system_settings_develop_speed_mode">Modus ekstrim</string>
+    <string name="system_settings_develop_max_fps">Buka kunci untuk memaksa tampilan kecepatan refresh puncak</string>
     <string name="system_settings_develop_speed_mode_desc">Entri tidak akan ditampilkan setelah dibuka pada model yang tidak didukung</string>
     <string name="system_settings_window_animation_scale">Zoom Animasi Jendela</string>
     <string name="system_settings_transition_animation_scale">Penskalaan Animasi Transisi</string>
@@ -826,7 +836,8 @@
     <string name="system_settings_allow_never_lock_screen">Izinkan jangan pernah mengunci layar</string>
     <!--Themes-->
     <string name="theme_manager">Tema</string>
-    <string name="theme_manager_version_code_modify">Nonaktifkan deteksi versi MIUI</string>
+    <string name="theme_manager_version_code_modify">Sesuaikan versi deteksi</string>
+    <string name="theme_manager_version_code_modify_desc">Sesuaikan versi yang terdeteksi untuk menggunakan beberapa tema yang tidak disesuaikan dengan versi baru</string>
     <string name="theme_manager_diable_ads">Nonaktifkan iklan</string>
     <string name="theme_manager_diable_ads_desc">Ganti iklan \"tebak apa yang Anda suka\" dengan kartu kosong, dan hapus iklan lainnya sepenuhnya</string>
     <string name="theme_manager_enable_pad_theme">Aktifkan tema Pad</string>
@@ -1049,6 +1060,7 @@
     <string name="home_recent">Terkini</string>
     <string name="home_recent_animation_speed">Kecepatan animasi</string>
     <string name="home_recent_disable_wallpaper_dimming">Nonaktifkan peredupan wallpaper</string>
+    <string name="home_recent_unlock_pin">Buka kunci aplikasi yang disematkan</string>
     <string name="home_recent_hide_status_bar_in_task_view">Sembunyikan bilah status di tampilan tugas</string>
     <string name="home_recent_hide_freeform">Sembunyikan tombol bentuk bebas</string>
     <string name="home_recent_hide_clean_up">Sembunyikan tombol pembersihan</string>
@@ -1228,6 +1240,7 @@
     <string name="security_center_newbox_title">Bilah samping</string>
     <string name="security_center_dolby_open">Tutup jendela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Tampilkan suhu baterai</string>
+    <string name="security_center_show_battery_health">Tampilkan kesehatan baterai secara detail</string>
     <string name="security_center_ai_clipboard">Lindungi papan klip</string>
     <string name="security_center_blur_location">Akurasi posisi lebih rendah</string>
     <string name="security_center_gms_open">Layanan RUPS</string>

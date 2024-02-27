@@ -32,6 +32,7 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.utils.blur.BlurUtils.createBlurDrawable
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import de.robv.android.xposed.XC_MethodHook
 
@@ -46,7 +47,7 @@ object BlurButton : BaseHook() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         // by StarVoyager
-        if (isMoreHyperOSVersion(1f)) {
+        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
             loadClassOrNull(
                 "com.android.keyguard.injector.KeyguardBottomAreaInjector"
             )!!.methodFinder()

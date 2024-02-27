@@ -22,15 +22,19 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.utils.setObjectField
 
 object HideLockscreenZenMode : BaseHook() {
+    private val zenModeClass by lazy {
+        loadClass("com.android.systemui.statusbar.notification.zen.ZenModeViewController")
+    }
+
     override fun init() {
         // hyperOS fix by hyper helper
-        if (isMoreHyperOSVersion(1f)) {
-            loadClass("com.android.systemui.statusbar.notification.zen.ZenModeViewController", lpparam.classLoader)
-                .methodFinder()
+        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
+            zenModeClass.methodFinder()
                 .filterByName("updateVisibility")
                 .single().createHook {
                     before {
@@ -38,8 +42,7 @@ object HideLockscreenZenMode : BaseHook() {
                     }
                 }
         } else {
-            loadClass("com.android.systemui.statusbar.notification.zen.ZenModeViewController", lpparam.classLoader)
-                .methodFinder()
+            zenModeClass.methodFinder()
                 .filterByName("shouldBeVisible")
                 .single().createHook {
                     returnConstant(false)

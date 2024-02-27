@@ -596,8 +596,8 @@
     <string name="system_ui_status_bar_icon_small_hd">Small HD icon</string>
     <string name="system_ui_status_bar_icon_big_hd">Big HD icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">No SIM card icon</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM card 1 signal icon</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM card 2 signal icon</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Hide SIM card 1 signal icon</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Hide SIM card 1 signal icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Display logic</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Big Network Type Icon</string>
     <string name="system_ui_status_bar_icon_location">Location</string>
@@ -867,7 +867,8 @@
     <string name="system_settings_develop_title">Developer options</string>
     <string name="system_settings_apps_freezer">Force showing freeze cached apps</string>
     <string name="system_settings_apps_freezer_more">Once enabled, this feature can be found in \"Developer Options,\" but its functionality is not guaranteed</string>
-    <string name="system_settings_develop_speed_mode">Extreme mode</string>
+    <string name="system_settings_develop_speed_mode">Unlock Extreme Mode</string>
+    <string name="system_settings_develop_max_fps">Unlock to force display peak refresh rate</string>
     <string name="system_settings_develop_speed_mode_desc">The entry will not be displayed after opening on unsupported models</string>
     <string name="system_settings_window_animation_scale">Window Animation Zoom</string>
     <string name="system_settings_transition_animation_scale">Transition Animation Scaling</string>
@@ -875,7 +876,8 @@
     <string name="system_settings_allow_never_lock_screen">Allow never lock screen</string>
     <!--Themes-->
     <string name="theme_manager">Themes</string>
-    <string name="theme_manager_version_code_modify">Disable MIUI version detection</string>
+    <string name="theme_manager_version_code_modify">Adjust detection version</string>
+    <string name="theme_manager_version_code_modify_desc">Adjust the detected version to use some themes that are not adapted to the new version</string>
     <string name="theme_manager_diable_ads">Disable ads</string>
     <string name="theme_manager_diable_ads_desc">Replace \"guess what you like\" ads with blank cards, and remove the rest of the ads completely</string>
     <string name="theme_manager_enable_pad_theme">Enable Pad theme</string>

@@ -146,8 +146,8 @@ public class SystemUI extends BaseModule {
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
 
         // 状态栏图标
-        boolean isHideSim = (mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_1", 0) == 2 ||
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_2", 0) == 2) &&
+        boolean isHideSim = (mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")) &&
             !mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable") && !isMoreHyperOSVersion(1f);
 
         initHook(new StatusBarIcon());
@@ -164,7 +164,9 @@ public class SystemUI extends BaseModule {
         initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
 
         // 移动网络图标
-        boolean isEnableMobilePublic = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
+        boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
             mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
             mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
             mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");

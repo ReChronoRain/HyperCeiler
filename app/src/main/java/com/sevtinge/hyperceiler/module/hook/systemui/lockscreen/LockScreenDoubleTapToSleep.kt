@@ -27,14 +27,14 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.isAndroidVersion
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getAdditionalInstanceField
 import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
 
 object LockScreenDoubleTapToSleep : BaseHook() {
-    val className by lazy {
-        if (isAndroidVersion(34)) {
+    private val className by lazy {
+        if (isMoreAndroidVersion(34)) {
             loadClass("com.android.systemui.shade.NotificationsQuickSettingsContainer")
         } else {
             loadClass("com.android.systemui.statusbar.phone.NotificationsQuickSettingsContainer")
