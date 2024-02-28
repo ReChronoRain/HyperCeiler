@@ -39,7 +39,7 @@ public class UnlockFbo extends BaseHook {
         logD(TAG, lpparam.packageName, "Unlock FBO method is " + method);
         hookMethod(method, new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 param.setResult(true);
             }
         });

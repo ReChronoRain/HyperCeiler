@@ -53,9 +53,7 @@ object LockOneHundredPoints : BaseHook() {
             .filterByName("onClick")
             .filterByParamTypes(View::class.java)
             .first().createHook {
-                before {
-                    it.result = null
-                }
+               returnConstant(null)
             }
 
         logI(TAG, lpparam.packageName, "LockOneHundredPoints method is $scoreOld and $score")

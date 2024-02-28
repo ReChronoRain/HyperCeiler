@@ -31,11 +31,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.verify.domain.DomainVerificationManager
-import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
-import androidx.annotation.RequiresApi
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.EzXHelper.appContext
 import com.github.kyuubiran.ezxhelper.EzXHelper.initAppContext
@@ -50,7 +48,6 @@ import de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField
 
 
 @SuppressLint("DiscouragedApi")
-@RequiresApi(Build.VERSION_CODES.S)
 object OpenByDefaultSetting : BaseHook() {
     private val domainVerificationManager: DomainVerificationManager by lazy {
         appContext.getSystemService(

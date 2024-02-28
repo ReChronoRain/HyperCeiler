@@ -28,7 +28,7 @@ class GamePerformanceWildMode : BaseHook() {
         // 开放均衡/狂暴模式
         dexKitBridge.findMethod {
             matcher {
-                usingStrings = listOf("support_wild_boost")
+                addEqString("support_wild_boost")
             }
         }.single().getMethodInstance(safeClassLoader).createHook {
             returnConstant(true)
