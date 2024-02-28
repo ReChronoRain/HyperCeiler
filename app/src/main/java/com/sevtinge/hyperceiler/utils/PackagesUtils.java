@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils;
 
 import android.content.Context;
@@ -43,23 +43,27 @@ import java.util.Objects;
 /**
  * Author by 焕晨HChen
  */
-public class PackageManagerUtils {
+public class PackagesUtils {
     private static final String TAG = ITAG.TAG;
 
-    public static List<AppData> getPackageByFlag(int flag) {
-        return getPackage(flag);
+    /**
+     * 通过 flag 获取系统内已经安装的软件。
+     *
+     * @param flag flag
+     * @return 获取到的包
+     */
+    public static List<AppData> getInstalledPackagesByFlag(int flag) {
+        return getPackages(flag);
     }
 
-    public static List<AppData> getAllPackage() {
-        return getPackage(PackageManager.MATCH_ALL);
-    }
-
+    /**
+     * 通过意图的 flag 获取系统内已经安装的软件。
+     *
+     * @param flag flag
+     * @return 获取到的包
+     */
     public static List<AppData> getPackageByIntent(String flag) {
-        return getPackageByIn(flag);
-    }
-
-    public static List<AppData> getPackageByLauncher() {
-        return getPackageByIn(Intent.CATEGORY_LAUNCHER);
+        return getPackagesByIntent(flag);
     }
 
     /**
@@ -113,7 +117,7 @@ public class PackageManagerUtils {
                 }
                 appInfoList.add(addAppData(pack, pm));
             } catch (Throwable e) {
-                AndroidLogUtils.logE(TAG, "getOpenWithApps Other E", e);
+                AndroidLogUtils.logE(TAG, "Failed to get open way!", e);
             }
         }
         return appInfoList;
@@ -125,12 +129,13 @@ public class PackageManagerUtils {
      * PermissionGroupInfo ActivityInfo
      * ApplicationInfo ProviderInfo
      * PermissionInfo` 类型的返回值.
+     * 返回使用 return new ArrayList<>(resolveInfoList); 包裹。
      *
-     * @param iPackageCode
+     * @param iPackageCode 需要执行的代码
      * @return ListAppData 包含各种应用详细信息
      * @see #addAppData(Parcelable, PackageManager)
      */
-    public static List<AppData> getPackageByCode(IPackageCode iPackageCode) {
+    public static List<AppData> getPackagesByCode(IPackageCode iPackageCode) {
         List<AppData> appDataList = new ArrayList<>();
         Context context = context();
         if (context == null) return appDataList;
@@ -148,12 +153,12 @@ public class PackageManagerUtils {
                 }
             }
         } catch (Throwable e) {
-            AndroidLogUtils.logE(TAG, "getPackageByCode Other E", e);
+            AndroidLogUtils.logE(TAG, "Failed to get package via code!", e);
         }
         return appDataList;
     }
 
-    private static List<AppData> getPackage(int flag) {
+    private static List<AppData> getPackages(int flag) {
         List<AppData> appDataList = new ArrayList<>();
         Context context = context();
         if (context == null) return appDataList;
@@ -170,15 +175,15 @@ public class PackageManagerUtils {
         return appDataList;
     }
 
-    private static List<AppData> getPackageByIn(String flag) {
+    private static List<AppData> getPackagesByIntent(String flag) {
         Context context = context();
         List<AppData> appDataList = new ArrayList<>();
         if (context == null) return appDataList;
         try {
             PackageManager packageManager = context.getPackageManager();
-            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN);
             mainIntent.addCategory(flag);
-            List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(mainIntent, 0);
+            List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(mainIntent, PackageManager.GET_SIGNING_CERTIFICATES);
             for (ResolveInfo resolveInfo : resolveInfos) {
                 appDataList.add(addAppData(resolveInfo, packageManager));
             }
@@ -286,8 +291,12 @@ public class PackageManagerUtils {
     }
 
     public interface IPackageCode {
-        Parcelable getPackageCode(PackageManager pm);
+        default Parcelable getPackageCode(PackageManager pm) {
+            return null;
+        }
 
-        List<Parcelable> getPackageCodeList(PackageManager pm);
+        default List<Parcelable> getPackageCodeList(PackageManager pm) {
+            return null;
+        }
     }
 }

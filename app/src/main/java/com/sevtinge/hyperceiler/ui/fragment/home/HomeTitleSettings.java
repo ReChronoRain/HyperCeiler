@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
@@ -65,8 +66,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
         mDisableHideTheme.setVisible(isPad());
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("is_app_selector", true);
-            intent.putExtra("need_mode", 3);
+            intent.putExtra("mode", AppPicker.INPUT_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;

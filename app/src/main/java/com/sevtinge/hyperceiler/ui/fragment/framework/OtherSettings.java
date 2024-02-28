@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.KillAppUtils;
 
 import java.util.concurrent.ExecutorService;
@@ -86,8 +87,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
 
         mCleanShareApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("is_app_selector", false);
-            intent.putExtra("need_mode", 2);
+            intent.putExtra("mode", AppPicker.APP_OPEN_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -95,8 +95,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
 
         mCleanOpenApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("is_app_selector", false);
-            intent.putExtra("need_mode", 2);
+            intent.putExtra("mode", AppPicker.APP_OPEN_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -104,8 +103,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
 
         mClipboardWhitelistApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("is_app_selector", false);
-            intent.putExtra("need_mode", 4);
+            intent.putExtra("mode", AppPicker.LAUNCHER_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;

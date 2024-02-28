@@ -79,7 +79,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         // deleteAll();
         View view = setNewView(convertView, parent, appInfo);
         assert appInfo != null;
-        if (mMode == 3) {
+        if (mMode == AppPicker.INPUT_MODE) {
             String edit = getEdit(appInfo.packageName);
             // Log.e(TAG, "eddd: " + edit, null);
             if (!edit.equals("")) {
@@ -93,7 +93,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
 
         // appEdit.setText(appInfo.packageName);
         mSelecte.setChecked(shouldSelect(appInfo.packageName));
-        mSelecte.setVisibility(mMode == 2 || mMode == 4 ? View.VISIBLE : View.GONE);
+        mSelecte.setVisibility(mMode == AppPicker.LAUNCHER_MODE || mMode == AppPicker.APP_OPEN_MODE ? View.VISIBLE : View.GONE);
         // Log.e(TAG, "getView: " + appInfo.label, null);
         return view;
     }

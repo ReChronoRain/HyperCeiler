@@ -1,25 +1,29 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.sub;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +41,11 @@ import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.data.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.utils.BitmapUtils;
-import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
+import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,21 +54,26 @@ import moralnorm.appcompat.app.AlertDialog;
 
 public class AppPicker extends Fragment {
 
-    private Bundle args;
-    private String TAG = "AppPicker";
+    private final String TAG = "AppPicker";
     private String key = null;
-    private boolean appSelector;
     private int modeSelection;
     private View mRootView;
     private ProgressBar mAmProgress;
     private ListView mAppListRv;
     private AppDataAdapter mAppListAdapter;
-    private List<AppData> appDataList;
     public Handler mHandler;
     private Set<String> selectedApps;
+    private List<AppData> appDataList = new ArrayList<>();
+    private HashMap<String, Integer> hashMap = new HashMap<>();
     private IAppSelectCallback mAppSelectCallback;
 
     public static IEditCallback iEditCallback;
+
+    public static final int APP_OPEN_MODE = 0;
+
+    public static final int LAUNCHER_MODE = 1;
+    public static final int CALLBACK_MODE = 2;
+    public static final int INPUT_MODE = 3;
 
     public void setAppSelectCallback(IAppSelectCallback callback) {
         mAppSelectCallback = callback;
@@ -87,17 +98,13 @@ public class AppPicker extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requireActivity().setTitle(R.string.array_global_actions_launch_choose);
-        args = requireActivity().getIntent().getExtras();
+        Bundle args = requireActivity().getIntent().getExtras();
         assert args != null;
-        appSelector = args.getBoolean("is_app_selector");
-        modeSelection = args.getInt("need_mode");
-        if (appSelector) {
-            if (modeSelection == 3) {
-                key = args.getString("key");
-            } else
-                key = args.getString("app_selector_key");
-        } else {
-            key = args.getString("key");
+        modeSelection = args.getInt("mode");
+        switch (modeSelection) {
+            case APP_OPEN_MODE, LAUNCHER_MODE, INPUT_MODE -> key = args.getString("key");
+            default -> {
+            }
         }
         mHandler = new Handler();
         initData();
@@ -111,10 +118,10 @@ public class AppPicker extends Fragment {
         mAppListRv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppData appData = getAppInfo().get((int) id);
+                AppData appData = appDataList.get((int) id);
                 // Log.e(TAG, "onItemClick: " + appData.packageName, null);
                 switch (modeSelection) {
-                    case 1 -> {
+                    case CALLBACK_MODE -> {
                         mAppSelectCallback.sendMsgToActivity(BitmapUtils.Bitmap2Bytes(appData.icon),
                             appData.label,
                             appData.packageName,
@@ -122,7 +129,7 @@ public class AppPicker extends Fragment {
                             appData.activityName);
                         requireActivity().finish();
                     }
-                    case 2, 4 -> {
+                    case LAUNCHER_MODE, APP_OPEN_MODE -> {
                         CheckBox checkBox = view.findViewById(android.R.id.checkbox);
                         selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
                         if (checkBox.isChecked()) {
@@ -134,7 +141,7 @@ public class AppPicker extends Fragment {
                         }
                         PrefsUtils.mSharedPreferences.edit().putStringSet(key, selectedApps).apply();
                     }
-                    case 3 -> {
+                    case INPUT_MODE -> {
                         showEditDialog(appData.label, new EditDialogCallback() {
                                 @Override
                                 public void onInputReceived(String userInput) {
@@ -153,7 +160,7 @@ public class AppPicker extends Fragment {
         EditText input = view.findViewById(R.id.title);
         input.setText(defaultText);
 
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(requireActivity())
             .setTitle(R.string.edit)
             .setView(view)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
@@ -174,7 +181,9 @@ public class AppPicker extends Fragment {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mAppListAdapter = new AppDataAdapter(getActivity(), R.layout.item_app_list, getAppInfo(), key, modeSelection);
+                        appDataList = getAppInfo();
+                        mAppListAdapter = new AppDataAdapter(requireActivity(),
+                            R.layout.item_app_list, appDataList, key, modeSelection);
                         mAppListRv.setAdapter(mAppListAdapter);
                         mAmProgress.setVisibility(View.GONE);
                         mAppListRv.setVisibility(View.VISIBLE);
@@ -185,12 +194,29 @@ public class AppPicker extends Fragment {
     }
 
     public List<AppData> getAppInfo() {
-        List<AppData> appDataList;
-        if (appSelector || modeSelection == 4) {
-            appDataList = PackageManagerUtils.getPackageByLauncher();
-        } else {
-            appDataList = PackageManagerUtils.getOpenWithApps();
-        }
-        return appDataList;
+        return switch (modeSelection) {
+            case LAUNCHER_MODE, CALLBACK_MODE, INPUT_MODE ->
+                PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
+                    @Override
+                    public List<Parcelable> getPackageCodeList(PackageManager pm) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                        List<ResolveInfo> resolveInfoList = new ArrayList<>();
+                        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
+                        for (ResolveInfo resolveInfo : resolveInfos) {
+                            Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
+                            if (added == null || added != 1) {
+                                hashMap.put(resolveInfo.activityInfo.applicationInfo.packageName, 1);
+                            } else {
+                                continue;
+                            }
+                            resolveInfoList.add(resolveInfo);
+                        }
+                        return new ArrayList<>(resolveInfoList);
+                    }
+                });
+            case APP_OPEN_MODE -> PackagesUtils.getOpenWithApps();
+            default -> new ArrayList<>();
+        };
     }
 }

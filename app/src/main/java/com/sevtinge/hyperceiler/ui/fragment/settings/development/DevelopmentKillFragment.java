@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
-import com.sevtinge.hyperceiler.utils.PackageManagerUtils;
+import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -228,7 +228,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                appData = PackageManagerUtils.getPackageByFlag(0);
+                appData = PackagesUtils.getInstalledPackagesByFlag(0);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {

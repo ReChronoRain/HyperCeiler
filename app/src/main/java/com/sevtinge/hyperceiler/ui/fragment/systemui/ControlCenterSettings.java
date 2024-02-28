@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
@@ -106,8 +107,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mExpandNotification.setOnPreferenceClickListener(
             preference -> {
                 Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-                intent.putExtra("is_app_selector", false);
-                intent.putExtra("need_mode", 2);
+                intent.putExtra("mode", AppPicker.LAUNCHER_MODE);
                 intent.putExtra("key", preference.getKey());
                 startActivity(intent);
                 return true;
