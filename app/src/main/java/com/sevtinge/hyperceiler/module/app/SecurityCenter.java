@@ -66,9 +66,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.GamePerf
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.RemoveMacroBlackList;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGunService;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockEnhanceContours;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockMemc;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockSuperResolution;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
 
 public class SecurityCenter extends BaseModule {
@@ -89,7 +87,6 @@ public class SecurityCenter extends BaseModule {
         initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
 
         // 省电与电池
-        // initHook(new ShowBatteryTemperature(), mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature"));
         initHook(UnlockSuperWirelessCharge.INSTANCE, mPrefsMap.getBoolean("security_center_super_wireless_charge"));
         initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
@@ -126,6 +123,10 @@ public class SecurityCenter extends BaseModule {
         initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
         // 全局侧边栏
+        boolean isVideoFunc = mPrefsMap.getBoolean("security_center_unlock_memc") ||
+            mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
+            mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
+
         if (!isAndroidVersion(30)) {
             initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
             initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
@@ -135,9 +136,7 @@ public class SecurityCenter extends BaseModule {
         initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
         initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
         initHook(DisableRemoveScreenHoldOn.INSTANCE, mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
-        initHook(UnlockMemc.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_memc"));
-        initHook(UnlockSuperResolution.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_s_resolution"));
-        initHook(UnlockEnhanceContours.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_enhance_contours"));
+        initHook(UnlockVideoSomeFunc.INSTANCE, isVideoFunc);
         initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
         // initHook(new DockSuggest(), mPrefsMap.getStringAsInt("security_center_sidebar_show_suggest", 0) != 0);
         initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
