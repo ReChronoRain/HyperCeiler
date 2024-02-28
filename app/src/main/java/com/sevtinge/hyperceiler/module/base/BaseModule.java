@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.module.base;
 
-import android.os.Handler;
-
 import com.github.kyuubiran.ezxhelper.EzXHelper;
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.module.base.dexkit.InitDexKit;
@@ -53,17 +51,15 @@ public abstract class BaseModule implements IXposedHook {
         // 把模块资源加载到目标应用
         try {
             if (!ProjectApi.mAppModulePkg.equals(lpparam.packageName)) {
-                Handler handler = new Handler();
-                ContextUtils.getWaitContext(context -> handler.post(
-                    () -> {
+                ContextUtils.getWaitContext(
+                    context -> {
                         if (context != null) {
                             ResourcesTool.loadModuleRes(context);
                         }
-                    }
-                )
-                    , "android".equals(lpparam.packageName));
+                    }, "android".equals(lpparam.packageName));
             }
         } catch (Throwable e) {
+            XposedLogUtils.logE(TAG, "get context failed!", e);
         }
         mLoadPackageParam = lpparam;
         initZygote();
@@ -76,7 +72,7 @@ public abstract class BaseModule implements IXposedHook {
                 kit.closeHostDir();
                 // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
             } catch (Exception e) {
-                XposedLogUtils.logE(TAG, "close dexkit e: " + e);
+                XposedLogUtils.logE(TAG, "close dexkit failed!", e);
             }
         }
     }
