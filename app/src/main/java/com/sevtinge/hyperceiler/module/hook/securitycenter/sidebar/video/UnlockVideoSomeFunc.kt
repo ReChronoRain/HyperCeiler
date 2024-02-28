@@ -64,7 +64,7 @@ object UnlockVideoSomeFunc : BaseHook() {
         var counter = 0
         orderedA.forEach { methods ->
             counter++
-            if (resolution || enhance) {
+            if ((resolution || enhance) && counter == 1) {
                 logI(TAG, "find Tat Method is $findTat")
             }
 

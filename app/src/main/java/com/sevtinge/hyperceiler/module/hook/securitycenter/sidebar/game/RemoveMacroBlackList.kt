@@ -32,10 +32,8 @@ class RemoveMacroBlackList : BaseHook() {
                 addEqString("pref_gb_unsupport_macro_apps")
                 paramCount = 0
             }
-        }.first().getMethodInstance(safeClassLoader).createHook {
-            before {
-                returnConstant(ArrayList<String>())
-            }
+        }.single().getMethodInstance(safeClassLoader).createHook {
+            returnConstant(ArrayList<String>())
         }
 
         dexKitBridge.findMethod {
@@ -46,7 +44,7 @@ class RemoveMacroBlackList : BaseHook() {
                     paramCount = 0
                 }
             }
-        }.first().getMethodInstance(safeClassLoader).createHook {
+        }.single().getMethodInstance(safeClassLoader).createHook {
             returnConstant(false)
         }
 
@@ -55,7 +53,7 @@ class RemoveMacroBlackList : BaseHook() {
                 usingStrings =
                     listOf("content://com.xiaomi.macro.MacroStatusProvider/game_macro_change")
             }
-        }.first().getInstance(safeClassLoader).apply {
+        }.single().getInstance(safeClassLoader).apply {
             methodFinder().filterByParamCount(2)
                 .toList().createHooks {
                     returnConstant(true)

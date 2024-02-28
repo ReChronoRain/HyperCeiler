@@ -18,25 +18,45 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 
+import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
+import java.lang.reflect.Method
 
 object BeautyLightAuto : BaseHook() {
-    override fun init() {
+    private val beauty by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                addUsingStringsEquals("taoyao", "IN", "persist.vendor.vcb.ability")
+                returnType = "boolean"
+            }
+        }.single().getMethodInstance(lpparam.classLoader)
+    }
+    private val beautyAuto by lazy {
         dexKitBridge.findMethod {
             matcher {
                 addUsingStringsEquals("taoyao")
                 returnType = "boolean"
             }
-        }.forEach {
+        }
+    }
+
+    override fun init() {
+        if (mPrefsMap.getBoolean("security_center_beauty_face")) {
+            beauty.createHook {
+                returnConstant(true)
+            }
+        }
+
+        beautyAuto.forEach {
             if (!java.lang.String.valueOf(it).contains("<clinit>")) {
-                val beautyLightAuto: java.lang.reflect.Method =
+                val beautyLightAuto: Method =
                     it.getMethodInstance(lpparam.classLoader)
-                if (!java.lang.String.valueOf(it).contains(BeautyFace.beautyFace.toString())) {
+                if (!java.lang.String.valueOf(it).contains(beauty.toString()) && beautyLightAuto.name != beauty.name) {
                     logI(
                         TAG,
                         this.lpparam.packageName,

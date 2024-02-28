@@ -27,7 +27,7 @@ object DisableRemoveScreenHoldOn : BaseHook() {
     private val screen by lazy {
         dexKitBridge.findMethod {
             matcher {
-                usingStrings = listOf("remove_screen_off_hold_on")
+                addEqString("remove_screen_off_hold_on")
                 returnType = "boolean"
             }
         }.single().getMethodInstance(EzXHelper.safeClassLoader)

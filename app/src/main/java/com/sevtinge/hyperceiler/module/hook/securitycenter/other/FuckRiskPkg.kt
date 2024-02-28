@@ -37,9 +37,7 @@ object FuckRiskPkg : BaseHook() {
 
     override fun init() {
         pkg.createHooks {
-            before { param ->
-                param.result = null
-            }
+            returnConstant(null)
         }
     }
 }

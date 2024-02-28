@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.RemoveOpenAppConfirma
 import com.sevtinge.hyperceiler.module.hook.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.UnlockFbo;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.VideoDolbyOpen;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppInfoEntry;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AddAppManagerEntry;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.app.AppDefaultSort;
@@ -49,7 +48,6 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ScreenUsedTim
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.ShowBatteryTemperatureNew;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSmartCharge;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.battery.UnlockSuperWirelessCharge;
-import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyFace;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyLightAuto;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyPc;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyPrivacy;
@@ -68,6 +66,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.game.UnlockGu
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.DisableRemoveScreenHoldOn;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VBVideoMode;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
 public class SecurityCenter extends BaseModule {
 
@@ -100,8 +99,8 @@ public class SecurityCenter extends BaseModule {
         initHook(GetNumberEnable.INSTANCE, mPrefsMap.getBoolean("security_center_get_number"));
 
         // 前置摄像助手
-        initHook(BeautyLightAuto.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_light_auto"));
-        initHook(BeautyFace.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_face"));
+        initHook(BeautyLightAuto.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_face") ||
+            mPrefsMap.getBoolean("security_center_beauty_light_auto"));
         initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));
         initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
 
