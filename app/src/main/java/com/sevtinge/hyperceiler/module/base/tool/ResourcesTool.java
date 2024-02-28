@@ -36,6 +36,8 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -44,6 +46,7 @@ import de.robv.android.xposed.XposedHelpers;
  * 重写资源钩子，希望本钩子能有更好的生命力。
  */
 public class ResourcesTool {
+    private static final String TAG = "ResourcesTool";
     private boolean hooksApplied = false;
     // private Context mContext = null;
     private WeakReference<Context> weakContext;
@@ -75,30 +78,35 @@ public class ResourcesTool {
     }
 
     /**
-     * 使用反射是为了泛用性，反射失败尝试 Xposed。
-     *
      * @noinspection JavaReflectionMemberAccess
      */
-    public static int loadModuleRes(Context context) {
-        String tag = "addModuleRes";
+    private static int loadRes(Context context) {
+        // String TAG = "addModuleRes";
         try {
-            @SuppressLint("DiscouragedPrivateApi")
+            int result = (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath",
+                XposedInit.mModulePath);
+            // XposedLogUtils.logE(TAG, "Have Apk Assets:" + XposedInit.mModulePath);
+            /*Object[] apk = (Object[]) XposedHelpers.callMethod(context.getResources().getAssets(), "getApkAssets");
+            for (Object a : apk) {
+                XposedLogUtils.logE(TAG, "Have Apk Assets:" + a);
+            }*/
+            return result;
+        } catch (Throwable e) {
+            XposedLogUtils.logE(TAG, "CallMethod addAssetPathInternal failed!", e);
+        }
+        try {
+            @SuppressLint({"SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
             Method AssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
             AssetPath.setAccessible(true);
             return Integer.parseInt(String.valueOf(AssetPath.invoke(context.getResources().getAssets(), XposedInit.mModulePath)));
         } catch (NoSuchMethodException e) {
-            XposedLogUtils.logE(tag, "Method addAssetPath is null: " + e);
+            XposedLogUtils.logE(TAG, "Method addAssetPath is null: ", e);
         } catch (InvocationTargetException e) {
-            XposedLogUtils.logE(tag, "InvocationTargetException: " + e);
+            XposedLogUtils.logE(TAG, "InvocationTargetException: ", e);
         } catch (IllegalAccessException e) {
-            XposedLogUtils.logE(tag, "IllegalAccessException: " + e);
+            XposedLogUtils.logE(TAG, "IllegalAccessException: ", e);
         } catch (NumberFormatException e) {
-            XposedLogUtils.logE(tag, "NumberFormatException: " + e);
-        }
-        try {
-            return (int) XposedHelpers.callMethod(context.getResources().getAssets(), "addAssetPath", XposedInit.mModulePath);
-        } catch (Exception e) {
-            XposedLogUtils.logE(tag, "CallMethod addAssetPath E: " + e);
+            XposedLogUtils.logE(TAG, "NumberFormatException: ", e);
         }
         return 0;
     }
@@ -107,15 +115,38 @@ public class ResourcesTool {
      * 获取添加后的 Res.
      * 一般不需要，除非上面 loadModuleRes 加载后依然无效。
      */
-    public static Resources getAppRes(Context context) {
+    public static Resources loadModuleRes(Context context) {
         if (context == null) {
-            XposedLogUtils.logE("getAppRes", "context can't is null!!");
+            XposedLogUtils.logE(TAG, "context can't is null!!");
             return null;
         }
-        if (loadModuleRes(context) == 0) {
-            XposedLogUtils.logE("getAppRes", "loadModuleRes return 0, It may have failed.");
+        if (loadRes(context) == 0) {
+            // loopAttempt(context);
+            XposedLogUtils.logE(TAG, "loadModuleRes return 0, It may have failed.");
         }
         return context.getResources();
+    }
+
+    private static void loopAttempt(Context context) {
+        try {
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.submit(() -> {
+                long time = System.currentTimeMillis();
+                long timeout = 2000; // 2秒
+                int result = 0;
+                while (true) {
+                    long nowTime = System.currentTimeMillis();
+                    result = loadRes(context);
+                    if (nowTime - time > timeout || result != 0) {
+                        break;
+                    }
+                }
+                if (result == 0)
+                    XposedLogUtils.logE(TAG, "If the timeout still returns 0, it must have failed!");
+            });
+        } catch (Throwable e) {
+            XposedLogUtils.logE(TAG, "Unknown!", e);
+        }
     }
 
     private void applyHooks() {
@@ -284,7 +315,7 @@ public class ResourcesTool {
                         modResId = (Integer) replacement.second;
                         if (modResId == 0) return null;
 
-                        Resources modRes = getAppRes(context);
+                        Resources modRes = loadModuleRes(context);
                         if ("getDrawable".equals(method))
                             value = XposedHelpers.callMethod(modRes, method, modResId, args[1]);
                         else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))

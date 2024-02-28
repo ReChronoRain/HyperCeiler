@@ -35,11 +35,12 @@ import com.sevtinge.hyperceiler.module.hook.systemui.navigation.HandleLineCustom
 import com.sevtinge.hyperceiler.module.hook.tsmclient.AutoNfc;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
+import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class XposedInit extends BaseXposedInit implements IXposedHookInitPackageResources {
+public class XposedInit extends BaseXposedInit implements IXposedHookInitPackageResources, IXposedHookZygoteInit, IXposedHookLoadPackage {
     private final String TAG = "HyperCeiler";
 
     @Override
