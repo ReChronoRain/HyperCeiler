@@ -129,7 +129,7 @@ public class PackagesUtils {
      * PermissionGroupInfo ActivityInfo
      * ApplicationInfo ProviderInfo
      * PermissionInfo` 类型的返回值.
-     * 返回使用 return new ArrayList<>(resolveInfoList); 包裹。
+     * 返回使用 return new ArrayList<>(XX); 包裹。
      *
      * @param iPackageCode 需要执行的代码
      * @return ListAppData 包含各种应用详细信息
@@ -170,7 +170,7 @@ public class PackagesUtils {
             }
             return appDataList;
         } catch (Throwable e) {
-            AndroidLogUtils.logE(TAG, "getAllPackage Other E", e);
+            AndroidLogUtils.logE(TAG, "Failed to get the list of installed apps via flag!", e);
         }
         return appDataList;
     }
@@ -189,7 +189,7 @@ public class PackagesUtils {
             }
             return appDataList;
         } catch (Throwable e) {
-            AndroidLogUtils.logE(TAG, "getPackageByIn Other E", e);
+            AndroidLogUtils.logE(TAG, "Failed to get app list via intent!", e);
         }
         return appDataList;
     }
@@ -248,7 +248,7 @@ public class PackagesUtils {
                 // AndroidLogUtils.LogE(TAG, "PermissionInfo", null);
             }
         } catch (Throwable e) {
-            throw new Throwable("Error in obtaining application information: " + parcelable + " E: " + e);
+            throw new Throwable("Error in obtaining application information: " + parcelable, e);
         }
         return appData;
     }
@@ -285,7 +285,7 @@ public class PackagesUtils {
             context = ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP);
         }
         if (context == null) {
-            throw new Throwable("getAllPackage: context is null");
+            throw new Throwable("context is null");
         }
         return context;
     }

@@ -29,8 +29,6 @@ import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @SuppressLint({"PrivateApi", "SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
 public class ContextUtils {
@@ -91,8 +89,7 @@ public class ContextUtils {
      * @author 焕晨HChen
      */
     public static void getWaitContext(IContext iContext, boolean isSystem) {
-        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        executorService.submit(() -> {
+        ThreadPoolManager.getInstance().submit(() -> {
             Context context = getContextNoError(isSystem ? FlAG_ONLY_ANDROID : FLAG_CURRENT_APP);
             if (context == null) {
                 long time = System.currentTimeMillis();
@@ -109,6 +106,7 @@ public class ContextUtils {
                 iContext.hadContext(context);
             }
         });
+        ThreadPoolManager.shutdown();
     }
 
     public interface IContext {

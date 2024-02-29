@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.framework;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
@@ -31,10 +31,10 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
-import com.sevtinge.hyperceiler.utils.KillAppUtils;
+import com.sevtinge.hyperceiler.utils.KillApp;
+import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
@@ -53,7 +53,6 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     SwitchPreference mLockAppSc;
     SwitchPreference mLockAppScreen;
     Handler handler;
-    ExecutorService executorService;
 
     @Override
     public int getContentResId() {
@@ -64,7 +63,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
     public void initPrefs() {
         mCleanShareApps = findPreference("prefs_key_system_framework_clean_share_apps");
         mCleanOpenApps = findPreference("prefs_key_system_framework_clean_open_apps");
-        mClipboardWhitelistApps =findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
+        mClipboardWhitelistApps = findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
         mAppLinkVerify = findPreference("prefs_key_system_framework_disable_app_link_verify");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
         mUseOriginalAnim = findPreference("prefs_key_system_framework_other_use_original_animation");
@@ -108,9 +107,7 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
             startActivity(intent);
             return true;
         });
-
-        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        handler = new Handler();
+        handler = new Handler(requireContext().getMainLooper());
     }
 
     public void initApp(ExecutorService executorService, Runnable runnable) {
@@ -121,17 +118,18 @@ public class OtherSettings extends SettingsPreferenceFragment implements Prefere
 
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
+        ExecutorService executorService = ThreadPoolManager.getInstance();
         switch (preference.getKey()) {
             case "prefs_key_system_framework_guided_access" -> {
                 initApp(executorService, () -> {
-                    KillAppUtils.pidKill(new String[]{"com.miui.home", "com.android.systemui"});
+                    KillApp.killApps("com.miui.home", "com.android.systemui");
                 });
             }
             case "prefs_key_system_framework_guided_access_sc" -> {
-                initApp(executorService, () -> KillAppUtils.pKill("com.miui.securitycenter"));
+                initApp(executorService, () -> KillApp.killApps("com.miui.securitycenter"));
             }
             case "prefs_key_system_framework_guided_access_screen" -> {
-                initApp(executorService, () -> KillAppUtils.pKill("com.android.systemui"));
+                initApp(executorService, () -> KillApp.killApps("com.android.systemui"));
             }
         }
         return true;

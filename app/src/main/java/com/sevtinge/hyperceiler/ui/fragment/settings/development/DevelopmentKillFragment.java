@@ -29,7 +29,9 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.data.AppData;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.KillApp;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.ToastHelper;
 import com.sevtinge.hyperceiler.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
@@ -37,7 +39,6 @@ import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import moralnorm.appcompat.app.AlertDialog;
 import moralnorm.preference.Preference;
@@ -45,7 +46,6 @@ import moralnorm.preference.Preference;
 public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
     private List<AppData> appData = new ArrayList<>();
     private boolean init = false;
-    ExecutorService executorService;
     Handler handler;
     ShellExec mShell;
     Preference mKillPackage;
@@ -68,7 +68,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         mKillPackage = findPreference("prefs_key_development_kill_package");
         mName = findPreference("prefs_key_development_kill_app_name");
         ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载数据，请稍后");
-        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService executorService = ThreadPoolManager.getInstance();
         handler = new Handler(requireContext().getMainLooper());
         initApp(executorService);
         mCheck.setOnPreferenceClickListener(this);
@@ -190,38 +190,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     }
 
     private boolean killPackage(String kill) {
-        boolean result =
-            mShell.add("pid=$(pgrep -f \"" + kill + "\" | grep -v $$)")
-                .add("if [[ $pid == \"\" ]]; then")
-                .add(" pids=\"\"")
-                .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + kill + "\" | grep -v \"grep\")")
-                .add("  for i in $pid; do")
-                .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
-                .add("    if [[ $pids == \"\" ]]; then")
-                .add("      pids=$i")
-                .add("    else")
-                .add("      pids=\"$pids $i\"")
-                .add("    fi")
-                .add("   fi")
-                .add("  done")
-                .add("fi")
-                .add("if [[ $pids != \"\" ]]; then")
-                .add(" pid=$pids")
-                .add("fi")
-                .add("if [[ $pid != \"\" ]]; then")
-                .add(" for i in $pid; do")
-                .add("  kill -s 15 $i &>/dev/null")
-                .add(" done")
-                .add("else")
-                .add(" echo \"No Find Pid!\"")
-                .add("fi").over().sync().isResult();
-        if (result) {
-            if (mShell.getOutPut().size() == 0) {
-                return true;
-            }
-            return !mShell.getOutPut().get(0).equals("No Find Pid!");
-        } else
-            return false;
+        return KillApp.killApps(kill);
     }
 
     private void initApp(ExecutorService executorService) {

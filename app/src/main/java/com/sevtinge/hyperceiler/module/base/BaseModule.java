@@ -59,7 +59,7 @@ public abstract class BaseModule implements IXposedHook {
                     }, "android".equals(lpparam.packageName));
             }
         } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "get context failed!", e);
+            XposedLogUtils.logE(TAG, "get context failed!" + e);
         }
         mLoadPackageParam = lpparam;
         initZygote();
@@ -72,7 +72,7 @@ public abstract class BaseModule implements IXposedHook {
                 kit.closeHostDir();
                 // XposedLogUtils.logE(TAG, "close dexkit s: " + lpparam.packageName);
             } catch (Exception e) {
-                XposedLogUtils.logE(TAG, "close dexkit failed!", e);
+                XposedLogUtils.logE(TAG, "close dexkit failed!" + e);
             }
         }
     }

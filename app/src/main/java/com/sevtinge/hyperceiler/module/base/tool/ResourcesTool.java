@@ -30,6 +30,7 @@ import android.util.Pair;
 
 import com.sevtinge.hyperceiler.XposedInit;
 import com.sevtinge.hyperceiler.utils.ContextUtils;
+import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 
 import java.lang.ref.WeakReference;
@@ -37,7 +38,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -92,7 +92,7 @@ public class ResourcesTool {
             }*/
             return result;
         } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "CallMethod addAssetPathInternal failed!", e);
+            XposedLogUtils.logE(TAG, "CallMethod addAssetPathInternal failed!" + e);
         }
         try {
             @SuppressLint({"SoonBlockedPrivateApi", "DiscouragedPrivateApi"})
@@ -129,7 +129,7 @@ public class ResourcesTool {
 
     private static void loopAttempt(Context context) {
         try {
-            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            ExecutorService executorService = ThreadPoolManager.getInstance();
             executorService.submit(() -> {
                 long time = System.currentTimeMillis();
                 long timeout = 2000; // 2秒
@@ -145,7 +145,7 @@ public class ResourcesTool {
                     XposedLogUtils.logE(TAG, "If the timeout still returns 0, it must have failed!");
             });
         } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "Unknown!", e);
+            XposedLogUtils.logE(TAG, "Unknown!" + e);
         }
     }
 

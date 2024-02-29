@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.ui.base.NavigationActivity;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.Helpers;
 import com.sevtinge.hyperceiler.utils.PropUtils;
+import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.search.SearchHelper;
@@ -75,6 +76,7 @@ public class MainActivity extends NavigationActivity implements IResult {
     @Override
     protected void onDestroy() {
         ShellInit.destroy();
+        ThreadPoolManager.shutdown();
         super.onDestroy();
     }
 
