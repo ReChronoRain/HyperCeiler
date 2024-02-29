@@ -367,22 +367,23 @@ public class FlashLight extends TileUtils {
             case 2 -> {
                 if (bmtk)
                     zero(mtk, flash);
-                if (btorch) {
-                    zero(torch, flash);
+                if (bother) {
+                    zero(other, flash);
                     break; // 根据 CC0126 所述，不同时操作。
                 }
-                if (bother)
-                    zero(other, flash);
+                if (btorch)
+                    zero(torch, flash);
             }
             case 3 -> {
                 if (bmtk)
                     flashSwitch(mtk, flash);
-                if (btorch) {
-                    flashSwitch(torch, flash);
+
+                if (bother) {
+                    flashSwitch(other, flash);
                     break; // 根据 CC0126 所述，不同时操作。
                 }
-                if (bother)
-                    flashSwitch(other, flash);
+                if (btorch)
+                    flashSwitch(torch, flash);
             }
         }
     }
