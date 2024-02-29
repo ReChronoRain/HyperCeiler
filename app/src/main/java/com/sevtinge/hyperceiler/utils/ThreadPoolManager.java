@@ -5,17 +5,17 @@ import java.util.concurrent.Executors;
 
 public class ThreadPoolManager {
     private static final int NUM_THREADS = 5; // 定义线程池中线程的数量
-    private static ExecutorService executor;
+    private static volatile ExecutorService executor;
 
     // 获取线程池实例
-    public static synchronized ExecutorService getInstance() {
-        if (executor == null) {
-            // 创建一个具有固定数量线程的线程池
-            executor = Executors.newFixedThreadPool(NUM_THREADS);
-        }
-        if (executor.isShutdown()) {
-            // 如果已经关机则重新创建
-            executor = Executors.newFixedThreadPool(NUM_THREADS);
+    public static ExecutorService getInstance() {
+        if (executor == null || executor.isShutdown()) {
+            synchronized (ThreadPoolManager.class) {
+                if (executor == null || executor.isShutdown()) {
+                    // 创建一个具有固定数量线程的线程池, 如果已经关机则重新创建
+                    executor = Executors.newFixedThreadPool(NUM_THREADS);
+                }
+            }
         }
         return executor;
     }
