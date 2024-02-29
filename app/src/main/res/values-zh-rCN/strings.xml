@@ -293,6 +293,11 @@
     <string name="control_center_sunshine_mode_one">系统默认模式</string>
     <string name="control_center_sunshine_mode_two">强制最高亮度</string>
 
+    <string name="security_center_flash_light_default">关闭</string>
+    <string name="security_center_flash_light_1">默认写入模式</string>
+    <string name="security_center_flash_light_2">写入模式一</string>
+    <string name="security_center_flash_light_3">写入模式二</string>
+
     <string name="control_center_5g_off">关闭</string>
     <string name="control_center_5g_v1">样式一</string>
     <string name="control_center_5g_v2">样式二</string>

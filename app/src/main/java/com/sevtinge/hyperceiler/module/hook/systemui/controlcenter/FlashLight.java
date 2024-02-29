@@ -57,6 +57,7 @@ public class FlashLight extends TileUtils {
     public final String other = "/sys/class/leds/flashlight/brightness";
     public final String flashSwitch = "/sys/class/leds/led:switch_0/brightness";
     public final String maxBrightness = "/sys/class/leds/led:torch_0/max_brightness";
+    public int mode = 0;
     public int lastFlash = -1;
     public boolean isListening = false;
     public boolean isHook = false;
@@ -64,6 +65,7 @@ public class FlashLight extends TileUtils {
     @Override
     public void init() {
         super.init();
+        mode = mPrefsMap.getStringAsInt("security_flash_light_switch", 0);
         setPermission(mtk);
         setPermission(torch);
         setPermission(other);
@@ -353,9 +355,47 @@ public class FlashLight extends TileUtils {
     }
 
     private void writeFile(int flash) {
-        if (exists(mtk)) write(mtk, flash);
-        if (exists(torch)) write(torch, flash);
-        if (exists(other)) write(other, flash);
+        boolean bmtk = exists(mtk);
+        boolean btorch = exists(torch);
+        boolean bother = exists(other);
+        switch (mode) {
+            case 0, 1 -> {
+                if (bmtk) write(mtk, flash);
+                if (btorch) write(torch, flash);
+                if (bother) write(other, flash);
+            }
+            case 2 -> {
+                if (bmtk)
+                    zero(mtk, flash);
+                if (btorch) {
+                    zero(torch, flash);
+                    break; // 根据 CC0126 所述，不同时操作。
+                }
+                if (bother)
+                    zero(other, flash);
+            }
+            case 3 -> {
+                if (bmtk)
+                    flashSwitch(mtk, flash);
+                if (btorch) {
+                    flashSwitch(torch, flash);
+                    break; // 根据 CC0126 所述，不同时操作。
+                }
+                if (bother)
+                    flashSwitch(other, flash);
+            }
+        }
+    }
+
+    private void zero(String path, int flash) {
+        write(path, 0);
+        write(path, flash);
+    }
+
+    private void flashSwitch(String path, int flash) {
+        write(path, flash);
+        write(flashSwitch, 1);
+        write(flashSwitch, 0);
     }
 
     private boolean exists(String path) {

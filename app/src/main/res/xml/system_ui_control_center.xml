@@ -224,11 +224,19 @@
             app:entries="@array/control_center_sunshine_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
-        <SwitchPreference
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_security_flash_light_switch"
+            android:title="@string/security_center_flash_light"
+            android:summary="@string/security_center_flash_light_more"
+            app:entries="@array/security_center_flash_light"
+            app:entryValues="@array/security_center_flash_light_value" />
+
+        <!--<SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_flash_light"
             android:summary="@string/security_center_flash_light_more"
-            android:title="@string/security_center_flash_light" />
+            android:title="@string/security_center_flash_light" />-->
 
         <SwitchPreference
             android:defaultValue="false"

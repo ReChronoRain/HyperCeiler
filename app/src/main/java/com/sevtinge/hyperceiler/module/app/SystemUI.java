@@ -261,7 +261,7 @@ public class SystemUI extends BaseModule {
         initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
-        initHook(new FlashLight(), mPrefsMap.getBoolean("security_flash_light"));
+        initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));

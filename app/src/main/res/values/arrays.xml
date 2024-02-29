@@ -232,6 +232,13 @@
         <item>@string/control_center_sunshine_mode_two</item>
     </string-array>
 
+    <string-array name="security_center_flash_light">
+        <item>@string/security_center_flash_light_default</item>
+        <item>@string/security_center_flash_light_1</item>
+        <item>@string/security_center_flash_light_2</item>
+        <item>@string/security_center_flash_light_3</item>
+    </string-array>
+
     <string-array name="control_center_5g_mode">
         <item>@string/control_center_5g_off</item>
         <item>@string/control_center_5g_v1</item>
@@ -258,6 +265,13 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <string-array name="security_center_flash_light_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="status_bar_icon_mode_new_value">
