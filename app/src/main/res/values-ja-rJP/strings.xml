@@ -828,6 +828,7 @@
     <string name="system_settings_apps_freezer">「キャッシュに保存されたアプリの実行を停止」を強制的に表示</string>
     <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、動作するかは不明です</string>
     <string name="system_settings_develop_speed_mode">エクストリームモード</string>
+    <string name="system_settings_develop_max_fps">ピークリフレッシュレートの強制をアンロック</string>
     <string name="system_settings_develop_speed_mode_desc">サポートされていないモデルでは、オンにしても設定項目は表示されません</string>
     <string name="system_settings_window_animation_scale">ウィンドウアニメスケール</string>
     <string name="system_settings_transition_animation_scale">トランジションアニメスケール</string>
@@ -835,6 +836,8 @@
     <string name="system_settings_allow_never_lock_screen">画面ロックなしの設定を許可</string>
     <!--Themes-->
     <string name="theme_manager">テーマ</string>
+    <string name="theme_manager_version_code_modify">バージョン検出の調整</string>
+    <string name="theme_manager_version_code_modify_desc">新しいバージョンに適合していないテーマも使用できるように、検出されるバージョン情報を調整します</string>
     <string name="theme_manager_diable_ads">広告を無効化</string>
     <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
     <string name="theme_manager_enable_pad_theme">Pad テーマを有効化</string>
