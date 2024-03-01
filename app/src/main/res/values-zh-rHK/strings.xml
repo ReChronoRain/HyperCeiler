@@ -553,8 +553,8 @@
     <string name="system_ui_status_bar_icon_small_hd">小 HD 圖示</string>
     <string name="system_ui_status_bar_icon_big_hd">大 HD 圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">無 SIM 卡圖示</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">SIM 卡 1 訊號圖示</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">SIM 卡 2 訊號圖示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">隱藏 SIM 卡 1 訊號圖示</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">隱藏 SIM 卡 2 訊號圖示</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大網絡類型圖示</string>
     <string name="system_ui_status_bar_icon_location">位置訊息</string>
@@ -823,7 +823,7 @@
     <string name="system_settings_allow_never_lock_screen">允許永不鎖定螢幕</string>
     <!--Themes-->
     <string name="theme_manager">主題桌布</string>
-    <string name="theme_manager_version_code_modify">禁用 MIUI 版本檢測</string>
+    <string name="theme_manager_version_code_modify">調整檢測版本</string>
     <string name="theme_manager_diable_ads">禁用廣告</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
     <string name="theme_manager_enable_pad_theme">啟用 Pad 主題</string>

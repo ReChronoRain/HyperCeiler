@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.data.adapter;
 
 import android.content.Context;
@@ -66,22 +66,15 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
         mMode = mode;
     }
 
-    public void setData(List<AppData> appInfoList) {
-        AppDataAdapter.appInfoList = appInfoList;
-        notifyDataSetChanged();
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         AppData appInfo = getItem(position);
         getShared();
-        // deleteAll();
         View view = setNewView(convertView, parent, appInfo);
         assert appInfo != null;
-        if (mMode == 3) {
+        if (mMode == AppPicker.INPUT_MODE) {
             String edit = getEdit(appInfo.packageName);
-            // Log.e(TAG, "eddd: " + edit, null);
             if (!edit.equals("")) {
                 appName.setText(edit);
             } else {
@@ -93,7 +86,7 @@ public class AppDataAdapter extends ArrayAdapter<AppData> implements IEditCallba
 
         // appEdit.setText(appInfo.packageName);
         mSelecte.setChecked(shouldSelect(appInfo.packageName));
-        mSelecte.setVisibility(mMode == 2 || mMode == 4 ? View.VISIBLE : View.GONE);
+        mSelecte.setVisibility(mMode == AppPicker.LAUNCHER_MODE || mMode == AppPicker.APP_OPEN_MODE ? View.VISIBLE : View.GONE);
         // Log.e(TAG, "getView: " + appInfo.label, null);
         return view;
     }

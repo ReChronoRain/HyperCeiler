@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
@@ -40,6 +40,7 @@ public class NotificationIconColumns extends BaseHook {
     public Context mContext;
     public int mCurrentUserId;
     public boolean mShowNotificationIcons;
+
     @Override
     public void init() {
         int maxIconsNum;
@@ -224,10 +225,10 @@ public class NotificationIconColumns extends BaseHook {
     }
 
     public void mHyperOsNew(int maxIconsNum) {
-        /*findAndHookMethod("com.android.systemui.statusbar.policy.NotificationIconObserver$2", "onPreferenceChange", "androidx.preference.Preference", Object.class, new MethodHook() {
+        /*findAndHookMethod("com.android.systemui.statusbar.policy.NotificationIconObserver$2", "onChange", boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
-                param.args[1] = maxIconsNum;
+                param.args[0] = true;
             }
         });*/
         hookAllConstructors("com.android.systemui.statusbar.policy.NotificationIconObserver",
@@ -257,12 +258,8 @@ public class NotificationIconColumns extends BaseHook {
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    if (mShowNotificationIcons) {
-                        XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", maxIconsNum);
-                        XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
-                    } else {
-                        XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", 0);
-                    }
+                    XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", maxIconsNum);
+                    XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
                 }
             }
         );
@@ -272,12 +269,8 @@ public class NotificationIconColumns extends BaseHook {
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    if (mShowNotificationIcons) {
-                        XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", maxIconsNum);
-                        XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
-                    } else {
-                        XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", 0);
-                    }
+                    XposedHelpers.setObjectField(param.thisObject, "mMaxStaticIcons", maxIconsNum);
+                    XposedHelpers.setObjectField(param.thisObject, "mIsStaticLayout", true);
                 }
             }
         );
@@ -287,11 +280,7 @@ public class NotificationIconColumns extends BaseHook {
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    if (mShowNotificationIcons) {
-                        XposedHelpers.setObjectField(param.thisObject, "mMaxIconsOnLockscreen", maxIconsNum);
-                    } else {
-                        XposedHelpers.setObjectField(param.thisObject, "mMaxIconsOnLockscreen", 0);
-                    }
+                    XposedHelpers.setObjectField(param.thisObject, "mMaxIconsOnLockscreen", maxIconsNum);
                 }
             }
         );

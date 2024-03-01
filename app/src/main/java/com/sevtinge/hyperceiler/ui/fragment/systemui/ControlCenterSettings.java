@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
@@ -33,9 +33,11 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.SubPickerActivity;
 import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
+import com.sevtinge.hyperceiler.utils.KillApp;
+import com.sevtinge.hyperceiler.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
 import miui.telephony.TelephonyManager;
 import moralnorm.preference.DropDownPreference;
@@ -50,6 +52,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SwitchPreference mNotice;
     SwitchPreference mNoticex;
     SeekBarPreferenceEx mNewCCGrid;
+    SeekBarPreferenceEx mNewCCGridColumns;
     SwitchPreference mNewCCGridRect;
     SwitchPreference mNewCCGridLabel;
     DropDownPreference mFiveG;
@@ -86,6 +89,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
         mFixMediaPanel = findPreference("prefs_key_system_ui_control_center_fix_media_control_panel");
         mNewCCGrid = findPreference("prefs_key_system_control_center_cc_rows");
+        mNewCCGridColumns = findPreference("prefs_key_system_control_center_cc_columns");
         mNewCCGridRect = findPreference("prefs_key_system_ui_control_center_rounded_rect");
         mNewCCGridLabel = findPreference("prefs_key_system_control_center_qs_tile_label");
         mNotice = findPreference("prefs_key_n_enable");
@@ -104,8 +108,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mExpandNotification.setOnPreferenceClickListener(
             preference -> {
                 Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-                intent.putExtra("is_app_selector", false);
-                intent.putExtra("need_mode", 2);
+                intent.putExtra("mode", AppPicker.LAUNCHER_MODE);
                 intent.putExtra("key", preference.getKey());
                 startActivity(intent);
                 return true;
@@ -121,9 +124,10 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
 
         mFixMediaPanel.setVisible(isAndroidVersion(31) || isAndroidVersion(32));
         mNewCCGrid.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mNewCCGridColumns.setVisible(!isHyperOSVersion(1f));
         mNewCCGridRect.setVisible(!isAndroidVersion(30));
         mNewCCGridLabel.setVisible(!isHyperOSVersion(1f));
-        mNotice.setVisible(!isAndroidVersion(30));
+        mNotice.setVisible(!isAndroidVersion(30) && !isMoreHyperOSVersion(1f));
         mNoticex.setVisible(isMoreAndroidVersion(33));
         mBluetoothSytle.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
@@ -149,7 +153,7 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
                 try {
                     Settings.Secure.putInt(requireActivity().getContentResolver(), "sysui_qqs_count", progress);
                 } catch (Throwable t) {
-                    AndroidLogUtils.LogD("SeekBarPreferenceEx", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
+                    AndroidLogUtils.logD("SeekBarPreferenceEx", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
                 }
             }
 
@@ -164,9 +168,8 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     }
 
     public void killTaplus() {
-        new Thread(() -> handler.post(() ->
-            ShellUtils.execCommand("killall -s 9 com.miui.contentextension",
-                true, false))).start();
+        ThreadPoolManager.getInstance().submit(() -> handler.post(() ->
+            KillApp.killApps("com.miui.contentextension")));
     }
 
     @Override

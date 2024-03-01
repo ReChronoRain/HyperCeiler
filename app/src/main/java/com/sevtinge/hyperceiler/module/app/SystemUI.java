@@ -146,24 +146,28 @@ public class SystemUI extends BaseModule {
         initHook(new MonetThemeOverlay(), mPrefsMap.getBoolean("system_ui_monet_overlay_custom"));
 
         // 状态栏图标
-        if (!isMoreHyperOSVersion(1f)) {
-            initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
-            initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0);
-        }
+        boolean isHideSim = (mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")) &&
+            !mPrefsMap.getBoolean("system_ui_statusbar_network_icon_enable") && !isMoreHyperOSVersion(1f);
+
         initHook(new StatusBarIcon());
         initHook(new IconsFromSystemManager());
+        initHook(new BluetoothIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0) != 0 && !isMoreHyperOSVersion(1f));
         initHook(new WifiStandard(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
         initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_dots_maximum_enable") || mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(new HideStatusBarBeforeScreenshot(), mPrefsMap.getBoolean("system_ui_status_bar_hide_icon"));
         initHook(new DataSaverIcon(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_data_saver", 0) != 0);
-        initHook(StatusBarSimIcon.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_1", 0) == 2 ||
-            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_2", 0) == 2);
+        initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0) > 0);
+        initHook(StatusBarSimIcon.INSTANCE, isHideSim);
         initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(UseNewHD.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_use_new_hd"));
 
         // 移动网络图标
-        boolean isEnableMobilePublic = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
+        boolean isEnableMobilePublic = mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
+            mPrefsMap.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
+            mPrefsMap.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||
             mPrefsMap.getBoolean("system_ui_statusbar_mobile_type_enable") ||
             mPrefsMap.getBoolean("system_ui_status_bar_mobile_indicator");
         boolean isEnableMobileNetwork = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
@@ -257,7 +261,7 @@ public class SystemUI extends BaseModule {
         initHook(new TaplusTile(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new ReduceBrightColorsTile(), mPrefsMap.getBoolean("security_center_reduce_bright_colors_tile"));
         initHook(new FiveGTile(), mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0) != 0);
-        initHook(new FlashLight(), mPrefsMap.getBoolean("security_flash_light"));
+        initHook(new FlashLight(), mPrefsMap.getStringAsInt("security_flash_light_switch", 0) != 0);
         initHook(new SunlightMode(), mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0) != 0);
         initHook(new QSGridLabels(), mPrefsMap.getInt("system_control_center_old_qs_row", 1) > 1 ||
             mPrefsMap.getBoolean("system_control_center_qs_tile_label"));

@@ -25,31 +25,29 @@ import com.sevtinge.hyperceiler.module.base.BaseHook
 
 object StatusBarSimIcon : BaseHook() {
     private val card1 by lazy {
-        mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_1", 0) == 2
+        mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1")
     }
     private val card2 by lazy {
-        mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_card_2", 0) == 2
+        mPrefsMap.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")
     }
 
     override fun init() {
-        if (card1 || card2) {
-            loadClass("com.android.systemui.statusbar.phone.StatusBarSignalPolicy").methodFinder()
-                .filterByName("hasCorrectSubs")
-                .filterByParamTypes {
-                    it[0] == MutableList::class.java
-                }.single().createHook {
-                    before {
-                        val list = it.args[0] as MutableList<*>
-                        /* val size = list.size*/
-                        if (card2) {
-                            list.removeAt(1)
-                        }
-                        if (card1) {
-                            list.removeAt(0)
-                        }
+        loadClass("com.android.systemui.statusbar.phone.StatusBarSignalPolicy").methodFinder()
+            .filterByName("hasCorrectSubs")
+            .filterByParamTypes {
+                it[0] == MutableList::class.java
+            }.single().createHook {
+                before {
+                    val list = it.args[0] as MutableList<*>
+                    /* val size = list.size*/
+                    if (card2) {
+                        list.removeAt(1)
+                    }
+                    if (card1) {
+                        list.removeAt(0)
                     }
                 }
-        }
+            }
     }
 
 }

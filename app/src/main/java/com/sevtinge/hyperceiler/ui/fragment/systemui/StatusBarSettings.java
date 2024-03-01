@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.ui.base.BaseSettingsActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 
 import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceCategory;
 
 public class StatusBarSettings extends SettingsPreferenceFragment {
 
@@ -36,6 +37,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
     Preference mToastStatus; // 灵动 Toast
     Preference mIconManagerOld;
     Preference mIconManagerNew;
+    PreferenceCategory mStatusBarLayout; // 状态栏布局
 
     @Override
     public int getContentResId() {
@@ -56,11 +58,14 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
         mToastStatus = findPreference("prefs_key_system_ui_status_bar_toast");
         mIconManagerOld = findPreference("prefs_key_icon_manager_old");
         mIconManagerNew = findPreference("prefs_key_icon_manager_new");
+        mStatusBarLayout = findPreference("pref_key_system_ui_statusbar_layout");
 
         mDeviceStatus.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
         mToastStatus.setVisible(isHyperOSVersion(1f));
 
         mIconManagerOld.setVisible(!isMoreHyperOSVersion(1f));
         mIconManagerNew.setVisible(isMoreHyperOSVersion(1f));
+
+        mStatusBarLayout.setVisible(!isMoreHyperOSVersion(1f));
     }
 }

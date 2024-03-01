@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
+import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.logD;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 
 import android.annotation.SuppressLint;
@@ -184,7 +184,7 @@ public class Helpers {
         try {
             activityOptions = (ActivityOptions) ReflectUtils.callStaticObjectMethod(Class.forName("android.util.MiuiMultiWindowUtils"), ActivityOptions.class, "getActivityOptions", new Class[]{Context.class, String.class, Boolean.TYPE, Boolean.TYPE}, new Object[]{context, str, true, false});
         } catch (Exception e) {
-            LogD(TAG, "MiuiMultiWindowUtils getActivityOptions error", e);
+            logD(TAG, "MiuiMultiWindowUtils getActivityOptions error", e);
             activityOptions = null;
         }
 

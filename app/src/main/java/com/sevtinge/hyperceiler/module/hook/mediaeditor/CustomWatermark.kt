@@ -23,25 +23,26 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.sevtinge.hyperceiler.module.base.BaseHook
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import org.luckypray.dexkit.query.enums.StringMatchType
-import java.lang.reflect.Modifier
 
 object CustomWatermark : BaseHook() {
     private val name by lazy {
         mPrefsMap.getString("mediaeditor_custom_watermark", "")
     }
 
-    override fun init(){
-        // by StarVoyager
-        val search = dexKitBridge.findMethod {
+    // by StarVoyager
+    private val search by lazy {
+        dexKitBridge.findMethod {
             matcher {
                 addUsingString("K30 Pro Zoom E", StringMatchType.Equals)
-                modifiers = Modifier.FINAL
+                // modifiers = Modifier.FINAL // 1.6.5.10.2 改成了 STATIC，所以寄了
                 returnType = "java.lang.String"
                 paramCount = 2
             }
         }.single().getMethodInstance(EzXHelper.classLoader)
+    }
 
-        logE(TAG, "[CustomWatermark] search method is $search")
+    override fun init() {
+        logI(TAG, "[CustomWatermark] search method is $search")
         search.createHook {
             // 当前只能修改后缀
             returnConstant(name)

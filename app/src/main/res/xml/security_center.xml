@@ -62,7 +62,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_show_battery_health"
-            android:summary="@string/security_center_show_battery_health_desc"
+            android:summary="@string/only_new_version_can_do"
             android:title="@string/security_center_show_battery_health" />
 
         <SwitchPreference

@@ -158,6 +158,7 @@
     <string name="search">Pesquisar</string>
     <string name="floating_window">Janelas flutuantes</string>
     <string name="save_to_screen_title">Especificar local para salvar</string>
+    <string name="only_new_version_can_do">Apenas versões mais recentes são suportadas</string>
     <string name="system_ui_statusbar_indicator_default_title">Padrão</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expandir</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Corrigir largura do conteúdo</string>
@@ -230,6 +231,7 @@
     <string name="charge_animation_entries_alpha">Onda</string>
     <string name="status_bar_icon_mode_default">Padrão</string>
     <string name="status_bar_icon_mode_on">Sempre exibir</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Sempre exibido quando não está no Wi-Fi</string>
     <string name="status_bar_icon_mode_off">Sempre oculto</string>
     <string name="status_bar_icon_mode_on_control_center">Mostrar apenas no centro de controle</string>
     <string name="status_bar_icon_mode_on_status_bar">Mostrar apenas na barra de status</string>
@@ -523,6 +525,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilos de ícones</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Dimensionamento de ícone</string>
     <string name="system_ui_status_bar_mobile_type_single">O ícone do tipo de rede móvel é exibido separadamente</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">Este recurso está desativado porque o ícone do tipo de rede móvel está sempre oculto</string>
     <string name="system_ui_status_bar_mobile_type_left">Exibir à esquerda do sinal</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de atividade da rede móvel</string>
     <string name="system_ui_status_bar_mobile_type_custom">Texto personalizado</string>
@@ -540,6 +543,8 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">Bateria</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Chamada</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">Dispositivos</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">Rede</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">Privacidade</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Exibir ícones do lado esquerdo</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Exibir ícones do lado direito</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -553,15 +558,17 @@
     <string name="system_ui_status_bar_icon_small_hd">Ícone HD pequeno</string>
     <string name="system_ui_status_bar_icon_big_hd">Ícone HD grande</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Sem ícone do cartão SIM</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Ícone de sinal do cartão SIM 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Ícone de sinal do cartão SIM 2</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ocultar ícone de sinal do cartão SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ocultar ícone de sinal do cartão SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de exibição</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ícone do tipo de rede grande</string>
     <string name="system_ui_status_bar_icon_location">Localização</string>
+    <string name="system_ui_status_bar_icon_mic">Microfone</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarme</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Exibir ícone do alarme apenas antes do alarme disparar</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
     <string name="system_ui_status_bar_icon_airplane">Modo avião</string>
+    <string name="system_ui_status_bar_icon_roaming">Ocultar ícone de roaming</string>
     <string name="system_ui_status_bar_icon_vowifi">Ocultar ícone VoWiFi</string>
     <string name="system_ui_status_bar_icon_volte">Ocultar ícone VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Fone de ouvido</string>
@@ -820,7 +827,8 @@
     <string name="system_settings_develop_title">Opções do desenvolvedor</string>
     <string name="system_settings_apps_freezer">Forçar a exibição de apps congelados em cache</string>
     <string name="system_settings_apps_freezer_more">Uma vez ativado, esse recurso pode ser encontrado nas Opções do desenvolvedor, mas sua funcionalidade não é garantida.</string>
-    <string name="system_settings_develop_speed_mode">Modo extremo</string>
+    <string name="system_settings_develop_speed_mode">Desbloquear Modo extremo</string>
+    <string name="system_settings_develop_max_fps">Desbloquear forçar taxa de atualização máxima de exibição</string>
     <string name="system_settings_develop_speed_mode_desc">A entrada não será exibida após a abertura em modelos não suportados</string>
     <string name="system_settings_window_animation_scale">Escala de animação da janela</string>
     <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
@@ -828,7 +836,8 @@
     <string name="system_settings_allow_never_lock_screen">Permitir nunca bloquear a tela</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
-    <string name="theme_manager_version_code_modify">Desativar detecção de versão da MIUI</string>
+    <string name="theme_manager_version_code_modify">Ajustar versão de detecção</string>
+    <string name="theme_manager_version_code_modify_desc">Ajuste a versão detectada para usar alguns temas que não estão adaptados à nova versão</string>
     <string name="theme_manager_diable_ads">Desativar anúncios</string>
     <string name="theme_manager_diable_ads_desc">Substitua anúncios de \"adivinhe o que você gosta\" por cartões em branco e remova completamente o restante dos anúncios</string>
     <string name="theme_manager_enable_pad_theme">Ativar tema Pad</string>
@@ -1051,6 +1060,7 @@
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
+    <string name="home_recent_unlock_pin">Desbloquear apps fixados</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
     <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
     <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
@@ -1231,7 +1241,6 @@
     <string name="security_center_dolby_open">Fechar janela pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Exibir temperatura da bateria</string>
     <string name="security_center_show_battery_health">Exibir saúde da bateria detalhada</string>
-    <string name="security_center_show_battery_health_desc">Apenas versões mais recentes são suportadas</string>
     <string name="security_center_ai_clipboard">Proteger área de transferência</string>
     <string name="security_center_blur_location">Precisão de localização mais baixa</string>
     <string name="security_center_gms_open">Serviço GMS</string>

@@ -158,6 +158,7 @@
     <string name="search">Buscar</string>
     <string name="floating_window">Ventanas pequeñas</string>
     <string name="save_to_screen_title">Regular las ubicaciones de guardar</string>
+    <string name="only_new_version_can_do">Solo en últimas versiones se funciona</string>
     <string name="system_ui_statusbar_indicator_default_title">Predeterminado</string>
     <string name="system_ui_statusbar_indicator_expand_title">Expandir</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fijar ancho de contenido</string>
@@ -230,6 +231,7 @@
     <string name="charge_animation_entries_alpha">Ritmo</string>
     <string name="status_bar_icon_mode_default">Predeterminado</string>
     <string name="status_bar_icon_mode_on">Siempre mostrado</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Se muestra siempre cuando no esté conectado a WiFi</string>
     <string name="status_bar_icon_mode_off">Siempre escondido</string>
     <string name="status_bar_icon_mode_on_control_center">Se muestra solo en el centro de control</string>
     <string name="status_bar_icon_mode_on_status_bar">Se muestra solo en la barra de estado</string>
@@ -523,6 +525,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilo de icono</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Achicar icono</string>
     <string name="system_ui_status_bar_mobile_type_single">Icono separado de tipo de red móvil</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">La característica está desactivada porque el icono del tipo de red móvil siempre está oculto</string>
     <string name="system_ui_status_bar_mobile_type_left">Mostrar a la izquierda de la señal</string>
     <string name="system_ui_status_bar_mobile_indicator">Ocultar indicadores de actividad de red móvil</string>
     <string name="system_ui_status_bar_mobile_type_custom">Personalizar texto</string>
@@ -540,6 +543,8 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">Batería</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Llamada</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">Dispositivos</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">Red</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">Privacidad</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Se muestra el lado izquierdo del icono</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Se muestra el lado derecho del icono</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -553,11 +558,10 @@
     <string name="system_ui_status_bar_icon_small_hd">Icono de HD pequeño</string>
     <string name="system_ui_status_bar_icon_big_hd">Icono de HD grande</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Icono de que no hay SIM</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Icono de señal de SIM 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Icono de señal de SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Lógica de muestra</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Icono grande de tipo de red</string>
     <string name="system_ui_status_bar_icon_location">Ubicación</string>
+    <string name="system_ui_status_bar_icon_mic">Micrófono</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Alarma</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Se muestra icono de alarma solo antes de que suena la alarma</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d horas</string>
@@ -828,7 +832,6 @@
     <string name="system_settings_allow_never_lock_screen">Permitir no bloquear pantalla</string>
     <!--Themes-->
     <string name="theme_manager">Temas</string>
-    <string name="theme_manager_version_code_modify">Desactivar detección de versión de HyperOS/MIUI</string>
     <string name="theme_manager_diable_ads">Quitar publicidad</string>
     <string name="theme_manager_diable_ads_desc">Sustituir \"adivinar lo que quiere\" con tarjetas en blanco, y eliminar completamente el resto de los anuncios</string>
     <string name="theme_manager_enable_pad_theme">Activar tema de Pad</string>
@@ -1231,7 +1234,6 @@
     <string name="security_center_dolby_open">Cerrar la ventana emergente de Dolby</string>
     <string name="security_center_show_battery_temperature">Mostrar temperatura de batería</string>
     <string name="security_center_show_battery_health">Mostrar estado detallado de la batería</string>
-    <string name="security_center_show_battery_health_desc">Solo en últimas versiones se funciona</string>
     <string name="security_center_ai_clipboard">Proteger el portapapeles</string>
     <string name="security_center_blur_location">Menor precisión de posicionamiento</string>
     <string name="security_center_gms_open">Servicio de GMS</string>

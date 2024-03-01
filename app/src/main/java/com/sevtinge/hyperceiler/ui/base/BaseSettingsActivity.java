@@ -25,7 +25,6 @@ import android.text.TextUtils;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
@@ -102,68 +101,64 @@ public abstract class BaseSettingsActivity extends BaseActivity {
     public void doRestart(String[] packageName, boolean isRestartSystem) {
         boolean result = false;
         boolean pid = true;
-        if (ShellInit.getShell() != null) {
-            if (isRestartSystem) {
-                result = ShellInit.getShell().run("reboot").sync().isResult();
-            } else {
-                if (packageName != null) {
-                    for (String packageGet : packageName) {
-                        if (packageGet == null) {
-                            continue;
-                        }
-                        // String test = "XX";
-                        // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
-                        //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
-                        //     "\"; }; } || { echo \"kill error\"; }", true, true);
-
-                        boolean getResult =
-                            ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
-                                .add("if [[ $pid == \"\" ]]; then")
-                                .add(" pids=\"\"")
-                                .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
-                                .add("  for i in $pid; do")
-                                .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
-                                .add("    if [[ $pids == \"\" ]]; then")
-                                .add("      pids=$i")
-                                .add("    else")
-                                .add("      pids=\"$pids $i\"")
-                                .add("    fi")
-                                .add("   fi")
-                                .add("  done")
-                                .add("fi")
-                                .add("if [[ $pids != \"\" ]]; then")
-                                .add(" pid=$pids")
-                                .add("fi")
-                                .add("if [[ $pid != \"\" ]]; then")
-                                .add(" for i in $pid; do")
-                                .add("  kill -s 15 $i &>/dev/null")
-                                .add(" done")
-                                .add("else")
-                                .add(" echo \"No Find Pid!\"")
-                                .add("fi").over().sync().isResult();
-                        ArrayList<String> outPut = ShellInit.getShell().getOutPut();
-                        ArrayList<String> error = ShellInit.getShell().getError();
-
-                        if (getResult) {
-                            if (outPut.size() != 0) {
-                                if (outPut.get(0).equals("No Find Pid!")) {
-                                    pid = false;
-                                } else {
-                                    result = true;
-                                }
-                            } else result = true;
-                        } else
-                            AndroidLogUtils.LogE("doRestart: ", "result: " + ShellInit.getShell().getResult() +
-                                " errorMsg: " + error + " package: " + packageGet, null);
-
-                    }
-                } else {
-                    AndroidLogUtils.LogE("doRestart: ", "packageName is null", null);
-                }
-                // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
-            }
+        if (isRestartSystem) {
+            result = ShellInit.getShell().run("reboot").sync().isResult();
         } else {
-            AndroidLogUtils.LogE(ITAG.TAG, "ShellExec is null!! from: doRestart");
+            if (packageName != null) {
+                for (String packageGet : packageName) {
+                    if (packageGet == null) {
+                        continue;
+                    }
+                    // String test = "XX";
+                    // ShellUtils.CommandResult commandResult = ShellUtils.execCommand("{ [[ $(pgrep -f '" + packageGet +
+                    //     "' | grep -v $$) != \"\" ]] && { pkill -l 9 -f \"" + packageGet +
+                    //     "\"; }; } || { echo \"kill error\"; }", true, true);
+
+                    boolean getResult =
+                        ShellInit.getShell().add("pid=$(pgrep -f \"" + packageGet + "\" | grep -v $$)")
+                            .add("if [[ $pid == \"\" ]]; then")
+                            .add(" pids=\"\"")
+                            .add(" pid=$(ps -A -o PID,ARGS=CMD | grep \"" + packageGet + "\" | grep -v \"grep\")")
+                            .add("  for i in $pid; do")
+                            .add("   if [[ $(echo $i | grep '[0-9]' 2>/dev/null) != \"\" ]]; then")
+                            .add("    if [[ $pids == \"\" ]]; then")
+                            .add("      pids=$i")
+                            .add("    else")
+                            .add("      pids=\"$pids $i\"")
+                            .add("    fi")
+                            .add("   fi")
+                            .add("  done")
+                            .add("fi")
+                            .add("if [[ $pids != \"\" ]]; then")
+                            .add(" pid=$pids")
+                            .add("fi")
+                            .add("if [[ $pid != \"\" ]]; then")
+                            .add(" for i in $pid; do")
+                            .add("  kill -s 15 $i &>/dev/null")
+                            .add(" done")
+                            .add("else")
+                            .add(" echo \"No Find Pid!\"")
+                            .add("fi").over().sync().isResult();
+                    ArrayList<String> outPut = ShellInit.getShell().getOutPut();
+                    ArrayList<String> error = ShellInit.getShell().getError();
+
+                    if (getResult) {
+                        if (outPut.size() != 0) {
+                            if (outPut.get(0).equals("No Find Pid!")) {
+                                pid = false;
+                            } else {
+                                result = true;
+                            }
+                        } else result = true;
+                    } else
+                        AndroidLogUtils.logE("doRestart: ", "result: " + ShellInit.getShell().getResult() +
+                            " errorMsg: " + error + " package: " + packageGet);
+
+                }
+            } else {
+                AndroidLogUtils.logE("doRestart: ", "packageName is null");
+            }
+            // result = ShellUtils.getResultBoolean("pkill -l 9 -f " + packageName, true);
         }
         if (!result) {
             new AlertDialog.Builder(this)

@@ -29,6 +29,8 @@ import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
+import androidx.annotation.CallSuper;
+
 import com.sevtinge.hyperceiler.CrashHook;
 import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
@@ -101,7 +103,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+public abstract class BaseXposedInit {
 
     public static boolean isSafeModeOn = false;
 
@@ -165,8 +167,8 @@ public abstract class BaseXposedInit implements IXposedHookLoadPackage, IXposedH
     public final Huanji mHuanji = new Huanji();
     public final TrustService mTrustService = new TrustService();
 
-    @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
+    @CallSuper
+    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         setXSharedPrefs();
         mResHook = new ResourcesTool();
         mModulePath = startupParam.modulePath;

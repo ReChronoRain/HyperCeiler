@@ -57,7 +57,7 @@ object AutoNfc : BaseHook() {
                             }.last().setBoolean(param.thisObject, false)
                             val ctaHelperClazz = findClass("com.miui.tsmclient.entity.CTAHelper")
                             param.thisObject.javaClass.fieldFinder().filterByType(ctaHelperClazz)
-                                .single().get(param.thisObject)!!.callMethod("check")
+                                .first()[param.thisObject]!!.callMethod("check")
                         }
                     }
                 }

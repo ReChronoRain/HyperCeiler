@@ -30,7 +30,7 @@ public class AnimParamCustom extends BaseHook {
     @Override
     public void init() {
         if (isMoreHyperOSVersion(1f)) {
-            AndroidLogUtils.LogI(TAG, "Hyper");
+            AndroidLogUtils.logI(TAG, "Hyper");
             hookAllMethods("com.miui.home.recents.util.RectFSpringAnim", "setAnimParamByType", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws NoSuchFieldException, ClassNotFoundException {

@@ -110,7 +110,7 @@ object NewNetworkSpeedStyle : BaseHook() {
         val lineSpacing by lazy {
             mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 16)
         }
-        if (lineSpacing != 16 && (networkStyle == 2 || networkStyle == 4)) {
+        if (networkStyle == 2 || networkStyle == 4) {
             id.setLineSpacing(0f, lineSpacing * 0.05f)
         }
     }

@@ -16,28 +16,23 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.securitycenter.beauty
 
+package com.sevtinge.hyperceiler.module.hook.systemsettings
+
+import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
+import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
-import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
-import java.lang.reflect.Method
 
-object BeautyFace : BaseHook() {
-    var beautyFace: Method? = null
+object UnlockMaxFps : BaseHook() {
     override fun init() {
-        dexKitBridge.findMethod {
-            matcher {
-                addUsingStringsEquals("taoyao", "IN", "persist.vendor.vcb.ability")
-                returnType = "boolean"
+        // by TG@Crystal
+        loadClass("com.android.settings.development.ForcePeakRefreshRatePreferenceController").methodFinder()
+            .filterByName("isAvailable")
+            .single().createHook {
+                after {
+                    it.result = true
+                }
             }
-        }.forEach {
-            beautyFace = it.getMethodInstance(lpparam.classLoader)
-        }
-
-        beautyFace!!.createHook {
-            returnConstant(true)
-        }
     }
 }

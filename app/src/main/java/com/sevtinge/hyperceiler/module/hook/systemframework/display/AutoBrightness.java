@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework.display;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,6 +26,7 @@ import android.os.Handler;
 
 import com.sevtinge.hyperceiler.module.base.BaseHook;
 import com.sevtinge.hyperceiler.utils.MathUtils;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 
@@ -125,7 +124,7 @@ public class AutoBrightness extends BaseHook {
                                         mPrefsMap.put(key, PrefsUtils.getSharedBoolPrefs(mContext, key, false));
                                 }
                             } catch (Throwable t) {
-                                LogD(TAG, "onChange", t);
+                                AndroidLogUtils.logD(TAG, "onChange", t);
                             }
                         }
                     };

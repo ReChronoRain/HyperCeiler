@@ -72,7 +72,7 @@ public class DisplayHardwareDetail extends BaseHook {
     Class<?> mMiuiCollapsedStatusBarFragment;
 
     private static int mStatusbarTextIconLayoutResId;
-    private final static int textIconTagId = ResourcesTool.getFakeResId("text_icon_tag");
+    private static final int textIconTagId = ResourcesTool.getFakeResId("text_icon_tag");
     private static final ArrayList<View> mStatusbarTextIcons = new ArrayList<>();
 
     private String getSlotNameByType(int mIconType) {

@@ -59,6 +59,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Sogou Keyboard for MIUI    | com.sohu.inputmethod.sogou.xiaomi  |
 | Weather                    | com.miui.weather2                  |
 | Cast                       | com.milink.service                 |
+| MIUI+                      | com.xiaomi.mirror                  |
 | External Storage           | com.android.externalstorage        |
 | Always-on display          | com.miui.aod                       |
 | File Manager               | com.android.fileexplorer           |
@@ -136,6 +137,7 @@ You can provide translations for the HyperCeiler project [here](https://crwd.in/
 - [「HyperSmartCharge」 by buffcow](https://github.com/buffcow/HyperSmartCharge)
 - [「Kotlin」 by JetBrains](https://github.com/JetBrains/kotlin)
 - [「MaxFreeForm」 by YifePlayte](https://github.com/YifePlayte/MaxFreeForm)
+- [「MediaControl-BlurBg」 by YuKongA](https://github.com/YuKongA/MediaControl-BlurBg)
 - [「Miui Feature」 by MoralNorm](https://github.com/moralnorm/miui_feature)
 - [「MiuiHomeR」 by qqlittleice](https://github.com/qqlittleice/MiuiHome_R)
 - [「MIUI IME Unlock」 by RC1844](https://github.com/RC1844/MIUI_IME_Unlock)

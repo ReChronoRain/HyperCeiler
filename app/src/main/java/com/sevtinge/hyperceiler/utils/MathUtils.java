@@ -272,7 +272,7 @@ public class MathUtils {
             // 调用带有 @hide 注解的方法
             scaleMethod.invoke(rectInstance, largestSide / maxSize);
         } catch (Exception e) {
-            AndroidLogUtils.LogE("Call Method scale error: ", e);
+            AndroidLogUtils.logE("Call Method scale error: ", e);
         }
     }
 

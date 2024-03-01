@@ -44,12 +44,8 @@ public class StatusBarIcon extends BaseHook {
                         protected void before(MethodHookParam param) {
                             // logE(TAG, "MiuiDripLeftStatusBarIconControllerImpl: " + param.args[0]);
                             switch (checkSlot((String) param.args[0])) {
-                                case 1 -> {
-                                    param.args[1] = true;
-                                }
-                                case 2 -> {
-                                    param.args[1] = false;
-                                }
+                                case 1 -> param.args[1] = true;
+                                case 2 -> param.args[1] = false;
                                 default -> {
                                 }
                             }
@@ -92,7 +88,7 @@ public class StatusBarIcon extends BaseHook {
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_headset", 0), "headset", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth", 0), "bluetooth", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_bluetooth_battery", 0), "bluetooth_handsfree_battery", statusBarList, ctrlCenterList);
-            setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0), "network_speed", statusBarList, ctrlCenterList);
+            // setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_network_indicator", 0), "network_speed", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_no_card", 0), "no_sim", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0), "hd", statusBarList, ctrlCenterList);
             setIcon(mPrefsMap.getStringAsInt("system_ui_status_bar_icon_car", 0), "car", statusBarList, ctrlCenterList);

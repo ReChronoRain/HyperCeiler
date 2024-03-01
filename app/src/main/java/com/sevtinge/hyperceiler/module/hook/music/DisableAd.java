@@ -18,9 +18,8 @@
 */
 package com.sevtinge.hyperceiler.module.hook.music;
 
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
-
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.log.AndroidLogUtils;
 
 public class DisableAd extends BaseHook {
 
@@ -37,12 +36,12 @@ public class DisableAd extends BaseHook {
                         Class<?> clazz = findClassIfExists("android.app.Activity");
                         clazz.getMethod("finish").invoke(param.thisObject);
                     } catch (Throwable e) {
-                        LogD(TAG, e);
+                        AndroidLogUtils.logD(TAG, e);
                     }
                 }
             });
         } catch (Throwable e) {
-            LogD(TAG, e);
+            AndroidLogUtils.logD(TAG, e);
         }
     }
 }

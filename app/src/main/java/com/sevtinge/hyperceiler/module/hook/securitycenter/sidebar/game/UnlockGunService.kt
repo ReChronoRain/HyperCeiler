@@ -28,7 +28,7 @@ object UnlockGunService : BaseHook() {
         dexKitBridge.findMethod {
             matcher {
                 declaredClass {
-                    usingStrings = listOf("gb_game_collimator_status")
+                    addEqString("gb_game_collimator_status")
                 }
                 returnType = "boolean"
                 paramTypes = listOf("java.lang.String")

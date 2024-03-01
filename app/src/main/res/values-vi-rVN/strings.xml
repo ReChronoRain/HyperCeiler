@@ -158,6 +158,7 @@
     <string name="search">Tìm kiếm</string>
     <string name="floating_window">Cửa sổ nổi</string>
     <string name="save_to_screen_title">Lưu thông tin vị trí</string>
+    <string name="only_new_version_can_do">Chỉ hỗ trợ các phiên bản mới hơn</string>
     <string name="system_ui_statusbar_indicator_default_title">Mặc định</string>
     <string name="system_ui_statusbar_indicator_expand_title">Mở rộng</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Sửa nội dung ngang</string>
@@ -230,6 +231,7 @@
     <string name="charge_animation_entries_alpha">Rhythm</string>
     <string name="status_bar_icon_mode_default">Mặc định</string>
     <string name="status_bar_icon_mode_on">Luôn hiện</string>
+    <string name="status_bar_icon_mode_on_non_wifi">Luôn hiển thị khi không có WiFi</string>
     <string name="status_bar_icon_mode_off">Luôn ẩn</string>
     <string name="status_bar_icon_mode_on_control_center">Chỉ hiện ở trung tâm điều khiển</string>
     <string name="status_bar_icon_mode_on_status_bar">Chỉ hiện trên thanh trạng thái</string>
@@ -525,6 +527,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Kiểu biểu tượng cột sóng</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Tỉ lệ biểu tượng</string>
     <string name="system_ui_status_bar_mobile_type_single">Biểu tượng loại mạng di động tùy chỉnh</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">Tính năng này bị tắt vì biểu tượng loại mạng di động luôn bị ẩn</string>
     <string name="system_ui_status_bar_mobile_type_left">Hiển thị bên trái tín hiệu</string>
     <string name="system_ui_status_bar_mobile_indicator">Ẩn chỉ báo hoạt động mạng di động</string>
     <string name="system_ui_status_bar_mobile_type_custom">Tuỳ chỉnh văn bản</string>
@@ -542,6 +545,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_iconmanage_battery_title">Pin</string>
     <string name="system_ui_statusbar_iconmanage_call_title">Cuộc gọi</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">Thiết bị</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">Mạng</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">Riêng tư</string>
     <string name="system_ui_statusbar_iconmanage_left_title">Chuyển biểu tượng sang trái</string>
     <string name="system_ui_statusbar_iconmanage_right_title">Chuyển biểu tượng sang phải</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -555,15 +560,17 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_icon_small_hd">Biểu tượng HD nhỏ</string>
     <string name="system_ui_status_bar_icon_big_hd">Biểu tượng HD lớn</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Biểu tượng không có sim</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Biểu tượng tín hiệu mạng sim 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Biểu tượng tín hiệu mạng sim 2</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Ẩn biểu tượng tín hiệu SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Ẩn biểu tượng tín hiệu SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Biểu tượng mạng</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Biểu tượng mạng lớn</string>
     <string name="system_ui_status_bar_icon_location">Vị trí</string>
+    <string name="system_ui_status_bar_icon_mic">Micrô</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Báo thức</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Chỉ hiển thị biểu tượng báo thức trước khi báo thức kêu</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d phút</string>
     <string name="system_ui_status_bar_icon_airplane">Chế độ máy bay</string>
+    <string name="system_ui_status_bar_icon_roaming">Ẩn biểu tượng chuyển vùng</string>
     <string name="system_ui_status_bar_icon_vowifi">Ẩn biểu tượng VoWiFi</string>
     <string name="system_ui_status_bar_icon_volte">Ẩn biểu tượng VoLTE</string>
     <string name="system_ui_status_bar_icon_headset">Tai nghe</string>
@@ -823,6 +830,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_apps_freezer">Hiển thị tạm dừng thực thi cho các ứng dụng được lưu trữ</string>
     <string name="system_settings_apps_freezer_more">Khi bật, bạn có thể tìm thấy tùy chọn này trong \"Tùy chọn nhà phát triển\", nhưng không đảm bảo tính khả dụng</string>
     <string name="system_settings_develop_speed_mode">Chế độ siêu tốc</string>
+    <string name="system_settings_develop_max_fps">Mở khóa để ép tốc độ làm mới màn hình cao nhất</string>
     <string name="system_settings_develop_speed_mode_desc">Không hiển thị trên các máy không được hỗ trợ</string>
     <string name="system_settings_window_animation_scale">Tỷ lệ ảnh động cửa sổ</string>
     <string name="system_settings_transition_animation_scale">Tỷ lệ ảnh động chuyển tiếp</string>
@@ -830,7 +838,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_settings_allow_never_lock_screen">Cho phép không bao giờ khóa màn hình</string>
     <!--Themes-->
     <string name="theme_manager">Chủ đề</string>
-    <string name="theme_manager_version_code_modify">Tắt phát hiện phiên bản MIUI</string>
+    <string name="theme_manager_version_code_modify">Điều chỉnh phiên bản phát hiện</string>
+    <string name="theme_manager_version_code_modify_desc">Điều chỉnh phiên bản được phát hiện để sử dụng một số chủ đề không phù hợp với phiên bản mới</string>
     <string name="theme_manager_diable_ads">Tắt quảng cáo</string>
     <string name="theme_manager_diable_ads_desc">Thay thế \"Có thể bạn thích\" quảng cáo bằng thẻ trống và loại bỏ hoàn toàn phần còn lại của quảng cáo</string>
     <string name="theme_manager_enable_pad_theme">Kích hoạt chủ đề Pad</string>
@@ -1057,6 +1066,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_disable_wallpaper_dimming">Tắt làm mờ hình nền</string>
+    <string name="home_recent_unlock_pin">Mở khóa các ứng dụng được ghim</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ẩn thanh trạng thái</string>
     <string name="home_recent_hide_freeform">Ẩn nút cửa sổ nổi</string>
     <string name="home_recent_hide_clean_up">Ẩn nút xóa</string>
@@ -1237,7 +1247,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_dolby_open">Tắt pop-up Dolby</string>
     <string name="security_center_show_battery_temperature">Hiển thị nhiệt độ pin</string>
     <string name="security_center_show_battery_health">Hiển thị chi tiết tình trạng pin</string>
-    <string name="security_center_show_battery_health_desc">Chỉ hỗ trợ các phiên bản mới hơn</string>
     <string name="security_center_ai_clipboard">Bảo vệ khay nhớ tạm</string>
     <string name="security_center_blur_location">Độ chính xác định vị thấp hơn</string>
     <string name="security_center_gms_open">Dịch vụ Google</string>

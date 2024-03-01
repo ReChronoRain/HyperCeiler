@@ -26,12 +26,12 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import java.lang.reflect.Modifier
 
 object UnlockDisney : BaseHook() {
-    override fun init() {
-        val disney = dexKitBridge.findMethod {
+    private val disney by lazy {
+        dexKitBridge.findMethod {
             matcher {
                 addCall {
                     addUsingStringsEquals("magic_recycler_matting_0", "magic_recycler_clear_icon")
-                    returnType = "java.util.List"
+                    // returnType = "java.util.List" // 你米 1.6.5.10.2 改成了 java.util.ArrayList，所以找不到
                     paramCount = 0
                 }
                 modifiers = Modifier.STATIC
@@ -39,9 +39,11 @@ object UnlockDisney : BaseHook() {
                 paramCount = 0
             }
         }.single().getMethodInstance(safeClassLoader)
+    }
 
+    override fun init() {
         // debug 用
-        logI(TAG,"disney name is $disney")
+        logI(TAG, "disney name is $disney")
         disney.createHook {
             returnConstant(true)
         }

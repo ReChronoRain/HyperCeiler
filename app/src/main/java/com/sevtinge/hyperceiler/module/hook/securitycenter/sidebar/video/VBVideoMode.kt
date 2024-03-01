@@ -31,7 +31,7 @@ class VBVideoMode : BaseHook() {
                 usingStrings = listOf("TheatreModeUtils")
                 usingNumbers = listOf(32)
             }
-        }.first().getMethodInstance(safeClassLoader).createHook {
+        }.single().getMethodInstance(safeClassLoader).createHook {
             returnConstant(true)
         }
     }

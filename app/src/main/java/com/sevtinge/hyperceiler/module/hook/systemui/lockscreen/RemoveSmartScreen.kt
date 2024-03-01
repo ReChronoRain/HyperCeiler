@@ -25,11 +25,12 @@ import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.ObjectUtils
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.utils.devicesdk.isMoreHyperOSVersion
 
 object RemoveSmartScreen : BaseHook() {
     override fun init() {
-        if (isMoreHyperOSVersion(1f)) {
+        if (isMoreHyperOSVersion(1f) && isMoreAndroidVersion(34)) {
             loadClassOrNull("com.android.keyguard.injector.KeyguardBottomAreaInjector")!!.methodFinder()
                 .filterByName("updateIcons")
                 .single().createHook {

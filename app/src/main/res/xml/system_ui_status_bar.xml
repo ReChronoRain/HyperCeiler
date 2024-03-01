@@ -32,7 +32,9 @@
         android:key="prefs_key_system_ui_status_bar_toast"
         android:title="@string/system_ui_statusbar_strong_toast_title" />
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
+    <PreferenceCategory
+        android:key="pref_key_system_ui_statusbar_layout"
+        android:title="@string/system_ui_statusbar_layout_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_system_ui_statusbar_layout_compatibility_mode"

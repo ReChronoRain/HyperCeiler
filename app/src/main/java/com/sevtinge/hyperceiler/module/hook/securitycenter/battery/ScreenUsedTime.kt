@@ -26,13 +26,6 @@ import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 
 object ScreenUsedTime : BaseHook() {
-    private val cls by lazy {
-        dexKitBridge.findClass {
-            matcher {
-                addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
-            }
-        }.single().getInstance(EzXHelper.classLoader)
-    }
     private val method1 by lazy {
         dexKitBridge.findMethod {
             matcher {
@@ -43,7 +36,9 @@ object ScreenUsedTime : BaseHook() {
     private val method2 by lazy {
         dexKitBridge.findMethod {
             matcher {
-                declaredClass = cls.name
+                declaredClass {
+                    addUsingStringsEquals("not support screenPowerSplit", "PowerRankHelperHolder")
+                }
                 returnType = "boolean"
                 // paramTypes = listOf() 2.0.0-rc3 已经修复此错误，可以使用
                 paramCount = 0

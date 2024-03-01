@@ -545,8 +545,6 @@
     <string name="system_ui_status_bar_icon_small_hd">Маленький HD</string>
     <string name="system_ui_status_bar_icon_big_hd">Большой HD</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Отсутствие SIM-карты</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_1">Сигнал SIM-карты 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_signal_card_2">Сигнал SIM-карты 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Логика отображения</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Большой значок типа сети</string>
     <string name="system_ui_status_bar_icon_location">Местоположение</string>
@@ -793,7 +791,6 @@
     <string name="system_settings_animator_duration_scale">Длительность анимации</string>
     <!--Themes-->
     <string name="theme_manager">Темы</string>
-    <string name="theme_manager_version_code_modify">Отключить определение версии MIUI</string>
     <string name="theme_manager_diable_ads">Отключить рекламу</string>
     <string name="theme_manager_diable_ads_desc">Заменить «угадать, что вам нравится» на пустые карты, и полностью удалить остальную рекламу</string>
     <string name="theme_manager_enable_pad_theme">Темы Pad</string>
