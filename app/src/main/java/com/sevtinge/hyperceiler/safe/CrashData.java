@@ -90,10 +90,11 @@ public class CrashData {
      * 交换 Map 中 Key 和 Value 位置。
      *
      * @return 交换后的 Map
+     * @noinspection SameReturnValue
      */
     public static HashMap<String, String> swappedData() {
         if (scopeMap.isEmpty()) scopeData();
-        if (!swappedMap.isEmpty()) return scopeData();
+        if (!swappedMap.isEmpty()) return swappedMap;
         for (Map.Entry<String, String> entry : scopeMap.entrySet()) {
             swappedMap.put(entry.getValue(), entry.getKey());
         }
