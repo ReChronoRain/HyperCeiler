@@ -86,7 +86,7 @@ public class DialogHelper {
             .setHapticFeedbackEnabled(true)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                 ShellExec shellExec = ShellInit.getShell();
-                shellExec.run("setprop persist.hyperceiler.crash.report \"[]\"").sync();
+                shellExec.run("setprop persist.hyperceiler.crash.report \"\"").sync();
                 shellExec.run("settings put system hyperceiler_crash_report \"[]\"").sync();
                 activity.finish();
             })

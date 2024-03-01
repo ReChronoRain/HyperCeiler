@@ -30,7 +30,6 @@ import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
 
 import androidx.annotation.CallSuper;
 
-import com.sevtinge.hyperceiler.CrashHook;
 import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.module.app.AiAsst;
 import com.sevtinge.hyperceiler.module.app.Aod;
@@ -86,6 +85,7 @@ import com.sevtinge.hyperceiler.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.module.app.VoiceAssist;
 import com.sevtinge.hyperceiler.module.app.Weather;
 import com.sevtinge.hyperceiler.module.base.tool.ResourcesTool;
+import com.sevtinge.hyperceiler.safe.CrashHook;
 import com.sevtinge.hyperceiler.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.utils.log.XposedLogUtils;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsMap;

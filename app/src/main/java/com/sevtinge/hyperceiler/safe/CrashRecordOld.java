@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler;
+package com.sevtinge.hyperceiler.safe;
 
 import androidx.annotation.NonNull;
 
@@ -8,14 +8,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * 非常不靠谱，我真搞不懂没有 Context 怎么存储
  * 下下策存文件夹？但是可能失效，所以仅作辅助。
  */
-public class CrashRecord implements Thread.UncaughtExceptionHandler {
+public class CrashRecordOld implements Thread.UncaughtExceptionHandler {
     private final String path = "/sdcard/Android/hy_crash/";
     private final String pkg;
     private int count = 0;
     private Thread.UncaughtExceptionHandler mDef;
 
 
-    public CrashRecord(XC_LoadPackage.LoadPackageParam param) {
+    public CrashRecordOld(XC_LoadPackage.LoadPackageParam param) {
         pkg = param.packageName;
         if (pkg.equals("com.miui.contentcatcher")) return;
         mDef = Thread.getDefaultUncaughtExceptionHandler();

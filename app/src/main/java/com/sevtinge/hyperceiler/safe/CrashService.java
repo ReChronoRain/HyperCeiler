@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler;
+package com.sevtinge.hyperceiler.safe;
 
 import android.app.Service;
 import android.content.Intent;
@@ -27,15 +27,15 @@ public class CrashService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         AndroidLogUtils.logI(ITAG.TAG, "service onStartCommand");
-        String cover = intent.getStringExtra("key_cover");
+        String report = intent.getStringExtra("key_report");
         boolean equal = intent.getBooleanExtra("key_equal", true);
-        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + cover + "\"").sync();
+        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + report + "\"").sync();
         int re = ShellInit.getShell().getResult();
-        AndroidLogUtils.logI(ITAG.TAG, "R: " + re + " C: " + cover + " E: " + equal);
+        AndroidLogUtils.logI(ITAG.TAG, "R: " + re + " C: " + report + " E: " + equal);
         if (equal) {
             Intent intent1 = new Intent(this, CrashReportActivity.class);
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent1.putExtra("key_pkg", cover);
+            intent1.putExtra("key_report", report);
             startActivity(intent1);
         }
         stopSelf();

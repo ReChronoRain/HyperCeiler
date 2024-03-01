@@ -74,7 +74,7 @@
         </activity>
 
         <activity
-            android:name=".CrashReportActivity"
+            android:name=".safe.CrashReportActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
@@ -152,11 +152,11 @@
             android:resource="@array/xposed_scope" />
 
         <service
-            android:name="com.sevtinge.hyperceiler.CrashService"
+            android:name="com.sevtinge.hyperceiler.safe.CrashService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.sevtinge.hyperceiler.Crash.Service" />
+                <action android:name="com.sevtinge.hyperceiler.crash.Service" />
             </intent-filter>
         </service>
     </application>
