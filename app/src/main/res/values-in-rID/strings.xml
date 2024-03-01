@@ -559,7 +559,7 @@
     <string name="system_ui_status_bar_icon_big_hd">Ikon HD besar</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">Tidak ada ikon kartu SIM</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Sembunyikan ikon sinyal kartu SIM 1</string>
-    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Sembunyikan ikon sinyal kartu SIM 1</string>
+    <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Sembunyikan ikon sinyal kartu SIM 2</string>
     <string name="system_ui_status_bar_icon_mobile_network_type">Logika tampilan</string>
     <string name="system_ui_status_bar_big_mobile_network_type">Ikon Tipe Jaringan Besar</string>
     <string name="system_ui_status_bar_icon_location">Lokasi</string>
