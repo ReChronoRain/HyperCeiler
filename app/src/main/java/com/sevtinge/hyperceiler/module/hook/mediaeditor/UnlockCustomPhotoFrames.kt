@@ -137,7 +137,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
             other(method)
         }
 
-        if (isOpenSpring) {
+        if (isOpenSpring && orderedPublicC.isNotEmpty()) {
             orderedPublicC.forEach { method ->
                 logI(TAG, "Public Spring name is $method") // debug 用
                 other(method)  // 1.6.0.5.2 新增限时新春定制画框
