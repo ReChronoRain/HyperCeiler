@@ -28,7 +28,7 @@ object BeautyPrivacy : BaseHook() {
     private val R0 by lazy {
         dexKitBridge.findMethod {
             matcher {
-                addUsingString("persist.sys.privacy_camera")
+                addUsingStringsEquals("persist.sys.privacy_camera")
             }
         }.single().getMethodInstance(EzXHelper.safeClassLoader)
     }
