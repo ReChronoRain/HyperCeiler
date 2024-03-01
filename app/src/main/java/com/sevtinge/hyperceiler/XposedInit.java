@@ -66,6 +66,10 @@ public class XposedInit extends BaseXposedInit implements IXposedHookInitPackage
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if ("com.miui.contentcatcher".equals(lpparam.packageName) ||
+            "com.miui.catcherpatch".equals(lpparam.packageName)) {
+            return;
+        }
         init(lpparam);
         new SystemFrameworkForCorePatch().handleLoadPackage(lpparam);
     }
