@@ -21,17 +21,17 @@ public class CrashService extends Service {
     public void onCreate() {
         super.onCreate();
         ShellInit.init();
-        AndroidLogUtils.LogI(ITAG.TAG, "service create");
+        AndroidLogUtils.logI(ITAG.TAG, "service create");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        AndroidLogUtils.LogI(ITAG.TAG, "service onStartCommand");
+        AndroidLogUtils.logI(ITAG.TAG, "service onStartCommand");
         String cover = intent.getStringExtra("key_cover");
         boolean equal = intent.getBooleanExtra("key_equal", true);
         ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + cover + "\"").sync();
         int re = ShellInit.getShell().getResult();
-        AndroidLogUtils.LogI(ITAG.TAG, "R: " + re + " C: " + cover + " E: " + equal);
+        AndroidLogUtils.logI(ITAG.TAG, "R: " + re + " C: " + cover + " E: " + equal);
         if (equal) {
             Intent intent1 = new Intent(this, CrashReportActivity.class);
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -44,7 +44,7 @@ public class CrashService extends Service {
 
     @Override
     public void onDestroy() {
-        AndroidLogUtils.LogI(ITAG.TAG, "service onDestroy");
+        AndroidLogUtils.logI(ITAG.TAG, "service onDestroy");
         ShellInit.destroy();
         super.onDestroy();
     }

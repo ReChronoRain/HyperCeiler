@@ -24,7 +24,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVer
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getMiuiVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.utils.log.AndroidLogUtils.LogD;
 import static com.sevtinge.hyperceiler.utils.log.LogManager.logLevelDesc;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.utils.log.XposedLogUtils.logI;
@@ -96,7 +95,6 @@ import java.io.File;
 import java.util.Map;
 import java.util.Objects;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -175,18 +173,18 @@ public abstract class BaseXposedInit {
     }
 
     public void setXSharedPrefs() {
-        if (mPrefsMap.size() == 0) {
+        if (mPrefsMap.isEmpty()) {
             XSharedPreferences mXSharedPreferences;
             try {
                 mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
                 mXSharedPreferences.makeWorldReadable();
 
                 Map<String, ?> allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-                if (allPrefs == null || allPrefs.size() == 0) {
+                if (allPrefs == null || allPrefs.isEmpty()) {
                     mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
                     mXSharedPreferences.makeWorldReadable();
                     allPrefs = mXSharedPreferences == null ? null : mXSharedPreferences.getAll();
-                    if (allPrefs == null || allPrefs.size() == 0) {
+                    if (allPrefs == null || allPrefs.isEmpty()) {
                         XposedLogUtils.logE(
                             "[UID" + android.os.Process.myUid() + "]",
                             "Cannot read module's SharedPreferences, some mods might not work!"
@@ -198,7 +196,7 @@ public abstract class BaseXposedInit {
                     mPrefsMap.putAll(allPrefs);
                 }
             } catch (Throwable t) {
-                LogD("setXSharedPrefs", t);
+                XposedLogUtils.logE("setXSharedPrefs", t);
             }
         }
     }

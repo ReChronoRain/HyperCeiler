@@ -300,7 +300,7 @@ public class ShellUtils {
                     output.start();
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "OpenShellExecWindow E", e);
             }
         }
 
@@ -310,7 +310,7 @@ public class ShellUtils {
                 os.writeBytes("\n");
                 os.flush();
             } catch (IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow append E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "OpenShellExecWindow append E", e);
             }
         }
 
@@ -320,7 +320,7 @@ public class ShellUtils {
                 os.flush();
                 return process.waitFor();
             } catch (InterruptedException | IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow getResult E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "OpenShellExecWindow getResult E", e);
             }
             return -1;
         }
@@ -334,7 +334,7 @@ public class ShellUtils {
                     os.close();
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "OpenShellExecWindow close E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "OpenShellExecWindow close E", e);
             }
         }
 
@@ -365,7 +365,7 @@ public class ShellUtils {
                     mIOutput.readOutput(line, mType);
                 }
             } catch (IOException e) {
-                AndroidLogUtils.LogE(ITAG.TAG, "StreamGobbler run E", e);
+                AndroidLogUtils.logE(ITAG.TAG, "StreamGobbler run E", e);
             }
         }
 
