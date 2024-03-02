@@ -22,6 +22,7 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.provider.Settings;
+import android.view.Display;
 import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
@@ -63,6 +64,9 @@ public class HideNavigationBar extends BaseHook {
                     @Override
                     protected void after(MethodHookParam param) {
                         if (param.args.length >= 3) {
+                            Display display = (Display) param.args[0];
+                            int id = display.getDisplayId();
+                            XposedHelpers.callMethod(param.thisObject, "removeNavigationBar", id);
                             Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                             ContentObserver(mContext);
                             try {
@@ -79,14 +83,14 @@ public class HideNavigationBar extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.android.systemui.navigationbar.NavigationBar", "onInit",
+        /*findAndHookMethod("com.android.systemui.navigationbar.NavigationBar", "onInit",
                 new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
-                        XposedHelpers.callMethod(param.thisObject, "destroyView");
+                        // XposedHelpers.callMethod(param.thisObject, "destroyView");
                     }
                 }
-        );
+        );*/
 
         /*状态更改设置*/
         findAndHookMethod("com.android.systemui.statusbar.phone.MiuiDockIndicatorService",
