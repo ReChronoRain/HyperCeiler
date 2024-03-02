@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.module.app;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -44,6 +44,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupport
 import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.QuickScreenshot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.RemoveSmallWindowRestrictions;
+import com.sevtinge.hyperceiler.module.hook.systemframework.RotationButton;
 import com.sevtinge.hyperceiler.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.module.hook.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.module.hook.systemframework.StickyFloatingWindows;
@@ -153,6 +154,7 @@ public class SystemFramework extends BaseModule {
 
         // Other
         initHook(new PackagePermissions());
+        initHook(new RotationButton(), mPrefsMap.getBoolean("system_framework_other_rotation_button"));
         initHook(new GlobalActions(), mLoadPackageParam.processName.equals("android"));
         initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, mPrefsMap.getBoolean("system_framework_other_disable_cleaner"));

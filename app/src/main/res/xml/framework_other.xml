@@ -91,6 +91,11 @@
             android:title="@string/system_framework_other_speed_install" />
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="prefs_key_system_framework_other_rotation_button"
+            android:title="@string/system_framework_other_rotation_button" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_other_disable_cleaner"
             android:summary="@string/system_framework_other_disable_cleaner_desc"
@@ -129,11 +134,11 @@
             android:title="@string/system_framework_clipboard_whitelist_list" />
 
         <EditTextPreference
-            android:key="prefs_key_system_framework_clipboard_whitelist_list"
-            android:title="@string/system_framework_clipboard_whitelist_list"
-            android:summary="@string/system_framework_clipboard_whitelist_list_desc"
             android:defaultValue="com.fooview.android.fooview"
-            app:isPreferenceVisible="false"/>
+            android:key="prefs_key_system_framework_clipboard_whitelist_list"
+            android:summary="@string/system_framework_clipboard_whitelist_list_desc"
+            android:title="@string/system_framework_clipboard_whitelist_list"
+            app:isPreferenceVisible="false" />
 
     </PreferenceCategory>
 

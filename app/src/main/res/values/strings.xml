@@ -390,6 +390,7 @@
     <string name="system_framework_other_use_original_animation">Transition animations use native styles</string>
     <string name="system_framework_other_speed_install">Speed Install</string>
     <string name="system_framework_other_speed_install_desc">Install to running memory to speed up installation</string>
+    <string name="system_framework_other_rotation_button">Rotation recommendations</string>
     <string name="system_framework_other_thermal_brightness">Disable automatic screen brightness reduction</string>
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduces screen brightness not caused by temperature control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
@@ -538,6 +539,7 @@
     <string name="system_ui_navigation_title">Navigation</string>
     <string name="system_ui_navigation_handle_title">Handle line</string>
     <string name="system_ui_hide_navigation_bar">Hide Navigation Bar</string>
+    <string name="system_ui_hide_navigation_bar_toast">Don\'t switch navigation keys</string>
     <string name="system_ui_hide_navigation_bar_more">Please restart both the Miui Home and SystemUi scopes</string>
     <string name="system_ui_navigation_handle_custom">Custom handle line</string>
     <string name="system_ui_navigation_handle_custom_height">Height</string>

@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.home;
+package com.sevtinge.hyperceiler.module.hook.home.navigation;
 
 import android.provider.Settings;
 import android.view.MotionEvent;

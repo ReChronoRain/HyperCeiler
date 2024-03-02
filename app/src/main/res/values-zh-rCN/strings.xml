@@ -392,6 +392,7 @@
     <string name="system_framework_other_use_original_animation">过渡动画使用原生样式</string>
     <string name="system_framework_other_speed_install">快速安装</string>
     <string name="system_framework_other_speed_install_desc">安装至运行内存以提升安装速度，需要系统底层支持</string>
+    <string name="system_framework_other_rotation_button">旋转建议</string>
     <string name="system_framework_other_thermal_brightness">禁止自动降低屏幕亮度</string>
     <string name="system_framework_other_thermal_brightness_more">仅限非温控导致的自动降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止杀后台应用</string>
@@ -541,6 +542,7 @@
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
     <string name="system_ui_hide_navigation_bar">隐藏手势提示线</string>
+    <string name="system_ui_hide_navigation_bar_toast">请勿切换经典导航键</string>
     <string name="system_ui_hide_navigation_bar_more">请重启 \"系统桌面\" 和 \"系统界面\" 两个作用域</string>
     <string name="system_ui_navigation_handle_custom">自定义手势提示线</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>

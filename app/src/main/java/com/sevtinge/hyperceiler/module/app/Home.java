@@ -24,7 +24,6 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVers
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.module.hook.home.FreeFormCountForHome;
-import com.sevtinge.hyperceiler.module.hook.home.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.home.HomePortraitReverse;
 import com.sevtinge.hyperceiler.module.hook.home.LockApp;
 import com.sevtinge.hyperceiler.module.hook.home.MaxFreeForm;
@@ -73,6 +72,7 @@ import com.sevtinge.hyperceiler.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.module.hook.home.navigation.BackGestureAreaWidth;
+import com.sevtinge.hyperceiler.module.hook.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.module.hook.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.hyperceiler.module.hook.home.other.AlwaysShowStatusClock;
