@@ -18,6 +18,9 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemframework.corepatch;
 
+import android.content.pm.Signature;
+
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -49,23 +52,6 @@ public class CorePatchForT extends CorePatchForS {
                 // Or applications will have all privileged permissions
                 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
                 if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
-                    if ((Integer) param.args[1] != 4) {
-                        param.setResult(true);
-                    }
-                }
-            }
-        });
-
-        // Package " + packageName + " signatures do not match previously installed version; ignoring!"
-        // public boolean checkCapability(String sha256String, @CertCapabilities int flags) {
-        // public boolean checkCapability(SigningDetails oldDetails, @CertCapabilities int flags)
-        hookAllMethods("android.content.pm.PackageParser", loadPackageParam.classLoader, "checkCapability", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                // Don't handle PERMISSION (grant SIGNATURE permissions to pkgs with this cert)
-                // Or applications will have all privileged permissions
-                // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
-                if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true)) {
                     if ((Integer) param.args[1] != 4) {
                         param.setResult(true);
                     }
@@ -115,10 +101,35 @@ public class CorePatchForT extends CorePatchForS {
                 }
             });
         }
+
+        // ensure verifySignatures success
+        // https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java;l=621;drc=2e50991320cbef77d3e8504a4b284adae8c2f4d2
+        var utils = XposedHelpers.findClassIfExists("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader);
+        if (utils != null) {
+            deoptimizeMethod(utils, "canJoinSharedUserId");
+        }
+    }
+
+    Class<?> getSigningDetails(ClassLoader classLoader) {
+        return XposedHelpers.findClassIfExists("android.content.pm.SigningDetails", classLoader);
     }
 
     @Override
-    Class<?> getSigningDetails(ClassLoader classLoader) {
-        return XposedHelpers.findClassIfExists("android.content.pm.SigningDetails", classLoader);
+    protected void dumpSigningDetails(Object signingDetails, PrintWriter pw) {
+        var i = 0;
+        for (var sign : (Signature[]) XposedHelpers.callMethod(signingDetails, "getSignatures")) {
+            i++;
+            pw.println(i + ": " + sign.toCharsString());
+        }
+    }
+
+    @Override
+    protected Object SharedUserSetting_packages(Object sharedUser) {
+        return XposedHelpers.getObjectField(sharedUser, "mPackages");
+    }
+
+    @Override
+    protected Object SigningDetails_mergeLineageWith(Object self, Object other) {
+        return XposedHelpers.callMethod(self, "mergeLineageWith", other, 2 /*MERGE_RESTRICTED_CAPABILITY*/);
     }
 }
