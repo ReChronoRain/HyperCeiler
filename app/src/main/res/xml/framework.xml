@@ -48,15 +48,15 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_framework_core_patch_shared_user"
-            android:summary="@string/system_framework_core_patch_shared_user_desc"
-            android:title="@string/system_framework_core_patch_shared_user" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_digest_creak"
             android:summary="@string/system_framework_core_patch_digest_creak_desc"
             android:title="@string/system_framework_core_patch_digest_creak" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_core_patch_shared_user"
+            android:summary="@string/system_framework_core_patch_shared_user_desc"
+            android:title="@string/system_framework_core_patch_shared_user" />
 
         <SwitchPreference
             android:defaultValue="false"

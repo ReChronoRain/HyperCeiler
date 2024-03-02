@@ -60,6 +60,18 @@
             app:negativeShift="12"
             app:displayDividerValue="2" />
 
+        <SeekBarPreferenceEx
+            android:defaultValue="30"
+            android:key="prefs_key_system_ui_statusbar_clock_fixedcontent_width"
+            android:summary="@string/system_ui_statusbar_indicator_fixedcontent_width_desc"
+            android:title="@string/system_ui_statusbar_indicator_fixedcontent_width"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="120"
+            app:minValue="30"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

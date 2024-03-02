@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import moralnorm.preference.DropDownPreference;
 import moralnorm.preference.Preference;
 import moralnorm.preference.PreferenceCategory;
+import moralnorm.preference.SeekBarPreferenceEx;
 import moralnorm.preference.SwitchPreference;
 
 public class ClockIndicatorSettings extends SettingsPreferenceFragment
@@ -39,6 +40,7 @@ public class ClockIndicatorSettings extends SettingsPreferenceFragment
     PreferenceCategory mDefault;
     PreferenceCategory mGeek;
     SwitchPreference mDisableAnim;
+    SeekBarPreferenceEx mWidth;
 
     @Override
     public int getContentResId() {
@@ -60,6 +62,7 @@ public class ClockIndicatorSettings extends SettingsPreferenceFragment
         mDefault = findPreference("prefs_key_system_ui_statusbar_clock_default");
         mGeek = findPreference("prefs_key_system_ui_statusbar_clock_geek");
         mDisableAnim = findPreference("prefs_key_system_ui_disable_clock_anim");
+        mWidth = findPreference("prefs_key_system_ui_statusbar_clock_fixedcontent_width");
 
         if (mDisableAnim != null) {
             mDisableAnim.setVisible(isMoreHyperOSVersion(1f));
@@ -79,6 +82,7 @@ public class ClockIndicatorSettings extends SettingsPreferenceFragment
     }
 
     private void setClockMode(int mode) {
+        mWidth.setVisible(mode != 0);
         mDefault.setVisible(mode == 1);
         mGeek.setVisible(mode == 2);
     }

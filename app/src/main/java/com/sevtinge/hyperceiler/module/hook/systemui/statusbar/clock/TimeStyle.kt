@@ -18,16 +18,15 @@
 */
 package com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock
 
-import android.annotation.SuppressLint
-import android.graphics.Typeface
-import android.view.View
-import android.widget.TextView
+import android.annotation.*
+import android.graphics.*
+import android.view.*
+import android.widget.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constructorFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.devicesdk.dp2px
-import com.sevtinge.hyperceiler.utils.devicesdk.getAndroidVersion
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object TimeStyle : BaseHook() {
     private val clockBold by lazy {
@@ -53,6 +52,9 @@ object TimeStyle : BaseHook() {
     }
     private val lineSpacingGeek by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_geek_spacing_margin", 16)
+    }
+    private val fixedWidth by lazy {
+        mPrefsMap.getInt("system_ui_statusbar_clock_fixedcontent_width", 30)
     }
 
     private var leftMargin =
@@ -100,6 +102,11 @@ object TimeStyle : BaseHook() {
                             if ((getMode == 1 && isClockDouble) || getMode == 2) {
                                 textLineSpacing(textV)
                             }
+
+                            // 固定宽度
+                            if (fixedWidth > 30) {
+                                textV.width = (textV.resources.displayMetrics.density * fixedWidth).toInt()
+                            }
                         }
                     }
                 }
@@ -107,12 +114,13 @@ object TimeStyle : BaseHook() {
     }
 
     private fun margin(id: TextView) {
-        // 上下偏移量
+        val left = dp2px(leftMargin.toFloat())
+        val right = dp2px(rightMargin.toFloat())
         var topMargin = 0
         if (verticalOffset != 12) {
             topMargin = dp2px((verticalOffset - 12) * 0.5f)
         }
-        id.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
+        id.setPaddingRelative(left, topMargin, right, 0)
     }
 
     private fun textLineSpacing(id: TextView) {
