@@ -2,62 +2,60 @@
 <resources>
 
     <string-array name="xposed_scope">
-        <item>android</item>
-        <item>com.android.browser</item>
-        <item>com.android.camera</item>
-        <item>com.android.externalstorage</item>
-        <item>com.android.fileexplorer</item>
-        <item>com.android.incallui</item>
-        <item>com.android.mms</item>
-        <item>com.android.nfc</item>
-        <item>com.android.phone</item>
-        <item>com.android.providers.downloads</item>
-        <item>com.android.providers.downloads.ui</item>
-        <item>com.android.systemui</item>
-        <item>com.android.settings</item>
-        <item>com.android.thememanager</item>
-        <item>com.android.updater</item>
-        <item>com.baidu.input_mi</item>
-        <item>com.iflytek.inputmethod.miui</item>
-        <item>com.lbe.security.miui</item>
-        <item>com.milink.service</item>
-        <item>com.miui.aod</item>
-        <item>com.miui.backup</item>
-        <item>com.miui.cleanmaster</item>
-        <item>com.miui.cloudservice</item>
-        <item>com.miui.contentextension</item>
-        <item>com.miui.creation</item>
-        <item>com.miui.gallery</item>
-        <item>com.miui.guardprovider</item>
-        <item>com.miui.home</item>
-        <item>com.miui.huanji</item>
-        <item>com.miui.mediaeditor</item>
-        <item>com.miui.mishare.connectivity</item>
-        <item>com.miui.misound</item>
-        <item>com.miui.miwallpaper</item>
-        <item>com.miui.notes</item>
-        <item>com.miui.packageinstaller</item>
-        <item>com.miui.personalassistant</item>
-        <item>com.miui.powerkeeper</item>
-        <item>com.miui.screenrecorder</item>
-        <item>com.miui.screenshot</item>
-        <item>com.miui.securityadd</item>
-        <item>com.miui.securitycenter</item>
-        <item>com.miui.tsmclient</item>
-        <item>com.miui.voiceassist</item>
-        <item>com.miui.weather2</item>
-        <item>com.sohu.inputmethod.sogou.xiaomi</item>
-        <item>com.xiaomi.aiasst.vision</item>
-        <item>com.xiaomi.barrage</item>
-        <item>com.xiaomi.joyose</item>
-        <item>com.xiaomi.market</item>
-        <item>com.xiaomi.mirror</item>
-        <item>com.xiaomi.misettings</item>
-        <item>com.xiaomi.mtb</item>
-        <item>com.xiaomi.NetworkBoost</item>
-        <item>com.xiaomi.scanner</item>
-        <item>com.xiaomi.trustservice</item>
-        <item>com.sohu.inputmethod.sogou.xiaomi</item>
+        <item>android</item> <!--安卓-->
+        <item>com.android.browser</item> <!--浏览器-->
+        <item>com.android.camera</item> <!--相机-->
+        <item>com.android.externalstorage</item> <!--外部储存设备-->
+        <item>com.android.fileexplorer</item> <!--文件管理-->
+        <item>com.android.incallui</item> <!--电话-->
+        <item>com.android.mms</item> <!--短信-->
+        <item>com.android.nfc</item> <!--NFC-->
+        <item>com.android.phone</item> <!--电话服务-->
+        <item>com.android.providers.downloads</item> <!--下载管理程序-->
+        <item>com.android.providers.downloads.ui</item> <!--下载管理-->
+        <item>com.android.systemui</item> <!--系统界面-->
+        <item>com.android.settings</item> <!--系统设置-->
+        <item>com.android.thememanager</item> <!--主题壁纸-->
+        <item>com.android.updater</item> <!--系统更新-->
+        <item>com.lbe.security.miui</item> <!--权限管理服务-->
+        <item>com.milink.service</item> <!--投屏-->
+        <item>com.miui.aod</item> <!--万象息屏-->
+        <item>com.miui.backup</item> <!--备份-->
+        <!--<item>com.miui.cleanmaster</item>--> <!--垃圾清理-->
+        <item>com.miui.cloudservice</item> <!--云服务-->
+        <item>com.miui.contentextension</item> <!--传送门-->
+        <item>com.miui.creation</item> <!--小米创作-->
+        <item>com.miui.gallery</item> <!--相册-->
+        <item>com.miui.guardprovider</item> <!--MIUI安全组件-->
+        <item>com.miui.home</item> <!--系统桌面-->
+        <item>com.miui.huanji</item> <!--一键换机-->
+        <item>com.miui.mediaeditor</item> <!--小米相册编辑-->
+        <item>com.miui.mishare.connectivity</item> <!--小米互传-->
+        <item>com.miui.misound</item> <!--音质音效-->
+        <item>com.miui.miwallpaper</item> <!--壁纸-->
+        <item>com.miui.notes</item> <!--小米笔记-->
+        <item>com.miui.packageinstaller</item> <!--应用包管理组件-->
+        <item>com.miui.personalassistant</item> <!--智能助理-->
+        <item>com.miui.powerkeeper</item> <!--电量和性能-->
+        <item>com.miui.screenrecorder</item> <!--屏幕录制-->
+        <item>com.miui.screenshot</item> <!--截屏-->
+        <item>com.miui.securityadd</item> <!--系统服务组件-->
+        <item>com.miui.securitycenter</item> <!--手机管家-->
+        <item>com.miui.tsmclient</item> <!--小米智能卡-->
+        <item>com.miui.voiceassist</item> <!--小爱同学-->
+        <item>com.miui.weather2</item> <!--天气-->
+        <item>com.xiaomi.aiasst.vision</item> <!--小爱翻译-->
+        <item>com.xiaomi.barrage</item> <!--弹幕通知-->
+        <item>com.xiaomi.joyose</item> <!--Joyose-->
+        <item>com.xiaomi.market</item> <!--应用商店-->
+        <item>com.xiaomi.mirror</item> <!--MIUI+-->
+        <item>com.xiaomi.misettings</item> <!--小米设置-->
+        <item>com.xiaomi.mtb</item> <!--mtb-->
+        <item>com.xiaomi.NetworkBoost</item> <!--NetworkBoost-->
+        <item>com.xiaomi.scanner</item> <!--小爱视觉-->
+        <item>com.xiaomi.trustservice</item> <!--trustservice-->
+        <item>com.iflytek.inputmethod.miui</item> <!--讯飞输入法小米版-->
+        <item>com.sohu.inputmethod.sogou.xiaomi</item> <!--搜狗输入法小米版-->
     </string-array>
 
     <string-array name="app_module_support">
