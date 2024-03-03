@@ -261,6 +261,10 @@
     <string name="control_center_sunshine_mode_default">Đóng</string>
     <string name="control_center_sunshine_mode_one">Mặc định của hệ thống</string>
     <string name="control_center_sunshine_mode_two">Buộc độ sáng tối đa</string>
+    <string name="security_center_flash_light_default">Đóng</string>
+    <string name="security_center_flash_light_1">Chế độ ghi mặc định</string>
+    <string name="security_center_flash_light_2">Chế độ viết một</string>
+    <string name="security_center_flash_light_3">Chế độ viết hai</string>
     <string name="control_center_5g_off">Tắt</string>
     <string name="control_center_5g_v1">5G kiểu 1</string>
     <string name="control_center_5g_v2">5G kiểu 2</string>
@@ -349,6 +353,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_other_use_original_animation">Hoạt ảnh chuyển tiếp sử dụng kiểu gốc</string>
     <string name="system_framework_other_speed_install">Tăng tốc bộ nhớ</string>
     <string name="system_framework_other_speed_install_desc">Cài đặt tăng tốc bộ nhớ</string>
+    <string name="system_framework_other_rotation_button">Đề xuất xoay vòng</string>
     <string name="system_framework_other_thermal_brightness">Vô hiệu hóa giảm độ sáng màn hình tự động</string>
     <string name="system_framework_other_thermal_brightness_more">Chỉ tự động giảm độ sáng khi độ sáng tự động bật không phải do kiểm soát nhiệt</string>
     <string name="system_framework_other_disable_cleaner">Ngăn chặn tắt ứng dụng nền</string>
@@ -369,6 +374,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
 \"Bỏ qua lỗi không hợp lệ\" </string>
     <string name="system_framework_disable_integrity">Tắt kiểm tra tính toàn vẹn của hệ thống</string>
     <string name="system_framework_disable_integrity_desc">Tự động khôi phục nội dung bị giả mạo. Khi chức năng \"Tắt thông báo xác minh\" được bật, chức năng này sẽ được bật theo.\nChỉ hỗ trợ Android 13 trở lên</string>
+    <string name="system_framework_core_patch_shared_user">Bỏ qua xác minh chữ ký người dùng được chia sẻ</string>
+    <string name="system_framework_core_patch_shared_user_desc">Cho phép cài đặt các ứng dụng có chữ ký khác với người dùng được chia sẻ các ứng dụng đó (<b>Cũng yêu cầu bật Tắt xác minh chữ ký của Trình quản lý gói ứng dụng</b>)\n\nTính năng này hơi nguy hiểm và chỉ nên bật khi cần thiết</string>
     <string name="system_framework_core_patch_digest_creak">Tắt so sánh chữ ký</string>
     <string name="system_framework_core_patch_digest_creak_desc">Cho phép cài đặt lại ứng dụng với chữ kí khác nhau</string>
     <string name="system_framework_core_patch_use_pre_signature">Dùng chữ kí đã được cài đặt</string>
@@ -496,6 +503,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_navigation_title">Phím điều hướng</string>
     <string name="system_ui_navigation_handle_title">Thanh ngang</string>
     <string name="system_ui_hide_navigation_bar">Ẩn thanh ngang</string>
+    <string name="system_ui_hide_navigation_bar_toast">Không chuyển đổi phím điều hướng</string>
     <string name="system_ui_hide_navigation_bar_more">Vui lòng khởi động lại Miui Home và SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Tùy chỉnh thanh ngang</string>
     <string name="system_ui_navigation_handle_custom_height">Chiều cao</string>
