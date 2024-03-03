@@ -158,6 +158,7 @@
     <string name="search">搜索</string>
     <string name="floating_window">小窗</string>
     <string name="save_to_screen_title">規範儲存位置</string>
+    <string name="only_new_version_can_do">僅支援較新的版本</string>
     <string name="system_ui_statusbar_indicator_default_title">常規</string>
     <string name="system_ui_statusbar_indicator_expand_title">擴展</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">固定寬度</string>
@@ -230,6 +231,7 @@
     <string name="charge_animation_entries_alpha">律動</string>
     <string name="status_bar_icon_mode_default">預設</string>
     <string name="status_bar_icon_mode_on">總是顯示</string>
+    <string name="status_bar_icon_mode_on_non_wifi">未連接 Wi-Fi 時始終顯示</string>
     <string name="status_bar_icon_mode_off">總是隱藏</string>
     <string name="status_bar_icon_mode_on_control_center">僅在控制中心顯示</string>
     <string name="status_bar_icon_mode_on_status_bar">僅在狀態列顯示</string>
@@ -259,6 +261,10 @@
     <string name="control_center_sunshine_mode_default">關閉</string>
     <string name="control_center_sunshine_mode_one">系統預設模式</string>
     <string name="control_center_sunshine_mode_two">強制最大亮度</string>
+    <string name="security_center_flash_light_default">關閉</string>
+    <string name="security_center_flash_light_1">預設寫入模式</string>
+    <string name="security_center_flash_light_2">寫入模式一</string>
+    <string name="security_center_flash_light_3">寫入模式二</string>
     <string name="control_center_5g_off">關閉</string>
     <string name="control_center_5g_v1">5G 樣式一</string>
     <string name="control_center_5g_v2">5G 樣式二</string>
@@ -346,6 +352,7 @@
     <string name="system_framework_other_use_original_animation">過渡動畫使用原生樣式</string>
     <string name="system_framework_other_speed_install">快速安裝</string>
     <string name="system_framework_other_speed_install_desc">安裝至運行記憶體以提升安裝速度，需要系统底層支援</string>
+    <string name="system_framework_other_rotation_button">輪換建議</string>
     <string name="system_framework_other_thermal_brightness">停用自动降低屏幕亮度</string>
     <string name="system_framework_other_thermal_brightness_more">僅限非溫控導致的自動降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止關閉後台應用程式</string>
@@ -365,6 +372,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">關閉安裝應用程式時的簽名驗證，可以安裝被竄改的應用程式</string>
     <string name="system_framework_disable_integrity">禁用系统完整性校驗</string>
     <string name="system_framework_disable_integrity_desc">禁止自動恢復被更改的內容。當啟用「禁用應用程式包管理器簽名校驗」功能時，它將默認啟用。\n僅支援 Android 13 及以上版本</string>
+    <string name="system_framework_core_patch_shared_user">繞過共享用戶簽章驗證</string>
+    <string name="system_framework_core_patch_shared_user_desc">允許安裝與其共用使用者簽署不同的應用程式（<b>還需要啟用「停用應用程式包管理器簽名校驗」</b>）\n\n此功能有些危險，應僅在需要時啟用</string>
     <string name="system_framework_core_patch_digest_creak">禁用 APK 簽名校驗</string>
     <string name="system_framework_core_patch_digest_creak_desc">允許直接覆蓋安裝同包名且不同簽名的應用程式</string>
     <string name="system_framework_core_patch_use_pre_signature">安裝時始終使用已安裝應用程式的簽名</string>
@@ -492,6 +501,7 @@
     <string name="system_ui_navigation_title">導航欄</string>
     <string name="system_ui_navigation_handle_title">手勢提示線</string>
     <string name="system_ui_hide_navigation_bar">隱藏導覽欄</string>
+    <string name="system_ui_hide_navigation_bar_toast">不要切換導航鍵</string>
     <string name="system_ui_hide_navigation_bar_more">請重新啟動 「系統桌面」 和 「系統介面」</string>
     <string name="system_ui_navigation_handle_custom">手勢提示線自訂</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
@@ -523,6 +533,7 @@
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">圖示樣式</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">圖示縮放</string>
     <string name="system_ui_status_bar_mobile_type_single">蜂窩移動網絡類型圖示單獨顯示</string>
+    <string name="system_ui_status_bar_mobile_type_single_desc">此功能已關閉，因為流動網絡類型圖示被設為始終隱藏</string>
     <string name="system_ui_status_bar_mobile_type_left">顯示在信號左側</string>
     <string name="system_ui_status_bar_mobile_indicator">隱藏移動網絡活動指示器</string>
     <string name="system_ui_status_bar_mobile_type_custom">個性化文本內容</string>
@@ -540,6 +551,8 @@
     <string name="system_ui_statusbar_iconmanage_battery_title">電池</string>
     <string name="system_ui_statusbar_iconmanage_call_title">電話</string>
     <string name="system_ui_statusbar_iconmanage_devices_title">裝置</string>
+    <string name="system_ui_statusbar_iconmanage_internet_title">網絡連接</string>
+    <string name="system_ui_statusbar_iconmanage_privacy_title">私隱資訊</string>
     <string name="system_ui_statusbar_iconmanage_left_title">圖示左側顯示</string>
     <string name="system_ui_statusbar_iconmanage_right_title">圖示右側顯示</string>
     <string name="system_ui_status_bar_icon_wifi">Wi-Fi</string>
@@ -558,10 +571,12 @@
     <string name="system_ui_status_bar_icon_mobile_network_type">显示逻辑</string>
     <string name="system_ui_status_bar_big_mobile_network_type">大網絡類型圖示</string>
     <string name="system_ui_status_bar_icon_location">位置訊息</string>
+    <string name="system_ui_status_bar_icon_mic">麥克風</string>
     <string name="system_ui_status_bar_icon_alarm_clock">鬧鐘</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">僅在鬧鐘響鈴前顯示鬧鐘圖示</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n_format">%d 分鐘</string>
     <string name="system_ui_status_bar_icon_airplane">飛行模式</string>
+    <string name="system_ui_status_bar_icon_roaming">隱藏漫遊圖示</string>
     <string name="system_ui_status_bar_icon_vowifi">隱藏 VoWiFi 圖示</string>
     <string name="system_ui_status_bar_icon_volte">隱藏 VoLTE 圖示</string>
     <string name="system_ui_status_bar_icon_headset">耳機</string>
@@ -705,6 +720,9 @@
     <string name="system_ui_control_center_blur_background_alpha">通知背景透明度</string>
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_control_center_fix_media_control_panel">修正音樂面板背景圖異常</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix">最佳化媒體控制面板混色效果</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景圖案模糊半徑</string>
+    <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景覆蓋層的不透明度</string>
     <string name="system_ui_control_center_compact_notice">緊湊通知</string>
     <string name="system_ui_control_center_compact_notice_desc">減小通知垂直邊框</string>
     <string name="system_ui_control_center_redirect_notice">重定向通知設定</string>
@@ -744,6 +762,8 @@
     <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
     <string name="system_ui_control_center_unlock_blur_supported_desc">僅對第三方主題解除沒有高級材質時背景模糊的限制</string>
     <string name="system_ui_other_title">其他</string>
+    <string name="system_ui_disable_volume">原生音量條</string>
+    <string name="system_ui_disable_volume_desc">小米音量條修改不適用於原生音量條</string>
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
     <string name="system_ui_charge_animation_style_desc">選擇鎖定螢幕充電動畫樣式</string>
@@ -816,6 +836,7 @@
     <string name="system_settings_apps_freezer">强制顯示暫停執行已緩存的應用</string>
     <string name="system_settings_apps_freezer_more">開啓后可在「開發者選項」中找到此功能，為强制顯示，不保證可用</string>
     <string name="system_settings_develop_speed_mode">極致模式</string>
+    <string name="system_settings_develop_max_fps">解鎖強制顯示峰值更新率</string>
     <string name="system_settings_develop_speed_mode_desc">在不支援的機型上開啟後不會顯示入口</string>
     <string name="system_settings_window_animation_scale">視窗動畫縮放</string>
     <string name="system_settings_transition_animation_scale">轉場動畫比例縮放</string>
@@ -824,6 +845,7 @@
     <!--Themes-->
     <string name="theme_manager">主題桌布</string>
     <string name="theme_manager_version_code_modify">調整檢測版本</string>
+    <string name="theme_manager_version_code_modify_desc">調整偵測到的版本，使用一些不適應新版本的主題</string>
     <string name="theme_manager_diable_ads">禁用廣告</string>
     <string name="theme_manager_diable_ads_desc">將「猜你喜歡」的廣告替換為空白卡片，其餘位置的廣告將完全移除</string>
     <string name="theme_manager_enable_pad_theme">啟用 Pad 主題</string>
@@ -1046,6 +1068,7 @@
     <string name="home_recent">最近任務</string>
     <string name="home_recent_animation_speed">動畫速度</string>
     <string name="home_recent_disable_wallpaper_dimming">取消桌布壓暗</string>
+    <string name="home_recent_unlock_pin">解鎖應用程式固定功能</string>
     <string name="home_recent_hide_status_bar_in_task_view">隱藏狀態欄</string>
     <string name="home_recent_hide_freeform">隱藏小窗按鈕</string>
     <string name="home_recent_hide_clean_up">隱藏清理按鈕</string>
@@ -1143,6 +1166,8 @@
     <string name="mediaeditor_ai_authoring">AI 創作</string>
     <string name="mediaeditor_unlock_disney_title">解鎖 Disney 客製功能</string>
     <string name="mediaeditor_unlock_disney_desc">解鎖包括以下功能：\n- 訂製畫框-Disney 訂製畫框(與其他訂製畫框衝突)\n- 背景虛化-米奇虛化\n- 貼紙-Disney 貼紙</string>
+    <string name="mediaeditor_unlock_spring_title">解鎖龍年春節訂製相框</string>
+    <string name="mediaeditor_unlock_spring_desc">永久加入龍年春節訂製相框，前提是您需要徠卡訂製相框或紅米訂製相框。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解鎖最小裁剪圖片限制</string>
     <string name="mediaeditor_unlock_custom_photo_frames_title">訂製画框類型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾鏡</string>
@@ -1223,6 +1248,7 @@
     <string name="security_center_newbox_title">全域側邊欄</string>
     <string name="security_center_dolby_open">關閉杜比彈出視窗</string>
     <string name="security_center_show_battery_temperature">顯示電池溫度</string>
+    <string name="security_center_show_battery_health">顯示詳細的電池健康狀況</string>
     <string name="security_center_ai_clipboard">剪貼簿隱私保護</string>
     <string name="security_center_blur_location">模糊定位</string>
     <string name="security_center_gms_open">GMS 服務</string>
@@ -1402,6 +1428,7 @@
     <string name="various_super_clipboard_files_desc">允許複製檔案至剪貼簿</string>
     <string name="various_super_clipboard_picture_share_desc">允許複製及貼上圖片至剪貼簿</string>
     <string name="various_open_aosp_battery_title">電池效能最佳化</string>
+    <string name="various_open_aosp_running_services">正在運行的服務</string>
     <string name="various_open_aosp_notification_title">通知設定</string>
     <string name="various_open_aosp_app_manage_title">應用程式管理</string>
     <string name="various_open_aosp_language_title">語言設定</string>
@@ -1509,4 +1536,5 @@
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
+    <string name="happy_chinese_new_year">新年快樂，龍年行大運</string>
 </resources>
