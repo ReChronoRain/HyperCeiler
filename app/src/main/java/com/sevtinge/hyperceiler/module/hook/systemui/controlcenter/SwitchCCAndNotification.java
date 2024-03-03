@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
@@ -42,7 +43,9 @@ public class SwitchCCAndNotification extends BaseHook {
                         FrameLayout bar = (FrameLayout) param.thisObject;
                         Object mControlPanelWindowManager = XposedHelpers.getObjectField(param.thisObject, "mControlPanelWindowManager");
                         boolean dispatchToControlPanel = (boolean) XposedHelpers.callMethod(mControlPanelWindowManager, "dispatchToControlPanel", param.args[0], bar.getWidth());
-                        if (isAndroidVersion(34)) {
+                        if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
+                            XposedHelpers.setObjectField(mControlPanelWindowManager, "transToControlPanel", dispatchToControlPanel);
+                        } else if (isAndroidVersion(34)) {
                             XposedHelpers.setObjectField(mControlPanelWindowManager, "mTransToControlPanel", dispatchToControlPanel);
                         } else {
                             XposedHelpers.callMethod(mControlPanelWindowManager, "setTransToControlPanel", dispatchToControlPanel);
@@ -64,7 +67,11 @@ public class SwitchCCAndNotification extends BaseHook {
                     boolean added = XposedHelpers.getBooleanField(param.thisObject, "added");
                     if (added) {
                         boolean useCC;
-                        if (isMoreAndroidVersion(33)) {
+                        Object controlCenterWindowView;
+
+                        if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
+                            useCC = XposedHelpers.getBooleanField(XposedHelpers.getObjectField(param.thisObject, "controlCenterController"), "useControlCenter");
+                        } else if (isMoreAndroidVersion(33)) {
                             useCC = XposedHelpers.getBooleanField(XposedHelpers.getObjectField(param.thisObject, "mControlCenterController"), "useControlCenter");
                         } else {
                             useCC = (boolean) XposedHelpers.callMethod(XposedHelpers.getObjectField(param.thisObject, "mControlCenterController"), "isExpandable");
@@ -72,14 +79,27 @@ public class SwitchCCAndNotification extends BaseHook {
                         if (useCC) {
                             MotionEvent motionEvent = (MotionEvent) param.args[0];
                             if (motionEvent.getActionMasked() == 0) {
-                                XposedHelpers.setObjectField(param.thisObject, "mDownX", motionEvent.getRawX());
+                                if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
+                                    XposedHelpers.setObjectField(param.thisObject, "downX", motionEvent.getRawX());
+                                } else {
+                                    XposedHelpers.setObjectField(param.thisObject, "mDownX", motionEvent.getRawX());
+                                }
                             }
-                            Object controlCenterWindowView = XposedHelpers.getObjectField(param.thisObject, "mControlPanel");
+
+                            if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
+                                controlCenterWindowView = XposedHelpers.getObjectField(param.thisObject, "windowView");
+                            } else {
+                                controlCenterWindowView = XposedHelpers.getObjectField(param.thisObject, "mControlPanel");
+                            }
                         if (controlCenterWindowView == null) {
                             param.setResult(false);
-                        }
-                        else {
-                            float mDownX = XposedHelpers.getFloatField(param.thisObject, "mDownX");
+                        } else {
+                            float mDownX;
+                            if (isMoreHyperOSVersion(1f) && isAndroidVersion(34)) {
+                                mDownX = XposedHelpers.getFloatField(param.thisObject, "downX");
+                            } else {
+                                mDownX = XposedHelpers.getFloatField(param.thisObject, "mDownX");
+                            }
                             float width = (float) param.args[1];
                             if (mDownX < width / 2.0f) {
                                 param.setResult(XposedHelpers.callMethod(controlCenterWindowView, "handleMotionEvent", motionEvent, true));
