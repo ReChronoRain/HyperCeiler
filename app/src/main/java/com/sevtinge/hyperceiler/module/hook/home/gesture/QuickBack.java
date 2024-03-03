@@ -29,9 +29,14 @@ import java.util.ArrayList;
 import de.robv.android.xposed.XposedHelpers;
 
 public class QuickBack extends BaseHook {
+
+    private Object gestureStubViewInstance;
+
     @Override
     public void init() {
-        findAndHookMethod("com.miui.home.recents.GestureStubView",
+        String gestureStubViewClassName = "com.miui.home.recents.GestureStubView";
+
+        findAndHookMethod(gestureStubViewClassName,
             "isDisableQuickSwitch", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
@@ -40,7 +45,17 @@ public class QuickBack extends BaseHook {
             }
         );
 
-        findAndHookMethod("com.miui.home.recents.GestureStubView",
+        hookAllMethods(gestureStubViewClassName,
+            "onBackStart",
+            new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    gestureStubViewInstance = param.thisObject;
+                }
+            });
+
+
+        findAndHookMethod(gestureStubViewClassName,
             "getNextTask", Context.class, boolean.class, int.class,
             new MethodHook() {
                 @Override
@@ -60,15 +75,15 @@ public class QuickBack extends BaseHook {
                     ArrayList<?> stackTasks = (ArrayList<?>) XposedHelpers.callMethod(taskStack, "getStackTasks");
                     int size = stackTasks.size();
                     Object task = null;
-                    int i2 = 0;
+                    int i = 0;
                     while (true) {
-                        if (i2 >= size - 1) {
+                        if (i >= size - 1) {
                             break;
-                        } else if ((int) XposedHelpers.getObjectField(XposedHelpers.getObjectField(stackTasks.get(i2), "key"), "id") == runningTask.id) {
-                            task = stackTasks.get(i2 + 1);
+                        } else if ((int) XposedHelpers.getObjectField(XposedHelpers.getObjectField(stackTasks.get(i), "key"), "id") == runningTask.taskId) {
+                            task = stackTasks.get(i + 1);
                             break;
                         } else {
-                            i2++;
+                            i++;
                         }
                     }
                     if (task == null && size >= 1 && "com.miui.home".equals(runningTask.baseActivity.getPackageName())) {
@@ -85,12 +100,12 @@ public class QuickBack extends BaseHook {
                         param.setResult(task);
                         return;
                     }
-                    int i = (int) param.args[2];
-                    if (i == 0) {
+                    int position = (int) param.args[2];
+                    if (position == 0) {
                         activityOptions = ActivityOptions.makeCustomAnimation(context,
                             getAnimId(context, "recents_quick_switch_left_enter"),
                             getAnimId(context, "recents_quick_switch_left_exit"));
-                    } else if (i == 1) {
+                    } else if (position == 1) {
                         activityOptions = ActivityOptions.makeCustomAnimation(context,
                             getAnimId(context, "recents_quick_switch_right_enter"),
                             getAnimId(context, "recents_quick_switch_right_exit"));
@@ -104,6 +119,10 @@ public class QuickBack extends BaseHook {
                                 }
                                 activityOptions.getClass().getMethod("setLaunchWindowingMode", Integer.class).invoke(activityOptions, 4);
                             }
+
+                            XposedHelpers.callMethod(gestureStubViewInstance,"onBackCancelled");
+                            gestureStubViewInstance = null;
+
                             XposedHelpers.callMethod(iActivityManager, "startActivityFromRecents",
                                 XposedHelpers.getObjectField(
                                     XposedHelpers.getObjectField(task, "key"),
