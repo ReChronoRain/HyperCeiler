@@ -261,6 +261,10 @@
     <string name="control_center_sunshine_mode_default">Fechar</string>
     <string name="control_center_sunshine_mode_one">Padrão do sistema</string>
     <string name="control_center_sunshine_mode_two">Forçar brilho máximo</string>
+    <string name="security_center_flash_light_default">Fechar</string>
+    <string name="security_center_flash_light_1">Modo de gravação padrão</string>
+    <string name="security_center_flash_light_2">Modo de gravação um</string>
+    <string name="security_center_flash_light_3">Modo de gravação dois</string>
     <string name="control_center_5g_off">Desligado</string>
     <string name="control_center_5g_v1">Estilo um</string>
     <string name="control_center_5g_v2">Estilo dois</string>
@@ -348,6 +352,7 @@
     <string name="system_framework_other_use_original_animation">Animações de transição usam estilos nativos</string>
     <string name="system_framework_other_speed_install">Instalação rápida</string>
     <string name="system_framework_other_speed_install_desc">Instale na memória em execução para acelerar a instalação</string>
+    <string name="system_framework_other_rotation_button">Recomendações de rotação</string>
     <string name="system_framework_other_thermal_brightness">Desativar a redução automática do brilho da tela</string>
     <string name="system_framework_other_thermal_brightness_more">Reduz automaticamente apenas o brilho da tela não causado pelo controle de temperatura</string>
     <string name="system_framework_other_disable_cleaner">Desativar o encerramento de apps em segundo plano</string>
@@ -367,6 +372,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">Permite instalar apps após modificar o arquivo no apk (ignorar erro de integridade inválido)</string>
     <string name="system_framework_disable_integrity">Desativar verificações de integridade do sistema</string>
     <string name="system_framework_disable_integrity_desc">A recuperação automática de conteúdo adulterado é proibida. Quando a função Desativar verificação de integridade estiver ativada, ela será ativada por padrão.\nCompatível apenas com Android 13 e superior.</string>
+    <string name="system_framework_core_patch_shared_user">Ignorar verificação de usuário compartilhado</string>
+    <string name="system_framework_core_patch_shared_user_desc">Permite instalar apps com assinaturas diferentes do usuário compartilhado (<b>Desativar comparação de assinaturas também deve estar ativado </b>)\n\nEsse recurso é um tanto perigoso e só deve ser ativado quando necessário.</string>
     <string name="system_framework_core_patch_digest_creak">Desativar comparação de assinaturas</string>
     <string name="system_framework_core_patch_digest_creak_desc">Permite a reinstalação do app com assinaturas diferentes</string>
     <string name="system_framework_core_patch_use_pre_signature">Usar assinaturas instaladas</string>
@@ -494,6 +501,7 @@
     <string name="system_ui_navigation_title">Navegação</string>
     <string name="system_ui_navigation_handle_title">Indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar">Ocultar indicador de tela infinita</string>
+    <string name="system_ui_hide_navigation_bar_toast">Não alternar teclas de navegação</string>
     <string name="system_ui_hide_navigation_bar_more">Por favor, reinicie os escopos Launcher do sistema e UI do Sistema.</string>
     <string name="system_ui_navigation_handle_custom">Indicador de tela infinita personalizado</string>
     <string name="system_ui_navigation_handle_custom_height">Altura</string>
