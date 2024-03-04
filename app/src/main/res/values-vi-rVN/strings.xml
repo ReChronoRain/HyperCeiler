@@ -375,7 +375,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_disable_integrity">Tắt kiểm tra tính toàn vẹn của hệ thống</string>
     <string name="system_framework_disable_integrity_desc">Tự động khôi phục nội dung bị giả mạo. Khi chức năng \"Tắt thông báo xác minh\" được bật, chức năng này sẽ được bật theo.\nChỉ hỗ trợ Android 13 trở lên</string>
     <string name="system_framework_core_patch_shared_user">Bỏ qua xác minh chữ ký người dùng được chia sẻ</string>
-    <string name="system_framework_core_patch_shared_user_desc">Cho phép cài đặt các ứng dụng có chữ ký khác với người dùng được chia sẻ các ứng dụng đó (<b>Cũng yêu cầu bật Tắt xác minh chữ ký của Trình quản lý gói ứng dụng</b>)\n\nTính năng này hơi nguy hiểm và chỉ nên bật khi cần thiết</string>
+    <string name="system_framework_core_patch_shared_user_desc">Cho phép cài đặt các ứng dụng có chữ ký khác với người dùng được chia sẻ các ứng dụng đó. Tính năng này hơi nguy hiểm và chỉ nên bật khi cần thiết</string>
     <string name="system_framework_core_patch_digest_creak">Tắt so sánh chữ ký</string>
     <string name="system_framework_core_patch_digest_creak_desc">Cho phép cài đặt lại ứng dụng với chữ kí khác nhau</string>
     <string name="system_framework_core_patch_use_pre_signature">Dùng chữ kí đã được cài đặt</string>

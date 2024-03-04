@@ -373,7 +373,7 @@
     <string name="system_framework_disable_integrity">禁用系统完整性校驗</string>
     <string name="system_framework_disable_integrity_desc">禁止自動恢復被更改的內容。當啟用「禁用應用程式包管理器簽名校驗」功能時，它將默認啟用。\n僅支援 Android 13 及以上版本</string>
     <string name="system_framework_core_patch_shared_user">繞過共享用戶簽章驗證</string>
-    <string name="system_framework_core_patch_shared_user_desc">允許安裝與其共用使用者簽署不同的應用程式（<b>還需要啟用「停用應用程式包管理器簽名校驗」</b>）\n\n此功能有些危險，應僅在需要時啟用</string>
+    <string name="system_framework_core_patch_shared_user_desc">允許安裝與其共用使用者簽署不同的應用程式，此功能有些危險，應僅在需要時啟用</string>
     <string name="system_framework_core_patch_digest_creak">禁用 APK 簽名校驗</string>
     <string name="system_framework_core_patch_digest_creak_desc">允許直接覆蓋安裝同包名且不同簽名的應用程式</string>
     <string name="system_framework_core_patch_use_pre_signature">安裝時始終使用已安裝應用程式的簽名</string>
