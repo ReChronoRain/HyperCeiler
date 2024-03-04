@@ -913,6 +913,7 @@
     <string name="gallery_enable_pdf">Desbloquear Criar PDF</string>
     <string name="gallery_enable_ocr">Desbloquear Reconhecer texto</string>
     <string name="gallery_enable_ocr_form">Desbloquear tabela de digitalização</string>
+    <string name="gallery_enable_ai_gallery">Desbloquear foto IA</string>
     <string name="gallery_enable_id_photo">Desbloquear Identificação</string>
     <string name="gallery_enable_photo_movie">Desbloquear Clipe</string>
     <string name="gallery_enable_video_post">Desbloquear Efeitos de vídeo</string>
