@@ -972,6 +972,7 @@
     <string name="gallery_enable_pdf">解锁生成 PDF</string>
     <string name="gallery_enable_ocr">解锁提取文字</string>
     <string name="gallery_enable_ocr_form">解锁提取表格</string>
+    <string name="gallery_enable_ai_gallery">解锁 AI 写真</string>
     <string name="gallery_enable_id_photo">解锁证件照</string>
     <string name="gallery_enable_photo_movie">解锁照片电影</string>
     <string name="gallery_enable_video_post">解锁视频特效</string>

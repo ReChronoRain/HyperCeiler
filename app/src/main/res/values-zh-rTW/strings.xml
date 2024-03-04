@@ -913,6 +913,7 @@
     <string name="gallery_enable_pdf">解鎖生成 PDF</string>
     <string name="gallery_enable_ocr">解鎖提取文字</string>
     <string name="gallery_enable_ocr_form">解鎖提取表格</string>
+    <string name="gallery_enable_ai_gallery">解鎖 AI 寫真</string>
     <string name="gallery_enable_id_photo">解鎖證件照</string>
     <string name="gallery_enable_photo_movie">解鎖照片電影</string>
     <string name="gallery_enable_video_post">解鎖影片特效</string>
