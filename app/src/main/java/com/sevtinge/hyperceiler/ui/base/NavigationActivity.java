@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.ui.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -77,6 +79,26 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         initSearchView();
         initNavigationView();
         setRestartView(view -> DialogHelper.showRestartDialog(this));
+
+        RadioGroup navigation = findViewById(R.id.navigation);
+
+        int navigationBarHeight = getNavigationBarHeight(this) + 68;
+
+        navigation.setPadding(
+                navigation.getPaddingLeft(),
+                navigation.getPaddingTop(),
+                navigation.getPaddingRight(),
+                navigationBarHeight
+        );
+    }
+
+    public int getNavigationBarHeight(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 
     private void initSearchView() {
@@ -107,9 +129,9 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
 
         int i;
-        if (isDarkMode(this)) i = 140; else i = 180;
+        if (isDarkMode(this)) i = 160; else i = 200;
         int a;
-        if (isDarkMode(this)) a = 80; else a = 100;
+        if (isDarkMode(this)) a = 100; else a = 140;
         MiBlurUtils.setContainerPassBlur(mNavigationView, i);
         MiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
         MiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);

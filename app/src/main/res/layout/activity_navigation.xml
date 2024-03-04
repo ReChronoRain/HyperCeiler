@@ -27,7 +27,8 @@
         android:background="?android:attr/windowBackground"
         android:checkedButton="@id/navigation_home"
         android:gravity="center"
-        android:paddingVertical="12dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp">
 
         <RadioButton
             android:id="@+id/navigation_home"
