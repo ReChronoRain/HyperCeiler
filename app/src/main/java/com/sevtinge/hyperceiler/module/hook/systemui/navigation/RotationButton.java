@@ -63,7 +63,13 @@ public class RotationButton extends BaseHook {
                                     boolean isShow = getBoolean(mContext);
                                     int rotation = getInt(mContext);
                                     Object mRotationButtonController = XposedHelpers.getObjectField(param.thisObject, "mRotationButtonController");
-                                    XposedHelpers.callMethod(mRotationButtonController, "onRotationProposal", rotation, isShow);
+                                    try {
+                                        XposedHelpers.callMethod(mRotationButtonController, "onRotationProposal", rotation, isShow);
+                                    } catch (Throwable e) {
+                                        Object mUpdateActiveTouchRegionsCallback = XposedHelpers.getObjectField(param.thisObject, "mUpdateActiveTouchRegionsCallback");
+                                        Object NavigationBar = XposedHelpers.getObjectField(mUpdateActiveTouchRegionsCallback, "f$0");
+                                        XposedHelpers.callMethod(NavigationBar, "onRotationProposal", rotation, isShow);
+                                    }
                                 }
                             };
                             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("rotation_button_data"),
@@ -74,26 +80,88 @@ public class RotationButton extends BaseHook {
                 }
         );
 
-        findAndHookMethod("com.android.systemui.navigationbar.NavigationBar",
-                "onRotationProposal", int.class, boolean.class,
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        if (enable) param.setResult(null);
-                    }
-                }
-        );
 
-        findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController",
-                "onRotationProposal", int.class, boolean.class,
-                new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        if (!enable) {
-                            param.setResult(null);
-                            return;
+        try {
+            findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView",
+                    "lambda$new$0",
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (!enable) {
+                                return;
+                            }
+                            Context mLightContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mLightContext");
+                            Integer intValue = switch (getScreenOrientation(mLightContext)) {
+                                case 0 -> 1;
+                                case 1 -> 0;
+                                default -> -1;
+                            };
+                            if (intValue == -1) {
+                                logE(TAG, "Unknown parameters, unable to continue execution, execute the original method!");
+                                return;
+                            }
+                            param.setResult(intValue);
                         }
-                        Context mContext =
+                    }
+            );
+        } catch (Throwable e) {
+            findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView$$ExternalSyntheticLambda1",
+                    "get", new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (!enable) {
+                                return;
+                            }
+                            Object NavigationBarView = XposedHelpers.getObjectField(param.thisObject, "f$0");
+                            Context mLightContext = (Context) XposedHelpers.getObjectField(NavigationBarView, "mLightContext");
+                            Integer intValue = switch (getScreenOrientation(mLightContext)) {
+                                case 0 -> 1;
+                                case 1 -> 0;
+                                default -> -1;
+                            };
+                            if (intValue == -1) {
+                                logE(TAG, "Unknown parameters, unable to continue execution, execute the original method!");
+                                return;
+                            }
+                            param.setResult(intValue);
+                        }
+                    }
+            );
+        }
+
+        try {
+            findAndHookMethod("com.android.systemui.statusbar.CommandQueue",
+                    "onProposedRotationChanged", int.class, boolean.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (enable) param.setResult(null);
+                        }
+                    }
+            );
+
+            findAndHookMethod("com.android.systemui.navigationbar.NavigationBar",
+                    "onRotationProposal", int.class, boolean.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (!enable) {
+                                param.setResult(null);
+                            }
+                        }
+                    }
+            );
+        } catch (Throwable e) {
+            findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController",
+                    "onRotationProposal", int.class, boolean.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (!enable) {
+                                param.setResult(null);
+                                // return;
+                            }
+                        /*Context mContext =
                                 (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                         Object mWindowRotationProvider = XposedHelpers.getObjectField(param.thisObject, "mWindowRotationProvider");
                         int i = (int) param.args[0];
@@ -153,21 +221,45 @@ public class RotationButton extends BaseHook {
                                     param.setResult(null);
                                 }
                             }
+                        }*/
                         }
                     }
-                }
-        );
+            );
 
-        findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController",
-                "onRotateSuggestionClick", View.class,
-                new MethodHook() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        if (enable)
-                            XposedHelpers.callMethod(param.thisObject, "setRotateSuggestionButtonState", false);
+            findAndHookMethod("com.android.systemui.navigationbar.NavigationBar",
+                    "onRotationProposal", int.class, boolean.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (enable) param.setResult(null);
+                        }
                     }
-                }
-        );
+            );
+        }
+
+        try {
+            findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController",
+                    "onRotateSuggestionClick", View.class,
+                    new MethodHook() {
+                        @Override
+                        protected void after(MethodHookParam param) {
+                            if (enable)
+                                XposedHelpers.callMethod(param.thisObject, "setRotateSuggestionButtonState", false);
+                        }
+                    }
+            );
+        } catch (Throwable e) {
+            findAndHookMethod("com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda1",
+                    "onClick", View.class,
+                    new MethodHook() {
+                        @Override
+                        protected void before(MethodHookParam param) {
+                            if (enable)
+                                XposedHelpers.callMethod(param.thisObject, "setRotateSuggestionButtonState", false, false);
+                        }
+                    }
+            );
+        }
     }
 
     public int getScreenOrientation(Context context) {
