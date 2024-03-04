@@ -1537,5 +1537,4 @@
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
-    <string name="happy_chinese_new_year">新年快樂，龍年行大運</string>
 </resources>
