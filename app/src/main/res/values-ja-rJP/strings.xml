@@ -261,6 +261,10 @@
     <string name="control_center_sunshine_mode_default">オフ</string>
     <string name="control_center_sunshine_mode_one">システムのデフォルトモード</string>
     <string name="control_center_sunshine_mode_two">明るさを最大に強制</string>
+    <string name="security_center_flash_light_default">オフ</string>
+    <string name="security_center_flash_light_1">既定の書き込みモード</string>
+    <string name="security_center_flash_light_2">書き込みモード 1</string>
+    <string name="security_center_flash_light_3">書き込みモード 2</string>
     <string name="control_center_5g_off">オフ</string>
     <string name="control_center_5g_v1">5G スタイル 1</string>
     <string name="control_center_5g_v2">5G スタイル 2</string>
@@ -348,6 +352,7 @@
     <string name="system_framework_other_use_original_animation">ネイティブスタイルの遷移アニメーションを使用する</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
     <string name="system_framework_other_speed_install_desc">インストール速度を上げるためにメモリへインストールします</string>
+    <string name="system_framework_other_rotation_button">画面回転のおすすめ</string>
     <string name="system_framework_other_thermal_brightness">自動的な明るさ制限を無効化</string>
     <string name="system_framework_other_thermal_brightness_more">高温時でも明るさを減少させないようにします</string>
     <string name="system_framework_other_disable_cleaner">バックグラウンドアプリの強制終了を無効化</string>
@@ -367,6 +372,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">改変されたapkのインストールを許可します(無効なダイジェストエラーを無視)</string>
     <string name="system_framework_disable_integrity">システムの整合性チェックを無効化</string>
     <string name="system_framework_disable_integrity_desc">改ざんされたコンテンツの自動復元を禁止します。「ダイジェスト認証を無効にする」機能をオンにすると、デフォルトで有効になります。\nAndroid 13 以降のみ対応しています</string>
+    <string name="system_framework_core_patch_shared_user">共有ユーザー署名検証をバイパスする</string>
+    <string name="system_framework_core_patch_shared_user_desc">共有ユーザー署名が異なるアプリのインストールを許可します (<b>パッケージマネージャーの署名検証の無効化も必要です</b>)\n\nこの機能は大変危険なため、本当に必要な場合のみ有効化してください</string>
     <string name="system_framework_core_patch_digest_creak">比較署名を無効にする</string>
     <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します</string>
     <string name="system_framework_core_patch_use_pre_signature">インストール済みの署名を使用</string>
@@ -494,6 +501,7 @@
     <string name="system_ui_navigation_title">ナビゲーション</string>
     <string name="system_ui_navigation_handle_title">ハンドルライン</string>
     <string name="system_ui_hide_navigation_bar">ナビゲーションバーを非表示</string>
+    <string name="system_ui_hide_navigation_bar_toast">ナビゲーションキーを切り替えしない</string>
     <string name="system_ui_hide_navigation_bar_more">システムランチャーとシステム UI スコープの両方を再起動してください</string>
     <string name="system_ui_navigation_handle_custom">カスタムハンドルライン</string>
     <string name="system_ui_navigation_handle_custom_height">高さ</string>
@@ -905,6 +913,7 @@
     <string name="gallery_enable_pdf">PDF の生成をアンロック</string>
     <string name="gallery_enable_ocr">OCR をアンロック</string>
     <string name="gallery_enable_ocr_form">表のスキャンをアンロック</string>
+    <string name="gallery_enable_ai_gallery">AI 写真をアンロック</string>
     <string name="gallery_enable_id_photo">ID をアンロック</string>
     <string name="gallery_enable_photo_movie">クリップ機能をアンロック</string>
     <string name="gallery_enable_video_post">ビデオエフェクトをアンロック</string>
