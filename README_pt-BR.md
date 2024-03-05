@@ -44,13 +44,11 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Papéis de Parede Mi                            | com.miui.miwallpaper               |
 | Taplus                                         | com.miui.contentextension          |
 | Bullet screen notification                     | com.xiaomi.barrage                 |
-| Baidu IME for MIUI                             | com.baidu.input_mi                 |
 | Ui de chamadas                                 | com.android.incallui               |
 | Serviços do smartphone                         | com.android.phone                  |
 | Bateria e desempenho                           | com.miui.powerkeeper               |
 | Mensagens                                      | com.android.mms                    |
 | Captura de tela                                | com.miui.screenshot                |
-| Limpeza                                        | com.miui.cleanmaster               |
 | Navegador                                      | com.android.browser                |
 | Rueban (MTB)                                   | com.xiaomi.mtb                     |
 | Gravador de Tela                               | com.miui.screenrecorder            |
@@ -80,7 +78,6 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Componentes de segurança do HyperOS            | com.miui.guardprovider             |
 | Câmera                                         | com.android.camera                 |
 | Mi AI Translate                                | com.xiaomi.aiasst.vision           |
-| AI Reco                                        | com.xiaomi.aireco                  |
 | Scanner                                        | com.xiaomi.scanner                 |
 | Mi AI                                          | com.miui.voiceassist               |
 | NetworkBoost                                   | com.xiaomi.NetworkBoost            |
