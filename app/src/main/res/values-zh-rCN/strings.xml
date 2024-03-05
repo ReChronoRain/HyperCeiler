@@ -820,6 +820,8 @@
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量条</string>
     <string name="system_ui_disable_volume_desc">针对 MIUI/HyperOS 音量条的修改无法作用于原生音量条</string>
+    <string name="system_ui_unlock_clipboard">解锁原生剪切板编辑器</string>
+    <string name="system_ui_unlock_clipboard_desc">解锁后会和 MIUI/HyperOS 的编辑器一起弹出来，介意可不用</string>
     <string name="system_ui_charge_animation_title">充电动画</string>
     <string name="system_ui_charge_animation_style">充电动画样式</string>
     <string name="system_ui_charge_animation_style_desc">选择锁屏充电动画样式</string>

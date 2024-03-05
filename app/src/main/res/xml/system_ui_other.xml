@@ -102,6 +102,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_unlock_clipboard"
+            android:summary="@string/system_ui_unlock_clipboard_desc"
+            android:title="@string/system_ui_unlock_clipboard" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_unlock_super_volume"
             android:summary="@string/system_ui_unlock_super_volume_desc"
             android:title="@string/system_ui_unlock_super_volume" />
