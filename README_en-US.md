@@ -44,13 +44,11 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Mi Wallpaper               | com.miui.miwallpaper               |
 | Taplus                     | com.miui.contentextension          |
 | Bullet screen notification | com.xiaomi.barrage                 |
-| Baidu IME for MIUI         | com.baidu.input_mi                 |
 | Phone                      | com.android.incallui               |
 | Phone Service              | com.android.phone                  |
 | Battery and performance    | com.miui.powerkeeper               |
 | Messaging                  | com.android.mms                    |
 | Screenshot                 | com.miui.screenshot                |
-| Cleaner                    | com.miui.cleanmaster               |
 | Browser                    | com.android.browser                |
 | Rueban (MTB)               | com.xiaomi.mtb                     |
 | Screen Recorder            | com.miui.screenrecorder            |
@@ -80,7 +78,6 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | MIUI Security Components   | com.miui.guardprovider             |
 | Camera                     | com.android.camera                 |
 | Mi AI Translate            | com.xiaomi.aiasst.vision           |
-| Mi AI Suggestions          | com.xiaomi.aireco                  |
 | Scanner                    | com.xiaomi.scanner                 |
 | Mi AI                      | com.miui.voiceassist               |
 | NetworkBoost               | com.xiaomi.NetworkBoost            |

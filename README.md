@@ -6,7 +6,7 @@
 
 ### Make HyperOS/MIUI Great Again!
 
-简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
+简体中文&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)|&nbsp;&nbsp;[Português (Brasil)](/README_pt-BR.md)
 
 </div>
 
@@ -44,13 +44,11 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 | 壁纸                    | com.miui.miwallpaper               |
 | 传送门                   | com.miui.contentextension          |
 | 弹幕通知                  | com.xiaomi.barrage                 |
-| 百度输入法小米版              | com.baidu.input_mi                 |
 | 电话                    | com.android.incallui               |
 | 电话服务                  | com.android.phone                  |
 | 电量与性能                 | com.miui.powerkeeper               |
 | 短信                    | com.android.mms                    |
 | 截屏                    | com.miui.screenshot                |
-| 垃圾清理                  | com.miui.cleanmaster               |
 | 浏览器                   | com.android.browser                |
 | 鲁班（MTB）               | com.xiaomi.mtb                     |
 | 屏幕录制                  | com.miui.screenrecorder            |
@@ -80,7 +78,6 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 | 系统安全组件                | com.miui.guardprovider             |
 | 相机                    | com.android.camera                 |
 | 小爱翻译                  | com.xiaomi.aiasst.vision           |
-| 小爱建议                  | com.xiaomi.aireco                  |
 | 小爱视觉                  | com.xiaomi.scanner                 |
 | 小爱同学                  | com.miui.voiceassist               |
 | NetworkBoost          | com.xiaomi.NetworkBoost            |
