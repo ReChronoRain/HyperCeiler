@@ -24,6 +24,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroid
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.module.base.BaseModule;
+import com.sevtinge.hyperceiler.module.hook.systemui.DisableTransparent;
 import com.sevtinge.hyperceiler.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.module.hook.systemui.BluetoothRestrict;
@@ -132,6 +133,7 @@ import java.util.Objects;
 public class SystemUI extends BaseModule {
     @Override
     public void handleLoadPackage() {
+
         // 充电动画
         initHook(new ChargeAnimationStyle(), mPrefsMap.getStringAsInt("system_ui_charge_animation_style", 0) > 0);
         initHook(new OriginChargeAnimation(), mPrefsMap.getBoolean("system_ui_origin_charge_animation"));
@@ -294,6 +296,7 @@ public class SystemUI extends BaseModule {
         initHook(new NotificationRowMenu(), mPrefsMap.getBoolean("system_ui_control_center_notifrowmenu"));
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
         initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
+        initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
 
         // Actions
         initHook(new StatusBarActions());
