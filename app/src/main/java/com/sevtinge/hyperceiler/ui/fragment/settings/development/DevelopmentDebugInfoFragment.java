@@ -89,8 +89,8 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
         } catch (Exception ignored) {
         }
         try {
-            propertiesDevice.put("DeviceName", getDeviceName());
             propertiesDevice.put("MarketName", getMarketName());
+            propertiesDevice.put("DeviceName", getDeviceName());
             propertiesDevice.put("Model", getModelName());
             propertiesDevice.put("Brand", getBrand());
             propertiesDevice.put("Manufacture", getManufacture());
