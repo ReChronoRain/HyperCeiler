@@ -22,6 +22,7 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
 
 object UnlockClipboard : BaseHook() {
@@ -34,12 +35,21 @@ object UnlockClipboard : BaseHook() {
             .filterByName("start")
             .first().createHook {
                 before {
-                    // 给正常 Android 14 HyperOS 用户用的
-                    hook = loadClass("com.miui.systemui.modulesettings.DeveloperSettings\$Companion").methodFinder()
-                        .filterByName("isMiuiOptimizationEnabled")
-                        .first().createHook {
-                            returnConstant(false)
-                        }
+                    hook = if (isMoreAndroidVersion(34)) {
+                        // 给正常 Android 14 HyperOS 用户用的
+                        loadClass("com.miui.systemui.modulesettings.DeveloperSettings\$Companion").methodFinder()
+                            .filterByName("isMiuiOptimizationEnabled")
+                            .first().createHook {
+                                returnConstant(false)
+                            }
+                    } else {
+                        // 给正常 Android 13 用户用的
+                        loadClass("com.miui.systemui.SettingsManager").methodFinder()
+                            .filterByName("getMiuiOptimizationEnabled")
+                            .first().createHook {
+                                returnConstant(false)
+                            }
+                    }
                 }
                 after {
                     // 必须 unhook()
