@@ -34,4 +34,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="miuix_appcompat_searchbar_result_margin_top">54dp</dimen>
+
 </resources>

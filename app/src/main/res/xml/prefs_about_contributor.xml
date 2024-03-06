@@ -3,6 +3,13 @@
     <PreferenceCategory>
         <Preference android:summary="@string/about_contributer_desc" />
         <Preference
+            android:summary="GitHub@CLOUDERHEM"
+            android:title="CLOUDERHEM">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/CLOUDERHEM" />
+        </Preference>
+        <Preference
             android:summary="CoolApk@潇风残月"
             android:title="Green Yang">
             <intent

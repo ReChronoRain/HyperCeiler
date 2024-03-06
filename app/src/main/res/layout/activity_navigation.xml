@@ -72,6 +72,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_result_view"
         android:visibility="gone"
+        android:layout_marginTop="@dimen/miuix_appcompat_searchbar_result_margin_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/windowBackground"/>
