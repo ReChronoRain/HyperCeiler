@@ -47,6 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mProxy = new SettingsProxy(this);
         super.onCreate(savedInstanceState);
+        EdgeToEdgeHelper.enableEdgeToEdge(getWindow());
+        EdgeToEdgeHelper.disableContrastEnforcement(getWindow());
         initActionBar();
         registerObserver();
     }
