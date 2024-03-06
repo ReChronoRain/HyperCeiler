@@ -63,4 +63,5 @@
 
     </PreferenceCategory>
     <Preference android:enabled="false" />
+    <Preference android:enabled="false" />
 </PreferenceScreen>
