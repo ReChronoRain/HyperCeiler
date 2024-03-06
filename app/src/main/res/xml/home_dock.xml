@@ -126,5 +126,5 @@
             android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

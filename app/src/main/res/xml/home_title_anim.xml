@@ -54,6 +54,4 @@
         android:dependency="prefs_key_home_title_custom_anim_param_main"
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim8Settings" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

@@ -62,5 +62,7 @@
             android:title="@string/development" />
 
     </PreferenceCategory>
+
     <Preference android:enabled="false" />
+
 </PreferenceScreen>

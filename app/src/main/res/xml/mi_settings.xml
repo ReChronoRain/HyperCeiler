@@ -7,6 +7,4 @@
         android:key="prefs_key_mi_settings_show_fps"
         android:defaultValue="false" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

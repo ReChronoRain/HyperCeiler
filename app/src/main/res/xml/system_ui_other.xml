@@ -132,5 +132,5 @@
             android:title="@string/system_ui_qs_label" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

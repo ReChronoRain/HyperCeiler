@@ -61,5 +61,4 @@
         app:showSeekBarValue="true"
         app:isPreferenceVisible="false" />
 
-    <Preference android:enabled="false" />
 </PreferenceScreen>

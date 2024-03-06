@@ -166,5 +166,5 @@
             android:title="@string/system_framework_clean_open_apps" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

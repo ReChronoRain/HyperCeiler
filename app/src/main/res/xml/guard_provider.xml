@@ -5,6 +5,4 @@
         android:key="prefs_key_disable_upload_applist"
         android:defaultValue="false" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

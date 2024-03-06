@@ -100,5 +100,5 @@
             android:title="@string/gallery_enable_magic_sky" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

@@ -68,6 +68,4 @@
 
     </PreferenceCategory>
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

@@ -123,5 +123,5 @@
             android:title="@string/system_ui_lock_screen_hide_status_bar" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

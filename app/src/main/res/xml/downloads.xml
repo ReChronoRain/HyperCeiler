@@ -7,6 +7,4 @@
         android:key="prefs_key_various_fuck_xlDownload"
         android:defaultValue="false" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

@@ -41,5 +41,5 @@
             app:entryValues="@array/mipad_input_bluetooth_version_value" />
             
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

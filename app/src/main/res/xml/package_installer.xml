@@ -47,5 +47,5 @@
             android:defaultValue="com.android.fileexplorer" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

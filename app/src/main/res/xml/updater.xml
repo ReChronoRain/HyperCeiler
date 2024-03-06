@@ -46,4 +46,5 @@
         android:summary="@string/updater_device_desc"
         android:key="prefs_key_updater_device"
         app:isPreferenceVisible="true" />
+
 </PreferenceScreen>

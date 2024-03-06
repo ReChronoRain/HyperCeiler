@@ -26,5 +26,5 @@
             android:title="@string/home_drawer_pinyin" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

@@ -10,5 +10,5 @@
             app:entryValues="@array/weather_device_level_value" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>
