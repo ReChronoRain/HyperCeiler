@@ -115,7 +115,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
             public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(inset.left, inset.top, inset.right, inset.bottom);
+                v.setPadding(inset.left, 0, inset.right, inset.bottom);
                 return insets;
             }
         });

@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
@@ -47,10 +48,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mProxy = new SettingsProxy(this);
         super.onCreate(savedInstanceState);
-        EdgeToEdgeHelper.enableEdgeToEdge(getWindow());
-        EdgeToEdgeHelper.disableContrastEnforcement(getWindow());
+        setNavigationBar();
         initActionBar();
         registerObserver();
+    }
+
+    private void setNavigationBar() {
+        EdgeToEdge.enable(this);
+
+        getWindow().setNavigationBarContrastEnforced(false);
+        getWindow().setStatusBarContrastEnforced(false);
     }
 
     protected void initActionBar() {
