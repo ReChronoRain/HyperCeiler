@@ -154,5 +154,5 @@
             android:dependency="prefs_key_home_layout_searchbar_margin_bottom_enable" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

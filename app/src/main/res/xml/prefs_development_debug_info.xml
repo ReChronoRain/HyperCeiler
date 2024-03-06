@@ -5,7 +5,6 @@
         android:layout="@layout/development_debug_info"
         android:key="prefs_key_debug_info"
         android:enabled="false"
-        android:title="@string/debug_info"
-        />
+        android:title="@string/debug_info" />
 
 </PreferenceScreen>

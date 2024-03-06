@@ -23,6 +23,5 @@
         android:key="prefs_key_other_safe_mode_enable"
         android:defaultValue="false"
         app:isPreferenceVisible="false" />
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

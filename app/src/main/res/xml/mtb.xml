@@ -6,6 +6,4 @@
         android:key="prefs_key_mtb_auth"
         android:defaultValue="false" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

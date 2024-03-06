@@ -255,6 +255,5 @@
                 android:data="https://github.com/pomelohan" />
         </Preference>
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

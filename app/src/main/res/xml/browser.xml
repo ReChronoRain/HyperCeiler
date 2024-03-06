@@ -21,6 +21,5 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

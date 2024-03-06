@@ -78,5 +78,5 @@
             android:title="@string/system_framework_disable_low_api_check" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

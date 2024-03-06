@@ -35,6 +35,5 @@
         app:defaultValueText="@string/array_default"
         app:format="%d dp"
         app:stepValue="1" />
-        
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

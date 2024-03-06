@@ -137,5 +137,5 @@
             app:entryValues="@array/collapse_miui_title_value" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
+
 </PreferenceScreen>

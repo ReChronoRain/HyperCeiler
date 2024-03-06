@@ -7,6 +7,4 @@
         android:key="prefs_key_trustservice_disable_mrm"
         android:defaultValue="false" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>

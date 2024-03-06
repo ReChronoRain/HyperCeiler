@@ -6,7 +6,7 @@
 
 ### Torne o HyperOS/MIUI ótimo novamente!
 
-[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md) |&nbsp;&nbsp;Português (Brasil)
+[简体中文](/README.md)&nbsp;&nbsp;|&nbsp;&nbsp;[English](/README_en-US.md)&nbsp;&nbsp;|&nbsp;&nbsp;Português (Brasil)
 
 </div>
 

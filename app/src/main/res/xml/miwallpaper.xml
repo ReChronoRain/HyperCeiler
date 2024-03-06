@@ -10,6 +10,5 @@
             android:summary="@string/disable_detailed_log_desc" />
 
     </PreferenceCategory>
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

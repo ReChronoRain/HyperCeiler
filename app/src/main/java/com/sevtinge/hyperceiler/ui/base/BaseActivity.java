@@ -94,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         else if (val instanceof Boolean)
             path = "boolean/";
         getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + s), null);
-        if (!path.equals("")) getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + s), null);
+        if (!path.isEmpty()) getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + s), null);
     };
 
     private void registerFileObserver() {

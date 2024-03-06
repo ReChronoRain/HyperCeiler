@@ -20,6 +20,5 @@
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.SystemUIOtherSettings"
         android:title="@string/system_ui_other_title" />
-    <Preference android:enabled="false" />
 
 </PreferenceScreen>

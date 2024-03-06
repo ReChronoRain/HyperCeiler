@@ -65,21 +65,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true"
-            android:theme="@style/Base.Theme.HyperCeiler.DayNight.SystemBarBackgrounds">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
-            </intent-filter>
-        </activity>
-        <!--<activity
-            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
-        </activity>-->
+        </activity>
 
         <activity-alias
             android:name=".ui.LauncherActivity"
@@ -102,9 +93,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.ModuleSettingsActivity"
-            android:label="@string/settings" />
+
         <activity android:name=".ui.SubPickerActivity" />
 
         <provider

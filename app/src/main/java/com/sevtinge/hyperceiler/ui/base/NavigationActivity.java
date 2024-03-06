@@ -20,8 +20,6 @@ package com.sevtinge.hyperceiler.ui.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,6 +30,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,26 +81,6 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         initSearchView();
         initNavigationView();
         setRestartView(view -> DialogHelper.showRestartDialog(this));
-
-        RadioGroup navigation = findViewById(R.id.navigation);
-
-        int navigationBarHeight = getNavigationBarHeight(this) + 68;
-
-        navigation.setPadding(
-                navigation.getPaddingLeft(),
-                navigation.getPaddingTop(),
-                navigation.getPaddingRight(),
-                navigationBarHeight
-        );
-    }
-
-    public int getNavigationBarHeight(Context context) {
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
     }
 
     private void initSearchView() {
@@ -127,6 +109,9 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mNavigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mFragmentPage.setAdapter(mNavigationPagerAdapter);
 
+        addPaddingForRadioButton(mHomeNav);
+        addPaddingForRadioButton(mSettingsNav);
+        addPaddingForRadioButton(mAboutNav);
 
         int i;
         if (isDarkMode(this)) i = 160; else i = 200;
@@ -166,6 +151,18 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         });
     }
 
+    private void addPaddingForRadioButton(View view) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                v.setPadding(inset.left, 20, inset.right, inset.bottom + 20);
+                return insets;
+            }
+        });
+    }
 
     private void changeSelect(int position) {
         switch (position) {
@@ -227,7 +224,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
     void findMod(String filter) {
         lastFilter = filter;
-        mSearchResultView.setVisibility(filter.equals("") ? View.GONE : View.VISIBLE);
+        mSearchResultView.setVisibility(filter.isEmpty() ? View.GONE : View.VISIBLE);
         ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
         if (adapter == null) return;
         adapter.getFilter().filter(filter);

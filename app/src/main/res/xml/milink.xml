@@ -20,6 +20,4 @@
         android:key="prefs_key_milink_fuck_hpplay"
         android:defaultValue="false" />
 
-    <Preference android:enabled="false" />
-
 </PreferenceScreen>
