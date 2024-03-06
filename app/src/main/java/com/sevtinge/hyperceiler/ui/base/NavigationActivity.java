@@ -109,16 +109,9 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mNavigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mFragmentPage.setAdapter(mNavigationPagerAdapter);
 
-        ViewCompat.setOnApplyWindowInsetsListener(mNavigationView, new OnApplyWindowInsetsListener() {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
-                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(inset.left, 0, inset.right, inset.bottom);
-                return insets;
-            }
-        });
+        addPaddingForRadioButton(mHomeNav);
+        addPaddingForRadioButton(mSettingsNav);
+        addPaddingForRadioButton(mAboutNav);
 
         int i;
         if (isDarkMode(this)) i = 160; else i = 200;
@@ -158,6 +151,18 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         });
     }
 
+    private void addPaddingForRadioButton(View view) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                v.setPadding(inset.left, 20, inset.right, inset.bottom + 20);
+                return insets;
+            }
+        });
+    }
 
     private void changeSelect(int position) {
         switch (position) {
@@ -219,7 +224,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
     void findMod(String filter) {
         lastFilter = filter;
-        mSearchResultView.setVisibility(filter.equals("") ? View.GONE : View.VISIBLE);
+        mSearchResultView.setVisibility(filter.isEmpty() ? View.GONE : View.VISIBLE);
         ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
         if (adapter == null) return;
         adapter.getFilter().filter(filter);

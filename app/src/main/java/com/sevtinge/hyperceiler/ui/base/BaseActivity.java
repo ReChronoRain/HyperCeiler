@@ -27,7 +27,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
@@ -48,16 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mProxy = new SettingsProxy(this);
         super.onCreate(savedInstanceState);
-        setNavigationBar();
         initActionBar();
         registerObserver();
-    }
-
-    private void setNavigationBar() {
-        EdgeToEdge.enable(this);
-
-        getWindow().setNavigationBarContrastEnforced(false);
-        getWindow().setStatusBarContrastEnforced(false);
     }
 
     protected void initActionBar() {
@@ -103,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         else if (val instanceof Boolean)
             path = "boolean/";
         getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + s), null);
-        if (!path.equals("")) getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + s), null);
+        if (!path.isEmpty()) getContentResolver().notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + s), null);
     };
 
     private void registerFileObserver() {

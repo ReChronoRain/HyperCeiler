@@ -143,7 +143,7 @@ public abstract class BaseSettingsActivity extends BaseActivity {
                     ArrayList<String> error = ShellInit.getShell().getError();
 
                     if (getResult) {
-                        if (outPut.size() != 0) {
+                        if (!outPut.isEmpty()) {
                             if (outPut.get(0).equals("No Find Pid!")) {
                                 pid = false;
                             } else {

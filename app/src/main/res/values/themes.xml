@@ -3,6 +3,8 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Light</item>
         <item name="rebootIconColor">@color/black</item>
         <item name="seekBarPreferenceExStyle">@style/Preference.SeekBarPreferenceEx</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <!-- Base application theme. -->
