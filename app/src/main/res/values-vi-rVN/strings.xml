@@ -766,6 +766,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_other_title">Khác</string>
     <string name="system_ui_disable_volume">Thanh âm lượng gốc</string>
     <string name="system_ui_disable_volume_desc">Việc sửa đổi thanh âm lượng của Xiaomi không áp dụng cho thanh âm lượng gốc</string>
+    <string name="system_ui_unlock_clipboard">Mở khóa trình chỉnh sửa bảng ghi tạm AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">Sau khi mở khóa, nó sẽ bật lên cùng với trình chỉnh sửa MIUI/HyperOS.</string>
     <string name="system_ui_charge_animation_title">Hiệu ứng sạc</string>
     <string name="system_ui_charge_animation_style">Hiệu ứng khi sạc</string>
     <string name="system_ui_charge_animation_style_desc">Lựa chọn hiệu ứng sạc màn hình khóa</string>
@@ -1548,6 +1550,8 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
     <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
     <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Tắt chế độ trong suốt</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Tắt cài đặt nền thông báo trong suốt</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
