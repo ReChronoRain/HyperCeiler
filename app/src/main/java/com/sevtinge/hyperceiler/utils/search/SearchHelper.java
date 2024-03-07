@@ -115,13 +115,13 @@ public class SearchHelper {
             R.string.system_ui_statusbar_title,
             "com.sevtinge.hyperceiler.ui.fragment.systemui.StatusBarSettings");
 
-        parsePrefXml(context, R.xml.system_ui_status_bar_icon_manage,
+        parsePrefXml(context, !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_icon_manage : R.xml.system_ui_status_bar_icon_manage_new,
             R.string.system_ui,
             R.string.system_ui_statusbar_title,
             R.string.system_ui_statusbar_iconmanage_title,
             R.string.system_ui_statusbar_iconmanage_title,
             R.string.system_ui_statusbar_iconmanage_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings");
+            !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings" : "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageNewSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_mobile_network_type,
             R.string.system_ui,
