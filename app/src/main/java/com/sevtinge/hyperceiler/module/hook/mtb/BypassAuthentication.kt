@@ -31,7 +31,7 @@ object BypassAuthentication : BaseHook() {
 
         // 在HyperOS上
         runCatching {
-            if (getMiuiVersion() > 14f || getAndroidVersion() > 33) {
+            if (isMoreHyperOSVersion(1f)) {
                 loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
                     .filterByName("getClassErrorString")
                     .single().createHook {
