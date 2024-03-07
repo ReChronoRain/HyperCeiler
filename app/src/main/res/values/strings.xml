@@ -1236,6 +1236,8 @@
     <string name="miui_package_installer_install_source">Custom install source</string>
     <string name="miui_package_installer_apk_info">Show more package information</string>
     <string name="miui_package_installer_apk_info_desc">Show more info about the app that\'s being installed</string>
+    <string name="miui_package_installer_upload_appinfo">Disallow uploading app info</string>
+    <string name="miui_package_installer_upload_appinfo_desc">Security check will not be possible if disabled</string>
     <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
     <string name="various_disable_link_turbo_toast_more">Please restart NetworkBoost in the fast restart scope</string>
