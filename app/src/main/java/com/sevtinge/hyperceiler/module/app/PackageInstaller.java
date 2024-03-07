@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import com.sevtinge.hyperceiler.module.base.BaseModule;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.AllAsSystemApp;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAD;
+import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableAppInfoUpload;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableCountChecking;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisableSafeModelTip;
 import com.sevtinge.hyperceiler.module.hook.packageinstaller.DisplayMoreApkInfoNew;
@@ -57,6 +58,9 @@ public class PackageInstaller extends BaseModule {
 
         // 禁用频繁安装应用检查
         initHook(DisableCountChecking.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_count_checking"));
+
+        // 禁用安装前后上传应用信息, 开启后会无法扫描病毒
+        initHook(DisableAppInfoUpload.INSTANCE, mPrefsMap.getBoolean("miui_package_installer_upload_appinfo"));
 
     }
 }
