@@ -20,11 +20,15 @@ package com.sevtinge.hyperceiler.ui.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -156,9 +160,14 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
             @NonNull
             @Override
             public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                /*WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                Display display = windowManager.getDefaultDisplay();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                display.getMetrics(displayMetrics);
+                int dpi = displayMetrics.densityDpi;*/
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(0, 20, 0, inset.bottom + 20);
+                v.setPadding(0, 40, 0, inset.bottom + 60);
                 return insets;
             }
         });
