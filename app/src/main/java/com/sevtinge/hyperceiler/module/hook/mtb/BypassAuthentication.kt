@@ -21,12 +21,26 @@ package com.sevtinge.hyperceiler.module.hook.mtb
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
-import com.sevtinge.hyperceiler.module.base.BaseHook
-import com.sevtinge.hyperceiler.utils.setObjectField
+import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.devicesdk.*
 
 object BypassAuthentication : BaseHook() {
     override fun init() {
         val mModemTestBoxClass = loadClass("com.xiaomi.mtb.activity.ModemTestBoxMainActivity")
+
+        // 在HyperOS上
+        runCatching {
+            if (getMiuiVersion() > 14f || getAndroidVersion() > 33) {
+                loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
+                    .filterByName("getClassErrorString")
+                    .single().createHook {
+                        after {
+                            it.result = null
+                        }
+                    }
+            }
+        }
 
         runCatching {
             loadClass("com.xiaomi.mtb.XiaoMiServerPermissionCheck").methodFinder()
