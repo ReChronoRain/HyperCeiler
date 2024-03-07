@@ -261,6 +261,10 @@
     <string name="control_center_sunshine_mode_default">Menutup</string>
     <string name="control_center_sunshine_mode_one">Mode default sistem</string>
     <string name="control_center_sunshine_mode_two">Paksa kecerahan maksimum</string>
+    <string name="security_center_flash_light_default">Tutup</string>
+    <string name="security_center_flash_light_1">Mode tulis default</string>
+    <string name="security_center_flash_light_2">Mode tulis satu</string>
+    <string name="security_center_flash_light_3">Mode tulis dua</string>
     <string name="control_center_5g_off">Mati</string>
     <string name="control_center_5g_v1">5G Gaya Satu</string>
     <string name="control_center_5g_v2">5G Gaya Dua</string>
@@ -348,6 +352,7 @@
     <string name="system_framework_other_use_original_animation">Animasi transisi menggunakan gaya asli</string>
     <string name="system_framework_other_speed_install">Instal Kecepatan</string>
     <string name="system_framework_other_speed_install_desc">Instal ke memori yang berjalan untuk mempercepat instalasi</string>
+    <string name="system_framework_other_rotation_button">Rekomendasi rotasi</string>
     <string name="system_framework_other_thermal_brightness">Nonaktifkan pengurangan kecerahan layar otomatis</string>
     <string name="system_framework_other_thermal_brightness_more">Hanya secara otomatis mengurangi kecerahan layar yang bukan disebabkan oleh kontrol suhu</string>
     <string name="system_framework_other_disable_cleaner">Nonaktifkan aplikasi latar belakang yang mematikan</string>
@@ -367,6 +372,8 @@
     <string name="system_framework_core_patch_auth_creak_desc">Memungkinkan pemasangan aplikasi setelah memodifikasi file dalam apk (abaikan kesalahan intisari yang tidak valid)</string>
     <string name="system_framework_disable_integrity">Nonaktifkan pemeriksaan integritas sistem</string>
     <string name="system_framework_disable_integrity_desc">Pemulihan otomatis atas konten yang dirusak dilarang. Jika fungsi \"Nonaktifkan verifikasi intisari\" diaktifkan, fungsi tersebut akan diaktifkan secara default.\nHanya mendukung Android 13 dan yang lebih baru</string>
+    <string name="system_framework_core_patch_shared_user">Lewati verifikasi tanda tangan pengguna bersama</string>
+    <string name="system_framework_core_patch_shared_user_desc">Izinkan pemasangan aplikasi yang berbeda dari tanda tangan pengguna bersama. Fitur ini agak berbahaya dan sebaiknya hanya diaktifkan bila diperlukan</string>
     <string name="system_framework_core_patch_digest_creak">Nonaktifkan bandingkan tanda tangan</string>
     <string name="system_framework_core_patch_digest_creak_desc">Izinkan menginstal ulang aplikasi dengan tanda tangan berbeda</string>
     <string name="system_framework_core_patch_use_pre_signature">Gunakan tanda tangan yang terpasang</string>
@@ -494,6 +501,7 @@
     <string name="system_ui_navigation_title">Navigasi</string>
     <string name="system_ui_navigation_handle_title">Tangani garis</string>
     <string name="system_ui_hide_navigation_bar">Sembunyikan Bilah Navigasi</string>
+    <string name="system_ui_hide_navigation_bar_toast">Jangan mengganti tombol navigasi</string>
     <string name="system_ui_hide_navigation_bar_more">Silakan mulai ulang cakupan Miui Home dan SystemUi</string>
     <string name="system_ui_navigation_handle_custom">Garis pegangan khusus</string>
     <string name="system_ui_navigation_handle_custom_height">Tinggi</string>
@@ -756,6 +764,8 @@
     <string name="system_ui_other_title">Lainnya</string>
     <string name="system_ui_disable_volume">Bilah volume asli</string>
     <string name="system_ui_disable_volume_desc">Modifikasi bilah volume Xiaomi tidak berlaku untuk bilah volume asli</string>
+    <string name="system_ui_unlock_clipboard">Buka kunci editor papan klip AOSP</string>
+    <string name="system_ui_unlock_clipboard_desc">Setelah dibuka, itu akan muncul bersama dengan editor MIUI/HyperOS.</string>
     <string name="system_ui_charge_animation_title">Mengisi animasi</string>
     <string name="system_ui_charge_animation_style">Gaya animasi pengisian daya</string>
     <string name="system_ui_charge_animation_style_desc">Pilih gaya animasi pengisian daya layar kunci</string>
@@ -905,6 +915,7 @@
     <string name="gallery_enable_pdf">Buka kunci menghasilkan PDF</string>
     <string name="gallery_enable_ocr">Buka kunci OCR</string>
     <string name="gallery_enable_ocr_form">Buka kunci tabel pemindaian</string>
+    <string name="gallery_enable_ai_gallery">Buka kunci foto AI</string>
     <string name="gallery_enable_id_photo">Buka kunci ID</string>
     <string name="gallery_enable_photo_movie">Buka Kunci Klip</string>
     <string name="gallery_enable_video_post">Buka kunci efek Video</string>
@@ -1525,6 +1536,8 @@
     <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
     <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
     <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Nonaktifkan Mode Transparan</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Nonaktifkan pengaturan latar belakang notifikasi menjadi transparan</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
