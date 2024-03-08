@@ -1195,6 +1195,8 @@
     <string name="miui_package_installer_install_source">Fonte de instalação personalizada</string>
     <string name="miui_package_installer_apk_info">Exibir mais informações do pacote</string>
     <string name="miui_package_installer_apk_info_desc">Exibe mais informações sobre o app que está sendo instalado</string>
+    <string name="miui_package_installer_upload_appinfo">Impedir o upload de informações do app</string>
+    <string name="miui_package_installer_upload_appinfo_desc">A verificação de segurança não será possível se estiver desativada</string>
     <!--Networkboost-->
     <string name="various_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
     <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida.</string>
