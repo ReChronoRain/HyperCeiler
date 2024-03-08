@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_calendar_unlock_subscription"
+            android:title="@string/calendar_unlock_subscription" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

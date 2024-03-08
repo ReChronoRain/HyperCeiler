@@ -2,8 +2,9 @@
 <resources>
 
     <string-array name="xposed_scope">
-        <item>android</item> <!--安卓-->
+        <item>android</item> <!--系统框架-->
         <item>com.android.browser</item> <!--浏览器-->
+        <item>com.android.calendar</item> <!--日历-->
         <item>com.android.camera</item> <!--相机-->
         <item>com.android.externalstorage</item> <!--外部储存设备-->
         <item>com.android.fileexplorer</item> <!--文件管理-->

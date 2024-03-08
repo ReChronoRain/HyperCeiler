@@ -24,6 +24,13 @@
             android:title="@string/browser" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CalendarFragment"
+            android:icon="@drawable/ic_calendar"
+            android:key="prefs_key_calendar"
+            android:summary="com.android.calendar"
+            android:title="@string/calendar" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraFragment"
             android:icon="@drawable/ic_camera"
             android:key="prefs_key_camera"

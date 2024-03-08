@@ -482,6 +482,9 @@
     <string name="camera_settings_men_makeup">解锁男性妆容适配</string>
     <string name="camera_settings_lab_options">启用实验室选项</string>
     <string name="camera_settings_track_eyes">解锁人眼追焦</string>
+    <!--日历-->
+    <string name="calendar">日历</string>
+    <string name="calendar_unlock_subscription">解锁订阅服务</string>
     <!--时钟-->
     <string name="clock">时钟</string>
     <string name="clock_enable_hour_glass">解锁计时器沙漏动画</string>

@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.module.app.Aod;
 import com.sevtinge.hyperceiler.module.app.Backup;
 import com.sevtinge.hyperceiler.module.app.Barrage;
 import com.sevtinge.hyperceiler.module.app.Browser;
+import com.sevtinge.hyperceiler.module.app.Calendar;
 import com.sevtinge.hyperceiler.module.app.Camera;
 import com.sevtinge.hyperceiler.module.app.Clock;
 import com.sevtinge.hyperceiler.module.app.ContentExtension;
@@ -161,6 +162,7 @@ public abstract class BaseXposedInit {
     public final Backup mBackup = new Backup();
     public final Huanji mHuanji = new Huanji();
     public final TrustService mTrustService = new TrustService();
+    public final Calendar mCalendar = new Calendar();
 
     @CallSuper
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
@@ -256,6 +258,10 @@ public abstract class BaseXposedInit {
             }*/
             case "com.android.nfc" -> {
                 mNfc.init(lpparam);
+                mVariousSystemApps.init(lpparam);
+            }
+            case "com.android.calendar" -> {
+                mCalendar.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
             case "com.android.updater" -> {

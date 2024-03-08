@@ -1585,6 +1585,8 @@
     <string name="security_center_power_consumption_ranking">Show Power Consumption Ranking</string>
     <string name="system_ui_control_center_notification_disable_transparent">Disable Transparent Mode</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disable setting notification background to be transparent</string>
+    <string name="calendar">Calendar</string>
+    <string name="calendar_unlock_subscription">Unlock Subscription</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>
