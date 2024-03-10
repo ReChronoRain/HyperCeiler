@@ -61,8 +61,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
     SeekBarPreferenceEx mRoundedRectRadius;
     SwitchPreference mThemeBlur;
     SwitchPreference mMusicCtrlPanelMix;
-    SeekBarPreferenceEx mMusicCtrlPanelMixBlur;
-    SeekBarPreferenceEx mMusicCtrlPanelOverlay;
 
     SwitchPreference mTaplus;
     Handler handler;
@@ -101,8 +99,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mTaplus = findPreference("prefs_key_security_center_taplus");
         mThemeBlur = findPreference("prefs_key_system_ui_control_center_unlock_blur_supported");
         mMusicCtrlPanelMix = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix");
-        mMusicCtrlPanelMixBlur = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius");
-        mMusicCtrlPanelOverlay = findPreference("prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay");
         handler = new Handler();
 
         mExpandNotification.setOnPreferenceClickListener(
@@ -134,8 +130,6 @@ public class ControlCenterSettings extends SettingsPreferenceFragment implements
         mThemeBlur.setVisible(isMoreHyperOSVersion(1f));
         mRoundedRectRadius.setVisible(PrefsUtils.getSharedBoolPrefs(getContext(), "prefs_key_system_ui_control_center_rounded_rect", false) && isMoreHyperOSVersion(1f));
         mMusicCtrlPanelMix.setVisible(isMoreHyperOSVersion(1f));
-        mMusicCtrlPanelMixBlur.setVisible(isMoreHyperOSVersion(1f));
-        mMusicCtrlPanelOverlay.setVisible(isMoreHyperOSVersion(1f));
 
         mOldCCGrid = findPreference("prefs_key_system_control_center_old_enable");
         mOldCCGrid1 = findPreference("prefs_key_system_control_center_old_enable_1");

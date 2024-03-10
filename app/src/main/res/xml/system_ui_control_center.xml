@@ -61,30 +61,6 @@
             android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix"
             android:title="@string/system_ui_control_center_media_control_panel_background_mix" />
 
-        <SeekBarPreferenceEx
-            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius"
-            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
-            android:title="@string/system_ui_control_center_media_control_panel_background_mix_blur_radius"
-            app:defaultValueText="@string/array_default"
-            android:defaultValue="40"
-            app:minValue="0"
-            app:maxValue="100"
-            app:stepValue="1"
-            app:format="%d f"
-            app:showSeekBarValue="true" />
-
-        <SeekBarPreferenceEx
-            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay"
-            android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
-            android:title="@string/system_ui_control_center_media_control_panel_background_mix_overlay"
-            app:defaultValueText="@string/array_default"
-            android:defaultValue="20"
-            app:minValue="0"
-            app:maxValue="255"
-            app:stepValue="1"
-            app:format="%d"
-            app:showSeekBarValue="true" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_n_enable"
@@ -143,6 +119,40 @@
             app:format="%s"
             app:maxValue="255"
             app:minValue="85"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_control_center_media_control_panel_background_mix"
+        android:title="@string/system_ui_controlcenter_media_card_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="prefs_key_system_ui_control_center_remove_media_control_panel_background"
+            android:title="@string/system_ui_control_center_remove_media_control_panel_background" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="40"
+            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_blur_radius"
+            android:title="@string/system_ui_control_center_media_control_panel_background_mix_blur_radius"
+            app:defaultValueText="@string/array_default"
+            app:format="%d f"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="20"
+            android:dependency="prefs_key_system_ui_control_center_remove_media_control_panel_background"
+            android:key="prefs_key_system_ui_control_center_media_control_panel_background_mix_overlay"
+            android:title="@string/system_ui_control_center_media_control_panel_background_mix_overlay"
+            app:defaultValueText="@string/array_default"
+            app:format="%d"
+            app:maxValue="255"
+            app:minValue="0"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -233,8 +243,8 @@
         <DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_security_flash_light_switch"
-            android:title="@string/security_center_flash_light"
             android:summary="@string/security_center_flash_light_more"
+            android:title="@string/security_center_flash_light"
             app:entries="@array/security_center_flash_light"
             app:entryValues="@array/security_center_flash_light_value" />
 

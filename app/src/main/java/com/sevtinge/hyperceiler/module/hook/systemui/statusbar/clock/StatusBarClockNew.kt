@@ -187,7 +187,7 @@ object StatusBarClockNew : BaseHook() {
         val name = text.resources.getResourceEntryName(text.id) ?: return
 
         // 时钟加粗
-        if (clockBold && (name == "clock" || (name == "big_time" && !isBold))) {
+        if (clockBold && (name == "clock" || (name == "big_time" && isBold))) {
             text.typeface = Typeface.DEFAULT_BOLD
         }
 

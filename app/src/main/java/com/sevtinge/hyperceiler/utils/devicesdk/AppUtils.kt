@@ -18,21 +18,20 @@
 */
 package com.sevtinge.hyperceiler.utils.devicesdk
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.os.Build
-import android.text.TextUtils
+import android.annotation.*
+import android.content.*
+import android.content.pm.*
+import android.content.res.*
+import android.graphics.*
+import android.os.*
+import android.text.*
+import android.util.*
 import android.util.Log
-import android.util.TypedValue
-import com.github.kyuubiran.ezxhelper.EzXHelper
-import com.sevtinge.hyperceiler.utils.PropUtils
-import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.getSharedPrefs
-import moralnorm.internal.utils.DeviceHelper
-import java.util.Locale
+import com.github.kyuubiran.ezxhelper.*
+import com.sevtinge.hyperceiler.utils.*
+import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils.*
+import moralnorm.internal.utils.*
+import java.util.*
 
 fun dp2px(dpValue: Float): Int = TypedValue.applyDimension(
     TypedValue.COMPLEX_UNIT_DIP, dpValue, EzXHelper.appContext.resources.displayMetrics
@@ -47,6 +46,8 @@ fun getDensityDpi(): Int =
 
 fun isDarkMode(): Boolean =
     EzXHelper.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+fun colorFilter(colorInt: Int) = BlendModeColorFilter(colorInt, BlendMode.SRC_IN)
 
 fun getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
