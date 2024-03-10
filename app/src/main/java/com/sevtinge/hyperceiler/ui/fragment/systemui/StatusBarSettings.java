@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.ui.fragment.systemui;
 
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.view.View;
@@ -33,6 +34,8 @@ import moralnorm.preference.PreferenceCategory;
 
 public class StatusBarSettings extends SettingsPreferenceFragment {
 
+    Preference mOldClockStatus; // 旧时钟指示器
+    Preference mNewClockStatus; // 新时钟指示器
     Preference mDeviceStatus; // 硬件指示器
     Preference mToastStatus; // 灵动 Toast
     Preference mIconManagerOld;
@@ -54,17 +57,22 @@ public class StatusBarSettings extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        mOldClockStatus = findPreference("prefs_key_old_clock_status");
+        mNewClockStatus = findPreference("prefs_key_new_clock_status");
         mDeviceStatus = findPreference("prefs_key_system_ui_status_bar_device");
         mToastStatus = findPreference("prefs_key_system_ui_status_bar_toast");
         mIconManagerOld = findPreference("prefs_key_icon_manager_old");
         mIconManagerNew = findPreference("prefs_key_icon_manager_new");
         mStatusBarLayout = findPreference("pref_key_system_ui_statusbar_layout");
 
-        mDeviceStatus.setVisible(!isAndroidVersion(30) && !isHyperOSVersion(1f));
+        mDeviceStatus.setVisible(!isAndroidVersion(30) && (!isHyperOSVersion(1f) && !isMoreAndroidVersion(34)));
         mToastStatus.setVisible(isHyperOSVersion(1f));
 
         mIconManagerOld.setVisible(!isMoreHyperOSVersion(1f));
         mIconManagerNew.setVisible(isMoreHyperOSVersion(1f));
+
+        mOldClockStatus.setVisible(!isMoreHyperOSVersion(1f));
+        mNewClockStatus.setVisible(isMoreHyperOSVersion(1f));
 
         mStatusBarLayout.setVisible(!isMoreHyperOSVersion(1f));
     }

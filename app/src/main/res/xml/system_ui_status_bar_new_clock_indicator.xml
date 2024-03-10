@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_clock_all_status_enable"
+            android:title="@string/system_ui_statusbar_network_speed_all_status" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
+            android:key="prefs_key_system_ui_statusbar_clock_bold"
+            android:title="@string/system_ui_statusbar_indicator_bold" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_disable_clock_anim"
+            android:title="@string/system_ui_disable_clock_anim" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_clock_fix_color"
+            android:summary="@string/system_ui_statusbar_clock_fix_color_desc"
+            android:title="@string/system_ui_statusbar_clock_fix_color" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
+        android:title="@string/system_ui_statusbar_layout_title">
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.StatusBarClock"
+            android:title="@string/system_ui_statusbar_clock_layout_s" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.BigClock"
+            android:title="@string/system_ui_statusbar_clock_layout_b" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.clock.SmallClock"
+            android:summary="@string/system_ui_statusbar_clock_layout_n_desc"
+            android:title="@string/system_ui_statusbar_clock_layout_n" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
+        android:title="@string/system_ui_statusbar_clock_show">
+        <EditTextPreference
+            android:defaultValue="HH:mm:ss"
+            android:key="prefs_key_system_ui_statusbar_clock_editor_s"
+            android:title="@string/system_ui_statusbar_clock_editor_s" />
+
+        <EditTextPreference
+            android:defaultValue="M/d EEEE"
+            android:key="prefs_key_system_ui_statusbar_clock_editor_n"
+            android:title="@string/system_ui_statusbar_clock_editor_n" />
+
+        <Preference android:title="@string/system_ui_statusbar_clock_desc">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://zhuti.designer.xiaomi.com/docs/grammar/#时间日期" />
+        </Preference>
+
+        <DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_style"
+            android:title="@string/system_ui_statusbar_clock_style_f"
+            app:entries="@array/new_clock_style"
+            app:entryValues="@array/new_clock_style_value" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

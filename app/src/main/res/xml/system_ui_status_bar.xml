@@ -20,6 +20,12 @@
 
     <Preference
         android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings"
+        android:key="prefs_key_old_clock_status"
+        android:title="@string/system_ui_statusbar_clock_title" />
+
+    <Preference
+        android:fragment="com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings"
+        android:key="prefs_key_new_clock_status"
         android:title="@string/system_ui_statusbar_clock_title" />
 
     <Preference

@@ -155,13 +155,13 @@ public class SearchHelper {
             R.string.system_ui_statusbar_network_speed_indicator_title,
             "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings");
 
-        parsePrefXml(context, R.xml.system_ui_status_bar_clock_indicator,
+        parsePrefXml(context, !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_clock_indicator : R.xml.system_ui_status_bar_new_clock_indicator,
             R.string.system_ui,
             R.string.system_ui_statusbar_title,
             R.string.system_ui_statusbar_clock_title,
             R.string.system_ui_statusbar_clock_title,
             R.string.system_ui_statusbar_clock_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings");
+            !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings" : "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_hardware_detail_indicator,
             R.string.system_ui,

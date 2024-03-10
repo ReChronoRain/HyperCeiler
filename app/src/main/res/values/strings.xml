@@ -312,6 +312,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Values and units are displayed in two rows</string>
     <string name="system_ui_statusbar_network_speed_style_3">The uplink and downlink network speed is displayed in a single line</string>
     <string name="system_ui_statusbar_network_speed_style_4">Dual-row display of uplink and downlink network speeds</string>
+    <string name="system_ui_statusbar_clock_style_1">Single line status bar clock</string>
+    <string name="system_ui_statusbar_clock_style_2">Status bar clock\nNotification bar mini clock</string>
+    <string name="system_ui_statusbar_clock_style_3">Notification bar mini clock\nStatus bar clock</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -686,6 +689,14 @@
     <string name="system_ui_statusbar_clock_fix_color">Fix color</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">Experimental features</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
+    <string name="system_ui_statusbar_clock_show">Show</string>
+    <string name="system_ui_statusbar_clock_layout_s">Status Bar Clock</string>
+    <string name="system_ui_statusbar_clock_layout_b">Notification Bar Big Clock</string>
+    <string name="system_ui_statusbar_clock_layout_n">Notification Bar Mini Clock</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">This project also contains modifications to the horizontal notification bar clock</string>
+    <string name="system_ui_statusbar_clock_editor_s">Status bar clock format</string>
+    <string name="system_ui_statusbar_clock_editor_n">Notification bar mini clock format</string>
+    <string name="system_ui_statusbar_clock_style_f">Status bar clock arrangement</string>
     <string name="system_ui_statusbar_indicator_battery_title">Power related</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Temperature related</string>
     <string name="system_ui_statusbar_battery_size">Font size</string>

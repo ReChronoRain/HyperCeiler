@@ -30,7 +30,6 @@ import com.github.kyuubiran.ezxhelper.finders.ConstructorFinder.`-Static`.constr
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.*
-import com.sevtinge.hyperceiler.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import java.lang.reflect.*
 import java.text.*
@@ -132,25 +131,6 @@ object TimeCustomization : BaseHook() {
                             }
                         }
                     }
-
-                if (isMoreHyperOSVersion(1f)) {
-                    mNewClockClass.methodFinder()
-                        .filterByName("updateTime")
-                        .single().createHook {
-                            after {
-                                try {
-                                    val textV = it.thisObject as TextView
-                                    val t = Settings.System.getString(
-                                        c!!.contentResolver, Settings.System.TIME_12_24
-                                    )
-                                    val is24 = t == "24"
-                                    nowTime = Calendar.getInstance().time
-                                    textV.text = getDate(c!!) + str + getTime(c!!, is24)
-                                } catch (_: Exception) {
-                                }
-                            }
-                        }
-                }
             }
             // 极客模式
             2 -> {
@@ -203,21 +183,6 @@ object TimeCustomization : BaseHook() {
                             }
                         }
                     }
-
-                if (isMoreHyperOSVersion(1f)) {
-                    mNewClockClass.methodFinder()
-                        .filterByName("updateTime")
-                        .single().createHook {
-                            before {
-                                try {
-                                    val textV = it.thisObject as TextView
-                                    setClock(c, textV)
-                                    it.result = null
-                                } catch (_: Exception) {
-                                }
-                            }
-                        }
-                }
             }
         }
     }

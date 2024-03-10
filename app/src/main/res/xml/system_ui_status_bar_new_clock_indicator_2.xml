@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory>
+        <SeekBarPreferenceEx
+            android:defaultValue="20"
+            android:key="prefs_key_system_ui_statusbar_clock_size_2"
+            android:title="@string/system_ui_statusbar_clock_size"
+            app:defaultValueText="@string/array_default"
+            app:format="%d dp"
+            app:maxValue="60"
+            app:minValue="20"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_left_margin_2"
+            android:title="@string/left_margin"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="24"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_clock_right_margin_2"
+            android:title="@string/right_margin"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="24"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="12"
+            android:key="prefs_key_system_ui_statusbar_clock_vertical_offset_2"
+            android:title="@string/vertical_offset"
+            app:defaultValueText="@string/array_default"
+            app:displayDividerValue="2"
+            app:format="%s dp"
+            app:maxValue="24"
+            app:minValue="0"
+            app:negativeShift="12"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -541,7 +541,7 @@
     </string-array>
 
     <string-array name="system_ui_status_bar_clock_double_mode">
-        <item>@string/array_default</item>
+        <item>@string/array_align_left</item>
         <item>@string/array_align_center</item>
         <item>@string/array_align_right</item>
     </string-array>
@@ -843,6 +843,18 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+    </string-array>
+
+    <string-array name="new_clock_style">
+        <item>@string/system_ui_statusbar_clock_style_1</item>
+        <item>@string/system_ui_statusbar_clock_style_2</item>
+        <item>@string/system_ui_statusbar_clock_style_3</item>
+    </string-array>
+
+    <string-array name="new_clock_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="network_speed_font_style">

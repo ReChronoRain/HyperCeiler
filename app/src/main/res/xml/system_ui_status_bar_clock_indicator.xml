@@ -14,17 +14,6 @@
             app:entries="@array/system_ui_status_bar_clock_mode"
             app:entryValues="@array/system_ui_status_bar_clock_mode_value" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_disable_clock_anim"
-            android:title="@string/system_ui_disable_clock_anim" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_clock_fix_color"
-            android:title="@string/system_ui_statusbar_clock_fix_color"
-            android:summary="@string/system_ui_statusbar_clock_fix_color_desc"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_layout_title">
@@ -212,5 +201,4 @@
             app:stepValue="1" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>

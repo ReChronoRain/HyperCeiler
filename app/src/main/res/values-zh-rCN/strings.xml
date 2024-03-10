@@ -310,6 +310,10 @@
     <string name="system_ui_statusbar_network_speed_style_2">值和单位双排显示</string>
     <string name="system_ui_statusbar_network_speed_style_3">上下行网速单行显示</string>
     <string name="system_ui_statusbar_network_speed_style_4">上下行网速双排显示</string>
+
+    <string name="system_ui_statusbar_clock_style_1">单行状态栏时钟</string>
+    <string name="system_ui_statusbar_clock_style_2">状态栏时钟\n通知中心迷你时钟</string>
+    <string name="system_ui_statusbar_clock_style_3">通知中心迷你时钟\n状态栏时钟</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -699,6 +703,15 @@
     <string name="system_ui_disable_clock_anim">禁用通知中心下滑时钟过渡动画</string>
     <string name="system_ui_statusbar_clock_fix_color">修复时钟反色时颜色异常</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">实验性功能</string>
+
+    <string name="system_ui_statusbar_clock_show">显示</string>
+    <string name="system_ui_statusbar_clock_layout_s">状态栏时钟</string>
+    <string name="system_ui_statusbar_clock_layout_b">通知中心大时钟</string>
+    <string name="system_ui_statusbar_clock_layout_n">通知中心迷你时钟</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">此项目还包含对横屏通知中心时钟的修改</string>
+    <string name="system_ui_statusbar_clock_editor_s">状态栏时钟格式</string>
+    <string name="system_ui_statusbar_clock_editor_n">通知中心迷你时钟格式</string>
+    <string name="system_ui_statusbar_clock_style_f">状态栏时钟排列</string>
 
     <string name="system_ui_statusbar_indicator_battery_title">功耗相关</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度相关</string>

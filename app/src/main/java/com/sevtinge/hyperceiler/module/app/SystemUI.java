@@ -99,6 +99,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.SelectiveHideIcon
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.WifiStandard;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.DisableAnim;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.FixColor;
+import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.StatusBarClockNew;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeCustomization;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.clock.TimeStyle;
 import com.sevtinge.hyperceiler.module.hook.systemui.statusbar.device.DisplayHardwareDetail;
@@ -215,9 +216,15 @@ public class SystemUI extends BaseModule {
                 mPrefsMap.getInt("system_ui_statusbar_clock_right_margin", 0) != 0 ||
                 mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset", 12) != 12 ||
                 mPrefsMap.getBoolean("system_ui_statusbar_clock_bold");
-        initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim") && isMoreHyperOSVersion(1f));
-        initHook(TimeStyle.INSTANCE, isEnableTime);
-        initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
+
+        if (isMoreHyperOSVersion(1f)) {
+            initHook(StatusBarClockNew.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_clock_all_status_enable"));
+            initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim"));
+        } else {
+            initHook(TimeStyle.INSTANCE, isEnableTime);
+            initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
+        }
+        initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         // 硬件指示器
         initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
@@ -334,8 +341,6 @@ public class SystemUI extends BaseModule {
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
 
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
-
-        initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         initHook(new PluginHelper());
     }
