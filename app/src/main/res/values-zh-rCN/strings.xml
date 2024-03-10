@@ -701,10 +701,13 @@
     <string name="system_ui_statusbar_clock_double_size">双排时钟大小</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">仅在双排显示下生效</string>
     <string name="system_ui_disable_clock_anim">禁用通知中心下滑时钟过渡动画</string>
+    <string name="system_ui_disable_clock_synch">不同步状态栏时钟设置</string>
+    <string name="system_ui_disable_clock_synch_desc">通知中心大时钟不再同步状态栏时钟格式</string>
     <string name="system_ui_statusbar_clock_fix_color">修复时钟反色时颜色异常</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">实验性功能</string>
 
     <string name="system_ui_statusbar_clock_show">显示</string>
+    <string name="system_ui_statusbar_clock_big_bold">通知中心大时钟加粗</string>
     <string name="system_ui_statusbar_clock_layout_s">状态栏时钟</string>
     <string name="system_ui_statusbar_clock_layout_b">通知中心大时钟</string>
     <string name="system_ui_statusbar_clock_layout_n">通知中心迷你时钟</string>

@@ -689,7 +689,10 @@
     <string name="system_ui_statusbar_clock_fix_color">Fix color</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">Experimental features</string>
     <string name="system_ui_disable_clock_anim">Disable the slide clock transition animation in Notification Center</string>
+    <string name="system_ui_disable_clock_synch">Status bar clock settings not synchronized</string>
+    <string name="system_ui_disable_clock_synch_desc">The big notification bar clock is no longer synchronized with the status bar clock format</string>
     <string name="system_ui_statusbar_clock_show">Show</string>
+    <string name="system_ui_statusbar_clock_big_bold">Notification bar big clock bold</string>
     <string name="system_ui_statusbar_clock_layout_s">Status Bar Clock</string>
     <string name="system_ui_statusbar_clock_layout_b">Notification Bar Big Clock</string>
     <string name="system_ui_statusbar_clock_layout_n">Notification Bar Mini Clock</string>

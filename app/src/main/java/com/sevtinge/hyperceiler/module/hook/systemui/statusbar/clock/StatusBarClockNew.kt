@@ -43,6 +43,12 @@ object StatusBarClockNew : BaseHook() {
     private val clockBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
     }
+    private val isBold by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_clock_big_bold")
+    }
+    private val isSync by lazy {
+        mPrefsMap.getBoolean("system_ui_disable_clock_synch")
+    }
     private val clockSizeS by lazy {
         mPrefsMap.getInt("system_ui_statusbar_clock_size_1", 5)
     }
@@ -91,7 +97,7 @@ object StatusBarClockNew : BaseHook() {
 
     // 时钟格式
     private val getFormatS = mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm:ss")
-    private val getFormatN = mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "M/d EEEE")
+    private val getFormatN = mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "")
     private val getClockStyle by lazy {
         mPrefsMap.getStringAsInt("system_ui_statusbar_clock_style", 0)
     }
@@ -109,14 +115,16 @@ object StatusBarClockNew : BaseHook() {
 
                     setMiuiClockStyle(miuiClock)
 
-                    val isSec = miuiClockName in setOf("clock", "big_time", "horizontal_time", "date_time")
+                    val isSec =
+                        miuiClockName in setOf("clock", "big_time", "horizontal_time", "date_time")
                     // miuiClockName 内部标签分类如下
                     // clock 竖屏状态栏时钟
                     // big_time 通知中心时钟
-                    // horizontal_time 横屏状态栏时钟
+                    // horizontal_time 横屏通知中心时钟
                     // date_time 通知中心日期时钟
 
-                    if (getClockStyle != 0 && miuiClockName == "clock") miuiClock.isSingleLine = false
+                    if (getClockStyle != 0 && miuiClockName == "clock")
+                        miuiClock.isSingleLine = false
 
                     if (isSec) {
                         val d: Method = miuiClock.javaClass.getDeclaredMethod("updateTime")
@@ -146,8 +154,10 @@ object StatusBarClockNew : BaseHook() {
                         val textV = it.thisObject as TextView
                         val miuiClockName = textV.resources.getResourceEntryName(textV.id)
                         if (miuiClockName in setOf("clock", "big_time", "horizontal_time", "date_time")) {
-                            setMiuiClockFormat(clockContext, textV)
                             setMiuiClockStyle(textV)
+
+                            if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName in setOf("date_time", "horizontal_time"))) return@before
+                            setMiuiClockFormat(clockContext, textV)
                             it.result = null
                         }
                     } catch (_: Exception) {
@@ -161,8 +171,11 @@ object StatusBarClockNew : BaseHook() {
                 before {
                     try {
                         val textV = it.thisObject as TextView
-                        setMiuiClockFormat(clockContext, textV)
+                        val miuiClockName = textV.resources.getResourceEntryName(textV.id)
                         setMiuiClockStyle(textV)
+
+                        if ((isSync && miuiClockName == "big_time") || (getFormatN.isEmpty() && miuiClockName in setOf("date_time", "horizontal_time"))) return@before
+                        setMiuiClockFormat(clockContext, textV)
                         it.result = null
                     } catch (_: Exception) {
                     }
@@ -174,7 +187,7 @@ object StatusBarClockNew : BaseHook() {
         val name = text.resources.getResourceEntryName(text.id) ?: return
 
         // 时钟加粗
-        if (clockBold && name == "clock") {
+        if (clockBold && (name == "clock" || (name == "big_time" && !isBold))) {
             text.typeface = Typeface.DEFAULT_BOLD
         }
 
@@ -183,15 +196,16 @@ object StatusBarClockNew : BaseHook() {
             clockSizeS != 5 && name == "clock" -> {
                 text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeS.toFloat())
             }
+
             clockSizeB != 20 && name == "big_time" -> {
                 text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeB.toFloat())
             }
+
             clockSizeN != 9 && name in setOf("date_time", "horizontal_time") -> {
                 text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeN.toFloat())
             }
         }
 
-        // 状态栏时钟双排对齐
         if (getClockStyle != 0 && name == "clock") {
             // 状态栏时钟双排对齐
             text.textAlignment = when (clockAlign) {
@@ -219,7 +233,12 @@ object StatusBarClockNew : BaseHook() {
         }
     }
 
-    private fun setClockMargin(id: TextView, leftMargin: Int, rightMargin: Int, verticalOffset: Int) {
+    private fun setClockMargin(
+        id: TextView,
+        leftMargin: Int,
+        rightMargin: Int,
+        verticalOffset: Int
+    ) {
         val left = dp2px(leftMargin.toFloat())
         val right = dp2px(rightMargin.toFloat())
         var topMargin = 0
@@ -255,18 +274,22 @@ object StatusBarClockNew : BaseHook() {
                 mCalendar?.callMethod("format", context, textSb, formatSb)
                 textV.text = textSb.toString()
             }
+
             "big_time" -> {
                 val textSb = StringBuilder()
                 val formatSb = StringBuilder(getFormatS.split("\n")[0])
                 mCalendar?.callMethod("format", context, textSb, formatSb)
                 textV.text = textSb.toString()
             }
+
             "horizontal_time" -> {
                 val textSb = StringBuilder()
-                val formatSb = StringBuilder("${getFormatN.split("\n")[0]} ${getFormatS.split("\n")[0]}")
+                val formatSb =
+                    StringBuilder("${getFormatN.split("\n")[0]} ${getFormatS.split("\n")[0]}")
                 mCalendar?.callMethod("format", context, textSb, formatSb)
                 textV.text = textSb.toString()
             }
+
             else -> {
                 val textSb = StringBuilder()
                 val formatSb = StringBuilder(getFormatN.split("\n")[0])
