@@ -19,53 +19,65 @@
 
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/navigation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        android:checkedButton="@id/navigation_home"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/navigation_home"
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/navigation_divider" />
+
+        <RadioGroup
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/ic_navigation_home"
-            android:drawablePadding="2dp"
+            android:background="?android:attr/windowBackground"
+            android:checkedButton="@id/navigation_home"
             android:gravity="center"
-            android:text="@string/home"
-            android:textSize="12sp" />
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/navigation_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/ic_navigation_settings"
-            android:drawablePadding="2dp"
-            android:gravity="center"
-            android:text="@string/settings"
-            android:textSize="12sp" />
+            <RadioButton
+                android:id="@+id/navigation_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/ic_navigation_home"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:text="@string/home"
+                android:textSize="12sp" />
 
-        <RadioButton
-            android:id="@+id/navigation_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/ic_navigation_about"
-            android:drawablePadding="2dp"
-            android:gravity="center"
-            android:text="@string/about"
-            android:textSize="12sp" />
+            <RadioButton
+                android:id="@+id/navigation_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/ic_navigation_settings"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textSize="12sp" />
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/navigation_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/ic_navigation_about"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:text="@string/about"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_result_view"
