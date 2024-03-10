@@ -192,19 +192,7 @@ object StatusBarClockNew : BaseHook() {
         }
 
         // 时钟大小
-        when {
-            clockSizeS != 5 && name == "clock" -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeS.toFloat())
-            }
-
-            clockSizeB != 20 && name == "big_time" -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeB.toFloat())
-            }
-
-            clockSizeN != 9 && name in setOf("date_time", "horizontal_time") -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeN.toFloat())
-            }
-        }
+        setStatusBarClock(name, text)
 
         if (getClockStyle != 0 && name == "clock") {
             // 状态栏时钟双排对齐
@@ -230,6 +218,22 @@ object StatusBarClockNew : BaseHook() {
             setClockMargin(text, bClockLeftMargin, bClockRightMargin, bClockVerticalOffset)
         } else {
             setClockMargin(text, nClockLeftMargin, nClockRightMargin, nClockVerticalOffset)
+        }
+    }
+
+    private fun setStatusBarClock(name: String, text: TextView) {
+        when {
+            clockSizeS != 5 && name == "clock" -> {
+                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeS.toFloat())
+            }
+
+            clockSizeB != 20 && name == "big_time" -> {
+                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeB.toFloat())
+            }
+
+            clockSizeN != 9 && name in setOf("date_time", "horizontal_time") -> {
+                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeN.toFloat())
+            }
         }
     }
 
