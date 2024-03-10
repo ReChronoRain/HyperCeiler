@@ -1,34 +1,32 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.ui.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
+import static miui.util.TypefaceUtils.getContext;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -118,9 +116,11 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         addPaddingForRadioButton(mAboutNav);
 
         int i;
-        if (isDarkMode(this)) i = 160; else i = 200;
+        if (isDarkMode(this)) i = 160;
+        else i = 200;
         int a;
-        if (isDarkMode(this)) a = 100; else a = 140;
+        if (isDarkMode(this)) a = 100;
+        else a = 140;
         MiBlurUtils.setContainerPassBlur(mNavigationView, i);
         MiBlurUtils.setMiViewBlurMode(mNavigationView, 3);
         MiBlurUtils.clearMiBackgroundBlendColor(mNavigationView);
@@ -167,10 +167,14 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
                 int dpi = displayMetrics.densityDpi;*/
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(0, 40, 0, inset.bottom + 60);
+                v.setPadding(0, dpToPx(10, getContext()), 0, inset.bottom + dpToPx(18,getContext()));
                 return insets;
             }
         });
+    }
+
+    private static int dpToPx(int dp, Context context) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 
     private void changeSelect(int position) {
@@ -197,28 +201,29 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         Bundle args = new Bundle();
         args.putString(":settings:fragment_args_key", ad.key);
         SettingLauncherHelper.onStartSettingsForArguments(
-            this,
-            SubSettings.class,
-            ad.fragment,
-            args,
-            ad.catTitleResId
+                this,
+                SubSettings.class,
+                ad.fragment,
+                args,
+                ad.catTitleResId
         );
     }
 
     private SearchActionMode startSearchMode() {
         return SearchModeHelper.startSearchMode(
-            this,
-            mSearchResultView,
-            mFragmentPage,
-            mSearchView,
-            findViewById(android.R.id.list_container),
-            mSearchResultListener
+                this,
+                mSearchResultView,
+                mFragmentPage,
+                mSearchView,
+                findViewById(android.R.id.list_container),
+                mSearchResultListener
         );
     }
 
     TextWatcher mSearchResultListener = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
