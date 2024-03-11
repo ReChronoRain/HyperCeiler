@@ -346,13 +346,6 @@
             android:title="@string/mtb" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
-            android:fragment="com.sevtinge.hyperceiler.ui.fragment.NetworkBoostFragment"
-            android:icon="@drawable/ic_default_icon"
-            android:key="prefs_key_networkboost"
-            android:summary="com.xiaomi.networkboost"
-            android:title="@string/networkboost" />
-
-        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.ScannerFragment"
             android:icon="@drawable/ic_scanner"
             android:key="prefs_key_scanner"
