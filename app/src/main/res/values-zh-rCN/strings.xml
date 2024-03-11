@@ -408,6 +408,7 @@
     <string name="system_framework_allow_manage_all_notifications">允许管理所有通知</string>
     <string name="system_framework_quick_screenshot">秒截图</string>
     <string name="system_framework_quick_screenshot_desc">禁用截图延迟</string>
+    <string name="system_framework_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_title">包管理服务</string>
     <string name="system_framework_core_patch_downgr">允许降级安装应用</string>
@@ -1288,9 +1289,6 @@
     <string name="miui_package_installer_apk_info_desc">显示安装中应用的更多相关信息</string>
     <string name="miui_package_installer_upload_appinfo">禁止安装时上传应用信息</string>
     <string name="miui_package_installer_upload_appinfo_desc">禁止后将无法进行病毒扫描</string>
-    <!--networkboost-->
-    <string name="various_disable_link_turbo_toast">隐藏正在使用流量加速 Toast</string>
-    <string name="various_disable_link_turbo_toast_more">开关后请在快速重启作用域中重启 NetworkBoost</string>
     <!--nfc-->
     <string name="nfc">NFC 服务</string>
     <string name="nfc_disable_sound">禁用 NFC 提示音</string>

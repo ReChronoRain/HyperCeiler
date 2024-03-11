@@ -364,6 +364,7 @@
     <string name="system_framework_allow_manage_all_notifications">Izinkan untuk mengelola semua notifikasi</string>
     <string name="system_framework_quick_screenshot">Tangkapan layar cepat</string>
     <string name="system_framework_quick_screenshot_desc">Nonaktifkan penundaan tangkapan layar</string>
+    <string name="system_framework_disable_link_turbo_toast">Sembunyikan LinkTurbo Toast</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Layanan Manajer Paket</string>
     <string name="system_framework_core_patch_downgr">Izinkan penurunan versi</string>
@@ -1195,9 +1196,6 @@
     <string name="miui_package_installer_install_source">Sumber pemasangan khusus</string>
     <string name="miui_package_installer_apk_info">Tampilkan lebih banyak informasi paket</string>
     <string name="miui_package_installer_apk_info_desc">Tampilkan info lebih lanjut tentang aplikasi yang sedang diinstal</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Sembunyikan LinkTurbo Toast</string>
-    <string name="various_disable_link_turbo_toast_more">Silakan mulai ulang NetworkBoost dalam cakupan mulai ulang cepat</string>
     <!--NFC-->
     <string name="nfc">Layanan NFC</string>
     <string name="nfc_disable_sound">Nonaktifkan suara notifikasi NFC</string>

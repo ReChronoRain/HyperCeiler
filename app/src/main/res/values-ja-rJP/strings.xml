@@ -364,6 +364,7 @@
     <string name="system_framework_allow_manage_all_notifications">すべての通知の管理を許可</string>
     <string name="system_framework_quick_screenshot">クイックスクリーンショット</string>
     <string name="system_framework_quick_screenshot_desc">スクリーンショットの遅延を無効化</string>
+    <string name="system_framework_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">ダウングレードを許可</string>
@@ -1193,9 +1194,6 @@
     <string name="miui_package_installer_install_source">カスタムインストールソース</string>
     <string name="miui_package_installer_apk_info">パッケージ詳細情報の表示</string>
     <string name="miui_package_installer_apk_info_desc">インストール中のアプリの詳細情報を表示する</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">LinkTurbo トーストを隠す</string>
-    <string name="various_disable_link_turbo_toast_more">高速再起動スコープで NetworkBoost を再起動してください</string>
     <!--NFC-->
     <string name="nfc">NFC サービス</string>
     <string name="nfc_disable_sound">NFC 通知音を無効化</string>

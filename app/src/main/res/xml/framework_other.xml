@@ -45,12 +45,15 @@
             android:key="prefs_key_various_disable_access_device_logs"
             android:title="@string/various_disable_access_device_logs" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_link_turbo_toast"
+            android:title="@string/system_framework_disable_link_turbo_toast" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_allow_manage_all_notifications"
             android:title="@string/system_framework_allow_manage_all_notifications" />
-
 
         <SwitchPreference
             android:defaultValue="false"
@@ -166,5 +169,4 @@
             android:title="@string/system_framework_clean_open_apps" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>

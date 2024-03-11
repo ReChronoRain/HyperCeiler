@@ -365,6 +365,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_allow_manage_all_notifications">Cho phép quản lý tất cả thông báo</string>
     <string name="system_framework_quick_screenshot">Chụp ảnh màn hình nhanh</string>
     <string name="system_framework_quick_screenshot_desc">Tắt độ trễ ảnh chụp màn hình</string>
+    <string name="system_framework_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
@@ -1201,9 +1202,6 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="miui_package_installer_install_source">Tùy chỉnh nguồn cài đặt</string>
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
     <string name="miui_package_installer_apk_info_desc">Hiện thông tin về ứng dụng được cài đặt</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Ẩn thông báo \"Sử dụng mạng di động để tăng tốc\"</string>
-    <string name="various_disable_link_turbo_toast_more">Vui lòng khởi động lại Tăng tốc mạng trong khởi động lại nhanh</string>
     <!--NFC-->
     <string name="nfc">Dịch vụ NFC</string>
     <string name="nfc_disable_sound">Tắt tiếng</string>

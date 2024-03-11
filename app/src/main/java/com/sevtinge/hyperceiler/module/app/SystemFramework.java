@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeFormCount;
 import com.sevtinge.hyperceiler.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.module.hook.systemframework.HookEntry;
+import com.sevtinge.hyperceiler.module.hook.systemframework.LinkTurboToast;
 import com.sevtinge.hyperceiler.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.module.hook.systemframework.QuickScreenshot;
@@ -161,6 +162,7 @@ public class SystemFramework extends BaseModule {
         initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
         initHook(new DisableVerifyCanBeDisabled(), mPrefsMap.getBoolean("system_framework_disable_verify_can_ve_disabled"));
         initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
+        initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
 
         initHook(new DisableLowApiCheckForU(), mPrefsMap.getBoolean("system_framework_disable_low_api_check") && isMoreAndroidVersion(34));
     }

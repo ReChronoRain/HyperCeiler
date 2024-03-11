@@ -49,6 +49,7 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 | 电量与性能                 | com.miui.powerkeeper               |
 | 短信                    | com.android.mms                    |
 | 截屏                    | com.miui.screenshot                |
+| 日历                    | com.android.calendar               |
 | 浏览器                   | com.android.browser                |
 | 鲁班（MTB）               | com.xiaomi.mtb                     |
 | 屏幕录制                  | com.miui.screenrecorder            |
@@ -80,7 +81,6 @@ HyperCeiler 已停止维护 Android 11-12 的 MIUI ROM，除系统框架、系�
 | 小爱翻译                  | com.xiaomi.aiasst.vision           |
 | 小爱视觉                  | com.xiaomi.scanner                 |
 | 小爱同学                  | com.miui.voiceassist               |
-| NetworkBoost          | com.xiaomi.NetworkBoost            |
 | NFC 服务                | com.android.nfc                    |
 | 音质音效                  | com.miui.misound                   |
 | 备份                    | com.miui.backup                    |

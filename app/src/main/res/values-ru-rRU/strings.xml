@@ -354,6 +354,7 @@
     <string name="system_framework_allow_manage_all_notifications">Разрешить управление всеми уведомлениями</string>
     <string name="system_framework_quick_screenshot">Быстрый скриншот</string>
     <string name="system_framework_quick_screenshot_desc">Отключить задержку скриншота</string>
+    <string name="system_framework_disable_link_turbo_toast">Скрыть LinkTurbo Toast</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Патч ядра</string>
     <string name="system_framework_core_patch_downgr">Разрешить понижение версии</string>
@@ -1129,9 +1130,6 @@
     <string name="miui_package_installer_install_source">Свой источник установки</string>
     <string name="miui_package_installer_apk_info">Показать дополнительную информацию о пакете</string>
     <string name="miui_package_installer_apk_info_desc">Показать доп.информацию об устанавливаемом приложении</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Скрыть LinkTurbo Toast</string>
-    <string name="various_disable_link_turbo_toast_more">Пожалуйста, перезапустите NetworkBoost для быстрого перезапуска области</string>
     <!--NFC-->
     <string name="nfc">Служба NFC</string>
     <string name="nfc_disable_sound">Отключить звук уведомлений NFC</string>

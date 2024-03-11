@@ -49,6 +49,7 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Battery and performance    | com.miui.powerkeeper               |
 | Messaging                  | com.android.mms                    |
 | Screenshot                 | com.miui.screenshot                |
+| Calendar                    | com.android.calendar               |
 | Browser                    | com.android.browser                |
 | Rueban (MTB)               | com.xiaomi.mtb                     |
 | Screen Recorder            | com.miui.screenrecorder            |
@@ -80,7 +81,6 @@ HyperCeiler has stopped maintaining the MIUI ROM of Android 11-12, except for th
 | Mi AI Translate            | com.xiaomi.aiasst.vision           |
 | Scanner                    | com.xiaomi.scanner                 |
 | Mi AI                      | com.miui.voiceassist               |
-| NetworkBoost               | com.xiaomi.NetworkBoost            |
 | NFC Service                | com.android.nfc                    |
 | Earphones                  | com.miui.misound                   |
 | Backup                     | com.miui.backup                    |

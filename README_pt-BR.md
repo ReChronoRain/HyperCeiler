@@ -49,6 +49,7 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Bateria e desempenho                           | com.miui.powerkeeper               |
 | Mensagens                                      | com.android.mms                    |
 | Captura de tela                                | com.miui.screenshot                |
+| Calendário                                     | com.android.calendar               |
 | Navegador                                      | com.android.browser                |
 | Rueban (MTB)                                   | com.xiaomi.mtb                     |
 | Gravador de Tela                               | com.miui.screenrecorder            |
@@ -80,7 +81,6 @@ O HyperCeiler deixou de ser mantido em ROM MIUI para o Android 11-12, exceto par
 | Mi AI Translate                                | com.xiaomi.aiasst.vision           |
 | Scanner                                        | com.xiaomi.scanner                 |
 | Mi AI                                          | com.miui.voiceassist               |
-| NetworkBoost                                   | com.xiaomi.NetworkBoost            |
 | Serviço NFC                                    | com.android.nfc                    |
 | Fones de ouvido                                | com.miui.misound                   |
 | Backup                                         | com.miui.backup                    |

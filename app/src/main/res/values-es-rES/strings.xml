@@ -359,6 +359,7 @@
     <string name="system_framework_allow_manage_all_notifications">Se permite administrar todas las notificaciones</string>
     <string name="system_framework_quick_screenshot">Captura de pantalla rápida</string>
     <string name="system_framework_quick_screenshot_desc">Quitar el retraso de captura de pantalla</string>
+    <string name="system_framework_disable_link_turbo_toast">Se oculta el Toast de que se está utilizando la red móvil para aceleración</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Servicio del administrador de paquetes</string>
     <string name="system_framework_core_patch_downgr">Permitir volver a la versión anterior</string>
@@ -1177,9 +1178,6 @@
     <string name="miui_package_installer_install_source">Personalizar origen de instalación</string>
     <string name="miui_package_installer_apk_info">Se muestra más información sobre el paquete</string>
     <string name="miui_package_installer_apk_info_desc">Se muestra más información sobre la aplicación que se está instalando</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Se oculta el Toast de que se está utilizando la red móvil para aceleración</string>
-    <string name="various_disable_link_turbo_toast_more">Reinicie NetworkBoost en el ámbito de reinicio rápido</string>
     <!--NFC-->
     <string name="nfc">Servicio de NFC</string>
     <string name="nfc_disable_sound">Desactivar el sonido de notificación de NFC</string>

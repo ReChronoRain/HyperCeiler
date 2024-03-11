@@ -16,14 +16,20 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.app;
+package com.sevtinge.hyperceiler.module.hook.systemframework;
 
-import com.sevtinge.hyperceiler.module.base.BaseModule;
-import com.sevtinge.hyperceiler.module.hook.networkboost.LinkTurboToast;
+import com.sevtinge.hyperceiler.module.base.BaseHook;
 
-public class NetworkBoost extends BaseModule {
+public class LinkTurboToast extends BaseHook {
     @Override
-    public void handleLoadPackage() {
-        initHook(new LinkTurboToast(), mPrefsMap.getBoolean("various_disable_link_turbo_toast"));
+    public void init() {
+        findAndHookMethod("com.xiaomi.NetworkBoost.slaservice.SLAToast",
+            "setLinkTurboStatus", boolean.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    param.args[0] = false;
+                }
+            }
+        );
     }
 }

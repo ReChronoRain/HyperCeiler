@@ -364,6 +364,7 @@
     <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
     <string name="system_framework_quick_screenshot">Captura de tela rápida</string>
     <string name="system_framework_quick_screenshot_desc">Desative o atraso na captura de tela</string>
+    <string name="system_framework_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -1197,9 +1198,6 @@
     <string name="miui_package_installer_apk_info_desc">Exibe mais informações sobre o app que está sendo instalado</string>
     <string name="miui_package_installer_upload_appinfo">Impedir o upload de informações do app</string>
     <string name="miui_package_installer_upload_appinfo_desc">A verificação de segurança não será possível se estiver desativada</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
-    <string name="various_disable_link_turbo_toast_more">Por favor, reinicie o NetworkBoost no escopo de reinicialização rápida.</string>
     <!--NFC-->
     <string name="nfc">Serviço NFC</string>
     <string name="nfc_disable_sound">Desativar som de notificação do NFC</string>

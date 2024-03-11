@@ -60,7 +60,6 @@ import com.sevtinge.hyperceiler.module.app.MiWallpaper;
 import com.sevtinge.hyperceiler.module.app.Mms;
 import com.sevtinge.hyperceiler.module.app.Mtb;
 import com.sevtinge.hyperceiler.module.app.Music;
-import com.sevtinge.hyperceiler.module.app.NetworkBoost;
 import com.sevtinge.hyperceiler.module.app.Nfc;
 import com.sevtinge.hyperceiler.module.app.Notes;
 import com.sevtinge.hyperceiler.module.app.PackageInstaller;
@@ -154,7 +153,6 @@ public abstract class BaseXposedInit {
     public final Aod mAod = new Aod();
     public final Barrage mBarrage = new Barrage();
     public final Notes mNotes = new Notes();
-    public final NetworkBoost networkBoost = new NetworkBoost();
     public final Creation mCreation = new Creation();
     // public final Demo mDemo = new Demo();
     public final Nfc mNfc = new Nfc();
@@ -252,10 +250,6 @@ public abstract class BaseXposedInit {
                 mBrowser.init(lpparam);
                 mVariousSystemApps.init(lpparam);
             }
-            /*case "com.sohu.inputmethod.sogou.xiaomi", "com.sohu.inputmethod.sogou" -> {
-                mSoGou.init(lpparam);
-                mVarious.init(lpparam);
-            }*/
             case "com.android.nfc" -> {
                 mNfc.init(lpparam);
                 mVariousSystemApps.init(lpparam);
@@ -405,7 +399,6 @@ public abstract class BaseXposedInit {
             // case "com.hchen.demo" -> {
             //     mDemo.init(lpparam);
             // }
-            case "com.xiaomi.NetworkBoost" -> networkBoost.init(lpparam);
             case ProjectApi.mAppModulePkg -> ModuleActiveHook(lpparam);
             default -> mVariousThirdApps.init(lpparam);
         }

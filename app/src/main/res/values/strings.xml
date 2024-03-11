@@ -405,6 +405,7 @@
     <string name="system_framework_allow_manage_all_notifications">Allow to manage all notifications</string>
     <string name="system_framework_quick_screenshot">Quick screenshot</string>
     <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
+    <string name="system_framework_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Package Manager Service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade</string>
@@ -1257,9 +1258,6 @@
     <string name="miui_package_installer_apk_info_desc">Show more info about the app that\'s being installed</string>
     <string name="miui_package_installer_upload_appinfo">Disallow uploading app info</string>
     <string name="miui_package_installer_upload_appinfo_desc">Security check will not be possible if disabled</string>
-    <!--Networkboost-->
-    <string name="various_disable_link_turbo_toast">Hide LinkTurbo Toast</string>
-    <string name="various_disable_link_turbo_toast_more">Please restart NetworkBoost in the fast restart scope</string>
     <!--NFC-->
     <string name="nfc">NFC Service</string>
     <string name="nfc_disable_sound">Disable NFC notification sound</string>
