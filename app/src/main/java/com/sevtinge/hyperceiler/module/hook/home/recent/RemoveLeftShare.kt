@@ -16,26 +16,21 @@
 
   * Copyright (C) 2023-2024 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.module.hook.home.other
+package com.sevtinge.hyperceiler.module.hook.home.recent
 
+import android.view.*
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
-import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
 
-object AlwaysShowStatusClock : BaseHook() {
-    private val mWorkspaceClass by lazy {
-        loadClass("com.miui.home.launcher.Workspace")
-    }
-
+object RemoveLeftShare : BaseHook() {
     override fun init() {
-        val methodNames =
-            setOf("isScreenHasClockGadget", "isScreenHasClockWidget", "isClockWidget")
-
-        mWorkspaceClass.methodFinder().filter {
-            name in methodNames
-        }.toList().createHooks {
-            returnConstant(false)
-        }
+        loadClass("com.miui.home.recents.views.RecentsWorldCirculateAndSmallWindowCrop").methodFinder()
+            .filterByName("initViewDisplayInDrag")
+            .first().hookAfterMethod {
+                val mWorldcirculateContent = it.thisObject.getObjectField("mWorldcirculateContent") as ViewGroup
+                mWorldcirculateContent.visibility = ViewGroup.GONE
+            }
     }
 }

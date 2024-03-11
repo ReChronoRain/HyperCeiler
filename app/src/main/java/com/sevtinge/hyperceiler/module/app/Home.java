@@ -102,6 +102,7 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.RecentResource;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RecentText;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RemoveCardAnim;
 import com.sevtinge.hyperceiler.module.hook.home.recent.RemoveIcon;
+import com.sevtinge.hyperceiler.module.hook.home.recent.RemoveLeftShare;
 import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.module.hook.home.recent.UnlockPin;
@@ -208,6 +209,7 @@ public class Home extends BaseModule {
         initHook(UnlockPin.INSTANCE, mPrefsMap.getBoolean("home_recent_unlock_pin"));
         initHook(RecentText.INSTANCE, !Objects.equals(mPrefsMap.getString("home_recent_text", ""), ""));
         initHook(RemoveIcon.INSTANCE, mPrefsMap.getBoolean("home_recent_remove_icon"));
+        initHook(RemoveLeftShare.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_world_circulate"));
         initHook(RecentResource.INSTANCE, mPrefsMap.getInt("task_view_corners", 20) != 20 ||
             mPrefsMap.getInt("task_view_header_height", 40) != 40);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));

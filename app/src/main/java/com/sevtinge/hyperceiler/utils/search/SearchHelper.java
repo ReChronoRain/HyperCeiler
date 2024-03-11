@@ -431,9 +431,9 @@ public class SearchHelper {
                             locationId = getModId(xml.getAttributeValue(LOCATION, "myLocation"));
                         }
                         if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
-                            String internalHyper = internalName == null ? locationHyper : internalName.toString() + "/" + locationHyper;
-                            String internalPad = internalName == null ? locationPad : internalName.toString() + "/" + locationPad;
-                            String internalMiui = internalName == null ? location : internalName.toString() + "/" + location;
+                            String internalHyper = internalName == null ? locationHyper : internalName + "/" + locationHyper;
+                            String internalPad = internalName == null ? locationPad : internalName + "/" + locationPad;
+                            String internalMiui = internalName == null ? location : internalName + "/" + location;
                             if (locationHyper == null || location == null || (isPad && locationPad == null)) {
                                 if (location != null) {
                                     modData.breadcrumbs = internalMiui;

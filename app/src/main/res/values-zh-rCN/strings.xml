@@ -1161,6 +1161,7 @@
     <string name="home_recent_disable_wallpaper_dimming">取消壁纸压暗</string>
     <string name="home_recent_unlock_pin">解锁固定应用</string>
     <string name="home_recent_hide_status_bar_in_task_view">隐藏状态栏</string>
+    <string name="home_recent_hide_world_circulate">隐藏投送应用浮窗</string>
     <string name="home_recent_hide_freeform">隐藏小窗按钮</string>
     <string name="home_recent_hide_clean_up">隐藏清理按钮</string>
     <string name="home_recent_remove_icon">隐藏图标</string>
