@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:location="http://schemas.android.com/apk/location"
+    location:myLocation="@string/security_center"
+    location:myLocationHyper="@string/security_center_hyperos"
+    location:myLocationPad="@string/security_center_pad">
     <PreferenceCategory android:title="@string/security_center_app_title">
         <DropDownPreference
             android:defaultValue="0"
