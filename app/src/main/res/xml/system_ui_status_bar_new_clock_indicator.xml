@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:location="http://schemas.android.com/apk/location"
-    location:myLocation="@string/system_ui_statusbar_clock_location">
+    location:myLocation="@string/system_ui_statusbar_clock_title">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
