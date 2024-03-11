@@ -399,6 +399,7 @@ public class SearchHelper {
             int locationId = 0;
             int locationHyperId = 0;
             int locationPadId = 0;
+            boolean isPad = isPad();
             StringBuilder internalName = null;
             int eventType = xml.getEventType();
             if (internalId.length != 0) {
@@ -433,7 +434,7 @@ public class SearchHelper {
                             String internalHyper = internalName == null ? locationHyper : internalName.toString() + "/" + locationHyper;
                             String internalPad = internalName == null ? locationPad : internalName.toString() + "/" + locationPad;
                             String internalMiui = internalName == null ? location : internalName.toString() + "/" + location;
-                            if (locationHyper == null || location == null || locationPad == null) {
+                            if (locationHyper == null || location == null || (isPad && locationPad == null)) {
                                 if (location != null) {
                                     modData.breadcrumbs = internalMiui;
                                     modData.catTitleResId = locationId;
