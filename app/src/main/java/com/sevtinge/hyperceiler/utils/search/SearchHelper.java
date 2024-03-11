@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.utils.search;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
@@ -43,9 +43,9 @@ public class SearchHelper {
     public static ArrayList<ModData> allModsList = new ArrayList<>();
 
     public static final HashSet<String> NEW_MODS = new HashSet<>(
-        Set.of(
-            "pref_key_launcher_nozoomanim"
-        )
+            Set.of(
+                    "pref_key_launcher_nozoomanim"
+            )
     );
 
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
@@ -59,643 +59,677 @@ public class SearchHelper {
         }
         // 系统框架页面相关
         parsePrefXml(context, R.xml.framework_freeform,
-            R.string.system_framework,
-            R.string.floating_window,
-            R.string.floating_window,
-            R.string.floating_window,
-            R.string.floating_window,
-            "com.sevtinge.hyperceiler.ui.fragment.framework.FreeFormSettings");
+                R.string.system_framework,
+                R.string.floating_window,
+                R.string.floating_window,
+                R.string.floating_window,
+                R.string.floating_window,
+                "com.sevtinge.hyperceiler.ui.fragment.framework.FreeFormSettings");
 
         parsePrefXml(context, R.xml.framework_volume,
-            R.string.system_framework,
-            R.string.system_framework_volume_title,
-            R.string.system_framework_volume_title,
-            R.string.system_framework_volume_title,
-            R.string.system_framework_volume_title,
-            "com.sevtinge.hyperceiler.ui.fragment.framework.VolumeSettings");
+                R.string.system_framework,
+                R.string.system_framework_volume_title,
+                R.string.system_framework_volume_title,
+                R.string.system_framework_volume_title,
+                R.string.system_framework_volume_title,
+                "com.sevtinge.hyperceiler.ui.fragment.framework.VolumeSettings");
 
         parsePrefXml(context, R.xml.framework_phone,
-            R.string.system_framework,
-            R.string.system_framework_phone_title,
-            R.string.system_framework_phone_title,
-            R.string.system_framework_phone_title,
-            R.string.system_framework_phone_title,
-            "com.sevtinge.hyperceiler.ui.fragment.framework.NetworkSettings");
+                R.string.system_framework,
+                R.string.system_framework_phone_title,
+                R.string.system_framework_phone_title,
+                R.string.system_framework_phone_title,
+                R.string.system_framework_phone_title,
+                "com.sevtinge.hyperceiler.ui.fragment.framework.NetworkSettings");
 
         parsePrefXml(context, R.xml.framework_display,
-            R.string.system_framework,
-            R.string.system_framework_display_title,
-            R.string.system_framework_display_title,
-            R.string.system_framework_display_title,
-            R.string.system_framework_display_title,
-            "com.sevtinge.hyperceiler.ui.fragment.framework.DisplaySettings");
+                R.string.system_framework,
+                R.string.system_framework_display_title,
+                R.string.system_framework_display_title,
+                R.string.system_framework_display_title,
+                R.string.system_framework_display_title,
+                "com.sevtinge.hyperceiler.ui.fragment.framework.DisplaySettings");
 
         parsePrefXml(context, R.xml.framework_other,
-            R.string.system_framework,
-            R.string.system_framework_other_title,
-            R.string.system_framework_other_title,
-            R.string.system_framework_other_title,
-            R.string.system_framework_other_title,
-            "com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings");
+                R.string.system_framework,
+                R.string.system_framework_other_title,
+                R.string.system_framework_other_title,
+                R.string.system_framework_other_title,
+                R.string.system_framework_other_title,
+                "com.sevtinge.hyperceiler.ui.fragment.framework.OtherSettings");
 
         // 系统界面页面相关
         parsePrefXml(context, R.xml.system_ui_lock_screen,
-            R.string.system_ui,
-            R.string.system_ui_lockscreen_title,
-            R.string.system_ui_lockscreen_title,
-            R.string.system_ui_lockscreen_title,
-            R.string.system_ui_lockscreen_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.LockScreenSettings");
+                R.string.system_ui,
+                R.string.system_ui_lockscreen_title,
+                R.string.system_ui_lockscreen_title,
+                R.string.system_ui_lockscreen_title,
+                R.string.system_ui_lockscreen_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.LockScreenSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.StatusBarSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.StatusBarSettings");
 
         parsePrefXml(context, !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_icon_manage : R.xml.system_ui_status_bar_icon_manage_new,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_iconmanage_title,
-            R.string.system_ui_statusbar_iconmanage_title,
-            R.string.system_ui_statusbar_iconmanage_title,
-            !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings" : "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageNewSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_iconmanage_title,
+                R.string.system_ui_statusbar_iconmanage_title,
+                R.string.system_ui_statusbar_iconmanage_title,
+                !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageSettings" : "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.IconManageNewSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_mobile_network_type,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_iconmanage_title,
-            R.string.system_ui_status_bar_mobile_type_single_title,
-            R.string.system_ui_status_bar_mobile_type_single_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.MobileNetworkTypeSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_iconmanage_title,
+                R.string.system_ui_status_bar_mobile_type_single_title,
+                R.string.system_ui_status_bar_mobile_type_single_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.MobileNetworkTypeSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_doubleline_network,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_iconmanage_title,
-            R.string.system_ui_statusbar_iconmanage_mobile_network_title,
-            R.string.system_ui_statusbar_iconmanage_mobile_network_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_iconmanage_title,
+                R.string.system_ui_statusbar_iconmanage_mobile_network_title,
+                R.string.system_ui_statusbar_iconmanage_mobile_network_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.DoubleLineNetworkSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_battery_styles,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_iconmanage_title,
-            R.string.system_ui_status_bar_battery_style_title,
-            R.string.system_ui_status_bar_battery_style_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryStyleSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_iconmanage_title,
+                R.string.system_ui_status_bar_battery_style_title,
+                R.string.system_ui_status_bar_battery_style_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryStyleSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_network_speed_indicator,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_network_speed_indicator_title,
-            R.string.system_ui_statusbar_network_speed_indicator_title,
-            R.string.system_ui_statusbar_network_speed_indicator_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_network_speed_indicator_title,
+                R.string.system_ui_statusbar_network_speed_indicator_title,
+                R.string.system_ui_statusbar_network_speed_indicator_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NetworkSpeedIndicatorSettings");
 
         parsePrefXml(context, !isMoreHyperOSVersion(1f) ? R.xml.system_ui_status_bar_clock_indicator : R.xml.system_ui_status_bar_new_clock_indicator,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_clock_title,
-            R.string.system_ui_statusbar_clock_title,
-            R.string.system_ui_statusbar_clock_title,
-            !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings" : "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_clock_title,
+                R.string.system_ui_statusbar_clock_title,
+                R.string.system_ui_statusbar_clock_title,
+                !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.ClockIndicatorSettings" : "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.NewClockIndicatorSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_hardware_detail_indicator,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_device_title,
-            R.string.system_ui_statusbar_device_title,
-            R.string.system_ui_statusbar_device_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_device_title,
+                R.string.system_ui_statusbar_device_title,
+                R.string.system_ui_statusbar_device_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.BatteryDetailIndicatorSettings");
 
         parsePrefXml(context, R.xml.system_ui_status_bar_strong_toast,
-            R.string.system_ui,
-            R.string.system_ui_statusbar_title,
-            R.string.system_ui_statusbar_strong_toast_title,
-            R.string.system_ui_statusbar_strong_toast_title,
-            R.string.system_ui_statusbar_strong_toast_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.StrongToastSettings");
+                R.string.system_ui,
+                R.string.system_ui_statusbar_title,
+                R.string.system_ui_statusbar_strong_toast_title,
+                R.string.system_ui_statusbar_strong_toast_title,
+                R.string.system_ui_statusbar_strong_toast_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.statusbar.StrongToastSettings");
 
         parsePrefXml(context, R.xml.system_ui_navigation,
-            R.string.system_ui,
-            R.string.system_ui_navigation_title,
-            R.string.system_ui_navigation_title,
-            R.string.system_ui_navigation_title,
-            R.string.system_ui_navigation_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.NavigationSettings");
+                R.string.system_ui,
+                R.string.system_ui_navigation_title,
+                R.string.system_ui_navigation_title,
+                R.string.system_ui_navigation_title,
+                R.string.system_ui_navigation_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.NavigationSettings");
 
         parsePrefXml(context, R.xml.system_ui_control_center,
-            R.string.system_ui,
-            R.string.system_ui_controlcenter_title,
-            R.string.system_ui_controlcenter_title,
-            R.string.system_ui_controlcenter_title,
-            R.string.system_ui_controlcenter_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.ControlCenterSettings");
+                R.string.system_ui,
+                R.string.system_ui_controlcenter_title,
+                R.string.system_ui_controlcenter_title,
+                R.string.system_ui_controlcenter_title,
+                R.string.system_ui_controlcenter_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.ControlCenterSettings");
 
         parsePrefXml(context, R.xml.system_ui_other,
-            R.string.system_ui,
-            R.string.system_ui_other_title,
-            R.string.system_ui_other_title,
-            R.string.system_ui_other_title,
-            R.string.system_ui_other_title,
-            "com.sevtinge.hyperceiler.ui.fragment.systemui.SystemUIOtherSettings");
+                R.string.system_ui,
+                R.string.system_ui_other_title,
+                R.string.system_ui_other_title,
+                R.string.system_ui_other_title,
+                R.string.system_ui_other_title,
+                "com.sevtinge.hyperceiler.ui.fragment.systemui.SystemUIOtherSettings");
 
         // 系统桌面相关
         parsePrefXml(context, R.xml.home_gesture,
-            R.string.mihome,
-            R.string.home_gesture,
-            R.string.home_gesture,
-            R.string.home_gesture,
-            R.string.home_gesture,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeGestureSettings");
+                R.string.mihome,
+                R.string.home_gesture,
+                R.string.home_gesture,
+                R.string.home_gesture,
+                R.string.home_gesture,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeGestureSettings");
 
         parsePrefXml(context, R.xml.home_layout,
-            R.string.mihome,
-            R.string.home_layout,
-            R.string.home_layout,
-            R.string.home_layout,
-            R.string.home_layout,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeLayoutSettings");
+                R.string.mihome,
+                R.string.home_layout,
+                R.string.home_layout,
+                R.string.home_layout,
+                R.string.home_layout,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeLayoutSettings");
 
         parsePrefXml(context, R.xml.home_folder,
-            R.string.mihome,
-            R.string.home_folder,
-            R.string.home_folder,
-            R.string.home_folder,
-            R.string.home_folder,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeFolderSettings");
+                R.string.mihome,
+                R.string.home_folder,
+                R.string.home_folder,
+                R.string.home_folder,
+                R.string.home_folder,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeFolderSettings");
 
         parsePrefXml(context, R.xml.home_drawer,
-            R.string.mihome,
-            R.string.home_drawer,
-            R.string.home_drawer,
-            R.string.home_drawer,
-            R.string.home_drawer,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeDrawerSettings");
+                R.string.mihome,
+                R.string.home_drawer,
+                R.string.home_drawer,
+                R.string.home_drawer,
+                R.string.home_drawer,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeDrawerSettings");
 
         parsePrefXml(context, R.xml.home_title,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title,
-            R.string.home_title,
-            R.string.home_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleSettings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title,
+                R.string.home_title,
+                R.string.home_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleSettings");
 
         parsePrefXml(context, R.xml.home_title_anim,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeTitleAnimSettings");
 
         parsePrefXml(context, R.xml.home_title_anim_1,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_1_title,
-            R.string.home_title_custom_anim_param_1_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim1Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_1_title,
+                R.string.home_title_custom_anim_param_1_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim1Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_2,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_2_title,
-            R.string.home_title_custom_anim_param_2_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim2Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_2_title,
+                R.string.home_title_custom_anim_param_2_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim2Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_3,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_3_title,
-            R.string.home_title_custom_anim_param_3_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim3Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_3_title,
+                R.string.home_title_custom_anim_param_3_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim3Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_4,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_4_title,
-            R.string.home_title_custom_anim_param_4_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim4Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_4_title,
+                R.string.home_title_custom_anim_param_4_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim4Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_5,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_5_title,
-            R.string.home_title_custom_anim_param_5_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim5Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_5_title,
+                R.string.home_title_custom_anim_param_5_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim5Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_6,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_6_title,
-            R.string.home_title_custom_anim_param_6_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnimSettings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_6_title,
+                R.string.home_title_custom_anim_param_6_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnimSettings");
 
         parsePrefXml(context, R.xml.home_title_anim_7,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_7_title,
-            R.string.home_title_custom_anim_param_7_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim7Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_7_title,
+                R.string.home_title_custom_anim_param_7_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim7Settings");
 
         parsePrefXml(context, R.xml.home_title_anim_8,
-            R.string.mihome,
-            R.string.home_title,
-            R.string.home_title_custom_anim_param,
-            R.string.home_title_custom_anim_param_8_title,
-            R.string.home_title_custom_anim_param_8_title,
-            "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim8Settings");
+                R.string.mihome,
+                R.string.home_title,
+                R.string.home_title_custom_anim_param,
+                R.string.home_title_custom_anim_param_8_title,
+                R.string.home_title_custom_anim_param_8_title,
+                "com.sevtinge.hyperceiler.ui.fragment.home.anim.HomeTitleAnim8Settings");
 
         parsePrefXml(context, R.xml.home_recent,
-            R.string.mihome,
-            R.string.home_recent,
-            R.string.home_recent,
-            R.string.home_recent,
-            R.string.home_recent,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeRecentSettings");
+                R.string.mihome,
+                R.string.home_recent,
+                R.string.home_recent,
+                R.string.home_recent,
+                R.string.home_recent,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeRecentSettings");
 
         parsePrefXml(context, R.xml.home_widget,
-            R.string.mihome,
-            R.string.home_widget,
-            R.string.home_widget,
-            R.string.home_widget,
-            R.string.home_widget,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeWidgetSettings");
+                R.string.mihome,
+                R.string.home_widget,
+                R.string.home_widget,
+                R.string.home_widget,
+                R.string.home_widget,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeWidgetSettings");
 
         parsePrefXml(context, R.xml.home_dock,
-            R.string.mihome,
-            R.string.home_dock,
-            R.string.home_dock,
-            R.string.home_dock,
-            R.string.home_dock,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeDockSettings");
+                R.string.mihome,
+                R.string.home_dock,
+                R.string.home_dock,
+                R.string.home_dock,
+                R.string.home_dock,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeDockSettings");
 
         parsePrefXml(context, R.xml.home_other,
-            R.string.mihome,
-            R.string.home_other,
-            R.string.home_other,
-            R.string.home_other,
-            R.string.home_other,
-            "com.sevtinge.hyperceiler.ui.fragment.home.HomeOtherSettings");
+                R.string.mihome,
+                R.string.home_other,
+                R.string.home_other,
+                R.string.home_other,
+                R.string.home_other,
+                "com.sevtinge.hyperceiler.ui.fragment.home.HomeOtherSettings");
 
         // 设置相关
         parsePrefXml(context, R.xml.system_settings,
-            R.string.system_settings,
-            R.string.system_settings,
-            R.string.system_settings,
-            R.string.system_settings,
-            R.string.system_settings,
-            "com.sevtinge.hyperceiler.ui.fragment.SystemSettingsFragment");
+                R.string.system_settings,
+                R.string.system_settings,
+                R.string.system_settings,
+                R.string.system_settings,
+                R.string.system_settings,
+                "com.sevtinge.hyperceiler.ui.fragment.SystemSettingsFragment");
 
         // 其他杂项
         parsePrefXml(context, R.xml.browser,
-            R.string.browser,
-            R.string.browser,
-            R.string.browser,
-            R.string.browser,
-            R.string.browser,
-            "com.sevtinge.hyperceiler.ui.fragment.BrowserFragment");
+                R.string.browser,
+                R.string.browser,
+                R.string.browser,
+                R.string.browser,
+                R.string.browser,
+                "com.sevtinge.hyperceiler.ui.fragment.BrowserFragment");
 
         parsePrefXml(context, R.xml.camera,
-            R.string.camera,
-            R.string.camera,
-            R.string.camera,
-            R.string.camera,
-            R.string.camera,
-            "com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
+                R.string.camera,
+                R.string.camera,
+                R.string.camera,
+                R.string.camera,
+                R.string.camera,
+                "com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
 
         parsePrefXml(context, R.xml.clock,
-            R.string.clock,
-            R.string.clock,
-            R.string.clock,
-            R.string.clock,
-            R.string.clock,
-            "com.sevtinge.hyperceiler.ui.fragment.ClockFragment");
+                R.string.clock,
+                R.string.clock,
+                R.string.clock,
+                R.string.clock,
+                R.string.clock,
+                "com.sevtinge.hyperceiler.ui.fragment.ClockFragment");
 
         parsePrefXml(context, R.xml.fileexplorer,
-            R.string.fileexplorer,
-            R.string.fileexplorer,
-            R.string.fileexplorer,
-            R.string.fileexplorer,
-            R.string.fileexplorer,
-            "com.sevtinge.hyperceiler.ui.fragment.FileExplorerFragment");
+                R.string.fileexplorer,
+                R.string.fileexplorer,
+                R.string.fileexplorer,
+                R.string.fileexplorer,
+                R.string.fileexplorer,
+                "com.sevtinge.hyperceiler.ui.fragment.FileExplorerFragment");
 
         parsePrefXml(context, R.xml.incallui,
-            R.string.incallui,
-            R.string.incallui,
-            R.string.incallui,
-            R.string.incallui,
-            R.string.incallui,
-            "com.sevtinge.hyperceiler.ui.fragment.InCallUiFragment");
+                R.string.incallui,
+                R.string.incallui,
+                R.string.incallui,
+                R.string.incallui,
+                R.string.incallui,
+                "com.sevtinge.hyperceiler.ui.fragment.InCallUiFragment");
 
         parsePrefXml(context, R.xml.mms,
-            R.string.mms,
-            R.string.mms,
-            R.string.mms,
-            R.string.mms,
-            R.string.mms,
-            "com.sevtinge.hyperceiler.ui.fragment.MmsFragment");
+                R.string.mms,
+                R.string.mms,
+                R.string.mms,
+                R.string.mms,
+                R.string.mms,
+                "com.sevtinge.hyperceiler.ui.fragment.MmsFragment");
 
         parsePrefXml(context, R.xml.nfc,
-            R.string.nfc,
-            R.string.nfc,
-            R.string.nfc,
-            R.string.nfc,
-            R.string.nfc,
-            "com.sevtinge.hyperceiler.ui.fragment.NfcFragment");
+                R.string.nfc,
+                R.string.nfc,
+                R.string.nfc,
+                R.string.nfc,
+                R.string.nfc,
+                "com.sevtinge.hyperceiler.ui.fragment.NfcFragment");
 
         parsePrefXml(context, R.xml.phone,
-            R.string.phone,
-            R.string.phone,
-            R.string.phone,
-            R.string.phone,
-            R.string.phone,
-            "com.sevtinge.hyperceiler.ui.fragment.PhoneFragment");
+                R.string.phone,
+                R.string.phone,
+                R.string.phone,
+                R.string.phone,
+                R.string.phone,
+                "com.sevtinge.hyperceiler.ui.fragment.PhoneFragment");
 
         parsePrefXml(context, R.xml.downloads,
-            R.string.downloads,
-            R.string.downloads,
-            R.string.downloads,
-            R.string.downloads,
-            R.string.downloads,
-            "com.sevtinge.hyperceiler.ui.fragment.DownloadsFragment");
+                R.string.downloads,
+                R.string.downloads,
+                R.string.downloads,
+                R.string.downloads,
+                R.string.downloads,
+                "com.sevtinge.hyperceiler.ui.fragment.DownloadsFragment");
 
         parsePrefXml(context, R.xml.updater,
-            R.string.updater,
-            R.string.updater,
-            R.string.updater,
-            R.string.updater,
-            R.string.updater,
-            "com.sevtinge.hyperceiler.ui.fragment.UpdaterFragment");
+                R.string.updater,
+                R.string.updater,
+                R.string.updater,
+                R.string.updater,
+                R.string.updater,
+                "com.sevtinge.hyperceiler.ui.fragment.UpdaterFragment");
 
-        parsePrefXml(context, R.xml.lbe_security,
-            R.string.lbe,
-            R.string.lbe,
-            R.string.lbe,
-            R.string.lbe,
-            R.string.lbe,
-            "com.sevtinge.hyperceiler.ui.fragment.LbeFragment");
+        if (!isMoreHyperOSVersion(1f)) {
+            parsePrefXml(context, R.xml.lbe_security,
+                    R.string.lbe,
+                    R.string.lbe,
+                    R.string.lbe,
+                    R.string.lbe,
+                    R.string.lbe,
+                    "com.sevtinge.hyperceiler.ui.fragment.LbeFragment");
+        }
 
         parsePrefXml(context, R.xml.milink,
-            R.string.milink,
-            R.string.milink,
-            R.string.milink,
-            R.string.milink,
-            R.string.milink,
-            "com.sevtinge.hyperceiler.ui.fragment.MiLinkFragment");
+                R.string.milink,
+                R.string.milink,
+                R.string.milink,
+                R.string.milink,
+                R.string.milink,
+                "com.sevtinge.hyperceiler.ui.fragment.MiLinkFragment");
 
         parsePrefXml(context, R.xml.aod,
-            R.string.aod,
-            R.string.aod,
-            R.string.aod,
-            R.string.aod,
-            R.string.aod,
-            "com.sevtinge.hyperceiler.ui.fragment.AodFragment");
+                !isMoreHyperOSVersion(1f) ? R.string.aod : R.string.aod_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.aod : R.string.aod_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.aod : R.string.aod_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.aod : R.string.aod_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.aod : R.string.aod_hyperos,
+                "com.sevtinge.hyperceiler.ui.fragment.AodFragment");
 
         parsePrefXml(context, R.xml.content_extension,
-            R.string.content_extension,
-            R.string.content_extension,
-            R.string.content_extension,
-            R.string.content_extension,
-            R.string.content_extension,
-            "com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment");
+                R.string.content_extension,
+                R.string.content_extension,
+                R.string.content_extension,
+                R.string.content_extension,
+                R.string.content_extension,
+                "com.sevtinge.hyperceiler.ui.fragment.ContentExtensionFragment");
 
         parsePrefXml(context, R.xml.gallery,
-            R.string.gallery,
-            R.string.gallery,
-            R.string.gallery,
-            R.string.gallery,
-            R.string.gallery,
-            "com.sevtinge.hyperceiler.ui.fragment.GalleryFragment");
+                R.string.gallery,
+                R.string.gallery,
+                R.string.gallery,
+                R.string.gallery,
+                R.string.gallery,
+                "com.sevtinge.hyperceiler.ui.fragment.GalleryFragment");
 
         parsePrefXml(context, R.xml.guard_provider,
-            R.string.guard_provider,
-            R.string.guard_provider,
-            R.string.guard_provider,
-            R.string.guard_provider,
-            R.string.guard_provider,
-            "com.sevtinge.hyperceiler.ui.fragment.GuardProviderFragment");
+                !isMoreHyperOSVersion(1f) ? R.string.guard_provider : R.string.guard_provider_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.guard_provider : R.string.guard_provider_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.guard_provider : R.string.guard_provider_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.guard_provider : R.string.guard_provider_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.guard_provider : R.string.guard_provider_hyperos,
+                "com.sevtinge.hyperceiler.ui.fragment.GuardProviderFragment");
 
         parsePrefXml(context, R.xml.mediaeditor,
-            R.string.mediaeditor,
-            R.string.mediaeditor,
-            R.string.mediaeditor,
-            R.string.mediaeditor,
-            R.string.mediaeditor,
-            "com.sevtinge.hyperceiler.ui.fragment.MediaEditorFragment");
+                R.string.mediaeditor,
+                R.string.mediaeditor,
+                R.string.mediaeditor,
+                R.string.mediaeditor,
+                R.string.mediaeditor,
+                "com.sevtinge.hyperceiler.ui.fragment.MediaEditorFragment");
 
         parsePrefXml(context, R.xml.mishare,
-            R.string.mishare,
-            R.string.mishare,
-            R.string.mishare,
-            R.string.mishare,
-            R.string.mishare,
-            "com.sevtinge.hyperceiler.ui.fragment.MiShareFragment");
+                R.string.mishare,
+                R.string.mishare,
+                R.string.mishare,
+                R.string.mishare,
+                R.string.mishare,
+                "com.sevtinge.hyperceiler.ui.fragment.MiShareFragment");
 
         parsePrefXml(context, R.xml.miwallpaper,
-            R.string.miwallpaper,
-            R.string.miwallpaper,
-            R.string.miwallpaper,
-            R.string.miwallpaper,
-            R.string.miwallpaper,
-            "com.sevtinge.hyperceiler.ui.fragment.MiWallpaperFragment");
+                R.string.miwallpaper,
+                R.string.miwallpaper,
+                R.string.miwallpaper,
+                R.string.miwallpaper,
+                R.string.miwallpaper,
+                "com.sevtinge.hyperceiler.ui.fragment.MiWallpaperFragment");
 
         parsePrefXml(context, R.xml.package_installer,
-            R.string.package_installer,
-            R.string.package_installer,
-            R.string.package_installer,
-            R.string.package_installer,
-            R.string.package_installer,
-            "com.sevtinge.hyperceiler.ui.fragment.MiuiPackageInstallerFragment");
+                R.string.package_installer,
+                R.string.package_installer,
+                R.string.package_installer,
+                R.string.package_installer,
+                R.string.package_installer,
+                "com.sevtinge.hyperceiler.ui.fragment.MiuiPackageInstallerFragment");
 
         parsePrefXml(context, R.xml.music,
-            R.string.music,
-            R.string.music,
-            R.string.music,
-            R.string.music,
-            R.string.music,
-            "com.sevtinge.hyperceiler.ui.fragment.MusicFragment");
+                R.string.music,
+                R.string.music,
+                R.string.music,
+                R.string.music,
+                R.string.music,
+                "com.sevtinge.hyperceiler.ui.fragment.MusicFragment");
 
         parsePrefXml(context, R.xml.powerkeeper,
-            R.string.powerkeeper,
-            R.string.powerkeeper,
-            R.string.powerkeeper,
-            R.string.powerkeeper,
-            R.string.powerkeeper,
-            "com.sevtinge.hyperceiler.ui.fragment.PowerKeeperFragment");
+                R.string.powerkeeper,
+                R.string.powerkeeper,
+                R.string.powerkeeper,
+                R.string.powerkeeper,
+                R.string.powerkeeper,
+                "com.sevtinge.hyperceiler.ui.fragment.PowerKeeperFragment");
 
         parsePrefXml(context, R.xml.screenrecorder,
-            R.string.screenrecorder,
-            R.string.screenrecorder,
-            R.string.screenrecorder,
-            R.string.screenrecorder,
-            R.string.screenrecorder,
-            "com.sevtinge.hyperceiler.ui.fragment.ScreenRecorderFragment");
+                R.string.screenrecorder,
+                R.string.screenrecorder,
+                R.string.screenrecorder,
+                R.string.screenrecorder,
+                R.string.screenrecorder,
+                "com.sevtinge.hyperceiler.ui.fragment.ScreenRecorderFragment");
 
         parsePrefXml(context, R.xml.screenshot,
-            R.string.screenshot,
-            R.string.screenshot,
-            R.string.screenshot,
-            R.string.screenshot,
-            R.string.screenshot,
-            "com.sevtinge.hyperceiler.ui.fragment.ScreenShotFragment");
+                R.string.screenshot,
+                R.string.screenshot,
+                R.string.screenshot,
+                R.string.screenshot,
+                R.string.screenshot,
+                "com.sevtinge.hyperceiler.ui.fragment.ScreenShotFragment");
 
         parsePrefXml(context, R.xml.security_center,
-            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
-            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
-            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
-            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
-            !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
-            "com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment");
+                !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+                !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+                !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+                !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+                !isMoreHyperOSVersion(1f) ? (!isPad() ? R.string.security_center : R.string.security_center_pad) : R.string.security_center_hyperos,
+                "com.sevtinge.hyperceiler.ui.fragment.SecurityCenterFragment");
 
         parsePrefXml(context, R.xml.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            "com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment");
+                R.string.tsmclient,
+                R.string.tsmclient,
+                R.string.tsmclient,
+                R.string.tsmclient,
+                R.string.tsmclient,
+                "com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment");
 
         parsePrefXml(context, R.xml.weather,
-            R.string.weather,
-            R.string.weather,
-            R.string.weather,
-            R.string.weather,
-            R.string.weather,
-            "com.sevtinge.hyperceiler.ui.fragment.WeatherFragment");
+                R.string.weather,
+                R.string.weather,
+                R.string.weather,
+                R.string.weather,
+                R.string.weather,
+                "com.sevtinge.hyperceiler.ui.fragment.WeatherFragment");
 
         parsePrefXml(context, R.xml.aiasst,
-            R.string.aiasst,
-            R.string.aiasst,
-            R.string.aiasst,
-            R.string.aiasst,
-            R.string.aiasst,
-            "com.sevtinge.hyperceiler.ui.fragment.AiAsstFragment");
+                R.string.aiasst,
+                R.string.aiasst,
+                R.string.aiasst,
+                R.string.aiasst,
+                R.string.aiasst,
+                "com.sevtinge.hyperceiler.ui.fragment.AiAsstFragment");
 
         parsePrefXml(context, R.xml.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            R.string.tsmclient,
-            "com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment");
+                R.string.tsmclient,
+                R.string.tsmclient,
+                R.string.tsmclient,
+                R.string.tsmclient,
+                R.string.tsmclient,
+                "com.sevtinge.hyperceiler.ui.fragment.TsmClientFragment");
 
         parsePrefXml(context, R.xml.barrage,
-            R.string.barrage,
-            R.string.barrage,
-            R.string.barrage,
-            R.string.barrage,
-            R.string.barrage,
-            "com.sevtinge.hyperceiler.ui.fragment.BarrageFragment");
+                R.string.barrage,
+                R.string.barrage,
+                R.string.barrage,
+                R.string.barrage,
+                R.string.barrage,
+                "com.sevtinge.hyperceiler.ui.fragment.BarrageFragment");
 
         parsePrefXml(context, R.xml.joyose,
-            R.string.joyose,
-            R.string.joyose,
-            R.string.joyose,
-            R.string.joyose,
-            R.string.joyose,
-            "com.sevtinge.hyperceiler.ui.fragment.JoyoseFragment");
+                R.string.joyose,
+                R.string.joyose,
+                R.string.joyose,
+                R.string.joyose,
+                R.string.joyose,
+                "com.sevtinge.hyperceiler.ui.fragment.JoyoseFragment");
 
         parsePrefXml(context, R.xml.market,
-            R.string.market,
-            R.string.market,
-            R.string.market,
-            R.string.market,
-            R.string.market,
-            "com.sevtinge.hyperceiler.ui.fragment.MarketFragment");
+                R.string.market,
+                R.string.market,
+                R.string.market,
+                R.string.market,
+                R.string.market,
+                "com.sevtinge.hyperceiler.ui.fragment.MarketFragment");
 
         parsePrefXml(context, R.xml.mirror,
-            R.string.mirror,
-            R.string.mirror,
-            R.string.mirror,
-            R.string.mirror,
-            R.string.mirror,
-            "com.sevtinge.hyperceiler.ui.fragment.MirrorFragment");
+                !isMoreHyperOSVersion(1f) ? R.string.mirror : R.string.mirror_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.mirror : R.string.mirror_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.mirror : R.string.mirror_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.mirror : R.string.mirror_hyperos,
+                !isMoreHyperOSVersion(1f) ? R.string.mirror : R.string.mirror_hyperos,
+                "com.sevtinge.hyperceiler.ui.fragment.MirrorFragment");
 
         parsePrefXml(context, R.xml.mtb,
-            R.string.mtb,
-            R.string.mtb,
-            R.string.mtb,
-            R.string.mtb,
-            R.string.mtb,
-            "com.sevtinge.hyperceiler.ui.fragment.MtbFragment");
+                R.string.mtb,
+                R.string.mtb,
+                R.string.mtb,
+                R.string.mtb,
+                R.string.mtb,
+                "com.sevtinge.hyperceiler.ui.fragment.MtbFragment");
 
         parsePrefXml(context, R.xml.scanner,
-            R.string.scanner,
-            R.string.scanner,
-            R.string.scanner,
-            R.string.scanner,
-            R.string.scanner,
-            "com.sevtinge.hyperceiler.ui.fragment.ScannerFragment");
+                R.string.scanner,
+                R.string.scanner,
+                R.string.scanner,
+                R.string.scanner,
+                R.string.scanner,
+                "com.sevtinge.hyperceiler.ui.fragment.ScannerFragment");
 
         parsePrefXml(context, R.xml.micloud_service,
-            R.string.micloud_service,
-            R.string.micloud_service,
-            R.string.micloud_service,
-            R.string.micloud_service,
-            R.string.micloud_service,
-            "com.sevtinge.hyperceiler.ui.fragment.MiCloudServiceFragment");
+                R.string.micloud_service,
+                R.string.micloud_service,
+                R.string.micloud_service,
+                R.string.micloud_service,
+                R.string.micloud_service,
+                "com.sevtinge.hyperceiler.ui.fragment.MiCloudServiceFragment");
 
         parsePrefXml(context, R.xml.creation,
-            R.string.creation,
-            R.string.creation,
-            R.string.creation,
-            R.string.creation,
-            R.string.creation,
-            "com.sevtinge.hyperceiler.ui.fragment.CreationFragment");
+                R.string.creation,
+                R.string.creation,
+                R.string.creation,
+                R.string.creation,
+                R.string.creation,
+                "com.sevtinge.hyperceiler.ui.fragment.CreationFragment");
+
+        parsePrefXml(context, R.xml.huanji,
+                R.string.huanji,
+                R.string.huanji,
+                R.string.huanji,
+                R.string.huanji,
+                R.string.huanji,
+                "com.sevtinge.hyperceiler.ui.fragment.HuanjiFragment");
+
+        parsePrefXml(context, R.xml.misound,
+                R.string.misound,
+                R.string.misound,
+                R.string.misound,
+                R.string.misound,
+                R.string.misound,
+                "com.sevtinge.hyperceiler.ui.fragment.MiSoundFragment");
+
+        parsePrefXml(context, R.xml.trustservice,
+                R.string.trustservice,
+                R.string.trustservice,
+                R.string.trustservice,
+                R.string.trustservice,
+                R.string.trustservice,
+                "com.sevtinge.hyperceiler.ui.fragment.TrustServiceFragment");
+
+        parsePrefXml(context, R.xml.calendar,
+                R.string.calendar,
+                R.string.calendar,
+                R.string.calendar,
+                R.string.calendar,
+                R.string.calendar,
+                "com.sevtinge.hyperceiler.ui.fragment.CalendarFragment");
 
         parsePrefXml(context, R.xml.various,
-            R.string.various,
-            R.string.various,
-            R.string.various,
-            R.string.various,
-            R.string.various,
-            "com.sevtinge.hyperceiler.ui.fragment.VariousFragment");
+                R.string.various,
+                R.string.various,
+                R.string.various,
+                R.string.various,
+                R.string.various,
+                "com.sevtinge.hyperceiler.ui.fragment.VariousFragment");
 
         parsePrefXml(context, R.xml.various_aosp,
-            R.string.various,
-            R.string.various,
-            R.string.various_open_aosp_something_title,
-            R.string.various_open_aosp_something_title,
-            R.string.various_open_aosp_something_title,
-            "com.sevtinge.hyperceiler.ui.fragment.various.AOSPSettings");
+                R.string.various,
+                R.string.various,
+                R.string.various_open_aosp_something_title,
+                R.string.various_open_aosp_something_title,
+                R.string.various_open_aosp_something_title,
+                "com.sevtinge.hyperceiler.ui.fragment.various.AOSPSettings");
 
         if (isPad()) {
             parsePrefXml(context, R.xml.various_mipad,
-                R.string.various,
-                R.string.various_mipad_title,
-                R.string.various_mipad_title,
-                R.string.various_mipad_title,
-                R.string.various_mipad_title,
-                "com.sevtinge.hyperceiler.ui.fragment.VariousFragment");
+                    R.string.various,
+                    R.string.various_mipad_title,
+                    R.string.various_mipad_title,
+                    R.string.various_mipad_title,
+                    R.string.various_mipad_title,
+                    "com.sevtinge.hyperceiler.ui.fragment.VariousFragment");
         }
 
         // 实验性
         parsePrefXml(context, R.xml.theme_manager,
-            R.string.theme_manager,
-            R.string.theme_manager,
-            R.string.theme_manager,
-            R.string.theme_manager,
-            R.string.theme_manager,
-            "com.sevtinge.hyperceiler.ui.fragment.ThemeManagerFragment");
+                R.string.theme_manager,
+                R.string.theme_manager,
+                R.string.theme_manager,
+                R.string.theme_manager,
+                R.string.theme_manager,
+                "com.sevtinge.hyperceiler.ui.fragment.ThemeManagerFragment");
 
         parsePrefXml(context, R.xml.personal_assistant,
-            R.string.personal_assistant,
-            R.string.personal_assistant,
-            R.string.personal_assistant,
-            R.string.personal_assistant,
-            R.string.personal_assistant,
-            "com.sevtinge.hyperceiler.ui.fragment.PersonalAssistantFragment");
+                R.string.personal_assistant,
+                R.string.personal_assistant,
+                R.string.personal_assistant,
+                R.string.personal_assistant,
+                R.string.personal_assistant,
+                "com.sevtinge.hyperceiler.ui.fragment.PersonalAssistantFragment");
     }
 
     private static void parsePrefXml(Context context, int xmlResId, int catResId, int catSub1ResId, int catSub2ResId, int catSub3ResId, int catSub4ResId, String catPrefsFragment) {
