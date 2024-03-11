@@ -446,7 +446,7 @@ public class SearchHelper {
                                     modData.catTitleResId = locationPadId;
                                 }
                             } else {
-                                if (!isPad()) {
+                                if (!isPad) {
                                     if (isMoreHyperOSVersion(1f)) {
                                         modData.breadcrumbs = internalHyper;
                                         modData.catTitleResId = locationHyperId;

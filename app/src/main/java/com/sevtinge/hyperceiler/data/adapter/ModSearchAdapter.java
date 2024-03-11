@@ -1,21 +1,21 @@
 /*
-  * This file is part of HyperCeiler.
+ * This file is part of HyperCeiler.
 
-  * HyperCeiler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU Affero General Public License as
-  * published by the Free Software Foundation, either version 3 of the
-  * License.
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
 
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
 
-  * You should have received a copy of the GNU Affero General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2024 HyperCeiler Contributions
-*/
+ * Copyright (C) 2023-2024 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.data.adapter;
 
 import android.annotation.SuppressLint;
@@ -31,6 +31,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
@@ -39,6 +40,7 @@ import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> implements Filterable {
@@ -46,35 +48,38 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     private Context mContext;
     private String filterString = "";
     private ItemFilter mFilter;
-    private onItemClickListener mItemClickListener;//item点击监听
+    private final static String TAG = "ModSearchAdapter";
+    private onItemClickListener mItemClickListener;// item点击监听
     private final CopyOnWriteArrayList<ModData> modsList = new CopyOnWriteArrayList<ModData>();
 
     public void setOnItemClickListener(onItemClickListener onItemClick) {
         mItemClickListener = onItemClick;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         mContext = viewGroup.getContext();
-        View view= LayoutInflater.from(mContext).inflate(R.layout.item_search_result, viewGroup,false);
-        //创建一个VIewHolder
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_result, viewGroup, false);
+        // 创建一个VIewHolder
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         ModData ad = modsList.get(position);
-
-        int start = ad.title.toLowerCase().indexOf(filterString);
-        if (start >= 0) {
-            Spannable spannable = new SpannableString(ad.title);
-            spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
-        } else {
-            viewHolder.mName.setText(ad.title);
+        Spannable spannable = new SpannableString(ad.title);
+        for (int i = 0; i < filterString.length(); i++) {
+            char ch = filterString.charAt(i);
+            String str = String.valueOf(ch);
+            int start = ad.title.toLowerCase().indexOf(str);
+            if (start >= 0) {
+                spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
+        viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
         viewHolder.mPackageName.setText(ad.breadcrumbs);
-        //设置item点击监听事件
+        // 设置item点击监听事件
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,11 +102,11 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
         return mFilter;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mIcon;
-        private TextView mName;
-        private TextView mPackageName;
+        private final ImageView mIcon;
+        private final TextView mName;
+        private final TextView mPackageName;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -118,18 +123,30 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
 
 
     private class ItemFilter extends Filter {
+        private final HashMap<String, Integer> modMap = new HashMap<>();
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             filterString = constraint.toString().toLowerCase();
             final ArrayList<ModData> nlist = new ArrayList<ModData>();
-
-            for (ModData filterableData: SearchHelper.allModsList) {
-                if (constraint.toString().equals(SearchHelper.NEW_MODS_SEARCH_QUERY)) {
-                    if (SearchHelper.NEW_MODS.contains(filterableData.key)) {
-                        nlist.add(filterableData);
+            modMap.clear();
+            for (int i = 0; i < filterString.length(); i++) {
+                char ch = filterString.charAt(i);
+                String str = String.valueOf(ch);
+                for (ModData filterableData : SearchHelper.allModsList) {
+                    if (constraint.toString().equals(SearchHelper.NEW_MODS_SEARCH_QUERY)) {
+                        if (SearchHelper.NEW_MODS.contains(filterableData.key)) {
+                            if (check(filterableData.key)) {
+                                nlist.add(filterableData);
+                                modMap.put(filterableData.key, 0);
+                            }
+                        }
+                    } else if (filterableData.title.toLowerCase().contains(str)) {
+                        if (check(filterableData.key)) {
+                            nlist.add(filterableData);
+                            modMap.put(filterableData.key, 0);
+                        }
                     }
-                } else if (filterableData.title.toLowerCase().contains(filterString)) {
-                    nlist.add(filterableData);
                 }
             }
 
@@ -139,14 +156,18 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
             return results;
         }
 
+        private boolean check(String key) {
+            return modMap.get(key) == null;
+        }
+
         @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             modsList.clear();
             if (results.count > 0 && results.values != null) {
-                modsList.addAll((ArrayList<ModData>)results.values);
+                modsList.addAll((ArrayList<ModData>) results.values);
             }
-            sortList();
+            modsList.sort(new ModDataComparator(filterString));
             notifyDataSetChanged();
         }
     }
@@ -161,5 +182,33 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
                     return breadcrumbs;
             }
         });
+    }
+
+    public static class ModDataComparator implements Comparator<ModData> {
+        private final String searchTerm;
+
+        public ModDataComparator(String searchTerm) {
+            this.searchTerm = searchTerm;
+        }
+
+        @Override
+        public int compare(ModData app1, ModData app2) {
+            int frequency1 = calculateFrequency(app1.title);
+            int frequency2 = calculateFrequency(app2.title);
+
+            return Integer.compare(frequency2, frequency1); // 频率高的排在前面
+        }
+
+        private int calculateFrequency(String str) {
+            int frequency = 0;
+            for (int i = 0; i < searchTerm.length(); i++) {
+                char ch = searchTerm.charAt(i);
+                String chStr = String.valueOf(ch);
+                if (str.contains(chStr)) {
+                    frequency = frequency + 1;
+                }
+            }
+            return frequency;
+        }
     }
 }

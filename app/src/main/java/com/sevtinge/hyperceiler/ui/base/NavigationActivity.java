@@ -232,7 +232,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
         @Override
         public void afterTextChanged(Editable s) {
-            findMod(s.toString());
+            // findMod(s.toString());
         }
     };
 
