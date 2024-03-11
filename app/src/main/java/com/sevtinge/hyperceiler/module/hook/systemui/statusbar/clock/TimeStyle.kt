@@ -73,41 +73,46 @@ object TimeStyle : BaseHook() {
             .filterByParamCount(3)
             .first().createHook {
                 after {
-                    val textV = it.thisObject as TextView
+                    try {
+                        val textV = it.thisObject as TextView
 
-                    if (textV.resources.getResourceEntryName(textV.id) == "clock") {
-                        // 时钟加粗
-                        if (clockBold) {
-                            textV.typeface = Typeface.DEFAULT_BOLD
+                        if (textV.resources.getResourceEntryName(textV.id) == "clock") {
+                            // 时钟加粗
+                            if (clockBold) {
+                                textV.typeface = Typeface.DEFAULT_BOLD
+                            }
+
+                            // 时钟边距调整
+                            margin(textV)
+
+                            // 以下 Hook 需要启用自定义时钟指示器才能生效
+                            if (getMode != 0) {
+                                val alignment = when (getMode) {
+                                    1 -> isAlign
+                                    2 -> isGeekAlign
+                                    else -> 0
+                                }
+
+                                textV.textAlignment = when (alignment) {
+                                    1 -> View.TEXT_ALIGNMENT_CENTER
+                                    2 -> View.TEXT_ALIGNMENT_TEXT_END
+                                    else -> View.TEXT_ALIGNMENT_TEXT_START
+                                }
+
+                                // 双排时钟行间距调整
+                                if ((getMode == 1 && isClockDouble) || getMode == 2) {
+                                    textLineSpacing(textV)
+                                }
+
+                                // 固定宽度
+                                if (fixedWidth > 30) {
+                                    textV.width =
+                                        (textV.resources.displayMetrics.density * fixedWidth).toInt()
+                                }
+                            }
+
                         }
-
-                        // 时钟边距调整
-                        margin(textV)
-
-                        // 以下 Hook 需要启用自定义时钟指示器才能生效
-                        if (getMode != 0) {
-                            val alignment = when (getMode) {
-                                1 -> isAlign
-                                2 -> isGeekAlign
-                                else -> 0
-                            }
-
-                            textV.textAlignment = when (alignment) {
-                                1 -> View.TEXT_ALIGNMENT_CENTER
-                                2 -> View.TEXT_ALIGNMENT_TEXT_END
-                                else -> View.TEXT_ALIGNMENT_TEXT_START
-                            }
-
-                            // 双排时钟行间距调整
-                            if ((getMode == 1 && isClockDouble) || getMode == 2) {
-                                textLineSpacing(textV)
-                            }
-
-                            // 固定宽度
-                            if (fixedWidth > 30) {
-                                textV.width = (textV.resources.displayMetrics.density * fixedWidth).toInt()
-                            }
-                        }
+                    } catch (_: Exception) {
                     }
                 }
             }

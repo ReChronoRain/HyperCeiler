@@ -220,11 +220,11 @@ public class SystemUI extends BaseModule {
         if (isMoreHyperOSVersion(1f)) {
             initHook(StatusBarClockNew.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_clock_all_status_enable"));
             initHook(new DisableAnim(), mPrefsMap.getBoolean("system_ui_disable_clock_anim"));
+            initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
         } else {
             initHook(TimeStyle.INSTANCE, isEnableTime);
             initHook(TimeCustomization.INSTANCE, mPrefsMap.getStringAsInt("system_ui_statusbar_clock_mode", 0) != 0);
         }
-        initHook(new FixColor(), mPrefsMap.getBoolean("system_ui_statusbar_clock_fix_color"));
 
         // 硬件指示器
         initHook(new DisplayHardwareDetail(), mPrefsMap.getBoolean("system_ui_statusbar_battery_enable") ||
