@@ -1171,6 +1171,14 @@
     <string name="home_title">Icon and Title</string>
     <string name="home_title_icon_title">Icon</string>
     <string name="home_title_icon_animation_title">Icon Animation</string>
+    <string name="home_title_app_blur_title">App Blur</string>
+    <string name="home_title_app_blur_enable">Enable app animated background blur</string>
+    <string name="home_title_app_blur_radius">App animation background blur radius</string>
+    <string name="home_title_app_dim_alpha">App animation background mask transparency</string>
+    <string name="home_title_wallpaper_blur_radius">Wallpaper blur radius</string>
+    <string name="home_title_wallpaper_dim_alpha">Wallpaper mask transparency</string>
+    <string name="home_title_fix_small_window">Additional fix for small window animation</string>
+    <string name="home_title_fix_small_window_desc">Experimental function, force the use of animation to avoid flickering when dragging the application into a small window, don\'t use it if you don\'t mind</string>
     <string name="home_title_title_title">Title</string>
     <string name="home_title_title_marquee">Text scroll</string>
     <string name="home_title_title_marquee_desc">App names that are too long will be scrolled instead of wrapping</string>
