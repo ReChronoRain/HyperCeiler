@@ -1467,6 +1467,8 @@
     <string name="market_device_modify_desc">通过伪装设备机型为其他设备，以接收对应设备的更新</string>
     <string name="market_disable_new_icon">禁止使用第三方图标</string>
     <string name="market_disable_new_icon_desc">使桌面更加整洁</string>
+    <string name="market_package_monitor_desc">应用商店后台时监控应用安装与删除</string>
+    <string name="market_package_monitor">禁止监控应用安装和删除</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">跨屏协同服务</string>
@@ -1657,4 +1659,5 @@
 
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_sign_verification_failed">签名校验失败，您当前使用的版本可能并非来自于 Re.chronoRain 的官方版本，可能包含恶意代码，请注意使用安全。</string>
+
 </resources>
