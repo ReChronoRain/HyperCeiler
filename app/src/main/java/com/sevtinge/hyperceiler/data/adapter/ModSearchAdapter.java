@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.utils.search.SearchHelper;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> implements Filterable {
@@ -48,6 +49,7 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     private Context mContext;
     private String filterString = "";
     private ItemFilter mFilter;
+    private boolean isChina;
     private final static String TAG = "ModSearchAdapter";
     private onItemClickListener mItemClickListener;// item点击监听
     private final CopyOnWriteArrayList<ModData> modsList = new CopyOnWriteArrayList<ModData>();
@@ -60,6 +62,7 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         mContext = viewGroup.getContext();
+        isChina = isChina(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_result, viewGroup, false);
         // 创建一个VIewHolder
         return new ViewHolder(view);
@@ -69,15 +72,25 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         ModData ad = modsList.get(position);
         Spannable spannable = new SpannableString(ad.title);
-        for (int i = 0; i < filterString.length(); i++) {
-            char ch = filterString.charAt(i);
-            String str = String.valueOf(ch);
-            int start = ad.title.toLowerCase().indexOf(str);
+        if (isChina) {
+            for (int i = 0; i < filterString.length(); i++) {
+                char ch = filterString.charAt(i);
+                String str = String.valueOf(ch);
+                int start = ad.title.toLowerCase().indexOf(str);
+                if (start >= 0) {
+                    spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+            viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
+        } else {
+            int start = ad.title.toLowerCase().indexOf(filterString);
             if (start >= 0) {
-                spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT), start, start + filterString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
+            } else {
+                viewHolder.mName.setText(ad.title);
             }
         }
-        viewHolder.mName.setText(spannable, TextView.BufferType.SPANNABLE);
         viewHolder.mPackageName.setText(ad.breadcrumbs);
         // 设置item点击监听事件
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -128,32 +141,37 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             filterString = constraint.toString().toLowerCase();
-            final ArrayList<ModData> nlist = new ArrayList<ModData>();
+            ArrayList<ModData> nlist = new ArrayList<ModData>();
             modMap.clear();
-            for (int i = 0; i < filterString.length(); i++) {
-                char ch = filterString.charAt(i);
-                String str = String.valueOf(ch);
-                for (ModData filterableData : SearchHelper.allModsList) {
-                    if (constraint.toString().equals(SearchHelper.NEW_MODS_SEARCH_QUERY)) {
-                        if (SearchHelper.NEW_MODS.contains(filterableData.key)) {
-                            if (check(filterableData.key)) {
-                                nlist.add(filterableData);
-                                modMap.put(filterableData.key, 0);
-                            }
-                        }
-                    } else if (filterableData.title.toLowerCase().contains(str)) {
+            if (isChina) {
+                for (int i = 0; i < filterString.length(); i++) {
+                    char ch = filterString.charAt(i);
+                    String str = String.valueOf(ch);
+                    findList(constraint, str, nlist);
+                }
+            } else findList(constraint, filterString, nlist);
+            FilterResults results = new FilterResults();
+            results.values = nlist;
+            results.count = nlist.size();
+            return results;
+        }
+
+        private void findList(CharSequence constraint, String str, ArrayList<ModData> nlist) {
+            for (ModData filterableData : SearchHelper.allModsList) {
+                if (constraint.toString().equals(SearchHelper.NEW_MODS_SEARCH_QUERY)) {
+                    if (SearchHelper.NEW_MODS.contains(filterableData.key)) {
                         if (check(filterableData.key)) {
                             nlist.add(filterableData);
                             modMap.put(filterableData.key, 0);
                         }
                     }
+                } else if (filterableData.title.toLowerCase().contains(str)) {
+                    if (check(filterableData.key)) {
+                        nlist.add(filterableData);
+                        modMap.put(filterableData.key, 0);
+                    }
                 }
             }
-
-            FilterResults results = new FilterResults();
-            results.values = nlist;
-            results.count = nlist.size();
-            return results;
         }
 
         private boolean check(String key) {
@@ -167,9 +185,15 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
             if (results.count > 0 && results.values != null) {
                 modsList.addAll((ArrayList<ModData>) results.values);
             }
-            modsList.sort(new ModDataComparator(filterString));
+            if (isChina) modsList.sort(new ModDataComparator(filterString));
+            else sortList();
             notifyDataSetChanged();
         }
+    }
+
+    private boolean isChina(Context context) {
+        Locale locale = context.getResources().getConfiguration().getLocales().get(0);
+        return locale.getLanguage().contains(new Locale("zh").getLanguage());
     }
 
     private void sortList() {
