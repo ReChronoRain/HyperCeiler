@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.fragment;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
-import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getRomAuthor;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
@@ -27,7 +26,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOS
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.ui.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt;
+import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt;
 
 import java.util.Objects;
@@ -64,8 +63,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         mTip = findPreference("prefs_key_tip");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
 
-        mPowerSetting.setVisible(!isAndroidVersion(30));
-        mMTB.setVisible(!isAndroidVersion(30));
+        mPowerSetting.setVisible(!isAndroidVersion(30) && !PackagesUtils.checkAppStatus(getContext(), "com.miui.powerkeeper"));
+        mMTB.setVisible(!isAndroidVersion(30) && !PackagesUtils.checkAppStatus(getContext(), "com.xiaomi.mtb"));
 
         if (isMoreHyperOSVersion(1f)) {
             mAod.setTitle(R.string.aod_hyperos);
@@ -100,14 +99,14 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     public boolean getIsOfficialRom() {
         return (
-            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("V") &&
-            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Xiaomi") &&
-            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Redmi") &&
-            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("POCO") &&
-            !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().isEmpty()) ||
-            !getRomAuthor().isEmpty() ||
-            Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
-            !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
+                !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("V") &&
+                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Xiaomi") &&
+                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("Redmi") &&
+                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().startsWith("POCO") &&
+                        !com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBaseOs().isEmpty()) ||
+                !getRomAuthor().isEmpty() ||
+                Objects.equals(SystemSDKKt.getHost(), "xiaomi.eu") ||
+                !SystemSDKKt.getHost().startsWith("pangu-build-component-system");
     }
 
     public void isSignPass() {

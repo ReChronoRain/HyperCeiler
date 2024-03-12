@@ -67,6 +67,120 @@ public class PackagesUtils {
     }
 
     /**
+     * 同下，只不过不需要上下文。
+     */
+    public static boolean checkAppStatus(String pkg) {
+        try {
+            return checkAppStatus(getContext(), pkg);
+        } catch (Throwable e) {
+            AndroidLogUtils.logE(TAG, "Failed to get Context!", e);
+            return false;
+        }
+    }
+
+    /**
+     * 检查应用是否被卸载，禁用，隐藏。请注意满足其中任意一项就会返回 true。
+     *
+     * @param context 上下文
+     * @param pkg     包名
+     * @return 状态
+     */
+    public static boolean checkAppStatus(Context context, String pkg) {
+        return isUninstall(context, pkg) || isDisable(context, pkg) || isHidden(context, pkg);
+    }
+
+    /**
+     * 同下，只不过不用上下文。
+     */
+    public static boolean isUninstall(String pkg) {
+        try {
+            return isUninstall(getContext(), pkg);
+        } catch (Throwable e) {
+            AndroidLogUtils.logE(TAG, "Failed to get Context!", e);
+            return false;
+        }
+    }
+
+    /**
+     * 判断目标包名应用是否已经被卸载。
+     *
+     * @param context 上下文
+     * @param pkg     包名
+     * @return 状态
+     */
+    public static boolean isUninstall(Context context, String pkg) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            packageManager.getPackageInfo(pkg, PackageManager.MATCH_ALL);
+            return false;
+        } catch (PackageManager.NameNotFoundException e) {
+            AndroidLogUtils.logW(TAG, "Didn't find this app on the machine, it may have been uninstalled! " + pkg + " E: " + e);
+            return true;
+        }
+    }
+
+    /**
+     * 同下，只不过不需要上下文。
+     */
+    public static boolean isDisable(String pkg) {
+        try {
+            return isDisable(getContext(), pkg);
+        } catch (Throwable e) {
+            AndroidLogUtils.logE(TAG, "Failed to get Context! " + e);
+            return false;
+        }
+    }
+
+    /**
+     * 获取包名应用是否被禁用。
+     *
+     * @param context 上下文
+     * @param pkg     包名
+     * @return 状态
+     */
+    public static boolean isDisable(Context context, String pkg) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int result = packageManager.getApplicationEnabledSetting(pkg);
+            if (result == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+                return true;
+            }
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * 同下，只不过不需要上下文。
+     */
+    public static boolean isHidden(String pkg) {
+        try {
+            return isHidden(getContext(), pkg);
+        } catch (Throwable e) {
+            AndroidLogUtils.logW(TAG, "Failed to get Context! " + e);
+            return false;
+        }
+    }
+
+    /**
+     * 获取包名应用是否被 Hidden，一般来说被隐藏视为未安装，可以使用 isUninstall() 来判断。
+     *
+     * @param context 上下文
+     * @param pkg     包名
+     * @return 状态
+     */
+    public static boolean isHidden(Context context, String pkg) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            packageManager.getApplicationInfo(pkg, 0);
+            return false;
+        } catch (PackageManager.NameNotFoundException e) {
+            return true;
+        }
+    }
+
+    /**
      * 获取系统打开方式
      */
     public static List<AppData> getOpenWithApps() {
@@ -280,9 +394,9 @@ public class PackagesUtils {
     }
 
     private static Context getContext() throws Throwable {
-        Context context = ContextUtils.getContext(ContextUtils.FlAG_ONLY_ANDROID);
+        Context context = ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP);
         if (context == null) {
-            context = ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP);
+            context = ContextUtils.getContext(ContextUtils.FlAG_ONLY_ANDROID);
         }
         if (context == null) {
             throw new Throwable("context is null");
