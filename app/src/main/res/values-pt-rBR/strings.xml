@@ -275,6 +275,9 @@
     <string name="system_ui_statusbar_network_speed_style_2">Valores e unidades são exibidos em duas linhas</string>
     <string name="system_ui_statusbar_network_speed_style_3">A velocidade da rede uplink e downlink é exibida em uma única linha</string>
     <string name="system_ui_statusbar_network_speed_style_4">Exibição de linha dupla de velocidades da rede de uplink e downlink</string>
+    <string name="system_ui_statusbar_clock_style_1">Relógio da barra de status em linha única</string>
+    <string name="system_ui_statusbar_clock_style_2">Relógio da barra de status\nMini-relógio da barra de notificação</string>
+    <string name="system_ui_statusbar_clock_style_3">Mini-relógio da barra de notificação\nRelógio da barra de status</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
@@ -364,7 +367,7 @@
     <string name="system_framework_allow_manage_all_notifications">Permitir gerenciar todas as notificações</string>
     <string name="system_framework_quick_screenshot">Captura de tela rápida</string>
     <string name="system_framework_quick_screenshot_desc">Desative o atraso na captura de tela</string>
-    <string name="system_framework_disable_link_turbo_toast">Ocultar brinde LinkTurbo</string>
+    <string name="system_framework_disable_link_turbo_toast">Ocultar dica da rede móvel usada para aceleração</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Serviço de Gerenciador de Pacotes</string>
     <string name="system_framework_core_patch_downgr">Permitir downgrade</string>
@@ -649,6 +652,17 @@
     <string name="system_ui_statusbar_clock_fix_color">Corrigir cor</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">Recurso experimental</string>
     <string name="system_ui_disable_clock_anim">Desativar animação de transição do relógio na central de notificações</string>
+    <string name="system_ui_disable_clock_synch">Configurações do relógio da barra de status não sincronizadas</string>
+    <string name="system_ui_disable_clock_synch_desc">O grande relógio da barra de notificação não está mais sincronizado com o formato do relógio da barra de status</string>
+    <string name="system_ui_statusbar_clock_show">Exibir</string>
+    <string name="system_ui_statusbar_clock_big_bold">Grande relógio da barra de notificação em negrito</string>
+    <string name="system_ui_statusbar_clock_layout_s">Relógio da barra de status</string>
+    <string name="system_ui_statusbar_clock_layout_b">Grande relógio da barra de notificação</string>
+    <string name="system_ui_statusbar_clock_layout_n">Mini-relógio da barra de notificação</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">Este projeto também contém modificações no relógio da barra de notificação horizontal</string>
+    <string name="system_ui_statusbar_clock_editor_s">Formato do relógio da barra de status</string>
+    <string name="system_ui_statusbar_clock_editor_n">Formato do mini-relógio da barra de notificação</string>
+    <string name="system_ui_statusbar_clock_style_f">Arranjo do relógio da barra de status</string>
     <string name="system_ui_statusbar_indicator_battery_title">Relacionado à energia</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Relacionado à temperatura</string>
     <string name="system_ui_statusbar_battery_size">Tamanho da fonte</string>
@@ -688,6 +702,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Este é um longo pedaço de texto que será exibido em formato de rolagem</string>
     <string name="system_ui_controlcenter_title">Centro de controle</string>
     <string name="system_ui_controlcenter_card_title">Cartão</string>
+    <string name="system_ui_controlcenter_media_card_title">Cartão de notificação de mídia</string>
     <string name="system_ui_controlcenter_magnet_title">Magnético</string>
     <string name="system_ui_control_center_notification_blur_title">Notificação</string>
     <string name="system_control_center_qs_detail_bg">Transparência do fundo do cartão</string>
@@ -722,6 +737,7 @@
     <string name="system_ui_control_center_default_background_alpha">Valor padrão de fundo</string>
     <string name="system_ui_control_center_fix_media_control_panel">Corrigir painel de controle de mídia</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Otimizar efeito de mistura de cores do painel de controle de mídia</string>
+    <string name="system_ui_control_center_remove_media_control_panel_background">Remover fundo de cores misturadas do cartão</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raio do blur da imagem de fundo</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Opacidade da camada de sobreposição do fundo</string>
     <string name="system_ui_control_center_compact_notice">Notificações compactas</string>
@@ -1074,6 +1090,7 @@
     <string name="home_recent_disable_wallpaper_dimming">Desativar escurecimento do plano de fundo</string>
     <string name="home_recent_unlock_pin">Desbloquear apps fixados</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ocultar barra de status nos recentes</string>
+    <string name="home_recent_hide_world_circulate">Ocultar janela flutuante do app em espelhamento de tela</string>
     <string name="home_recent_hide_freeform">Ocultar botão Janelas flutuantes</string>
     <string name="home_recent_hide_clean_up">Ocultar botão de limpeza</string>
     <string name="home_recent_remove_icon">Remover ícone</string>
@@ -1538,6 +1555,8 @@
     <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
     <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
+    <string name="calendar">Calendário</string>
+    <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
