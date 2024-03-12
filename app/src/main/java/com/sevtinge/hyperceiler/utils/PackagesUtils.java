@@ -70,12 +70,7 @@ public class PackagesUtils {
      * 同下，只不过不需要上下文。
      */
     public static boolean checkAppStatus(String pkg) {
-        try {
-            return checkAppStatus(getContext(), pkg);
-        } catch (Throwable e) {
-            AndroidLogUtils.logE(TAG, "Failed to get Context!", e);
-            return false;
-        }
+        return checkAppStatus(context(), pkg);
     }
 
     /**
@@ -93,12 +88,7 @@ public class PackagesUtils {
      * 同下，只不过不用上下文。
      */
     public static boolean isUninstall(String pkg) {
-        try {
-            return isUninstall(getContext(), pkg);
-        } catch (Throwable e) {
-            AndroidLogUtils.logE(TAG, "Failed to get Context!", e);
-            return false;
-        }
+        return isUninstall(context(), pkg);
     }
 
     /**
@@ -109,6 +99,7 @@ public class PackagesUtils {
      * @return 状态
      */
     public static boolean isUninstall(Context context, String pkg) {
+        if (context == null) return false;
         PackageManager packageManager = context.getPackageManager();
         try {
             packageManager.getPackageInfo(pkg, PackageManager.MATCH_ALL);
@@ -123,12 +114,7 @@ public class PackagesUtils {
      * 同下，只不过不需要上下文。
      */
     public static boolean isDisable(String pkg) {
-        try {
-            return isDisable(getContext(), pkg);
-        } catch (Throwable e) {
-            AndroidLogUtils.logE(TAG, "Failed to get Context! " + e);
-            return false;
-        }
+        return isDisable(context(), pkg);
     }
 
     /**
@@ -139,6 +125,7 @@ public class PackagesUtils {
      * @return 状态
      */
     public static boolean isDisable(Context context, String pkg) {
+        if (context == null) return false;
         PackageManager packageManager = context.getPackageManager();
         try {
             int result = packageManager.getApplicationEnabledSetting(pkg);
@@ -155,12 +142,7 @@ public class PackagesUtils {
      * 同下，只不过不需要上下文。
      */
     public static boolean isHidden(String pkg) {
-        try {
-            return isHidden(getContext(), pkg);
-        } catch (Throwable e) {
-            AndroidLogUtils.logW(TAG, "Failed to get Context! " + e);
-            return false;
-        }
+        return isHidden(context(), pkg);
     }
 
     /**
@@ -172,6 +154,7 @@ public class PackagesUtils {
      */
     public static boolean isHidden(Context context, String pkg) {
         try {
+            if (context == null) return false;
             PackageManager packageManager = context.getPackageManager();
             packageManager.getApplicationInfo(pkg, 0);
             return false;
