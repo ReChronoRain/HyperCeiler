@@ -314,6 +314,9 @@
     <string name="system_ui_statusbar_clock_style_1">单行状态栏时钟</string>
     <string name="system_ui_statusbar_clock_style_2">状态栏时钟\n通知中心迷你时钟</string>
     <string name="system_ui_statusbar_clock_style_3">通知中心迷你时钟\n状态栏时钟</string>
+
+    <string name="mediaeditor_mickey">米老鼠</string>
+    <string name="mediaeditor_strawberry_bear">草莓熊</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>

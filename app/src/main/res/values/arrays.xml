@@ -788,6 +788,18 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="customize_disney_type">
+        <item>@string/array_default</item>
+        <item>@string/mediaeditor_mickey</item>
+        <item>@string/mediaeditor_strawberry_bear</item>
+    </string-array>
+
+    <string-array name="customize_disney_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="card_style_tiles_more">
         <item>wifi</item>
         <item>cell</item>

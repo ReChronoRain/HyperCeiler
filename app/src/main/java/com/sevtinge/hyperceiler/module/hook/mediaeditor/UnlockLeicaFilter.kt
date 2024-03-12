@@ -20,19 +20,18 @@ package com.sevtinge.hyperceiler.module.hook.mediaeditor
 
 import com.github.kyuubiran.ezxhelper.EzXHelper.classLoader
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.sevtinge.hyperceiler.module.base.BaseHook
+import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.addUsingStringsEquals
 import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
 import com.sevtinge.hyperceiler.utils.api.LazyClass.AndroidBuildCls
-import de.robv.android.xposed.XposedHelpers
-import java.lang.reflect.Method
-import java.lang.reflect.Modifier
+import de.robv.android.xposed.*
+import java.lang.reflect.*
 
 object UnlockLeicaFilter : BaseHook() {
     private val leicaOld by lazy {
         dexKitBridge.findMethod {
             matcher {
-                // 仅适配 1.6.0.0.5
+                // 仅适配 1.5 及 1.6 的部分版本，新版已更换检测方式
                 declaredClass {
                     addUsingStringsEquals("unSupportDeviceList", "stringResUrl")
                 }
@@ -54,12 +53,12 @@ object UnlockLeicaFilter : BaseHook() {
     override fun init() {
         if (leicaOld.isNotEmpty()) {
             leicaOld.forEach { method ->
-                logI(TAG, "Old Leica name is $method") // debug 用
+                logD(TAG, lpparam.packageName, "Old Leica name is $method") // debug 用
 
                 returnTrue(method)
             }
         } else {
-            logI(TAG, "New Leica name is $leicaNew") // debug 用
+            logD(TAG, lpparam.packageName, "New Leica name is $leicaNew") // debug 用
             leicaNew.createHook {
                 before {
                     XposedHelpers.setStaticObjectField(

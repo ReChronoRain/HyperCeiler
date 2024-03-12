@@ -315,6 +315,8 @@
     <string name="system_ui_statusbar_clock_style_1">Single line status bar clock</string>
     <string name="system_ui_statusbar_clock_style_2">Status bar clock\nNotification bar mini clock</string>
     <string name="system_ui_statusbar_clock_style_3">Notification bar mini clock\nStatus bar clock</string>
+    <string name="mediaeditor_mickey">Mickey Mouse</string>
+    <string name="mediaeditor_strawberry_bear">Strawberry Bear</string>
     <!--System Framework-->
     <string name="system_framework">System Framework</string>
     <string name="system_framework_volume_title">Volume</string>
