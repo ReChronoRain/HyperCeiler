@@ -476,5 +476,4 @@
             app:stepValue="1" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>
