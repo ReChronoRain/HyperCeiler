@@ -107,6 +107,7 @@ import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.module.hook.home.recent.UnlockPin;
 import com.sevtinge.hyperceiler.module.hook.home.title.AnimParamCustom;
+import com.sevtinge.hyperceiler.module.hook.home.title.AppBlurAnim;
 import com.sevtinge.hyperceiler.module.hook.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideFile;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideTheme;
@@ -224,6 +225,7 @@ public class Home extends BaseModule {
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
+        initHook(AppBlurAnim.INSTANCE, mPrefsMap.getBoolean("home_title_app_blur_enable"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
         // 标题

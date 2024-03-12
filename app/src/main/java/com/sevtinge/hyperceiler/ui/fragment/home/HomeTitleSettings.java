@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.ui.fragment.home;
 
 import static com.sevtinge.hyperceiler.utils.api.VoyagerApisKt.isPad;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.ui.fragment.sub.AppPicker;
 
 import moralnorm.preference.Preference;
+import moralnorm.preference.PreferenceCategory;
 import moralnorm.preference.SwitchPreference;
 
 public class HomeTitleSettings extends SettingsPreferenceFragment {
@@ -39,6 +41,7 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
     SwitchPreference mDisableMonetColor;
     SwitchPreference mDisableHideTheme;
     Preference mIconTitleCustomization;
+    PreferenceCategory mAppBlur;
 
     @Override
     public int getContentResId() {
@@ -57,6 +60,8 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
     public void initPrefs() {
         mIconTitleCustomization = findPreference("prefs_key_home_title_title_icontitlecustomization");
         mDisableMonoChrome = findPreference("prefs_key_home_other_icon_mono_chrome");
+        mAppBlur = findPreference("prefs_key_home_title_app_blur_hyper");
+
         mDisableMonoChrome.setVisible(isMoreAndroidVersion(33));
         mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
@@ -64,6 +69,8 @@ public class HomeTitleSettings extends SettingsPreferenceFragment {
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
         mDisableHideTheme.setVisible(isPad());
+        mAppBlur.setVisible(isMoreHyperOSVersion(1f));
+
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("mode", AppPicker.INPUT_MODE);

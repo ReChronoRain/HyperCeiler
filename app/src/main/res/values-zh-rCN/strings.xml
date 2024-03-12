@@ -1137,6 +1137,11 @@
     <string name="home_title">图标与标题</string>
     <string name="home_title_icon_title">图标</string>
     <string name="home_title_icon_animation_title">图标动画</string>
+    <string name="home_title_app_blur_title">应用模糊</string>
+    <string name="home_title_app_blur_enable">启用应用动画背景模糊</string>
+    <string name="home_title_app_dim_alpha">背景遮罩透明度</string>
+    <string name="home_title_fix_small_window">额外修复小窗动画</string>
+    <string name="home_title_fix_small_window_desc">实验性功能，强制使用动画以避免拖动应用进入小窗时闪烁，不介意勿用</string>
     <string name="home_title_title_title">标题</string>
     <string name="home_title_title_marquee">文字滚动</string>
     <string name="home_title_title_marquee_desc">过长的应用名称将以滚动进行显示，不再使用换行</string>

@@ -111,6 +111,43 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="prefs_key_home_title_app_blur_hyper"
+        android:title="@string/home_title_app_blur_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_app_blur_enable"
+            android:title="@string/home_title_app_blur_enable" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="100"
+            android:dependency="prefs_key_home_title_app_blur_enable"
+            android:key="prefs_key_home_title_app_blur_radius"
+            android:title="@string/home_blur_radius_title"
+            app:defaultValueText="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:showSeekBarValue="true" />
+
+        <SeekBarPreferenceEx
+            android:defaultValue="0"
+            android:dependency="prefs_key_home_title_app_blur_enable"
+            android:key="prefs_key_home_title_app_dim_alpha"
+            android:title="@string/home_title_app_dim_alpha"
+            app:defaultValueText="@string/array_default"
+            app:format="%s"
+            app:maxValue="255"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_title_app_blur_enable"
+            android:key="prefs_key_home_title_fix_small_window"
+            android:summary="@string/home_title_fix_small_window_desc"
+            android:title="@string/home_title_fix_small_window" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/home_title_title_title">
         <SwitchPreference
             android:defaultValue="false"
