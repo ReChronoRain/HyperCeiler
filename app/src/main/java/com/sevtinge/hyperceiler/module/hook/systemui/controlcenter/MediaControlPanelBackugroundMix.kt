@@ -48,8 +48,7 @@ import kotlin.random.*
 private var artwork: Icon? = null
 
 //from https://github.com/YuKongA/MediaControl-BlurBg/blob/752de17a31d940683648cee7b957d4ff48d381a3/app/src/main/kotlin/top/yukonga/mediaControlBlur/MainHook.kt
-class MediaControlPanelBackupMix : BaseHook() {
-
+class MediaControlPanelBackgroundMix : BaseHook() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun init() {
         EzXHelper.initHandleLoadPackage(lpparam)
@@ -57,19 +56,15 @@ class MediaControlPanelBackupMix : BaseHook() {
         EzXHelper.setToastTag(TAG)
 
         // 部分代码来自 Hyper Helper (https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/CustomMusicControl.kt)
-        try {
-            val mediaControlPanel = loadClassOrNull("com.android.systemui.media.controls.ui.MediaControlPanel")
-            val miuiMediaControlPanel = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
-            val notificationUtil = loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
-            val playerTwoCircleView = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
+        val mediaControlPanel = loadClassOrNull("com.android.systemui.media.controls.ui.MediaControlPanel")
+        val miuiMediaControlPanel = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
+        val notificationUtil = loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
+        val playerTwoCircleView = loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
 
-            if (mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background")) {
-                removeBackground(mediaControlPanel, notificationUtil, miuiMediaControlPanel, playerTwoCircleView)
-            } else {
-                setBlurBackground(miuiMediaControlPanel, playerTwoCircleView)
-            }
-        } catch (t: Throwable) {
-            Log.ex(t)
+        if (mPrefsMap.getBoolean("system_ui_control_center_remove_media_control_panel_background")) {
+            removeBackground(mediaControlPanel, notificationUtil, miuiMediaControlPanel, playerTwoCircleView)
+        } else {
+            setBlurBackground(miuiMediaControlPanel, playerTwoCircleView)
         }
     }
 
@@ -79,102 +74,71 @@ class MediaControlPanelBackupMix : BaseHook() {
         miuiMediaControlPanel: Class<*>?,
         playerTwoCircleView: Class<*>?
     ) {
-        mediaControlPanel?.methodFinder()?.filterByName("attachPlayer")?.first()?.createAfterHook {
-            val context = AndroidAppHelper.currentApplication().applicationContext
+        try {
+            mediaControlPanel?.methodFinder()?.filterByName("attachPlayer")?.first()
+                ?.createAfterHook {
+                    val context = AndroidAppHelper.currentApplication().applicationContext
 
-            val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
-                notificationUtil,
-                "isBackgroundBlurOpened",
-                context
-            ) as Boolean
-            if (!isBackgroundBlurOpened) return@createAfterHook
+                    val isBackgroundBlurOpened =
+                        XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
+                    if (!isBackgroundBlurOpened) return@createAfterHook
 
-            val mMediaViewHolder =
-                it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
-                    ?: return@createAfterHook
-            val mediaBg = mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg")
-                ?: return@createAfterHook
+                    val mMediaViewHolder =
+                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
+                    val mediaBg =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg") ?: return@createAfterHook
 
-            mediaBg.apply {
-                setMiViewBlurMode(1)
-                setBlurRoundRect(getNotificationElementRoundRect(context))
-                setMiBackgroundBlendColors(getNotificationElementBlendColors(context), 1f)
-            }
-        }
+                    mediaBg.apply {
+                        setMiViewBlurMode(1)
+                        setBlurRoundRect(getNotificationElementRoundRect(context))
+                        setMiBackgroundBlendColors(getNotificationElementBlendColors(context), 1f)
+                    }
+                }
 
-        miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
-            ?.createAfterHook {
-                val context = AndroidAppHelper.currentApplication().applicationContext
+            miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
+                ?.createAfterHook {
+                    val context = AndroidAppHelper.currentApplication().applicationContext
 
-                val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
-                    notificationUtil,
-                    "isBackgroundBlurOpened",
-                    context
-                ) as Boolean
+                    val isBackgroundBlurOpened =
+                        XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
 
-                val mMediaViewHolder =
-                    it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
-                        ?: return@createAfterHook
+                    val mMediaViewHolder =
+                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
 
-                val mediaBg =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg")
-                        ?: return@createAfterHook
-                val titleText =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("titleText")
-                val artistText =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("artistText")
-                val seamlessIcon =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("seamlessIcon")
-                val action0 =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action0")
-                val action1 =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action1")
-                val action2 =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action2")
-                val action3 =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action3")
-                val action4 =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action4")
-                val seekBar = mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
-                val elapsedTimeView =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("elapsedTimeView")
-                val totalTimeView =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("totalTimeView")
-                val albumView =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("albumView")
-                val appIcon =
-                    mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("appIcon")
+                    val mediaBg =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg") ?: return@createAfterHook
+                    val titleText =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("titleText")
+                    val artistText =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("artistText")
+                    val seamlessIcon =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("seamlessIcon")
+                    val action0 =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action0")
+                    val action1 =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action1")
+                    val action2 =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action2")
+                    val action3 =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action3")
+                    val action4 =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageButton>("action4")
+                    val seekBar =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<SeekBar>("seekBar")
+                    val elapsedTimeView =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("elapsedTimeView")
+                    val totalTimeView =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<TextView>("totalTimeView")
+                    val albumView =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("albumView")
+                    val appIcon =
+                        mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("appIcon")
 
-                val grey =
-                    if (isDarkMode()) Color.parseColor("#80ffffff") else Color.parseColor("#99000000")
+                    val grey =
+                        if (isDarkMode()) Color.parseColor("#80ffffff") else Color.parseColor("#99000000")
 
-                if (!isBackgroundBlurOpened) {
-                    titleText?.setTextColor(Color.WHITE)
-                    seamlessIcon?.setColorFilter(Color.WHITE)
-                    action0?.setColorFilter(Color.WHITE)
-                    action1?.setColorFilter(Color.WHITE)
-                    action2?.setColorFilter(Color.WHITE)
-                    action3?.setColorFilter(Color.WHITE)
-                    action4?.setColorFilter(Color.WHITE)
-                    seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
-                    seekBar?.thumb?.colorFilter = colorFilter(Color.WHITE)
-                } else {
-                    if (!isDarkMode()) {
-                        titleText?.setTextColor(Color.BLACK)
-                        artistText?.setTextColor(grey)
-                        seamlessIcon?.setColorFilter(Color.BLACK)
-                        action0?.setColorFilter(Color.BLACK)
-                        action1?.setColorFilter(Color.BLACK)
-                        action2?.setColorFilter(Color.BLACK)
-                        action3?.setColorFilter(Color.BLACK)
-                        action4?.setColorFilter(Color.BLACK)
-                        seekBar?.progressDrawable?.colorFilter = colorFilter(Color.BLACK)
-                        seekBar?.thumb?.colorFilter = colorFilter(Color.BLACK)
-                        elapsedTimeView?.setTextColor(grey)
-                        totalTimeView?.setTextColor(grey)
-                    } else {
+                    if (!isBackgroundBlurOpened) {
                         titleText?.setTextColor(Color.WHITE)
-                        artistText?.setTextColor(grey)
                         seamlessIcon?.setColorFilter(Color.WHITE)
                         action0?.setColorFilter(Color.WHITE)
                         action1?.setColorFilter(Color.WHITE)
@@ -183,89 +147,102 @@ class MediaControlPanelBackupMix : BaseHook() {
                         action4?.setColorFilter(Color.WHITE)
                         seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
                         seekBar?.thumb?.colorFilter = colorFilter(Color.WHITE)
-                        elapsedTimeView?.setTextColor(grey)
-                        totalTimeView?.setTextColor(grey)
+                    } else {
+                        if (!isDarkMode()) {
+                            titleText?.setTextColor(Color.BLACK)
+                            artistText?.setTextColor(grey)
+                            seamlessIcon?.setColorFilter(Color.BLACK)
+                            action0?.setColorFilter(Color.BLACK)
+                            action1?.setColorFilter(Color.BLACK)
+                            action2?.setColorFilter(Color.BLACK)
+                            action3?.setColorFilter(Color.BLACK)
+                            action4?.setColorFilter(Color.BLACK)
+                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.BLACK)
+                            seekBar?.thumb?.colorFilter = colorFilter(Color.BLACK)
+                            elapsedTimeView?.setTextColor(grey)
+                            totalTimeView?.setTextColor(grey)
+                        } else {
+                            titleText?.setTextColor(Color.WHITE)
+                            artistText?.setTextColor(grey)
+                            seamlessIcon?.setColorFilter(Color.WHITE)
+                            action0?.setColorFilter(Color.WHITE)
+                            action1?.setColorFilter(Color.WHITE)
+                            action2?.setColorFilter(Color.WHITE)
+                            action3?.setColorFilter(Color.WHITE)
+                            action4?.setColorFilter(Color.WHITE)
+                            seekBar?.progressDrawable?.colorFilter = colorFilter(Color.WHITE)
+                            seekBar?.thumb?.colorFilter = colorFilter(Color.WHITE)
+                            elapsedTimeView?.setTextColor(grey)
+                            totalTimeView?.setTextColor(grey)
+                        }
+
+                        mediaBg.setMiBackgroundBlendColors(getNotificationElementBlendColors(context), 1f)
+
+                        val artwork = it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork") ?: return@createAfterHook
+                        val artworkLayer = artwork.loadDrawable(context) ?: return@createAfterHook
+                        val artworkBitmap = Bitmap.createBitmap(
+                            artworkLayer.intrinsicWidth,
+                            artworkLayer.intrinsicHeight,
+                            Bitmap.Config.ARGB_8888
+                        )
+                        val canvas = Canvas(artworkBitmap)
+                        artworkLayer.setBounds(0, 0, artworkLayer.intrinsicWidth, artworkLayer.intrinsicHeight)
+                        artworkLayer.draw(canvas)
+                        val resizedBitmap = Bitmap.createScaledBitmap(artworkBitmap, 300, 300, true)
+
+                        val radius =
+                            mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40).toFloat()
+                        val newBitmap = Bitmap.createBitmap(
+                            resizedBitmap.width,
+                            resizedBitmap.height,
+                            Bitmap.Config.ARGB_8888
+                        )
+                        val canvas1 = Canvas(newBitmap)
+
+                        val paint = Paint()
+                        val rect = Rect(0, 0, resizedBitmap.width, resizedBitmap.height)
+                        val rectF = RectF(rect)
+
+                        paint.isAntiAlias = true
+                        canvas1.drawARGB(0, 0, 0, 0)
+                        paint.color = Color.BLACK
+                        canvas1.drawRoundRect(rectF, radius, radius, paint)
+
+                        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                        canvas1.drawBitmap(resizedBitmap, rect, rect, paint)
+
+                        albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
+
+                        if (appIcon?.parent != null) {
+                            (appIcon.parent as ViewGroup).removeView(appIcon)
+                        }
                     }
-
-                    mediaBg.setMiBackgroundBlendColors(
-                        getNotificationElementBlendColors(context),
-                        1f
-                    )
-
-                    val artwork = it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork")
-                        ?: return@createAfterHook
-                    val artworkLayer = artwork.loadDrawable(context) ?: return@createAfterHook
-                    val artworkBitmap = Bitmap.createBitmap(
-                        artworkLayer.intrinsicWidth,
-                        artworkLayer.intrinsicHeight,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas = Canvas(artworkBitmap)
-                    artworkLayer.setBounds(
-                        0,
-                        0,
-                        artworkLayer.intrinsicWidth,
-                        artworkLayer.intrinsicHeight
-                    )
-                    artworkLayer.draw(canvas)
-                    val resizedBitmap = Bitmap.createScaledBitmap(artworkBitmap, 300, 300, true)
-
-                    val radius =
-                        mPrefsMap.getInt(
-                        "system_ui_control_center_media_control_panel_background_mix_blur_radius", 40).toFloat()
-                    val newBitmap = Bitmap.createBitmap(
-                        resizedBitmap.width,
-                        resizedBitmap.height,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas1 = Canvas(newBitmap)
-
-                    val paint = Paint()
-                    val rect = Rect(0, 0, resizedBitmap.width, resizedBitmap.height)
-                    val rectF = RectF(rect)
-
-                    paint.isAntiAlias = true
-                    canvas1.drawARGB(0, 0, 0, 0)
-                    paint.color = Color.BLACK
-                    canvas1.drawRoundRect(rectF, radius, radius, paint)
-
-                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                    canvas1.drawBitmap(resizedBitmap, rect, rect, paint)
-
-                    albumView?.setImageDrawable(BitmapDrawable(context.resources, newBitmap))
-
-                    (appIcon?.parent as ViewGroup).removeView(appIcon)
                 }
-            }
 
-        playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()?.createBeforeHook {
-            val context = AndroidAppHelper.currentApplication().applicationContext
-
-            val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
-                notificationUtil,
-                "isBackgroundBlurOpened",
-                context
-            ) as Boolean
-            if (!isBackgroundBlurOpened) return@createBeforeHook
-
-            it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint1")?.alpha = 0
-            it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint2")?.alpha = 0
-            it.thisObject.objectHelper().setObject("mRadius", 0f)
-        }
-
-        playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
-            ?.createBeforeHook {
+            playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()?.createBeforeHook {
                 val context = AndroidAppHelper.currentApplication().applicationContext
 
-                val isBackgroundBlurOpened = XposedHelpers.callStaticMethod(
-                    notificationUtil,
-                    "isBackgroundBlurOpened",
-                    context
-                ) as Boolean
+                val isBackgroundBlurOpened =
+                    XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
                 if (!isBackgroundBlurOpened) return@createBeforeHook
 
-                it.result = null
+                it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint1")?.alpha = 0
+                it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint2")?.alpha = 0
+                it.thisObject.objectHelper().setObject("mRadius", 0f)
             }
+
+            playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
+                ?.createBeforeHook {
+                    val context = AndroidAppHelper.currentApplication().applicationContext
+
+                val isBackgroundBlurOpened =
+                    XposedHelpers.callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
+                if (!isBackgroundBlurOpened) return@createBeforeHook
+                    it.result = null
+                }
+        } catch (t: Throwable) {
+            Log.ex(t)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -273,171 +250,173 @@ class MediaControlPanelBackupMix : BaseHook() {
         miuiMediaControlPanel: Class<*>?,
         playerTwoCircleView: Class<*>?
     ) {
-        //  获取 Icon
-        miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createHook {
-            before {
-                artwork = it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork")
-                    ?: return@before
+        try {
+            //  获取 Icon
+            miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()?.createHook {
+                before {
+                    artwork = it.args[0].objectHelper().getObjectOrNullAs<Icon>("artwork")
+                        ?: return@before
+                }
             }
-        }
 
-        // 重写 onDraw
-        playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()?.createHook {
-            before {
-                (it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint1"))?.alpha = 0
-                (it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint2"))?.alpha = 0
-                it.thisObject.objectHelper().setObject("mRadius", 0.0f)
+            // 重写 onDraw
+            playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()?.createHook {
+                before {
+                    (it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint1"))?.alpha = 0
+                    (it.thisObject.objectHelper().getObjectOrNullAs<Paint>("mPaint2"))?.alpha = 0
+                    it.thisObject.objectHelper().setObject("mRadius", 0.0f)
+                }
             }
-        }
 
-        // 重写 setBackground
-        playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
-            ?.createHook {
-                replace {
-                    if (artwork == null) return@replace it
-                    val imageView = it.thisObject as ImageView
-                    val backgroundColors = it.args[0] as IntArray
+            // 重写 setBackground
+            playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
+                ?.createHook {
+                    replace {
+                        if (artwork == null) return@replace it
+                        val imageView = it.thisObject as ImageView
+                        val backgroundColors = it.args[0] as IntArray
 
-                    // 获取 Bitmap
-                    var artworkLayer =
-                        artwork?.loadDrawable(imageView.context) ?: return@replace it
-                    val artworkBitmap = Bitmap.createBitmap(
-                        artworkLayer.intrinsicWidth,
-                        artworkLayer.intrinsicHeight,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas = Canvas(artworkBitmap)
-                    artworkLayer.setBounds(
-                        0,
-                        0,
-                        artworkLayer.intrinsicWidth,
-                        artworkLayer.intrinsicHeight
-                    )
-                    artworkLayer.draw(canvas)
+                        // 获取 Bitmap
+                        var artworkLayer =
+                            artwork?.loadDrawable(imageView.context) ?: return@replace it
+                        val artworkBitmap = Bitmap.createBitmap(
+                            artworkLayer.intrinsicWidth,
+                            artworkLayer.intrinsicHeight,
+                            Bitmap.Config.ARGB_8888
+                        )
+                        val canvas = Canvas(artworkBitmap)
+                        artworkLayer.setBounds(
+                            0,
+                            0,
+                            artworkLayer.intrinsicWidth,
+                            artworkLayer.intrinsicHeight
+                        )
+                        artworkLayer.draw(canvas)
 
-                    // 缩小图片
-                    val tmpBitmap = Bitmap.createScaledBitmap(artworkBitmap, 132, 132, true)
-                    val tmpBitmapXS = Bitmap.createScaledBitmap(
-                        artworkBitmap,
-                        tmpBitmap.width / 2,
-                        tmpBitmap.height / 2,
-                        true
-                    )
-
-                    // 创建混合图
-                    val bigBitmap = Bitmap.createBitmap(
-                        tmpBitmap.width * 2,
-                        tmpBitmap.height * 2,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas2 = Canvas(bigBitmap)
-
-                    // 生成随机图
-                    val rotImages = mutableListOf<Bitmap>()
-                    for (i in 1..5) {
-
-                        // 中心点随机旋转 90°
-                        val rotateMatrix = Matrix()
-                        val pivotX = tmpBitmap.width / 2f
-                        val pivotY = tmpBitmap.height / 2f
-                        val rotationAngle = Random.nextInt(4) * 90f
-                        rotateMatrix.postRotate(rotationAngle, pivotX, pivotY)
-
-                        // 随机进行翻转和镜像
-                        val flipHorizontal = Random.nextBoolean()
-                        val flipVertical = Random.nextBoolean()
-                        rotateMatrix.postScale(
-                            if (flipHorizontal) -1f else 1f,
-                            if (flipVertical) -1f else 1f,
-                            pivotX,
-                            pivotY
+                        // 缩小图片
+                        val tmpBitmap = Bitmap.createScaledBitmap(artworkBitmap, 132, 132, true)
+                        val tmpBitmapXS = Bitmap.createScaledBitmap(
+                            artworkBitmap,
+                            tmpBitmap.width / 2,
+                            tmpBitmap.height / 2,
+                            true
                         )
 
-                        val rotatedImage = if (i <= 4) {
-                            Bitmap.createBitmap(
-                                tmpBitmap,
-                                0,
-                                0,
-                                tmpBitmap.width,
-                                tmpBitmap.height,
-                                rotateMatrix,
-                                true
+                        // 创建混合图
+                        val bigBitmap = Bitmap.createBitmap(
+                            tmpBitmap.width * 2,
+                            tmpBitmap.height * 2,
+                            Bitmap.Config.ARGB_8888
+                        )
+                        val canvas2 = Canvas(bigBitmap)
+
+                        // 生成随机图
+                        val rotImages = mutableListOf<Bitmap>()
+                        for (i in 1..5) {
+
+                            // 中心点随机旋转 90°
+                            val rotateMatrix = Matrix()
+                            val pivotX = tmpBitmap.width / 2f
+                            val pivotY = tmpBitmap.height / 2f
+                            val rotationAngle = Random.nextInt(4) * 90f
+                            rotateMatrix.postRotate(rotationAngle, pivotX, pivotY)
+
+                            // 随机进行翻转和镜像
+                            val flipHorizontal = Random.nextBoolean()
+                            val flipVertical = Random.nextBoolean()
+                            rotateMatrix.postScale(
+                                if (flipHorizontal) -1f else 1f,
+                                if (flipVertical) -1f else 1f,
+                                pivotX,
+                                pivotY
                             )
-                        } else {
-                            Bitmap.createBitmap(
-                                tmpBitmapXS,
-                                0,
-                                0,
-                                tmpBitmapXS.width,
-                                tmpBitmapXS.height,
-                                rotateMatrix,
-                                true
-                            )
+
+                            val rotatedImage = if (i <= 4) {
+                                Bitmap.createBitmap(
+                                    tmpBitmap,
+                                    0,
+                                    0,
+                                    tmpBitmap.width,
+                                    tmpBitmap.height,
+                                    rotateMatrix,
+                                    true
+                                )
+                            } else {
+                                Bitmap.createBitmap(
+                                    tmpBitmapXS,
+                                    0,
+                                    0,
+                                    tmpBitmapXS.width,
+                                    tmpBitmapXS.height,
+                                    rotateMatrix,
+                                    true
+                                )
+                            }
+                            rotImages.add(rotatedImage)
                         }
-                        rotImages.add(rotatedImage)
+
+                        // 将随机图绘制到混合大图上
+                        canvas2.drawBitmap(rotImages[0], 0f, 0f, null) // 左上角
+                        canvas2.drawBitmap(rotImages[1], tmpBitmap.width.toFloat(), 0f, null) // 右上角
+                        canvas2.drawBitmap(
+                            rotImages[2],
+                            0f,
+                            tmpBitmap.height.toFloat(),
+                            null
+                        ) // 左下角
+                        canvas2.drawBitmap(
+                            rotImages[3],
+                            tmpBitmap.width.toFloat(),
+                            tmpBitmap.height.toFloat(),
+                            null
+                        ) // 右下角
+                        canvas2.drawBitmap(
+                            rotImages[4],
+                            tmpBitmap.width / 4f * 3f,
+                            tmpBitmap.height / 4f * 3f,
+                            null
+                        ) // 中心
+
+                        // 颜色处理
+                        val brightness = bigBitmap.brightness()
+                        val colorMatrix = brightness.colorMatrix()
+                        val paint = Paint()
+                        paint.colorFilter = ColorMatrixColorFilter(colorMatrix)
+                        canvas2.drawBitmap(bigBitmap, 0f, 0f, paint)
+                        canvas2.drawColor(backgroundColors[0] and 0x6FFFFFFF)
+
+                        val backgroundColorMode = if (isDarkMode()) 0 else 248
+                        val backgroundColor = Color.argb(
+                            mPrefsMap.getInt(
+                                "system_ui_control_center_media_control_panel_background_mix_overlay",
+                                20
+                            ), backgroundColorMode, backgroundColorMode, backgroundColorMode
+                        )
+
+                        // 应用颜色过滤器
+                        val paintOverlay = Paint()
+                        paintOverlay.colorFilter =
+                            PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP)
+
+                        // 叠加颜色
+                        canvas2.drawBitmap(bigBitmap, 0f, 0f, null)
+                        canvas2.drawColor(backgroundColor)
+
+                        // 模糊处理
+                        artworkLayer = BitmapDrawable(
+                            imageView.resources, bigBitmap.blur(
+                                mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40).toFloat()
+                            )
+                        )
+
+                        // 绘制到 ImageView 上
+                        imageView.setImageDrawable(artworkLayer)
                     }
 
-                    // 将随机图绘制到混合大图上
-                    canvas2.drawBitmap(rotImages[0], 0f, 0f, null) // 左上角
-                    canvas2.drawBitmap(rotImages[1], tmpBitmap.width.toFloat(), 0f, null) // 右上角
-                    canvas2.drawBitmap(
-                        rotImages[2],
-                        0f,
-                        tmpBitmap.height.toFloat(),
-                        null
-                    ) // 左下角
-                    canvas2.drawBitmap(
-                        rotImages[3],
-                        tmpBitmap.width.toFloat(),
-                        tmpBitmap.height.toFloat(),
-                        null
-                    ) // 右下角
-                    canvas2.drawBitmap(
-                        rotImages[4],
-                        tmpBitmap.width / 4f * 3f,
-                        tmpBitmap.height / 4f * 3f,
-                        null
-                    ) // 中心
-
-                    // 颜色处理
-                    val brightness = bigBitmap.brightness()
-                    val colorMatrix = brightness.colorMatrix()
-                    val paint = Paint()
-                    paint.colorFilter = ColorMatrixColorFilter(colorMatrix)
-                    canvas2.drawBitmap(bigBitmap, 0f, 0f, paint)
-                    canvas2.drawColor(backgroundColors[0] and 0x6FFFFFFF)
-
-                    val backgroundColorMode = if (isDarkMode()) 0 else 248
-                    val backgroundColor = Color.argb(
-                        mPrefsMap.getInt(
-                            "system_ui_control_center_media_control_panel_background_mix_overlay",
-                            20
-                        ), backgroundColorMode, backgroundColorMode, backgroundColorMode
-                    )
-
-                    // 应用颜色过滤器
-                    val paintOverlay = Paint()
-                    paintOverlay.colorFilter =
-                        PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP)
-
-                    // 叠加颜色
-                    canvas2.drawBitmap(bigBitmap, 0f, 0f, null)
-                    canvas2.drawColor(backgroundColor)
-
-                    // 模糊处理
-                    artworkLayer = BitmapDrawable(
-                        imageView.resources, bigBitmap.blur(
-                            mPrefsMap.getInt(
-                                "system_ui_control_center_media_control_panel_background_mix_blur_radius", 40
-                            ).toFloat()
-                        )
-                    )
-
-                    // 绘制到 ImageView 上
-                    imageView.setImageDrawable(artworkLayer)
                 }
-
-            }
+        } catch (t: Throwable) {
+            Log.ex(t)
+        }
     }
 
     @SuppressLint("DiscouragedApi")
