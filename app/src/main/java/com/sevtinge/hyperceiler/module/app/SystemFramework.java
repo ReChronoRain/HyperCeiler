@@ -103,7 +103,6 @@ public class SystemFramework extends BaseModule {
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
         initHook(new VolumeDisableSafe(), mPrefsMap.getBoolean("system_framework_volume_disable_safe"));
-        // initHook(new ClockShowSecond(), mPrefsMap.getBoolean("system_ui_statusbar_clock_show_second"));
 
         // 其他
         initHook(new SystemLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
