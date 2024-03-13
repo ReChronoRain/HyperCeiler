@@ -39,6 +39,7 @@ import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinde
 import com.sevtinge.hyperceiler.module.base.*
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
+import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.utils.devicesdk.*
 import de.robv.android.xposed.*
@@ -87,9 +88,11 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder") ?: return@createAfterHook
                     val mediaBg =
                         mMediaViewHolder.objectHelper().getObjectOrNullAs<ImageView>("mediaBg") ?: return@createAfterHook
+                    val radius = mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40)
 
                     mediaBg.apply {
                         setMiViewBlurMode(1)
+                        setMiBackgroundBlurRadius(radius)
                         setBlurRoundRect(getNotificationElementRoundRect(context))
                         setMiBackgroundBlendColors(getNotificationElementBlendColors(context), 1f)
                     }
@@ -190,8 +193,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         artworkLayer.draw(canvas)
                         val resizedBitmap = Bitmap.createScaledBitmap(artworkBitmap, 300, 300, true)
 
-                        val radius =
-                            mPrefsMap.getInt("system_ui_control_center_media_control_panel_background_mix_blur_radius", 40).toFloat()
+                        val radius = 45f
                         val newBitmap = Bitmap.createBitmap(
                             resizedBitmap.width,
                             resizedBitmap.height,
