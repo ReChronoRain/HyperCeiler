@@ -143,8 +143,8 @@ android {
 dependencies {
     compileOnly(project(":hidden-api"))
 
-    compileOnly files('libs/miui.jar')
-    compileOnly files("libs/miui-framework.jar")
+//    compileOnly files('libs/miui.jar')
+//    compileOnly files("libs/miui-framework.jar")
 
     compileOnly libs.xposed.api
 

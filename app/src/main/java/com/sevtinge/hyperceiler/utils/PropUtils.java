@@ -26,8 +26,6 @@ import com.sevtinge.hyperceiler.callback.ITAG;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.utils.shell.ShellUtils;
 
-import java.lang.reflect.Method;
-
 @SuppressLint("PrivateApi")
 public class PropUtils {
     private static final String TAG = ITAG.TAG;
@@ -74,7 +72,7 @@ public class PropUtils {
     public static String getProp(String name, String def) {
         try {
             return invokeMethod(Class.forName("android.os.SystemProperties"),
-                "get", new Class[]{String.class, String.class}, name, def);
+                    "get", new Class[]{String.class, String.class}, name, def);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp String", e);
             return "";
@@ -84,7 +82,7 @@ public class PropUtils {
     public static String getProp(String name) {
         try {
             return invokeMethod(Class.forName("android.os.SystemProperties"),
-                "get", new Class[]{String.class}, name);
+                    "get", new Class[]{String.class}, name);
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getProp String no def", e);
             return "";
@@ -106,18 +104,14 @@ public class PropUtils {
 
     private static String classLoaderMethod(Context context, String name) throws Throwable {
         ClassLoader classLoader = context.getClassLoader();
-        Class<?> cls = classLoader.loadClass("android.os.SystemProperties");
-        Method method = cls.getDeclaredMethod("get", String.class);
-        method.setAccessible(true);
-        return (String) method.invoke(cls, name);
+        return InvokeUtils.invokeStaticMethod("android.os.SystemProperties", classLoader,
+                "get", new Class[]{String.class}, name);
     }
 
     /**
      * @noinspection unchecked
      */
     private static <T> T invokeMethod(Class<?> cls, String str, Class<?>[] clsArr, Object... objArr) throws Throwable {
-        Method declaredMethod = cls.getDeclaredMethod(str, clsArr);
-        declaredMethod.setAccessible(true);
-        return (T) declaredMethod.invoke(null, objArr);
+        return InvokeUtils.invokeStaticMethod(cls, str, clsArr, objArr);
     }
 }
