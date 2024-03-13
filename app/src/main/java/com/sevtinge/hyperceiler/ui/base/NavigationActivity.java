@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.ui.base;
 
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
-import static miui.util.TypefaceUtils.getContext;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -111,9 +110,10 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mNavigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mFragmentPage.setAdapter(mNavigationPagerAdapter);
 
-        addPaddingForRadioButton(mHomeNav);
-        addPaddingForRadioButton(mSettingsNav);
-        addPaddingForRadioButton(mAboutNav);
+        Context context = this;
+        addPaddingForRadioButton(mHomeNav, context);
+        addPaddingForRadioButton(mSettingsNav, context);
+        addPaddingForRadioButton(mAboutNav, context);
 
         int i;
         if (isDarkMode(this)) i = 160;
@@ -155,7 +155,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         });
     }
 
-    private void addPaddingForRadioButton(View view) {
+    private void addPaddingForRadioButton(View view, Context context) {
         ViewCompat.setOnApplyWindowInsetsListener(view, new OnApplyWindowInsetsListener() {
             @NonNull
             @Override
@@ -167,7 +167,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
                 int dpi = displayMetrics.densityDpi;*/
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(0, dpToPx(10, getContext()), 0, inset.bottom + dpToPx(18,getContext()));
+                v.setPadding(0, dpToPx(10, context), 0, inset.bottom + dpToPx(18, context));
                 return insets;
             }
         });
