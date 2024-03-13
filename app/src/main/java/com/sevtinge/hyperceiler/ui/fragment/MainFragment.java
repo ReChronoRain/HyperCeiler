@@ -35,6 +35,8 @@ import moralnorm.preference.Preference;
 
 public class MainFragment extends SettingsPreferenceFragment {
 
+    Preference mCamera;
+    Preference mCameraNew;
     Preference mPowerSetting;
     Preference mMTB;
     Preference mSecurityCenter;
@@ -53,6 +55,8 @@ public class MainFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
+        mCamera = findPreference("prefs_key_camera");
+        mCameraNew = findPreference("prefs_key_camera_new");
         mPowerSetting = findPreference("prefs_key_powerkeeper");
         mMTB = findPreference("prefs_key_mtb");
         mSecurityCenter = findPreference("prefs_key_security_center");
@@ -63,6 +67,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         mTip = findPreference("prefs_key_tip");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
 
+        mCamera.setVisible(!isMoreHyperOSVersion(1f));
+        mCameraNew.setVisible(isMoreHyperOSVersion(1f));
         mPowerSetting.setVisible(!isAndroidVersion(30) && !PackagesUtils.checkAppStatus(getContext(), "com.miui.powerkeeper"));
         mMTB.setVisible(!isAndroidVersion(30) && !PackagesUtils.checkAppStatus(getContext(), "com.xiaomi.mtb"));
 

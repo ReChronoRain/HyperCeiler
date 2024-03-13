@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:location="http://schemas.android.com/apk/location"
+    location:myLocation="@string/camera">
+
+    <PreferenceCategory>
+
+        <SwitchPreference
+            android:title="@string/camera_custom_watermark"
+            android:key="prefs_key_camera_custom_watermark"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:title="@string/camera_custom_watermark_manufacturer"
+            android:key="prefs_key_camera_custom_watermark_manufacturer"
+            android:defaultValue=""
+            android:dependency="prefs_key_camera_custom_watermark"/>
+
+        <EditTextPreference
+            android:title="@string/camera_custom_watermark_device"
+            android:key="prefs_key_camera_custom_watermark_device"
+            android:defaultValue=""
+            android:dependency="prefs_key_camera_custom_watermark"/>
+
+        <SwitchPreference
+            android:title="@string/camera_settings_lab_options"
+            android:key="prefs_key_camera_settings_lab_options"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/camera_settings_track_eyes"
+            android:key="prefs_key_camera_settings_track_eyes"
+            android:dependency="prefs_key_camera_settings_lab_options"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -246,8 +246,8 @@ public class SearchHelper {
         parsePrefXml(context, R.xml.browser,
                 "com.sevtinge.hyperceiler.ui.fragment.BrowserFragment");
 
-        parsePrefXml(context, R.xml.camera,
-                "com.sevtinge.hyperceiler.ui.fragment.CameraFragment");
+        parsePrefXml(context, !isMoreHyperOSVersion(1f) ? R.xml.camera : R.xml.camera_new,
+                !isMoreHyperOSVersion(1f) ? "com.sevtinge.hyperceiler.ui.fragment.CameraFragment" : "com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment");
 
         parsePrefXml(context, R.xml.clock,
                 "com.sevtinge.hyperceiler.ui.fragment.ClockFragment");

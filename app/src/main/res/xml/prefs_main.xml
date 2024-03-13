@@ -38,6 +38,13 @@
             android:title="@string/camera" />
 
         <com.sevtinge.hyperceiler.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.ui.fragment.CameraNewFragment"
+            android:icon="@drawable/ic_camera"
+            android:key="prefs_key_camera_new"
+            android:summary="com.android.camera"
+            android:title="@string/camera" />
+
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.ui.fragment.ClockFragment"
             android:icon="@drawable/ic_clock"
             android:key="prefs_key_clock"
