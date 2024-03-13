@@ -275,6 +275,11 @@
     <string name="system_ui_statusbar_network_speed_style_2">Giá trị và đơn vị hiển thị theo hàng đôi</string>
     <string name="system_ui_statusbar_network_speed_style_3">Tốc độ mạng up và down được hiển thị trên một dòng duy nhất</string>
     <string name="system_ui_statusbar_network_speed_style_4">Tốc độ mạng up và down được hiển thị trên dòng đôi</string>
+    <string name="system_ui_statusbar_clock_style_1">Đồng hồ ở thanh trạng thái hàng đơn</string>
+    <string name="system_ui_statusbar_clock_style_2">Đồng hồ trên thanh trạng thái\nĐồng hồ nhỏ trên thanh thông báo</string>
+    <string name="system_ui_statusbar_clock_style_3">Đồng hồ nhỏ trên thanh thông báo\nĐồng hồ trên thanh trạng thái</string>
+    <string name="mediaeditor_mickey">Chuột Mickey</string>
+    <string name="mediaeditor_strawberry_bear">Gấu dâu</string>
     <!--System Framework-->
     <string name="system_framework">Framework hệ thống</string>
     <string name="system_framework_volume_title">Âm lượng</string>
@@ -651,6 +656,17 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_statusbar_clock_fix_color">Cố định màu</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">Tính năng thử nghiệm</string>
     <string name="system_ui_disable_clock_anim">Tắt hoạt ảnh chuyển tiếp đồng hồ trong trung tâm thông báo</string>
+    <string name="system_ui_disable_clock_synch">Cài đặt đồng hồ trên thanh trạng thái không được đồng bộ hóa</string>
+    <string name="system_ui_disable_clock_synch_desc">Đồng hồ trên thanh thông báo lớn không còn đồng bộ với định dạng đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_show">Hiện</string>
+    <string name="system_ui_statusbar_clock_big_bold">Thanh thông báo đồng hồ lớn in đậm</string>
+    <string name="system_ui_statusbar_clock_layout_s">Đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_layout_b">Đồng hồ lớn trên thanh thông báo</string>
+    <string name="system_ui_statusbar_clock_layout_n">Đồng hồ nhỏ trên thanh thông báo</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">Dự án này cũng chứa các sửa đổi đối với đồng hồ trên thanh thông báo ngang</string>
+    <string name="system_ui_statusbar_clock_editor_s">Định dạng đồng hồ trên thanh trạng thái</string>
+    <string name="system_ui_statusbar_clock_editor_n">Định dạng đồng hồ nhỏ trên thanh thông báo</string>
+    <string name="system_ui_statusbar_clock_style_f">Sắp xếp đồng hồ trên thanh trạng thái</string>
     <string name="system_ui_statusbar_indicator_battery_title">Về năng lượng</string>
     <string name="system_ui_statusbar_indicator_temperature_title">Về nhiệt độ</string>
     <string name="system_ui_statusbar_battery_size">Cỡ chữ</string>
@@ -690,6 +706,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Đây là một đoạn văn bản dài sẽ được xuất ra ở dạng cuộn</string>
     <string name="system_ui_controlcenter_title">Trung tâm điều khiển</string>
     <string name="system_ui_controlcenter_card_title">Độ trong suốt nền thẻ bổ sung</string>
+    <string name="system_ui_controlcenter_media_card_title">Thẻ thông báo phương tiện</string>
     <string name="system_ui_controlcenter_magnet_title">Bảng điều khiển</string>
     <string name="system_ui_control_center_notification_blur_title">Thông báo</string>
     <string name="system_control_center_qs_detail_bg">Độ trong suốt nền thẻ bổ sung</string>
@@ -724,6 +741,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_default_background_alpha">Độ trong suốt nền thanh thông báo kéo xuống</string>
     <string name="system_ui_control_center_fix_media_control_panel">Sửa nút điều chỉnh phương tiện</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">Tối ưu hóa hiệu ứng trộn màu của bảng điều khiển phương tiện</string>
+    <string name="system_ui_control_center_remove_media_control_panel_background">Xóa nền màu hỗn hợp khỏi thẻ</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">Độ mờ của lớp phủ nền</string>
     <string name="system_ui_control_center_compact_notice">Thu gọn thông báo</string>
@@ -1080,6 +1098,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_recent_disable_wallpaper_dimming">Tắt làm mờ hình nền</string>
     <string name="home_recent_unlock_pin">Mở khóa các ứng dụng được ghim</string>
     <string name="home_recent_hide_status_bar_in_task_view">Ẩn thanh trạng thái</string>
+    <string name="home_recent_hide_world_circulate">Ẩn cửa sổ ứng dụng nổi trong màn hình phản chiếu</string>
     <string name="home_recent_hide_freeform">Ẩn nút cửa sổ nổi</string>
     <string name="home_recent_hide_clean_up">Ẩn nút xóa</string>
     <string name="home_recent_remove_icon">Ẩn biểu tượng</string>
@@ -1202,6 +1221,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="miui_package_installer_install_source">Tùy chỉnh nguồn cài đặt</string>
     <string name="miui_package_installer_apk_info">Hiện thêm thông tin gói cài đặt</string>
     <string name="miui_package_installer_apk_info_desc">Hiện thông tin về ứng dụng được cài đặt</string>
+    <string name="miui_package_installer_upload_appinfo">Ngăn thông tin ứng dụng được tải lên</string>
+    <string name="miui_package_installer_upload_appinfo_desc">Kiểm tra bảo mật sẽ không thể thực hiện được nếu tính năng này bị tắt</string>
     <!--NFC-->
     <string name="nfc">Dịch vụ NFC</string>
     <string name="nfc_disable_sound">Tắt tiếng</string>
@@ -1550,6 +1571,8 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
     <string name="system_ui_control_center_notification_disable_transparent">Tắt chế độ trong suốt</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Tắt cài đặt nền thông báo trong suốt</string>
+    <string name="calendar">Lịch</string>
+    <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>
