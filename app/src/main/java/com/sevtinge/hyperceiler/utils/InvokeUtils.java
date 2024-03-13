@@ -81,7 +81,6 @@ public class InvokeUtils {
         return baseInvokeMethod(className, instance, method, param, value);
     }
 
-
     public static <T> T invokeStaticMethod(String className, String method, Class<?>[] param, Object... value) {
         return baseInvokeMethod(className, null, method, param, value);
     }
