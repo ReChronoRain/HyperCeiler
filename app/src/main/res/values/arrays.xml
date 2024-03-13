@@ -605,7 +605,7 @@
         <item>@string/array_default</item>
         <item>Xiaomi 14 Ultra</item>
         <item>Xiaomi 14 Pro</item>
-        <item>Xiaomi CIVI 3</item>
+        <item>Xiaomi CIVI 4</item>
         <item>Xiaomi MIX Fold 3</item>
         <item>Xiaomi MIX Alpha (Avenger)</item>
         <item>Xiaomi MIX Alpha (Draco)</item>
@@ -613,7 +613,7 @@
         <item>Redmi K60 Ultra</item>
         <item>Redmi K70 Pro</item>
         <item>Redmi K70E</item>
-        <item>Redmi Note 13 Pro+</item>
+        <item>Redmi Note 13 Turbo</item>
         <item>Redmi 13C / Redmi 13R</item>
     </string-array>
 
@@ -621,7 +621,7 @@
         <item>0</item>
         <item>104</item>
         <item>102</item>
-        <item>153</item>
+        <item>154</item>
         <item>223</item>
         <item>190</item>
         <item>191</item>
@@ -629,7 +629,7 @@
         <item>307</item>
         <item>309</item>
         <item>351</item>
-        <item>334</item>
+        <item>335</item>
         <item>402</item>
     </string-array>
 
