@@ -448,6 +448,9 @@
     <string name="camera_settings_men_makeup">男性用のメイクアップ効果をアンロック</string>
     <string name="camera_settings_lab_options">ラボオプションを有効化</string>
     <string name="camera_settings_track_eyes">目のトラッキングをアンロック</string>
+    <!--Calendar-->
+    <string name="calendar">カレンダー</string>
+    <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
     <!--Clock-->
     <string name="clock">時計</string>
     <string name="clock_enable_hour_glass">タイマーの砂時計アニメーションをアンロック</string>
@@ -728,6 +731,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi スマートハブのエントリ</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">デバイス制御項目</string>
     <string name="system_ui_control_center_control_detail_background_alpha">コントロールセンター詳細の背景ぼかしの値</string>
+    <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
     <string name="system_ui_control_center_notification_blur_model">通知のぼかしモデル</string>
     <string name="system_ui_control_center_notification_blur_fix">通知の最適化</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">実験的な機能で、Android 13以上のモデルでのみ利用可能です。有効にすると、一部の領域での通知のぼかしが最適化されます。\n一部のモデルではシステム UI がクラッシュする場合があります。</string>
@@ -1352,6 +1357,11 @@
     <string name="security_center_sidebar_function_title">サイドバー機能</string>
     <string name="security_center_game_speed">すぐにゲームを起動</string>
     <string name="security_center_game_speed_desc">ゲーム起動時に開始画面のアニメーションを3倍の速度で表示します。一部のゲームにのみ対応しています</string>
+    <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
+    <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
+    <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
+    <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
+    <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">リスクの検出を無効化</string>
@@ -1550,15 +1560,6 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
-    <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
-    <string name="security_center_aosp_app_info">AOSP 版のアプリ情報項目を追加します</string>
-    <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
-    <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
-    <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
-    <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
-    <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
-    <string name="calendar">カレンダー</string>
-    <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>

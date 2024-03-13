@@ -62,6 +62,7 @@ import com.sevtinge.hyperceiler.module.hook.systemframework.corepatch.BypassSign
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.AllDarkMode;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.DisplayCutout;
 import com.sevtinge.hyperceiler.module.hook.systemframework.display.ToastTime;
+import com.sevtinge.hyperceiler.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
@@ -125,6 +126,7 @@ public class SystemFramework extends BaseModule {
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
+        initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new ToastTime(), mPrefsMap.getBoolean("system_ui_display_toast_times_enable"));
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
         // initHook(new AutoBrightness(), mPrefsMap.getBoolean("system_control_center_auto_brightness"));

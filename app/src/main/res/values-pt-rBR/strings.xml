@@ -448,6 +448,9 @@
     <string name="camera_settings_men_makeup">Desbloquear Ajustar efeitos de maquiagem para homens</string>
     <string name="camera_settings_lab_options">Ativar Opções de laboratório</string>
     <string name="camera_settings_track_eyes">Desbloquear Foco de rastreamento ocular</string>
+    <!--Calendar-->
+    <string name="calendar">Calendário</string>
+    <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
     <!--Clock-->
     <string name="clock">Relógio</string>
     <string name="clock_enable_hour_glass">Desbloquear animação da ampulheta do relógio</string>
@@ -728,6 +731,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entrada do Mi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entrada de controle do dispositivo</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Valor do blur do detalhe de fundo do controle</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
     <string name="system_ui_control_center_notification_blur_model">Modelo do blur de notificação</string>
     <string name="system_ui_control_center_notification_blur_fix">Otimização de notificação</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">Função experimental. Disponível apenas para modelos Android 13 e superiores. Após a ativação, o blur de notificação em algumas áreas será otimizado.\nPode haver um problema de travamento da interface do sistema em alguns modelos.</string>
@@ -1352,6 +1357,11 @@
     <string name="security_center_sidebar_function_title">Função da barra lateral</string>
     <string name="security_center_game_speed">Iniciar jogo rapidamente</string>
     <string name="security_center_game_speed_desc">Ao iniciar o jogo, ele passa a animação da tela de abertura em velocidade 3x, o que só é suportado por alguns jogos.</string>
+    <string name="security_center_aosp_app_info_label">Informações do app AOSP</string>
+    <string name="security_center_aosp_app_info">Adicionar entrada de informações do app AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Gerenciar apps AOSP</string>
+    <string name="security_center_aosp_app_manager">Adicionar entrada de gerenciar apps AOSP</string>
+    <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Desativar detecções de risco</string>
@@ -1550,15 +1560,6 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
-    <string name="security_center_aosp_app_info_label">Informações do app AOSP</string>
-    <string name="security_center_aosp_app_info">Adicionar entrada de informações do app AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Gerenciar apps AOSP</string>
-    <string name="security_center_aosp_app_manager">Adicionar entrada de gerenciar apps AOSP</string>
-    <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
-    <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
-    <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
-    <string name="calendar">Calendário</string>
-    <string name="calendar_unlock_subscription">Desbloquear inscrições</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>

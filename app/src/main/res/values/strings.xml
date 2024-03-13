@@ -345,6 +345,8 @@
     <string name="system_framework_volume_steps">Volume level multiplier</string>
     <string name="system_ui_display_cutout_title">Display Cutout</string>
     <string name="system_ui_display_hide_cutout">Hide Display Cutout</string>
+    <string name="system_ui_display_use_aosp_screenshot">Use AOSP ScreenShot</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Redirect the screenshot app to AOSP screenshot, the screenshot application in MIUI/HyperOS will not respond to the screenshot operation</string>
     <string name="system_ui_display_brightness_title">Brightness</string>
     <string name="system_ui_display_auto_brightness">Auto brightness range</string>
     <string name="system_ui_display_auto_brightness_desc">Define minimum and maximum values for automatic brightness</string>
@@ -486,6 +488,9 @@
     <string name="camera_settings_men_makeup">Unlock Adjust makeup effects for men</string>
     <string name="camera_settings_lab_options">Enable Lab options</string>
     <string name="camera_settings_track_eyes">Unlock Track eyes</string>
+    <!--Calendar-->
+    <string name="calendar">Calendar</string>
+    <string name="calendar_unlock_subscription">Unlock Subscription</string>
     <!--Clock-->
     <string name="clock">Clock</string>
     <string name="clock_enable_hour_glass">Unlock the clock hourglass animation</string>
@@ -766,6 +771,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Mi smart hub entry</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Device control entry</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Control Detail Background blur value</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Disable Transparent Mode</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Disable setting notification background to be transparent</string>
     <string name="system_ui_control_center_notification_blur_model">Notification Blur Model</string>
     <string name="system_ui_control_center_notification_blur_fix">Notification optimization</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">Experimental function, only available for Android 13 and above models. After enabling, notification blur in some areas will be optimized\nThere may be a problem of System UI crash on some models.</string>
@@ -1396,6 +1403,11 @@
     <string name="security_center_sidebar_function_title">Sidebar Function</string>
     <string name="security_center_game_speed">Launch the game quickly</string>
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games</string>
+    <string name="security_center_aosp_app_info_label">AOSP App Info</string>
+    <string name="security_center_aosp_app_info">Add AOSP App Info entry</string>
+    <string name="security_center_aosp_app_manager_label">AOSP App Manager</string>
+    <string name="security_center_aosp_app_manager">Add AOSP App Manager entry</string>
+    <string name="security_center_power_consumption_ranking">Show Power Consumption Ranking</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>
@@ -1597,15 +1609,6 @@
     <string name="log_level_none">Disable log</string>
     <string name="disable_suggest">Disable Suggest</string>
     <string name="enable_suggest">Enable Suggest</string>
-    <string name="security_center_aosp_app_info_label">AOSP App Info</string>
-    <string name="security_center_aosp_app_info">Add AOSP App Info entry</string>
-    <string name="security_center_aosp_app_manager_label">AOSP App Manager</string>
-    <string name="security_center_aosp_app_manager">Add AOSP App Manager entry</string>
-    <string name="security_center_power_consumption_ranking">Show Power Consumption Ranking</string>
-    <string name="system_ui_control_center_notification_disable_transparent">Disable Transparent Mode</string>
-    <string name="system_ui_control_center_notification_disable_transparent_desc">Disable setting notification background to be transparent</string>
-    <string name="calendar">Calendar</string>
-    <string name="calendar_unlock_subscription">Unlock Subscription</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you are using may not be official from Xiaomi, and some functions may not work, please contact the provider you are using for details.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you are using may not be from the official version of Re.chronoRain, and may contain malicious code.</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there is a problem with HyperCeiler, please report it to the developer in a timely and effective manner.</string>

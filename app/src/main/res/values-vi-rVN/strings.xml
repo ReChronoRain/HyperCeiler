@@ -450,6 +450,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="camera_settings_men_makeup">Mở khóa Trang điểm nam</string>
     <string name="camera_settings_lab_options">Mở khóa Tính năng thử nghiệm</string>
     <string name="camera_settings_track_eyes">Mở khóa Theo dõi mắt người</string>
+    <!--Calendar-->
+    <string name="calendar">Lịch</string>
+    <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
     <!--Clock-->
     <string name="clock">Đồng hồ</string>
     <string name="clock_enable_hour_glass">Mở khóa hoạt ảnh đồng hồ hẹn giờ</string>
@@ -730,6 +733,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Thẻ Mi Smart Hub</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Thẻ Nhà thông minh</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Giá trị mờ của nền</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Tắt chế độ trong suốt</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Tắt cài đặt nền thông báo trong suốt</string>
     <string name="system_ui_control_center_notification_blur_model">Thiết lập thông báo</string>
     <string name="system_ui_control_center_notification_blur_fix">Tối ưu hóa thông báo</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">Chức năng thử nghiệm, chỉ khả dụng cho Android 13 trở lên. Sau khi bật, thông báo mờ ở một số khu vực sẽ được tối ưu hóa\nCó thể gặp sự cố giao diện hệ thống trên một số thiết bị.</string>
@@ -1365,6 +1370,11 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_sidebar_function_title">Chức năng thanh bên</string>
     <string name="security_center_game_speed">Mở trò chơi nhanh chóng</string>
     <string name="security_center_game_speed_desc">Khi khởi chạy trò chơi, nó chuyển hoạt ảnh màn hình mở đầu với tốc độ gấp 3 lần, tốc độ này chỉ được hỗ trợ bởi một số trò chơi</string>
+    <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
+    <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
+    <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
     <!--MiTrustService-->
     <string name="trustservice">Dịch vụ MiTrust</string>
     <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
@@ -1566,15 +1576,6 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
-    <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
-    <string name="security_center_aosp_app_info">Thêm mục nhập Thông tin ứng dụng AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Trình quản lý ứng dụng AOSP</string>
-    <string name="security_center_aosp_app_manager">Thêm mục nhập Trình quản lý ứng dụng AOSP</string>
-    <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
-    <string name="system_ui_control_center_notification_disable_transparent">Tắt chế độ trong suốt</string>
-    <string name="system_ui_control_center_notification_disable_transparent_desc">Tắt cài đặt nền thông báo trong suốt</string>
-    <string name="calendar">Lịch</string>
-    <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>

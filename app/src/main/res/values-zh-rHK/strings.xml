@@ -1329,6 +1329,11 @@
     <string name="security_center_sidebar_function_title">側邊欄功能</string>
     <string name="security_center_game_speed">快速啟動遊戲</string>
     <string name="security_center_game_speed_desc">在啟動遊戲時以三倍的速度加快啟動時的動畫，僅部分遊戲支援</string>
+    <string name="security_center_aosp_app_info_label">原生應用程式資訊</string>
+    <string name="security_center_aosp_app_info">新增「原生應用程式資訊」入口</string>
+    <string name="security_center_aosp_app_manager_label">原生應用程式管理</string>
+    <string name="security_center_aosp_app_manager">新增「原生應用程式管理」入口</string>
+    <string name="security_center_power_consumption_ranking">顯示耗電量排行</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">停用風險偵測</string>
@@ -1527,11 +1532,6 @@
     <string name="log_level_none">禁用日誌</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
-    <string name="security_center_aosp_app_info_label">原生應用程式資訊</string>
-    <string name="security_center_aosp_app_info">新增「原生應用程式資訊」入口</string>
-    <string name="security_center_aosp_app_manager_label">原生應用程式管理</string>
-    <string name="security_center_aosp_app_manager">新增「原生應用程式管理」入口</string>
-    <string name="security_center_power_consumption_ranking">顯示耗電量排行</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>

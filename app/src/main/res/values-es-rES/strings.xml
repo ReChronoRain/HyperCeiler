@@ -1313,6 +1313,11 @@
     <string name="security_center_sidebar_function_title">Función de barra lateral</string>
     <string name="security_center_game_speed">Se inician juegos rápidamente</string>
     <string name="security_center_game_speed_desc">Al iniciarse el juego, cuya animación de pantalla de apertura pasa a una velocidad de 3 veces, que solo funciona con algunos juegos</string>
+    <string name="security_center_aosp_app_info_label">Información de aplicación de AOSP</string>
+    <string name="security_center_aosp_app_info">Añadir entrada de información de aplicación de AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Administrador de aplicaciones de AOSP</string>
+    <string name="security_center_aosp_app_manager">Añadir entrada de administrador de aplicaciones de AOSP</string>
+    <string name="security_center_power_consumption_ranking">Se muestra la clasificación de consumo de energía</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">No detecta riesgos</string>
@@ -1511,11 +1516,6 @@
     <string name="log_level_none">Desactivar registro</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
-    <string name="security_center_aosp_app_info_label">Información de aplicación de AOSP</string>
-    <string name="security_center_aosp_app_info">Añadir entrada de información de aplicación de AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Administrador de aplicaciones de AOSP</string>
-    <string name="security_center_aosp_app_manager">Añadir entrada de administrador de aplicaciones de AOSP</string>
-    <string name="security_center_power_consumption_ranking">Se muestra la clasificación de consumo de energía</string>
     <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
     <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de Re.chronoRain, que puede contener código malicioso.</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>

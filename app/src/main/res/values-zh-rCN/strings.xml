@@ -348,6 +348,8 @@
 
     <string name="system_ui_display_cutout_title">屏幕缺口</string>
     <string name="system_ui_display_hide_cutout">隐藏屏幕缺口</string>
+    <string name="system_ui_display_use_aosp_screenshot">使用原生截屏</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">将截屏应用重定向至原生截屏，MIUI/HyperOS 中的截屏应用将不会对截屏操作响应</string>
     <string name="system_ui_display_brightness_title">亮度</string>
     <string name="system_ui_display_auto_brightness">自动亮度范围</string>
     <string name="system_ui_display_auto_brightness_desc">定义自动亮度的最小值和最大值</string>

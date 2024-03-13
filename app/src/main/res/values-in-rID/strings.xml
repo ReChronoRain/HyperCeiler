@@ -711,6 +711,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">Entri hub pintar Mi</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">Entri kontrol perangkat</string>
     <string name="system_ui_control_center_control_detail_background_alpha">Kontrol Detail Nilai keburaman latar belakang</string>
+    <string name="system_ui_control_center_notification_disable_transparent">Nonaktifkan Mode Transparan</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">Nonaktifkan pengaturan latar belakang notifikasi menjadi transparan</string>
     <string name="system_ui_control_center_notification_blur_model">Model Buram Pemberitahuan</string>
     <string name="system_ui_control_center_notification_blur_fix">Optimalisasi notifikasi</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">Fungsi eksperimental, hanya tersedia untuk model Android 13 dan yang lebih baru. Setelah diaktifkan, notifikasi buram di beberapa area akan dioptimalkan\nMungkin ada masalah antarmuka sistem crash pada beberapa model.</string>
@@ -1331,6 +1333,11 @@
     <string name="security_center_sidebar_function_title">Fungsi Bilah Sisi</string>
     <string name="security_center_game_speed">Luncurkan game dengan cepat</string>
     <string name="security_center_game_speed_desc">Saat meluncurkan game, animasi layar pembuka diputar dengan kecepatan 3x, yang hanya didukung oleh beberapa game</string>
+    <string name="security_center_aosp_app_info_label">Info Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
+    <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
+    <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
     <!--MiTrustService-->
     <string name="trustservice">Layanan MiTrust</string>
     <string name="trustservice_disable_mrm">Nonaktifkan deteksi risiko</string>
@@ -1529,13 +1536,6 @@
     <string name="log_level_none">Nonaktifkan catatan</string>
     <string name="disable_suggest">Nonaktifkan Saran</string>
     <string name="enable_suggest">Aktifkan Saran</string>
-    <string name="security_center_aosp_app_info_label">Info Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_info">Tambahkan entri Info Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_manager_label">Manajer Aplikasi AOSP</string>
-    <string name="security_center_aosp_app_manager">Tambahkan entri AOSP App Manager</string>
-    <string name="security_center_power_consumption_ranking">Tampilkan Peringkat Konsumsi Daya</string>
-    <string name="system_ui_control_center_notification_disable_transparent">Nonaktifkan Mode Transparan</string>
-    <string name="system_ui_control_center_notification_disable_transparent_desc">Nonaktifkan pengaturan latar belakang notifikasi menjadi transparan</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi Re.chronoRain, dan mungkin berisi kode berbahaya.</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
