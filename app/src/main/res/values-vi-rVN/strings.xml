@@ -1403,6 +1403,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="market_device_modify_desc">Mẫu thiết bị được ngụy trang là Xiaomi 13 Ultra</string>
     <string name="market_disable_new_icon">Không sử dụng biểu tượng bên thứ ba</string>
     <string name="market_disable_new_icon_desc">Không thêm biểu tượng ra màn hình Desktop</string>
+    <string name="market_package_monitor">Tắt trình giám sát cài đặt gói</string>
+    <string name="market_package_monitor_desc">Cấm GetApps giám sát việc cài đặt và gỡ cài đặt ứng dụng</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">Dịch vụ kết nối thiết bị</string>
