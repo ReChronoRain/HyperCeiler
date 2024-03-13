@@ -58,7 +58,6 @@
 
     </PreferenceCategory>
 
-
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_mobile_title">
         <DropDownPreference
             android:defaultValue="0"
@@ -80,7 +79,6 @@
             android:title="@string/system_ui_status_bar_icon_big_hd"
             app:entries="@array/status_bar_icon_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
-
 
         <DropDownPreference
             android:defaultValue="0"
@@ -220,7 +218,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_notify_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_notification_dots_maximum_enable"
