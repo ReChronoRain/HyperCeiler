@@ -1434,6 +1434,8 @@
     <string name="market_device_modify_desc">Receive updates from the corresponding device by disguising the model as another device</string>
     <string name="market_disable_new_icon">Prohibit use third-party icons</string>
     <string name="market_disable_new_icon_desc">Make desktop more clean</string>
+    <string name="market_package_monitor">Disable package monitor</string>
+    <string name="market_package_monitor_desc">Prohibit GetApps from monitoring app installation and uninstallation</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+ Beta</string>
     <string name="mirror_hyperos">Device Interconnectivity Services</string>
