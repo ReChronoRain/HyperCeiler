@@ -275,6 +275,11 @@
     <string name="system_ui_statusbar_network_speed_style_2">値と単位を2行で表示</string>
     <string name="system_ui_statusbar_network_speed_style_3">アップリンクとダウンリンクのネットワーク速度を1行で表示</string>
     <string name="system_ui_statusbar_network_speed_style_4">アップリンクとダウンリンクのネットワーク速度を2行で表示</string>
+    <string name="system_ui_statusbar_clock_style_1">単一行のステータスバー時計</string>
+    <string name="system_ui_statusbar_clock_style_2">ステータスバーの時計\n通知バーのミニ時計</string>
+    <string name="system_ui_statusbar_clock_style_3">通知バーのミニ時計\nステータスバーの時計</string>
+    <string name="mediaeditor_mickey">ミッキーマウス</string>
+    <string name="mediaeditor_strawberry_bear">ストロベリーベア</string>
     <!--System Framework-->
     <string name="system_framework">システムフレームワーク</string>
     <string name="system_framework_volume_title">音量</string>
@@ -649,6 +654,17 @@
     <string name="system_ui_statusbar_clock_fix_color">色を修正</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">実験的機能です</string>
     <string name="system_ui_disable_clock_anim">通知センターでのスライド時計遷移アニメーションを無効化</string>
+    <string name="system_ui_disable_clock_synch">ステータスバーの時計設定が同期されていません</string>
+    <string name="system_ui_disable_clock_synch_desc">大きな通知バーの時計はステータスバーの時計形式と同期されなくなりました</string>
+    <string name="system_ui_statusbar_clock_show">表示</string>
+    <string name="system_ui_statusbar_clock_big_bold">大きな通知バー時計を太字にする</string>
+    <string name="system_ui_statusbar_clock_layout_s">ステータスバーの時計</string>
+    <string name="system_ui_statusbar_clock_layout_b">通知バーの大きな時計</string>
+    <string name="system_ui_statusbar_clock_layout_n">通知バーのミニ時計</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">このプロジェクトは水平方向の通知バー時計への変更も含んでいます</string>
+    <string name="system_ui_statusbar_clock_editor_s">ステータスバーの時計の形式</string>
+    <string name="system_ui_statusbar_clock_editor_n">通知バーのミニ時計の形式</string>
+    <string name="system_ui_statusbar_clock_style_f">ステータスバーの時計の配置</string>
     <string name="system_ui_statusbar_indicator_battery_title">電源関連</string>
     <string name="system_ui_statusbar_indicator_temperature_title">温度関連</string>
     <string name="system_ui_statusbar_battery_size">フォントのサイズ</string>
@@ -688,6 +704,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">これはスクロール形式で出力される長いテキストです</string>
     <string name="system_ui_controlcenter_title">コントロールセンター</string>
     <string name="system_ui_controlcenter_card_title">カード</string>
+    <string name="system_ui_controlcenter_media_card_title">メディア通知カード</string>
     <string name="system_ui_controlcenter_magnet_title">便利ツール</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">カード背景の透明度</string>
@@ -722,6 +739,7 @@
     <string name="system_ui_control_center_default_background_alpha">デフォルトの背景値</string>
     <string name="system_ui_control_center_fix_media_control_panel">メディアコントロールパネルを修正</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">メディアコントロールパネルの色混合効果を最適化</string>
+    <string name="system_ui_control_center_remove_media_control_panel_background">カードから混在色の背景を削除</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景オーバーレイレイヤーの不透明度</string>
     <string name="system_ui_control_center_compact_notice">コンパクトな通知</string>
@@ -765,6 +783,8 @@
     <string name="system_ui_other_title">その他</string>
     <string name="system_ui_disable_volume">ネイティブ音量バー</string>
     <string name="system_ui_disable_volume_desc">Xiaomi の音量バーへの変更はネイティブの音量バーには適用されません</string>
+    <string name="system_ui_unlock_clipboard">AOSP クリップボードエディタをアンロック</string>
+    <string name="system_ui_unlock_clipboard_desc">アンロック後は MIUI/HyperOS エディタと一緒にポップアップします</string>
     <string name="system_ui_charge_animation_title">充電時のアニメーション</string>
     <string name="system_ui_charge_animation_style">充電アニメーションのスタイル</string>
     <string name="system_ui_charge_animation_style_desc">ロック画面の充電アニメーションのスタイルを選択します</string>
@@ -1072,6 +1092,7 @@
     <string name="home_recent_disable_wallpaper_dimming">壁紙の調光を無効化</string>
     <string name="home_recent_unlock_pin">固定アプリのロックを解除</string>
     <string name="home_recent_hide_status_bar_in_task_view">アプリ履歴のステータスバーを非表示</string>
+    <string name="home_recent_hide_world_circulate">画面ミラーリングアプリフローティングウィンドウを隠す</string>
     <string name="home_recent_hide_freeform">フリーフォームボタンを隠す</string>
     <string name="home_recent_hide_clean_up">アプリ履歴の一括消去ボタンを非表示</string>
     <string name="home_recent_remove_icon">アイコンを削除</string>
@@ -1194,6 +1215,8 @@
     <string name="miui_package_installer_install_source">カスタムインストールソース</string>
     <string name="miui_package_installer_apk_info">パッケージ詳細情報の表示</string>
     <string name="miui_package_installer_apk_info_desc">インストール中のアプリの詳細情報を表示する</string>
+    <string name="miui_package_installer_upload_appinfo">アプリ情報のアップロードを許可しない</string>
+    <string name="miui_package_installer_upload_appinfo_desc">無効にした場合、セキュリティチェックはできません</string>
     <!--NFC-->
     <string name="nfc">NFC サービス</string>
     <string name="nfc_disable_sound">NFC 通知音を無効化</string>
@@ -1532,6 +1555,10 @@
     <string name="security_center_aosp_app_manager_label">AOSP アプリマネージャー</string>
     <string name="security_center_aosp_app_manager">AOSP 版のアプリマネージャー項目を追加します</string>
     <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
+    <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
+    <string name="calendar">カレンダー</string>
+    <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>

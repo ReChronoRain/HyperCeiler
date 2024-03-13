@@ -278,6 +278,8 @@
     <string name="system_ui_statusbar_clock_style_1">Relógio da barra de status em linha única</string>
     <string name="system_ui_statusbar_clock_style_2">Relógio da barra de status\nMini-relógio da barra de notificação</string>
     <string name="system_ui_statusbar_clock_style_3">Mini-relógio da barra de notificação\nRelógio da barra de status</string>
+    <string name="mediaeditor_mickey">Mickey Mouse</string>
+    <string name="mediaeditor_strawberry_bear">Urso de morango</string>
     <!--System Framework-->
     <string name="system_framework">Framework do Sistema</string>
     <string name="system_framework_volume_title">Volume</string>
