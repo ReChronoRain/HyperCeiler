@@ -27,9 +27,14 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
+import java.util.ArrayList;
+
 import moralnorm.preference.Preference;
 
 public class PreferenceHeader extends Preference {
+
+    public static ArrayList<String> mUninstallApp = new ArrayList<>();
+    public static ArrayList<String> mDisableOrHiddenApp = new ArrayList<>();
 
     public PreferenceHeader(@NonNull Context context) {
         super(context);
@@ -44,9 +49,11 @@ public class PreferenceHeader extends Preference {
     private void init(Context context) {
         setLayoutResource(R.layout.preference_header);
         if (isUninstall(context)) {
+            mUninstallApp.add(" - " + getTitle() + " (" + getSummary() + ")");
             setVisible(false);
         } else {
             if (isDisable(context) || isHidden(context)) {
+                mDisableOrHiddenApp.add(" - " + getTitle() + " (" + getSummary() + ")");
                 setVisible(false);
             }
         }

@@ -14,6 +14,7 @@
     <string name="translator_url">https://github.com/sevtinge</string>
 
     <string name="home">主页</string>
+    <string name="help">帮助</string>
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="about_use">引用</string>
@@ -25,6 +26,11 @@
 
     <string name="hyperceiler_notice">下拉状态栏，同时展示快捷开关和系统通知</string>
     <string name="hyperceiler_restart_quick">快速重启作用域</string>
+
+    <string name="help_cant_see_apps_guide">列表中没有您想要找的应用？</string>
+    <string name="help_cant_see_apps_title">无法在首页找到应用功能入口</string>
+    <string name="help_cant_see_apps_desc">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。\n\n当前被隐藏的应用功能入口：\n\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。</string>
 
     <string name="location_add">添加</string>
     <string name="location_delete">删除</string>

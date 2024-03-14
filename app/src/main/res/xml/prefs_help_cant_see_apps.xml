@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:layout="@layout/preference_help"
+        android:key="prefs_key_textview_help_cant_see_apps"
+        android:enabled="false"
+        android:title="@string/help_cant_see_apps_title"
+        android:summary="@string/help_cant_see_apps_desc_no_hidden"/>
+
+</PreferenceScreen>

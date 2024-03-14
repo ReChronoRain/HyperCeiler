@@ -67,8 +67,8 @@ public class MainFragment extends SettingsPreferenceFragment {
         mTip = findPreference("prefs_key_tip");
         mHeadtipWarn = findPreference("prefs_key_headtip_warn");
 
-        mCamera.setVisible(!isMoreHyperOSVersion(1f));
-        mCameraNew.setVisible(isMoreHyperOSVersion(1f));
+        mCamera.setVisible(!isMoreHyperOSVersion(1f) && !PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
+        mCameraNew.setVisible(isMoreHyperOSVersion(1f) && !PackagesUtils.checkAppStatus(getContext(), "com.android.camera"));
         mPowerSetting.setVisible(!isAndroidVersion(30) && !PackagesUtils.checkAppStatus(getContext(), "com.miui.powerkeeper"));
         mMTB.setVisible(!isAndroidVersion(30) && !PackagesUtils.checkAppStatus(getContext(), "com.xiaomi.mtb"));
 

@@ -41,9 +41,11 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fadingEdge="horizontal"
-            android:maxLines="2"
+            android:layout_marginTop="20dp"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.PreferenceList" />
+            android:textAppearance="@style/TextAppearance.PreferenceList"
+            android:textStyle="bold"
+            android:textColor="@color/textview_black"/>
 
         <TextView
             android:id="@android:id/summary"
@@ -51,10 +53,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
             android:layout_alignStart="@android:id/title"
-            android:layout_marginTop="@dimen/preference_summary_margin_top"
+            android:layout_marginTop="24dp"
             android:scrollbars="none"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.PreferenceList.Secondary" />
+            android:textAppearance="@style/TextAppearance.PreferenceList"
+            android:textColor="@color/textview_black"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
     <!-- Preference should place its actual preference widget here. -->
