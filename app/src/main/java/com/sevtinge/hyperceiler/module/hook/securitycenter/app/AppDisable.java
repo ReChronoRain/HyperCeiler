@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.module.base.BaseHook;
+import com.sevtinge.hyperceiler.utils.MiuiDialog;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -114,10 +115,17 @@ public class AppDisable extends BaseHook {
                                     Class<?> miuiDialog = findClassIfExists("miuix.appcompat.app.AlertDialog");
                                     Class<?> builder = findClassIfExists("miuix.appcompat.app.AlertDialog$Builder");
                                     Object newBuilder = XposedHelpers.newInstance(builder, act);
-                                    XposedHelpers.callMethod(XposedHelpers.callMethod(XposedHelpers.callMethod(XposedHelpers.callMethod(
+                                    /*XposedHelpers.callMethod(XposedHelpers.callMethod(XposedHelpers.callMethod(XposedHelpers.callMethod(
                                                     XposedHelpers.callMethod(XposedHelpers.callMethod(newBuilder, "setTitle", title),
                                                             "setMessage", text), "setPositiveButton", android.R.string.ok, onClickListener),
-                                            "setNegativeButton", android.R.string.cancel, null), "create"), "show");
+                                            "setNegativeButton", android.R.string.cancel, null), "create"), "show");*/
+                                    new MiuiDialog.Builder(lpparam.classLoader, act)
+                                            .setTitle(title)
+                                            .setMessage(text)
+                                            .setHapticFeedbackEnabled(true)
+                                            .setPositiveButton(android.R.string.ok, onClickListener)
+                                            .setNegativeButton(android.R.string.cancel, null)
+                                            .show();
                                     // setAppState(act, mPackageInfo.packageName, item, false);
                                 } else {
                                     setAppState(act, mPackageInfo.packageName, item, false);
