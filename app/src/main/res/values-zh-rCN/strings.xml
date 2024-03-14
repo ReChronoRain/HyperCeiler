@@ -31,7 +31,7 @@
     <string name="help_cant_see_apps_title">无法在首页找到应用功能入口</string>
     <string name="help_cant_see_apps_desc">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。\n\n当前被隐藏的应用功能入口：\n\n</string>
     <string name="help_cant_see_apps_uninstall">被卸载的应用：\n</string>
-    <string name="help_cant_see_apps_disable">被冻结或隐藏的应用：\n</string>
+    <string name="help_cant_see_apps_disable">被禁用或隐藏的应用：\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">为了保持首页的简洁和易用性，我们对以下类型的应用功能入口进行了隐藏：\n\n - 当前应用被禁用或隐藏的\n - 设备上不存在当前应用的\n - 当前系统或应用版本不适合使用功能的\n\n请根据以上内容排查后，重启 HyperCeiler 再试。若仍旧找不到应用功能入口，那可能是一个错误，请及时且有效的向我们反馈。\n\n当前不存在被隐藏的入口！</string>
 
     <string name="location_add">添加</string>
