@@ -53,7 +53,6 @@ public class SearchHelper {
 
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     public static final String APP_NS = "http://schemas.android.com/apk/res-auto";
-    public static final String LOCATION = "http://schemas.android.com/apk/location";
 
     public static void getAllMods(Context context, boolean force) {
         if (force) {
@@ -419,16 +418,16 @@ public class SearchHelper {
                         modData.title = getModTitle(res, xml.getAttributeValue(ANDROID_NS, "title"));
                         boolean isPreferenceVisible = Boolean.parseBoolean(xml.getAttributeValue(APP_NS, "isPreferenceVisible"));
                         if (locationHyper == null) {
-                            locationHyper = getModTitle(res, xml.getAttributeValue(LOCATION, "myLocationHyper"));
-                            locationHyperId = getModId(xml.getAttributeValue(LOCATION, "myLocationHyper"));
+                            locationHyper = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationHyper"));
+                            locationHyperId = getModId(xml.getAttributeValue(APP_NS, "myLocationHyper"));
                         }
                         if (locationPad == null) {
-                            locationPad = getModTitle(res, xml.getAttributeValue(LOCATION, "myLocationPad"));
-                            locationPadId = getModId(xml.getAttributeValue(LOCATION, "myLocationPad"));
+                            locationPad = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocationPad"));
+                            locationPadId = getModId(xml.getAttributeValue(APP_NS, "myLocationPad"));
                         }
                         if (location == null) {
-                            location = getModTitle(res, xml.getAttributeValue(LOCATION, "myLocation"));
-                            locationId = getModId(xml.getAttributeValue(LOCATION, "myLocation"));
+                            location = getModTitle(res, xml.getAttributeValue(APP_NS, "myLocation"));
+                            locationId = getModId(xml.getAttributeValue(APP_NS, "myLocation"));
                         }
                         if (!TextUtils.isEmpty(modData.title) && !isPreferenceVisible) {
                             String internalHyper = internalName == null ? locationHyper : internalName + "/" + locationHyper;

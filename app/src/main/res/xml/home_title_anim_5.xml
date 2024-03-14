@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:location="http://schemas.android.com/apk/location"
-    location:myLocation="@string/home_title_custom_anim_param_5_title">
+    app:myLocation="@string/home_title_custom_anim_param_5_title">
 
     <PreferenceCategory android:title="@string/home_title_custom_anim_param_RECT_CENTERX_title">
 

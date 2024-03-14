@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:location="http://schemas.android.com/apk/location"
-    location:myLocation="@string/tsmclient">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/tsmclient">
     <SwitchPreference
         android:title="@string/tsmclient_auto_nfc"
         android:summary="@string/tsmclient_auto_nfc_desc"

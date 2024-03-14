@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:location="http://schemas.android.com/apk/location"
-    location:myLocation="@string/system_ui_lockscreen_title">
+    app:myLocation="@string/system_ui_lockscreen_title">
 
     <PreferenceCategory android:title="@string/system_ui_lockscreen_ui_title">
         <SwitchPreference
