@@ -241,7 +241,7 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
         mSearchResultView.setVisibility(filter.isEmpty() ? View.GONE : View.VISIBLE);
         ModSearchAdapter adapter = (ModSearchAdapter) mSearchResultView.getAdapter();
         if (adapter == null) return;
-        adapter.getFilter().filter(filter);
+        adapter.getFilter(NavigationActivity.this).filter(filter);
     }
 
     @Override

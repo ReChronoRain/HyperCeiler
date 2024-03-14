@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,7 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> implements Filterable {
+public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.ViewHolder> {
 
     private Context mContext;
     private String filterString = "";
@@ -62,7 +61,6 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         mContext = viewGroup.getContext();
-        isChina = isChina(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_result, viewGroup, false);
         // 创建一个VIewHolder
         return new ViewHolder(view);
@@ -106,11 +104,10 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
         return modsList.size();
     }
 
-    @Override
-    public Filter getFilter() {
+    public Filter getFilter(Context context) {
         // 如果ItemFilter对象为空，那么重写创建一个
         if (mFilter == null) {
-            mFilter = new ItemFilter();
+            mFilter = new ItemFilter(context);
         }
         return mFilter;
     }
@@ -136,13 +133,20 @@ public class ModSearchAdapter extends RecyclerView.Adapter<ModSearchAdapter.View
 
 
     private class ItemFilter extends Filter {
+        private final Context context;
+
+        ItemFilter(Context context) {
+            this.context = context;
+        }
+
         private final HashMap<String, Integer> modMap = new HashMap<>();
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             filterString = constraint.toString().toLowerCase();
-            ArrayList<ModData> nlist = new ArrayList<ModData>();
+            ArrayList<ModData> nlist = new ArrayList<>();
             modMap.clear();
+            isChina = isChina(context);
             if (isChina) {
                 for (int i = 0; i < filterString.length(); i++) {
                     char ch = filterString.charAt(i);
