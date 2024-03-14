@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui.base;
 
+import static com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px;
 import static com.sevtinge.hyperceiler.utils.Helpers.isDarkMode;
 
 import android.content.Context;
@@ -173,14 +174,10 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
             public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
-                v.setPadding(0, dpToPx(10, context), 0, inset.bottom + dpToPx(18, context));
+                v.setPadding(0, dip2px(context, 10), 0, inset.bottom + dip2px(context, 18));
                 return insets;
             }
         });
-    }
-
-    private static int dpToPx(int dp, Context context) {
-        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 
     private void changeSelect(int position) {

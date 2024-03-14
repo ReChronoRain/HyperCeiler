@@ -396,8 +396,6 @@
         android:layout="@layout/preference_text"
         android:summary="@string/tip_default" />
 
-    <Preference android:enabled="false" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>
