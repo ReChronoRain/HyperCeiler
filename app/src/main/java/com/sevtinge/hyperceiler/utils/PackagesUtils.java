@@ -128,11 +128,11 @@ public class PackagesUtils {
         if (context == null) return false;
         PackageManager packageManager = context.getPackageManager();
         try {
-            int result = packageManager.getApplicationEnabledSetting(pkg);
-            if (result == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+            ApplicationInfo result = packageManager.getApplicationInfo(pkg, 0);
+            if (!result.enabled) {
                 return true;
             }
-        } catch (IllegalArgumentException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
         return false;
