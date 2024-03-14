@@ -85,6 +85,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/miuix_appcompat_searchbar_result_margin_top"
         android:background="?android:attr/windowBackground"
+        android:clipToPadding="false"
         android:visibility="gone" />
 
 </FrameLayout>

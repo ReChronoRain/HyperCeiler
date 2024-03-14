@@ -95,6 +95,17 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
 
         mSearchView.setOnClickListener(v -> startSearchMode());
         mSearchAdapter.setOnItemClickListener((view, ad) -> onSearchItemClickListener(ad));
+
+        ViewCompat.setOnApplyWindowInsetsListener(mSearchResultView, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                v.setPadding(0, 0, 0, inset.bottom);
+                return insets;
+            }
+        });
     }
 
     private void initNavigationView() {
@@ -160,11 +171,6 @@ public abstract class NavigationActivity extends BaseActivity implements Prefere
             @NonNull
             @Override
             public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                /*WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                Display display = windowManager.getDefaultDisplay();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                display.getMetrics(displayMetrics);
-                int dpi = displayMetrics.densityDpi;*/
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
                 v.setPadding(0, dpToPx(10, context), 0, inset.bottom + dpToPx(18, context));
