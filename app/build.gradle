@@ -22,9 +22,8 @@ def getVersionCode() {
     return major + commitCount
 }
 
-def getGitHash = { ->
-    def process = "git rev-parse HEAD".execute()
-    process.in.text.trim()
+static def getGitHash() {
+    return "git rev-parse --short HEAD".execute().text.trim()
 }
 
 android {
@@ -86,6 +85,7 @@ android {
     }
     def keyStoreFile = getString('storeFile', 'STORE_FILE', 'Store file')?.with(rootProject.&file)
     def gitCode = getVersionCode()
+    def gitHash = getGitHash()
 
     signingConfigs {
         hyperceiler {
@@ -106,7 +106,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_r" + gitCode
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -116,7 +116,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_b" + gitCode
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
@@ -126,14 +126,14 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_c" + gitCode
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
         }
         debug {
             versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_d" + gitCode
-            buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
+            buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
