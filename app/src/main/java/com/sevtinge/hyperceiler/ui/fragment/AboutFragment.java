@@ -18,10 +18,22 @@
 */
 package com.sevtinge.hyperceiler.ui.fragment;
 
+import static com.sevtinge.hyperceiler.utils.DisplayUtils.dip2px;
+import static com.sevtinge.hyperceiler.utils.DisplayUtils.sp2px;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
@@ -91,5 +103,23 @@ public class AboutFragment extends SettingsPreferenceFragment {
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = view.findViewById(moralnorm.preference.R.id.recycler_view);
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerView, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
+                        insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
+                // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
+                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(),12));
+                return insets;
+            }
+        });
     }
 }

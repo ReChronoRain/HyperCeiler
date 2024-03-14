@@ -28,7 +28,7 @@ import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getLocale;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getManufacture;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getMarketName;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getModelName;
-import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
+// import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.utils.devicesdk.DeviceSDKKt.getSoc;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getAndroidVersion;
 import static com.sevtinge.hyperceiler.utils.devicesdk.SystemSDKKt.getBuildDate;
