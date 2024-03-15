@@ -806,6 +806,7 @@
     <string name="system_ui_control_center_redirect_notice_desc">Opening the settings of the notification menu redirects you to the target app\'s notification channel settings instead of applying the notification settings</string>
     <string name="system_ui_control_center_show_weather">Show weather</string>
     <string name="system_ui_control_center_show_weather_city">Show city</string>
+    <string name="system_ui_control_center_disable_device_managed">Hide network monitoring prompts</string>
     <string name="system_ui_control_center_mute_visible_notice">Mute when screen is on</string>
     <string name="system_ui_control_center_expand_notification">Expand Notifications</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">When the screen is turned on, the pop-up notification does not play the prompt sound</string>

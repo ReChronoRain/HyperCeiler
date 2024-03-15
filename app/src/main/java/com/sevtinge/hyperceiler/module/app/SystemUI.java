@@ -45,6 +45,7 @@ import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.AllowAllTheme
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CCGrid;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.CompactNotificationsHook;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ControlCenterStyle;
+import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.DisableDeviceManaged;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.ExpandNotification;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.module.hook.systemui.controlcenter.FixMediaControlPanel;
@@ -305,6 +306,7 @@ public class SystemUI extends BaseModule {
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
         initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
+        initHook(DisableDeviceManaged.INSTANCE);
 
         // Actions
         initHook(new StatusBarActions());

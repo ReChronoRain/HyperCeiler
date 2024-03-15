@@ -14,6 +14,11 @@
             android:key="prefs_key_system_ui_control_center_show_weather_city"
             android:title="@string/system_ui_control_center_show_weather_city" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_disable_device_managed"
+            android:title="@string/system_ui_control_center_disable_device_managed" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_control_center_notification_blur_title">
