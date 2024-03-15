@@ -27,6 +27,7 @@
     <string name="prefs_5">種類を選択</string>
     <string name="prefs_6">共有設定を確認</string>
     <string name="prefs_7">指定したキーを削除</string>
+    <string name="help">ヘルプ</string>
     <string name="settings">設定</string>
     <string name="about">アプリについて</string>
     <string name="about_use">引用</string>
@@ -308,6 +309,8 @@
     <string name="system_framework_volume_steps">音量のステップ数</string>
     <string name="system_ui_display_cutout_title">画面のノッチ</string>
     <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
+    <string name="system_ui_display_use_aosp_screenshot">AOSP スクリーンショットを使用</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">スクリーンショットアプリを AOSP スクリーンショットにリダイレクトします。MIUI/HyperOS のスクリーンショットアプリはスクリーンショット操作に応答しなくなります</string>
     <string name="system_ui_display_brightness_title">明るさ</string>
     <string name="system_ui_display_auto_brightness">明るさの自動調整範囲</string>
     <string name="system_ui_display_auto_brightness_desc">明るさの自動調整での最小値と最大値を設定します</string>
@@ -1400,6 +1403,8 @@
     <string name="market_device_modify_desc">モデルを別のデバイスに偽装することで、そのデバイスのアップデートを受信します</string>
     <string name="market_disable_new_icon">サードパーティ製アイコンの使用を禁止</string>
     <string name="market_disable_new_icon_desc">デスクトップをよりクリーンにする</string>
+    <string name="market_package_monitor">パッケージモニターを無効化</string>
+    <string name="market_package_monitor_desc">GetApps にアプリのインストールとアンインストールを監視させないようにします</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">デバイス相互接続サービス</string>
@@ -1560,6 +1565,12 @@
     <string name="log_level_none">ログを無効化</string>
     <string name="disable_suggest">サジェストを無効化</string>
     <string name="enable_suggest">サジェストを有効化</string>
+    <string name="help_cant_see_apps_guide">アプリの機能が見つかりませんか？</string>
+    <string name="help_cant_see_apps_title">ホームページでアプリの機能が見つかりませんか？</string>
+    <string name="help_cant_see_apps_desc">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n - 現在無効か非表示になっているアプリ向けの機能\n - デバイスにないアプリ向けの機能\n - 現在のアプリやバージョンに非対応の機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。開発者にフィードバックしてください。\n\n現在非表示になっているアプリ機能:\n\n</string>
+    <string name="help_cant_see_apps_uninstall">アンインストールされたアプリ:\n</string>
+    <string name="help_cant_see_apps_disable">無効または非表示のアプリ:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n - 現在無効か非表示になっているアプリ向けの機能\n - デバイスにないアプリ向けの機能\n - 現在のアプリやバージョンに非対応の機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。開発者にフィードバックしてください。\n\n現在非表示になっているアプリ機能はありません</string>
     <string name="headtip_warn_not_offical_rom">使用している ROM は Xiaomi 公式ではないかもしれません。 一部の機能が動作しない場合がありますので、ご利用の ROM の提供者にお問い合わせください。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在使用しているバージョンは Re.chronoRain の公式バージョンではないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。 このメッセージが出るということは HyperCeiler に問題があります。 出たら開発者に教えてください。</string>

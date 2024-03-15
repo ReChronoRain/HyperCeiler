@@ -27,6 +27,7 @@
     <string name="prefs_5">Chọn loại</string>
     <string name="prefs_6">Kiểm tra tùy chọn chia sẻ</string>
     <string name="prefs_7">Xóa khóa được chỉ định</string>
+    <string name="help">Trợ giúp</string>
     <string name="settings">Cài đặt</string>
     <string name="about">Giới thiệu</string>
     <string name="about_use">Trích dẫn</string>
@@ -309,6 +310,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_volume_steps">Hệ số bước âm lượng</string>
     <string name="system_ui_display_cutout_title">Màn hình khuyết</string>
     <string name="system_ui_display_hide_cutout">Ẩn màn hình khuyết</string>
+    <string name="system_ui_display_use_aosp_screenshot">Sử dụng trình chụp ảnh màn hình AOSP</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong MIUI/HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
     <string name="system_ui_display_brightness_title">Độ sáng</string>
     <string name="system_ui_display_auto_brightness">Phạm vi cho độ sáng tự động</string>
     <string name="system_ui_display_auto_brightness_desc">Xác định giá trị tối thiểu và tối đa cho độ sáng tự động</string>
@@ -1576,6 +1579,12 @@ Hãy đảm bảo rằng các ứng dụng hệ thống có siêu dữ liệu is
     <string name="log_level_none">Tắt nhật ký</string>
     <string name="disable_suggest">Tắt đề xuất</string>
     <string name="enable_suggest">Bật đề xuất</string>
+    <string name="help_cant_see_apps_guide">Không thể tìm thấy các tính năng của ứng dụng?</string>
+    <string name="help_cant_see_apps_title">Không thể tìm thấy các tính năng của ứng dụng trên trang chủ?</string>
+    <string name="help_cant_see_apps_desc">Để duy trì tính đơn giản và khả năng sử dụng của trang chủ, chúng tôi ẩn quyền truy cập vào các loại tính năng ứng dụng sau:\n\n - Những tính năng này hiện bị vô hiệu hóa hoặc bị ẩn\n - Những tính năng này không được tìm thấy trên thiết bị của bạn\n - Những tính năng không tương thích với hệ thống hiện tại hoặc phiên bản ứng dụng\n\nVui lòng khắc phục sự cố dựa trên thông tin ở trên, khởi động lại HyperCeiler và thử lại. Nếu bạn vẫn không thể tìm thấy tính năng ứng dụng thì đó có thể là lỗi. Vui lòng cung cấp cho chúng tôi phản hồi kịp thời và hiệu quả.\n\nCác tính năng ứng dụng hiện bị ẩn:\n\n</string>
+    <string name="help_cant_see_apps_uninstall">Ứng dụng đã gỡ cài đặt:\n</string>
+    <string name="help_cant_see_apps_disable">Ứng dụng bị tắt hoặc bị ẩn:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Để duy trì tính đơn giản và khả năng sử dụng của trang chủ, chúng tôi ẩn quyền truy cập vào các loại tính năng ứng dụng sau:\n\n - Những tính năng này hiện bị vô hiệu hóa hoặc bị ẩn\n - Những tính năng này không được tìm thấy trên thiết bị của bạn\n - Những tính năng không tương thích với hệ thống hiện tại hoặc phiên bản ứng dụng\n\nVui lòng khắc phục sự cố dựa trên thông tin ở trên, khởi động lại HyperCeiler và thử lại. Nếu bạn vẫn không thể tìm thấy tính năng ứng dụng thì đó có thể là lỗi. Vui lòng cung cấp cho chúng tôi phản hồi kịp thời và hiệu quả.\n\nHiện không có mục ẩn nào!</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải chính thức từ Xiaomi và một số chức năng có thể không hoạt động, vui lòng liên hệ nhà cung cấp bạn đang sử dụng để biết chi tiết.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của Re.chronoRain và có thể chứa mã độc.</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định.  Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler.  Vui lòng thông báo cho nhà phát triển một cách kịp thời và hiệu quả.</string>

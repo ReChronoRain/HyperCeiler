@@ -27,6 +27,7 @@
     <string name="prefs_5">Selecionar tipo</string>
     <string name="prefs_6">Verifique as preferências de compartilhamento</string>
     <string name="prefs_7">Remover chave especificada</string>
+    <string name="help">Ajuda</string>
     <string name="settings">Configurações</string>
     <string name="about">Sobre</string>
     <string name="about_use">Referências</string>
@@ -308,6 +309,8 @@
     <string name="system_framework_volume_steps">Multiplicador de nível de volume</string>
     <string name="system_ui_display_cutout_title">Recorte de exibição</string>
     <string name="system_ui_display_hide_cutout">Ocultar recorte de exibição</string>
+    <string name="system_ui_display_use_aosp_screenshot">Usar captura de tela AOSP</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">Redirecione o app de captura de tela para a captura de tela AOSP. O app de captura de tela no HyperOS/MIUI não responderá à operação de captura de tela.</string>
     <string name="system_ui_display_brightness_title">Brilho</string>
     <string name="system_ui_display_auto_brightness">Alcance do brilho automático</string>
     <string name="system_ui_display_auto_brightness_desc">Defina valores mínimos e máximos para o brilho automático</string>
@@ -715,7 +718,7 @@
     <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>
     <string name="system_control_center_5g_tile">Interruptor de rede 5G</string>
     <string name="system_control_center_5g_toggle_label">Rede 5G</string>
-    <string name="system_control_center_reduce_bright_colors_tile">Extra escuro</string>
+    <string name="system_control_center_reduce_bright_colors_tile">Ultra escuro</string>
     <string name="system_control_center_taplus_label">Interruptores Taplus</string>
     <string name="system_control_center_sunshine_mode">Modo luz solar</string>
     <string name="system_ui_control_auto_close">Os blocos magnéticos retraem automaticamente</string>
@@ -787,9 +790,9 @@
     <string name="system_ui_control_center_unlock_blur_supported_desc">Não há restrição ao blur de fundo para materiais premium oficiais, apenas para remoção de temas de terceiros.</string>
     <string name="system_ui_other_title">Outros</string>
     <string name="system_ui_disable_volume">Barra de volume nativa</string>
-    <string name="system_ui_disable_volume_desc">A modificação da barra de volume da Xiaomi não se aplica à barra de volume nativa</string>
+    <string name="system_ui_disable_volume_desc">Modificações na barra de volume do HyperOS/MIUI não podem ser aplicadas à barra de volume nativa</string>
     <string name="system_ui_unlock_clipboard">Desbloquear editor da área de transferência AOSP</string>
-    <string name="system_ui_unlock_clipboard_desc">Após o desbloqueio, ele aparecerá junto com o editor MIUI/HyperOS.</string>
+    <string name="system_ui_unlock_clipboard_desc">Após o desbloqueio, ele aparecerá junto com o editor HyperOS/MIUI.</string>
     <string name="system_ui_charge_animation_title">Animação de carregamento</string>
     <string name="system_ui_charge_animation_style">Estilo da animação de carregamento</string>
     <string name="system_ui_charge_animation_style_desc">Selecione o estilo da animação de carregamento da tela de bloqueio</string>
@@ -1119,7 +1122,7 @@
     <string name="home_widget">Widget</string>
     <string name="home_widget_all_widget_animation">Animação do widget</string>
     <string name="home_widget_show_miui_widget">Exibir widgets do sistema</string>
-    <string name="home_widget_show_miui_widget_desc">Exibir widgets do sistema na página de widgets AOSP</string>
+    <string name="home_widget_show_miui_widget_desc">Exibir widgets do HyperOS/MIUI na página de widgets AOSP</string>
     <string name="home_widget_corner_radius">Cantos arredondados do widget</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Permitir que o widget clássico seja movido para o Assistente</string>
     <string name="home_widget_hide_title">Ocultar nome dos widgets</string>
@@ -1400,6 +1403,8 @@
     <string name="market_device_modify_desc">Receba atualizações do dispositivo correspondente disfarçando o modelo como outro dispositivo</string>
     <string name="market_disable_new_icon">Proibir o uso de ícones de terceiros</string>
     <string name="market_disable_new_icon_desc">Deixe a tela inicial mais limpa</string>
+    <string name="market_package_monitor">Desativar monitor de pacote</string>
+    <string name="market_package_monitor_desc">Proíba que o GetApps pare de monitorar a instalação e desinstalação de apps</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">Serviços de interconectividade de dispositivos</string>
@@ -1464,7 +1469,7 @@
     <string name="various_open_aosp_notification_title">Notificações</string>
     <string name="various_open_aosp_app_manage_title">Gerenciamento de apps</string>
     <string name="various_open_aosp_language_title">Idiomas, entrada e gestos</string>
-    <string name="various_open_aosp_extremely_dark_title">Extra escuro</string>
+    <string name="various_open_aosp_extremely_dark_title">Ultra escuro</string>
     <string name="various_mipad_input_title">Entrada</string>
     <string name="various_mipad_input_close_magic_title">Sem ponteiro mágico</string>
     <string name="various_mipad_input_close_magic_desc">Transforme o ponteiro redondo do sistema Xiaomi Pad em ponteiro AOSP.</string>
@@ -1560,6 +1565,12 @@
     <string name="log_level_none">Desativar registro</string>
     <string name="disable_suggest">Desativar sugestão</string>
     <string name="enable_suggest">Ativar sugestão</string>
+    <string name="help_cant_see_apps_guide">Não consegue encontrar os recursos do app?</string>
+    <string name="help_cant_see_apps_title">Não consegue encontrar os recursos do app na página inicial?</string>
+    <string name="help_cant_see_apps_desc">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nRecursos do app atualmente ocultos:\n\n</string>
+    <string name="help_cant_see_apps_uninstall">Apps desinstalados:\n</string>
+    <string name="help_cant_see_apps_disable">Apps desativados ou ocultos:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Para manter a simplicidade e a usabilidade da página inicial, ocultamos o acesso aos seguintes tipos de recursos do app:\n\n - Aqueles atualmente desativados ou ocultos\n - Aqueles que não foram encontrados em seu dispositivo\n - Aqueles incompatíveis com a versão atual do sistema ou do app\n\nPor favor, solucione o problema com base nas informações acima, reinicie o HyperCeiler e tente novamente. Se você ainda não conseguir encontrar o recurso do app, pode ser um bug. Por favor, forneça-nos feedbacks oportunos e eficazes.\n\nAtualmente não há entrada oculta!</string>
     <string name="headtip_warn_not_offical_rom">A fonte da ROM que você está usando pode não ser oficial da Xiaomi, e algumas funções podem não funcionar. Por favor, entre em contato com o seu fornecedor para obter mais detalhes.</string>
     <string name="headtip_warn_sign_verification_failed">A verificação da assinatura falhou, e a versão atual que você está usando pode não ser a oficial de Re.chronoRain, podendo conter código malicioso.</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
