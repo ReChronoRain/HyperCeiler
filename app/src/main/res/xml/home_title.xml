@@ -41,6 +41,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_title_fake_non_default_icon"
+            android:title="@string/home_title_fake_non_default_icon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_title_disable_hide_theme"
             android:title="@string/home_title_disable_hide_theme" />
 
