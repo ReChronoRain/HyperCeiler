@@ -8,7 +8,7 @@
     <string name="new_cta_app_main_purpose">システムアプリの変更</string>
     <string name="new_cta_app_all_purpose_title">HyperCeiler へようこそ。このアプリはシステムの機能強化をするために Xposed フレームワークを利用して対応アプリを改変します。使用中、より多くの機能を提供するために root/su 権限の許可を求める場合があります。お使いの root/su マネージャーにアクセスして許可してください。</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="language">Japanese (日本語)</string>
+    <string name="language">日本語</string>
     <string name="translator">AndroPlus</string>
     <string name="translator_url">https://github.com/AndroPlus-org</string>
     <string name="home">ホーム</string>

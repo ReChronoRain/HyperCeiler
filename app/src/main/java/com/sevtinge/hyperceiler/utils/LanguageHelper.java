@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class LanguageHelper {
     public static final String[] appLanguages = {
-            "CN", "TW", "HK", "en", "JP"
+            "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "ru_RU", "es_ES", "pt_BR", "in_ID", "tr_TR", "vi_VN"
     };
 
     public static void setLanguage(Context context, String language) {
@@ -61,7 +61,7 @@ public class LanguageHelper {
         if (country.isEmpty()) {
             return resources.getConfiguration().getLocales().get(0).getLanguage();
         }
-        return country;
+        return resources.getConfiguration().getLocales().get(0).getLanguage() + "_" + country;
     }
 
     public static String newLanguage(String language, String country) {

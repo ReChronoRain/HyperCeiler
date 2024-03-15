@@ -85,24 +85,48 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
                         String v = LanguageHelper.appLanguages[Integer.parseInt((String) o)];
                         switch (v) {
-                            case "CN" -> {
-                                LanguageHelper.setLanguage(getContext(), "zh", "CN");
-                                getActivity().recreate();
-                            }
-                            case "TW" -> {
-                                LanguageHelper.setLanguage(getContext(), "zh", "TW");
-                                getActivity().recreate();
-                            }
-                            case "HK" -> {
-                                LanguageHelper.setLanguage(getContext(), "zh", "HK");
-                                getActivity().recreate();
-                            }
                             case "en" -> {
                                 LanguageHelper.setLanguage(getContext(), "en");
                                 getActivity().recreate();
                             }
-                            case "JP" -> {
+                            case "zh_CN" -> {
+                                LanguageHelper.setLanguage(getContext(), "zh", "CN");
+                                getActivity().recreate();
+                            }
+                            case "zh_TW" -> {
+                                LanguageHelper.setLanguage(getContext(), "zh", "TW");
+                                getActivity().recreate();
+                            }
+                            case "zh_HK" -> {
+                                LanguageHelper.setLanguage(getContext(), "zh", "HK");
+                                getActivity().recreate();
+                            }
+                            case "ja_JP" -> {
                                 LanguageHelper.setLanguage(getContext(), "ja", "JP");
+                                getActivity().recreate();
+                            }
+                            case "ru_RU" -> {
+                                LanguageHelper.setLanguage(getContext(), "ru", "RU");
+                                getActivity().recreate();
+                            }
+                            case "es_ES" -> {
+                                LanguageHelper.setLanguage(getContext(), "es", "ES");
+                                getActivity().recreate();
+                            }
+                            case "pt_BR" -> {
+                                LanguageHelper.setLanguage(getContext(), "pt", "BR");
+                                getActivity().recreate();
+                            }
+                            case "in_ID" -> {
+                                LanguageHelper.setLanguage(getContext(), "in", "ID");
+                                getActivity().recreate();
+                            }
+                            case "tr_TR" -> {
+                                LanguageHelper.setLanguage(getContext(), "tr", "TR");
+                                getActivity().recreate();
+                            }
+                            case "vi_VN" -> {
+                                LanguageHelper.setLanguage(getContext(), "vi", "VN");
                                 getActivity().recreate();
                             }
                         }

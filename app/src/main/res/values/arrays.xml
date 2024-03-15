@@ -155,17 +155,24 @@
         <item>@string/settings_icon_miui_13</item>
     </string-array>
 
-    <string-array name="settings_app_language">
-        <item>@string/settings_app_zh</item>
-        <item>@string/settings_app_zh_tw</item>
-        <item>@string/settings_app_zh_hk</item>
-        <item>@string/settings_app_en</item>
-        <item>@string/settings_app_jp</item>
-    </string-array>
-
     <string-array name="settings_icon_mode_value">
         <item>0</item>
         <item>1</item>
+    </string-array>
+
+    <string-array name="settings_app_language">
+        <item>@string/settings_app_en</item>
+        <item>@string/settings_app_zh_cn</item>
+        <item>@string/settings_app_zh_tw</item>
+        <item>@string/settings_app_zh_hk</item>
+        <item>@string/settings_app_ja_jp</item>
+        <item>@string/settings_app_ru_ru</item>
+        <item>@string/settings_app_es_es</item>
+        <item>@string/settings_app_pt_br</item>
+        <item>@string/settings_app_in_id</item>
+        <item>@string/settings_app_tr_tr</item>
+        <item>@string/settings_app_vi_vn</item>
+
     </string-array>
 
     <string-array name="settings_app_language_value">
@@ -174,6 +181,12 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
 
     <array name="miui_volume_timer_segments">

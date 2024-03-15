@@ -3,7 +3,7 @@
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">HyperOS/MIUI\'yi Yeniden Harika Hale Getirin!</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="language">İngilizce</string>
+    <string name="language">Türkçe</string>
     <string name="translator">can1gulle</string>
     <string name="translator_url">https://github.com/can1gulle</string>
     <string name="settings">Ayarlar</string>

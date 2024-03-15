@@ -69,12 +69,7 @@
     <string name="settings_icon_medium">中部</string>
     <string name="settings_icon_down">底部</string>
     <string name="settings_icon_mode">图标样式</string>
-    <string name="settings_app_language">软件语言</string>
-    <string name="settings_app_zh">简体中文</string>
-    <string name="settings_app_zh_hk">繁体中文(香港)</string>
-    <string name="settings_app_zh_tw">繁体中文(台湾)</string>
-    <string name="settings_app_en">英文</string>
-    <string name="settings_app_jp">日语</string>
+    <string name="settings_app_language">语言</string>
     <string name="settings_icon_miui_14">圆角矩形样式</string>
     <string name="settings_icon_miui_13">背景镂空样式</string>
     <string name="settings_reboot">重启作用域</string>
