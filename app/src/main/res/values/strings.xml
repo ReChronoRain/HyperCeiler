@@ -1144,6 +1144,7 @@
     <string name="home_title_disable_hide_file">Disable hiding the \"File\" icon</string>
     <string name="home_title_disable_hide_theme">Do not hide \"Theme Manager\" icon</string>
     <string name="home_title_disable_hide_google">Don\'t hide the \"Google\" icon</string>
+    <string name="home_title_fake_non_default_icon">Fake non-default icon</string>
     <string name="home_title_custom_anim_param">Custom Animation Parameter</string>
     <string name="home_title_custom_anim_param_damping_title">Damping</string>
     <string name="home_title_custom_anim_param_stiffness_title">Stiffness</string>
