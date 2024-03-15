@@ -18,19 +18,32 @@
 */
 package com.sevtinge.hyperceiler.module.hook.securitycenter.other
 
-import com.github.kyuubiran.ezxhelper.*
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
-import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.module.base.dexkit.DexKit.dexKitBridge
+import org.luckypray.dexkit.query.enums.*
 
 object BypassSimLockMiAccountAuth : BaseHook() {
-    override fun init() {
-        runCatching {
-            ClassUtils.loadClass("com.miui.simlock.b").methodFinder()
-                .filterByName("m")
-                .single().createHook {
-                    returnConstant(true)
+    private val findMethod by lazy {
+        dexKitBridge.findMethod {
+            matcher {
+                declaredClass {
+                    addUsingString("SimLockUtils", StringMatchType.Contains)
                 }
+                addCall {
+                    addUsingString("SimLockStartFragment::simLockSetUpFlow::step =", StringMatchType.Contains)
+                }
+                paramCount = 1
+                paramTypes("android.content.Context")
+                returnType = "boolean"
+            }
+        }.map { it.getMethodInstance(lpparam.classLoader) }.toSet()
+    }
+
+    override fun init() {
+        logD(TAG, lpparam.packageName, "BypassSimLockMiAccountAuth find method is ${findMethod.last()}")
+        findMethod.last().createHook {
+            returnConstant(true)
         }
     }
 }
