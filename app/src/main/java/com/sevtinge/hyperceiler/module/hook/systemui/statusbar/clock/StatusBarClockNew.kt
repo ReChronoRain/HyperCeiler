@@ -254,10 +254,18 @@ object StatusBarClockNew : BaseHook() {
 
     private fun setMiuiClockFormat(context: Context?, name: String, textV: TextView) {
         // 因为输入对话框限制，所以里面部分内容会比较抽象
-        val sClockName = when (getClockStyle) {
-            0 -> getFormatS.split("\n")[0]
-            1 -> "${getFormatS.split("\n")[0]}\n${getFormatN.split("\n")[0]}"
-            else -> "${getFormatN.split("\n")[0]}\n${getFormatS.split("\n")[0]}"
+        val sClockName = if (getFormatN.isEmpty()) {
+            when (getClockStyle) {
+                0 -> getFormatS.split("\n")[0]
+                1 -> "${getFormatS.split("\n")[0]}\nM/d E"
+                else -> "M/d E\n${getFormatS.split("\n")[0]}"
+            }
+        } else {
+            when (getClockStyle) {
+                0 -> getFormatS.split("\n")[0]
+                1 -> "${getFormatS.split("\n")[0]}\n${getFormatN.split("\n")[0]}"
+                else -> "${getFormatN.split("\n")[0]}\n${getFormatS.split("\n")[0]}"
+            }
         }
 
         val mMiuiStatusBarClockController =
