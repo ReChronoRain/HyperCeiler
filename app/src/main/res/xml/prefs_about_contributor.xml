@@ -87,6 +87,13 @@
                 android:data="https://github.com/Henvy-Mango" />
         </Preference>
         <Preference
+            android:summary="GitHub@Memory2314"
+            android:title="Memory">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Memory2314" />
+        </Preference>
+        <Preference
             android:summary="CoolApk@MonetCarlos"
             android:title="MonetCarlos">
             <intent

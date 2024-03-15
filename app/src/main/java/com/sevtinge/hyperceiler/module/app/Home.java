@@ -112,6 +112,7 @@ import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideFile;
 import com.sevtinge.hyperceiler.module.hook.home.title.DisableHideTheme;
 import com.sevtinge.hyperceiler.module.hook.home.title.DownloadAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.EnableIconMonoChrome;
+import com.sevtinge.hyperceiler.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.module.hook.home.title.FixAnimation;
 import com.sevtinge.hyperceiler.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.module.hook.home.title.IconTitleColor;
@@ -223,6 +224,7 @@ public class Home extends BaseModule {
         initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme"));
         initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
+        initHook(FakeNonDefaultIcon.INSTANCE, mPrefsMap.getBoolean("fake_non_default_icon"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
         // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
 
