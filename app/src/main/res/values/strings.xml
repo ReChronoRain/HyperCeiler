@@ -1404,6 +1404,8 @@
     <string name="security_center_sidebar_function_title">Sidebar Function</string>
     <string name="security_center_game_speed">Launch the game quickly</string>
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">SIM security no Account needed</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">Bypass SIM security Mi Account needed, you can open this function even without logging in XiaoMi Account</string>
     <string name="security_center_aosp_app_info_label">AOSP App Info</string>
     <string name="security_center_aosp_app_info">Add AOSP App Info entry</string>
     <string name="security_center_aosp_app_manager_label">AOSP App Manager</string>

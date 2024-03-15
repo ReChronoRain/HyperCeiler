@@ -54,6 +54,7 @@ import com.sevtinge.hyperceiler.module.hook.securitycenter.beauty.BeautyPrivacy;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.AiClipboardEnable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.BlurLocationEnable;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.lab.GetNumberEnable;
+import com.sevtinge.hyperceiler.module.hook.securitycenter.other.BypassSimLockMiAccountAuth;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.DisableRootCheck;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.FuckRiskPkg;
 import com.sevtinge.hyperceiler.module.hook.securitycenter.other.LockOneHundredPoints;
@@ -112,6 +113,7 @@ public class SecurityCenter extends BaseModule {
         initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
         initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
         initHook(new UnlockFbo(), mPrefsMap.getBoolean("security_center_unlock_fbo"));
+        initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
