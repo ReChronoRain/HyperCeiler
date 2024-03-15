@@ -42,6 +42,7 @@ import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.fragment.base.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.utils.BackupUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.utils.shell.ShellInit;
 
@@ -51,12 +52,13 @@ import moralnorm.preference.Preference;
 import moralnorm.preference.SwitchPreference;
 
 public class ModuleSettingsFragment extends SettingsPreferenceFragment
-    implements Preference.OnPreferenceChangeListener {
+        implements Preference.OnPreferenceChangeListener {
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
     SwitchPreference mHideAppIcon;
 
     DropDownPreference mLogLevel;
+    DropDownPreference mLanguage;
 
     @Override
     public int getContentResId() {
@@ -68,21 +70,56 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
         int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_settings_icon", "0"));
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
+        mLanguage = findPreference("prefs_key_settings_app_language");
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
         mLogLevel = findPreference("prefs_key_log_level");
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
+        String language = LanguageHelper.getLanguage(getContext());
+        int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
+        mLanguage.setValueIndex(value);
+        mLanguage.setOnPreferenceChangeListener(
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
+                        String v = LanguageHelper.appLanguages[Integer.parseInt((String) o)];
+                        switch (v) {
+                            case "CN" -> {
+                                LanguageHelper.setLanguage(getContext(), "zh", "CN");
+                                getActivity().recreate();
+                            }
+                            case "TW" -> {
+                                LanguageHelper.setLanguage(getContext(), "zh", "TW");
+                                getActivity().recreate();
+                            }
+                            case "HK" -> {
+                                LanguageHelper.setLanguage(getContext(), "zh", "HK");
+                                getActivity().recreate();
+                            }
+                            case "en" -> {
+                                LanguageHelper.setLanguage(getContext(), "en");
+                                getActivity().recreate();
+                            }
+                            case "JP" -> {
+                                LanguageHelper.setLanguage(getContext(), "ja", "JP");
+                                getActivity().recreate();
+                            }
+                        }
+                        return true;
+                    }
+                }
+        );
 
         switch (BuildConfig.BUILD_TYPE) {
             case "canary" -> {
                 mLogLevel.setValueIndex(0);
                 mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
                 mLogLevel.setOnPreferenceChangeListener(
-                    (preference, o) -> {
-                        setLogLevel(Integer.parseInt((String) o) + 3);
-                        return true;
-                    }
+                        (preference, o) -> {
+                            setLogLevel(Integer.parseInt((String) o) + 3);
+                            return true;
+                        }
                 );
             }
             /*case "debug" -> {
@@ -92,10 +129,10 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
             }*/
             default -> {
                 mLogLevel.setOnPreferenceChangeListener(
-                    (preference, o) -> {
-                        setLogLevel(Integer.parseInt((String) o));
-                        return true;
-                    }
+                        (preference, o) -> {
+                            setLogLevel(Integer.parseInt((String) o));
+                            return true;
+                        }
                 );
             }
         }
@@ -173,7 +210,7 @@ public class ModuleSettingsFragment extends SettingsPreferenceFragment
                 Insets inset = Insets.max(insets.getInsets(WindowInsetsCompat.Type.systemBars()),
                         insets.getInsets(WindowInsetsCompat.Type.displayCutout()));
                 // 22dp + 2dp + 12sp + 10dp + 18dp + 0.5dp + inset.bottom + 4dp(?)
-                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(),12));
+                v.setPadding(inset.left, 0, inset.right, inset.bottom + dip2px(requireContext(), 56.5F) + sp2px(requireContext(), 12));
                 return insets;
             }
         });

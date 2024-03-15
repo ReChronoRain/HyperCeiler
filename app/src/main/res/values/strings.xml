@@ -94,6 +94,12 @@
     <string name="settings_icon_medium">Middle</string>
     <string name="settings_icon_down">Bottom</string>
     <string name="settings_icon_mode">Icon style</string>
+    <string name="settings_app_zh">Chinese Simplified</string>
+    <string name="settings_app_zh_tw">Chinese Traditional (Tai Wan)</string>
+    <string name="settings_app_zh_hk">Chinese Traditional (Hong Kong)</string>
+    <string name="settings_app_en">English</string>
+    <string name="settings_app_jp">Japanese</string>
+    <string name="settings_app_language">Software language</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>
     <string name="settings_reboot">Restart the target app</string>
