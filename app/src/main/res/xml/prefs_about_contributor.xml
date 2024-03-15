@@ -108,6 +108,13 @@
                 android:data="https://github.com/NextAlone" />
         </Preference>
         <Preference
+            android:summary="GitHub@qdsp6sw"
+            android:title="qdsp6sw">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/qdsp6sw" />
+        </Preference>
+        <Preference
             android:summary="CoolApk@Qe_xr"
             android:title="Qe_xr">
             <intent

@@ -110,7 +110,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-log.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_r" + gitCode
+            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
@@ -120,7 +120,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_b" + gitCode
+            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
             buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
@@ -130,14 +130,14 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_c" + gitCode
+            versionNameSuffix "_" + gitHash + "_r" + gitCode
             buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
             }
         }
         debug {
-            versionNameSuffix "_" + DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()) + "_d" + gitCode
+            versionNameSuffix "_" + gitHash + "_r" + gitCode
             buildConfigField "String", "GIT_HASH", "\"${gitHashLong}\""
             if (keyStoreFile != null) {
                 signingConfig signingConfigs.hyperceiler
