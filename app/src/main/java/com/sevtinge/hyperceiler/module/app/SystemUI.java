@@ -306,7 +306,7 @@ public class SystemUI extends BaseModule {
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
         initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
-        initHook(DisableDeviceManaged.INSTANCE);
+        initHook(DisableDeviceManaged.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"));
 
         // Actions
         initHook(new StatusBarActions());

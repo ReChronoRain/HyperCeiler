@@ -22,13 +22,23 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.sevtinge.hyperceiler.module.base.*
+import com.sevtinge.hyperceiler.utils.*
 
 object DisableDeviceManaged : BaseHook() {
     override fun init() {
+        loadClass("android.app.admin.DevicePolicyManager")
+            .callMethod("isDeviceManaged", false)
+
+
         loadClass("com.android.systemui.statusbar.policy.SecurityControllerImpl").methodFinder()
             .filterByName("isDeviceManaged")
             .single().createHook {
                 returnConstant(false)
             }
+
+      /* runCatching {
+           val get = loadClass("com.android.systemui.qs.footer.domain.interactor.FooterActionsInteractorImpl\$securityButtonConfig\$1\$1")
+           get.getField("label").setInt(get, 1)
+        }*/
     }
 }

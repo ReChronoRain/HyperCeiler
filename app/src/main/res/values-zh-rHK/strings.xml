@@ -27,6 +27,7 @@
     <string name="prefs_5">選擇類型</string>
     <string name="prefs_6">檢查共享首選項</string>
     <string name="prefs_7">移除指定 Key</string>
+    <string name="help">幫助</string>
     <string name="settings">設定</string>
     <string name="about">關於</string>
     <string name="about_use">項目引用</string>
@@ -57,6 +58,7 @@
     <string name="settings_icon_medium">中部</string>
     <string name="settings_icon_down">底部</string>
     <string name="settings_icon_mode">圖示樣式</string>
+    <string name="settings_app_language">語言</string>
     <string name="settings_icon_miui_14">圓角矩形樣式</string>
     <string name="settings_icon_miui_13">背景鏤空樣式</string>
     <string name="settings_reboot">重啟作用域</string>
@@ -275,6 +277,11 @@
     <string name="system_ui_statusbar_network_speed_style_2">值和單位雙排顯示</string>
     <string name="system_ui_statusbar_network_speed_style_3">上下行網速單行顯示</string>
     <string name="system_ui_statusbar_network_speed_style_4">上下行網速雙排顯示</string>
+    <string name="system_ui_statusbar_clock_style_1">單行狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_style_2">狀態欄時鐘\n通知欄迷你時鐘</string>
+    <string name="system_ui_statusbar_clock_style_3">通知欄迷你時鐘\n狀態欄時鐘</string>
+    <string name="mediaeditor_mickey">米奇</string>
+    <string name="mediaeditor_strawberry_bear">草莓熊</string>
     <!--System Framework-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -303,6 +310,8 @@
     <string name="system_framework_volume_steps">音量級數倍增</string>
     <string name="system_ui_display_cutout_title">顯示瀏海</string>
     <string name="system_ui_display_hide_cutout">隱藏屏幕瀏海</string>
+    <string name="system_ui_display_use_aosp_screenshot">使用原生截圖</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">將截圖指令重新導向到原生截圖，MIUI/HyperOS 中的截圖應用程式不會回應截圖操作</string>
     <string name="system_ui_display_brightness_title">亮度</string>
     <string name="system_ui_display_auto_brightness">自動亮度範圍</string>
     <string name="system_ui_display_auto_brightness_desc">自訂自動亮度的最小值和最大值</string>
@@ -443,6 +452,9 @@
     <string name="camera_settings_men_makeup">解鎖男性妝容適配</string>
     <string name="camera_settings_lab_options">啟用實驗室選項</string>
     <string name="camera_settings_track_eyes">解鎖人眼追焦</string>
+    <!--Calendar-->
+    <string name="calendar">日曆</string>
+    <string name="calendar_unlock_subscription">解鎖訂閱服務</string>
     <!--Clock-->
     <string name="clock">時鐘</string>
     <string name="clock_enable_hour_glass">解鎖計時器沙漏動畫</string>
@@ -649,6 +661,17 @@
     <string name="system_ui_statusbar_clock_fix_color">修復時鐘反色時的顏色異常</string>
     <string name="system_ui_statusbar_clock_fix_color_desc">實驗性功能</string>
     <string name="system_ui_disable_clock_anim">停用通知中心下滑時鐘過渡動畫</string>
+    <string name="system_ui_disable_clock_synch">狀態欄時鐘設定不同步</string>
+    <string name="system_ui_disable_clock_synch_desc">大通知欄時鐘不再與狀態欄時鐘格式同步</string>
+    <string name="system_ui_statusbar_clock_show">顯示</string>
+    <string name="system_ui_statusbar_clock_big_bold">通知欄大時鐘粗體</string>
+    <string name="system_ui_statusbar_clock_layout_s">狀態欄時鐘</string>
+    <string name="system_ui_statusbar_clock_layout_b">通知欄大時鐘</string>
+    <string name="system_ui_statusbar_clock_layout_n">通知欄迷你時鐘</string>
+    <string name="system_ui_statusbar_clock_layout_n_desc">該項目還包含水平通知欄時鐘的修改</string>
+    <string name="system_ui_statusbar_clock_editor_s">狀態欄時鐘格式</string>
+    <string name="system_ui_statusbar_clock_editor_n">通知欄迷你時鐘格式</string>
+    <string name="system_ui_statusbar_clock_style_f">狀態欄時鐘排列</string>
     <string name="system_ui_statusbar_indicator_battery_title">功耗相關</string>
     <string name="system_ui_statusbar_indicator_temperature_title">溫度相關</string>
     <string name="system_ui_statusbar_battery_size">字體大小</string>
@@ -688,6 +711,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">這是一條長文本，將以滾動形式輸出</string>
     <string name="system_ui_controlcenter_title">通知與控制中心</string>
     <string name="system_ui_controlcenter_card_title">卡片</string>
+    <string name="system_ui_controlcenter_media_card_title">媒體通知卡片</string>
     <string name="system_ui_controlcenter_magnet_title">磁貼</string>
     <string name="system_ui_control_center_notification_blur_title">通知</string>
     <string name="system_control_center_qs_detail_bg">卡片背景透明度</string>
@@ -711,6 +735,8 @@
     <string name="system_ui_control_center_hide_mi_smart_hub_entry">小米妙享</string>
     <string name="system_ui_control_center_hide_device_ctrl_entry">智慧生活</string>
     <string name="system_ui_control_center_control_detail_background_alpha">面板詳情背景透明度</string>
+    <string name="system_ui_control_center_notification_disable_transparent">停用透明模式</string>
+    <string name="system_ui_control_center_notification_disable_transparent_desc">禁止將通知背景設為透明</string>
     <string name="system_ui_control_center_notification_blur_model">通知設定</string>
     <string name="system_ui_control_center_notification_blur_fix">通知優化</string>
     <string name="system_ui_control_center_notification_blur_fix_desc">實驗性功能，僅向 Android 13 及以上設備使用，啓用後將對部分區域的通知模糊進行優化\n可能會存在部分設備系统介面程式崩潰的問題</string>
@@ -722,6 +748,7 @@
     <string name="system_ui_control_center_default_background_alpha">下拉通知背景透明度</string>
     <string name="system_ui_control_center_fix_media_control_panel">修正音樂面板背景圖異常</string>
     <string name="system_ui_control_center_media_control_panel_background_mix">最佳化媒體控制面板混色效果</string>
+    <string name="system_ui_control_center_remove_media_control_panel_background">從卡片中刪除混合顏色背景</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景圖案模糊半徑</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_overlay">背景覆蓋層的不透明度</string>
     <string name="system_ui_control_center_compact_notice">緊湊通知</string>
@@ -765,6 +792,8 @@
     <string name="system_ui_other_title">其他</string>
     <string name="system_ui_disable_volume">原生音量條</string>
     <string name="system_ui_disable_volume_desc">小米音量條修改不適用於原生音量條</string>
+    <string name="system_ui_unlock_clipboard">解鎖原生剪貼簿編輯器</string>
+    <string name="system_ui_unlock_clipboard_desc">解鎖後會與 MIUI/HyperOS 編輯器一起彈出</string>
     <string name="system_ui_charge_animation_title">充電動畫</string>
     <string name="system_ui_charge_animation_style">充電動畫樣式</string>
     <string name="system_ui_charge_animation_style_desc">選擇鎖定螢幕充電動畫樣式</string>
@@ -779,7 +808,7 @@
     <string name="system_cc_volume_showpct_title">顯示聲音百分比</string>
     <string name="system_ui_others_showpct_top">頂部邊距</string>
     <string name="system_ui_others_showpct_top_desc">距離螢幕頂部的百分比距離</string>
-    <string name="system_ui_notification_freeform">更多應用程式通知攔下拉打開小窗</string>
+    <string name="system_ui_notification_freeform">更多應用程式通知欄下拉打開小窗應用程式</string>
     <string name="system_ui_notification_freeform_desc">可能不支援 Mi Push 推送的通知</string>
     <string name="system_ui_monet_title">主題色</string>
     <string name="system_ui_monet_overlay_custom">自訂主題顏色</string>
@@ -1064,6 +1093,7 @@
     <string name="home_title_disable_hide_file">禁用隱藏「檔案」圖示</string>
     <string name="home_title_disable_hide_theme">禁用隱藏「主題管理」圖示</string>
     <string name="home_title_disable_hide_google">禁用隱藏「Google」圖示</string>
+    <string name="home_title_fake_non_default_icon">偽裝為非預設圖示</string>
     <string name="home_title_custom_anim_param">動畫曲線自訂</string>
     <string name="home_title_custom_anim_param_damping_title">阻尼</string>
     <string name="home_title_custom_anim_param_stiffness_title">剛度</string>
@@ -1072,6 +1102,7 @@
     <string name="home_recent_disable_wallpaper_dimming">取消桌布壓暗</string>
     <string name="home_recent_unlock_pin">解鎖應用程式固定功能</string>
     <string name="home_recent_hide_status_bar_in_task_view">隱藏狀態欄</string>
+    <string name="home_recent_hide_world_circulate">隱藏螢幕鏡像應用程式浮動窗口</string>
     <string name="home_recent_hide_freeform">隱藏小窗按鈕</string>
     <string name="home_recent_hide_clean_up">隱藏清理按鈕</string>
     <string name="home_recent_remove_icon">隱藏圖示</string>
@@ -1194,6 +1225,8 @@
     <string name="miui_package_installer_install_source">自訂安裝來源</string>
     <string name="miui_package_installer_apk_info">顯示更多安裝包資訊</string>
     <string name="miui_package_installer_apk_info_desc">顯示安裝中應用程式的更多相關資訊</string>
+    <string name="miui_package_installer_upload_appinfo">禁止上傳應用程式資訊</string>
+    <string name="miui_package_installer_upload_appinfo_desc">如果停用，將無法進行安全檢查</string>
     <!--NFC-->
     <string name="nfc">NFC 服務</string>
     <string name="nfc_disable_sound">停用 NFC 提示音</string>
@@ -1329,6 +1362,8 @@
     <string name="security_center_sidebar_function_title">側邊欄功能</string>
     <string name="security_center_game_speed">快速啟動遊戲</string>
     <string name="security_center_game_speed_desc">在啟動遊戲時以三倍的速度加快啟動時的動畫，僅部分遊戲支援</string>
+    <string name="security_center_bypass_simlock_miaccount_auth">SIM 卡安全保護跳過登入驗證</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">開啟 SIM 卡安全保護時無需登入小米帳號</string>
     <string name="security_center_aosp_app_info_label">原生應用程式資訊</string>
     <string name="security_center_aosp_app_info">新增「原生應用程式資訊」入口</string>
     <string name="security_center_aosp_app_manager_label">原生應用程式管理</string>
@@ -1372,6 +1407,8 @@
     <string name="market_device_modify_desc">偽裝裝置機型為其他裝置，以接收對應裝置的更新</string>
     <string name="market_disable_new_icon">禁止使用協力廠商圖示</string>
     <string name="market_disable_new_icon_desc">使桌面更加整潔</string>
+    <string name="market_package_monitor">停用安裝包監控器</string>
+    <string name="market_package_monitor_desc">禁止應用程式商店監控應用程式安裝和解除安裝</string>
     <!--MIUI+-->
     <string name="mirror">MIUI+</string>
     <string name="mirror_hyperos">跨螢幕協同服務</string>
@@ -1532,6 +1569,12 @@
     <string name="log_level_none">禁用日誌</string>
     <string name="disable_suggest">停用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
+    <string name="help_cant_see_apps_guide">找不到應用程式功能？</string>
+    <string name="help_cant_see_apps_title">在主頁找不到應用程式功能？</string>
+    <string name="help_cant_see_apps_desc">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請提供我們及時有效的回饋。\n\n目前隱藏的應用功能：\n\n</string>
+    <string name="help_cant_see_apps_uninstall">已解除安裝的應用程式:\n</string>
+    <string name="help_cant_see_apps_disable">停用或隱藏的應用程式:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">為了保持主頁的簡單性和可用性，我們隱藏了對以下類型的應用程式功能的存取：\n\n - 目前已停用或隱藏的應用程式\n - 在您的裝置中未找到的應用程式\n -與目前版本不相容的應用程式系統或應用程式版本\n\n請根據上述資訊排查問題，重新啟動 HyperCeiler，然後重試。如果您仍然找不到應用程式功能，則可能是錯誤。請及時有效的回饋給我們。\n\n目前沒有隱藏入口！</string>
     <string name="headtip_warn_not_offical_rom">您所使用的 ROM 來源可能不是屬於小米官方版本，部分功能可能無法使用，具體請聯絡您所使用的 ROM 開發者。</string>
     <string name="headtip_warn_sign_verification_failed">簽章驗證失敗，您目前使用的版本可能不是 Re.chronoRain 的正式版本，並且可能包含惡意程式碼，請注意使用安全。</string>
     <string name="tip_default">提示：這是預設提示。如果你能看到我，則表示 HyperCeiler 有問題，請及時有效地向開發者報告。</string>
